@@ -1,3 +1,5 @@
+// Copyright 2013, University of Colorado
+
 /**
  * Shows the about dialog.
  *

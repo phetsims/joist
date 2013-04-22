@@ -1,3 +1,5 @@
+// Copyright 2013, University of Colorado
+
 /**
  * Main class that represents one simulation.
  * Provides default initialization, such as polyfills as well.

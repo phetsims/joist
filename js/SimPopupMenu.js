@@ -1,3 +1,5 @@
+// Copyright 2013, University of Colorado
+
 /**
  * Popup menu that is displayed when the user clicks on the bars in the bottom right in the navigation bar.
  * Would be nice to have a balloon triangle dropdown shape like in a comic book dialog.

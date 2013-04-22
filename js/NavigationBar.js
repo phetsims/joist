@@ -1,3 +1,5 @@
+// Copyright 2013, University of Colorado
+
 /**
  * The navigation bar at the bottom of the screen.
  * For a single-tab sim, it shows the name of the sim at the left and the PhET Logo and options menu at the right.

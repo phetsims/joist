@@ -1,3 +1,5 @@
+// Copyright 2013, University of Colorado
+
 /**
  * The view portion of a tab.
  * Specifies the layout strategy.

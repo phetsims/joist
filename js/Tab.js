@@ -1,3 +1,5 @@
+// Copyright 2013, University of Colorado
+
 /**
  * A Tab is the largest chunk of a simulation. It's name is a byproduct of the UI component (tabs) that was used to switch
  * between these chunks in PhET Java and Flash simulations. Non-programmer members of the PhET team referred to these

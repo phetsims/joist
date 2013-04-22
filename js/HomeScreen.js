@@ -1,3 +1,5 @@
+// Copyright 2013, University of Colorado
+
 /**
  * Shows the home screen for a multi-tab simulation, which lets the user see all of the tabs and select one.
  *

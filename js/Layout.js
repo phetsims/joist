@@ -1,3 +1,5 @@
+// Copyright 2013, University of Colorado
+
 /**
  * Layout.js is no longer recommend for sim usage, please see PlayArea.js instead.
  *
