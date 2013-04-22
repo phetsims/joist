@@ -1,0 +1,12 @@
+[submodule "lib/phet/fort"]
+	path = lib/phet/fort
+	url = https://github.com/phetsims/fort.git
+[submodule "lib/phet/phetcommon"]
+	path = lib/phet/phetcommon
+	url = https://github.com/phetsims/phetcommon.git
+[submodule "lib/phet/scenery"]
+	path = lib/phet/scenery
+	url = https://github.com/phetsims/scenery.git
+[submodule "lib/phet/sun"]
+	path = lib/phet/sun
+	url = https://github.com/phetsims/sun.git
