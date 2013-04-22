@@ -72,6 +72,7 @@ define( function( require ) {
     var tabNode = new Node( {children: options.navigationBarInFront ? [playAreaContainer, navigationBar] : [navigationBar, playAreaContainer]} );
     this.scene.addChild( simNode );
 
+    //TODO change the background color to HomeScreen.backgroundColor when on the home screen
     //When the user presses the home icon, then show the home screen, otherwise show the tabNode.
     this.simModel.link( 'home', function( home ) { simNode.children = [home ? homeScreen : tabNode];} );
 
@@ -115,7 +116,6 @@ define( function( require ) {
       m.view = m.createView( m.model );
     } );
 
-    //CM: TODO this will fail if we start on the home screen, because tabIndex should be undefined, add 'if (tabIndex != undefined)' test
     //SR: ModuleIndex should always be defined.  On startup tabIndex=0 to highlight the 1st tab.
     //    When moving from a tab to the homescreen, the previous tab should be highlighted
     //TODO set document.bgColor=tabs[tabIndex].backgroundColor (if undefined, default to 'white'?)
