@@ -41,25 +41,25 @@ define( function( require ) {
       home = false;
     }
 
-    this.tabs = tabs;
+    sim.tabs = tabs;
 
     //This model represents where the simulation is, whether it is on the home screen or a tab, and which tab it is on or is highlighted in the home screen
-    this.simModel = new Fort.Model( {home: home, tabIndex: options.tabIndex || 0 } );
+    sim.simModel = new Fort.Model( {home: home, tabIndex: options.tabIndex || 0 } );
 
     //TODO should probably look for this div to see if it exists, then create only if it doesn't exist.
-    //Add a div for the scene to the DOM
-    var $sceneDiv = $( "<div>" );
-    $sceneDiv.attr( 'id', 'sim' );
-    $sceneDiv.css( 'position', 'absolute' );
-    $( 'body' ).append( $sceneDiv );
+    //Add a div for the sim to the DOM
+    var $simDiv = $( "<div>" );
+    $simDiv.attr( 'id', 'sim' );
+    $simDiv.css( 'position', 'absolute');
+    $( 'body' ).append( $simDiv );
 
     //Create the scene
-    this.scene = new Scene( $sceneDiv, {allowDevicePixelRatioScaling: true} );
-    this.scene.initializeStandaloneEvents(); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
-    this.scene.resizeOnWindowResize(); // the scene gets resized to the full screen size
+    sim.scene = new Scene( $simDiv, {allowDevicePixelRatioScaling: true} );
+    sim.scene.initializeStandaloneEvents(); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
+    sim.scene.resizeOnWindowResize(); // the scene gets resized to the full screen size
 
-    var homeScreen = new HomeScreen( name, tabs, this.simModel );
-    var navigationBar = new NavigationBar( tabs, this.simModel );
+    var homeScreen = new HomeScreen( name, tabs, sim.simModel );
+    var navigationBar = new NavigationBar( tabs, sim.simModel );
 
     //The simNode contains the home screen or the play area
     var simNode = new Node();
@@ -72,11 +72,18 @@ define( function( require ) {
     //The tabNode contains the playAreaContainer and the navigation bar
     //Permit sims to put the navigation bar in the front with an option.  TODO: work on sims or framework to make this option unnecessary.
     var tabNode = new Node( {children: options.navigationBarInFront ? [playAreaContainer, navigationBar] : [navigationBar, playAreaContainer]} );
-    this.scene.addChild( simNode );
+    sim.scene.addChild( simNode );
 
-    //TODO change the background color to HomeScreen.backgroundColor when on the home screen
+    var updateBackground = function () {
+      var color = sim.simModel.home ? homeScreen.backgroundColor : ( tabs[sim.simModel.tabIndex].backgroundColor || 'white' );
+      $simDiv.css( 'background', color );
+    };
+
     //When the user presses the home icon, then show the home screen, otherwise show the tabNode.
-    this.simModel.link( 'home', function( home ) { simNode.children = [home ? homeScreen : tabNode];} );
+    this.simModel.link( 'home', function( home ) {
+      simNode.children = [home ? homeScreen : tabNode];
+      updateBackground();
+    } );
 
     function resize() {
 
@@ -120,9 +127,13 @@ define( function( require ) {
 
     //SR: ModuleIndex should always be defined.  On startup tabIndex=0 to highlight the 1st tab.
     //    When moving from a tab to the homescreen, the previous tab should be highlighted
-    //TODO set document.bgColor=tabs[tabIndex].backgroundColor (if undefined, default to 'white'?)
     //When the user selects a different tab, show it on the screen
-    this.simModel.link( 'tabIndex', function( tabIndex ) { playAreaContainer.children = [tabs[tabIndex].view]; } );
+    this.simModel.link( 'tabIndex', function ( tabIndex ) {
+      playAreaContainer.children = [tabs[tabIndex].view];
+      updateBackground();
+    } );
+
+    updateBackground();
 
     //Fit to the window and render the initial scene
     $( window ).resize( resize );

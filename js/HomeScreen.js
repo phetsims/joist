@@ -21,8 +21,8 @@ define( function( require ) {
     var homeScreen = this;
     Node.call( this );
 
-    //TODO get rid of this rectangle, and set document.bgColor=homeScreen.backgroundColor in Sim.js when home screen is activated
-    this.addChild( new Rectangle( -1000, -1000, 3000, 3000, {fill: 'black'} ) );
+    this.backgroundColor = 'black';
+
     //iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
     this.textLabel = new Text( title, {fontSize: 52, fontFamily: 'Century Gothic, Futura', fill: 'white', y: 140, centerX: 981 / 2} );
     this.phetLabel = new Text( "PhET", {fontSize: 36, fill: 'yellow', top: 5, left: 5} );
