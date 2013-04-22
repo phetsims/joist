@@ -44,6 +44,7 @@ define( function( require ) {
     //This model represents where the simulation is, whether it is on the home screen or a tab, and which tab it is on or is highlighted in the home screen
     this.simModel = new Fort.Model( {home: home, tabIndex: options.tabIndex || 0 } );
 
+    //TODO should probably look for this div to see if it exists, then create only if it doesn't exist.
     //Add a div for the scene to the DOM
     var $sceneDiv = $( "<div>" );
     $sceneDiv.attr( 'id', 'sim' );
