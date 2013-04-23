@@ -5,7 +5,7 @@
  *
  * @author Sam Reid
  */
-define( function( require ) {
+define( function ( require ) {
   "use strict";
 
   var Node = require( 'SCENERY/nodes/Node' );
@@ -30,7 +30,7 @@ define( function( require ) {
     this.addChild( this.phetLabel );
 
     var index = 0;
-    var tabChildren = _.map( tabs, function( tab ) {
+    var tabChildren = _.map( tabs, function ( tab ) {
       tab.index = index++;
       var child = new Node( {children: [tab.icon]} );
       child.smallTextLabel = new Text( tab.name, {fontSize: 36, fill: 'gray'} );
@@ -42,9 +42,9 @@ define( function( require ) {
       child.tab = tab;
 
       //Tap once to select, a second time to start that tab
-      child.addInputListener( { down: function() {
+      child.addInputListener( { down: function () {
         if ( model.tabIndex === tab.index ) {
-          model.home = false;
+          model.showHomeScreen = false;
         }
         else {
           model.tabIndex = tab.index;
@@ -57,7 +57,7 @@ define( function( require ) {
       this.addChild( tabChildren[i] );
     }
 
-    model.link( 'tabIndex', function( tabIndex ) {
+    model.link( 'tabIndex', function ( tabIndex ) {
       for ( var i = 0; i < tabChildren.length; i++ ) {
         var child = tabChildren[i];
         child.invalidateBounds();

@@ -7,7 +7,7 @@
  *
  * @author Sam Reid
  */
-define( function( require ) {
+define( function ( require ) {
   'use strict';
 
   var Fort = require( 'FORT/Fort' );
@@ -34,23 +34,21 @@ define( function( require ) {
 
     //Default values are to show the home screen with the 1st tab selected
     options = options || {};
-    var home = options.home || true;  //TODO home is a lousy name, maybe showHomeScreen?
+    var showHomeScreen = options.showHomeScreen || true;
 
     //If there is only one tab, do not show the home screen
     if ( tabs.length == 1 ) {
-      home = false;
+      showHomeScreen = false;
     }
 
     sim.tabs = tabs;
 
     //This model represents where the simulation is, whether it is on the home screen or a tab, and which tab it is on or is highlighted in the home screen
-    sim.simModel = new Fort.Model( {home: home, tabIndex: options.tabIndex || 0 } );
+    sim.simModel = new Fort.Model( {showHomeScreen: showHomeScreen, tabIndex: options.tabIndex || 0 } );
 
     //TODO should probably look for this div to see if it exists, then create only if it doesn't exist.
     //Add a div for the sim to the DOM
-    var $simDiv = $( "<div>" );
-    $simDiv.attr( 'id', 'sim' );
-    $simDiv.css( 'position', 'absolute');
+    var $simDiv = $( "<div>" ).attr( 'id', 'sim' ).css( 'position', 'absolute' );
     $( 'body' ).append( $simDiv );
 
     //Create the scene
@@ -75,13 +73,13 @@ define( function( require ) {
     sim.scene.addChild( simNode );
 
     var updateBackground = function () {
-      var color = sim.simModel.home ? homeScreen.backgroundColor : ( tabs[sim.simModel.tabIndex].backgroundColor || 'white' );
+      var color = sim.simModel.showHomeScreen ? homeScreen.backgroundColor : ( tabs[sim.simModel.tabIndex].backgroundColor || 'white' );
       $simDiv.css( 'background', color );
     };
 
     //When the user presses the home icon, then show the home screen, otherwise show the tabNode.
-    this.simModel.link( 'home', function( home ) {
-      simNode.children = [home ? homeScreen : tabNode];
+    this.simModel.link( 'showHomeScreen', function ( showHomeScreen ) {
+      simNode.children = [showHomeScreen ? homeScreen : tabNode];
       updateBackground();
     } );
 
@@ -113,14 +111,14 @@ define( function( require ) {
       }
 
       //Layout each of the tabs
-      _.each( tabs, function( m ) { m.view.layout( width, height - navigationBar.height ); } );
+      _.each( tabs, function ( m ) { m.view.layout( width, height - navigationBar.height ); } );
 
       //Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
     }
 
     //Instantiate the tabs
     //Currently this is done eagerly, but this pattern leaves open the door for loading things in the background.
-    _.each( tabs, function( m ) {
+    _.each( tabs, function ( m ) {
       m.model = m.createModel();
       m.view = m.createView( m.model );
     } );
@@ -140,7 +138,7 @@ define( function( require ) {
     resize();
   }
 
-  Sim.prototype.start = function() {
+  Sim.prototype.start = function () {
     var sim = this;
 
     //Make sure requestAnimationFrame is defined
@@ -152,7 +150,7 @@ define( function( require ) {
       requestAnimationFrame( animationLoop );
 
       //Update the active tab, but not if the user is on the home screen
-      if ( !sim.simModel.home ) {
+      if ( !sim.simModel.showHomeScreen ) {
         var dt = 0.04;//TODO: put real time elapsed in seconds
         sim.tabs[sim.simModel.tabIndex].model.step( dt );
       }

@@ -7,7 +7,7 @@
  *
  * @author Sam Reid
  */
-define( function( require ) {
+define( function ( require ) {
   "use strict";
 
   var Node = require( 'SCENERY/nodes/Node' );
@@ -45,10 +45,10 @@ define( function( require ) {
     var simPopupMenu = new SimPopupMenu();
     optionsButton.addInputListener( {
                                       // mousedown or touchstart (pointer pressed down over the node)
-                                      down: function( event ) {
+                                      down: function ( event ) {
                                         var optionsButtonBounds = navigationBar.parents[0].boundsOf( optionsButton );
                                         var overlay = new Rectangle( -1000, -1000, 3000, 3000, {fill: 'black', opacity: 0.5} );
-                                        var listener = { down: function() {
+                                        var listener = { down: function () {
                                           overlay.detach();
                                           simPopupMenu.detach();
                                         } };
@@ -67,7 +67,7 @@ define( function( require ) {
 
     //Create the nodes to be used for the tab icons
     var index = 0;
-    var tabChildren = _.map( tabs, function( tab ) {
+    var tabChildren = _.map( tabs, function ( tab ) {
       tab.index = index++;
       var child = new Node( {children: [tab.icon], cursor: 'pointer'} );
       child.tab = tab;
@@ -80,9 +80,9 @@ define( function( require ) {
       outline.addChild( textLabel );
 
       child.largeTextLabel = outline;
-      child.addInputListener( { down: function() {
+      child.addInputListener( { down: function () {
         model.tabIndex = tab.index;
-        model.home = false;
+        model.showHomeScreen = false;
       }} );
       return child;
     } );
@@ -101,13 +101,13 @@ define( function( require ) {
 
     //add the home icon
     this.homeIcon = new BoundsNode( new FontAwesomeNode( 'home', {fill: '#fff'} ), {cursor: 'pointer'} ).mutate( {centerY: height / 2 } );
-    this.homeIcon.addInputListener( {down: function() { model.home = true; }} );
+    this.homeIcon.addInputListener( {down: function () { model.showHomeScreen = true; }} );
     if ( tabs.length > 1 ) {
       this.addChild( this.homeIcon );
     }
 
     //On initialization and when the tab changes, update the size of the icons and the layout of the icons and text
-    model.link( 'tabIndex', function( tabIndex ) {
+    model.link( 'tabIndex', function ( tabIndex ) {
 
       //Update size and opacity of each icon
       var selectedChild = null;
