@@ -1,7 +1,8 @@
 // Copyright 2013, University of Colorado
 
+//TODO delete this
 /**
- * Layout.js is no longer recommend for sim usage, please see PlayArea.js instead.
+ * Layout.js is no longer recommend for sim usage, please see TabView.js instead.
  *
  * Gives the default layout dimensions for a simulation, including the play area and navigation bar.
  * These values should be treated as constants, or it will cause buggy behavior.

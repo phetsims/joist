@@ -64,14 +64,14 @@ define( function( require ) {
     //The simNode contains the home screen or the play area
     var simNode = new Node();
 
-    //The playAreaContainer contains the PlayArea itself, which will be swapped out based on which icon the user selected in the navigation bar.
+    //The viewContainer contains the TabView itself, which will be swapped out based on which icon the user selected in the navigation bar.
     //Without this layerSplit, the performance significantly declines on both Win8/Chrome and iPad3/Safari
-    var playAreaContainer = new Node( {layerSplit: true} );
+    var viewContainer = new Node( {layerSplit: true} );
 
     //TODO navigationBar must currently be behind play area or DOM elements will get no events
-    //The tabNode contains the playAreaContainer and the navigation bar
+    //The tabNode contains the viewContainer and the navigation bar
     //Permit sims to put the navigation bar in the front with an option.  TODO: work on sims or framework to make this option unnecessary.
-    var tabNode = new Node( {children: options.navigationBarInFront ? [playAreaContainer, navigationBar] : [navigationBar, playAreaContainer]} );
+    var tabNode = new Node( {children: options.navigationBarInFront ? [viewContainer, navigationBar] : [navigationBar, viewContainer]} );
     sim.scene.addChild( simNode );
 
     var updateBackground = function () {
@@ -129,7 +129,7 @@ define( function( require ) {
     //    When moving from a tab to the homescreen, the previous tab should be highlighted
     //When the user selects a different tab, show it on the screen
     this.simModel.link( 'tabIndex', function ( tabIndex ) {
-      playAreaContainer.children = [tabs[tabIndex].view];
+      viewContainer.children = [tabs[tabIndex].view];
       updateBackground();
     } );
 

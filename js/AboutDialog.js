@@ -13,14 +13,14 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var PlayArea = require( 'JOIST/PlayArea' );
+  var TabView = require( 'JOIST/TabView' );
   var PanelNode = require( 'SUN/PanelNode' );
 
   function AboutDialog() {
     var aboutDialog = this;
 
-    //Use PlayArea to help center and scale content
-    PlayArea.call( this );
+    //Use view, to help center and scale content
+    TabView.call( this );
 
     function text( string ) { return new Text( string, {fontSize: 24} ) }
 
@@ -49,7 +49,7 @@ define( function( require ) {
     resize();
   }
 
-  inherit( AboutDialog, PlayArea );
+  inherit( AboutDialog, TabView );
 
   return AboutDialog;
 } );

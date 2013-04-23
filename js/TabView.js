@@ -14,11 +14,11 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Bounds2 = require( 'DOT/Bounds2' );
 
-  function PlayArea( options ) {
+  function TabView( options ) {
     Node.call( this, options );
   }
 
-  inherit( PlayArea, Node, {
+  inherit( TabView, Node, {
 
     //Default to width and height for iPad2, iPad3, iPad4 running Safari with default tabs and decorations
     //Simulations can change this to provide their own sizes or aspect ratios
@@ -51,5 +51,5 @@ define( function( require ) {
     }
   } );
 
-  return PlayArea;
+  return TabView;
 } );
