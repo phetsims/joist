@@ -151,7 +151,7 @@ define( function ( require ) {
 
       //Update the active tab, but not if the user is on the home screen
       if ( !sim.simModel.showHomeScreen ) {
-        var dt = 0.04;//TODO: put real time elapsed in seconds
+        var dt = 0.04;//TODO: put real time elapsed in seconds, this value is required by beers-law-lab
         sim.tabs[sim.simModel.tabIndex].model.step( dt );
       }
       sim.scene.updateScene();
