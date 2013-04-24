@@ -1,3 +1,4 @@
+4/24/13 Moved home screen, tab navigation bar, about dialog, popup menu into their own divs/Scenes.  See docs in HomeScreenScene for tradeoffs.
 4/23/13 rename PlayArea -> TabView, per developer meeting
 4/22/13 implemented background-color switching for Tabs
 4/22/2013 Moved Sim.js and related classes from repo "scenery-phet".  If you want their history before this, you will have to look over there.

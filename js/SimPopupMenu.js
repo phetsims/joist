@@ -22,7 +22,7 @@ define( function( require ) {
   var Button = require( 'SUN/Button' );
   var PanelNode = require( 'SUN/PanelNode' );
 
-  function SimPopupMenu( options ) {
+  function SimPopupMenu( sim, options ) {
     var simPopupMenu = this;
     Node.call( this );
 
@@ -38,7 +38,10 @@ define( function( require ) {
     aboutText.addInputListener( {down: function() {
       var parent = simPopupMenu.parents[0];
       simPopupMenu.detach();
-      parent.parents[0].parents[0].addChild( aboutDialog );
+      var overlay = sim.createAndAddOverlay( aboutDialog );
+      overlay.addInputListener( {down: function() {
+        sim.removeOverlay( overlay );
+      }} );
     }} );
     var items = [homePageText,
       new Text( 'Related Sims', {fontSize: fontSize} ),

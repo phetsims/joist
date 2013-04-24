@@ -32,17 +32,11 @@ define( function( require ) {
     ]} );
 
     //Show a gray overlay that will help focus on the about dialog, and prevent clicks on the sim while the dialog is up
-    var overlay = new Rectangle( this.layoutBounds.minX - this.layoutBounds.width * 3, this.layoutBounds.minY - this.layoutBounds.height * 3, this.layoutBounds.width * 7, this.layoutBounds.height * 7, {fill: 'black', opacity: 0.5} );
-    this.addChild( overlay );
     this.addChild( new PanelNode( content ).mutate( {centerX: this.layoutBounds.centerX, centerY: this.layoutBounds.centerY} ) );
 
     function resize() {
       aboutDialog.layout( $( window ).width(), $( window ).height() );
     }
-
-    this.addInputListener( {down: function() {
-      aboutDialog.detach();
-    }} );
 
     //Fit to the window and render the initial scene
     $( window ).resize( resize );
