@@ -34,7 +34,7 @@ define( function ( require ) {
 
     //Default values are to show the home screen with the 1st tab selected
     options = options || {};
-    var showHomeScreen = options.showHomeScreen || true;
+    var showHomeScreen = ( _.isUndefined( options.showHomeScreen ) ) ? true : options.showHomeScreen;
 
     //If there is only one tab, do not show the home screen
     if ( tabs.length == 1 ) {
