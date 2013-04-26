@@ -67,6 +67,8 @@ define( function( require ) {
       outline.addChild( textLabel );
 
       child.largeTextLabel = outline;
+      child.smallTextLabel = new Text( tab.name, {fontSize: 10, fill: 'white', visible: true} );
+
       child.addInputListener( { down: function() {
         model.tabIndex = tab.index;
         model.showHomeScreen = false;
@@ -80,6 +82,7 @@ define( function( require ) {
       for ( var i = 0; i < tabChildren.length; i++ ) {
         this.addChild( tabChildren[i] );
         this.addChild( tabChildren[i].largeTextLabel );
+        this.addChild( tabChildren[i].smallTextLabel );
       }
     }
     else if ( tabs.length == 1 ) {
@@ -116,6 +119,7 @@ define( function( require ) {
         if ( selected ) {
           selectedChild = child;
         }
+        child.smallTextLabel.setScaleMagnitude( this.navBarScale );
       }
 
       //Compute layout bounds
@@ -137,8 +141,6 @@ define( function( require ) {
       else {
 
         //put the center right in the middle
-        var centerX = this.navBarWidth / 2;
-
         var x = this.navBarWidth / 2 - width / 2;
         selectedChild.largeTextLabel.right = x - 25;
 
@@ -146,6 +148,11 @@ define( function( require ) {
           var child = tabChildren[i];
           child.x = x;
           child.y = verticalPadding;
+          child.smallTextLabel.visible = (selectedChild !== child);
+          if ( child !== selectedChild ) {
+            child.smallTextLabel.x = child.x;
+            child.smallTextLabel.top = child.bottom - 1;
+          }
           x += child.width + spacing;
         }
         navigationBar.homeIcon.setScaleMagnitude( this.navBarScale );
