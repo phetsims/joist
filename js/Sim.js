@@ -47,13 +47,21 @@ define( function( require ) {
     //This model represents where the simulation is, whether it is on the home screen or a tab, and which tab it is on or is highlighted in the home screen
     sim.simModel = new Fort.Model( {showHomeScreen: showHomeScreen, tabIndex: options.tabIndex || 0 } );
 
+    var $body = $( 'body' );
+
     //TODO should probably look for this div to see if it exists, then create only if it doesn't exist.
     //Add a div for the sim to the DOM
     var $simDiv = $( "<div>" ).attr( 'id', 'sim' ).css( 'position', 'absolute' );
-    $( 'body' ).append( $simDiv );
+    $body.append( $simDiv );
+
+    //Leave accessibility as a flag while in development
+    if ( options.accessibility ) {
+      var $accessibleDiv = $( "<div>" ).attr( 'id', 'accessible-layer' ).css( 'position', 'absolute' ).css( 'z-index', -10 );
+      $body.append( $accessibleDiv );
+    }
 
     //Create the scene
-    sim.scene = new Scene( $simDiv, {allowDevicePixelRatioScaling: true} );
+    sim.scene = new Scene( $simDiv, {allowDevicePixelRatioScaling: true, accessibleScene: $accessibleDiv} );
     sim.scene.initializeStandaloneEvents(); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
 
     this.navigationBarScene = new NavigationBarScene( this, tabs, sim.simModel );
