@@ -58,10 +58,13 @@ define( function( require ) {
     if ( options.accessibility ) {
       var $accessibleDiv = $( "<div>" ).attr( 'id', 'accessible-layer' ).css( 'position', 'absolute' ).css( 'z-index', -10 );
       $body.append( $accessibleDiv );
+
+      var $focusDiv = $( "<div>" ).attr( 'id', 'focus-layer' ).css( 'position', 'absolute' ).css( 'pointer-events', 'none' ).css( 'z-index', 9999 );
+      $body.append( $focusDiv );
     }
 
     //Create the scene
-    sim.scene = new Scene( $simDiv, {allowDevicePixelRatioScaling: true, accessibleScene: $accessibleDiv} );
+    sim.scene = new Scene( $simDiv, {allowDevicePixelRatioScaling: true, accessibleScene: $accessibleDiv, focusScene: $focusDiv} );
     sim.scene.initializeStandaloneEvents(); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
 
     this.navigationBarScene = new NavigationBarScene( this, tabs, sim.simModel );
