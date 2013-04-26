@@ -64,7 +64,7 @@ define( function( require ) {
     }
 
     //Create the scene
-    sim.scene = new Scene( $simDiv, {allowDevicePixelRatioScaling: true, accessibleScene: $accessibleDiv, focusScene: $focusDiv} );
+    sim.scene = new Scene( $simDiv, {allowDevicePixelRatioScaling: true, accessibleScene: $accessibleDiv} );
     sim.scene.initializeStandaloneEvents(); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
 
     this.navigationBarScene = new NavigationBarScene( this, tabs, sim.simModel );
