@@ -33,7 +33,7 @@ define( function( require ) {
     this.$div = $( "<div>" ).attr( 'id', 'navigationBar' ).css( 'position', 'absolute' ).css( 'background', 'black' );
 
     //Create the scene
-    Scene.call( this, this.$div, {allowDevicePixelRatioScaling: true} );
+    Scene.call( this, this.$div, {allowDevicePixelRatioScaling: true, accessible: true} );
     this.initializeStandaloneEvents(); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
 
     this.navigationBar = new NavigationBar( sim, tabs, simModel );

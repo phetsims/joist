@@ -14,6 +14,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var TabView = require( 'JOIST/TabView' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var AccessibilityPeer = require( 'SCENERY/util/AccessibilityPeer' );
 
   var HEIGHT = 70;
 
@@ -55,6 +56,7 @@ define( function( require ) {
 
     for ( var i = 0; i < tabChildren.length; i++ ) {
       this.addChild( tabChildren[i] );
+      tabChildren[i].accessibilityPeer = new AccessibilityPeer( tabChildren[i], '<input type="button">' );
     }
 
     model.link( 'tabIndex', function( tabIndex ) {
