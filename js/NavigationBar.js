@@ -23,7 +23,7 @@ define( function( require ) {
 
   function NavigationBar( sim, tabs, model ) {
     var navigationBar = this;
-    Node.call( this );
+    Node.call( this, {renderer: 'svg'} );
 
     //Space between the icons and the bottom of the play area
     var verticalPadding = 2;
