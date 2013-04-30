@@ -186,7 +186,7 @@ define( function( require ) {
 
           //if it is a change, then set the value
           if ( logEntry.action === 'change' ) {
-            wiretap.registry[cid][logEntry.property] = JSON.parse( logEntry.newValue );
+            wiretap.registry[cid][logEntry.property] = JSON.parse( logEntry.newValue, wiretap.reviver );
           }
           else if ( logEntry.action === 'trigger' ) {
             wiretap.registry[cid].trigger( logEntry.event );
