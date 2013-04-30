@@ -92,7 +92,6 @@ define( function( require ) {
 
     //add the home icon
     this.homeIcon = new BoundsNode( new FontAwesomeNode( 'home', {fill: '#fff'} ), {cursor: 'pointer'} );
-    console.log( 'b', this.homeIcon.getBounds() );
     this.homeIcon.addInputListener( {down: function() { model.showHomeScreen = true; }} );
     this.homeIcon.accessibilityPeer = new AccessibilityPeer( this.homeIcon, '<input type="button">', {click: function() {model.showHomeScreen = true;}} );
     if ( tabs.length > 1 ) {
@@ -105,7 +104,6 @@ define( function( require ) {
 
     this.relayout = function() {
       var height = this.navBarHeight;
-      console.log( height );
       var tabIndex = navigationBar.tabIndex;
       //Update size and opacity of each icon
       var selectedChild = null;
