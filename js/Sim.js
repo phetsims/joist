@@ -17,6 +17,7 @@ define( function( require ) {
   var Scene = require( 'SCENERY/Scene' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Layout = require( 'JOIST/Layout' );
+  var wiretap = require( 'FORT/wiretap' );
 
   /**
    *
@@ -149,6 +150,61 @@ define( function( require ) {
         var dt = 0.04;//TODO: put real time elapsed in seconds, this value is required by beers-law-lab
         sim.tabs[sim.simModel.tabIndex].model.step( dt );
       }
+      sim.scene.updateScene();
+      sim.navigationBarScene.updateScene();
+      sim.homeScreenScene.updateScene();
+      for ( var i = 0; i < sim.overlays.length; i++ ) {
+        var overlay = sim.overlays[i];
+        overlay.updateScene();
+      }
+    })();
+  };
+
+  Sim.prototype.startPlayback = function( log ) {
+    var sim = this;
+    var logIndex = 0;
+    var playbackTime = log[0].time;
+
+    //Make sure requestAnimationFrame is defined
+    Util.polyfillRequestAnimationFrame();
+
+    // place the rAF *before* the render() to assure as close to 60fps with the setTimeout fallback.
+    //http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+    (function animationLoop() {
+      requestAnimationFrame( animationLoop );
+
+      //Update the sim based on the given log
+
+      while ( logIndex < log.length ) {
+        //find any events that passed in this time frame
+        //Note, may handle multiple events before calling scene.updateScene()
+        var time = log[logIndex].time;
+        if ( time < playbackTime ) {
+
+          var logEntry = log[logIndex];
+          var cid = logEntry.cid;
+
+          //if it is a change, then set the value
+          if ( logEntry.action === 'change' ) {
+            wiretap.registry[cid][logEntry.property] = JSON.parse( logEntry.newValue );
+          }
+          else if ( logEntry.action === 'trigger' ) {
+            wiretap.registry[cid].trigger( logEntry.event );
+          }
+
+          logIndex++;
+        }
+        else {
+          break;
+        }
+      }
+
+      playbackTime += 17;//ms between frames at 60fp
+
+//      if ( !sim.simModel.showHomeScreen ) {
+//        var dt = 0.04;//TODO: put real time elapsed in seconds, this value is required by beers-law-lab
+//        sim.tabs[sim.simModel.tabIndex].model.step( dt );
+//      }
       sim.scene.updateScene();
       sim.navigationBarScene.updateScene();
       sim.homeScreenScene.updateScene();

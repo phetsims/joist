@@ -21,6 +21,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Button = require( 'SUN/Button' );
   var PanelNode = require( 'SUN/PanelNode' );
+  var wiretap = require( 'FORT/wiretap' );
 
   function SimPopupMenu( sim, options ) {
     var simPopupMenu = this;
@@ -30,8 +31,7 @@ define( function( require ) {
     var aboutDialog = new AboutDialog();
 
     var fontSize = '36px';
-    var homePageText = new Text( 'PhET Homepage', {fontSize: fontSize} );
-    homePageText.addInputListener( {down: function() {
+    var homePageText = new Text( 'PhET Homepage', {fontSize: fontSize} ).addInputListener( {down: function() {
       window.location = "http://phet.colorado.edu";
     }} );
     var aboutText = new Text( 'About...', {fontSize: fontSize} );
@@ -45,6 +45,9 @@ define( function( require ) {
     }} );
     var items = [homePageText,
       new Text( 'Related Sims', {fontSize: fontSize} ),
+      new Text( 'Output log', {fontSize: fontSize} ).addInputListener( {down: function() {
+        console.log( JSON.stringify( wiretap.log ) );
+      }} ),
       aboutText];
 
     //left align the items
