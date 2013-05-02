@@ -59,6 +59,7 @@ define( function( require ) {
     //Leave accessibility as a flag while in development
     sim.scene = new Scene( $simDiv, {allowDevicePixelRatioScaling: true, accessible: true} );
     sim.scene.initializeStandaloneEvents(); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
+    window.simScene = sim.scene; // make the scene available for debugging
 
     this.navigationBarScene = new NavigationBarScene( this, tabs, sim.simModel );
     this.homeScreenScene = new HomeScreenScene( this, name, tabs, sim.simModel );
