@@ -174,37 +174,10 @@ define( function( require ) {
       requestAnimationFrame( animationLoop );
 
       //Update the sim based on the given log
-
-      while ( logIndex < log.length ) {
-        //find any events that passed in this time frame
-        //Note, may handle multiple events before calling scene.updateScene()
-        var time = log[logIndex].time;
-        if ( time < playbackTime ) {
-
-          var logEntry = log[logIndex];
-          var cid = logEntry.cid;
-
-          //if it is a change, then set the value
-          if ( logEntry.action === 'change' ) {
-            wiretap.registry[cid][logEntry.property] = JSON.parse( logEntry.newValue, wiretap.reviver );
-          }
-          else if ( logEntry.action === 'trigger' ) {
-            wiretap.registry[cid].trigger( logEntry.event );
-          }
-
-          logIndex++;
-        }
-        else {
-          break;
-        }
-      }
+      logIndex = wiretap.stepUntil( log, playbackTime, logIndex );
 
       playbackTime += 17;//ms between frames at 60fp
 
-//      if ( !sim.simModel.showHomeScreen ) {
-//        var dt = 0.04;//TODO: put real time elapsed in seconds, this value is required by beers-law-lab
-//        sim.tabs[sim.simModel.tabIndex].model.step( dt );
-//      }
       sim.scene.updateScene();
       sim.navigationBarScene.updateScene();
       sim.homeScreenScene.updateScene();
