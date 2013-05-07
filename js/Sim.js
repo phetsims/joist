@@ -137,6 +137,9 @@ define( function( require ) {
   Sim.prototype.start = function() {
     var sim = this;
 
+    //Keep track of the previous time for computing dt, and initially signify that time hasn't been recorded yet.
+    var lastTime = -1;
+
     //Make sure requestAnimationFrame is defined
     Util.polyfillRequestAnimationFrame();
 
@@ -147,7 +150,14 @@ define( function( require ) {
 
       //Update the active tab, but not if the user is on the home screen
       if ( !sim.simModel.showHomeScreen ) {
-        var dt = 0.04;//TODO: put real time elapsed in seconds, this value is required by beers-law-lab
+
+        //Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
+        var time = Date.now();
+        var elapsedTimeMilliseconds = (lastTime === -1) ? (1000.0 / 60.0) : (time - lastTime);
+        lastTime = time;
+
+        //Convert to seconds
+        var dt = elapsedTimeMilliseconds / 1000.0;
         sim.tabs[sim.simModel.tabIndex].model.step( dt );
       }
       sim.scene.updateScene();
