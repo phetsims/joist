@@ -16,7 +16,6 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Layout = require( 'JOIST/Layout' );
   var AboutDialog = require( 'JOIST/AboutDialog' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Button = require( 'SUN/Button' );

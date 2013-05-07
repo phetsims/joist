@@ -23,7 +23,6 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var BoundsNode = require( 'SUN/BoundsNode' );
-  var Layout = require( 'JOIST/Layout' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var inherit = require( 'PHET_CORE/inherit' );
   var SimPopupMenu = require( 'JOIST/SimPopupMenu' );

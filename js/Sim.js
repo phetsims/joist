@@ -16,7 +16,6 @@ define( function( require ) {
   var HomeScreenScene = require( 'JOIST/HomeScreenScene' );
   var Scene = require( 'SCENERY/Scene' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Layout = require( 'JOIST/Layout' );
   var wiretap = require( 'FORT/wiretap' );
 
   /**
