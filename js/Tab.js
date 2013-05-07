@@ -15,7 +15,6 @@
 define( function( require ) {
   'use strict';
 
-  //TODO add optional backgroundColor property
   function Tab( name, icon, createModel, createView, backgroundColor ) {
     this.name = name;
     this.icon = icon;
