@@ -51,12 +51,11 @@ define( function( require ) {
 
     //TODO should probably look for this div to see if it exists, then create only if it doesn't exist.
     //Add a div for the sim to the DOM
-    var $simDiv = $( "<div>" ).attr( 'id', 'sim' ).css( 'position', 'absolute' );
-    $body.append( $simDiv );
+    var $tabDiv = $( "<div>" ).attr( 'id', 'tab' ).css( 'position', 'absolute' );
 
     //Create the scene
     //Leave accessibility as a flag while in development
-    sim.scene = new Scene( $simDiv, {allowDevicePixelRatioScaling: true, accessible: true} );
+    sim.scene = new Scene( $tabDiv, {allowDevicePixelRatioScaling: true, accessible: true} );
     sim.scene.initializeStandaloneEvents(); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
     window.simScene = sim.scene; // make the scene available for debugging
 
@@ -75,7 +74,7 @@ define( function( require ) {
 
     var updateBackground = function() {
 //      var color = sim.simModel.showHomeScreen ? homeScreen.backgroundColor : ( tabs[sim.simModel.tabIndex].backgroundColor || 'white' );
-      $simDiv.css( 'background', tabs[sim.simModel.tabIndex].backgroundColor || 'white' );
+      $tabDiv.css( 'background', tabs[sim.simModel.tabIndex].backgroundColor || 'white' );
     };
 
     //When the user presses the home icon, then show the home screen, otherwise show the tabNode.
@@ -83,10 +82,12 @@ define( function( require ) {
       simNode.children = showHomeScreen ? [] : [viewContainer];
       if ( showHomeScreen ) {
         sim.navigationBarScene.$div.detach();
+        $tabDiv.detach();
         $( 'body' ).append( sim.homeScreenScene.$main );
       }
       else {
         $( 'body' ).append( sim.navigationBarScene.$div );
+        $body.append( $tabDiv );
         sim.homeScreenScene.$main.detach();
       }
       updateBackground();
