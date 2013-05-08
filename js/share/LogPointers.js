@@ -28,11 +28,43 @@ define( function( require ) {
           logPointers.pointers.at( 0 ).set( location );
         }
       }, false );
+      window.addEventListener( 'touchmove', function( e ) {
+        var touches = e.touches;
+        for ( var i = 0; i < touches.length; i++ ) {
+          var touch = touches[i];
+          var location = {x: touch.pageX, y: touch.pageY};
+          if ( i >= logPointers.pointers.length ) {
+            logPointers.pointers.add( new Pointer( location ) );
+          }
+          else {
+            logPointers.pointers.at( i ).set( location );
+          }
+        }
+        while ( logPointers.pointers.length > touches.length ) {
+          logPointers.pointers.pop();
+        }
+      }, false );
+
+      //TODO: add touchend support
     },
-    startPlayback: function() {
-      var DOM_img = document.createElement( "img" );
-      DOM_img.src = "http://files.softicons.com/download/toolbar-icons/black-wireframe-toolbar-icons-by-gentleface/png/32/cursor_arrow.png";
-      document.body.appendChild( DOM_img );
+    showPointers: function() {
+      var logPointers = this;
+      this.pointers.on( 'add', function( model, collection, options ) {
+        var $img = $( '<img id="cursor">' ); //Equivalent: $(document.createElement('img'))
+        $img.attr( 'src', "http://dc440.4shared.com/img/mFJBl0A0/s7/mouse-cursor-icon.png" ); //TODO: our own copy of the image
+        $img.css( {zIndex: 9999, position: 'absolute', width: 12, height: 20, 'pointer-events': 'none'} );
+        $img.appendTo( 'body' );
+        model.on( 'change:x change:y', function() {
+          $img.css( {left: model.x, top: model.y} );
+        } );
+
+        logPointers.pointers.on( 'remove', function( m, c, o ) {
+          if ( m === model ) {
+            $img.detach();
+            //TODO: clean up listeners?
+          }
+        } );
+      } );
     }
   };
 
