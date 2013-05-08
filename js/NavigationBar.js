@@ -85,7 +85,7 @@ define( function( require ) {
         this.addChild( tabChildren[i].smallTextLabel );
       }
     }
-    else if ( tabs.length == 1 ) {
+    else if ( tabs.length === 1 ) {
       this.addChild( tabChildren[0].largeTextLabel );
     }
 
@@ -106,8 +106,10 @@ define( function( require ) {
       var tabIndex = navigationBar.tabIndex;
       //Update size and opacity of each icon
       var selectedChild = null;
-      for ( var i = 0; i < tabChildren.length; i++ ) {
-        var child = tabChildren[i];
+      var i = 0;
+      var child = null;
+      for ( i = 0; i < tabChildren.length; i++ ) {
+        child = tabChildren[i];
         child.invalidateBounds();
         var selected = tabIndex === child.tab.index;
         child.selected = selected;
@@ -124,9 +126,8 @@ define( function( require ) {
 
       //Compute layout bounds
       var width = 0;
-      for ( var i = 0; i < tabChildren.length; i++ ) {
-        var child = tabChildren[i];
-        width = width + child.width;
+      for ( i = 0; i < tabChildren.length; i++ ) {
+        width = width + tabChildren[i].width;
       }
       var spacing = 10;
       width = width + spacing * (tabChildren.length - 1);
@@ -135,7 +136,7 @@ define( function( require ) {
       selectedChild.largeTextLabel.centerY = this.navBarHeight / 2;
 
       //Lay out the components from left to right
-      if ( tabs.length == 1 ) {
+      if ( tabs.length === 1 ) {
         selectedChild.largeTextLabel.left = 15;
       }
       else {
@@ -144,8 +145,8 @@ define( function( require ) {
         var x = this.navBarWidth / 2 - width / 2;
         selectedChild.largeTextLabel.right = x - 25;
 
-        for ( var i = 0; i < tabChildren.length; i++ ) {
-          var child = tabChildren[i];
+        for ( i = 0; i < tabChildren.length; i++ ) {
+          child = tabChildren[i];
           child.x = x;
           child.y = verticalPadding;
           child.smallTextLabel.visible = (selectedChild !== child);

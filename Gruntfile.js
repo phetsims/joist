@@ -66,7 +66,7 @@ module.exports = function( grunt ) {
                             uglify2: {
                               compress: {
                                 global_defs: {
-                                  joistAssert: false,
+                                  joistAssert: false
                                 },
                                 dead_code: true
                               }
@@ -121,6 +121,8 @@ module.exports = function( grunt ) {
 
                             HTMLImageElement: false,
                             HTMLCanvasElement: false,
+
+                            requestAnimationFrame: false,
 
                             $: false,
                             _: false,

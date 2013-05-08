@@ -54,14 +54,16 @@ define( function( require ) {
       return child;
     } );
 
-    for ( var i = 0; i < tabChildren.length; i++ ) {
+    var i;
+    for ( i = 0; i < tabChildren.length; i++ ) {
       this.addChild( tabChildren[i] );
       tabChildren[i].accessibilityPeer = new AccessibilityPeer( tabChildren[i], '<input type="button">' );
     }
 
     model.link( 'tabIndex', function( tabIndex ) {
-      for ( var i = 0; i < tabChildren.length; i++ ) {
-        var child = tabChildren[i];
+      var child = null;
+      for ( i = 0; i < tabChildren.length; i++ ) {
+        child = tabChildren[i];
         child.invalidateBounds();
         var selected = tabIndex === child.tab.index;
         child.selected = selected;
@@ -71,17 +73,16 @@ define( function( require ) {
       }
 
       var width = 0;
-      for ( var i = 0; i < tabChildren.length; i++ ) {
-        var child = tabChildren[i];
-        width = width + child.width;
+      for ( i = 0; i < tabChildren.length; i++ ) {
+        width = width + tabChildren[i].width;
       }
       var spacing = 41 / 1.25;
       width = width + spacing * (tabChildren.length - 1);
 
       var x = homeScreen.layoutBounds.width / 2 - width / 2;
 
-      for ( var i = 0; i < tabChildren.length; i++ ) {
-        var child = tabChildren[i];
+      for ( i = 0; i < tabChildren.length; i++ ) {
+        child = tabChildren[i];
         child.x = x;
         child.y = homeScreen.layoutBounds.height / 2 - 111 / 1.25;
         x += child.width + spacing;

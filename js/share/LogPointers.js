@@ -32,7 +32,7 @@ define( function( require ) {
     startPlayback: function() {
       var DOM_img = document.createElement( "img" );
       DOM_img.src = "http://files.softicons.com/download/toolbar-icons/black-wireframe-toolbar-icons-by-gentleface/png/32/cursor_arrow.png";
-      body.appendChild( DOM_img );
+      document.body.appendChild( DOM_img );
     }
   };
 

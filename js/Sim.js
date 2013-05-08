@@ -41,7 +41,7 @@ define( function( require ) {
     var showHomeScreen = ( _.isUndefined( options.showHomeScreen ) ) ? true : options.showHomeScreen;
 
     //If there is only one tab, do not show the home screen
-    if ( tabs.length == 1 ) {
+    if ( tabs.length === 1 ) {
       showHomeScreen = false;
     }
 

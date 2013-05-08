@@ -22,7 +22,7 @@ define( function( require ) {
     //Use view, to help center and scale content
     TabView.call( this );
 
-    function text( string ) { return new Text( string, {fontSize: 24} ) }
+    function text( string ) { return new Text( string, {fontSize: 24} ); }
 
     var content = new VBox( {spacing: 10, children: [
       text( 'About Forces and Motion: Basics' ),
