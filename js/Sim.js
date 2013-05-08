@@ -16,7 +16,10 @@ define( function( require ) {
   var HomeScreenScene = require( 'JOIST/HomeScreenScene' );
   var Scene = require( 'SCENERY/Scene' );
   var Node = require( 'SCENERY/nodes/Node' );
+
+  //For Data logging and visualization
   var wiretap = require( 'FORT/wiretap' );
+  var LogPointers = require( 'JOIST/share/LogPointers' );
 
   /**
    *
@@ -144,6 +147,9 @@ define( function( require ) {
     //Make sure requestAnimationFrame is defined
     Util.polyfillRequestAnimationFrame();
 
+    //Record the pointers (if logging is enabled)
+    new LogPointers().startLogging();
+
     // place the rAF *before* the render() to assure as close to 60fps with the setTimeout fallback.
     //http://paulirish.com/2011/requestanimationframe-for-smart-animating/
     (function animationLoop() {
@@ -178,6 +184,9 @@ define( function( require ) {
 
     //Make sure requestAnimationFrame is defined
     Util.polyfillRequestAnimationFrame();
+
+    //Display the pointers
+    new LogPointers().startPlayback();
 
     // place the rAF *before* the render() to assure as close to 60fps with the setTimeout fallback.
     //http://paulirish.com/2011/requestanimationframe-for-smart-animating/
