@@ -60,13 +60,9 @@ define( function( require ) {
       child.tab = tab;
       child.scale( (100 - verticalPadding * 2) / child.tab.icon.height );
 
-      var textLabel = new Text( tab.name, {fontSize: 26, fill: 'black'} );
-      var outline = new Rectangle( 0, 0, textLabel.width + 10, textLabel.height + 10, 10, 10, {fill: 'white'} );
-      textLabel.centerX = outline.width / 2;
-      textLabel.centerY = outline.height / 2;
-      outline.addChild( textLabel );
+      var textLabel = new Text( tab.name, {fontSize: 26, fill: 'white'} );
 
-      child.largeTextLabel = outline;
+      child.largeTextLabel = textLabel;
       child.smallTextLabel = new Text( tab.name, {fontSize: 10, fill: 'white', visible: true} );
 
       child.addInputListener( { down: function() {
