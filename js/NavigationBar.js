@@ -13,7 +13,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var AccessibilityPeer = require( 'SCENERY/util/AccessibilityPeer' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var BoundsNode = require( 'SUN/BoundsNode' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -88,7 +87,7 @@ define( function( require ) {
     //add the home icon
     this.homeIcon = new BoundsNode( new FontAwesomeNode( 'home', {fill: '#fff'} ), {cursor: 'pointer'} );
     this.homeIcon.addInputListener( {down: function() { model.showHomeScreen = true; }} );
-    this.homeIcon.accessibilityPeer = new AccessibilityPeer( this.homeIcon, '<input type="button">', {click: function() {model.showHomeScreen = true;}} );
+    this.homeIcon.addPeer( '<input type="button">', {click: function() {model.showHomeScreen = true;}} );
     if ( tabs.length > 1 ) {
       this.addChild( this.homeIcon );
     }
