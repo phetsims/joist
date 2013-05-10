@@ -28,7 +28,7 @@ define( function( require ) {
       text( 'About Forces and Motion: Basics' ),
       text( 'PhET Interactive Simulations' ),
       text( 'Copyright © 2004-2013 University of Colorado Boulder' ),
-      text( 'Version 0.0.0' )
+      text( 'Version 0.0.0.0' )
     ]} );
 
     //Show a gray overlay that will help focus on the about dialog, and prevent clicks on the sim while the dialog is up
