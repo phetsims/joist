@@ -12,7 +12,7 @@ define( function( require ) {
 
   var Fort = require( 'FORT/Fort' );
   var Util = require( 'SCENERY/util/Util' );
-  var NavigationBarScene = require( 'JOIST/NavigationBarScene' );
+  var NavigationBar = require( 'JOIST/NavigationBar' );
   var HomeScreenScene = require( 'JOIST/HomeScreenScene' );
   var Scene = require( 'SCENERY/Scene' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -62,7 +62,7 @@ define( function( require ) {
     sim.scene.initializeStandaloneEvents(); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
     window.simScene = sim.scene; // make the scene available for debugging
 
-    this.navigationBarScene = new NavigationBarScene( this, tabs, sim.simModel );
+    this.navigationBar = new NavigationBar( this, tabs, sim.simModel );
     this.homeScreenScene = new HomeScreenScene( this, name, tabs, sim.simModel );
 
     //The simNode contains the home screen or the play area
@@ -74,6 +74,7 @@ define( function( require ) {
     var viewContainer = new Node( {layerSplit: true} );
 
     sim.scene.addChild( simNode );
+    sim.scene.addChild( sim.navigationBar );
 
     var updateBackground = function() {
 //      var color = sim.simModel.showHomeScreen ? homeScreen.backgroundColor : ( tabs[sim.simModel.tabIndex].backgroundColor || 'white' );
@@ -84,12 +85,12 @@ define( function( require ) {
     this.simModel.link( 'showHomeScreen', function( showHomeScreen ) {
       simNode.children = showHomeScreen ? [] : [viewContainer];
       if ( showHomeScreen ) {
-        sim.navigationBarScene.$div.detach();
+        sim.navigationBar.visible = false;
         $tabDiv.detach();
         $( 'body' ).append( sim.homeScreenScene.$main );
       }
       else {
-        $( 'body' ).append( sim.navigationBarScene.$div );
+        sim.navigationBar.visible = true;
         $body.append( $tabDiv );
         sim.homeScreenScene.$main.detach();
       }
@@ -107,11 +108,12 @@ define( function( require ) {
 
       //40 px high on Mobile Safari
       var navBarHeight = scale * 40;
-      sim.navigationBarScene.layout( scale, width, navBarHeight );
-      sim.scene.resize( width, height - navBarHeight );
+      sim.navigationBar.layout( scale, width, navBarHeight );
+      sim.navigationBar.bottom = height;
+      sim.scene.resize( width, height );
 
       //Layout each of the tabs
-      _.each( tabs, function( m ) { m.view.layout( width, height - sim.navigationBarScene.height ); } );
+      _.each( tabs, function( m ) { m.view.layout( width, height - sim.navigationBar.height ); } );
 
       //Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
     }
@@ -172,7 +174,6 @@ define( function( require ) {
         sim.tabs[sim.simModel.tabIndex].model.step( dt );
       }
       sim.scene.updateScene();
-      sim.navigationBarScene.updateScene();
       sim.homeScreenScene.updateScene();
       for ( var i = 0; i < sim.overlays.length; i++ ) {
         var overlay = sim.overlays[i];
@@ -203,7 +204,6 @@ define( function( require ) {
       playbackTime += 17;//ms between frames at 60fp
 
       sim.scene.updateScene();
-      sim.navigationBarScene.updateScene();
       sim.homeScreenScene.updateScene();
       for ( var i = 0; i < sim.overlays.length; i++ ) {
         var overlay = sim.overlays[i];

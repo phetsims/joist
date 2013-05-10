@@ -22,6 +22,8 @@ define( function( require ) {
   function NavigationBar( sim, tabs, model ) {
     var navigationBar = this;
     Node.call( this, {renderer: 'svg'} );
+    this.background = new Rectangle( 0, 0, 2000, 0, {fill: 'black'} );
+    this.addChild( this.background );
 
     //Space between the icons and the bottom of the play area
     var verticalPadding = 2;
@@ -98,6 +100,7 @@ define( function( require ) {
 
     this.relayout = function() {
       var height = this.navBarHeight;
+      navigationBar.background.rectHeight = height;
       var tabIndex = navigationBar.tabIndex;
       //Update size and opacity of each icon
       var selectedChild = null;
