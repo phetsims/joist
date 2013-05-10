@@ -25,7 +25,6 @@ define( function( require ) {
   var BoundsNode = require( 'SUN/BoundsNode' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var SimPopupMenu = require( 'JOIST/SimPopupMenu' );
 
   function HomeScreenScene( sim, name, tabs, simModel ) {
     var homeScreenScene = this;
