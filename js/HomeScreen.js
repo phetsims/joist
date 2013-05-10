@@ -54,10 +54,18 @@ define( function( require ) {
     } );
 
     var i;
-    for ( i = 0; i < tabChildren.length; i++ ) {
-      this.addChild( tabChildren[i] );
-      tabChildren[i].addPeer( '<input type="button">' );
-    }
+    _.each( tabChildren, function( tabChild ) {
+      homeScreen.addChild( tabChild );
+      tabChild.addPeer( '<input type="button">', {click: function() {
+        var tab = tabChild.tab;
+        if ( model.tabIndex === tab.index ) {
+          model.showHomeScreen = false;
+        }
+        else {
+          model.tabIndex = tab.index;
+        }
+      }} );
+    } );
 
     model.link( 'tabIndex', function( tabIndex ) {
       var child = null;
