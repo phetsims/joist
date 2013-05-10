@@ -25,10 +25,10 @@ define( function( require ) {
     function text( string ) { return new Text( string, {fontSize: 24} ); }
 
     var content = new VBox( {spacing: 10, children: [
-      text( 'About Forces and Motion: Basics' ),
+      text( 'About Forces and Motion: Basics' ), //TODO sim name should be a parameter
       text( 'PhET Interactive Simulations' ),
       text( 'Copyright © 2004-2013 University of Colorado Boulder' ),
-      text( 'Version 0.0.0.0' )
+      text( 'Version 0.0.0.0' )  //TODO version id should be a parameter
     ]} );
 
     //Show a gray overlay that will help focus on the about dialog, and prevent clicks on the sim while the dialog is up
