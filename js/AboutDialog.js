@@ -32,7 +32,7 @@ define( function( require ) {
     ]} );
 
     //Show a gray overlay that will help focus on the about dialog, and prevent clicks on the sim while the dialog is up
-    this.addChild( new PanelNode( content ).mutate( {centerX: this.layoutBounds.centerX, centerY: this.layoutBounds.centerY} ) );
+    this.addChild( new PanelNode( content, {centerX: this.layoutBounds.centerX, centerY: this.layoutBounds.centerY, xMargin: 20, yMargin: 20 } ) );
 
     function resize() {
       aboutDialog.layout( $( window ).width(), $( window ).height() );
