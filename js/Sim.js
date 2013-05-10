@@ -13,7 +13,7 @@ define( function( require ) {
   var Fort = require( 'FORT/Fort' );
   var Util = require( 'SCENERY/util/Util' );
   var NavigationBar = require( 'JOIST/NavigationBar' );
-  var HomeScreenScene = require( 'JOIST/HomeScreenScene' );
+  var HomeScreen = require( 'JOIST/HomeScreen' );
   var Scene = require( 'SCENERY/Scene' );
   var Node = require( 'SCENERY/nodes/Node' );
 
@@ -54,16 +54,17 @@ define( function( require ) {
 
     //TODO should probably look for this div to see if it exists, then create only if it doesn't exist.
     //Add a div for the sim to the DOM
-    var $tabDiv = $( "<div>" ).attr( 'id', 'tab' ).css( 'position', 'absolute' );
+    var $simDiv = $( "<div>" ).attr( 'id', 'sim' ).css( 'position', 'absolute' );
+    $body.append( $simDiv );
 
     //Create the scene
     //Leave accessibility as a flag while in development
-    sim.scene = new Scene( $tabDiv, {allowDevicePixelRatioScaling: true, accessible: true} );
+    sim.scene = new Scene( $simDiv, {allowDevicePixelRatioScaling: true, accessible: true} );
     sim.scene.initializeStandaloneEvents(); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
     window.simScene = sim.scene; // make the scene available for debugging
 
     this.navigationBar = new NavigationBar( this, tabs, sim.simModel );
-    this.homeScreenScene = new HomeScreenScene( this, name, tabs, sim.simModel );
+    this.homeScreen = new HomeScreen( name, tabs, sim.simModel );
 
     //The simNode contains the home screen or the play area
     var simNode = new Node();
@@ -75,10 +76,15 @@ define( function( require ) {
 
     sim.scene.addChild( simNode );
     sim.scene.addChild( sim.navigationBar );
+    sim.scene.addChild( sim.homeScreen );
 
     var updateBackground = function() {
-//      var color = sim.simModel.showHomeScreen ? homeScreen.backgroundColor : ( tabs[sim.simModel.tabIndex].backgroundColor || 'white' );
-      $tabDiv.css( 'background', tabs[sim.simModel.tabIndex].backgroundColor || 'white' );
+      if ( sim.simModel.showHomeScreen ) {
+        $simDiv.css( 'background', 'black' );
+      }
+      else {
+        $simDiv.css( 'background', tabs[sim.simModel.tabIndex].backgroundColor || 'white' );
+      }
     };
 
     //When the user presses the home icon, then show the home screen, otherwise show the tabNode.
@@ -86,13 +92,11 @@ define( function( require ) {
       simNode.children = showHomeScreen ? [] : [viewContainer];
       if ( showHomeScreen ) {
         sim.navigationBar.visible = false;
-        $tabDiv.detach();
-        $( 'body' ).append( sim.homeScreenScene.$main );
+        sim.homeScreen.visible = true;
       }
       else {
         sim.navigationBar.visible = true;
-        $body.append( $tabDiv );
-        sim.homeScreenScene.$main.detach();
+        sim.homeScreen.visible = false;
       }
       updateBackground();
     } );
@@ -115,6 +119,7 @@ define( function( require ) {
       //Layout each of the tabs
       _.each( tabs, function( m ) { m.view.layout( width, height - sim.navigationBar.height ); } );
 
+      sim.homeScreen.layout( width, height );
       //Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
     }
 
@@ -174,7 +179,6 @@ define( function( require ) {
         sim.tabs[sim.simModel.tabIndex].model.step( dt );
       }
       sim.scene.updateScene();
-      sim.homeScreenScene.updateScene();
       for ( var i = 0; i < sim.overlays.length; i++ ) {
         var overlay = sim.overlays[i];
         overlay.updateScene();
@@ -204,7 +208,6 @@ define( function( require ) {
       playbackTime += 17;//ms between frames at 60fp
 
       sim.scene.updateScene();
-      sim.homeScreenScene.updateScene();
       for ( var i = 0; i < sim.overlays.length; i++ ) {
         var overlay = sim.overlays[i];
         overlay.updateScene();
