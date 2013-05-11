@@ -16,19 +16,21 @@ define( function( require ) {
   var TabView = require( 'JOIST/TabView' );
   var PanelNode = require( 'SUN/PanelNode' );
 
-  function AboutDialog() {
+  /**
+   * @param {Sim} sim
+   * @constructor
+   */
+  function AboutDialog( sim ) {
     var aboutDialog = this;
 
     //Use view, to help center and scale content
     TabView.call( this );
 
-    function text( string ) { return new Text( string, {fontSize: 24} ); }
-
     var content = new VBox( {spacing: 10, children: [
-      text( 'About Forces and Motion: Basics' ), //TODO sim name should be a parameter
-      text( 'PhET Interactive Simulations' ),
-      text( 'Copyright © 2004-2013 University of Colorado Boulder' ),
-      text( 'Version 0.0.0.0' )  //TODO version id should be a parameter
+      new Text( sim.name, {fontSize: 28} ),
+      new Text( "version " + sim.version, {fontSize: 20} ),
+      new Text( 'PhET Interactive Simulations', {fontSize: 18} ),
+      new Text( 'Copyright © 2004-2013 University of Colorado Boulder', {fontSize: 14} )
     ]} );
 
     //Show a gray overlay that will help focus on the about dialog, and prevent clicks on the sim while the dialog is up

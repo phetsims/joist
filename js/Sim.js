@@ -16,6 +16,7 @@ define( function( require ) {
   var HomeScreen = require( 'JOIST/HomeScreen' );
   var Scene = require( 'SCENERY/Scene' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var version = require( 'version' );
 
   //For Data logging and visualization
   var wiretap = require( 'FORT/wiretap' );
@@ -31,6 +32,9 @@ define( function( require ) {
   function Sim( name, tabs, options ) {
     var sim = this;
     this.overlays = [];
+
+    this.name = name;
+    this.version = version();
 
     //Set the HTML page title to the localized title
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
