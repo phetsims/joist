@@ -38,17 +38,18 @@ define( function( require ) {
 
     //Creating the popup menu dynamically (when needed) causes a temporary black screen on the iPad (perhaps because of canvas accurate text bounds)
     var simPopupMenu = new SimPopupMenu( sim );
+    var optionButtonPressed = function() {
+      simPopupMenu.x = navigationBar.navBarWidth - simPopupMenu.width - 2;
+      simPopupMenu.y = window.innerHeight - simPopupMenu.height - navigationBar.height / 2 + 4;
+      var overlayScene = sim.createAndAddOverlay( simPopupMenu );
+      overlayScene.addInputListener( {down: function() {
+        sim.removeOverlay( overlayScene );
+      }} );
+    };
+    optionsButton.addPeer( '<input type="button">', {click: optionButtonPressed} );
     optionsButton.addInputListener( {
                                       // mousedown or touchstart (pointer pressed down over the node)
-                                      down: function( event ) {
-                                        simPopupMenu.x = navigationBar.navBarWidth - simPopupMenu.width - 2;
-                                        simPopupMenu.y = window.innerHeight - simPopupMenu.height - navigationBar.height / 2 + 4;
-                                        var overlayScene = sim.createAndAddOverlay( simPopupMenu );
-                                        overlayScene.addInputListener( {down: function() {
-                                          sim.removeOverlay( overlayScene );
-                                        }} );
-                                      }
-                                    } );
+                                      down: optionButtonPressed                                    } );
 
     this.phetLabelAndButton = new HBox( {spacing: 10, children: [phetLabel, optionsButton]} );
     this.addChild( this.phetLabelAndButton );
