@@ -78,10 +78,6 @@ define( function( require ) {
     //TODO: Test this after rewriting into multiple divs/scenes
     var viewContainer = new Node( {layerSplit: true} );
 
-    sim.scene.addChild( simNode );
-    sim.scene.addChild( sim.navigationBar );
-    sim.scene.addChild( sim.homeScreen );
-
     var updateBackground = function() {
       if ( sim.simModel.showHomeScreen ) {
         $simDiv.css( 'background', 'black' );
@@ -95,12 +91,10 @@ define( function( require ) {
     this.simModel.link( 'showHomeScreen', function( showHomeScreen ) {
       simNode.children = showHomeScreen ? [] : [viewContainer];
       if ( showHomeScreen ) {
-        sim.navigationBar.visible = false;
-        sim.homeScreen.visible = true;
+        sim.scene.children = [sim.homeScreen];
       }
       else {
-        sim.navigationBar.visible = true;
-        sim.homeScreen.visible = false;
+        sim.scene.children = [simNode, sim.navigationBar];
       }
       updateBackground();
     } );
