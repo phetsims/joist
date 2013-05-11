@@ -46,7 +46,7 @@ define( function( require ) {
         sim.removeOverlay( overlayScene );
       }} );
     };
-    optionsButton.addPeer( '<input type="button">', {click: optionButtonPressed} );
+    optionsButton.addPeer( '<input type="button">', {click: optionButtonPressed, tabIndex: 101} );
     optionsButton.addInputListener( {
                                       // mousedown or touchstart (pointer pressed down over the node)
                                       down: optionButtonPressed                                    } );
@@ -90,7 +90,7 @@ define( function( require ) {
     //add the home icon
     this.homeIcon = new BoundsNode( new FontAwesomeNode( 'home', {fill: '#fff'} ), {cursor: 'pointer'} );
     this.homeIcon.addInputListener( {down: function() { model.showHomeScreen = true; }} );
-    this.homeIcon.addPeer( '<input type="button">', {click: function() {model.showHomeScreen = true;}} );
+    this.homeIcon.addPeer( '<input type="button">', {click: function() {model.showHomeScreen = true;}, tabIndex: 100} );
     if ( tabs.length > 1 ) {
       this.addChild( this.homeIcon );
     }
