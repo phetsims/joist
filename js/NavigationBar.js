@@ -67,10 +67,13 @@ define( function( require ) {
       child.largeTextLabel = textLabel;
       child.smallTextLabel = new Text( tab.name, {fontSize: 10, fill: 'white', visible: true} );
 
-      child.addInputListener( { down: function() {
+      var listener = function() {
         model.tabIndex = tab.index;
         model.showHomeScreen = false;
-      }} );
+      };
+      child.addPeer( '<input type="button">', {click: listener, tabIndex: 99} );
+
+      child.addInputListener( { down: listener} );
       return child;
     } );
 
