@@ -64,7 +64,7 @@ define( function( require ) {
     //Create the scene
     //Leave accessibility as a flag while in development
     sim.scene = new Scene( $simDiv, {allowDevicePixelRatioScaling: true, accessible: true} );
-    sim.scene.initializeStandaloneEvents(); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
+    sim.scene.initializeStandaloneEvents( { batchDOMEvents: true } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
     window.simScene = sim.scene; // make the scene available for debugging
 
     this.navigationBar = new NavigationBar( this, tabs, sim.simModel );
@@ -163,6 +163,9 @@ define( function( require ) {
     //http://paulirish.com/2011/requestanimationframe-for-smart-animating/
     (function animationLoop() {
       window.requestAnimationFrame( animationLoop );
+
+      // if any input events were received and batched, fire them now.
+      sim.scene.fireBatchedEvents();
 
       //Update the active tab, but not if the user is on the home screen
       if ( !sim.simModel.showHomeScreen ) {
