@@ -16,6 +16,7 @@ define( function( require ) {
   var HomeScreen = require( 'JOIST/HomeScreen' );
   var Scene = require( 'SCENERY/Scene' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var Text = require( 'SCENERY/nodes/Text' );
   var version = require( 'version' );
 
   //For Data logging and visualization
@@ -197,12 +198,22 @@ define( function( require ) {
 
     //Display the pointers
 //    new LogPointers().showPointers();
+    var totalTime = 0;
 
     // place the rAF *before* the render() to assure as close to 60fps with the setTimeout fallback.
     //http://paulirish.com/2011/requestanimationframe-for-smart-animating/
     (function animationLoop() {
+      if ( logIndex >= log.length ) {
+        console.log( totalTime );
+
+        sim.scene.addChild( new Text( 'Elapsed time (ms): ' + totalTime, {x: 100, y: 100, font: "32px Arial"} ) );
+        sim.scene.updateScene();
+        return;
+      }
+
       window.requestAnimationFrame( animationLoop );
 
+      var start = Date.now();
       //Update the sim based on the given log
       logIndex = wiretap.stepUntil( log, playbackTime, logIndex );
 
@@ -213,6 +224,10 @@ define( function( require ) {
         var overlay = sim.overlays[i];
         overlay.updateScene();
       }
+      var stop = Date.now();
+      var elapsed = (stop - start);
+
+      totalTime += elapsed;
     })();
   };
 
