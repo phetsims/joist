@@ -180,6 +180,12 @@ define( function( require ) {
         var dt = elapsedTimeMilliseconds / 1000.0;
         sim.tabs[sim.simModel.tabIndex].model.step( dt );
       }
+
+      //If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
+      //Update the tweens after the model is updated but before the scene is redrawn.
+      if ( TWEEN ) {
+        TWEEN.update();
+      }
       sim.scene.updateScene();
       for ( var i = 0; i < sim.overlays.length; i++ ) {
         var overlay = sim.overlays[i];
