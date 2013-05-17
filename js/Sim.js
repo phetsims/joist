@@ -183,8 +183,8 @@ define( function( require ) {
 
       //If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
       //Update the tweens after the model is updated but before the scene is redrawn.
-      if ( TWEEN ) {
-        TWEEN.update();
+      if ( window.TWEEN ) {
+        window.TWEEN.update();
       }
       sim.scene.updateScene();
       for ( var i = 0; i < sim.overlays.length; i++ ) {
