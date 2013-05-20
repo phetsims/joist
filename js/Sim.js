@@ -40,7 +40,7 @@ define( function( require ) {
 
     //Set the HTML page title to the localized title
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
-    $( 'title' ).html( name + " " + sim.version ); //TODO i18n of orderπ
+    $( 'title' ).html( name + " " + sim.version ); //TODO i18n of order
 
     //Default values are to show the home screen with the 1st tab selected
     options = options || {};
