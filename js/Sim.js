@@ -18,6 +18,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Text = require( 'SCENERY/nodes/Text' );
   var version = require( 'version' );
+  var ImageLoader = require( 'JOIST/ImageLoader' );
 
   //For Data logging and visualization
   var wiretap = require( 'FORT/wiretap' );
@@ -32,14 +33,14 @@ define( function( require ) {
    */
   function Sim( name, tabs, options ) {
     var sim = this;
-    this.overlays = [];
+    sim.overlays = [];
 
-    this.name = name;
-    this.version = version();
+    sim.name = name;
+    sim.version = version();
 
     //Set the HTML page title to the localized title
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
-    $( 'title' ).html( name + " " + this.version ); //TODO i18n of orderπ
+    $( 'title' ).html( name + " " + sim.version ); //TODO i18n of orderπ
 
     //Default values are to show the home screen with the 1st tab selected
     options = options || {};
@@ -68,8 +69,8 @@ define( function( require ) {
     sim.scene.initializeStandaloneEvents( { batchDOMEvents: true } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
     window.simScene = sim.scene; // make the scene available for debugging
 
-    this.navigationBar = new NavigationBar( this, tabs, sim.simModel );
-    this.homeScreen = new HomeScreen( name, tabs, sim.simModel );
+    sim.navigationBar = new NavigationBar( sim, tabs, sim.simModel );
+    sim.homeScreen = new HomeScreen( name, tabs, sim.simModel );
 
     //The simNode contains the home screen or the play area
     var simNode = new Node();
@@ -89,7 +90,7 @@ define( function( require ) {
     };
 
     //When the user presses the home icon, then show the home screen, otherwise show the tabNode.
-    this.simModel.link( 'showHomeScreen', function( showHomeScreen ) {
+    sim.simModel.link( 'showHomeScreen', function( showHomeScreen ) {
       simNode.children = showHomeScreen ? [] : [viewContainer];
       if ( showHomeScreen ) {
         sim.scene.children = [sim.homeScreen];
@@ -132,7 +133,7 @@ define( function( require ) {
     //SR: ModuleIndex should always be defined.  On startup tabIndex=0 to highlight the 1st tab.
     //    When moving from a tab to the homescreen, the previous tab should be highlighted
     //When the user selects a different tab, show it on the screen
-    this.simModel.link( 'tabIndex', function( tabIndex ) {
+    sim.simModel.link( 'tabIndex', function( tabIndex ) {
       viewContainer.children = [tabs[tabIndex].view];
       updateBackground();
     } );
