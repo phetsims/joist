@@ -18,7 +18,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Text = require( 'SCENERY/nodes/Text' );
   var version = require( 'version' );
-  var ImageLoader = require( 'JOIST/ImageLoader' );
 
   //For Data logging and visualization
   var wiretap = require( 'FORT/wiretap' );
