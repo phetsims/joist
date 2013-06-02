@@ -43,11 +43,11 @@ define( function( require ) {
 
       //Tap once to select, a second time to start that tab
       child.addInputListener( { down: function() {
-        if ( model.tabIndex === tab.index ) {
-          model.showHomeScreen = false;
+        if ( model.tabIndex.value === tab.index ) {
+          model.showHomeScreen.value = false;
         }
         else {
-          model.tabIndex = tab.index;
+          model.tabIndex.value = tab.index;
         }
       }} );
       return child;
@@ -58,16 +58,16 @@ define( function( require ) {
       homeScreen.addChild( tabChild );
       tabChild.addPeer( '<input type="button">', {click: function() {
         var tab = tabChild.tab;
-        if ( model.tabIndex === tab.index ) {
-          model.showHomeScreen = false;
+        if ( model.tabIndex.value === tab.index ) {
+          model.showHomeScreen.value = false;
         }
         else {
-          model.tabIndex = tab.index;
+          model.tabIndex.value = tab.index;
         }
       }} );
     } );
 
-    model.link( 'tabIndex', function( tabIndex ) {
+    model.tabIndex.link( function( tabIndex ) {
       var child = null;
       for ( i = 0; i < tabChildren.length; i++ ) {
         child = tabChildren[i];

@@ -68,8 +68,8 @@ define( function( require ) {
       child.smallTextLabel = new Text( tab.name, {fontSize: 10, fill: 'white', visible: true} );
 
       var listener = function() {
-        model.tabIndex = tab.index;
-        model.showHomeScreen = false;
+        model.tabIndex.value = tab.index;
+        model.showHomeScreen.value = false;
       };
       child.addPeer( '<input type="button">', {click: listener, tabIndex: 99} );
 
@@ -92,8 +92,8 @@ define( function( require ) {
 
     //add the home icon
     this.homeIcon = new BoundsNode( new FontAwesomeNode( 'home', {fill: '#fff'} ), {cursor: 'pointer'} );
-    this.homeIcon.addInputListener( {down: function() { model.showHomeScreen = true; }} );
-    this.homeIcon.addPeer( '<input type="button">', {click: function() {model.showHomeScreen = true;}, tabIndex: 100} );
+    this.homeIcon.addInputListener( {down: function() { model.showHomeScreen.value = true; }} );
+    this.homeIcon.addPeer( '<input type="button">', {click: function() {model.showHomeScreen.value = true;}, tabIndex: 100} );
     if ( tabs.length > 1 ) {
       this.addChild( this.homeIcon );
     }
@@ -175,7 +175,7 @@ define( function( require ) {
     };
 
     //On initialization and when the tab changes, update the size of the icons and the layout of the icons and text
-    model.link( 'tabIndex', function( tabIndex ) {
+    model.tabIndex.link( function( tabIndex ) {
       navigationBar.tabIndex = tabIndex;
       navigationBar.relayout();
     } );
