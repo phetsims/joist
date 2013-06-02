@@ -12,14 +12,10 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
   var AboutDialog = require( 'JOIST/AboutDialog' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Button = require( 'SUN/Button' );
-  var PanelNode = require( 'SUN/PanelNode' );
   var wiretap = require( 'FORT/wiretap' );
 
   function SimPopupMenu( sim, options ) {

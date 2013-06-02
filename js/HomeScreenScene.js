@@ -13,17 +13,8 @@
 define( function( require ) {
   "use strict";
 
-  var Fort = require( 'FORT/Fort' );
-  var Util = require( 'SCENERY/util/Util' );
-  var NavigationBar = require( 'JOIST/NavigationBar' );
   var HomeScreen = require( 'JOIST/HomeScreen' );
   var Scene = require( 'SCENERY/Scene' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
-  var BoundsNode = require( 'SUN/BoundsNode' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var inherit = require( 'PHET_CORE/inherit' );
 
   function HomeScreenScene( sim, name, tabs, simModel ) {
