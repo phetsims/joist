@@ -56,7 +56,7 @@ define( function( require ) {
     sim.simModel = new PropertySet( {showHomeScreen: showHomeScreen, tabIndex: options.tabIndex || 0 } );
 
     var $body = $( 'body' );
-    $body.css( 'padding', '0' ).css( 'margin', '0' ); //
+    $body.css( 'padding', '0' ).css( 'margin', '0' ); // prevent scrollbars
 
     //TODO should probably look for this div to see if it exists, then create only if it doesn't exist.
     //Add a div for the sim to the DOM
