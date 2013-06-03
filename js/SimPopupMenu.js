@@ -16,7 +16,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var AboutDialog = require( 'JOIST/AboutDialog' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var propertyLog = require( 'PHETCOMMON/model/property/propertyLog' );
+  var log = require( 'PHETCOMMON/model/property/log' );
 
   function SimPopupMenu( sim, options ) {
     var simPopupMenu = this;
@@ -41,7 +41,7 @@ define( function( require ) {
     var items = [homePageText,
       new Text( 'Related Sims', {fontSize: fontSize} ),
       new Text( 'Output log', {fontSize: fontSize} ).addInputListener( {down: function() {
-        console.log( JSON.stringify( propertyLog.log ) );
+        console.log( JSON.stringify( log.log ) );
       }} ),
       aboutText];
 
