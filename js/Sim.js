@@ -20,7 +20,7 @@ define( function( require ) {
   var PropertySet = require( 'PHETCOMMON/model/property/PropertySet' );
 
   //For Data logging and visualization
-  var wiretap = require( 'FORT/wiretap' );
+  var propertyLog = require( 'PHETCOMMON/model/property/propertyLog' );
   var LogPointers = require( 'JOIST/share/LogPointers' );
 
   /**
@@ -221,7 +221,7 @@ define( function( require ) {
 
       var start = Date.now();
       //Update the sim based on the given log
-      logIndex = wiretap.stepUntil( log, playbackTime, logIndex );
+      logIndex = propertyLog.stepUntil( log, playbackTime, logIndex );
 
       playbackTime += 17;//ms between frames at 60fp
 
