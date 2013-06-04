@@ -17,7 +17,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Text = require( 'SCENERY/nodes/Text' );
   var version = require( 'version' );
-  var PropertySet = require( 'PHETCOMMON/model/property/PropertySet' );
+  var PropertySetB = require( 'PHETCOMMON/model/property/PropertySetB' );
 
   //For Data logging and visualization
   var log = require( 'PHETCOMMON/model/property/log' );
@@ -53,7 +53,7 @@ define( function( require ) {
     sim.tabs = tabs;
 
     //This model represents where the simulation is, whether it is on the home screen or a tab, and which tab it is on or is highlighted in the home screen
-    sim.simModel = new PropertySet( {showHomeScreen: showHomeScreen, tabIndex: options.tabIndex || 0 } );
+    sim.simModel = new PropertySetB( {showHomeScreen: showHomeScreen, tabIndex: options.tabIndex || 0 } );
 
     var $body = $( 'body' );
     $body.css( 'padding', '0' ).css( 'margin', '0' ); // prevent scrollbars
@@ -81,16 +81,16 @@ define( function( require ) {
     var viewContainer = new Node( {layerSplit: true} );
 
     var updateBackground = function() {
-      if ( sim.simModel.showHomeScreen.value ) {
+      if ( sim.simModel.showHomeScreen ) {
         $simDiv.css( 'background', 'black' );
       }
       else {
-        $simDiv.css( 'background', tabs[sim.simModel.tabIndex.value].backgroundColor || 'white' );
+        $simDiv.css( 'background', tabs[sim.simModel.tabIndex].backgroundColor || 'white' );
       }
     };
 
     //When the user presses the home icon, then show the home screen, otherwise show the tabNode.
-    sim.simModel.showHomeScreen.link( function( showHomeScreen ) {
+    sim.simModel.showHomeScreenProperty.link( function( showHomeScreen ) {
       simNode.children = showHomeScreen ? [] : [viewContainer];
       if ( showHomeScreen ) {
         sim.scene.children = [sim.homeScreen];
@@ -133,7 +133,7 @@ define( function( require ) {
     //SR: ModuleIndex should always be defined.  On startup tabIndex=0 to highlight the 1st tab.
     //    When moving from a tab to the homescreen, the previous tab should be highlighted
     //When the user selects a different tab, show it on the screen
-    sim.simModel.tabIndex.link( function( tabIndex ) {
+    sim.simModel.tabIndexProperty.link( function( tabIndex ) {
       viewContainer.children = [tabs[tabIndex].view];
       updateBackground();
     } );
@@ -170,7 +170,7 @@ define( function( require ) {
       sim.scene.fireBatchedEvents();
 
       //Update the active tab, but not if the user is on the home screen
-      if ( !sim.simModel.showHomeScreen.value ) {
+      if ( !sim.simModel.showHomeScreen ) {
 
         //Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
         var time = Date.now();
@@ -179,7 +179,7 @@ define( function( require ) {
 
         //Convert to seconds
         var dt = elapsedTimeMilliseconds / 1000.0;
-        sim.tabs[sim.simModel.tabIndex.value].model.step( dt );
+        sim.tabs[sim.simModel.tabIndex].model.step( dt );
       }
 
       //If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
