@@ -17,7 +17,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Text = require( 'SCENERY/nodes/Text' );
   var version = require( 'version' );
-  var PropertySetB = require( 'PHETCOMMON/model/property/PropertySetB' );
+  var PropertySet = require( 'PHETCOMMON/model/property/PropertySet' );
 
   //For Data logging and visualization
   var log = require( 'PHETCOMMON/model/property/log' );
@@ -53,7 +53,7 @@ define( function( require ) {
     sim.tabs = tabs;
 
     //This model represents where the simulation is, whether it is on the home screen or a tab, and which tab it is on or is highlighted in the home screen
-    sim.simModel = new PropertySetB( {showHomeScreen: showHomeScreen, tabIndex: options.tabIndex || 0 } );
+    sim.simModel = new PropertySet( {showHomeScreen: showHomeScreen, tabIndex: options.tabIndex || 0 } );
 
     var $body = $( 'body' );
     $body.css( 'padding', '0' ).css( 'margin', '0' ); // prevent scrollbars
