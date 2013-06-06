@@ -15,7 +15,7 @@ define( function( require ) {
      *
      * TODO: add an awesome loading screen
      *
-     * @param {Array<String>} imageNames the images to be loaded into the module system.
+     * @param {String} imageNames the images to be loaded into the module system.
      * @param callback the callback function which should create and start the sim, given that the images are loaded
      */
     launch: function( imageNames, callback ) {

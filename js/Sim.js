@@ -17,10 +17,10 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Text = require( 'SCENERY/nodes/Text' );
   var version = require( 'version' );
-  var PropertySet = require( 'PHETCOMMON/model/property/PropertySet' );
+  var PropertySet = require( 'AXON/PropertySet' );
 
   //For Data logging and visualization
-  var log = require( 'PHETCOMMON/model/property/log' );
+  var log = require( 'AXON/log' );
   var LogPointers = require( 'JOIST/share/LogPointers' );
 
   /**
