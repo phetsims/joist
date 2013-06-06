@@ -27,6 +27,6 @@ define( function( require ) {
       imageLoader.getImage = function( name ) { return loadedImages[name]; };
       loader.addCompletionListener( callback );
       loader.start();
-    }}
+    }};
 } );
   
