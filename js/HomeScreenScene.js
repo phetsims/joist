@@ -44,7 +44,7 @@ define( function( require ) {
     resize();
   }
 
-  inherit( HomeScreenScene, Scene, {
+  inherit( Scene, HomeScreenScene, {
 //    layout: function( scale, width, height ) {
 //      this.resize( width, height );
 //      this.$div.offset( {top: window.innerHeight - height, left: 0} );

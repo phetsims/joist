@@ -45,7 +45,7 @@ define( function( require ) {
     resize();
   }
 
-  inherit( AboutDialog, TabView );
+  inherit( TabView, AboutDialog );
 
   return AboutDialog;
 } );

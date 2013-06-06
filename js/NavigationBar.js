@@ -181,7 +181,7 @@ define( function( require ) {
     } );
   }
 
-  inherit( NavigationBar, Node );
+  inherit( Node, NavigationBar );
 
   return NavigationBar;
 } );

@@ -104,7 +104,7 @@ define( function( require ) {
     }
   }
 
-  inherit( SimPopupMenu, Node );
+  inherit( Node, SimPopupMenu );
 
   return SimPopupMenu;
 } );

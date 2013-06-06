@@ -102,7 +102,7 @@ define( function( require ) {
     } );
   }
 
-  inherit( HomeScreen, TabView );
+  inherit( TabView, HomeScreen );
 
   return HomeScreen;
 } );
