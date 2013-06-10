@@ -19,6 +19,15 @@ define( function() {
      */
     launch: function( imageLoader, callback ) {
 
+      //658 x 506
+      $( "<style type='text/css'> .centered { position: fixed; top: 50%; left: 50%; margin-top: -253px; margin-left: -329px; } </style>" ).appendTo( "head" );
+
+      //Show the loading screen
+      var $x = $( "<div>hello world</div>" );
+      $x.addClass( 'centered' );
+      var $body = $( 'body' );
+      $body.append( $x );
+
       // load images and configure the image loader
       var loader = new PxLoader();
       var loadedImages = {};
@@ -26,7 +35,10 @@ define( function() {
         loadedImages[image] = loader.addImage( 'images/' + image );
       } );
       imageLoader.getImage = function( name ) { return loadedImages[name]; };
-      loader.addCompletionListener( callback );
+      loader.addCompletionListener( function() {
+        $x.remove();
+        callback();
+      } );
       loader.start();
     }};
 } );
