@@ -22,7 +22,7 @@ define( function( require ) {
   function NavigationBar( sim, tabs, model ) {
     var navigationBar = this;
     Node.call( this, {renderer: 'svg'} );
-    this.background = new Rectangle( 0, 0, 2000, 0, {fill: 'black'} );
+    this.background = new Rectangle( 0, 0, 3000, 0, {fill: 'black'} );
     this.addChild( this.background );
 
     //Space between the icons and the bottom of the play area
@@ -117,7 +117,7 @@ define( function( require ) {
         child.selected = selected;
         child.opacity = selected ? 1 : 0.5;
         child.resetTransform();
-        var tabScale = selected ? (height - verticalPadding * 2) / child.tab.icon.height : (height - verticalPadding * 2) / child.tab.icon.height * 0.75;
+        var tabScale = selected ? (height - verticalPadding * 2) / child.tab.icon.height : (height - verticalPadding * 2) / child.tab.icon.height * 0.75 * 0.89;
         child.scale( tabScale );
         child.largeTextLabel.visible = selected;
         if ( selected ) {
@@ -131,7 +131,7 @@ define( function( require ) {
       for ( i = 0; i < tabChildren.length; i++ ) {
         width = width + tabChildren[i].width;
       }
-      var spacing = 10;
+      var spacing = 30;
       width = width + spacing * (tabChildren.length - 1);
 
       selectedChild.largeTextLabel.setScaleMagnitude( this.navBarScale );
@@ -153,7 +153,7 @@ define( function( require ) {
           child.y = verticalPadding;
           child.smallTextLabel.visible = (selectedChild !== child);
           if ( child !== selectedChild ) {
-            child.smallTextLabel.x = child.x;
+            child.smallTextLabel.centerX = child.centerX;
             child.smallTextLabel.top = child.bottom - 1;
           }
           x += child.width + spacing;
