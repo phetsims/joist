@@ -23,7 +23,7 @@ define( function() {
       $( "<style type='text/css'> .centered { position: fixed; top: 50%; left: 50%; margin-top: -253px; margin-left: -329px; } </style>" ).appendTo( "head" );
 
       //Show the loading screen
-      var $x = $( "<div>hello world</div>" );
+      var $x = $( "<div>placeholder for awesome splash screen</div>" );
       $x.addClass( 'centered' );
       var $body = $( 'body' );
       $body.append( $x );
