@@ -19,15 +19,6 @@ define( function() {
      */
     launch: function( imageLoader, callback ) {
 
-      //658 x 506
-      $( "<style type='text/css'> .centered { position: fixed; top: 50%; left: 50%; margin-top: -253px; margin-left: -329px; } </style>" ).appendTo( "head" );
-
-      //Show the loading screen
-      var $x = $( "<div>placeholder for awesome splash screen</div>" );
-      $x.addClass( 'centered' );
-      var $body = $( 'body' );
-      $body.append( $x );
-
       // load images and configure the image loader
       var loader = new PxLoader();
       var loadedImages = {};
@@ -36,7 +27,7 @@ define( function() {
       } );
       imageLoader.getImage = function( name ) { return loadedImages[name]; };
       loader.addCompletionListener( function() {
-        $x.remove();
+        $( '#splash' ).remove();
         callback();
       } );
       loader.start();
