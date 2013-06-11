@@ -41,8 +41,18 @@ define( function( require ) {
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
     $( 'title' ).html( name + " " + sim.version ); //TODO i18n of order
 
+    //if nothing else specified, try to use the options for showHomeScreen & tabIndex from query parameters, to facilitate testing easily in different tabs
+    function stringToBoolean( string ) { return !!(string === 'true'); }
+
+    options = { showHomeScreen: true, tabIndex: 0};
+    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showHomeScreen' ) ) {
+      options.showHomeScreen = stringToBoolean( window.phetcommon.getQueryParameter( 'showHomeScreen' ) );
+    }
+    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'tabIndex' ) ) {
+      options.tabIndex = parseInt( window.phetcommon.getQueryParameter( 'tabIndex' ) );
+    }
+
     //Default values are to show the home screen with the 1st tab selected
-    options = options || {};
     var showHomeScreen = ( _.isUndefined( options.showHomeScreen ) ) ? true : options.showHomeScreen;
 
     //If there is only one tab, do not show the home screen
@@ -65,7 +75,7 @@ define( function( require ) {
 
     //Create the scene
     //Leave accessibility as a flag while in development
-    sim.scene = new Scene( $simDiv, {allowDevicePixelRatioScaling: true, accessible: true} );
+    sim.scene = new Scene( $simDiv, {allowDevicePixelRatioScaling: false, accessible: true} );
     sim.scene.initializeStandaloneEvents( { batchDOMEvents: true } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
     window.simScene = sim.scene; // make the scene available for debugging
 
