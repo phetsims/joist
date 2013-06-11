@@ -42,14 +42,14 @@ define( function( require ) {
     $( 'title' ).html( name + " " + sim.version ); //TODO i18n of order
 
     //if nothing else specified, try to use the options for showHomeScreen & tabIndex from query parameters, to facilitate testing easily in different tabs
-    function stringToBoolean( string ) { return !!(string === 'true'); }
+    function stringToBoolean( string ) { return string === 'true' ? true : false; }
 
     options = { showHomeScreen: true, tabIndex: 0};
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showHomeScreen' ) ) {
       options.showHomeScreen = stringToBoolean( window.phetcommon.getQueryParameter( 'showHomeScreen' ) );
     }
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'tabIndex' ) ) {
-      options.tabIndex = parseInt( window.phetcommon.getQueryParameter( 'tabIndex' ) );
+      options.tabIndex = parseInt( window.phetcommon.getQueryParameter( 'tabIndex' ), 10 );
     }
 
     //Default values are to show the home screen with the 1st tab selected
