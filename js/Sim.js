@@ -44,12 +44,19 @@ define( function( require ) {
     //if nothing else specified, try to use the options for showHomeScreen & tabIndex from query parameters, to facilitate testing easily in different tabs
     function stringToBoolean( string ) { return string === 'true' ? true : false; }
 
-    options = { showHomeScreen: true, tabIndex: 0};
+    options = { showHomeScreen: true, tabIndex: 0, standalone: false};
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showHomeScreen' ) ) {
       options.showHomeScreen = stringToBoolean( window.phetcommon.getQueryParameter( 'showHomeScreen' ) );
     }
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'tabIndex' ) ) {
       options.tabIndex = parseInt( window.phetcommon.getQueryParameter( 'tabIndex' ), 10 );
+    }
+
+    //If specifying 'standalone' then filter the tabs array so that it is just the selected tabIndex
+    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'standalone' ) ) {
+      options.standalone = true;
+      tabs = [tabs[options.tabIndex]];
+      options.tabIndex = 0;
     }
 
     //Default values are to show the home screen with the 1st tab selected
