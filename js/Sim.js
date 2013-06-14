@@ -212,10 +212,10 @@ define( function( require ) {
     })();
   };
 
-  Sim.prototype.startPlayback = function( log ) {
+  Sim.prototype.startPlayback = function( logArray ) {
     var sim = this;
     var logIndex = 0;
-    var playbackTime = log[0].time;
+    var playbackTime = logArray[0].time;
 
     //Make sure requestAnimationFrame is defined
     Util.polyfillRequestAnimationFrame();
@@ -227,7 +227,7 @@ define( function( require ) {
     // place the rAF *before* the render() to assure as close to 60fps with the setTimeout fallback.
     //http://paulirish.com/2011/requestanimationframe-for-smart-animating/
     (function animationLoop() {
-      if ( logIndex >= log.length ) {
+      if ( logIndex >= logArray.length ) {
         console.log( totalTime );
 
         sim.scene.addChild( new Text( 'Elapsed time (ms): ' + totalTime, {x: 100, y: 100, font: "32px Arial"} ) );
@@ -239,7 +239,7 @@ define( function( require ) {
 
       var start = Date.now();
       //Update the sim based on the given log
-      logIndex = log.stepUntil( log, playbackTime, logIndex );
+      logIndex = log.stepUntil( logArray, playbackTime, logIndex );
 
       playbackTime += 17;//ms between frames at 60fp
 
