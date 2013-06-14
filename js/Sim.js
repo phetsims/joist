@@ -44,7 +44,9 @@ define( function( require ) {
     //if nothing else specified, try to use the options for showHomeScreen & tabIndex from query parameters, to facilitate testing easily in different tabs
     function stringToBoolean( string ) { return string === 'true' ? true : false; }
 
-    options = { showHomeScreen: true, tabIndex: 0, standalone: false};
+    options = _.extend( { showHomeScreen: true, tabIndex: 0, standalone: false}, options );
+
+    // Query parameters override options.
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showHomeScreen' ) ) {
       options.showHomeScreen = stringToBoolean( window.phetcommon.getQueryParameter( 'showHomeScreen' ) );
     }
