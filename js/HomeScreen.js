@@ -19,7 +19,10 @@ define( function( require ) {
 
   function HomeScreen( title, tabs, model ) {
     var homeScreen = this;
-    TabView.call( this );
+
+    //Rendering in SVG seems to solve the problem that the home screen consumes 100% disk and crashes, see https://github.com/phetsims/joist/issues/17
+    //Also makes it more responsive (and crisper on retina displays)
+    TabView.call( this, {renderer: 'svg'} );
 
     this.backgroundColor = 'black';
 
