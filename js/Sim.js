@@ -75,7 +75,7 @@ define( function( require ) {
     sim.simModel = new PropertySet( {showHomeScreen: showHomeScreen, tabIndex: options.tabIndex || 0 } );
 
     var $body = $( 'body' );
-    $body.css( 'padding', '0' ).css( 'margin', '0' ); // prevent scrollbars
+    $body.css( 'padding', '0' ).css( 'margin', '0' ).css( 'overflow', 'hidden' ); // prevent scrollbars
 
     //TODO should probably look for this div to see if it exists, then create only if it doesn't exist.
     //Add a div for the sim to the DOM
@@ -123,8 +123,8 @@ define( function( require ) {
     function resize() {
 
       //TODO: This will have to change when sims are embedded on a page instead of taking up an entire page
-      var width = $( window ).width();
-      var height = $( window ).height();
+      var width = window.innerWidth;
+      var height = window.innerHeight;
 
       //Use Mobile Safari layout bounds to size the home screen and navigation bar
       var scale = Math.min( width / 768, height / 504 );
