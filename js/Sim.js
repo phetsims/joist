@@ -131,8 +131,8 @@ define( function( require ) {
 
       //40 px high on Mobile Safari
       var navBarHeight = scale * 40;
-      sim.navigationBar.layout( scale, width, navBarHeight );
-      sim.navigationBar.bottom = height + 2;//This extra spacing gets rid of space below the navbar on ipad.  Not sure why it is needed//TODO: Get rid of magic number in layout
+      sim.navigationBar.layout( scale, width, navBarHeight, height );
+      sim.navigationBar.y = height - navBarHeight;
       sim.scene.resize( width, height );
 
       //Layout each of the tabs

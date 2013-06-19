@@ -167,11 +167,11 @@ define( function( require ) {
       this.phetLabelAndButton.centerY = this.navBarHeight / 2;
     };
 
-    this.layout = function( scale, width, height ) {
+    this.layout = function( scale, width, height, windowHeight ) {
       this.navBarScale = scale;
       this.navBarWidth = width;
       this.navBarHeight = height;
-      navigationBar.relayout();
+      this.relayout();
     };
 
     //On initialization and when the tab changes, update the size of the icons and the layout of the icons and text
