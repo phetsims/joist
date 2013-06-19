@@ -46,10 +46,10 @@ define( function( require ) {
         sim.removeOverlay( overlayScene );
       }} );
     };
+
+    // mousedown or touchstart (pointer pressed down over the node)
     optionsButton.addPeer( '<input type="button">', {click: optionButtonPressed, tabIndex: 101} );
-    optionsButton.addInputListener( {
-      // mousedown or touchstart (pointer pressed down over the node)
-      down: optionButtonPressed                                    } );
+    optionsButton.addInputListener( { down: optionButtonPressed } );
 
     this.phetLabelAndButton = new HBox( {spacing: 10, children: [phetLabel, optionsButton]} );
     this.addChild( this.phetLabelAndButton );
