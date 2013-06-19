@@ -36,7 +36,7 @@ define( function( require ) {
     var tabChildren = _.map( tabs, function( tab ) {
       tab.index = index++;
       var child = new Node( {children: [tab.icon]} );
-      child.smallTextLabel = new Text( tab.name, {fontSize: 26, fill: 'gray'} );
+      child.smallTextLabel = new Text( tab.name, {fontSize: 18, fill: 'gray'} );
       child.largeTextLabel = new Text( tab.name, {fontSize: 42, fill: 'yellow'} );
       homeScreen.addChild( child.smallTextLabel );
       homeScreen.addChild( child.largeTextLabel );
@@ -99,7 +99,7 @@ define( function( require ) {
         child.largeTextLabel.visible = child.selected;
         child.smallTextLabel.visible = !child.selected;
         var label = child.selected ? child.largeTextLabel : child.smallTextLabel;
-        label.top = child.bottom + 20;
+        label.top = child.bottom + 4;
         label.x = child.x;
       }
     } );
