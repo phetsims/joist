@@ -13,6 +13,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
   var TabView = require( 'JOIST/TabView' );
+  var Frame = require( 'JOIST/Frame' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   var HEIGHT = 70;
@@ -31,6 +32,9 @@ define( function( require ) {
     this.phetLabel = new Text( "PhET", {fontSize: 36, fill: 'yellow', top: 5, left: 5} );
     this.addChild( this.textLabel );
     this.addChild( this.phetLabel );
+
+    var frameParent = new Node();
+    this.addChild( frameParent );
 
     var index = 0;
     var tabChildren = _.map( tabs, function( tab ) {
@@ -99,8 +103,13 @@ define( function( require ) {
         child.largeTextLabel.visible = child.selected;
         child.smallTextLabel.visible = !child.selected;
         var label = child.selected ? child.largeTextLabel : child.smallTextLabel;
-        label.top = child.bottom + 4;
+        label.top = child.selected ? child.bottom + 6 : child.bottom + 4;
         label.x = child.x;
+
+        //Create a decorative frame around the selected item, showing behind it
+        if ( child.selected ) {
+          frameParent.children = [new Frame( child )];
+        }
       }
     } );
   }
