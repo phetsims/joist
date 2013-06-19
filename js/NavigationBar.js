@@ -54,6 +54,8 @@ define( function( require ) {
     this.phetLabelAndButton = new HBox( {spacing: 10, children: [phetLabel, optionsButton]} );
     this.addChild( this.phetLabelAndButton );
 
+    var titleLabel = new Text( sim.name, {fontSize: 18, fill: 'white'} );
+
     //Create the nodes to be used for the tab icons
     var index = 0;
     var tabChildren = _.map( tabs, function( tab ) {
@@ -62,9 +64,6 @@ define( function( require ) {
       child.tab = tab;
       child.scale( (100 - verticalPadding * 2) / child.tab.icon.height );
 
-      var textLabel = new Text( tab.name, {fontSize: 26, fill: 'white'} );
-
-      child.largeTextLabel = textLabel;
       child.smallTextLabel = new Text( tab.name, {fontSize: 10, fill: 'white', visible: true} );
 
       var listener = function() {
@@ -82,13 +81,10 @@ define( function( require ) {
     if ( tabs.length > 1 ) {
       for ( var i = 0; i < tabChildren.length; i++ ) {
         this.addChild( tabChildren[i] );
-        this.addChild( tabChildren[i].largeTextLabel );
         this.addChild( tabChildren[i].smallTextLabel );
       }
     }
-    else if ( tabs.length === 1 ) {
-      this.addChild( tabChildren[0].largeTextLabel );
-    }
+    this.addChild( titleLabel );
 
     //add the home icon
     this.homeIcon = new BoundsNode( new FontAwesomeNode( 'home', {fill: '#fff'} ), {cursor: 'pointer'} );
@@ -119,7 +115,6 @@ define( function( require ) {
         child.resetTransform();
         var tabScale = selected ? (height - verticalPadding * 2) / child.tab.icon.height : (height - verticalPadding * 2) / child.tab.icon.height * 0.75 * 0.89;
         child.scale( tabScale );
-        child.largeTextLabel.visible = selected;
         if ( selected ) {
           selectedChild = child;
         }
@@ -134,18 +129,15 @@ define( function( require ) {
       var spacing = 30;
       width = width + spacing * (tabChildren.length - 1);
 
-      selectedChild.largeTextLabel.setScaleMagnitude( this.navBarScale );
-      selectedChild.largeTextLabel.centerY = this.navBarHeight / 2;
+      titleLabel.setScaleMagnitude( this.navBarScale );
+      titleLabel.centerY = this.navBarHeight / 2;
+      titleLabel.left = 10;
 
       //Lay out the components from left to right
-      if ( tabs.length === 1 ) {
-        selectedChild.largeTextLabel.left = 15;
-      }
-      else {
+      if ( tabs.length !== 1 ) {
 
         //put the center right in the middle
         var x = this.navBarWidth / 2 - width / 2;
-        selectedChild.largeTextLabel.right = x - 25;
 
         for ( i = 0; i < tabChildren.length; i++ ) {
           child = tabChildren[i];
