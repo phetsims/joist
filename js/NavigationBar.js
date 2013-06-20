@@ -12,6 +12,7 @@ define( function( require ) {
 
   var Node = require( 'SCENERY/nodes/Node' );
   var HBox = require( 'SCENERY/nodes/HBox' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
   var Text = require( 'SCENERY/nodes/Text' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var BoundsNode = require( 'SUN/BoundsNode' );
@@ -21,8 +22,13 @@ define( function( require ) {
 
   function NavigationBar( sim, tabs, model ) {
     var navigationBar = this;
+
+    this.navBarHeight = 40;
+    this.navBarScale = 1;
+    this.navBarWidth = 768;
+
     Node.call( this, {renderer: 'svg'} );
-    this.background = new Rectangle( 0, 0, 3000, 0, {fill: 'black'} );
+    this.background = new Rectangle( 0, 0, 0, 0, {fill: 'black'} );
     this.addChild( this.background );
 
     //Space between the icons and the bottom of the play area
@@ -58,30 +64,31 @@ define( function( require ) {
 
     //Create the nodes to be used for the tab icons
     var index = 0;
-    var tabChildren = _.map( tabs, function( tab ) {
-      tab.index = index++;
-      var child = new Node( {children: [tab.icon], cursor: 'pointer'} );
-      child.tab = tab;
-      child.scale( (100 - verticalPadding * 2) / child.tab.icon.height );
-
-      child.smallTextLabel = new Text( tab.name, {fontSize: 10, fill: 'white', visible: true} );
+    var iconAndTextArray = _.map( tabs, function( tab ) {
+      var icon = new Node( {children: [tab.icon], scale: 25 / tab.icon.height} );
+      var text = new Text( tab.name, {fontSize: 10, fill: 'white', visible: true} );
 
       var listener = function() {
         model.tabIndex = tab.index;
         model.showHomeScreen = false;
       };
-      child.addPeer( '<input type="button">', {click: listener, tabIndex: 99} );
+      icon.addPeer( '<input type="button">', {click: listener, tabIndex: 99} );
 
-      child.addInputListener( { down: listener} );
-      return child;
+      var iconAndText = new VBox( {children: [icon, text], cursor: 'pointer'} );
+      iconAndText.icon = icon;
+      iconAndText.text = text;
+      iconAndText.index = index++;
+      iconAndText.tab = tab;
+      iconAndText.addInputListener( { down: listener} );
+
+      return iconAndText;
     } );
 
     //Add everything to the scene
 
     if ( tabs.length > 1 ) {
-      for ( var i = 0; i < tabChildren.length; i++ ) {
-        this.addChild( tabChildren[i] );
-        this.addChild( tabChildren[i].smallTextLabel );
+      for ( var i = 0; i < iconAndTextArray.length; i++ ) {
+        this.addChild( iconAndTextArray[i] );
       }
     }
     this.addChild( titleLabel );
@@ -94,61 +101,46 @@ define( function( require ) {
       this.addChild( this.homeIcon );
     }
 
-    this.navBarHeight = 40;
-    this.navBarScale = 1;
-    this.navBarWidth = 768;
-
     this.relayout = function() {
-      var height = this.navBarHeight;
-      navigationBar.background.rectHeight = height;
+      navigationBar.background.rectHeight = this.navBarHeight;
+      navigationBar.background.rectWidth = this.navBarWidth;
       var tabIndex = navigationBar.tabIndex;
+
       //Update size and opacity of each icon
-      var selectedChild = null;
-      var i = 0;
-      var child = null;
-      for ( i = 0; i < tabChildren.length; i++ ) {
-        child = tabChildren[i];
-        child.invalidateBounds();
-        var selected = tabIndex === child.tab.index;
-        child.selected = selected;
-        child.opacity = selected ? 1 : 0.5;
-        child.resetTransform();
-        var tabScale = selected ? (height - verticalPadding * 2) / child.tab.icon.height : (height - verticalPadding * 2) / child.tab.icon.height * 0.75 * 0.89;
-        child.scale( tabScale );
-        if ( selected ) {
-          selectedChild = child;
-        }
-        child.smallTextLabel.setScaleMagnitude( this.navBarScale );
+      var iconAndText = null;
+      for ( var i = 0; i < iconAndTextArray.length; i++ ) {
+        iconAndText = iconAndTextArray[i];
+        iconAndText.invalidateBounds();
+        var selected = tabIndex === iconAndText.index;
+        iconAndText.opacity = selected ? 1 : 0.5;
+        iconAndText.text.fill = selected ? 'yellow' : 'white';
+        iconAndText.setScaleMagnitude( this.navBarScale );
       }
 
       //Compute layout bounds
       var width = 0;
-      for ( i = 0; i < tabChildren.length; i++ ) {
-        width = width + tabChildren[i].width;
+      for ( i = 0; i < iconAndTextArray.length; i++ ) {
+        width = width + iconAndTextArray[i].width;
       }
       var spacing = 30;
-      width = width + spacing * (tabChildren.length - 1);
+      width = width + spacing * (iconAndTextArray.length - 1);
 
       titleLabel.setScaleMagnitude( this.navBarScale );
       titleLabel.centerY = this.navBarHeight / 2;
       titleLabel.left = 10;
 
       //Lay out the components from left to right
+      //TODO: Icons should be spaced equally
       if ( tabs.length !== 1 ) {
 
         //put the center right in the middle
         var x = this.navBarWidth / 2 - width / 2;
 
-        for ( i = 0; i < tabChildren.length; i++ ) {
-          child = tabChildren[i];
-          child.x = x;
-          child.y = verticalPadding;
-          child.smallTextLabel.visible = (selectedChild !== child);
-          if ( child !== selectedChild ) {
-            child.smallTextLabel.centerX = child.centerX;
-            child.smallTextLabel.top = child.bottom - 1;
-          }
-          x += child.width + spacing;
+        for ( i = 0; i < iconAndTextArray.length; i++ ) {
+          iconAndText = iconAndTextArray[i];
+          iconAndText.x = x;
+          iconAndText.y = verticalPadding;
+          x += iconAndText.width + spacing;
         }
         navigationBar.homeIcon.setScaleMagnitude( this.navBarScale );
         navigationBar.homeIcon.centerY = this.navBarHeight / 2;
