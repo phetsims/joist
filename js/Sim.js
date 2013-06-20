@@ -123,8 +123,8 @@ define( function( require ) {
     function resize() {
 
       //TODO: This will have to change when sims are embedded on a page instead of taking up an entire page
-      var width = window.innerWidth;
-      var height = window.innerHeight;
+      var width = $( window ).width();
+      var height = $( window ).height();
 
       //Use Mobile Safari layout bounds to size the home screen and navigation bar
       var scale = Math.min( width / 768, height / 504 );
