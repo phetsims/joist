@@ -81,6 +81,13 @@ define( function( require ) {
       iconAndText.tab = tab;
       iconAndText.addInputListener( { down: listener} );
 
+      //On initialization and when the tab changes, update the size of the icons and the layout of the icons and text
+      model.tabIndexProperty.link( function( tabIndex ) {
+        var selected = iconAndText.index === tabIndex;
+        iconAndText.text.fill = selected ? 'yellow' : 'white';
+        iconAndText.opacity = selected ? 1.0 : 0.5;
+      } );
+
       return iconAndText;
     } );
 
@@ -111,9 +118,6 @@ define( function( require ) {
       for ( var i = 0; i < iconAndTextArray.length; i++ ) {
         iconAndText = iconAndTextArray[i];
         iconAndText.invalidateBounds();
-        var selected = tabIndex === iconAndText.index;
-        iconAndText.opacity = selected ? 1 : 0.5;
-        iconAndText.text.fill = selected ? 'yellow' : 'white';
         iconAndText.setScaleMagnitude( this.navBarScale );
       }
 
@@ -157,12 +161,6 @@ define( function( require ) {
       this.navBarHeight = height;
       this.relayout();
     };
-
-    //On initialization and when the tab changes, update the size of the icons and the layout of the icons and text
-    model.tabIndexProperty.link( function( tabIndex ) {
-      navigationBar.tabIndex = tabIndex;
-      navigationBar.relayout();
-    } );
   }
 
   inherit( Node, NavigationBar );
