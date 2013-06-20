@@ -19,6 +19,9 @@ define( function( require ) {
   var log = require( 'AXON/log' );
 
   function SimPopupMenu( sim, options ) {
+
+    options = _.extend( {}, options ); //TODO add default options
+
     var simPopupMenu = this;
     Node.call( this );
 
@@ -99,9 +102,7 @@ define( function( require ) {
     this.addInputListener( { down: function() {
       simPopupMenu.detach();
     } } );
-    if ( options ) {
-      this.mutate( options );
-    }
+    this.mutate( options );
   }
 
   inherit( Node, SimPopupMenu );

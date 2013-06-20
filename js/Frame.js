@@ -56,9 +56,7 @@ define( function( require ) {
     this.addChild( new Rectangle( 0, 0, width1, height1, options.cornerRadius, options.cornerRadius, {fill: gradient1, x: content.x - options.xMargin1, y: content.y - options.yMargin1} ) );
 
     // Apply options after the layout is done, so that options that use the bounds will work properly.
-    if ( options ) {
-      this.mutate( options );
-    }
+    this.mutate( options );
   }
 
   inherit( Node, Frame );
