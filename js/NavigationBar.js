@@ -22,6 +22,7 @@ define( function( require ) {
 
   function NavigationBar( sim, tabs, model ) {
     var navigationBar = this;
+    this.tabs = tabs;
 
     this.navBarHeight = 40;
     this.navBarScale = 1;
@@ -32,7 +33,7 @@ define( function( require ) {
     this.addChild( this.background );
 
     //Space between the icons and the bottom of the play area
-    var verticalPadding = 2;
+    this.verticalPadding = 2;
 
     var fontSize = 36;
 
@@ -60,11 +61,11 @@ define( function( require ) {
     this.phetLabelAndButton = new HBox( {spacing: 10, children: [phetLabel, optionsButton]} );
     this.addChild( this.phetLabelAndButton );
 
-    var titleLabel = new Text( sim.name, {fontSize: 18, fill: 'white'} );
+    this.titleLabel = new Text( sim.name, {fontSize: 18, fill: 'white'} );
 
     //Create the nodes to be used for the tab icons
     var index = 0;
-    var iconAndTextArray = _.map( tabs, function( tab ) {
+    this.iconAndTextArray = _.map( tabs, function( tab ) {
       var icon = new Node( {children: [tab.icon], scale: 25 / tab.icon.height} );
       var text = new Text( tab.name, {fontSize: 10, fill: 'white', visible: true} );
 
@@ -94,11 +95,11 @@ define( function( require ) {
     //Add everything to the scene
 
     if ( tabs.length > 1 ) {
-      for ( var i = 0; i < iconAndTextArray.length; i++ ) {
-        this.addChild( iconAndTextArray[i] );
+      for ( var i = 0; i < this.iconAndTextArray.length; i++ ) {
+        this.addChild( this.iconAndTextArray[i] );
       }
     }
-    this.addChild( titleLabel );
+    this.addChild( this.titleLabel );
 
     //add the home icon
     this.homeIcon = new BoundsNode( new FontAwesomeNode( 'home', {fill: '#fff'} ), {cursor: 'pointer'} );
@@ -107,63 +108,61 @@ define( function( require ) {
     if ( tabs.length > 1 ) {
       this.addChild( this.homeIcon );
     }
+  }
 
-    this.relayout = function() {
-      navigationBar.background.rectHeight = this.navBarHeight;
-      navigationBar.background.rectWidth = this.navBarWidth;
-      var tabIndex = navigationBar.tabIndex;
+  inherit( Node, NavigationBar, {relayout: function() {
+    var navigationBar = this;
+    navigationBar.background.rectHeight = this.navBarHeight;
+    navigationBar.background.rectWidth = this.navBarWidth;
+    var tabIndex = navigationBar.tabIndex;
 
-      //Update size and opacity of each icon
-      var iconAndText = null;
-      for ( var i = 0; i < iconAndTextArray.length; i++ ) {
-        iconAndText = iconAndTextArray[i];
-        iconAndText.invalidateBounds();
-        iconAndText.setScaleMagnitude( this.navBarScale );
+    //Update size and opacity of each icon
+    var iconAndText = null;
+    for ( var i = 0; i < this.iconAndTextArray.length; i++ ) {
+      iconAndText = this.iconAndTextArray[i];
+      iconAndText.invalidateBounds();
+      iconAndText.setScaleMagnitude( this.navBarScale );
+    }
+
+    //Compute layout bounds
+    var width = 0;
+    for ( i = 0; i < this.iconAndTextArray.length; i++ ) {
+      width = width + this.iconAndTextArray[i].width;
+    }
+    var spacing = 30;
+    width = width + spacing * (this.iconAndTextArray.length - 1);
+
+    this.titleLabel.setScaleMagnitude( this.navBarScale );
+    this.titleLabel.centerY = this.navBarHeight / 2;
+    this.titleLabel.left = 10;
+
+    //Lay out the components from left to right
+    //TODO: Icons should be spaced equally
+    if ( this.tabs.length !== 1 ) {
+
+      //put the center right in the middle
+      var x = this.navBarWidth / 2 - width / 2;
+
+      for ( i = 0; i < this.iconAndTextArray.length; i++ ) {
+        iconAndText = this.iconAndTextArray[i];
+        iconAndText.x = x;
+        iconAndText.y = this.verticalPadding;
+        x += iconAndText.width + spacing;
       }
-
-      //Compute layout bounds
-      var width = 0;
-      for ( i = 0; i < iconAndTextArray.length; i++ ) {
-        width = width + iconAndTextArray[i].width;
-      }
-      var spacing = 30;
-      width = width + spacing * (iconAndTextArray.length - 1);
-
-      titleLabel.setScaleMagnitude( this.navBarScale );
-      titleLabel.centerY = this.navBarHeight / 2;
-      titleLabel.left = 10;
-
-      //Lay out the components from left to right
-      //TODO: Icons should be spaced equally
-      if ( tabs.length !== 1 ) {
-
-        //put the center right in the middle
-        var x = this.navBarWidth / 2 - width / 2;
-
-        for ( i = 0; i < iconAndTextArray.length; i++ ) {
-          iconAndText = iconAndTextArray[i];
-          iconAndText.x = x;
-          iconAndText.y = verticalPadding;
-          x += iconAndText.width + spacing;
-        }
-        navigationBar.homeIcon.setScaleMagnitude( this.navBarScale );
-        navigationBar.homeIcon.centerY = this.navBarHeight / 2;
-        navigationBar.homeIcon.left = x + 15;
-      }
-      this.phetLabelAndButton.setScaleMagnitude( this.navBarScale );
-      this.phetLabelAndButton.right = this.navBarWidth - 5;
-      this.phetLabelAndButton.centerY = this.navBarHeight / 2;
-    };
-
-    this.layout = function( scale, width, height, windowHeight ) {
+      navigationBar.homeIcon.setScaleMagnitude( this.navBarScale );
+      navigationBar.homeIcon.centerY = this.navBarHeight / 2;
+      navigationBar.homeIcon.left = x + 15;
+    }
+    this.phetLabelAndButton.setScaleMagnitude( this.navBarScale );
+    this.phetLabelAndButton.right = this.navBarWidth - 5;
+    this.phetLabelAndButton.centerY = this.navBarHeight / 2;
+  },
+    layout: function( scale, width, height, windowHeight ) {
       this.navBarScale = scale;
       this.navBarWidth = width;
       this.navBarHeight = height;
       this.relayout();
-    };
-  }
-
-  inherit( Node, NavigationBar );
+    }} );
 
   return NavigationBar;
 } );
