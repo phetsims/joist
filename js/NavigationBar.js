@@ -112,9 +112,12 @@ define( function( require ) {
       return  button;
     } );
 
-    //Add everything to the scene
     this.buttonHBox = new HBox( {children: this.buttonArray} );
-    this.addChild( this.buttonHBox );
+    
+    //Add everything to the scene
+    if ( tabs.length > 1 ) {
+      this.addChild( this.buttonHBox );
+    }
     this.addChild( this.titleLabel );
 
     //add the home icon
