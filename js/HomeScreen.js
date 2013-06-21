@@ -90,7 +90,12 @@ define( function( require ) {
       for ( i = 0; i < tabChildren.length; i++ ) {
         width = width + tabChildren[i].width;
       }
-      var spacing = 41 / 1.25;
+
+      //Space the icons out more if there are fewer, so they will be spaced nicely
+      //Cannot have only 1 tab because for 1-tab sims there is no home screen.
+      var spacing = tabs.length === 2 ? 100 :
+                    tabs.length === 3 ? 60 :
+                    33;
       width = width + spacing * (tabChildren.length - 1);
 
       var x = homeScreen.layoutBounds.width / 2 - width / 2;
@@ -98,7 +103,7 @@ define( function( require ) {
       for ( i = 0; i < tabChildren.length; i++ ) {
         child = tabChildren[i];
         child.x = x;
-        child.y = homeScreen.layoutBounds.height / 2 - 111 / 1.25;
+        child.y = homeScreen.layoutBounds.height / 2 - 90;
         x += child.width + spacing;
         child.largeTextLabel.visible = child.selected;
         child.smallTextLabel.visible = !child.selected;
