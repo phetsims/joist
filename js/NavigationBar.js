@@ -19,7 +19,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var inherit = require( 'PHET_CORE/inherit' );
   var SimPopupMenu = require( 'JOIST/SimPopupMenu' );
-  var FAMBFont = require( 'common/view/FAMBFont' );
+  var Font = require( 'SCENERY/util/Font' );
 
   /**
    * Create a nav bar.  Layout assumes all of the tab widths are the same.
@@ -68,8 +68,8 @@ define( function( require ) {
     //Create the nodes to be used for the tab icons
     var index = 0;
 
-    var selectedFont = new FAMBFont( 10, 'bold' );
-    var normalFont = new FAMBFont( 10 );
+    var selectedFont = new Font( { size: 10, weight: 'bold'} );
+    var normalFont = new Font( { size: 10 } );
 
     var iconAndTextArray = _.map( tabs, function( tab ) {
       var icon = new Node( {children: [tab.icon], scale: 25 / tab.icon.height} );
