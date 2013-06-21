@@ -108,8 +108,13 @@ define( function( require ) {
         child.largeTextLabel.visible = child.selected;
         child.smallTextLabel.visible = !child.selected;
         var label = child.selected ? child.largeTextLabel : child.smallTextLabel;
-        label.top = child.selected ? child.bottom + 6 : child.bottom + 4;
-        label.centerX = child.centerX;
+        label.top = child.selected ? child.bottom + 10 : child.bottom + 4;
+        if ( child.selected ) {
+          label.centerX = child.centerX;
+        }
+        else {
+          label.x = child.x;
+        }
 
         //Create a decorative frame around the selected item, showing behind it
         if ( child.selected ) {
