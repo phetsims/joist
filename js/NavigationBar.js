@@ -112,8 +112,13 @@ define( function( require ) {
       return  button;
     } );
 
-    this.buttonHBox = new HBox( {children: this.buttonArray} );
-    
+    //TODO: This spacing is not always necessary, it depends on the relative width
+    //TODO:   of the icon vs the text, if all of the buttons have the same dimensions.
+    //TODO:   Currently this solves the simple case where all of the text is shorter than all of the icons (like in Build an Atom)
+    var maxIconWidth = _.max( iconAndTextArray,function( i ) {return i.icon.width;} ).icon.width;
+    var maxButtonWidth = _.max( iconAndTextArray,function( i ) {return i.width} ).width;
+    this.buttonHBox = new HBox( {spacing: maxIconWidth === maxButtonWidth ? 20 : 5, children: this.buttonArray} );
+
     //Add everything to the scene
     if ( tabs.length > 1 ) {
       this.addChild( this.buttonHBox );
