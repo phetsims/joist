@@ -102,13 +102,19 @@ define( function( require ) {
       iconAndText.top = 0;
       var button = new Node( {children: [ rectangle, iconAndText], cursor: 'pointer'} );
 
-      var listener = function() {
+      var pressListener = function() {
         model.tabIndex = iconAndText.index;
         model.showHomeScreen = false;
       };
-      button.addInputListener( { down: listener} );
+      button.addInputListener( {
+        down: pressListener,
 
-      button.addPeer( '<input type="button">', {click: listener, tabIndex: 99} );
+        //Highlight a button when mousing over it
+        over: function() {rectangle.stroke = 'yellow';},
+        out: function() {rectangle.stroke = null;}
+      } );
+
+      button.addPeer( '<input type="button">', {click: pressListener, tabIndex: 99} );
       return  button;
     } );
 
