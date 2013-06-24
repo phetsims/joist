@@ -30,7 +30,8 @@ define( function( require ) {
 
     var fontSize = '36px';
     var homePageText = new Text( 'PhET Homepage', {fontSize: fontSize} ).addInputListener( {down: function() {
-      window.location = "http://phet.colorado.edu";
+      window.open( "http://phet.colorado.edu" );
+      window.focus();
     }} );
     var aboutText = new Text( 'About...', {fontSize: fontSize} );
     aboutText.addInputListener( {down: function() {

@@ -16,6 +16,7 @@ define( function( require ) {
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var TabView = require( 'JOIST/TabView' );
   var PanelNode = require( 'SUN/PanelNode' );
+  var HTMLText = require( 'SCENERY/nodes/HTMLText' );
 
   /**
    * @param {Sim} sim
