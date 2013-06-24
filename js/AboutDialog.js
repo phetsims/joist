@@ -18,6 +18,9 @@ define( function( require ) {
   var PanelNode = require( 'SUN/PanelNode' );
   var HTMLText = require( 'SCENERY/nodes/HTMLText' );
 
+  // constants
+  var SOFTWARE_AGREEMENT_URL = "http://phet.colorado.edu/about/software-agreement_v7.htm";
+
   /**
    * @param {Sim} sim
    * @constructor
@@ -28,6 +31,14 @@ define( function( require ) {
     //Use view, to help center and scale content
     TabView.call( this );
 
+    var softwareAgreementLink = new HTMLText( '<a href=ignored>Software Agreement</a>', { fontSize: 14, renderer: 'dom' } ); //TODO i18n
+    softwareAgreementLink.addInputListener( {
+        down: function() {
+          window.open( SOFTWARE_AGREEMENT_URL );
+          window.focus();
+        }
+    } );
+
     var content = new VBox( { align: 'left', spacing: 5, children: [
       new Text( 'PhET Interactive Simulations', {fontSize: 16} ),
       new Text( 'Copyright © 2004-2013 University of Colorado Boulder', {fontSize: 12} ),
@@ -35,7 +46,9 @@ define( function( require ) {
       new Text( sim.name, {fontSize: 28} ),
       new Text( "version " + sim.version, {fontSize: 20} ),
       new Text( ' ' ),
-      new MultiLineText( sim.credits, { align: 'left', fontSize: 12 } )
+      new MultiLineText( sim.credits, { align: 'left', fontSize: 12 } ),
+      new Text( ' ' ),
+      softwareAgreementLink
     ]} );
 
     //Show a gray overlay that will help focus on the about dialog, and prevent clicks on the sim while the dialog is up
