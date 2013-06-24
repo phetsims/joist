@@ -24,18 +24,21 @@ define( function( require ) {
   var LogPointers = require( 'JOIST/share/LogPointers' );
 
   /**
-   *
    * @param name
    * @param tabs
    * @param options optional parameters for starting tab and home values, so that developers can easily specify the startup scenario for quick development
    * @constructor
    */
   function Sim( name, tabs, options ) {
+
+    options = _.extend( { showHomeScreen: true, tabIndex: 0, standalone: false, credits: "" }, options );
+
     var sim = this;
     sim.overlays = [];
 
     sim.name = name;
     sim.version = version();
+    sim.credits = options.credits;
 
     //Set the HTML page title to the localized title
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
@@ -43,8 +46,6 @@ define( function( require ) {
 
     //if nothing else specified, try to use the options for showHomeScreen & tabIndex from query parameters, to facilitate testing easily in different tabs
     function stringToBoolean( string ) { return string === 'true' ? true : false; }
-
-    options = _.extend( { showHomeScreen: true, tabIndex: 0, standalone: false}, options );
 
     // Query parameters override options.
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showHomeScreen' ) ) {
