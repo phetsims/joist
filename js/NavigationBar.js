@@ -11,15 +11,19 @@ define( function( require ) {
   "use strict";
 
   var Node = require( 'SCENERY/nodes/Node' );
+  var Path = require( 'SCENERY/nodes/Path' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Text = require( 'SCENERY/nodes/Text' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
+  var PanelNode = require( 'SUN/PanelNode' );
   var BoundsNode = require( 'SUN/BoundsNode' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var inherit = require( 'PHET_CORE/inherit' );
   var SimPopupMenu = require( 'JOIST/SimPopupMenu' );
   var Font = require( 'SCENERY/util/Font' );
+  var Shape = require( 'KITE/Shape' );
+  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
 
   /**
    * Create a nav bar.  Layout assumes all of the tab widths are the same.
@@ -75,9 +79,20 @@ define( function( require ) {
       var icon = new Node( {children: [tab.icon], scale: 25 / tab.icon.height} );
       var text = new Text( tab.name, { fill: 'white', visible: true} );
 
-      var iconAndText = new VBox( {children: [icon, text]} );
+      //Put a panel around it to extend it horizontally so there is some distance from the highlight region to the text and some distance between adjacent texts.
+      var textPanel = new PanelNode( text, {
+        fill: null,
+        stroke: null,
+        lineWidth: 1, // width of the background border
+        xMargin: 4,
+        yMargin: 0,
+        cornerRadius: 0, // radius of the rounded corners on the background
+        resize: false // dynamically resize when content bounds change?
+      } );
+      var iconAndText = new VBox( {children: [icon, textPanel]} );
       iconAndText.icon = icon;
       iconAndText.text = text;
+      iconAndText.textPanel = textPanel;
       iconAndText.index = index++;
       iconAndText.tab = tab;
 
@@ -97,10 +112,17 @@ define( function( require ) {
     var maxHeight = _.max( iconAndTextArray,function( iconAndText ) {return iconAndText.height;} ).height;
 
     this.buttonArray = iconAndTextArray.map( function( iconAndText ) {
+      //Background area for layout and hit region
       var rectangle = new Rectangle( 0, 0, maxWidth, maxHeight );
+      var leftBar = new Path( {shape: Shape.lineSegment( 0, 0, 0, maxHeight ), lineWidth: 1, stroke: new LinearGradient( 0, 0, 0, maxHeight ).addColorStop( 0, 'black' ).addColorStop( 0.5, 'white' ).addColorStop( 1, 'black' ) } );
+      var rightBar = new Path( {shape: Shape.lineSegment( maxWidth, 0, maxWidth, maxHeight ), lineWidth: 1, stroke: new LinearGradient( 0, 0, 0, maxHeight ).addColorStop( 0, 'black' ).addColorStop( 0.5, 'white' ).addColorStop( 1, 'black' ) } );
+      var bottomBar = new Path( {shape: Shape.lineSegment( 0, maxHeight, maxWidth, maxHeight ), lineWidth: 1, stroke: new LinearGradient( 0, maxHeight, maxWidth, maxHeight ).addColorStop( 0, 'black' ).addColorStop( 0.5, 'white' ).addColorStop( 1, 'black' ) } );
+      leftBar.visible = false;
+      rightBar.visible = false;
+      bottomBar.visible = false;
       iconAndText.centerX = maxWidth / 2;
       iconAndText.top = 0;
-      var button = new Node( {children: [ rectangle, iconAndText], cursor: 'pointer'} );
+      var button = new Node( {children: [ rectangle, leftBar, rightBar, bottomBar, iconAndText], cursor: 'pointer'} );
 
       var pressListener = function() {
         model.tabIndex = iconAndText.index;
@@ -110,8 +132,16 @@ define( function( require ) {
         down: pressListener,
 
         //Highlight a button when mousing over it
-        over: function() {rectangle.stroke = 'yellow';},
-        out: function() {rectangle.stroke = null;}
+        over: function() {
+          leftBar.visible = true;
+          rightBar.visible = true;
+          bottomBar.visible = true;
+        },
+        out: function() {
+          leftBar.visible = false;
+          rightBar.visible = false;
+          bottomBar.visible = false;
+        }
       } );
 
       button.addPeer( '<input type="button">', {click: pressListener, tabIndex: 99} );
