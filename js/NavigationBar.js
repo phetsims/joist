@@ -132,7 +132,10 @@ define( function( require ) {
       var highlight = createHighlight( maxWidth, maxHeight );
       iconAndText.centerX = maxWidth / 2;
       iconAndText.top = 0;
-      var button = new Node( {children: [ rectangle, highlight, iconAndText], cursor: 'pointer'} );
+      var button = new Node( {children: [ rectangle, highlight, iconAndText]} );
+
+      //In the nav bar, don't show highlight or cursor pointer when over a tab icon that is already selected
+      model.tabIndexProperty.link( function( tabIndex ) { button.cursor = tabIndex === iconAndText.index ? 'default' : 'pointer'; } );
 
       var pressListener = function() {
         model.tabIndex = iconAndText.index;
@@ -142,7 +145,7 @@ define( function( require ) {
         down: pressListener,
 
         //Highlight a button when mousing over it
-        over: function() { highlight.visible = true; },
+        over: function() { highlight.visible = model.tabIndex !== iconAndText.index; },
         out: function() { highlight.visible = false; }
       } );
 
