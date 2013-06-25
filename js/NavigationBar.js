@@ -76,8 +76,8 @@ define( function( require ) {
     optionsButton.addPeer( '<input type="button">', {click: optionButtonPressed, tabIndex: 101} );
     optionsButton.addInputListener( { down: optionButtonPressed,
       //Highlight a button when mousing over it
-      over: function() { optionsHighlight.visible = true; },
-      out: function() { optionsHighlight.visible = false; }} );
+      over: function( event ) { if ( event.pointer.isMouse ) {optionsHighlight.visible = true;} },
+      out: function( event ) { if ( event.pointer.isMouse ) {optionsHighlight.visible = false;} }} );
 
     this.phetLabelAndButton = new HBox( {spacing: 10, children: [phetLabel, optionsButton]} );
     this.addChild( this.phetLabelAndButton );
