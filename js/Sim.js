@@ -90,7 +90,10 @@ define( function( require ) {
     window.simScene = sim.scene; // make the scene available for debugging
 
     sim.navigationBar = new NavigationBar( sim, tabs, sim.simModel );
-    sim.homeScreen = new HomeScreen( name, tabs, sim.simModel );
+
+    if ( tabs.length > 1 ) {
+      sim.homeScreen = new HomeScreen( name, tabs, sim.simModel );
+    }
 
     //The simNode contains the home screen or the play area
     var simNode = new Node();
@@ -139,7 +142,9 @@ define( function( require ) {
       //Layout each of the tabs
       _.each( tabs, function( m ) { m.view.layout( width, height - sim.navigationBar.height ); } );
 
-      sim.homeScreen.layout( width, height );
+      if ( sim.homeScreen ) {
+        sim.homeScreen.layout( width, height );
+      }
       //Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
     }
 
