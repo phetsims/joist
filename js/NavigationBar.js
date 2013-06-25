@@ -25,6 +25,13 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
 
+  var createHighlight = function( width, height ) {
+    var leftBar = new Path( {shape: Shape.lineSegment( 0, 0, 0, height ), lineWidth: 1, stroke: new LinearGradient( 0, 0, 0, height ).addColorStop( 0, 'black' ).addColorStop( 0.5, 'white' ).addColorStop( 1, 'black' ) } );
+    var rightBar = new Path( {shape: Shape.lineSegment( width, 0, width, height ), lineWidth: 1, stroke: new LinearGradient( 0, 0, 0, height ).addColorStop( 0, 'black' ).addColorStop( 0.5, 'white' ).addColorStop( 1, 'black' ) } );
+    var bottomBar = new Path( {shape: Shape.lineSegment( 0, height, width, height ), lineWidth: 1, stroke: new LinearGradient( 0, height, width, height ).addColorStop( 0, 'black' ).addColorStop( 0.5, 'white' ).addColorStop( 1, 'black' ) } );
+    return new Node( {children: [leftBar, bottomBar, rightBar], visible: false} );
+  };
+
   /**
    * Create a nav bar.  Layout assumes all of the tab widths are the same.
    * @param sim
@@ -114,15 +121,10 @@ define( function( require ) {
     this.buttonArray = iconAndTextArray.map( function( iconAndText ) {
       //Background area for layout and hit region
       var rectangle = new Rectangle( 0, 0, maxWidth, maxHeight );
-      var leftBar = new Path( {shape: Shape.lineSegment( 0, 0, 0, maxHeight ), lineWidth: 1, stroke: new LinearGradient( 0, 0, 0, maxHeight ).addColorStop( 0, 'black' ).addColorStop( 0.5, 'white' ).addColorStop( 1, 'black' ) } );
-      var rightBar = new Path( {shape: Shape.lineSegment( maxWidth, 0, maxWidth, maxHeight ), lineWidth: 1, stroke: new LinearGradient( 0, 0, 0, maxHeight ).addColorStop( 0, 'black' ).addColorStop( 0.5, 'white' ).addColorStop( 1, 'black' ) } );
-      var bottomBar = new Path( {shape: Shape.lineSegment( 0, maxHeight, maxWidth, maxHeight ), lineWidth: 1, stroke: new LinearGradient( 0, maxHeight, maxWidth, maxHeight ).addColorStop( 0, 'black' ).addColorStop( 0.5, 'white' ).addColorStop( 1, 'black' ) } );
-      leftBar.visible = false;
-      rightBar.visible = false;
-      bottomBar.visible = false;
+      var highlight = createHighlight( maxWidth, maxHeight );
       iconAndText.centerX = maxWidth / 2;
       iconAndText.top = 0;
-      var button = new Node( {children: [ rectangle, leftBar, rightBar, bottomBar, iconAndText], cursor: 'pointer'} );
+      var button = new Node( {children: [ rectangle, highlight, iconAndText], cursor: 'pointer'} );
 
       var pressListener = function() {
         model.tabIndex = iconAndText.index;
@@ -132,16 +134,8 @@ define( function( require ) {
         down: pressListener,
 
         //Highlight a button when mousing over it
-        over: function() {
-          leftBar.visible = true;
-          rightBar.visible = true;
-          bottomBar.visible = true;
-        },
-        out: function() {
-          leftBar.visible = false;
-          rightBar.visible = false;
-          bottomBar.visible = false;
-        }
+        over: function() { highlight.visible = true; },
+        out: function() { highlight.visible = false; }
       } );
 
       button.addPeer( '<input type="button">', {click: pressListener, tabIndex: 99} );
