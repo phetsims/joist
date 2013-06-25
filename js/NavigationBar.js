@@ -157,7 +157,16 @@ define( function( require ) {
 
     //add the home icon
     this.homeIcon = new BoundsNode( new FontAwesomeNode( 'home', {fill: '#fff'} ), {cursor: 'pointer'} );
-    this.homeIcon.addInputListener( {down: function() { model.showHomeScreen = true; }} );
+    var homeHighlight = createHighlight( this.homeIcon.width + 6, this.homeIcon.height + 5 );
+    homeHighlight.bottom = this.homeIcon.bottom + 3;
+    homeHighlight.x = -3;
+    this.homeIcon.addChild( homeHighlight );
+    this.homeIcon.addInputListener( {
+      down: function() { model.showHomeScreen = true; },
+
+      //Highlight a button when mousing over it
+      over: function() { homeHighlight.visible = true; },
+      out: function() { homeHighlight.visible = false; }} );
     this.homeIcon.addPeer( '<input type="button">', {click: function() {model.showHomeScreen = true;}, tabIndex: 100} );
     if ( tabs.length > 1 ) {
       this.addChild( this.homeIcon );
@@ -184,7 +193,7 @@ define( function( require ) {
       this.buttonHBox.top = 2;
 
       navigationBar.homeIcon.setScaleMagnitude( this.navBarScale );
-      navigationBar.homeIcon.centerY = this.navBarHeight / 2;
+      navigationBar.homeIcon.bottom = this.navBarHeight;
       navigationBar.homeIcon.left = navigationBar.buttonHBox.right + 15;
     }
     this.phetLabelAndButton.setScaleMagnitude( this.navBarScale );
