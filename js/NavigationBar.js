@@ -32,6 +32,13 @@ define( function( require ) {
     return new Node( {children: [leftBar, bottomBar, rightBar], visible: false} );
   };
 
+  var createHighlightListener = function( node ) {
+    return {//Highlight a button when mousing over it
+      over: function( event ) { if ( event.pointer.isMouse ) {node.visible = true;} },
+      out: function( event ) { if ( event.pointer.isMouse ) {node.visible = false;} }
+    };
+  };
+
   /**
    * Create a nav bar.  Layout assumes all of the tab widths are the same.
    * @param sim
@@ -74,10 +81,8 @@ define( function( require ) {
 
     // mousedown or touchstart (pointer pressed down over the node)
     optionsButton.addPeer( '<input type="button">', {click: optionButtonPressed, tabIndex: 101} );
-    optionsButton.addInputListener( { down: optionButtonPressed,
-      //Highlight a button when mousing over it
-      over: function( event ) { if ( event.pointer.isMouse ) {optionsHighlight.visible = true;} },
-      out: function( event ) { if ( event.pointer.isMouse ) {optionsHighlight.visible = false;} }} );
+    optionsButton.addInputListener( { down: optionButtonPressed} );
+    optionsButton.addInputListener( createHighlightListener( optionsHighlight ) );
 
     this.phetLabelAndButton = new HBox( {spacing: 10, children: [phetLabel, optionsButton]} );
     this.addChild( this.phetLabelAndButton );
@@ -145,8 +150,16 @@ define( function( require ) {
         down: pressListener,
 
         //Highlight a button when mousing over it
-        over: function() { highlight.visible = model.tabIndex !== iconAndText.index; },
-        out: function() { highlight.visible = false; }
+        over: function( event ) {
+          if ( event.pointer.isMouse ) {
+            highlight.visible = model.tabIndex !== iconAndText.index;
+          }
+        },
+        out: function( event ) {
+          if ( event.pointer.isMouse ) {
+            highlight.visible = false;
+          }
+        }
       } );
 
       button.addPeer( '<input type="button">', {click: pressListener, tabIndex: 99} );
@@ -172,12 +185,8 @@ define( function( require ) {
     homeHighlight.bottom = this.homeIcon.bottom + 3;
     homeHighlight.x = -3;
     this.homeIcon.addChild( homeHighlight );
-    this.homeIcon.addInputListener( {
-      down: function() { model.showHomeScreen = true; },
-
-      //Highlight a button when mousing over it
-      over: function() { homeHighlight.visible = true; },
-      out: function() { homeHighlight.visible = false; }} );
+    this.homeIcon.addInputListener( { down: function() { model.showHomeScreen = true; }} );
+    this.homeIcon.addInputListener( createHighlightListener( homeHighlight ) );
     this.homeIcon.addPeer( '<input type="button">', {click: function() {model.showHomeScreen = true;}, tabIndex: 100} );
     if ( tabs.length > 1 ) {
       this.addChild( this.homeIcon );
