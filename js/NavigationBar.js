@@ -175,7 +175,7 @@ define( function( require ) {
       var maxIconWidth = _.max( iconAndTextArray,function( i ) {return i.icon.width;} ).icon.width;
       var maxButtonWidth = _.max( iconAndTextArray,function( i ) {return i.width;} ).width;
 
-      this.buttonHBox = new HBox( {spacing: maxIconWidth === maxButtonWidth ? 20 : 5, children: this.buttonArray} );
+      this.buttonHBox = new HBox( {spacing: maxIconWidth === maxButtonWidth ? 20 : 0, children: this.buttonArray} );
       this.addChild( this.buttonHBox );
 
       //add the home icon
