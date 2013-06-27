@@ -28,8 +28,7 @@ define( function( require ) {
   var createHighlight = function( width, height ) {
     var leftBar = new Path( {shape: Shape.lineSegment( 0, 0, 0, height ), lineWidth: 1, stroke: new LinearGradient( 0, 0, 0, height ).addColorStop( 0, 'black' ).addColorStop( 0.5, 'white' ).addColorStop( 1, 'black' ) } );
     var rightBar = new Path( {shape: Shape.lineSegment( width, 0, width, height ), lineWidth: 1, stroke: new LinearGradient( 0, 0, 0, height ).addColorStop( 0, 'black' ).addColorStop( 0.5, 'white' ).addColorStop( 1, 'black' ) } );
-    var bottomBar = new Path( {shape: Shape.lineSegment( 0, height, width, height ), lineWidth: 1, stroke: new LinearGradient( 0, height, width, height ).addColorStop( 0, 'black' ).addColorStop( 0.5, 'white' ).addColorStop( 1, 'black' ) } );
-    return new Node( {children: [leftBar, bottomBar, rightBar], visible: false} );
+    return new Node( {children: [leftBar, rightBar], visible: false} );
   };
 
   var createHighlightListener = function( node ) {
