@@ -155,7 +155,7 @@ define( function( require ) {
           //Highlight a button when mousing over it
           over: function( event ) {
             if ( event.pointer.isMouse ) {
-              highlight.visible = model.tabIndex !== iconAndText.index;
+              highlight.visible = true;
             }
           },
           out: function( event ) {
