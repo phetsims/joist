@@ -18,6 +18,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var log = require( 'AXON/log' );
 
+  //TODO: The popup menu should scale with the size of the screen
   function SimPopupMenu( sim, options ) {
 
     options = _.extend( {}, options ); //TODO add default options
@@ -28,7 +29,8 @@ define( function( require ) {
     //Create it statically (even though it may not be used) because creating it dynamically can cause flickering on iPad//TODO: Fix this
     var aboutDialog = new AboutDialog( sim );
 
-    var fontSize = '36px';
+    //Same size as the title, but should scale up and down
+    var fontSize = '18px';
     var homePageText = new Text( 'PhET Homepage', {fontSize: fontSize} ).addInputListener( {down: function() {
       window.open( "http://phet.colorado.edu" );
       window.focus();
