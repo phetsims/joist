@@ -1,4 +1,4 @@
-// Copyright 2013, University of Colorado
+// Copyright 2002-2013, University of Colorado Boulder
 /**
  * Launches a PhET Simulation, after preloading the specified images.
  * Requires PxLoader and PxImage

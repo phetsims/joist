@@ -1,4 +1,4 @@
-// Copyright 2013, University of Colorado
+// Copyright 2002-2013, University of Colorado Boulder
 
 /**
  * A Tab is the largest chunk of a simulation. It's name is a byproduct of the UI component (tabs) that was used to switch

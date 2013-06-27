@@ -1,4 +1,4 @@
-// Copyright 2013, University of Colorado
+// Copyright 2002-2013, University of Colorado Boulder
 
 /**
  * Popup menu that is displayed when the user clicks on the bars in the bottom right in the navigation bar.
