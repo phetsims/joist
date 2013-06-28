@@ -60,12 +60,14 @@ define( function( require ) {
     var fontSize = 36;
 
     var phetLabel = new Text( "PhET", {fontSize: fontSize, fill: 'yellow'} );
-    var optionsButton = new BoundsNode( new FontAwesomeNode( 'reorder', {fill: '#fff'} ), {cursor: 'pointer'} );
+    var optionsButton = new BoundsNode( new FontAwesomeNode( 'reorder', {fill: '#fff'} ) );
 
-    var optionsHighlight = createHighlight( optionsButton.width + 6, optionsButton.height + 5 );
+    this.phetLabelAndButton = new HBox( {spacing: 10, children: [phetLabel, optionsButton], cursor: 'pointer'} );
+
+    var optionsHighlight = createHighlight( this.phetLabelAndButton.width + 6, this.phetLabelAndButton.height - 2 );
     optionsHighlight.bottom = optionsButton.bottom + 3;
     optionsHighlight.x = -3;
-    optionsButton.addChild( optionsHighlight );
+    this.phetLabelAndButton.addChild( optionsHighlight );
 
     //Creating the popup menu dynamically (when needed) causes a temporary black screen on the iPad (perhaps because of canvas accurate text bounds)
     var simPopupMenu = new SimPopupMenu( sim );
@@ -79,11 +81,10 @@ define( function( require ) {
     };
 
     // mousedown or touchstart (pointer pressed down over the node)
-    optionsButton.addPeer( '<input type="button">', {click: optionButtonPressed, tabIndex: 101} );
-    optionsButton.addInputListener( { down: optionButtonPressed} );
-    optionsButton.addInputListener( createHighlightListener( optionsHighlight ) );
+    this.phetLabelAndButton.addPeer( '<input type="button">', {click: optionButtonPressed, tabIndex: 101} );
+    this.phetLabelAndButton.addInputListener( { down: optionButtonPressed} );
+    this.phetLabelAndButton.addInputListener( createHighlightListener( optionsHighlight ) );
 
-    this.phetLabelAndButton = new HBox( {spacing: 10, children: [phetLabel, optionsButton]} );
     this.addChild( this.phetLabelAndButton );
 
     this.titleLabel = new Text( sim.name, {fontSize: 18, fill: 'white'} );
