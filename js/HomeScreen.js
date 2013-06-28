@@ -63,7 +63,7 @@ define( function( require ) {
     var i;
     _.each( tabChildren, function( tabChild ) {
       homeScreen.addChild( tabChild );
-      tabChild.addPeer( '<input type="button">', {click: function() {
+      tabChild.addPeer( '<input type="button" aria-label="' + tabChild.tab.name + '">', {click: function() {
         var tab = tabChild.tab;
         if ( model.tabIndex === tab.index ) {
           model.showHomeScreen = false;
