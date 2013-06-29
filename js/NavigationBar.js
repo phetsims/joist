@@ -81,7 +81,7 @@ define( function( require ) {
     };
 
     // mousedown or touchstart (pointer pressed down over the node)
-    this.phetLabelAndButton.addPeer( '<input type="button">', {click: optionButtonPressed, tabIndex: 101} );
+    this.phetLabelAndButton.addPeer( '<input type="button" aria-label="Options Menu">', {click: optionButtonPressed, tabIndex: 101} );
     this.phetLabelAndButton.addInputListener( { down: optionButtonPressed} );
     this.phetLabelAndButton.addInputListener( createHighlightListener( optionsHighlight ) );
 
@@ -166,7 +166,7 @@ define( function( require ) {
           }
         } );
 
-        button.addPeer( '<input type="button">', {click: pressListener, tabIndex: 99} );
+        button.addPeer( '<input type="button" aria-label="Switch to the ' + iconAndText.tab.name + ' Tab">', {click: pressListener, tabIndex: 99} );
         return  button;
       } );
 
@@ -187,7 +187,7 @@ define( function( require ) {
       this.homeIcon.addChild( homeHighlight );
       this.homeIcon.addInputListener( { down: function() { model.showHomeScreen = true; }} );
       this.homeIcon.addInputListener( createHighlightListener( homeHighlight ) );
-      this.homeIcon.addPeer( '<input type="button">', {click: function() {model.showHomeScreen = true;}, tabIndex: 100} );
+      this.homeIcon.addPeer( '<input type="button" aria-label="Home Screen">', {click: function() {model.showHomeScreen = true;}, tabIndex: 100} );
       this.addChild( this.homeIcon );
     }
   }
