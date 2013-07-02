@@ -20,7 +20,7 @@ define( function( require ) {
   var BoundsNode = require( 'SUN/BoundsNode' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var SimPopupMenu = require( 'JOIST/SimPopupMenu' );
+  var PhetMenu = require( 'JOIST/PhetMenu' );
   var Font = require( 'SCENERY/util/Font' );
   var Shape = require( 'KITE/Shape' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
@@ -70,7 +70,7 @@ define( function( require ) {
     this.phetLabelAndButton.addChild( optionsHighlight );
 
     //Creating the popup menu dynamically (when needed) causes a temporary black screen on the iPad (perhaps because of canvas accurate text bounds)
-    var simPopupMenu = new SimPopupMenu( sim );
+    var simPopupMenu = new PhetMenu( sim );
     var optionButtonPressed = function() {
       simPopupMenu.x = navigationBar.navBarWidth - simPopupMenu.width - 2;
       simPopupMenu.y = window.innerHeight - simPopupMenu.height - navigationBar.height / 2 + 4;

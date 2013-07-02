@@ -19,7 +19,7 @@ define( function( require ) {
   var log = require( 'AXON/log' );
 
   //TODO: The popup menu should scale with the size of the screen
-  function SimPopupMenu( sim, options ) {
+  function PhetMenu( sim, options ) {
 
     options = _.extend( {}, options ); //TODO add default options
 
@@ -108,7 +108,7 @@ define( function( require ) {
     this.mutate( options );
   }
 
-  inherit( Node, SimPopupMenu );
+  inherit( Node, PhetMenu );
 
-  return SimPopupMenu;
+  return PhetMenu;
 } );
