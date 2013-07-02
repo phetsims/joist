@@ -85,6 +85,9 @@ define( function( require ) {
     this.phetLabelAndButton.addInputListener( { down: optionButtonPressed} );
     this.phetLabelAndButton.addInputListener( createHighlightListener( optionsHighlight ) );
 
+    // eliminate interactivity gap between label and button
+    this.phetLabelAndButton.mouseArea = this.phetLabelAndButton.touchArea = Shape.bounds( this.phetLabelAndButton.bounds );
+
     this.addChild( this.phetLabelAndButton );
 
     this.titleLabel = new Text( sim.name, {fontSize: 18, fill: 'white'} );
