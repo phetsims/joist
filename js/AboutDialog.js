@@ -33,10 +33,10 @@ define( function( require ) {
 
     var softwareAgreementLink = new HTMLText( '<a href=ignored>Software Agreement</a>', { fontSize: 14, renderer: 'dom' } ); //TODO i18n
     softwareAgreementLink.addInputListener( {
-        down: function() {
-          window.open( SOFTWARE_AGREEMENT_URL );
-          window.focus();
-        }
+      down: function() {
+        window.open( SOFTWARE_AGREEMENT_URL );
+        window.focus();
+      }
     } );
 
     var content = new VBox( { align: 'left', spacing: 5, children: [
