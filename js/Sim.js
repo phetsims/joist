@@ -34,7 +34,6 @@ define( function( require ) {
     options = _.extend( { showHomeScreen: true, tabIndex: 0, standalone: false, credits: "" }, options );
 
     var sim = this;
-    sim.overlays = [];
 
     sim.name = name;
     sim.version = version();
@@ -213,10 +212,6 @@ define( function( require ) {
         window.TWEEN.update();
       }
       sim.scene.updateScene();
-      for ( var i = 0; i < sim.overlays.length; i++ ) {
-        var overlay = sim.overlays[i];
-        overlay.updateScene();
-      }
     })();
   };
 
@@ -252,10 +247,6 @@ define( function( require ) {
       playbackTime += 17;//ms between frames at 60fp
 
       sim.scene.updateScene();
-      for ( var i = 0; i < sim.overlays.length; i++ ) {
-        var overlay = sim.overlays[i];
-        overlay.updateScene();
-      }
       var stop = Date.now();
       var elapsed = (stop - start);
 
@@ -263,25 +254,8 @@ define( function( require ) {
     })();
   };
 
-  //Adds a node to a new scenery.Scene that will be managed by this Sim.  Has a background shading so it will focus on the specified node.
-  //Used for about dialogs and other focusing popups.
-  Sim.prototype.createAndAddOverlay = function( node ) {
-    var $overlayDiv = $( "<div>" ).attr( 'class', 'sim-overlay' ).css( 'position', 'absolute' ).css( 'z-index', 999 ).css( 'background-color', 'rgba(0,0,0,0.5)' );
-    $( 'body' ).append( $overlayDiv );
-
-    var scene = new Scene( $overlayDiv, {allowDevicePixelRatioScaling: true} );
-    scene.initializeStandaloneEvents(); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
-    scene.resizeOnWindowResize();
-
-    scene.addChild( node );
-    scene.updateScene();
-    this.overlays.push( scene );
-    return scene;
-  };
-
-  Sim.prototype.removeOverlay = function( scene ) {
-    this.overlays.splice( this.overlays.indexOf( scene ), 1 );
-    scene.$main.detach();
+  Sim.prototype.addChild = function( node ) {
+    this.scene.addChild( node );
   };
 
   return Sim;

@@ -37,7 +37,7 @@ define( function( require ) {
   function PhetButton( sim, options ) {
 
     var phetButton = this;
-    Node.call( this );
+    Node.call( this, {renderer: 'svg'} );
 
     var fontSize = 36;
 
@@ -58,11 +58,15 @@ define( function( require ) {
       simPopupMenu.right = phetButton.globalBounds.maxX;
       simPopupMenu.bottom = phetButton.globalBounds.centerY;
 
-      //TODO popup should just be another node, not an entirely new scene
-      var overlayScene = sim.createAndAddOverlay( simPopupMenu );
-      overlayScene.addInputListener( {down: function() {
-        sim.removeOverlay( overlayScene );
-      }} );
+      var rectangle = new Rectangle( -1000, -1000, 3000, 3000, {fill: 'black', opacity: 0.3} );
+      var detacher = {down: function() {
+        rectangle.detach();
+        simPopupMenu.detach();
+      }};
+      rectangle.addInputListener( detacher );
+      simPopupMenu.addInputListener( detacher );
+      sim.addChild( rectangle );
+      sim.addChild( simPopupMenu );
     };
 
     // mousedown or touchstart (pointer pressed down over the node)

@@ -29,7 +29,7 @@ define( function( require ) {
     var aboutDialog = this;
 
     //Use view, to help center and scale content
-    TabView.call( this );
+    TabView.call( this, {renderer: 'svg'} );
 
     var softwareAgreementLink = new HTMLText( '<a href=ignored>Software Agreement</a>', { fontSize: 14, renderer: 'dom' } ); //TODO i18n
     softwareAgreementLink.addInputListener( {

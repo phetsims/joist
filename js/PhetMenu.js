@@ -21,7 +21,7 @@ define( function( require ) {
   //TODO: The popup menu should scale with the size of the screen
   function PhetMenu( sim, options ) {
 
-    options = _.extend( {}, options ); //TODO add default options
+    options = _.extend( {renderer: 'svg'}, options ); //TODO add default options
 
     var simPopupMenu = this;
     Node.call( this );
@@ -37,11 +37,10 @@ define( function( require ) {
     }} );
     var aboutText = new Text( 'About...', {fontSize: fontSize} );
     aboutText.addInputListener( {down: function() {
-      var parent = simPopupMenu.parents[0];
       simPopupMenu.detach();
-      var overlay = sim.createAndAddOverlay( aboutDialog );
-      overlay.addInputListener( {down: function() {
-        sim.removeOverlay( overlay );
+      sim.addChild( aboutDialog );
+      aboutDialog.addInputListener( {down: function() {
+        aboutDialog.detach();
       }} );
     }} );
     var items = [homePageText,
