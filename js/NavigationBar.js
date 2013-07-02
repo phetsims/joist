@@ -47,7 +47,6 @@ define( function( require ) {
    * @constructor
    */
   function NavigationBar( sim, tabs, model ) {
-    var navigationBar = this;
     this.tabs = tabs;
 
     this.navBarHeight = 40;
