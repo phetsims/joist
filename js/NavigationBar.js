@@ -24,6 +24,7 @@ define( function( require ) {
   var Font = require( 'SCENERY/util/Font' );
   var Shape = require( 'KITE/Shape' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  var PhetButton = require( 'JOIST/PhetButton' );
 
   var createHighlight = function( width, height ) {
     var leftBar = new Path( {shape: Shape.lineSegment( 0, 0, 0, height ), lineWidth: 1, stroke: new LinearGradient( 0, 0, 0, height ).addColorStop( 0, 'black' ).addColorStop( 0.5, 'white' ).addColorStop( 1, 'black' ) } );
@@ -57,38 +58,8 @@ define( function( require ) {
     this.background = new Rectangle( 0, 0, 0, 0, {fill: 'black'} );
     this.addChild( this.background );
 
-    var fontSize = 36;
-
-    var phetLabel = new Text( "PhET", {fontSize: fontSize, fill: 'yellow'} );
-    var optionsButton = new BoundsNode( new FontAwesomeNode( 'reorder', {fill: '#fff'} ) );
-
-    this.phetLabelAndButton = new HBox( {spacing: 10, children: [phetLabel, optionsButton], cursor: 'pointer'} );
-
-    var optionsHighlight = createHighlight( this.phetLabelAndButton.width + 6, this.phetLabelAndButton.height - 2 );
-    optionsHighlight.bottom = optionsButton.bottom + 3;
-    optionsHighlight.x = -3;
-    this.phetLabelAndButton.addChild( optionsHighlight );
-
-    //Creating the popup menu dynamically (when needed) causes a temporary black screen on the iPad (perhaps because of canvas accurate text bounds)
-    var simPopupMenu = new PhetMenu( sim );
-    var optionButtonPressed = function() {
-      simPopupMenu.x = navigationBar.navBarWidth - simPopupMenu.width - 2;
-      simPopupMenu.y = window.innerHeight - simPopupMenu.height - navigationBar.height / 2 + 4;
-      var overlayScene = sim.createAndAddOverlay( simPopupMenu );
-      overlayScene.addInputListener( {down: function() {
-        sim.removeOverlay( overlayScene );
-      }} );
-    };
-
-    // mousedown or touchstart (pointer pressed down over the node)
-    this.phetLabelAndButton.addPeer( '<input type="button" aria-label="Options Menu">', {click: optionButtonPressed, tabIndex: 101} );
-    this.phetLabelAndButton.addInputListener( { down: optionButtonPressed} );
-    this.phetLabelAndButton.addInputListener( createHighlightListener( optionsHighlight ) );
-
-    // eliminate interactivity gap between label and button
-    this.phetLabelAndButton.mouseArea = this.phetLabelAndButton.touchArea = Shape.bounds( this.phetLabelAndButton.bounds );
-
-    this.addChild( this.phetLabelAndButton );
+    this.hbox = new PhetButton( sim, this );
+    this.addChild( this.hbox );
 
     this.titleLabel = new Text( sim.name, {fontSize: 18, fill: 'white'} );
 
@@ -220,9 +191,9 @@ define( function( require ) {
       navigationBar.homeIcon.bottom = this.navBarHeight;
       navigationBar.homeIcon.left = navigationBar.buttonHBox.right + 15;
     }
-    this.phetLabelAndButton.setScaleMagnitude( this.navBarScale );
-    this.phetLabelAndButton.right = this.navBarWidth - 5;
-    this.phetLabelAndButton.centerY = this.navBarHeight / 2;
+    this.hbox.setScaleMagnitude( this.navBarScale );
+    this.hbox.right = this.navBarWidth - 5;
+    this.hbox.centerY = this.navBarHeight / 2;
   },
     layout: function( scale, width, height, windowHeight ) {
       this.navBarScale = scale;
