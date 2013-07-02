@@ -8,6 +8,7 @@
 define( function( require ) {
   "use strict";
 
+  var PhetButton = require( 'JOIST/PhetButton' );
   var Node = require( 'SCENERY/nodes/Node' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -18,7 +19,7 @@ define( function( require ) {
 
   var HEIGHT = 70;
 
-  function HomeScreen( title, tabs, model ) {
+  function HomeScreen( sim ) {
     var homeScreen = this;
 
     //Rendering in SVG seems to solve the problem that the home screen consumes 100% disk and crashes, see https://github.com/phetsims/joist/issues/17
@@ -28,16 +29,14 @@ define( function( require ) {
     this.backgroundColor = 'black';
 
     //iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
-    this.textLabel = new Text( title, {fontSize: 52, fontFamily: 'Century Gothic, Futura', fill: 'white', y: 140, centerX: this.layoutBounds.width / 2} );
-    this.phetLabel = new Text( "PhET", {fontSize: 36, fill: 'yellow', top: 5, left: 5} );
+    this.textLabel = new Text( sim.name, {fontSize: 52, fontFamily: 'Century Gothic, Futura', fill: 'white', y: 140, centerX: this.layoutBounds.width / 2} );
     this.addChild( this.textLabel );
-    this.addChild( this.phetLabel );
 
     var frameParent = new Node();
     this.addChild( frameParent );
 
     var index = 0;
-    var tabChildren = _.map( tabs, function( tab ) {
+    var tabChildren = _.map( sim.tabs, function( tab ) {
       tab.index = index++;
       var child = new Node( {children: [tab.icon]} );
       child.smallTextLabel = new Text( tab.name, {fontSize: 18, fill: 'gray'} );
@@ -50,11 +49,11 @@ define( function( require ) {
 
       //Tap once to select, a second time to start that tab
       child.addInputListener( { down: function() {
-        if ( model.tabIndex === tab.index ) {
-          model.showHomeScreen = false;
+        if ( sim.simModel.tabIndex === tab.index ) {
+          sim.simModel.showHomeScreen = false;
         }
         else {
-          model.tabIndex = tab.index;
+          sim.simModel.tabIndex = tab.index;
         }
       }} );
       return child;
@@ -65,16 +64,16 @@ define( function( require ) {
       homeScreen.addChild( tabChild );
       tabChild.addPeer( '<input type="button" aria-label="' + tabChild.tab.name + '">', {click: function() {
         var tab = tabChild.tab;
-        if ( model.tabIndex === tab.index ) {
-          model.showHomeScreen = false;
+        if ( sim.simModel.tabIndex === tab.index ) {
+          sim.simModel.showHomeScreen = false;
         }
         else {
-          model.tabIndex = tab.index;
+          sim.simModel.tabIndex = tab.index;
         }
       }} );
     } );
 
-    model.tabIndexProperty.link( function( tabIndex ) {
+    sim.simModel.tabIndexProperty.link( function( tabIndex ) {
       var child = null;
       for ( i = 0; i < tabChildren.length; i++ ) {
         child = tabChildren[i];
@@ -93,8 +92,8 @@ define( function( require ) {
 
       //Space the icons out more if there are fewer, so they will be spaced nicely
       //Cannot have only 1 tab because for 1-tab sims there is no home screen.
-      var spacing = tabs.length === 2 ? 100 :
-                    tabs.length === 3 ? 60 :
+      var spacing = sim.tabs.length === 2 ? 100 :
+                    sim.tabs.length === 3 ? 60 :
                     33;
       width = width + spacing * (tabChildren.length - 1);
 
@@ -117,6 +116,9 @@ define( function( require ) {
         }
       }
     } );
+
+    var phetButton = new PhetButton( sim, {right: this.layoutBounds.maxX - 5, bottom: this.layoutBounds.maxY - 5} );
+    this.addChild( phetButton );
   }
 
   inherit( TabView, HomeScreen );

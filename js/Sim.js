@@ -92,7 +92,7 @@ define( function( require ) {
     sim.navigationBar = new NavigationBar( sim, tabs, sim.simModel );
 
     if ( tabs.length > 1 ) {
-      sim.homeScreen = new HomeScreen( name, tabs, sim.simModel );
+      sim.homeScreen = new HomeScreen( sim );
     }
 
     //The simNode contains the home screen or the play area

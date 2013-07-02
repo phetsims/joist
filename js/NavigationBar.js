@@ -58,7 +58,7 @@ define( function( require ) {
     this.background = new Rectangle( 0, 0, 0, 0, {fill: 'black'} );
     this.addChild( this.background );
 
-    this.hbox = new PhetButton( sim, this );
+    this.hbox = new PhetButton( sim );
     this.addChild( this.hbox );
 
     this.titleLabel = new Text( sim.name, {fontSize: 18, fill: 'white'} );

@@ -34,10 +34,10 @@ define( function( require ) {
   };
 
   //TODO don't pass in navigationBar, position based on this button
-  function PhetButton( sim, navigationBar ) {
+  function PhetButton( sim, options ) {
 
-    var thisButton = this;
-    Node.call( this, { cursor: 'pointer' } );
+    var phetButton = this;
+    Node.call( this );
 
     var fontSize = 36;
 
@@ -55,8 +55,9 @@ define( function( require ) {
     //Creating the popup menu dynamically (when needed) causes a temporary black screen on the iPad (perhaps because of canvas accurate text bounds)
     var simPopupMenu = new PhetMenu( sim );
     var optionButtonPressed = function() {
-      simPopupMenu.x = navigationBar.navBarWidth - simPopupMenu.width - 2;
-      simPopupMenu.y = window.innerHeight - simPopupMenu.height - navigationBar.height / 2 + 4;
+      simPopupMenu.right = phetButton.globalBounds.maxX;
+      simPopupMenu.bottom = phetButton.globalBounds.centerY;
+
       //TODO popup should just be another node, not an entirely new scene
       var overlayScene = sim.createAndAddOverlay( simPopupMenu );
       overlayScene.addInputListener( {down: function() {
@@ -71,6 +72,8 @@ define( function( require ) {
 
     // eliminate interactivity gap between label and button
     this.mouseArea = this.hbox.touchArea = Shape.bounds( this.bounds );
+
+    this.mutate( options || {} );
   }
 
   inherit( Node, PhetButton );
