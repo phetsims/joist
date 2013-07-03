@@ -17,7 +17,7 @@ define( function( require ) {
 
   function Tab( name, icon, createModel, createView, backgroundColor ) {
     this.name = name;
-    this.icon = icon;
+    this.icon = icon; // should be 548x373, size displayed on home screen
     this.createModel = createModel;
     this.createView = createView;
     this.backgroundColor = backgroundColor || 'white';
