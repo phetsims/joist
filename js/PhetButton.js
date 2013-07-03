@@ -4,6 +4,7 @@
  * The button that pops up the PhET menu.
  */
 define( function( require ) {
+  "use strict";
 
   //imports
   var Node = require( 'SCENERY/nodes/Node' );
