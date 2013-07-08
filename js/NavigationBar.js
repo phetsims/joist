@@ -41,9 +41,9 @@ define( function( require ) {
 
   /**
    * Create a nav bar.  Layout assumes all of the tab widths are the same.
-   * @param sim
-   * @param tabs
-   * @param model
+   * @param {Sim} sim
+   * @param {Array<Tab>} tabs
+   * @param {PropertySet} model see joist.Sim
    * @constructor
    */
   function NavigationBar( sim, tabs, model ) {

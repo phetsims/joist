@@ -24,8 +24,8 @@ define( function( require ) {
   var LogPointers = require( 'JOIST/share/LogPointers' );
 
   /**
-   * @param name
-   * @param tabs
+   * @param {String} name
+   * @param {Array<Tab>} tabs
    * @param options optional parameters for starting tab and home values, so that developers can easily specify the startup scenario for quick development
    * @constructor
    */
