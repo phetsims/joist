@@ -17,7 +17,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var PanelNode = require( 'SUN/PanelNode' );
-  var BoundsNode = require( 'SUN/BoundsNode' );
+  var HomeButton = require( 'SCENERY_PHET/HomeButton' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetMenu = require( 'JOIST/PhetMenu' );
@@ -153,7 +153,7 @@ define( function( require ) {
       this.addChild( this.buttonHBox );
 
       //add the home icon
-      this.homeIcon = new BoundsNode( new FontAwesomeNode( 'home', {fill: '#fff'} ), {cursor: 'pointer'} );
+      this.homeIcon = new HomeButton();
       var homeHighlight = createHighlight( this.homeIcon.width + 6, this.homeIcon.height + 5 );
       homeHighlight.bottom = this.homeIcon.bottom + 3;
       homeHighlight.x = -3;
