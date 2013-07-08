@@ -16,7 +16,7 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Text = require( 'SCENERY/nodes/Text' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
-  var PanelNode = require( 'SUN/PanelNode' );
+  var Panel = require( 'SUN/Panel' );
   var HomeButton = require( 'SCENERY_PHET/HomeButton' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -77,7 +77,7 @@ define( function( require ) {
         var text = new Text( tab.name, { fill: 'white', visible: true} );
 
         //Put a panel around it to extend it horizontally so there is some distance from the highlight region to the text and some distance between adjacent texts.
-        var textPanel = new PanelNode( text, {
+        var textPanel = new Panel( text, {
           fill: null,
           stroke: null,
           lineWidth: 1, // width of the background border
