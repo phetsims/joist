@@ -19,6 +19,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   //TODO this is copied from NavigationBar
   var createHighlight = function( width, height ) {
@@ -54,29 +55,27 @@ define( function( require ) {
     optionsHighlight.x = -3;
     this.addChild( optionsHighlight );
 
-    //Creating the popup menu dynamically (when needed) causes a temporary black screen on the iPad (perhaps because of canvas accurate text bounds)
-
+    //When the phet button is pressed, show the phet menu
     var phetButtonPressed = function() {
-
-      var simPopupMenu = new PhetMenu( sim );
-      simPopupMenu.right = phetButton.globalBounds.maxX;
-      simPopupMenu.bottom = phetButton.globalBounds.centerY;
-
+      var phetMenu = new PhetMenu( sim );
+      phetMenu.right = phetButton.globalToParentPoint( new Vector2( phetButton.globalBounds.maxX, 0 ) ).x;
+      phetMenu.bottom = phetButton.centerY;
+      console.log( phetMenu.right );
       var rectangle = new Rectangle( -1000, -1000, 3000, 3000, {fill: 'black', opacity: 0.3} );
       var detach = function() {
         rectangle.detach();
-        simPopupMenu.detach();
-        simPopupMenu.removeInputListener( popupMenuListener );
+        phetMenu.detach();
+        phetMenu.removeInputListener( popupMenuListener );
         rectangle.removeInputListener( rectangleListener );
       };
       var popupMenuListener = new ButtonListener( {fire: detach} );
       var rectangleListener = {down: detach};
 
-      simPopupMenu.addInputListener( popupMenuListener );
+      phetMenu.addInputListener( popupMenuListener );
       rectangle.addInputListener( rectangleListener );
 
-      sim.addChild( rectangle );
-      sim.addChild( simPopupMenu );
+      phetButton.parents[0].addChild( rectangle );
+      phetButton.parents[0].addChild( phetMenu );
     };
 
     this.addPeer( '<input type="button" aria-label="PhET Menu">', {click: phetButtonPressed, tabIndex: 101} );
