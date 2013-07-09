@@ -71,8 +71,7 @@ define( function( require ) {
       sim.addChild( simPopupMenu );
     };
 
-    // mousedown or touchstart (pointer pressed down over the node)
-    this.addPeer( '<input type="button" aria-label="Options Menu">', {click: phetButtonPressed, tabIndex: 101} );
+    this.addPeer( '<input type="button" aria-label="PhET Menu">', {click: phetButtonPressed, tabIndex: 101} );
     this.addInputListener( new ButtonListener( {fire: phetButtonPressed} ) );
     this.addInputListener( createHighlightListener( optionsHighlight ) );
 
