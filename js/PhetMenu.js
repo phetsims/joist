@@ -20,8 +20,30 @@ define( function( require ) {
   var log = require( 'AXON/log' );
   var Property = require( 'AXON/Property' );
 
-  var createMenuItem = function( text, callback ) {
-     return new Text( text, { fontSize: '18px' } ).addInputListener( new ButtonListener( {fire: callback } ) );
+  var createMenuItem = function( text, width, callback ) {
+
+    var menuItem = new Node( { cursor: 'pointer' });
+
+    var label = new Text( text, { fontSize: '18px' } );
+    var xMargin = 5;
+    var yMargin = 3;
+    var cornerRadius = 5;
+    var highlight = new Rectangle( 0, 0, width + xMargin + xMargin, label.height + yMargin + yMargin, cornerRadius, cornerRadius );
+
+    menuItem.addChild( highlight );
+    menuItem.addChild( label );
+
+    label.left = highlight.left + xMargin;
+    label.centerY = highlight.centerY;
+
+    menuItem.addInputListener( {enter: function() {
+      highlight.fill = '#a6d2f4';
+    }, exit: function() {
+      highlight.fill = null;
+    }} );
+
+    menuItem.addInputListener( new ButtonListener( {fire: callback } ) );
+    return menuItem;
   };
 
   //TODO: The popup menu should scale with the size of the screen
@@ -34,16 +56,17 @@ define( function( require ) {
 
     this.visibleProperty = new Property( false );
 
-    var homePageItem = createMenuItem( 'PhET Homepage', function() {
+    var maxItemWidth = 200;//TODO compute
+    var homePageItem = createMenuItem( 'PhET Homepage', maxItemWidth, function() {
       window.open( "http://phet.colorado.edu" );
       window.focus();
     } );
 
-    var outputLogItem = createMenuItem( 'Output log', function() {
+    var outputLogItem = createMenuItem( 'Output log', maxItemWidth, function() {
       console.log( JSON.stringify( log.log ) );
     } );
 
-    var aboutItem = createMenuItem( 'About...', function() {
+    var aboutItem = createMenuItem( 'About...', maxItemWidth, function() {
       var aboutDialog = new AboutDialog( sim );
       sim.addChild( aboutDialog );
       var aboutDialogListener = {down: function() {
@@ -65,8 +88,8 @@ define( function( require ) {
 
     var itemHeight = tallestItem.height;
 
-    var verticalSpacing = 10;
-    var padding = 10;
+    var verticalSpacing = 0;
+    var padding = 5;
     var bubbleWidth = widestItem.width + padding * 2;
     var bubbleHeight = itemHeight * items.length + padding * 2 + verticalSpacing * (items.length - 1);
 
@@ -91,17 +114,9 @@ define( function( require ) {
     _.each( items, function( item ) {
       item.top = y;
       item.left = padding;
-      var highlight = new Rectangle( 3, y - 5, bubbleWidth - 3, itemHeight + 10, 3, 3, {fill: '#a6d2f4', visible: false} );
-      simPopupMenu.addChild( highlight );
       simPopupMenu.addChild( item );
 
-      item.cursor = 'pointer';
-      item.addInputListener( {enter: function() {
-        highlight.visible = true;
-      }, exit: function() {
-        highlight.visible = false;
-      }} );
-
+      // Put a separator before the last item.
       if ( item === items[items.length - 2] ) {
         simPopupMenu.addChild( new Path( {shape: Shape.lineSegment( 8, y + itemHeight + verticalSpacing / 2, bubbleWidth - 8, y + itemHeight + verticalSpacing / 2 ), stroke: 'gray', lineWidth: 1} ) );
       }
