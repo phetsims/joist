@@ -35,14 +35,14 @@ define( function( require ) {
 
     //Same size as the title, but should scale up and down
     var fontSize = '18px';
-    var homePageText = new Text( 'PhET Homepage', {fontSize: fontSize} ).addInputListener( {down: function() {
+    var homePageText = new Text( 'PhET Homepage', {fontSize: fontSize} ).addInputListener( new ButtonListener( {fire: function() {
       window.open( "http://phet.colorado.edu" );
       window.focus();
-    }} );
+    }} ) );
 
-    var outputLogText = new Text( 'Output log', {fontSize: fontSize} ).addInputListener( {down: function() {
+    var outputLogText = new Text( 'Output log', {fontSize: fontSize} ).addInputListener( new ButtonListener( {fire: function() {
       console.log( JSON.stringify( log.log ) );
-    }} );
+    }} ) );
 
     var aboutText = new Text( 'About...', {fontSize: fontSize} );
     aboutText.addInputListener( new ButtonListener( {
