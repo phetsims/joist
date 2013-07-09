@@ -55,7 +55,7 @@ define( function( require ) {
 
     //Creating the popup menu dynamically (when needed) causes a temporary black screen on the iPad (perhaps because of canvas accurate text bounds)
     var simPopupMenu = new PhetMenu( sim );
-    var optionButtonPressed = function() {
+    var phetButtonPressed = function() {
       simPopupMenu.right = phetButton.globalBounds.maxX;
       simPopupMenu.bottom = phetButton.globalBounds.centerY;
 
@@ -71,8 +71,8 @@ define( function( require ) {
     };
 
     // mousedown or touchstart (pointer pressed down over the node)
-    this.addPeer( '<input type="button" aria-label="Options Menu">', {click: optionButtonPressed, tabIndex: 101} );
-    this.addInputListener( { down: optionButtonPressed} );
+    this.addPeer( '<input type="button" aria-label="Options Menu">', {click: phetButtonPressed, tabIndex: 101} );
+    this.addInputListener( { down: phetButtonPressed} );
     this.addInputListener( createHighlightListener( optionsHighlight ) );
 
     // eliminate interactivity gap between label and button
