@@ -20,6 +20,10 @@ define( function( require ) {
   var log = require( 'AXON/log' );
   var Property = require( 'AXON/Property' );
 
+  var createMenuItem = function( text, callback ) {
+     return new Text( text, { fontSize: '18px' } ).addInputListener( new ButtonListener( {fire: callback } ) );
+  };
+
   //TODO: The popup menu should scale with the size of the screen
   function PhetMenu( sim, options ) {
 
@@ -33,29 +37,25 @@ define( function( require ) {
     //Create it statically (even though it may not be used) because creating it dynamically can cause flickering on iPad//TODO: Fix this
     var aboutDialog = new AboutDialog( sim );
 
-    //Same size as the title, but should scale up and down
-    var fontSize = '18px';
-    var homePageText = new Text( 'PhET Homepage', {fontSize: fontSize} ).addInputListener( new ButtonListener( {fire: function() {
+    var homePageItem = createMenuItem( 'PhET Homepage', function() {
       window.open( "http://phet.colorado.edu" );
       window.focus();
-    }} ) );
+    } );
 
-    var outputLogText = new Text( 'Output log', {fontSize: fontSize} ).addInputListener( new ButtonListener( {fire: function() {
+    var outputLogItem = createMenuItem( 'Output log', function() {
       console.log( JSON.stringify( log.log ) );
-    }} ) );
+    } );
 
-    var aboutText = new Text( 'About...', {fontSize: fontSize} );
-    aboutText.addInputListener( new ButtonListener( {
-      fire: function() {
-        sim.addChild( aboutDialog );
-        aboutDialog.addInputListener( {down: function() {
-          aboutDialog.detach();
-        }} );
-      }} ) );
+    var aboutItem = createMenuItem( 'About...', function() {
+      sim.addChild( aboutDialog );
+      aboutDialog.addInputListener( {down: function() {
+        aboutDialog.detach();
+      }} );
+    } );
 
-    var items = [ homePageText ];
-    if ( log.enabled ) { items.push( outputLogText ); }
-    items.push( aboutText );
+    var items = [ homePageItem ];
+    if ( log.enabled ) { items.push( outputLogItem ); }
+    items.push( aboutItem );
 
     //left align the items
 
