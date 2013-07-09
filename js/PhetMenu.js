@@ -39,6 +39,11 @@ define( function( require ) {
       window.open( "http://phet.colorado.edu" );
       window.focus();
     }} );
+
+    var outputLogText = new Text( 'Output log', {fontSize: fontSize} ).addInputListener( {down: function() {
+      console.log( JSON.stringify( log.log ) );
+    }} );
+
     var aboutText = new Text( 'About...', {fontSize: fontSize} );
     aboutText.addInputListener( new ButtonListener( {
       fire: function() {
@@ -47,12 +52,10 @@ define( function( require ) {
           aboutDialog.detach();
         }} );
       }} ) );
-    var items = [homePageText,
-      new Text( 'Related Sims', {fontSize: fontSize} ),
-      new Text( 'Output log', {fontSize: fontSize} ).addInputListener( {down: function() {
-        console.log( JSON.stringify( log.log ) );
-      }} ),
-      aboutText];
+
+    var items = [ homePageText ];
+    if ( log.enabled ) { items.push( outputLogText ); }
+    items.push( aboutText );
 
     //left align the items
 
