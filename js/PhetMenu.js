@@ -19,21 +19,23 @@ define( function( require ) {
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var log = require( 'AXON/log' );
 
-  var createMenuItem = function( text, width, callback ) {
+  var FONT_SIZE = '18px';
+
+  var createMenuItem = function( text, width, height, callback ) {
 
     var menuItem = new Node( { cursor: 'pointer' } );
 
-    var label = new Text( text, { fontSize: '18px' } );
+    var textNode = new Text( text, { fontSize: FONT_SIZE } );
     var xMargin = 5;
     var yMargin = 3;
     var cornerRadius = 5;
-    var highlight = new Rectangle( 0, 0, width + xMargin + xMargin, label.height + yMargin + yMargin, cornerRadius, cornerRadius );
+    var highlight = new Rectangle( 0, 0, width + xMargin + xMargin, height + yMargin + yMargin, cornerRadius, cornerRadius );
 
     menuItem.addChild( highlight );
-    menuItem.addChild( label );
+    menuItem.addChild( textNode );
 
-    label.left = highlight.left + xMargin;
-    label.centerY = highlight.centerY;
+    textNode.left = highlight.left + xMargin;
+    textNode.centerY = highlight.centerY;
 
     menuItem.addInputListener( {enter: function() {
       highlight.fill = '#a6d2f4';
@@ -53,41 +55,45 @@ define( function( require ) {
     var simPopupMenu = this;
     Node.call( this );
 
-    var maxItemWidth = 200;//TODO compute
-    var homePageItem = createMenuItem( 'PhET Homepage', maxItemWidth, function() {
-      window.open( "http://phet.colorado.edu" );
-      window.focus();
-    } );
+    var itemDescriptors = [
+      {
+        text: 'PhET Homepage', present: true, callback: function() {
+        window.open( "http://phet.colorado.edu" );
+        window.focus();
+      }},
+      {
+        text: 'Output Log', present: log.enabled ? true : false, callback: function() {
+        console.log( JSON.stringify( log.log ) );
+      }},
+      {
+        text: 'About...', present: true, callback: function() {
+        var aboutDialog = new AboutDialog( sim );
+        sim.addChild( aboutDialog );
+        var aboutDialogListener = {down: function() {
+          aboutDialog.removeInputListener( aboutDialogListener );
+          aboutDialog.detach();
+        }};
+        aboutDialog.addInputListener( aboutDialogListener );
+      }}
+    ];
 
-    var outputLogItem = createMenuItem( 'Output log', maxItemWidth, function() {
-      console.log( JSON.stringify( log.log ) );
-    } );
-
-    var aboutItem = createMenuItem( 'About...', maxItemWidth, function() {
-      var aboutDialog = new AboutDialog( sim );
-      sim.addChild( aboutDialog );
-      var aboutDialogListener = {down: function() {
-        aboutDialog.removeInputListener( aboutDialogListener );
-        aboutDialog.detach();
-      }};
-      aboutDialog.addInputListener( aboutDialogListener );
-    } );
-
-    var items = [ homePageItem ];
-    if ( log.enabled ) { items.push( outputLogItem ); }
-    items.push( aboutItem );
-
-    //left align the items
+    var keepItemDescriptors = _.filter( itemDescriptors, function( itemDescriptor ) {return itemDescriptor.present;} );
+    var textNodes = _.map( keepItemDescriptors, function( item ) {return new Text( item.text, {fontSize: FONT_SIZE} );} );
 
     //Compute bounds
-    var widestItem = _.max( items, function( item ) {return item.width;} );
-    var tallestItem = _.max( items, function( item ) {return item.height;} );
+    var widestText = _.max( textNodes, function( node ) {return node.width;} );
+    var tallestText = _.max( textNodes, function( node ) {return node.height;} );
 
-    var itemHeight = tallestItem.height;
+    var items = _.map( itemDescriptors, function( itemDescriptor ) {
+      return createMenuItem( itemDescriptor.text, widestText.width, tallestText.height, itemDescriptor.callback );
+    } );
+
+    var itemWidth = _.max( items,function( item ) {return item.width;} ).width;
+    var itemHeight = _.max( items,function( item ) {return item.height;} ).height;
 
     var verticalSpacing = 0;
     var padding = 5;
-    var bubbleWidth = widestItem.width + padding * 2;
+    var bubbleWidth = itemWidth + padding * 2;
     var bubbleHeight = itemHeight * items.length + padding * 2 + verticalSpacing * (items.length - 1);
 
     var bubble = new Rectangle( 0, 0, bubbleWidth, bubbleHeight, 8, 8, {fill: 'white', lineWidth: 1, stroke: 'black'} );
