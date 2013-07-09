@@ -16,7 +16,9 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var AboutDialog = require( 'JOIST/AboutDialog' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var log = require( 'AXON/log' );
+  var Property = require( 'AXON/Property' );
 
   //TODO: The popup menu should scale with the size of the screen
   function PhetMenu( sim, options ) {
@@ -25,6 +27,8 @@ define( function( require ) {
 
     var simPopupMenu = this;
     Node.call( this );
+
+    this.visibleProperty = new Property( false );
 
     //Create it statically (even though it may not be used) because creating it dynamically can cause flickering on iPad//TODO: Fix this
     var aboutDialog = new AboutDialog( sim );
@@ -36,13 +40,14 @@ define( function( require ) {
       window.focus();
     }} );
     var aboutText = new Text( 'About...', {fontSize: fontSize} );
-    aboutText.addInputListener( {down: function() {
-      simPopupMenu.detach();
-      sim.addChild( aboutDialog );
-      aboutDialog.addInputListener( {down: function() {
-        aboutDialog.detach();
-      }} );
-    }} );
+    aboutText.addInputListener( new ButtonListener( {
+      fire: function() {
+        simPopupMenu.detach();
+        sim.addChild( aboutDialog );
+        aboutDialog.addInputListener( {down: function() {
+          aboutDialog.detach();
+        }} );
+      }} ) );
     var items = [homePageText,
       new Text( 'Related Sims', {fontSize: fontSize} ),
       new Text( 'Output log', {fontSize: fontSize} ).addInputListener( {down: function() {
@@ -101,9 +106,6 @@ define( function( require ) {
       y += itemHeight + verticalSpacing;
     } );
 
-    this.addInputListener( { down: function() {
-      simPopupMenu.detach();
-    } } );
     this.mutate( options );
   }
 
