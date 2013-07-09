@@ -18,6 +18,7 @@ define( function( require ) {
   var Font = require( 'SCENERY/util/Font' );
   var Shape = require( 'KITE/Shape' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
 
   //TODO this is copied from NavigationBar
   var createHighlight = function( width, height ) {
@@ -72,7 +73,7 @@ define( function( require ) {
 
     // mousedown or touchstart (pointer pressed down over the node)
     this.addPeer( '<input type="button" aria-label="Options Menu">', {click: phetButtonPressed, tabIndex: 101} );
-    this.addInputListener( { down: phetButtonPressed} );
+    this.addInputListener( new ButtonListener( {fire: phetButtonPressed} ) );
     this.addInputListener( createHighlightListener( optionsHighlight ) );
 
     // eliminate interactivity gap between label and button
