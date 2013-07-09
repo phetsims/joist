@@ -49,6 +49,30 @@ define( function( require ) {
     return menuItem;
   };
 
+  // Creates a comic-book style bubble.
+  var createBubble = function( width, height ) {
+
+    var rectangle = new Rectangle( 0, 0, width, height, 8, 8, {fill: 'white', lineWidth: 1, stroke: 'black'} );
+
+    var tail = new Shape();
+    tail.moveTo( width - 20, height - 2 );
+    tail.lineToRelative( 0, 20 );
+    tail.lineToRelative( -20, -20 );
+    tail.close();
+
+    var tailOutline = new Shape();
+    tailOutline.moveTo( width - 20, height );
+    tailOutline.lineToRelative( 0, 20 - 2 );
+    tailOutline.lineToRelative( -18, -18 );
+
+    var bubble = new Node();
+    bubble.addChild( rectangle );
+    bubble.addChild( new Path( {shape: tail, fill: 'white'} ) );
+    bubble.addChild( new Path( {shape: tailOutline, stroke: 'black', lineWidth: 1} ) );
+
+    return bubble;
+  };
+
   //TODO: The popup menu should scale with the size of the screen
   function PhetMenu( sim, options ) {
 
@@ -107,24 +131,9 @@ define( function( require ) {
     var itemHeight = _.max( items,function( item ) {return item.height;} ).height;
     var X_MARGIN = 5;
     var Y_MARGIN = 5;
-
     var bubbleWidth = itemWidth + X_MARGIN + X_MARGIN;
     var bubbleHeight = itemHeight * items.length + Y_MARGIN + Y_MARGIN;
-    var bubble = new Rectangle( 0, 0, bubbleWidth, bubbleHeight, 8, 8, {fill: 'white', lineWidth: 1, stroke: 'black'} );
-
-    var tail = new Shape();
-    tail.moveTo( bubbleWidth - 20, bubbleHeight - 2 );
-    tail.lineToRelative( 0, 20 );
-    tail.lineToRelative( -20, -20 );
-    tail.close();
-    thisMenu.addChild( bubble );
-    thisMenu.addChild( new Path( {shape: tail, fill: 'white'} ) );
-
-    var tailOutline = new Shape();
-    tailOutline.moveTo( bubbleWidth - 20, bubbleHeight );
-    tailOutline.lineToRelative( 0, 20 - 2 );
-    tailOutline.lineToRelative( -18, -18 );
-    thisMenu.addChild( new Path( {shape: tailOutline, stroke: 'black', lineWidth: 1} ) );
+    thisMenu.addChild( createBubble( bubbleWidth, bubbleHeight ) );
 
     // Populate the bubble with menu items.
     var y = Y_MARGIN;
