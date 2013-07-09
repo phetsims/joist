@@ -158,6 +158,9 @@ define( function( require ) {
       homeHighlight.bottom = this.homeIcon.bottom + 3;
       homeHighlight.x = -3;
       this.homeIcon.addChild( homeHighlight );
+
+      //Hide the highlight on the home icon if the home icon is pressed
+      model.showHomeScreenProperty.link( function( showHomeScreen ) { if ( showHomeScreen ) { homeHighlight.visible = false; } } );
       this.homeIcon.addInputListener( { down: function() { model.showHomeScreen = true; }} );
       this.homeIcon.addInputListener( createHighlightListener( homeHighlight ) );
       this.homeIcon.addPeer( '<input type="button" aria-label="Home Screen">', {click: function() {model.showHomeScreen = true;}, tabIndex: 100} );
