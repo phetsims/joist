@@ -42,7 +42,6 @@ define( function( require ) {
     var aboutText = new Text( 'About...', {fontSize: fontSize} );
     aboutText.addInputListener( new ButtonListener( {
       fire: function() {
-        simPopupMenu.detach();
         sim.addChild( aboutDialog );
         aboutDialog.addInputListener( {down: function() {
           aboutDialog.detach();

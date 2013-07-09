@@ -55,18 +55,26 @@ define( function( require ) {
     this.addChild( optionsHighlight );
 
     //Creating the popup menu dynamically (when needed) causes a temporary black screen on the iPad (perhaps because of canvas accurate text bounds)
-    var simPopupMenu = new PhetMenu( sim );
+
     var phetButtonPressed = function() {
+
+      var simPopupMenu = new PhetMenu( sim );
       simPopupMenu.right = phetButton.globalBounds.maxX;
       simPopupMenu.bottom = phetButton.globalBounds.centerY;
 
       var rectangle = new Rectangle( -1000, -1000, 3000, 3000, {fill: 'black', opacity: 0.3} );
-      var detacher = {down: function() {
+      var detach = function() {
         rectangle.detach();
         simPopupMenu.detach();
-      }};
-      rectangle.addInputListener( detacher );
-      simPopupMenu.addInputListener( detacher );
+        simPopupMenu.removeInputListener( popupMenuListener );
+        rectangle.removeInputListener( rectangleListener );
+      };
+      var popupMenuListener = new ButtonListener( {fire: detach} );
+      var rectangleListener = {down: detach};
+
+      simPopupMenu.addInputListener( popupMenuListener );
+      rectangle.addInputListener( rectangleListener );
+
       sim.addChild( rectangle );
       sim.addChild( simPopupMenu );
     };
