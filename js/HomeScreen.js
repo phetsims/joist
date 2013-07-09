@@ -29,8 +29,8 @@ define( function( require ) {
     this.backgroundColor = 'black';
 
     //iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
-    this.textLabel = new Text( sim.name, {fontSize: 52, fontFamily: 'Century Gothic, Futura', fill: 'white', y: 140, centerX: this.layoutBounds.width / 2} );
-    this.addChild( this.textLabel );
+    var title = new Text( sim.name, {fontSize: 52, fontFamily: 'Century Gothic, Futura', fill: 'white', y: 110, centerX: this.layoutBounds.width / 2} );
+    this.addChild( title );
 
     var frameParent = new Node();
     this.addChild( frameParent );
