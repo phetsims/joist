@@ -18,11 +18,10 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var log = require( 'AXON/log' );
-  var Property = require( 'AXON/Property' );
 
   var createMenuItem = function( text, width, callback ) {
 
-    var menuItem = new Node( { cursor: 'pointer' });
+    var menuItem = new Node( { cursor: 'pointer' } );
 
     var label = new Text( text, { fontSize: '18px' } );
     var xMargin = 5;
@@ -53,8 +52,6 @@ define( function( require ) {
 
     var simPopupMenu = this;
     Node.call( this );
-
-    this.visibleProperty = new Property( false );
 
     var maxItemWidth = 200;//TODO compute
     var homePageItem = createMenuItem( 'PhET Homepage', maxItemWidth, function() {
