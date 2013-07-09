@@ -25,6 +25,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var PhetButton = require( 'JOIST/PhetButton' );
+  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
 
   var createHighlight = function( width, height ) {
     var leftBar = new Path( {shape: Shape.lineSegment( 0, 0, 0, height ), lineWidth: 1, stroke: new LinearGradient( 0, 0, 0, height ).addColorStop( 0, 'black' ).addColorStop( 0.5, 'white' ).addColorStop( 1, 'black' ) } );
@@ -123,9 +124,10 @@ define( function( require ) {
           model.tabIndex = iconAndText.index;
           model.showHomeScreen = false;
         };
-        button.addInputListener( {
-          down: pressListener,
+        button.addInputListener( new ButtonListener( {fire: pressListener} ) );
 
+        //TODO: Move the over/out listener into ButtonListener when it is working better. Currently 'out' is not being fired
+        button.addInputListener( {
           //Highlight a button when mousing over it
           over: function( event ) {
             if ( event.pointer.isMouse ) {
