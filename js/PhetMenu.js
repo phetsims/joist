@@ -34,9 +34,6 @@ define( function( require ) {
 
     this.visibleProperty = new Property( false );
 
-    //Create it statically (even though it may not be used) because creating it dynamically can cause flickering on iPad//TODO: Fix this
-    var aboutDialog = new AboutDialog( sim );
-
     var homePageItem = createMenuItem( 'PhET Homepage', function() {
       window.open( "http://phet.colorado.edu" );
       window.focus();
@@ -47,10 +44,13 @@ define( function( require ) {
     } );
 
     var aboutItem = createMenuItem( 'About...', function() {
+      var aboutDialog = new AboutDialog( sim );
       sim.addChild( aboutDialog );
-      aboutDialog.addInputListener( {down: function() {
+      var aboutDialogListener = {down: function() {
+        aboutDialog.removeInputListener( aboutDialogListener );
         aboutDialog.detach();
-      }} );
+      }};
+      aboutDialog.addInputListener( aboutDialogListener );
     } );
 
     var items = [ homePageItem ];
