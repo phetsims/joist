@@ -31,7 +31,7 @@ define( function( require ) {
    */
   function Sim( name, tabs, options ) {
 
-    options = _.extend( { showHomeScreen: true, tabIndex: 0, standalone: false, credits: "" }, options );
+    options = _.extend( { showHomeScreen: true, tabIndex: 0, standalone: false, credits: '' }, options );
 
     var sim = this;
 
@@ -41,7 +41,7 @@ define( function( require ) {
 
     //Set the HTML page title to the localized title
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
-    $( 'title' ).html( name + " " + sim.version ); //TODO i18n of order
+    $( 'title' ).html( name + ' ' + sim.version ); //TODO i18n of order
 
     //if nothing else specified, try to use the options for showHomeScreen & tabIndex from query parameters, to facilitate testing easily in different tabs
     function stringToBoolean( string ) { return string === 'true' ? true : false; }
@@ -79,7 +79,7 @@ define( function( require ) {
 
     //TODO should probably look for this div to see if it exists, then create only if it doesn't exist.
     //Add a div for the sim to the DOM
-    var $simDiv = $( "<div>" ).attr( 'id', 'sim' ).css( 'position', 'absolute' );
+    var $simDiv = $( '<div>' ).attr( 'id', 'sim' ).css( 'position', 'absolute' );
     $body.append( $simDiv );
 
     //Create the scene
@@ -233,7 +233,7 @@ define( function( require ) {
       if ( logIndex >= logArray.length ) {
         console.log( totalTime );
 
-        sim.scene.addChild( new Text( 'Elapsed time (ms): ' + totalTime, {x: 100, y: 100, font: "32px Arial"} ) );
+        sim.scene.addChild( new Text( 'Elapsed time (ms): ' + totalTime, {x: 100, y: 100, font: '32px Arial'} ) );
         sim.scene.updateScene();
         return;
       }

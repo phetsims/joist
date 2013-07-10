@@ -6,7 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
-  "use strict";
+  'use strict';
 
   var Pointer = require( 'JOIST/share/Pointer' );
   var Pointers = require( 'JOIST/share/Pointers' );
@@ -52,7 +52,7 @@ define( function( require ) {
       var logPointers = this;
       this.pointers.on( 'add', function( model, collection, options ) {
         var $img = $( '<img id="cursor">' ); //Equivalent: $(document.createElement('img'))
-        $img.attr( 'src', "http://dc440.4shared.com/img/mFJBl0A0/s7/mouse-cursor-icon.png" ); //TODO: our own copy of the image
+        $img.attr( 'src', 'http://dc440.4shared.com/img/mFJBl0A0/s7/mouse-cursor-icon.png' ); //TODO: our own copy of the image
         $img.css( {zIndex: 9999, position: 'absolute', width: 12, height: 20, 'pointer-events': 'none'} );
         $img.appendTo( 'body' );
         model.on( 'change:x change:y', function() {

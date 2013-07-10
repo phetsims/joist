@@ -4,7 +4,7 @@
  * The button that pops up the PhET menu.
  */
 define( function( require ) {
-  "use strict";
+  'use strict';
 
   //imports
   var Node = require( 'SCENERY/nodes/Node' );
@@ -44,7 +44,7 @@ define( function( require ) {
 
     var fontSize = 36;
 
-    var phetLabel = new Text( "PhET", {fontSize: fontSize, fill: 'yellow'} );
+    var phetLabel = new Text( 'PhET', {fontSize: fontSize, fill: 'yellow'} );
     var optionsButton = new FontAwesomeNode( 'reorder', {fill: '#fff'} );
 
     this.hbox = new HBox( {spacing: 10, children: [phetLabel, optionsButton] } );

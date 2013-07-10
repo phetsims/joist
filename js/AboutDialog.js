@@ -6,7 +6,7 @@
  * @author Sam Reid
  */
 define( function( require ) {
-  "use strict";
+  'use strict';
 
   var Node = require( 'SCENERY/nodes/Node' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -19,7 +19,7 @@ define( function( require ) {
   var HTMLText = require( 'SCENERY/nodes/HTMLText' );
 
   // constants
-  var SOFTWARE_AGREEMENT_URL = "http://phet.colorado.edu/about/software-agreement_v7.htm";
+  var SOFTWARE_AGREEMENT_URL = 'http://phet.colorado.edu/about/software-agreement_v7.htm';
 
   /**
    * @param {Sim} sim
@@ -44,7 +44,7 @@ define( function( require ) {
       new Text( 'Copyright © 2004-2013 University of Colorado Boulder', {fontSize: 12} ),
       new Text( ' ', {fontSize: 28 } ),
       new Text( sim.name, {fontSize: 28} ),
-      new Text( "version " + sim.version, {fontSize: 20} ),
+      new Text( 'version ' + sim.version, {fontSize: 20} ),
       new Text( ' ' ),
       new MultiLineText( sim.credits, { align: 'left', fontSize: 12 } ),
       new Text( ' ' ),

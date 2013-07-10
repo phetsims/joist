@@ -1,12 +1,12 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * The "PhET" menu.
+ * The 'PhET' menu.
  *
  * @author Sam Reid
  */
 define( function( require ) {
-  "use strict";
+  'use strict';
 
   // imports
   var Node = require( 'SCENERY/nodes/Node' );
@@ -92,7 +92,7 @@ define( function( require ) {
         text: 'PhET Homepage',
         present: true,
         callback: function() {
-          window.open( "http://phet.colorado.edu" );
+          window.open( 'http://phet.colorado.edu' );
           window.focus();
         }},
       {
@@ -118,8 +118,8 @@ define( function( require ) {
     // Menu items have uniform size, so compute the max text dimensions.
     var keepItemDescriptors = _.filter( itemDescriptors, function( itemDescriptor ) {return itemDescriptor.present;} );
     var textNodes = _.map( keepItemDescriptors, function( item ) {return new Text( item.text, {fontSize: FONT_SIZE} );} );
-    var maxTextWidth = _.max( textNodes, function( node ) {return node.width;} ).width;
-    var maxTextHeight = _.max( textNodes, function( node ) {return node.height;} ).height;
+    var maxTextWidth = _.max( textNodes,function( node ) {return node.width;} ).width;
+    var maxTextHeight = _.max( textNodes,function( node ) {return node.height;} ).height;
 
     // Create the menu items.
     var items = _.map( itemDescriptors, function( itemDescriptor ) {

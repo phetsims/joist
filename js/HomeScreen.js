@@ -6,7 +6,7 @@
  * @author Sam Reid
  */
 define( function( require ) {
-  "use strict";
+  'use strict';
 
   var PhetButton = require( 'JOIST/PhetButton' );
   var Node = require( 'SCENERY/nodes/Node' );
