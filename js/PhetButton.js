@@ -13,6 +13,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Plane = require( 'SCENERY/nodes/Plane' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetMenu = require( 'JOIST/PhetMenu' );
   var Font = require( 'SCENERY/util/Font' );
@@ -60,8 +61,7 @@ define( function( require ) {
       var phetMenu = new PhetMenu( sim );
       phetMenu.right = phetButton.globalToParentPoint( new Vector2( phetButton.globalBounds.maxX, 0 ) ).x;
       phetMenu.bottom = phetButton.centerY;
-      console.log( phetMenu.right );
-      var rectangle = new Rectangle( -1000, -1000, 3000, 3000, {fill: 'black', opacity: 0.3} );
+      var rectangle = new Plane( {fill: 'black', opacity: 0.3} );
       var detach = function() {
         rectangle.detach();
         phetMenu.detach();

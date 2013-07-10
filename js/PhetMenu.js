@@ -17,6 +17,7 @@ define( function( require ) {
   var AboutDialog = require( 'JOIST/AboutDialog' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
+  var Plane = require( 'SCENERY/nodes/Plane' );
   var log = require( 'AXON/log' );
 
   // constants
@@ -106,12 +107,17 @@ define( function( require ) {
         present: true,
         callback: function() {
           var aboutDialog = new AboutDialog( sim );
+          var plane = new Plane( {fill: 'black', opacity: 0.3} );
+          sim.addChild( plane );
           sim.addChild( aboutDialog );
           var aboutDialogListener = {down: function() {
             aboutDialog.removeInputListener( aboutDialogListener );
+            plane.addInputListener( aboutDialogListener );
             aboutDialog.detach();
+            plane.detach();
           }};
           aboutDialog.addInputListener( aboutDialogListener );
+          plane.addInputListener( aboutDialogListener );
         }}
     ];
 
