@@ -48,6 +48,8 @@ define( function( require ) {
       new Text( ' ' ),
       new MultiLineText( sim.credits, { align: 'left', fontSize: 12 } ),
       new Text( ' ' ),
+      new MultiLineText( sim.thanks, { align: 'left', fontSize: 12 } ),
+      new Text( ' ' ),
       softwareAgreementLink
     ]} );
 

@@ -31,13 +31,14 @@ define( function( require ) {
    */
   function Sim( name, tabs, options ) {
 
-    options = _.extend( { showHomeScreen: true, tabIndex: 0, standalone: false, credits: '' }, options );
+    options = _.extend( { showHomeScreen: true, tabIndex: 0, standalone: false, credits: '', thanks: '' }, options );
 
     var sim = this;
 
     sim.name = name;
     sim.version = version();
     sim.credits = options.credits;
+    sim.thanks = options.thanks;
 
     //Set the HTML page title to the localized title
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
