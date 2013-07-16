@@ -43,8 +43,11 @@ define( function( require ) {
       ]} );
       large.addInputListener( { down: function() { sim.simModel.showHomeScreen = false; }} );
 
-      var small = new VBox( {cursor: 'pointer', opacity: 0.5, children: [
-        new Node( {children: [tab.icon], scale: HEIGHT / tab.icon.height} ),
+      var small = new VBox( {spacing: sim.tabs.length === 2 ? 6 : sim.tabs.length === 3 ? 6 : 0, cursor: 'pointer', opacity: 0.5, children: [
+        new Node( {children: [tab.icon], scale: sim.tabs.length === 4 ? HEIGHT / tab.icon.height :
+                                                sim.tabs.length === 3 ? 1.25 * HEIGHT / tab.icon.height :
+                                                sim.tabs.length === 2 ? 1.75 * HEIGHT / tab.icon.height :
+                                                HEIGHT / tab.icon.height} ),
         new Text( tab.name, {fontSize: 18, fill: 'gray'} )
       ]} );
       small.addInputListener( { down: function() { sim.simModel.tabIndex = index; }} );
@@ -70,7 +73,7 @@ define( function( require ) {
 
       //Space the icons out more if there are fewer, so they will be spaced nicely
       //Cannot have only 1 tab because for 1-tab sims there is no home screen.
-      var spacing = sim.tabs.length === 2 ? 100 :
+      var spacing = sim.tabs.length === 2 ? 60 :
                     sim.tabs.length === 3 ? 60 :
                     33;
 
