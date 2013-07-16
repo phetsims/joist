@@ -43,7 +43,7 @@ define( function( require ) {
       ]} );
       large.addInputListener( { down: function() { sim.simModel.showHomeScreen = false; }} );
 
-      var small = new VBox( {spacing: sim.tabs.length === 2 ? 6 : sim.tabs.length === 3 ? 6 : 0, cursor: 'pointer', opacity: 0.5, children: [
+      var small = new VBox( {spacing: 3, cursor: 'pointer', opacity: 0.5, children: [
         new Node( {children: [tab.icon], scale: sim.tabs.length === 4 ? HEIGHT / tab.icon.height :
                                                 sim.tabs.length === 3 ? 1.25 * HEIGHT / tab.icon.height :
                                                 sim.tabs.length === 2 ? 1.75 * HEIGHT / tab.icon.height :
