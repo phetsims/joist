@@ -41,7 +41,7 @@ define( function( require ) {
   function PhetButton( sim, options ) {
 
     var phetButton = this;
-    Node.call( this, {renderer: 'svg'} );
+    Node.call( this, {renderer: 'svg', cursor: 'pointer'} );
 
     var fontSize = 36;
 
