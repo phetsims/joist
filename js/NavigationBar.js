@@ -144,9 +144,9 @@ define( function( require ) {
 
       //add the home icon
       this.homeIcon = new HomeButton();
-      var homeHighlight = Highlight.createHighlight( this.homeIcon.width + 6, this.homeIcon.height + 5 );
+      var homeHighlight = Highlight.createHighlight( this.homeIcon.width + 10, this.homeIcon.height + 5 );
       homeHighlight.bottom = this.homeIcon.bottom + 3;
-      homeHighlight.x = -3;
+      homeHighlight.x = -5;
       this.homeIcon.addChild( homeHighlight );
 
       //Hide the highlight on the home icon if the home icon is pressed
