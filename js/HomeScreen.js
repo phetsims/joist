@@ -20,6 +20,7 @@ define( function( require ) {
   var Highlight = require( 'JOIST/Highlight' );
   var Property = require( 'AXON/Property' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
+  var FullScreenButton = require( 'JOIST/FullScreenButton' );
 
   var HEIGHT = 70;
 
@@ -48,10 +49,13 @@ define( function( require ) {
         new Text( tab.name, {fontSize: 42, fill: 'yellow'} )
       ]} );
 
-      large.addInputListener( new ButtonListener( {fire: function() {
-        sim.simModel.showHomeScreen = false;
-        highlightedIndex.value = -1;
-      }} ) );
+      //TODO: Switch to buttonListener, but make sure you test it because on 7/17/2013 there is a problem where ButtonListener won't fire if a node has appeared under the pointer
+      large.addInputListener( {
+        down: function() {
+          sim.simModel.showHomeScreen = false;
+          highlightedIndex.value = -1;
+        }
+      } );
 
       var small = new VBox( {spacing: 3, cursor: 'pointer', children: [
         new Node( {opacity: 0.5, children: [tab.icon], scale: sim.tabs.length === 4 ? HEIGHT / tab.icon.height :
@@ -124,8 +128,9 @@ define( function( require ) {
       center.centerX = homeScreen.layoutBounds.width / 2;
     } );
 
-    var phetButton = new PhetButton( sim, {right: this.layoutBounds.maxX - 5, bottom: this.layoutBounds.maxY - 5} );
-    this.addChild( phetButton );
+    var fullScreenButton = new FullScreenButton();
+    var phetButton = new PhetButton( sim );
+    this.addChild( new HBox( {spacing: 10, children: [fullScreenButton, phetButton], right: this.layoutBounds.maxX - 5, bottom: this.layoutBounds.maxY - 5} ) );
   }
 
   inherit( TabView, HomeScreen );
