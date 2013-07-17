@@ -180,7 +180,7 @@ define( function( require ) {
       this.buttonHBox.top = 2;
 
       navigationBar.homeIcon.setScaleMagnitude( this.navBarScale );
-      navigationBar.homeIcon.bottom = this.navBarHeight;
+      navigationBar.homeIcon.top = 2;
       navigationBar.homeIcon.left = navigationBar.buttonHBox.right + 15;
     }
     this.hbox.setScaleMagnitude( this.navBarScale );
