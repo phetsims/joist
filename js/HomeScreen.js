@@ -19,6 +19,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Highlight = require( 'JOIST/Highlight' );
   var Property = require( 'AXON/Property' );
+  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
 
   var HEIGHT = 70;
 
@@ -46,10 +47,11 @@ define( function( require ) {
         largeIconWithFrame,
         new Text( tab.name, {fontSize: 42, fill: 'yellow'} )
       ]} );
-      large.addInputListener( { down: function() {
+
+      large.addInputListener( new ButtonListener( {fire: function() {
         sim.simModel.showHomeScreen = false;
         highlightedIndex.value = -1;
-      }} );
+      }} ) );
 
       var small = new VBox( {spacing: 3, cursor: 'pointer', children: [
         new Node( {opacity: 0.5, children: [tab.icon], scale: sim.tabs.length === 4 ? HEIGHT / tab.icon.height :
