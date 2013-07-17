@@ -26,19 +26,7 @@ define( function( require ) {
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var PhetButton = require( 'JOIST/PhetButton' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
-
-  var createHighlight = function( width, height ) {
-    var leftBar = new Path( {shape: Shape.lineSegment( 0, 0, 0, height ), lineWidth: 1, stroke: new LinearGradient( 0, 0, 0, height ).addColorStop( 0, 'black' ).addColorStop( 0.5, 'white' ).addColorStop( 1, 'black' ) } );
-    var rightBar = new Path( {shape: Shape.lineSegment( width, 0, width, height ), lineWidth: 1, stroke: new LinearGradient( 0, 0, 0, height ).addColorStop( 0, 'black' ).addColorStop( 0.5, 'white' ).addColorStop( 1, 'black' ) } );
-    return new Node( {children: [leftBar, rightBar], visible: false} );
-  };
-
-  var createHighlightListener = function( node ) {
-    return {//Highlight a button when mousing over it
-      over: function( event ) { if ( event.pointer.isMouse ) {node.visible = true;} },
-      out: function( event ) { if ( event.pointer.isMouse ) {node.visible = false;} }
-    };
-  };
+  var Highlight = require( 'JOIST/Highlight' );
 
   /**
    * Create a nav bar.  Layout assumes all of the tab widths are the same.
@@ -112,7 +100,7 @@ define( function( require ) {
       this.buttonArray = iconAndTextArray.map( function( iconAndText ) {
         //Background area for layout and hit region
         var rectangle = new Rectangle( 0, 0, maxWidth, maxHeight );
-        var highlight = createHighlight( maxWidth, maxHeight );
+        var highlight = Highlight.createHighlight( maxWidth, maxHeight );
         iconAndText.centerX = maxWidth / 2;
         iconAndText.top = 0;
         var button = new Node( {children: [ rectangle, highlight, iconAndText]} );
@@ -156,7 +144,7 @@ define( function( require ) {
 
       //add the home icon
       this.homeIcon = new HomeButton();
-      var homeHighlight = createHighlight( this.homeIcon.width + 6, this.homeIcon.height + 5 );
+      var homeHighlight = Highlight.createHighlight( this.homeIcon.width + 6, this.homeIcon.height + 5 );
       homeHighlight.bottom = this.homeIcon.bottom + 3;
       homeHighlight.x = -3;
       this.homeIcon.addChild( homeHighlight );
@@ -164,7 +152,7 @@ define( function( require ) {
       //Hide the highlight on the home icon if the home icon is pressed
       model.showHomeScreenProperty.link( function( showHomeScreen ) { if ( showHomeScreen ) { homeHighlight.visible = false; } } );
       this.homeIcon.addInputListener( { down: function() { model.showHomeScreen = true; }} );
-      this.homeIcon.addInputListener( createHighlightListener( homeHighlight ) );
+      this.homeIcon.addInputListener( Highlight.createHighlightListener( homeHighlight ) );
       this.homeIcon.addPeer( '<input type="button" aria-label="Home Screen">', {click: function() {model.showHomeScreen = true;}, tabIndex: 100} );
       this.addChild( this.homeIcon );
     }

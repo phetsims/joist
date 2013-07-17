@@ -17,6 +17,8 @@ define( function( require ) {
   var TabView = require( 'JOIST/TabView' );
   var Frame = require( 'JOIST/Frame' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Highlight = require( 'JOIST/Highlight' );
+  var Property = require( 'AXON/Property' );
 
   var HEIGHT = 70;
 
@@ -33,6 +35,9 @@ define( function( require ) {
     var title = new Text( sim.name, {fontSize: 52, fontFamily: 'Century Gothic, Futura', fill: 'white', y: 110, centerX: this.layoutBounds.width / 2} );
     this.addChild( title );
 
+    //Keep track of which tab is highlighted so the same tab can remain highlighted even if nodes are replaced (say when one grows larger or smaller)
+    var highlightedIndex = new Property( -1 );
+
     var tabChildren = _.map( sim.tabs, function( tab ) {
       var index = sim.tabs.indexOf( tab );
       var largeIcon = new Node( {children: [tab.icon], scale: HEIGHT / tab.icon.height * 2} );
@@ -41,16 +46,40 @@ define( function( require ) {
         largeIconWithFrame,
         new Text( tab.name, {fontSize: 42, fill: 'yellow'} )
       ]} );
-      large.addInputListener( { down: function() { sim.simModel.showHomeScreen = false; }} );
+      large.addInputListener( { down: function() {
+        sim.simModel.showHomeScreen = false;
+        highlightedIndex.value = -1;
+      }} );
 
-      var small = new VBox( {spacing: 3, cursor: 'pointer', opacity: 0.5, children: [
-        new Node( {children: [tab.icon], scale: sim.tabs.length === 4 ? HEIGHT / tab.icon.height :
-                                                sim.tabs.length === 3 ? 1.25 * HEIGHT / tab.icon.height :
-                                                sim.tabs.length === 2 ? 1.75 * HEIGHT / tab.icon.height :
-                                                HEIGHT / tab.icon.height} ),
+      var small = new VBox( {spacing: 3, cursor: 'pointer', children: [
+        new Node( {opacity: 0.5, children: [tab.icon], scale: sim.tabs.length === 4 ? HEIGHT / tab.icon.height :
+                                                              sim.tabs.length === 3 ? 1.25 * HEIGHT / tab.icon.height :
+                                                              sim.tabs.length === 2 ? 1.75 * HEIGHT / tab.icon.height :
+                                                              HEIGHT / tab.icon.height} ),
         new Text( tab.name, {fontSize: 18, fill: 'gray'} )
       ]} );
       small.addInputListener( { down: function() { sim.simModel.tabIndex = index; }} );
+
+      var smallHighlight = Highlight.createHighlight( small.width + 6, small.height );
+      smallHighlight.centerX = small.centerX;
+      small.addChild( smallHighlight );
+      var highlightListener = {
+        over: function( event ) {
+          if ( event.pointer.isMouse ) {
+            highlightedIndex.value = index;
+            console.log( 'over', index );
+          }
+        },
+        out: function( event ) { if ( event.pointer.isMouse ) {highlightedIndex.value = -1;} }
+      };
+      highlightedIndex.valueEquals( index ).linkAttribute( smallHighlight, 'visible' );
+      small.addInputListener( highlightListener );
+
+      var largeHighlight = Highlight.createHighlight( large.width + 8, large.height );
+      largeHighlight.centerX = large.centerX;
+      highlightedIndex.valueEquals( index ).linkAttribute( largeHighlight, 'visible' );
+      large.addChild( largeHighlight );
+      large.addInputListener( highlightListener );
 
       //TODO: Add accessibility peers
       //      tabChild.addPeer( '<input type="button" aria-label="' + tabChild.tab.name + '">', {click: function() {
