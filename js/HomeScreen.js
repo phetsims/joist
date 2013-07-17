@@ -58,6 +58,7 @@ define( function( require ) {
                                                               HEIGHT / tab.icon.height} ),
         new Text( tab.name, {fontSize: 18, fill: 'gray'} )
       ]} );
+      small.mouseArea = small.bounds; //cover the gap in the vbox
       small.addInputListener( { down: function() { sim.simModel.tabIndex = index; }} );
 
       var smallHighlight = Highlight.createHighlight( small.width + 6, small.height );
@@ -67,7 +68,6 @@ define( function( require ) {
         over: function( event ) {
           if ( event.pointer.isMouse ) {
             highlightedIndex.value = index;
-            console.log( 'over', index );
           }
         },
         out: function( event ) { if ( event.pointer.isMouse ) {highlightedIndex.value = -1;} }
@@ -80,6 +80,7 @@ define( function( require ) {
       highlightedIndex.valueEquals( index ).linkAttribute( largeHighlight, 'visible' );
       large.addChild( largeHighlight );
       large.addInputListener( highlightListener );
+      large.mouseArea = large.bounds; //cover the gap in the vbox
 
       //TODO: Add accessibility peers
       //      tabChild.addPeer( '<input type="button" aria-label="' + tabChild.tab.name + '">', {click: function() {
