@@ -59,7 +59,17 @@ define( function( require ) {
         new Text( tab.name, {fontSize: 18, fill: 'gray'} )
       ]} );
       small.mouseArea = small.bounds; //cover the gap in the vbox
-      small.addInputListener( { down: function() { sim.simModel.tabIndex = index; }} );
+      small.addInputListener( {
+        down: function() { sim.simModel.tabIndex = index; },
+
+        //On the home screen if you touch an inactive tab thumbnail, it grows.  If then without lifting your finger you swipe over
+        // to the next thumbnail, that one would grow.
+        over: function( event ) {
+          if ( !event.pointer.isMouse ) {
+            sim.simModel.tabIndex = index;
+          }
+        }
+      } );
 
       var smallHighlight = Highlight.createHighlight( small.width + 6, small.height );
       smallHighlight.centerX = small.centerX;
