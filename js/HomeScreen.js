@@ -128,9 +128,15 @@ define( function( require ) {
       center.centerX = homeScreen.layoutBounds.width / 2;
     } );
 
-    var fullScreenButton = new FullScreenButton();
-    var phetButton = new PhetButton( sim );
-    this.addChild( new HBox( {spacing: 10, children: [fullScreenButton, phetButton], right: this.layoutBounds.maxX - 5, bottom: this.layoutBounds.maxY - 5} ) );
+    var showFullScreenButton = false;
+    if ( showFullScreenButton ) {
+      var fullScreenButton = new FullScreenButton();
+      var phetButton = new PhetButton( sim );
+      this.addChild( new HBox( {spacing: 10, children: [fullScreenButton, phetButton], right: this.layoutBounds.maxX - 5, bottom: this.layoutBounds.maxY - 5} ) );
+    }
+    else {
+      this.addChild( new PhetButton( sim ).mutate( {right: this.layoutBounds.maxX - 5, bottom: this.layoutBounds.maxY - 5} ) )
+    }
   }
 
   inherit( TabView, HomeScreen );
