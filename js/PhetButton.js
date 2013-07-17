@@ -46,13 +46,13 @@ define( function( require ) {
     var fontSize = 36;
 
     var phetLabel = new Text( 'PhET', {fontSize: fontSize, fill: 'yellow'} );
-    var optionsButton = new FontAwesomeNode( 'reorder', {fill: '#fff'} );
+    var optionsButton = new FontAwesomeNode( 'reorder', {fill: '#fff', scale: 0.6} );
 
     this.hbox = new HBox( {spacing: 10, children: [phetLabel, optionsButton] } );
     this.addChild( this.hbox );
 
     var optionsHighlight = createHighlight( this.hbox.width + 6, this.hbox.height - 2 );
-    optionsHighlight.bottom = optionsButton.bottom + 3;
+    optionsHighlight.bottom = this.hbox.bottom + 3;
     optionsHighlight.x = -3;
     this.addChild( optionsHighlight );
 
