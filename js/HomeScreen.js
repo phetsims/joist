@@ -132,12 +132,12 @@ define( function( require ) {
     var deviceIsAndroid = navigator.userAgent.indexOf( 'Android' ) > 0;
     var deviceIsIOS = /iP(ad|hone|od)/.test( navigator.userAgent );
 
-    function IE( v ) {
-      var r = RegExp( 'msie' + (!isNaN( v ) ? ('\\s' + v) : ''), 'i' );
+    function isIE( v ) {
+      var r = new RegExp( 'msie' + (!isNaN( v ) ? ('\\s' + v) : ''), 'i' );
       return r.test( navigator.userAgent );
     }
 
-    var ie = IE( 9 ) || IE( 10 );//might work on IE11
+    var ie = isIE( 9 ) || isIE( 10 );//might work on IE11
 
     var showFullScreenButton = !deviceIsAndroid && !deviceIsIOS && !ie;
     if ( showFullScreenButton ) {
