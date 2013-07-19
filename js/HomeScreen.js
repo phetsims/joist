@@ -140,7 +140,7 @@ define( function( require ) {
     var ie = isIE( 9 ) || isIE( 10 );//might work on IE11
 
     var showFullScreenButton = !deviceIsAndroid && !deviceIsIOS && !ie;
-    if ( showFullScreenButton ) {
+    if ( showFullScreenButton && false) {
       var fullScreenButton = new FullScreenButton();
       var phetButton = new PhetButton( sim );
       this.addChild( new HBox( {spacing: 10, children: [fullScreenButton, phetButton], right: this.layoutBounds.maxX - 5, bottom: this.layoutBounds.maxY - 5} ) );
