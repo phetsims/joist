@@ -195,8 +195,9 @@ define( function( require ) {
       request.open( 'GET', this.getEventLogLocation(), true );
       request.onload = function( e ) {
         // we create functions, so eval is necessary. we go to the loaded domain on a non-standard port, so cross-domain issues shouldn't present themselves
+        /* jshint -W061 */
         sim.startInputEventPlayback( eval( request.responseText ) );
-      }
+      };
       request.send();
       return;
     }
@@ -375,7 +376,7 @@ define( function( require ) {
     
     var data = this.getRecordedInputEventLogString();
     
-    var xmlhttp = new window.XMLHttpRequest();
+    var xmlhttp = new XMLHttpRequest();
     xmlhttp.open( 'POST', this.getEventLogLocation(), true ); // use a protocol-relative port to send it to Scenery's local event-log server
     xmlhttp.setRequestHeader( 'Content-type', 'text/javascript' );
     xmlhttp.send( data );
