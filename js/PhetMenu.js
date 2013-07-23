@@ -142,7 +142,7 @@ define( function( require ) {
     var maxTextHeight = _.max( textNodes,function( node ) {return node.height;} ).height;
 
     // Create the menu items.
-    var items = _.map( itemDescriptors, function( itemDescriptor ) {
+    var items = _.map( keepItemDescriptors, function( itemDescriptor ) {
       return createMenuItem( itemDescriptor.text, maxTextWidth, maxTextHeight, itemDescriptor.callback );
     } );
 
