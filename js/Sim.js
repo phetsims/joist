@@ -16,6 +16,7 @@ define( function( require ) {
   var Scene = require( 'SCENERY/Scene' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var Vector2 = require( 'DOT/Vector2' );
   var version = require( 'version' );
   var PropertySet = require( 'AXON/PropertySet' );
 
@@ -32,13 +33,16 @@ define( function( require ) {
   function Sim( name, tabs, options ) {
 
     options = _.extend( { showHomeScreen: true, tabIndex: 0, standalone: false, credits: '', thanks: '' }, options );
+    this.options = options; // store this for access from prototype functions, assumes that it won't be changed later
 
-    var sim = this;
+    var sim = this; window.sim = sim;
 
     sim.name = name;
     sim.version = version();
     sim.credits = options.credits;
     sim.thanks = options.thanks;
+    
+    sim.inputEventLog = []; // used to store input events and requestAnimationFrame cycles
 
     //Set the HTML page title to the localized title
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
@@ -53,6 +57,14 @@ define( function( require ) {
     }
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'tabIndex' ) ) {
       options.tabIndex = parseInt( window.phetcommon.getQueryParameter( 'tabIndex' ), 10 );
+    }
+    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'recordInputEventLog' ) ) {
+      // enables recording of Scenery's input events, request animation frames, and dt's so the sim can be played back
+      options.recordInputEventLog = true;
+    }
+    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'playbackInputEventLog' ) ) {
+      // instead of loading like normal, download a previously-recorded event sequence and play it back (unique to the browser and window size)
+      options.playbackInputEventLog = true;
     }
 
     //If specifying 'standalone' then filter the tabs array so that it is just the selected tabIndex
@@ -87,6 +99,9 @@ define( function( require ) {
     //Leave accessibility as a flag while in development
     sim.scene = new Scene( $simDiv, {allowDevicePixelRatioScaling: false, accessible: true} );
     sim.scene.initializeStandaloneEvents( { batchDOMEvents: true } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
+    if ( options.recordInputEventLog ) {
+      sim.scene.input.logEvents = true; // flag Scenery to log all input events
+    }
     window.simScene = sim.scene; // make the scene available for debugging
 
     sim.navigationBar = new NavigationBar( sim, tabs, sim.simModel );
@@ -172,6 +187,19 @@ define( function( require ) {
 
   Sim.prototype.start = function() {
     var sim = this;
+    
+    // if the playback flag is set, don't start up like normal. instead download our event log from the server and play it back.
+    // if direct playback (copy-paste) is desired, please directly call sim.startInputEventPlayback( ... ) instead of sim.start().
+    if ( this.options.playbackInputEventLog ) {
+      var request = new XMLHttpRequest();
+      request.open( 'GET', this.getEventLogLocation(), true );
+      request.onload = function( e ) {
+        // we create functions, so eval is necessary. we go to the loaded domain on a non-standard port, so cross-domain issues shouldn't present themselves
+        sim.startInputEventPlayback( eval( request.responseText ) );
+      }
+      request.send();
+      return;
+    }
 
     //Keep track of the previous time for computing dt, and initially signify that time hasn't been recorded yet.
     var lastTime = -1;
@@ -189,6 +217,8 @@ define( function( require ) {
     // place the rAF *before* the render() to assure as close to 60fps with the setTimeout fallback.
     //http://paulirish.com/2011/requestanimationframe-for-smart-animating/
     (function animationLoop() {
+      var dt;
+      
       window.requestAnimationFrame( animationLoop );
 
       // if any input events were received and batched, fire them now.
@@ -203,7 +233,7 @@ define( function( require ) {
         lastTime = time;
 
         //Convert to seconds
-        var dt = elapsedTimeMilliseconds / 1000.0;
+        dt = elapsedTimeMilliseconds / 1000.0;
         sim.tabs[sim.simModel.tabIndex].model.step( dt );
       }
 
@@ -211,6 +241,14 @@ define( function( require ) {
       //Update the tweens after the model is updated but before the scene is redrawn.
       if ( window.TWEEN ) {
         window.TWEEN.update();
+      }
+      if ( sim.options.recordInputEventLog ) {
+        // push a frame entry into our inputEventLog
+        sim.inputEventLog.push( {
+          dt: dt,
+          events: sim.scene.input.eventLog
+        } );
+        sim.scene.input.eventLog = []; // clears the event log so that future actions will fill it
       }
       sim.scene.updateScene();
     })();
@@ -254,9 +292,93 @@ define( function( require ) {
       totalTime += elapsed;
     })();
   };
+  
+  // Plays back input events and updateScene() loops based on recorded data. data should be an array of objects (representing frames) with dt and fireEvents( scene, dot )
+  Sim.prototype.startInputEventPlayback = function( data ) {
+    var sim = this;
+    
+    var index = 0; // our index into our frame data.
+
+    //Make sure requestAnimationFrame is defined
+    Util.polyfillRequestAnimationFrame();
+    
+    var startTime = Date.now();
+
+    (function animationLoop() {
+      var frame = data[index++];
+      
+      // when we have aready played the last frame
+      if ( frame === undefined ) {
+        var endTime = Date.now();
+        
+        var elapsedTime = endTime - startTime;
+        var fps = data.length / ( elapsedTime / 1000 );
+        
+        // replace the page with a performance message
+        document.body.innerHTML = '<div style="text-align: center; font-size: 16px;">' +
+                                  '<h1>Performance results:</h1>' +
+                                  '<p>Elapsed time: <strong>' + elapsedTime + 'ms</strong></p>' +
+                                  '<p>Approximate frames per second: <strong>' + Math.round( fps ) + '</strong></p></div>';
+        
+        // bail before the requestAnimationFrame if we are at the end (stops the frame loop)
+        return;
+      }
+      
+      window.requestAnimationFrame( animationLoop );
+      
+      // we don't fire batched input events (prevents them from affecting unit/performance tests).
+      // instead, we fire pre-recorded events for the scene if it exists (left out for brevity when not necessary)
+      if ( frame.fireEvents ) { frame.fireEvents( sim.scene, function( x, y ) { return new Vector2( x, y ); } ); }
+
+      //Update the active tab, but not if the user is on the home screen
+      if ( !sim.simModel.showHomeScreen ) {
+        sim.tabs[sim.simModel.tabIndex].model.step( frame.dt ); // use the pre-recorded dt to ensure lack of variation between runs
+      }
+
+      //If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
+      //Update the tweens after the model is updated but before the scene is redrawn.
+      if ( window.TWEEN ) {
+        window.TWEEN.update();
+      }
+      sim.scene.updateScene();
+    })();
+  };
 
   Sim.prototype.addChild = function( node ) {
     this.scene.addChild( node );
+  };
+  
+  // A string that should be evaluated as JavaScript containing an array of "frame" objects, with a dt and an optional fireEvents function
+  Sim.prototype.getRecordedInputEventLogString = function() {
+    return '[\n' + _.map( this.inputEventLog, function( item ) {
+      var fireEvents = 'fireEvents:function(scene,dot){' + _.map( item.events, function( str ) { return 'scene.input.' + str; } ).join( '' ) + '}';
+      return '{dt:' + item.dt + ( item.events.length ? ',' + fireEvents : '' ) + '}';
+    } ).join( ',\n' ) + '\n]';
+  };
+  
+  // For recording and playing back input events, we use a unique combination of the user agent, width and height, so the same
+  // server can test different recorded input events on different devices/browsers (desired, because events and coordinates are different)
+  Sim.prototype.getEventLogName = function() {
+    return window.navigator.userAgent.replace( /[^a-zA-Z0-9]/g, '_' ) + '_' + window.innerWidth + 'x' + window.innerHeight;
+  };
+  
+  // protocol-relative URL to the same-origin on a different port, for loading/saving recorded input events and frames
+  Sim.prototype.getEventLogLocation = function() {
+    var host = window.location.host.split( ':' )[0]; // grab the hostname without the port
+    return '//' + host + ':8083/' + this.getEventLogName();
+  };
+  
+  // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
+  Sim.prototype.submitEventLog = function() {
+    // if we aren't recording data, don't submit any!
+    if ( !this.options.recordInputEventLog ) { return; }
+    
+    var data = this.getRecordedInputEventLogString();
+    
+    var xmlhttp = new window.XMLHttpRequest();
+    xmlhttp.open( 'POST', this.getEventLogLocation(), true ); // use a protocol-relative port to send it to Scenery's local event-log server
+    xmlhttp.setRequestHeader( 'Content-type', 'text/javascript' );
+    xmlhttp.send( data );
   };
 
   return Sim;

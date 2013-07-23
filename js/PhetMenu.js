@@ -98,9 +98,23 @@ define( function( require ) {
         }},
       {
         text: 'Output Log',
-        present: log.enabled ? true : false,
+        present: log.enabled ? true : false, // because double-negation (!!) coercion doesn't look as cool?
         callback: function() {
-          console.log( JSON.stringify( log.log ) );
+          console.log( JSON.stringify( log.entries ) );
+        }},
+      {
+        text: 'Output Input Events Log',
+        present: !!sim.options.recordInputEventLog,
+        callback: function() {
+          // prints the recorded input event log to the console
+          console.log( sim.getRecordedInputEventLogString() );
+        }},
+      {
+        text: 'Submit Input Events Log',
+        present: !!sim.options.recordInputEventLog,
+        callback: function() {
+          // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
+          sim.submitEventLog();
         }},
       {
         text: 'About...',
