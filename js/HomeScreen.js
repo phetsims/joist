@@ -13,6 +13,7 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var Shape = require( 'KITE/Shape' );
   var inherit = require( 'PHET_CORE/inherit' );
   var TabView = require( 'JOIST/TabView' );
   var Frame = require( 'JOIST/Frame' );
@@ -64,7 +65,7 @@ define( function( require ) {
                                                               HEIGHT / tab.icon.height} ),
         new Text( tab.name, {fontSize: 18, fill: 'gray'} )
       ]} );
-      small.mouseArea = small.bounds; //cover the gap in the vbox
+      small.mouseArea = small.touchArea = Shape.bounds( small.bounds ); //cover the gap in the vbox
       small.addInputListener( {
         down: function() { sim.simModel.tabIndex = index; },
 
@@ -96,7 +97,7 @@ define( function( require ) {
       highlightedIndex.valueEquals( index ).linkAttribute( largeHighlight, 'visible' );
       large.addChild( largeHighlight );
       large.addInputListener( highlightListener );
-      large.mouseArea = large.bounds; //cover the gap in the vbox
+      large.mouseArea = large.touchArea = Shape.bounds( large.bounds ); //cover the gap in the vbox
 
       //TODO: Add accessibility peers
       //      tabChild.addPeer( '<input type="button" aria-label="' + tabChild.tab.name + '">', {click: function() {
