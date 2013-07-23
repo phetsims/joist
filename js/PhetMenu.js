@@ -90,7 +90,7 @@ define( function( require ) {
      */
     var itemDescriptors = [
       {
-        text: 'PhET Homepage',
+        text: 'PhET website',
         present: true,
         callback: function() {
           window.open( 'http://phet.colorado.edu' );
