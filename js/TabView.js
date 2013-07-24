@@ -19,10 +19,9 @@ define( function( require ) {
   function TabView( options ) {
     Node.call( this, options );
 
-    // Show the TabView's layoutBounds
+    // Show the layoutBounds
     if ( window.phetcommon.getQueryParameter( 'dev' ) ) {
-      var path = new Path( { shape: Shape.bounds( this.layoutBounds ), stroke: 'red', lineWidth: 3, pickable: false } );
-      this.addChild( path );
+      this.addChild( new Path( { shape: Shape.bounds( this.layoutBounds ), stroke: 'red', lineWidth: 3, pickable: false } ) );
     }
   }
 
