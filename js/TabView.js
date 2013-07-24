@@ -13,9 +13,17 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var Shape = require( 'KITE/shape' );
 
   function TabView( options ) {
     Node.call( this, options );
+
+    // Show the TabView's layoutBounds
+    if ( window.phetcommon.getQueryParameter( 'dev' ) ) {
+      var path = new Path( { shape: Shape.bounds( this.layoutBounds ), stroke: 'red', lineWidth: 3, pickable: false } );
+      this.addChild( path );
+    }
   }
 
   inherit( Node, TabView, {
