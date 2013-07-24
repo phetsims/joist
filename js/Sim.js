@@ -360,7 +360,7 @@ define( function( require ) {
   // For recording and playing back input events, we use a unique combination of the user agent, width and height, so the same
   // server can test different recorded input events on different devices/browsers (desired, because events and coordinates are different)
   Sim.prototype.getEventLogName = function() {
-    return window.navigator.userAgent.replace( /[^a-zA-Z0-9]/g, '_' ) + '_' + window.innerWidth + 'x' + window.innerHeight;
+    return ( this.name + '_' + window.navigator.userAgent ).replace( /[^a-zA-Z0-9]/g, '_' ) + '_' + window.innerWidth + 'x' + window.innerHeight;
   };
   
   // protocol-relative URL to the same-origin on a different port, for loading/saving recorded input events and frames
