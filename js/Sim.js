@@ -43,6 +43,12 @@ define( function( require ) {
     sim.thanks = options.thanks;
     
     sim.inputEventLog = []; // used to store input events and requestAnimationFrame cycles
+    
+    // state for mouse event fuzzing
+    sim.fuzzMouseAverage = 10; // average number of mouse events to synthesize per frame
+    sim.fuzzMouseIsDown = false;
+    sim.fuzzMousePosition = new Vector2(); // start at 0,0
+    sim.fuzzMouseLastMoved = false; // whether the last mouse event was a move (we skew probabilities based on this)
 
     //Set the HTML page title to the localized title
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
@@ -65,6 +71,17 @@ define( function( require ) {
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'playbackInputEventLog' ) ) {
       // instead of loading like normal, download a previously-recorded event sequence and play it back (unique to the browser and window size)
       options.playbackInputEventLog = true;
+    }
+    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'fuzzMouse' ) ) {
+      // ignore any user input events, and instead fire mouse events randomly in an effort to cause an exception
+      options.fuzzMouse = true;
+      if ( window.phetcommon.getQueryParameter( 'fuzzMouse' ) !== 'undefined' ) {
+        sim.fuzzMouseAverage = parseFloat( window.phetcommon.getQueryParameter( 'fuzzMouse' ) );
+      }
+    }
+    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'fuzzTouches' ) ) {
+      // ignore any user input events, and instead fire touch events randomly in an effort to cause an exception
+      options.fuzzTouches = true;
     }
 
     //If specifying 'standalone' then filter the tabs array so that it is just the selected tabIndex
@@ -222,8 +239,15 @@ define( function( require ) {
       
       window.requestAnimationFrame( animationLoop );
 
-      // if any input events were received and batched, fire them now.
-      sim.scene.fireBatchedEvents();
+      // fire or synthesize input events
+      if ( sim.options.fuzzMouse ) {
+        sim.fuzzMouseEvents();
+      } else if ( sim.options.fuzzTouches ) {
+        // TODO: we need more state tracking of individual touch points to do this properly
+      } else {
+        // if any input events were received and batched, fire them now.
+        sim.scene.fireBatchedEvents();
+      }
 
       //Update the active tab, but not if the user is on the home screen
       if ( !sim.simModel.showHomeScreen ) {
@@ -380,6 +404,57 @@ define( function( require ) {
     xmlhttp.open( 'POST', this.getEventLogLocation(), true ); // use a protocol-relative port to send it to Scenery's local event-log server
     xmlhttp.setRequestHeader( 'Content-type', 'text/javascript' );
     xmlhttp.send( data );
+  };
+  
+  Sim.prototype.fuzzMouseEvents = function() {
+    var sim = this;
+    
+    var chance;
+    // run a variable number of events, with a certain chance of bailing out (so no events are possible)
+    // models a geometric distribution of events
+    while ( ( chance = Math.random() ) < 1 - 1 / sim.fuzzMouseAverage ) {
+      var domEvent;
+      if ( chance < ( sim.fuzzMouseLastMoved ? 0.02 : 0.4 ) ) {
+        // toggle up/down
+        domEvent = document.createEvent( 'MouseEvent' ); // not 'MouseEvents' according to DOM Level 3 spec
+        
+        // technically deprecated, but DOM4 event constructors not out yet. people on #whatwg said to use it
+        domEvent.initMouseEvent( sim.fuzzMouseIsDown ? 'mouseup' : 'mousedown', true, true, window, 1, // click count
+          sim.fuzzMousePosition.x, sim.fuzzMousePosition.y, sim.fuzzMousePosition.x, sim.fuzzMousePosition.y,
+          false, false, false, false,
+          0, // button
+          null );
+        
+        sim.scene.input.validatePointers();
+        
+        if ( sim.fuzzMouseIsDown ) {
+          sim.scene.input.mouseUp( sim.fuzzMousePosition, domEvent );
+          sim.fuzzMouseIsDown = false;
+        } else {
+          sim.scene.input.mouseDown( sim.fuzzMousePosition, domEvent );
+          sim.fuzzMouseIsDown = true;
+        }
+      } else {
+        // change the mouse position
+        sim.fuzzMousePosition = new Vector2(
+          Math.floor( Math.random() * sim.scene.sceneBounds.width ),
+          Math.floor( Math.random() * sim.scene.sceneBounds.height )
+        );
+        
+        // our move event
+        domEvent = document.createEvent( 'MouseEvent' ); // not 'MouseEvents' according to DOM Level 3 spec
+        
+        // technically deprecated, but DOM4 event constructors not out yet. people on #whatwg said to use it
+        domEvent.initMouseEvent( 'mousemove', true, true, window, 0, // click count
+          sim.fuzzMousePosition.x, sim.fuzzMousePosition.y, sim.fuzzMousePosition.x, sim.fuzzMousePosition.y,
+          false, false, false, false,
+          0, // button
+          null );
+        
+        sim.scene.input.validatePointers();
+        sim.scene.input.mouseMove( sim.fuzzMousePosition, domEvent );
+      }
+    }
   };
 
   return Sim;
