@@ -35,7 +35,7 @@ define( function( require ) {
     this.backgroundColor = 'black';
 
     //iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
-    var title = new Text( sim.name, {fontSize: 52, fontFamily: 'Century Gothic, Futura', fill: 'white', y: 110, centerX: this.layoutBounds.width / 2} );
+    var title = new Text( sim.name, {fontSize: 52, fontFamily: '"Century Gothic", "Futura", sans-serif', fill: 'white', y: 110, centerX: this.layoutBounds.width / 2} );
     this.addChild( title );
 
     //Keep track of which tab is highlighted so the same tab can remain highlighted even if nodes are replaced (say when one grows larger or smaller)
@@ -141,7 +141,7 @@ define( function( require ) {
     var ie = isIE( 9 ) || isIE( 10 );//might work on IE11
 
     var showFullScreenButton = !deviceIsAndroid && !deviceIsIOS && !ie;
-    if ( showFullScreenButton && false) {
+    if ( showFullScreenButton && false ) {
       var fullScreenButton = new FullScreenButton();
       var phetButton = new PhetButton( sim );
       this.addChild( new HBox( {spacing: 10, children: [fullScreenButton, phetButton], right: this.layoutBounds.maxX - 5, bottom: this.layoutBounds.maxY - 5} ) );
