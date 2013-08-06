@@ -45,9 +45,11 @@ define( function( require ) {
     var phetButton = this;
     Node.call( this, {renderer: 'svg', cursor: 'pointer'} );
 
+    options = _.extend( {phetLogo: 'phet-logo-short.svg', phetLogoScale: 0.28}, options );
+
     var fontSize = 36;
 
-    var phetLabel = new Image( joistImageLoader.getImage( 'phet-logo-short.svg' ), {scale: 0.28} );
+    var phetLabel = new Image( joistImageLoader.getImage( options.phetLogo ), {scale: options.phetLogoScale} );
     var optionsButton = new FontAwesomeNode( 'reorder', {fill: '#fff', scale: 0.6} );
 
     this.hbox = new HBox( {align: 'bottom', spacing: 10, children: [phetLabel, optionsButton] } );
