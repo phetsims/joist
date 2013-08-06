@@ -31,6 +31,8 @@ define( function( require ) {
         }
       }
 
+      //Load the images for a single imageLoader.
+      //TODO would there be any benefit from multiplexing the image loaders to use a single PxLoader?
       function load( imageLoader, path ) {
         var pxLoader = new PxLoader();
         var loadedImages = {};
