@@ -31,13 +31,17 @@ define( function( require ) {
         }
       }
 
+      function load( imageLoader, path ) {
+        var pxLoader = new PxLoader();
+        var loadedImages = {};
+        imageLoader.imageNames.forEach( function( image ) { loadedImages[image] = pxLoader.addImage( path + '/' + image ); } );
+        imageLoader.getImage = function( name ) { return loadedImages[name]; };
+        pxLoader.addCompletionListener( incrementResourceCount );
+        pxLoader.start();
+      }
+
       // load images and configure the image loader
-      var simPxLoader = new PxLoader();
-      var simLoadedImages = {};
-      simImageLoader.imageNames.forEach( function( image ) { simLoadedImages[image] = simPxLoader.addImage( 'images/' + image ); } );
-      simImageLoader.getImage = function( name ) { return simLoadedImages[name]; };
-      simPxLoader.addCompletionListener( incrementResourceCount );
-      simPxLoader.start();
+      load( simImageLoader, 'images' );
 
       //Check whether images are declared locally (for a build) or in joist (for requirejs)
       //TODO: this will have problems if the image name in joist overlaps an image name in the sim.
@@ -47,22 +51,10 @@ define( function( require ) {
       var simImage = new Image();
       simImage.onerror = function() {
         console.log( 'SimLauncher.js could not find the production/chipper image location for joist images, so looking for relative path ../joist/images...' );
-        //Load joist images.  TODO: Abstract this out, code is duplicated with the above
-        var joistPxLoader = new PxLoader();
-        var joistLoadedImages = {};
-        joistImageLoader.imageNames.forEach( function( image ) { joistLoadedImages[image] = joistPxLoader.addImage( '../joist/images/' + image ); } );
-        joistImageLoader.getImage = function( name ) {return joistLoadedImages[name];};
-        joistPxLoader.addCompletionListener( incrementResourceCount );
-        joistPxLoader.start();
+        load( joistImageLoader, '../joist/images' );
       };
       simImage.onload = function() {
-        //Load joist images.  TODO: Abstract this out, code is duplicated with the above
-        var joistPxLoader = new PxLoader();
-        var joistLoadedImages = {};
-        joistImageLoader.imageNames.forEach( function( image ) { joistLoadedImages[image] = joistPxLoader.addImage( 'images/joist/' + image ); } );
-        joistImageLoader.getImage = function( name ) {return joistLoadedImages[name];};
-        joistPxLoader.addCompletionListener( incrementResourceCount );
-        joistPxLoader.start();
+        load( joistImageLoader, 'images/joist' );
       };
       simImage.src = 'images/joist/' + joistImageLoader.imageNames[0];
     }};
