@@ -50,7 +50,7 @@ define( function( require ) {
       //To get rid of the error, you could copy the joist images to images/joist/* but then you have to keep them updated when the originals change
       var simImage = new Image();
       simImage.onerror = function() {
-        console.log( 'SimLauncher.js could not find the production/chipper image location for joist images, so looking for relative path ../joist/images...' );
+        console.log( 'SimLauncher.js could not find the production/chipper image location for joist images, so looking for relative path ../joist/images... This is normal in development (requirejs) mode, see the documentation in SimLauncher.js' );
         load( joistImageLoader, '../joist/images' );
       };
       simImage.onload = function() {
