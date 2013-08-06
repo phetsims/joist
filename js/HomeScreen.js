@@ -151,7 +151,5 @@ define( function( require ) {
     }
   }
 
-  inherit( TabView, HomeScreen );
-
-  return HomeScreen;
+  return inherit( TabView, HomeScreen );
 } );
