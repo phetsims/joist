@@ -31,11 +31,18 @@ define( function( require ) {
     //Use view, to help center and scale content
     TabView.call( this, {renderer: 'svg'} );
 
-    var softwareAgreementLink = new HTMLText( '<a href=ignored>Software Agreement</a>', { fontSize: 14, renderer: 'dom' } ); //TODO i18n
+    var softwareAgreementLink = new HTMLText( '<a href="#" onclick="return false;">Software Agreement</a>', {
+      fontSize: 14,
+      renderer: 'dom',
+      interactive: true // don't prevent default on the events
+    } ); //TODO i18n
     softwareAgreementLink.addInputListener( {
-      down: function() {
-        window.open( SOFTWARE_AGREEMENT_URL );
-        window.focus();
+      up: function( evt ) {
+        evt.handle(); // don't close the dialog
+      },
+      upImmediate: function( evt ) {
+        var aboutDialogWindow = window.open( SOFTWARE_AGREEMENT_URL, '_blank' );
+        aboutDialogWindow.focus();
       }
     } );
 

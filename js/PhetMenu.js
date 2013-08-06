@@ -25,7 +25,7 @@ define( function( require ) {
   var HIGHLIGHT_COLOR = '#a6d2f4';
 
   // Creates a menu item that highlights and fires.
-  var createMenuItem = function( text, width, height, callback ) {
+  var createMenuItem = function( text, width, height, callback, immediateCallback ) {
 
     var X_MARGIN = 5;
     var Y_MARGIN = 3;
@@ -43,7 +43,8 @@ define( function( require ) {
 
     menuItem.addInputListener( {
       enter: function() { highlight.fill = HIGHLIGHT_COLOR; },
-      exit: function() { highlight.fill = null; }
+      exit: function() { highlight.fill = null; },
+      upImmediate: function() { immediateCallback && immediateCallback(); }
     } );
     menuItem.addInputListener( new ButtonListener( {fire: callback } ) );
 
@@ -93,9 +94,11 @@ define( function( require ) {
         text: 'PhET website',
         present: true,
         callback: function() {
-          window.open( 'http://phet.colorado.edu' );
-          window.focus();
-        }},
+        },
+        immediateCallback: function() {
+          var phetWindow = window.open( 'http://phet.colorado.edu', '_blank' );
+          phetWindow.focus();
+        } },
       {
         text: 'Output Log',
         present: log.enabled ? true : false, // because double-negation (!!) coercion doesn't look as cool?
@@ -124,7 +127,7 @@ define( function( require ) {
           var plane = new Plane( {fill: 'black', opacity: 0.3} );
           sim.addChild( plane );
           sim.addChild( aboutDialog );
-          var aboutDialogListener = {down: function() {
+          var aboutDialogListener = {up: function() {
             aboutDialog.removeInputListener( aboutDialogListener );
             plane.addInputListener( aboutDialogListener );
             aboutDialog.detach();
@@ -143,7 +146,7 @@ define( function( require ) {
 
     // Create the menu items.
     var items = _.map( keepItemDescriptors, function( itemDescriptor ) {
-      return createMenuItem( itemDescriptor.text, maxTextWidth, maxTextHeight, itemDescriptor.callback );
+      return createMenuItem( itemDescriptor.text, maxTextWidth, maxTextHeight, itemDescriptor.callback, itemDescriptor.immediateCallback );
     } );
 
     // Create a comic-book-style bubble.
