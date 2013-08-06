@@ -11,6 +11,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var Image = require( 'SCENERY/nodes/Image' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Plane = require( 'SCENERY/nodes/Plane' );
@@ -21,6 +22,7 @@ define( function( require ) {
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Vector2 = require( 'DOT/Vector2' );
+  var joistImageLoader = require( 'JOIST/joistImageLoader' );
 
   //TODO this is copied from NavigationBar
   var createHighlight = function( width, height ) {
@@ -45,10 +47,10 @@ define( function( require ) {
 
     var fontSize = 36;
 
-    var phetLabel = new Text( 'PhET', {fontSize: fontSize, fill: 'yellow'} );
+    var phetLabel = new Image( joistImageLoader.getImage( 'phet-logo-short.svg' ), {scale: 0.28} );
     var optionsButton = new FontAwesomeNode( 'reorder', {fill: '#fff', scale: 0.6} );
 
-    this.hbox = new HBox( {spacing: 10, children: [phetLabel, optionsButton] } );
+    this.hbox = new HBox( {align: 'bottom', spacing: 10, children: [phetLabel, optionsButton] } );
     this.addChild( this.hbox );
 
     var optionsHighlight = createHighlight( this.hbox.width + 6, this.hbox.height - 2 );
