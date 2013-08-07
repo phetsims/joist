@@ -17,6 +17,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Bounds2 = require( 'DOT/Bounds2' );
   var version = require( 'version' );
   var PropertySet = require( 'AXON/PropertySet' );
 
@@ -43,6 +44,7 @@ define( function( require ) {
     sim.thanks = options.thanks;
     
     sim.inputEventLog = []; // used to store input events and requestAnimationFrame cycles
+    sim.inputEventBounds = Bounds2.NOTHING;
     
     // state for mouse event fuzzing
     sim.fuzzMouseAverage = 10; // average number of mouse events to synthesize per frame
@@ -115,6 +117,7 @@ define( function( require ) {
     //Create the scene
     //Leave accessibility as a flag while in development
     sim.scene = new Scene( $simDiv, {allowDevicePixelRatioScaling: false, accessible: true} );
+    sim.scene.sim = sim; // add a reference back to the simulation
     sim.scene.initializeStandaloneEvents( { batchDOMEvents: true } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
     if ( options.recordInputEventLog ) {
       sim.scene.input.logEvents = true; // flag Scenery to log all input events
@@ -156,30 +159,6 @@ define( function( require ) {
       updateBackground();
     } );
 
-    function resize() {
-
-      //TODO: This will have to change when sims are embedded on a page instead of taking up an entire page
-      var width = $( window ).width();
-      var height = $( window ).height();
-
-      //Use Mobile Safari layout bounds to size the home screen and navigation bar
-      var scale = Math.min( width / 768, height / 504 );
-
-      //40 px high on Mobile Safari
-      var navBarHeight = scale * 40;
-      sim.navigationBar.layout( scale, width, navBarHeight, height );
-      sim.navigationBar.y = height - navBarHeight;
-      sim.scene.resize( width, height );
-
-      //Layout each of the tabs
-      _.each( tabs, function( m ) { m.view.layout( width, height - sim.navigationBar.height ); } );
-
-      if ( sim.homeScreen ) {
-        sim.homeScreen.layout( width, height );
-      }
-      //Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
-    }
-
     //Instantiate the tabs
     //Currently this is done eagerly, but this pattern leaves open the door for loading things in the background.
     _.each( tabs, function( m ) {
@@ -198,9 +177,35 @@ define( function( require ) {
     updateBackground();
 
     //Fit to the window and render the initial scene
-    $( window ).resize( resize );
-    resize();
+    $( window ).resize( function() { sim.resizeToWindow(); } );
+    sim.resizeToWindow();
   }
+  
+  Sim.prototype.resizeToWindow = function() {
+    //TODO: This will have to change when sims are embedded on a page instead of taking up an entire page
+    this.resize( $( window ).width(), $( window ).height() );
+  };
+  
+  Sim.prototype.resize = function( width, height ) {
+    //Use Mobile Safari layout bounds to size the home screen and navigation bar
+    var scale = Math.min( width / 768, height / 504 );
+
+    //40 px high on Mobile Safari
+    var navBarHeight = scale * 40;
+    sim.navigationBar.layout( scale, width, navBarHeight, height );
+    sim.navigationBar.y = height - navBarHeight;
+    sim.scene.resize( width, height );
+
+    //Layout each of the tabs
+    _.each( sim.tabs, function( m ) { m.view.layout( width, height - sim.navigationBar.height ); } );
+
+    if ( sim.homeScreen ) {
+      sim.homeScreen.layout( width, height );
+    }
+    //Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
+    
+    sim.scene.input.eventLog.push( 'scene.sim.resize(' + width + ',' + height + ');' );
+  };
 
   Sim.prototype.start = function() {
     var sim = this;
@@ -269,10 +274,17 @@ define( function( require ) {
       }
       if ( sim.options.recordInputEventLog ) {
         // push a frame entry into our inputEventLog
-        sim.inputEventLog.push( {
+        var entry = {
           dt: dt,
           events: sim.scene.input.eventLog
-        } );
+        };
+        if ( !sim.inputEventBounds.equals( sim.scene.sceneBounds ) ) {
+          sim.inputEventBounds = sim.scene.sceneBounds.copy();
+          
+          entry.width = sim.scene.sceneBounds.width;
+          entry.height = sim.scene.sceneBounds.height;
+        }
+        sim.inputEventLog.push( entry );
         sim.scene.input.eventLog = []; // clears the event log so that future actions will fill it
       }
       sim.scene.updateScene();
@@ -327,6 +339,10 @@ define( function( require ) {
     //Make sure requestAnimationFrame is defined
     Util.polyfillRequestAnimationFrame();
     
+    if ( data.length && data[0].width ) {
+      sim.resize( data[0].width, data[0].height );
+    }
+    
     var startTime = Date.now();
 
     (function animationLoop() {
@@ -377,14 +393,14 @@ define( function( require ) {
   Sim.prototype.getRecordedInputEventLogString = function() {
     return '[\n' + _.map( this.inputEventLog, function( item ) {
       var fireEvents = 'fireEvents:function(scene,dot){' + _.map( item.events, function( str ) { return 'scene.input.' + str; } ).join( '' ) + '}';
-      return '{dt:' + item.dt + ( item.events.length ? ',' + fireEvents : '' ) + '}';
+      return '{dt:' + item.dt + ( item.events.length ? ',' + fireEvents : '' ) + ( item.width ? ',width:' + item.width : '' ) + ( item.height ? ',height:' + item.height : '' ) + '}';
     } ).join( ',\n' ) + '\n]';
   };
   
   // For recording and playing back input events, we use a unique combination of the user agent, width and height, so the same
   // server can test different recorded input events on different devices/browsers (desired, because events and coordinates are different)
   Sim.prototype.getEventLogName = function() {
-    return ( this.name + '_' + window.navigator.userAgent ).replace( /[^a-zA-Z0-9]/g, '_' ) + '_' + window.innerWidth + 'x' + window.innerHeight;
+    return ( this.name + '_' + window.navigator.userAgent ).replace( /[^a-zA-Z0-9]/g, '_' );
   };
   
   // protocol-relative URL to the same-origin on a different port, for loading/saving recorded input events and frames
