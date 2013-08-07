@@ -45,6 +45,21 @@ define( function( require ) {
         aboutDialogWindow.focus();
       }
     } );
+    
+    var debuggingInfoLink = new HTMLText( '<a href="#" onclick="return false;">Debugging Information (for bug reports)</a>', {
+      fontSize: 12,
+      renderer: 'dom',
+      interactive: true // don't prevent default on the events
+    } ); //TODO i18n
+    debuggingInfoLink.addInputListener( {
+      up: function( evt ) {
+        evt.handle(); // don't close the dialog
+      },
+      upImmediate: function( evt ) {
+        var debugWindow = window.open( 'http://phet.colorado.edu/files/troubleshooting/', '_blank' );
+        debugWindow.focus();
+      }
+    } );
 
     var content = new VBox( { align: 'left', spacing: 5, children: [
       new Text( 'PhET Interactive Simulations', {fontSize: 16} ),
@@ -57,7 +72,9 @@ define( function( require ) {
       new Text( ' ' ),
       new MultiLineText( sim.thanks, { align: 'left', fontSize: 12 } ),
       new Text( ' ' ),
-      softwareAgreementLink
+      softwareAgreementLink,
+      new Text( ' ' ),
+      debuggingInfoLink
     ]} );
 
     //Show a gray overlay that will help focus on the about dialog, and prevent clicks on the sim while the dialog is up
