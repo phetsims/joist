@@ -120,6 +120,15 @@ define( function( require ) {
           sim.submitEventLog();
         }},
       {
+        text: 'Mail Input Events Log',
+        present: !!sim.options.recordInputEventLog,
+        callback: function() {
+        },
+        immediateCallback: function() {
+          // mailto: link including the body to email
+          sim.mailEventLog();
+        }},
+      {
         text: 'About...',
         present: true,
         callback: function() {

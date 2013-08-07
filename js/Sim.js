@@ -424,6 +424,16 @@ define( function( require ) {
     xmlhttp.send( data );
   };
   
+  // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
+  Sim.prototype.mailEventLog = function() {
+    // if we aren't recording data, don't submit any!
+    if ( !this.options.recordInputEventLog ) { return; }
+    
+    var data = this.getRecordedInputEventLogString();
+    
+    window.open( 'mailto:phethelp@colorado.edu?subject=' + encodeURIComponent( sim.name + ' input event log' ) + '&body=' + encodeURIComponent( data ) );
+  };
+  
   Sim.prototype.fuzzMouseEvents = function() {
     var sim = this;
     
