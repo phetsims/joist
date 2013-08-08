@@ -189,6 +189,8 @@ define( function( require ) {
   };
   
   Sim.prototype.resize = function( width, height ) {
+    var sim = this;
+    
     //Use Mobile Safari layout bounds to size the home screen and navigation bar
     var scale = Math.min( width / 768, height / 504 );
 
@@ -402,7 +404,7 @@ define( function( require ) {
   // For recording and playing back input events, we use a unique combination of the user agent, width and height, so the same
   // server can test different recorded input events on different devices/browsers (desired, because events and coordinates are different)
   Sim.prototype.getEventLogName = function( isRecording ) {
-    return ( this.name + '_' + ( isRecording ? sim.options.recordInputEventName : sim.options.playbackInputEventName ) ).replace( /[^a-zA-Z0-9]/g, '_' );
+    return ( this.name + '_' + ( isRecording ? this.options.recordInputEventName : this.options.playbackInputEventName ) ).replace( /[^a-zA-Z0-9]/g, '_' );
   };
   
   // protocol-relative URL to the same-origin on a different port, for loading/saving recorded input events and frames
@@ -431,7 +433,7 @@ define( function( require ) {
     
     var data = this.getRecordedInputEventLogString();
     
-    window.open( 'mailto:phethelp@colorado.edu?subject=' + encodeURIComponent( sim.name + ' input event log' ) + '&body=' + encodeURIComponent( data ) );
+    window.open( 'mailto:phethelp@colorado.edu?subject=' + encodeURIComponent( this.name + ' input event log' ) + '&body=' + encodeURIComponent( data ) );
   };
   
   Sim.prototype.fuzzMouseEvents = function() {
