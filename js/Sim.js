@@ -408,7 +408,7 @@ define( function( require ) {
     if ( name === 'browser' ) {
       name = window.navigator.userAgent;
     }
-    return ( this.name + '_' + ( isRecording ? this.options.recordInputEventName : this.options.playbackInputEventName ) ).replace( /[^a-zA-Z0-9]/g, '_' );
+    return ( this.name + '_' + name ).replace( /[^a-zA-Z0-9]/g, '_' );
   };
   
   // protocol-relative URL to the same-origin on a different port, for loading/saving recorded input events and frames
