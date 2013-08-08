@@ -69,12 +69,12 @@ define( function( require ) {
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'recordInputEventLog' ) ) {
       // enables recording of Scenery's input events, request animation frames, and dt's so the sim can be played back
       options.recordInputEventLog = true;
-      options.recordInputEventName = window.phetcommon.getQueryParameter( 'recordInputEventLog' );
+      options.inputEventLogName = window.phetcommon.getQueryParameter( 'recordInputEventLog' );
     }
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'playbackInputEventLog' ) ) {
       // instead of loading like normal, download a previously-recorded event sequence and play it back (unique to the browser and window size)
       options.playbackInputEventLog = true;
-      options.playbackInputEventName = window.phetcommon.getQueryParameter( 'playbackInputEventLog' );
+      options.inputEventLogName = window.phetcommon.getQueryParameter( 'playbackInputEventLog' );
     }
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'fuzzMouse' ) ) {
       // ignore any user input events, and instead fire mouse events randomly in an effort to cause an exception
@@ -403,8 +403,8 @@ define( function( require ) {
   
   // For recording and playing back input events, we use a unique combination of the user agent, width and height, so the same
   // server can test different recorded input events on different devices/browsers (desired, because events and coordinates are different)
-  Sim.prototype.getEventLogName = function( isRecording ) {
-    var name = isRecording ? this.options.recordInputEventName : this.options.playbackInputEventName;
+  Sim.prototype.getEventLogName = function() {
+    var name = this.options.inputEventLogName;
     if ( name === 'browser' ) {
       name = window.navigator.userAgent;
     }
