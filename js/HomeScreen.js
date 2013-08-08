@@ -18,7 +18,6 @@ define( function( require ) {
   var TabView = require( 'JOIST/TabView' );
   var Frame = require( 'JOIST/Frame' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Highlight = require( 'JOIST/Highlight' );
   var Property = require( 'AXON/Property' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var FullScreenButton = require( 'JOIST/FullScreenButton' );
@@ -78,24 +77,26 @@ define( function( require ) {
         }
       } );
 
-      var smallHighlight = Highlight.createHighlight( small.width + 6, small.height );
-      smallHighlight.centerX = small.centerX;
-      small.addChild( smallHighlight );
       var highlightListener = {
         over: function( event ) {
           if ( event.pointer.isMouse ) {
             highlightedIndex.value = index;
+
+            //TODO: use named children instead of child indices?
+            small.children[0].opacity = 1;
+            small.children[1].fill = 'white';
           }
         },
-        out: function( event ) { if ( event.pointer.isMouse ) {highlightedIndex.value = -1;} }
+        out: function( event ) {
+          if ( event.pointer.isMouse ) {
+            highlightedIndex.value = -1;
+            small.children[0].opacity = 0.5;
+            small.children[1].fill = 'gray';
+          }
+        }
       };
-      highlightedIndex.valueEquals( index ).linkAttribute( smallHighlight, 'visible' );
       small.addInputListener( highlightListener );
 
-      var largeHighlight = Highlight.createHighlight( large.width + 8, large.height );
-      largeHighlight.centerX = large.centerX;
-      highlightedIndex.valueEquals( index ).linkAttribute( largeHighlight, 'visible' );
-      large.addChild( largeHighlight );
       large.addInputListener( highlightListener );
       large.mouseArea = large.touchArea = Shape.bounds( large.bounds ); //cover the gap in the vbox
 
