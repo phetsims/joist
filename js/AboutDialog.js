@@ -46,7 +46,11 @@ define( function( require ) {
       }
     } );
     
-    var debuggingInfoLink = new HTMLText( '<a href="#" onclick="return false;">Debugging Information (for bug reports)</a>', {
+    var debugLink = 'http://phet.colorado.edu/files/troubleshooting/' +
+                    '?sim=' + encodeURIComponent( sim.name ) +
+                    '&version=' + encodeURIComponent( sim.version ) +
+                    '&url=' + encodeURIComponent( window.location.href );
+    var debuggingInfoLink = new HTMLText( '<a href="' + debugLink + '" onclick="return false;">Debugging Information (for bug reports)</a>', {
       fontSize: 12,
       renderer: 'dom',
       interactive: true // don't prevent default on the events
@@ -56,7 +60,7 @@ define( function( require ) {
         evt.handle(); // don't close the dialog
       },
       upImmediate: function( evt ) {
-        var debugWindow = window.open( 'http://phet.colorado.edu/files/troubleshooting/', '_blank' );
+        var debugWindow = window.open( debugLink, '_blank' );
         debugWindow.focus();
       }
     } );
