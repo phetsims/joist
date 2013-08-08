@@ -404,6 +404,10 @@ define( function( require ) {
   // For recording and playing back input events, we use a unique combination of the user agent, width and height, so the same
   // server can test different recorded input events on different devices/browsers (desired, because events and coordinates are different)
   Sim.prototype.getEventLogName = function( isRecording ) {
+    var name = isRecording ? this.options.recordInputEventName : this.options.playbackInputEventName;
+    if ( name === 'browser' ) {
+      name = window.navigator.userAgent;
+    }
     return ( this.name + '_' + ( isRecording ? this.options.recordInputEventName : this.options.playbackInputEventName ) ).replace( /[^a-zA-Z0-9]/g, '_' );
   };
   
