@@ -9,7 +9,6 @@ define( function( require ) {
   //imports
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Image = require( 'SCENERY/nodes/Image' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
@@ -45,18 +44,19 @@ define( function( require ) {
     var phetButton = this;
     Node.call( this, {renderer: 'svg', cursor: 'pointer'} );
 
-    options = _.extend( {phetLogo: 'phet-logo-short.svg', phetLogoScale: 0.28}, options );
+    options = _.extend( {phetLogo: 'phet-logo-short.svg', phetLogoScale: 0.28, optionsButtonVerticalMargin: 1.5}, options );
 
     var fontSize = 36;
 
     var phetLabel = new Image( joistImageLoader.getImage( options.phetLogo ), {scale: options.phetLogoScale} );
-    var optionsButton = new FontAwesomeNode( 'reorder', {fill: '#fff', scale: 0.6} );
+    var optionsButton = new FontAwesomeNode( 'reorder', {fill: '#fff', scale: 0.6, left: phetLabel.width + 10, bottom: phetLabel.bottom - options.optionsButtonVerticalMargin} );
 
-    this.hbox = new HBox( {align: 'bottom', spacing: 10, children: [phetLabel, optionsButton] } );
-    this.addChild( this.hbox );
+//    this.hbox = new HBox( {align: 'center', spacing: 10, children: [phetLabel, optionsButton] } );
+    this.addChild( phetLabel );
+    this.addChild( optionsButton );
 
-    var optionsHighlight = createHighlight( this.hbox.width + 6, this.hbox.height - 2 );
-    optionsHighlight.bottom = this.hbox.bottom + 3;
+    var optionsHighlight = createHighlight( this.width + 6, this.height - 2 );
+    optionsHighlight.bottom = this.bottom + 3;
     optionsHighlight.x = -3;
     this.addChild( optionsHighlight );
 
@@ -87,13 +87,10 @@ define( function( require ) {
     this.addInputListener( createHighlightListener( optionsHighlight ) );
 
     // eliminate interactivity gap between label and button
-    this.mouseArea = this.hbox.touchArea = Shape.bounds( this.bounds );
+    this.mouseArea = this.touchArea = Shape.bounds( this.bounds );
 
     this.mutate( options || {} );
   }
 
-  inherit( Node, PhetButton );
-
-  return PhetButton;
-
+  return inherit( Node, PhetButton );
 } );
