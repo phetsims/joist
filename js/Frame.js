@@ -35,14 +35,29 @@ define( function( require ) {
     var width1 = content.width + 2 * options.xMargin1;
     var height1 = content.height + 2 * options.yMargin1;
 
-    var gradient = new LinearGradient( 0, 0, width1, 0 ).addColorStop( 0, '#fbff41' ).addColorStop( 118 / 800.0, '#fef98b' ).addColorStop( 372 / 800.0, '#feff40' ).addColorStop( 616 / 800, '#fffccd' ).addColorStop( 1, '#fbff41' );
-    this.addChild( new Rectangle( 0, 0, width1, height1, options.cornerRadius, options.cornerRadius, {stroke: gradient, lineWidth: 3, x: content.x - options.xMargin1, y: content.y - options.yMargin1} ) );
+    this.gradient = new LinearGradient( 0, 0, width1, 0 ).addColorStop( 0, '#fbff41' ).addColorStop( 118 / 800.0, '#fef98b' ).addColorStop( 372 / 800.0, '#feff40' ).addColorStop( 616 / 800, '#fffccd' ).addColorStop( 1, '#fbff41' );
+    this.rectangle = new Rectangle( 0, 0, width1, height1, options.cornerRadius, options.cornerRadius, {stroke: this.gradient, lineWidth: 3, x: content.x - options.xMargin1, y: content.y - options.yMargin1} );
+    this.addChild( this.rectangle );
 
     // Apply options after the layout is done, so that options that use the bounds will work properly.
     this.mutate( options );
+    this.width1 = width1;
+    this.height1 = height1;
   }
 
-  inherit( Node, Frame );
+  inherit( Node, Frame, {
+    setHighlighted: function( highlighted ) {
+      this.rectangle.lineWidth = highlighted ? 4.5 : 3;
+
+      //Make the frame larger when highlighted, but only so that it expands out
+      if ( highlighted ) {
+        this.rectangle.setRect( -1.5 / 2, -1.5 / 2, this.width1 + 1.5, this.height1 + 1.5 );
+      }
+      else {
+        this.rectangle.setRect( 0, 0, this.width1, this.height1 );
+      }
+    }
+  } );
 
   return Frame;
 } );

@@ -43,7 +43,11 @@ define( function( require ) {
     var tabChildren = _.map( sim.tabs, function( tab ) {
       var index = sim.tabs.indexOf( tab );
       var largeIcon = new Node( {children: [tab.icon], scale: HEIGHT / tab.icon.height * 2} );
-      var largeIconWithFrame = new Node( {children: [new Frame( largeIcon ), largeIcon]} );
+      var frame = new Frame( largeIcon );
+
+      highlightedIndex.link( function( highlightedIndex ) { frame.setHighlighted( highlightedIndex === index ); } );
+
+      var largeIconWithFrame = new Node( {children: [ frame, largeIcon]} );
       var large = new VBox( {cursor: 'pointer', children: [
         largeIconWithFrame,
         new Text( tab.name, {fontSize: 42, fill: 'yellow'} )
