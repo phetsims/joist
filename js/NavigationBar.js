@@ -158,41 +158,40 @@ define( function( require ) {
     }
   }
 
-  inherit( Node, NavigationBar, {relayout: function() {
-    var navigationBar = this;
-    navigationBar.background.rectHeight = this.navBarHeight;
-    navigationBar.background.rectWidth = this.navBarWidth;
-    var tabIndex = navigationBar.tabIndex;
+  return inherit( Node, NavigationBar, {
+    relayout: function() {
+      var navigationBar = this;
+      navigationBar.background.rectHeight = this.navBarHeight;
+      navigationBar.background.rectWidth = this.navBarWidth;
+      var tabIndex = navigationBar.tabIndex;
 
-    if ( this.buttonHBox ) {
-      this.buttonHBox.setScaleMagnitude( navigationBar.navBarScale );
-    }
+      if ( this.buttonHBox ) {
+        this.buttonHBox.setScaleMagnitude( navigationBar.navBarScale );
+      }
 
-    this.titleLabel.setScaleMagnitude( this.navBarScale );
-    this.titleLabel.centerY = this.navBarHeight / 2;
-    this.titleLabel.left = 10;
+      this.titleLabel.setScaleMagnitude( this.navBarScale );
+      this.titleLabel.centerY = this.navBarHeight / 2;
+      this.titleLabel.left = 10;
 
-    //Lay out the components from left to right
-    if ( this.tabs.length !== 1 ) {
+      //Lay out the components from left to right
+      if ( this.tabs.length !== 1 ) {
 
-      //put the center right in the middle
-      this.buttonHBox.centerX = this.navBarWidth / 2;
-      this.buttonHBox.top = 2;
+        //put the center right in the middle
+        this.buttonHBox.centerX = this.navBarWidth / 2;
+        this.buttonHBox.top = 2;
 
-      navigationBar.homeIcon.setScaleMagnitude( this.navBarScale );
-      navigationBar.homeIcon.top = 2;
-      navigationBar.homeIcon.left = navigationBar.buttonHBox.right + 15;
-    }
-    this.hbox.setScaleMagnitude( this.navBarScale );
-    this.hbox.right = this.navBarWidth - 5;
-    this.hbox.centerY = this.navBarHeight / 2;
-  },
+        navigationBar.homeIcon.setScaleMagnitude( this.navBarScale );
+        navigationBar.homeIcon.top = 2;
+        navigationBar.homeIcon.left = navigationBar.buttonHBox.right + 15;
+      }
+      this.hbox.setScaleMagnitude( this.navBarScale );
+      this.hbox.right = this.navBarWidth - 5;
+      this.hbox.centerY = this.navBarHeight / 2;
+    },
     layout: function( scale, width, height, windowHeight ) {
       this.navBarScale = scale;
       this.navBarWidth = width;
       this.navBarHeight = height;
       this.relayout();
     }} );
-
-  return NavigationBar;
 } );
