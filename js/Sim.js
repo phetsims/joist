@@ -43,6 +43,8 @@ define( function( require ) {
     sim.credits = options.credits;
     sim.thanks = options.thanks;
     
+    sim.frameCounter = 0; // number of animation frames that have occurred
+    
     sim.inputEventLog = []; // used to store input events and requestAnimationFrame cycles
     sim.inputEventBounds = Bounds2.NOTHING;
     
@@ -246,6 +248,9 @@ define( function( require ) {
     (function animationLoop() {
       var dt;
       
+      // increment this before we can have an exception thrown, to see if we are missing frames
+      sim.frameCounter++;
+      
       window.requestAnimationFrame( animationLoop );
 
       // fire or synthesize input events
@@ -280,7 +285,9 @@ define( function( require ) {
         // push a frame entry into our inputEventLog
         var entry = {
           dt: dt,
-          events: sim.scene.input.eventLog
+          events: sim.scene.input.eventLog,
+          id: sim.frameCounter,
+          time: Date.now()
         };
         if ( !sim.inputEventBounds.equals( sim.scene.sceneBounds ) ) {
           sim.inputEventBounds = sim.scene.sceneBounds.copy();
@@ -400,7 +407,8 @@ define( function( require ) {
   Sim.prototype.getRecordedInputEventLogString = function() {
     return '[\n' + _.map( this.inputEventLog, function( item ) {
       var fireEvents = 'fireEvents:function(scene,dot){' + _.map( item.events, function( str ) { return 'scene.input.' + str; } ).join( '' ) + '}';
-      return '{dt:' + item.dt + ( item.events.length ? ',' + fireEvents : '' ) + ( item.width ? ',width:' + item.width : '' ) + ( item.height ? ',height:' + item.height : '' ) + '}';
+      return '{dt:' + item.dt + ( item.events.length ? ',' + fireEvents : '' ) + ( item.width ? ',width:' + item.width : '' ) + ( item.height ? ',height:' + item.height : '' ) +
+             ',id:' + item.id + ',time:' + item.time + '}';
     } ).join( ',\n' ) + '\n]';
   };
   
@@ -440,7 +448,7 @@ define( function( require ) {
     
     var data = this.getRecordedInputEventLogString();
     
-    window.open( 'mailto:phethelp@colorado.edu?subject=' + encodeURIComponent( this.name + ' input event log' ) + '&body=' + encodeURIComponent( data ) );
+    window.open( 'mailto:phethelp@colorado.edu?subject=' + encodeURIComponent( this.name + ' input event log at ' + Date.now() ) + '&body=' + encodeURIComponent( data ) );
   };
   
   Sim.prototype.fuzzMouseEvents = function() {
