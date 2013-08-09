@@ -122,7 +122,7 @@ define( function( require ) {
     //Leave accessibility as a flag while in development
     sim.scene = new Scene( $simDiv, {allowDevicePixelRatioScaling: false, accessible: true} );
     sim.scene.sim = sim; // add a reference back to the simulation
-    sim.scene.initializeStandaloneEvents( { batchDOMEvents: true } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
+    sim.scene.initializeWindowEvents( { batchDOMEvents: true } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
     if ( options.recordInputEventLog ) {
       sim.scene.input.logEvents = true; // flag Scenery to log all input events
     }
