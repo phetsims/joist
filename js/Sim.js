@@ -365,6 +365,9 @@ define( function( require ) {
                                   '<p>Elapsed time: <strong>' + elapsedTime + 'ms</strong></p>' +
                                   '<p>Approximate frames per second: <strong>' + Math.round( fps ) + '</strong></p></div>';
         
+        // ensure that the black text is readable (chipper-built sims have a black background right now)
+        document.body.style.backgroundColor = '#fff'
+        
         // bail before the requestAnimationFrame if we are at the end (stops the frame loop)
         return;
       }
