@@ -36,18 +36,19 @@ define( function( require ) {
     options = _.extend( { showHomeScreen: true, tabIndex: 0, standalone: false, credits: '', thanks: '' }, options );
     this.options = options; // store this for access from prototype functions, assumes that it won't be changed later
 
-    var sim = this; window.sim = sim;
+    var sim = this;
+    window.sim = sim;
 
     sim.name = name;
     sim.version = version();
     sim.credits = options.credits;
     sim.thanks = options.thanks;
-    
+
     sim.frameCounter = 0; // number of animation frames that have occurred
-    
+
     sim.inputEventLog = []; // used to store input events and requestAnimationFrame cycles
     sim.inputEventBounds = Bounds2.NOTHING;
-    
+
     // state for mouse event fuzzing
     sim.fuzzMouseAverage = 10; // average number of mouse events to synthesize per frame
     sim.fuzzMouseIsDown = false;
@@ -184,15 +185,15 @@ define( function( require ) {
     $( window ).resize( function() { sim.resizeToWindow(); } );
     sim.resizeToWindow();
   }
-  
+
   Sim.prototype.resizeToWindow = function() {
     //TODO: This will have to change when sims are embedded on a page instead of taking up an entire page
     this.resize( $( window ).width(), $( window ).height() );
   };
-  
+
   Sim.prototype.resize = function( width, height ) {
     var sim = this;
-    
+
     //Use Mobile Safari layout bounds to size the home screen and navigation bar
     var scale = Math.min( width / 768, height / 504 );
 
@@ -209,13 +210,13 @@ define( function( require ) {
       sim.homeScreen.layout( width, height );
     }
     //Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
-    
+
     sim.scene.input.eventLog.push( 'scene.sim.resize(' + width + ',' + height + ');' );
   };
 
   Sim.prototype.start = function() {
     var sim = this;
-    
+
     // if the playback flag is set, don't start up like normal. instead download our event log from the server and play it back.
     // if direct playback (copy-paste) is desired, please directly call sim.startInputEventPlayback( ... ) instead of sim.start().
     if ( this.options.playbackInputEventLog ) {
@@ -247,18 +248,20 @@ define( function( require ) {
     //http://paulirish.com/2011/requestanimationframe-for-smart-animating/
     (function animationLoop() {
       var dt;
-      
+
       // increment this before we can have an exception thrown, to see if we are missing frames
       sim.frameCounter++;
-      
+
       window.requestAnimationFrame( animationLoop );
 
       // fire or synthesize input events
       if ( sim.options.fuzzMouse ) {
         sim.fuzzMouseEvents();
-      } else if ( sim.options.fuzzTouches ) {
+      }
+      else if ( sim.options.fuzzTouches ) {
         // TODO: we need more state tracking of individual touch points to do this properly
-      } else {
+      }
+      else {
         // if any input events were received and batched, fire them now.
         sim.scene.fireBatchedEvents();
       }
@@ -291,7 +294,7 @@ define( function( require ) {
         };
         if ( !sim.inputEventBounds.equals( sim.scene.sceneBounds ) ) {
           sim.inputEventBounds = sim.scene.sceneBounds.copy();
-          
+
           entry.width = sim.scene.sceneBounds.width;
           entry.height = sim.scene.sceneBounds.height;
         }
@@ -340,47 +343,47 @@ define( function( require ) {
       totalTime += elapsed;
     })();
   };
-  
+
   // Plays back input events and updateScene() loops based on recorded data. data should be an array of objects (representing frames) with dt and fireEvents( scene, dot )
   Sim.prototype.startInputEventPlayback = function( data ) {
     var sim = this;
-    
+
     var index = 0; // our index into our frame data.
 
     //Make sure requestAnimationFrame is defined
     Util.polyfillRequestAnimationFrame();
-    
+
     if ( data.length && data[0].width ) {
       sim.resize( data[0].width, data[0].height );
     }
-    
+
     var startTime = Date.now();
 
     (function animationLoop() {
       var frame = data[index++];
-      
+
       // when we have aready played the last frame
       if ( frame === undefined ) {
         var endTime = Date.now();
-        
+
         var elapsedTime = endTime - startTime;
         var fps = data.length / ( elapsedTime / 1000 );
-        
+
         // replace the page with a performance message
         document.body.innerHTML = '<div style="text-align: center; font-size: 16px;">' +
                                   '<h1>Performance results:</h1>' +
                                   '<p>Elapsed time: <strong>' + elapsedTime + 'ms</strong></p>' +
                                   '<p>Approximate frames per second: <strong>' + Math.round( fps ) + '</strong></p></div>';
-        
+
         // ensure that the black text is readable (chipper-built sims have a black background right now)
         document.body.style.backgroundColor = '#fff';
-        
+
         // bail before the requestAnimationFrame if we are at the end (stops the frame loop)
         return;
       }
-      
+
       window.requestAnimationFrame( animationLoop );
-      
+
       // we don't fire batched input events (prevents them from affecting unit/performance tests).
       // instead, we fire pre-recorded events for the scene if it exists (left out for brevity when not necessary)
       if ( frame.fireEvents ) { frame.fireEvents( sim.scene, function( x, y ) { return new Vector2( x, y ); } ); }
@@ -402,16 +405,16 @@ define( function( require ) {
   Sim.prototype.addChild = function( node ) {
     this.scene.addChild( node );
   };
-  
+
   // A string that should be evaluated as JavaScript containing an array of "frame" objects, with a dt and an optional fireEvents function
   Sim.prototype.getRecordedInputEventLogString = function() {
-    return '[\n' + _.map( this.inputEventLog, function( item ) {
-      var fireEvents = 'fireEvents:function(scene,dot){' + _.map( item.events, function( str ) { return 'scene.input.' + str; } ).join( '' ) + '}';
+    return '[\n' + _.map( this.inputEventLog,function( item ) {
+      var fireEvents = 'fireEvents:function(scene,dot){' + _.map( item.events,function( str ) { return 'scene.input.' + str; } ).join( '' ) + '}';
       return '{dt:' + item.dt + ( item.events.length ? ',' + fireEvents : '' ) + ( item.width ? ',width:' + item.width : '' ) + ( item.height ? ',height:' + item.height : '' ) +
              ',id:' + item.id + ',time:' + item.time + '}';
     } ).join( ',\n' ) + '\n]';
   };
-  
+
   // For recording and playing back input events, we use a unique combination of the user agent, width and height, so the same
   // server can test different recorded input events on different devices/browsers (desired, because events and coordinates are different)
   Sim.prototype.getEventLogName = function() {
@@ -421,39 +424,39 @@ define( function( require ) {
     }
     return ( this.name + '_' + name ).replace( /[^a-zA-Z0-9]/g, '_' );
   };
-  
+
   // protocol-relative URL to the same-origin on a different port, for loading/saving recorded input events and frames
   Sim.prototype.getEventLogLocation = function() {
     var host = window.location.host.split( ':' )[0]; // grab the hostname without the port
     return '//' + host + ':8083/' + this.getEventLogName();
   };
-  
+
   // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
   Sim.prototype.submitEventLog = function() {
     // if we aren't recording data, don't submit any!
     if ( !this.options.recordInputEventLog ) { return; }
-    
+
     var data = this.getRecordedInputEventLogString();
-    
+
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open( 'POST', this.getEventLogLocation(), true ); // use a protocol-relative port to send it to Scenery's local event-log server
     xmlhttp.setRequestHeader( 'Content-type', 'text/javascript' );
     xmlhttp.send( data );
   };
-  
+
   // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
   Sim.prototype.mailEventLog = function() {
     // if we aren't recording data, don't submit any!
     if ( !this.options.recordInputEventLog ) { return; }
-    
+
     var data = this.getRecordedInputEventLogString();
-    
+
     window.open( 'mailto:phethelp@colorado.edu?subject=' + encodeURIComponent( this.name + ' input event log at ' + Date.now() ) + '&body=' + encodeURIComponent( data ) );
   };
-  
+
   Sim.prototype.fuzzMouseEvents = function() {
     var sim = this;
-    
+
     var chance;
     // run a variable number of events, with a certain chance of bailing out (so no events are possible)
     // models a geometric distribution of events
@@ -462,40 +465,42 @@ define( function( require ) {
       if ( chance < ( sim.fuzzMouseLastMoved ? 0.02 : 0.4 ) ) {
         // toggle up/down
         domEvent = document.createEvent( 'MouseEvent' ); // not 'MouseEvents' according to DOM Level 3 spec
-        
+
         // technically deprecated, but DOM4 event constructors not out yet. people on #whatwg said to use it
         domEvent.initMouseEvent( sim.fuzzMouseIsDown ? 'mouseup' : 'mousedown', true, true, window, 1, // click count
           sim.fuzzMousePosition.x, sim.fuzzMousePosition.y, sim.fuzzMousePosition.x, sim.fuzzMousePosition.y,
           false, false, false, false,
           0, // button
           null );
-        
+
         sim.scene.input.validatePointers();
-        
+
         if ( sim.fuzzMouseIsDown ) {
           sim.scene.input.mouseUp( sim.fuzzMousePosition, domEvent );
           sim.fuzzMouseIsDown = false;
-        } else {
+        }
+        else {
           sim.scene.input.mouseDown( sim.fuzzMousePosition, domEvent );
           sim.fuzzMouseIsDown = true;
         }
-      } else {
+      }
+      else {
         // change the mouse position
         sim.fuzzMousePosition = new Vector2(
           Math.floor( Math.random() * sim.scene.sceneBounds.width ),
           Math.floor( Math.random() * sim.scene.sceneBounds.height )
         );
-        
+
         // our move event
         domEvent = document.createEvent( 'MouseEvent' ); // not 'MouseEvents' according to DOM Level 3 spec
-        
+
         // technically deprecated, but DOM4 event constructors not out yet. people on #whatwg said to use it
         domEvent.initMouseEvent( 'mousemove', true, true, window, 0, // click count
           sim.fuzzMousePosition.x, sim.fuzzMousePosition.y, sim.fuzzMousePosition.x, sim.fuzzMousePosition.y,
           false, false, false, false,
           0, // button
           null );
-        
+
         sim.scene.input.validatePointers();
         sim.scene.input.mouseMove( sim.fuzzMousePosition, domEvent );
       }
