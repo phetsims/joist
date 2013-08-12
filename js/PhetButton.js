@@ -86,7 +86,7 @@ define( function( require ) {
     // eliminate interactivity gap between label and button
     this.mouseArea = this.touchArea = Shape.bounds( this.bounds );
 
-    this.mutate( options || {} );
+    this.mutate( options );
   }
 
   return inherit( Node, PhetButton );
