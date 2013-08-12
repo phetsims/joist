@@ -46,12 +46,9 @@ define( function( require ) {
 
     options = _.extend( {phetLogo: 'phet-logo-short.svg', phetLogoScale: 0.28, optionsButtonVerticalMargin: 1.5}, options );
 
-    var fontSize = 36;
-
     var phetLabel = new Image( joistImageLoader.getImage( options.phetLogo ), {scale: options.phetLogoScale} );
     var optionsButton = new FontAwesomeNode( 'reorder', {fill: '#fff', scale: 0.6, left: phetLabel.width + 10, bottom: phetLabel.bottom - options.optionsButtonVerticalMargin} );
 
-//    this.hbox = new HBox( {align: 'center', spacing: 10, children: [phetLabel, optionsButton] } );
     this.addChild( phetLabel );
     this.addChild( optionsButton );
 
