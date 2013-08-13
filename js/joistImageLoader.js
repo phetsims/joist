@@ -11,7 +11,7 @@ define( function() {
 
   return {
     imageNames: [
-      'phet-logo.svg',
+      'phet-logo-loading.svg',
       'phet-logo-short.svg',
       'phet-logo-short.png'
     ]
