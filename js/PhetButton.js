@@ -44,13 +44,15 @@ define( function( require ) {
     var phetButton = this;
     Node.call( this, {renderer: 'svg', cursor: 'pointer'} );
 
-    //Workaround for the SVG not showing up properly in firefox
-    var firefox = navigator.userAgent.toLowerCase().indexOf( 'firefox' ) > -1;
-    var logo = firefox ? 'phet-logo-short.png' : 'phet-logo-short.svg';
-
-    options = _.extend( {phetLogo: logo, phetLogoScale: 0.28, optionsButtonVerticalMargin: 1.5}, options );
+    options = _.extend( {phetLogo: 'phet-logo-short.svg', phetLogoScale: 0.28, optionsButtonVerticalMargin: 1.5}, options );
 
     var phetLabel = new Image( joistImageLoader.getImage( options.phetLogo ), {scale: options.phetLogoScale} );
+
+    //Workaround for the SVG not showing up properly in firefox
+    //SVG Renderer still giving odd bounds on FireFox, so use canvas there
+    var firefox = navigator.userAgent.toLowerCase().indexOf( 'firefox' ) > -1;
+    if ( firefox ) {phetLabel.renderer = 'canvas';}
+
     var optionsButton = new FontAwesomeNode( 'reorder', {fill: '#fff', scale: 0.6, left: phetLabel.width + 10, bottom: phetLabel.bottom - options.optionsButtonVerticalMargin} );
 
     this.addChild( phetLabel );
