@@ -15,6 +15,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Plane = require( 'SCENERY/nodes/Plane' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var platform = require( 'PHET_CORE/platform' );
   var PhetMenu = require( 'JOIST/PhetMenu' );
   var Font = require( 'SCENERY/util/Font' );
   var Shape = require( 'KITE/Shape' );
@@ -48,10 +49,8 @@ define( function( require ) {
 
     var phetLabel = new Image( joistImageLoader.getImage( options.phetLogo ), {scale: options.phetLogoScale} );
 
-    //Workaround for the SVG not showing up properly in firefox
-    //SVG Renderer still giving odd bounds on FireFox, so use canvas there
-    var firefox = navigator.userAgent.toLowerCase().indexOf( 'firefox' ) > -1;
-    if ( firefox ) {phetLabel.renderer = 'canvas';}
+    //Workaround for the SVG not showing up properly in firefox.  SVG Renderer still giving odd bounds on FireFox, so use canvas there
+    if ( platform.firefox ) {phetLabel.renderer = 'canvas';}
 
     var optionsButton = new FontAwesomeNode( 'reorder', {fill: '#fff', scale: 0.6, left: phetLabel.width + 10, bottom: phetLabel.bottom - options.optionsButtonVerticalMargin} );
 
