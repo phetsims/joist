@@ -372,8 +372,11 @@ define( function( require ) {
         // replace the page with a performance message
         document.body.innerHTML = '<div style="text-align: center; font-size: 16px;">' +
                                   '<h1>Performance results:</h1>' +
+                                  '<p>Approximate frames per second: <strong>' + fps.toFixed( 1 ) + '</strong></p>' +
+                                  '<p>Average time per frame (ms/frame): <strong>' + (elapsedTime / index).toFixed( 1 ) + '</strong></p>' +
                                   '<p>Elapsed time: <strong>' + elapsedTime + 'ms</strong></p>' +
-                                  '<p>Approximate frames per second: <strong>' + Math.round( fps ) + '</strong></p></div>';
+                                  '<p>Number of frames: <strong>' + index + '</strong></p>' +
+                                  '</div>';
 
         // ensure that the black text is readable (chipper-built sims have a black background right now)
         document.body.style.backgroundColor = '#fff';
