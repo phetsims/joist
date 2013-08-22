@@ -1,7 +1,7 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * The view portion of a tab.
+ * The view portion of a Screen.
  * Specifies the layout strategy.
  * TODO: should extend this to be compatible with the Sim.js framework.
  *
@@ -16,7 +16,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/shape' );
 
-  function TabView( options ) {
+  function ScreenView( options ) {
     Node.call( this, options );
 
     // Show the layoutBounds
@@ -25,7 +25,7 @@ define( function( require ) {
     }
   }
 
-  inherit( Node, TabView, {
+  inherit( Node, ScreenView, {
 
     //Default to width and height for iPad2, iPad3, iPad4 running Safari with default tabs and decorations
     //Simulations can change this to provide their own sizes or aspect ratios
@@ -58,5 +58,5 @@ define( function( require ) {
     }
   } );
 
-  return TabView;
+  return ScreenView;
 } );

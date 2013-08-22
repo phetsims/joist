@@ -14,7 +14,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
-  var TabView = require( 'JOIST/TabView' );
+  var ScreenView = require( 'JOIST/ScreenView' );
   var Panel = require( 'SUN/Panel' );
   var HTMLText = require( 'SCENERY/nodes/HTMLText' );
 
@@ -29,7 +29,7 @@ define( function( require ) {
     var aboutDialog = this;
 
     //Use view, to help center and scale content
-    TabView.call( this, {renderer: 'svg'} );
+    ScreenView.call( this, {renderer: 'svg'} );
 
     var softwareAgreementLink = new HTMLText( '<a href="#" onclick="return false;">Software Agreement</a>', {
       fontSize: 14,
@@ -93,7 +93,7 @@ define( function( require ) {
     resize();
   }
 
-  inherit( TabView, AboutDialog );
+  inherit( ScreenView, AboutDialog );
 
   return AboutDialog;
 } );

@@ -15,7 +15,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Shape = require( 'KITE/Shape' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var TabView = require( 'JOIST/TabView' );
+  var ScreenView = require( 'JOIST/ScreenView' );
   var Frame = require( 'JOIST/Frame' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Property = require( 'AXON/Property' );
@@ -29,7 +29,7 @@ define( function( require ) {
 
     //Rendering in SVG seems to solve the problem that the home screen consumes 100% disk and crashes, see https://github.com/phetsims/joist/issues/17
     //Also makes it more responsive (and crisper on retina displays)
-    TabView.call( this, {renderer: 'svg'} );
+    ScreenView.call( this, {renderer: 'svg'} );
 
     this.backgroundColor = 'black';
 
@@ -156,5 +156,5 @@ define( function( require ) {
     }
   }
 
-  return inherit( TabView, HomeScreen );
+  return inherit( ScreenView, HomeScreen );
 } );

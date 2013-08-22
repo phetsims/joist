@@ -138,7 +138,7 @@ define( function( require ) {
     //The simNode contains the home screen or the play area
     var simNode = new Node();
 
-    //The viewContainer contains the TabView itself, which will be swapped out based on which icon the user selected in the navigation bar.
+    //The viewContainer contains the ScreenView itself, which will be swapped out based on which icon the user selected in the navigation bar.
     //Without this layerSplit, the performance significantly declines on both Win8/Chrome and iPad3/Safari
     //TODO: Test this after rewriting into multiple divs/scenes
     var viewContainer = new Node( {layerSplit: true} );
