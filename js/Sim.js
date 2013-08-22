@@ -3,7 +3,7 @@
 /**
  * Main class that represents one simulation.
  * Provides default initialization, such as polyfills as well.
- * If the simulation has only one tab, then there is no home screen, home icon or tab icon in the navigation bar.
+ * If the simulation has only one screen, then there is no homescreen, home icon or screen icon in the navigation bar.
  *
  * @author Sam Reid
  */
@@ -27,13 +27,13 @@ define( function( require ) {
 
   /**
    * @param {String} name
-   * @param {Array<Tab>} tabs
-   * @param options optional parameters for starting tab and home values, so that developers can easily specify the startup scenario for quick development
+   * @param {Array<Screen>} screens
+   * @param options optional parameters for starting screen and home values, so that developers can easily specify the startup scenario for quick development
    * @constructor
    */
-  function Sim( name, tabs, options ) {
+  function Sim( name, screens, options ) {
 
-    options = _.extend( { showHomeScreen: true, tabIndex: 0, standalone: false, credits: '', thanks: '' }, options );
+    options = _.extend( { showHomeScreen: true, screenIndex: 0, standalone: false, credits: '', thanks: '' }, options );
     this.options = options; // store this for access from prototype functions, assumes that it won't be changed later
 
     var sim = this;
@@ -59,15 +59,15 @@ define( function( require ) {
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
     $( 'title' ).html( name + ' ' + sim.version ); //TODO i18n of order
 
-    //if nothing else specified, try to use the options for showHomeScreen & tabIndex from query parameters, to facilitate testing easily in different tabs
+    //if nothing else specified, try to use the options for showHomeScreen & screenIndex from query parameters, to facilitate testing easily in different screens
     function stringToBoolean( string ) { return string === 'true' ? true : false; }
 
     // Query parameters override options.
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showHomeScreen' ) ) {
       options.showHomeScreen = stringToBoolean( window.phetcommon.getQueryParameter( 'showHomeScreen' ) );
     }
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'tabIndex' ) ) {
-      options.tabIndex = parseInt( window.phetcommon.getQueryParameter( 'tabIndex' ), 10 );
+    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'screenIndex' ) ) {
+      options.screenIndex = parseInt( window.phetcommon.getQueryParameter( 'screenIndex' ), 10 );
     }
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'recordInputEventLog' ) ) {
       // enables recording of Scenery's input events, request animation frames, and dt's so the sim can be played back
@@ -91,25 +91,25 @@ define( function( require ) {
       options.fuzzTouches = true;
     }
 
-    //If specifying 'standalone' then filter the tabs array so that it is just the selected tabIndex
+    //If specifying 'standalone' then filter the screens array so that it is just the selected screenIndex
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'standalone' ) ) {
       options.standalone = true;
-      tabs = [tabs[options.tabIndex]];
-      options.tabIndex = 0;
+      screens = [screens[options.screenIndex]];
+      options.screenIndex = 0;
     }
 
-    //Default values are to show the home screen with the 1st tab selected
+    //Default values are to show the home screen with the 1st screen selected
     var showHomeScreen = ( _.isUndefined( options.showHomeScreen ) ) ? true : options.showHomeScreen;
 
-    //If there is only one tab, do not show the home screen
-    if ( tabs.length === 1 ) {
+    //If there is only one screen, do not show the home screen
+    if ( screens.length === 1 ) {
       showHomeScreen = false;
     }
 
-    sim.tabs = tabs;
+    sim.screens = screens;
 
-    //This model represents where the simulation is, whether it is on the home screen or a tab, and which tab it is on or is highlighted in the home screen
-    sim.simModel = new PropertySet( {showHomeScreen: showHomeScreen, tabIndex: options.tabIndex || 0 } );
+    //This model represents where the simulation is, whether it is on the home screen or a screen, and which screen it is on or is highlighted in the homescreen
+    sim.simModel = new PropertySet( {showHomeScreen: showHomeScreen, screenIndex: options.screenIndex || 0 } );
 
     var $body = $( 'body' );
     $body.css( 'padding', '0' ).css( 'margin', '0' ).css( 'overflow', 'hidden' ); // prevent scrollbars
@@ -129,9 +129,9 @@ define( function( require ) {
     }
     window.simScene = sim.scene; // make the scene available for debugging
 
-    sim.navigationBar = new NavigationBar( sim, tabs, sim.simModel );
+    sim.navigationBar = new NavigationBar( sim, screens, sim.simModel );
 
-    if ( tabs.length > 1 ) {
+    if ( screens.length > 1 ) {
       sim.homeScreen = new HomeScreen( sim );
     }
 
@@ -148,11 +148,11 @@ define( function( require ) {
         $simDiv.css( 'background', 'black' );
       }
       else {
-        $simDiv.css( 'background', tabs[sim.simModel.tabIndex].backgroundColor || 'white' );
+        $simDiv.css( 'background', screens[sim.simModel.screenIndex].backgroundColor || 'white' );
       }
     };
 
-    //When the user presses the home icon, then show the home screen, otherwise show the tabNode.
+    //When the user presses the home icon, then show the homescreen, otherwise show the screen.
     sim.simModel.showHomeScreenProperty.link( function( showHomeScreen ) {
       simNode.children = showHomeScreen ? [] : [viewContainer];
       if ( showHomeScreen ) {
@@ -164,18 +164,18 @@ define( function( require ) {
       updateBackground();
     } );
 
-    //Instantiate the tabs
+    //Instantiate the screens
     //Currently this is done eagerly, but this pattern leaves open the door for loading things in the background.
-    _.each( tabs, function( m ) {
+    _.each( screens, function( m ) {
       m.model = m.createModel();
       m.view = m.createView( m.model );
     } );
 
-    //SR: ModuleIndex should always be defined.  On startup tabIndex=0 to highlight the 1st tab.
-    //    When moving from a tab to the homescreen, the previous tab should be highlighted
-    //When the user selects a different tab, show it on the screen
-    sim.simModel.tabIndexProperty.link( function( tabIndex ) {
-      viewContainer.children = [tabs[tabIndex].view];
+    //SR: ModuleIndex should always be defined.  On startup screenIndex=0 to highlight the 1st screen.
+    //    When moving from a screen to the homescreen, the previous screen should be highlighted
+    //When the user selects a different screen, show it.
+    sim.simModel.screenIndexProperty.link( function( screenIndex ) {
+      viewContainer.children = [screens[screenIndex].view];
       updateBackground();
     } );
 
@@ -203,8 +203,8 @@ define( function( require ) {
     sim.navigationBar.y = height - navBarHeight;
     sim.scene.resize( width, height );
 
-    //Layout each of the tabs
-    _.each( sim.tabs, function( m ) { m.view.layout( width, height - sim.navigationBar.height ); } );
+    //Layout each of the screens
+    _.each( sim.screens, function( m ) { m.view.layout( width, height - sim.navigationBar.height ); } );
 
     if ( sim.homeScreen ) {
       sim.homeScreen.layout( width, height );
@@ -266,7 +266,7 @@ define( function( require ) {
         sim.scene.fireBatchedEvents();
       }
 
-      //Update the active tab, but not if the user is on the home screen
+      //Update the active screen, but not if the user is on the home screen
       if ( !sim.simModel.showHomeScreen ) {
 
         //Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
@@ -276,7 +276,7 @@ define( function( require ) {
 
         //Convert to seconds
         dt = elapsedTimeMilliseconds / 1000.0;
-        sim.tabs[sim.simModel.tabIndex].model.step( dt );
+        sim.screens[sim.simModel.screenIndex].model.step( dt );
       }
 
       //If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
@@ -391,9 +391,9 @@ define( function( require ) {
       // instead, we fire pre-recorded events for the scene if it exists (left out for brevity when not necessary)
       if ( frame.fireEvents ) { frame.fireEvents( sim.scene, function( x, y ) { return new Vector2( x, y ); } ); }
 
-      //Update the active tab, but not if the user is on the home screen
+      //Update the active screen, but not if the user is on the home screen
       if ( !sim.simModel.showHomeScreen ) {
-        sim.tabs[sim.simModel.tabIndex].model.step( frame.dt ); // use the pre-recorded dt to ensure lack of variation between runs
+        sim.screens[sim.simModel.screenIndex].model.step( frame.dt ); // use the pre-recorded dt to ensure lack of variation between runs
       }
 
       //If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.

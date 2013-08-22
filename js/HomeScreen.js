@@ -1,7 +1,7 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * Shows the home screen for a multi-tab simulation, which lets the user see all of the tabs and select one.
+ * Shows the home screen for a multi-screen simulation, which lets the user see all of the screens and select one.
  *
  * @author Sam Reid
  */
@@ -37,12 +37,12 @@ define( function( require ) {
     var title = new Text( sim.name, {fontSize: 52, fontFamily: '"Century Gothic", "Futura", sans-serif', fill: 'white', y: 110, centerX: this.layoutBounds.width / 2} );
     this.addChild( title );
 
-    //Keep track of which tab is highlighted so the same tab can remain highlighted even if nodes are replaced (say when one grows larger or smaller)
+    //Keep track of which screen is highlighted so the same screen can remain highlighted even if nodes are replaced (say when one grows larger or smaller)
     var highlightedIndex = new Property( -1 );
 
-    var tabChildren = _.map( sim.tabs, function( tab ) {
-      var index = sim.tabs.indexOf( tab );
-      var largeIcon = new Node( {children: [tab.icon], scale: HEIGHT / tab.icon.height * 2} );
+    var screenChildren = _.map( sim.screens, function( screen ) {
+      var index = sim.screens.indexOf( screen );
+      var largeIcon = new Node( {children: [screen.icon], scale: HEIGHT / screen.icon.height * 2} );
       var frame = new Frame( largeIcon );
 
       highlightedIndex.link( function( highlightedIndex ) { frame.setHighlighted( highlightedIndex === index ); } );
@@ -50,7 +50,7 @@ define( function( require ) {
       var largeIconWithFrame = new Node( {children: [ frame, largeIcon]} );
       var large = new VBox( {cursor: 'pointer', children: [
         largeIconWithFrame,
-        new Text( tab.name, {fontSize: 42, fill: 'yellow'} )
+        new Text( screen.name, {fontSize: 42, fill: 'yellow'} )
       ]} );
 
       //TODO: Switch to buttonListener, but make sure you test it because on 7/17/2013 there is a problem where ButtonListener won't fire if a node has appeared under the pointer
@@ -62,21 +62,21 @@ define( function( require ) {
       } );
 
       var small = new VBox( {spacing: 3, cursor: 'pointer', children: [
-        new Node( {opacity: 0.5, children: [tab.icon], scale: sim.tabs.length === 4 ? HEIGHT / tab.icon.height :
-                                                              sim.tabs.length === 3 ? 1.25 * HEIGHT / tab.icon.height :
-                                                              sim.tabs.length === 2 ? 1.75 * HEIGHT / tab.icon.height :
-                                                              HEIGHT / tab.icon.height} ),
-        new Text( tab.name, {fontSize: 18, fill: 'gray'} )
+        new Node( {opacity: 0.5, children: [screen.icon], scale: sim.screens.length === 4 ? HEIGHT / screen.icon.height :
+                                                              sim.screens.length === 3 ? 1.25 * HEIGHT / screen.icon.height :
+                                                              sim.screens.length === 2 ? 1.75 * HEIGHT / screen.icon.height :
+                                                              HEIGHT / screen.icon.height} ),
+        new Text( screen.name, {fontSize: 18, fill: 'gray'} )
       ]} );
       small.mouseArea = small.touchArea = Shape.bounds( small.bounds ); //cover the gap in the vbox
       small.addInputListener( {
-        down: function() { sim.simModel.tabIndex = index; },
+        down: function() { sim.simModel.screenIndex = index; },
 
-        //On the home screen if you touch an inactive tab thumbnail, it grows.  If then without lifting your finger you swipe over
+        //On the home screen if you touch an inactive screen thumbnail, it grows.  If then without lifting your finger you swipe over
         // to the next thumbnail, that one would grow.
         over: function( event ) {
           if ( !event.pointer.isMouse ) {
-            sim.simModel.tabIndex = index;
+            sim.simModel.screenIndex = index;
           }
         }
       } );
@@ -105,31 +105,31 @@ define( function( require ) {
       large.mouseArea = large.touchArea = Shape.bounds( large.bounds ); //cover the gap in the vbox
 
       //TODO: Add accessibility peers
-      //      tabChild.addPeer( '<input type="button" aria-label="' + tabChild.tab.name + '">', {click: function() {
-//        var tab = tabChild.tab;
-//        if ( sim.simModel.tabIndex === tab.index ) {
+      //      screenChild.addPeer( '<input type="button" aria-label="' + screenChild.screen.name + '">', {click: function() {
+//        var screen = screenChild.screen;
+//        if ( sim.simModel.screenIndex === screen.index ) {
 //          sim.simModel.showHomeScreen = false;
 //        }
 //        else {
-//          sim.simModel.tabIndex = tab.index;
+//          sim.simModel.screenIndex = screen.index;
 //        }
 //      }} );
 //    } );
 
-      return {tab: tab, small: small, large: large, index: index};
+      return {screen: screen, small: small, large: large, index: index};
     } );
 
     var center = new Node( {y: 170} );
     homeScreen.addChild( center );
-    sim.simModel.tabIndexProperty.link( function( tabIndex ) {
+    sim.simModel.screenIndexProperty.link( function( screenIndex ) {
 
       //Space the icons out more if there are fewer, so they will be spaced nicely
-      //Cannot have only 1 tab because for 1-tab sims there is no home screen.
-      var spacing = sim.tabs.length === 2 ? 60 :
-                    sim.tabs.length === 3 ? 60 :
+      //Cannot have only 1 screen because for 1-screen sims there is no home screen.
+      var spacing = sim.screens.length === 2 ? 60 :
+                    sim.screens.length === 3 ? 60 :
                     33;
 
-      var icons = _.map( tabChildren, function( tabChild ) {return tabChild.index === tabIndex ? tabChild.large : tabChild.small;} );
+      var icons = _.map( screenChildren, function( screenChild ) {return screenChild.index === screenIndex ? screenChild.large : screenChild.small;} );
       center.children = [new HBox( {spacing: spacing, children: icons, align: 'top'} )];
       center.centerX = homeScreen.layoutBounds.width / 2;
     } );

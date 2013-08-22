@@ -2,8 +2,8 @@
 
 /**
  * The navigation bar at the bottom of the screen.
- * For a single-tab sim, it shows the name of the sim at the left and the PhET Logo and options menu at the right.
- * For a multi-tab sim, it shows icons for all of the other tabs, with the tab name at the left and the PhET Logo and options menu at the right.
+ * For a single-screen sim, it shows the name of the sim at the left and the PhET Logo and options menu at the right.
+ * For a multi-screen sim, it shows icons for all of the other screens, with the screen name at the left and the PhET Logo and options menu at the right.
  *
  * @author Sam Reid
  */
@@ -29,14 +29,14 @@ define( function( require ) {
   var Highlight = require( 'JOIST/Highlight' );
 
   /**
-   * Create a nav bar.  Layout assumes all of the tab widths are the same.
+   * Create a nav bar.  Layout assumes all of the screen widths are the same.
    * @param {Sim} sim
-   * @param {Array<Tab>} tabs
+   * @param {Array<Screen>} screens
    * @param {PropertySet} model see joist.Sim
    * @constructor
    */
-  function NavigationBar( sim, tabs, model ) {
-    this.tabs = tabs;
+  function NavigationBar( sim, screens, model ) {
+    this.screens = screens;
 
     this.navBarHeight = 40;
     this.navBarScale = 1;
@@ -51,7 +51,7 @@ define( function( require ) {
 
     this.titleLabel = new Text( sim.name, {fontSize: 18, fill: 'white'} );
 
-    //Create the nodes to be used for the tab icons
+    //Create the nodes to be used for the screen icons
     var index = 0;
 
     var selectedFont = new Font( { size: 10, weight: 'bold'} );
@@ -59,11 +59,11 @@ define( function( require ) {
 
     this.addChild( this.titleLabel );
 
-    if ( tabs.length > 1 ) {
+    if ( screens.length > 1 ) {
 
-      var iconAndTextArray = _.map( tabs, function( tab ) {
-        var icon = new Node( {children: [tab.icon], scale: 25 / tab.icon.height} );
-        var text = new Text( tab.name, { fill: 'white', visible: true} );
+      var iconAndTextArray = _.map( screens, function( screen ) {
+        var icon = new Node( {children: [screen.icon], scale: 25 / screen.icon.height} );
+        var text = new Text( screen.name, { fill: 'white', visible: true} );
 
         //Put a panel around it to extend it horizontally so there is some distance from the highlight region to the text and some distance between adjacent texts.
         var textPanel = new Panel( text, {
@@ -80,11 +80,11 @@ define( function( require ) {
         iconAndText.text = text;
         iconAndText.textPanel = textPanel;
         iconAndText.index = index++;
-        iconAndText.tab = tab;
+        iconAndText.screen = screen;
 
-        //On initialization and when the tab changes, update the size of the icons and the layout of the icons and text
-        model.tabIndexProperty.link( function( tabIndex ) {
-          var selected = iconAndText.index === tabIndex;
+        //On initialization and when the screen changes, update the size of the icons and the layout of the icons and text
+        model.screenIndexProperty.link( function( screenIndex ) {
+          var selected = iconAndText.index === screenIndex;
           iconAndText.text.fill = selected ? 'yellow' : 'white';
           iconAndText.text.font = selected ? selectedFont : normalFont;
           iconAndText.opacity = selected ? 1.0 : 0.5;
@@ -105,11 +105,11 @@ define( function( require ) {
         iconAndText.top = 0;
         var button = new Node( {children: [ rectangle, highlight, iconAndText]} );
 
-        //In the nav bar, don't show highlight or cursor pointer when over a tab icon that is already selected
-        model.tabIndexProperty.link( function( tabIndex ) { button.cursor = tabIndex === iconAndText.index ? 'default' : 'pointer'; } );
+        //In the nav bar, don't show highlight or cursor pointer when over a screen icon that is already selected
+        model.screenIndexProperty.link( function( screenIndex ) { button.cursor = screenIndex === iconAndText.index ? 'default' : 'pointer'; } );
 
         var pressListener = function() {
-          model.tabIndex = iconAndText.index;
+          model.screenIndex = iconAndText.index;
           model.showHomeScreen = false;
         };
         button.addInputListener( new ButtonListener( {fire: pressListener} ) );
@@ -129,7 +129,7 @@ define( function( require ) {
           }
         } );
 
-        button.addPeer( '<input type="button" aria-label="Switch to the ' + iconAndText.tab.name + ' Tab">', {click: pressListener, tabIndex: 99} );
+        button.addPeer( '<input type="button" aria-label="Switch to the ' + iconAndText.screen.name + ' screen">', {click: pressListener, tabIndex: 99} );
         return  button;
       } );
 
@@ -165,7 +165,7 @@ define( function( require ) {
       var navigationBar = this;
       navigationBar.background.rectHeight = this.navBarHeight;
       navigationBar.background.rectWidth = this.navBarWidth;
-      var tabIndex = navigationBar.tabIndex;
+      var screenIndex = navigationBar.screenIndex;
 
       if ( this.buttonHBox ) {
         this.buttonHBox.setScaleMagnitude( navigationBar.navBarScale );
@@ -176,7 +176,7 @@ define( function( require ) {
       this.titleLabel.left = 10;
 
       //Lay out the components from left to right
-      if ( this.tabs.length !== 1 ) {
+      if ( this.screens.length !== 1 ) {
 
         //put the center right in the middle
         this.buttonHBox.centerX = this.navBarWidth / 2;
