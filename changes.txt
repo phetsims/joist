@@ -1,3 +1,4 @@
+8/22/13 #35, terminology change: tab -> screen
 5/8/13 added credits to About dialog, temporary (Phase 1?) solution
 5/8/13 Made tab name white instead of black against a white background
 4/24/13 Moved home screen, tab navigation bar, about dialog, popup menu into their own divs/Scenes.  See docs in HomeScreenScene for tradeoffs.
