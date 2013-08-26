@@ -148,7 +148,9 @@ define( function( require ) {
         $simDiv.css( 'background', 'black' );
       }
       else {
-        $simDiv.css( 'background', screens[sim.simModel.screenIndex].backgroundColor || 'white' );
+        var backgroundColor = screens[sim.simModel.screenIndex].backgroundColor || 'white';
+        var cssColor = ( typeof( backgroundColor ) === 'string' ) ? backgroundColor :  backgroundColor.toCSS();
+        $simDiv.css( 'background', cssColor );
       }
     };
 
