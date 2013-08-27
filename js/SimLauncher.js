@@ -43,7 +43,7 @@ define( function( require ) {
           var filename = path + '/' + image;
           loadedImages[image] = document.getElementById( filename );
           if ( loadedImages[image] ) {
-            window.console && console.log && console.log( 'loaded ' + filename );
+            window.console && console.log && console.log( 'loaded ' + filename + ' with dimensions: ' + loadedImages[image].width + 'x' + loadedImages[image].height );
             
             // pull it out from the DOM, just maintain the direct reference
             loadedImages[image].parentNode.removeChild( loadedImages[image] );
