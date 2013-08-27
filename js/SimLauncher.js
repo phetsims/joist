@@ -22,6 +22,8 @@ define( function( require ) {
      * @param callback the callback function which should create and start the sim, given that the images are loaded
      */
     launch: function( simImageLoader, callback ) {
+      
+      var pxLoader;
 
       function incrementResourceCount() {
         loadedResourceCount++;
@@ -34,30 +36,38 @@ define( function( require ) {
       //Load the images for a single imageLoader.
       //TODO would there be any benefit from multiplexing the image loaders to use a single PxLoader?
       function load( imageLoader, path ) {
-        var pxLoader = new PxLoader();
         var loadedImages = {};
-        imageLoader.imageNames.forEach( function( image ) { loadedImages[image] = pxLoader.addImage( path + '/' + image ); } );
         imageLoader.getImage = function( name ) { return loadedImages[name]; };
-        pxLoader.addCompletionListener( incrementResourceCount );
-        pxLoader.start();
+        
+        imageLoader.imageNames.forEach( function( image ) {
+          var filename = path + '/' + image;
+          loadedImages[image] = document.getElementById( filename );
+          if ( loadedImages[image] ) {
+            window.console && console.log && console.log( 'loaded ' + filename );
+            
+            // pull it out from the DOM, just maintain the direct reference
+            loadedImages[image].parentNode.removeChild( loadedImages[image] );
+          } else {
+            window.console && console.log && console.log( 'WARNING: could not find image: ' + filename + ', using PxLoader' );
+            
+            if ( !pxLoader ) { pxLoader = new PxLoader(); }
+            loadedImages[image] = pxLoader.addImage( filename );
+          }
+        } );
       }
 
       // load images and configure the image loader
       load( simImageLoader, 'images' );
-
-      //Check whether images are declared locally (for a build) or in joist (for requirejs)
-      //TODO: this will have problems if the image name in joist overlaps an image name in the sim.
-      //TODO: This is a tricky and brittle strategy which relies on trying to load an image from the wrong place as a cue to load it from the right place
-      //TODO: It prints an error to the console in either case.
-      //To get rid of the error, you could copy the joist images to images/joist/* but then you have to keep them updated when the originals change
-      var simImage = new Image();
-      simImage.onerror = function() {
-        console.log( 'SimLauncher.js could not find the production/chipper image location for joist images, so looking for relative path ../joist/images... This is normal in development (requirejs) mode, see the documentation in SimLauncher.js' );
-        load( joistImageLoader, '../joist/images' );
-      };
-      simImage.onload = function() {
-        load( joistImageLoader, 'images/joist' );
-      };
-      simImage.src = 'images/joist/' + joistImageLoader.imageNames[0];
+      load( joistImageLoader, '../joist/images' );
+      
+      // if any images failed to load normally, use the PxLoader
+      if ( pxLoader ) {
+        pxLoader.addCompletionListener( incrementResourceCount );
+        pxLoader.start();
+      } else {
+        // otherwise things seem to load too quickly!
+        incrementResourceCount();
+        incrementResourceCount();
+      }
     }};
 } );
