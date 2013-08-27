@@ -26,6 +26,7 @@ define( function( require ) {
       var pxLoader;
       
       var elementsToRemove = [];
+      var delayCompletionEvent = false;
 
       function incrementResourceCount() {
         loadedResourceCount++;
@@ -46,6 +47,10 @@ define( function( require ) {
           loadedImages[image] = document.getElementById( filename );
           if ( loadedImages[image] ) {
             window.console && console.log && console.log( 'loaded ' + filename + ' with dimensions: ' + loadedImages[image].width + 'x' + loadedImages[image].height );
+            if ( loadedImages[image].width === 0 || loadedImages[image].height === 0 ) {
+              delayCompletionEvent = true;
+              // loadedImages.onload = incrementResourceCount;
+            }
             
             // pull it out from the DOM, just maintain the direct reference
             elementsToRemove.push( loadedImages[image] );
@@ -72,11 +77,20 @@ define( function( require ) {
         pxLoader.start();
       } else {
         // otherwise things seem to load too quickly!
-        incrementResourceCount();
-        incrementResourceCount();
+        if ( !delayCompletionEvent ) {
+          incrementResourceCount();
+          incrementResourceCount();
+        }
       }
       
-      $( document ).ready( function() {
+      $( window ).load( function() {
+        
+        if ( delayCompletionEvent ) {
+          console.log( elementsToRemove[0].width );
+          incrementResourceCount();
+          incrementResourceCount();
+        }
+        
         _.each( elementsToRemove, function( element ) {
           element.parentNode.removeChild( element );
         } );
