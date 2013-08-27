@@ -24,6 +24,8 @@ define( function( require ) {
     launch: function( simImageLoader, callback ) {
       
       var pxLoader;
+      
+      var elementsToRemove = [];
 
       function incrementResourceCount() {
         loadedResourceCount++;
@@ -46,7 +48,8 @@ define( function( require ) {
             window.console && console.log && console.log( 'loaded ' + filename + ' with dimensions: ' + loadedImages[image].width + 'x' + loadedImages[image].height );
             
             // pull it out from the DOM, just maintain the direct reference
-            loadedImages[image].parentNode.removeChild( loadedImages[image] );
+            elementsToRemove.push( loadedImages[image] );
+            // loadedImages[image].parentNode.removeChild( loadedImages[image] );
           } else {
             window.console && console.log && console.log( 'WARNING: could not find image: ' + filename + ', using PxLoader' );
             
@@ -60,6 +63,9 @@ define( function( require ) {
       load( simImageLoader, 'images' );
       load( joistImageLoader, '../joist/images' );
       
+      window.simImageLoader = simImageLoader;
+      window.joistImageLoader = joistImageLoader;
+      
       // if any images failed to load normally, use the PxLoader
       if ( pxLoader ) {
         pxLoader.addCompletionListener( incrementResourceCount );
@@ -69,5 +75,11 @@ define( function( require ) {
         incrementResourceCount();
         incrementResourceCount();
       }
+      
+      $( document ).ready( function() {
+        _.each( elementsToRemove, function( element ) {
+          element.parentNode.removeChild( element );
+        } );
+      } );
     }};
 } );
