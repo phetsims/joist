@@ -20,6 +20,7 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var version = require( 'version' );
   var PropertySet = require( 'AXON/PropertySet' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   //For Data logging and visualization
   var log = require( 'AXON/log' );
@@ -325,7 +326,7 @@ define( function( require ) {
       if ( logIndex >= logArray.length ) {
         console.log( totalTime );
 
-        sim.scene.addChild( new Text( 'Elapsed time (ms): ' + totalTime, {x: 100, y: 100, font: '32px Arial'} ) );
+        sim.scene.addChild( new Text( 'Elapsed time (ms): ' + totalTime, {x: 100, y: 100, font: new PhetFont( 32 ) } ) );
         sim.scene.updateScene();
         return;
       }

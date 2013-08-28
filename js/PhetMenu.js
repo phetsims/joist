@@ -19,6 +19,7 @@ define( function( require ) {
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Plane = require( 'SCENERY/nodes/Plane' );
   var log = require( 'AXON/log' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   // constants
   var FONT_SIZE = '18px';
@@ -31,7 +32,7 @@ define( function( require ) {
     var Y_MARGIN = 3;
     var CORNER_RADIUS = 5;
 
-    var textNode = new Text( text, { fontSize: FONT_SIZE } );
+    var textNode = new Text( text, { font: new PhetFont( FONT_SIZE ) } );
     var highlight = new Rectangle( 0, 0, width + X_MARGIN + X_MARGIN, height + Y_MARGIN + Y_MARGIN, CORNER_RADIUS, CORNER_RADIUS );
 
     var menuItem = new Node( { cursor: 'pointer' } );
@@ -149,7 +150,7 @@ define( function( require ) {
 
     // Menu items have uniform size, so compute the max text dimensions.
     var keepItemDescriptors = _.filter( itemDescriptors, function( itemDescriptor ) {return itemDescriptor.present;} );
-    var textNodes = _.map( keepItemDescriptors, function( item ) {return new Text( item.text, {fontSize: FONT_SIZE} );} );
+    var textNodes = _.map( keepItemDescriptors, function( item ) {return new Text( item.text, {font: new PhetFont( FONT_SIZE )} );} );
     var maxTextWidth = _.max( textNodes,function( node ) {return node.width;} ).width;
     var maxTextHeight = _.max( textNodes,function( node ) {return node.height;} ).height;
 
