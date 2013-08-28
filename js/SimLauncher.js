@@ -29,7 +29,6 @@ define( function( require ) {
       var delayCompletionEvent = false;
 
       function doneLoadingImages() {
-        debugger;
         loadedResourceCount++;
         if ( loadedResourceCount === 1 ) {
           $( '#splash' ).remove();
