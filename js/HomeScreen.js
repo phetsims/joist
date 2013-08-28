@@ -21,6 +21,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var FullScreenButton = require( 'JOIST/FullScreenButton' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   var HEIGHT = 70;
 
@@ -34,7 +35,11 @@ define( function( require ) {
     this.backgroundColor = 'black';
 
     //iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
-    var title = new Text( sim.name, {fontSize: 52, fontFamily: '"Century Gothic", "Futura", sans-serif', fill: 'white', y: 110, centerX: this.layoutBounds.width / 2} );
+    var title = new Text( sim.name, {
+      font: new PhetFont( {size: 52, family: 'Century Gothic, Futura' }),
+      fill: 'white',
+      y: 110,
+      centerX: this.layoutBounds.width / 2} );
     this.addChild( title );
 
     //Keep track of which screen is highlighted so the same screen can remain highlighted even if nodes are replaced (say when one grows larger or smaller)
@@ -50,7 +55,7 @@ define( function( require ) {
       var largeIconWithFrame = new Node( {children: [ frame, largeIcon]} );
       var large = new VBox( {cursor: 'pointer', children: [
         largeIconWithFrame,
-        new Text( screen.name, {fontSize: 42, fill: 'yellow'} )
+        new Text( screen.name, { font: new PhetFont( 42 ), fill: 'yellow'} )
       ]} );
 
       //TODO: Switch to buttonListener, but make sure you test it because on 7/17/2013 there is a problem where ButtonListener won't fire if a node has appeared under the pointer
@@ -66,7 +71,7 @@ define( function( require ) {
                                                               sim.screens.length === 3 ? 1.25 * HEIGHT / screen.icon.height :
                                                               sim.screens.length === 2 ? 1.75 * HEIGHT / screen.icon.height :
                                                               HEIGHT / screen.icon.height} ),
-        new Text( screen.name, {fontSize: 18, fill: 'gray'} )
+        new Text( screen.name, { font: new PhetFont( 18 ), fill: 'gray'} )
       ]} );
       small.mouseArea = small.touchArea = Shape.bounds( small.bounds ); //cover the gap in the vbox
       small.addInputListener( {

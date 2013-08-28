@@ -21,7 +21,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetMenu = require( 'JOIST/PhetMenu' );
-  var Font = require( 'SCENERY/util/Font' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Shape = require( 'KITE/Shape' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var PhetButton = require( 'JOIST/PhetButton' );
@@ -49,13 +49,13 @@ define( function( require ) {
     this.hbox = new PhetButton( sim );
     this.addChild( this.hbox );
 
-    this.titleLabel = new Text( sim.name, {fontSize: 18, fill: 'white'} );
+    this.titleLabel = new Text( sim.name, {font: new PhetFont( 18 ), fill: 'white'} );
 
     //Create the nodes to be used for the screen icons
     var index = 0;
 
-    var selectedFont = new Font( { size: 10, weight: 'bold'} );
-    var normalFont = new Font( { size: 10 } );
+    var selectedFont = new PhetFont( { size: 10, weight: 'bold'} );
+    var normalFont = new PhetFont( { size: 10 } );
 
     this.addChild( this.titleLabel );
 

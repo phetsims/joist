@@ -17,6 +17,7 @@ define( function( require ) {
   var ScreenView = require( 'JOIST/ScreenView' );
   var Panel = require( 'SUN/Panel' );
   var HTMLText = require( 'SCENERY/nodes/HTMLText' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   // constants
   var SOFTWARE_AGREEMENT_URL = 'http://phet.colorado.edu/about/software-agreement_v7.htm';
@@ -32,7 +33,7 @@ define( function( require ) {
     ScreenView.call( this, {renderer: 'svg'} );
 
     var softwareAgreementLink = new HTMLText( '<a href="#" onclick="return false;">Software Agreement</a>', {
-      fontSize: 14,
+      font: new PhetFont( 14 ),
       renderer: 'dom',
       interactive: true // don't prevent default on the events
     } ); //TODO i18n
@@ -51,7 +52,7 @@ define( function( require ) {
                     '&version=' + encodeURIComponent( sim.version ) +
                     '&url=' + encodeURIComponent( window.location.href );
     var debuggingInfoLink = new HTMLText( '<a href="' + debugLink + '" onclick="return false;">Debugging Information (for bug reports)</a>', {
-      fontSize: 12,
+      font: new PhetFont( 12 ),
       renderer: 'dom',
       interactive: true // don't prevent default on the events
     } ); //TODO i18n
@@ -66,15 +67,15 @@ define( function( require ) {
     } );
 
     var content = new VBox( { align: 'left', spacing: 5, children: [
-      new Text( 'PhET Interactive Simulations', {fontSize: 16} ),
-      new Text( 'Copyright © 2004-2013 University of Colorado Boulder', {fontSize: 12} ),
-      new Text( ' ', {fontSize: 28 } ),
-      new Text( sim.name, {fontSize: 28} ),
-      new Text( 'version ' + sim.version, {fontSize: 20} ),
+      new Text( 'PhET Interactive Simulations', { font: new PhetFont( 16 ) } ),
+      new Text( 'Copyright © 2004-2013 University of Colorado Boulder', { font: new PhetFont( 12 ) } ),
+      new Text( ' ', { font: new PhetFont( 28 ) } ),
+      new Text( sim.name, { font: new PhetFont( 28 ) } ),
+      new Text( 'version ' + sim.version, { font: new PhetFont( 20 ) } ),
       new Text( ' ' ),
-      new MultiLineText( sim.credits, { align: 'left', fontSize: 12 } ),
+      new MultiLineText( sim.credits, { align: 'left', font: new PhetFont( 12 ) } ),
       new Text( ' ' ),
-      new MultiLineText( sim.thanks, { align: 'left', fontSize: 12 } ),
+      new MultiLineText( sim.thanks, { align: 'left', font: new PhetFont( 12 ) } ),
       new Text( ' ' ),
       softwareAgreementLink,
       new Text( ' ' ),
