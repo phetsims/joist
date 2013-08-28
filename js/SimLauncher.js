@@ -23,9 +23,14 @@ define( function( require ) {
      */
     launch: function( simImageLoader, callback ) {
       
+      // the image progress loader (only set to an instance if it is needed)
       var pxLoader;
       
+      // image elements to remove once we are fully loaded
       var elementsToRemove = [];
+      
+      // in Safari (but right now not other browsers), the images are not fully loaded by the time this code is reached,
+      // so we don't send the immediate completion
       var delayCompletionEvent = false;
 
       function doneLoadingImages() {
@@ -37,27 +42,28 @@ define( function( require ) {
       }
 
       //Load the images for a single imageLoader.
-      //TODO would there be any benefit from multiplexing the image loaders to use a single PxLoader?
       function load( imageLoader, path ) {
         var loadedImages = {};
         imageLoader.getImage = function( name ) { return loadedImages[name]; };
         
         imageLoader.imageNames.forEach( function( image ) {
           var filename = path + '/' + image;
+          
+          // check to see if we have a reference to this image in the DOM (included with data URI in base64)
           loadedImages[image] = document.getElementById( filename );
           if ( loadedImages[image] ) {
-            window.console && console.log && console.log( 'loaded ' + filename + ' with dimensions: ' + loadedImages[image].width + 'x' + loadedImages[image].height );
+            // window.console && console.log && console.log( 'loaded ' + filename + ' with dimensions: ' + loadedImages[image].width + 'x' + loadedImages[image].height );
             if ( loadedImages[image].width === 0 || loadedImages[image].height === 0 ) {
+              // if it exists but doesn't have dimensions, we wait until window's onload to trigger the "all images loaded" signal
               delayCompletionEvent = true;
-              // loadedImages.onload = doneLoadingImages;
             }
             
-            // pull it out from the DOM, just maintain the direct reference
+            // mark the element to be removed from the DOM
             elementsToRemove.push( loadedImages[image] );
-            // loadedImages[image].parentNode.removeChild( loadedImages[image] );
           } else {
             window.console && console.log && console.log( 'WARNING: could not find image: ' + filename + ', using PxLoader' );
             
+            // use PxLoader to load the image from an external resource
             if ( !pxLoader ) { pxLoader = new PxLoader(); }
             loadedImages[image] = pxLoader.addImage( filename );
           }
@@ -68,27 +74,24 @@ define( function( require ) {
       load( simImageLoader, 'images' );
       load( joistImageLoader, '../joist/images' );
       
-      window.simImageLoader = simImageLoader;
-      window.joistImageLoader = joistImageLoader;
-      
       // if any images failed to load normally, use the PxLoader
       if ( pxLoader ) {
         pxLoader.addCompletionListener( doneLoadingImages );
         pxLoader.start();
       } else {
-        // otherwise things seem to load too quickly!
+        // if pxLoader wasn't needed AND image dimensions exist, immediately fire the "all images loaded" event
         if ( !delayCompletionEvent ) {
           doneLoadingImages();
         }
       }
       
       $( window ).load( function() {
-        
-        if ( delayCompletionEvent ) {
-          console.log( elementsToRemove[0].width );
+        // if images were not loaded immediately (and we didn't use PxLoader), signal the "all images loaded" event
+        if ( delayCompletionEvent && !pxLoader ) {
           doneLoadingImages();
         }
         
+        // we wait for here to remove the images from the DOM, otherwise IE9/10 treat the images as completely blank!
         _.each( elementsToRemove, function( element ) {
           element.parentNode.removeChild( element );
         } );
