@@ -36,7 +36,7 @@ define( function( require ) {
 
     //iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
     var title = new Text( sim.name, {
-      font: new PhetFont( {size: 52, family: '"Century Gothic", "Futura", sans-serif' }),
+      font: new PhetFont( {size: 52, family: 'Century Gothic, Futura' }),
       fill: 'white',
       y: 110,
       centerX: this.layoutBounds.width / 2} );
