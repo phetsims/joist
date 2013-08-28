@@ -61,6 +61,7 @@ define( function( require ) {
             // mark the element to be removed from the DOM
             elementsToRemove.push( loadedImages[image] );
           } else {
+            // TODO: only print warning if we detect we are a production / release candidate build
             window.console && console.log && console.log( 'WARNING: could not find image: ' + filename + ', using PxLoader' );
             
             // use PxLoader to load the image from an external resource
