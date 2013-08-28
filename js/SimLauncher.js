@@ -28,9 +28,10 @@ define( function( require ) {
       var elementsToRemove = [];
       var delayCompletionEvent = false;
 
-      function incrementResourceCount() {
+      function doneLoadingImages() {
+        debugger;
         loadedResourceCount++;
-        if ( loadedResourceCount === 2 ) {
+        if ( loadedResourceCount === 1 ) {
           $( '#splash' ).remove();
           callback();
         }
@@ -49,7 +50,7 @@ define( function( require ) {
             window.console && console.log && console.log( 'loaded ' + filename + ' with dimensions: ' + loadedImages[image].width + 'x' + loadedImages[image].height );
             if ( loadedImages[image].width === 0 || loadedImages[image].height === 0 ) {
               delayCompletionEvent = true;
-              // loadedImages.onload = incrementResourceCount;
+              // loadedImages.onload = doneLoadingImages;
             }
             
             // pull it out from the DOM, just maintain the direct reference
@@ -73,13 +74,12 @@ define( function( require ) {
       
       // if any images failed to load normally, use the PxLoader
       if ( pxLoader ) {
-        pxLoader.addCompletionListener( incrementResourceCount );
+        pxLoader.addCompletionListener( doneLoadingImages );
         pxLoader.start();
       } else {
         // otherwise things seem to load too quickly!
         if ( !delayCompletionEvent ) {
-          incrementResourceCount();
-          incrementResourceCount();
+          doneLoadingImages();
         }
       }
       
@@ -87,8 +87,7 @@ define( function( require ) {
         
         if ( delayCompletionEvent ) {
           console.log( elementsToRemove[0].width );
-          incrementResourceCount();
-          incrementResourceCount();
+          doneLoadingImages();
         }
         
         _.each( elementsToRemove, function( element ) {
