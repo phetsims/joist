@@ -22,7 +22,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   // constants
-  var FONT_SIZE = '18px';
+  var FONT_SIZE = 18;
   var HIGHLIGHT_COLOR = '#a6d2f4';
 
   // Creates a menu item that highlights and fires.
