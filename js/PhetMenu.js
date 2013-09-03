@@ -70,8 +70,8 @@ define( function( require ) {
 
     var bubble = new Node();
     bubble.addChild( rectangle );
-    bubble.addChild( new Path( {shape: tail, fill: 'white'} ) );
-    bubble.addChild( new Path( {shape: tailOutline, stroke: 'black', lineWidth: 1} ) );
+    bubble.addChild( new Path( tail, {fill: 'white'} ) );
+    bubble.addChild( new Path( tailOutline, {stroke: 'black', lineWidth: 1} ) );
 
     return bubble;
   };
@@ -178,7 +178,7 @@ define( function( require ) {
       //TODO separators should be specified in itemDescriptors
       // Put a separator before the last item.
       if ( item === items[items.length - 2] ) {
-        thisMenu.addChild( new Path( {shape: Shape.lineSegment( 8, y + itemHeight, bubbleWidth - 8, y + itemHeight ), stroke: 'gray', lineWidth: 1} ) );
+        thisMenu.addChild( new Path( Shape.lineSegment( 8, y + itemHeight, bubbleWidth - 8, y + itemHeight ), {stroke: 'gray', lineWidth: 1} ) );
       }
       y += itemHeight;
     } );
