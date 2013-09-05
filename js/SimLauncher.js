@@ -38,8 +38,12 @@ define( function( require ) {
         var loadedImages = {};
         imageLoader.imageNames.forEach( function( image ) { loadedImages[image] = pxLoader.addImage( path + '/' + image ); } );
         imageLoader.getImage = function( name ) { return loadedImages[name]; };
-        pxLoader.addCompletionListener( incrementResourceCount );
-        pxLoader.start();
+        if ( imageLoader.imageNames.length ) {
+          pxLoader.addCompletionListener( incrementResourceCount );
+          pxLoader.start();
+        } else {
+          incrementResourceCount();
+        }
       }
 
       // load images and configure the image loader
