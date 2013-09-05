@@ -15,6 +15,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Shape = require( 'KITE/Shape' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var platform = require( 'PHET_CORE/platform' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Frame = require( 'JOIST/Frame' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -140,17 +141,7 @@ define( function( require ) {
     } );
 
     //Only show the full screen button on supported platforms
-    var deviceIsAndroid = navigator.userAgent.indexOf( 'Android' ) > 0;
-    var deviceIsIOS = /iP(ad|hone|od)/.test( navigator.userAgent );
-
-    function isIE( v ) {
-      var r = new RegExp( 'msie' + (!isNaN( v ) ? ('\\s' + v) : ''), 'i' );
-      return r.test( navigator.userAgent );
-    }
-
-    var ie = isIE( 9 ) || isIE( 10 );//might work on IE11
-
-    var showFullScreenButton = !deviceIsAndroid && !deviceIsIOS && !ie;
+    var showFullScreenButton = !platform.android && !platform.mobileSafari && !platform.ie; // might work on IE11 in the future
     if ( showFullScreenButton && false ) {
       var fullScreenButton = new FullScreenButton();
       var phetButton = new PhetButton( sim );
