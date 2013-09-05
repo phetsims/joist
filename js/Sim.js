@@ -256,6 +256,8 @@ define( function( require ) {
       sim.frameCounter++;
 
       window.requestAnimationFrame( animationLoop );
+      
+      phetAllocation && phetAllocation( 'loop' );
 
       // fire or synthesize input events
       if ( sim.options.fuzzMouse ) {

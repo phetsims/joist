@@ -21,7 +21,7 @@ define( function( require ) {
 
     // Show the layoutBounds
     if ( window.phetcommon.getQueryParameter( 'dev' ) ) {
-      this.addChild( new Path( { shape: Shape.bounds( this.layoutBounds ), stroke: 'red', lineWidth: 3, pickable: false } ) );
+      this.addChild( new Path( Shape.bounds( this.layoutBounds ), { stroke: 'red', lineWidth: 3, pickable: false } ) );
     }
   }
 
