@@ -14,7 +14,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var Shape = require( 'KITE/shape' );
+  var Shape = require( 'KITE/Shape' );
 
   function ScreenView( options ) {
     Node.call( this, options );
