@@ -150,7 +150,7 @@ define( function( require ) {
       }
       else {
         var backgroundColor = screens[sim.simModel.screenIndex].backgroundColor || 'white';
-        var cssColor = ( typeof backgroundColor === 'string' ) ? backgroundColor :  backgroundColor.toCSS();
+        var cssColor = ( typeof backgroundColor === 'string' ) ? backgroundColor : backgroundColor.toCSS();
         $simDiv.css( 'background', cssColor );
       }
     };
@@ -190,8 +190,7 @@ define( function( require ) {
   }
 
   Sim.prototype.resizeToWindow = function() {
-    //TODO: This will have to change when sims are embedded on a page instead of taking up an entire page
-    this.resize( $( window ).width(), $( window ).height() );
+    this.resize( window.innerWidth, window.innerHeight );
   };
 
   Sim.prototype.resize = function( width, height ) {
@@ -256,7 +255,7 @@ define( function( require ) {
       sim.frameCounter++;
 
       window.requestAnimationFrame( animationLoop );
-      
+
       phetAllocation && phetAllocation( 'loop' );
 
       // fire or synthesize input events
