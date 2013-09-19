@@ -22,46 +22,80 @@ define( function( require ) {
      * @param callback the callback function which should create and start the sim, given that the images are loaded
      */
     launch: function( simImageLoader, callback ) {
+      
+      // the image progress loader (only set to an instance if it is needed)
+      var pxLoader;
+      
+      // image elements to remove once we are fully loaded
+      var elementsToRemove = [];
+      
+      // in Safari (but right now not other browsers), the images are not fully loaded by the time this code is reached,
+      // so we don't send the immediate completion
+      var delayCompletionEvent = false;
 
-      function incrementResourceCount() {
+      function doneLoadingImages() {
         loadedResourceCount++;
-        if ( loadedResourceCount === 2 ) {
+        if ( loadedResourceCount === 1 ) {
           $( '#splash' ).remove();
           callback();
         }
       }
 
       //Load the images for a single imageLoader.
-      //TODO would there be any benefit from multiplexing the image loaders to use a single PxLoader?
       function load( imageLoader, path ) {
-        var pxLoader = new PxLoader();
         var loadedImages = {};
-        imageLoader.imageNames.forEach( function( image ) { loadedImages[image] = pxLoader.addImage( path + '/' + image ); } );
         imageLoader.getImage = function( name ) { return loadedImages[name]; };
-        if ( imageLoader.imageNames.length ) {
-          pxLoader.addCompletionListener( incrementResourceCount );
-          pxLoader.start();
-        } else {
-          incrementResourceCount();
-        }
+        
+        imageLoader.imageNames.forEach( function( image ) {
+          var filename = path + '/' + image;
+          
+          // check to see if we have a reference to this image in the DOM (included with data URI in base64)
+          loadedImages[image] = document.getElementById( filename );
+          if ( loadedImages[image] ) {
+            // window.console && console.log && console.log( 'loaded ' + filename + ' with dimensions: ' + loadedImages[image].width + 'x' + loadedImages[image].height );
+            if ( loadedImages[image].width === 0 || loadedImages[image].height === 0 ) {
+              // if it exists but doesn't have dimensions, we wait until window's onload to trigger the "all images loaded" signal
+              delayCompletionEvent = true;
+            }
+            
+            // mark the element to be removed from the DOM
+            elementsToRemove.push( loadedImages[image] );
+          } else {
+            // TODO: only print warning if we detect we are a production / release candidate build
+            window.console && console.log && console.log( 'WARNING: could not find image: ' + filename + ', using PxLoader' );
+            
+            // use PxLoader to load the image from an external resource
+            if ( !pxLoader ) { pxLoader = new PxLoader(); }
+            loadedImages[image] = pxLoader.addImage( filename );
+          }
+        } );
       }
 
       // load images and configure the image loader
       load( simImageLoader, 'images' );
-
-      //Check whether images are declared locally (for a build) or in joist (for requirejs)
-      //TODO: this will have problems if the image name in joist overlaps an image name in the sim.
-      //TODO: This is a tricky and brittle strategy which relies on trying to load an image from the wrong place as a cue to load it from the right place
-      //TODO: It prints an error to the console in either case.
-      //To get rid of the error, you could copy the joist images to images/joist/* but then you have to keep them updated when the originals change
-      var simImage = new Image();
-      simImage.onerror = function() {
-        console.log( 'SimLauncher.js could not find the production/chipper image location for joist images, so looking for relative path ../joist/images... This is normal in development (requirejs) mode, see the documentation in SimLauncher.js' );
-        load( joistImageLoader, '../joist/images' );
-      };
-      simImage.onload = function() {
-        load( joistImageLoader, 'images/joist' );
-      };
-      simImage.src = 'images/joist/' + joistImageLoader.imageNames[0];
+      load( joistImageLoader, '../joist/images' );
+      
+      // if any images failed to load normally, use the PxLoader
+      if ( pxLoader ) {
+        pxLoader.addCompletionListener( doneLoadingImages );
+        pxLoader.start();
+      } else {
+        // if pxLoader wasn't needed AND image dimensions exist, immediately fire the "all images loaded" event
+        if ( !delayCompletionEvent ) {
+          doneLoadingImages();
+        }
+      }
+      
+      $( window ).load( function() {
+        // if images were not loaded immediately (and we didn't use PxLoader), signal the "all images loaded" event
+        if ( delayCompletionEvent && !pxLoader ) {
+          doneLoadingImages();
+        }
+        
+        // we wait for here to remove the images from the DOM, otherwise IE9/10 treat the images as completely blank!
+        _.each( elementsToRemove, function( element ) {
+          element.parentNode.removeChild( element );
+        } );
+      } );
     }};
 } );
