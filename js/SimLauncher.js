@@ -84,7 +84,19 @@ define( function( require ) {
       else {
         // if pxLoader wasn't needed AND image dimensions exist, immediately fire the "all images loaded" event
         if ( !delayCompletionEvent ) {
-          doneLoadingImages();
+          var loaded = 0;
+
+          //For the images that were written to base64 format using requirejs, make sure they are loaded.
+          //img.src = base64 is asynchronous on IE10 and OSX/Safari, so we have to make sure they loaded before returning.
+          for ( var i = 0; i < window.phetImages.length; i++ ) {
+            var phetImage = window.phetImages[i];
+            phetImage.onload = function() {
+              loaded++;
+              if ( loaded === window.phetImages.length ) {
+                doneLoadingImages();
+              }
+            };
+          }
         }
       }
 
@@ -96,7 +108,11 @@ define( function( require ) {
 
         // we wait for here to remove the images from the DOM, otherwise IE9/10 treat the images as completely blank!
         _.each( elementsToRemove, function( element ) {
-          element.parentNode.removeChild( element );
+
+          //TODO: Why is this null sometimes?
+          if ( element.parentNode ) {
+            element.parentNode.removeChild( element );
+          }
         } );
       } );
     }};
