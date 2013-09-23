@@ -22,13 +22,13 @@ define( function( require ) {
      * @param callback the callback function which should create and start the sim, given that the images are loaded
      */
     launch: function( simImageLoader, callback ) {
-      
+
       // the image progress loader (only set to an instance if it is needed)
       var pxLoader;
-      
+
       // image elements to remove once we are fully loaded
       var elementsToRemove = [];
-      
+
       // in Safari (but right now not other browsers), the images are not fully loaded by the time this code is reached,
       // so we don't send the immediate completion
       var delayCompletionEvent = false;
@@ -45,10 +45,10 @@ define( function( require ) {
       function load( imageLoader, path ) {
         var loadedImages = {};
         imageLoader.getImage = function( name ) { return loadedImages[name]; };
-        
+
         imageLoader.imageNames.forEach( function( image ) {
           var filename = path + '/' + image;
-          
+
           // check to see if we have a reference to this image in the DOM (included with data URI in base64)
           loadedImages[image] = document.getElementById( filename );
           if ( loadedImages[image] ) {
@@ -57,13 +57,14 @@ define( function( require ) {
               // if it exists but doesn't have dimensions, we wait until window's onload to trigger the "all images loaded" signal
               delayCompletionEvent = true;
             }
-            
+
             // mark the element to be removed from the DOM
             elementsToRemove.push( loadedImages[image] );
-          } else {
+          }
+          else {
             // TODO: only print warning if we detect we are a production / release candidate build
             window.console && console.log && console.log( 'WARNING: could not find image: ' + filename + ', using PxLoader' );
-            
+
             // use PxLoader to load the image from an external resource
             if ( !pxLoader ) { pxLoader = new PxLoader(); }
             loadedImages[image] = pxLoader.addImage( filename );
@@ -74,24 +75,25 @@ define( function( require ) {
       // load images and configure the image loader
       load( simImageLoader, 'images' );
       load( joistImageLoader, '../joist/images' );
-      
+
       // if any images failed to load normally, use the PxLoader
       if ( pxLoader ) {
         pxLoader.addCompletionListener( doneLoadingImages );
         pxLoader.start();
-      } else {
+      }
+      else {
         // if pxLoader wasn't needed AND image dimensions exist, immediately fire the "all images loaded" event
         if ( !delayCompletionEvent ) {
           doneLoadingImages();
         }
       }
-      
+
       $( window ).load( function() {
         // if images were not loaded immediately (and we didn't use PxLoader), signal the "all images loaded" event
         if ( delayCompletionEvent && !pxLoader ) {
           doneLoadingImages();
         }
-        
+
         // we wait for here to remove the images from the DOM, otherwise IE9/10 treat the images as completely blank!
         _.each( elementsToRemove, function( element ) {
           element.parentNode.removeChild( element );
