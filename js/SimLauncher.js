@@ -88,14 +88,19 @@ define( function( require ) {
 
           //For the images that were written to base64 format using requirejs, make sure they are loaded.
           //img.src = base64 is asynchronous on IE10 and OSX/Safari, so we have to make sure they loaded before returning.
-          for ( var i = 0; i < window.phetImages.length; i++ ) {
-            var phetImage = window.phetImages[i];
-            phetImage.onload = function() {
-              loaded++;
-              if ( loaded === window.phetImages.length ) {
-                doneLoadingImages();
-              }
-            };
+          if ( window.phetImages ) {
+            for ( var i = 0; i < window.phetImages.length; i++ ) {
+              var phetImage = window.phetImages[i];
+              phetImage.onload = function() {
+                loaded++;
+                if ( loaded === window.phetImages.length ) {
+                  doneLoadingImages();
+                }
+              };
+            }
+          }
+          else {
+            doneLoadingImages();
           }
         }
       }
