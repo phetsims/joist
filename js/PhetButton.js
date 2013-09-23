@@ -22,7 +22,7 @@ define( function( require ) {
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Vector2 = require( 'DOT/Vector2' );
-  var joistImageLoader = require( 'JOIST/joistImageLoader' );
+  var phetLogo = require( 'image!JOIST/../images/phet-logo-short.svg' );
 
   //TODO this is copied from NavigationBar
   var createHighlight = function( width, height ) {
@@ -45,9 +45,9 @@ define( function( require ) {
     var phetButton = this;
     Node.call( this, {renderer: 'svg', cursor: 'pointer'} );
 
-    options = _.extend( {phetLogo: 'phet-logo-short.svg', phetLogoScale: 0.28, optionsButtonVerticalMargin: 1.5}, options );
+    options = _.extend( {phetLogo: phetLogo, phetLogoScale: 0.28, optionsButtonVerticalMargin: 1.5}, options );
 
-    var phetLabel = new Image( joistImageLoader.getImage( options.phetLogo ), {scale: options.phetLogoScale} );
+    var phetLabel = new Image( options.phetLogo, {scale: options.phetLogoScale} );
 
     //Workaround for the SVG not showing up properly in firefox.  SVG Renderer still giving odd bounds on FireFox, so use canvas there
     if ( platform.firefox ) {phetLabel.renderer = 'canvas';}

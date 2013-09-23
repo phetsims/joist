@@ -22,6 +22,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var FullScreenButton = require( 'JOIST/FullScreenButton' );
+  var phetLogo = require( 'image!JOIST/../images/phet-logo-short.svg' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   var HEIGHT = 70;
@@ -37,7 +38,7 @@ define( function( require ) {
 
     //iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
     var title = new Text( sim.name, {
-      font: new PhetFont( {size: 52, family: 'Century Gothic, Futura' }),
+      font: new PhetFont( {size: 52, family: 'Century Gothic, Futura' } ),
       fill: 'white',
       y: 110,
       centerX: this.layoutBounds.width / 2} );
@@ -69,9 +70,9 @@ define( function( require ) {
 
       var small = new VBox( {spacing: 3, cursor: 'pointer', children: [
         new Node( {opacity: 0.5, children: [screen.icon], scale: sim.screens.length === 4 ? HEIGHT / screen.icon.height :
-                                                              sim.screens.length === 3 ? 1.25 * HEIGHT / screen.icon.height :
-                                                              sim.screens.length === 2 ? 1.75 * HEIGHT / screen.icon.height :
-                                                              HEIGHT / screen.icon.height} ),
+                                                                 sim.screens.length === 3 ? 1.25 * HEIGHT / screen.icon.height :
+                                                                 sim.screens.length === 2 ? 1.75 * HEIGHT / screen.icon.height :
+                                                                 HEIGHT / screen.icon.height} ),
         new Text( screen.name, { font: new PhetFont( 18 ), fill: 'gray'} )
       ]} );
       small.mouseArea = small.touchArea = Shape.bounds( small.bounds ); //cover the gap in the vbox
@@ -148,7 +149,7 @@ define( function( require ) {
       this.addChild( new HBox( {spacing: 10, children: [fullScreenButton, phetButton], right: this.layoutBounds.maxX - 5, bottom: this.layoutBounds.maxY - 5} ) );
     }
     else {
-      this.addChild( new PhetButton( sim, {phetLogo: 'phet-logo-short.svg', phetLogoScale: 0.4, optionsButtonVerticalMargin: 6} ).mutate( {right: this.layoutBounds.maxX - 5, bottom: this.layoutBounds.maxY - 5} ) );
+      this.addChild( new PhetButton( sim, {phetLogo: phetLogo, phetLogoScale: 0.4, optionsButtonVerticalMargin: 6} ).mutate( {right: this.layoutBounds.maxX - 5, bottom: this.layoutBounds.maxY - 5} ) );
     }
   }
 

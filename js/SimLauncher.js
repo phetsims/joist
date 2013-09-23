@@ -8,8 +8,6 @@
 define( function( require ) {
   'use strict';
 
-  var joistImageLoader = require( 'JOIST/joistImageLoader' );
-
   var loadedResourceCount = 0;
 
   return {
@@ -74,7 +72,6 @@ define( function( require ) {
 
       // load images and configure the image loader
       load( simImageLoader, 'images' );
-      load( joistImageLoader, '../joist/images' );
 
       // if any images failed to load normally, use the PxLoader
       if ( pxLoader ) {
