@@ -4,10 +4,8 @@
  *
  * @author Sam Reid
  */
-define( function( require ) {
+define( function() {
   'use strict';
-
-  var loadedResourceCount = 0;
 
   return {
     /**
@@ -27,11 +25,8 @@ define( function( require ) {
       var delayCompletionEvent = false;
 
       function doneLoadingImages() {
-        loadedResourceCount++;
-        if ( loadedResourceCount === 1 ) {
-          $( '#splash' ).remove();
-          callback();
-        }
+        $( '#splash' ).remove();
+        callback();
       }
 
       // if image dimensions exist, immediately fire the "all images loaded" event
