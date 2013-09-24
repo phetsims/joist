@@ -20,42 +20,33 @@ define( function() {
       // image elements to remove once we are fully loaded
       var elementsToRemove = [];
 
-      // in Safari (but right now not other browsers), the images are not fully loaded by the time this code is reached,
-      // so we don't send the immediate completion
-      var delayCompletionEvent = false;
-
       function doneLoadingImages() {
         $( '#splash' ).remove();
         callback();
       }
 
       // if image dimensions exist, immediately fire the "all images loaded" event
-      if ( !delayCompletionEvent ) {
-        var loaded = 0;
+      var loaded = 0;
 
-        //For the images that were written to base64 format using requirejs, make sure they are loaded.
-        //img.src = base64 is asynchronous on IE10 and OSX/Safari, so we have to make sure they loaded before returning.
-        if ( window.phetImages ) {
-          for ( var i = 0; i < window.phetImages.length; i++ ) {
-            var phetImage = window.phetImages[i];
-            phetImage.onload = function() {
-              loaded++;
-              if ( loaded === window.phetImages.length ) {
-                doneLoadingImages();
-              }
-            };
-          }
+      //For the images that were written to base64 format using requirejs, make sure they are loaded.
+      //img.src = base64 is asynchronous on IE10 and OSX/Safari, so we have to make sure they loaded before returning.
+      if ( window.phetImages ) {
+        for ( var i = 0; i < window.phetImages.length; i++ ) {
+          var phetImage = window.phetImages[i];
+          phetImage.onload = function() {
+            loaded++;
+            if ( loaded === window.phetImages.length ) {
+              doneLoadingImages();
+            }
+          };
         }
-        else {
-          doneLoadingImages();
-        }
+      }
+      else {
+        doneLoadingImages();
       }
 
       $( window ).load( function() {
         // if images were not loaded immediately, signal the "all images loaded" event
-        if ( delayCompletionEvent ) {
-          doneLoadingImages();
-        }
 
         // we wait for here to remove the images from the DOM, otherwise IE9/10 treat the images as completely blank!
         _.each( elementsToRemove, function( element ) {
