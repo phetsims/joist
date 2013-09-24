@@ -37,6 +37,7 @@ define( function( require ) {
     options = _.extend( { showHomeScreen: true, screenIndex: 0, standalone: false, credits: '', thanks: '' }, options );
     this.options = options; // store this for access from prototype functions, assumes that it won't be changed later
 
+    this.destroyed = false;
     var sim = this;
     window.sim = sim;
 
@@ -119,6 +120,7 @@ define( function( require ) {
     //Add a div for the sim to the DOM
     var $simDiv = $( '<div>' ).attr( 'id', 'sim' ).css( 'position', 'absolute' ).css( 'left', 0 ).css( 'top', 0 );
     $body.append( $simDiv );
+    this.$simDiv = $simDiv;
 
     //Create the scene
     //Leave accessibility as a flag while in development
@@ -254,7 +256,9 @@ define( function( require ) {
       // increment this before we can have an exception thrown, to see if we are missing frames
       sim.frameCounter++;
 
-      window.requestAnimationFrame( animationLoop );
+      if ( !sim.destroyed ) {
+        window.requestAnimationFrame( animationLoop );
+      }
 
       phetAllocation && phetAllocation( 'loop' );
 
@@ -512,6 +516,12 @@ define( function( require ) {
         sim.scene.input.mouseMove( sim.fuzzMousePosition, domEvent );
       }
     }
+  };
+
+  //Destroy a sim so that it will no longer consume any resources.  Used by sim nesting in Smorgasbord
+  Sim.prototype.destroy = function() {
+    this.destroyed = true;
+    this.$simDiv.remove();
   };
 
   return Sim;
