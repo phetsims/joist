@@ -1,7 +1,6 @@
 // Copyright 2002-2013, University of Colorado Boulder
 /**
  * Launches a PhET Simulation, after preloading the specified images.
- * Requires PxLoader and PxImage
  *
  * @author Sam Reid
  */
@@ -20,9 +19,6 @@ define( function( require ) {
      * @param callback the callback function which should create and start the sim, given that the images are loaded
      */
     launch: function( simImageLoader, callback ) {
-
-      // the image progress loader (only set to an instance if it is needed)
-      var pxLoader;
 
       // image elements to remove once we are fully loaded
       var elementsToRemove = [];
@@ -61,11 +57,7 @@ define( function( require ) {
           }
           else {
             // TODO: only print warning if we detect we are a production / release candidate build
-            window.console && console.log && console.log( 'WARNING: could not find image: ' + filename + ', using PxLoader' );
-
-            // use PxLoader to load the image from an external resource
-            if ( !pxLoader ) { pxLoader = new PxLoader(); }
-            loadedImages[image] = pxLoader.addImage( filename );
+            window.console && console.log && console.log( 'WARNING: could not find image: ' + filename + '.' );
           }
         } );
       }
@@ -73,38 +65,31 @@ define( function( require ) {
       // load images and configure the image loader
       load( simImageLoader, 'images' );
 
-      // if any images failed to load normally, use the PxLoader
-      if ( pxLoader ) {
-        pxLoader.addCompletionListener( doneLoadingImages );
-        pxLoader.start();
-      }
-      else {
-        // if pxLoader wasn't needed AND image dimensions exist, immediately fire the "all images loaded" event
-        if ( !delayCompletionEvent ) {
-          var loaded = 0;
+      // if image dimensions exist, immediately fire the "all images loaded" event
+      if ( !delayCompletionEvent ) {
+        var loaded = 0;
 
-          //For the images that were written to base64 format using requirejs, make sure they are loaded.
-          //img.src = base64 is asynchronous on IE10 and OSX/Safari, so we have to make sure they loaded before returning.
-          if ( window.phetImages ) {
-            for ( var i = 0; i < window.phetImages.length; i++ ) {
-              var phetImage = window.phetImages[i];
-              phetImage.onload = function() {
-                loaded++;
-                if ( loaded === window.phetImages.length ) {
-                  doneLoadingImages();
-                }
-              };
-            }
+        //For the images that were written to base64 format using requirejs, make sure they are loaded.
+        //img.src = base64 is asynchronous on IE10 and OSX/Safari, so we have to make sure they loaded before returning.
+        if ( window.phetImages ) {
+          for ( var i = 0; i < window.phetImages.length; i++ ) {
+            var phetImage = window.phetImages[i];
+            phetImage.onload = function() {
+              loaded++;
+              if ( loaded === window.phetImages.length ) {
+                doneLoadingImages();
+              }
+            };
           }
-          else {
-            doneLoadingImages();
-          }
+        }
+        else {
+          doneLoadingImages();
         }
       }
 
       $( window ).load( function() {
-        // if images were not loaded immediately (and we didn't use PxLoader), signal the "all images loaded" event
-        if ( delayCompletionEvent && !pxLoader ) {
+        // if images were not loaded immediately, signal the "all images loaded" event
+        if ( delayCompletionEvent ) {
           doneLoadingImages();
         }
 
