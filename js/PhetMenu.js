@@ -15,6 +15,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
   var AboutDialog = require( 'JOIST/AboutDialog' );
+  var SettingsDialog = require( 'JOIST/SettingsDialog' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Plane = require( 'SCENERY/nodes/Plane' );
@@ -129,6 +130,24 @@ define( function( require ) {
           // mailto: link including the body to email
           sim.mailEventLog();
         }},
+      {
+        text: 'Settings',
+        present: true,
+        callback: function() {
+          var settingsDialog = new SettingsDialog( sim );
+          var plane = new Plane( {fill: 'black', opacity: 0.3} );
+          sim.addChild( plane );
+          sim.addChild( settingsDialog );
+          var settingsDialogListener = {up: function() {
+            settingsDialog.removeInputListener( settingsDialogListener );
+            plane.addInputListener( settingsDialogListener );
+            settingsDialog.detach();
+            plane.detach();
+          }};
+          settingsDialog.addInputListener( settingsDialogListener );
+          plane.addInputListener( settingsDialogListener );
+        }
+      },
       {
         text: 'About...',
         present: true,
