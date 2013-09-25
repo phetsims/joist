@@ -20,6 +20,7 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var version = require( 'version' );
   var PropertySet = require( 'AXON/PropertySet' );
+  var Property = require( 'AXON/Property' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   //For Data logging and visualization
@@ -112,6 +113,8 @@ define( function( require ) {
 
     //This model represents where the simulation is, whether it is on the home screen or a screen, and which screen it is on or is highlighted in the homescreen
     sim.simModel = new PropertySet( {showHomeScreen: showHomeScreen, screenIndex: options.screenIndex || 0 } );
+
+    this.showPointersProperty = new Property( false );
 
     var $body = $( 'body' );
     $body.css( 'padding', '0' ).css( 'margin', '0' ).css( 'overflow', 'hidden' ); // prevent scrollbars

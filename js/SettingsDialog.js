@@ -29,11 +29,9 @@ define( function( require ) {
     //Use view, to help center and scale content
     ScreenView.call( this, {renderer: 'svg'} );
 
-    var showPointers = new Property( false );
-
     var content = new VBox( { align: 'center', spacing: 50, children: [
       new Text( 'Settings', { font: new PhetFont( 16 ) } ),
-      new CheckBox( new Text( 'Show Pointers' ), showPointers ),
+      new CheckBox( new Text( 'Show Pointers' ), sim.showPointersProperty ),
       new TextButton( 'Done', function() {
         settingsDialog.doneListeners.forEach( function( listener ) {
           listener();
