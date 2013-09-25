@@ -131,24 +131,6 @@ define( function( require ) {
           sim.mailEventLog();
         }},
       {
-        text: 'Settings',
-        present: true,
-        callback: function() {
-          var settingsDialog = new SettingsDialog( sim );
-          var plane = new Plane( {fill: 'black', opacity: 0.3} );
-          sim.addChild( plane );
-          sim.addChild( settingsDialog );
-          var settingsDialogListener = {up: function() {
-            settingsDialog.removeInputListener( settingsDialogListener );
-            plane.addInputListener( settingsDialogListener );
-            settingsDialog.detach();
-            plane.detach();
-          }};
-          settingsDialog.addInputListener( settingsDialogListener );
-          plane.addInputListener( settingsDialogListener );
-        }
-      },
-      {
         text: 'About...',
         present: true,
         callback: function() {
