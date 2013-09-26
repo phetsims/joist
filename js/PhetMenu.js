@@ -131,7 +131,7 @@ define( function( require ) {
           sim.mailEventLog();
         }},
 //      {
-//        text: 'Settings',
+//        text: 'Settings...',
 //        present: true,
 //        callback: function() {
 //          var settingsDialog = new SettingsDialog( sim );
