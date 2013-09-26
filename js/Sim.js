@@ -133,7 +133,9 @@ define( function( require ) {
     }
     window.simScene = sim.scene; // make the scene available for debugging
 
-    this.showPointersProperty = new Property( false );
+    var showPointers = window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showPointers' );
+
+    this.showPointersProperty = new Property( showPointers );
     this.showPointersProperty.link( function( showPointers ) {
       sim.scene.setPointerDisplayVisible( showPointers );
     } );
