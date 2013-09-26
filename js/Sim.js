@@ -20,6 +20,7 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var version = require( 'version' );
   var PropertySet = require( 'AXON/PropertySet' );
+  var Property = require( 'AXON/Property' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   //For Data logging and visualization
@@ -131,6 +132,13 @@ define( function( require ) {
       sim.scene.input.logEvents = true; // flag Scenery to log all input events
     }
     window.simScene = sim.scene; // make the scene available for debugging
+
+    var showPointers = window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showPointers' );
+
+    this.showPointersProperty = new Property( showPointers );
+    this.showPointersProperty.link( function( showPointers ) {
+      sim.scene.setPointerDisplayVisible( showPointers );
+    } );
 
     sim.navigationBar = new NavigationBar( sim, screens, sim.simModel );
 
