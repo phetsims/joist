@@ -114,8 +114,6 @@ define( function( require ) {
     //This model represents where the simulation is, whether it is on the home screen or a screen, and which screen it is on or is highlighted in the homescreen
     sim.simModel = new PropertySet( {showHomeScreen: showHomeScreen, screenIndex: options.screenIndex || 0 } );
 
-    this.showPointersProperty = new Property( false );
-
     var $body = $( 'body' );
     $body.css( 'padding', '0' ).css( 'margin', '0' ).css( 'overflow', 'hidden' ); // prevent scrollbars
 
@@ -134,6 +132,11 @@ define( function( require ) {
       sim.scene.input.logEvents = true; // flag Scenery to log all input events
     }
     window.simScene = sim.scene; // make the scene available for debugging
+
+    this.showPointersProperty = new Property( false );
+    this.showPointersProperty.link( function( showPointers ) {
+      sim.scene.setPointerDisplayVisible( showPointers );
+    } );
 
     sim.navigationBar = new NavigationBar( sim, screens, sim.simModel );
 
