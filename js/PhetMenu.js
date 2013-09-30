@@ -145,20 +145,6 @@ define( function( require ) {
 //        }
 //      },
       {
-        text: 'Settings...',
-        present: true,
-        callback: function() {
-          var settingsDialog = new SettingsDialog( sim );
-          var plane = new Plane( {fill: 'black', opacity: 0.3} );
-          sim.addChild( plane );
-          sim.addChild( settingsDialog );
-          settingsDialog.addDoneListener( function() {
-            plane.detach();
-            settingsDialog.detach();
-          } );
-        }
-      },
-      {
         text: 'About...',
         present: true,
         callback: function() {
