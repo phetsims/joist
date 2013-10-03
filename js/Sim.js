@@ -22,6 +22,7 @@ define( function( require ) {
   var PropertySet = require( 'AXON/PropertySet' );
   var Property = require( 'AXON/Property' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var platform = require( 'PHET_CORE/platform' );
 
   //For Data logging and visualization
   var log = require( 'AXON/log' );
@@ -119,7 +120,7 @@ define( function( require ) {
 
     //TODO should probably look for this div to see if it exists, then create only if it doesn't exist.
     //Add a div for the sim to the DOM
-    var $simDiv = $( '<div>' ).attr( 'id', 'sim' ).css( 'position', 'absolute' ).css( 'left', 0 ).css( 'top', 0 );
+    var $simDiv = $( '<div>' ).attr( 'id', 'sim' ).css( 'position', 'absolute' ).css( 'left', 0 ).css( 'bottom', 0 );
     $body.append( $simDiv );
     this.$simDiv = $simDiv;
 
