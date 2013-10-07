@@ -120,7 +120,7 @@ define( function( require ) {
 
     //TODO should probably look for this div to see if it exists, then create only if it doesn't exist.
     //Add a div for the sim to the DOM
-    var $simDiv = $( '<div>' ).attr( 'id', 'sim' ).css( 'position', 'absolute' ).css( 'left', 0 ).css( 'bottom', 0 );
+    var $simDiv = $( '<div>' ).attr( 'id', 'sim' ).css( 'position', 'absolute' ).css( 'left', 0 ).css( 'top', 0 );
     $body.append( $simDiv );
     this.$simDiv = $simDiv;
 
@@ -164,27 +164,27 @@ define( function( require ) {
       m.model = m.createModel();
       m.view = m.createView( m.model );
     } );
-    
+
     // this will hold the view for the current screen, and is initialized in the screenIndexProperty.link below
     var currentScreenNode;
-    
+
     //SR: ModuleIndex should always be defined.  On startup screenIndex=0 to highlight the 1st screen.
     //    When moving from a screen to the homescreen, the previous screen should be highlighted
     //When the user selects a different screen, show it.
     sim.simModel.screenIndexProperty.link( function( screenIndex ) {
       var newScreenNode = screens[screenIndex].view;
       var oldIndex = currentScreenNode ? sim.scene.indexOfChild( currentScreenNode ) : -1;
-      
+
       // swap out the views if the old one is displayed. if not, we are probably in the home screen
       if ( oldIndex >= 0 ) {
         sim.scene.removeChild( currentScreenNode );
         sim.scene.insertChild( oldIndex, newScreenNode ); // same place in the tree, so nodes behind/in front stay that way.
       }
-      
+
       currentScreenNode = newScreenNode;
       updateBackground();
     } );
-    
+
     //When the user presses the home icon, then show the homescreen, otherwise show the screen and navbar
     sim.simModel.showHomeScreenProperty.link( function( showHomeScreen ) {
       var idx = 0;
@@ -205,7 +205,7 @@ define( function( require ) {
           idx = sim.scene.indexOfChild( sim.homeScreen );
           sim.scene.removeChild( sim.homeScreen );
         }
-        
+
         // same place in tree, to preserve nodes in front or behind
         sim.scene.insertChild( idx, currentScreenNode );
         sim.scene.insertChild( idx + 1, sim.navigationBar );
@@ -245,6 +245,11 @@ define( function( require ) {
     //Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
 
     sim.scene.input.eventLog.push( 'scene.sim.resize(' + width + ',' + height + ');' );
+
+    //Fixes problems where the div would be way off center on iOS7
+    if ( platform.mobileSafari ) {
+      window.scrollTo( 0, 0 );
+    }
   };
 
   Sim.prototype.start = function() {
