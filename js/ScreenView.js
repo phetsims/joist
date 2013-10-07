@@ -17,7 +17,9 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
 
   function ScreenView( options ) {
-    Node.call( this, options );
+    Node.call( this, _.extend( {
+      layerSplit: true // so we're not in the same layer as the navbar, etc.
+    }, options ) );
 
     // Show the layoutBounds
     if ( window.phetcommon.getQueryParameter( 'dev' ) ) {

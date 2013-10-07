@@ -147,14 +147,6 @@ define( function( require ) {
       sim.homeScreen = new HomeScreen( sim );
     }
 
-    //The simNode contains the home screen or the play area
-    var simNode = new Node();
-
-    //The viewContainer contains the ScreenView itself, which will be swapped out based on which icon the user selected in the navigation bar.
-    //Without this layerSplit, the performance significantly declines on both Win8/Chrome and iPad3/Safari
-    //TODO: Test this after rewriting into multiple divs/scenes
-    var viewContainer = new Node( {layerSplit: true} );
-
     var updateBackground = function() {
       if ( sim.simModel.showHomeScreen ) {
         $simDiv.css( 'background', 'black' );
@@ -166,30 +158,58 @@ define( function( require ) {
       }
     };
 
-    //When the user presses the home icon, then show the homescreen, otherwise show the screen.
-    sim.simModel.showHomeScreenProperty.link( function( showHomeScreen ) {
-      simNode.children = showHomeScreen ? [] : [viewContainer];
-      if ( showHomeScreen ) {
-        sim.scene.children = [sim.homeScreen];
-      }
-      else {
-        sim.scene.children = [simNode, sim.navigationBar];
-      }
-      updateBackground();
-    } );
-
     //Instantiate the screens
     //Currently this is done eagerly, but this pattern leaves open the door for loading things in the background.
     _.each( screens, function( m ) {
       m.model = m.createModel();
       m.view = m.createView( m.model );
     } );
-
+    
+    // this will hold the view for the current screen, and is initialized in the screenIndexProperty.link below
+    var currentScreenNode;
+    
     //SR: ModuleIndex should always be defined.  On startup screenIndex=0 to highlight the 1st screen.
     //    When moving from a screen to the homescreen, the previous screen should be highlighted
     //When the user selects a different screen, show it.
     sim.simModel.screenIndexProperty.link( function( screenIndex ) {
-      viewContainer.children = [screens[screenIndex].view];
+      var newScreenNode = screens[screenIndex].view;
+      var oldIndex = currentScreenNode ? sim.scene.indexOfChild( currentScreenNode ) : -1;
+      
+      // swap out the views if the old one is displayed. if not, we are probably in the home screen
+      if ( oldIndex >= 0 ) {
+        sim.scene.removeChild( currentScreenNode );
+        sim.scene.insertChild( oldIndex, newScreenNode ); // same place in the tree, so nodes behind/in front stay that way.
+      }
+      
+      currentScreenNode = newScreenNode;
+      updateBackground();
+    } );
+    
+    //When the user presses the home icon, then show the homescreen, otherwise show the screen and navbar
+    sim.simModel.showHomeScreenProperty.link( function( showHomeScreen ) {
+      var idx = 0;
+      if ( showHomeScreen ) {
+        if ( sim.scene.isChild( currentScreenNode ) ) {
+          sim.scene.removeChild( currentScreenNode );
+        }
+        if ( sim.scene.isChild( sim.navigationBar ) ) {
+          // place the home screen where the navigation bar was, if possible
+          idx = sim.scene.indexOfChild( sim.navigationBar );
+          sim.scene.removeChild( sim.navigationBar );
+        }
+        sim.scene.insertChild( idx, sim.homeScreen ); // same place in tree, to preserve nodes in front or behind
+      }
+      else {
+        if ( sim.homeScreen && sim.scene.isChild( sim.homeScreen ) ) {
+          // place the view / navbar at the same index as the homescreen if possible
+          idx = sim.scene.indexOfChild( sim.homeScreen );
+          sim.scene.removeChild( sim.homeScreen );
+        }
+        
+        // same place in tree, to preserve nodes in front or behind
+        sim.scene.insertChild( idx, currentScreenNode );
+        sim.scene.insertChild( idx + 1, sim.navigationBar );
+      }
       updateBackground();
     } );
 
