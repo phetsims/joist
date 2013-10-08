@@ -41,6 +41,25 @@ define( function() {
     //Clear a scheduled timeout
     clearTimeout: function( timeoutID ) { this.removeStepListener( timeoutID ); },
 
+    setInterval: function( listener, timeout ) {
+      var elapsed = 0;
+      var callback = function( dt ) {
+        elapsed += dt;
+
+        //Convert seconds to ms and see if item has timed out
+        if ( elapsed * 1000 >= timeout ) {
+          listener();
+          elapsed = elapsed - timeout / 1000.0;//Save the leftover time so it won't accumulate
+        }
+      };
+      this.addStepListener( callback );
+
+      //Return the callback so it can be removed with removeStepListener
+      return callback;
+    },
+
+    clearInterval: function( id ) { this.removeStepListener( id ); },
+
     //Add a listener to be called back on every animationFrame with a dt value
     addStepListener: function( listener ) { listeners.push( listener ); },
 
