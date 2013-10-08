@@ -135,10 +135,15 @@ define( function( require ) {
     window.simScene = sim.scene; // make the scene available for debugging
 
     var showPointers = window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showPointers' );
-
     this.showPointersProperty = new Property( showPointers );
     this.showPointersProperty.link( function( showPointers ) {
       sim.scene.setPointerDisplayVisible( showPointers );
+    } );
+
+    var showPointerAreas = window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showPointerAreas' );
+    this.showPointerAreasProperty = new Property( showPointerAreas );
+    this.showPointerAreasProperty.link( function( showPointerAreas ) {
+      sim.scene.setPointerAreaDisplayVisible( showPointerAreas );
     } );
 
     sim.navigationBar = new NavigationBar( sim, screens, sim.simModel );
