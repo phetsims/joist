@@ -23,6 +23,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var platform = require( 'PHET_CORE/platform' );
+  var Timer = require( 'JOIST/Timer' );
 
   //For Data logging and visualization
   var log = require( 'AXON/log' );
@@ -325,6 +326,8 @@ define( function( require ) {
         dt = elapsedTimeMilliseconds / 1000.0;
         sim.screens[sim.simModel.screenIndex].model.step( dt );
       }
+
+      Timer.step( dt );
 
       //If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
       //Update the tweens after the model is updated but before the scene is redrawn.
