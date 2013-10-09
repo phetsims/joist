@@ -22,7 +22,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var FullScreenButton = require( 'JOIST/FullScreenButton' );
-  var phetLogo = require( 'image!JOIST/../images/phet-logo-short.svg' );
+  var phetLogo = require( 'image!JOIST/phet-logo-short.svg' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   var HEIGHT = 70;

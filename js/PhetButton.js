@@ -22,7 +22,7 @@ define( function( require ) {
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Vector2 = require( 'DOT/Vector2' );
-  var phetLogo = require( 'image!JOIST/../images/phet-logo-short.svg' );
+  var phetLogo = require( 'image!JOIST/phet-logo-short.svg' );
 
   //TODO this is copied from NavigationBar
   var createHighlight = function( width, height ) {
