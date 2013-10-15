@@ -51,12 +51,12 @@ define( function( require ) {
                     '?sim=' + encodeURIComponent( sim.name ) +
                     '&version=' + encodeURIComponent( sim.version ) +
                     '&url=' + encodeURIComponent( window.location.href );
-    var debuggingInfoLink = new HTMLText( '<a href="' + debugLink + '" onclick="return false;">Debugging Information (for bug reports)</a>', {
+    var troubleshootingInfoLink = new HTMLText( '<a href="' + debugLink + '" onclick="return false;">Troubleshooting Information (for bug reports)</a>', {
       font: new PhetFont( 12 ),
       renderer: 'dom',
       interactive: true // don't prevent default on the events
     } ); //TODO i18n
-    debuggingInfoLink.addInputListener( {
+    troubleshootingInfoLink.addInputListener( {
       up: function( evt ) {
         evt.handle(); // don't close the dialog
       },
@@ -79,7 +79,7 @@ define( function( require ) {
       new Text( ' ' ),
       softwareAgreementLink,
       new Text( ' ' ),
-      debuggingInfoLink
+      troubleshootingInfoLink
     ]} );
 
     //Show a gray overlay that will help focus on the about dialog, and prevent clicks on the sim while the dialog is up
