@@ -121,7 +121,8 @@ define( function( require ) {
 
     //TODO should probably look for this div to see if it exists, then create only if it doesn't exist.
     //Add a div for the sim to the DOM
-    var $simDiv = $( '<div>' ).attr( 'id', 'sim' ).css( 'position', 'absolute' ).css( 'left', 0 ).css( 'top', 0 );
+    // default cursor is initially checked by Scenery and used as the default value. We don't want 'auto', since then DOM Text will show the text selection cursor
+    var $simDiv = $( '<div>' ).attr( 'id', 'sim' ).css( 'position', 'absolute' ).css( 'left', 0 ).css( 'top', 0 ).css( 'cursor', 'default' );
     $body.append( $simDiv );
     this.$simDiv = $simDiv;
 
