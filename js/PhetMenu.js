@@ -93,7 +93,7 @@ define( function( require ) {
      */
     var itemDescriptors = [
       {
-        text: 'PhET website',
+        text: 'PhET website...',
         present: true,
         callback: function() {
         },
@@ -144,6 +144,18 @@ define( function( require ) {
 //          } );
 //        }
 //      },
+      {
+        text: 'Report a Problem...',
+        present: true,
+        callback: function() {},
+        immediateCallback: function() {
+          var url = 'http://phet.colorado.edu/files/troubleshooting/' +
+                    '?sim=' + encodeURIComponent( sim.name ) +
+                    '&version=' + encodeURIComponent( sim.version ) +
+                    '&url=' + encodeURIComponent( window.location.href );
+          var reportWindow = window.open( url, '_blank' );
+          reportWindow.focus();
+        } },
       {
         text: 'About...',
         present: true,

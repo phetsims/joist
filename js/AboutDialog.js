@@ -47,25 +47,6 @@ define( function( require ) {
       }
     } );
     
-    var debugLink = 'http://phet.colorado.edu/files/troubleshooting/' +
-                    '?sim=' + encodeURIComponent( sim.name ) +
-                    '&version=' + encodeURIComponent( sim.version ) +
-                    '&url=' + encodeURIComponent( window.location.href );
-    var troubleshootingInfoLink = new HTMLText( '<a href="' + debugLink + '" onclick="return false;">Troubleshooting Information (for bug reports)</a>', {
-      font: new PhetFont( 12 ),
-      renderer: 'dom',
-      interactive: true // don't prevent default on the events
-    } ); //TODO i18n
-    troubleshootingInfoLink.addInputListener( {
-      up: function( evt ) {
-        evt.handle(); // don't close the dialog
-      },
-      upImmediate: function( evt ) {
-        var debugWindow = window.open( debugLink, '_blank' );
-        debugWindow.focus();
-      }
-    } );
-
     var content = new VBox( { align: 'left', spacing: 5, children: [
       new Text( 'PhET Interactive Simulations', { font: new PhetFont( 16 ) } ),
       new Text( 'Copyright © 2004-2013 University of Colorado Boulder', { font: new PhetFont( 12 ) } ),
@@ -77,9 +58,7 @@ define( function( require ) {
       new Text( ' ' ),
       new MultiLineText( sim.thanks, { align: 'left', font: new PhetFont( 12 ) } ),
       new Text( ' ' ),
-      softwareAgreementLink,
-      new Text( ' ' ),
-      troubleshootingInfoLink
+      softwareAgreementLink
     ]} );
 
     //Show a gray overlay that will help focus on the about dialog, and prevent clicks on the sim while the dialog is up
