@@ -13,15 +13,23 @@
 define( function( require ) {
   'use strict';
 
+  /**
+   * @param {String} name
+   * @param {Node} homeScreenIcon optimal size is 548x373
+   * @param {function} createModel
+   * @param {function} createView
+   * @param {*} options
+   * @constructor
+   */
   function Screen( name, homeScreenIcon, createModel, createView, options ) {
 
     options = _.extend( {
       backgroundColor: 'white',
-      navigationBarIcon: homeScreenIcon
+      navigationBarIcon: homeScreenIcon // optimal size is 37x25
     }, options );
 
     this.name = name;
-    this.homeScreenIcon = homeScreenIcon; // should be 548x373, size displayed on home screen
+    this.homeScreenIcon = homeScreenIcon;
     this.navigationBarIcon = options.navigationBarIcon;
     this.backgroundColor = options.backgroundColor;
     this.createModel = createModel;
