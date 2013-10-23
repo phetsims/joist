@@ -15,7 +15,7 @@ define( function( require ) {
 
   /**
    * @param {String} name
-   * @param {Node} homeScreenIcon optimal size is 548x373
+   * @param {Node} homeScreenIcon optimal size is 548x373, will be scaled by HomeScreen
    * @param {function} createModel
    * @param {function} createView
    * @param {*} options
@@ -25,7 +25,7 @@ define( function( require ) {
 
     options = _.extend( {
       backgroundColor: 'white',
-      navigationBarIcon: homeScreenIcon // optimal size is 37x25
+      navigationBarIcon: homeScreenIcon // optimal size is 37x25, will be scaled by NavigationBar
     }, options );
 
     this.name = name;
