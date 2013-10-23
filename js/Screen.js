@@ -21,7 +21,7 @@ define( function( require ) {
     }, options );
 
     this.name = name;
-    this.icon = homeScreenIcon; // should be 548x373, size displayed on home screen
+    this.homeScreenIcon = homeScreenIcon; // should be 548x373, size displayed on home screen
     this.navigationBarIcon = options.navigationBarIcon;
     this.backgroundColor = options.backgroundColor;
     this.createModel = createModel;

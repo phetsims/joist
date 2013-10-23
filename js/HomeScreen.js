@@ -49,7 +49,7 @@ define( function( require ) {
 
     var screenChildren = _.map( sim.screens, function( screen ) {
       var index = sim.screens.indexOf( screen );
-      var largeIcon = new Node( {children: [screen.icon], scale: HEIGHT / screen.icon.height * 2} );
+      var largeIcon = new Node( {children: [screen.homeScreenIcon], scale: HEIGHT / screen.homeScreenIcon.height * 2} );
       var frame = new Frame( largeIcon );
 
       highlightedIndex.link( function( highlightedIndex ) { frame.setHighlighted( highlightedIndex === index ); } );
@@ -69,10 +69,10 @@ define( function( require ) {
       } );
 
       var small = new VBox( {spacing: 3, cursor: 'pointer', children: [
-        new Node( {opacity: 0.5, children: [screen.icon], scale: sim.screens.length === 4 ? HEIGHT / screen.icon.height :
-                                                                 sim.screens.length === 3 ? 1.25 * HEIGHT / screen.icon.height :
-                                                                 sim.screens.length === 2 ? 1.75 * HEIGHT / screen.icon.height :
-                                                                 HEIGHT / screen.icon.height} ),
+        new Node( {opacity: 0.5, children: [screen.homeScreenIcon], scale: sim.screens.length === 4 ? HEIGHT / screen.homeScreenIcon.height :
+                                                                 sim.screens.length === 3 ? 1.25 * HEIGHT / screen.homeScreenIcon.height :
+                                                                 sim.screens.length === 2 ? 1.75 * HEIGHT / screen.homeScreenIcon.height :
+                                                                 HEIGHT / screen.homeScreenIcon.height} ),
         new Text( screen.name, { font: new PhetFont( 18 ), fill: 'gray'} )
       ]} );
       small.mouseArea = small.touchArea = Shape.bounds( small.bounds ); //cover the gap in the vbox
