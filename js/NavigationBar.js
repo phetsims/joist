@@ -62,7 +62,7 @@ define( function( require ) {
     if ( screens.length > 1 ) {
 
       var iconAndTextArray = _.map( screens, function( screen ) {
-        var icon = new Node( {children: [screen.icon], scale: 25 / screen.icon.height} );
+        var icon = new Node( {children: [screen.navigationBarIcon], scale: 25 / screen.navigationBarIcon.height} );
         var text = new Text( screen.name, { fill: 'white', visible: true} );
 
         //Put a panel around it to extend it horizontally so there is some distance from the highlight region to the text and some distance between adjacent texts.

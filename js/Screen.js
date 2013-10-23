@@ -13,12 +13,19 @@
 define( function( require ) {
   'use strict';
 
-  function Screen( name, icon, createModel, createView, backgroundColor ) {
+  function Screen( name, homeScreenIcon, createModel, createView, options ) {
+
+    options = _.extend( {
+      backgroundColor: 'white',
+      navigationBarIcon: homeScreenIcon
+    }, options );
+
     this.name = name;
-    this.icon = icon; // should be 548x373, size displayed on home screen
+    this.icon = homeScreenIcon; // should be 548x373, size displayed on home screen
+    this.navigationBarIcon = options.navigationBarIcon;
+    this.backgroundColor = options.backgroundColor;
     this.createModel = createModel;
     this.createView = createView;
-    this.backgroundColor = backgroundColor || 'white';
   }
 
   return Screen;
