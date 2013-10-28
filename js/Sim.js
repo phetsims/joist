@@ -292,7 +292,7 @@ define( function( require ) {
     // place the rAF *before* the render() to assure as close to 60fps with the setTimeout fallback.
     //http://paulirish.com/2011/requestanimationframe-for-smart-animating/
     (function animationLoop() {
-      var dt;
+      var dt, screen;
 
       // increment this before we can have an exception thrown, to see if we are missing frames
       sim.frameCounter++;
@@ -325,7 +325,13 @@ define( function( require ) {
 
         //Convert to seconds
         dt = elapsedTimeMilliseconds / 1000.0;
-        sim.screens[sim.simModel.screenIndex].model.step( dt );
+
+        // step model and (optionally) view
+        screen = sim.screens[sim.simModel.screenIndex];
+        screen.model.step( dt );
+        if ( screen.view.step ) {
+          screen.view.step( dt );
+        }
       }
 
       Timer.step( dt );
