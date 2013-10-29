@@ -21,8 +21,8 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   // strings
-  var phetString = 'PhET Interactive Simulations';   //TODO i18n?
-  var copyrightString = 'Copyright © 2004-2013 University of Colorado Boulder'; //TODO i18n?
+  var phetString = 'PhET Interactive Simulations'; // as in Java sims, do not internationalize
+  var copyrightString = 'Copyright © 2004-2013 University of Colorado Boulder'; // as in Java sims, do not internationalize
   var softwareAgreementString = require( 'string!JOIST/softwareAgreement');
 
   // constants
