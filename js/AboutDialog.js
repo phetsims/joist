@@ -8,6 +8,7 @@
 define( function( require ) {
   'use strict';
 
+  // imports
   var Node = require( 'SCENERY/nodes/Node' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -18,6 +19,11 @@ define( function( require ) {
   var Panel = require( 'SUN/Panel' );
   var HTMLText = require( 'SCENERY/nodes/HTMLText' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+
+  // strings
+  var phetString = 'PhET Interactive Simulations';   //TODO i18n?
+  var copyrightString = 'Copyright © 2004-2013 University of Colorado Boulder'; //TODO i18n?
+  var softwareAgreementString = require( 'string!JOIST/softwareAgreement');
 
   // constants
   var SOFTWARE_AGREEMENT_URL = 'http://phet.colorado.edu/about/software-agreement_v7.htm';
@@ -32,11 +38,11 @@ define( function( require ) {
     //Use view, to help center and scale content
     ScreenView.call( this, {renderer: 'svg'} );
 
-    var softwareAgreementLink = new HTMLText( '<a href="#" onclick="return false;">Software Agreement</a>', {
+    var softwareAgreementLink = new HTMLText( '<a href="#" onclick="return false;">' + softwareAgreementString + '</a>', {
       font: new PhetFont( 14 ),
       renderer: 'dom',
       interactive: true // don't prevent default on the events
-    } ); //TODO i18n
+    } );
     softwareAgreementLink.addInputListener( {
       up: function( evt ) {
         evt.handle(); // don't close the dialog
@@ -48,8 +54,8 @@ define( function( require ) {
     } );
     
     var content = new VBox( { align: 'left', spacing: 5, children: [
-      new Text( 'PhET Interactive Simulations', { font: new PhetFont( 16 ) } ),
-      new Text( 'Copyright © 2004-2013 University of Colorado Boulder', { font: new PhetFont( 12 ) } ),
+      new Text( phetString, { font: new PhetFont( 16 ) } ),
+      new Text( copyrightString, { font: new PhetFont( 12 ) } ),
       new Text( ' ', { font: new PhetFont( 28 ) } ),
       new Text( sim.name, { font: new PhetFont( 28 ) } ),
       new Text( 'version ' + sim.version, { font: new PhetFont( 20 ) } ),

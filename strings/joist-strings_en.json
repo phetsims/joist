@@ -1,0 +1,14 @@
+{
+  "done": "Done",
+  "menuItem.about": "About...",
+  "menuItem.mailInputEventsLog": "Mail Input Events Log",
+  "menuItem.outputInputEventsLog": "Output Input Events Log",
+  "menuItem.outputLog": "Output Log",
+  "menuItem.phetWebsite": "PhET website...",
+  "menuItem.reportAProblem": "Report a Problem...",
+  "menuItem.settings": "Settings...",
+  "menuItem.submitInputEventsLog": "Submit Input Events Log",
+  "title.settings": "Settings",
+  "showPointers": "Show Pointers",
+  "softwareAgreement": "Software Agreement"
+}

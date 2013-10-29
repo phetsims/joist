@@ -22,6 +22,16 @@ define( function( require ) {
   var log = require( 'AXON/log' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
+  // strings
+  var aboutString = require( 'string!JOIST/menuItem.about' );
+  var mailInputEventsLogString = require( 'string!JOIST/menuItem.mailInputEventsLog' );
+  var outputInputEventsLogString = require( 'string!JOIST/menuItem.outputInputEventsLog' );
+  var outputLogString = require( 'string!JOIST/menuItem.outputLog' );
+  var phetWebsiteString = require( 'string!JOIST/menuItem.phetWebsite' );
+  var reportAProblemString = require( 'string!JOIST/menuItem.reportAProblem' );
+  var settingsString = require( 'string!JOIST/menuItem.settings' );
+  var submitInputEventsLogString = require( 'string!JOIST/menuItem.submitInputEventsLog' );
+
   // constants
   var FONT_SIZE = 18;
   var HIGHLIGHT_COLOR = '#a6d2f4';
@@ -93,7 +103,7 @@ define( function( require ) {
      */
     var itemDescriptors = [
       {
-        text: 'PhET website...',
+        text: phetWebsiteString,
         present: true,
         callback: function() {
         },
@@ -102,27 +112,27 @@ define( function( require ) {
           phetWindow.focus();
         } },
       {
-        text: 'Output Log',
+        text: outputLogString,
         present: log.enabled ? true : false, // because double-negation (!!) coercion doesn't look as cool?
         callback: function() {
           console.log( JSON.stringify( log.entries ) );
         }},
       {
-        text: 'Output Input Events Log',
+        text: outputInputEventsLogString,
         present: !!sim.options.recordInputEventLog,
         callback: function() {
           // prints the recorded input event log to the console
           console.log( sim.getRecordedInputEventLogString() );
         }},
       {
-        text: 'Submit Input Events Log',
+        text: submitInputEventsLogString,
         present: !!sim.options.recordInputEventLog,
         callback: function() {
           // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
           sim.submitEventLog();
         }},
       {
-        text: 'Mail Input Events Log',
+        text: mailInputEventsLogString,
         present: !!sim.options.recordInputEventLog,
         callback: function() {
         },
@@ -130,22 +140,22 @@ define( function( require ) {
           // mailto: link including the body to email
           sim.mailEventLog();
         }},
-//      {
-//        text: 'Settings...',
-//        present: true,
-//        callback: function() {
-//          var settingsDialog = new SettingsDialog( sim );
-//          var plane = new Plane( {fill: 'black', opacity: 0.3} );
-//          sim.addChild( plane );
-//          sim.addChild( settingsDialog );
-//          settingsDialog.addDoneListener( function() {
-//            plane.detach();
-//            settingsDialog.detach();
-//          } );
-//        }
-//      },
       {
-        text: 'Report a Problem...',
+        text: settingsString,
+        present: false,
+        callback: function() {
+          var settingsDialog = new SettingsDialog( sim );
+          var plane = new Plane( {fill: 'black', opacity: 0.3} );
+          sim.addChild( plane );
+          sim.addChild( settingsDialog );
+          settingsDialog.addDoneListener( function() {
+            plane.detach();
+            settingsDialog.detach();
+          } );
+        }
+      },
+      {
+        text: reportAProblemString,
         present: true,
         callback: function() {},
         immediateCallback: function() {
@@ -157,7 +167,7 @@ define( function( require ) {
           reportWindow.focus();
         } },
       {
-        text: 'About...',
+        text: aboutString,
         present: true,
         callback: function() {
           var aboutDialog = new AboutDialog( sim );

@@ -19,6 +19,11 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var TextButton = require( 'SUN/TextButton' );
 
+  // strings
+  var showPointersString = require( 'string!JOIST/showPointers' );
+  var doneString = require( 'string!JOIST/done' );
+  var settingsString = require( 'string!JOIST/title.settings' );
+
   /**
    * @param {Sim} sim
    * @constructor
@@ -30,9 +35,9 @@ define( function( require ) {
     ScreenView.call( this, {renderer: 'svg'} );
 
     var content = new VBox( { align: 'center', spacing: 50, children: [
-      new Text( 'Settings', { font: new PhetFont( 16 ) } ),
-      new CheckBox( new Text( 'Show Pointers' ), sim.showPointersProperty ),
-      new TextButton( 'Done', function() {
+      new Text( settingsString, { font: new PhetFont( 16 ) } ),
+      new CheckBox( new Text( showPointersString ), sim.showPointersProperty ),
+      new TextButton( doneString, function() {
         settingsDialog.doneListeners.forEach( function( listener ) {
           listener();
         } );
