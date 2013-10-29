@@ -37,7 +37,7 @@ define( function( require ) {
   var HIGHLIGHT_COLOR = '#a6d2f4';
 
   // Creates a menu item that highlights and fires.
-  var createMenuItem = function( text, width, height, callback, immediateCallback ) {
+  var createMenuItem = function( text, width, height, separatorBefore, callback, immediateCallback ) {
 
     var X_MARGIN = 5;
     var Y_MARGIN = 3;
@@ -59,6 +59,8 @@ define( function( require ) {
       upImmediate: function() { immediateCallback && immediateCallback(); }
     } );
     menuItem.addInputListener( new ButtonListener( {fire: callback } ) );
+
+    menuItem.separatorBefore = separatorBefore;
 
     return menuItem;
   };
@@ -169,6 +171,7 @@ define( function( require ) {
       {
         text: aboutString,
         present: true,
+        separatorBefore: true,
         callback: function() {
           var aboutDialog = new AboutDialog( sim );
           var plane = new Plane( {fill: 'black', opacity: 0.3} );
@@ -193,32 +196,35 @@ define( function( require ) {
 
     // Create the menu items.
     var items = _.map( keepItemDescriptors, function( itemDescriptor ) {
-      return createMenuItem( itemDescriptor.text, maxTextWidth, maxTextHeight, itemDescriptor.callback, itemDescriptor.immediateCallback );
+      return createMenuItem( itemDescriptor.text, maxTextWidth, maxTextHeight, itemDescriptor.separatorBefore, itemDescriptor.callback, itemDescriptor.immediateCallback );
+    } );
+    var separatorWidth = _.max( items,function( item ) {return item.width;} ).width;
+    var itemHeight = _.max( items,function( item ) {return item.height;} ).height;
+    var content = new Node();
+    var y = 0;
+    var ySpacing = 2;
+    var separator;
+    _.each( items, function( item ) {
+      if ( item.separatorBefore ) {
+        y += ySpacing;
+        separator = new Path( Shape.lineSegment( 0, y, separatorWidth , y ), {stroke: 'gray', lineWidth: 1} );
+        content.addChild( separator );
+        y = y + separator.height + ySpacing;
+      }
+      item.top = y;
+      content.addChild( item );
+      y += itemHeight;
     } );
 
     // Create a comic-book-style bubble.
-    var itemWidth = _.max( items,function( item ) {return item.width;} ).width;
-    var itemHeight = _.max( items,function( item ) {return item.height;} ).height;
     var X_MARGIN = 5;
     var Y_MARGIN = 5;
-    var bubbleWidth = itemWidth + X_MARGIN + X_MARGIN;
-    var bubbleHeight = itemHeight * items.length + Y_MARGIN + Y_MARGIN;
-    thisMenu.addChild( createBubble( bubbleWidth, bubbleHeight ) );
+    var bubble = createBubble( content.width + X_MARGIN + X_MARGIN, content.height + Y_MARGIN + Y_MARGIN );
 
-    // Populate the bubble with menu items.
-    var y = Y_MARGIN;
-    _.each( items, function( item ) {
-      item.top = y;
-      item.left = X_MARGIN;
-      thisMenu.addChild( item );
-
-      //TODO separators should be specified in itemDescriptors
-      // Put a separator before the last item.
-      if ( item === items[items.length - 2] ) {
-        thisMenu.addChild( new Path( Shape.lineSegment( 8, y + itemHeight, bubbleWidth - 8, y + itemHeight ), {stroke: 'gray', lineWidth: 1} ) );
-      }
-      y += itemHeight;
-    } );
+    thisMenu.addChild( bubble );
+    thisMenu.addChild( content );
+    content.left = X_MARGIN;
+    content.top = Y_MARGIN;
 
     thisMenu.mutate( options );
   }
