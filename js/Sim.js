@@ -37,7 +37,7 @@ define( function( require ) {
    */
   function Sim( name, screens, options ) {
 
-    options = _.extend( { showHomeScreen: true, screenIndex: 0, standalone: false, credits: '', thanks: '' }, options );
+    options = _.extend( { showHomeScreen: true, screenIndex: 0, standalone: false, credits: {} }, options );
     this.options = options; // store this for access from prototype functions, assumes that it won't be changed later
 
     this.destroyed = false;
@@ -47,7 +47,6 @@ define( function( require ) {
     sim.name = name;
     sim.version = version();
     sim.credits = options.credits;
-    sim.thanks = options.thanks;
 
     sim.frameCounter = 0; // number of animation frames that have occurred
 
