@@ -19,7 +19,6 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Plane = require( 'SCENERY/nodes/Plane' );
-  var log = require( 'AXON/log' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   // strings
@@ -114,12 +113,6 @@ define( function( require ) {
           phetWindow.focus();
         } },
       {
-        text: outputLogString,
-        present: log.enabled ? true : false, // because double-negation (!!) coercion doesn't look as cool?
-        callback: function() {
-          console.log( JSON.stringify( log.entries ) );
-        }},
-      {
         text: outputInputEventsLogString,
         present: !!sim.options.recordInputEventLog,
         callback: function() {
@@ -207,7 +200,7 @@ define( function( require ) {
     _.each( items, function( item ) {
       if ( item.separatorBefore ) {
         y += ySpacing;
-        separator = new Path( Shape.lineSegment( 0, y, separatorWidth , y ), {stroke: 'gray', lineWidth: 1} );
+        separator = new Path( Shape.lineSegment( 0, y, separatorWidth, y ), {stroke: 'gray', lineWidth: 1} );
         content.addChild( separator );
         y = y + separator.height + ySpacing;
       }
