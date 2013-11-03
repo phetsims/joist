@@ -25,7 +25,7 @@ define( function( require ) {
 
     options = _.extend( {
       backgroundColor: 'white',
-      navigationBarIcon: homeScreenIcon // optimal size is 37x25, will be scaled by NavigationBar
+      navigationBarIcon: homeScreenIcon // joist#76 document the size for navbar-specific icons
     }, options );
 
     this.name = name;
