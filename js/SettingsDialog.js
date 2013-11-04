@@ -37,11 +37,13 @@ define( function( require ) {
     var content = new VBox( { align: 'center', spacing: 50, children: [
       new Text( settingsString, { font: new PhetFont( 16 ) } ),
       new CheckBox( new Text( showPointersString ), sim.showPointersProperty ),
-      new TextButton( doneString, function() {
-        settingsDialog.doneListeners.forEach( function( listener ) {
-          listener();
-        } );
-      } )
+      new TextButton( doneString, {
+          callback: function() {
+            settingsDialog.doneListeners.forEach( function( listener ) {
+              listener();
+            } );
+          }
+        } )
     ]} );
 
     //Show a gray overlay that will help focus on the about dialog, and prevent clicks on the sim while the dialog is up
