@@ -17,7 +17,7 @@ define( function( require ) {
   var CheckBox = require( 'SUN/CheckBox' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
-  var TextButton = require( 'SUN/TextButton' );
+  var TextPushButton = require( 'SUN/TextPushButton' );
 
   // strings
   var showPointersString = require( 'string!JOIST/showPointers' );
@@ -37,7 +37,7 @@ define( function( require ) {
     var content = new VBox( { align: 'center', spacing: 50, children: [
       new Text( settingsString, { font: new PhetFont( 16 ) } ),
       new CheckBox( new Text( showPointersString ), sim.showPointersProperty ),
-      new TextButton( doneString, {
+      new TextPushButton( doneString, {
         listener: function() {
             settingsDialog.doneListeners.forEach( function( listener ) {
               listener();
