@@ -25,7 +25,7 @@ define( function( require ) {
 
     options = _.extend( {
       backgroundColor: 'white',
-      navigationBarIcon: homeScreenIcon // joist#76 document the size for navbar-specific icons
+      navigationBarIcon: homeScreenIcon // must be a minimum of 147x100 and have an aspect ratio of 548/373=1.469.  See https://github.com/phetsims/joist/issues/76
     }, options );
 
     this.name = name;
