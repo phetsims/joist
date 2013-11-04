@@ -33,9 +33,10 @@ define( function( require ) {
    * @param {Sim} sim
    * @param {Array<Screen>} screens
    * @param {PropertySet} model see joist.Sim
+   * @param {Boolean} whiteColorScheme true if the color scheme should be white, false if it should be black
    * @constructor
    */
-  function NavigationBar( sim, screens, model ) {
+  function NavigationBar( sim, screens, model, whiteColorScheme ) {
     this.screens = screens;
 
     this.navBarHeight = 40;
@@ -43,13 +44,13 @@ define( function( require ) {
     this.navBarWidth = 768;
 
     Node.call( this, {renderer: 'svg'} );
-    this.background = new Rectangle( 0, 0, 0, 0, {fill: 'black'} );
+    this.background = new Rectangle( 0, 0, 0, 0, {fill: whiteColorScheme ? 'white' : 'black'} );
     this.addChild( this.background );
 
-    this.hbox = new PhetButton( sim );
+    this.hbox = new PhetButton( sim, whiteColorScheme );
     this.addChild( this.hbox );
 
-    this.titleLabel = new Text( sim.name, {font: new PhetFont( 18 ), fill: 'white'} );
+    this.titleLabel = new Text( sim.name, {font: new PhetFont( 18 ), fill: whiteColorScheme ? 'black' : 'white'} );
 
     //Create the nodes to be used for the screen icons
     var index = 0;
@@ -85,7 +86,12 @@ define( function( require ) {
         //On initialization and when the screen changes, update the size of the icons and the layout of the icons and text
         model.screenIndexProperty.link( function( screenIndex ) {
           var selected = iconAndText.index === screenIndex;
-          iconAndText.text.fill = selected ? 'yellow' : 'white';
+          if ( whiteColorScheme ) {
+            iconAndText.text.fill = selected ? 'black' : 'gray';
+          }
+          else {
+            iconAndText.text.fill = selected ? 'yellow' : 'white';
+          }
           iconAndText.text.font = selected ? selectedFont : normalFont;
           iconAndText.opacity = selected ? 1.0 : 0.5;
         } );
@@ -145,7 +151,7 @@ define( function( require ) {
       this.addChild( this.buttonHBox );
 
       //add the home icon
-      this.homeIcon = new HomeButton();
+      this.homeIcon = new HomeButton( whiteColorScheme ? 'black' : 'white' );
       var homeHighlight = Highlight.createHighlight( this.homeIcon.width + 10, this.homeIcon.height + 5 );
       homeHighlight.bottom = this.homeIcon.bottom + 3;
       homeHighlight.x = -5;

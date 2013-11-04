@@ -146,7 +146,8 @@ define( function( require ) {
       sim.scene.setPointerAreaDisplayVisible( showPointerAreas );
     } );
 
-    sim.navigationBar = new NavigationBar( sim, screens, sim.simModel );
+    var whiteNavBar = screens[0].backgroundColor === 'black' || screens[0].backgroundColor === '#000' || screens[0].backgroundColor === '#000000';
+    sim.navigationBar = new NavigationBar( sim, screens, sim.simModel, whiteNavBar );
 
     if ( screens.length > 1 ) {
       sim.homeScreen = new HomeScreen( sim );

@@ -40,7 +40,7 @@ define( function( require ) {
   };
 
   //TODO don't pass in navigationBar, position based on this button
-  function PhetButton( sim, options ) {
+  function PhetButton( sim, whiteColorScheme, options ) {
 
     var phetButton = this;
     Node.call( this, {renderer: 'svg', cursor: 'pointer'} );
@@ -52,7 +52,7 @@ define( function( require ) {
     //Workaround for the SVG not showing up properly in firefox.  SVG Renderer still giving odd bounds on FireFox, so use canvas there
     if ( platform.firefox ) {phetLabel.renderer = 'canvas';}
 
-    var optionsButton = new FontAwesomeNode( 'reorder', {fill: '#fff', scale: 0.6, left: phetLabel.width + 10, bottom: phetLabel.bottom - options.optionsButtonVerticalMargin} );
+    var optionsButton = new FontAwesomeNode( 'reorder', {fill: whiteColorScheme ? 'black' : 'white', scale: 0.6, left: phetLabel.width + 10, bottom: phetLabel.bottom - options.optionsButtonVerticalMargin} );
 
     this.addChild( phetLabel );
     this.addChild( optionsButton );
