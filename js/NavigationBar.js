@@ -58,7 +58,7 @@ define( function( require ) {
     //Create the nodes to be used for the screen icons
     var index = 0;
 
-    var selectedFont = new PhetFont( { size: 10, weight: 'bold'} );
+    var selectedFont = new PhetFont( { size: 10 } );
     var normalFont = new PhetFont( { size: 10 } );
 
     this.addChild( this.titleLabel );
