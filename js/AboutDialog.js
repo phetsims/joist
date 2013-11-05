@@ -44,6 +44,7 @@ define( function( require ) {
     var aboutDialog = this;
 
     //Use view, to help center and scale content
+    //Renderer must be specified here because the AboutDialog is added directly to the scene (instead of to some other node that already has svg renderer)
     ScreenView.call( this, {renderer: 'svg'} );
 
     var softwareAgreementLink = new HTMLText( '<a href="#" onclick="return false;">' + softwareAgreementString + '</a>', {

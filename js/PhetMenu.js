@@ -167,7 +167,7 @@ define( function( require ) {
         separatorBefore: true,
         callback: function() {
           var aboutDialog = new AboutDialog( sim );
-          var plane = new Plane( {fill: 'black', opacity: 0.3} );
+          var plane = new Plane( {fill: 'black', opacity: 0.3, renderer: 'svg'} );//Renderer must be specified here because the AboutDialog is added directly to the scene (instead of to some other node that already has svg renderer)
           sim.addChild( plane );
           sim.addChild( aboutDialog );
           var aboutDialogListener = {up: function() {
