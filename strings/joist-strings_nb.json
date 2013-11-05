@@ -1,0 +1,21 @@
+{
+  "done": "Done",
+  "menuItem.about": "Om...",
+  "menuItem.mailInputEventsLog": "Mail Input Events Log",
+  "menuItem.outputInputEventsLog": "Output Input Events Log",
+  "menuItem.outputLog": "Output Log",
+  "menuItem.phetWebsite": "PhET-nettstedet...",
+  "menuItem.reportAProblem": "Rapporter et problem...",
+  "menuItem.settings": "Settings...",
+  "menuItem.submitInputEventsLog": "Submit Input Events Log",
+  "title.settings": "Settings",
+  "showPointers": "Show Pointers",
+  "softwareAgreement": "Software Agreement",
+  "credits.phetDevelopmentTeam": "PhET Development Team",
+  "credits.leadDesign": "Lead Design: {0}",
+  "credits.softwareDevelopment": "Software Development: {0}",
+  "credits.designTeam": "Design Team: {0}",
+  "credits.interviews": "Interviews: {0}",
+  "credits.translation": "Translation",
+  "credits.thanks": "Thanks"
+}
