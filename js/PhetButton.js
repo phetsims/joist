@@ -24,6 +24,9 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var phetLogo = require( 'image!JOIST/phet-logo-short.svg' );
 
+  //Makes the 'h' a bit darker so it will show up better against a white background
+  var phetLogoDarker = require( 'image!JOIST/phet-logo-short-darker.svg' );
+
   //TODO this is copied from NavigationBar
   var createHighlight = function( width, height ) {
     var leftBar = new Path( Shape.lineSegment( 0, 0, 0, height ), {lineWidth: 1, stroke: new LinearGradient( 0, 0, 0, height ).addColorStop( 0, 'black' ).addColorStop( 0.5, 'white' ).addColorStop( 1, 'black' ) } );
@@ -45,14 +48,14 @@ define( function( require ) {
     var phetButton = this;
     Node.call( this, {renderer: 'svg', cursor: 'pointer'} );
 
-    options = _.extend( {phetLogo: phetLogo, phetLogoScale: 0.28, optionsButtonVerticalMargin: 1.5}, options );
+    options = _.extend( {phetLogo: whiteColorScheme ? phetLogoDarker : phetLogo, phetLogoScale: 0.28, optionsButtonVerticalMargin: 1.5}, options );
 
     var phetLabel = new Image( options.phetLogo, {scale: options.phetLogoScale} );
 
     //Workaround for the SVG not showing up properly in firefox.  SVG Renderer still giving odd bounds on FireFox, so use canvas there
     if ( platform.firefox ) {phetLabel.renderer = 'canvas';}
 
-    var optionsButton = new FontAwesomeNode( 'reorder', {fill: whiteColorScheme ? 'black' : 'white', scale: 0.6, left: phetLabel.width + 10, bottom: phetLabel.bottom - options.optionsButtonVerticalMargin} );
+    var optionsButton = new FontAwesomeNode( 'reorder', {fill: whiteColorScheme ? '#222' : 'white', scale: 0.6, left: phetLabel.width + 10, bottom: phetLabel.bottom - options.optionsButtonVerticalMargin} );
 
     this.addChild( phetLabel );
     this.addChild( optionsButton );

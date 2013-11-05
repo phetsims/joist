@@ -151,7 +151,7 @@ define( function( require ) {
       this.addChild( this.buttonHBox );
 
       //add the home icon
-      this.homeIcon = new HomeButton( whiteColorScheme ? 'black' : 'white' );
+      this.homeIcon = new HomeButton( whiteColorScheme ? '#222' : 'white' );
       var homeHighlight = Highlight.createHighlight( this.homeIcon.width + 10, this.homeIcon.height + 5 );
       homeHighlight.bottom = this.homeIcon.bottom + 3;
       homeHighlight.x = -5;
