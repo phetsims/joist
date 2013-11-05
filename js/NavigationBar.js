@@ -45,6 +45,7 @@ define( function( require ) {
     this.navBarScale = 1;
     this.navBarWidth = 768;
 
+    //Renderer must be specified here because the node is added directly to the scene (instead of to some other node that already has svg renderer
     Node.call( this, {renderer: 'svg'} );
     this.background = new Rectangle( 0, 0, 0, 0, {fill: whiteColorScheme ? 'white' : 'black'} );
     this.addChild( this.background );

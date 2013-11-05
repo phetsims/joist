@@ -46,7 +46,7 @@ define( function( require ) {
   function PhetButton( sim, whiteColorScheme, options ) {
 
     var phetButton = this;
-    Node.call( this, {renderer: 'svg', cursor: 'pointer'} );
+    Node.call( this, {cursor: 'pointer'} );
 
     options = _.extend( {phetLogo: whiteColorScheme ? phetLogoDarker : phetLogo, phetLogoScale: 0.28, optionsButtonVerticalMargin: 1.5}, options );
 

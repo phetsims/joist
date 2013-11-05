@@ -91,8 +91,6 @@ define( function( require ) {
   //TODO: The popup menu should scale with the size of the screen
   function PhetMenu( sim, options ) {
 
-    options = _.extend( {renderer: 'svg'}, options );
-
     var thisMenu = this;
     Node.call( thisMenu );
 
@@ -140,7 +138,7 @@ define( function( require ) {
         present: false,
         callback: function() {
           var settingsDialog = new SettingsDialog( sim );
-          var plane = new Plane( {fill: 'black', opacity: 0.3} );
+          var plane = new Plane( {fill: 'black', opacity: 0.3, renderer: 'svg'} );
           sim.addChild( plane );
           sim.addChild( settingsDialog );
           settingsDialog.addDoneListener( function() {
@@ -167,7 +165,7 @@ define( function( require ) {
         separatorBefore: true,
         callback: function() {
           var aboutDialog = new AboutDialog( sim );
-          var plane = new Plane( {fill: 'black', opacity: 0.3, renderer: 'svg'} );//Renderer must be specified here because the AboutDialog is added directly to the scene (instead of to some other node that already has svg renderer)
+          var plane = new Plane( {fill: 'black', opacity: 0.3, renderer: 'svg'} );//Renderer must be specified here because the plane is added directly to the scene (instead of to some other node that already has svg renderer)
           sim.addChild( plane );
           sim.addChild( aboutDialog );
           var aboutDialogListener = {up: function() {
