@@ -30,6 +30,7 @@ define( function( require ) {
   var softwareDevelopmentString = require( 'string!JOIST/credits.softwareDevelopment' );
   var designTeamString = require( 'string!JOIST/credits.designTeam' );
   var interviewsString = require( 'string!JOIST/credits.interviews' );
+  var graphicArtsString = require( 'string!JOIST/credits.graphicArts' );
   var translationTitleString = require( 'string!JOIST/credits.translation' );
   var thanksTitleString = require( 'string!JOIST/credits.thanks' );
 
@@ -105,6 +106,7 @@ define( function( require ) {
     if ( credits.softwareDevelopment ) { children.push( new MultiLineText( StringUtils.format( softwareDevelopmentString, credits.softwareDevelopment ), multiLineTextOptions ) ); }
     if ( credits.designTeam ) { children.push( new MultiLineText( StringUtils.format( designTeamString, credits.designTeam ), multiLineTextOptions ) ); }
     if ( credits.interviews ) { children.push( new MultiLineText( StringUtils.format( interviewsString, credits.interviews ), multiLineTextOptions ) ); }
+    if ( credits.graphicArts ) { children.push( new MultiLineText( StringUtils.format( graphicArtsString, credits.graphicArts ), multiLineTextOptions ) ); }
     if ( credits.translation ) {
       if ( children.length > 0 ) { children.push( new Text( ' ', font ) ); }
       children.push( new Text( translationTitleString, { font: titleFont } ) );
