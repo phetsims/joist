@@ -37,6 +37,8 @@ define( function( require ) {
                                                 (selected ? 'yellow' : 'white'), visible: true} );
 
       var box = new VBox( {children: [icon, text], opacity: selected ? 1.0 : 0.5} );
+
+      //add an overlay so that the icons can be placed next to each other with an HBox, also sets the toucharea/mousearea
       var overlay = new Rectangle( 0, 0, minWidth, box.height );
       overlay.centerX = box.centerX;
       overlay.y = box.y;
