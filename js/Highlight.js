@@ -19,6 +19,12 @@ define( function( require ) {
     return new Node( {children: [leftBar, rightBar], visible: false} );
   };
 
+  var createHighlightVisible = function( width, height ) {
+    var leftBar = new Path( Shape.lineSegment( 0, 0, 0, height ), { lineWidth: 1, stroke: new LinearGradient( 0, 0, 0, height ).addColorStop( 0, 'black' ).addColorStop( 0.5, 'white' ).addColorStop( 1, 'black' ) } );
+    var rightBar = new Path( Shape.lineSegment( width, 0, width, height ), {lineWidth: 1, stroke: new LinearGradient( 0, 0, 0, height ).addColorStop( 0, 'black' ).addColorStop( 0.5, 'white' ).addColorStop( 1, 'black' ) } );
+    return new Node( {children: [leftBar, rightBar]} );
+  };
+
   var createHighlightListener = function( node ) {
     return {//Highlight a button when mousing over it
       over: function( event ) { if ( event.pointer.isMouse ) {node.visible = true;} },
@@ -26,5 +32,5 @@ define( function( require ) {
     };
   };
 
-  return {createHighlight: createHighlight, createHighlightListener: createHighlightListener};
+  return {createHighlight: createHighlight, createHighlightListener: createHighlightListener, createHighlightVisible: createHighlightVisible};
 } );

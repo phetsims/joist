@@ -58,11 +58,19 @@ define( function( require ) {
     this.addChild( this.titleLabel );
 
     if ( screens.length > 1 ) {
+
+      //Create buttons once so we can get their dimensions
       var buttons = _.map( screens, function( screen ) {
-        return new NavigationBarScreenButton( sim, screen, thisNode.navBarHeight, whiteColorScheme );
+        return new NavigationBarScreenButton( sim, screen, thisNode.navBarHeight, whiteColorScheme, 0 );
+      } );
+      var maxWidth = _.max( buttons,function( button ) {return button.width;} ).width;
+
+      //Create buttons again with equivalent sizes
+      buttons = _.map( screens, function( screen ) {
+        return new NavigationBarScreenButton( sim, screen, thisNode.navBarHeight, whiteColorScheme, maxWidth );
       } );
 
-      this.buttonHBox = new HBox( {children: buttons} );
+      this.buttonHBox = new HBox( {children: buttons, spacing: 4} );
       this.addChild( this.buttonHBox );
 
       //add the home icon
