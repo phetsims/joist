@@ -11,21 +11,13 @@ define( function( require ) {
   'use strict';
 
   var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
   var HBox = require( 'SCENERY/nodes/HBox' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
-  var Panel = require( 'SUN/Panel' );
   var HomeButton = require( 'SCENERY_PHET/HomeButton' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var PhetMenu = require( 'JOIST/PhetMenu' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Shape = require( 'KITE/Shape' );
-  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var PhetButton = require( 'JOIST/PhetButton' );
-  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Highlight = require( 'JOIST/Highlight' );
   var NavigationBarScreenButton = require( 'JOIST/NavigationBarScreenButton' );
 
