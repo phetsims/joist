@@ -29,9 +29,9 @@ define( function( require ) {
    * @constructor
    */
   function NavigationBarScreenButton( sim, screen, navBarHeight, whiteColorScheme, minWidth ) {
+    var icon = new Node( {children: [screen.navigationBarIcon], scale: ( 0.625 * navBarHeight ) / screen.navigationBarIcon.height} );
 
     var createNode = function( selected, state ) {
-      var icon = new Node( {children: [screen.navigationBarIcon], scale: ( 0.625 * navBarHeight ) / screen.navigationBarIcon.height} );
       var text = new Text( screen.name, { fill: whiteColorScheme ?
                                                 (selected ? 'black' : 'gray') :
                                                 (selected ? 'yellow' : 'white'), visible: true} );
