@@ -55,7 +55,7 @@ define( function( require ) {
       var buttons = _.map( screens, function( screen ) {
         return new NavigationBarScreenButton( sim, screen, thisNode.navBarHeight, whiteColorScheme, 0 );
       } );
-      var maxWidth = _.max( buttons,function( button ) {return button.width;} ).width;
+      var maxWidth = Math.max( 50, _.max( buttons,function( button ) {return button.width;} ).width );
 
       //Create buttons again with equivalent sizes
       buttons = _.map( screens, function( screen ) {
