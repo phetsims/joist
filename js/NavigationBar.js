@@ -48,20 +48,13 @@ define( function( require ) {
 
     //Renderer must be specified here because the node is added directly to the scene (instead of to some other node that already has svg renderer
     Node.call( this, {renderer: 'svg'} );
-    this.background = new Rectangle( 0, 0, 0, 0, {fill: whiteColorScheme ? 'white' : 'black'} );
+    this.background = new Rectangle( 0, 0, 0, 0, {fill: whiteColorScheme ? 'white' : 'black', pickable: false} );
     this.addChild( this.background );
 
     this.hbox = new PhetButton( sim, whiteColorScheme );
     this.addChild( this.hbox );
 
-    this.titleLabel = new Text( sim.name, {font: new PhetFont( 18 ), fill: whiteColorScheme ? 'black' : 'white'} );
-
-    //Create the nodes to be used for the screen icons
-    var index = 0;
-
-    var selectedFont = new PhetFont( { size: 10 } );
-    var normalFont = new PhetFont( { size: 10 } );
-
+    this.titleLabel = new Text( sim.name, {font: new PhetFont( 18 ), fill: whiteColorScheme ? 'black' : 'white', pickable: false} );
     this.addChild( this.titleLabel );
 
     if ( screens.length > 1 ) {

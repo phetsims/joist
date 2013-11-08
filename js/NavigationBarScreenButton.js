@@ -9,21 +9,11 @@ define( function( require ) {
   'use strict';
 
   var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
-  var Panel = require( 'SUN/Panel' );
-  var HomeButton = require( 'SCENERY_PHET/HomeButton' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var PhetMenu = require( 'JOIST/PhetMenu' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Shape = require( 'KITE/Shape' );
-  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
-  var PhetButton = require( 'JOIST/PhetButton' );
-  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Highlight = require( 'JOIST/Highlight' );
   var PushButton = require( 'SUN/PushButton' );
   var ToggleNode = require( 'SUN/ToggleNode' );
@@ -40,29 +30,21 @@ define( function( require ) {
   function NavigationBarScreenButton( sim, screen, navBarHeight, whiteColorScheme ) {
     var navigationBarScreenButton = this;
 
-    var icon = new Node( {children: [screen.navigationBarIcon], scale: ( 0.625 * navBarHeight ) / screen.navigationBarIcon.height} );
-    var text = new Text( screen.name, { fill: 'white', visible: true} );
+    var createNode = function( selected, up ) {
+      var icon = new Node( {children: [screen.navigationBarIcon], scale: ( 0.625 * navBarHeight ) / screen.navigationBarIcon.height} );
+      var text = new Text( screen.name, { fill: whiteColorScheme ?
+                                                (selected ? 'black' : 'gray') :
+                                                (selected ? 'yellow' : 'white'), visible: true} );
 
-//    if ( whiteColorScheme ) {
-//      iconAndText.text.fill = selected ? 'black' : 'gray';
-//    }
-//    else {
-//      iconAndText.text.fill = selected ? 'yellow' : 'white';
-//    }
-//    iconAndText.text.font = selected ? selectedFont : normalFont;
-//    iconAndText.opacity = selected ? 1.0 : 0.5;
+      return new VBox( {children: [icon, text], opacity: selected ? 1.0 : 0.5} );
+    };
 
-    var upNode = new VBox( {children: [icon, text]} );
-    var overNode = new VBox( {children: [icon, text]} );
-    var downNode = new VBox( {children: [icon, text]} );
-    var disabledNode = new VBox( {children: [icon, text]} );
+    var selectedNode = new PushButton( createNode( true, 'up' ), createNode( true, 'over' ), createNode( true, 'down' ), createNode( true, 'disabled' ), {} );
+    var unselectedNode = new PushButton( createNode( false, 'up' ), createNode( false, 'over' ), createNode( false, 'down' ), createNode( false, 'disabled' ), {} );
+    unselectedNode.addListener( function() { sim.simModel.screenIndex = sim.screens.indexOf( screen ); } );
 
-    var trueNode = new PushButton( upNode, overNode, downNode, disabledNode, {} );
-
-    var falseNode = new PushButton( upNode, overNode, downNode, disabledNode, {} );
-
-    var selected = new Property( true );
-    ToggleNode.call( this, trueNode, falseNode, selected, {} );
+    var selected = sim.simModel.screenIndexProperty.valueEquals( sim.screens.indexOf( screen ) );
+    ToggleNode.call( this, selectedNode, unselectedNode, selected, {pickable: true} );
   }
 
   return inherit( ToggleNode, NavigationBarScreenButton );
