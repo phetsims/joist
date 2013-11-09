@@ -108,11 +108,18 @@ define( function( require ) {
 
       this.buttonArray = iconAndTextArray.map( function( iconAndText ) {
         //Background area for layout and hit region
-        var rectangle = new Rectangle( 0, 0, maxWidth, maxHeight );
+        var rectangle = new Rectangle( 0, 0, maxWidth, maxHeight, { pickable: false } );
+        var rectangleShape = rectangle.createRectangleShape();
         var highlight = Highlight.createHighlight( maxWidth, maxHeight );
+        highlight.pickable = false;
+        iconAndText.pickable = false;
         iconAndText.centerX = maxWidth / 2;
         iconAndText.top = 0;
-        var button = new Node( {children: [ rectangle, highlight, iconAndText]} );
+        var button = new Node( {
+          children: [ rectangle, highlight, iconAndText],
+          touchArea: rectangleShape,
+          mouseArea: rectangleShape
+        } );
 
         //In the nav bar, don't show highlight or cursor pointer when over a screen icon that is already selected
         model.screenIndexProperty.link( function( screenIndex ) { button.cursor = screenIndex === iconAndText.index ? 'default' : 'pointer'; } );
