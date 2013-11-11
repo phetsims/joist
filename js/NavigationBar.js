@@ -66,16 +66,8 @@ define( function( require ) {
       this.addChild( this.buttonHBox );
 
       //add the home icon
-      this.homeIcon = new HomeButton( whiteColorScheme ? '#222' : 'white' );
-      var homeHighlight = Highlight.createHighlight( this.homeIcon.width + 10, this.homeIcon.height + 5 );
-      homeHighlight.bottom = this.homeIcon.bottom + 3;
-      homeHighlight.x = -5;
-      this.homeIcon.addChild( homeHighlight );
-
-      //Hide the highlight on the home icon if the home icon is pressed
-      model.showHomeScreenProperty.link( function( showHomeScreen ) { if ( showHomeScreen ) { homeHighlight.visible = false; } } );
-      this.homeIcon.addInputListener( { down: function() { model.showHomeScreen = true; }} );
-      this.homeIcon.addInputListener( Highlight.createHighlightListener( homeHighlight ) );
+      this.homeIcon = new HomeButton( whiteColorScheme ? '#222' : 'white', whiteColorScheme ? '#444' : 'gray' );
+      this.homeIcon.addListener( function() {model.showHomeScreen = true;} );
       this.homeIcon.addPeer( '<input type="button" aria-label="Home Screen">', {click: function() {model.showHomeScreen = true;}, tabIndex: 100} );
       this.addChild( this.homeIcon );
     }
