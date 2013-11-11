@@ -31,20 +31,19 @@ define( function( require ) {
   function NavigationBarScreenButton( sim, screen, navBarHeight, whiteColorScheme, minWidth ) {
     var icon = new Node( {children: [screen.navigationBarIcon], scale: ( 0.625 * navBarHeight ) / screen.navigationBarIcon.height} );
 
-    var createNode = function( selected, state ) {
+    var createNode = function( selected, highlighted, down ) {
       var text = new Text( screen.name, { fill: whiteColorScheme ?
                                                 (selected ? 'black' : 'gray') :
                                                 (selected ? 'yellow' : 'white'), visible: true} );
 
-      var box = new VBox( {children: [icon, text], opacity: selected ? 1.0 : 0.5} );
+      var box = new VBox( {children: [icon, text], opacity: selected ? 1.0 : down ? 0.65 : 0.5} );
 
       //add an overlay so that the icons can be placed next to each other with an HBox, also sets the toucharea/mousearea
       var overlay = new Rectangle( 0, 0, minWidth, box.height );
       overlay.centerX = box.centerX;
       overlay.y = box.y;
-      if ( state === 'over' ) {
-        var highlight = new HighlightNode( overlay.width + 4, overlay.height );
-        highlight.centerX = box.centerX;
+      if ( highlighted ) {
+        var highlight = new HighlightNode( overlay.width + 4, overlay.height, {centerX: box.centerX} );
         return new Node( {children: [box, highlight, overlay]} );
       }
       else {
@@ -52,8 +51,8 @@ define( function( require ) {
       }
     };
 
-    var selectedNode = new PushButton( createNode( true, 'up' ), createNode( true, 'over' ), createNode( true, 'down' ), createNode( true, 'disabled' ), {} );
-    var unselectedNode = new PushButton( createNode( false, 'up' ), createNode( false, 'over' ), createNode( false, 'down' ), createNode( false, 'disabled' ), {} );
+    var selectedNode = new PushButton( createNode( true, false, false ), createNode( true, true, false ), createNode( true, true, true ), createNode( true, false, false ), {} );
+    var unselectedNode = new PushButton( createNode( false, false, false ), createNode( false, true, false ), createNode( false, true, true ), createNode( false, false, false ), {} );
     unselectedNode.addListener( function() { sim.simModel.screenIndex = sim.screens.indexOf( screen ); } );
 
     var selected = sim.simModel.screenIndexProperty.valueEquals( sim.screens.indexOf( screen ) );

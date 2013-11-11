@@ -46,10 +46,7 @@ define( function( require ) {
       var node = new Node( {children: [phetLabel, optionsButton]} );
 
       if ( highlighted ) {
-        var highlight = new HighlightNode( node.width + 6, node.height + 5 );
-        highlight.centerX = node.centerX;
-        highlight.centerY = node.centerY + 4;
-        node.addChild( highlight );
+        node.addChild( new HighlightNode( node.width + 6, node.height + 5, {centerX: node.centerX, centerY: node.centerY + 4} ) );
       }
       return node;
     };

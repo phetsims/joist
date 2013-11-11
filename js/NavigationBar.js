@@ -18,7 +18,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PhetButton = require( 'JOIST/PhetButton' );
-  var Highlight = require( 'JOIST/Highlight' );
   var NavigationBarScreenButton = require( 'JOIST/NavigationBarScreenButton' );
 
   /**
