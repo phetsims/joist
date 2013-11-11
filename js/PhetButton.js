@@ -23,31 +23,16 @@ define( function( require ) {
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Vector2 = require( 'DOT/Vector2' );
   var phetLogo = require( 'image!JOIST/phet-logo-short.svg' );
+  var PushButton = require( 'SUN/PushButton' );
+  var Highlight = require( 'JOIST/Highlight' );
 
   //Makes the 'h' a bit darker so it will show up better against a white background
   var phetLogoDarker = require( 'image!JOIST/phet-logo-short-darker.svg' );
-
-  //TODO this is copied from NavigationBar
-  var createHighlight = function( width, height ) {
-    var leftBar = new Path( Shape.lineSegment( 0, 0, 0, height ), {lineWidth: 1, stroke: new LinearGradient( 0, 0, 0, height ).addColorStop( 0, 'black' ).addColorStop( 0.5, 'white' ).addColorStop( 1, 'black' ) } );
-    var rightBar = new Path( Shape.lineSegment( width, 0, width, height ), {lineWidth: 1, stroke: new LinearGradient( 0, 0, 0, height ).addColorStop( 0, 'black' ).addColorStop( 0.5, 'white' ).addColorStop( 1, 'black' ) } );
-    return new Node( {children: [leftBar, rightBar], visible: false} );
-  };
-
-  //TODO this is copied from NavigationBar
-  var createHighlightListener = function( node ) {
-    return {//Highlight a button when mousing over it
-      over: function( event ) { if ( event.pointer.isMouse ) {node.visible = true;} },
-      out: function( event ) { if ( event.pointer.isMouse ) {node.visible = false;} }
-    };
-  };
 
   //TODO don't pass in navigationBar, position based on this button
   function PhetButton( sim, whiteColorScheme, options ) {
 
     var phetButton = this;
-    Node.call( this, {cursor: 'pointer'} );
-
     options = _.extend( {phetLogo: whiteColorScheme ? phetLogoDarker : phetLogo, phetLogoScale: 0.28, optionsButtonVerticalMargin: 1.5}, options );
 
     var phetLabel = new Image( options.phetLogo, {scale: options.phetLogoScale} );
@@ -57,13 +42,20 @@ define( function( require ) {
 
     var optionsButton = new FontAwesomeNode( 'reorder', {fill: whiteColorScheme ? '#222' : 'white', scale: 0.6, left: phetLabel.width + 10, bottom: phetLabel.bottom - options.optionsButtonVerticalMargin} );
 
-    this.addChild( phetLabel );
-    this.addChild( optionsButton );
+    var createNode = function( highlighted ) {
+      var node = new Node( {children: [phetLabel, optionsButton]} );
 
-    var optionsHighlight = createHighlight( this.width + 6, this.height - 2 );
-    optionsHighlight.bottom = this.bottom + 3;
-    optionsHighlight.x = -3;
-    this.addChild( optionsHighlight );
+      if ( highlighted ) {
+        var highlight = Highlight.createHighlightVisible( node.width + 6, node.height + 5 );
+        highlight.centerX = node.centerX;
+        highlight.centerY = node.centerY + 4;
+        node.addChild( highlight );
+      }
+      return node;
+    };
+
+    //function PushButton( upNode, overNode, downNode, disabledNode, options ) {
+    PushButton.call( this, createNode( false ), createNode( true ), createNode( false ), new Node() );
 
     //When the phet button is pressed, show the phet menu
     var phetButtonPressed = function() {
@@ -86,16 +78,17 @@ define( function( require ) {
       phetButton.parents[0].addChild( rectangle );
       phetButton.parents[0].addChild( phetMenu );
     };
+    this.addListener( phetButtonPressed );
 
     this.addPeer( '<input type="button" aria-label="PhET Menu">', {click: phetButtonPressed, tabIndex: 101} );
-    this.addInputListener( new ButtonListener( {fire: phetButtonPressed} ) );
-    this.addInputListener( createHighlightListener( optionsHighlight ) );
 
     // eliminate interactivity gap between label and button
     this.mouseArea = this.touchArea = Shape.bounds( this.bounds );
 
-    this.mutate( options );
+    if ( options ) {
+      this.mutate( options );
+    }
   }
 
-  return inherit( Node, PhetButton );
+  return inherit( PushButton, PhetButton );
 } );
