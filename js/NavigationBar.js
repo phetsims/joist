@@ -65,7 +65,7 @@ define( function( require ) {
       this.addChild( this.buttonHBox );
 
       //add the home icon
-      this.homeIcon = new HomeButton( whiteColorScheme ? '#222' : 'white', whiteColorScheme ? '#444' : 'gray' );
+      this.homeIcon = new HomeButton( whiteColorScheme ? '#222' : 'white', whiteColorScheme ? '#444' : 'gray', whiteColorScheme );
       this.homeIcon.addListener( function() {model.showHomeScreen = true;} );
       this.homeIcon.addPeer( '<input type="button" aria-label="Home Screen">', {click: function() {model.showHomeScreen = true;}, tabIndex: 100} );
       this.addChild( this.homeIcon );

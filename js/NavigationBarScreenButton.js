@@ -43,7 +43,7 @@ define( function( require ) {
       overlay.centerX = box.centerX;
       overlay.y = box.y;
       if ( highlighted ) {
-        var highlight = new HighlightNode( overlay.width + 4, overlay.height, {centerX: box.centerX} );
+        var highlight = new HighlightNode( overlay.width + 4, overlay.height, {centerX: box.centerX, whiteHighlight: !whiteColorScheme} );
         return new Node( {children: [box, highlight, overlay]} );
       }
       else {

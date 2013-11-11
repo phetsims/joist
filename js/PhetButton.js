@@ -46,13 +46,13 @@ define( function( require ) {
       var node = new Node( {children: [phetLabel, optionsButton]} );
 
       if ( highlighted ) {
-        node.addChild( new HighlightNode( node.width + 6, node.height + 5, {centerX: node.centerX, centerY: node.centerY + 4} ) );
+        node.addChild( new HighlightNode( node.width + 6, node.height + 5, {centerX: node.centerX, centerY: node.centerY + 4, whiteHighlight: !whiteColorScheme} ) );
       }
       return node;
     };
 
     //function PushButton( upNode, overNode, downNode, disabledNode, options ) {
-    PushButton.call( this, createNode( false ), createNode( true ), createNode( false ), new Node() );
+    PushButton.call( this, createNode( false ), createNode( true ), createNode( true ), new Node() );
 
     //When the phet button is pressed, show the phet menu
     var phetButtonPressed = function() {
