@@ -15,7 +15,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Highlight = require( 'JOIST/Highlight' );
+  var HighlightNode = require( 'JOIST/HighlightNode' );
   var PushButton = require( 'SUN/PushButton' );
   var ToggleNode = require( 'SUN/ToggleNode' );
   var Property = require( 'AXON/Property' );
@@ -43,7 +43,7 @@ define( function( require ) {
       overlay.centerX = box.centerX;
       overlay.y = box.y;
       if ( state === 'over' ) {
-        var highlight = Highlight.createHighlightVisible( overlay.width + 4, overlay.height );
+        var highlight = new HighlightNode( overlay.width + 4, overlay.height );
         highlight.centerX = box.centerX;
         return new Node( {children: [box, highlight, overlay]} );
       }

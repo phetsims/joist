@@ -24,7 +24,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var phetLogo = require( 'image!JOIST/phet-logo-short.svg' );
   var PushButton = require( 'SUN/PushButton' );
-  var Highlight = require( 'JOIST/Highlight' );
+  var HighlightNode = require( 'JOIST/HighlightNode' );
 
   //Makes the 'h' a bit darker so it will show up better against a white background
   var phetLogoDarker = require( 'image!JOIST/phet-logo-short-darker.svg' );
@@ -46,7 +46,7 @@ define( function( require ) {
       var node = new Node( {children: [phetLabel, optionsButton]} );
 
       if ( highlighted ) {
-        var highlight = Highlight.createHighlightVisible( node.width + 6, node.height + 5 );
+        var highlight = new HighlightNode( node.width + 6, node.height + 5 );
         highlight.centerX = node.centerX;
         highlight.centerY = node.centerY + 4;
         node.addChild( highlight );
