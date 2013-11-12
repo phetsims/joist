@@ -36,14 +36,14 @@ define( function( require ) {
                                                 (selected ? 'black' : 'gray') :
                                                 (selected ? 'yellow' : 'white'), visible: true} );
 
-      var box = new VBox( {children: [icon, text], opacity: selected ? 1.0 : down ? 0.65 : 0.5} );
+      var box = new VBox( {children: [icon, text], opacity: selected ? 1.0 : down ? 0.65 : 0.5, pickable: false} );
 
       //add an overlay so that the icons can be placed next to each other with an HBox, also sets the toucharea/mousearea
       var overlay = new Rectangle( 0, 0, minWidth, box.height );
       overlay.centerX = box.centerX;
       overlay.y = box.y;
       if ( highlighted ) {
-        var highlight = new HighlightNode( overlay.width + 4, overlay.height, {centerX: box.centerX, whiteHighlight: !whiteColorScheme} );
+        var highlight = new HighlightNode( overlay.width + 4, overlay.height, {centerX: box.centerX, whiteHighlight: !whiteColorScheme, pickable: false} );
         return new Node( {children: [box, highlight, overlay]} );
       }
       else {
