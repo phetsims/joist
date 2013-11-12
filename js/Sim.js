@@ -151,6 +151,7 @@ define( function( require ) {
 
     if ( screens.length > 1 ) {
       sim.homeScreen = new HomeScreen( sim );
+      sim.scene.addChild( sim.homeScreen );
     }
 
     var updateBackground = function() {
@@ -164,7 +165,6 @@ define( function( require ) {
       }
     };
 
-    sim.scene.addChild( sim.homeScreen );
     //Instantiate the screens
     //Currently this is done eagerly, but this pattern leaves open the door for loading things in the background.
     _.each( screens, function( screen ) {
@@ -181,7 +181,9 @@ define( function( require ) {
     //When moving from a screen to the homescreen, the previous screen should be highlighted
 
     sim.simModel.multilink( ['screenIndex', 'showHomeScreen'], function( screenIndex, showHomeScreen ) {
-      sim.homeScreen.setVisible( showHomeScreen );
+      if ( sim.homeScreen ) {
+        sim.homeScreen.setVisible( showHomeScreen );
+      }
       for ( var i = 0; i < screens.length; i++ ) {
         screens[i].view.setVisible( !showHomeScreen && screenIndex === i );
       }
