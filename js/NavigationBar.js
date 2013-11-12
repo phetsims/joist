@@ -11,22 +11,14 @@ define( function( require ) {
   'use strict';
 
   var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
   var HBox = require( 'SCENERY/nodes/HBox' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
-  var Panel = require( 'SUN/Panel' );
-  var HomeButton = require( 'SCENERY_PHET/HomeButton' );
+  var HomeButton = require( 'JOIST/HomeButton' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var PhetMenu = require( 'JOIST/PhetMenu' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Shape = require( 'KITE/Shape' );
-  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var PhetButton = require( 'JOIST/PhetButton' );
-  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
-  var Highlight = require( 'JOIST/Highlight' );
+  var NavigationBarScreenButton = require( 'JOIST/NavigationBarScreenButton' );
 
   /**
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
@@ -47,130 +39,34 @@ define( function( require ) {
 
     //Renderer must be specified here because the node is added directly to the scene (instead of to some other node that already has svg renderer
     Node.call( this, {renderer: 'svg'} );
-    this.background = new Rectangle( 0, 0, 0, 0, {fill: whiteColorScheme ? 'white' : 'black'} );
+    this.background = new Rectangle( 0, 0, 0, 0, {fill: whiteColorScheme ? 'white' : 'black', pickable: false} );
     this.addChild( this.background );
 
     this.hbox = new PhetButton( sim, whiteColorScheme );
     this.addChild( this.hbox );
 
-    this.titleLabel = new Text( sim.name, {font: new PhetFont( 18 ), fill: whiteColorScheme ? 'black' : 'white'} );
-
-    //Create the nodes to be used for the screen icons
-    var index = 0;
-
-    var selectedFont = new PhetFont( { size: 10 } );
-    var normalFont = new PhetFont( { size: 10 } );
-
+    this.titleLabel = new Text( sim.name, {font: new PhetFont( 18 ), fill: whiteColorScheme ? 'black' : 'white', pickable: false} );
     this.addChild( this.titleLabel );
 
     if ( screens.length > 1 ) {
 
-      var iconAndTextArray = _.map( screens, function( screen ) {
-        var icon = new Node( {children: [screen.navigationBarIcon], scale: ( 0.625 * thisNode.navBarHeight ) / screen.navigationBarIcon.height} );
-        var text = new Text( screen.name, { fill: 'white', visible: true} );
+      //Create buttons once so we can get their dimensions
+      var buttons = _.map( screens, function( screen ) {
+        return new NavigationBarScreenButton( sim, screen, thisNode.navBarHeight, whiteColorScheme, 0 );
+      } );
+      var maxWidth = Math.max( 50, _.max( buttons,function( button ) {return button.width;} ).width );
 
-        //Put a panel around it to extend it horizontally so there is some distance from the highlight region to the text and some distance between adjacent texts.
-        var textPanel = new Panel( text, {
-          fill: null,
-          stroke: null,
-          lineWidth: 1, // width of the background border
-          xMargin: 4,
-          yMargin: 0,
-          cornerRadius: 0, // radius of the rounded corners on the background
-          resize: false // dynamically resize when content bounds change?
-        } );
-        var iconAndText = new VBox( {children: [icon, textPanel]} );
-        iconAndText.icon = icon;
-        iconAndText.text = text;
-        iconAndText.textPanel = textPanel;
-        iconAndText.index = index++;
-        iconAndText.screen = screen;
-
-        //On initialization and when the screen changes, update the size of the icons and the layout of the icons and text
-        model.screenIndexProperty.link( function( screenIndex ) {
-          var selected = iconAndText.index === screenIndex;
-          if ( whiteColorScheme ) {
-            iconAndText.text.fill = selected ? 'black' : 'gray';
-          }
-          else {
-            iconAndText.text.fill = selected ? 'yellow' : 'white';
-          }
-          iconAndText.text.font = selected ? selectedFont : normalFont;
-          iconAndText.opacity = selected ? 1.0 : 0.5;
-        } );
-
-        return iconAndText;
+      //Create buttons again with equivalent sizes
+      buttons = _.map( screens, function( screen ) {
+        return new NavigationBarScreenButton( sim, screen, thisNode.navBarHeight, whiteColorScheme, maxWidth );
       } );
 
-      //Make all of the icons the same size so they will have equal hit areas and equal spacing
-      var maxWidth = _.max( iconAndTextArray,function( iconAndText ) {return iconAndText.width;} ).width;
-      var maxHeight = _.max( iconAndTextArray,function( iconAndText ) {return iconAndText.height;} ).height;
-
-      this.buttonArray = iconAndTextArray.map( function( iconAndText ) {
-        //Background area for layout and hit region
-        var rectangle = new Rectangle( 0, 0, maxWidth, maxHeight, { pickable: false } );
-        var rectangleShape = rectangle.createRectangleShape();
-        var highlight = Highlight.createHighlight( maxWidth, maxHeight );
-        highlight.pickable = false;
-        iconAndText.pickable = false;
-        iconAndText.centerX = maxWidth / 2;
-        iconAndText.top = 0;
-        var button = new Node( {
-          children: [ rectangle, highlight, iconAndText],
-          touchArea: rectangleShape,
-          mouseArea: rectangleShape
-        } );
-
-        //In the nav bar, don't show highlight or cursor pointer when over a screen icon that is already selected
-        model.screenIndexProperty.link( function( screenIndex ) { button.cursor = screenIndex === iconAndText.index ? 'default' : 'pointer'; } );
-
-        var pressListener = function() {
-          model.screenIndex = iconAndText.index;
-          model.showHomeScreen = false;
-        };
-        button.addInputListener( new ButtonListener( {fire: pressListener} ) );
-
-        //TODO: Move the over/out listener into ButtonListener when it is working better. Currently 'out' is not being fired
-        button.addInputListener( {
-          //Highlight a button when mousing over it
-          over: function( event ) {
-            if ( event.pointer.isMouse ) {
-              highlight.visible = true;
-            }
-          },
-          out: function( event ) {
-            if ( event.pointer.isMouse ) {
-              highlight.visible = false;
-            }
-          }
-        } );
-
-        button.addPeer( '<input type="button" aria-label="Switch to the ' + iconAndText.screen.name + ' screen">', {click: pressListener, tabIndex: 99} );
-        return  button;
-      } );
-
-      //TODO: This spacing is not always necessary, it depends on the relative width
-      //TODO:   of the icon vs the text, if all of the buttons have the same dimensions.
-      //TODO:   Currently this solves the simple case where all of the text is shorter than all of the icons (like in Build an Atom)
-      //TODO: A better strategy may be to use a linear function to space them based on how far it is from the criterion maxTextWidth<=maxIconWidth+2
-      //See Joist #28 https://github.com/phetsims/joist/issues/28
-      var maxIconWidth = _.max( iconAndTextArray,function( i ) {return i.icon.width;} ).icon.width;
-      var maxTextWidth = _.max( iconAndTextArray,function( i ) {return i.text.width;} ).text.width;
-
-      this.buttonHBox = new HBox( {spacing: maxTextWidth <= maxIconWidth + 2 ? 20 : 0, children: this.buttonArray} );
+      this.buttonHBox = new HBox( {children: buttons, spacing: 4} );
       this.addChild( this.buttonHBox );
 
       //add the home icon
-      this.homeIcon = new HomeButton( whiteColorScheme ? '#222' : 'white' );
-      var homeHighlight = Highlight.createHighlight( this.homeIcon.width + 10, this.homeIcon.height + 5 );
-      homeHighlight.bottom = this.homeIcon.bottom + 3;
-      homeHighlight.x = -5;
-      this.homeIcon.addChild( homeHighlight );
-
-      //Hide the highlight on the home icon if the home icon is pressed
-      model.showHomeScreenProperty.link( function( showHomeScreen ) { if ( showHomeScreen ) { homeHighlight.visible = false; } } );
-      this.homeIcon.addInputListener( { down: function() { model.showHomeScreen = true; }} );
-      this.homeIcon.addInputListener( Highlight.createHighlightListener( homeHighlight ) );
+      this.homeIcon = new HomeButton( whiteColorScheme ? '#222' : 'white', whiteColorScheme ? '#444' : 'gray', whiteColorScheme );
+      this.homeIcon.addListener( function() {model.showHomeScreen = true;} );
       this.homeIcon.addPeer( '<input type="button" aria-label="Home Screen">', {click: function() {model.showHomeScreen = true;}, tabIndex: 100} );
       this.addChild( this.homeIcon );
     }
