@@ -20,10 +20,11 @@ define( function( require ) {
     var icon = function( fill, highlighted ) {
       var node = new FontAwesomeNode( 'home', { fill: fill, scale: 0.75 } );
       if ( highlighted ) {
-        return new Node( {children: [
-          node,
-          new HighlightNode( node.width + 4, node.height, {center: node.center, whiteHighlight: !whiteColorScheme} )
-        ]} );
+        return new Node( {
+          children: [
+            node,
+            new HighlightNode( node.width + 4, node.height, {center: node.center, whiteHighlight: !whiteColorScheme} )
+          ]} );
       }
       else {
         return node;

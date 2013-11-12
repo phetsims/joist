@@ -19,14 +19,16 @@ define( function( require ) {
 
     var outerColor = options.whiteHighlight ? 'black' : 'white';
     var innerColor = options.whiteHighlight ? 'white' : 'black';
-    var leftBar = new Path( Shape.lineSegment( 0, 0, 0, height ), { lineWidth: 1, stroke: new LinearGradient( 0, 0, 0, height ).
-      addColorStop( 0, outerColor ).
-      addColorStop( 0.5, innerColor ).addColorStop( 1, outerColor ) } );
-    var rightBar = new Path( Shape.lineSegment( width, 0, width, height ), {lineWidth: 1, stroke: new LinearGradient( 0, 0, 0, height ).addColorStop( 0, outerColor ).addColorStop( 0.5, innerColor ).addColorStop( 1, outerColor ) } );
+    var leftBar = new Path( Shape.lineSegment( 0, 0, 0, height ), {
+      lineWidth: 1,
+      stroke: new LinearGradient( 0, 0, 0, height ).addColorStop( 0, outerColor ).addColorStop( 0.5, innerColor ).addColorStop( 1, outerColor )
+    } );
+    var rightBar = new Path( Shape.lineSegment( width, 0, width, height ), {
+      lineWidth: 1,
+      stroke: new LinearGradient( 0, 0, 0, height ).addColorStop( 0, outerColor ).addColorStop( 0.5, innerColor ).addColorStop( 1, outerColor )
+    } );
 
-    options = _.extend( {
-      children: [leftBar, rightBar]
-    }, options );
+    options = _.extend( { children: [leftBar, rightBar] }, options );
     Node.call( this, options );
   }
 

@@ -33,20 +33,33 @@ define( function( require ) {
   function PhetButton( sim, whiteColorScheme, options ) {
 
     var phetButton = this;
-    options = _.extend( {phetLogo: whiteColorScheme ? phetLogoDarker : phetLogo, phetLogoScale: 0.28, optionsButtonVerticalMargin: 1.5}, options );
+    options = _.extend( {
+      phetLogo: whiteColorScheme ? phetLogoDarker : phetLogo,
+      phetLogoScale: 0.28,
+      optionsButtonVerticalMargin: 1.5
+    }, options );
 
     var phetLabel = new Image( options.phetLogo, {scale: options.phetLogoScale} );
 
     //Workaround for the SVG not showing up properly in firefox.  SVG Renderer still giving odd bounds on FireFox, so use canvas there
     if ( platform.firefox ) {phetLabel.renderer = 'canvas';}
 
-    var optionsButton = new FontAwesomeNode( 'reorder', {fill: whiteColorScheme ? '#222' : 'white', scale: 0.6, left: phetLabel.width + 10, bottom: phetLabel.bottom - options.optionsButtonVerticalMargin} );
+    var optionsButton = new FontAwesomeNode( 'reorder', {
+      fill: whiteColorScheme ? '#222' : 'white',
+      scale: 0.6,
+      left: phetLabel.width + 10,
+      bottom: phetLabel.bottom - options.optionsButtonVerticalMargin
+    } );
 
     var createNode = function( highlighted ) {
       var node = new Node( {children: [phetLabel, optionsButton]} );
 
       if ( highlighted ) {
-        node.addChild( new HighlightNode( node.width + 6, node.height + 5, {centerX: node.centerX, centerY: node.centerY + 4, whiteHighlight: !whiteColorScheme} ) );
+        node.addChild( new HighlightNode( node.width + 6, node.height + 5, {
+          centerX: node.centerX,
+          centerY: node.centerY + 4,
+          whiteHighlight: !whiteColorScheme
+        } ) );
       }
       return node;
     };
