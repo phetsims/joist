@@ -58,7 +58,7 @@ define( function( require ) {
     var selected = sim.simModel.screenIndexProperty.valueEquals( sim.screens.indexOf( screen ) );
 
     //We can skip wrapping the children here to improve performance slightly since we are certain they aren't used elsewhere in the scenery DAG
-    ToggleNode.call( this, selectedNode, unselectedNode, selected, {pickable: true, wrapChildren: false} );
+    ToggleNode.call( this, selectedNode, unselectedNode, selected, {wrapChildren: false} );
   }
 
   return inherit( ToggleNode, NavigationBarScreenButton );
