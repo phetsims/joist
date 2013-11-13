@@ -25,9 +25,6 @@ define( function( require ) {
   var platform = require( 'PHET_CORE/platform' );
   var Timer = require( 'JOIST/Timer' );
 
-  //For Data logging and visualization
-  var LogPointers = require( 'JOIST/share/LogPointers' );
-
   /**
    * @param {String} name
    * @param {Array<Screen>} screens
