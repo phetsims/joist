@@ -19,7 +19,7 @@ define( function( require ) {
   //Default to width and height for iPad2, iPad3, iPad4 running Safari with default tabs and decorations
   //Simulations can change this to provide their own sizes or aspect ratios
   //TODO: the code that uses these bounds needs to account for the minX and minY values if they are overriden in subclasses
-  var LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
+  var DEFAULT_LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
 
   function ScreenView( options ) {
     Node.call( this, _.extend( {
@@ -34,7 +34,7 @@ define( function( require ) {
 
   inherit( Node, ScreenView, {
 
-      layoutBounds: LAYOUT_BOUNDS.copy(),
+      layoutBounds: DEFAULT_LAYOUT_BOUNDS.copy(),
 
       //Get the scale to use for laying out the sim components and the navigation bar, so its size will track with the sim size
       getLayoutScale: function( width, height ) {
@@ -64,7 +64,7 @@ define( function( require ) {
 
     //statics
     {
-      LAYOUT_BOUNDS: LAYOUT_BOUNDS
+      DEFAULT_LAYOUT_BOUNDS: DEFAULT_LAYOUT_BOUNDS
     }
   );
 
