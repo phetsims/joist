@@ -14,14 +14,11 @@ define( function( require ) {
   var NavigationBar = require( 'JOIST/NavigationBar' );
   var HomeScreen = require( 'JOIST/HomeScreen' );
   var Scene = require( 'SCENERY/Scene' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Text = require( 'SCENERY/nodes/Text' );
   var Vector2 = require( 'DOT/Vector2' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var version = require( 'version' );
   var PropertySet = require( 'AXON/PropertySet' );
   var Property = require( 'AXON/Property' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var platform = require( 'PHET_CORE/platform' );
   var Timer = require( 'JOIST/Timer' );
 

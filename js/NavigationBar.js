@@ -77,7 +77,6 @@ define( function( require ) {
       var navigationBar = this;
       navigationBar.background.rectHeight = this.navBarHeight;
       navigationBar.background.rectWidth = this.navBarWidth;
-      var screenIndex = navigationBar.screenIndex;
 
       if ( this.buttonHBox ) {
         this.buttonHBox.setScaleMagnitude( navigationBar.navBarScale );

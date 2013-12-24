@@ -25,7 +25,6 @@ define( function( require ) {
   var aboutString = require( 'string!JOIST/menuItem.about' );
   var mailInputEventsLogString = require( 'string!JOIST/menuItem.mailInputEventsLog' );
   var outputInputEventsLogString = require( 'string!JOIST/menuItem.outputInputEventsLog' );
-  var outputLogString = require( 'string!JOIST/menuItem.outputLog' );
   var phetWebsiteString = require( 'string!JOIST/menuItem.phetWebsite' );
   var reportAProblemString = require( 'string!JOIST/menuItem.reportAProblem' );
   var settingsString = require( 'string!JOIST/menuItem.settings' );

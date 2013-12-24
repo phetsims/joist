@@ -9,13 +9,8 @@ define( function( require ) {
   'use strict';
 
   var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Shape = require( 'KITE/Shape' );
-  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
-  var Input = require( 'SCENERY/input/Input' );
 
   function requestFullScreen( element ) {
 

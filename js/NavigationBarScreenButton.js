@@ -9,16 +9,13 @@ define( function( require ) {
   'use strict';
 
   var Node = require( 'SCENERY/nodes/Node' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
   var PushButton = require( 'SUN/PushButton' );
   var ToggleNode = require( 'SUN/ToggleNode' );
-  var Property = require( 'AXON/Property' );
 
   /**
    * Create a nav bar.  Layout assumes all of the screen widths are the same.

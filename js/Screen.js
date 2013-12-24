@@ -10,7 +10,7 @@
  *
  * @author Sam Reid
  */
-define( function( require ) {
+define( function() {
   'use strict';
 
   /**

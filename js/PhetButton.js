@@ -8,18 +8,13 @@ define( function( require ) {
 
   //imports
   var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Text = require( 'SCENERY/nodes/Text' );
   var Image = require( 'SCENERY/nodes/Image' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Plane = require( 'SCENERY/nodes/Plane' );
   var inherit = require( 'PHET_CORE/inherit' );
   var platform = require( 'PHET_CORE/platform' );
   var PhetMenu = require( 'JOIST/PhetMenu' );
-  var Font = require( 'SCENERY/util/Font' );
   var Shape = require( 'KITE/Shape' );
-  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Vector2 = require( 'DOT/Vector2' );
   var phetLogo = require( 'image!JOIST/phet-logo-short.svg' );

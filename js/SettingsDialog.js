@@ -9,14 +9,12 @@ define( function( require ) {
   'use strict';
 
   var VBox = require( 'SCENERY/nodes/VBox' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Panel = require( 'SUN/Panel' );
   var CheckBox = require( 'SUN/CheckBox' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Property = require( 'AXON/Property' );
   var TextPushButton = require( 'SUN/TextPushButton' );
 
   // strings

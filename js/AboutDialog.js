@@ -9,9 +9,7 @@ define( function( require ) {
   'use strict';
 
   // imports
-  var Node = require( 'SCENERY/nodes/Node' );
   var VBox = require( 'SCENERY/nodes/VBox' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
@@ -57,7 +55,7 @@ define( function( require ) {
       up: function( evt ) {
         evt.handle(); // don't close the dialog
       },
-      upImmediate: function( evt ) {
+      upImmediate: function( event ) {
         var aboutDialogWindow = window.open( SOFTWARE_AGREEMENT_URL, '_blank' );
         aboutDialogWindow.focus();
       }

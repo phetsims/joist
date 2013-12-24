@@ -18,9 +18,7 @@ define( function( require ) {
   var platform = require( 'PHET_CORE/platform' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Frame = require( 'JOIST/Frame' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Property = require( 'AXON/Property' );
-  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var FullScreenButton = require( 'JOIST/FullScreenButton' );
   var phetLogo = require( 'image!JOIST/phet-logo-short.svg' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
