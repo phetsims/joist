@@ -54,9 +54,15 @@ define( function( require ) {
       highlightedIndex.link( function( highlightedIndex ) { frame.setHighlighted( highlightedIndex === index ); } );
 
       var largeIconWithFrame = new Node( {children: [ frame, largeIcon]} );
+      var largeText = new Text( screen.name, { font: new PhetFont( 42 ), fill: 'yellow'} );
+
+      //Shrink the text if it goes beyond the edge of the image
+      if ( largeText.width > largeIconWithFrame.width ) {
+        largeText.scale( largeIconWithFrame.width / largeText.width );
+      }
       var large = new VBox( {cursor: 'pointer', children: [
         largeIconWithFrame,
-        new Text( screen.name, { font: new PhetFont( 42 ), fill: 'yellow'} )
+        largeText
       ]} );
 
       //TODO: Switch to buttonListener, but make sure you test it because on 7/17/2013 there is a problem where ButtonListener won't fire if a node has appeared under the pointer
@@ -67,12 +73,20 @@ define( function( require ) {
         }
       } );
 
+      var smallIcon = new Node( {opacity: 0.5, children: [screen.homeScreenIcon], scale: sim.screens.length === 4 ? HEIGHT / screen.homeScreenIcon.height :
+                                                                                         sim.screens.length === 3 ? 1.25 * HEIGHT / screen.homeScreenIcon.height :
+                                                                                         sim.screens.length === 2 ? 1.75 * HEIGHT / screen.homeScreenIcon.height :
+                                                                                         HEIGHT / screen.homeScreenIcon.height} );
+      var smallText = new Text( screen.name, { font: new PhetFont( 18 ), fill: 'gray'} );
+
+      //Shrink the text if it goes beyond the edge of the image
+      if ( smallText.width > smallIcon.width ) {
+        smallText.scale( smallIcon.width / smallText.width );
+      }
+
       var small = new VBox( {spacing: 3, cursor: 'pointer', children: [
-        new Node( {opacity: 0.5, children: [screen.homeScreenIcon], scale: sim.screens.length === 4 ? HEIGHT / screen.homeScreenIcon.height :
-                                                                           sim.screens.length === 3 ? 1.25 * HEIGHT / screen.homeScreenIcon.height :
-                                                                           sim.screens.length === 2 ? 1.75 * HEIGHT / screen.homeScreenIcon.height :
-                                                                           HEIGHT / screen.homeScreenIcon.height} ),
-        new Text( screen.name, { font: new PhetFont( 18 ), fill: 'gray'} )
+        smallIcon,
+        smallText
       ]} );
       small.mouseArea = small.touchArea = Shape.bounds( small.bounds ); //cover the gap in the vbox
       small.addInputListener( {
