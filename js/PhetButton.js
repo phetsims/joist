@@ -34,7 +34,7 @@ define( function( require ) {
       optionsButtonVerticalMargin: 1.5
     }, options );
 
-    var phetLabel = new Image( options.phetLogo, {scale: options.phetLogoScale} );
+    var phetLabel = new Image( options.phetLogo, {scale: options.phetLogoScale, pickable: false} );
 
     //Workaround for the SVG not showing up properly in firefox.  SVG Renderer still giving odd bounds on FireFox, so use canvas there
     if ( platform.firefox ) {phetLabel.renderer = 'canvas';}
@@ -43,7 +43,8 @@ define( function( require ) {
       fill: whiteColorScheme ? '#222' : 'white',
       scale: 0.6,
       left: phetLabel.width + 10,
-      bottom: phetLabel.bottom - options.optionsButtonVerticalMargin
+      bottom: phetLabel.bottom - options.optionsButtonVerticalMargin,
+      pickable: false
     } );
 
     var createNode = function( highlighted ) {
