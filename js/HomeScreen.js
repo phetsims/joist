@@ -60,10 +60,14 @@ define( function( require ) {
       if ( largeText.width > largeIconWithFrame.width ) {
         largeText.scale( largeIconWithFrame.width / largeText.width );
       }
-      var large = new VBox( {cursor: 'pointer', children: [
-        largeIconWithFrame,
-        largeText
-      ]} );
+      var large = new VBox( {
+        //Don't resize the VBox or it will shift down when the border becomes thicker
+        resize: false,
+
+        cursor: 'pointer', children: [
+          largeIconWithFrame,
+          largeText
+        ]} );
 
       //TODO: Switch to buttonListener, but make sure you test it because on 7/17/2013 there is a problem where ButtonListener won't fire if a node has appeared under the pointer
       large.addInputListener( {
