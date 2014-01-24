@@ -24,7 +24,7 @@ define( function( require ) {
   return function() {
 
     //Run with chrome --enable-memory-info
-    if ( window.performance ) {
+    if ( window.performance && window.performance.memory ) {
       var newHeapSize = window.performance.memory.usedJSHeapSize;
 
       if ( newHeapSize < lastUsedJSHeapSize ) {
