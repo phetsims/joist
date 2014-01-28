@@ -350,9 +350,11 @@ define( function( require ) {
         //Convert to seconds
         dt = elapsedTimeMilliseconds / 1000.0;
 
-        // step model and (optionally) view
+        // step model and view (both optional)
         screen = sim.screens[sim.simModel.screenIndex];
-        screen.model.step( dt );
+        if ( screen.model.step ) {
+          screen.model.step( dt );
+        }
         if ( screen.view.step ) {
           screen.view.step( dt );
         }
