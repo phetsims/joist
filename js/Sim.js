@@ -21,6 +21,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var platform = require( 'PHET_CORE/platform' );
   var Timer = require( 'JOIST/Timer' );
+  var SimJSON = require( 'JOIST/SimJSON' );
 
   /**
    * @param {String} name
@@ -587,15 +588,7 @@ define( function( require ) {
           console.log( theFile );
           console.log( 'result', reader.result );
 
-          var parsed = JSON.parse( reader.result, function( k, v ) {
-            if ( k === "" ) {
-              return v;
-            }
-            if ( v && v._type && v._type === 'Vector2' ) {
-              return new Vector2( v.x, v.y );
-            }
-            return v;
-          } );
+          var parsed = JSON.parse( reader.result, SimJSON.reviver );
           console.log( parsed );
 
           sim.setState( parsed );
