@@ -567,6 +567,9 @@ define( function( require ) {
     this.$simDiv.remove();
   };
 
+  /**
+   * For sims that support save/load, use the sim div as a drop area.  If a file is dropped there, try to parse it as sim state.  See #103
+   */
   Sim.prototype.initLoadDropTarget = function() {
     var sim = this;
     var handleFileSelect = function( evt ) {
