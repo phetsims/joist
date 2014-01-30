@@ -65,7 +65,7 @@ define( function( require ) {
 
     //When the phet button is pressed, show the phet menu
     var phetButtonPressed = function() {
-      var phetMenu = new PhetMenu( sim );
+      var phetMenu = new PhetMenu( sim, {showSaveAndLoad: sim.options.showSaveAndLoad} );
       phetMenu.right = phetButton.globalToParentPoint( new Vector2( phetButton.globalBounds.maxX, 0 ) ).x;
       phetMenu.bottom = phetButton.centerY;
       var rectangle = new Plane( {fill: 'black', opacity: 0.3} );

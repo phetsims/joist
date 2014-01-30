@@ -35,7 +35,9 @@ define( function( require ) {
       //The screen display strategy chooses which way to switch screens, using setVisible or setChildren.
       //setVisible is faster in scenery 0.1 but crashes some apps due to memory restrictions, so some apps need to specify 'setChildren'
       //See https://github.com/phetsims/joist/issues/96
-      screenDisplayStrategy: 'setVisible' }, options );
+      screenDisplayStrategy: 'setVisible',
+      showSaveAndLoad: false
+    }, options );
     this.options = options; // store this for access from prototype functions, assumes that it won't be changed later
 
     this.destroyed = false;
@@ -122,6 +124,10 @@ define( function( require ) {
     var $simDiv = $( '<div>' ).attr( 'id', 'sim' ).css( 'position', 'absolute' ).css( 'left', 0 ).css( 'top', 0 ).css( 'cursor', 'default' );
     $body.append( $simDiv );
     this.$simDiv = $simDiv;
+
+    if ( options.showSaveAndLoad ) {
+      this.initLoadDropTarget();
+    }
 
     //Create the scene
     //Leave accessibility as a flag while in development
@@ -558,6 +564,78 @@ define( function( require ) {
   Sim.prototype.destroy = function() {
     this.destroyed = true;
     this.$simDiv.remove();
+  };
+
+  Sim.prototype.initLoadDropTarget = function() {
+    var sim = this;
+    var handleFileSelect = function( evt ) {
+      evt.stopPropagation();
+      evt.preventDefault();
+
+      var files = evt.dataTransfer.files; // FileList object.
+      var f = null;
+      // files is a FileList of File objects. List some properties.
+
+      var reader = new FileReader();
+
+      f = files[0];
+      console.log( 'f=' + f );
+      // Closure to capture the file information.
+      reader.onload = (function( theFile ) {
+        return function( e ) {
+          console.log( 'read file' );
+          console.log( theFile );
+          console.log( 'result', reader.result );
+
+          var parsed = JSON.parse( reader.result, function( k, v ) {
+            if ( k === "" ) {
+              return v;
+            }
+            if ( v && v._type && v._type === 'Vector2' ) {
+              return new Vector2( v.x, v.y );
+            }
+            return v;
+          } );
+          console.log( parsed );
+
+          sim.setState( parsed );
+        };
+      })( f );
+
+      // Read in the image file as a data URL.
+      reader.readAsText( f );
+    };
+
+    var handleDragOver = function( evt ) {
+      evt.stopPropagation();
+      evt.preventDefault();
+      evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+      console.log( 'dragover!' );
+    };
+
+// Setup the dnd listeners.
+    var dropZone = document.getElementById( 'sim' );
+    dropZone.addEventListener( 'dragover', handleDragOver, false );
+    dropZone.addEventListener( 'drop', handleFileSelect, false );
+    console.log( 'added drop listeners' );
+  };
+
+  //For save/load
+  Sim.prototype.getState = function() {
+    var state = {};
+    for ( var i = 0; i < this.screens.length; i++ ) {
+      state['screen' + i] = this.screens[i].getState();
+    }
+    state.simModel = this.simModel.get();
+
+    return state;
+  };
+
+  Sim.prototype.setState = function( state ) {
+    for ( var i = 0; i < this.screens.length; i++ ) {
+      this.screens[i].setState( state['screen' + i] );
+    }
+    this.simModel.set( state.simModel );
   };
 
   return Sim;

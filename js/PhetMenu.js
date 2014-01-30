@@ -20,6 +20,7 @@ define( function( require ) {
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Plane = require( 'SCENERY/nodes/Plane' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // strings
   var aboutString = require( 'string!JOIST/menuItem.about' );
@@ -90,6 +91,12 @@ define( function( require ) {
   //TODO: The popup menu should scale with the size of the screen
   function PhetMenu( sim, options ) {
 
+    options = _.extend( {
+
+      //For sims that have save/load enabled, show menu items for those.
+      showSaveAndLoad: false
+    }, options );
+
     var thisMenu = this;
     Node.call( thisMenu );
 
@@ -158,6 +165,30 @@ define( function( require ) {
           var reportWindow = window.open( url, '_blank' );
           reportWindow.focus();
         } },
+      {
+        text: 'Save',
+        present: options.showSaveAndLoad,
+        separatorBefore: true,
+        callback: function() {
+          var state = sim.getState();
+          console.log( 'saving\n', state );
+
+          //Save to local file, see http://stackoverflow.com/questions/2897619/using-html5-javascript-to-generate-and-save-a-file
+          location.href = "data:application/octet-stream," + encodeURIComponent( JSON.stringify( state, function( key, value ) {
+            if ( value instanceof Vector2 ) {
+              return {_type: 'Vector2', x: value.x, y: value.y};
+            }
+            else {
+              return value;
+            }
+          } ) );
+        }
+      },
+      {
+        text: 'Load',
+        present: options.showSaveAndLoad,
+        callback: function() {}
+      },
       {
         text: aboutString,
         present: true,
