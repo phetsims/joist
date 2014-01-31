@@ -20,7 +20,6 @@ define( function( require ) {
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Plane = require( 'SCENERY/nodes/Plane' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Vector2 = require( 'DOT/Vector2' );
   var SimJSON = require( 'JOIST/SimJSON' );
 
   // strings
