@@ -154,7 +154,7 @@ define( function( require ) {
                     33;
 
       var icons = _.map( screenChildren, function( screenChild ) {return screenChild.index === screenIndex ? screenChild.large : screenChild.small;} );
-      center.children = [new HBox( {spacing: spacing, children: icons, align: 'top'} )];
+      center.children = [new HBox( {spacing: spacing, children: icons, align: 'top', resize: false} )];
       center.centerX = homeScreen.layoutBounds.width / 2;
     } );
 
