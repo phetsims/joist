@@ -50,7 +50,6 @@ define( function() {
         if ( elapsed * 1000 >= timeout ) {
           listener();
           elapsed = elapsed - timeout / 1000.0;//Save the leftover time so it won't accumulate
-          console.log( "fired" );
         }
       };
       this.addStepListener( callback );
