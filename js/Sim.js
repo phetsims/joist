@@ -393,6 +393,13 @@ define( function( require ) {
       }
       sim.scene.updateScene();
     })();
+
+    //If state was specified, load it now
+    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'state' ) ) {
+      var stateString = window.phetcommon.getQueryParameter( 'state' );
+      var decoded = decodeURIComponent( stateString );
+      sim.setState( JSON.parse( decoded, SimJSON.reviver ) );
+    }
   };
 
   // Plays back input events and updateScene() loops based on recorded data. data should be an array of objects (representing frames) with dt and fireEvents( scene, dot )

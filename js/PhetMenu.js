@@ -175,6 +175,7 @@ define( function( require ) {
 
           //Save to local file, see http://stackoverflow.com/questions/2897619/using-html5-javascript-to-generate-and-save-a-file
           location.href = "data:application/octet-stream," + encodeURIComponent( JSON.stringify( state, SimJSON.replacer ) );
+          console.log( '\nHere is the URI string\n', encodeURIComponent( JSON.stringify( state, SimJSON.replacer ) ) );
         }
       },
       {
