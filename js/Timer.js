@@ -67,7 +67,7 @@ define( function() {
     removeStepListener: function( listener ) {
       var index = listeners.indexOf( listener );
       if ( index !== -1 ) {
-        listeners.splice( index, index + 1 );
+        listeners.splice( index, 1 );
       }
     }
   };
