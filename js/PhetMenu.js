@@ -179,6 +179,20 @@ define( function( require ) {
         }
       },
       {
+
+        //One way to allow the user to "save" the state is with a URL.
+        //TODO: This does not preserve other query parameters, it probably should
+        text: 'Navigate to Save URL',
+        present: options.showSaveAndLoad,
+        callback: function() {
+          var state = sim.getState();
+          
+          //See http://stackoverflow.com/questions/5817505/is-there-any-method-to-get-url-without-query-string-in-java-script
+          var url = [location.protocol, '//', location.host, location.pathname].join( '' ) + '?state=' + encodeURIComponent( JSON.stringify( state, SimJSON.replacer ) );
+          window.location.href = url;
+        }
+      },
+      {
         text: 'Load',
         present: options.showSaveAndLoad,
         callback: function() {}
