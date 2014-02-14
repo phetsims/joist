@@ -21,6 +21,8 @@ define( function( require ) {
   var Plane = require( 'SCENERY/nodes/Plane' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var SimJSON = require( 'JOIST/SimJSON' );
+  var ScreenshotGenerator = require( 'JOIST/util/ScreenshotGenerator' );
+  var Image = require( 'SCENERY/nodes/Image' );
 
   // strings
   var aboutString = require( 'string!JOIST/menuItem.about' );
@@ -186,7 +188,7 @@ define( function( require ) {
         present: options.showSaveAndLoad,
         callback: function() {
           var state = sim.getState();
-          
+
           //See http://stackoverflow.com/questions/5817505/is-there-any-method-to-get-url-without-query-string-in-java-script
           var url = [location.protocol, '//', location.host, location.pathname].join( '' ) + '?state=' + encodeURIComponent( JSON.stringify( state, SimJSON.replacer ) );
           window.location.href = url;
@@ -196,6 +198,18 @@ define( function( require ) {
         text: 'Load',
         present: options.showSaveAndLoad,
         callback: function() {}
+      },
+
+      //Feasibility test for capturing screen shots as images
+      {
+        text: 'Screen shot',
+        present: options.showSaveAndLoad,
+        callback: function() {
+          var node = sim.screens[sim.simModel.screenIndex].view;
+          new ScreenshotGenerator().generateScreenshot( node, function( canvas ) {
+            node.addChild( new Image( canvas, {left: 0, top: 0, scale: 0.25} ) );
+          } );
+        }
       },
       {
         text: aboutString,
