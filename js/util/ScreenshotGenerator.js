@@ -8,9 +8,6 @@
 define( function( require ) {
   'use strict';
 
-  // imports
-  var Image = require( 'SCENERY/nodes/Image' );
-
   function ScreenshotGenerator() {}
 
   ScreenshotGenerator.prototype.generateScreenshot = function( node, callback ) {
