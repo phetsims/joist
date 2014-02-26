@@ -168,19 +168,6 @@ define( function( require ) {
           reportWindow.focus();
         } },
       {
-        text: 'Save',
-        present: options.showSaveAndLoad,
-        separatorBefore: true,
-        callback: function() {
-          var state = sim.getState();
-          console.log( 'saving\n', state );
-
-          //Save to local file, see http://stackoverflow.com/questions/2897619/using-html5-javascript-to-generate-and-save-a-file
-          location.href = "data:application/octet-stream," + encodeURIComponent( JSON.stringify( state, SimJSON.replacer ) );
-          console.log( '\nHere is the URI string\n', encodeURIComponent( JSON.stringify( state, SimJSON.replacer ) ) );
-        }
-      },
-      {
 
         //One way to allow the user to "save" the state is with a URL.
         //TODO: This does not preserve other query parameters, it probably should
@@ -193,11 +180,6 @@ define( function( require ) {
           var url = [location.protocol, '//', location.host, location.pathname].join( '' ) + '?state=' + encodeURIComponent( JSON.stringify( state, SimJSON.replacer ) );
           window.location.href = url;
         }
-      },
-      {
-        text: 'Load',
-        present: options.showSaveAndLoad,
-        callback: function() {}
       },
 
       //Feasibility test for capturing screen shots as images
