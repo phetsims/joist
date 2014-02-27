@@ -126,10 +126,6 @@ define( function( require ) {
     $body.append( $simDiv );
     this.$simDiv = $simDiv;
 
-    if ( options.showSaveAndLoad ) {
-      this.initLoadDropTarget();
-    }
-
     //Create the scene
     //Leave accessibility as a flag while in development
     sim.scene = new Scene( $simDiv, {allowDevicePixelRatioScaling: false, accessible: true} );
@@ -572,55 +568,6 @@ define( function( require ) {
   Sim.prototype.destroy = function() {
     this.destroyed = true;
     this.$simDiv.remove();
-  };
-
-  /**
-   * For sims that support save/load, use the sim div as a drop area.  If a file is dropped there, try to parse it as sim state.  See #103
-   */
-  Sim.prototype.initLoadDropTarget = function() {
-    var sim = this;
-    var handleFileSelect = function( evt ) {
-      evt.stopPropagation();
-      evt.preventDefault();
-
-      var files = evt.dataTransfer.files; // FileList object.
-      var f = null;
-      // files is a FileList of File objects. List some properties.
-
-      var reader = new FileReader();
-
-      f = files[0];
-      console.log( 'f=' + f );
-      // Closure to capture the file information.
-      reader.onload = (function( theFile ) {
-        return function( e ) {
-          console.log( 'read file' );
-          console.log( theFile );
-          console.log( 'result', reader.result );
-
-          var parsed = JSON.parse( reader.result, SimJSON.reviver );
-          console.log( parsed );
-
-          sim.setState( parsed );
-        };
-      })( f );
-
-      // Read in the image file as a data URL.
-      reader.readAsText( f );
-    };
-
-    var handleDragOver = function( evt ) {
-      evt.stopPropagation();
-      evt.preventDefault();
-      evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-      console.log( 'dragover!' );
-    };
-
-// Setup the dnd listeners.
-    var dropZone = document.getElementById( 'sim' );
-    dropZone.addEventListener( 'dragover', handleDragOver, false );
-    dropZone.addEventListener( 'drop', handleFileSelect, false );
-    console.log( 'added drop listeners' );
   };
 
   //For save/load
