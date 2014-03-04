@@ -12,17 +12,16 @@ define( function( require ) {
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var Plane = require( 'SCENERY/nodes/Plane' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var platform = require( 'PHET_CORE/platform' );
   var PhetMenu = require( 'JOIST/PhetMenu' );
   var Shape = require( 'KITE/Shape' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Vector2 = require( 'DOT/Vector2' );
-  var phetLogo = require( 'image!JOIST/phet-logo-short.svg' );
+  var phetLogo = require( 'image!JOIST/phet-logo-short.png' );
   var PushButton = require( 'SUN/PushButton' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
 
   //Makes the 'h' a bit darker so it will show up better against a white background
-  var phetLogoDarker = require( 'image!JOIST/phet-logo-short-darker.svg' );
+  var phetLogoDarker = require( 'image!JOIST/phet-logo-short-darker.png' );
 
   //TODO don't pass in navigationBar, position based on this button
   function PhetButton( sim, whiteColorScheme, options ) {
@@ -35,9 +34,6 @@ define( function( require ) {
     }, options );
 
     var phetLabel = new Image( options.phetLogo, {scale: options.phetLogoScale, pickable: false} );
-
-    //Workaround for the SVG not showing up properly in firefox.  SVG Renderer still giving odd bounds on FireFox, so use canvas there
-    if ( platform.firefox ) {phetLabel.renderer = 'canvas';}
 
     var optionsButton = new FontAwesomeNode( 'reorder', {
       fill: whiteColorScheme ? '#222' : 'white',

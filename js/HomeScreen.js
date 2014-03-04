@@ -20,7 +20,7 @@ define( function( require ) {
   var Frame = require( 'JOIST/Frame' );
   var Property = require( 'AXON/Property' );
   var FullScreenButton = require( 'JOIST/FullScreenButton' );
-  var phetLogo = require( 'image!JOIST/phet-logo-short.svg' );
+  var phetLogo = require( 'image!JOIST/phet-logo-short.png' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   var HEIGHT = 70;
