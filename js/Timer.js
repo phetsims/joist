@@ -9,14 +9,23 @@
 define( function() {
   'use strict';
   var listeners = [];
+  var listenersDefensiveCopy = []; // separated out to prevent garbage collection issues
   return {
 
     //Trigger a step event, called by Sim.js in the animation loop
     step: function( dt ) {
       var length = listeners.length;
-      for ( var i = 0; i < length; i++ ) {
-        listeners[i]( dt );
+      var i;
+      
+      // to safely allow listeners to remove themselves while being called (as is explicitly done in setTimeout), we make a copy of the array.
+      // we don't use slice(), since that would cause garbage collection issues.
+      for ( i = 0; i < length; i++ ) {
+        listenersDefensiveCopy[i] = listeners[i];
       }
+      for ( i = 0; i < length; i++ ) {
+        listenersDefensiveCopy[i]( dt );
+      }
+      listenersDefensiveCopy.length = 0;
     },
 
     //Add a listener to be called back once after the specified time (in milliseconds)
