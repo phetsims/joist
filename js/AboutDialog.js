@@ -22,7 +22,7 @@ define( function( require ) {
   // strings
   var phetString = 'PhET Interactive Simulations'; // as in Java sims, do not internationalize
   var copyrightString = 'Copyright © 2004-2014 University of Colorado Boulder'; // as in Java sims, do not internationalize
-  var softwareAgreementString = require( 'string!JOIST/softwareAgreement');
+  var softwareAgreementString = require( 'string!JOIST/softwareAgreement' );
   var phetDevelopmentTeamString = require( 'string!JOIST/credits.phetDevelopmentTeam' );
   var leadDesignString = require( 'string!JOIST/credits.leadDesign' );
   var softwareDevelopmentString = require( 'string!JOIST/credits.softwareDevelopment' );
@@ -49,7 +49,6 @@ define( function( require ) {
     var softwareAgreementLink = new Text( softwareAgreementString, {
       font: new PhetFont( 14 ),
       fill: 'rgb(27,0,241)', // blue, like a hyperlink
-      renderer: 'dom',
       cursor: 'pointer'
     } );
     softwareAgreementLink.addInputListener( {
@@ -77,7 +76,7 @@ define( function( require ) {
 
     children.push( new VStrut( 15 ) );
     children.push( softwareAgreementLink );
-    
+
     var content = new VBox( { align: 'left', spacing: 5, children: children } );
 
     //Show a gray overlay that will help focus on the about dialog, and prevent clicks on the sim while the dialog is up
@@ -95,7 +94,7 @@ define( function( require ) {
   // Creates node that displays the credits.
   var createCreditsNode = function( credits ) {
     var children = [];
-    var titleFont = new PhetFont( { size: 14, weight: 'bold' }  );
+    var titleFont = new PhetFont( { size: 14, weight: 'bold' } );
     var font = new PhetFont( 12 );
     var multiLineTextOptions = { font: font, align: 'left' };
     children.push( new Text( phetDevelopmentTeamString, { font: titleFont } ) );
