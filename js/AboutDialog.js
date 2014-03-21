@@ -15,7 +15,6 @@ define( function( require ) {
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Panel = require( 'SUN/Panel' );
-  var HTMLText = require( 'SCENERY/nodes/HTMLText' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
@@ -46,10 +45,11 @@ define( function( require ) {
     //Renderer must be specified here because the AboutDialog is added directly to the scene (instead of to some other node that already has svg renderer)
     ScreenView.call( this, {renderer: 'svg'} );
 
-    var softwareAgreementLink = new HTMLText( '<a href="#" onclick="return false;">' + softwareAgreementString + '</a>', {
+    var softwareAgreementLink = new Text( softwareAgreementString, {
       font: new PhetFont( 14 ),
+      fill: 'rgb(27,0,241)', // blue, like a hyperlink
       renderer: 'dom',
-      interactive: true // don't prevent default on the events
+      cursor: 'pointer'
     } );
     softwareAgreementLink.addInputListener( {
       up: function( evt ) {
