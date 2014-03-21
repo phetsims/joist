@@ -17,6 +17,7 @@ define( function( require ) {
   var Panel = require( 'SUN/Panel' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var VStrut = require( 'SUN/VStrut' );
 
   // strings
   var phetString = 'PhET Interactive Simulations'; // as in Java sims, do not internationalize
@@ -61,21 +62,20 @@ define( function( require ) {
       }
     } );
 
-    var blankLineFont = new PhetFont( 14 );
     var children = [
       new Text( phetString, { font: new PhetFont( 16 ) } ),
       new Text( copyrightString, { font: new PhetFont( 12 ) } ),
-      new Text( ' ', { font: blankLineFont } ),
+      new VStrut( 15 ),
       new Text( sim.name, { font: new PhetFont( 28 ) } ),
       new Text( 'version ' + sim.version, { font: new PhetFont( 20 ) } )
     ];
 
     if ( sim.credits ) {
-      children.push( new Text( ' ', { font: blankLineFont } ) );
+      children.push( new VStrut( 15 ) );
       children.push( createCreditsNode( sim.credits ) );
     }
 
-    children.push( new Text( ' ', { font: blankLineFont } ) );
+    children.push( new VStrut( 15 ) );
     children.push( softwareAgreementLink );
     
     var content = new VBox( { align: 'left', spacing: 5, children: children } );
