@@ -42,8 +42,8 @@ define( function( require ) {
     this.background = new Rectangle( 0, 0, 0, 0, {fill: whiteColorScheme ? 'white' : 'black', pickable: false} );
     this.addChild( this.background );
 
-    this.hbox = new PhetButton( sim, whiteColorScheme );
-    this.addChild( this.hbox );
+    this.phetButton = new PhetButton( sim, whiteColorScheme );
+    this.addChild( this.phetButton );
 
     this.titleLabel = new Text( sim.name, {font: new PhetFont( 18 ), fill: whiteColorScheme ? 'black' : 'white', pickable: false} );
     this.addChild( this.titleLabel );
@@ -97,9 +97,9 @@ define( function( require ) {
         navigationBar.homeIcon.top = 2;
         navigationBar.homeIcon.left = navigationBar.buttonHBox.right + 15;
       }
-      this.hbox.setScaleMagnitude( this.navBarScale );
-      this.hbox.right = this.navBarWidth - 5;
-      this.hbox.centerY = this.navBarHeight / 2;
+      this.phetButton.setScaleMagnitude( this.navBarScale );
+      this.phetButton.right = this.navBarWidth - 5;
+      this.phetButton.centerY = this.navBarHeight / 2;
     },
     layout: function( scale, width, height, windowHeight ) {
       this.navBarScale = scale;
