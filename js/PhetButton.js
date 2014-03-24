@@ -61,9 +61,16 @@ define( function( require ) {
 
     //When the phet button is pressed, show the phet menu
     var phetButtonPressed = function() {
-      var phetMenu = new PhetMenu( sim, {showSaveAndLoad: sim.options.showSaveAndLoad} );
-      phetMenu.right = phetButton.globalToParentPoint( new Vector2( phetButton.globalBounds.maxX, 0 ) ).x;
-      phetMenu.bottom = phetButton.centerY;
+
+      //The PhetMenu can be embedded in different contexts, but the scale should be consistent.  So look up the embedding scale here and factor it out.  See #39
+      var scale = phetButton.parents[0].getGlobalToLocalMatrix().getScaleVector().x;
+
+      var phetMenu = new PhetMenu( sim, {
+        showSaveAndLoad: sim.options.showSaveAndLoad,
+        scale: scale,
+        right: phetButton.globalToParentPoint( new Vector2( phetButton.globalBounds.maxX, 0 ) ).x,
+        bottom: phetButton.centerY} );
+
       var rectangle = new Plane( {fill: 'black', opacity: 0.3} );
       var detach = function() {
         rectangle.detach();
