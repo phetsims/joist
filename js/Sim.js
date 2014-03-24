@@ -274,7 +274,7 @@ define( function( require ) {
     _.each( sim.screens, function( m ) { m.view.layout( width, height - sim.navigationBar.height ); } );
 
     if ( sim.homeScreen ) {
-      sim.homeScreen.layout( width, height );
+      sim.homeScreen.layoutWithScale( scale, width, height );
     }
     //Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
 
@@ -465,8 +465,8 @@ define( function( require ) {
 
   // A string that should be evaluated as JavaScript containing an array of "frame" objects, with a dt and an optional fireEvents function
   Sim.prototype.getRecordedInputEventLogString = function() {
-    return '[\n' + _.map( this.inputEventLog,function( item ) {
-      var fireEvents = 'fireEvents:function(scene,dot){' + _.map( item.events,function( str ) { return 'scene.input.' + str; } ).join( '' ) + '}';
+    return '[\n' + _.map( this.inputEventLog, function( item ) {
+      var fireEvents = 'fireEvents:function(scene,dot){' + _.map( item.events, function( str ) { return 'scene.input.' + str; } ).join( '' ) + '}';
       return '{dt:' + item.dt + ( item.events.length ? ',' + fireEvents : '' ) + ( item.width ? ',width:' + item.width : '' ) + ( item.height ? ',height:' + item.height : '' ) +
              ',id:' + item.id + ',time:' + item.time + '}';
     } ).join( ',\n' ) + '\n]';

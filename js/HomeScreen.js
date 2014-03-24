@@ -162,19 +162,33 @@ define( function( require ) {
     var showFullScreenButton = !platform.android && !platform.mobileSafari && !platform.ie; // might work on IE11 in the future
     if ( showFullScreenButton && false ) {
       var fullScreenButton = new FullScreenButton();
-      var phetButton = new PhetButton( sim );
-      this.addChild( new HBox( {spacing: 10, children: [fullScreenButton, phetButton], right: this.layoutBounds.maxX - 5, bottom: this.layoutBounds.maxY - 5} ) );
+      this.addChild( new HBox( {spacing: 10, children: [fullScreenButton, new PhetButton( sim )], right: this.layoutBounds.maxX - 5, bottom: this.layoutBounds.maxY - 5} ) );
     }
     else {
-      this.addChild( new PhetButton( sim, false, {
-        phetLogo: phetLogo,
-        phetLogoScale: 0.4,
-        optionsButtonVerticalMargin: 6} ).mutate( {
-          right: this.layoutBounds.maxX - 5,
-          bottom: this.layoutBounds.maxY - 5
-        } ) );
+      this.phetButton = new PhetButton( sim, false );
+      this.addChild( this.phetButton );
     }
   }
 
-  return inherit( ScreenView, HomeScreen );
+  return inherit( ScreenView, HomeScreen, {
+    layoutWithScale: function( scale, width, height ) {
+      HomeScreen.prototype.layout.call( this, width, height );
+
+      //Position the phetButton.
+      //It is tricky since it is in the coordinate frame of the HomeScreen (which is a ScreenView, and hence translated and scaled)
+      //We want to match its location with the location in the NavigationBar
+      this.phetButton.right = (width - PhetButton.HORIZONTAL_INSET) / scale;
+      this.phetButton.bottom = (height - PhetButton.VERTICAL_INSET) / scale;
+
+      //Undo the vertical centering done in ScreenView so the button can be positioned globally
+      if ( scale === width / this.layoutBounds.width ) {
+        this.phetButton.translate( 0, -(height - this.layoutBounds.height * scale) / 2 / scale );
+      }
+
+      //Undo the horizontal centering done in ScreenView so the button can be positioned globally
+      else if ( scale === height / this.layoutBounds.height ) {
+        this.phetButton.translate( -(width - this.layoutBounds.width * scale) / 2 / scale, 0 );
+      }
+    }
+  } );
 } );

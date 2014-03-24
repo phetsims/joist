@@ -92,5 +92,15 @@ define( function( require ) {
     }
   }
 
-  return inherit( PushButton, PhetButton );
+  return inherit( PushButton, PhetButton, {},
+
+    //statics
+    {
+
+      //How much space between the PhetButton and the right side of the screen.
+      HORIZONTAL_INSET: 5,
+
+      //How much space between the PhetButton and the bottom of the screen
+      VERTICAL_INSET: 0
+    } );
 } );

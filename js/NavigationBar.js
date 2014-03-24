@@ -54,7 +54,7 @@ define( function( require ) {
       var buttons = _.map( screens, function( screen ) {
         return new NavigationBarScreenButton( sim, screen, thisNode.navBarHeight, whiteColorScheme, 0 );
       } );
-      var maxWidth = Math.max( 50, _.max( buttons,function( button ) {return button.width;} ).width );
+      var maxWidth = Math.max( 50, _.max( buttons, function( button ) {return button.width;} ).width );
 
       //Create buttons again with equivalent sizes
       buttons = _.map( screens, function( screen ) {
@@ -98,8 +98,8 @@ define( function( require ) {
         navigationBar.homeIcon.left = navigationBar.buttonHBox.right + 15;
       }
       this.phetButton.setScaleMagnitude( this.navBarScale );
-      this.phetButton.right = this.navBarWidth - 5;
-      this.phetButton.centerY = this.navBarHeight / 2;
+      this.phetButton.right = this.navBarWidth - PhetButton.HORIZONTAL_INSET;
+      this.phetButton.bottom = this.navBarHeight - PhetButton.VERTICAL_INSET;
     },
     layout: function( scale, width, height, windowHeight ) {
       this.navBarScale = scale;
