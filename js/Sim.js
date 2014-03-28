@@ -65,7 +65,7 @@ define( function( require ) {
     $( 'title' ).html( name + ' ' + sim.version ); //TODO i18n of order
 
     //if nothing else specified, try to use the options for showHomeScreen & screenIndex from query parameters, to facilitate testing easily in different screens
-    function stringToBoolean( string ) { return string === 'true' ? true : false; }
+    function stringToBoolean( string ) { return string === 'true'; }
 
     // Query parameters override options.
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showHomeScreen' ) ) {
