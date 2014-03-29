@@ -255,6 +255,8 @@ define( function( require ) {
   }
 
   Sim.prototype = {
+    constructor: Sim,
+    
     resizeToWindow: function() {
       this.resize( window.innerWidth, window.innerHeight );
     },
