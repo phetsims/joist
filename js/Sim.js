@@ -119,7 +119,11 @@ define( function( require ) {
     var $body = $( 'body' );
     $body.css( 'padding', '0' ).css( 'margin', '0' ).css( 'overflow', 'hidden' ); // prevent scrollbars
 
-    //TODO should probably look for this div to see if it exists, then create only if it doesn't exist.
+    // check to see if the sim div already exists in the DOM under the body. This is the case for https://github.com/phetsims/scenery/issues/174 (iOS offline reading list)
+    if ( document.getElementById( 'sim' ) && document.getElementById( 'sim' ).parentNode === document.body ) {
+      document.body.removeChild( document.getElementById( 'sim' ) );
+    }
+
     //Add a div for the sim to the DOM
     // default cursor is initially checked by Scenery and used as the default value. We don't want 'auto', since then DOM Text will show the text selection cursor
     var $simDiv = $( '<div>' ).attr( 'id', 'sim' ).css( 'position', 'absolute' ).css( 'left', 0 ).css( 'top', 0 ).css( 'cursor', 'default' );
