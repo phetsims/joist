@@ -16,12 +16,12 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Vector2 = require( 'DOT/Vector2' );
-  var phetLogo = require( 'image!JOIST/phet-logo-short.png' );
+  var phetLogo = require( 'image!BRAND/logo.png' );
   var PushButton = require( 'SUN/PushButton' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
 
   //Makes the 'h' a bit darker so it will show up better against a white background
-  var phetLogoDarker = require( 'image!JOIST/phet-logo-short-darker.png' );
+  var phetLogoDarker = require( 'image!BRAND/logo-on-white.png' );
 
   //TODO don't pass in navigationBar, position based on this button
   function PhetButton( sim, whiteColorScheme, options ) {
