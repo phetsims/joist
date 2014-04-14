@@ -16,10 +16,11 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Vector2 = require( 'DOT/Vector2' );
-  var phetLogo = require( 'image!BRAND/logo.png' );
   var PushButton = require( 'SUN/PushButton' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
 
+  // images
+  var phetLogo = require( 'image!BRAND/logo.png' );
   //Makes the 'h' a bit darker so it will show up better against a white background
   var phetLogoDarker = require( 'image!BRAND/logo-on-white.png' );
 
