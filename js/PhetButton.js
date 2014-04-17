@@ -66,11 +66,13 @@ define( function( require ) {
       //The PhetMenu can be embedded in different contexts, but the scale should be consistent.  So look up the embedding scale here and factor it out.  See #39
       var scale = phetButton.parents[0].getGlobalToLocalMatrix().getScaleVector().x;
 
+      var global = phetButton.parentToGlobalPoint( phetButton.center );
+      var local = phetButton.parents[0].parents[0].globalToLocalPoint( global );
       var phetMenu = new PhetMenu( sim, {
         showSaveAndLoad: sim.options.showSaveAndLoad,
         scale: scale,
         right: phetButton.globalToParentPoint( new Vector2( phetButton.globalBounds.maxX, 0 ) ).x,
-        bottom: phetButton.centerY} );
+        bottom: local.y} );
 
       var rectangle = new Plane( {fill: 'black', opacity: 0.3} );
       var detach = function() {
@@ -85,8 +87,8 @@ define( function( require ) {
       phetMenu.addInputListener( popupMenuListener );
       rectangle.addInputListener( rectangleListener );
 
-      phetButton.parents[0].addChild( rectangle );
-      phetButton.parents[0].addChild( phetMenu );
+      phetButton.parents[0].parents[0].addChild( rectangle );
+      phetButton.parents[0].parents[0].addChild( phetMenu );
     };
     this.addListener( phetButtonPressed );
 
