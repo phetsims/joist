@@ -25,7 +25,15 @@ define( function( require ) {
   var phetLogoDarker = require( 'image!BRAND/logo-on-white.png' );
 
   //TODO don't pass in navigationBar, position based on this button
-  function PhetButton( sim, whiteColorScheme, options ) {
+  /**
+   *
+   * @param sim
+   * @param whiteColorScheme
+   * @param homeScreen flag that indicates whether this button appears in the home screen or navbar, to get the positioning right.  TODO: Get rid of the need for this flag.  See #114
+   * @param options Unused in client code.  TODO: Remove
+   * @constructor
+   */
+  function PhetButton( sim, whiteColorScheme, homeScreen, options ) {
 
     var phetButton = this;
     options = _.extend( {
@@ -64,10 +72,11 @@ define( function( require ) {
     var phetButtonPressed = function() {
 
       //The PhetMenu can be embedded in different contexts, but the scale should be consistent.  So look up the embedding scale here and factor it out.  See #39
+      var ancestor = homeScreen ? phetButton.parents[0] : phetButton.parents[0].parents[0];
       var scale = phetButton.parents[0].getGlobalToLocalMatrix().getScaleVector().x;
 
       var global = phetButton.parentToGlobalPoint( phetButton.center );
-      var local = phetButton.parents[0].parents[0].globalToLocalPoint( global );
+      var local = ancestor.globalToLocalPoint( global );
       var phetMenu = new PhetMenu( sim, {
         showSaveAndLoad: sim.options.showSaveAndLoad,
         scale: scale,
@@ -87,8 +96,8 @@ define( function( require ) {
       phetMenu.addInputListener( popupMenuListener );
       rectangle.addInputListener( rectangleListener );
 
-      phetButton.parents[0].parents[0].addChild( rectangle );
-      phetButton.parents[0].parents[0].addChild( phetMenu );
+      ancestor.addChild( rectangle );
+      ancestor.addChild( phetMenu );
     };
     this.addListener( phetButtonPressed );
 

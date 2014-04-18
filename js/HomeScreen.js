@@ -164,7 +164,7 @@ define( function( require ) {
       this.addChild( new HBox( {spacing: 10, children: [fullScreenButton, new PhetButton( sim )], right: this.layoutBounds.maxX - 5, bottom: this.layoutBounds.maxY - 5} ) );
     }
     else {
-      this.phetButton = new PhetButton( sim, false );
+      this.phetButton = new PhetButton( sim, false, true );
       this.addChild( this.phetButton );
     }
   }

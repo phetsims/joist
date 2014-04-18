@@ -42,7 +42,7 @@ define( function( require ) {
     this.background = new Rectangle( 0, 0, 0, 0, {fill: whiteColorScheme ? 'white' : 'black', pickable: false} );
     this.addChild( this.background );
 
-    this.phetButton = new PhetButton( sim, whiteColorScheme );
+    this.phetButton = new PhetButton( sim, whiteColorScheme, false );
     this.addChild( this.phetButton );
 
     this.titleLabel = new Text( sim.name, {font: new PhetFont( 18 ), fill: whiteColorScheme ? 'black' : 'white', pickable: false} );
