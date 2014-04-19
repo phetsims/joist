@@ -100,7 +100,7 @@ define( function( require ) {
     }, options );
 
     var thisMenu = this;
-    Node.call( thisMenu );
+    Node.call( thisMenu, {renderer: 'svg'} );
 
     /*
      * Description of the items in the menu. Each descriptor has these properties:
@@ -216,15 +216,15 @@ define( function( require ) {
     // Menu items have uniform size, so compute the max text dimensions.
     var keepItemDescriptors = _.filter( itemDescriptors, function( itemDescriptor ) {return itemDescriptor.present;} );
     var textNodes = _.map( keepItemDescriptors, function( item ) {return new Text( item.text, {font: new PhetFont( FONT_SIZE )} );} );
-    var maxTextWidth = _.max( textNodes,function( node ) {return node.width;} ).width;
-    var maxTextHeight = _.max( textNodes,function( node ) {return node.height;} ).height;
+    var maxTextWidth = _.max( textNodes, function( node ) {return node.width;} ).width;
+    var maxTextHeight = _.max( textNodes, function( node ) {return node.height;} ).height;
 
     // Create the menu items.
     var items = _.map( keepItemDescriptors, function( itemDescriptor ) {
       return createMenuItem( itemDescriptor.text, maxTextWidth, maxTextHeight, itemDescriptor.separatorBefore, itemDescriptor.callback, itemDescriptor.immediateCallback );
     } );
-    var separatorWidth = _.max( items,function( item ) {return item.width;} ).width;
-    var itemHeight = _.max( items,function( item ) {return item.height;} ).height;
+    var separatorWidth = _.max( items, function( item ) {return item.width;} ).width;
+    var itemHeight = _.max( items, function( item ) {return item.height;} ).height;
     var content = new Node();
     var y = 0;
     var ySpacing = 2;

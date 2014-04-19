@@ -73,7 +73,7 @@ define( function( require ) {
 
       //The PhetMenu can be embedded in different contexts, but the scale should be consistent.  So look up the embedding scale here and factor it out.  See #39
       var ancestor = homeScreen ? phetButton.parents[0] : phetButton.parents[0].parents[0];
-      var scale = phetButton.parents[0].getGlobalToLocalMatrix().getScaleVector().x;
+      var scale = ancestor.getGlobalToLocalMatrix().getScaleVector().x;
 
       var global = phetButton.parentToGlobalPoint( phetButton.center );
       var local = ancestor.globalToLocalPoint( global );
@@ -83,7 +83,7 @@ define( function( require ) {
         right: phetButton.globalToParentPoint( new Vector2( phetButton.globalBounds.maxX, 0 ) ).x,
         bottom: local.y} );
 
-      var rectangle = new Plane( {fill: 'black', opacity: 0.3} );
+      var rectangle = new Plane( {fill: 'black', opacity: 0.3, renderer: 'svg'} );
       var detach = function() {
         rectangle.detach();
         phetMenu.detach();
