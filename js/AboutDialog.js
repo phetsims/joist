@@ -23,6 +23,7 @@ define( function( require ) {
   var phetString = 'PhET Interactive Simulations'; // as in Java sims, do not internationalize
   var copyrightString = 'Copyright © 2004-2014 University of Colorado Boulder'; // as in Java sims, do not internationalize
   var softwareAgreementString = require( 'string!JOIST/softwareAgreement' );
+  var softwareLicensingString = require( 'string!JOIST/softwareLicensing' );
   var phetDevelopmentTeamString = require( 'string!JOIST/credits.phetDevelopmentTeam' );
   var leadDesignString = require( 'string!JOIST/credits.leadDesign' );
   var softwareDevelopmentString = require( 'string!JOIST/credits.softwareDevelopment' );
@@ -34,6 +35,7 @@ define( function( require ) {
 
   // constants
   var SOFTWARE_AGREEMENT_URL = 'http://phet.colorado.edu/about/software-agreement_v7.htm';
+  var SOFTWARE_LICENSING_URL = 'http://phet.colorado.edu/licensing';
 
   /**
    * @param {Sim} sim
@@ -46,20 +48,23 @@ define( function( require ) {
     //Renderer must be specified here because the AboutDialog is added directly to the scene (instead of to some other node that already has svg renderer)
     ScreenView.call( this, {renderer: 'svg'} );
 
-    var softwareAgreementLink = new Text( softwareAgreementString, {
-      font: new PhetFont( 14 ),
-      fill: 'rgb(27,0,241)', // blue, like a hyperlink
-      cursor: 'pointer'
-    } );
-    softwareAgreementLink.addInputListener( {
-      up: function( evt ) {
-        evt.handle(); // don't close the dialog
-      },
-      upImmediate: function( event ) {
-        var aboutDialogWindow = window.open( SOFTWARE_AGREEMENT_URL, '_blank' );
-        aboutDialogWindow.focus();
-      }
-    } );
+    var createLink = function( text, url ) {
+      var softwareAgreementLink = new Text( text, {
+        font: new PhetFont( 14 ),
+        fill: 'rgb(27,0,241)', // blue, like a hyperlink
+        cursor: 'pointer'
+      } );
+      softwareAgreementLink.addInputListener( {
+        up: function( evt ) {
+          evt.handle(); // don't close the dialog
+        },
+        upImmediate: function( event ) {
+          var aboutDialogWindow = window.open( url, '_blank' );
+          aboutDialogWindow.focus();
+        }
+      } );
+      return softwareAgreementLink;
+    };
 
     var children = [
       new Text( phetString, { font: new PhetFont( 16 ) } ),
@@ -75,7 +80,8 @@ define( function( require ) {
     }
 
     children.push( new VStrut( 15 ) );
-    children.push( softwareAgreementLink );
+    children.push( createLink( softwareAgreementString, SOFTWARE_AGREEMENT_URL ) );
+    children.push( createLink( softwareLicensingString, SOFTWARE_LICENSING_URL ) );
 
     var content = new VBox( { align: 'left', spacing: 5, children: children } );
 
