@@ -8,6 +8,9 @@
  */
 define( function() {
   'use strict';
+
+  var cleanArray = require( 'PHET_CORE/cleanArray' );
+
   var listeners = [];
   var listenersDefensiveCopy = []; // separated out to prevent garbage collection issues
   return {
@@ -25,7 +28,7 @@ define( function() {
       for ( i = 0; i < length; i++ ) {
         listenersDefensiveCopy[i]( dt );
       }
-      listenersDefensiveCopy.length = 0;
+      cleanArray( listenersDefensiveCopy );
     },
 
     //Add a listener to be called back once after the specified time (in milliseconds)
