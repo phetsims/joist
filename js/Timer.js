@@ -6,7 +6,7 @@
  *
  * @author Sam Reid
  */
-define( function() {
+define( function( require ) {
   'use strict';
 
   var cleanArray = require( 'PHET_CORE/cleanArray' );
