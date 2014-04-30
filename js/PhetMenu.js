@@ -14,7 +14,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var AboutDialog = require( 'JOIST/AboutDialog' );
+  var PhetAboutDialog = require( 'JOIST/PhetAboutDialog' );
   var SettingsDialog = require( 'JOIST/SettingsDialog' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
@@ -23,6 +23,7 @@ define( function( require ) {
   var SimJSON = require( 'JOIST/SimJSON' );
   var ScreenshotGenerator = require( 'JOIST/util/ScreenshotGenerator' );
   var Image = require( 'SCENERY/nodes/Image' );
+  var Brand = require( 'BRAND/Brand' );
 
   // strings
   var aboutString = require( 'string!JOIST/menuItem.about' );
@@ -93,6 +94,9 @@ define( function( require ) {
   //TODO: The popup menu should scale with the size of the screen
   function PhetMenu( sim, options ) {
 
+    console.log( 'Branding', Brand );
+    var isPhETBrand = Brand.name === 'PhET Interactive Simulations';
+
     options = _.extend( {
 
       //For sims that have save/load enabled, show menu items for those.
@@ -101,6 +105,20 @@ define( function( require ) {
 
     var thisMenu = this;
     Node.call( thisMenu, {renderer: 'svg'} );
+
+    var showAboutDialog = function( aboutDialog ) {
+      var plane = new Plane( {fill: 'black', opacity: 0.3, renderer: 'svg'} );//Renderer must be specified here because the plane is added directly to the scene (instead of to some other node that already has svg renderer)
+      sim.addChild( plane );
+      sim.addChild( aboutDialog );
+      var aboutDialogListener = {up: function() {
+        aboutDialog.removeInputListener( aboutDialogListener );
+        plane.addInputListener( aboutDialogListener );
+        aboutDialog.detach();
+        plane.detach();
+      }};
+      aboutDialog.addInputListener( aboutDialogListener );
+      plane.addInputListener( aboutDialogListener );
+    };
 
     /*
      * Description of the items in the menu. Each descriptor has these properties:
@@ -111,7 +129,7 @@ define( function( require ) {
     var itemDescriptors = [
       {
         text: phetWebsiteString,
-        present: true,
+        present: isPhETBrand,
         callback: function() {
         },
         immediateCallback: function() {
@@ -157,7 +175,7 @@ define( function( require ) {
       },
       {
         text: reportAProblemString,
-        present: true,
+        present: isPhETBrand,
         callback: function() {},
         immediateCallback: function() {
           var url = 'http://phet.colorado.edu/files/troubleshooting/' +
@@ -195,22 +213,20 @@ define( function( require ) {
       },
       {
         text: aboutString,
-        present: true,
+        present: isPhETBrand,
         separatorBefore: true,
+        callback: function() { showAboutDialog( new PhetAboutDialog( sim ) ); }
+      },
+
+      //About dialog for non-phet sims
+      {
+        text: aboutString,
+        present: !isPhETBrand,
+        separatorBefore: false,
         callback: function() {
-          var aboutDialog = new AboutDialog( sim );
-          var plane = new Plane( {fill: 'black', opacity: 0.3, renderer: 'svg'} );//Renderer must be specified here because the plane is added directly to the scene (instead of to some other node that already has svg renderer)
-          sim.addChild( plane );
-          sim.addChild( aboutDialog );
-          var aboutDialogListener = {up: function() {
-            aboutDialog.removeInputListener( aboutDialogListener );
-            plane.addInputListener( aboutDialogListener );
-            aboutDialog.detach();
-            plane.detach();
-          }};
-          aboutDialog.addInputListener( aboutDialogListener );
-          plane.addInputListener( aboutDialogListener );
-        }}
+          showAboutDialog( new PhetAboutDialog( sim ) );
+        }
+      }
     ];
 
     // Menu items have uniform size, so compute the max text dimensions.
