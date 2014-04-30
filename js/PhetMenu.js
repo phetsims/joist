@@ -14,7 +14,6 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var PhetAboutDialog = require( 'JOIST/PhetAboutDialog' );
   var AboutDialog = require( 'JOIST/AboutDialog' );
   var SettingsDialog = require( 'JOIST/SettingsDialog' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
