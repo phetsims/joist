@@ -41,11 +41,11 @@ define( function( require ) {
    * @param {Sim} sim
    * @constructor
    */
-  function AboutDialog( sim ) {
+  function PhetAboutDialog( sim ) {
     var aboutDialog = this;
 
     //Use view, to help center and scale content
-    //Renderer must be specified here because the AboutDialog is added directly to the scene (instead of to some other node that already has svg renderer)
+    //Renderer must be specified here because the PhetAboutDialog is added directly to the scene (instead of to some other node that already has svg renderer)
     ScreenView.call( this, {renderer: 'svg'} );
 
     var createLink = function( text, url ) {
@@ -123,7 +123,7 @@ define( function( require ) {
     return new VBox( { align: 'left', spacing: 1, children: children } );
   };
 
-  inherit( ScreenView, AboutDialog );
+  inherit( ScreenView, PhetAboutDialog );
 
-  return AboutDialog;
+  return PhetAboutDialog;
 } );
