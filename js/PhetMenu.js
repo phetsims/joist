@@ -15,6 +15,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetAboutDialog = require( 'JOIST/PhetAboutDialog' );
+  var AboutDialog = require( 'JOIST/AboutDialog' );
   var SettingsDialog = require( 'JOIST/SettingsDialog' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
@@ -94,7 +95,8 @@ define( function( require ) {
   //TODO: The popup menu should scale with the size of the screen
   function PhetMenu( sim, options ) {
 
-    console.log( 'Branding', Brand );
+    //Only show certain features for PhET Sims, such as links to our website
+    //Note: this string below must stay in sync with the Brand.name or phet features will be dropped
     var isPhETBrand = Brand.name === 'PhET Interactive Simulations';
 
     options = _.extend( {
@@ -215,7 +217,7 @@ define( function( require ) {
         text: aboutString,
         present: isPhETBrand,
         separatorBefore: true,
-        callback: function() { showAboutDialog( new PhetAboutDialog( sim ) ); }
+        callback: function() { showAboutDialog( new AboutDialog( sim, Brand ) ); }
       },
 
       //About dialog for non-phet sims
@@ -224,7 +226,7 @@ define( function( require ) {
         present: !isPhETBrand,
         separatorBefore: false,
         callback: function() {
-          showAboutDialog( new PhetAboutDialog( sim ) );
+          showAboutDialog( new AboutDialog( sim, Brand ) );
         }
       }
     ];

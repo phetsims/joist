@@ -20,9 +20,7 @@ define( function( require ) {
   var VStrut = require( 'SUN/VStrut' );
 
   // strings
-  var phetString = 'PhET Interactive Simulations'; // as in Java sims, do not internationalize
-  var copyrightString = 'Copyright © 2004-2014 University of Colorado Boulder'; // as in Java sims, do not internationalize
-  var phetDevelopmentTeamString = require( 'string!JOIST/credits.phetDevelopmentTeam' );
+  var developmentTeamString = require( 'string!JOIST/credits.developmentTeam' );
   var leadDesignString = require( 'string!JOIST/credits.leadDesign' );
   var softwareDevelopmentString = require( 'string!JOIST/credits.softwareDevelopment' );
   var designTeamString = require( 'string!JOIST/credits.designTeam' );
@@ -31,19 +29,15 @@ define( function( require ) {
   var translationTitleString = require( 'string!JOIST/credits.translation' );
   var thanksTitleString = require( 'string!JOIST/credits.thanks' );
 
-  // constants
-  var SOFTWARE_AGREEMENT_URL = 'http://phet.colorado.edu/about/software-agreement_v7.htm';
-  var SOFTWARE_LICENSING_URL = 'http://phet.colorado.edu/licensing';
-
   /**
    * @param {Sim} sim
    * @constructor
    */
-  function PhetAboutDialog( sim ) {
+  function AboutDialog( sim, Brand ) {
     var aboutDialog = this;
 
     //Use view, to help center and scale content
-    //Renderer must be specified here because the PhetAboutDialog is added directly to the scene (instead of to some other node that already has svg renderer)
+    //Renderer must be specified here because the AboutDialog is added directly to the scene (instead of to some other node that already has svg renderer)
     ScreenView.call( this, {renderer: 'svg'} );
 
     var createLink = function( text, url ) {
@@ -65,8 +59,8 @@ define( function( require ) {
     };
 
     var children = [
-      new Text( phetString, { font: new PhetFont( 16 ) } ),
-      new Text( copyrightString, { font: new PhetFont( 12 ) } ),
+      new Text( Brand.name, { font: new PhetFont( 16 ) } ),
+      new Text( Brand.copyright, { font: new PhetFont( 12 ) } ),
       new VStrut( 15 ),
       new Text( sim.name, { font: new PhetFont( 28 ) } ),
       new Text( 'version ' + sim.version, { font: new PhetFont( 20 ) } )
@@ -77,9 +71,13 @@ define( function( require ) {
       children.push( createCreditsNode( sim.credits ) );
     }
 
-    children.push( new VStrut( 15 ) );
-    children.push( createLink( softwareAgreementString, SOFTWARE_AGREEMENT_URL ) );
-    children.push( createLink( softwareLicensingString, SOFTWARE_LICENSING_URL ) );
+    if ( Brand.links && Brand.links.length ) {
+      children.push( new VStrut( 15 ) );
+      for ( var i = 0; i < Brand.links.length; i++ ) {
+        var link = Brand.links[i];
+        children.push( createLink( link.text, link.url ) );
+      }
+    }
 
     var content = new VBox( { align: 'left', spacing: 5, children: children } );
 
@@ -101,7 +99,7 @@ define( function( require ) {
     var titleFont = new PhetFont( { size: 14, weight: 'bold' } );
     var font = new PhetFont( 12 );
     var multiLineTextOptions = { font: font, align: 'left' };
-    children.push( new Text( phetDevelopmentTeamString, { font: titleFont } ) );
+    children.push( new Text( developmentTeamString, { font: titleFont } ) );
 
     if ( credits.leadDesign ) { children.push( new MultiLineText( StringUtils.format( leadDesignString, credits.leadDesign ), multiLineTextOptions ) ); }
     if ( credits.softwareDevelopment ) { children.push( new MultiLineText( StringUtils.format( softwareDevelopmentString, credits.softwareDevelopment ), multiLineTextOptions ) ); }
@@ -121,7 +119,7 @@ define( function( require ) {
     return new VBox( { align: 'left', spacing: 1, children: children } );
   };
 
-  inherit( ScreenView, PhetAboutDialog );
+  inherit( ScreenView, AboutDialog );
 
-  return PhetAboutDialog;
+  return AboutDialog;
 } );
