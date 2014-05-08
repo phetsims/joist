@@ -15,7 +15,7 @@ define( function( require ) {
   var Panel = require( 'SUN/Panel' );
   var CheckBox = require( 'SUN/CheckBox' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var TextPushButton = require( 'SUN/TextPushButton' );
+  var TextPushButtonDeprecated = require( 'SUN/TextPushButtonDeprecated' );
 
   // strings
   var showPointersString = require( 'string!JOIST/showPointers' );
@@ -35,13 +35,13 @@ define( function( require ) {
     var content = new VBox( { align: 'center', spacing: 50, children: [
       new Text( settingsString, { font: new PhetFont( 16 ) } ),
       new CheckBox( new Text( showPointersString ), sim.showPointersProperty ),
-      new TextPushButton( doneString, {
+      new TextPushButtonDeprecated( doneString, {
         listener: function() {
-            settingsDialog.doneListeners.forEach( function( listener ) {
-              listener();
-            } );
-          }
-        } )
+          settingsDialog.doneListeners.forEach( function( listener ) {
+            listener();
+          } );
+        }
+      } )
     ]} );
 
     //Show a gray overlay that will help focus on the about dialog, and prevent clicks on the sim while the dialog is up
