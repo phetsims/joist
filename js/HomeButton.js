@@ -11,7 +11,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Shape = require( 'KITE/Shape' );
-  var PushButton = require( 'SUN/PushButton' );
+  var PushButtonDeprecated = require( 'SUN/PushButtonDeprecated' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
 
   function HomeButton( fill, pressedFill, whiteColorScheme, options ) {
@@ -29,7 +29,7 @@ define( function( require ) {
         return node;
       }
     };
-    PushButton.call( this, icon( fill, false ), icon( fill, true ), icon( pressedFill, true ), icon( fill, false ) );
+    PushButtonDeprecated.call( this, icon( fill, false ), icon( fill, true ), icon( pressedFill, true ), icon( fill, false ) );
 
     if ( options ) {
       this.mutate( options );
@@ -37,5 +37,5 @@ define( function( require ) {
     this.mouseArea = this.touchArea = Shape.rectangle( this.bounds.minX, this.bounds.minY, this.bounds.width, this.bounds.height );
   }
 
-  return inherit( PushButton, HomeButton );
+  return inherit( PushButtonDeprecated, HomeButton );
 } );

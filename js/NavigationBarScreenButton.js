@@ -14,7 +14,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
-  var PushButton = require( 'SUN/PushButton' );
+  var PushButtonDeprecated = require( 'SUN/PushButtonDeprecated' );
   var ToggleNode = require( 'SUN/ToggleNode' );
 
   /**
@@ -48,8 +48,8 @@ define( function( require ) {
       }
     };
 
-    var selectedNode = new PushButton( createNode( true, false, false ), createNode( true, true, false ), createNode( true, true, true ), createNode( true, false, false ), {} );
-    var unselectedNode = new PushButton( createNode( false, false, false ), createNode( false, true, false ), createNode( false, true, true ), createNode( false, false, false ), {} );
+    var selectedNode = new PushButtonDeprecated( createNode( true, false, false ), createNode( true, true, false ), createNode( true, true, true ), createNode( true, false, false ), {} );
+    var unselectedNode = new PushButtonDeprecated( createNode( false, false, false ), createNode( false, true, false ), createNode( false, true, true ), createNode( false, false, false ), {} );
     unselectedNode.addListener( function() { sim.simModel.screenIndex = sim.screens.indexOf( screen ); } );
 
     var selected = sim.simModel.screenIndexProperty.valueEquals( sim.screens.indexOf( screen ) );

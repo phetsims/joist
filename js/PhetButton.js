@@ -16,7 +16,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Vector2 = require( 'DOT/Vector2' );
-  var PushButton = require( 'SUN/PushButton' );
+  var PushButtonDeprecated = require( 'SUN/PushButtonDeprecated' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
 
   // images
@@ -65,8 +65,8 @@ define( function( require ) {
       return node;
     };
 
-    //function PushButton( upNode, overNode, downNode, disabledNode, options ) {
-    PushButton.call( this, createNode( false ), createNode( true ), createNode( true ), new Node() );
+    //PushButtonDeprecated( upNode, overNode, downNode, disabledNode, options )
+    PushButtonDeprecated.call( this, createNode( false ), createNode( true ), createNode( true ), new Node() );
 
     //When the phet button is pressed, show the phet menu
     var phetButtonPressed = function() {
@@ -111,7 +111,7 @@ define( function( require ) {
     }
   }
 
-  return inherit( PushButton, PhetButton, {},
+  return inherit( PushButtonDeprecated, PhetButton, {},
 
     //statics
     {
