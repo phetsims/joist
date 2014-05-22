@@ -13,9 +13,11 @@ define( function( require ) {
   var Util = require( 'SCENERY/util/Util' );
   var NavigationBar = require( 'JOIST/NavigationBar' );
   var HomeScreen = require( 'JOIST/HomeScreen' );
-  var Scene = require( 'SCENERY/Scene' );
+  var Display = require( 'SCENERY/display/Display' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var Vector2 = require( 'DOT/Vector2' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var Dimension2 = require( 'DOT/Dimension2' );
   var version = require( 'version' );
   var PropertySet = require( 'AXON/PropertySet' );
   var Property = require( 'AXON/Property' );
@@ -52,7 +54,8 @@ define( function( require ) {
     sim.frameCounter = 0; // number of animation frames that have occurred
 
     sim.inputEventLog = []; // used to store input events and requestAnimationFrame cycles
-    sim.inputEventBounds = Bounds2.NOTHING;
+    sim.inputEventWidth = 0;
+    sim.inputEventHeight = 0;
 
     // state for mouse event fuzzing
     sim.fuzzMouseAverage = 10; // average number of mouse events to synthesize per frame
@@ -124,32 +127,31 @@ define( function( require ) {
       document.body.removeChild( document.getElementById( 'sim' ) );
     }
 
-    //Add a div for the sim to the DOM
-    // default cursor is initially checked by Scenery and used as the default value. We don't want 'auto', since then DOM Text will show the text selection cursor
-    var $simDiv = $( '<div>' ).attr( 'id', 'sim' ).css( 'position', 'absolute' ).css( 'left', 0 ).css( 'top', 0 ).css( 'cursor', 'default' );
-    $body.append( $simDiv );
-    this.$simDiv = $simDiv;
-
-    //Create the scene
-    //Leave accessibility as a flag while in development
-    sim.scene = new Scene( $simDiv, {allowDevicePixelRatioScaling: false, accessible: true} );
+    sim.scene = new Node();
+    sim.display = new Display( sim.scene, {
+      allowSceneOverflow: true // we take up the entire browsable area, so we don't care about clipping
+    } );
+    var simDiv = sim.display.domElement;
+    simDiv.id = 'sim';
+    document.body.appendChild( simDiv );
     sim.scene.sim = sim; // add a reference back to the simulation
-    sim.scene.initializeWindowEvents( { batchDOMEvents: true } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
+    sim.display.initializeWindowEvents( { batchDOMEvents: true } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
     if ( options.recordInputEventLog ) {
-      sim.scene.input.logEvents = true; // flag Scenery to log all input events
+      sim.display._input.logEvents = true; // flag Scenery to log all input events
     }
     window.simScene = sim.scene; // make the scene available for debugging
+    window.simDisplay = sim.display; // make the display available for debugging
 
     var showPointers = window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showPointers' );
     this.showPointersProperty = new Property( showPointers );
     this.showPointersProperty.link( function( showPointers ) {
-      sim.scene.setPointerDisplayVisible( showPointers );
+      sim.display.setPointerDisplayVisible( showPointers );
     } );
 
     var showPointerAreas = window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showPointerAreas' );
     this.showPointerAreasProperty = new Property( showPointerAreas );
     this.showPointerAreasProperty.link( function( showPointerAreas ) {
-      sim.scene.setPointerAreaDisplayVisible( showPointerAreas );
+      sim.display.setPointerAreaDisplayVisible( showPointerAreas );
     } );
 
     var whiteNavBar = screens[0].backgroundColor === 'black' || screens[0].backgroundColor === '#000' || screens[0].backgroundColor === '#000000';
@@ -161,12 +163,12 @@ define( function( require ) {
 
     var updateBackground = function() {
       if ( sim.simModel.showHomeScreen ) {
-        $simDiv.css( 'background', 'black' );
+        simDiv.style.backgroundColor = 'black';
       }
       else {
         var backgroundColor = screens[sim.simModel.screenIndex].backgroundColor || 'white';
         var cssColor = ( typeof backgroundColor === 'string' ) ? backgroundColor : backgroundColor.toCSS();
-        $simDiv.css( 'background', cssColor );
+        simDiv.style.backgroundColor = cssColor;
       }
     };
 
@@ -275,7 +277,7 @@ define( function( require ) {
       var navBarHeight = scale * 40;
       sim.navigationBar.layout( scale, width, navBarHeight, height );
       sim.navigationBar.y = height - navBarHeight;
-      sim.scene.resize( width, height );
+      sim.display.setSize( new Dimension2( width, height ) );
 
       //Layout each of the screens
       _.each( sim.screens, function( m ) { m.view.layout( width, height - sim.navigationBar.height ); } );
@@ -285,7 +287,7 @@ define( function( require ) {
       }
       //Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
 
-      sim.scene.input.eventLog.push( 'scene.sim.resize(' + width + ',' + height + ');' );
+      sim.display._input.eventLog.push( 'scene.display.setSize(new dot.Dimension2(' + width + ',' + height + '));' );
 
       //Fixes problems where the div would be way off center on iOS7
       if ( platform.mobileSafari ) {
@@ -346,7 +348,7 @@ define( function( require ) {
         }
         else {
           // if any input events were received and batched, fire them now.
-          sim.scene.fireBatchedEvents();
+          sim.display._input.fireBatchedEvents();
         }
 
         //Update the active screen, but not if the user is on the home screen
@@ -381,20 +383,22 @@ define( function( require ) {
           // push a frame entry into our inputEventLog
           var entry = {
             dt: dt,
-            events: sim.scene.input.eventLog,
+            events: sim.display._input.eventLog,
             id: sim.frameCounter,
             time: Date.now()
           };
-          if ( !sim.inputEventBounds.equals( sim.scene.sceneBounds ) ) {
-            sim.inputEventBounds = sim.scene.sceneBounds.copy();
+          if ( sim.inputEventWidth !== sim.display.size.width ||
+               sim.inputEventHeight !== sim.display.size.height ) {
+            sim.inputEventWidth = sim.display.size.width;
+            sim.inputEventHeight = sim.display.size.height;
 
-            entry.width = sim.scene.sceneBounds.width;
-            entry.height = sim.scene.sceneBounds.height;
+            entry.width = sim.inputEventWidth;
+            entry.height = sim.inputEventHeight;
           }
           sim.inputEventLog.push( entry );
-          sim.scene.input.eventLog = []; // clears the event log so that future actions will fill it
+          sim.display._input.eventLog = []; // clears the event log so that future actions will fill it
         }
-        sim.scene.updateScene();
+        sim.display.updateDisplay();
       })();
 
       //If state was specified, load it now
@@ -462,7 +466,7 @@ define( function( require ) {
         if ( window.TWEEN ) {
           window.TWEEN.update();
         }
-        sim.scene.updateScene();
+        sim.display.updateDisplay();
       })();
     },
 
@@ -473,7 +477,7 @@ define( function( require ) {
     // A string that should be evaluated as JavaScript containing an array of "frame" objects, with a dt and an optional fireEvents function
     getRecordedInputEventLogString: function() {
       return '[\n' + _.map( this.inputEventLog, function( item ) {
-        var fireEvents = 'fireEvents:function(scene,dot){' + _.map( item.events, function( str ) { return 'scene.input.' + str; } ).join( '' ) + '}';
+        var fireEvents = 'fireEvents:function(scene,dot){' + _.map( item.events, function( str ) { return 'display._input.' + str; } ).join( '' ) + '}';
         return '{dt:' + item.dt + ( item.events.length ? ',' + fireEvents : '' ) + ( item.width ? ',width:' + item.width : '' ) + ( item.height ? ',height:' + item.height : '' ) +
                ',id:' + item.id + ',time:' + item.time + '}';
       } ).join( ',\n' ) + '\n]';
@@ -537,22 +541,22 @@ define( function( require ) {
             0, // button
             null );
 
-          sim.scene.input.validatePointers();
+          sim.display._input.validatePointers();
 
           if ( sim.fuzzMouseIsDown ) {
-            sim.scene.input.mouseUp( sim.fuzzMousePosition, domEvent );
+            sim.display._input.mouseUp( sim.fuzzMousePosition, domEvent );
             sim.fuzzMouseIsDown = false;
           }
           else {
-            sim.scene.input.mouseDown( sim.fuzzMousePosition, domEvent );
+            sim.display._input.mouseDown( sim.fuzzMousePosition, domEvent );
             sim.fuzzMouseIsDown = true;
           }
         }
         else {
           // change the mouse position
           sim.fuzzMousePosition = new Vector2(
-            Math.floor( Math.random() * sim.scene.sceneBounds.width ),
-            Math.floor( Math.random() * sim.scene.sceneBounds.height )
+            Math.floor( Math.random() * sim.display.size.width ),
+            Math.floor( Math.random() * sim.display.size.height )
           );
 
           // our move event
@@ -565,8 +569,8 @@ define( function( require ) {
             0, // button
             null );
 
-          sim.scene.input.validatePointers();
-          sim.scene.input.mouseMove( sim.fuzzMousePosition, domEvent );
+          sim.display._input.validatePointers();
+          sim.display._input.mouseMove( sim.fuzzMousePosition, domEvent );
         }
       }
     },
@@ -574,7 +578,7 @@ define( function( require ) {
     //Destroy a sim so that it will no longer consume any resources.  Used by sim nesting in Smorgasbord
     destroy: function() {
       this.destroyed = true;
-      this.$simDiv.remove();
+      simDiv.parentNode && simDiv.parentNode.removeChild( simDiv );
     },
 
     //For save/load
