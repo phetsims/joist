@@ -39,7 +39,8 @@ define( function( require ) {
       //setVisible is faster in scenery 0.1 but crashes some apps due to memory restrictions, so some apps need to specify 'setChildren'
       //See https://github.com/phetsims/joist/issues/96
       screenDisplayStrategy: 'setVisible',
-      showSaveAndLoad: false
+      showSaveAndLoad: false,
+      batchEvents: false
     }, options );
     this.options = options; // store this for access from prototype functions, assumes that it won't be changed later
 
@@ -135,7 +136,7 @@ define( function( require ) {
     simDiv.id = 'sim';
     document.body.appendChild( simDiv );
     sim.scene.sim = sim; // add a reference back to the simulation
-    sim.display.initializeWindowEvents( { batchDOMEvents: true } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
+    sim.display.initializeWindowEvents( { batchDOMEvents: this.options.batchEvents } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
     if ( options.recordInputEventLog ) {
       sim.display._input.logEvents = true; // flag Scenery to log all input events
     }
@@ -348,7 +349,9 @@ define( function( require ) {
         }
         else {
           // if any input events were received and batched, fire them now.
-          sim.display._input.fireBatchedEvents();
+          if ( sim.options.batchEvents ) {
+            sim.display._input.fireBatchedEvents();
+          }
         }
 
         //Update the active screen, but not if the user is on the home screen
