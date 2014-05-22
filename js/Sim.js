@@ -75,6 +75,12 @@ define( function( require ) {
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showHomeScreen' ) ) {
       options.showHomeScreen = stringToBoolean( window.phetcommon.getQueryParameter( 'showHomeScreen' ) );
     }
+
+    // Option for profiling
+    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'profile' ) ) {
+      options.profile = true;
+    }
+
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'screenIndex' ) ) {
       options.screenIndex = parseInt( window.phetcommon.getQueryParameter( 'screenIndex' ), 10 );
     }
@@ -175,9 +181,20 @@ define( function( require ) {
 
     //Instantiate the screens
     //Currently this is done eagerly, but this pattern leaves open the door for loading things in the background.
-    _.each( screens, function( screen ) {
+    _.each( screens, function( screen, index ) {
+
+      //Create each model & view, and keep track of the amount of time it took to create each, which is displayed if 'profile' is enabled as a query parameter
+      var start = Date.now();
+
       screen.model = screen.createModel();
+      var modelCreated = Date.now();
+
       screen.view = screen.createView( screen.model );
+      var viewCreated = Date.now();
+
+      if ( options.profile ) {
+        console.log( 'screen ' + index + ' created, total time: ' + (viewCreated - start) + 'ms, model: ' + (modelCreated - start) + 'ms, view: ' + (viewCreated - modelCreated) + 'ms' );
+      }
     } );
 
     // this will hold the view for the current screen, and is initialized in the screenIndexProperty.link below
@@ -263,7 +280,7 @@ define( function( require ) {
 
   Sim.prototype = {
     constructor: Sim,
-    
+
     resizeToWindow: function() {
       this.resize( window.innerWidth, window.innerHeight );
     },
