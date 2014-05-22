@@ -387,10 +387,10 @@ define( function( require ) {
             id: sim.frameCounter,
             time: Date.now()
           };
-          if ( sim.inputEventWidth !== sim.display.size.width ||
-               sim.inputEventHeight !== sim.display.size.height ) {
-            sim.inputEventWidth = sim.display.size.width;
-            sim.inputEventHeight = sim.display.size.height;
+          if ( sim.inputEventWidth !== sim.display.width ||
+               sim.inputEventHeight !== sim.display.height ) {
+            sim.inputEventWidth = sim.display.width;
+            sim.inputEventHeight = sim.display.height;
 
             entry.width = sim.inputEventWidth;
             entry.height = sim.inputEventHeight;
@@ -555,8 +555,8 @@ define( function( require ) {
         else {
           // change the mouse position
           sim.fuzzMousePosition = new Vector2(
-            Math.floor( Math.random() * sim.display.size.width ),
-            Math.floor( Math.random() * sim.display.size.height )
+            Math.floor( Math.random() * sim.display.width ),
+            Math.floor( Math.random() * sim.display.height )
           );
 
           // our move event
