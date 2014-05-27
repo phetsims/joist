@@ -6,7 +6,7 @@
 define( function( require ) {
   'use strict';
 
-  //imports
+  // modules
   var Node = require( 'SCENERY/nodes/Node' );
   var Image = require( 'SCENERY/nodes/Image' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
