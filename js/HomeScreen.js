@@ -53,7 +53,7 @@ define( function( require ) {
       highlightedIndex.link( function( highlightedIndex ) { frame.setHighlighted( highlightedIndex === index ); } );
 
       var largeIconWithFrame = new Node( {children: [ frame, largeIcon]} );
-      var largeText = new Text( screen.name, { font: new PhetFont( 42 ), fill: 'yellow'} );
+      var largeText = new Text( screen.name, { font: new PhetFont( 42 ), fill: '#f2e916'} );//Color match with the PhET Logo yellow
 
       //Shrink the text if it goes beyond the edge of the image
       if ( largeText.width > largeIconWithFrame.width ) {

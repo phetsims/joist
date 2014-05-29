@@ -29,9 +29,11 @@ define( function( require ) {
     var icon = new Node( {children: [screen.navigationBarIcon], scale: ( 0.625 * navBarHeight ) / screen.navigationBarIcon.height} );
 
     var createNode = function( selected, highlighted, down ) {
+
+      //Color match yellow with the PhET Logo
       var text = new Text( screen.name, { fill: whiteColorScheme ?
                                                 (selected ? 'black' : 'gray') :
-                                                (selected ? 'yellow' : 'white'), visible: true} );
+                                                (selected ? '#f2e916' : 'white'), visible: true} );
 
       var box = new VBox( {children: [icon, text], opacity: selected ? 1.0 : down ? 0.65 : 0.5, pickable: false} );
 

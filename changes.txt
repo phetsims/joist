@@ -1,3 +1,4 @@
+5/27/14 change 'imports' to 'modules' in require comments
 8/22/13 #35, terminology change: tab -> screen
 5/8/13 added credits to About dialog, temporary (Phase 1?) solution
 5/8/13 Made tab name white instead of black against a white background
