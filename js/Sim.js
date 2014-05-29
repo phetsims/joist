@@ -16,7 +16,6 @@ define( function( require ) {
   var Display = require( 'SCENERY/display/Display' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Vector2 = require( 'DOT/Vector2' );
-  var Bounds2 = require( 'DOT/Bounds2' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var version = require( 'version' );
   var PropertySet = require( 'AXON/PropertySet' );
