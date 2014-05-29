@@ -93,8 +93,9 @@ define( function( require ) {
         this.buttonHBox.centerX = this.navBarWidth / 2;
         this.buttonHBox.top = 2;
 
-        navigationBar.homeIcon.setScaleMagnitude( this.navBarScale );
-        navigationBar.homeIcon.top = 2;
+        //Center the home icon vertically and make it a bit larger than the icons and text, see https://github.com/phetsims/joist/issues/127
+        navigationBar.homeIcon.setScaleMagnitude( this.navBarScale * 1.1 );
+        navigationBar.homeIcon.centerY = navigationBar.background.rectHeight / 2;
         navigationBar.homeIcon.left = navigationBar.buttonHBox.right + 15;
       }
       this.phetButton.setScaleMagnitude( this.navBarScale );
