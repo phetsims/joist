@@ -598,6 +598,7 @@ define( function( require ) {
     //Destroy a sim so that it will no longer consume any resources.  Used by sim nesting in Smorgasbord
     destroy: function() {
       this.destroyed = true;
+      var simDiv = this.display.domElement;
       simDiv.parentNode && simDiv.parentNode.removeChild( simDiv );
     },
 
