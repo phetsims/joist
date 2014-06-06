@@ -148,6 +148,12 @@ define( function( require ) {
     window.simScene = sim.scene; // make the scene available for debugging
     window.simDisplay = sim.display; // make the display available for debugging
 
+    window.simScreenshot = function() {
+      var url = '';
+      sim.display.canvasDataURL( function( img ) { url = img; } );
+      return url;
+    };
+
     var showPointers = window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showPointers' );
     this.showPointersProperty = new Property( showPointers );
     this.showPointersProperty.link( function( showPointers ) {
