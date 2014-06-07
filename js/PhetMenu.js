@@ -264,7 +264,11 @@ define( function( require ) {
         }
       },
       {
-        text: fullscreenString,
+        text: fullscreenString ||
+              document.body.requestFullscreen ||
+              document.body.msRequestFullscreen ||
+              document.body.mozRequestFullScreen ||
+              document.body.webkitRequestFullscreen,
         present: options.showFullscreenOption,
         immediateCallback: function() {
           var elem = sim.display.domElement;
