@@ -81,9 +81,14 @@ define( function( require ) {
     }
 
     // Option for the ability to save a screenshot
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'screenshot' ) ) {
+    // if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'screenshot' ) ) {
       options.showScreenshotOption = true;
-    }
+    // }
+
+    // Option for the ability to make the sim full-screen
+    // if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'fullscreen' ) ) {
+      options.showFullscreenOption = true;
+    // }
 
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'screenIndex' ) ) {
       options.screenIndex = parseInt( window.phetcommon.getQueryParameter( 'screenIndex' ), 10 );

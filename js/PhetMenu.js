@@ -31,6 +31,8 @@ define( function( require ) {
   var outputInputEventsLogString = require( 'string!JOIST/menuItem.outputInputEventsLog' );
   var phetWebsiteString = require( 'string!JOIST/menuItem.phetWebsite' );
   var reportAProblemString = require( 'string!JOIST/menuItem.reportAProblem' );
+  var screenshotString = require( 'string!JOIST/menuItem.screenshot' );
+  var fullscreenString = require( 'string!JOIST/menuItem.fullscreen' );
   var settingsString = require( 'string!JOIST/menuItem.settings' );
   var submitInputEventsLogString = require( 'string!JOIST/menuItem.submitInputEventsLog' );
 
@@ -203,7 +205,7 @@ define( function( require ) {
 
       //Feasibility test for capturing screen shots as images
       {
-        text: 'Screenshot',
+        text: screenshotString,
         present: options.showScreenshotOption,
         immediateCallback: function() {
           // set up our Canvas with the correct background color
@@ -258,6 +260,22 @@ define( function( require ) {
             link.click();
           } else {
             window.open( dataURL, '_blank', '' );
+          }
+        }
+      },
+      {
+        text: fullscreenString,
+        present: options.showFullscreenOption,
+        immediateCallback: function() {
+          var elem = sim.display.domElement;
+          if ( elem.requestFullscreen ) {
+            elem.requestFullscreen();
+          } else if ( elem.msRequestFullscreen ) {
+            elem.msRequestFullscreen();
+          } else if ( elem.mozRequestFullScreen ) {
+            elem.mozRequestFullScreen();
+          } else if ( elem.webkitRequestFullscreen ) {
+            elem.webkitRequestFullscreen();
           }
         }
       },

@@ -80,6 +80,7 @@ define( function( require ) {
       var phetMenu = new PhetMenu( sim, {
         showSaveAndLoad: sim.options.showSaveAndLoad,
         showScreenshotOption: sim.options.showScreenshotOption,
+        showFullscreenOption: sim.options.showFullscreenOption,
         scale: scale,
         right: phetButton.globalToParentPoint( new Vector2( phetButton.globalBounds.maxX, 0 ) ).x,
         bottom: local.y} );
