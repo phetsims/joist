@@ -79,6 +79,7 @@ define( function( require ) {
       var local = ancestor.globalToLocalPoint( global );
       var phetMenu = new PhetMenu( sim, {
         showSaveAndLoad: sim.options.showSaveAndLoad,
+        showScreenshotOption: sim.options.showScreenshotOption,
         scale: scale,
         right: phetButton.globalToParentPoint( new Vector2( phetButton.globalBounds.maxX, 0 ) ).x,
         bottom: local.y} );

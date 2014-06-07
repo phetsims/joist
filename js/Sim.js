@@ -80,6 +80,11 @@ define( function( require ) {
       options.profile = true;
     }
 
+    // Option for the ability to save a screenshot
+    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'screenshot' ) ) {
+      options.showScreenshotOption = true;
+    }
+
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'screenIndex' ) ) {
       options.screenIndex = parseInt( window.phetcommon.getQueryParameter( 'screenIndex' ), 10 );
     }

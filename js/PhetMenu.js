@@ -9,10 +9,12 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Platform = require( 'PHET_CORE/Platform' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var CanvasContextWrapper = require( 'SCENERY/util/CanvasContextWrapper' );
   var inherit = require( 'PHET_CORE/inherit' );
   var AboutDialog = require( 'JOIST/AboutDialog' );
   var SettingsDialog = require( 'JOIST/SettingsDialog' );
@@ -21,8 +23,6 @@ define( function( require ) {
   var Plane = require( 'SCENERY/nodes/Plane' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var SimJSON = require( 'JOIST/SimJSON' );
-  var ScreenshotGenerator = require( 'JOIST/util/ScreenshotGenerator' );
-  var Image = require( 'SCENERY/nodes/Image' );
   var Brand = require( 'BRAND/Brand' );
 
   // strings
@@ -203,13 +203,62 @@ define( function( require ) {
 
       //Feasibility test for capturing screen shots as images
       {
-        text: 'Screen shot',
-        present: options.showSaveAndLoad,
-        callback: function() {
-          var node = sim.screens[sim.simModel.screenIndex].view;
-          new ScreenshotGenerator().generateScreenshot( node, function( canvas ) {
-            node.addChild( new Image( canvas, {left: 0, top: 0, scale: 0.25} ) );
-          } );
+        text: 'Screenshot',
+        present: options.showScreenshotOption,
+        immediateCallback: function() {
+          // set up our Canvas with the correct background color
+          var canvas = document.createElement( 'canvas' );
+          canvas.width = sim.display.width;
+          canvas.height = sim.display.height;
+          var context = canvas.getContext( '2d' );
+          context.fillStyle = sim.display.domElement.style.backgroundColor;
+          context.fillRect( 0, 0, canvas.width, canvas.height );
+          var wrapper = new CanvasContextWrapper( canvas, context );
+          
+          // only render the desired parts to the Canvas (i.e. not the overlay and menu that are visible)
+          if ( sim.simModel.showHomeScreen ) {
+            sim.homeScreen.renderToCanvasSubtree( wrapper, sim.homeScreen.getLocalToGlobalMatrix() );
+          } else {
+            var view = sim.screens[sim.simModel.screenIndex].view;
+            var navbar = sim.navigationBar;
+            
+            view.renderToCanvasSubtree( wrapper, view.getLocalToGlobalMatrix() );
+            navbar.renderToCanvasSubtree( wrapper, navbar.getLocalToGlobalMatrix() );
+          }
+          
+          // get the data URL in PNG format
+          var dataURL = canvas.toDataURL( [ 'image/png' ] );
+          
+          // construct a blob out of it
+          var requiredPrefix = 'data:image/png;base64,';
+          assert && assert( dataURL[requiredPrefix.length] === requiredPrefix );
+          var dataBase64 = dataURL.slice( requiredPrefix.length );
+          var byteChars = window.atob( dataBase64 );
+          var byteArray = new window.Uint8Array( byteChars.length );
+          for ( var i = 0; i < byteArray.length; i++ ) {
+            byteArray[i] = byteChars.charCodeAt( i ); // need check to make sure this cast doesn't give problems?
+          }
+          var blob = new window.Blob( [byteArray], { type: 'image/png' } );
+          
+          // our preferred filename
+          var filename = sim.name + ' screenshot.png';
+          
+          //TODO: use https://github.com/eligrey/FileSaver.js/ or something like it?
+          if ( navigator.msSaveBlob ) {
+            navigator.msSaveBlob( blob, filename );
+          } else if ( Platform.firefox ) {
+            window.open( dataURL, '_blank', '' );
+          } else if ( window.URL ) {
+            // Chrome 35 needs the blob url (see https://code.google.com/p/chromium/issues/detail?id=373182)
+            var urlObject = window.URL.createObjectURL( blob );
+            var link = document.createElement( 'a' );
+            link.download = filename;
+            link.href = urlObject;
+            link.target = '_blank';
+            link.click();
+          } else {
+            window.open( dataURL, '_blank', '' );
+          }
         }
       },
       {
