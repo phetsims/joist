@@ -167,13 +167,13 @@ define( function( require ) {
     var showPointers = window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showPointers' );
     this.showPointersProperty = new Property( showPointers );
     this.showPointersProperty.link( function( showPointers ) {
-      sim.display.setPointerDisplayVisible( showPointers );
+      sim.display.setPointerDisplayVisible( !!showPointers );
     } );
 
     var showPointerAreas = window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showPointerAreas' );
     this.showPointerAreasProperty = new Property( showPointerAreas );
     this.showPointerAreasProperty.link( function( showPointerAreas ) {
-      sim.display.setPointerAreaDisplayVisible( showPointerAreas );
+      sim.display.setPointerAreaDisplayVisible( !!showPointerAreas );
     } );
 
     var whiteNavBar = screens[0].backgroundColor === 'black' || screens[0].backgroundColor === '#000' || screens[0].backgroundColor === '#000000';
