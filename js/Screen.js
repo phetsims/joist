@@ -10,8 +10,10 @@
  *
  * @author Sam Reid
  */
-define( function() {
+define( function( require ) {
   'use strict';
+
+  var Dimension2 = require( 'DOT/Dimension2' );
 
   /**
    * @param {String} name
@@ -35,6 +37,9 @@ define( function() {
     this.createModel = createModel;
     this.createView = createView;
   }
+
+  Screen.HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 );
+  Screen.NAVBAR_ICON_SIZE = new Dimension2( 147, 100 );
 
   return Screen;
 } );
