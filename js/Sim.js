@@ -176,6 +176,12 @@ define( function( require ) {
       sim.display.setPointerAreaDisplayVisible( !!showPointerAreas );
     } );
     
+    var showCanvasNodeBounds = window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showCanvasNodeBounds' );
+    this.showCanvasNodeBoundsProperty = new Property( showCanvasNodeBounds );
+    this.showCanvasNodeBoundsProperty.link( function( showCanvasNodeBounds ) {
+      sim.display.setCanvasNodeBoundsVisible( !!showCanvasNodeBounds );
+    } );
+    
     function sleep( millis ) {
       var date = new Date();
       var curDate;
