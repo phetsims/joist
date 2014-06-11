@@ -157,6 +157,20 @@ define( function( require ) {
     this.showPointerAreasProperty.link( function( showPointerAreas ) {
       sim.scene.setPointerAreaDisplayVisible( showPointerAreas );
     } );
+    
+    function sleep( millis ) {
+      var date = new Date();
+      var curDate;
+      do {
+        curDate = new Date();
+      } while ( curDate - date < millis );
+    }
+    window.makeEverythingSlow = function() {
+      window.setInterval( function() { sleep( 64 ); }, 16 );
+    };
+    window.makeRandomSlowness = function() {
+      window.setInterval( function() { sleep( Math.ceil( 100 + Math.random() * 200 ) ); }, Math.ceil( 100 + Math.random() * 200 ) );
+    };
 
     var whiteNavBar = screens[0].backgroundColor === 'black' || screens[0].backgroundColor === '#000' || screens[0].backgroundColor === '#000000';
     sim.navigationBar = new NavigationBar( sim, screens, sim.simModel, whiteNavBar );
