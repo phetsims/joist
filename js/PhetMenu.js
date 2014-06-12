@@ -25,6 +25,7 @@ define( function( require ) {
   var FullScreen = require( 'JOIST/FullScreen' );
   var SimJSON = require( 'JOIST/SimJSON' );
   var Brand = require( 'BRAND/Brand' );
+  var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
 
   // strings
   var aboutString = require( 'string!JOIST/menuItem.about' );
@@ -40,22 +41,34 @@ define( function( require ) {
   // constants
   var FONT_SIZE = 18;
   var HIGHLIGHT_COLOR = '#a6d2f4';
+  
+  // the checkmark used for toggle-able menu items
+  var checkNode = new FontAwesomeNode( 'check_without_box', {
+    fill: 'rgba(0,0,0,0.7)',
+    scale: 0.4
+  } );
 
   // Creates a menu item that highlights and fires.
-  var createMenuItem = function( text, width, height, separatorBefore, callback, immediateCallback ) {
-
-    var X_MARGIN = 5;
+  var createMenuItem = function( text, width, height, separatorBefore, callback, immediateCallback, checkedProperty ) {
+    // padding between the check and text
+    var CHECK_PADDING = 2;
+    // offset that includes the checkmark's width and its padding
+    var CHECK_OFFSET = checkNode.width + CHECK_PADDING;
+    
+    var LEFT_X_MARGIN = 2;
+    var RIGHT_X_MARGIN = 5;
+    
     var Y_MARGIN = 3;
     var CORNER_RADIUS = 5;
 
     var textNode = new Text( text, { font: new PhetFont( FONT_SIZE ) } );
-    var highlight = new Rectangle( 0, 0, width + X_MARGIN + X_MARGIN, height + Y_MARGIN + Y_MARGIN, CORNER_RADIUS, CORNER_RADIUS );
+    var highlight = new Rectangle( 0, 0, width + LEFT_X_MARGIN + RIGHT_X_MARGIN + CHECK_OFFSET, height + Y_MARGIN + Y_MARGIN, CORNER_RADIUS, CORNER_RADIUS );
 
     var menuItem = new Node( { cursor: 'pointer' } );
     menuItem.addChild( highlight );
     menuItem.addChild( textNode );
 
-    textNode.left = highlight.left + X_MARGIN; // text is left aligned
+    textNode.left = highlight.left + LEFT_X_MARGIN + CHECK_OFFSET; // text is left aligned
     textNode.centerY = highlight.centerY;
 
     menuItem.addInputListener( {
@@ -66,6 +79,27 @@ define( function( require ) {
     menuItem.addInputListener( new ButtonListener( {fire: callback } ) );
 
     menuItem.separatorBefore = separatorBefore;
+    
+    // if there is a check-mark property, add the check mark and hook up visibility changes
+    var checkListener;
+    if ( checkedProperty ) {
+      var checkNodeHolder = new Node( {
+        children: [checkNode],
+        right: textNode.left - CHECK_PADDING,
+        centerY: textNode.centerY
+      } );
+      checkListener = function( isChecked ) {
+        checkNodeHolder.visible = isChecked;
+      };
+      checkedProperty.link( checkListener );
+      menuItem.addChild( checkNodeHolder );
+    }
+    
+    menuItem.dispose = function() {
+      if ( checkedProperty ) {
+        checkedProperty.unlink( checkListener );
+      }
+    };
 
     return menuItem;
   };
@@ -267,6 +301,7 @@ define( function( require ) {
       {
         text: fullscreenString,
         present: options.showFullscreenOption && FullScreen.isFullScreenEnabled(),
+        checkedProperty: FullScreen.isFullScreenProperty,
         immediateCallback: function() {
           FullScreen.toggleFullScreen( sim );
         }
@@ -296,8 +331,9 @@ define( function( require ) {
     var maxTextHeight = _.max( textNodes, function( node ) {return node.height;} ).height;
 
     // Create the menu items.
-    var items = _.map( keepItemDescriptors, function( itemDescriptor ) {
-      return createMenuItem( itemDescriptor.text, maxTextWidth, maxTextHeight, itemDescriptor.separatorBefore, itemDescriptor.callback, itemDescriptor.immediateCallback );
+    var items = this.items = _.map( keepItemDescriptors, function( itemDescriptor ) {
+      return createMenuItem( itemDescriptor.text, maxTextWidth, maxTextHeight, itemDescriptor.separatorBefore,
+                             itemDescriptor.callback, itemDescriptor.immediateCallback, itemDescriptor.checkedProperty );
     } );
     var separatorWidth = _.max( items, function( item ) {return item.width;} ).width;
     var itemHeight = _.max( items, function( item ) {return item.height;} ).height;
@@ -330,7 +366,13 @@ define( function( require ) {
     thisMenu.mutate( options );
   }
 
-  inherit( Node, PhetMenu );
+  inherit( Node, PhetMenu, {
+    dispose: function() {
+      _.each( this.items, function( item ) {
+        item.dispose();
+      } );
+    }
+  } );
 
   return PhetMenu;
 } );

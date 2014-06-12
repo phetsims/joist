@@ -90,6 +90,7 @@ define( function( require ) {
         rectangle.detach();
         phetMenu.detach();
         phetMenu.removeInputListener( popupMenuListener );
+        phetMenu.dispose();
         rectangle.removeInputListener( rectangleListener );
       };
       var popupMenuListener = new ButtonListener( {fire: detach} );
