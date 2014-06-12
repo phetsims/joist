@@ -22,6 +22,7 @@ define( function( require ) {
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Plane = require( 'SCENERY/nodes/Plane' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var FullScreen = require( 'JOIST/FullScreen' );
   var SimJSON = require( 'JOIST/SimJSON' );
   var Brand = require( 'BRAND/Brand' );
 
@@ -264,23 +265,10 @@ define( function( require ) {
         }
       },
       {
-        text: fullscreenString ||
-              document.body.requestFullscreen ||
-              document.body.msRequestFullscreen ||
-              document.body.mozRequestFullScreen ||
-              document.body.webkitRequestFullscreen,
-        present: options.showFullscreenOption,
+        text: fullscreenString,
+        present: options.showFullscreenOption && FullScreen.isFullScreenEnabled(),
         immediateCallback: function() {
-          var elem = sim.display.domElement;
-          if ( elem.requestFullscreen ) {
-            elem.requestFullscreen();
-          } else if ( elem.msRequestFullscreen ) {
-            elem.msRequestFullscreen();
-          } else if ( elem.mozRequestFullScreen ) {
-            elem.mozRequestFullScreen();
-          } else if ( elem.webkitRequestFullscreen ) {
-            elem.webkitRequestFullscreen();
-          }
+          FullScreen.toggleFullScreen( sim );
         }
       },
       {
