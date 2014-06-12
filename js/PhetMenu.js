@@ -241,7 +241,7 @@ define( function( require ) {
       //Feasibility test for capturing screen shots as images
       {
         text: screenshotString,
-        present: options.showScreenshotOption,
+        present: options.showScreenshotOption && !Platform.ie9,
         immediateCallback: function() {
           // set up our Canvas with the correct background color
           var canvas = document.createElement( 'canvas' );
@@ -275,24 +275,15 @@ define( function( require ) {
           for ( var i = 0; i < byteArray.length; i++ ) {
             byteArray[i] = byteChars.charCodeAt( i ); // need check to make sure this cast doesn't give problems?
           }
-          var blob = new window.Blob( [byteArray], { type: 'image/png' } );
           
-          // our preferred filename
-          var filename = sim.name + ' screenshot.png';
-          
-          //TODO: use https://github.com/eligrey/FileSaver.js/ or something like it?
-          if ( navigator.msSaveBlob ) {
-            navigator.msSaveBlob( blob, filename );
-          } else if ( Platform.firefox ) {
-            window.open( dataURL, '_blank', '' );
-          } else if ( window.URL ) {
-            // Chrome 35 needs the blob url (see https://code.google.com/p/chromium/issues/detail?id=373182)
-            var urlObject = window.URL.createObjectURL( blob );
-            var link = document.createElement( 'a' );
-            link.download = filename;
-            link.href = urlObject;
-            link.target = '_blank';
-            link.click();
+          // if we have FileSaver support
+          if ( window.Blob && !!new window.Blob() ) {
+            var blob = new window.Blob( [byteArray], { type: 'image/png' } );
+            
+            // our preferred filename
+            var filename = sim.name + ' screenshot.png';
+            
+            window.saveAs( blob, filename );
           } else {
             window.open( dataURL, '_blank', '' );
           }
