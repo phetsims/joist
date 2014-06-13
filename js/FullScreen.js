@@ -25,6 +25,11 @@ define( function( require ) {
   var fullscreenChangeEvent         = detectPrefixEvent( document, 'fullscreenchange' );
   // var fullscreenErrorEvent          = detectPrefixEvent( document, 'fullscreenerror' );
   
+  // required capitalization workaround for now
+  if ( fullscreenChangeEvent === 'msfullscreenchange' ) {
+    fullscreenChangeEvent = 'MSFullscreenChange';
+  }
+  
   var FullScreen = {
     isFullScreen: function() {
       return !!document[fullscreenElementPropertyName];
