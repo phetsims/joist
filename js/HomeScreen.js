@@ -23,6 +23,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   var HEIGHT = 70;
+  var TITLE_FONT_FAMILY = 'Century Gothic, Futura';
 
   function HomeScreen( sim ) {
     var homeScreen = this;
@@ -36,7 +37,7 @@ define( function( require ) {
 
     //iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
     var title = new Text( sim.name, {
-      font: new PhetFont( {size: 52, family: 'Century Gothic, Futura' } ),
+      font: new PhetFont( {size: 52, family: TITLE_FONT_FAMILY } ),
       fill: 'white',
       y: 110,
       centerX: this.layoutBounds.width / 2} );
@@ -170,24 +171,30 @@ define( function( require ) {
   }
 
   return inherit( ScreenView, HomeScreen, {
-    layoutWithScale: function( scale, width, height ) {
-      HomeScreen.prototype.layout.call( this, width, height );
+      layoutWithScale: function( scale, width, height ) {
+        HomeScreen.prototype.layout.call( this, width, height );
 
-      //Position the phetButton.
-      //It is tricky since it is in the coordinate frame of the HomeScreen (which is a ScreenView, and hence translated and scaled)
-      //We want to match its location with the location in the NavigationBar
-      this.phetButton.right = (width - PhetButton.HORIZONTAL_INSET) / scale;
-      this.phetButton.bottom = (height - PhetButton.VERTICAL_INSET) / scale;
+        //Position the phetButton.
+        //It is tricky since it is in the coordinate frame of the HomeScreen (which is a ScreenView, and hence translated and scaled)
+        //We want to match its location with the location in the NavigationBar
+        this.phetButton.right = (width - PhetButton.HORIZONTAL_INSET) / scale;
+        this.phetButton.bottom = (height - PhetButton.VERTICAL_INSET) / scale;
 
-      //Undo the vertical centering done in ScreenView so the button can be positioned globally
-      if ( scale === width / this.layoutBounds.width ) {
-        this.phetButton.translate( 0, -(height - this.layoutBounds.height * scale) / 2 / scale );
+        //Undo the vertical centering done in ScreenView so the button can be positioned globally
+        if ( scale === width / this.layoutBounds.width ) {
+          this.phetButton.translate( 0, -(height - this.layoutBounds.height * scale) / 2 / scale );
+        }
+
+        //Undo the horizontal centering done in ScreenView so the button can be positioned globally
+        else if ( scale === height / this.layoutBounds.height ) {
+          this.phetButton.translate( -(width - this.layoutBounds.width * scale) / 2 / scale, 0 );
+        }
       }
+    },
 
-      //Undo the horizontal centering done in ScreenView so the button can be positioned globally
-      else if ( scale === height / this.layoutBounds.height ) {
-        this.phetButton.translate( -(width - this.layoutBounds.width * scale) / 2 / scale, 0 );
-      }
+    //statics
+    {
+      TITLE_FONT_FAMILY: TITLE_FONT_FAMILY
     }
-  } );
+  );
 } );
