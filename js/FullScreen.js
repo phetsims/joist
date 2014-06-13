@@ -15,15 +15,14 @@ define( function( require ) {
   
   // get prefixed (and properly capitalized) property names
   var requestFullscreenPropertyName = detectPrefix( document.body, 'requestFullscreen' ) ||
-                                      detectPrefix( document.body, 'requestFullScreen' );
+                                      detectPrefix( document.body, 'requestFullScreen' ); // Firefox capitalization
   var exitFullscreenPropertyName    = detectPrefix( document, 'exitFullscreen' ) ||
-                                      detectPrefix( document, 'cancelFullScreen' );
+                                      detectPrefix( document, 'cancelFullScreen' ); // Firefox
   var fullscreenElementPropertyName = detectPrefix( document, 'fullscreenElement' ) ||
-                                      detectPrefix( document, 'fullScreenElement' );
+                                      detectPrefix( document, 'fullScreenElement' ); // Firefox capitalization
   var fullscreenEnabledPropertyName = detectPrefix( document, 'fullscreenEnabled' ) ||
-                                      detectPrefix( document, 'fullScreenEnabled' );
+                                      detectPrefix( document, 'fullScreenEnabled' ); // Firefox capitalization
   var fullscreenChangeEvent         = detectPrefixEvent( document, 'fullscreenchange' );
-  // var fullscreenErrorEvent          = detectPrefixEvent( document, 'fullscreenerror' );
   
   // required capitalization workaround for now
   if ( fullscreenChangeEvent === 'msfullscreenchange' ) {
@@ -40,7 +39,6 @@ define( function( require ) {
     },
     
     enterFullScreen: function( sim ) {
-      // console.log( 'enter' );
       if ( !Platform.ie9 && !Platform.ie10 ) {
         sim.display.domElement[requestFullscreenPropertyName] && sim.display.domElement[requestFullscreenPropertyName]();
       } else if ( typeof window.ActiveXObject !== 'undefined' ) { // Older IE.
@@ -52,7 +50,6 @@ define( function( require ) {
     },
     
     exitFullScreen: function() {
-      // console.log( 'exit' );
       document[exitFullscreenPropertyName] && document[exitFullscreenPropertyName]();
     },
     
@@ -62,14 +59,15 @@ define( function( require ) {
       } else {
         FullScreen.enterFullScreen( sim );
       }
-    }
+    },
+    
+    isFullScreenProperty: new Property( false )
   };
   
-  FullScreen.isFullScreenProperty = new Property( false );
+  // update isFullScreenProperty on potential changes
   document.addEventListener( fullscreenChangeEvent, function( evt ) {
     FullScreen.isFullScreenProperty.set( FullScreen.isFullScreen() );
   } );
-  // FullScreen.isFullScreenProperty.link( function( value ) { console.log( 'fullscreen: ' + value ); } );
   
   return FullScreen;
 } );
