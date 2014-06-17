@@ -205,15 +205,20 @@ define( function( require ) {
     if ( screens.length > 1 ) {
       sim.homeScreen = new HomeScreen( sim );
     }
-
-    var updateBackground = function() {
-      if ( sim.simModel.showHomeScreen ) {
-        simDiv.style.backgroundColor = 'black';
-      }
-      else {
-        var backgroundColor = screens[sim.simModel.screenIndex].backgroundColor || 'white';
-        var cssColor = ( typeof backgroundColor === 'string' ) ? backgroundColor : backgroundColor.toCSS();
-        simDiv.style.backgroundColor = cssColor;
+    
+    sim.backgroundDirty = true;
+    sim.updateBackground = function() {
+      if ( sim.backgroundDirty ) {
+        sim.backgroundDirty = false;
+        
+        if ( sim.simModel.showHomeScreen ) {
+          simDiv.style.backgroundColor = 'black';
+        }
+        else {
+          var backgroundColor = screens[sim.simModel.screenIndex].backgroundColor || 'white';
+          var cssColor = ( typeof backgroundColor === 'string' ) ? backgroundColor : backgroundColor.toCSS();
+          simDiv.style.backgroundColor = cssColor;
+        }
       }
     };
 
@@ -259,7 +264,7 @@ define( function( require ) {
           screens[i].view.setVisible( !showHomeScreen && screenIndex === i );
         }
         sim.navigationBar.setVisible( !showHomeScreen );
-        updateBackground();
+        sim.backgroundDirty = true;
       } );
     }
     else if ( options.screenDisplayStrategy === 'setChildren' ) {
@@ -277,7 +282,7 @@ define( function( require ) {
         }
 
         currentScreenNode = newScreenNode;
-        updateBackground();
+        sim.backgroundDirty = true;
       } );
 
       //When the user presses the home icon, then show the homescreen, otherwise show the screen and navbar
@@ -305,11 +310,9 @@ define( function( require ) {
           sim.scene.insertChild( idx, currentScreenNode );
           sim.scene.insertChild( idx + 1, sim.navigationBar );
         }
-        updateBackground();
+        sim.backgroundDirty = true;
       } );
     }
-
-    updateBackground();
 
     //Fit to the window and render the initial scene
     $( window ).resize( function() { sim.resizeToWindow(); } );
@@ -456,6 +459,7 @@ define( function( require ) {
           sim.inputEventLog.push( entry );
           sim.display._input.eventLog = []; // clears the event log so that future actions will fill it
         }
+        sim.updateBackground();
         sim.display.updateDisplay();
       })();
 
@@ -524,6 +528,7 @@ define( function( require ) {
         if ( window.TWEEN ) {
           window.TWEEN.update();
         }
+        sim.updateBackground();
         sim.display.updateDisplay();
       })();
     },
