@@ -19,7 +19,7 @@ define( function( require ) {
     step: function( dt ) {
       var length = listeners.length;
       var i;
-      
+
       // to safely allow listeners to remove themselves while being called (as is explicitly done in setTimeout), we make a copy of the array.
       // we don't use slice(), since that would cause garbage collection issues.
       for ( i = 0; i < length; i++ ) {
@@ -60,7 +60,7 @@ define( function( require ) {
         elapsed += dt;
 
         //Convert seconds to ms and see if item has timed out
-        if ( elapsed * 1000 >= interval ) {
+        while ( elapsed * 1000 >= interval ) {
           listener();
           elapsed = elapsed - interval / 1000.0;//Save the leftover time so it won't accumulate
         }

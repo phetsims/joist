@@ -412,17 +412,16 @@ define( function( require ) {
           }
         }
 
+        //Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
+        var time = Date.now();
+        var elapsedTimeMilliseconds = (lastTime === -1) ? (1000.0 / 60.0) : (time - lastTime);
+        lastTime = time;
+
+        //Convert to seconds
+        dt = elapsedTimeMilliseconds / 1000.0;
+
         //Update the active screen, but not if the user is on the home screen
         if ( !sim.simModel.showHomeScreen ) {
-
-          //Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
-          var time = Date.now();
-          var elapsedTimeMilliseconds = (lastTime === -1) ? (1000.0 / 60.0) : (time - lastTime);
-          lastTime = time;
-
-          //Convert to seconds
-          dt = elapsedTimeMilliseconds / 1000.0;
-
           // step model and view (both optional)
           screen = sim.screens[sim.simModel.screenIndex];
           if ( screen.model.step ) {

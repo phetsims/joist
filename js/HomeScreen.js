@@ -39,9 +39,10 @@ define( function( require ) {
     var title = new Text( sim.name, {
       font: new PhetFont( {size: 52, family: TITLE_FONT_FAMILY } ),
       fill: 'white',
-      y: 110,
-      centerX: this.layoutBounds.width / 2} );
+      y: 110 } );
     this.addChild( title );
+    title.scale( Math.min( 1, 0.9 * this.layoutBounds.width / title.width ) );
+    title.centerX = this.layoutBounds.centerX;
 
     //Keep track of which screen is highlighted so the same screen can remain highlighted even if nodes are replaced (say when one grows larger or smaller)
     var highlightedIndex = new Property( -1 );
