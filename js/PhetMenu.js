@@ -49,7 +49,7 @@ define( function( require ) {
   } );
 
   // Creates a menu item that highlights and fires.
-  var createMenuItem = function( text, width, height, separatorBefore, callback, immediateCallback, checkedProperty ) {
+  var createMenuItem = function( text, width, height, separatorBefore, callback, checkedProperty ) {
     // padding between the check and text
     var CHECK_PADDING = 2;
     // offset that includes the checkmark's width and its padding
@@ -74,7 +74,6 @@ define( function( require ) {
     menuItem.addInputListener( {
       enter: function() { highlight.fill = HIGHLIGHT_COLOR; },
       exit: function() { highlight.fill = null; },
-      upImmediate: function() { immediateCallback && immediateCallback(); }
     } );
     menuItem.addInputListener( new ButtonListener( {fire: callback } ) );
 
@@ -169,8 +168,6 @@ define( function( require ) {
         text: phetWebsiteString,
         present: isPhETBrand,
         callback: function() {
-        },
-        immediateCallback: function() {
           var phetWindow = window.open( 'http://phet.colorado.edu', '_blank' );
           phetWindow.focus();
         } },
@@ -192,11 +189,9 @@ define( function( require ) {
         text: mailInputEventsLogString,
         present: !!sim.options.recordInputEventLog,
         callback: function() {
-        },
-        immediateCallback: function() {
           // mailto: link including the body to email
           sim.mailEventLog();
-        }},
+        } },
       {
         text: settingsString,
         present: false,
@@ -214,8 +209,7 @@ define( function( require ) {
       {
         text: reportAProblemString,
         present: isPhETBrand,
-        callback: function() {},
-        immediateCallback: function() {
+        callback: function() {
           var url = 'http://phet.colorado.edu/files/troubleshooting/' +
                     '?sim=' + encodeURIComponent( sim.name ) +
                     '&version=' + encodeURIComponent( sim.version ) +
@@ -242,7 +236,7 @@ define( function( require ) {
       {
         text: screenshotString,
         present: options.showScreenshotOption && !Platform.ie9,
-        immediateCallback: function() {
+        callback: function() {
           // set up our Canvas with the correct background color
           var canvas = document.createElement( 'canvas' );
           canvas.width = sim.display.width;
@@ -293,7 +287,7 @@ define( function( require ) {
         text: fullscreenString,
         present: options.showFullscreenOption && FullScreen.isFullScreenEnabled(),
         checkedProperty: FullScreen.isFullScreenProperty,
-        immediateCallback: function() {
+        callback: function() {
           FullScreen.toggleFullScreen( sim );
         }
       },
@@ -324,7 +318,7 @@ define( function( require ) {
     // Create the menu items.
     var items = this.items = _.map( keepItemDescriptors, function( itemDescriptor ) {
       return createMenuItem( itemDescriptor.text, maxTextWidth, maxTextHeight, itemDescriptor.separatorBefore,
-                             itemDescriptor.callback, itemDescriptor.immediateCallback, itemDescriptor.checkedProperty );
+                             itemDescriptor.callback, itemDescriptor.checkedProperty );
     } );
     var separatorWidth = _.max( items, function( item ) {return item.width;} ).width;
     var itemHeight = _.max( items, function( item ) {return item.height;} ).height;

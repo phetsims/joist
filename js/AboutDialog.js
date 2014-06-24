@@ -49,8 +49,7 @@ define( function( require ) {
       softwareAgreementLink.addInputListener( {
         up: function( evt ) {
           evt.handle(); // don't close the dialog
-        },
-        upImmediate: function( event ) {
+          
           var aboutDialogWindow = window.open( url, '_blank' );
           aboutDialogWindow.focus();
         }
