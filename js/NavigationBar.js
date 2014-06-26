@@ -104,7 +104,7 @@ define( function( require ) {
         var availableSpace = this.buttonHBox.left - titleInset - distanceBetweenTitleAndFirstScreenIcon;
         var size = this.titleLabel.width;
         if ( size > availableSpace ) {
-//          this.titleLabel.setScaleMagnitude( this.navBarScale * availableSpace / size );
+          this.titleLabel.setScaleMagnitude( this.navBarScale * availableSpace / size );
         }
       }
       this.phetButton.setScaleMagnitude( this.navBarScale );
