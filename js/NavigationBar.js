@@ -83,6 +83,7 @@ define( function( require ) {
       }
 
       var titleInset = 10;
+      var distanceBetweenTitleAndFirstScreenIcon = 20;
       this.titleLabel.setScaleMagnitude( this.navBarScale );
       this.titleLabel.centerY = this.navBarHeight / 2;
       this.titleLabel.left = titleInset;
@@ -100,10 +101,10 @@ define( function( require ) {
         navigationBar.homeIcon.left = navigationBar.buttonHBox.right + 15;
 
         //If the title overlaps the screen icons, scale it down.  See #128
-        var availableSpace = this.buttonHBox.left - titleInset * 2;
+        var availableSpace = this.buttonHBox.left - titleInset - distanceBetweenTitleAndFirstScreenIcon;
         var size = this.titleLabel.width;
         if ( size > availableSpace ) {
-          this.titleLabel.setScaleMagnitude( this.navBarScale * availableSpace / size );
+//          this.titleLabel.setScaleMagnitude( this.navBarScale * availableSpace / size );
         }
       }
       this.phetButton.setScaleMagnitude( this.navBarScale );
