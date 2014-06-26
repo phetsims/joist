@@ -82,9 +82,10 @@ define( function( require ) {
         this.buttonHBox.setScaleMagnitude( navigationBar.navBarScale );
       }
 
+      var titleInset = 10;
       this.titleLabel.setScaleMagnitude( this.navBarScale );
       this.titleLabel.centerY = this.navBarHeight / 2;
-      this.titleLabel.left = 10;
+      this.titleLabel.left = titleInset;
 
       //Lay out the components from left to right
       if ( this.screens.length !== 1 ) {
@@ -97,6 +98,13 @@ define( function( require ) {
         navigationBar.homeIcon.setScaleMagnitude( this.navBarScale * 1.1 );
         navigationBar.homeIcon.centerY = navigationBar.background.rectHeight / 2;
         navigationBar.homeIcon.left = navigationBar.buttonHBox.right + 15;
+
+        //If the title overlaps the screen icons, scale it down.  See #128
+        var availableSpace = this.buttonHBox.left - titleInset * 2;
+        var size = this.titleLabel.width;
+        if ( size > availableSpace ) {
+          this.titleLabel.setScaleMagnitude( this.navBarScale * availableSpace / size );
+        }
       }
       this.phetButton.setScaleMagnitude( this.navBarScale );
       this.phetButton.right = this.navBarWidth - PhetButton.HORIZONTAL_INSET;
