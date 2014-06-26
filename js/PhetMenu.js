@@ -262,7 +262,7 @@ define( function( require ) {
           
           // construct a blob out of it
           var requiredPrefix = 'data:image/png;base64,';
-          assert && assert( dataURL[requiredPrefix.length] === requiredPrefix );
+          assert && assert( dataURL.slice( 0, requiredPrefix.length ) === requiredPrefix );
           var dataBase64 = dataURL.slice( requiredPrefix.length );
           var byteChars = window.atob( dataBase64 );
           var byteArray = new window.Uint8Array( byteChars.length );
