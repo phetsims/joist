@@ -178,13 +178,13 @@ define( function( require ) {
     this.showPointerAreasProperty.link( function( showPointerAreas ) {
       sim.display.setPointerAreaDisplayVisible( !!showPointerAreas );
     } );
-    
+
     var showCanvasNodeBounds = window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showCanvasNodeBounds' );
     this.showCanvasNodeBoundsProperty = new Property( showCanvasNodeBounds );
     this.showCanvasNodeBoundsProperty.link( function( showCanvasNodeBounds ) {
       sim.display.setCanvasNodeBoundsVisible( !!showCanvasNodeBounds );
     } );
-    
+
     function sleep( millis ) {
       var date = new Date();
       var curDate;
@@ -205,12 +205,12 @@ define( function( require ) {
     if ( screens.length > 1 ) {
       sim.homeScreen = new HomeScreen( sim );
     }
-    
+
     sim.backgroundDirty = true;
     sim.updateBackground = function() {
       if ( sim.backgroundDirty ) {
         sim.backgroundDirty = false;
-        
+
         if ( sim.simModel.showHomeScreen ) {
           simDiv.style.backgroundColor = 'black';
         }
@@ -377,6 +377,11 @@ define( function( require ) {
       //Make sure requestAnimationFrame is defined
       Util.polyfillRequestAnimationFrame();
 
+      var websocket;
+      if ( sim.options.recordInputEventLog ) {
+        websocket = new WebSocket( 'ws://phet-dev.colorado.edu/some-temporary-url/something', 'scenery-input-events' );
+      }
+
       //Record the pointers (if logging is enabled)
 //    var logPointers = new LogPointers();
 //    logPointers.startLogging();
@@ -455,7 +460,8 @@ define( function( require ) {
             entry.width = sim.inputEventWidth;
             entry.height = sim.inputEventHeight;
           }
-          sim.inputEventLog.push( entry );
+          // sim.inputEventLog.push( entry );
+          websocket.send( JSON.stringify( entry ) );
           sim.display._input.eventLog = []; // clears the event log so that future actions will fill it
         }
         sim.updateBackground();
