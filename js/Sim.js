@@ -152,7 +152,7 @@ define( function( require ) {
     document.body.appendChild( simDiv );
     sim.scene.sim = sim; // add a reference back to the simulation
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'sceneryLog' ) ) {
-      sim.display.scenery.enableLayerLogging();
+      sim.display.scenery.enableLogging();
     }
     sim.display.initializeWindowEvents( { batchDOMEvents: this.options.batchEvents } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
     if ( options.recordInputEventLog ) {
