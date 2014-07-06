@@ -4,6 +4,7 @@
  * Button for a single screen in the navigation bar, shows the text and the navigation bar icon.
  *
  * @author Sam Reid
+ * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 define( function( require ) {
   'use strict';
@@ -14,8 +15,9 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
-  var PushButtonDeprecated = require( 'SUN/PushButtonDeprecated' );
-  var ToggleNode = require( 'SUN/ToggleNode' );
+  var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
+  var ButtonListener = require( 'SUN/buttons/ButtonListener' );
+  var Multilink = require( 'AXON/Multilink' );
 
   /**
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
@@ -26,39 +28,53 @@ define( function( require ) {
    * @constructor
    */
   function NavigationBarScreenButton( sim, screen, navBarHeight, whiteColorScheme, minWidth ) {
+    Node.call( this, {
+      cursor: 'pointer'
+    } );
+
     var icon = new Node( {children: [screen.navigationBarIcon], scale: ( 0.625 * navBarHeight ) / screen.navigationBarIcon.height} );
 
-    var createNode = function( selected, highlighted, down ) {
-
-      //Color match yellow with the PhET Logo
-      var text = new Text( screen.name, { fill: whiteColorScheme ?
-                                                (selected ? 'black' : 'gray') :
-                                                (selected ? '#f2e916' : 'white'), visible: true} );
-
-      var box = new VBox( {children: [icon, text], opacity: selected ? 1.0 : down ? 0.65 : 0.5, pickable: false} );
-
-      //add an overlay so that the icons can be placed next to each other with an HBox, also sets the toucharea/mousearea
-      var overlay = new Rectangle( 0, 0, minWidth, box.height );
-      overlay.centerX = box.centerX;
-      overlay.y = box.y;
-      if ( highlighted ) {
-        var highlight = new HighlightNode( overlay.width + 4, overlay.height, {centerX: box.centerX, whiteHighlight: !whiteColorScheme, pickable: false} );
-        return new Node( {children: [box, highlight, overlay]} );
-      }
-      else {
-        return new Node( {children: [box, overlay]} );
-      }
-    };
-
-    var selectedNode = new PushButtonDeprecated( createNode( true, false, false ), createNode( true, true, false ), createNode( true, true, true ), createNode( true, false, false ), {} );
-    var unselectedNode = new PushButtonDeprecated( createNode( false, false, false ), createNode( false, true, false ), createNode( false, true, true ), createNode( false, false, false ), {} );
-    unselectedNode.addListener( function() { sim.simModel.screenIndex = sim.screens.indexOf( screen ); } );
-
     var selected = sim.simModel.screenIndexProperty.valueEquals( sim.screens.indexOf( screen ) );
+    var buttonModel = new PushButtonModel( {
+      listener: function() {
+        sim.simModel.screenIndex = sim.screens.indexOf( screen );
+      }
+    } );
+    this.addInputListener( new ButtonListener( buttonModel ) );
 
-    //We can skip wrapping the children here to improve performance slightly since we are certain they aren't used elsewhere in the scenery DAG
-    ToggleNode.call( this, selectedNode, unselectedNode, selected, {wrapChildren: false} );
+    // Color match yellow with the PhET Logo
+    var selectedTextColor = whiteColorScheme ? 'black' : '#f2e916';
+    var unselectedTextColor = whiteColorScheme ? 'gray' : 'white';
+
+    var text = new Text( screen.name );
+
+    var box = new VBox( {
+      children: [icon, text],
+      pickable: false,
+      usesOpacity: true // hint, since we change its opacity
+    } );
+
+    //add an overlay so that the icons can be placed next to each other with an HBox, also sets the toucharea/mousearea
+    var overlay = new Rectangle( 0, 0, minWidth, box.height );
+    overlay.centerX = box.centerX;
+    overlay.y = box.y;
+
+    var highlight = new HighlightNode( overlay.width + 4, overlay.height, {
+      centerX: box.centerX,
+      whiteHighlight: !whiteColorScheme,
+      pickable: false
+    } );
+
+    this.addChild( box );
+    this.addChild( highlight );
+    this.addChild( overlay );
+
+    this.multilink = new Multilink( [selected, buttonModel.downProperty, buttonModel.overProperty], function update() {
+      text.fill = selected.get() ? selectedTextColor : unselectedTextColor;
+      box.opacity = selected.get() ? 1.0 : buttonModel.down ? 0.65 : 0.5;
+      highlight.visible = buttonModel.over || buttonModel.down;
+    } );
   }
 
-  return inherit( ToggleNode, NavigationBarScreenButton );
+  return inherit( Node, NavigationBarScreenButton );
 } );
