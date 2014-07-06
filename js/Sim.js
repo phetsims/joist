@@ -252,6 +252,7 @@ define( function( require ) {
         sim.scene.addChild( sim.homeScreen );
       }
       _.each( screens, function( screen ) {
+        screen.view.layerSplit = true;
         sim.scene.addChild( screen.view );
       } );
       sim.scene.addChild( sim.navigationBar );
