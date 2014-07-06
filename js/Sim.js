@@ -206,19 +206,12 @@ define( function( require ) {
       sim.homeScreen = new HomeScreen( sim );
     }
 
-    sim.backgroundDirty = true;
     sim.updateBackground = function() {
-      if ( sim.backgroundDirty ) {
-        sim.backgroundDirty = false;
-
-        if ( sim.simModel.showHomeScreen ) {
-          simDiv.style.backgroundColor = 'black';
-        }
-        else {
-          var backgroundColor = screens[sim.simModel.screenIndex].backgroundColor || 'white';
-          var cssColor = ( typeof backgroundColor === 'string' ) ? backgroundColor : backgroundColor.toCSS();
-          simDiv.style.backgroundColor = cssColor;
-        }
+      if ( sim.simModel.showHomeScreen ) {
+        sim.display.backgroundColor = 'black';
+      }
+      else {
+        sim.display.backgroundColor = screens[sim.simModel.screenIndex].backgroundColor || 'white';
       }
     };
 
@@ -264,7 +257,7 @@ define( function( require ) {
           screens[i].view.setVisible( !showHomeScreen && screenIndex === i );
         }
         sim.navigationBar.setVisible( !showHomeScreen );
-        sim.backgroundDirty = true;
+        sim.updateBackground();
       } );
     }
     else if ( options.screenDisplayStrategy === 'setChildren' ) {
@@ -282,7 +275,7 @@ define( function( require ) {
         }
 
         currentScreenNode = newScreenNode;
-        sim.backgroundDirty = true;
+        sim.updateBackground();
       } );
 
       //When the user presses the home icon, then show the homescreen, otherwise show the screen and navbar
@@ -310,7 +303,7 @@ define( function( require ) {
           sim.scene.insertChild( idx, currentScreenNode );
           sim.scene.insertChild( idx + 1, sim.navigationBar );
         }
-        sim.backgroundDirty = true;
+        sim.updateBackground();
       } );
     }
 
