@@ -78,7 +78,7 @@ define( function( require ) {
     }
 
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'screenIndex' ) ) {
-      options.screenIndex = parseInt( window.phetcommon.getQueryParameter( 'screenIndex' ) );
+      options.screenIndex = parseInt( window.phetcommon.getQueryParameter( 'screenIndex' ), 10 );
     }
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'recordInputEventLog' ) ) {
       // enables recording of Scenery's input events, request animation frames, and dt's so the sim can be played back
@@ -113,7 +113,7 @@ define( function( require ) {
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'screens' ) ) {
       var screensValueString = window.phetcommon.getQueryParameter( 'screens' );
       screens = screensValueString.split( '.' ).map( function( screenString ) {
-        return screens[parseInt( screenString ) - 1];
+        return screens[parseInt( screenString, 10 ) - 1];
       } );
       options.screenIndex = 0;
     }
