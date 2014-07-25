@@ -31,6 +31,8 @@ define( function( require ) {
    */
   function Sim( name, screens, options ) {
 
+    assert && assert( window.phetJoistSimLauncher, 'Sim must be launched using SimLauncher, see https://github.com/phetsims/joist/issues/142' );
+
     options = _.extend( { showHomeScreen: true, screenIndex: 0, standalone: false, credits: {},
 
       //The screen display strategy chooses which way to switch screens, using setVisible or setChildren.
