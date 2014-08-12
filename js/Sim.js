@@ -22,6 +22,8 @@ define( function( require ) {
   var platform = require( 'PHET_CORE/platform' );
   var Timer = require( 'JOIST/Timer' );
   var SimJSON = require( 'JOIST/SimJSON' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var Shape = require( 'KITE/Shape' );
 
   /**
    * @param {String} name
@@ -189,6 +191,11 @@ define( function( require ) {
 
     if ( screens.length > 1 ) {
       sim.homeScreen = new HomeScreen( sim );
+
+      // Show the layoutBounds, see #145
+      if ( window.phetcommon.getQueryParameter( 'dev' ) ) {
+        sim.homeScreen.addChild( new Path( Shape.bounds( sim.homeScreen.layoutBounds ), { stroke: 'red', lineWidth: 3, pickable: false } ) );
+      }
     }
 
     var updateBackground = function() {
@@ -213,6 +220,12 @@ define( function( require ) {
       var modelCreated = Date.now();
 
       screen.view = screen.createView( screen.model );
+
+      // Show the layoutBounds, see #145
+      if ( window.phetcommon.getQueryParameter( 'dev' ) ) {
+        screen.view.addChild( new Path( Shape.bounds( screen.view.layoutBounds ), { stroke: 'red', lineWidth: 3, pickable: false } ) );
+      }
+
       var viewCreated = Date.now();
 
       if ( options.profile ) {

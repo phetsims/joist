@@ -13,8 +13,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Shape = require( 'KITE/Shape' );
 
   //Default to width and height for iPad2, iPad3, iPad4 running Safari with default tabs and decorations
   //Simulations can change this to provide their own sizes or aspect ratios
@@ -25,11 +23,6 @@ define( function( require ) {
     Node.call( this, _.extend( {
       layerSplit: true // so we're not in the same layer as the navbar, etc.
     }, options ) );
-
-    // Show the layoutBounds
-    if ( window.phetcommon.getQueryParameter( 'dev' ) ) {
-      this.addChild( new Path( Shape.bounds( this.layoutBounds ), { stroke: 'red', lineWidth: 3, pickable: false } ) );
-    }
   }
 
   inherit( Node, ScreenView, {
