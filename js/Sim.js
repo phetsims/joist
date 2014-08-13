@@ -35,13 +35,18 @@ define( function( require ) {
 
     assert && assert( window.phetJoistSimLauncher, 'Sim must be launched using SimLauncher, see https://github.com/phetsims/joist/issues/142' );
 
-    options = _.extend( { showHomeScreen: true, screenIndex: 0, standalone: false, credits: {},
+    options = _.extend( {
+      showHomeScreen: true,
+      screenIndex: 0,
+      standalone: false,
+      credits: {},
 
       //The screen display strategy chooses which way to switch screens, using setVisible or setChildren.
       //setVisible is faster in scenery 0.1 but crashes some apps due to memory restrictions, so some apps need to specify 'setChildren'
       //See https://github.com/phetsims/joist/issues/96
       screenDisplayStrategy: 'setVisible',
-      showSaveAndLoad: false
+      showSaveAndLoad: false,
+      showSmallHomeScreenIconFrame: false
     }, options );
     this.options = options; // store this for access from prototype functions, assumes that it won't be changed later
 
@@ -190,7 +195,9 @@ define( function( require ) {
     sim.navigationBar = new NavigationBar( sim, screens, sim.simModel, whiteNavBar );
 
     if ( screens.length > 1 ) {
-      sim.homeScreen = new HomeScreen( sim );
+      sim.homeScreen = new HomeScreen( sim, {
+        showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame
+      } );
 
       // Show the layoutBounds, see #145
       if ( window.phetcommon.getQueryParameter( 'dev' ) ) {
