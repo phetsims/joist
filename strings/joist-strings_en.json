@@ -19,5 +19,6 @@
   "credits.interviews": "Interviews: {0}",
   "credits.graphicArts": "Graphic Arts: {0}",
   "credits.translation": "Translation",
-  "credits.thanks": "Thanks"
+  "credits.thanks": "Thanks",
+  "credits.qualityAssurance": "Quality Assurance: {0}"
 }

@@ -28,6 +28,7 @@ define( function( require ) {
   var graphicArtsString = require( 'string!JOIST/credits.graphicArts' );
   var translationTitleString = require( 'string!JOIST/credits.translation' );
   var thanksTitleString = require( 'string!JOIST/credits.thanks' );
+  var qualityAssuranceString = require( 'string!JOIST/credits.qualityAssurance' );
 
   /**
    * @param {Sim} sim
@@ -106,6 +107,7 @@ define( function( require ) {
     if ( credits.designTeam ) { children.push( new MultiLineText( StringUtils.format( designTeamString, credits.designTeam ), multiLineTextOptions ) ); }
     if ( credits.interviews ) { children.push( new MultiLineText( StringUtils.format( interviewsString, credits.interviews ), multiLineTextOptions ) ); }
     if ( credits.graphicArts ) { children.push( new MultiLineText( StringUtils.format( graphicArtsString, credits.graphicArts ), multiLineTextOptions ) ); }
+    if ( credits.qualityAssurance ) { children.push( new MultiLineText( StringUtils.format( qualityAssuranceString, credits.qualityAssurance ), multiLineTextOptions ) ); }
     if ( credits.translation ) {
       if ( children.length > 0 ) { children.push( new Text( ' ', font ) ); }
       children.push( new Text( translationTitleString, { font: titleFont } ) );
