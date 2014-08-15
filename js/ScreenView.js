@@ -17,6 +17,7 @@ define( function( require ) {
   //Default to width and height for iPad2, iPad3, iPad4 running Safari with default tabs and decorations
   //Simulations can change this to provide their own sizes or aspect ratios
   //TODO: the code that uses these bounds needs to account for the minX and minY values if they are overriden in subclasses
+  //See https://github.com/phetsims/joist/issues/126
   var DEFAULT_LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
 
   function ScreenView( options ) {
@@ -57,7 +58,10 @@ define( function( require ) {
 
     //statics
     {
-      DEFAULT_LAYOUT_BOUNDS: DEFAULT_LAYOUT_BOUNDS
+      DEFAULT_LAYOUT_BOUNDS: DEFAULT_LAYOUT_BOUNDS,
+
+      //The bounds are actually wider now.  See #126
+      UPDATED_LAYOUT_BOUNDS: new Bounds2( 0, 0, 834, 504 )
     }
   );
 
