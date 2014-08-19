@@ -21,14 +21,18 @@ define( function( require ) {
   var DEFAULT_LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
 
   function ScreenView( options ) {
+
+    options = _.extend( {
+       layoutBounds: DEFAULT_LAYOUT_BOUNDS.copy()
+    }, options );
+    this.layoutBounds = options.layoutBounds;
+
     Node.call( this, _.extend( {
       layerSplit: true // so we're not in the same layer as the navbar, etc.
     }, options ) );
   }
 
   inherit( Node, ScreenView, {
-
-      layoutBounds: DEFAULT_LAYOUT_BOUNDS.copy(),
 
       //Get the scale to use for laying out the sim components and the navigation bar, so its size will track with the sim size
       getLayoutScale: function( width, height ) {
