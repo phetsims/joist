@@ -13,7 +13,6 @@ define( function( require ) {
 
   var listeners = [];
   var listenersDefensiveCopy = []; // separated out to prevent garbage collection issues
-  var listenerCount = 0;
   return {
 
     //Trigger a step event, called by Sim.js in the animation loop
