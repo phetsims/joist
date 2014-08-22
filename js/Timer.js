@@ -13,6 +13,7 @@ define( function( require ) {
 
   var listeners = [];
   var listenersDefensiveCopy = []; // separated out to prevent garbage collection issues
+  var listenerCount = 0;
   return {
 
     //Trigger a step event, called by Sim.js in the animation loop
@@ -62,7 +63,7 @@ define( function( require ) {
         //Convert seconds to ms and see if item has timed out
         while ( elapsed * 1000 >= interval ) {
           listener();
-          elapsed = elapsed - interval / 1000.0;//Save the leftover time so it won't accumulate
+          elapsed = elapsed - interval / 1000.0; //Save the leftover time so it won't accumulate
         }
       };
       this.addStepListener( callback );
@@ -79,7 +80,9 @@ define( function( require ) {
 
     //Remove a step listener from being called back
     removeStepListener: function( listener ) {
+      debugger;
       var index = listeners.indexOf( listener );
+      assert && assert( index !== -1, 'An attempt was made to remove a non-existent step listener' );
       if ( index !== -1 ) {
         listeners.splice( index, 1 );
       }
