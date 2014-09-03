@@ -36,19 +36,21 @@ define( function( require ) {
     assert && assert( window.phetJoistSimLauncher, 'Sim must be launched using SimLauncher, see https://github.com/phetsims/joist/issues/142' );
 
     options = _.extend( {
-      showHomeScreen: true,
-      screenIndex: 0,
-      standalone: false,
-      credits: {},
-
+      showHomeScreen: true, // whether to show the home screen, or go immediately to the screen indicated by screenIndex
+      screenIndex: 0, // index of the screen that will be selected at startup
+      standalone: false, // whether to run the screen indicated by screenIndex as a standalone sim
+      credits: {}, // credits, see AboutDialog for format
+      profile: false, // if true, prints screen initialization time (total, model, view) to the console
+      recordInputEventLog: false, //TODO #155 document this
+      inputEventLogName: undefined, //TODO #155 document this, is this the correct default value?
       //The screen display strategy chooses which way to switch screens, using setVisible or setChildren.
       //setVisible is faster in scenery 0.1 but crashes some apps due to memory restrictions, so some apps need to specify 'setChildren'
       //See https://github.com/phetsims/joist/issues/96
       screenDisplayStrategy: 'setVisible',
-      showSaveAndLoad: false,
-      showSmallHomeScreenIconFrame: false
+      showSaveAndLoad: false, //TODO #155 document this
+      showSmallHomeScreenIconFrame: false //TODO #155 document this
     }, options );
-    this.options = options; // store this for access from prototype functions, assumes that it won't be changed later
+    this.options = options; // @private store this for access from prototype functions, assumes that it won't be changed later
 
     this.destroyed = false;
     var sim = this;
