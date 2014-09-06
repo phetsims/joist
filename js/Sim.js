@@ -41,14 +41,15 @@ define( function( require ) {
       standalone: false, // whether to run the screen indicated by screenIndex as a standalone sim
       credits: {}, // credits, see AboutDialog for format
       profile: false, // if true, prints screen initialization time (total, model, view) to the console
-      recordInputEventLog: false, //TODO #155 document this
-      inputEventLogName: undefined, //TODO #155 document this, is this the correct default value?
+      recordInputEventLog: false, // if true, records the scenery input events and sends them to a server that can store them
+      inputEventLogName: undefined, // when playing back a recorded scenery input event log, use the specified filename.  Please see getEventLogName for more
+
       //The screen display strategy chooses which way to switch screens, using setVisible or setChildren.
       //setVisible is faster in scenery 0.1 but crashes some apps due to memory restrictions, so some apps need to specify 'setChildren'
       //See https://github.com/phetsims/joist/issues/96
       screenDisplayStrategy: 'setVisible',
-      showSaveAndLoad: false, //TODO #155 document this
-      showSmallHomeScreenIconFrame: false //TODO #155 document this
+      showSaveAndLoad: false, // this function is currently (9-5-2014) specific to Energy Skate Park: Basics, which shows Save/Load buttons in the PhET menu.  This interface is not very finalized and will probably be changed for future versions, so don't rely on it.
+      showSmallHomeScreenIconFrame: false // If true, there will be a border shown around the home screen icons.  Use this option if the home screen icons have the same color as the backrgound, as in Color Vision.
     }, options );
     this.options = options; // @private store this for access from prototype functions, assumes that it won't be changed later
 
