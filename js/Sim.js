@@ -28,7 +28,7 @@ define( function( require ) {
   /**
    * @param {String} name
    * @param {Array<Screen>} screens
-   * @param options optional parameters for starting screen and home values, so that developers can easily specify the startup scenario for quick development
+   * @param {Object} options
    * @constructor
    */
   function Sim( name, screens, options ) {
