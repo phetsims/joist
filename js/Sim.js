@@ -28,7 +28,7 @@ define( function( require ) {
   /**
    * @param {String} name
    * @param {Array<Screen>} screens
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function Sim( name, screens, options ) {
