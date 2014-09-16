@@ -65,7 +65,7 @@ define( function( require ) {
       DEFAULT_LAYOUT_BOUNDS: DEFAULT_LAYOUT_BOUNDS,
 
       //The bounds are actually wider now.  See #126
-      UPDATED_LAYOUT_BOUNDS: new Bounds2( 0, 0, 834, 504 )
+      UPDATED_LAYOUT_BOUNDS: new Bounds2( 0, 0, 1024, 618 )
     }
   );
 
