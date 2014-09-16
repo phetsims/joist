@@ -202,6 +202,7 @@ define( function( require ) {
     var whiteNavBar = screens[0].backgroundColor === 'black' || screens[0].backgroundColor === '#000' || screens[0].backgroundColor === '#000000';
     sim.navigationBar = new NavigationBar( sim, screens, sim.simModel, whiteNavBar );
 
+    // Multi-screen sims get a home screen.
     if ( screens.length > 1 ) {
       sim.homeScreen = new HomeScreen( sim, {
         showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame
