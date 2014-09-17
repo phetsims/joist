@@ -24,6 +24,7 @@ define( function( require ) {
   var SimJSON = require( 'JOIST/SimJSON' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
+  var Profiler = require( 'JOIST/Profiler' );
 
   /**
    * @param {String} name
@@ -40,7 +41,11 @@ define( function( require ) {
       screenIndex: 0, // index of the screen that will be selected at startup
       standalone: false, // whether to run the screen indicated by screenIndex as a standalone sim
       credits: {}, // credits, see AboutDialog for format
-      profile: false, // if true, prints screen initialization time (total, model, view) to the console
+
+      // if true, prints screen initialization time (total, model, view) to the console and displays
+      // profiling information on the screen
+      profiler: false,
+
       recordInputEventLog: false, // if true, records the scenery input events and sends them to a server that can store them
       inputEventLogName: undefined, // when playing back a recorded scenery input event log, use the specified filename.  Please see getEventLogName for more
 
@@ -85,8 +90,8 @@ define( function( require ) {
     }
 
     // Option for profiling
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'profile' ) ) {
-      options.profile = true;
+    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'profiler' ) ) {
+      options.profiler = true;
     }
 
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'screenIndex' ) ) {
@@ -197,6 +202,7 @@ define( function( require ) {
     var whiteNavBar = screens[0].backgroundColor === 'black' || screens[0].backgroundColor === '#000' || screens[0].backgroundColor === '#000000';
     sim.navigationBar = new NavigationBar( sim, screens, sim.simModel, whiteNavBar );
 
+    // Multi-screen sims get a home screen.
     if ( screens.length > 1 ) {
       sim.homeScreen = new HomeScreen( sim, {
         showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame
@@ -223,7 +229,7 @@ define( function( require ) {
     //Currently this is done eagerly, but this pattern leaves open the door for loading things in the background.
     _.each( screens, function( screen, index ) {
 
-      //Create each model & view, and keep track of the amount of time it took to create each, which is displayed if 'profile' is enabled as a query parameter
+      //Create each model & view, and keep track of the amount of time it took to create each, which is displayed if 'profiler' is enabled as a query parameter
       var start = Date.now();
 
       screen.model = screen.createModel();
@@ -238,7 +244,7 @@ define( function( require ) {
 
       var viewCreated = Date.now();
 
-      if ( options.profile ) {
+      if ( options.profiler ) {
         console.log( 'screen ' + index + ' created, total time: ' + (viewCreated - start) + 'ms, model: ' + (modelCreated - start) + 'ms, view: ' + (viewCreated - modelCreated) + 'ms' );
       }
     } );
@@ -389,10 +395,16 @@ define( function( require ) {
 //    //For debugging, display the pointers
 //    logPointers.showPointers();
 
+      if ( sim.options.profiler ) {
+        sim.profiler = new Profiler( sim );
+      }
+
       // place the rAF *before* the render() to assure as close to 60fps with the setTimeout fallback.
       //http://paulirish.com/2011/requestanimationframe-for-smart-animating/
       (function animationLoop() {
         var dt, screen;
+
+        sim.profiler && sim.profiler.frameStarted();
 
         // increment this before we can have an exception thrown, to see if we are missing frames
         sim.frameCounter++;
@@ -460,6 +472,8 @@ define( function( require ) {
           sim.scene.input.eventLog = []; // clears the event log so that future actions will fill it
         }
         sim.scene.updateScene();
+
+        sim.profiler && sim.profiler.frameEnded();
       })();
 
       //If state was specified, load it now
