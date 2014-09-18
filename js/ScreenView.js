@@ -64,7 +64,10 @@ define( function( require ) {
     {
       DEFAULT_LAYOUT_BOUNDS: DEFAULT_LAYOUT_BOUNDS,
 
-      //The bounds are actually wider now.  See #126
+      // These bounds were added in Sep 2014 and are based on a screenshot from a non-Retina iPad, in Safari, iOS7.  It
+      // therefore accounts for the nav bar on the bottom and the space consumed by the browser on the top.  As of this
+      // writing, this is the resolution being used by PhET's sim designers for their mockups.  See Joist issue #126
+      // for more information.
       UPDATED_LAYOUT_BOUNDS: new Bounds2( 0, 0, 1024, 618 )
     }
   );
