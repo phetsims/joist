@@ -60,9 +60,9 @@ define( function( require ) {
         elapsed += dt;
 
         //Convert seconds to ms and see if item has timed out
-        while ( elapsed * 1000 >= interval ) {
+        while ( elapsed * 1000 >= interval && listeners.indexOf( callback ) !== -1 ) {
           listener();
-          elapsed = elapsed - interval / 1000.0;//Save the leftover time so it won't accumulate
+          elapsed = elapsed - interval / 1000.0; //Save the leftover time so it won't accumulate
         }
       };
       this.addStepListener( callback );
@@ -80,6 +80,7 @@ define( function( require ) {
     //Remove a step listener from being called back
     removeStepListener: function( listener ) {
       var index = listeners.indexOf( listener );
+      assert && assert( index !== -1, 'An attempt was made to remove a non-existent step listener' );
       if ( index !== -1 ) {
         listeners.splice( index, 1 );
       }

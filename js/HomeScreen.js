@@ -21,12 +21,17 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var FullScreenButton = require( 'JOIST/FullScreenButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   var HEIGHT = 70;
   var TITLE_FONT_FAMILY = 'Century Gothic, Futura';
 
-  function HomeScreen( sim ) {
+  function HomeScreen( sim, options ) {
     var homeScreen = this;
+
+    options = _.extend( {
+      showSmallHomeScreenIconFrame: false
+    }, options );
 
     //Rendering in SVG seems to solve the problem that the home screen consumes 100% disk and crashes, see https://github.com/phetsims/joist/issues/17
     //Also makes it more responsive (and crisper on retina displays)
@@ -78,10 +83,15 @@ define( function( require ) {
         }
       } );
 
-      var smallIcon = new Node( {opacity: 0.5, children: [screen.homeScreenIcon], scale: sim.screens.length === 4 ? HEIGHT / screen.homeScreenIcon.height :
-                                                                                         sim.screens.length === 3 ? 1.25 * HEIGHT / screen.homeScreenIcon.height :
-                                                                                         sim.screens.length === 2 ? 1.75 * HEIGHT / screen.homeScreenIcon.height :
-                                                                                         HEIGHT / screen.homeScreenIcon.height} );
+      //Show a small (unselected) screen icon.  In some cases (if the icon has a black background), a border may be shown around it as well.  See https://github.com/phetsims/color-vision/issues/49
+      var smallIconContent = new Node( {opacity: 0.5, children: [screen.homeScreenIcon], scale: sim.screens.length === 4 ? HEIGHT / screen.homeScreenIcon.height :
+                                                                                                sim.screens.length === 3 ? 1.25 * HEIGHT / screen.homeScreenIcon.height :
+                                                                                                sim.screens.length === 2 ? 1.75 * HEIGHT / screen.homeScreenIcon.height :
+                                                                                                HEIGHT / screen.homeScreenIcon.height} );
+
+      var smallFrame = new Rectangle( 0, 0, smallIconContent.width, smallIconContent.height, {stroke: options.showSmallHomeScreenIconFrame ? '#dddddd' : null, lineWidth: 0.7} );
+      var smallIcon = new Node( {opacity: 0.5, children: [smallFrame, smallIconContent]} );
+
       var smallText = new Text( screen.name, { font: new PhetFont( 18 ), fill: 'gray'} );
 
       //Shrink the text if it goes beyond the edge of the image

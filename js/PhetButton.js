@@ -30,7 +30,7 @@ define( function( require ) {
    * @param sim
    * @param whiteColorScheme
    * @param homeScreen flag that indicates whether this button appears in the home screen or navbar, to get the positioning right.  TODO: Get rid of the need for this flag.  See #114
-   * @param options Unused in client code.  TODO: Remove
+   * @param {Object} [options] Unused in client code.  TODO: Remove
    * @constructor
    */
   function PhetButton( sim, whiteColorScheme, homeScreen, options ) {

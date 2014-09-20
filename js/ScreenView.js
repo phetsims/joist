@@ -13,28 +13,26 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Shape = require( 'KITE/Shape' );
 
   //Default to width and height for iPad2, iPad3, iPad4 running Safari with default tabs and decorations
   //Simulations can change this to provide their own sizes or aspect ratios
   //TODO: the code that uses these bounds needs to account for the minX and minY values if they are overriden in subclasses
+  //See https://github.com/phetsims/joist/issues/126
   var DEFAULT_LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
 
   function ScreenView( options ) {
+
+    options = _.extend( {
+       layoutBounds: DEFAULT_LAYOUT_BOUNDS.copy()
+    }, options );
+    this.layoutBounds = options.layoutBounds;
+
     Node.call( this, _.extend( {
       layerSplit: true // so we're not in the same layer as the navbar, etc.
     }, options ) );
-
-    // Show the layoutBounds
-    if ( window.phetcommon.getQueryParameter( 'dev' ) ) {
-      this.addChild( new Path( Shape.bounds( this.layoutBounds ), { stroke: 'red', lineWidth: 3, pickable: false } ) );
-    }
   }
 
   inherit( Node, ScreenView, {
-
-      layoutBounds: DEFAULT_LAYOUT_BOUNDS.copy(),
 
       //Get the scale to use for laying out the sim components and the navigation bar, so its size will track with the sim size
       getLayoutScale: function( width, height ) {
@@ -64,7 +62,13 @@ define( function( require ) {
 
     //statics
     {
-      DEFAULT_LAYOUT_BOUNDS: DEFAULT_LAYOUT_BOUNDS
+      DEFAULT_LAYOUT_BOUNDS: DEFAULT_LAYOUT_BOUNDS,
+
+      // These bounds were added in Sep 2014 and are based on a screenshot from a non-Retina iPad, in Safari, iOS7.  It
+      // therefore accounts for the nav bar on the bottom and the space consumed by the browser on the top.  As of this
+      // writing, this is the resolution being used by PhET's sim designers for their mockups.  See Joist issue #126
+      // for more information.
+      UPDATED_LAYOUT_BOUNDS: new Bounds2( 0, 0, 1024, 618 )
     }
   );
 
