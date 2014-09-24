@@ -1,7 +1,7 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * Shows the about dialog.
+ * Shows the About dialog.
  *
  * @author Sam Reid
  */
@@ -67,7 +67,6 @@ define( function( require ) {
 
     var content = new VBox( { align: 'left', spacing: 5, children: children } );
 
-    //Show a gray overlay that will help focus on the About dialog, and prevent clicks on the sim while the dialog is up
     this.addChild( new Panel( content, {centerX: this.layoutBounds.centerX, centerY: this.layoutBounds.centerY, xMargin: 20, yMargin: 20 } ) );
 
     function resize() {
