@@ -20,15 +20,14 @@ define( function( require ) {
   var VStrut = require( 'SUN/VStrut' );
 
   // strings
-  var developmentTeamString = require( 'string!JOIST/credits.developmentTeam' );
+  var creditsTitleString = require( 'string!JOIST/credits.title' );
   var leadDesignString = require( 'string!JOIST/credits.leadDesign' );
   var softwareDevelopmentString = require( 'string!JOIST/credits.softwareDevelopment' );
-  var designTeamString = require( 'string!JOIST/credits.designTeam' );
-  var interviewsString = require( 'string!JOIST/credits.interviews' );
+  var teamString = require( 'string!JOIST/credits.team' );
+  var qualityAssuranceString = require( 'string!JOIST/credits.qualityAssurance' );
   var graphicArtsString = require( 'string!JOIST/credits.graphicArts' );
   var translationTitleString = require( 'string!JOIST/credits.translation' );
   var thanksTitleString = require( 'string!JOIST/credits.thanks' );
-  var qualityAssuranceString = require( 'string!JOIST/credits.qualityAssurance' );
 
   /**
    * @param {Sim} sim
@@ -100,14 +99,13 @@ define( function( require ) {
     var titleFont = new PhetFont( { size: 14, weight: 'bold' } );
     var font = new PhetFont( 12 );
     var multiLineTextOptions = { font: font, align: 'left' };
-    children.push( new Text( developmentTeamString, { font: titleFont } ) );
+    children.push( new Text( creditsTitleString, { font: titleFont } ) );
 
     if ( credits.leadDesign ) { children.push( new MultiLineText( StringUtils.format( leadDesignString, credits.leadDesign ), multiLineTextOptions ) ); }
     if ( credits.softwareDevelopment ) { children.push( new MultiLineText( StringUtils.format( softwareDevelopmentString, credits.softwareDevelopment ), multiLineTextOptions ) ); }
-    if ( credits.designTeam ) { children.push( new MultiLineText( StringUtils.format( designTeamString, credits.designTeam ), multiLineTextOptions ) ); }
-    if ( credits.interviews ) { children.push( new MultiLineText( StringUtils.format( interviewsString, credits.interviews ), multiLineTextOptions ) ); }
-    if ( credits.graphicArts ) { children.push( new MultiLineText( StringUtils.format( graphicArtsString, credits.graphicArts ), multiLineTextOptions ) ); }
+    if ( credits.team ) { children.push( new MultiLineText( StringUtils.format( teamString, credits.team ), multiLineTextOptions ) ); }
     if ( credits.qualityAssurance ) { children.push( new MultiLineText( StringUtils.format( qualityAssuranceString, credits.qualityAssurance ), multiLineTextOptions ) ); }
+    if ( credits.graphicArts ) { children.push( new MultiLineText( StringUtils.format( graphicArtsString, credits.graphicArts ), multiLineTextOptions ) ); }
     if ( credits.translation ) {
       if ( children.length > 0 ) { children.push( new Text( ' ', font ) ); }
       children.push( new Text( translationTitleString, { font: titleFont } ) );

@@ -11,14 +11,12 @@
   "title.settings": "Settings",
   "showPointers": "Show Pointers",
   "termsPrivacyAndLicensing": "Terms, Privacy & Licensing",
-  "credits.phetDevelopmentTeam": "PhET Development Team",
-  "credits.developmentTeam": "Development Team",
+  "credits.title": "Credits",
   "credits.leadDesign": "Lead Design: {0}",
   "credits.softwareDevelopment": "Software Development: {0}",
-  "credits.designTeam": "Design Team: {0}",
-  "credits.interviews": "Interviews: {0}",
+  "credits.team": "Team: {0}",
+  "credits.qualityAssurance": "Quality Assurance: {0}",
   "credits.graphicArts": "Graphic Arts: {0}",
   "credits.translation": "Translation",
-  "credits.thanks": "Thanks",
-  "credits.qualityAssurance": "Quality Assurance: {0}"
+  "credits.thanks": "Thanks"
 }

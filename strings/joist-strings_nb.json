@@ -10,12 +10,13 @@
   "menuItem.submitInputEventsLog": "Submit Input Events Log",
   "title.settings": "Settings",
   "showPointers": "Show Pointers",
-  "softwareAgreement": "Software Agreement",
-  "credits.phetDevelopmentTeam": "PhET Development Team",
+  "termsPrivacyAndLicensing": "Terms, Privacy & Licensing",
+  "credits.title": "Credits",
   "credits.leadDesign": "Lead Design: {0}",
   "credits.softwareDevelopment": "Software Development: {0}",
-  "credits.designTeam": "Design Team: {0}",
-  "credits.interviews": "Interviews: {0}",
+  "credits.team": "Team: {0}",
+  "credits.qualityAssurance": "Quality Assurance: {0}",
+  "credits.graphicArts": "Graphic Arts: {0}"
   "credits.translation": "Translation",
   "credits.thanks": "Thanks"
 }
