@@ -40,24 +40,6 @@ define( function( require ) {
     //Renderer must be specified here because the AboutDialog is added directly to the scene (instead of to some other node that already has svg renderer)
     ScreenView.call( this, {renderer: 'svg'} );
 
-    var createLink = function( text, url ) {
-      var softwareAgreementLink = new Text( text, {
-        font: new PhetFont( 14 ),
-        fill: 'rgb(27,0,241)', // blue, like a hyperlink
-        cursor: 'pointer'
-      } );
-      softwareAgreementLink.addInputListener( {
-        up: function( evt ) {
-          evt.handle(); // don't close the dialog
-        },
-        upImmediate: function( event ) {
-          var aboutDialogWindow = window.open( url, '_blank' );
-          aboutDialogWindow.focus();
-        }
-      } );
-      return softwareAgreementLink;
-    };
-
     var children = [
       new Text( Brand.name, { font: new PhetFont( 16 ) } ),
       new Text( Brand.copyright, { font: new PhetFont( 12 ) } ),
@@ -93,29 +75,60 @@ define( function( require ) {
     resize();
   }
 
-  // Creates node that displays the credits.
+  // Creates a hypertext link
+  var createLink = function( text, url ) {
+    var link = new Text( text, {
+      font: new PhetFont( 14 ),
+      fill: 'rgb(27,0,241)', // blue, like a typical hypertext link
+      cursor: 'pointer'
+    } );
+    link.addInputListener( {
+      up: function( evt ) {
+        evt.handle(); // don't close the dialog
+      },
+      upImmediate: function( event ) {
+        var newWindow = window.open( url, '_blank' ); // open in a new window/tab
+        newWindow.focus();
+      }
+    } );
+    return link;
+  };
+
+  /**
+   * Creates node that displays the credits.
+   * @param {Object} credits see implementation herein for supported {string} fields
+   * @returns {Node}
+   */
   var createCreditsNode = function( credits ) {
-    var children = [];
+
     var titleFont = new PhetFont( { size: 14, weight: 'bold' } );
     var font = new PhetFont( 12 );
     var multiLineTextOptions = { font: font, align: 'left' };
-    children.push( new Text( creditsTitleString, { font: titleFont } ) );
+    var children = [];
 
+    // Credits
+    children.push( new Text( creditsTitleString, { font: titleFont } ) );
     if ( credits.leadDesign ) { children.push( new MultiLineText( StringUtils.format( leadDesignString, credits.leadDesign ), multiLineTextOptions ) ); }
     if ( credits.softwareDevelopment ) { children.push( new MultiLineText( StringUtils.format( softwareDevelopmentString, credits.softwareDevelopment ), multiLineTextOptions ) ); }
     if ( credits.team ) { children.push( new MultiLineText( StringUtils.format( teamString, credits.team ), multiLineTextOptions ) ); }
     if ( credits.qualityAssurance ) { children.push( new MultiLineText( StringUtils.format( qualityAssuranceString, credits.qualityAssurance ), multiLineTextOptions ) ); }
     if ( credits.graphicArts ) { children.push( new MultiLineText( StringUtils.format( graphicArtsString, credits.graphicArts ), multiLineTextOptions ) ); }
+
+    //TODO translation can't be specified in credits, it needs to come from locale-specific string files
+    // Translation
     if ( credits.translation ) {
-      if ( children.length > 0 ) { children.push( new Text( ' ', font ) ); }
+      if ( children.length > 0 ) { children.push( new VStrut( 10 ) ); }
       children.push( new Text( translationTitleString, { font: titleFont } ) );
       children.push( new MultiLineText( credits.translation, multiLineTextOptions ) );
     }
+
+    // Thanks
     if ( credits.thanks ) {
-      if ( children.length > 0 ) { children.push( new Text( ' ', font ) ); }
+      if ( children.length > 0 ) { children.push( new VStrut( 10 ) ); }
       children.push( new Text( thanksTitleString, { font: titleFont } ) );
       children.push( new MultiLineText( credits.thanks, multiLineTextOptions ) );
     }
+
     return new VBox( { align: 'left', spacing: 1, children: children } );
   };
 
