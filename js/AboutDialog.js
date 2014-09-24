@@ -34,10 +34,14 @@ define( function( require ) {
    * @constructor
    */
   function AboutDialog( sim, Brand ) {
-    var aboutDialog = this;
 
-    //Use view, to help center and scale content
-    //Renderer must be specified here because the AboutDialog is added directly to the scene (instead of to some other node that already has svg renderer)
+    var thisDialog = this;
+
+    /*
+     * Use ScreenView, to help center and scale content.
+     * Renderer must be specified here because the AboutDialog is added directly to the scene,
+     * instead of to some other node that already has svg renderer.
+     */
     ScreenView.call( this, {renderer: 'svg'} );
 
     var children = [
@@ -57,17 +61,17 @@ define( function( require ) {
       children.push( new VStrut( 15 ) );
       for ( var i = 0; i < Brand.links.length; i++ ) {
         var link = Brand.links[i];
-        children.push( createLink( link.text, link.url ) );
+        children.push( createLinkNode( link.text, link.url ) );
       }
     }
 
     var content = new VBox( { align: 'left', spacing: 5, children: children } );
 
-    //Show a gray overlay that will help focus on the about dialog, and prevent clicks on the sim while the dialog is up
+    //Show a gray overlay that will help focus on the About dialog, and prevent clicks on the sim while the dialog is up
     this.addChild( new Panel( content, {centerX: this.layoutBounds.centerX, centerY: this.layoutBounds.centerY, xMargin: 20, yMargin: 20 } ) );
 
     function resize() {
-      aboutDialog.layout( $( window ).width(), $( window ).height() );
+      thisDialog.layout( $( window ).width(), $( window ).height() );
     }
 
     //Fit to the window and render the initial scene
@@ -75,13 +79,20 @@ define( function( require ) {
     resize();
   }
 
-  // Creates a hypertext link
-  var createLink = function( text, url ) {
+  /**
+   * Creates a hypertext link.
+   * @param {string} text the text that's shown to the user
+   * @param {string} url clicking the text opens a window/tab to this URL
+   * @returns {Node}
+   */
+  var createLinkNode = function( text, url ) {
+
     var link = new Text( text, {
       font: new PhetFont( 14 ),
       fill: 'rgb(27,0,241)', // blue, like a typical hypertext link
       cursor: 'pointer'
     } );
+
     link.addInputListener( {
       up: function( evt ) {
         evt.handle(); // don't close the dialog
@@ -91,6 +102,7 @@ define( function( require ) {
         newWindow.focus();
       }
     } );
+
     return link;
   };
 
