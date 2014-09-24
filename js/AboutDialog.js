@@ -114,7 +114,7 @@ define( function( require ) {
     if ( credits.qualityAssurance ) { children.push( new MultiLineText( StringUtils.format( qualityAssuranceString, credits.qualityAssurance ), multiLineTextOptions ) ); }
     if ( credits.graphicArts ) { children.push( new MultiLineText( StringUtils.format( graphicArtsString, credits.graphicArts ), multiLineTextOptions ) ); }
 
-    //TODO translation can't be specified in credits, it needs to come from locale-specific string files
+    //TODO see joist#163, translation credit should be obtained from string files
     // Translation
     if ( credits.translation ) {
       if ( children.length > 0 ) { children.push( new VStrut( 10 ) ); }
