@@ -77,6 +77,10 @@ define( function( require ) {
     sim.fuzzMousePosition = new Vector2(); // start at 0,0
     sim.fuzzMouseLastMoved = false; // whether the last mouse event was a move (we skew probabilities based on this)
 
+    // Option for simulating context loss in WebGL using the khronos webgl-debug tools,
+    // see https://github.com/phetsims/scenery/issues/279
+    sim.webglMakeLostContextSimulatingCanvas = false;
+
     //Set the HTML page title to the localized title
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
     $( 'title' ).html( name + ' ' + sim.version ); //TODO i18n of order
@@ -135,6 +139,25 @@ define( function( require ) {
       options.screenIndex = 0;
     }
 
+    // If specifying 'webglContextLossTimeout' then start a timer that will elapse in that number of milliseconds and simulate
+    // WebGL context loss on all WebGL Layers
+    var webglContextLossTimeoutString = window.phetcommon.getQueryParameter( 'webglContextLossTimeout' );
+    if ( window.phetcommon && window.phetcommon.getQueryParameter && webglContextLossTimeoutString ) {
+
+      // Enabled the canvas contexts for context loss
+      sim.webglMakeLostContextSimulatingCanvas = true;
+
+      // If a time was specified, additionally start a timer that will simulate the context loss.
+      if ( webglContextLossTimeoutString !== 'undefined' ) {
+        var time = parseInt( webglContextLossTimeoutString );
+        console.log( 'simulating context loss in ' + time + 'ms' );
+        window.setTimeout( function() {
+          console.log( 'simulating context loss' );
+          sim.scene.simulateWebGLContextLoss();
+        }, time );
+      }
+    }
+
     //Default values are to show the home screen with the 1st screen selected
     var showHomeScreen = ( _.isUndefined( options.showHomeScreen ) ) ? true : options.showHomeScreen;
 
@@ -164,7 +187,11 @@ define( function( require ) {
 
     //Create the scene
     //Leave accessibility as a flag while in development
-    sim.scene = new Scene( $simDiv, {allowDevicePixelRatioScaling: false, accessible: true} );
+    sim.scene = new Scene( $simDiv, {
+      allowDevicePixelRatioScaling: false,
+      accessible: true,
+      webglMakeLostContextSimulatingCanvas: sim.webglMakeLostContextSimulatingCanvas
+    } );
     sim.scene.sim = sim; // add a reference back to the simulation
     sim.scene.initializeWindowEvents( { batchDOMEvents: true } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
     if ( options.recordInputEventLog ) {
