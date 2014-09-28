@@ -153,7 +153,7 @@ define( function( require ) {
 
       // If a time was specified, additionally start a timer that will simulate the context loss.
       if ( webglContextLossTimeoutString !== 'undefined' ) {
-        var time = parseInt( webglContextLossTimeoutString );
+        var time = parseInt( webglContextLossTimeoutString, 10 );
         console.log( 'simulating context loss in ' + time + 'ms' );
         window.setTimeout( function() {
           console.log( 'simulating context loss' );
