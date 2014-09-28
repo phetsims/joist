@@ -81,6 +81,10 @@ define( function( require ) {
     // see https://github.com/phetsims/scenery/issues/279
     sim.webglMakeLostContextSimulatingCanvas = false;
 
+    // Option to incrementally lose context between adjacent gl calls after the 1st context loss
+    // see https://github.com/phetsims/scenery/issues/279
+    sim.webglContextLossIncremental = false;
+
     //Set the HTML page title to the localized title
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
     $( 'title' ).html( name + ' ' + sim.version ); //TODO i18n of order
@@ -158,6 +162,10 @@ define( function( require ) {
       }
     }
 
+    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'webglContextLossIncremental' ) ) {
+      sim.webglContextLossIncremental = true;
+    }
+
     //Default values are to show the home screen with the 1st screen selected
     var showHomeScreen = ( _.isUndefined( options.showHomeScreen ) ) ? true : options.showHomeScreen;
 
@@ -190,7 +198,8 @@ define( function( require ) {
     sim.scene = new Scene( $simDiv, {
       allowDevicePixelRatioScaling: false,
       accessible: true,
-      webglMakeLostContextSimulatingCanvas: sim.webglMakeLostContextSimulatingCanvas
+      webglMakeLostContextSimulatingCanvas: sim.webglMakeLostContextSimulatingCanvas,
+      webglContextLossIncremental: sim.webglContextLossIncremental
     } );
     sim.scene.sim = sim; // add a reference back to the simulation
     sim.scene.initializeWindowEvents( { batchDOMEvents: true } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
