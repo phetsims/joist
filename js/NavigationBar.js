@@ -23,9 +23,9 @@ define( function( require ) {
   /**
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
    * @param {Sim} sim
-   * @param {Array<Screen>} screens
+   * @param {Screen[]} screens
    * @param {PropertySet} model see joist.Sim
-   * @param {Boolean} whiteColorScheme true if the color scheme should be white, false if it should be black
+   * @param {boolean} whiteColorScheme true if the color scheme should be white, false if it should be black
    * @constructor
    */
   function NavigationBar( sim, screens, model, whiteColorScheme ) {

@@ -23,8 +23,8 @@ define( function( require ) {
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
    * @param {Sim} sim
    * @param {Screen} screen
-   * @param {Number} navBarHeight
-   * @param {Boolean} whiteColorScheme true if the color scheme should be white, false if it should be black
+   * @param {number} navBarHeight
+   * @param {boolean} whiteColorScheme true if the color scheme should be white, false if it should be black
    * @constructor
    */
   function NavigationBarScreenButton( sim, screen, navBarHeight, whiteColorScheme, minWidth ) {

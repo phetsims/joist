@@ -123,9 +123,9 @@ define( function( require ) {
 
     /*
      * Description of the items in the menu. Each descriptor has these properties:
-     * {String} text - the item's text
-     * {Boolean} present - whether the item should be added to the menu
-     * {Function} callback - called when the item fires
+     * {string} text - the item's text
+     * {boolean} present - whether the item should be added to the menu
+     * {function} callback - called when the item fires
      */
     var itemDescriptors = [
       {

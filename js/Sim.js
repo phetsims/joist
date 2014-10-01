@@ -27,8 +27,8 @@ define( function( require ) {
   var Profiler = require( 'JOIST/Profiler' );
 
   /**
-   * @param {String} name
-   * @param {Array<Screen>} screens
+   * @param {string} name
+   * @param {Screen[]} screens
    * @param {Object} [options]
    * @constructor
    */

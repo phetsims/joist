@@ -16,7 +16,7 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
 
   /**
-   * @param {String} name
+   * @param {string} name
    * @param {Node} homeScreenIcon optimal size is 548x373, will be scaled by HomeScreen
    * @param {function} createModel
    * @param {function} createView
