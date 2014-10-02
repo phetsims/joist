@@ -23,6 +23,7 @@ define( function( require ) {
   var Timer = require( 'JOIST/Timer' );
   var SimJSON = require( 'JOIST/SimJSON' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var Color = require( 'SCENERY/util/Color' );
   var Shape = require( 'KITE/Shape' );
   var Profiler = require( 'JOIST/Profiler' );
 
@@ -235,7 +236,7 @@ define( function( require ) {
       window.setInterval( function() { sleep( Math.ceil( 100 + Math.random() * 200 ) ); }, Math.ceil( 100 + Math.random() * 200 ) );
     };
 
-    var whiteNavBar = screens[0].backgroundColor === 'black' || screens[0].backgroundColor === '#000' || screens[0].backgroundColor === '#000000';
+    var whiteNavBar = new Color( screens[0].backgroundColor ).equals( Color.BLACK );
     sim.navigationBar = new NavigationBar( sim, screens, sim.simModel, whiteNavBar );
 
     // Multi-screen sims get a home screen.
