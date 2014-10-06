@@ -16,7 +16,6 @@ define( function( require ) {
   var CheckBox = require( 'SUN/CheckBox' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var TextPushButton = require( 'SUN/buttons/TextPushButton' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   // strings
   var showPointersString = require( 'string!JOIST/showPointers' );
