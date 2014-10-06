@@ -16,6 +16,7 @@ define( function( require ) {
   var CheckBox = require( 'SUN/CheckBox' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var TextPushButton = require( 'SUN/buttons/TextPushButton' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   // strings
   var showPointersString = require( 'string!JOIST/showPointers' );
@@ -36,6 +37,7 @@ define( function( require ) {
       new Text( settingsString, { font: new PhetFont( 16 ) } ),
       new CheckBox( new Text( showPointersString ), sim.showPointersProperty ),
       new TextPushButton( doneString, {
+        font: new PhetFont( 20 ),
         listener: function() {
           settingsDialog.doneListeners.forEach( function( listener ) {
             listener();
