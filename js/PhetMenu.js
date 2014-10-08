@@ -121,9 +121,9 @@ define( function( require ) {
     var itemDescriptors = [
       {
         text: optionsString,
-        present: !!sim.options.globalOptions,
+        present: !!sim.options.optionsNode,
         callback: function() {
-          new OptionsDialog( sim.options.globalOptions ).show();
+          new OptionsDialog( sim.options.optionsNode ).show();
         }
       },
       {

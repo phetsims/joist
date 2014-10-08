@@ -57,7 +57,7 @@ define( function( require ) {
       standalone: false, // whether to run the screen indicated by screenIndex as a standalone sim
       credits: {}, // credits, see AboutDialog for format
 
-      globalOptions: null, // replace with globalOptions described in OptionsDialog
+      optionsNode: null, // a node placed into the Options dialog (if available)
 
       // if true, prints screen initialization time (total, model, view) to the console and displays
       // profiling information on the screen
