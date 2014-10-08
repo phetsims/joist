@@ -1,5 +1,6 @@
 {
   "done": "Done",
+  "menuItem.options": "Options...",
   "menuItem.about": "About...",
   "menuItem.mailInputEventsLog": "Mail Input Events Log",
   "menuItem.outputInputEventsLog": "Output Input Events Log",
@@ -18,5 +19,6 @@
   "credits.qualityAssurance": "Quality Assurance: {0}",
   "credits.graphicArts": "Graphic Arts: {0}",
   "credits.translation": "Translation",
-  "credits.thanks": "Thanks"
+  "credits.thanks": "Thanks",
+  "options.title": "Options"
 }

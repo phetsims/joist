@@ -15,6 +15,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
   var AboutDialog = require( 'JOIST/AboutDialog' );
+  var OptionsDialog = require( 'JOIST/OptionsDialog' );
   var SettingsDialog = require( 'JOIST/SettingsDialog' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
@@ -26,6 +27,7 @@ define( function( require ) {
   var Brand = require( 'BRAND/Brand' );
 
   // strings
+  var optionsString = require( 'string!JOIST/menuItem.options' );
   var aboutString = require( 'string!JOIST/menuItem.about' );
   var mailInputEventsLogString = require( 'string!JOIST/menuItem.mailInputEventsLog' );
   var outputInputEventsLogString = require( 'string!JOIST/menuItem.outputInputEventsLog' );
@@ -117,6 +119,13 @@ define( function( require ) {
      * {function} callback - called when the item fires
      */
     var itemDescriptors = [
+      {
+        text: optionsString,
+        present: !!sim.options.globalOptions,
+        callback: function() {
+          new OptionsDialog( sim.options.globalOptions ).show();
+        }
+      },
       {
         text: phetWebsiteString,
         present: isPhETBrand,
