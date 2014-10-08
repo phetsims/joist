@@ -10,19 +10,24 @@
 define( function( require ) {
   'use strict';
 
+  var inherit = require( 'PHET_CORE/inherit' );
   var Util = require( 'SCENERY/util/Util' );
   var NavigationBar = require( 'JOIST/NavigationBar' );
   var HomeScreen = require( 'JOIST/HomeScreen' );
   var Scene = require( 'SCENERY/Scene' );
+  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Vector2 = require( 'DOT/Vector2' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var version = require( 'version' );
   var PropertySet = require( 'AXON/PropertySet' );
   var Property = require( 'AXON/Property' );
+  var ObservableArray = require( 'AXON/ObservableArray' );
   var platform = require( 'PHET_CORE/platform' );
   var Timer = require( 'JOIST/Timer' );
   var SimJSON = require( 'JOIST/SimJSON' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var Color = require( 'SCENERY/util/Color' );
   var Shape = require( 'KITE/Shape' );
   var Profiler = require( 'JOIST/Profiler' );
@@ -32,8 +37,17 @@ define( function( require ) {
    * @param {Screen[]} screens
    * @param {Object} [options]
    * @constructor
+   *
+   * Events:
+   * - resized( bounds, screenBounds, scale ): Fires when the sim is resized.
    */
   function Sim( name, screens, options ) {
+
+    PropertySet.call( this, {
+      scale: 1, // [read-only] how the home screen and navbar are scaled
+      bounds: null, // global bounds for the entire simulation
+      screenBounds: null // global bounds for the screen-specific part (excludes the navigation bar)
+    } );
 
     assert && assert( window.phetJoistSimLauncher, 'Sim must be launched using SimLauncher, see https://github.com/phetsims/joist/issues/142' );
 
@@ -236,7 +250,7 @@ define( function( require ) {
       window.setInterval( function() { sleep( Math.ceil( 100 + Math.random() * 200 ) ); }, Math.ceil( 100 + Math.random() * 200 ) );
     };
 
-    var whiteNavBar = new Color( screens[0].backgroundColor ).equals( Color.BLACK );
+    var whiteNavBar = !!new Color( screens[0].backgroundColor ).equals( Color.BLACK );
     sim.navigationBar = new NavigationBar( sim, screens, sim.simModel, whiteNavBar );
 
     // Multi-screen sims get a home screen.
@@ -360,6 +374,28 @@ define( function( require ) {
       } );
     }
 
+    // layer for popups, dialogs, and their backgrounds and barriers
+    this.topLayer = new Node( { renderer: 'svg' } );
+    sim.scene.addChild( this.topLayer );
+
+    // Semi-transparent black barrier used to block input events when a dialog (or other popup) is present, and fade
+    // out the background.
+    this.barrierStack = new ObservableArray();
+    this.barrierRectangle = new Rectangle( 0, 0, 1, 1, 0, 0, {
+      fill:'rgba(0,0,0,0.3)',
+      pickable: true
+    } );
+    this.topLayer.addChild( this.barrierRectangle );
+    this.barrierStack.lengthProperty.link( function( numBarriers ) {
+      sim.barrierRectangle.visible = numBarriers > 0;
+    } );
+    this.barrierRectangle.addInputListener( new ButtonListener( {
+      fire: function() {
+        assert && assert( sim.barrierStack.length > 0 );
+        sim.hidePopup( sim.barrierStack.get( sim.barrierStack.length - 1 ) );
+      }
+    } ) );
+
     updateBackground();
 
     //Fit to the window and render the initial scene
@@ -367,8 +403,29 @@ define( function( require ) {
     sim.resizeToWindow();
   }
 
-  Sim.prototype = {
-    constructor: Sim,
+  return inherit( PropertySet, Sim, {
+    /*
+     * Adds a popup in the global coordinate frame, and displays a semi-transparent black input barrier behind it.
+     * Use hidePopup() to remove it.
+     * @param {Node} node
+     */
+    showPopup: function( node ) {
+      assert && assert( node );
+
+      this.barrierStack.push( node );
+      this.topLayer.addChild( node );
+    },
+
+    /*
+     * Hides a popup that was previously displayed with showPopup()
+     * @param {Node} node
+     */
+    hidePopup: function( node ) {
+      assert && assert( node && this.barrierStack.contains( node ) );
+
+      this.barrierStack.remove( node );
+      this.topLayer.removeChild( node );
+    },
 
     resizeToWindow: function() {
       this.resize( window.innerWidth, window.innerHeight );
@@ -380,14 +437,19 @@ define( function( require ) {
       //Use Mobile Safari layout bounds to size the home screen and navigation bar
       var scale = Math.min( width / 768, height / 504 );
 
+      this.barrierRectangle.rectWidth = width;
+      this.barrierRectangle.rectHeight = height;
+
       //40 px high on Mobile Safari
       var navBarHeight = scale * 40;
       sim.navigationBar.layout( scale, width, navBarHeight, height );
       sim.navigationBar.y = height - navBarHeight;
       sim.scene.resize( width, height );
 
+      var screenHeight = height - sim.navigationBar.height;
+
       //Layout each of the screens
-      _.each( sim.screens, function( m ) { m.view.layout( width, height - sim.navigationBar.height ); } );
+      _.each( sim.screens, function( m ) { m.view.layout( width, screenHeight ); } );
 
       if ( sim.homeScreen ) {
         sim.homeScreen.layoutWithScale( scale, width, height );
@@ -400,6 +462,13 @@ define( function( require ) {
       if ( platform.mobileSafari ) {
         window.scrollTo( 0, 0 );
       }
+
+      // update our scale and bounds properties after other changes (so listeners can be fired after screens are resized)
+      this.scale = scale;
+      this.bounds = new Bounds2( 0, 0, width, height );
+      this.screenBounds = new Bounds2( 0, 0, width, screenHeight );
+
+      this.trigger( 'resized', this.bounds, this.screenBounds, this.scale );
     },
 
     start: function() {
@@ -582,10 +651,6 @@ define( function( require ) {
       })();
     },
 
-    addChild: function( node ) {
-      this.scene.addChild( node );
-    },
-
     // A string that should be evaluated as JavaScript containing an array of "frame" objects, with a dt and an optional fireEvents function
     getRecordedInputEventLogString: function() {
       return '[\n' + _.map( this.inputEventLog, function( item ) {
@@ -710,7 +775,5 @@ define( function( require ) {
       }
       this.simModel.set( state.simModel );
     }
-  };
-
-  return Sim;
+  } );
 } );

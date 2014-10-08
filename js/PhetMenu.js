@@ -39,7 +39,7 @@ define( function( require ) {
   var HIGHLIGHT_COLOR = '#a6d2f4';
 
   // Creates a menu item that highlights and fires.
-  var createMenuItem = function( text, width, height, separatorBefore, callback, immediateCallback ) {
+  var createMenuItem = function( text, width, height, separatorBefore, closeCallback, callback, immediateCallback ) {
 
     var X_MARGIN = 5;
     var Y_MARGIN = 3;
@@ -60,7 +60,10 @@ define( function( require ) {
       exit: function() { highlight.fill = null; },
       upImmediate: function() { immediateCallback && immediateCallback(); }
     } );
-    menuItem.addInputListener( new ButtonListener( {fire: callback } ) );
+    menuItem.addInputListener( new ButtonListener( {fire: function( event ) {
+      callback( event );
+      closeCallback( event );
+    } } ) );
 
     menuItem.separatorBefore = separatorBefore;
 
@@ -109,12 +112,11 @@ define( function( require ) {
 
     var showAboutDialog = function( aboutDialog ) {
       var plane = new Plane( {fill: 'black', opacity: 0.3, renderer: 'svg'} );//Renderer must be specified here because the plane is added directly to the scene (instead of to some other node that already has svg renderer)
-      sim.addChild( plane );
-      sim.addChild( aboutDialog );
+      sim.showPopup( aboutDialog );
       var aboutDialogListener = {up: function() {
         aboutDialog.removeInputListener( aboutDialogListener );
         plane.addInputListener( aboutDialogListener );
-        aboutDialog.detach();
+        sim.hidePopup( aboutDialog );
         plane.detach();
       }};
       aboutDialog.addInputListener( aboutDialogListener );
@@ -238,7 +240,7 @@ define( function( require ) {
 
     // Create the menu items.
     var items = _.map( keepItemDescriptors, function( itemDescriptor ) {
-      return createMenuItem( itemDescriptor.text, maxTextWidth, maxTextHeight, itemDescriptor.separatorBefore, itemDescriptor.callback, itemDescriptor.immediateCallback );
+      return createMenuItem( itemDescriptor.text, maxTextWidth, maxTextHeight, itemDescriptor.separatorBefore, options.closeCallback, itemDescriptor.callback, itemDescriptor.immediateCallback );
     } );
     var separatorWidth = _.max( items, function( item ) {return item.width;} ).width;
     var itemHeight = _.max( items, function( item ) {return item.height;} ).height;

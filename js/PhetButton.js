@@ -10,12 +10,9 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Image = require( 'SCENERY/nodes/Image' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
-  var Plane = require( 'SCENERY/nodes/Plane' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetMenu = require( 'JOIST/PhetMenu' );
   var Shape = require( 'KITE/Shape' );
-  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
-  var Vector2 = require( 'DOT/Vector2' );
   var PushButtonDeprecated = require( 'SUN/PushButtonDeprecated' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
 
@@ -35,7 +32,6 @@ define( function( require ) {
    */
   function PhetButton( sim, whiteColorScheme, homeScreen, options ) {
 
-    var phetButton = this;
     options = _.extend( {
       phetLogo: whiteColorScheme ? phetLogoDarker : phetLogo,
       phetLogoScale: 0.28,
@@ -71,33 +67,25 @@ define( function( require ) {
     //When the phet button is pressed, show the phet menu
     var phetButtonPressed = function() {
 
-      //The PhetMenu can be embedded in different contexts, but the scale should be consistent.  So look up the embedding scale here and factor it out.  See #39
-      var ancestor = homeScreen ? phetButton.parents[0] : phetButton.parents[0].parents[0];
-      var scale = ancestor.getGlobalToLocalMatrix().getScaleVector().x;
-
-      var global = phetButton.parentToGlobalPoint( phetButton.center );
-      var local = ancestor.globalToLocalPoint( global );
       var phetMenu = new PhetMenu( sim, {
         showSaveAndLoad: sim.options.showSaveAndLoad,
-        scale: scale,
-        right: phetButton.globalToParentPoint( new Vector2( phetButton.globalBounds.maxX, 0 ) ).x,
-        bottom: local.y} );
+        closeCallback: function() {
+          // hides the popup and barrier background
+          sim.hidePopup( phetMenu );
+        }
+      } );
+      function onResize( bounds, screenBounds, scale ) {
+        // because it starts at null
+        if ( bounds ) {
+          phetMenu.setScaleMagnitude( Math.max( 1, scale * 0.7 ) ); // minimum size for small devices
+          phetMenu.right = bounds.right - 10 * scale;
+          phetMenu.bottom = ( bounds.bottom + screenBounds.bottom ) / 2;
+        }
+      }
+      sim.on( 'resized', onResize );
+      onResize( sim.bounds, sim.screenBounds, sim.scale );
 
-      var rectangle = new Plane( {fill: 'black', opacity: 0.3, renderer: 'svg'} );
-      var detach = function() {
-        rectangle.detach();
-        phetMenu.detach();
-        phetMenu.removeInputListener( popupMenuListener );
-        rectangle.removeInputListener( rectangleListener );
-      };
-      var popupMenuListener = new ButtonListener( {fire: detach} );
-      var rectangleListener = {down: detach};
-
-      phetMenu.addInputListener( popupMenuListener );
-      rectangle.addInputListener( rectangleListener );
-
-      ancestor.addChild( rectangle );
-      ancestor.addChild( phetMenu );
+      sim.showPopup( phetMenu );
     };
     this.addListener( phetButtonPressed );
 
