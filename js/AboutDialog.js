@@ -12,12 +12,12 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
-  var ScreenView = require( 'JOIST/ScreenView' );
-  var Panel = require( 'SUN/Panel' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var VStrut = require( 'SUN/VStrut' );
+  var Dialog = require( 'JOIST/Dialog' );
 
   // strings
   var creditsTitleString = require( 'string!JOIST/credits.title' );
@@ -31,25 +31,18 @@ define( function( require ) {
 
   /**
    * @param {Sim} sim
+   * @param {Brand} Brand?
    * @constructor
    */
   function AboutDialog( sim, Brand ) {
-
-    var thisDialog = this;
-
-    /*
-     * Use ScreenView, to help center and scale content.
-     * Renderer must be specified here because the AboutDialog is added directly to the scene,
-     * instead of to some other node that already has svg renderer.
-     */
-    ScreenView.call( this, {renderer: 'svg'} );
+    var dialog = this;
 
     var children = [
-      new Text( Brand.name, { font: new PhetFont( 16 ) } ),
-      new Text( Brand.copyright, { font: new PhetFont( 12 ) } ),
-      new VStrut( 15 ),
       new Text( sim.name, { font: new PhetFont( 28 ) } ),
-      new Text( 'version ' + sim.version, { font: new PhetFont( 20 ) } )
+      new Text( 'version ' + sim.version, { font: new PhetFont( 20 ) } ),
+      new VStrut( 15 ),
+      new Text( Brand.name, { font: new PhetFont( 16 ) } ),
+      new Text( Brand.copyright, { font: new PhetFont( 12 ) } )
     ];
 
     if ( sim.credits ) {
@@ -67,15 +60,15 @@ define( function( require ) {
 
     var content = new VBox( { align: 'left', spacing: 5, children: children } );
 
-    this.addChild( new Panel( content, {centerX: this.layoutBounds.centerX, centerY: this.layoutBounds.centerY, xMargin: 20, yMargin: 20 } ) );
+    Dialog.call( this, content, {
+      modal: true,
+      hasCloseButton: false
+    } );
 
-    function resize() {
-      thisDialog.layout( $( window ).width(), $( window ).height() );
-    }
-
-    //Fit to the window and render the initial scene
-    $( window ).resize( resize );
-    resize();
+    // close it on a click
+    this.addInputListener( new ButtonListener( {
+      fire: dialog.hide.bind( dialog )
+    } ) );
   }
 
   /**
@@ -143,7 +136,7 @@ define( function( require ) {
     return new VBox( { align: 'left', spacing: 1, children: children } );
   };
 
-  inherit( ScreenView, AboutDialog );
+  inherit( Dialog, AboutDialog );
 
   return AboutDialog;
 } );

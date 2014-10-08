@@ -75,7 +75,11 @@ define( function( require ) {
 
     this.destroyed = false;
     var sim = this;
-    window.sim = sim;
+
+    // global namespace for accessing the sim
+    window.phet = window.phet || {};
+    assert && assert( !window.phet.sim, 'Only supports one sim at a time' );
+    window.phet.sim = sim;
 
     sim.name = name;
     sim.version = version();
@@ -390,9 +394,9 @@ define( function( require ) {
       sim.barrierRectangle.visible = numBarriers > 0;
     } );
     this.barrierRectangle.addInputListener( new ButtonListener( {
-      fire: function() {
+      fire: function( event ) {
         assert && assert( sim.barrierStack.length > 0 );
-        sim.hidePopup( sim.barrierStack.get( sim.barrierStack.length - 1 ) );
+        sim.hidePopup( sim.barrierStack.get( sim.barrierStack.length - 1 ), true );
       }
     } ) );
 
@@ -405,25 +409,31 @@ define( function( require ) {
 
   return inherit( PropertySet, Sim, {
     /*
-     * Adds a popup in the global coordinate frame, and displays a semi-transparent black input barrier behind it.
+     * Adds a popup in the global coordinate frame, and optionally displays a semi-transparent black input barrier behind it.
      * Use hidePopup() to remove it.
      * @param {Node} node
+     * @param {boolean} isModal - Whether to display the semi-transparent black input barrier behind it.
      */
-    showPopup: function( node ) {
+    showPopup: function( node, isModal ) {
       assert && assert( node );
 
-      this.barrierStack.push( node );
+      if ( isModal ) {
+        this.barrierStack.push( node );
+      }
       this.topLayer.addChild( node );
     },
 
     /*
      * Hides a popup that was previously displayed with showPopup()
      * @param {Node} node
+     * @param {boolean} isModal - Whether the previous popup was modal (or not)
      */
-    hidePopup: function( node ) {
+    hidePopup: function( node, isModal ) {
       assert && assert( node && this.barrierStack.contains( node ) );
 
-      this.barrierStack.remove( node );
+      if ( isModal ) {
+        this.barrierStack.remove( node );
+      }
       this.topLayer.removeChild( node );
     },
 

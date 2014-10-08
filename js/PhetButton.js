@@ -71,7 +71,7 @@ define( function( require ) {
         showSaveAndLoad: sim.options.showSaveAndLoad,
         closeCallback: function() {
           // hides the popup and barrier background
-          sim.hidePopup( phetMenu );
+          sim.hidePopup( phetMenu, true );
         }
       } );
       function onResize( bounds, screenBounds, scale ) {
@@ -85,7 +85,7 @@ define( function( require ) {
       sim.on( 'resized', onResize );
       onResize( sim.bounds, sim.screenBounds, sim.scale );
 
-      sim.showPopup( phetMenu );
+      sim.showPopup( phetMenu, true );
     };
     this.addListener( phetButtonPressed );
 

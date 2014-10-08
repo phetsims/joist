@@ -110,19 +110,6 @@ define( function( require ) {
     var thisMenu = this;
     Node.call( thisMenu, {renderer: 'svg'} );
 
-    var showAboutDialog = function( aboutDialog ) {
-      var plane = new Plane( {fill: 'black', opacity: 0.3, renderer: 'svg'} );//Renderer must be specified here because the plane is added directly to the scene (instead of to some other node that already has svg renderer)
-      sim.showPopup( aboutDialog );
-      var aboutDialogListener = {up: function() {
-        aboutDialog.removeInputListener( aboutDialogListener );
-        plane.addInputListener( aboutDialogListener );
-        sim.hidePopup( aboutDialog );
-        plane.detach();
-      }};
-      aboutDialog.addInputListener( aboutDialogListener );
-      plane.addInputListener( aboutDialogListener );
-    };
-
     /*
      * Description of the items in the menu. Each descriptor has these properties:
      * {string} text - the item's text
@@ -218,7 +205,9 @@ define( function( require ) {
         text: aboutString,
         present: isPhETBrand,
         separatorBefore: true,
-        callback: function() { showAboutDialog( new AboutDialog( sim, Brand ) ); }
+        callback: function() {
+          new AboutDialog( sim, Brand ).show();
+        }
       },
 
       //About dialog for non-phet sims
@@ -227,7 +216,7 @@ define( function( require ) {
         present: !isPhETBrand,
         separatorBefore: false,
         callback: function() {
-          showAboutDialog( new AboutDialog( sim, Brand ) );
+          new AboutDialog( sim, Brand ).show();
         }
       }
     ];
