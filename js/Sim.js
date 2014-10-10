@@ -220,7 +220,10 @@ define( function( require ) {
       allowDevicePixelRatioScaling: false,
       accessible: true,
       webglMakeLostContextSimulatingCanvas: sim.webglMakeLostContextSimulatingCanvas,
-      webglContextLossIncremental: sim.webglContextLossIncremental
+      webglContextLossIncremental: sim.webglContextLossIncremental,
+
+      // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
+      webgl: window.phetcommon.getQueryParameter( 'webgl' ) || true
     } );
     sim.scene.sim = sim; // add a reference back to the simulation
     sim.scene.initializeWindowEvents( { batchDOMEvents: true } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
@@ -388,7 +391,7 @@ define( function( require ) {
     // out the background.
     this.barrierStack = new ObservableArray();
     this.barrierRectangle = new Rectangle( 0, 0, 1, 1, 0, 0, {
-      fill:'rgba(0,0,0,0.3)',
+      fill: 'rgba(0,0,0,0.3)',
       pickable: true
     } );
     this.topLayer.addChild( this.barrierRectangle );
