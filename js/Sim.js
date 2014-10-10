@@ -142,49 +142,49 @@ define( function( require ) {
     function stringToBoolean( string ) { return string === 'true'; }
 
     // Query parameters override options.
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showHomeScreen' ) ) {
+    if ( window.phetcommon.getQueryParameter( 'showHomeScreen' ) ) {
       options.showHomeScreen = stringToBoolean( window.phetcommon.getQueryParameter( 'showHomeScreen' ) );
     }
 
     // Option for profiling
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'profiler' ) ) {
+    if ( window.phetcommon.getQueryParameter( 'profiler' ) ) {
       options.profiler = true;
     }
 
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'screenIndex' ) ) {
+    if ( window.phetcommon.getQueryParameter( 'screenIndex' ) ) {
       options.screenIndex = parseInt( window.phetcommon.getQueryParameter( 'screenIndex' ), 10 );
     }
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'recordInputEventLog' ) ) {
+    if ( window.phetcommon.getQueryParameter( 'recordInputEventLog' ) ) {
       // enables recording of Scenery's input events, request animation frames, and dt's so the sim can be played back
       options.recordInputEventLog = true;
       options.inputEventLogName = window.phetcommon.getQueryParameter( 'recordInputEventLog' );
     }
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'playbackInputEventLog' ) ) {
+    if ( window.phetcommon.getQueryParameter( 'playbackInputEventLog' ) ) {
       // instead of loading like normal, download a previously-recorded event sequence and play it back (unique to the browser and window size)
       options.playbackInputEventLog = true;
       options.inputEventLogName = window.phetcommon.getQueryParameter( 'playbackInputEventLog' );
     }
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'fuzzMouse' ) ) {
+    if ( window.phetcommon.getQueryParameter( 'fuzzMouse' ) ) {
       // ignore any user input events, and instead fire mouse events randomly in an effort to cause an exception
       options.fuzzMouse = true;
       if ( window.phetcommon.getQueryParameter( 'fuzzMouse' ) !== 'undefined' ) {
         sim.fuzzMouseAverage = parseFloat( window.phetcommon.getQueryParameter( 'fuzzMouse' ) );
       }
     }
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'fuzzTouches' ) ) {
+    if ( window.phetcommon.getQueryParameter( 'fuzzTouches' ) ) {
       // ignore any user input events, and instead fire touch events randomly in an effort to cause an exception
       options.fuzzTouches = true;
     }
 
     //If specifying 'standalone' then filter the screens array so that it is just the selected screenIndex
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'standalone' ) ) {
+    if ( window.phetcommon.getQueryParameter( 'standalone' ) ) {
       options.standalone = true;
       screens = [screens[options.screenIndex]];
       options.screenIndex = 0;
     }
 
     //If specifying 'screens' then use 1-based (not zero-based) and "." delimited string such as "1.3.4" to get the 1st, 3rd and 4th screen
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'screens' ) ) {
+    if ( window.phetcommon.getQueryParameter( 'screens' ) ) {
       var screensValueString = window.phetcommon.getQueryParameter( 'screens' );
       screens = screensValueString.split( '.' ).map( function( screenString ) {
         return screens[parseInt( screenString, 10 ) - 1];
@@ -195,7 +195,7 @@ define( function( require ) {
     // If specifying 'webglContextLossTimeout' then start a timer that will elapse in that number of milliseconds and simulate
     // WebGL context loss on all WebGL Layers
     var webglContextLossTimeoutString = window.phetcommon.getQueryParameter( 'webglContextLossTimeout' );
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && webglContextLossTimeoutString ) {
+    if ( webglContextLossTimeoutString ) {
 
       // Enabled the canvas contexts for context loss
       sim.webglMakeLostContextSimulatingCanvas = true;
@@ -211,7 +211,7 @@ define( function( require ) {
       }
     }
 
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'webglContextLossIncremental' ) ) {
+    if ( window.phetcommon.getQueryParameter( 'webglContextLossIncremental' ) ) {
       sim.webglContextLossIncremental = true;
     }
 
@@ -260,13 +260,13 @@ define( function( require ) {
     }
     window.simScene = sim.scene; // make the scene available for debugging
 
-    var showPointers = window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showPointers' );
+    var showPointers = window.phetcommon.getQueryParameter( 'showPointers' );
     this.showPointersProperty = new Property( showPointers );
     this.showPointersProperty.link( function( showPointers ) {
       sim.scene.setPointerDisplayVisible( showPointers );
     } );
 
-    var showPointerAreas = window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showPointerAreas' );
+    var showPointerAreas = window.phetcommon.getQueryParameter( 'showPointerAreas' );
     this.showPointerAreasProperty = new Property( showPointerAreas );
     this.showPointerAreasProperty.link( function( showPointerAreas ) {
       sim.scene.setPointerAreaDisplayVisible( showPointerAreas );
@@ -626,7 +626,7 @@ define( function( require ) {
       })();
 
       //If state was specified, load it now
-      if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'state' ) ) {
+      if ( window.phetcommon.getQueryParameter( 'state' ) ) {
         var stateString = window.phetcommon.getQueryParameter( 'state' );
         var decoded = decodeURIComponent( stateString );
         sim.setState( JSON.parse( decoded, SimJSON.reviver ) );
