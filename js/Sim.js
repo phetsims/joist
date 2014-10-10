@@ -44,9 +44,15 @@ define( function( require ) {
   function Sim( name, screens, options ) {
 
     PropertySet.call( this, {
-      scale: 1, // [read-only] how the home screen and navbar are scaled
-      bounds: null, // global bounds for the entire simulation
-      screenBounds: null // global bounds for the screen-specific part (excludes the navigation bar)
+
+      // [read-only] how the home screen and navbar are scaled
+      scale: 1,
+
+      // global bounds for the entire simulation
+      bounds: null,
+
+      // global bounds for the screen-specific part (excludes the navigation bar)
+      screenBounds: null
     } );
 
     assert && assert( window.phetJoistSimLauncher, 'Sim must be launched using SimLauncher, see https://github.com/phetsims/joist/issues/142' );
