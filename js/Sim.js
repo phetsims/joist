@@ -251,7 +251,7 @@ define( function( require ) {
       webglContextLossIncremental: sim.webglContextLossIncremental,
 
       // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
-      webgl: window.phetcommon.getQueryParameter( 'webgl' ) || true
+      allowWebGL: window.phetcommon.getQueryParameter( 'webgl' ) !== 'false'
     } );
     sim.scene.sim = sim; // add a reference back to the simulation
     sim.scene.initializeWindowEvents( { batchDOMEvents: true } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
