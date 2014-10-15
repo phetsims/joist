@@ -52,7 +52,13 @@ define( function( require ) {
       bounds: null,
 
       // global bounds for the screen-specific part (excludes the navigation bar)
-      screenBounds: null
+      screenBounds: null,
+
+      // [read-only] {Screen|null} - The current screen, or null if showing the home screen (which is NOT a Screen)
+      currentScreen: null,
+
+      // [read-only] {boolean} - Whether our navbar and UI are currently using the inverted (white) style
+      useInvertedColors: false
     } );
 
     assert && assert( window.phetJoistSimLauncher, 'Sim must be launched using SimLauncher, see https://github.com/phetsims/joist/issues/142' );
@@ -215,19 +221,6 @@ define( function( require ) {
       sim.webglContextLossIncremental = true;
     }
 
-    //Default values are to show the home screen with the 1st screen selected
-    var showHomeScreen = ( _.isUndefined( options.showHomeScreen ) ) ? true : options.showHomeScreen;
-
-    //If there is only one screen, do not show the home screen
-    if ( screens.length === 1 ) {
-      showHomeScreen = false;
-    }
-
-    sim.screens = screens;
-
-    //This model represents where the simulation is, whether it is on the home screen or a screen, and which screen it is on or is highlighted in the homescreen
-    sim.simModel = new PropertySet( {showHomeScreen: showHomeScreen, screenIndex: options.screenIndex || 0 } );
-
     var $body = $( 'body' );
     $body.css( 'padding', '0' ).css( 'margin', '0' ).css( 'overflow', 'hidden' ); // prevent scrollbars
 
@@ -287,8 +280,21 @@ define( function( require ) {
       window.setInterval( function() { sleep( Math.ceil( 100 + Math.random() * 200 ) ); }, Math.ceil( 100 + Math.random() * 200 ) );
     };
 
-    var whiteNavBar = !!new Color( screens[0].backgroundColor ).equals( Color.BLACK );
-    sim.navigationBar = new NavigationBar( sim, screens, sim.simModel, whiteNavBar );
+    //Default values are to show the home screen with the 1st screen selected
+    var showHomeScreen = ( _.isUndefined( options.showHomeScreen ) ) ? true : options.showHomeScreen;
+
+    //If there is only one screen, do not show the home screen
+    if ( screens.length === 1 ) {
+      showHomeScreen = false;
+    }
+
+    sim.screens = screens;
+
+    //This model represents where the simulation is, whether it is on the home screen or a screen, and which screen it is on or is highlighted in the homescreen
+    sim.simModel = new PropertySet( {
+      showHomeScreen: showHomeScreen,
+      screenIndex: options.screenIndex || 0
+    } );
 
     // Multi-screen sims get a home screen.
     if ( screens.length > 1 ) {
@@ -302,20 +308,27 @@ define( function( require ) {
       }
     }
 
+    sim.navigationBar = new NavigationBar( sim, screens, sim.simModel );
+
     var updateBackground = function() {
-      if ( sim.simModel.showHomeScreen ) {
-        $simDiv.css( 'background', 'black' );
-      }
-      else {
-        var backgroundColor = screens[sim.simModel.screenIndex].backgroundColor || 'white';
-        var cssColor = ( typeof backgroundColor === 'string' ) ? backgroundColor : backgroundColor.toCSS();
-        $simDiv.css( 'background', cssColor );
+      $simDiv[0].style.background = sim.currentScreen ?
+                                    sim.currentScreen.backgroundColor.toCSS() :
+                                    'black';
+      if ( sim.currentScreen ) {
+        sim.useInvertedColors = !!new Color( sim.currentScreen.backgroundColor ).equals( Color.BLACK );
       }
     };
+
+    sim.simModel.multilink( ['showHomeScreen', 'screenIndex'], function() {
+      sim.currentScreen = sim.simModel.showHomeScreen ? null : screens[sim.simModel.screenIndex];
+      updateBackground();
+    } );
 
     //Instantiate the screens
     //Currently this is done eagerly, but this pattern leaves open the door for loading things in the background.
     _.each( screens, function( screen, index ) {
+
+      screen.link( 'backgroundColor', updateBackground );
 
       //Create each model & view, and keep track of the amount of time it took to create each, which is displayed if 'profiler' is enabled as a query parameter
       var start = Date.now();

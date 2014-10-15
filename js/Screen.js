@@ -13,7 +13,10 @@
 define( function( require ) {
   'use strict';
 
+  var inherit = require( 'PHET_CORE/inherit' );
+  var PropertySet = require( 'AXON/PropertySet' );
   var Dimension2 = require( 'DOT/Dimension2' );
+  var Color = require( 'SCENERY/util/Color' );
 
   /**
    * @param {string} name
@@ -26,14 +29,22 @@ define( function( require ) {
   function Screen( name, homeScreenIcon, createModel, createView, options ) {
 
     options = _.extend( {
-      backgroundColor: 'white',
+      backgroundColor: 'white', // {Color|string} - Initial background color of the screen
       navigationBarIcon: homeScreenIcon // must be a minimum of 147x100 and have an aspect ratio of 548/373=1.469.  See https://github.com/phetsims/joist/issues/76
     }, options );
+
+    var backgroundColor = options.backgroundColor;
+    if ( typeof backgroundColor === 'string' ) {
+      backgroundColor = new Color( backgroundColor );
+    }
+
+    PropertySet.call( this, {
+      backgroundColor: backgroundColor
+    } );
 
     this.name = name;
     this.homeScreenIcon = homeScreenIcon;
     this.navigationBarIcon = options.navigationBarIcon;
-    this.backgroundColor = options.backgroundColor;
     this.createModel = createModel;
     this.createView = createView;
   }
@@ -41,5 +52,5 @@ define( function( require ) {
   Screen.HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 );
   Screen.NAVBAR_ICON_SIZE = new Dimension2( 147, 100 );
 
-  return Screen;
+  return inherit( PropertySet, Screen );
 } );

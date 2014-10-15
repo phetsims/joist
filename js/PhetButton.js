@@ -30,33 +30,48 @@ define( function( require ) {
    * @param {Object} [options] Unused in client code.  TODO: Remove
    * @constructor
    */
-  function PhetButton( sim, whiteColorScheme, homeScreen, options ) {
+  function PhetButton( sim, homeScreen, options ) {
 
     options = _.extend( {
-      phetLogo: whiteColorScheme ? phetLogoDarker : phetLogo,
       phetLogoScale: 0.28,
       optionsButtonVerticalMargin: 1.5
     }, options );
 
     var phetLabel = new Image( options.phetLogo, {scale: options.phetLogoScale, pickable: false} );
+    sim.link( 'useInvertedColors', function( whiteColorScheme ) {
+      phetLabel.image = whiteColorScheme ? phetLogoDarker : phetLogo;
+    } );
 
     var optionsButton = new FontAwesomeNode( 'reorder', {
-      fill: whiteColorScheme ? '#222' : 'white',
       scale: 0.6,
       left: phetLabel.width + 10,
       bottom: phetLabel.bottom - options.optionsButtonVerticalMargin,
       pickable: false
+    } );
+    sim.link( 'useInvertedColors', function( whiteColorScheme ) {
+      optionsButton.fill = whiteColorScheme ? '#222' : 'white';
     } );
 
     var createNode = function( highlighted ) {
       var node = new Node( {children: [phetLabel, optionsButton]} );
 
       if ( highlighted ) {
-        node.addChild( new HighlightNode( node.width + 6, node.height + 5, {
+        var normalHighlight = new HighlightNode( node.width + 6, node.height + 5, {
           centerX: node.centerX,
           centerY: node.centerY + 4,
-          whiteHighlight: !whiteColorScheme
-        } ) );
+          whiteHighlight: true
+        } );
+        var invertedHighlight = new HighlightNode( node.width + 6, node.height + 5, {
+          centerX: node.centerX,
+          centerY: node.centerY + 4,
+          whiteHighlight: false
+        } );
+        node.addChild( normalHighlight );
+        node.addChild( invertedHighlight );
+        sim.link( 'useInvertedColors', function( whiteColorScheme ) {
+          normalHighlight.visible = !whiteColorScheme;
+          invertedHighlight.visible = whiteColorScheme;
+        } );
       }
       return node;
     };
