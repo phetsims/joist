@@ -37,7 +37,7 @@ define( function( require ) {
       optionsButtonVerticalMargin: 1.5
     }, options );
 
-    var phetLabel = new Image( options.phetLogo, {scale: options.phetLogoScale, pickable: false} );
+    var phetLabel = new Image( phetLogo, {scale: options.phetLogoScale, pickable: false} );
     sim.link( 'useInvertedColors', function( whiteColorScheme ) {
       phetLabel.image = whiteColorScheme ? phetLogoDarker : phetLogo;
     } );
