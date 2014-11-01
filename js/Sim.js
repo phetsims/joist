@@ -235,6 +235,11 @@ define( function( require ) {
     $body.append( $simDiv );
     this.$simDiv = $simDiv;
 
+    // for preventing Safari from going to sleep. see https://github.com/phetsims/joist/issues/140
+    var heartbeatDiv = this.heartbeatDiv = document.createElement( 'div' );
+    heartbeatDiv.style.opacity = 0;
+    document.body.appendChild( heartbeatDiv );
+
     //Create the scene
     //Leave accessibility as a flag while in development
     sim.scene = new Scene( $simDiv, {
@@ -579,6 +584,11 @@ define( function( require ) {
         }
 
         phetAllocation && phetAllocation( 'loop' );
+
+        // prevent Safari from going to sleep, see https://github.com/phetsims/joist/issues/140
+        if ( sim.frameCounter % 1000 === 0 ) {
+          sim.heartbeatDiv.innerHTML = Math.random();
+        }
 
         // fire or synthesize input events
         if ( sim.options.fuzzMouse ) {
