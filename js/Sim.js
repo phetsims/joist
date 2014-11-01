@@ -423,6 +423,9 @@ define( function( require ) {
         updateBackground();
       } );
     }
+    else {
+      throw new Error( "invalid value for options.screenDisplayStrategy: " + options.screenDisplayStrategy );
+    }
 
     // layer for popups, dialogs, and their backgrounds and barriers
     this.topLayer = new Node( { renderer: 'svg' } );
