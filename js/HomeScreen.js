@@ -30,7 +30,8 @@ define( function( require ) {
     var homeScreen = this;
 
     options = _.extend( {
-      showSmallHomeScreenIconFrame: false
+      showSmallHomeScreenIconFrame: false,
+      warningNode: null // {Node | null}, to display below the icons as a warning if available
     }, options );
 
     //Rendering in SVG seems to solve the problem that the home screen consumes 100% disk and crashes, see https://github.com/phetsims/joist/issues/17
@@ -178,6 +179,14 @@ define( function( require ) {
     else {
       this.phetButton = new PhetButton( sim, false, true );
       this.addChild( this.phetButton );
+    }
+
+    if ( options.warningNode ) {
+      var warningNode = options.warningNode;
+
+      this.addChild( warningNode );
+      warningNode.centerX = this.layoutBounds.centerX;
+      warningNode.bottom = this.layoutBounds.maxY - 20;
     }
   }
 

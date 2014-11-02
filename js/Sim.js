@@ -77,8 +77,11 @@ define( function( require ) {
       // credits, see AboutDialog for format
       credits: {},
 
-      // a node placed into the Options dialog (if available)
+      // a {Node} placed into the Options dialog (if available)
       optionsNode: null,
+
+      // a {Node} placed onto the home screen (if available)
+      homeScreenWarningNode: null,
 
       // if true, prints screen initialization time (total, model, view) to the console and displays
       // profiling information on the screen
@@ -304,6 +307,7 @@ define( function( require ) {
     // Multi-screen sims get a home screen.
     if ( screens.length > 1 ) {
       sim.homeScreen = new HomeScreen( sim, {
+        warningNode: options.homeScreenWarningNode,
         showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame
       } );
 
