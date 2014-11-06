@@ -36,6 +36,7 @@ define( function( require ) {
       new Text( settingsString, { font: new PhetFont( 16 ) } ),
       new CheckBox( new Text( showPointersString ), sim.showPointersProperty ),
       new TextPushButton( doneString, {
+        font: new PhetFont( 20 ),
         listener: function() {
           settingsDialog.doneListeners.forEach( function( listener ) {
             listener();

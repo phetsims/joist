@@ -23,11 +23,10 @@ define( function( require ) {
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
    * @param {Sim} sim
    * @param {Screen} screen
-   * @param {Number} navBarHeight
-   * @param {Boolean} whiteColorScheme true if the color scheme should be white, false if it should be black
+   * @param {number} navBarHeight
    * @constructor
    */
-  function NavigationBarScreenButton( sim, screen, navBarHeight, whiteColorScheme, minWidth ) {
+  function NavigationBarScreenButton( sim, screen, navBarHeight, minWidth ) {
     Node.call( this, {
       cursor: 'pointer'
     } );
@@ -42,10 +41,6 @@ define( function( require ) {
     } );
     this.addInputListener( new ButtonListener( buttonModel ) );
 
-    // Color match yellow with the PhET Logo
-    var selectedTextColor = whiteColorScheme ? 'black' : '#f2e916';
-    var unselectedTextColor = whiteColorScheme ? 'gray' : 'white';
-
     var text = new Text( screen.name );
 
     var box = new VBox( {
@@ -59,20 +54,31 @@ define( function( require ) {
     overlay.centerX = box.centerX;
     overlay.y = box.y;
 
-    var highlight = new HighlightNode( overlay.width + 4, overlay.height, {
+    var normalHighlight = new HighlightNode( overlay.width + 4, overlay.height, {
       centerX: box.centerX,
-      whiteHighlight: !whiteColorScheme,
+      whiteHighlight: true,
+      pickable: false
+    } );
+    var invertedHighlight = new HighlightNode( overlay.width + 4, overlay.height, {
+      centerX: box.centerX,
+      whiteHighlight: false,
       pickable: false
     } );
 
     this.addChild( box );
-    this.addChild( highlight );
+    this.addChild( normalHighlight );
+    this.addChild( invertedHighlight );
     this.addChild( overlay );
 
-    this.multilink = new Multilink( [selected, buttonModel.downProperty, buttonModel.overProperty], function update() {
+    this.multilink = new Multilink( [selected, buttonModel.downProperty, buttonModel.overProperty, sim.useInvertedColorsProperty], function update() {
+      // Color match yellow with the PhET Logo
+      var selectedTextColor = sim.useInvertedColors ? 'black' : '#f2e916';
+      var unselectedTextColor = sim.useInvertedColors ? 'gray' : 'white';
+
       text.fill = selected.get() ? selectedTextColor : unselectedTextColor;
       box.opacity = selected.get() ? 1.0 : buttonModel.down ? 0.65 : 0.5;
-      highlight.visible = buttonModel.over || buttonModel.down;
+      normalHighlight.visible = !sim.useInvertedColors && ( buttonModel.over || buttonModel.down );
+      invertedHighlight.visible = sim.useInvertedColors && ( buttonModel.over || buttonModel.down );
     } );
   }
 

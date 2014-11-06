@@ -10,69 +10,128 @@
 define( function( require ) {
   'use strict';
 
-  var Util = require( 'SCENERY/util/Util' );
-  var NavigationBar = require( 'JOIST/NavigationBar' );
-  var HomeScreen = require( 'JOIST/HomeScreen' );
-  var Display = require( 'SCENERY/display/Display' );
-  var Node = require( 'SCENERY/nodes/Node' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Bounds2 = require( 'DOT/Bounds2' );
   var Vector2 = require( 'DOT/Vector2' );
   var Dimension2 = require( 'DOT/Dimension2' );
+  var NavigationBar = require( 'JOIST/NavigationBar' );
+  var HomeScreen = require( 'JOIST/HomeScreen' );
+  var Util = require( 'SCENERY/util/Util' );
+  var Display = require( 'SCENERY/display/Display' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var version = require( 'version' );
   var PropertySet = require( 'AXON/PropertySet' );
   var Property = require( 'AXON/Property' );
+  var ObservableArray = require( 'AXON/ObservableArray' );
   var platform = require( 'PHET_CORE/platform' );
   var Timer = require( 'JOIST/Timer' );
   var SimJSON = require( 'JOIST/SimJSON' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Color = require( 'SCENERY/util/Color' );
   var Shape = require( 'KITE/Shape' );
   var Profiler = require( 'JOIST/Profiler' );
 
   /**
-   * @param {String} name
-   * @param {Array<Screen>} screens
+   * @param {string} name
+   * @param {Screen[]} screens
    * @param {Object} [options]
    * @constructor
+   *
+   * Events:
+   * - resized( bounds, screenBounds, scale ): Fires when the sim is resized.
    */
   function Sim( name, screens, options ) {
+
+    PropertySet.call( this, {
+
+      // [read-only] how the home screen and navbar are scaled
+      scale: 1,
+
+      // global bounds for the entire simulation
+      bounds: null,
+
+      // global bounds for the screen-specific part (excludes the navigation bar)
+      screenBounds: null,
+
+      // [read-only] {Screen|null} - The current screen, or null if showing the home screen (which is NOT a Screen)
+      currentScreen: null,
+
+      // [read-only] {boolean} - Whether our navbar and UI are currently using the inverted (white) style
+      useInvertedColors: false
+    } );
 
     assert && assert( window.phetJoistSimLauncher, 'Sim must be launched using SimLauncher, see https://github.com/phetsims/joist/issues/142' );
 
     options = _.extend( {
-      showHomeScreen: true, // whether to show the home screen, or go immediately to the screen indicated by screenIndex
-      screenIndex: 0, // index of the screen that will be selected at startup
-      standalone: false, // whether to run the screen indicated by screenIndex as a standalone sim
-      credits: {}, // credits, see AboutDialog for format
+
+      // whether to show the home screen, or go immediately to the screen indicated by screenIndex
+      showHomeScreen: true,
+
+      // index of the screen that will be selected at startup
+      screenIndex: 0,
+
+      // whether to run the screen indicated by screenIndex as a standalone sim
+      standalone: false,
+
+      // credits, see AboutDialog for format
+      credits: {},
+
+      // a {Node} placed into the Options dialog (if available)
+      optionsNode: null,
+
+      // a {Node} placed onto the home screen (if available)
+      homeScreenWarningNode: null,
 
       // if true, prints screen initialization time (total, model, view) to the console and displays
       // profiling information on the screen
       profiler: false,
 
-      recordInputEventLog: false, // if true, records the scenery input events and sends them to a server that can store them
-      inputEventLogName: undefined, // when playing back a recorded scenery input event log, use the specified filename.  Please see getEventLogName for more
+      // if true, records the scenery input events and sends them to a server that can store them
+      recordInputEventLog: false,
 
-      //The screen display strategy chooses which way to switch screens, using setVisible or setChildren.
-      //setVisible is faster in scenery 0.1 but crashes some apps due to memory restrictions, so some apps need to specify 'setChildren'
-      //See https://github.com/phetsims/joist/issues/96
+      // when playing back a recorded scenery input event log, use the specified filename.  Please see getEventLogName for more
+      inputEventLogName: undefined,
+
+      // The screen display strategy chooses which way to switch screens, using setVisible or setChildren.
+      // setVisible is faster in scenery 0.1 but crashes some apps due to memory restrictions, so some apps need to specify 'setChildren'
+      // See https://github.com/phetsims/joist/issues/96
       screenDisplayStrategy: 'setVisible',
+
+      // Whether events should be batched until they need to be fired. If false, events will be fired immediately, not
+      // waiting for the next animation frame
       batchEvents: false,
-      showSaveAndLoad: false, // this function is currently (9-5-2014) specific to Energy Skate Park: Basics, which shows Save/Load buttons in the PhET menu.  This interface is not very finalized and will probably be changed for future versions, so don't rely on it.
-      showSmallHomeScreenIconFrame: false // If true, there will be a border shown around the home screen icons.  Use this option if the home screen icons have the same color as the backrgound, as in Color Vision.
+
+      // this function is currently (9-5-2014) specific to Energy Skate Park: Basics, which shows Save/Load buttons in
+      // the PhET menu.  This interface is not very finalized and will probably be changed for future versions,
+      // so don't rely on it.
+      showSaveAndLoad: false,
+
+      // If true, there will be a border shown around the home screen icons.  Use this option if the home screen icons
+      // have the same color as the backrgound, as in Color Vision.
+      showSmallHomeScreenIconFrame: false
     }, options );
     this.options = options; // @private store this for access from prototype functions, assumes that it won't be changed later
 
     this.destroyed = false;
     var sim = this;
-    window.sim = sim;
+
+    // global namespace for accessing the sim
+    window.phet = window.phet || {};
+    assert && assert( !window.phet.sim, 'Only supports one sim at a time' );
+    window.phet.sim = sim;
 
     sim.name = name;
     sim.version = version();
     sim.credits = options.credits;
 
-    sim.frameCounter = 0; // number of animation frames that have occurred
+    // number of animation frames that have occurred
+    sim.frameCounter = 0;
 
-    sim.inputEventLog = []; // used to store input events and requestAnimationFrame cycles
-    sim.inputEventWidth = 0;
-    sim.inputEventHeight = 0;
+    // used to store input events and requestAnimationFrame cycles
+    sim.inputEventLog = [];
+    sim.inputEventBounds = Bounds2.NOTHING;
 
     // state for mouse event fuzzing
     sim.fuzzMouseAverage = 10; // average number of mouse events to synthesize per frame
@@ -80,20 +139,29 @@ define( function( require ) {
     sim.fuzzMousePosition = new Vector2(); // start at 0,0
     sim.fuzzMouseLastMoved = false; // whether the last mouse event was a move (we skew probabilities based on this)
 
+    // Option for simulating context loss in WebGL using the khronos webgl-debug tools,
+    // see https://github.com/phetsims/scenery/issues/279
+    sim.webglMakeLostContextSimulatingCanvas = false;
+
+    // Option to incrementally lose context between adjacent gl calls after the 1st context loss
+    // see https://github.com/phetsims/scenery/issues/279
+    sim.webglContextLossIncremental = false;
+
     //Set the HTML page title to the localized title
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
     $( 'title' ).html( name + ' ' + sim.version ); //TODO i18n of order
 
-    //if nothing else specified, try to use the options for showHomeScreen & screenIndex from query parameters, to facilitate testing easily in different screens
+    // if nothing else specified, try to use the options for showHomeScreen & screenIndex from query parameters,
+    // to facilitate testing easily in different screens
     function stringToBoolean( string ) { return string === 'true'; }
 
     // Query parameters override options.
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showHomeScreen' ) ) {
+    if ( window.phetcommon.getQueryParameter( 'showHomeScreen' ) ) {
       options.showHomeScreen = stringToBoolean( window.phetcommon.getQueryParameter( 'showHomeScreen' ) );
     }
 
     // Option for profiling
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'profiler' ) ) {
+    if ( window.phetcommon.getQueryParameter( 'profiler' ) ) {
       options.profiler = true;
     }
 
@@ -107,40 +175,40 @@ define( function( require ) {
       options.showFullscreenOption = true;
     // }
 
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'screenIndex' ) ) {
+    if ( window.phetcommon.getQueryParameter( 'screenIndex' ) ) {
       options.screenIndex = parseInt( window.phetcommon.getQueryParameter( 'screenIndex' ), 10 );
     }
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'recordInputEventLog' ) ) {
+    if ( window.phetcommon.getQueryParameter( 'recordInputEventLog' ) ) {
       // enables recording of Scenery's input events, request animation frames, and dt's so the sim can be played back
       options.recordInputEventLog = true;
       options.inputEventLogName = window.phetcommon.getQueryParameter( 'recordInputEventLog' );
     }
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'playbackInputEventLog' ) ) {
+    if ( window.phetcommon.getQueryParameter( 'playbackInputEventLog' ) ) {
       // instead of loading like normal, download a previously-recorded event sequence and play it back (unique to the browser and window size)
       options.playbackInputEventLog = true;
       options.inputEventLogName = window.phetcommon.getQueryParameter( 'playbackInputEventLog' );
     }
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'fuzzMouse' ) ) {
+    if ( window.phetcommon.getQueryParameter( 'fuzzMouse' ) ) {
       // ignore any user input events, and instead fire mouse events randomly in an effort to cause an exception
       options.fuzzMouse = true;
       if ( window.phetcommon.getQueryParameter( 'fuzzMouse' ) !== 'undefined' ) {
         sim.fuzzMouseAverage = parseFloat( window.phetcommon.getQueryParameter( 'fuzzMouse' ) );
       }
     }
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'fuzzTouches' ) ) {
+    if ( window.phetcommon.getQueryParameter( 'fuzzTouches' ) ) {
       // ignore any user input events, and instead fire touch events randomly in an effort to cause an exception
       options.fuzzTouches = true;
     }
 
     //If specifying 'standalone' then filter the screens array so that it is just the selected screenIndex
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'standalone' ) ) {
+    if ( window.phetcommon.getQueryParameter( 'standalone' ) ) {
       options.standalone = true;
       screens = [screens[options.screenIndex]];
       options.screenIndex = 0;
     }
 
     //If specifying 'screens' then use 1-based (not zero-based) and "." delimited string such as "1.3.4" to get the 1st, 3rd and 4th screen
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'screens' ) ) {
+    if ( window.phetcommon.getQueryParameter( 'screens' ) ) {
       var screensValueString = window.phetcommon.getQueryParameter( 'screens' );
       screens = screensValueString.split( '.' ).map( function( screenString ) {
         return screens[parseInt( screenString, 10 ) - 1];
@@ -148,18 +216,28 @@ define( function( require ) {
       options.screenIndex = 0;
     }
 
-    //Default values are to show the home screen with the 1st screen selected
-    var showHomeScreen = ( _.isUndefined( options.showHomeScreen ) ) ? true : options.showHomeScreen;
+    // If specifying 'webglContextLossTimeout' then start a timer that will elapse in that number of milliseconds and simulate
+    // WebGL context loss on all WebGL Layers
+    var webglContextLossTimeoutString = window.phetcommon.getQueryParameter( 'webglContextLossTimeout' );
+    if ( webglContextLossTimeoutString ) {
 
-    //If there is only one screen, do not show the home screen
-    if ( screens.length === 1 ) {
-      showHomeScreen = false;
+      // Enabled the canvas contexts for context loss
+      sim.webglMakeLostContextSimulatingCanvas = true;
+
+      // If a time was specified, additionally start a timer that will simulate the context loss.
+      if ( webglContextLossTimeoutString !== 'undefined' ) {
+        var time = parseInt( webglContextLossTimeoutString, 10 );
+        console.log( 'simulating context loss in ' + time + 'ms' );
+        window.setTimeout( function() {
+          console.log( 'simulating context loss' );
+          sim.scene.simulateWebGLContextLoss();
+        }, time );
+      }
     }
 
-    sim.screens = screens;
-
-    //This model represents where the simulation is, whether it is on the home screen or a screen, and which screen it is on or is highlighted in the homescreen
-    sim.simModel = new PropertySet( {showHomeScreen: showHomeScreen, screenIndex: options.screenIndex || 0 } );
+    if ( window.phetcommon.getQueryParameter( 'webglContextLossIncremental' ) ) {
+      sim.webglContextLossIncremental = true;
+    }
 
     var $body = $( 'body' );
     $body.css( 'padding', '0' ).css( 'margin', '0' ).css( 'overflow', 'hidden' ); // prevent scrollbars
@@ -171,11 +249,23 @@ define( function( require ) {
 
     sim.scene = new Node();
     sim.display = new Display( sim.scene, {
-      allowSceneOverflow: true // we take up the entire browsable area, so we don't care about clipping
+      allowSceneOverflow: true, // we take up the entire browsable area, so we don't care about clipping
+
+      webglMakeLostContextSimulatingCanvas: sim.webglMakeLostContextSimulatingCanvas,
+      webglContextLossIncremental: sim.webglContextLossIncremental,
+
+      // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
+      allowWebGL: window.phetcommon.getQueryParameter( 'webgl' ) !== 'false'
     } );
     var simDiv = sim.display.domElement;
     simDiv.id = 'sim';
     document.body.appendChild( simDiv );
+
+    // for preventing Safari from going to sleep. see https://github.com/phetsims/joist/issues/140
+    var heartbeatDiv = this.heartbeatDiv = document.createElement( 'div' );
+    heartbeatDiv.style.opacity = 0;
+    document.body.appendChild( heartbeatDiv );
+
     sim.scene.sim = sim; // add a reference back to the simulation
     if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'sceneryLog' ) ) {
       var logNames = window.phetcommon.getQueryParameter( 'sceneryLog' );
@@ -199,13 +289,13 @@ define( function( require ) {
       return url;
     };
 
-    var showPointers = window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showPointers' );
+    var showPointers = window.phetcommon.getQueryParameter( 'showPointers' );
     this.showPointersProperty = new Property( showPointers );
     this.showPointersProperty.link( function( showPointers ) {
       sim.display.setPointerDisplayVisible( !!showPointers );
     } );
 
-    var showPointerAreas = window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'showPointerAreas' );
+    var showPointerAreas = window.phetcommon.getQueryParameter( 'showPointerAreas' );
     this.showPointerAreasProperty = new Property( showPointerAreas );
     this.showPointerAreasProperty.link( function( showPointerAreas ) {
       sim.display.setPointerAreaDisplayVisible( !!showPointerAreas );
@@ -232,12 +322,26 @@ define( function( require ) {
       window.setInterval( function() { sleep( Math.ceil( 100 + Math.random() * 200 ) ); }, Math.ceil( 100 + Math.random() * 200 ) );
     };
 
-    var whiteNavBar = screens[0].backgroundColor === 'black' || screens[0].backgroundColor === '#000' || screens[0].backgroundColor === '#000000';
-    sim.navigationBar = new NavigationBar( sim, screens, sim.simModel, whiteNavBar );
+    //Default values are to show the home screen with the 1st screen selected
+    var showHomeScreen = ( _.isUndefined( options.showHomeScreen ) ) ? true : options.showHomeScreen;
+
+    //If there is only one screen, do not show the home screen
+    if ( screens.length === 1 ) {
+      showHomeScreen = false;
+    }
+
+    sim.screens = screens;
+
+    //This model represents where the simulation is, whether it is on the home screen or a screen, and which screen it is on or is highlighted in the homescreen
+    sim.simModel = new PropertySet( {
+      showHomeScreen: showHomeScreen,
+      screenIndex: options.screenIndex || 0
+    } );
 
     // Multi-screen sims get a home screen.
     if ( screens.length > 1 ) {
       sim.homeScreen = new HomeScreen( sim, {
+        warningNode: options.homeScreenWarningNode,
         showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame
       } );
 
@@ -247,18 +351,27 @@ define( function( require ) {
       }
     }
 
-    sim.updateBackground = function() {
-      if ( sim.simModel.showHomeScreen ) {
-        sim.display.backgroundColor = 'black';
-      }
-      else {
-        sim.display.backgroundColor = screens[sim.simModel.screenIndex].backgroundColor || 'white';
+    sim.navigationBar = new NavigationBar( sim, screens, sim.simModel );
+
+    var updateBackground = this.updateBackground = function() {
+      sim.display.domElement.style.background = sim.currentScreen ?
+                                                sim.currentScreen.backgroundColor.toCSS() :
+                                                'black';
+      if ( sim.currentScreen ) {
+        sim.useInvertedColors = !!new Color( sim.currentScreen.backgroundColor ).equals( Color.BLACK );
       }
     };
+
+    sim.simModel.multilink( ['showHomeScreen', 'screenIndex'], function() {
+      sim.currentScreen = sim.simModel.showHomeScreen ? null : screens[sim.simModel.screenIndex];
+      updateBackground();
+    } );
 
     //Instantiate the screens
     //Currently this is done eagerly, but this pattern leaves open the door for loading things in the background.
     _.each( screens, function( screen, index ) {
+
+      screen.link( 'backgroundColor', updateBackground );
 
       //Create each model & view, and keep track of the amount of time it took to create each, which is displayed if 'profiler' is enabled as a query parameter
       var start = Date.now();
@@ -354,14 +467,66 @@ define( function( require ) {
         sim.updateBackground();
       } );
     }
+    else {
+      throw new Error( "invalid value for options.screenDisplayStrategy: " + options.screenDisplayStrategy );
+    }
+
+    // layer for popups, dialogs, and their backgrounds and barriers
+    this.topLayer = new Node( { renderer: 'svg' } );
+    sim.scene.addChild( this.topLayer );
+
+    // Semi-transparent black barrier used to block input events when a dialog (or other popup) is present, and fade
+    // out the background.
+    this.barrierStack = new ObservableArray();
+    this.barrierRectangle = new Rectangle( 0, 0, 1, 1, 0, 0, {
+      fill: 'rgba(0,0,0,0.3)',
+      pickable: true
+    } );
+    this.topLayer.addChild( this.barrierRectangle );
+    this.barrierStack.lengthProperty.link( function( numBarriers ) {
+      sim.barrierRectangle.visible = numBarriers > 0;
+    } );
+    this.barrierRectangle.addInputListener( new ButtonListener( {
+      fire: function( event ) {
+        assert && assert( sim.barrierStack.length > 0 );
+        sim.hidePopup( sim.barrierStack.get( sim.barrierStack.length - 1 ), true );
+      }
+    } ) );
 
     //Fit to the window and render the initial scene
     $( window ).resize( function() { sim.resizeToWindow(); } );
     sim.resizeToWindow();
   }
 
-  Sim.prototype = {
-    constructor: Sim,
+  return inherit( PropertySet, Sim, {
+    /*
+     * Adds a popup in the global coordinate frame, and optionally displays a semi-transparent black input barrier behind it.
+     * Use hidePopup() to remove it.
+     * @param {Node} node
+     * @param {boolean} isModal - Whether to display the semi-transparent black input barrier behind it.
+     */
+    showPopup: function( node, isModal ) {
+      assert && assert( node );
+
+      if ( isModal ) {
+        this.barrierStack.push( node );
+      }
+      this.topLayer.addChild( node );
+    },
+
+    /*
+     * Hides a popup that was previously displayed with showPopup()
+     * @param {Node} node
+     * @param {boolean} isModal - Whether the previous popup was modal (or not)
+     */
+    hidePopup: function( node, isModal ) {
+      assert && assert( node && this.barrierStack.contains( node ) );
+
+      if ( isModal ) {
+        this.barrierStack.remove( node );
+      }
+      this.topLayer.removeChild( node );
+    },
 
     resizeToWindow: function() {
       this.resize( window.innerWidth, window.innerHeight );
@@ -373,14 +538,19 @@ define( function( require ) {
       //Use Mobile Safari layout bounds to size the home screen and navigation bar
       var scale = Math.min( width / 768, height / 504 );
 
+      this.barrierRectangle.rectWidth = width;
+      this.barrierRectangle.rectHeight = height;
+
       //40 px high on Mobile Safari
       var navBarHeight = scale * 40;
       sim.navigationBar.layout( scale, width, navBarHeight, height );
       sim.navigationBar.y = height - navBarHeight;
       sim.display.setSize( new Dimension2( width, height ) );
 
+      var screenHeight = height - sim.navigationBar.height;
+
       //Layout each of the screens
-      _.each( sim.screens, function( m ) { m.view.layout( width, height - sim.navigationBar.height ); } );
+      _.each( sim.screens, function( m ) { m.view.layout( width, screenHeight ); } );
 
       if ( sim.homeScreen ) {
         sim.homeScreen.layoutWithScale( scale, width, height );
@@ -393,6 +563,13 @@ define( function( require ) {
       if ( platform.mobileSafari ) {
         window.scrollTo( 0, 0 );
       }
+
+      // update our scale and bounds properties after other changes (so listeners can be fired after screens are resized)
+      this.scale = scale;
+      this.bounds = new Bounds2( 0, 0, width, height );
+      this.screenBounds = new Bounds2( 0, 0, width, screenHeight );
+
+      this.trigger( 'resized', this.bounds, this.screenBounds, this.scale );
     },
 
     start: function() {
@@ -449,6 +626,11 @@ define( function( require ) {
         }
 
         phetAllocation && phetAllocation( 'loop' );
+
+        // prevent Safari from going to sleep, see https://github.com/phetsims/joist/issues/140
+        if ( sim.frameCounter % 1000 === 0 ) {
+          sim.heartbeatDiv.innerHTML = Math.random();
+        }
 
         // fire or synthesize input events
         if ( sim.options.fuzzMouse ) {
@@ -518,7 +700,7 @@ define( function( require ) {
       })();
 
       //If state was specified, load it now
-      if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'state' ) ) {
+      if ( window.phetcommon.getQueryParameter( 'state' ) ) {
         var stateString = window.phetcommon.getQueryParameter( 'state' );
         var decoded = decodeURIComponent( stateString );
         sim.setState( JSON.parse( decoded, SimJSON.reviver ) );
@@ -585,10 +767,6 @@ define( function( require ) {
         sim.updateBackground();
         sim.display.updateDisplay();
       })();
-    },
-
-    addChild: function( node ) {
-      this.scene.addChild( node );
     },
 
     // A string that should be evaluated as JavaScript containing an array of "frame" objects, with a dt and an optional fireEvents function
@@ -716,7 +894,5 @@ define( function( require ) {
       }
       this.simModel.set( state.simModel );
     }
-  };
-
-  return Sim;
+  } );
 } );

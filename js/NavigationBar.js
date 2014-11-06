@@ -23,12 +23,11 @@ define( function( require ) {
   /**
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
    * @param {Sim} sim
-   * @param {Array<Screen>} screens
+   * @param {Screen[]} screens
    * @param {PropertySet} model see joist.Sim
-   * @param {Boolean} whiteColorScheme true if the color scheme should be white, false if it should be black
    * @constructor
    */
-  function NavigationBar( sim, screens, model, whiteColorScheme ) {
+  function NavigationBar( sim, screens, model ) {
 
     var thisNode = this;
     this.screens = screens;
@@ -39,36 +38,48 @@ define( function( require ) {
 
     //Renderer must be specified here because the node is added directly to the scene (instead of to some other node that already has svg renderer
     Node.call( this, {renderer: 'svg'} );
-    this.background = new Rectangle( 0, 0, 0, 0, {fill: whiteColorScheme ? 'white' : 'black', pickable: false} );
+    this.background = new Rectangle( 0, 0, 0, 0, { pickable: false } );
     this.addChild( this.background );
+    sim.link( 'useInvertedColors', function( whiteColorScheme ) {
+      thisNode.background.fill = whiteColorScheme ? 'white' : 'black';
+    } );
 
-    this.phetButton = new PhetButton( sim, whiteColorScheme, false );
+    this.phetButton = new PhetButton( sim, false );
     this.addChild( this.phetButton );
 
-    this.titleLabel = new Text( sim.name, {font: new PhetFont( 18 ), fill: whiteColorScheme ? 'black' : 'white', pickable: false} );
+    this.titleLabel = new Text( sim.name, { font: new PhetFont( 18 ), pickable: false } );
     this.addChild( this.titleLabel );
+    sim.link( 'useInvertedColors', function( whiteColorScheme ) {
+      thisNode.titleLabel.fill = whiteColorScheme ? 'black' : 'white';
+    } );
 
     if ( screens.length > 1 ) {
 
       //Create buttons once so we can get their dimensions
       var buttons = _.map( screens, function( screen ) {
-        return new NavigationBarScreenButton( sim, screen, thisNode.navBarHeight, whiteColorScheme, 0 );
+        return new NavigationBarScreenButton( sim, screen, thisNode.navBarHeight, 0 );
       } );
       var maxWidth = Math.max( 50, _.max( buttons, function( button ) {return button.width;} ).width );
 
       //Create buttons again with equivalent sizes
       buttons = _.map( screens, function( screen ) {
-        return new NavigationBarScreenButton( sim, screen, thisNode.navBarHeight, whiteColorScheme, maxWidth );
+        return new NavigationBarScreenButton( sim, screen, thisNode.navBarHeight, maxWidth );
       } );
 
       this.buttonHBox = new HBox( {children: buttons, spacing: 4} );
       this.addChild( this.buttonHBox );
 
       //add the home icon
-      this.homeIcon = new HomeButton( whiteColorScheme ? '#222' : 'white', whiteColorScheme ? '#444' : 'gray', whiteColorScheme );
-      this.homeIcon.addListener( function() {model.showHomeScreen = true;} );
-      this.homeIcon.addPeer( '<input type="button" aria-label="Home Screen">', {click: function() {model.showHomeScreen = true;}, tabIndex: 100} );
-      this.addChild( this.homeIcon );
+      this.normalHomeIcon = new HomeButton( 'white', 'gray', false );
+      this.normalHomeIcon.addListener( function() { model.showHomeScreen = true; } );
+      this.addChild( this.normalHomeIcon );
+      this.invertedHomeIcon = new HomeButton( '#222', '#444', true );
+      this.invertedHomeIcon.addListener( function() { model.showHomeScreen = true; } );
+      this.addChild( this.invertedHomeIcon );
+      sim.link( 'useInvertedColors', function( whiteColorScheme ) {
+        thisNode.normalHomeIcon.visible = !whiteColorScheme;
+        thisNode.invertedHomeIcon.visible = whiteColorScheme;
+      } );
     }
   }
 
@@ -96,9 +107,12 @@ define( function( require ) {
         this.buttonHBox.top = 2;
 
         //Center the home icon vertically and make it a bit larger than the icons and text, see https://github.com/phetsims/joist/issues/127
-        navigationBar.homeIcon.setScaleMagnitude( this.navBarScale * 1.1 );
-        navigationBar.homeIcon.centerY = navigationBar.background.rectHeight / 2;
-        navigationBar.homeIcon.left = navigationBar.buttonHBox.right + 15;
+        navigationBar.normalHomeIcon.setScaleMagnitude( this.navBarScale * 1.1 );
+        navigationBar.normalHomeIcon.centerY = navigationBar.background.rectHeight / 2;
+        navigationBar.normalHomeIcon.left = navigationBar.buttonHBox.right + 15;
+        navigationBar.invertedHomeIcon.setScaleMagnitude( this.navBarScale * 1.1 );
+        navigationBar.invertedHomeIcon.centerY = navigationBar.background.rectHeight / 2;
+        navigationBar.invertedHomeIcon.left = navigationBar.buttonHBox.right + 15;
 
         //If the title overlaps the screen icons, scale it down.  See #128
         var availableSpace = this.buttonHBox.left - titleInset - distanceBetweenTitleAndFirstScreenIcon;
