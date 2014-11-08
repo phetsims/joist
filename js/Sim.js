@@ -32,6 +32,16 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Profiler = require( 'JOIST/Profiler' );
 
+  // True if it should send states to receivers
+  var emitStates = false;
+
+  // True if it shouldn't run model step actions
+  var halt = false;
+
+  // TODO: merge emitTargets with emitStates and remove emitStates
+  var emitTargets = [];
+
+
   /**
    * @param {string} name
    * @param {Screen[]} screens
@@ -42,6 +52,23 @@ define( function( require ) {
    * - resized( bounds, screenBounds, scale ): Fires when the sim is resized.
    */
   function Sim( name, screens, options ) {
+    var sim = this;
+
+    window.addEventListener( 'message', function( e ) {
+      var message = e.data;
+      console.log( 'received message', message );
+      if ( message === 'emitStates' ) {
+        emitStates = true;
+        emitTargets.push( e.source );
+      }
+      else if ( message === 'halt' ) {
+        halt = true;
+      }
+      else if ( message.indexOf( 'setState: ' ) === 0 ) {
+        var stateString = message.substring( 'setState: '.length );
+        sim.setState( JSON.parse( stateString, SimJSON.reviver ) );
+      }
+    } );
 
     PropertySet.call( this, {
 
@@ -110,7 +137,6 @@ define( function( require ) {
     this.options = options; // @private store this for access from prototype functions, assumes that it won't be changed later
 
     this.destroyed = false;
-    var sim = this;
 
     // global namespace for accessing the sim
     window.phet = window.phet || {};
@@ -614,24 +640,27 @@ define( function( require ) {
         //Convert to seconds
         dt = elapsedTimeMilliseconds / 1000.0;
 
-        //Update the active screen, but not if the user is on the home screen
-        if ( !sim.simModel.showHomeScreen ) {
-          // step model and view (both optional)
-          screen = sim.screens[sim.simModel.screenIndex];
-          if ( screen.model.step ) {
-            screen.model.step( dt );
+        if ( !halt ) {
+          //Update the active screen, but not if the user is on the home screen
+          if ( !sim.simModel.showHomeScreen ) {
+            // step model and view (both optional)
+            screen = sim.screens[sim.simModel.screenIndex];
+            if ( screen.model.step ) {
+              screen.model.step( dt );
+            }
+            if ( screen.view.step ) {
+              screen.view.step( dt );
+            }
           }
-          if ( screen.view.step ) {
-            screen.view.step( dt );
+
+          Timer.step( dt );
+
+          //If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
+          //Update the tweens after the model is updated but before the scene is redrawn.
+          if ( window.TWEEN ) {
+            window.TWEEN.update();
           }
-        }
 
-        Timer.step( dt );
-
-        //If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
-        //Update the tweens after the model is updated but before the scene is redrawn.
-        if ( window.TWEEN ) {
-          window.TWEEN.update();
         }
         if ( sim.options.recordInputEventLog ) {
           // push a frame entry into our inputEventLog
@@ -653,6 +682,15 @@ define( function( require ) {
         sim.scene.updateScene();
 
         sim.profiler && sim.profiler.frameEnded();
+
+        if ( emitStates && !halt ) {
+          var state = sim.getState();
+          var stateString = JSON.stringify( state, SimJSON.replacer );
+          for ( var i = 0; i < emitTargets.length; i++ ) {
+            var emitTarget = emitTargets[i];
+            emitTarget.postMessage( 'state: ' + stateString, '*' );
+          }
+        }
       })();
 
       //If state was specified, load it now
