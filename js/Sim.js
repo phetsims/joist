@@ -31,16 +31,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var Shape = require( 'KITE/Shape' );
   var Profiler = require( 'JOIST/Profiler' );
-
-  // True if it should send states to receivers
-  var emitStates = false;
-
-  // True if it shouldn't run model step actions
-  var halt = false;
-
-  // TODO: merge emitTargets with emitStates and remove emitStates
-  var emitTargets = [];
-
+  var PhETAPI = require( 'JOIST/PhETAPI' );
 
   /**
    * @param {string} name
@@ -54,21 +45,7 @@ define( function( require ) {
   function Sim( name, screens, options ) {
     var sim = this;
 
-    window.addEventListener( 'message', function( e ) {
-      var message = e.data;
-      console.log( 'received message', message );
-      if ( message === 'emitStates' ) {
-        emitStates = true;
-        emitTargets.push( e.source );
-      }
-      else if ( message === 'halt' ) {
-        halt = true;
-      }
-      else if ( message.indexOf( 'setState: ' ) === 0 ) {
-        var stateString = message.substring( 'setState: '.length );
-        sim.setState( JSON.parse( stateString, SimJSON.reviver ) );
-      }
-    } );
+    this.phetAPI = new PhETAPI( this );
 
     PropertySet.call( this, {
 
@@ -640,7 +617,10 @@ define( function( require ) {
         //Convert to seconds
         dt = elapsedTimeMilliseconds / 1000.0;
 
-        if ( !halt ) {
+        // Step the models, timers and tweens, but only if the sim is active.
+        // It may be inactive if it has been paused through the PhETAPI
+        if ( sim.phetAPI.active ) {
+
           //Update the active screen, but not if the user is on the home screen
           if ( !sim.simModel.showHomeScreen ) {
             // step model and view (both optional)
@@ -683,14 +663,7 @@ define( function( require ) {
 
         sim.profiler && sim.profiler.frameEnded();
 
-        if ( emitStates && !halt ) {
-          var state = sim.getState();
-          var stateString = JSON.stringify( state, SimJSON.replacer );
-          for ( var i = 0; i < emitTargets.length; i++ ) {
-            var emitTarget = emitTargets[i];
-            emitTarget.postMessage( 'state: ' + stateString, '*' );
-          }
-        }
+        sim.phetAPI.frameFinished();
       })();
 
       //If state was specified, load it now
