@@ -37,7 +37,6 @@ define( function( require ) {
     // Listen for messages as early as possible, so that a client can establish a connection early.
     window.addEventListener( 'message', function( e ) {
       var message = e.data;
-      console.log( 'sim received message', message );
 
       // The iframe has requested a connection after startup.  Reply with a 'connected' message so it can finalize initalization
       if ( message === 'connect' ) {
