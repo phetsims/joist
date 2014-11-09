@@ -4,7 +4,7 @@
  * The iframe API for communicating with a PhET Simulation using postMessage.  Every Sim has one PhetAPI associated with it.
  * The syntax for communication is:
  * command [argument]
- * where command is a whitespaceless string such as connect, emitStates or setActive
+ * where command is a whitespaceless string such as connect, addSimStateListener or setActive
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -43,10 +43,10 @@ define( function( require ) {
       if ( message === 'connect' ) {
         e.source.postMessage( 'connected', '*' );
       }
-      else if ( message === 'emitStates' ) {
+      else if ( message === 'addSimStateListener' ) {
         simIFrameAPI.stateListeners.push( e.source );
       }
-      else if ( message === 'emitEvents' ) {
+      else if ( message === 'addSimEventListener' ) {
 
         // Wire into the existing infrastructure in arch.js, which is currently private
         // Note: this is subject to change based on https://github.com/phetsims/arch/issues/2
