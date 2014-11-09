@@ -27,6 +27,9 @@ define( function( require ) {
     var simIFrameAPI = this;
     this.sim = sim;
 
+    // These fields may eventually want to be moved to Sim.js, but right now it would be complicated because
+    // The entire state of the Sim is saved/loaded and these state variables should not be
+    // (otherwise playing back a value with active: true would set active:true again, which would end the playback.
     PropertySet.call( this, {
 
       //Flag for if the sim is active (alive) and the user is able to interact with the sim.
