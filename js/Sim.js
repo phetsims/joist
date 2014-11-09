@@ -31,7 +31,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var Shape = require( 'KITE/Shape' );
   var Profiler = require( 'JOIST/Profiler' );
-  var PhETAPI = require( 'JOIST/PhETAPI' );
+  var SimIFrameAPI = require( 'JOIST/SimIFrameAPI' );
 
   /**
    * @param {string} name
@@ -45,7 +45,7 @@ define( function( require ) {
   function Sim( name, screens, options ) {
     var sim = this;
 
-    this.phetAPI = new PhETAPI( this );
+    this.simIFrameAPI = new SimIFrameAPI( this );
 
     PropertySet.call( this, {
 
@@ -618,8 +618,8 @@ define( function( require ) {
         dt = elapsedTimeMilliseconds / 1000.0;
 
         // Step the models, timers and tweens, but only if the sim is active.
-        // It may be inactive if it has been paused through the PhETAPI
-        if ( sim.phetAPI.active ) {
+        // It may be inactive if it has been paused through the SimIFrameAPI
+        if ( sim.simIFrameAPI.active ) {
 
           //Update the active screen, but not if the user is on the home screen
           if ( !sim.simModel.showHomeScreen ) {
@@ -663,7 +663,7 @@ define( function( require ) {
 
         sim.profiler && sim.profiler.frameEnded();
 
-        sim.phetAPI.frameFinished();
+        sim.simIFrameAPI.frameFinished();
       })();
 
       //If state was specified, load it now

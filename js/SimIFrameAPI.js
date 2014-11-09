@@ -23,8 +23,8 @@ define( function( require ) {
    *
    * @constructor
    */
-  function PhETAPI( sim ) {
-    var phetAPI = this;
+  function SimIFrameAPI( sim ) {
+    var simIFrameAPI = this;
     this.sim = sim;
 
     PropertySet.call( this, {
@@ -46,13 +46,13 @@ define( function( require ) {
         e.source.postMessage( 'connected', '*' );
       }
       else if ( message === 'emitStates' ) {
-        phetAPI.emitStates = true;
+        simIFrameAPI.emitStates = true;
         emitTargets.push( e.source );
       }
       else if ( message.indexOf( 'setActive' ) === 0 ) {
         var substring = message.substring( 'setActive'.length ).trim();
         var isTrue = substring === 'true';
-        phetAPI.active = isTrue;
+        simIFrameAPI.active = isTrue;
       }
       else if ( message.indexOf( 'setState' ) === 0 ) {
         var stateString = message.substring( 'setState'.length );
@@ -61,7 +61,7 @@ define( function( require ) {
     } );
   }
 
-  return inherit( PropertySet, PhETAPI, {
+  return inherit( PropertySet, SimIFrameAPI, {
     frameFinished: function() {
       if ( this.emitStates && this.active ) {
         var state = this.sim.getState();
