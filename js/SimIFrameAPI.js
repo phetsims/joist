@@ -32,7 +32,7 @@ define( function( require ) {
 
       //Flag for if the sim is active (alive) and the user is able to interact with the sim.
       //Set to false for when the sim will be controlled externally, such as through record/playback or other controls.
-      active: true,
+      active: true
     } );
 
     // Listen for messages as early as possible, so that a client can establish a connection early.
