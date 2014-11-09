@@ -2,6 +2,9 @@
 
 /**
  * The iframe API for communicating with a PhET Simulation using postMessage.  Every Sim has one PhetAPI associated with it.
+ * The syntax for communication is:
+ * command [argument]
+ * where command is a whitespaceless string such as connect, emitStates or setActive
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -46,13 +49,13 @@ define( function( require ) {
         phetAPI.emitStates = true;
         emitTargets.push( e.source );
       }
-      else if ( message.indexOf( 'setActive:' ) === 0 ) {
-        var substring = message.substring( 'setActive:'.length ).trim();
+      else if ( message.indexOf( 'setActive' ) === 0 ) {
+        var substring = message.substring( 'setActive'.length ).trim();
         var isTrue = substring === 'true';
         phetAPI.active = isTrue;
       }
-      else if ( message.indexOf( 'setState: ' ) === 0 ) {
-        var stateString = message.substring( 'setState: '.length );
+      else if ( message.indexOf( 'setState' ) === 0 ) {
+        var stateString = message.substring( 'setState'.length );
         sim.setState( JSON.parse( stateString, SimJSON.reviver ) );
       }
     } );
@@ -65,7 +68,7 @@ define( function( require ) {
         var stateString = JSON.stringify( state, SimJSON.replacer );
         for ( var i = 0; i < emitTargets.length; i++ ) {
           var emitTarget = emitTargets[i];
-          emitTarget.postMessage( 'state: ' + stateString, '*' );
+          emitTarget.postMessage( 'state ' + stateString, '*' );
         }
       }
     }
