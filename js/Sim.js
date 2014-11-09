@@ -62,7 +62,12 @@ define( function( require ) {
       currentScreen: null,
 
       // [read-only] {boolean} - Whether our navbar and UI are currently using the inverted (white) style
-      useInvertedColors: false
+      useInvertedColors: false,
+
+      // Flag for if the sim is active (alive) and the user is able to interact with the sim.
+      // If the sim is active, the model.step, view.step, Timer and TWEEN will run.
+      // Set to false for when the sim will be controlled externally, such as through record/playback or other controls.
+      active: true
     } );
 
     assert && assert( window.phetJoistSimLauncher, 'Sim must be launched using SimLauncher, see https://github.com/phetsims/joist/issues/142' );
@@ -619,7 +624,7 @@ define( function( require ) {
 
         // Step the models, timers and tweens, but only if the sim is active.
         // It may be inactive if it has been paused through the SimIFrameAPI
-        if ( sim.simIFrameAPI.active ) {
+        if ( sim.active ) {
 
           //Update the active screen, but not if the user is on the home screen
           if ( !sim.simModel.showHomeScreen ) {
