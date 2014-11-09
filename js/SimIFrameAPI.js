@@ -2,9 +2,14 @@
 
 /**
  * The iframe API for communicating with a PhET Simulation using postMessage.  Every Sim has one PhetAPI associated with it.
- * The syntax for communication is:
- * command [argument]
- * where command is a whitespaceless string such as connect, addSimStateListener or setActive
+ * The syntax for communication is command [argument]
+ *
+ * The supported API commands are:
+ * connect: the parent frame requests a connection to this frame.  Response is "connected".
+ * addSimStateListener: the parent registers to receive states from the sim, one per frame
+ * addSimEventListener: the parent registers to receive event streams from the sim
+ * setActive BOOLEAN: sets the sim to be active (running, and interactive) or inactive (passive, and ready to display states)
+ * setState STRING: sets the state of the sim from a captured state.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
