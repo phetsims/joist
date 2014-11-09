@@ -16,9 +16,6 @@ define( function( require ) {
   var SimJSON = require( 'JOIST/SimJSON' );
   var PropertySet = require( 'AXON/PropertySet' );
 
-  // TODO: merge emitTargets with emitStates and remove emitStates
-  var emitTargets = [];
-
   /**
    *
    * @constructor
@@ -26,6 +23,7 @@ define( function( require ) {
   function SimIFrameAPI( sim ) {
     var simIFrameAPI = this;
     this.sim = sim;
+    this.stateListeners = [];
 
     // These fields may eventually want to be moved to Sim.js, but right now it would be complicated because
     // The entire state of the Sim is saved/loaded and these state variables should not be
@@ -35,9 +33,6 @@ define( function( require ) {
       //Flag for if the sim is active (alive) and the user is able to interact with the sim.
       //Set to false for when the sim will be controlled externally, such as through record/playback or other controls.
       active: true,
-
-      // True if it should send states to receivers
-      emitStates: false
     } );
 
     // Listen for messages as early as possible, so that a client can establish a connection early.
@@ -49,8 +44,7 @@ define( function( require ) {
         e.source.postMessage( 'connected', '*' );
       }
       else if ( message === 'emitStates' ) {
-        simIFrameAPI.emitStates = true;
-        emitTargets.push( e.source );
+        simIFrameAPI.stateListeners.push( e.source );
       }
       else if ( message.indexOf( 'setActive' ) === 0 ) {
         var substring = message.substring( 'setActive'.length ).trim();
@@ -66,11 +60,11 @@ define( function( require ) {
 
   return inherit( PropertySet, SimIFrameAPI, {
     frameFinished: function() {
-      if ( this.emitStates && this.active ) {
+      if ( this.active && this.stateListeners.length > 0 ) {
         var state = this.sim.getState();
         var stateString = JSON.stringify( state, SimJSON.replacer );
-        for ( var i = 0; i < emitTargets.length; i++ ) {
-          var emitTarget = emitTargets[i];
+        for ( var i = 0; i < this.stateListeners.length; i++ ) {
+          var emitTarget = this.stateListeners[i];
           emitTarget.postMessage( 'state ' + stateString, '*' );
         }
       }
