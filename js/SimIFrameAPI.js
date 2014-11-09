@@ -46,6 +46,16 @@ define( function( require ) {
       else if ( message === 'emitStates' ) {
         simIFrameAPI.stateListeners.push( e.source );
       }
+      else if ( message === 'emitEvents' ) {
+
+        // Wire into the existing infrastructure in arch.js, which is currently private
+        // Note: this is subject to change based on https://github.com/phetsims/arch/issues/2
+        if ( window.phetEvents ) {
+          window.phetEvents.targets.push( function( message ) {
+            e.source.postMessage( 'event ' + message, '*' );
+          } );
+        }
+      }
       else if ( message.indexOf( 'setActive' ) === 0 ) {
         var substring = message.substring( 'setActive'.length ).trim();
         var isTrue = substring === 'true';
