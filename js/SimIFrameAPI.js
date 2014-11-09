@@ -11,6 +11,8 @@
  * setActive BOOLEAN: sets the sim to be active (running, and interactive) or inactive (passive, and ready to display states)
  * setState STRING: sets the state of the sim from a captured state.
  *
+ * Example API usage is provided in together/record-playback-iframe.html
+ *
  * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
