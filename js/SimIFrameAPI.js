@@ -48,8 +48,7 @@ define( function( require ) {
       }
       else if ( message.indexOf( 'setActive' ) === 0 ) {
         var substring = message.substring( 'setActive'.length ).trim();
-        var isTrue = substring === 'true';
-        sim.active = isTrue;
+        sim.active = (substring === 'true');
       }
       else if ( message.indexOf( 'setState' ) === 0 ) {
         var stateString = message.substring( 'setState'.length );
