@@ -76,7 +76,7 @@ define( function( require ) {
       return node;
     };
 
-    // NodesPushButton( upNode, overNode, downNode, disabledNode, options )
+    // NodesPushButton( idleNode, overNode, pressedNode, disabledNode, options )
     NodesPushButton.call( this, createNode( false ), createNode( true ), createNode( true ), new Node() );
 
     //When the phet button is pressed, show the phet menu
