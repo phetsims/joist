@@ -77,7 +77,9 @@ define( function( require ) {
     };
 
     // NodesPushButton( idleNode, overNode, pressedNode, disabledNode, options )
-    NodesPushButton.call( this, createNode( false ), createNode( true ), createNode( true ), new Node() );
+    NodesPushButton.call( this, createNode( false ), createNode( true ), createNode( true ), new Node(), {
+      alignY: 'top' //TODO this shouldn't be needed, but is, so there's likely a bug in createNode
+    } );
 
     //When the phet button is pressed, show the phet menu
     var phetButtonPressed = function() {
