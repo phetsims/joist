@@ -24,7 +24,6 @@ define( function( require ) {
   /**
    *
    * @param sim
-   * @param whiteColorScheme
    * @param {Object} [options] Unused in client code.
    * @constructor
    */
