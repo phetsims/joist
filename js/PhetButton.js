@@ -13,7 +13,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetMenu = require( 'JOIST/PhetMenu' );
   var Shape = require( 'KITE/Shape' );
-  var PushButtonDeprecated = require( 'SUN/PushButtonDeprecated' );
+  var NodesPushButton = require( 'SUN/buttons/NodesPushButton' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
 
   // images
@@ -76,8 +76,8 @@ define( function( require ) {
       return node;
     };
 
-    //PushButtonDeprecated( upNode, overNode, downNode, disabledNode, options )
-    PushButtonDeprecated.call( this, createNode( false ), createNode( true ), createNode( true ), new Node() );
+    // NodesPushButton( upNode, overNode, downNode, disabledNode, options )
+    NodesPushButton.call( this, createNode( false ), createNode( true ), createNode( true ), new Node() );
 
     //When the phet button is pressed, show the phet menu
     var phetButtonPressed = function() {
@@ -114,7 +114,7 @@ define( function( require ) {
     }
   }
 
-  return inherit( PushButtonDeprecated, PhetButton, {},
+  return inherit( NodesPushButton, PhetButton, {},
 
     //statics
     {
