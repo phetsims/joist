@@ -21,16 +21,14 @@ define( function( require ) {
   //Makes the 'h' a bit darker so it will show up better against a white background
   var phetLogoDarker = require( 'image!BRAND/logo-on-white.png' );
 
-  //TODO don't pass in navigationBar, position based on this button
   /**
    *
    * @param sim
    * @param whiteColorScheme
-   * @param homeScreen flag that indicates whether this button appears in the home screen or navbar, to get the positioning right.  TODO: Get rid of the need for this flag.  See #114
-   * @param {Object} [options] Unused in client code.  TODO: Remove
+   * @param {Object} [options] Unused in client code.
    * @constructor
    */
-  function PhetButton( sim, homeScreen, options ) {
+  function PhetButton( sim, options ) {
 
     options = _.extend( {
       phetLogoScale: 0.28,
@@ -111,9 +109,7 @@ define( function( require ) {
     // eliminate interactivity gap between label and button
     this.mouseArea = this.touchArea = Shape.bounds( this.bounds );
 
-    if ( options ) {
-      this.mutate( options );
-    }
+    this.mutate( options );
   }
 
   return inherit( NodesPushButton, PhetButton, {},
