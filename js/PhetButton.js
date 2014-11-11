@@ -15,6 +15,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var NodesPushButton = require( 'SUN/buttons/NodesPushButton' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   // images
   var phetLogo = require( 'image!BRAND/logo.png' );
@@ -74,7 +75,7 @@ define( function( require ) {
     };
 
     // NodesPushButton( idleNode, overNode, pressedNode, disabledNode, options )
-    NodesPushButton.call( this, createNode( false ), createNode( true ), createNode( true ), new Node(), {
+    NodesPushButton.call( this, createNode( false ), createNode( true ), createNode( true ), new Rectangle( 0, 0, 1, 1 ), {
       yAlign: 'top' //TODO #177 this shouldn't be needed, but is, so there's likely a bug in createNode
     } );
 
