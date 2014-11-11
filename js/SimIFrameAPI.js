@@ -23,6 +23,18 @@ define( function( require ) {
   var SimJSON = require( 'JOIST/SimJSON' );
   var PropertySet = require( 'AXON/PropertySet' );
 
+  var protocolVersion = {protocolVersion: '0.0.1'};
+
+  var addProtocol = function( message ) {
+    return _.extend( protocolVersion, message );
+  };
+  var wrap = function( message ) {
+    return JSON.stringify( addProtocol( message ) );
+  };
+  var send = function( target, message ) {
+    target.postMessage( wrap( message ), '*' );
+  };
+
   /**
    *
    * @constructor
@@ -36,33 +48,35 @@ define( function( require ) {
     this.stateListeners = [];
 
     // Listen for messages as early as possible, so that a client can establish a connection early.
-    window.addEventListener( 'message', function( e ) {
-      var message = e.data;
+    window.addEventListener( 'message', function( event ) {
+      var message = JSON.parse( event.data );
+      var command = message.command;
+      if ( message.protocolVersion !== protocolVersion.protocolVersion ) {
+        return;
+      }
 
       // The iframe has requested a connection after startup.  Reply with a 'connected' message so it can finalize initalization
-      if ( message === 'connect' ) {
-        e.source.postMessage( 'connected', '*' );
+      if ( command === 'connect' ) {
+        send( event.source, {command: 'connected'} );
       }
-      else if ( message === 'addSimStateListener' ) {
-        simIFrameAPI.stateListeners.push( e.source );
+      else if ( command === 'addSimStateListener' ) {
+        simIFrameAPI.stateListeners.push( event.source );
       }
-      else if ( message === 'addSimEventListener' ) {
+      else if ( command === 'addSimEventListener' ) {
 
         // Wire into the existing infrastructure in arch.js, which is currently private
         // Note: this is subject to change based on https://github.com/phetsims/arch/issues/2
         if ( window.phetEvents ) {
           window.phetEvents.targets.push( function( message ) {
-            e.source.postMessage( 'event ' + message, '*' );
+            send( event.source, {command: 'addEvent', event: message} );
           } );
         }
       }
-      else if ( message.indexOf( 'setActive' ) === 0 ) {
-        var substring = message.substring( 'setActive'.length ).trim();
-        sim.active = (substring === 'true');
+      else if ( command === 'setActive' ) {
+        sim.active = (message.value === 'true');
       }
-      else if ( message.indexOf( 'setState' ) === 0 ) {
-        var stateString = message.substring( 'setState'.length );
-        sim.setState( JSON.parse( stateString, SimJSON.reviver ) );
+      else if ( command === 'setState' ) {
+        sim.setState( JSON.parse( message.value, SimJSON.reviver ) );
       }
     } );
   }
@@ -76,8 +90,7 @@ define( function( require ) {
         var state = this.sim.getState();
         var stateString = JSON.stringify( state, SimJSON.replacer );
         for ( var i = 0; i < this.stateListeners.length; i++ ) {
-          var emitTarget = this.stateListeners[i];
-          emitTarget.postMessage( 'state ' + stateString, '*' );
+          send( this.stateListeners[i], {command: 'addState', state: stateString} );
         }
       }
     }
