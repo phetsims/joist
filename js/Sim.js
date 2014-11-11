@@ -31,6 +31,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var Shape = require( 'KITE/Shape' );
   var Profiler = require( 'JOIST/Profiler' );
+  var SimIFrameAPI = require( 'JOIST/SimIFrameAPI' );
 
   /**
    * @param {string} name
@@ -42,6 +43,13 @@ define( function( require ) {
    * - resized( bounds, screenBounds, scale ): Fires when the sim is resized.
    */
   function Sim( name, screens, options ) {
+    var sim = this;
+
+    // Load the Sim iframe API, if it was enabled by a query parameter
+    this.simIFrameAPI = null;
+    if ( window.phetcommon.getQueryParameter( 'iframeAPI' ) ) {
+      this.simIFrameAPI = new SimIFrameAPI( this );
+    }
 
     PropertySet.call( this, {
 
@@ -58,7 +66,12 @@ define( function( require ) {
       currentScreen: null,
 
       // [read-only] {boolean} - Whether our navbar and UI are currently using the inverted (white) style
-      useInvertedColors: false
+      useInvertedColors: false,
+
+      // Flag for if the sim is active (alive) and the user is able to interact with the sim.
+      // If the sim is active, the model.step, view.step, Timer and TWEEN will run.
+      // Set to false for when the sim will be controlled externally, such as through record/playback or other controls.
+      active: true
     } );
 
     assert && assert( window.phetJoistSimLauncher, 'Sim must be launched using SimLauncher, see https://github.com/phetsims/joist/issues/142' );
@@ -110,7 +123,6 @@ define( function( require ) {
     this.options = options; // @private store this for access from prototype functions, assumes that it won't be changed later
 
     this.destroyed = false;
-    var sim = this;
 
     // global namespace for accessing the sim
     window.phet = window.phet || {};
@@ -614,24 +626,30 @@ define( function( require ) {
         //Convert to seconds
         dt = elapsedTimeMilliseconds / 1000.0;
 
-        //Update the active screen, but not if the user is on the home screen
-        if ( !sim.simModel.showHomeScreen ) {
-          // step model and view (both optional)
-          screen = sim.screens[sim.simModel.screenIndex];
-          if ( screen.model.step ) {
-            screen.model.step( dt );
-          }
-          if ( screen.view.step ) {
-            screen.view.step( dt );
-          }
-        }
+        // Step the models, timers and tweens, but only if the sim is active.
+        // It may be inactive if it has been paused through the SimIFrameAPI
+        if ( sim.active ) {
 
-        Timer.step( dt );
+          //Update the active screen, but not if the user is on the home screen
+          if ( !sim.simModel.showHomeScreen ) {
+            // step model and view (both optional)
+            screen = sim.screens[sim.simModel.screenIndex];
+            if ( screen.model.step ) {
+              screen.model.step( dt );
+            }
+            if ( screen.view.step ) {
+              screen.view.step( dt );
+            }
+          }
 
-        //If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
-        //Update the tweens after the model is updated but before the scene is redrawn.
-        if ( window.TWEEN ) {
-          window.TWEEN.update();
+          Timer.step( dt );
+
+          //If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
+          //Update the tweens after the model is updated but before the scene is redrawn.
+          if ( window.TWEEN ) {
+            window.TWEEN.update();
+          }
+
         }
         if ( sim.options.recordInputEventLog ) {
           // push a frame entry into our inputEventLog
@@ -653,6 +671,10 @@ define( function( require ) {
         sim.scene.updateScene();
 
         sim.profiler && sim.profiler.frameEnded();
+
+        if ( sim.simIFrameAPI ) {
+          sim.simIFrameAPI.frameFinished();
+        }
       })();
 
       //If state was specified, load it now
