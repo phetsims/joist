@@ -44,7 +44,7 @@ define( function( require ) {
       thisNode.background.fill = whiteColorScheme ? 'white' : 'black';
     } );
 
-    this.phetButton = new PhetButton( sim, false );
+    this.phetButton = new PhetButton( sim );
     this.addChild( this.phetButton );
 
     this.titleLabel = new Text( sim.name, { font: new PhetFont( 18 ), pickable: false } );

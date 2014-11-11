@@ -13,24 +13,22 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetMenu = require( 'JOIST/PhetMenu' );
   var Shape = require( 'KITE/Shape' );
-  var PushButtonDeprecated = require( 'SUN/PushButtonDeprecated' );
+  var NodesPushButton = require( 'SUN/buttons/NodesPushButton' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   // images
   var phetLogo = require( 'image!BRAND/logo.png' );
   //Makes the 'h' a bit darker so it will show up better against a white background
   var phetLogoDarker = require( 'image!BRAND/logo-on-white.png' );
 
-  //TODO don't pass in navigationBar, position based on this button
   /**
    *
    * @param sim
-   * @param whiteColorScheme
-   * @param homeScreen flag that indicates whether this button appears in the home screen or navbar, to get the positioning right.  TODO: Get rid of the need for this flag.  See #114
-   * @param {Object} [options] Unused in client code.  TODO: Remove
+   * @param {Object} [options] Unused in client code.
    * @constructor
    */
-  function PhetButton( sim, homeScreen, options ) {
+  function PhetButton( sim, options ) {
 
     options = _.extend( {
       phetLogoScale: 0.28,
@@ -76,8 +74,10 @@ define( function( require ) {
       return node;
     };
 
-    //PushButtonDeprecated( upNode, overNode, downNode, disabledNode, options )
-    PushButtonDeprecated.call( this, createNode( false ), createNode( true ), createNode( true ), new Node() );
+    // NodesPushButton( idleNode, overNode, pressedNode, disabledNode, options )
+    NodesPushButton.call( this, createNode( false ), createNode( true ), createNode( true ), new Rectangle( 0, 0, 1, 1 ), {
+      yAlign: 'top' //TODO #177 this shouldn't be needed, but is, so there's likely a bug in createNode
+    } );
 
     //When the phet button is pressed, show the phet menu
     var phetButtonPressed = function() {
@@ -111,12 +111,10 @@ define( function( require ) {
     // eliminate interactivity gap between label and button
     this.mouseArea = this.touchArea = Shape.bounds( this.bounds );
 
-    if ( options ) {
-      this.mutate( options );
-    }
+    this.mutate( options );
   }
 
-  return inherit( PushButtonDeprecated, PhetButton, {},
+  return inherit( NodesPushButton, PhetButton, {},
 
     //statics
     {
