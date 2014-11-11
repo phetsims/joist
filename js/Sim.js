@@ -45,7 +45,11 @@ define( function( require ) {
   function Sim( name, screens, options ) {
     var sim = this;
 
-    this.simIFrameAPI = new SimIFrameAPI( this );
+    // Load the Sim iframe API, if it was enabled by a query parameter
+    this.simIFrameAPI = null;
+    if ( window.phetcommon.getQueryParameter( 'iframeAPI' ) ) {
+      this.simIFrameAPI = new SimIFrameAPI( this );
+    }
 
     PropertySet.call( this, {
 
@@ -668,7 +672,9 @@ define( function( require ) {
 
         sim.profiler && sim.profiler.frameEnded();
 
-        sim.simIFrameAPI.frameFinished();
+        if ( sim.simIFrameAPI ) {
+          sim.simIFrameAPI.frameFinished();
+        }
       })();
 
       //If state was specified, load it now

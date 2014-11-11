@@ -28,6 +28,9 @@ define( function( require ) {
    * @constructor
    */
   function SimIFrameAPI( sim ) {
+
+    console.log( 'enabled SimIFrameAPI' );
+
     var simIFrameAPI = this;
     this.sim = sim;
     this.stateListeners = [];
