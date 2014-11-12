@@ -20,9 +20,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
   var SimJSON = require( 'JOIST/SimJSON' );
-  var PropertySet = require( 'AXON/PropertySet' );
 
   var protocolVersion = {protocolVersion: '0.0.1'};
 
