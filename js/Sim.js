@@ -613,8 +613,17 @@ define( function( require ) {
           // TODO: we need more state tracking of individual touch points to do this properly
         }
         else {
-          // if any input events were received and batched, fire them now.
-          sim.scene.fireBatchedEvents();
+          // if any input events were received and batched, fire them now, but only if the sim is active
+          // The sim may be inactive if interactivity was disabled by API usage such as the SimIFrameAPI
+          if ( sim.active ) {
+            sim.scene.fireBatchedEvents();
+          }
+          else {
+
+            // If the sim was inactive (locked), then discard any scenery events instead of buffering them and applying
+            // them later.
+            sim.scene.clearBatchedEvents();
+          }
         }
 
         //Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
