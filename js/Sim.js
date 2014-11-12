@@ -46,12 +46,6 @@ define( function( require ) {
   function Sim( name, screens, options ) {
     var sim = this;
 
-    // Load the Sim iframe API, if it was enabled by a query parameter
-    this.simIFrameAPI = null;
-    if ( window.phetcommon.getQueryParameter( 'iframeAPI' ) ) {
-      this.simIFrameAPI = new SimIFrameAPI( this );
-    }
-
     PropertySet.call( this, {
 
       // [read-only] how the home screen and navbar are scaled
@@ -74,6 +68,11 @@ define( function( require ) {
       // Set to false for when the sim will be controlled externally, such as through record/playback or other controls.
       active: true
     } );
+
+    // Load the Sim iframe API, if it was enabled by a query parameter
+    if ( window.phetcommon.getQueryParameter( 'iframeAPI' ) ) {
+      SimIFrameAPI.initialize( this );
+    }
 
     assert && assert( window.phetJoistSimLauncher, 'Sim must be launched using SimLauncher, see https://github.com/phetsims/joist/issues/142' );
 
@@ -654,7 +653,16 @@ define( function( require ) {
         else {
           // if any input events were received and batched, fire them now.
           if ( sim.options.batchEvents ) {
-            sim.display._input.fireBatchedEvents();
+            // if any input events were received and batched, fire them now, but only if the sim is active
+            // The sim may be inactive if interactivity was disabled by API usage such as the SimIFrameAPI
+            if ( sim.active ) {
+              sim.display._input.fireBatchedEvents();
+            }
+            // If the sim was inactive (locked), then discard any scenery events instead of buffering them and applying
+            // them later.
+            else {
+              sim.display._input.clearBatchedEvents();
+            }
           }
         }
 
@@ -716,9 +724,7 @@ define( function( require ) {
 
         sim.profiler && sim.profiler.frameEnded();
 
-        if ( sim.simIFrameAPI ) {
-          sim.simIFrameAPI.frameFinished();
-        }
+        sim.trigger( 'frameCompleted' );
       })();
 
       //If state was specified, load it now

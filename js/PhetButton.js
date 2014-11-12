@@ -1,7 +1,10 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * The button that pops up the PhET menu.
+ * The button that pops up the PhET menu, which appears in the bottom right of the home screen and on the right side
+ * of the navbar.
+ *
+ * @author Sam Reid
  */
 define( function( require ) {
   'use strict';
@@ -15,7 +18,10 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var NodesPushButton = require( 'SUN/buttons/NodesPushButton' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var ButtonListener = require( 'SUN/buttons/ButtonListener' );
+  var PushButtonInteractionStateProperty = require( 'SUN/buttons/PushButtonInteractionStateProperty' );
+  var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
+  var Property = require( 'AXON/Property' );
 
   // images
   var phetLogo = require( 'image!BRAND/logo.png' );
@@ -23,21 +29,26 @@ define( function( require ) {
   var phetLogoDarker = require( 'image!BRAND/logo-on-white.png' );
 
   /**
-   *
-   * @param sim
+   * @param {Sim} sim
    * @param {Object} [options] Unused in client code.
    * @constructor
    */
   function PhetButton( sim, options ) {
 
     options = _.extend( {
-      phetLogoScale: 0.28,
-      optionsButtonVerticalMargin: 1.5
+      cursor: 'pointer', // {string}
+      listener: null, // {function}
+      phetLogoScale: 0.28, // {number}
+      optionsButtonVerticalMargin: 1.5 // {number}
     }, options );
 
-    var phetLabel = new Image( phetLogo, {scale: options.phetLogoScale, pickable: false} );
-    sim.link( 'useInvertedColors', function( whiteColorScheme ) {
-      phetLabel.image = whiteColorScheme ? phetLogoDarker : phetLogo;
+    // Button model
+    this.buttonModel = new PushButtonModel( options ); // @private
+
+    // The PhET Label, which is the PhET logo
+    var phetLabel = new Image( phetLogo, {
+      scale: options.phetLogoScale,
+      pickable: false
     } );
 
     var optionsButton = new FontAwesomeNode( 'reorder', {
@@ -46,38 +57,40 @@ define( function( require ) {
       bottom: phetLabel.bottom - options.optionsButtonVerticalMargin,
       pickable: false
     } );
-    sim.link( 'useInvertedColors', function( whiteColorScheme ) {
-      optionsButton.fill = whiteColorScheme ? '#222' : 'white';
-    } );
 
-    var createNode = function( highlighted ) {
-      var node = new Node( {children: [phetLabel, optionsButton]} );
+    // The icon combines the PhET label and the thre horizontal bars in the right relative positions
+    var icon = new Node( {children: [phetLabel, optionsButton]} );
 
-      if ( highlighted ) {
-        var normalHighlight = new HighlightNode( node.width + 6, node.height + 5, {
-          centerX: node.centerX,
-          centerY: node.centerY + 4,
-          whiteHighlight: true
-        } );
-        var invertedHighlight = new HighlightNode( node.width + 6, node.height + 5, {
-          centerX: node.centerX,
-          centerY: node.centerY + 4,
-          whiteHighlight: false
-        } );
-        node.addChild( normalHighlight );
-        node.addChild( invertedHighlight );
-        sim.link( 'useInvertedColors', function( whiteColorScheme ) {
-          normalHighlight.visible = !whiteColorScheme;
-          invertedHighlight.visible = whiteColorScheme;
-        } );
-      }
-      return node;
+    // Create both highlights and only make the one visible that corresponds to the color scheme
+    var createHighlight = function( whiteHighlight ) {
+      return new HighlightNode( icon.width + 6, icon.height + 5, {
+        centerX: icon.centerX,
+        centerY: icon.centerY + 4,
+        whiteHighlight: whiteHighlight,
+        pickable: false
+      } );
     };
 
-    // NodesPushButton( idleNode, overNode, pressedNode, disabledNode, options )
-    NodesPushButton.call( this, createNode( false ), createNode( true ), createNode( true ), new Rectangle( 0, 0, 1, 1 ), {
-      yAlign: 'top' //TODO #177 this shouldn't be needed, but is, so there's likely a bug in createNode
+    // Highlight against the black background
+    var normalHighlight = createHighlight( true );
+
+    // Highlight against the white background
+    var invertedHighlight = createHighlight( false );
+
+    Node.call( this, {children: [icon, normalHighlight, invertedHighlight]} );
+
+    // Button interactions
+    var interactionStateProperty = new PushButtonInteractionStateProperty( this.buttonModel );
+
+    // Update the content of the button based on mouseover/press and whether the colors have been inverted
+    Property.multilink( [interactionStateProperty, sim.useInvertedColorsProperty], function( interactionState, useInvertedColors ) {
+      optionsButton.fill = useInvertedColors ? '#222' : 'white';
+      phetLabel.image = useInvertedColors ? phetLogoDarker : phetLogo;
+      normalHighlight.visible = !useInvertedColors && (interactionState === 'over' || interactionState === 'pressed');
+      invertedHighlight.visible = useInvertedColors && (interactionState === 'over' || interactionState === 'pressed');
     } );
+
+    this.addInputListener( new ButtonListener( this.buttonModel ) );
 
     //When the phet button is pressed, show the phet menu
     var phetButtonPressed = function() {
@@ -91,6 +104,7 @@ define( function( require ) {
           sim.hidePopup( phetMenu, true );
         }
       } );
+
       function onResize( bounds, screenBounds, scale ) {
         // because it starts at null
         if ( bounds ) {
@@ -99,6 +113,7 @@ define( function( require ) {
           phetMenu.bottom = ( bounds.bottom + screenBounds.bottom ) / 2;
         }
       }
+
       sim.on( 'resized', onResize );
       onResize( sim.bounds, sim.screenBounds, sim.scale );
 
