@@ -70,7 +70,7 @@ define( function( require ) {
           }
         }
         else if ( command === 'setActive' ) {
-          sim.active = (message.value === 'true');
+          sim.active = message.value;
         }
         else if ( command === 'setState' ) {
           sim.setState( JSON.parse( message.value, SimJSON.reviver ) );
