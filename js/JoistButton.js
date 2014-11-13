@@ -19,12 +19,12 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
 
   /**
-   * @param {Property.<boolean>} useInvertedColorsProperty
    * @param {Node} content - the scenery node to render as the content of the button
+   * @param {Property.<boolean>} useInvertedColorsProperty
    * @param {Object} [options] Unused in client code.
    * @constructor
    */
-  function JoistButton( useInvertedColorsProperty, content, options ) {
+  function JoistButton( content, useInvertedColorsProperty, options ) {
 
     options = _.extend( {
       cursor: 'pointer', // {string}

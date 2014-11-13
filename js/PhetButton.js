@@ -80,7 +80,7 @@ define( function( require ) {
     // The icon combines the PhET label and the thre horizontal bars in the right relative positions
     var icon = new Node( {children: [phetLabel, optionsButton]} );
 
-    JoistButton.call( this, sim.useInvertedColorsProperty, icon, options );
+    JoistButton.call( this, icon, sim.useInvertedColorsProperty, options );
 
     Property.multilink( [this.interactionStateProperty, sim.useInvertedColorsProperty], function( interactionState, useInvertedColors ) {
       optionsButton.fill = useInvertedColors ? '#222' : 'white';

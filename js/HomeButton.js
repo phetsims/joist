@@ -28,7 +28,7 @@ define( function( require ) {
         model.showHomeScreen = true;
       }
     }, options );
-    JoistButton.call( this, whiteColorScheme, homeIcon, options );
+    JoistButton.call( this, homeIcon, whiteColorScheme, options );
 
     Property.multilink( [this.interactionStateProperty, whiteColorScheme], function( interactionState, useInvertedColors ) {
       if ( !useInvertedColors ) {
