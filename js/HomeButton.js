@@ -10,10 +10,6 @@ define( function( require ) {
 
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Shape = require( 'KITE/Shape' );
-  var NodesPushButton = require( 'SUN/buttons/NodesPushButton' );
-  var HighlightNode = require( 'JOIST/HighlightNode' );
   var JoistButton = require( 'JOIST/JoistButton' );
   var Property = require( 'AXON/Property' );
 
