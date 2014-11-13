@@ -15,12 +15,8 @@ define( function( require ) {
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetMenu = require( 'JOIST/PhetMenu' );
-  var Shape = require( 'KITE/Shape' );
-  var HighlightNode = require( 'JOIST/HighlightNode' );
-  var ButtonListener = require( 'SUN/buttons/ButtonListener' );
-  var PushButtonInteractionStateProperty = require( 'SUN/buttons/PushButtonInteractionStateProperty' );
-  var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
   var Property = require( 'AXON/Property' );
+  var JoistButton = require( 'JOIST/JoistButton' );
 
   // images
   var phetLogo = require( 'image!BRAND/logo.png' );
@@ -35,14 +31,8 @@ define( function( require ) {
   function PhetButton( sim, options ) {
 
     options = _.extend( {
-      cursor: 'pointer', // {string}
-      listener: null, // {function}
-      phetLogoScale: 0.28, // {number}
-      optionsButtonVerticalMargin: 1.5 // {number}
+      phetLogoScale: 0.28 // {number}
     }, options );
-
-    // Button model
-    this.buttonModel = new PushButtonModel( options ); // @private
 
     // The PhET Label, which is the PhET logo
     var phetLabel = new Image( phetLogo, {
@@ -53,46 +43,14 @@ define( function( require ) {
     var optionsButton = new FontAwesomeNode( 'reorder', {
       scale: 0.6,
       left: phetLabel.width + 10,
-      bottom: phetLabel.bottom - options.optionsButtonVerticalMargin,
+      bottom: phetLabel.bottom - 1.5,
       pickable: false
     } );
 
     // The icon combines the PhET label and the thre horizontal bars in the right relative positions
     var icon = new Node( {children: [phetLabel, optionsButton]} );
 
-    // Create both highlights and only make the one visible that corresponds to the color scheme
-    var createHighlight = function( whiteHighlight ) {
-      return new HighlightNode( icon.width + 6, icon.height + 5, {
-        centerX: icon.centerX,
-        centerY: icon.centerY + 4,
-        whiteHighlight: whiteHighlight,
-        pickable: false
-      } );
-    };
-
-    // Highlight against the black background
-    var normalHighlight = createHighlight( true );
-
-    // Highlight against the white background
-    var invertedHighlight = createHighlight( false );
-
-    Node.call( this, {children: [icon, normalHighlight, invertedHighlight]} );
-
-    // Button interactions
-    var interactionStateProperty = new PushButtonInteractionStateProperty( this.buttonModel );
-
-    // Update the content of the button based on mouseover/press and whether the colors have been inverted
-    Property.multilink( [interactionStateProperty, sim.useInvertedColorsProperty], function( interactionState, useInvertedColors ) {
-      optionsButton.fill = useInvertedColors ? '#222' : 'white';
-      phetLabel.image = useInvertedColors ? phetLogoDarker : phetLogo;
-      normalHighlight.visible = !useInvertedColors && (interactionState === 'over' || interactionState === 'pressed');
-      invertedHighlight.visible = useInvertedColors && (interactionState === 'over' || interactionState === 'pressed');
-    } );
-
-    this.addInputListener( new ButtonListener( this.buttonModel ) );
-
-    //When the phet button is pressed, show the phet menu
-    var phetButtonPressed = function() {
+    JoistButton.call( this, sim, icon, {listener: function() {
 
       var phetMenu = new PhetMenu( sim, {
         showSaveAndLoad: sim.options.showSaveAndLoad,
@@ -115,18 +73,17 @@ define( function( require ) {
       onResize( sim.bounds, sim.screenBounds, sim.scale );
 
       sim.showPopup( phetMenu, true );
-    };
-    this.buttonModel.addListener( phetButtonPressed );
+    }} );
 
-    this.addPeer( '<input type="button" aria-label="PhET Menu">', {click: phetButtonPressed, tabIndex: 101} );
-
-    // eliminate interactivity gap between label and button
-    this.mouseArea = this.touchArea = Shape.bounds( this.bounds );
+    Property.multilink( [this.interactionStateProperty, sim.useInvertedColorsProperty], function( interactionState, useInvertedColors ) {
+      optionsButton.fill = useInvertedColors ? '#222' : 'white';
+      phetLabel.image = useInvertedColors ? phetLogoDarker : phetLogo;
+    } );
 
     this.mutate( options );
   }
 
-  return inherit( Node, PhetButton, {},
+  return inherit( JoistButton, PhetButton, {},
 
     //statics
     {
