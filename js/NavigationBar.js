@@ -69,17 +69,9 @@ define( function( require ) {
       this.buttonHBox = new HBox( {children: buttons, spacing: 4} );
       this.addChild( this.buttonHBox );
 
-      //add the home icon
-      this.normalHomeIcon = new HomeButton( 'white', 'gray', false );
-      this.normalHomeIcon.addListener( function() { model.showHomeScreen = true; } );
-      this.addChild( this.normalHomeIcon );
-      this.invertedHomeIcon = new HomeButton( '#222', '#444', true );
-      this.invertedHomeIcon.addListener( function() { model.showHomeScreen = true; } );
-      this.addChild( this.invertedHomeIcon );
-      sim.link( 'useInvertedColors', function( whiteColorScheme ) {
-        thisNode.normalHomeIcon.visible = !whiteColorScheme;
-        thisNode.invertedHomeIcon.visible = whiteColorScheme;
-      } );
+      //add the home button
+      this.homeButton = new HomeButton( 'white', 'gray', '#222', '#444', sim.useInvertedColorsProperty, model );
+      this.addChild( this.homeButton );
     }
   }
 
@@ -107,12 +99,9 @@ define( function( require ) {
         this.buttonHBox.top = 2;
 
         //Center the home icon vertically and make it a bit larger than the icons and text, see https://github.com/phetsims/joist/issues/127
-        navigationBar.normalHomeIcon.setScaleMagnitude( this.navBarScale * 1.1 );
-        navigationBar.normalHomeIcon.centerY = navigationBar.background.rectHeight / 2;
-        navigationBar.normalHomeIcon.left = navigationBar.buttonHBox.right + 15;
-        navigationBar.invertedHomeIcon.setScaleMagnitude( this.navBarScale * 1.1 );
-        navigationBar.invertedHomeIcon.centerY = navigationBar.background.rectHeight / 2;
-        navigationBar.invertedHomeIcon.left = navigationBar.buttonHBox.right + 15;
+        navigationBar.homeButton.setScaleMagnitude( this.navBarScale * 1.1 );
+        navigationBar.homeButton.centerY = navigationBar.background.rectHeight / 2;
+        navigationBar.homeButton.left = navigationBar.buttonHBox.right + 15;
 
         //If the title overlaps the screen icons, scale it down.  See #128
         var availableSpace = this.buttonHBox.left - titleInset - distanceBetweenTitleAndFirstScreenIcon;

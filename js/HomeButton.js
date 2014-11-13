@@ -1,8 +1,9 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
-//TODO this should handle wiring up the callback that goes to the home screen, currently done in NavigationBar
 /**
  * The Home button that appears in the navigation bar.
+ *
+ * @author Sam Reid
  */
 define( function( require ) {
   'use strict';
@@ -13,25 +14,31 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var NodesPushButton = require( 'SUN/buttons/NodesPushButton' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
+  var JoistButton = require( 'JOIST/JoistButton' );
+  var Property = require( 'AXON/Property' );
 
-  function HomeButton( fill, pressedFill, whiteColorScheme, options ) {
+  function HomeButton( fill, pressedFill, invertedFill, invertedPressedFill, whiteColorScheme, model, options ) {
+    var homeIcon = new FontAwesomeNode( 'home', { scale: 0.75 } );
+    options = _.extend( {
+      ariaLabel: 'Home',
+      highlightExtensionWidth: 4,
 
-    var icon = function( fill, highlighted ) {
-      var node = new FontAwesomeNode( 'home', { fill: fill, scale: 0.75 } );
-      if ( highlighted ) {
-        return new Node( {
-          children: [
-            node,
-            new HighlightNode( node.width + 4, node.height, {center: node.center, whiteHighlight: !whiteColorScheme} )
-          ]} );
+      // When pressed, take the user to the home screen.
+      listener: function() {
+        model.showHomeScreen = true;
+      }
+    }, options );
+    JoistButton.call( this, whiteColorScheme, homeIcon, options );
+
+    Property.multilink( [this.interactionStateProperty, whiteColorScheme], function( interactionState, useInvertedColors ) {
+      if ( !useInvertedColors ) {
+        homeIcon.fill = interactionState === 'pressed' ? pressedFill : fill;
       }
       else {
-        return node;
+        homeIcon.fill = interactionState === 'pressed' ? invertedPressedFill : invertedFill;
       }
-    };
-    NodesPushButton.call( this, icon( fill, false ), icon( fill, true ), icon( pressedFill, true ), icon( fill, false ), options );
-    this.mouseArea = this.touchArea = Shape.rectangle( this.bounds.minX, this.bounds.minY, this.bounds.width, this.bounds.height );
+    } );
   }
 
-  return inherit( NodesPushButton, HomeButton );
+  return inherit( JoistButton, HomeButton );
 } );
