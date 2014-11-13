@@ -31,7 +31,37 @@ define( function( require ) {
   function PhetButton( sim, options ) {
 
     options = _.extend( {
-      phetLogoScale: 0.28 // {number}
+      ariaLabel: 'PhET Options',
+      phetLogoScale: 0.28, // {number}
+      highlightExtensionWidth: 6,
+      highlightExtensionHeight: 5,
+      highlightCenterOffsetY: 4,
+      listener: function() {
+
+        var phetMenu = new PhetMenu( sim, {
+          showSaveAndLoad: sim.options.showSaveAndLoad,
+          closeCallback: function() {
+
+            // hides the popup and barrier background
+            sim.hidePopup( phetMenu, true );
+          }
+        } );
+
+        function onResize( bounds, screenBounds, scale ) {
+
+          // because it starts at null
+          if ( bounds ) {
+            phetMenu.setScaleMagnitude( Math.max( 1, scale * 0.7 ) ); // minimum size for small devices
+            phetMenu.right = bounds.right - 10 * scale;
+            phetMenu.bottom = ( bounds.bottom + screenBounds.bottom ) / 2;
+          }
+        }
+
+        sim.on( 'resized', onResize );
+        onResize( sim.bounds, sim.screenBounds, sim.scale );
+
+        sim.showPopup( phetMenu, true );
+      }
     }, options );
 
     // The PhET Label, which is the PhET logo
@@ -50,37 +80,12 @@ define( function( require ) {
     // The icon combines the PhET label and the thre horizontal bars in the right relative positions
     var icon = new Node( {children: [phetLabel, optionsButton]} );
 
-    JoistButton.call( this, sim, icon, {listener: function() {
-
-      var phetMenu = new PhetMenu( sim, {
-        showSaveAndLoad: sim.options.showSaveAndLoad,
-        closeCallback: function() {
-          // hides the popup and barrier background
-          sim.hidePopup( phetMenu, true );
-        }
-      } );
-
-      function onResize( bounds, screenBounds, scale ) {
-        // because it starts at null
-        if ( bounds ) {
-          phetMenu.setScaleMagnitude( Math.max( 1, scale * 0.7 ) ); // minimum size for small devices
-          phetMenu.right = bounds.right - 10 * scale;
-          phetMenu.bottom = ( bounds.bottom + screenBounds.bottom ) / 2;
-        }
-      }
-
-      sim.on( 'resized', onResize );
-      onResize( sim.bounds, sim.screenBounds, sim.scale );
-
-      sim.showPopup( phetMenu, true );
-    }} );
+    JoistButton.call( this, sim.useInvertedColorsProperty, icon, options );
 
     Property.multilink( [this.interactionStateProperty, sim.useInvertedColorsProperty], function( interactionState, useInvertedColors ) {
       optionsButton.fill = useInvertedColors ? '#222' : 'white';
       phetLabel.image = useInvertedColors ? phetLogoDarker : phetLogo;
     } );
-
-    this.mutate( options );
   }
 
   return inherit( JoistButton, PhetButton, {},

@@ -19,17 +19,23 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
 
   /**
-   * @param {Sim} sim
+   * @param {Property.<boolean>} useInvertedColorsProperty
    * @param {Node} content - the scenery node to render as the content of the button
    * @param {Object} [options] Unused in client code.
    * @constructor
    */
-  function JoistButton( sim, content, options ) {
+  function JoistButton( useInvertedColorsProperty, content, options ) {
 
     options = _.extend( {
       cursor: 'pointer', // {string}
       listener: null, // {function}
-      ariaLabel: '' // {string}
+      ariaLabel: '', // {string}
+
+      //Customization for the highlight region, see overrides in HomeButton and PhetButton
+      highlightExtensionWidth: 0,
+      highlightExtensionHeight: 0,
+      highlightCenterOffsetX: 0,
+      highlightCenterOffsetY: 0
     }, options );
 
     // Button model
@@ -37,9 +43,10 @@ define( function( require ) {
 
     // Create both highlights and only make the one visible that corresponds to the color scheme
     var createHighlight = function( whiteHighlight ) {
-      return new HighlightNode( content.width + 6, content.height + 5, {
-        centerX: content.centerX,
-        centerY: content.centerY + 4,
+
+      return new HighlightNode( content.width + options.highlightExtensionWidth, content.height + options.highlightExtensionHeight, {
+        centerX: content.centerX + options.highlightCenterOffsetX,
+        centerY: content.centerY + options.highlightCenterOffsetY,
         whiteHighlight: whiteHighlight,
         pickable: false
       } );
@@ -59,7 +66,7 @@ define( function( require ) {
     this.interactionStateProperty = interactionStateProperty;//@protected
 
     // Update the highlights based on whether the button is highlighted and whether it is against a light or dark background.
-    Property.multilink( [interactionStateProperty, sim.useInvertedColorsProperty], function( interactionState, useInvertedColors ) {
+    Property.multilink( [interactionStateProperty, useInvertedColorsProperty], function( interactionState, useInvertedColors ) {
       normalHighlight.visible = !useInvertedColors && (interactionState === 'over' || interactionState === 'pressed');
       invertedHighlight.visible = useInvertedColors && (interactionState === 'over' || interactionState === 'pressed');
     } );
