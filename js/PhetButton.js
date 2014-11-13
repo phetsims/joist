@@ -16,7 +16,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetMenu = require( 'JOIST/PhetMenu' );
   var Shape = require( 'KITE/Shape' );
-  var NodesPushButton = require( 'SUN/buttons/NodesPushButton' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
   var ButtonListener = require( 'SUN/buttons/ButtonListener' );
   var PushButtonInteractionStateProperty = require( 'SUN/buttons/PushButtonInteractionStateProperty' );
@@ -117,7 +116,7 @@ define( function( require ) {
 
       sim.showPopup( phetMenu, true );
     };
-    this.addListener( phetButtonPressed );
+    this.buttonModel.addListener( phetButtonPressed );
 
     this.addPeer( '<input type="button" aria-label="PhET Menu">', {click: phetButtonPressed, tabIndex: 101} );
 
@@ -127,7 +126,7 @@ define( function( require ) {
     this.mutate( options );
   }
 
-  return inherit( NodesPushButton, PhetButton, {},
+  return inherit( Node, PhetButton, {},
 
     //statics
     {
