@@ -284,7 +284,7 @@ define( function( require ) {
         sim.display.scenery.enableLogging();
       }
       else {
-        sim.display.scenery.enableLogging( logNames.split( ',' ) );
+        sim.display.scenery.enableLogging( logNames.split( '.' ) );
       }
     }
     sim.display.initializeWindowEvents( { batchDOMEvents: this.options.batchEvents } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
