@@ -30,6 +30,33 @@ define( function( require ) {
    */
   function PhetButton( sim, options ) {
 
+    // The PhET popup menu, which is created lazily when the button is pressed.
+    var phetMenu = null;
+
+    // When the PhET button is pressed, create the PhET popup menu
+    var initPhetMenu = function() {
+      phetMenu = new PhetMenu( sim, {
+        showSaveAndLoad: sim.options.showSaveAndLoad,
+        closeCallback: function() {
+
+          // hides the popup and barrier background
+          sim.hidePopup( phetMenu, true );
+        }
+      } );
+
+      function onResize( bounds, screenBounds, scale ) {
+
+        // because it starts at null
+        if ( bounds ) {
+          phetMenu.setScaleMagnitude( Math.max( 1, scale * 0.7 ) ); // minimum size for small devices
+          phetMenu.right = bounds.right - 10 * scale;
+          phetMenu.bottom = ( bounds.bottom + screenBounds.bottom ) / 2;
+        }
+      }
+
+      sim.on( 'resized', onResize );
+      onResize( sim.bounds, sim.screenBounds, sim.scale );
+    };
     options = _.extend( {
       ariaLabel: 'PhET Options',
       phetLogoScale: 0.28, // {number}
@@ -37,30 +64,20 @@ define( function( require ) {
       highlightExtensionHeight: 5,
       highlightCenterOffsetY: 4,
       listener: function() {
-
-        var phetMenu = new PhetMenu( sim, {
-          showSaveAndLoad: sim.options.showSaveAndLoad,
-          closeCallback: function() {
-
-            // hides the popup and barrier background
-            sim.hidePopup( phetMenu, true );
-          }
-        } );
-
-        function onResize( bounds, screenBounds, scale ) {
-
-          // because it starts at null
-          if ( bounds ) {
-            phetMenu.setScaleMagnitude( Math.max( 1, scale * 0.7 ) ); // minimum size for small devices
-            phetMenu.right = bounds.right - 10 * scale;
-            phetMenu.bottom = ( bounds.bottom + screenBounds.bottom ) / 2;
-          }
+        if ( phetMenu === null ) {
+          initPhetMenu();
         }
 
-        sim.on( 'resized', onResize );
-        onResize( sim.bounds, sim.screenBounds, sim.scale );
+        // If the PhET menu wasn't showing, then show it now.
+        if ( phetMenu.parents.length === 0 ) {
+          sim.showPopup( phetMenu, true );
+        }
+        else {
 
-        sim.showPopup( phetMenu, true );
+          // To support accessibility, allow a click event on this peer to hide the popup
+          // See https://github.com/phetsims/forces-and-motion-basics/issues/110
+          sim.hidePopup( phetMenu, true );
+        }
       }
     }, options );
 
