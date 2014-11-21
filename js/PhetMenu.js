@@ -67,6 +67,18 @@ define( function( require ) {
       closeCallback( event );
     } } ) );
 
+    //TODO: The peer should not be in the DOM if the button is invisible
+    menuItem.addPeer( '<input type="button" aria-label=' + text + '>', {
+      click: function() {
+        immediateCallback && immediateCallback();
+        callback && callback();
+        closeCallback && closeCallback();
+      },
+
+      //Visit this button after the index of the PhetButton
+      tabIndex: 1000
+    } );
+
     menuItem.separatorBefore = separatorBefore;
 
     return menuItem;
@@ -271,7 +283,5 @@ define( function( require ) {
     thisMenu.mutate( options );
   }
 
-  inherit( Node, PhetMenu );
-
-  return PhetMenu;
+  return inherit( Node, PhetMenu );
 } );
