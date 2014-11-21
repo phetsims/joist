@@ -77,7 +77,11 @@ define( function( require ) {
       },
 
       //Visit this button after the user has added some pullers to the rope
-      tabIndex: 20000
+      tabIndex: 20000,
+
+      onAdded: function( peer ) {
+        peer.peerElement.focus();
+      }
     } );
   }
 
