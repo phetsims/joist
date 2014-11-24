@@ -34,6 +34,16 @@ define( function( require ) {
   var Profiler = require( 'JOIST/Profiler' );
   var SimIFrameAPI = require( 'JOIST/SimIFrameAPI' );
 
+  // Choose a renderer for the joist components such as HomeScreen, NavigationBar, etc.
+  // See #184
+  var joistComponentRenderer = window.phetcommon.getQueryParameter( 'joistComponentRenderer' ) || 'svg';
+  var renderers = ['null', 'svg', 'canvas', 'webgl', 'dom'];
+  assert && assert( renderers.indexOf( joistComponentRenderer ) >= 0,
+      'joistComponentRenderer should be one of ' + renderers.join( ',' ) );
+  if ( joistComponentRenderer === 'null' ) {
+    joistComponentRenderer = null;
+  }
+
   /**
    * @param {string} name
    * @param {Screen[]} screens
@@ -45,16 +55,6 @@ define( function( require ) {
    */
   function Sim( name, screens, options ) {
     var sim = this;
-
-    // Choose a renderer for the joist components such as HomeScreen, NavigationBar, etc.
-    // See #184
-    var joistComponentRenderer = window.phetcommon.getQueryParameter( 'joistComponentRenderer' ) || 'svg';
-    var renderers = ['null', 'svg', 'canvas', 'webgl', 'dom'];
-    assert && assert( renderers.indexOf( joistComponentRenderer ) >= 0,
-        'joistComponentRenderer should be one of ' + renderers.join( ',' ) );
-    if ( joistComponentRenderer === 'null' ) {
-      joistComponentRenderer = null;
-    }
 
     PropertySet.call( this, {
 
@@ -191,12 +191,12 @@ define( function( require ) {
 
     // Option for the ability to save a screenshot
     // if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'screenshot' ) ) {
-      options.showScreenshotOption = true;
+    options.showScreenshotOption = true;
     // }
 
     // Option for the ability to make the sim full-screen
     // if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'fullscreen' ) ) {
-      options.showFullscreenOption = true;
+    options.showFullscreenOption = true;
     // }
 
     if ( window.phetcommon.getQueryParameter( 'screenIndex' ) ) {
@@ -523,417 +523,423 @@ define( function( require ) {
   }
 
   return inherit( PropertySet, Sim, {
-    /*
-     * Adds a popup in the global coordinate frame, and optionally displays a semi-transparent black input barrier behind it.
-     * Use hidePopup() to remove it.
-     * @param {Node} node
-     * @param {boolean} isModal - Whether to display the semi-transparent black input barrier behind it.
-     */
-    showPopup: function( node, isModal ) {
-      assert && assert( node );
+      /*
+       * Adds a popup in the global coordinate frame, and optionally displays a semi-transparent black input barrier behind it.
+       * Use hidePopup() to remove it.
+       * @param {Node} node
+       * @param {boolean} isModal - Whether to display the semi-transparent black input barrier behind it.
+       */
+      showPopup: function( node, isModal ) {
+        assert && assert( node );
 
-      if ( isModal ) {
-        this.barrierStack.push( node );
-      }
-      this.topLayer.addChild( node );
-    },
+        if ( isModal ) {
+          this.barrierStack.push( node );
+        }
+        this.topLayer.addChild( node );
+      },
 
-    /*
-     * Hides a popup that was previously displayed with showPopup()
-     * @param {Node} node
-     * @param {boolean} isModal - Whether the previous popup was modal (or not)
-     */
-    hidePopup: function( node, isModal ) {
-      assert && assert( node && this.barrierStack.contains( node ) );
+      /*
+       * Hides a popup that was previously displayed with showPopup()
+       * @param {Node} node
+       * @param {boolean} isModal - Whether the previous popup was modal (or not)
+       */
+      hidePopup: function( node, isModal ) {
+        assert && assert( node && this.barrierStack.contains( node ) );
 
-      if ( isModal ) {
-        this.barrierStack.remove( node );
-      }
-      this.topLayer.removeChild( node );
-    },
+        if ( isModal ) {
+          this.barrierStack.remove( node );
+        }
+        this.topLayer.removeChild( node );
+      },
 
-    resizeToWindow: function() {
-      this.resize( window.innerWidth, window.innerHeight );
-    },
+      resizeToWindow: function() {
+        this.resize( window.innerWidth, window.innerHeight );
+      },
 
-    resize: function( width, height ) {
-      var sim = this;
+      resize: function( width, height ) {
+        var sim = this;
 
-      //Use Mobile Safari layout bounds to size the home screen and navigation bar
-      var scale = Math.min( width / 768, height / 504 );
+        //Use Mobile Safari layout bounds to size the home screen and navigation bar
+        var scale = Math.min( width / 768, height / 504 );
 
-      this.barrierRectangle.rectWidth = width;
-      this.barrierRectangle.rectHeight = height;
+        this.barrierRectangle.rectWidth = width;
+        this.barrierRectangle.rectHeight = height;
 
-      //40 px high on Mobile Safari
-      var navBarHeight = scale * 40;
-      sim.navigationBar.layout( scale, width, navBarHeight, height );
-      sim.navigationBar.y = height - navBarHeight;
-      sim.display.setSize( new Dimension2( width, height ) );
+        //40 px high on Mobile Safari
+        var navBarHeight = scale * 40;
+        sim.navigationBar.layout( scale, width, navBarHeight, height );
+        sim.navigationBar.y = height - navBarHeight;
+        sim.display.setSize( new Dimension2( width, height ) );
 
-      var screenHeight = height - sim.navigationBar.height;
+        var screenHeight = height - sim.navigationBar.height;
 
-      //Layout each of the screens
-      _.each( sim.screens, function( m ) { m.view.layout( width, screenHeight ); } );
+        //Layout each of the screens
+        _.each( sim.screens, function( m ) { m.view.layout( width, screenHeight ); } );
 
-      if ( sim.homeScreen ) {
-        sim.homeScreen.layoutWithScale( scale, width, height );
-      }
-      //Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
+        if ( sim.homeScreen ) {
+          sim.homeScreen.layoutWithScale( scale, width, height );
+        }
+        //Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
 
-      sim.display._input.eventLog.push( 'scene.display.setSize(new dot.Dimension2(' + width + ',' + height + '));' );
+        sim.display._input.eventLog.push( 'scene.display.setSize(new dot.Dimension2(' + width + ',' + height + '));' );
 
-      //Fixes problems where the div would be way off center on iOS7
-      if ( platform.mobileSafari ) {
-        window.scrollTo( 0, 0 );
-      }
+        //Fixes problems where the div would be way off center on iOS7
+        if ( platform.mobileSafari ) {
+          window.scrollTo( 0, 0 );
+        }
 
-      // update our scale and bounds properties after other changes (so listeners can be fired after screens are resized)
-      this.scale = scale;
-      this.bounds = new Bounds2( 0, 0, width, height );
-      this.screenBounds = new Bounds2( 0, 0, width, screenHeight );
+        // update our scale and bounds properties after other changes (so listeners can be fired after screens are resized)
+        this.scale = scale;
+        this.bounds = new Bounds2( 0, 0, width, height );
+        this.screenBounds = new Bounds2( 0, 0, width, screenHeight );
 
-      this.trigger( 'resized', this.bounds, this.screenBounds, this.scale );
-    },
+        this.trigger( 'resized', this.bounds, this.screenBounds, this.scale );
+      },
 
-    start: function() {
-      var sim = this;
+      start: function() {
+        var sim = this;
 
-      // if the playback flag is set, don't start up like normal. instead download our event log from the server and play it back.
-      // if direct playback (copy-paste) is desired, please directly call sim.startInputEventPlayback( ... ) instead of sim.start().
-      if ( this.options.playbackInputEventLog ) {
-        var request = new XMLHttpRequest();
-        request.open( 'GET', this.getEventLogLocation(), true );
-        request.onload = function( e ) {
-          // we create functions, so eval is necessary. we go to the loaded domain on a non-standard port, so cross-domain issues shouldn't present themselves
-          /* jshint -W061 */
-          sim.startInputEventPlayback( eval( request.responseText ) );
-        };
-        request.send();
-        return;
-      }
+        // if the playback flag is set, don't start up like normal. instead download our event log from the server and play it back.
+        // if direct playback (copy-paste) is desired, please directly call sim.startInputEventPlayback( ... ) instead of sim.start().
+        if ( this.options.playbackInputEventLog ) {
+          var request = new XMLHttpRequest();
+          request.open( 'GET', this.getEventLogLocation(), true );
+          request.onload = function( e ) {
+            // we create functions, so eval is necessary. we go to the loaded domain on a non-standard port, so cross-domain issues shouldn't present themselves
+            /* jshint -W061 */
+            sim.startInputEventPlayback( eval( request.responseText ) );
+          };
+          request.send();
+          return;
+        }
 
-      //Keep track of the previous time for computing dt, and initially signify that time hasn't been recorded yet.
-      var lastTime = -1;
+        //Keep track of the previous time for computing dt, and initially signify that time hasn't been recorded yet.
+        var lastTime = -1;
 
-      //Make sure requestAnimationFrame is defined
-      Util.polyfillRequestAnimationFrame();
+        //Make sure requestAnimationFrame is defined
+        Util.polyfillRequestAnimationFrame();
 
-      var websocket;
-      if ( sim.options.recordInputEventLog ) {
-        websocket = new WebSocket( 'ws://phet-dev.colorado.edu/some-temporary-url/something', 'scenery-input-events' );
-      }
+        var websocket;
+        if ( sim.options.recordInputEventLog ) {
+          websocket = new WebSocket( 'ws://phet-dev.colorado.edu/some-temporary-url/something', 'scenery-input-events' );
+        }
 
-      //Record the pointers (if logging is enabled)
+        //Record the pointers (if logging is enabled)
 //    var logPointers = new LogPointers();
 //    logPointers.startLogging();
 //
 //    //For debugging, display the pointers
 //    logPointers.showPointers();
 
-      if ( sim.options.profiler ) {
-        sim.profiler = new Profiler( sim );
-      }
-
-      // place the rAF *before* the render() to assure as close to 60fps with the setTimeout fallback.
-      //http://paulirish.com/2011/requestanimationframe-for-smart-animating/
-      (function animationLoop() {
-        var dt, screen;
-
-        sim.profiler && sim.profiler.frameStarted();
-
-        // increment this before we can have an exception thrown, to see if we are missing frames
-        sim.frameCounter++;
-
-        if ( !sim.destroyed ) {
-          window.requestAnimationFrame( animationLoop );
+        if ( sim.options.profiler ) {
+          sim.profiler = new Profiler( sim );
         }
 
-        phetAllocation && phetAllocation( 'loop' );
+        // place the rAF *before* the render() to assure as close to 60fps with the setTimeout fallback.
+        //http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+        (function animationLoop() {
+          var dt, screen;
 
-        // prevent Safari from going to sleep, see https://github.com/phetsims/joist/issues/140
-        if ( sim.frameCounter % 1000 === 0 ) {
-          sim.heartbeatDiv.innerHTML = Math.random();
-        }
+          sim.profiler && sim.profiler.frameStarted();
 
-        // fire or synthesize input events
-        if ( sim.options.fuzzMouse ) {
-          sim.fuzzMouseEvents();
-        }
-        else if ( sim.options.fuzzTouches ) {
-          // TODO: we need more state tracking of individual touch points to do this properly
-        }
-        else {
-          // if any input events were received and batched, fire them now.
-          if ( sim.options.batchEvents ) {
-            // if any input events were received and batched, fire them now, but only if the sim is active
-            // The sim may be inactive if interactivity was disabled by API usage such as the SimIFrameAPI
-            if ( sim.active ) {
-              sim.display._input.fireBatchedEvents();
-            }
-            // If the sim was inactive (locked), then discard any scenery events instead of buffering them and applying
-            // them later.
-            else {
-              sim.display._input.clearBatchedEvents();
+          // increment this before we can have an exception thrown, to see if we are missing frames
+          sim.frameCounter++;
+
+          if ( !sim.destroyed ) {
+            window.requestAnimationFrame( animationLoop );
+          }
+
+          phetAllocation && phetAllocation( 'loop' );
+
+          // prevent Safari from going to sleep, see https://github.com/phetsims/joist/issues/140
+          if ( sim.frameCounter % 1000 === 0 ) {
+            sim.heartbeatDiv.innerHTML = Math.random();
+          }
+
+          // fire or synthesize input events
+          if ( sim.options.fuzzMouse ) {
+            sim.fuzzMouseEvents();
+          }
+          else if ( sim.options.fuzzTouches ) {
+            // TODO: we need more state tracking of individual touch points to do this properly
+          }
+          else {
+            // if any input events were received and batched, fire them now.
+            if ( sim.options.batchEvents ) {
+              // if any input events were received and batched, fire them now, but only if the sim is active
+              // The sim may be inactive if interactivity was disabled by API usage such as the SimIFrameAPI
+              if ( sim.active ) {
+                sim.display._input.fireBatchedEvents();
+              }
+              // If the sim was inactive (locked), then discard any scenery events instead of buffering them and applying
+              // them later.
+              else {
+                sim.display._input.clearBatchedEvents();
+              }
             }
           }
+
+          //Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
+          var time = Date.now();
+          var elapsedTimeMilliseconds = (lastTime === -1) ? (1000.0 / 60.0) : (time - lastTime);
+          lastTime = time;
+
+          //Convert to seconds
+          dt = elapsedTimeMilliseconds / 1000.0;
+
+          // Step the models, timers and tweens, but only if the sim is active.
+          // It may be inactive if it has been paused through the SimIFrameAPI
+          if ( sim.active ) {
+
+            //Update the active screen, but not if the user is on the home screen
+            if ( !sim.simModel.showHomeScreen ) {
+              // step model and view (both optional)
+              screen = sim.screens[sim.simModel.screenIndex];
+              if ( screen.model.step ) {
+                screen.model.step( dt );
+              }
+              if ( screen.view.step ) {
+                screen.view.step( dt );
+              }
+            }
+
+            Timer.step( dt );
+
+            //If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
+            //Update the tweens after the model is updated but before the scene is redrawn.
+            if ( window.TWEEN ) {
+              window.TWEEN.update();
+            }
+
+          }
+          if ( sim.options.recordInputEventLog ) {
+            // push a frame entry into our inputEventLog
+            var entry = {
+              dt: dt,
+              events: sim.display._input.eventLog,
+              id: sim.frameCounter,
+              time: Date.now()
+            };
+            if ( sim.inputEventWidth !== sim.display.width ||
+                 sim.inputEventHeight !== sim.display.height ) {
+              sim.inputEventWidth = sim.display.width;
+              sim.inputEventHeight = sim.display.height;
+
+              entry.width = sim.inputEventWidth;
+              entry.height = sim.inputEventHeight;
+            }
+            // sim.inputEventLog.push( entry );
+            websocket.send( JSON.stringify( entry ) );
+            sim.display._input.eventLog = []; // clears the event log so that future actions will fill it
+          }
+          sim.updateBackground();
+          sim.display.updateDisplay();
+
+          sim.profiler && sim.profiler.frameEnded();
+
+          sim.trigger( 'frameCompleted' );
+        })();
+
+        //If state was specified, load it now
+        if ( window.phetcommon.getQueryParameter( 'state' ) ) {
+          var stateString = window.phetcommon.getQueryParameter( 'state' );
+          var decoded = decodeURIComponent( stateString );
+          sim.setState( JSON.parse( decoded, SimJSON.reviver ) );
+        }
+      },
+
+      // Plays back input events and updateScene() loops based on recorded data. data should be an array of objects (representing frames) with dt and fireEvents( scene, dot )
+      startInputEventPlayback: function( data ) {
+        var sim = this;
+
+        var index = 0; // our index into our frame data.
+
+        //Make sure requestAnimationFrame is defined
+        Util.polyfillRequestAnimationFrame();
+
+        if ( data.length && data[0].width ) {
+          sim.resize( data[0].width, data[0].height );
         }
 
-        //Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
-        var time = Date.now();
-        var elapsedTimeMilliseconds = (lastTime === -1) ? (1000.0 / 60.0) : (time - lastTime);
-        lastTime = time;
+        var startTime = Date.now();
 
-        //Convert to seconds
-        dt = elapsedTimeMilliseconds / 1000.0;
+        (function animationLoop() {
+          var frame = data[index++];
 
-        // Step the models, timers and tweens, but only if the sim is active.
-        // It may be inactive if it has been paused through the SimIFrameAPI
-        if ( sim.active ) {
+          // when we have aready played the last frame
+          if ( frame === undefined ) {
+            var endTime = Date.now();
+
+            var elapsedTime = endTime - startTime;
+            var fps = data.length / ( elapsedTime / 1000 );
+
+            // replace the page with a performance message
+            document.body.innerHTML = '<div style="text-align: center; font-size: 16px;">' +
+                                      '<h1>Performance results:</h1>' +
+                                      '<p>Approximate frames per second: <strong>' + fps.toFixed( 1 ) + '</strong></p>' +
+                                      '<p>Average time per frame (ms/frame): <strong>' + (elapsedTime / index).toFixed( 1 ) + '</strong></p>' +
+                                      '<p>Elapsed time: <strong>' + elapsedTime + 'ms</strong></p>' +
+                                      '<p>Number of frames: <strong>' + index + '</strong></p>' +
+                                      '</div>';
+
+            // ensure that the black text is readable (chipper-built sims have a black background right now)
+            document.body.style.backgroundColor = '#fff';
+
+            // bail before the requestAnimationFrame if we are at the end (stops the frame loop)
+            return;
+          }
+
+          window.requestAnimationFrame( animationLoop );
+
+          // we don't fire batched input events (prevents them from affecting unit/performance tests).
+          // instead, we fire pre-recorded events for the scene if it exists (left out for brevity when not necessary)
+          if ( frame.fireEvents ) { frame.fireEvents( sim.scene, function( x, y ) { return new Vector2( x, y ); } ); }
 
           //Update the active screen, but not if the user is on the home screen
           if ( !sim.simModel.showHomeScreen ) {
-            // step model and view (both optional)
-            screen = sim.screens[sim.simModel.screenIndex];
-            if ( screen.model.step ) {
-              screen.model.step( dt );
-            }
-            if ( screen.view.step ) {
-              screen.view.step( dt );
-            }
+            sim.screens[sim.simModel.screenIndex].model.step( frame.dt ); // use the pre-recorded dt to ensure lack of variation between runs
           }
-
-          Timer.step( dt );
 
           //If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
           //Update the tweens after the model is updated but before the scene is redrawn.
           if ( window.TWEEN ) {
             window.TWEEN.update();
           }
+          sim.updateBackground();
+          sim.display.updateDisplay();
+        })();
+      },
 
+      // A string that should be evaluated as JavaScript containing an array of "frame" objects, with a dt and an optional fireEvents function
+      getRecordedInputEventLogString: function() {
+        return '[\n' + _.map( this.inputEventLog, function( item ) {
+          var fireEvents = 'fireEvents:function(scene,dot){' + _.map( item.events, function( str ) { return 'display._input.' + str; } ).join( '' ) + '}';
+          return '{dt:' + item.dt + ( item.events.length ? ',' + fireEvents : '' ) + ( item.width ? ',width:' + item.width : '' ) + ( item.height ? ',height:' + item.height : '' ) +
+                 ',id:' + item.id + ',time:' + item.time + '}';
+        } ).join( ',\n' ) + '\n]';
+      },
+
+      // For recording and playing back input events, we use a unique combination of the user agent, width and height, so the same
+      // server can test different recorded input events on different devices/browsers (desired, because events and coordinates are different)
+      getEventLogName: function() {
+        var name = this.options.inputEventLogName;
+        if ( name === 'browser' ) {
+          name = window.navigator.userAgent;
         }
-        if ( sim.options.recordInputEventLog ) {
-          // push a frame entry into our inputEventLog
-          var entry = {
-            dt: dt,
-            events: sim.display._input.eventLog,
-            id: sim.frameCounter,
-            time: Date.now()
-          };
-          if ( sim.inputEventWidth !== sim.display.width ||
-               sim.inputEventHeight !== sim.display.height ) {
-            sim.inputEventWidth = sim.display.width;
-            sim.inputEventHeight = sim.display.height;
+        return ( this.name + '_' + name ).replace( /[^a-zA-Z0-9]/g, '_' );
+      },
 
-            entry.width = sim.inputEventWidth;
-            entry.height = sim.inputEventHeight;
-          }
-          // sim.inputEventLog.push( entry );
-          websocket.send( JSON.stringify( entry ) );
-          sim.display._input.eventLog = []; // clears the event log so that future actions will fill it
-        }
-        sim.updateBackground();
-        sim.display.updateDisplay();
+      // protocol-relative URL to the same-origin on a different port, for loading/saving recorded input events and frames
+      getEventLogLocation: function() {
+        var host = window.location.host.split( ':' )[0]; // grab the hostname without the port
+        return '//' + host + ':8083/' + this.getEventLogName();
+      },
 
-        sim.profiler && sim.profiler.frameEnded();
+      // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
+      submitEventLog: function() {
+        // if we aren't recording data, don't submit any!
+        if ( !this.options.recordInputEventLog ) { return; }
 
-        sim.trigger( 'frameCompleted' );
-      })();
+        var data = this.getRecordedInputEventLogString();
 
-      //If state was specified, load it now
-      if ( window.phetcommon.getQueryParameter( 'state' ) ) {
-        var stateString = window.phetcommon.getQueryParameter( 'state' );
-        var decoded = decodeURIComponent( stateString );
-        sim.setState( JSON.parse( decoded, SimJSON.reviver ) );
-      }
-    },
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open( 'POST', this.getEventLogLocation(), true ); // use a protocol-relative port to send it to Scenery's local event-log server
+        xmlhttp.setRequestHeader( 'Content-type', 'text/javascript' );
+        xmlhttp.send( data );
+      },
 
-    // Plays back input events and updateScene() loops based on recorded data. data should be an array of objects (representing frames) with dt and fireEvents( scene, dot )
-    startInputEventPlayback: function( data ) {
-      var sim = this;
+      // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
+      mailEventLog: function() {
+        // if we aren't recording data, don't submit any!
+        if ( !this.options.recordInputEventLog ) { return; }
 
-      var index = 0; // our index into our frame data.
+        var data = this.getRecordedInputEventLogString();
 
-      //Make sure requestAnimationFrame is defined
-      Util.polyfillRequestAnimationFrame();
+        window.open( 'mailto:phethelp@colorado.edu?subject=' + encodeURIComponent( this.name + ' input event log at ' + Date.now() ) + '&body=' + encodeURIComponent( data ) );
+      },
 
-      if ( data.length && data[0].width ) {
-        sim.resize( data[0].width, data[0].height );
-      }
+      fuzzMouseEvents: function() {
+        var sim = this;
 
-      var startTime = Date.now();
+        var chance;
+        // run a variable number of events, with a certain chance of bailing out (so no events are possible)
+        // models a geometric distribution of events
+        while ( ( chance = Math.random() ) < 1 - 1 / sim.fuzzMouseAverage ) {
+          var domEvent;
+          if ( chance < ( sim.fuzzMouseLastMoved ? 0.02 : 0.4 ) ) {
+            // toggle up/down
+            domEvent = document.createEvent( 'MouseEvent' ); // not 'MouseEvents' according to DOM Level 3 spec
 
-      (function animationLoop() {
-        var frame = data[index++];
+            // technically deprecated, but DOM4 event constructors not out yet. people on #whatwg said to use it
+            domEvent.initMouseEvent( sim.fuzzMouseIsDown ? 'mouseup' : 'mousedown', true, true, window, 1, // click count
+              sim.fuzzMousePosition.x, sim.fuzzMousePosition.y, sim.fuzzMousePosition.x, sim.fuzzMousePosition.y,
+              false, false, false, false,
+              0, // button
+              null );
 
-        // when we have aready played the last frame
-        if ( frame === undefined ) {
-          var endTime = Date.now();
+            sim.display._input.validatePointers();
 
-          var elapsedTime = endTime - startTime;
-          var fps = data.length / ( elapsedTime / 1000 );
-
-          // replace the page with a performance message
-          document.body.innerHTML = '<div style="text-align: center; font-size: 16px;">' +
-                                    '<h1>Performance results:</h1>' +
-                                    '<p>Approximate frames per second: <strong>' + fps.toFixed( 1 ) + '</strong></p>' +
-                                    '<p>Average time per frame (ms/frame): <strong>' + (elapsedTime / index).toFixed( 1 ) + '</strong></p>' +
-                                    '<p>Elapsed time: <strong>' + elapsedTime + 'ms</strong></p>' +
-                                    '<p>Number of frames: <strong>' + index + '</strong></p>' +
-                                    '</div>';
-
-          // ensure that the black text is readable (chipper-built sims have a black background right now)
-          document.body.style.backgroundColor = '#fff';
-
-          // bail before the requestAnimationFrame if we are at the end (stops the frame loop)
-          return;
-        }
-
-        window.requestAnimationFrame( animationLoop );
-
-        // we don't fire batched input events (prevents them from affecting unit/performance tests).
-        // instead, we fire pre-recorded events for the scene if it exists (left out for brevity when not necessary)
-        if ( frame.fireEvents ) { frame.fireEvents( sim.scene, function( x, y ) { return new Vector2( x, y ); } ); }
-
-        //Update the active screen, but not if the user is on the home screen
-        if ( !sim.simModel.showHomeScreen ) {
-          sim.screens[sim.simModel.screenIndex].model.step( frame.dt ); // use the pre-recorded dt to ensure lack of variation between runs
-        }
-
-        //If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
-        //Update the tweens after the model is updated but before the scene is redrawn.
-        if ( window.TWEEN ) {
-          window.TWEEN.update();
-        }
-        sim.updateBackground();
-        sim.display.updateDisplay();
-      })();
-    },
-
-    // A string that should be evaluated as JavaScript containing an array of "frame" objects, with a dt and an optional fireEvents function
-    getRecordedInputEventLogString: function() {
-      return '[\n' + _.map( this.inputEventLog, function( item ) {
-        var fireEvents = 'fireEvents:function(scene,dot){' + _.map( item.events, function( str ) { return 'display._input.' + str; } ).join( '' ) + '}';
-        return '{dt:' + item.dt + ( item.events.length ? ',' + fireEvents : '' ) + ( item.width ? ',width:' + item.width : '' ) + ( item.height ? ',height:' + item.height : '' ) +
-               ',id:' + item.id + ',time:' + item.time + '}';
-      } ).join( ',\n' ) + '\n]';
-    },
-
-    // For recording and playing back input events, we use a unique combination of the user agent, width and height, so the same
-    // server can test different recorded input events on different devices/browsers (desired, because events and coordinates are different)
-    getEventLogName: function() {
-      var name = this.options.inputEventLogName;
-      if ( name === 'browser' ) {
-        name = window.navigator.userAgent;
-      }
-      return ( this.name + '_' + name ).replace( /[^a-zA-Z0-9]/g, '_' );
-    },
-
-    // protocol-relative URL to the same-origin on a different port, for loading/saving recorded input events and frames
-    getEventLogLocation: function() {
-      var host = window.location.host.split( ':' )[0]; // grab the hostname without the port
-      return '//' + host + ':8083/' + this.getEventLogName();
-    },
-
-    // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
-    submitEventLog: function() {
-      // if we aren't recording data, don't submit any!
-      if ( !this.options.recordInputEventLog ) { return; }
-
-      var data = this.getRecordedInputEventLogString();
-
-      var xmlhttp = new XMLHttpRequest();
-      xmlhttp.open( 'POST', this.getEventLogLocation(), true ); // use a protocol-relative port to send it to Scenery's local event-log server
-      xmlhttp.setRequestHeader( 'Content-type', 'text/javascript' );
-      xmlhttp.send( data );
-    },
-
-    // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
-    mailEventLog: function() {
-      // if we aren't recording data, don't submit any!
-      if ( !this.options.recordInputEventLog ) { return; }
-
-      var data = this.getRecordedInputEventLogString();
-
-      window.open( 'mailto:phethelp@colorado.edu?subject=' + encodeURIComponent( this.name + ' input event log at ' + Date.now() ) + '&body=' + encodeURIComponent( data ) );
-    },
-
-    fuzzMouseEvents: function() {
-      var sim = this;
-
-      var chance;
-      // run a variable number of events, with a certain chance of bailing out (so no events are possible)
-      // models a geometric distribution of events
-      while ( ( chance = Math.random() ) < 1 - 1 / sim.fuzzMouseAverage ) {
-        var domEvent;
-        if ( chance < ( sim.fuzzMouseLastMoved ? 0.02 : 0.4 ) ) {
-          // toggle up/down
-          domEvent = document.createEvent( 'MouseEvent' ); // not 'MouseEvents' according to DOM Level 3 spec
-
-          // technically deprecated, but DOM4 event constructors not out yet. people on #whatwg said to use it
-          domEvent.initMouseEvent( sim.fuzzMouseIsDown ? 'mouseup' : 'mousedown', true, true, window, 1, // click count
-            sim.fuzzMousePosition.x, sim.fuzzMousePosition.y, sim.fuzzMousePosition.x, sim.fuzzMousePosition.y,
-            false, false, false, false,
-            0, // button
-            null );
-
-          sim.display._input.validatePointers();
-
-          if ( sim.fuzzMouseIsDown ) {
-            sim.display._input.mouseUp( sim.fuzzMousePosition, domEvent );
-            sim.fuzzMouseIsDown = false;
+            if ( sim.fuzzMouseIsDown ) {
+              sim.display._input.mouseUp( sim.fuzzMousePosition, domEvent );
+              sim.fuzzMouseIsDown = false;
+            }
+            else {
+              sim.display._input.mouseDown( sim.fuzzMousePosition, domEvent );
+              sim.fuzzMouseIsDown = true;
+            }
           }
           else {
-            sim.display._input.mouseDown( sim.fuzzMousePosition, domEvent );
-            sim.fuzzMouseIsDown = true;
+            // change the mouse position
+            sim.fuzzMousePosition = new Vector2(
+              Math.floor( Math.random() * sim.display.width ),
+              Math.floor( Math.random() * sim.display.height )
+            );
+
+            // our move event
+            domEvent = document.createEvent( 'MouseEvent' ); // not 'MouseEvents' according to DOM Level 3 spec
+
+            // technically deprecated, but DOM4 event constructors not out yet. people on #whatwg said to use it
+            domEvent.initMouseEvent( 'mousemove', true, true, window, 0, // click count
+              sim.fuzzMousePosition.x, sim.fuzzMousePosition.y, sim.fuzzMousePosition.x, sim.fuzzMousePosition.y,
+              false, false, false, false,
+              0, // button
+              null );
+
+            sim.display._input.validatePointers();
+            sim.display._input.mouseMove( sim.fuzzMousePosition, domEvent );
           }
         }
-        else {
-          // change the mouse position
-          sim.fuzzMousePosition = new Vector2(
-            Math.floor( Math.random() * sim.display.width ),
-            Math.floor( Math.random() * sim.display.height )
-          );
+      },
 
-          // our move event
-          domEvent = document.createEvent( 'MouseEvent' ); // not 'MouseEvents' according to DOM Level 3 spec
+      //Destroy a sim so that it will no longer consume any resources.  Used by sim nesting in Smorgasbord
+      destroy: function() {
+        this.destroyed = true;
+        var simDiv = this.display.domElement;
+        simDiv.parentNode && simDiv.parentNode.removeChild( simDiv );
+      },
 
-          // technically deprecated, but DOM4 event constructors not out yet. people on #whatwg said to use it
-          domEvent.initMouseEvent( 'mousemove', true, true, window, 0, // click count
-            sim.fuzzMousePosition.x, sim.fuzzMousePosition.y, sim.fuzzMousePosition.x, sim.fuzzMousePosition.y,
-            false, false, false, false,
-            0, // button
-            null );
-
-          sim.display._input.validatePointers();
-          sim.display._input.mouseMove( sim.fuzzMousePosition, domEvent );
+      //For save/load
+      getState: function() {
+        var state = {};
+        for ( var i = 0; i < this.screens.length; i++ ) {
+          state['screen' + i] = this.screens[i].getState();
         }
+        state.simModel = this.simModel.get();
+
+        return state;
+      },
+
+      setState: function( state ) {
+        for ( var i = 0; i < this.screens.length; i++ ) {
+          this.screens[i].setState( state['screen' + i] );
+        }
+        this.simModel.set( state.simModel );
       }
     },
 
-    //Destroy a sim so that it will no longer consume any resources.  Used by sim nesting in Smorgasbord
-    destroy: function() {
-      this.destroyed = true;
-      var simDiv = this.display.domElement;
-      simDiv.parentNode && simDiv.parentNode.removeChild( simDiv );
-    },
-
-    //For save/load
-    getState: function() {
-      var state = {};
-      for ( var i = 0; i < this.screens.length; i++ ) {
-        state['screen' + i] = this.screens[i].getState();
-      }
-      state.simModel = this.simModel.get();
-
-      return state;
-    },
-
-    setState: function( state ) {
-      for ( var i = 0; i < this.screens.length; i++ ) {
-        this.screens[i].setState( state['screen' + i] );
-      }
-      this.simModel.set( state.simModel );
-    }
-  } );
+    // Statics
+    {
+      // Export the selected renderer as a static in case other code wants to use the same renderer
+      joistComponentRenderer: joistComponentRenderer
+    } );
 } );
