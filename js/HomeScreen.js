@@ -37,7 +37,7 @@ define( function( require ) {
     //Rendering in SVG seems to solve the problem that the home screen consumes 100% disk and crashes, see https://github.com/phetsims/joist/issues/17
     //Also makes it more responsive (and crisper on retina displays)
     //Renderer must be specified here because the node is added directly to the scene (instead of to some other node that already has svg renderer
-    ScreenView.call( this, {renderer: 'svg'} );
+    ScreenView.call( this, {renderer: sim.joistComponentRenderer} );
 
     this.backgroundColor = 'black';
 

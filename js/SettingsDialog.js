@@ -30,7 +30,7 @@ define( function( require ) {
     var settingsDialog = this;
 
     //Use view, to help center and scale content
-    ScreenView.call( this, {renderer: 'svg'} );
+    ScreenView.call( this, {renderer: sim.joistComponentRenderer} );
 
     var content = new VBox( { align: 'center', spacing: 50, children: [
       new Text( settingsString, { font: new PhetFont( 16 ) } ),

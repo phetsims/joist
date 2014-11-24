@@ -146,7 +146,7 @@ define( function( require ) {
     }, options );
 
     var thisMenu = this;
-    Node.call( thisMenu, {renderer: 'svg'} );
+    Node.call( thisMenu, {renderer: 'webgl'} );
 
     /*
      * Description of the items in the menu. Each descriptor has these properties:
@@ -195,7 +195,7 @@ define( function( require ) {
         present: false,
         callback: function() {
           var settingsDialog = new SettingsDialog( sim );
-          var plane = new Plane( {fill: 'black', opacity: 0.3, renderer: 'svg'} );
+          var plane = new Plane( {fill: 'black', opacity: 0.3, renderer: sim.joistComponentRenderer} );
           sim.addChild( plane );
           sim.addChild( settingsDialog );
           settingsDialog.addDoneListener( function() {
@@ -247,7 +247,8 @@ define( function( require ) {
           // only render the desired parts to the Canvas (i.e. not the overlay and menu that are visible)
           if ( sim.simModel.showHomeScreen ) {
             sim.homeScreen.renderToCanvasSubtree( wrapper, sim.homeScreen.getLocalToGlobalMatrix() );
-          } else {
+          }
+          else {
             var view = sim.screens[sim.simModel.screenIndex].view;
             var navbar = sim.navigationBar;
 
@@ -276,7 +277,8 @@ define( function( require ) {
             var filename = sim.name + ' screenshot.png';
 
             window.saveAs( blob, filename );
-          } else {
+          }
+          else {
             window.open( dataURL, '_blank', '' );
           }
         }
@@ -318,7 +320,7 @@ define( function( require ) {
     // Create the menu items.
     var items = this.items = _.map( keepItemDescriptors, function( itemDescriptor ) {
       return createMenuItem( itemDescriptor.text, maxTextWidth, maxTextHeight, itemDescriptor.separatorBefore,
-                             options.closeCallback, itemDescriptor.callback, itemDescriptor.checkedProperty );
+        options.closeCallback, itemDescriptor.callback, itemDescriptor.checkedProperty );
     } );
     var separatorWidth = _.max( items, function( item ) {return item.width;} ).width;
     var itemHeight = _.max( items, function( item ) {return item.height;} ).height;

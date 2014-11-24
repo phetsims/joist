@@ -46,6 +46,16 @@ define( function( require ) {
   function Sim( name, screens, options ) {
     var sim = this;
 
+    // Choose a renderer for the joist components such as HomeScreen, NavigationBar, etc.
+    // See #184
+    var joistComponentRenderer = window.phetcommon.getQueryParameter( 'joistComponentRenderer' ) || 'svg';
+    var renderers = ['null', 'svg', 'canvas', 'webgl', 'dom'];
+    assert && assert( renderers.indexOf( joistComponentRenderer ) >= 0,
+        'joistComponentRenderer should be one of ' + renderers.join( ',' ) );
+    if ( joistComponentRenderer === 'null' ) {
+      joistComponentRenderer = null;
+    }
+
     PropertySet.call( this, {
 
       // [read-only] how the home screen and navbar are scaled
@@ -66,7 +76,10 @@ define( function( require ) {
       // Flag for if the sim is active (alive) and the user is able to interact with the sim.
       // If the sim is active, the model.step, view.step, Timer and TWEEN will run.
       // Set to false for when the sim will be controlled externally, such as through record/playback or other controls.
-      active: true
+      active: true,
+
+      // The renderer to use for home screen, navigation bar, etc.
+      joistComponentRenderer: joistComponentRenderer
     } );
 
     // Load the Sim iframe API, if it was enabled by a query parameter
@@ -483,7 +496,7 @@ define( function( require ) {
     }
 
     // layer for popups, dialogs, and their backgrounds and barriers
-    this.topLayer = new Node( { renderer: 'svg' } );
+    this.topLayer = new Node( { renderer: 'webgl' } );
     sim.scene.addChild( this.topLayer );
 
     // Semi-transparent black barrier used to block input events when a dialog (or other popup) is present, and fade
