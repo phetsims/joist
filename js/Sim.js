@@ -36,12 +36,12 @@ define( function( require ) {
 
   // Choose a renderer for the joist components such as HomeScreen, NavigationBar, etc.
   // See #184
-  var joistComponentRenderer = window.phetcommon.getQueryParameter( 'joistComponentRenderer' ) || 'svg';
+  var joistRenderer = window.phetcommon.getQueryParameter( 'joistRenderer' ) || 'svg';
   var renderers = ['null', 'svg', 'canvas', 'webgl', 'dom'];
-  assert && assert( renderers.indexOf( joistComponentRenderer ) >= 0,
-      'joistComponentRenderer should be one of ' + renderers.join( ',' ) );
-  if ( joistComponentRenderer === 'null' ) {
-    joistComponentRenderer = null;
+  assert && assert( renderers.indexOf( joistRenderer ) >= 0,
+      'joistRenderer should be one of ' + renderers.join( ',' ) );
+  if ( joistRenderer === 'null' ) {
+    joistRenderer = null;
   }
 
   /**
@@ -79,7 +79,7 @@ define( function( require ) {
       active: true,
 
       // The renderer to use for home screen, navigation bar, etc.
-      joistComponentRenderer: joistComponentRenderer
+      joistRenderer: joistRenderer
     } );
 
     // Load the Sim iframe API, if it was enabled by a query parameter
@@ -940,6 +940,6 @@ define( function( require ) {
     // Statics
     {
       // Export the selected renderer as a static in case other code wants to use the same renderer
-      joistComponentRenderer: joistComponentRenderer
+      joistRenderer: joistRenderer
     } );
 } );

@@ -37,7 +37,7 @@ define( function( require ) {
     this.navBarWidth = 768;
 
     //Renderer must be specified here because the node is added directly to the scene (instead of to some other node that already has svg renderer
-    Node.call( this, {renderer: sim.joistComponentRenderer} );
+    Node.call( this, {renderer: sim.joistRenderer} );
     this.background = new Rectangle( 0, 0, 0, 0, { pickable: false } );
     this.addChild( this.background );
     sim.link( 'useInvertedColors', function( whiteColorScheme ) {
