@@ -31,7 +31,9 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var Shape = require( 'KITE/Shape' );
   var Profiler = require( 'JOIST/Profiler' );
-  var SimIFrameAPI = require( 'JOIST/SimIFrameAPI' );
+
+  // The SimIFrameAPI is currently private, so we must only load it if it is available
+  var SimIFrameAPI = null;
 
   /**
    * @param {string} name
@@ -69,7 +71,7 @@ define( function( require ) {
     } );
 
     // Load the Sim iframe API, if it was enabled by a query parameter
-    if ( window.phetcommon.getQueryParameter( 'iframeAPI' ) ) {
+    if ( SimIFrameAPI ) {
       SimIFrameAPI.initialize( this );
     }
 
