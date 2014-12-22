@@ -31,6 +31,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var Shape = require( 'KITE/Shape' );
   var Profiler = require( 'JOIST/Profiler' );
+  var ScreenView = require( 'JOIST/ScreenView' );
 
   // The SimIFrameAPI is currently private, so we must only load it if it is available
   var SimIFrameAPI = null;
@@ -516,7 +517,7 @@ define( function( require ) {
       var sim = this;
 
       //Use Mobile Safari layout bounds to size the home screen and navigation bar
-      var scale = Math.min( width / 768, height / 504 );
+      var scale = Math.min( width / ScreenView.DEFAULT_LAYOUT_BOUNDS.width, height / ScreenView.DEFAULT_LAYOUT_BOUNDS.height );
 
       this.barrierRectangle.rectWidth = width;
       this.barrierRectangle.rectHeight = height;

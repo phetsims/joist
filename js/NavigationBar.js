@@ -19,6 +19,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PhetButton = require( 'JOIST/PhetButton' );
   var NavigationBarScreenButton = require( 'JOIST/NavigationBarScreenButton' );
+  var ScreenView = require( 'JOIST/ScreenView' );
 
   /**
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
@@ -34,7 +35,7 @@ define( function( require ) {
 
     this.navBarHeight = 40;
     this.navBarScale = 1;
-    this.navBarWidth = 768;
+    this.navBarWidth = ScreenView.DEFAULT_LAYOUT_BOUNDS.width;
 
     //Renderer must be specified here because the node is added directly to the scene (instead of to some other node that already has svg renderer
     Node.call( this, {renderer: 'svg'} );
