@@ -146,7 +146,7 @@ define( function( require ) {
     }, options );
 
     var thisMenu = this;
-    Node.call( thisMenu, {renderer: 'webgl'} );
+    Node.call( thisMenu, {renderer: 'svg'} );
 
     /*
      * Description of the items in the menu. Each descriptor has these properties:
