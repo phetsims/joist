@@ -33,6 +33,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Profiler = require( 'JOIST/Profiler' );
   var SimIFrameAPI = require( 'JOIST/SimIFrameAPI' );
+  var AccessibilityLayer = require( 'SCENERY/accessibility/AccessibilityLayer' );
 
   // Choose a renderer for the joist components such as HomeScreen, NavigationBar, etc.
   // See #184
@@ -281,6 +282,11 @@ define( function( require ) {
       // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
       allowWebGL: window.phetcommon.getQueryParameter( 'webgl' ) !== 'false'
     } );
+    this.accessibilityLayer = new AccessibilityLayer();
+
+    //Adding the accessibility layer directly to the Display's root makes it easy to use local->global bounds.
+    sim.scene.addChild( this.accessibilityLayer );
+
     var simDiv = sim.display.domElement;
     simDiv.id = 'sim';
     document.body.appendChild( simDiv );
@@ -443,6 +449,7 @@ define( function( require ) {
         }
         sim.navigationBar.setVisible( !showHomeScreen );
         sim.updateBackground();
+        sim.accessibilityLayer.moveToFront();
       } );
     }
     else if ( options.screenDisplayStrategy === 'setChildren' ) {
@@ -461,6 +468,7 @@ define( function( require ) {
 
         currentScreenNode = newScreenNode;
         sim.updateBackground();
+        sim.accessibilityLayer.moveToFront();
       } );
 
       //When the user presses the home icon, then show the homescreen, otherwise show the screen and navbar
@@ -489,14 +497,16 @@ define( function( require ) {
           sim.scene.insertChild( idx + 1, sim.navigationBar );
         }
         sim.updateBackground();
+        sim.accessibilityLayer.moveToFront();
       } );
     }
     else {
       throw new Error( "invalid value for options.screenDisplayStrategy: " + options.screenDisplayStrategy );
     }
+    sim.accessibilityLayer.moveToFront();
 
     // layer for popups, dialogs, and their backgrounds and barriers
-    this.topLayer = new Node( { renderer: 'webgl' } );
+    this.topLayer = new Node( { renderer: 'svg' } );
     sim.scene.addChild( this.topLayer );
 
     // Semi-transparent black barrier used to block input events when a dialog (or other popup) is present, and fade
