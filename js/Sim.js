@@ -31,10 +31,12 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var Shape = require( 'KITE/Shape' );
   var Profiler = require( 'JOIST/Profiler' );
+  var Dimension2 = require( 'DOT/Dimension2' );
 
   // The SimIFrameAPI is currently private, so we must only load it if it is available
   var SimIFrameAPI = null;
-  var NOMINAL_NAVIGATION_BAR_HEIGHT = 40; // sized for Safari iOS
+  // initial dimensions of the navigation bar, sized for Mobile Safari
+  var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreen.LAYOUT_BOUNDS.width, 40 );
 
   /**
    * @param {string} name
@@ -331,7 +333,7 @@ define( function( require ) {
       }
     }
 
-    sim.navigationBar = new NavigationBar( HomeScreen.LAYOUT_BOUNDS.width, NOMINAL_NAVIGATION_BAR_HEIGHT, sim, screens, sim.simModel );
+    sim.navigationBar = new NavigationBar( NAVIGATION_BAR_SIZE, sim, screens, sim.simModel );
 
     var updateBackground = function() {
       $simDiv[0].style.background = sim.currentScreen ?
@@ -521,7 +523,7 @@ define( function( require ) {
       this.barrierRectangle.rectWidth = width;
       this.barrierRectangle.rectHeight = height;
 
-      var navBarHeight = scale * NOMINAL_NAVIGATION_BAR_HEIGHT;
+      var navBarHeight = scale * NAVIGATION_BAR_SIZE.height;
       sim.navigationBar.layout( scale, width, navBarHeight, height );
       sim.navigationBar.y = height - navBarHeight;
       sim.scene.resize( width, height );

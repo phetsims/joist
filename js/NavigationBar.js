@@ -22,20 +22,19 @@ define( function( require ) {
 
   /**
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
-   * @param {number} width width of the navigation bar
-   * @param {number} height height of the navigation bar
+   * @param {Dimension2} barSize initial dimensions of the navigation bar
    * @param {Sim} sim
    * @param {Screen[]} screens
    * @param {PropertySet} model see joist.Sim
    * @constructor
    */
-  function NavigationBar( width, height, sim, screens, model ) {
+  function NavigationBar( barSize, sim, screens, model ) {
 
     var thisNode = this;
     this.screens = screens;
 
-    this.navBarWidth = width;
-    this.navBarHeight = height;
+    this.navBarWidth = barSize.width;
+    this.navBarHeight = barSize.height;
     this.navBarScale = 1;
 
     //Renderer must be specified here because the node is added directly to the scene (instead of to some other node that already has svg renderer
