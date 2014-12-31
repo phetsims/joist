@@ -34,6 +34,7 @@ define( function( require ) {
 
   // The SimIFrameAPI is currently private, so we must only load it if it is available
   var SimIFrameAPI = null;
+  var NOMINAL_NAVIGATION_BAR_HEIGHT = 40; // sized for Safari iOS
 
   /**
    * @param {string} name
@@ -330,9 +331,7 @@ define( function( require ) {
       }
     }
 
-    var navbarWidth = sim.homeScreen.layoutBounds.width;
-    var navbarHeight = Math.floor( 0.08 * sim.homeScreen.layoutBounds.height );
-    sim.navigationBar = new NavigationBar( navbarWidth, navbarHeight, sim, screens, sim.simModel );
+    sim.navigationBar = new NavigationBar( HomeScreen.LAYOUT_BOUNDS.width, NOMINAL_NAVIGATION_BAR_HEIGHT, sim, screens, sim.simModel );
 
     var updateBackground = function() {
       $simDiv[0].style.background = sim.currentScreen ?
@@ -517,14 +516,12 @@ define( function( require ) {
     resize: function( width, height ) {
       var sim = this;
 
-      //Use Mobile Safari layout bounds to size the home screen and navigation bar
-      var scale = Math.min( width / sim.homeScreen.layoutBounds.width, height / sim.homeScreen.layoutBounds.height );
+      var scale = Math.min( width / HomeScreen.LAYOUT_BOUNDS.width, height / HomeScreen.LAYOUT_BOUNDS.height );
 
       this.barrierRectangle.rectWidth = width;
       this.barrierRectangle.rectHeight = height;
 
-      //40 px high on Mobile Safari
-      var navBarHeight = scale * sim.navigationBar.navBarHeight;
+      var navBarHeight = scale * NOMINAL_NAVIGATION_BAR_HEIGHT;
       sim.navigationBar.layout( scale, width, navBarHeight, height );
       sim.navigationBar.y = height - navBarHeight;
       sim.scene.resize( width, height );

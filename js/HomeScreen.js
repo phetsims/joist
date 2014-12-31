@@ -28,6 +28,7 @@ define( function( require ) {
   // constants
   var HEIGHT = 70; //TODO what is this? is it the height of large icons?
   var TITLE_FONT_FAMILY = 'Century Gothic, Futura';
+  var LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
 
   function HomeScreen( sim, options ) {
     var homeScreen = this;
@@ -40,7 +41,7 @@ define( function( require ) {
     //Rendering in SVG seems to solve the problem that the home screen consumes 100% disk and crashes, see https://github.com/phetsims/joist/issues/17
     //Also makes it more responsive (and crisper on retina displays)
     //Renderer must be specified here because the node is added directly to the scene (instead of to some other node that already has svg renderer
-    ScreenView.call( this, { renderer: 'svg', layoutBounds: new Bounds2( 0, 0, 768, 504 ) } );
+    ScreenView.call( this, { renderer: 'svg', layoutBounds: LAYOUT_BOUNDS } );
 
     this.backgroundColor = 'black';
 
@@ -71,7 +72,7 @@ define( function( require ) {
         largeText.scale( largeIconWithFrame.width / largeText.width );
       }
       var large = new VBox( {
-        //Don't resize the VBox or it will shift down when the border becomes thicker
+        //Don't 40 the VBox or it will shift down when the border becomes thicker
         resize: false,
 
         cursor: 'pointer', children: [
@@ -217,7 +218,8 @@ define( function( require ) {
 
     //statics
     {
-      TITLE_FONT_FAMILY: TITLE_FONT_FAMILY
+      TITLE_FONT_FAMILY: TITLE_FONT_FAMILY,
+      LAYOUT_BOUNDS: LAYOUT_BOUNDS
     }
   );
 } );
