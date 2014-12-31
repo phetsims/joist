@@ -8,6 +8,7 @@
 define( function( require ) {
   'use strict';
 
+  // modules
   var PhetButton = require( 'JOIST/PhetButton' );
   var Node = require( 'SCENERY/nodes/Node' );
   var HBox = require( 'SCENERY/nodes/HBox' );
@@ -23,7 +24,8 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
-  var HEIGHT = 70;
+  // constants
+  var HEIGHT = 70; //TODO what is this? is it the height of large icons?
   var TITLE_FONT_FAMILY = 'Century Gothic, Futura';
 
   function HomeScreen( sim, options ) {
