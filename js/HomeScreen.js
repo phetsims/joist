@@ -23,6 +23,7 @@ define( function( require ) {
   var FullScreenButton = require( 'JOIST/FullScreenButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Bounds2 = require( 'DOT/Bounds2' );
 
   // constants
   var HEIGHT = 70; //TODO what is this? is it the height of large icons?
@@ -39,7 +40,7 @@ define( function( require ) {
     //Rendering in SVG seems to solve the problem that the home screen consumes 100% disk and crashes, see https://github.com/phetsims/joist/issues/17
     //Also makes it more responsive (and crisper on retina displays)
     //Renderer must be specified here because the node is added directly to the scene (instead of to some other node that already has svg renderer
-    ScreenView.call( this, {renderer: 'svg'} );
+    ScreenView.call( this, { renderer: 'svg', layoutBounds: new Bounds2( 0, 0, 768, 504 ) } );
 
     this.backgroundColor = 'black';
 

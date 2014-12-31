@@ -330,7 +330,9 @@ define( function( require ) {
       }
     }
 
-    sim.navigationBar = new NavigationBar( sim, screens, sim.simModel );
+    var navbarWidth = sim.homeScreen.layoutBounds.width;
+    var navbarHeight = Math.floor( 0.08 * sim.homeScreen.layoutBounds.height );
+    sim.navigationBar = new NavigationBar( navbarWidth, navbarHeight, sim, screens, sim.simModel );
 
     var updateBackground = function() {
       $simDiv[0].style.background = sim.currentScreen ?
@@ -516,13 +518,13 @@ define( function( require ) {
       var sim = this;
 
       //Use Mobile Safari layout bounds to size the home screen and navigation bar
-      var scale = Math.min( width / 768, height / 504 );
+      var scale = Math.min( width / sim.homeScreen.layoutBounds.width, height / sim.homeScreen.layoutBounds.height );
 
       this.barrierRectangle.rectWidth = width;
       this.barrierRectangle.rectHeight = height;
 
       //40 px high on Mobile Safari
-      var navBarHeight = scale * 40;
+      var navBarHeight = scale * sim.navigationBar.navBarHeight;
       sim.navigationBar.layout( scale, width, navBarHeight, height );
       sim.navigationBar.y = height - navBarHeight;
       sim.scene.resize( width, height );

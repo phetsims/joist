@@ -21,8 +21,7 @@ define( function( require ) {
    * As of this writing, this is the resolution being used by PhET's sim designers for their mockups.
    * For more information see https://github.com/phetsims/joist/issues/126
    */
-//  var DEFAULT_LAYOUT_BOUNDS = new Bounds2( 0, 0, 1024, 618 );
-  var DEFAULT_LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );  //TODO this is temporary until joist#185 is fixed
+  var DEFAULT_LAYOUT_BOUNDS = new Bounds2( 0, 0, 1024, 618 );
 
   function ScreenView( options ) {
 
