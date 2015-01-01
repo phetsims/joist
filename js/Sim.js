@@ -38,24 +38,8 @@ define( function( require ) {
   // initial dimensions of the navigation bar, sized for Mobile Safari
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreen.LAYOUT_BOUNDS.width, 40 );
 
-  //TODO: Is there a better place for this declaration?
-  window.phet = window.phet || {};
-  window.phet.arch = window.phet.arch || {
+  Property.initArch();
 
-    //Flag that indicates the sim is not instrumented for a data-driven study.  Provides short-circuiting for lines like: phet.arch.active && (...)
-    active: false,
-
-    //Just return the callback directly.
-    wrap: function( name, callback ) {
-      return callback;
-    },
-
-    trigger: function() {},
-
-    start: function() {},
-
-    end: function() {}
-  };
   /**
    * @param {string} name
    * @param {Screen[]} screens
