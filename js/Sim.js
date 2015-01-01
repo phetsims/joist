@@ -38,6 +38,24 @@ define( function( require ) {
   // initial dimensions of the navigation bar, sized for Mobile Safari
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreen.LAYOUT_BOUNDS.width, 40 );
 
+  //TODO: Is there a better place for this declaration?
+  window.phet = window.phet || {};
+  window.phet.arch = window.phet.arch || {
+
+    //Flag that indicates the sim is not instrumented for a data-driven study.  Provides short-circuiting for lines like: phet.arch.active && (...)
+    active: false,
+
+    //Just return the callback directly.
+    wrap: function( name, callback ) {
+      return callback;
+    },
+
+    trigger: function() {},
+
+    start: function() {},
+
+    end: function() {}
+  };
   /**
    * @param {string} name
    * @param {Screen[]} screens
@@ -72,6 +90,9 @@ define( function( require ) {
       // Set to false for when the sim will be controlled externally, such as through record/playback or other controls.
       active: true
     } );
+
+    // If converted to JSON, these properties would create a circular reference error, so we must skip this one.
+    this.currentScreenProperty.setSendPhetEvents( false );
 
     // Load the Sim iframe API, if it was enabled by a query parameter
     if ( SimIFrameAPI ) {
@@ -171,6 +192,16 @@ define( function( require ) {
       options.showHomeScreen = stringToBoolean( window.phetcommon.getQueryParameter( 'showHomeScreen' ) );
     }
 
+    // Custom "Done" button label
+    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'doneButtonLabel' ) ) {
+      options.doneButtonLabel = window.phetcommon.getQueryParameter( 'doneButtonLabel' );
+    }
+
+    // Custom "Done" button URL when clicked
+    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'doneButtonURL' ) ) {
+      options.doneButtonURL = window.phetcommon.getQueryParameter( 'doneButtonURL' );
+    }
+
     // Option for profiling
     if ( window.phetcommon.getQueryParameter( 'profiler' ) ) {
       options.profiler = true;
@@ -207,6 +238,14 @@ define( function( require ) {
       screens = [screens[options.screenIndex]];
       options.screenIndex = 0;
     }
+
+    phet.arch.active && phet.arch.start( 'simStarted', {
+      studentId: window.phetcommon.getQueryParameter( 'studentId' ),
+      options: options,
+      simName: sim.name,
+      simVersion: sim.version,
+      url: window.location.href
+    } );
 
     //If specifying 'screens' then use 1-based (not zero-based) and "." delimited string such as "1.3.4" to get the 1st, 3rd and 4th screen
     if ( window.phetcommon.getQueryParameter( 'screens' ) ) {
@@ -479,6 +518,8 @@ define( function( require ) {
     //Fit to the window and render the initial scene
     $( window ).resize( function() { sim.resizeToWindow(); } );
     sim.resizeToWindow();
+
+    phet.arch.active && phet.arch.end();
   }
 
   return inherit( PropertySet, Sim, {

@@ -16,6 +16,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var AboutDialog = require( 'JOIST/AboutDialog' );
   var OptionsDialog = require( 'JOIST/OptionsDialog' );
+  var ConfirmDataCompleteDialog = require( 'JOIST/ConfirmDataCompleteDialog' );
   var SettingsDialog = require( 'JOIST/SettingsDialog' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
@@ -221,6 +222,13 @@ define( function( require ) {
             node.addChild( new Image( canvas, {left: 0, top: 0, scale: 0.25} ) );
           } );
         }
+      },
+
+      // "Done" button, used in data collection studies
+      {
+        text: options.doneButtonLabel,
+        present: options.doneButtonURL,
+        callback: function() { showAboutDialog( new ConfirmDataCompleteDialog( options ) ); }
       },
       {
         text: aboutString,

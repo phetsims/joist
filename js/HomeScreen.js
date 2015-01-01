@@ -55,7 +55,7 @@ define( function( require ) {
     title.centerX = this.layoutBounds.centerX;
 
     //Keep track of which screen is highlighted so the same screen can remain highlighted even if nodes are replaced (say when one grows larger or smaller)
-    var highlightedIndex = new Property( -1 );
+    var highlightedIndex = new Property( -1 ).setSendPhetEvents( false );
 
     var screenChildren = _.map( sim.screens, function( screen ) {
       var index = sim.screens.indexOf( screen );
