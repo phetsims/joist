@@ -223,7 +223,7 @@ define( function( require ) {
       options.screenIndex = 0;
     }
 
-    phet.arch.active && phet.arch.start( 'simStarted', {
+    phet.arch.active && phet.arch.start( 'system', 'sim', 'Sim', 'simStarted', {
       studentId: window.phetcommon.getQueryParameter( 'studentId' ),
       options: options,
       simName: sim.name,
