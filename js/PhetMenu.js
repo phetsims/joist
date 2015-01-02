@@ -228,7 +228,7 @@ define( function( require ) {
       {
         text: options.doneButtonLabel,
         present: options.doneButtonURL,
-        callback: function() { showAboutDialog( new ConfirmDataCompleteDialog( options ) ); }
+        callback: function() { new ConfirmDataCompleteDialog( options ).show(); }  //TODO this will probably fail, but we're not using it yet
       },
       {
         text: aboutString,
