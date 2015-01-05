@@ -891,7 +891,7 @@ define( function( require ) {
     getState: function() {
       var state = {};
       for ( var i = 0; i < this.screens.length; i++ ) {
-        state['screen' + i] = this.screens[i].getState();
+        state['screen' + i] = this.screens[i].getState ? this.screens[i].getState() : {};
       }
       state.simModel = this.simModel.get();
 
