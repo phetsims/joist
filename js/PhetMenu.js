@@ -235,42 +235,20 @@ define( function( require ) {
         text: screenshotString,
         present: options.showScreenshotOption && !Platform.ie9,
         callback: function() {
-          // set up our Canvas with the correct background color
-          var canvas = document.createElement( 'canvas' );
-          canvas.width = sim.display.width;
-          canvas.height = sim.display.height;
-          var context = canvas.getContext( '2d' );
-          context.fillStyle = sim.display.domElement.style.backgroundColor;
-          context.fillRect( 0, 0, canvas.width, canvas.height );
-          var wrapper = new CanvasContextWrapper( canvas, context );
-
-          // only render the desired parts to the Canvas (i.e. not the overlay and menu that are visible)
-          if ( sim.simModel.showHomeScreen ) {
-            sim.homeScreen.renderToCanvasSubtree( wrapper, sim.homeScreen.getLocalToGlobalMatrix() );
-          }
-          else {
-            var view = sim.screens[sim.simModel.screenIndex].view;
-            var navbar = sim.navigationBar;
-
-            view.renderToCanvasSubtree( wrapper, view.getLocalToGlobalMatrix() );
-            navbar.renderToCanvasSubtree( wrapper, navbar.getLocalToGlobalMatrix() );
-          }
-
-          // get the data URL in PNG format
-          var dataURL = canvas.toDataURL( [ 'image/png' ] );
-
-          // construct a blob out of it
-          var requiredPrefix = 'data:image/png;base64,';
-          assert && assert( dataURL.slice( 0, requiredPrefix.length ) === requiredPrefix );
-          var dataBase64 = dataURL.slice( requiredPrefix.length );
-          var byteChars = window.atob( dataBase64 );
-          var byteArray = new window.Uint8Array( byteChars.length );
-          for ( var i = 0; i < byteArray.length; i++ ) {
-            byteArray[i] = byteChars.charCodeAt( i ); // need check to make sure this cast doesn't give problems?
-          }
+          var dataURL = sim.caputureScreenshotDataURL();
 
           // if we have FileSaver support
           if ( window.Blob && !!new window.Blob() ) {
+            // construct a blob out of it
+            var requiredPrefix = 'data:image/png;base64,';
+            assert && assert( dataURL.slice( 0, requiredPrefix.length ) === requiredPrefix );
+            var dataBase64 = dataURL.slice( requiredPrefix.length );
+            var byteChars = window.atob( dataBase64 );
+            var byteArray = new window.Uint8Array( byteChars.length );
+            for ( var i = 0; i < byteArray.length; i++ ) {
+              byteArray[i] = byteChars.charCodeAt( i ); // need check to make sure this cast doesn't give problems?
+            }
+
             var blob = new window.Blob( [byteArray], { type: 'image/png' } );
 
             // our preferred filename

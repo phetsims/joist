@@ -32,8 +32,9 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var Shape = require( 'KITE/Shape' );
   var Profiler = require( 'JOIST/Profiler' );
-  var SimIFrameAPI = require( 'JOIST/SimIFrameAPI' );
+  var SimIFrameAPI = null;
   var AccessibilityLayer = require( 'SCENERY/accessibility/AccessibilityLayer' );
+  var CanvasContextWrapper = require( 'SCENERY/util/CanvasContextWrapper' );
 
   // Choose a renderer for the joist components such as HomeScreen, NavigationBar, etc.
   // See #184
@@ -89,7 +90,7 @@ define( function( require ) {
     this.currentScreenProperty.setSendPhetEvents( false );
 
     // Load the Sim iframe API, if it was enabled by a query parameter
-    if ( window.phetcommon.getQueryParameter( 'iframeAPI' ) ) {
+    if ( window.phetcommon.getQueryParameter( 'iframeAPI' ) && SimIFrameAPI ) {
       SimIFrameAPI.initialize( this );
     }
 
@@ -959,6 +960,37 @@ define( function( require ) {
           this.screens[i].setState( state['screen' + i] );
         }
         this.simModel.set( state.simModel );
+      },
+
+      caputureScreenshotDataURL: function() {
+
+        var sim = this;
+
+        // set up our Canvas with the correct background color
+        var canvas = document.createElement( 'canvas' );
+        canvas.width = sim.display.width;
+        canvas.height = sim.display.height;
+        var context = canvas.getContext( '2d' );
+        context.fillStyle = sim.display.domElement.style.backgroundColor;
+        context.fillRect( 0, 0, canvas.width, canvas.height );
+        var wrapper = new CanvasContextWrapper( canvas, context );
+
+        // only render the desired parts to the Canvas (i.e. not the overlay and menu that are visible)
+        if ( sim.simModel.showHomeScreen ) {
+          sim.homeScreen.renderToCanvasSubtree( wrapper, sim.homeScreen.getLocalToGlobalMatrix() );
+        }
+        else {
+          var view = sim.screens[sim.simModel.screenIndex].view;
+          var navbar = sim.navigationBar;
+
+          view.renderToCanvasSubtree( wrapper, view.getLocalToGlobalMatrix() );
+          navbar.renderToCanvasSubtree( wrapper, navbar.getLocalToGlobalMatrix() );
+        }
+
+        // get the data URL in PNG format
+        var dataURL = canvas.toDataURL( [ 'image/png' ] );
+
+        return dataURL;
       }
     },
 
