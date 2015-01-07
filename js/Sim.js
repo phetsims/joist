@@ -903,6 +903,10 @@ define( function( require ) {
         this.screens[i].setState( state['screen' + i] );
       }
       this.simModel.set( state.simModel );
+    },
+
+    getStateJSON: function() {
+      return JSON.stringify( this.getState(), SimJSON.replacer );
     }
   } );
 } );
