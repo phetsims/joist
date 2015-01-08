@@ -14,7 +14,6 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var CanvasContextWrapper = require( 'SCENERY/util/CanvasContextWrapper' );
   var inherit = require( 'PHET_CORE/inherit' );
   var AboutDialog = require( 'JOIST/AboutDialog' );
   var OptionsDialog = require( 'JOIST/OptionsDialog' );
