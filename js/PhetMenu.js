@@ -235,7 +235,7 @@ define( function( require ) {
         text: screenshotString,
         present: options.showScreenshotOption && !Platform.ie9,
         callback: function() {
-          var dataURL = sim.caputureScreenshotDataURL();
+          var dataURL = sim.getScreenshotDataURL();
 
           // if we have FileSaver support
           if ( window.Blob && !!new window.Blob() ) {

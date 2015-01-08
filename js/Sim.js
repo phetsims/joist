@@ -962,7 +962,7 @@ define( function( require ) {
         this.simModel.set( state.simModel );
       },
 
-      caputureScreenshotDataURL: function() {
+      getScreenshotDataURL: function() {
 
         var sim = this;
 
