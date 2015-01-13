@@ -35,7 +35,7 @@ define( function( require ) {
 
   // The SimIFrameAPI is currently private, so we must only load it if it is available
   // If you need it, load it using
-  // require( 'JOIST/../../together/js/SimIFrameAPI' )
+  //var SimIFrameAPI = require( 'JOIST/../../together/js/SimIFrameAPI' )
   var SimIFrameAPI = null;
 
   // initial dimensions of the navigation bar, sized for Mobile Safari
