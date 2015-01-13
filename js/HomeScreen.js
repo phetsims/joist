@@ -24,6 +24,8 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var AdaptedFromPhETText = require( 'JOIST/AdaptedFromPhETText' );
+  var Brand = require( 'BRAND/Brand' );
 
   // constants
   var HEIGHT = 70; //TODO what is this? is it the height of large icons?
@@ -185,6 +187,12 @@ define( function( require ) {
       this.addChild( this.phetButton );
     }
 
+    // if the branding specifies to show "adapted from PhET" in the navbar, show it here
+    if ( Brand.adaptedFromPhET === true ) {
+      this.adaptedFromText = new AdaptedFromPhETText( sim.useInvertedColorsProperty );
+      this.addChild( this.adaptedFromText );
+    }
+
     if ( options.warningNode ) {
       var warningNode = options.warningNode;
 
@@ -212,6 +220,11 @@ define( function( require ) {
         //Undo the horizontal centering done in ScreenView so the button can be positioned globally
         else if ( scale === height / this.layoutBounds.height ) {
           this.phetButton.translate( -(width - this.layoutBounds.width * scale) / 2 / scale, 0 );
+        }
+
+        var dx = this.getLocalToGlobalMatrix().getScaleVector().x;
+        if ( this.adaptedFromText ) {
+          this.adaptedFromText.updateLayout( 1, this.phetButton );
         }
       }
     },
