@@ -19,6 +19,8 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PhetButton = require( 'JOIST/PhetButton' );
   var NavigationBarScreenButton = require( 'JOIST/NavigationBarScreenButton' );
+  var Brand = require( 'BRAND/Brand' );
+  var AdaptedFromPhETText = require( 'JOIST/AdaptedFromPhETText' );
 
   /**
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
@@ -72,6 +74,12 @@ define( function( require ) {
       //add the home button
       this.homeButton = new HomeButton( 'white', 'gray', '#222', '#444', sim.useInvertedColorsProperty, model );
       this.addChild( this.homeButton );
+
+      // if the branding specifies to show "adapted from PhET" in the navbar, show it here
+      if ( Brand.adaptedFromPhET === true ) {
+        this.adaptedFromText = new AdaptedFromPhETText( sim.useInvertedColorsProperty );
+        this.addChild( this.adaptedFromText );
+      }
     }
   }
 
@@ -113,6 +121,10 @@ define( function( require ) {
       this.phetButton.setScaleMagnitude( this.navBarScale );
       this.phetButton.right = this.navBarWidth - PhetButton.HORIZONTAL_INSET;
       this.phetButton.bottom = this.navBarHeight - PhetButton.VERTICAL_INSET;
+
+      if ( this.adaptedFromText ) {
+        this.adaptedFromText.updateLayout( this.navBarScale, this.phetButton );
+      }
     },
     layout: function( scale, width, height, windowHeight ) {
       this.navBarScale = scale;
