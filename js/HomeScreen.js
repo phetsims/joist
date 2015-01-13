@@ -222,7 +222,6 @@ define( function( require ) {
           this.phetButton.translate( -(width - this.layoutBounds.width * scale) / 2 / scale, 0 );
         }
 
-        var dx = this.getLocalToGlobalMatrix().getScaleVector().x;
         if ( this.adaptedFromText ) {
           this.adaptedFromText.updateLayout( 1, this.phetButton );
         }
