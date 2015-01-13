@@ -34,7 +34,10 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
 
   // The SimIFrameAPI is currently private, so we must only load it if it is available
+  // If you need it, load it using
+  // require( 'JOIST/../../together/js/SimIFrameAPI' )
   var SimIFrameAPI = null;
+
   // initial dimensions of the navigation bar, sized for Mobile Safari
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreen.LAYOUT_BOUNDS.width, 40 );
 
