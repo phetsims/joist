@@ -27,11 +27,11 @@ define( function( require ) {
     var adaptedFromPhetText = this;
     MultiLineText.call( this, 'adapted\nfrom', {
       align: 'right',
-      fill: useInvertedColorsProperty.value ? 'black' : 'white',
       font: font
     } );
     useInvertedColorsProperty.link( function( useInvertedColors ) {
-      adaptedFromPhetText.fill = useInvertedColors ? 'black' : 'white';
+      var fill = useInvertedColors ? 'black' : 'white';
+      adaptedFromPhetText.setFill( fill );
     } );
   }
 
