@@ -50,7 +50,7 @@ define( function( require ) {
     this.isModal = options.modal;
 
     var dialogContent = new Node( {
-      children: [content]
+      children: [ content ]
     } );
 
     if ( options.title ) {
@@ -59,7 +59,7 @@ define( function( require ) {
       dialogContent.addChild( titleNode );
 
       var updateTitlePosition = function() {
-        switch ( options.titleAlign ) {
+        switch( options.titleAlign ) {
           case 'center':
             titleNode.centerX = content.centerX;
             break;
@@ -104,7 +104,8 @@ define( function( require ) {
         closeButton.left = content.right + 10;
         if ( options.title ) {
           closeButton.top = options.title.top;
-        } else {
+        }
+        else {
           closeButton.top = content.top;
         }
       };
@@ -125,6 +126,7 @@ define( function( require ) {
     function updateLayout() {
       options.layoutStrategy( dialog, sim.bounds, sim.screenBounds, sim.scale );
     }
+
     sim.on( 'resized', updateLayout );
     updateLayout();
   }

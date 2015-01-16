@@ -33,13 +33,15 @@ define( function( require ) {
   };
 
   function FullScreenButton( options ) {
-    Node.call( this, {cursor: 'pointer'} );
-    this.addChild( new FontAwesomeNode( 'fullscreen', {fill: '#fff', scale: 0.8} ) );
-    this.mutate( _.extend( {cursor: 'pointer'}, options ) );//TODO: pointer not going through here
+    Node.call( this, { cursor: 'pointer' } );
+    this.addChild( new FontAwesomeNode( 'fullscreen', { fill: '#fff', scale: 0.8 } ) );
+    this.mutate( _.extend( { cursor: 'pointer' }, options ) );//TODO: pointer not going through here
 
-    this.addInputListener( {down: function() {
-      $( 'body' ).one( 'mouseup', fullScreener );
-    }} );
+    this.addInputListener( {
+      down: function() {
+        $( 'body' ).one( 'mouseup', fullScreener );
+      }
+    } );
 
     this.mouseArea = this.bounds;
     this.touchArea = this.bounds;

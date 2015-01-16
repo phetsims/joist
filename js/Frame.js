@@ -36,7 +36,12 @@ define( function( require ) {
     var height1 = content.height + 2 * options.yMargin1;
 
     this.gradient = new LinearGradient( 0, 0, width1, 0 ).addColorStop( 0, '#fbff41' ).addColorStop( 118 / 800.0, '#fef98b' ).addColorStop( 372 / 800.0, '#feff40' ).addColorStop( 616 / 800, '#fffccd' ).addColorStop( 1, '#fbff41' );
-    this.rectangle = new Rectangle( 0, 0, width1, height1, options.cornerRadius, options.cornerRadius, {stroke: this.gradient, lineWidth: 3, x: content.x - options.xMargin1, y: content.y - options.yMargin1} );
+    this.rectangle = new Rectangle( 0, 0, width1, height1, options.cornerRadius, options.cornerRadius, {
+      stroke: this.gradient,
+      lineWidth: 3,
+      x: content.x - options.xMargin1,
+      y: content.y - options.yMargin1
+    } );
     this.addChild( this.rectangle );
 
     // Apply options after the layout is done, so that options that use the bounds will work properly.

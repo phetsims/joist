@@ -40,15 +40,16 @@ define( function( require ) {
     //Rendering in SVG seems to solve the problem that the home screen consumes 100% disk and crashes, see https://github.com/phetsims/joist/issues/17
     //Also makes it more responsive (and crisper on retina displays)
     //Renderer must be specified here because the node is added directly to the scene (instead of to some other node that already has svg renderer
-    ScreenView.call( this, {renderer: sim.joistRenderer} );
+    ScreenView.call( this, { renderer: sim.joistRenderer } );
 
     this.backgroundColor = 'black';
 
     //iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
     var title = new Text( sim.name, {
-      font: new PhetFont( {size: 52, family: TITLE_FONT_FAMILY } ),
+      font: new PhetFont( { size: 52, family: TITLE_FONT_FAMILY } ),
       fill: 'white',
-      y: 110 } );
+      y: 110
+    } );
     this.addChild( title );
     title.scale( Math.min( 1, 0.9 * this.layoutBounds.width / title.width ) );
     title.centerX = this.layoutBounds.centerX;
@@ -58,13 +59,13 @@ define( function( require ) {
 
     var screenChildren = _.map( sim.screens, function( screen ) {
       var index = sim.screens.indexOf( screen );
-      var largeIcon = new Node( {children: [screen.homeScreenIcon], scale: HEIGHT / screen.homeScreenIcon.height * 2} );
+      var largeIcon = new Node( { children: [ screen.homeScreenIcon ], scale: HEIGHT / screen.homeScreenIcon.height * 2 } );
       var frame = new Frame( largeIcon );
 
       highlightedIndex.link( function( highlightedIndex ) { frame.setHighlighted( highlightedIndex === index ); } );
 
-      var largeIconWithFrame = new Node( {children: [ frame, largeIcon]} );
-      var largeText = new Text( screen.name, { font: new PhetFont( 42 ), fill: '#f2e916'} );//Color match with the PhET Logo yellow
+      var largeIconWithFrame = new Node( { children: [ frame, largeIcon ] } );
+      var largeText = new Text( screen.name, { font: new PhetFont( 42 ), fill: '#f2e916' } );//Color match with the PhET Logo yellow
 
       //Shrink the text if it goes beyond the edge of the image
       if ( largeText.width > largeIconWithFrame.width ) {
@@ -77,7 +78,8 @@ define( function( require ) {
         cursor: 'pointer', children: [
           largeIconWithFrame,
           largeText
-        ]} );
+        ]
+      } );
 
       //TODO: Switch to buttonListener, but make sure you test it because on 7/17/2013 there is a problem where ButtonListener won't fire if a node has appeared under the pointer
       large.addInputListener( {
@@ -88,25 +90,32 @@ define( function( require ) {
       } );
 
       //Show a small (unselected) screen icon.  In some cases (if the icon has a black background), a border may be shown around it as well.  See https://github.com/phetsims/color-vision/issues/49
-      var smallIconContent = new Node( {opacity: 0.5, children: [screen.homeScreenIcon], scale: sim.screens.length === 4 ? HEIGHT / screen.homeScreenIcon.height :
-                                                                                                sim.screens.length === 3 ? 1.25 * HEIGHT / screen.homeScreenIcon.height :
-                                                                                                sim.screens.length === 2 ? 1.75 * HEIGHT / screen.homeScreenIcon.height :
-                                                                                                HEIGHT / screen.homeScreenIcon.height} );
+      var smallIconContent = new Node( {
+        opacity: 0.5, children: [ screen.homeScreenIcon ], scale: sim.screens.length === 4 ? HEIGHT / screen.homeScreenIcon.height :
+                                                                  sim.screens.length === 3 ? 1.25 * HEIGHT / screen.homeScreenIcon.height :
+                                                                  sim.screens.length === 2 ? 1.75 * HEIGHT / screen.homeScreenIcon.height :
+                                                                  HEIGHT / screen.homeScreenIcon.height
+      } );
 
-      var smallFrame = new Rectangle( 0, 0, smallIconContent.width, smallIconContent.height, {stroke: options.showSmallHomeScreenIconFrame ? '#dddddd' : null, lineWidth: 0.7} );
-      var smallIcon = new Node( {opacity: 0.5, children: [smallFrame, smallIconContent]} );
+      var smallFrame = new Rectangle( 0, 0, smallIconContent.width, smallIconContent.height, {
+        stroke: options.showSmallHomeScreenIconFrame ? '#dddddd' : null,
+        lineWidth: 0.7
+      } );
+      var smallIcon = new Node( { opacity: 0.5, children: [ smallFrame, smallIconContent ] } );
 
-      var smallText = new Text( screen.name, { font: new PhetFont( 18 ), fill: 'gray'} );
+      var smallText = new Text( screen.name, { font: new PhetFont( 18 ), fill: 'gray' } );
 
       //Shrink the text if it goes beyond the edge of the image
       if ( smallText.width > smallIcon.width ) {
         smallText.scale( smallIcon.width / smallText.width );
       }
 
-      var small = new VBox( {spacing: 3, cursor: 'pointer', children: [
-        smallIcon,
-        smallText
-      ]} );
+      var small = new VBox( {
+        spacing: 3, cursor: 'pointer', children: [
+          smallIcon,
+          smallText
+        ]
+      } );
       small.mouseArea = small.touchArea = Shape.bounds( small.bounds ); //cover the gap in the vbox
       small.addInputListener( {
         down: function() { sim.simModel.screenIndex = index; },
@@ -126,15 +135,15 @@ define( function( require ) {
             highlightedIndex.value = index;
 
             //TODO: use named children instead of child indices?
-            small.children[0].opacity = 1;
-            small.children[1].fill = 'white';
+            small.children[ 0 ].opacity = 1;
+            small.children[ 1 ].fill = 'white';
           }
         },
         out: function( event ) {
           if ( event.pointer.isMouse ) {
             highlightedIndex.value = -1;
-            small.children[0].opacity = 0.5;
-            small.children[1].fill = 'gray';
+            small.children[ 0 ].opacity = 0.5;
+            small.children[ 1 ].fill = 'gray';
           }
         }
       };
@@ -155,10 +164,10 @@ define( function( require ) {
 //      }} );
 //    } );
 
-      return {screen: screen, small: small, large: large, index: index};
+      return { screen: screen, small: small, large: large, index: index };
     } );
 
-    var center = new Node( {y: 170} );
+    var center = new Node( { y: 170 } );
     homeScreen.addChild( center );
     sim.simModel.screenIndexProperty.link( function( screenIndex ) {
 
@@ -169,7 +178,7 @@ define( function( require ) {
                     33;
 
       var icons = _.map( screenChildren, function( screenChild ) {return screenChild.index === screenIndex ? screenChild.large : screenChild.small;} );
-      center.children = [new HBox( {spacing: spacing, children: icons, align: 'top', resize: false} )];
+      center.children = [ new HBox( { spacing: spacing, children: icons, align: 'top', resize: false } ) ];
       center.centerX = homeScreen.layoutBounds.width / 2;
     } );
 
@@ -177,7 +186,12 @@ define( function( require ) {
     var showFullScreenButton = !platform.android && !platform.mobileSafari && !platform.ie; // might work on IE11 in the future
     if ( showFullScreenButton && false ) {
       var fullScreenButton = new FullScreenButton();
-      this.addChild( new HBox( {spacing: 10, children: [fullScreenButton, new PhetButton( sim )], right: this.layoutBounds.maxX - 5, bottom: this.layoutBounds.maxY - 5} ) );
+      this.addChild( new HBox( {
+        spacing: 10,
+        children: [ fullScreenButton, new PhetButton( sim ) ],
+        right: this.layoutBounds.maxX - 5,
+        bottom: this.layoutBounds.maxY - 5
+      } ) );
     }
     else {
       this.phetButton = new PhetButton( sim );

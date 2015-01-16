@@ -73,17 +73,17 @@ define( function( require ) {
 
     var optionsButton = new FontAwesomeNode( 'reorder', {
       scale: 0.6,
-      left: phetLabel.width + 10,
+      left:   phetLabel.width + 10,
       bottom: phetLabel.bottom - 1.5,
       pickable: false
     } );
 
     // The icon combines the PhET label and the thre horizontal bars in the right relative positions
-    var icon = new Node( {children: [phetLabel, optionsButton]} );
+    var icon = new Node( { children: [ phetLabel, optionsButton ] } );
 
     JoistButton.call( this, icon, sim.useInvertedColorsProperty, options );
 
-    Property.multilink( [this.interactionStateProperty, sim.useInvertedColorsProperty], function( interactionState, useInvertedColors ) {
+    Property.multilink( [ this.interactionStateProperty, sim.useInvertedColorsProperty ], function( interactionState, useInvertedColors ) {
       optionsButton.fill = useInvertedColors ? '#222' : 'white';
       phetLabel.image = useInvertedColors ? phetLogoDarker : phetLogo;
     } );

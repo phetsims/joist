@@ -53,7 +53,7 @@ define( function( require ) {
     if ( Brand.links && Brand.links.length ) {
       children.push( new VStrut( 15 ) );
       for ( var i = 0; i < Brand.links.length; i++ ) {
-        var link = Brand.links[i];
+        var link = Brand.links[ i ];
         children.push( createLinkNode( link.text, link.url ) );
       }
     }

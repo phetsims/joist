@@ -39,7 +39,7 @@ define( function( require ) {
     this.navBarWidth = 768;
 
     //Renderer must be specified here because the node is added directly to the scene (instead of to some other node that already has svg renderer
-    Node.call( this, {renderer: sim.joistRenderer} );
+    Node.call( this, { renderer: sim.joistRenderer } );
     this.background = new Rectangle( 0, 0, 0, 0, { pickable: false } );
     this.addChild( this.background );
     sim.link( 'useInvertedColors', function( whiteColorScheme ) {
@@ -68,7 +68,7 @@ define( function( require ) {
         return new NavigationBarScreenButton( sim, screen, thisNode.navBarHeight, maxWidth );
       } );
 
-      this.buttonHBox = new HBox( {children: buttons, spacing: 4} );
+      this.buttonHBox = new HBox( { children: buttons, spacing: 4 } );
       this.addChild( this.buttonHBox );
 
       //add the home button
@@ -131,5 +131,6 @@ define( function( require ) {
       this.navBarWidth = width;
       this.navBarHeight = height;
       this.relayout();
-    }} );
+    }
+  } );
 } );

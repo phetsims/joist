@@ -26,7 +26,7 @@ define( function( require ) {
     }, options );
     JoistButton.call( this, homeIcon, whiteColorScheme, options );
 
-    Property.multilink( [this.interactionStateProperty, whiteColorScheme], function( interactionState, useInvertedColors ) {
+    Property.multilink( [ this.interactionStateProperty, whiteColorScheme ], function( interactionState, useInvertedColors ) {
       if ( !useInvertedColors ) {
         homeIcon.fill = interactionState === 'pressed' ? pressedFill : fill;
       }

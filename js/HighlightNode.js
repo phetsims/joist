@@ -25,7 +25,7 @@ define( function( require ) {
       fill: new LinearGradient( 0, 0, 0, height ).addColorStop( 0, outerColor ).addColorStop( 0.5, innerColor ).addColorStop( 1, outerColor )
     } );
 
-    options = _.extend( { children: [leftBar, rightBar], pickable: false}, options );
+    options = _.extend( { children: [ leftBar, rightBar ], pickable: false }, options );
     Node.call( this, options );
   }
 

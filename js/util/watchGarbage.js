@@ -16,7 +16,7 @@ define( function( require ) {
   var average = function( array ) {
     var sum = 0;
     for ( var i = 0; i < array.length; i++ ) {
-      sum += array[i];
+      sum += array[ i ];
     }
     return sum / array.length;
   };
@@ -31,7 +31,7 @@ define( function( require ) {
         gcTimes.push( Date.now() );
         var deltas = [];
         for ( var i = 0; i < 3 && i < gcTimes.length - 1; i++ ) {
-          deltas.push( gcTimes[gcTimes.length - 1 - i] - gcTimes[gcTimes.length - 1 - i - 1] );
+          deltas.push( gcTimes[ gcTimes.length - 1 - i ] - gcTimes[ gcTimes.length - 1 - i - 1 ] );
         }
         if ( deltas.length > 0 ) {
           console.log( 'GC: average period (ms) over last ', deltas.length, ' collections:', average( deltas ), ', values: ', deltas );

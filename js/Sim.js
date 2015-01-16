@@ -39,9 +39,9 @@ define( function( require ) {
   // Choose a renderer for the joist components such as HomeScreen, NavigationBar, etc.
   // See #184
   var joistRenderer = window.phetcommon.getQueryParameter( 'joistRenderer' ) || 'svg';
-  var renderers = ['null', 'svg', 'canvas', 'webgl', 'dom'];
+  var renderers = [ 'null', 'svg', 'canvas', 'webgl', 'dom' ];
   assert && assert( renderers.indexOf( joistRenderer ) >= 0,
-      'joistRenderer should be one of ' + renderers.join( ',' ) );
+    'joistRenderer should be one of ' + renderers.join( ',' ) );
   if ( joistRenderer === 'null' ) {
     joistRenderer = null;
   }
@@ -234,7 +234,7 @@ define( function( require ) {
     //If specifying 'standalone' then filter the screens array so that it is just the selected screenIndex
     if ( window.phetcommon.getQueryParameter( 'standalone' ) ) {
       options.standalone = true;
-      screens = [screens[options.screenIndex]];
+      screens = [ screens[ options.screenIndex ] ];
       options.screenIndex = 0;
     }
 
@@ -250,7 +250,7 @@ define( function( require ) {
     if ( window.phetcommon.getQueryParameter( 'screens' ) ) {
       var screensValueString = window.phetcommon.getQueryParameter( 'screens' );
       screens = screensValueString.split( '.' ).map( function( screenString ) {
-        return screens[parseInt( screenString, 10 ) - 1];
+        return screens[ parseInt( screenString, 10 ) - 1 ];
       } );
       options.screenIndex = 0;
     }
@@ -406,8 +406,8 @@ define( function( require ) {
       }
     };
 
-    sim.simModel.multilink( ['showHomeScreen', 'screenIndex'], function() {
-      sim.currentScreen = sim.simModel.showHomeScreen ? null : screens[sim.simModel.screenIndex];
+    sim.simModel.multilink( [ 'showHomeScreen', 'screenIndex' ], function() {
+      sim.currentScreen = sim.simModel.showHomeScreen ? null : screens[ sim.simModel.screenIndex ];
       updateBackground();
     } );
 
@@ -454,12 +454,12 @@ define( function( require ) {
         sim.scene.addChild( screen.view );
       } );
       sim.scene.addChild( sim.navigationBar );
-      sim.simModel.multilink( ['screenIndex', 'showHomeScreen'], function( screenIndex, showHomeScreen ) {
+      sim.simModel.multilink( [ 'screenIndex', 'showHomeScreen' ], function( screenIndex, showHomeScreen ) {
         if ( sim.homeScreen ) {
           sim.homeScreen.setVisible( showHomeScreen );
         }
         for ( var i = 0; i < screens.length; i++ ) {
-          screens[i].view.setVisible( !showHomeScreen && screenIndex === i );
+          screens[ i ].view.setVisible( !showHomeScreen && screenIndex === i );
         }
         sim.navigationBar.setVisible( !showHomeScreen );
         sim.updateBackground();
@@ -471,7 +471,7 @@ define( function( require ) {
       //When moving from a screen to the homescreen, the previous screen should be highlighted
       //When the user selects a different screen, show it.
       sim.simModel.screenIndexProperty.link( function( screenIndex ) {
-        var newScreenNode = screens[screenIndex].view;
+        var newScreenNode = screens[ screenIndex ].view;
         var oldIndex = currentScreenNode ? sim.scene.indexOfChild( currentScreenNode ) : -1;
 
         // swap out the views if the old one is displayed. if not, we are probably in the home screen
@@ -720,7 +720,7 @@ define( function( require ) {
             //Update the active screen, but not if the user is on the home screen
             if ( !sim.simModel.showHomeScreen ) {
               // step model and view (both optional)
-              screen = sim.screens[sim.simModel.screenIndex];
+              screen = sim.screens[ sim.simModel.screenIndex ];
               if ( screen.model.step ) {
                 screen.model.step( dt );
               }
@@ -783,14 +783,14 @@ define( function( require ) {
         //Make sure requestAnimationFrame is defined
         Util.polyfillRequestAnimationFrame();
 
-        if ( data.length && data[0].width ) {
-          sim.resize( data[0].width, data[0].height );
+        if ( data.length && data[ 0 ].width ) {
+          sim.resize( data[ 0 ].width, data[ 0 ].height );
         }
 
         var startTime = Date.now();
 
         (function animationLoop() {
-          var frame = data[index++];
+          var frame = data[ index++ ];
 
           // when we have aready played the last frame
           if ( frame === undefined ) {
@@ -823,7 +823,7 @@ define( function( require ) {
 
           //Update the active screen, but not if the user is on the home screen
           if ( !sim.simModel.showHomeScreen ) {
-            sim.screens[sim.simModel.screenIndex].model.step( frame.dt ); // use the pre-recorded dt to ensure lack of variation between runs
+            sim.screens[ sim.simModel.screenIndex ].model.step( frame.dt ); // use the pre-recorded dt to ensure lack of variation between runs
           }
 
           //If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
@@ -839,10 +839,10 @@ define( function( require ) {
       // A string that should be evaluated as JavaScript containing an array of "frame" objects, with a dt and an optional fireEvents function
       getRecordedInputEventLogString: function() {
         return '[\n' + _.map( this.inputEventLog, function( item ) {
-          var fireEvents = 'fireEvents:function(scene,dot){' + _.map( item.events, function( str ) { return 'display._input.' + str; } ).join( '' ) + '}';
-          return '{dt:' + item.dt + ( item.events.length ? ',' + fireEvents : '' ) + ( item.width ? ',width:' + item.width : '' ) + ( item.height ? ',height:' + item.height : '' ) +
-                 ',id:' + item.id + ',time:' + item.time + '}';
-        } ).join( ',\n' ) + '\n]';
+            var fireEvents = 'fireEvents:function(scene,dot){' + _.map( item.events, function( str ) { return 'display._input.' + str; } ).join( '' ) + '}';
+            return '{dt:' + item.dt + ( item.events.length ? ',' + fireEvents : '' ) + ( item.width ? ',width:' + item.width : '' ) + ( item.height ? ',height:' + item.height : '' ) +
+                   ',id:' + item.id + ',time:' + item.time + '}';
+          } ).join( ',\n' ) + '\n]';
       },
 
       // For recording and playing back input events, we use a unique combination of the user agent, width and height, so the same
@@ -857,7 +857,7 @@ define( function( require ) {
 
       // protocol-relative URL to the same-origin on a different port, for loading/saving recorded input events and frames
       getEventLogLocation: function() {
-        var host = window.location.host.split( ':' )[0]; // grab the hostname without the port
+        var host = window.location.host.split( ':' )[ 0 ]; // grab the hostname without the port
         return '//' + host + ':8083/' + this.getEventLogName();
       },
 
@@ -948,7 +948,7 @@ define( function( require ) {
       getState: function() {
         var state = {};
         for ( var i = 0; i < this.screens.length; i++ ) {
-          state['screen' + i] = this.screens[i].getState();
+          state[ 'screen' + i ] = this.screens[ i ].getState();
         }
         state.simModel = this.simModel.get();
 
@@ -957,7 +957,7 @@ define( function( require ) {
 
       setState: function( state ) {
         for ( var i = 0; i < this.screens.length; i++ ) {
-          this.screens[i].setState( state['screen' + i] );
+          this.screens[ i ].setState( state[ 'screen' + i ] );
         }
         this.simModel.set( state.simModel );
       },
@@ -980,7 +980,7 @@ define( function( require ) {
           sim.homeScreen.renderToCanvasSubtree( wrapper, sim.homeScreen.getLocalToGlobalMatrix() );
         }
         else {
-          var view = sim.screens[sim.simModel.screenIndex].view;
+          var view = sim.screens[ sim.simModel.screenIndex ].view;
           var navbar = sim.navigationBar;
 
           view.renderToCanvasSubtree( wrapper, view.getLocalToGlobalMatrix() );

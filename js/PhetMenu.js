@@ -76,10 +76,12 @@ define( function( require ) {
       enter: function() { highlight.fill = HIGHLIGHT_COLOR; },
       exit: function() { highlight.fill = null; },
     } );
-    menuItem.addInputListener( new ButtonListener( {fire: function( event ) {
-      callback( event );
-      closeCallback( event );
-    } } ) );
+    menuItem.addInputListener( new ButtonListener( {
+      fire: function( event ) {
+        callback( event );
+        closeCallback( event );
+      }
+    } ) );
 
     menuItem.separatorBefore = separatorBefore;
 
@@ -87,7 +89,7 @@ define( function( require ) {
     var checkListener;
     if ( checkedProperty ) {
       var checkNodeHolder = new Node( {
-        children: [checkNode],
+        children: [ checkNode ],
         right: textNode.left - CHECK_PADDING,
         centerY: textNode.centerY
       } );
@@ -110,7 +112,7 @@ define( function( require ) {
   // Creates a comic-book style bubble.
   var createBubble = function( width, height ) {
 
-    var rectangle = new Rectangle( 0, 0, width, height, 8, 8, {fill: 'white', lineWidth: 1, stroke: 'black'} );
+    var rectangle = new Rectangle( 0, 0, width, height, 8, 8, { fill: 'white', lineWidth: 1, stroke: 'black' } );
 
     var tail = new Shape();
     tail.moveTo( width - 20, height - 2 );
@@ -125,8 +127,8 @@ define( function( require ) {
 
     var bubble = new Node();
     bubble.addChild( rectangle );
-    bubble.addChild( new Path( tail, {fill: 'white'} ) );
-    bubble.addChild( new Path( tailOutline, {stroke: 'black', lineWidth: 1} ) );
+    bubble.addChild( new Path( tail, { fill: 'white' } ) );
+    bubble.addChild( new Path( tailOutline, { stroke: 'black', lineWidth: 1 } ) );
 
     return bubble;
   };
@@ -145,7 +147,7 @@ define( function( require ) {
     }, options );
 
     var thisMenu = this;
-    Node.call( thisMenu, {renderer: 'svg'} );
+    Node.call( thisMenu, { renderer: 'svg' } );
 
     /*
      * Description of the items in the menu. Each descriptor has these properties:
@@ -167,34 +169,38 @@ define( function( require ) {
         callback: function() {
           var phetWindow = window.open( 'http://phet.colorado.edu', '_blank' );
           phetWindow.focus();
-        } },
+        }
+      },
       {
         text: outputInputEventsLogString,
         present: !!sim.options.recordInputEventLog,
         callback: function() {
           // prints the recorded input event log to the console
           console.log( sim.getRecordedInputEventLogString() );
-        }},
+        }
+      },
       {
         text: submitInputEventsLogString,
         present: !!sim.options.recordInputEventLog,
         callback: function() {
           // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
           sim.submitEventLog();
-        }},
+        }
+      },
       {
         text: mailInputEventsLogString,
         present: !!sim.options.recordInputEventLog,
         callback: function() {
           // mailto: link including the body to email
           sim.mailEventLog();
-        } },
+        }
+      },
       {
         text: settingsString,
         present: false,
         callback: function() {
           var settingsDialog = new SettingsDialog( sim );
-          var plane = new Plane( {fill: 'black', opacity: 0.3, renderer: sim.joistRenderer} );
+          var plane = new Plane( { fill: 'black', opacity: 0.3, renderer: sim.joistRenderer } );
           sim.addChild( plane );
           sim.addChild( settingsDialog );
           settingsDialog.addDoneListener( function() {
@@ -213,7 +219,8 @@ define( function( require ) {
                     '&url=' + encodeURIComponent( window.location.href );
           var reportWindow = window.open( url, '_blank' );
           reportWindow.focus();
-        } },
+        }
+      },
       {
 
         //One way to allow the user to "save" the state is with a URL.
@@ -224,7 +231,7 @@ define( function( require ) {
           var state = sim.getState();
 
           //See http://stackoverflow.com/questions/5817505/is-there-any-method-to-get-url-without-query-string-in-java-script
-          var url = [location.protocol, '//', location.host, location.pathname].join( '' ) + '?state=' + encodeURIComponent( JSON.stringify( state, SimJSON.replacer ) );
+          var url = [ location.protocol, '//', location.host, location.pathname ].join( '' ) + '?state=' + encodeURIComponent( JSON.stringify( state, SimJSON.replacer ) );
           window.location.href = url;
         }
       },
@@ -245,10 +252,10 @@ define( function( require ) {
             var byteChars = window.atob( dataBase64 );
             var byteArray = new window.Uint8Array( byteChars.length );
             for ( var i = 0; i < byteArray.length; i++ ) {
-              byteArray[i] = byteChars.charCodeAt( i ); // need check to make sure this cast doesn't give problems?
+              byteArray[ i ] = byteChars.charCodeAt( i ); // need check to make sure this cast doesn't give problems?
             }
 
-            var blob = new window.Blob( [byteArray], { type: 'image/png' } );
+            var blob = new window.Blob( [ byteArray ], { type: 'image/png' } );
 
             // our preferred filename
             var filename = sim.name + ' screenshot.png';
@@ -290,7 +297,7 @@ define( function( require ) {
 
     // Menu items have uniform size, so compute the max text dimensions.
     var keepItemDescriptors = _.filter( itemDescriptors, function( itemDescriptor ) {return itemDescriptor.present;} );
-    var textNodes = _.map( keepItemDescriptors, function( item ) {return new Text( item.text, {font: new PhetFont( FONT_SIZE )} );} );
+    var textNodes = _.map( keepItemDescriptors, function( item ) {return new Text( item.text, { font: new PhetFont( FONT_SIZE ) } );} );
     var maxTextWidth = _.max( textNodes, function( node ) {return node.width;} ).width;
     var maxTextHeight = _.max( textNodes, function( node ) {return node.height;} ).height;
 
@@ -308,7 +315,7 @@ define( function( require ) {
     _.each( items, function( item ) {
       if ( item.separatorBefore ) {
         y += ySpacing;
-        separator = new Path( Shape.lineSegment( 0, y, separatorWidth, y ), {stroke: 'gray', lineWidth: 1} );
+        separator = new Path( Shape.lineSegment( 0, y, separatorWidth, y ), { stroke: 'gray', lineWidth: 1 } );
         content.addChild( separator );
         y = y + separator.height + ySpacing;
       }
