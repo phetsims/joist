@@ -73,8 +73,6 @@ define( function( require ) {
 
     this.addInputListener( new ButtonListener( this.buttonModel ) );
 
-    this.addPeer( '<input type="button" aria-label="' + options.ariaLabel + '">', { click: options.listener, tabIndex: 101 } );
-
     // eliminate interactivity gap between label and button
     this.mouseArea = this.touchArea = Shape.bounds( this.bounds );
 

@@ -32,9 +32,13 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var Shape = require( 'KITE/Shape' );
   var Profiler = require( 'JOIST/Profiler' );
-  var SimIFrameAPI = null;
   var AccessibilityLayer = require( 'SCENERY/accessibility/AccessibilityLayer' );
   var CanvasContextWrapper = require( 'SCENERY/util/CanvasContextWrapper' );
+
+  // The SimIFrameAPI is currently private, so we must only load it if it is available
+  // If you need it, load it using
+  //var SimIFrameAPI = require( 'JOIST/../../together/js/SimIFrameAPI' );
+  var SimIFrameAPI = null;
 
   // Choose a renderer for the joist components such as HomeScreen, NavigationBar, etc.
   // See #184
@@ -45,6 +49,9 @@ define( function( require ) {
   if ( joistRenderer === 'null' ) {
     joistRenderer = null;
   }
+
+  // initial dimensions of the navigation bar, sized for Mobile Safari
+  var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreen.LAYOUT_BOUNDS.width, 40 );
 
   Property.initArch();
 
@@ -90,7 +97,7 @@ define( function( require ) {
     this.currentScreenProperty.setSendPhetEvents( false );
 
     // Load the Sim iframe API, if it was enabled by a query parameter
-    if ( window.phetcommon.getQueryParameter( 'iframeAPI' ) && SimIFrameAPI ) {
+    if ( SimIFrameAPI ) {
       SimIFrameAPI.initialize( this );
     }
 
@@ -189,6 +196,16 @@ define( function( require ) {
     // Query parameters override options.
     if ( window.phetcommon.getQueryParameter( 'showHomeScreen' ) ) {
       options.showHomeScreen = stringToBoolean( window.phetcommon.getQueryParameter( 'showHomeScreen' ) );
+    }
+
+    // Custom "Done" button label
+    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'doneButtonLabel' ) ) {
+      options.doneButtonLabel = window.phetcommon.getQueryParameter( 'doneButtonLabel' );
+    }
+
+    // Custom "Done" button URL when clicked
+    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'doneButtonURL' ) ) {
+      options.doneButtonURL = window.phetcommon.getQueryParameter( 'doneButtonURL' );
     }
 
     // Option for profiling
@@ -395,14 +412,19 @@ define( function( require ) {
       } );
 
       // Show the layoutBounds, see #145
+      // TODO: remove code duplication with screen layoutBounds being shown below
       if ( window.phetcommon.getQueryParameter( 'dev' ) ) {
-        sim.homeScreen.addChild( new Path( Shape.bounds( sim.homeScreen.layoutBounds ), { stroke: 'red', lineWidth: 3, pickable: false } ) );
+        sim.homeScreen.addChild( new Path( Shape.bounds( sim.homeScreen.layoutBounds ), {
+          stroke: 'red',
+          lineWidth: 3,
+          pickable: false
+        } ) );
       }
     }
 
-    sim.navigationBar = new NavigationBar( sim, screens, sim.simModel );
+    sim.navigationBar = new NavigationBar( NAVIGATION_BAR_SIZE, sim, screens, sim.simModel );
 
-    var updateBackground = this.updateBackground = function() {
+    this.updateBackground = function() {
       sim.display.domElement.style.background = sim.currentScreen ?
                                                 sim.currentScreen.backgroundColor.toCSS() :
                                                 'black';
@@ -413,14 +435,14 @@ define( function( require ) {
 
     sim.simModel.multilink( [ 'showHomeScreen', 'screenIndex' ], function() {
       sim.currentScreen = sim.simModel.showHomeScreen ? null : screens[ sim.simModel.screenIndex ];
-      updateBackground();
+      sim.updateBackground();
     } );
 
     //Instantiate the screens
     //Currently this is done eagerly, but this pattern leaves open the door for loading things in the background.
     _.each( screens, function( screen, index ) {
 
-      screen.link( 'backgroundColor', updateBackground );
+      screen.link( 'backgroundColor', sim.updateBackground );
 
       //Create each model & view, and keep track of the amount of time it took to create each, which is displayed if 'profiler' is enabled as a query parameter
       var start = Date.now();
@@ -432,7 +454,11 @@ define( function( require ) {
 
       // Show the layoutBounds, see #145
       if ( window.phetcommon.getQueryParameter( 'dev' ) ) {
-        screen.view.addChild( new Path( Shape.bounds( screen.view.layoutBounds ), { stroke: 'red', lineWidth: 3, pickable: false } ) );
+        screen.view.addChild( new Path( Shape.bounds( screen.view.layoutBounds ), {
+          stroke: 'red',
+          lineWidth: 3,
+          pickable: false
+        } ) );
       }
 
       var viewCreated = Date.now();
@@ -590,14 +616,13 @@ define( function( require ) {
       resize: function( width, height ) {
         var sim = this;
 
-        //Use Mobile Safari layout bounds to size the home screen and navigation bar
-        var scale = Math.min( width / 768, height / 504 );
+        var scale = Math.min( width / HomeScreen.LAYOUT_BOUNDS.width, height / HomeScreen.LAYOUT_BOUNDS.height );
 
         this.barrierRectangle.rectWidth = width;
         this.barrierRectangle.rectHeight = height;
 
         //40 px high on Mobile Safari
-        var navBarHeight = scale * 40;
+        var navBarHeight = scale * NAVIGATION_BAR_SIZE.height;
         sim.navigationBar.layout( scale, width, navBarHeight, height );
         sim.navigationBar.y = height - navBarHeight;
         sim.display.setSize( new Dimension2( width, height ) );
@@ -965,6 +990,10 @@ define( function( require ) {
           this.screens[ i ].setState( state[ 'screen' + i ] );
         }
         this.simModel.set( state.simModel );
+      },
+
+      getStateJSON: function() {
+        return JSON.stringify( this.getState(), SimJSON.replacer );
       },
 
       getScreenshotDataURL: function() {

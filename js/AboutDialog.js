@@ -69,6 +69,20 @@ define( function( require ) {
     this.addInputListener( new ButtonListener( {
       fire: dialog.hide.bind( dialog )
     } ) );
+
+    //TODO: The peer should not be in the DOM if the button is invisible
+    this.addPeer( '<input type="button" aria-label="Close About Dialog">', {
+      click: function() {
+        dialog.hide();
+      },
+
+      //Visit this button after the user has added some pullers to the rope
+      tabIndex: 20000,
+
+      onAdded: function( peer ) {
+        peer.peerElement.focus();
+      }
+    } );
   }
 
   /**

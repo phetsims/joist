@@ -31,7 +31,10 @@ define( function( require ) {
       cursor: 'pointer'
     } );
 
-    var icon = new Node( { children: [ screen.navigationBarIcon ], scale: ( 0.625 * navBarHeight ) / screen.navigationBarIcon.height } );
+    var icon = new Node( {
+      children: [ screen.navigationBarIcon ],
+      scale: ( 0.625 * navBarHeight ) / screen.navigationBarIcon.height
+    } );
 
     var selected = sim.simModel.screenIndexProperty.valueEquals( sim.screens.indexOf( screen ) );
     var buttonModel = new PushButtonModel( {

@@ -1,6 +1,8 @@
 {
   "name": "joist",
-  "version": "0.0.0",
+  "version": "1.0.0-dev.1",
+  "phetLibs": "joist axon brand dot kite phetcommon phetcore scenery scenery-phet sun",
+  "preload": "",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -11,8 +13,6 @@
     "grunt-requirejs": "~0.4.0",
     "grunt-contrib-jshint": "~0.6.4",
     "uglify-js": "~2.4.0",
-    "requirejs": "~2.1.8",
-    "esprima": "~1.0.4",
-    "escodegen": "~0.0.27"
+    "requirejs": "~2.1.8"
   }
 }

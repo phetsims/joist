@@ -14,11 +14,14 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Bounds2 = require( 'DOT/Bounds2' );
 
-  //Default to width and height for iPad2, iPad3, iPad4 running Safari with default tabs and decorations
-  //Simulations can change this to provide their own sizes or aspect ratios
-  //TODO: the code that uses these bounds needs to account for the minX and minY values if they are overriden in subclasses
-  //See https://github.com/phetsims/joist/issues/126
-  var DEFAULT_LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
+  /*
+   * Default width and height for iPad2, iPad3, iPad4 running Safari with default tabs and decorations
+   * These bounds were added in Sep 2014 and are based on a screenshot from a non-Retina iPad, in Safari, iOS7.
+   * It therefore accounts for the nav bar on the bottom and the space consumed by the browser on the top.
+   * As of this writing, this is the resolution being used by PhET's sim designers for their mockups.
+   * For more information see https://github.com/phetsims/joist/issues/126
+   */
+  var DEFAULT_LAYOUT_BOUNDS = new Bounds2( 0, 0, 1024, 618 );
 
   function ScreenView( options ) {
 
@@ -62,13 +65,7 @@ define( function( require ) {
 
     //statics
     {
-      DEFAULT_LAYOUT_BOUNDS: DEFAULT_LAYOUT_BOUNDS,
-
-      // These bounds were added in Sep 2014 and are based on a screenshot from a non-Retina iPad, in Safari, iOS7.  It
-      // therefore accounts for the nav bar on the bottom and the space consumed by the browser on the top.  As of this
-      // writing, this is the resolution being used by PhET's sim designers for their mockups.  See Joist issue #126
-      // for more information.
-      UPDATED_LAYOUT_BOUNDS: new Bounds2( 0, 0, 1024, 618 )
+      DEFAULT_LAYOUT_BOUNDS: DEFAULT_LAYOUT_BOUNDS
     }
   );
 

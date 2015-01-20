@@ -23,11 +23,14 @@ define( function( require ) {
   var FullScreenButton = require( 'JOIST/FullScreenButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Bounds2 = require( 'DOT/Bounds2' );
   var AdaptedFromPhETText = require( 'JOIST/AdaptedFromPhETText' );
   var Brand = require( 'BRAND/Brand' );
 
-  var HEIGHT = 70;
+  // constants
+  var HEIGHT = 70; //TODO what is this? is it the height of large icons?
   var TITLE_FONT_FAMILY = 'Century Gothic, Futura';
+  var LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
 
   function HomeScreen( sim, options ) {
     var homeScreen = this;
@@ -40,7 +43,7 @@ define( function( require ) {
     //Rendering in SVG seems to solve the problem that the home screen consumes 100% disk and crashes, see https://github.com/phetsims/joist/issues/17
     //Also makes it more responsive (and crisper on retina displays)
     //Renderer must be specified here because the node is added directly to the scene (instead of to some other node that already has svg renderer
-    ScreenView.call( this, { renderer: sim.joistRenderer } );
+    ScreenView.call( this, { renderer: sim.joistRenderer, layoutBounds: LAYOUT_BOUNDS } );
 
     this.backgroundColor = 'black';
 
@@ -55,11 +58,14 @@ define( function( require ) {
     title.centerX = this.layoutBounds.centerX;
 
     //Keep track of which screen is highlighted so the same screen can remain highlighted even if nodes are replaced (say when one grows larger or smaller)
-    var highlightedIndex = new Property( -1 );
+    var highlightedIndex = new Property( -1 ).setSendPhetEvents( false );
 
     var screenChildren = _.map( sim.screens, function( screen ) {
       var index = sim.screens.indexOf( screen );
-      var largeIcon = new Node( { children: [ screen.homeScreenIcon ], scale: HEIGHT / screen.homeScreenIcon.height * 2 } );
+      var largeIcon = new Node( {
+        children: [ screen.homeScreenIcon ],
+        scale: HEIGHT / screen.homeScreenIcon.height * 2
+      } );
       var frame = new Frame( largeIcon );
 
       highlightedIndex.link( function( highlightedIndex ) { frame.setHighlighted( highlightedIndex === index ); } );
@@ -72,7 +78,7 @@ define( function( require ) {
         largeText.scale( largeIconWithFrame.width / largeText.width );
       }
       var large = new VBox( {
-        //Don't resize the VBox or it will shift down when the border becomes thicker
+        //Don't 40 the VBox or it will shift down when the border becomes thicker
         resize: false,
 
         cursor: 'pointer', children: [
@@ -91,10 +97,12 @@ define( function( require ) {
 
       //Show a small (unselected) screen icon.  In some cases (if the icon has a black background), a border may be shown around it as well.  See https://github.com/phetsims/color-vision/issues/49
       var smallIconContent = new Node( {
-        opacity: 0.5, children: [ screen.homeScreenIcon ], scale: sim.screens.length === 4 ? HEIGHT / screen.homeScreenIcon.height :
-                                                                  sim.screens.length === 3 ? 1.25 * HEIGHT / screen.homeScreenIcon.height :
-                                                                  sim.screens.length === 2 ? 1.75 * HEIGHT / screen.homeScreenIcon.height :
-                                                                  HEIGHT / screen.homeScreenIcon.height
+        opacity: 0.5,
+        children: [ screen.homeScreenIcon ],
+        scale: sim.screens.length === 4 ? HEIGHT / screen.homeScreenIcon.height :
+               sim.screens.length === 3 ? 1.25 * HEIGHT / screen.homeScreenIcon.height :
+               sim.screens.length === 2 ? 1.75 * HEIGHT / screen.homeScreenIcon.height :
+               HEIGHT / screen.homeScreenIcon.height
       } );
 
       var smallFrame = new Rectangle( 0, 0, smallIconContent.width, smallIconContent.height, {
@@ -200,7 +208,7 @@ define( function( require ) {
 
     // if the branding specifies to show "adapted from PhET" in the navbar, show it here
     if ( Brand.adaptedFromPhET === true ) {
-      this.adaptedFromText = new AdaptedFromPhETText( sim.useInvertedColorsProperty );
+      this.adaptedFromText = new AdaptedFromPhETText( new Property( false ) );
       this.addChild( this.adaptedFromText );
     }
 
@@ -241,7 +249,8 @@ define( function( require ) {
 
     //statics
     {
-      TITLE_FONT_FAMILY: TITLE_FONT_FAMILY
+      TITLE_FONT_FAMILY: TITLE_FONT_FAMILY,
+      LAYOUT_BOUNDS: LAYOUT_BOUNDS
     }
   );
 } );
