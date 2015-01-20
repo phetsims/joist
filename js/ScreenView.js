@@ -26,7 +26,7 @@ define( function( require ) {
   function ScreenView( options ) {
 
     options = _.extend( {
-       layoutBounds: DEFAULT_LAYOUT_BOUNDS.copy()
+      layoutBounds: DEFAULT_LAYOUT_BOUNDS.copy()
     }, options );
     this.layoutBounds = options.layoutBounds;
 

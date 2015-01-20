@@ -23,10 +23,10 @@ define( function( require ) {
       // to safely allow listeners to remove themselves while being called (as is explicitly done in setTimeout), we make a copy of the array.
       // we don't use slice(), since that would cause garbage collection issues.
       for ( i = 0; i < length; i++ ) {
-        listenersDefensiveCopy[i] = listeners[i];
+        listenersDefensiveCopy[ i ] = listeners[ i ];
       }
       for ( i = 0; i < length; i++ ) {
-        listenersDefensiveCopy[i]( dt );
+        listenersDefensiveCopy[ i ]( dt );
       }
       cleanArray( listenersDefensiveCopy );
     },

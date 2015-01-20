@@ -15,7 +15,7 @@ define( function( require ) {
   return {
     replacer: function( key, value ) {
       if ( value instanceof Vector2 ) {
-        return {_type: 'Vector2', x: value.x, y: value.y};
+        return { _type: 'Vector2', x: value.x, y: value.y };
       }
       else {
         return value;

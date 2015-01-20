@@ -30,23 +30,30 @@ define( function( require ) {
     var settingsDialog = this;
 
     //Use view, to help center and scale content
-    ScreenView.call( this, {renderer: 'svg'} );
+    ScreenView.call( this, { renderer: 'svg' } );
 
-    var content = new VBox( { align: 'center', spacing: 50, children: [
-      new Text( settingsString, { font: new PhetFont( 16 ) } ),
-      new CheckBox( new Text( showPointersString ), sim.showPointersProperty ),
-      new TextPushButton( doneString, {
-        font: new PhetFont( 20 ),
-        listener: function() {
-          settingsDialog.doneListeners.forEach( function( listener ) {
-            listener();
-          } );
-        }
-      } )
-    ]} );
+    var content = new VBox( {
+      align: 'center', spacing: 50, children: [
+        new Text( settingsString, { font: new PhetFont( 16 ) } ),
+        new CheckBox( new Text( showPointersString ), sim.showPointersProperty ),
+        new TextPushButton( doneString, {
+          font: new PhetFont( 20 ),
+          listener: function() {
+            settingsDialog.doneListeners.forEach( function( listener ) {
+              listener();
+            } );
+          }
+        } )
+      ]
+    } );
 
     //Show a gray overlay that will help focus on the about dialog, and prevent clicks on the sim while the dialog is up
-    this.addChild( new Panel( content, {centerX: this.layoutBounds.centerX, centerY: this.layoutBounds.centerY, xMargin: 20, yMargin: 20 } ) );
+    this.addChild( new Panel( content, {
+      centerX: this.layoutBounds.centerX,
+      centerY: this.layoutBounds.centerY,
+      xMargin: 20,
+      yMargin: 20
+    } ) );
 
     function resize() {
       settingsDialog.layout( $( window ).width(), $( window ).height() );

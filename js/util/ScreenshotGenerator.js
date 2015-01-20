@@ -23,7 +23,7 @@ define( function( require ) {
           root.renderer = 'canvas';
         }
         for ( var i = 0; i < root.children.length; i++ ) {
-          setToCanvas( root.children[i] );
+          setToCanvas( root.children[ i ] );
         }
       }
     };
@@ -46,7 +46,7 @@ define( function( require ) {
 //                  console.log( 'skipping node: ', typeof root );
           }
           for ( var i = 0; i < root.children.length; i++ ) {
-            restoreRenderers( root.children[i] );
+            restoreRenderers( root.children[ i ] );
           }
         }
       };

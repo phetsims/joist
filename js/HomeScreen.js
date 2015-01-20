@@ -62,7 +62,10 @@ define( function( require ) {
 
     var screenChildren = _.map( sim.screens, function( screen ) {
       var index = sim.screens.indexOf( screen );
-      var largeIcon = new Node( { children: [ screen.homeScreenIcon ], scale: HEIGHT / screen.homeScreenIcon.height * 2 } );
+      var largeIcon = new Node( {
+        children: [ screen.homeScreenIcon ],
+        scale: HEIGHT / screen.homeScreenIcon.height * 2
+      } );
       var frame = new Frame( largeIcon );
 
       highlightedIndex.link( function( highlightedIndex ) { frame.setHighlighted( highlightedIndex === index ); } );
@@ -94,10 +97,12 @@ define( function( require ) {
 
       //Show a small (unselected) screen icon.  In some cases (if the icon has a black background), a border may be shown around it as well.  See https://github.com/phetsims/color-vision/issues/49
       var smallIconContent = new Node( {
-        opacity: 0.5, children: [ screen.homeScreenIcon ], scale: sim.screens.length === 4 ? HEIGHT / screen.homeScreenIcon.height :
-                                                                  sim.screens.length === 3 ? 1.25 * HEIGHT / screen.homeScreenIcon.height :
-                                                                  sim.screens.length === 2 ? 1.75 * HEIGHT / screen.homeScreenIcon.height :
-                                                                  HEIGHT / screen.homeScreenIcon.height
+        opacity: 0.5,
+        children: [ screen.homeScreenIcon ],
+        scale: sim.screens.length === 4 ? HEIGHT / screen.homeScreenIcon.height :
+               sim.screens.length === 3 ? 1.25 * HEIGHT / screen.homeScreenIcon.height :
+               sim.screens.length === 2 ? 1.75 * HEIGHT / screen.homeScreenIcon.height :
+               HEIGHT / screen.homeScreenIcon.height
       } );
 
       var smallFrame = new Rectangle( 0, 0, smallIconContent.width, smallIconContent.height, {
@@ -192,7 +197,7 @@ define( function( require ) {
       this.addChild( new HBox( {
         spacing: 10,
         children: [ fullScreenButton, new PhetButton( sim ) ],
-        right:  this.layoutBounds.maxX - 5,
+        right: this.layoutBounds.maxX - 5,
         bottom: this.layoutBounds.maxY - 5
       } ) );
     }

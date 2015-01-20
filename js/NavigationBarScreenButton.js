@@ -31,7 +31,10 @@ define( function( require ) {
       cursor: 'pointer'
     } );
 
-    var icon = new Node( {children: [screen.navigationBarIcon], scale: ( 0.625 * navBarHeight ) / screen.navigationBarIcon.height} );
+    var icon = new Node( {
+      children: [ screen.navigationBarIcon ],
+      scale: ( 0.625 * navBarHeight ) / screen.navigationBarIcon.height
+    } );
 
     var selected = sim.simModel.screenIndexProperty.valueEquals( sim.screens.indexOf( screen ) );
     var buttonModel = new PushButtonModel( {
@@ -44,7 +47,7 @@ define( function( require ) {
     var text = new Text( screen.name );
 
     var box = new VBox( {
-      children: [icon, text],
+      children: [ icon, text ],
       pickable: false,
       usesOpacity: true // hint, since we change its opacity
     } );
@@ -70,7 +73,7 @@ define( function( require ) {
     this.addChild( invertedHighlight );
     this.addChild( overlay );
 
-    this.multilink = new Multilink( [selected, buttonModel.downProperty, buttonModel.overProperty, sim.useInvertedColorsProperty], function update() {
+    this.multilink = new Multilink( [ selected, buttonModel.downProperty, buttonModel.overProperty, sim.useInvertedColorsProperty ], function update() {
       // Color match yellow with the PhET Logo
       var selectedTextColor = sim.useInvertedColors ? 'black' : '#f2e916';
       var unselectedTextColor = sim.useInvertedColors ? 'gray' : 'white';

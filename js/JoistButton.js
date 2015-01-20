@@ -58,7 +58,7 @@ define( function( require ) {
     // Highlight against the white background
     var invertedHighlight = createHighlight( false );
 
-    Node.call( this, {children: [content, normalHighlight, invertedHighlight]} );
+    Node.call( this, { children: [ content, normalHighlight, invertedHighlight ] } );
 
     // Button interactions
     var interactionStateProperty = new PushButtonInteractionStateProperty( this.buttonModel );
@@ -66,14 +66,17 @@ define( function( require ) {
     this.interactionStateProperty = interactionStateProperty;//@protected
 
     // Update the highlights based on whether the button is highlighted and whether it is against a light or dark background.
-    Property.multilink( [interactionStateProperty, useInvertedColorsProperty], function( interactionState, useInvertedColors ) {
+    Property.multilink( [ interactionStateProperty, useInvertedColorsProperty ], function( interactionState, useInvertedColors ) {
       normalHighlight.visible = !useInvertedColors && (interactionState === 'over' || interactionState === 'pressed');
       invertedHighlight.visible = useInvertedColors && (interactionState === 'over' || interactionState === 'pressed');
     } );
 
     this.addInputListener( new ButtonListener( this.buttonModel ) );
 
-    this.addPeer( '<input type="button" aria-label="' + options.ariaLabel + '">', {click: options.listener, tabIndex: 101} );
+    this.addPeer( '<input type="button" aria-label="' + options.ariaLabel + '">', {
+      click: options.listener,
+      tabIndex: 101
+    } );
 
     // eliminate interactivity gap between label and button
     this.mouseArea = this.touchArea = Shape.bounds( this.bounds );

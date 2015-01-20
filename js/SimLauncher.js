@@ -37,7 +37,7 @@ define( function() {
       //img.src = base64 is asynchronous on IE10 and OSX/Safari, so we have to make sure they loaded before returning.
       if ( window.phetImages ) {
         for ( var i = 0; i < window.phetImages.length; i++ ) {
-          var phetImage = window.phetImages[i];
+          var phetImage = window.phetImages[ i ];
           phetImage.onload = function() {
             loaded++;
             if ( loaded === window.phetImages.length ) {
@@ -62,5 +62,6 @@ define( function() {
           }
         } );
       } );
-    }};
+    }
+  };
 } );

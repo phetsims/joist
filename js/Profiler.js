@@ -50,7 +50,7 @@ define( function( require ) {
       if ( this.frameCount % 60 === 0 ) {
         var totalTime = 0;
         for ( var i = 0; i < this.allTimes.length; i++ ) {
-          totalTime += this.allTimes[i];
+          totalTime += this.allTimes[ i ];
         }
         var averageFrameTime = Math.round( totalTime / this.allTimes.length );
         var averageFPS = Math.round( 1000 / (totalTime / this.allTimes.length) );
@@ -62,7 +62,7 @@ define( function( require ) {
         }
         $( '#trace' ).html( text );
         for ( i = 0; i < 30; i++ ) {
-          this.histogram[i] = 0;
+          this.histogram[ i ] = 0;
         }
         this.longTimes.length = 0;
         this.allTimes.length = 0;
@@ -70,7 +70,7 @@ define( function( require ) {
       else {
         var key = timeBetweenFrames;
         if ( key < 30 ) {
-          this.histogram[key]++;
+          this.histogram[ key ]++;
         }
         else {
           this.longTimes.push( key );
