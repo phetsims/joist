@@ -311,13 +311,18 @@ define( function( require ) {
     document.body.appendChild( heartbeatDiv );
 
     sim.scene.sim = sim; // add a reference back to the simulation
-    if ( window.phetcommon && window.phetcommon.getQueryParameter && window.phetcommon.getQueryParameter( 'sceneryLog' ) ) {
-      var logNames = window.phetcommon.getQueryParameter( 'sceneryLog' );
-      if ( logNames === undefined || logNames === 'undefined' ) {
-        sim.display.scenery.enableLogging();
+    if ( window.phetcommon && window.phetcommon.getQueryParameter ) {
+      if ( window.phetcommon.getQueryParameter( 'sceneryLog' ) ) {
+        var logNames = window.phetcommon.getQueryParameter( 'sceneryLog' );
+        if ( logNames === undefined || logNames === 'undefined' ) {
+          sim.display.scenery.enableLogging();
+        }
+        else {
+          sim.display.scenery.enableLogging( logNames.split( '.' ) );
+        }
       }
-      else {
-        sim.display.scenery.enableLogging( logNames.split( '.' ) );
+      if ( window.phetcommon.getQueryParameter( 'sceneryStringLog' ) ) {
+        sim.display.scenery.switchLogToString();
       }
     }
     sim.display.initializeWindowEvents( { batchDOMEvents: this.options.batchEvents } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
