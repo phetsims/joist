@@ -88,8 +88,6 @@ define( function( require ) {
     link.addInputListener( {
       up: function( evt ) {
         evt.handle(); // don't close the dialog
-      },
-      upImmediate: function( event ) {
         var newWindow = window.open( url, '_blank' ); // open in a new window/tab
         newWindow.focus();
       }
