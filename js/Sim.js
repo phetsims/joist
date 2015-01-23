@@ -32,7 +32,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var Shape = require( 'KITE/Shape' );
   var Profiler = require( 'JOIST/Profiler' );
-  var AccessibilityLayer = require( 'SCENERY/accessibility/AccessibilityLayer' );
+  var FocusLayer = require( 'SCENERY/accessibility/FocusLayer' );
   var CanvasContextWrapper = require( 'SCENERY/util/CanvasContextWrapper' );
 
   // The SimIFrameAPI is currently private, so we must only load it if it is available
@@ -313,10 +313,10 @@ define( function( require ) {
       // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
       allowWebGL: window.phetcommon.getQueryParameter( 'webgl' ) !== 'false'
     } );
-    this.accessibilityLayer = new AccessibilityLayer();
+    this.focusLayer = new FocusLayer();
 
     //Adding the accessibility layer directly to the Display's root makes it easy to use local->global bounds.
-    sim.scene.addChild( this.accessibilityLayer );
+    sim.scene.addChild( this.focusLayer );
 
     var simDiv = sim.display.domElement;
     simDiv.id = 'sim';
@@ -494,7 +494,7 @@ define( function( require ) {
         }
         sim.navigationBar.setVisible( !showHomeScreen );
         sim.updateBackground();
-        sim.accessibilityLayer.moveToFront();
+        sim.focusLayer.moveToFront();
       } );
     }
     else if ( options.screenDisplayStrategy === 'setChildren' ) {
@@ -513,7 +513,7 @@ define( function( require ) {
 
         currentScreenNode = newScreenNode;
         sim.updateBackground();
-        sim.accessibilityLayer.moveToFront();
+        sim.focusLayer.moveToFront();
       } );
 
       //When the user presses the home icon, then show the homescreen, otherwise show the screen and navbar
@@ -542,13 +542,13 @@ define( function( require ) {
           sim.scene.insertChild( idx + 1, sim.navigationBar );
         }
         sim.updateBackground();
-        sim.accessibilityLayer.moveToFront();
+        sim.focusLayer.moveToFront();
       } );
     }
     else {
       throw new Error( "invalid value for options.screenDisplayStrategy: " + options.screenDisplayStrategy );
     }
-    sim.accessibilityLayer.moveToFront();
+    sim.focusLayer.moveToFront();
 
     // layer for popups, dialogs, and their backgrounds and barriers
     this.topLayer = new Node( { renderer: 'svg' } );
