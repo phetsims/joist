@@ -27,6 +27,7 @@ define( function( require ) {
   var SimJSON = require( 'JOIST/SimJSON' );
   var Brand = require( 'BRAND/Brand' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
+  var Input = require( 'SCENERY/input/Input' );
 
   // strings
   var optionsString = require( 'string!JOIST/menuItem.options' );
@@ -66,7 +67,7 @@ define( function( require ) {
     var textNode = new Text( text, { font: new PhetFont( FONT_SIZE ) } );
     var highlight = new Rectangle( 0, 0, width + LEFT_X_MARGIN + RIGHT_X_MARGIN + CHECK_OFFSET, height + Y_MARGIN + Y_MARGIN, CORNER_RADIUS, CORNER_RADIUS );
 
-    var menuItem = new Node( { cursor: 'pointer' } );
+    var menuItem = new Node( { cursor: 'pointer', focusable: true } );
     menuItem.addChild( highlight );
     menuItem.addChild( textNode );
 
@@ -77,12 +78,21 @@ define( function( require ) {
       enter: function() { highlight.fill = HIGHLIGHT_COLOR; },
       exit: function() { highlight.fill = null; },
     } );
+    var fire = function( event ) {
+      callback( event );
+      closeCallback( event );
+    };
     menuItem.addInputListener( new ButtonListener( {
-      fire: function( event ) {
-        callback( event );
-        closeCallback( event );
-      }
+      fire: fire
     } ) );
+    menuItem.addInputListener( {
+      keydown: function( event, trail ) {
+        var keyCode = event.domEvent.keyCode;
+        if ( keyCode === Input.KEY_ENTER || keyCode === Input.KEY_SPACE ) {
+          fire( event );
+        }
+      }
+    } );
 
     menuItem.separatorBefore = separatorBefore;
 

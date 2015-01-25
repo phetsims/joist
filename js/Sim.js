@@ -593,6 +593,9 @@ define( function( require ) {
           this.barrierStack.push( node );
         }
         this.topLayer.addChild( node );
+
+        // TODO: Performance concerns
+        this.focusLayer.moveToFront();
       },
 
       /*
