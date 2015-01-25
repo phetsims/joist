@@ -34,6 +34,7 @@ define( function( require ) {
   var Profiler = require( 'JOIST/Profiler' );
   var FocusLayer = require( 'SCENERY/accessibility/FocusLayer' );
   var CanvasContextWrapper = require( 'SCENERY/util/CanvasContextWrapper' );
+  var Input = require( 'SCENERY/input/Input' );
 
   // The SimIFrameAPI is currently private, so we must only load it if it is available
   // If you need it, load it using
@@ -596,6 +597,14 @@ define( function( require ) {
 
         // TODO: Performance concerns
         this.focusLayer.moveToFront();
+
+        // Before moving focus to a newly created node, we must wait until the corresponding Instances
+        // have been created.  In this case, that means waiting until Display.updateDisplay is called in
+        // the sim's animation frame.
+        // TODO: A bettery way to do this please?
+        this.once( 'frameCompleted', function() {
+          Input.moveFocus( +1 );
+        } );
       },
 
       /*
