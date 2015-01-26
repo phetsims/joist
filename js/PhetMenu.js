@@ -79,8 +79,8 @@ define( function( require ) {
       exit: function() { highlight.fill = null; },
     } );
     var fire = function( event ) {
-      callback( event );
       closeCallback( event );
+      callback( event );
     };
     menuItem.addInputListener( new ButtonListener( {
       fire: fire
