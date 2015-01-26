@@ -603,7 +603,11 @@ define( function( require ) {
         // the sim's animation frame.
         // TODO: A bettery way to do this please?
         this.once( 'frameCompleted', function() {
-          Input.moveFocus( +1 );
+
+          // TODO: Since accessibility is instance-based but the scenery API is node based, this is awkward
+          // currently assumes only one instance per popup.
+          // TODO: Should this assupmtion be checked with an assertion?
+          Input.pushFocusContext( node.instances[ 0 ] );
         } );
       },
 
@@ -619,6 +623,11 @@ define( function( require ) {
           this.barrierStack.remove( node );
         }
         this.topLayer.removeChild( node );
+
+        // TODO: See caveats in showPopup
+        this.once( 'frameCompleted', function() {
+          Input.popFocusContext( node.instances[ 0 ] );
+        } );
       },
 
       resizeToWindow: function() {

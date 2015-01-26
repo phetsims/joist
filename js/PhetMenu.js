@@ -353,6 +353,17 @@ define( function( require ) {
     content.top = Y_MARGIN;
 
     thisMenu.mutate( options );
+
+    // Add a key listener on the menu that will dismiss it when escape is pressed
+    // TODO: Test this cross browser, regarding issues like http://stackoverflow.com/questions/1160008/which-keycode-for-escape-key-with-jquery
+    this.addInputListener( {
+      keydown: function( event ) {
+        var keyCode = event.domEvent.keyCode;
+        if ( keyCode === Input.KEY_ESCAPE ) {
+          options && options.closeCallback && options.closeCallback();
+        }
+      }
+    } );
   }
 
   inherit( Node, PhetMenu, {
