@@ -18,6 +18,7 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var VStrut = require( 'SUN/VStrut' );
   var Dialog = require( 'JOIST/Dialog' );
+  var Input = require( 'SCENERY/input/Input' );
 
   // strings
   var creditsTitleString = require( 'string!JOIST/credits.title' );
@@ -62,7 +63,10 @@ define( function( require ) {
 
     Dialog.call( this, content, {
       modal: true,
-      hasCloseButton: false
+      hasCloseButton: false,
+
+      // Focusable so it can be dismissed
+      focusable: true
     } );
 
     // close it on a click
@@ -70,17 +74,13 @@ define( function( require ) {
       fire: dialog.hide.bind( dialog )
     } ) );
 
-    //TODO: The peer should not be in the DOM if the button is invisible
-    this.addPeer( '<input type="button" aria-label="Close About Dialog">', {
-      click: function() {
-        dialog.hide();
-      },
-
-      //Visit this button after the user has added some pullers to the rope
-      tabIndex: 20000,
-
-      onAdded: function( peer ) {
-        peer.peerElement.focus();
+    // Close the dialog when enter, space or escape is pressed
+    this.addInputListener( {
+      keydown: function( event, trail ) {
+        var keyCode = event.domEvent.keyCode;
+        if ( keyCode === Input.KEY_ENTER || keyCode === Input.KEY_SPACE || keyCode === Input.KEY_ESCAPE ) {
+          dialog.hide();
+        }
       }
     } );
   }
@@ -148,7 +148,5 @@ define( function( require ) {
     return new VBox( { align: 'left', spacing: 1, children: children } );
   };
 
-  inherit( Dialog, AboutDialog );
-
-  return AboutDialog;
+  return inherit( Dialog, AboutDialog );
 } );
