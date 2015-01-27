@@ -785,7 +785,7 @@ define( function( require ) {
             //If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
             //Update the tweens after the model is updated but before the scene is redrawn.
             if ( window.TWEEN ) {
-              window.TWEEN.update( dt );
+              window.TWEEN.update();
             }
 
           }
@@ -880,7 +880,7 @@ define( function( require ) {
           //If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
           //Update the tweens after the model is updated but before the scene is redrawn.
           if ( window.TWEEN ) {
-            window.TWEEN.update( elapsedTime );
+            window.TWEEN.update();
           }
           sim.updateBackground();
           sim.display.updateDisplay();
