@@ -426,9 +426,9 @@ define( function( require ) {
     sim.navigationBar = new NavigationBar( NAVIGATION_BAR_SIZE, sim, screens, sim.simModel );
 
     this.updateBackground = function() {
-      sim.display.domElement.style.background = sim.currentScreen ?
-                                                sim.currentScreen.backgroundColor.toCSS() :
-                                                'black';
+      sim.display.backgroundColor = sim.currentScreen ?
+                                    sim.currentScreen.backgroundColor.toCSS() :
+                                    'black';
       if ( sim.currentScreen ) {
         sim.useInvertedColors = !!new Color( sim.currentScreen.backgroundColor ).equals( Color.BLACK );
       }
@@ -809,7 +809,6 @@ define( function( require ) {
             websocket.send( JSON.stringify( entry ) );
             sim.display._input.eventLog = []; // clears the event log so that future actions will fill it
           }
-          sim.updateBackground();
           sim.display.updateDisplay();
 
           sim.profiler && sim.profiler.frameEnded();
