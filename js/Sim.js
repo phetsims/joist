@@ -314,7 +314,7 @@ define( function( require ) {
       // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
       allowWebGL: window.phetcommon.getQueryParameter( 'webgl' ) !== 'false'
     } );
-    this.focusLayer = new FocusLayer();
+    this.focusLayer = new FocusLayer( true );
 
     //Adding the accessibility layer directly to the Display's root makes it easy to use local->global bounds.
     sim.scene.addChild( this.focusLayer );
