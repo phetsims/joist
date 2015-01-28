@@ -26,6 +26,7 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var AdaptedFromPhETText = require( 'JOIST/AdaptedFromPhETText' );
   var Brand = require( 'BRAND/Brand' );
+  var Input = require( 'SCENERY/input/Input' );
 
   // constants
   var HEIGHT = 70; //TODO what is this? is it the height of large icons?
@@ -85,15 +86,31 @@ define( function( require ) {
           largeIconWithFrame,
           largeText
         ],
-        focusable: true
+        focusable: true,
+        textDescription: screen.name + ' Screen: Button'
       } );
 
-      //TODO: Switch to buttonListener, but make sure you test it because on 7/17/2013 there is a problem where ButtonListener won't fire if a node has appeared under the pointer
+      //TODO: Switch to buttonListener, but make sure you test it because on 7/17/2013 there is a problem where
+      // ButtonListener won't fire if a node has appeared under the pointer
       largeScreenButton.addInputListener( {
         down: function( event ) {
           if ( event.pointer.isMouse ) {
             sim.simModel.showHomeScreen = false;
             highlightedIndex.value = -1;
+          }
+        }
+      } );
+
+      largeScreenButton.addInputListener( {
+        keydown: function( event ) {
+          var keyCode = event.domEvent.keyCode;
+          if ( keyCode === Input.KEY_ENTER || keyCode === Input.KEY_SPACE ) {
+            sim.simModel.showHomeScreen = false;
+            highlightedIndex.value = -1;
+
+            // TODO: A way to automatically move focus
+            // TODO: Need a way to provide overview descriptive text.  Perhaps a focusable for the entire screen?
+            Input.focusedInstanceProperty.value = Input.getAllFocusableInstances()[ 0 ];
           }
         }
       } );
@@ -126,7 +143,8 @@ define( function( require ) {
           smallIcon,
           smallText
         ],
-        focusable: true
+        focusable: true,
+        textDescription: screen.name + ' Screen: Button'
       } );
       smallScreenButton.mouseArea = smallScreenButton.touchArea = Shape.bounds( smallScreenButton.bounds ); //cover the gap in the vbox
       smallScreenButton.addInputListener( {
@@ -141,6 +159,21 @@ define( function( require ) {
         over: function( event ) {
           if ( !event.pointer.isMouse ) {
             sim.simModel.screenIndex = index;
+          }
+        }
+      } );
+
+      smallScreenButton.addInputListener( {
+        keydown: function( event ) {
+          var keyCode = event.domEvent.keyCode;
+          if ( keyCode === Input.KEY_ENTER || keyCode === Input.KEY_SPACE ) {
+            sim.simModel.screenIndex = index;
+            sim.simModel.showHomeScreen = false;
+            highlightedIndex.value = -1;
+
+            // TODO: A way to automatically move focus
+            // TODO: Need a way to provide overview descriptive text.  Perhaps a focusable for the entire screen?
+            Input.focusedInstanceProperty.value = Input.getAllFocusableInstances()[ 0 ];
           }
         }
       } );
@@ -164,21 +197,8 @@ define( function( require ) {
         }
       };
       smallScreenButton.addInputListener( highlightListener );
-
       largeScreenButton.addInputListener( highlightListener );
       largeScreenButton.mouseArea = largeScreenButton.touchArea = Shape.bounds( largeScreenButton.bounds ); //cover the gap in the vbox
-
-      //TODO: Add accessibility peers
-      //      screenChild.addPeer( '<input type="button" aria-label="' + screenChild.screen.name + '">', {click: function() {
-//        var screen = screenChild.screen;
-//        if ( sim.simModel.screenIndex === screen.index ) {
-//          sim.simModel.showHomeScreen = false;
-//        }
-//        else {
-//          sim.simModel.screenIndex = screen.index;
-//        }
-//      }} );
-//    } );
 
       return { screen: screen, small: smallScreenButton, large: largeScreenButton, index: index };
     } );
