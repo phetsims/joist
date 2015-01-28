@@ -77,21 +77,24 @@ define( function( require ) {
       if ( largeText.width > largeIconWithFrame.width ) {
         largeText.scale( largeIconWithFrame.width / largeText.width );
       }
-      var large = new VBox( {
+      var largeScreenButton = new VBox( {
         //Don't 40 the VBox or it will shift down when the border becomes thicker
         resize: false,
 
         cursor: 'pointer', children: [
           largeIconWithFrame,
           largeText
-        ]
+        ],
+        focusable: true
       } );
 
       //TODO: Switch to buttonListener, but make sure you test it because on 7/17/2013 there is a problem where ButtonListener won't fire if a node has appeared under the pointer
-      large.addInputListener( {
-        down: function() {
-          sim.simModel.showHomeScreen = false;
-          highlightedIndex.value = -1;
+      largeScreenButton.addInputListener( {
+        down: function( event ) {
+          if ( event.pointer.isMouse ) {
+            sim.simModel.showHomeScreen = false;
+            highlightedIndex.value = -1;
+          }
         }
       } );
 
@@ -118,15 +121,20 @@ define( function( require ) {
         smallText.scale( smallIcon.width / smallText.width );
       }
 
-      var small = new VBox( {
+      var smallScreenButton = new VBox( {
         spacing: 3, cursor: 'pointer', children: [
           smallIcon,
           smallText
-        ]
+        ],
+        focusable: true
       } );
-      small.mouseArea = small.touchArea = Shape.bounds( small.bounds ); //cover the gap in the vbox
-      small.addInputListener( {
-        down: function() { sim.simModel.screenIndex = index; },
+      smallScreenButton.mouseArea = smallScreenButton.touchArea = Shape.bounds( smallScreenButton.bounds ); //cover the gap in the vbox
+      smallScreenButton.addInputListener( {
+        down: function( event ) {
+          if ( event.pointer.isMouse ) {
+            sim.simModel.screenIndex = index;
+          }
+        },
 
         //On the home screen if you touch an inactive screen thumbnail, it grows.  If then without lifting your finger you swipe over
         // to the next thumbnail, that one would grow.
@@ -143,22 +151,22 @@ define( function( require ) {
             highlightedIndex.value = index;
 
             //TODO: use named children instead of child indices?
-            small.children[ 0 ].opacity = 1;
-            small.children[ 1 ].fill = 'white';
+            smallScreenButton.children[ 0 ].opacity = 1;
+            smallScreenButton.children[ 1 ].fill = 'white';
           }
         },
         out: function( event ) {
           if ( event.pointer.isMouse ) {
             highlightedIndex.value = -1;
-            small.children[ 0 ].opacity = 0.5;
-            small.children[ 1 ].fill = 'gray';
+            smallScreenButton.children[ 0 ].opacity = 0.5;
+            smallScreenButton.children[ 1 ].fill = 'gray';
           }
         }
       };
-      small.addInputListener( highlightListener );
+      smallScreenButton.addInputListener( highlightListener );
 
-      large.addInputListener( highlightListener );
-      large.mouseArea = large.touchArea = Shape.bounds( large.bounds ); //cover the gap in the vbox
+      largeScreenButton.addInputListener( highlightListener );
+      largeScreenButton.mouseArea = largeScreenButton.touchArea = Shape.bounds( largeScreenButton.bounds ); //cover the gap in the vbox
 
       //TODO: Add accessibility peers
       //      screenChild.addPeer( '<input type="button" aria-label="' + screenChild.screen.name + '">', {click: function() {
@@ -172,7 +180,7 @@ define( function( require ) {
 //      }} );
 //    } );
 
-      return { screen: screen, small: small, large: large, index: index };
+      return { screen: screen, small: smallScreenButton, large: largeScreenButton, index: index };
     } );
 
     var center = new Node( { y: 170 } );
