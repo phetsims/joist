@@ -33,6 +33,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Profiler = require( 'JOIST/Profiler' );
   var FocusLayer = require( 'SCENERY/accessibility/FocusLayer' );
+  var AriaSpeech = require( 'SCENERY/accessibility/AriaSpeech' );
   var CanvasContextWrapper = require( 'SCENERY/util/CanvasContextWrapper' );
   var Input = require( 'SCENERY/input/Input' );
 
@@ -314,7 +315,8 @@ define( function( require ) {
       // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
       allowWebGL: window.phetcommon.getQueryParameter( 'webgl' ) !== 'false'
     } );
-    this.focusLayer = new FocusLayer( true );
+    this.focusLayer = new FocusLayer( window.TWEEN );
+    this.ariaSpeech = new AriaSpeech();
 
     //Adding the accessibility layer directly to the Display's root makes it easy to use local->global bounds.
     sim.scene.addChild( this.focusLayer );
