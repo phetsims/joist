@@ -32,7 +32,7 @@ define( function( require ) {
 
     options = _.extend( {
       focusable: true,
-      ariaLabel: 'PhET Options',
+      textDescription: 'PhET Menu Button',
       phetLogoScale: 0.28, // {number}
       highlightExtensionWidth: 6,
       highlightExtensionHeight: 5,

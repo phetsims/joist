@@ -16,7 +16,7 @@ define( function( require ) {
   function HomeButton( fill, pressedFill, invertedFill, invertedPressedFill, whiteColorScheme, model, options ) {
     var homeIcon = new FontAwesomeNode( 'home', { scale: 0.75 } );
     options = _.extend( {
-      ariaLabel: 'Home',
+      textDescription: 'Home Button',
       highlightExtensionWidth: 4,
 
       // When pressed, take the user to the home screen.

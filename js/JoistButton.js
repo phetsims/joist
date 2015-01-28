@@ -29,7 +29,6 @@ define( function( require ) {
     options = _.extend( {
       cursor: 'pointer', // {string}
       listener: null, // {function}
-      ariaLabel: '', // {string}
 
       //Customization for the highlight region, see overrides in HomeButton and PhetButton
       highlightExtensionWidth: 0,

@@ -67,7 +67,11 @@ define( function( require ) {
     var textNode = new Text( text, { font: new PhetFont( FONT_SIZE ) } );
     var highlight = new Rectangle( 0, 0, width + LEFT_X_MARGIN + RIGHT_X_MARGIN + CHECK_OFFSET, height + Y_MARGIN + Y_MARGIN, CORNER_RADIUS, CORNER_RADIUS );
 
-    var menuItem = new Node( { cursor: 'pointer', focusable: true } );
+    var menuItem = new Node( {
+      cursor: 'pointer',
+      focusable: true,
+      textDescription: text + ' Button'
+    } );
     menuItem.addChild( highlight );
     menuItem.addChild( textNode );
 
