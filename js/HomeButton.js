@@ -14,15 +14,18 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
 
   function HomeButton( fill, pressedFill, invertedFill, invertedPressedFill, whiteColorScheme, model, options ) {
-    var homeIcon = new FontAwesomeNode( 'home', { scale: 0.75 } );
+    var homeIcon = new FontAwesomeNode( 'home', {
+      scale: 0.75
+    } );
     options = _.extend( {
-      textDescription: 'Home Button',
       highlightExtensionWidth: 4,
 
       // When pressed, take the user to the home screen.
       listener: function() {
         model.showHomeScreen = true;
-      }
+      },
+      focusable: true,
+      textDescription: 'Home Screen: Button'
     }, options );
     JoistButton.call( this, homeIcon, whiteColorScheme, options );
 

@@ -28,7 +28,9 @@ define( function( require ) {
    */
   function NavigationBarScreenButton( sim, screen, navBarHeight, minWidth ) {
     Node.call( this, {
-      cursor: 'pointer'
+      cursor: 'pointer',
+      focusable: true,
+      textDescription: screen.name + ' Screen: Button'
     } );
 
     var icon = new Node( {
