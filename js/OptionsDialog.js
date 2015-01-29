@@ -26,7 +26,7 @@ define( function( require ) {
       title: new Text( optionsTitleString, { font: new PhetFont( 30 ) } ),
       titleAlign: 'center',
       modal: true,
-      hasCloseButton: false
+      hasCloseButton: true
     } );
   }
 

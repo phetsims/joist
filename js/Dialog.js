@@ -42,7 +42,8 @@ define( function( require ) {
       stroke: 'black', // {string|Color}
       backgroundPickable: true,
       xMargin: 20,
-      yMargin: 20
+      yMargin: 20,
+      closeButtonMargin: 5 // {number} how far away should the close button be from the panel border
     }, options );
 
     var dialog = this;
@@ -82,6 +83,8 @@ define( function( require ) {
       updateTitlePosition();
     }
 
+    Panel.call( this, dialogContent, options );
+
     if ( options.hasCloseButton ) {
       var crossSize = 10;
       var crossNode = new Path( new Shape().moveTo( 0, 0 ).lineTo( crossSize, crossSize ).moveTo( 0, crossSize ).lineTo( crossSize, 0 ), {
@@ -98,28 +101,21 @@ define( function( require ) {
           dialog.hide();
         }
       } );
-      dialogContent.addChild( closeButton );
+      this.addChild( closeButton );
 
       var updateClosePosition = function() {
-        closeButton.left = content.right + 10;
-        if ( options.title ) {
-          closeButton.top = options.title.top;
-        }
-        else {
-          closeButton.top = content.top;
-        }
+        closeButton.right = dialogContent.right + options.xMargin - options.closeButtonMargin;
+        closeButton.top = dialogContent.top - options.xMargin + options.closeButtonMargin;
       };
 
       if ( options.resize ) {
-        content.addEventListener( 'bounds', updateClosePosition );
+        dialogContent.addEventListener( 'bounds', updateClosePosition );
         if ( options.title ) {
           options.title.addEventListener( 'bounds', updateClosePosition );
         }
       }
       updateClosePosition();
     }
-
-    Panel.call( this, dialogContent, options );
 
     var sim = window.phet.sim;
 
