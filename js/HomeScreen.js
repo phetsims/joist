@@ -94,10 +94,8 @@ define( function( require ) {
       // ButtonListener won't fire if a node has appeared under the pointer
       largeScreenButton.addInputListener( {
         down: function( event ) {
-          if ( event.pointer.isMouse ) {
-            sim.simModel.showHomeScreen = false;
-            highlightedIndex.value = -1;
-          }
+          sim.simModel.showHomeScreen = false;
+          highlightedIndex.value = -1;
         }
       } );
 
@@ -149,15 +147,13 @@ define( function( require ) {
       smallScreenButton.mouseArea = smallScreenButton.touchArea = Shape.bounds( smallScreenButton.bounds ); //cover the gap in the vbox
       smallScreenButton.addInputListener( {
         down: function( event ) {
-          if ( event.pointer.isMouse ) {
-            sim.simModel.screenIndex = index;
-          }
+          sim.simModel.screenIndex = index;
         },
 
         //On the home screen if you touch an inactive screen thumbnail, it grows.  If then without lifting your finger you swipe over
         // to the next thumbnail, that one would grow.
         over: function( event ) {
-          if ( !event.pointer.isMouse ) {
+          if ( event.pointer.isTouch ) {
             sim.simModel.screenIndex = index;
           }
         }
@@ -180,20 +176,16 @@ define( function( require ) {
 
       var highlightListener = {
         over: function( event ) {
-          if ( event.pointer.isMouse ) {
-            highlightedIndex.value = index;
+          highlightedIndex.value = index;
 
-            //TODO: use named children instead of child indices?
-            smallScreenButton.children[ 0 ].opacity = 1;
-            smallScreenButton.children[ 1 ].fill = 'white';
-          }
+          //TODO: use named children instead of child indices?
+          smallScreenButton.children[ 0 ].opacity = 1;
+          smallScreenButton.children[ 1 ].fill = 'white';
         },
         out: function( event ) {
-          if ( event.pointer.isMouse ) {
-            highlightedIndex.value = -1;
-            smallScreenButton.children[ 0 ].opacity = 0.5;
-            smallScreenButton.children[ 1 ].fill = 'gray';
-          }
+          highlightedIndex.value = -1;
+          smallScreenButton.children[ 0 ].opacity = 0.5;
+          smallScreenButton.children[ 1 ].fill = 'gray';
         }
       };
       smallScreenButton.addInputListener( highlightListener );
