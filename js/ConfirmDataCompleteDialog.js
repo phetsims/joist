@@ -41,7 +41,8 @@ define( function( require ) {
 
         phet.arch.trigger( 'done.yesButtonPressed' );
 
-        var url = options.doneButtonURL + ( options.doneButtonURL.indexOf( '?' ) >= 0 ? '&' : '?' ) + 'studentId=' + encodeURIComponent( window.phetcommon.getQueryParameter( 'studentId' ) );
+        var url = options.doneButtonURL + ( options.doneButtonURL.indexOf( '?' ) >= 0 ? '&' : '?' )
+          + 'studentId=' + encodeURIComponent( phet.phetcommon.getQueryParameter( 'studentId' ) );
         window.location.href = url;
       }
     } );
