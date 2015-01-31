@@ -345,8 +345,8 @@ define( function( require ) {
     if ( options.recordInputEventLog ) {
       sim.display._input.logEvents = true; // flag Scenery to log all input events
     }
-    window.simScene = sim.rootNode; // make the scene available for debugging
-    window.simDisplay = sim.display; // make the display available for debugging
+    window.phet.joist.rootNode = sim.rootNode; // make the scene available for debugging
+    window.phet.joist.display = sim.display; // make the display available for debugging
 
     //TODO document or delete, see #205
     window.phet.joist.screenshot = function() {
