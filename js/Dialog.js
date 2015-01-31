@@ -117,7 +117,6 @@ define( function( require ) {
       updateClosePosition();
     }
 
-    //TODO replace this with a constructor param
     var sim = window.phet.joist.sim;
 
     function updateLayout() {
