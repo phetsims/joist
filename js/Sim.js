@@ -380,10 +380,13 @@ define( function( require ) {
       } while ( curDate - date < millis );
     }
 
-    window.makeEverythingSlow = function() {
+    //TODO document
+    window.phet.joist.makeEverythingSlow = function() {
       window.setInterval( function() { sleep( 64 ); }, 16 );
     };
-    window.makeRandomSlowness = function() {
+
+    //TODO document
+    window.phet.joist.makeRandomSlowness = function() {
       window.setInterval( function() { sleep( Math.ceil( 100 + Math.random() * 200 ) ); }, Math.ceil( 100 + Math.random() * 200 ) );
     };
 
