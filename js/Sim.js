@@ -211,11 +211,11 @@ define( function( require ) {
     // Option for profiling
     options.profiler = !!phet.phetcommon.getQueryParameter( 'profiler' );
 
-    //TODO delete this, it's no longer an optional feature
+    //TODO delete this, it's no longer an optional feature, see #206
     // Option for the ability to save a screenshot
     options.showScreenshotOption = true;
 
-    //TODO delete this, it's no longer an optional feature
+    //TODO delete this, it's no longer an optional feature, see #206
     // Option for the ability to make the sim full-screen
     options.showFullscreenOption = true;
 
