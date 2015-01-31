@@ -70,7 +70,6 @@ define( function( require ) {
     var sim = this;
 
     // globals will be attached to window.phet.joist
-    window.phet = window.phet || {};
     window.phet.joist = window.phet.joist || {};
 
     PropertySet.call( this, {
