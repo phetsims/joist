@@ -325,8 +325,6 @@ define( function( require ) {
     heartbeatDiv.style.opacity = 0;
     document.body.appendChild( heartbeatDiv );
 
-    sim.rootNode.sim = sim; // add a reference back to the simulation
-
     if ( phet.phetcommon.getQueryParameter( 'sceneryLog' ) ) {
       var logNames = phet.phetcommon.getQueryParameter( 'sceneryLog' );
       if ( logNames === undefined || logNames === 'undefined' ) {
