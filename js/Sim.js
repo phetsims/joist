@@ -284,7 +284,7 @@ define( function( require ) {
         console.log( 'simulating context loss in ' + time + 'ms' );
         window.setTimeout( function() {
           console.log( 'simulating context loss' );
-          sim.scene.simulateWebGLContextLoss();
+          sim.rootNode.simulateWebGLContextLoss();
         }, time );
       }
     }
@@ -300,8 +300,8 @@ define( function( require ) {
       document.body.removeChild( document.getElementById( 'sim' ) );
     }
 
-    sim.scene = new Node();
-    sim.display = new Display( sim.scene, {
+    sim.rootNode = new Node();
+    sim.display = new Display( sim.rootNode, {
       allowSceneOverflow: true, // we take up the entire browsable area, so we don't care about clipping
 
       webglMakeLostContextSimulatingCanvas: sim.webglMakeLostContextSimulatingCanvas,
@@ -314,7 +314,7 @@ define( function( require ) {
     this.ariaSpeech = new AriaSpeech();
 
     //Adding the accessibility layer directly to the Display's root makes it easy to use local->global bounds.
-    sim.scene.addChild( this.focusLayer );
+    sim.rootNode.addChild( this.focusLayer );
 
     var simDiv = sim.display.domElement;
     simDiv.id = 'sim';
@@ -325,7 +325,7 @@ define( function( require ) {
     heartbeatDiv.style.opacity = 0;
     document.body.appendChild( heartbeatDiv );
 
-    sim.scene.sim = sim; // add a reference back to the simulation
+    sim.rootNode.sim = sim; // add a reference back to the simulation
 
     if ( phet.phetcommon.getQueryParameter( 'sceneryLog' ) ) {
       var logNames = phet.phetcommon.getQueryParameter( 'sceneryLog' );
@@ -345,7 +345,7 @@ define( function( require ) {
     if ( options.recordInputEventLog ) {
       sim.display._input.logEvents = true; // flag Scenery to log all input events
     }
-    window.simScene = sim.scene; // make the scene available for debugging
+    window.simScene = sim.rootNode; // make the scene available for debugging
     window.simDisplay = sim.display; // make the display available for debugging
 
     //TODO document or delete, see #205
@@ -481,13 +481,13 @@ define( function( require ) {
     if ( options.screenDisplayStrategy === 'setVisible' ) {
 
       if ( screens.length > 1 ) {
-        sim.scene.addChild( sim.homeScreen );
+        sim.rootNode.addChild( sim.homeScreen );
       }
       _.each( screens, function( screen ) {
         screen.view.layerSplit = true;
-        sim.scene.addChild( screen.view );
+        sim.rootNode.addChild( screen.view );
       } );
-      sim.scene.addChild( sim.navigationBar );
+      sim.rootNode.addChild( sim.navigationBar );
       sim.simModel.multilink( [ 'screenIndex', 'showHomeScreen' ], function( screenIndex, showHomeScreen ) {
         if ( sim.homeScreen ) {
           sim.homeScreen.setVisible( showHomeScreen );
@@ -506,12 +506,12 @@ define( function( require ) {
       //When the user selects a different screen, show it.
       sim.simModel.screenIndexProperty.link( function( screenIndex ) {
         var newScreenNode = screens[ screenIndex ].view;
-        var oldIndex = currentScreenNode ? sim.scene.indexOfChild( currentScreenNode ) : -1;
+        var oldIndex = currentScreenNode ? sim.rootNode.indexOfChild( currentScreenNode ) : -1;
 
         // swap out the views if the old one is displayed. if not, we are probably in the home screen
         if ( oldIndex >= 0 ) {
-          sim.scene.removeChild( currentScreenNode );
-          sim.scene.insertChild( oldIndex, newScreenNode ); // same place in the tree, so nodes behind/in front stay that way.
+          sim.rootNode.removeChild( currentScreenNode );
+          sim.rootNode.insertChild( oldIndex, newScreenNode ); // same place in the tree, so nodes behind/in front stay that way.
         }
 
         currentScreenNode = newScreenNode;
@@ -523,26 +523,26 @@ define( function( require ) {
       sim.simModel.showHomeScreenProperty.link( function( showHomeScreen ) {
         var idx = 0;
         if ( showHomeScreen ) {
-          if ( sim.scene.isChild( currentScreenNode ) ) {
-            sim.scene.removeChild( currentScreenNode );
+          if ( sim.rootNode.isChild( currentScreenNode ) ) {
+            sim.rootNode.removeChild( currentScreenNode );
           }
-          if ( sim.scene.isChild( sim.navigationBar ) ) {
+          if ( sim.rootNode.isChild( sim.navigationBar ) ) {
             // place the home screen where the navigation bar was, if possible
-            idx = sim.scene.indexOfChild( sim.navigationBar );
-            sim.scene.removeChild( sim.navigationBar );
+            idx = sim.rootNode.indexOfChild( sim.navigationBar );
+            sim.rootNode.removeChild( sim.navigationBar );
           }
-          sim.scene.insertChild( idx, sim.homeScreen ); // same place in tree, to preserve nodes in front or behind
+          sim.rootNode.insertChild( idx, sim.homeScreen ); // same place in tree, to preserve nodes in front or behind
         }
         else {
-          if ( sim.homeScreen && sim.scene.isChild( sim.homeScreen ) ) {
+          if ( sim.homeScreen && sim.rootNode.isChild( sim.homeScreen ) ) {
             // place the view / navbar at the same index as the homescreen if possible
-            idx = sim.scene.indexOfChild( sim.homeScreen );
-            sim.scene.removeChild( sim.homeScreen );
+            idx = sim.rootNode.indexOfChild( sim.homeScreen );
+            sim.rootNode.removeChild( sim.homeScreen );
           }
 
           // same place in tree, to preserve nodes in front or behind
-          sim.scene.insertChild( idx, currentScreenNode );
-          sim.scene.insertChild( idx + 1, sim.navigationBar );
+          sim.rootNode.insertChild( idx, currentScreenNode );
+          sim.rootNode.insertChild( idx + 1, sim.navigationBar );
         }
         sim.updateBackground();
         sim.focusLayer.moveToFront();
@@ -555,7 +555,7 @@ define( function( require ) {
 
     // layer for popups, dialogs, and their backgrounds and barriers
     this.topLayer = new Node( { renderer: 'svg' } );
-    sim.scene.addChild( this.topLayer );
+    sim.rootNode.addChild( this.topLayer );
 
     // Semi-transparent black barrier used to block input events when a dialog (or other popup) is present, and fade
     // out the background.
@@ -871,7 +871,7 @@ define( function( require ) {
 
           // we don't fire batched input events (prevents them from affecting unit/performance tests).
           // instead, we fire pre-recorded events for the scene if it exists (left out for brevity when not necessary)
-          if ( frame.fireEvents ) { frame.fireEvents( sim.scene, function( x, y ) { return new Vector2( x, y ); } ); }
+          if ( frame.fireEvents ) { frame.fireEvents( sim.rootNode, function( x, y ) { return new Vector2( x, y ); } ); }
 
           //Update the active screen, but not if the user is on the home screen
           if ( !sim.simModel.showHomeScreen ) {
