@@ -310,7 +310,7 @@ define( function( require ) {
       // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
       allowWebGL: phet.phetcommon.getQueryParameter( 'webgl' ) !== 'false'
     } );
-    this.focusLayer = new FocusLayer( window.TWEEN );
+    this.focusLayer = new FocusLayer( window.TWEEN ? { tweenFactory: window.TWEEN } : {} );
     this.ariaSpeech = new AriaSpeech();
 
     //Adding the accessibility layer directly to the Display's root makes it easy to use local->global bounds.
