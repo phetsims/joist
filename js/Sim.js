@@ -348,7 +348,7 @@ define( function( require ) {
     window.simScene = sim.scene; // make the scene available for debugging
     window.simDisplay = sim.display; // make the display available for debugging
 
-    //TODO document
+    //TODO document or delete, see #205
     window.phet.joist.screenshot = function() {
       var url = '';
       sim.display.canvasDataURL( function( img ) { url = img; } );
@@ -381,12 +381,12 @@ define( function( require ) {
       } while ( curDate - date < millis );
     }
 
-    //TODO document
+    //TODO document or delete, see #204
     window.phet.joist.makeEverythingSlow = function() {
       window.setInterval( function() { sleep( 64 ); }, 16 );
     };
 
-    //TODO document
+    //TODO document or delete, see #204
     window.phet.joist.makeRandomSlowness = function() {
       window.setInterval( function() { sleep( Math.ceil( 100 + Math.random() * 200 ) ); }, Math.ceil( 100 + Math.random() * 200 ) );
     };
