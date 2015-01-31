@@ -17,10 +17,11 @@ define( function() {
      */
     launch: function( callback ) {
 
-      assert && assert( !window.phetJoistSimLauncher, 'Tried to launch twice' );
+      window.phet.joist = window.phet.joist || {};
+      assert && assert( !window.phet.launchCalled, 'Tried to launch twice' );
 
       //Signify that the SimLauncher was called, see https://github.com/phetsims/joist/issues/142
-      window.phetJoistSimLauncher = true;
+      window.phet.joist.launchCalled = true;
 
       // image elements to remove once we are fully loaded
       var elementsToRemove = [];

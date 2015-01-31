@@ -103,7 +103,8 @@ define( function( require ) {
       SimIFrameAPI.initialize( this );
     }
 
-    assert && assert( window.phetJoistSimLauncher, 'Sim must be launched using SimLauncher, see https://github.com/phetsims/joist/issues/142' );
+    assert && assert( window.phet.joist && window.phet.joist.launchCalled,
+      'Sim must be launched using SimLauncher, see https://github.com/phetsims/joist/issues/142' );
 
     options = _.extend( {
 
