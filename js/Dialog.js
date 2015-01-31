@@ -117,7 +117,8 @@ define( function( require ) {
       updateClosePosition();
     }
 
-    var sim = window.phet.sim;
+    //TODO replace this with a constructor param
+    var sim = window.phet.joist.sim;
 
     function updateLayout() {
       options.layoutStrategy( dialog, sim.bounds, sim.screenBounds, sim.scale );
@@ -134,11 +135,11 @@ define( function( require ) {
 
   return inherit( Panel, Dialog, {
     show: function() {
-      window.phet.sim.showPopup( this, this.isModal );
+      window.phet.joist.sim.showPopup( this, this.isModal );
     },
 
     hide: function() {
-      window.phet.sim.hidePopup( this, this.isModal );
+      window.phet.joist.sim.hidePopup( this, this.isModal );
     }
   } );
 } );

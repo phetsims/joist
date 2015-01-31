@@ -69,6 +69,10 @@ define( function( require ) {
   function Sim( name, screens, options ) {
     var sim = this;
 
+    // globals will be attached to window.phet.joist
+    window.phet = window.phet || {};
+    window.phet.joist = window.phet.joist || {};
+
     PropertySet.call( this, {
 
       // [read-only] how the home screen and navbar are scaled
@@ -103,7 +107,7 @@ define( function( require ) {
       SimIFrameAPI.initialize( this );
     }
 
-    assert && assert( window.phet.joist && window.phet.joist.launchCalled,
+    assert && assert( window.phet.joist.launchCalled,
       'Sim must be launched using SimLauncher, see https://github.com/phetsims/joist/issues/142' );
 
     options = _.extend( {
@@ -158,10 +162,8 @@ define( function( require ) {
 
     this.destroyed = false;
 
-    // global namespace for accessing the sim
-    window.phet = window.phet || {};
-    assert && assert( !window.phet.sim, 'Only supports one sim at a time' );
-    window.phet.sim = sim;
+    assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
+    window.phet.joist.sim = sim;
 
     sim.name = name;
     sim.version = version();
