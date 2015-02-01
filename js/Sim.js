@@ -313,13 +313,6 @@ define( function( require ) {
     window.phet.joist.rootNode = sim.rootNode; // make the scene available for debugging
     window.phet.joist.display = sim.display; // make the display available for debugging
 
-    //TODO document or delete, see #205
-    window.phet.joist.screenshot = function() {
-      var url = '';
-      sim.display.canvasDataURL( function( img ) { url = img; } );
-      return url;
-    };
-
     var showPointers = !!phet.phetcommon.getQueryParameter( 'showPointers' );
     this.showPointersProperty = new Property( showPointers );
     this.showPointersProperty.link( function( showPointers ) {
