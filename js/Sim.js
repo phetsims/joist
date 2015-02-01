@@ -181,14 +181,6 @@ define( function( require ) {
     sim.fuzzMousePosition = new Vector2(); // start at 0,0
     sim.fuzzMouseLastMoved = false; // whether the last mouse event was a move (we skew probabilities based on this)
 
-    // Option for simulating context loss in WebGL using the khronos webgl-debug tools,
-    // see https://github.com/phetsims/scenery/issues/279
-    sim.webglMakeLostContextSimulatingCanvas = false;
-
-    // Option to incrementally lose context between adjacent gl calls after the 1st context loss
-    // see https://github.com/phetsims/scenery/issues/279
-    sim.webglContextLossIncremental = false;
-
     //Set the HTML page title to the localized title
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
     $( 'title' ).html( name + ' ' + sim.version ); //TODO i18n of order
@@ -270,28 +262,6 @@ define( function( require ) {
       options.screenIndex = 0;
     }
 
-    // If specifying 'webglContextLossTimeout' then start a timer that will elapse in that number of milliseconds and simulate
-    // WebGL context loss on all WebGL Layers
-    var webglContextLossTimeoutString = phet.phetcommon.getQueryParameter( 'webglContextLossTimeout' );
-    if ( webglContextLossTimeoutString ) {
-
-      // Enabled the canvas contexts for context loss
-      sim.webglMakeLostContextSimulatingCanvas = true;
-
-      // If a time was specified, additionally start a timer that will simulate the context loss.
-      if ( webglContextLossTimeoutString !== 'undefined' ) {
-        var time = parseInt( webglContextLossTimeoutString, 10 );
-        console.log( 'simulating context loss in ' + time + 'ms' );
-        window.setTimeout( function() {
-          console.log( 'simulating context loss' );
-          sim.rootNode.simulateWebGLContextLoss();
-        }, time );
-      }
-    }
-
-    //TODO why isn't this initialize when sim.webglContextLossIncremental is defined above?
-    sim.webglContextLossIncremental = !!phet.phetcommon.getQueryParameter( 'webglContextLossIncremental' );
-
     var $body = $( 'body' );
     $body.css( 'padding', '0' ).css( 'margin', '0' ).css( 'overflow', 'hidden' ); // prevent scrollbars
 
@@ -303,9 +273,6 @@ define( function( require ) {
     sim.rootNode = new Node();
     sim.display = new Display( sim.rootNode, {
       allowSceneOverflow: true, // we take up the entire browsable area, so we don't care about clipping
-
-      webglMakeLostContextSimulatingCanvas: sim.webglMakeLostContextSimulatingCanvas,
-      webglContextLossIncremental: sim.webglContextLossIncremental,
 
       // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
       allowWebGL: phet.phetcommon.getQueryParameter( 'webgl' ) !== 'false'
