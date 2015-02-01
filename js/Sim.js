@@ -1002,7 +1002,7 @@ define( function( require ) {
         for ( var i = 0; i < this.screens.length; i++ ) {
           state[ 'screen' + i ] = this.screens[ i ].getState();
         }
-        state.simModel = this.simModel.get();
+        state.simModel = this.simModel.getValues();
 
         return state;
       },
@@ -1011,7 +1011,7 @@ define( function( require ) {
         for ( var i = 0; i < this.screens.length; i++ ) {
           this.screens[ i ].setState( state[ 'screen' + i ] );
         }
-        this.simModel.set( state.simModel );
+        this.simModel.setValues( state.simModel );
       },
 
       getStateJSON: function() {
