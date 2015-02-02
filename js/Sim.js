@@ -565,17 +565,7 @@ define( function( require ) {
         // TODO: Performance concerns
         this.focusLayer.moveToFront();
 
-        // Before moving focus to a newly created node, we must wait until the corresponding Instances
-        // have been created.  In this case, that means waiting until Display.updateDisplay is called in
-        // the sim's animation frame.
-        // TODO: A bettery way to do this please?
-        this.once( 'frameCompleted', function() {
-
-          // TODO: Since accessibility is instance-based but the scenery API is node based, this is awkward
-          // currently assumes only one instance per popup.
-          // TODO: Should this assupmtion be checked with an assertion?
-          Input.pushFocusContext( node.instances[ 0 ] );
-        } );
+        Input.pushFocusContext( node.getTrails()[ 0 ] );
       },
 
       /*

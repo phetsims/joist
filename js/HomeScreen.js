@@ -108,7 +108,7 @@ define( function( require ) {
 
             // TODO: A way to automatically move focus
             // TODO: Need a way to provide overview descriptive text.  Perhaps a focusable for the entire screen?
-            Input.focusedInstanceProperty.value = Input.getAllFocusableInstances()[ 0 ];
+            Input.focusedTrailProperty.value = Input.getAllFocusableTrails()[ 0 ];
           }
         }
       } );
@@ -169,7 +169,7 @@ define( function( require ) {
 
             // TODO: A way to automatically move focus
             // TODO: Need a way to provide overview descriptive text.  Perhaps a focusable for the entire screen?
-            Input.focusedInstanceProperty.value = Input.getAllFocusableInstances()[ 0 ];
+            Input.focusedTrailProperty.value = Input.getAllFocusableTrails()[ 0 ];
           }
         }
       } );
