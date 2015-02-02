@@ -581,10 +581,7 @@ define( function( require ) {
         }
         this.topLayer.removeChild( node );
 
-        // TODO: See caveats in showPopup
-        this.once( 'frameCompleted', function() {
-          Input.popFocusContext( node.instances[ 0 ] );
-        } );
+        Input.popFocusContext( node.getTrails()[ 0 ] );
       },
 
       resizeToWindow: function() {
