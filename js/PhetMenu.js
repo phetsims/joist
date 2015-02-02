@@ -254,7 +254,7 @@ define( function( require ) {
       //Feasibility test for capturing screen shots as images
       {
         text: screenshotString,
-        present: !Platform.ie9,
+        present: !Platform.ie9, // TODO is this going to be implemented for IE9? see issue #212
         callback: function() {
           var dataURL = sim.getScreenshotDataURL();
 
