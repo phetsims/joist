@@ -571,9 +571,9 @@ define( function( require ) {
         if ( isModal ) {
           this.barrierStack.remove( node );
         }
-        this.topLayer.removeChild( node );
-
         Input.popFocusContext( node.getTrails()[ 0 ] );
+
+        this.topLayer.removeChild( node );
       },
 
       resizeToWindow: function() {
