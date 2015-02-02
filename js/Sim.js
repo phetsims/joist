@@ -10,6 +10,7 @@
 define( function( require ) {
   'use strict';
 
+  // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -46,8 +47,7 @@ define( function( require ) {
   // See #184
   var joistRenderer = phet.phetcommon.getQueryParameter( 'joistRenderer' ) || 'svg';
   var renderers = [ 'null', 'svg', 'canvas', 'webgl', 'dom' ];
-  assert && assert( renderers.indexOf( joistRenderer ) >= 0,
-    'joistRenderer should be one of ' + renderers.join( ',' ) );
+  assert && assert( renderers.indexOf( joistRenderer ) >= 0, 'joistRenderer should be one of ' + renderers.join( ',' ) );
   if ( joistRenderer === 'null' ) {
     joistRenderer = null;
   }
@@ -58,9 +58,10 @@ define( function( require ) {
   Property.initArch();
 
   /**
-   * @param {string} name
-   * @param {Screen[]} screens
-   * @param {Object} [options]
+   * Main Sim constructor
+   * @param {string} name - the name of the simulation, to be displayed in the navbar and homescreen
+   * @param {Screen[]} screens - the screens for the sim
+   * @param {Object} [options] - see below for options
    * @constructor
    *
    * Events:
@@ -361,7 +362,8 @@ define( function( require ) {
 
     sim.screens = screens;
 
-    //This model represents where the simulation is, whether it is on the home screen or a screen, and which screen it is on or is highlighted in the homescreen
+    // This model represents where the simulation is, whether it is on the home screen or a screen, and which screen it
+    // is on or is highlighted in the homescreen
     sim.simModel = new PropertySet( {
       showHomeScreen: showHomeScreen,
       screenIndex: options.screenIndex || 0
@@ -401,13 +403,13 @@ define( function( require ) {
       sim.updateBackground();
     } );
 
-    //Instantiate the screens
-    //Currently this is done eagerly, but this pattern leaves open the door for loading things in the background.
+    // Instantiate the screens. Currently this is done eagerly, but this pattern leaves open the door for loading things
+    // in the background.
     _.each( screens, function( screen, index ) {
 
       screen.link( 'backgroundColor', sim.updateBackground );
 
-      //Create each model & view, and keep track of the amount of time it took to create each, which is displayed if 'profiler' is enabled as a query parameter
+      // Create each model & view, and keep track of the amount of time it took to create each, which is displayed if 'profiler' is enabled as a query parameter
       var start = Date.now();
 
       screen.model = screen.createModel();
@@ -431,13 +433,13 @@ define( function( require ) {
       }
     } );
 
-    // this will hold the view for the current screen, and is initialized in the screenIndexProperty.link below
+    // This will hold the view for the current screen, and is initialized in the screenIndexProperty.link below
     var currentScreenNode;
 
-    //ModuleIndex should always be defined.  On startup screenIndex=0 to highlight the 1st screen.
-    //When moving from a screen to the homescreen, the previous screen should be highlighted
+    // ModuleIndex should always be defined.  On startup screenIndex=0 to highlight the 1st screen.
+    // When moving from a screen to the homescreen, the previous screen should be highlighted
 
-    //Choose the strategy for switching screens.  See options.screenDisplayStrategy documentation above
+    // Choose the strategy for switching screens.  See options.screenDisplayStrategy documentation above
     if ( options.screenDisplayStrategy === 'setVisible' ) {
 
       if ( screens.length > 1 ) {
@@ -461,14 +463,15 @@ define( function( require ) {
       } );
     }
     else if ( options.screenDisplayStrategy === 'setChildren' ) {
-      //On startup screenIndex=0 to highlight the 1st screen.
-      //When moving from a screen to the homescreen, the previous screen should be highlighted
-      //When the user selects a different screen, show it.
+
+      // On startup screenIndex=0 to highlight the 1st screen.
+      // When moving from a screen to the homescreen, the previous screen should be highlighted
+      // When the user selects a different screen, show it.
       sim.simModel.screenIndexProperty.link( function( screenIndex ) {
         var newScreenNode = screens[ screenIndex ].view;
         var oldIndex = currentScreenNode ? sim.rootNode.indexOfChild( currentScreenNode ) : -1;
 
-        // swap out the views if the old one is displayed. if not, we are probably in the home screen
+        // Swap out the views if the old one is displayed. if not, we are probably in the home screen
         if ( oldIndex >= 0 ) {
           sim.rootNode.removeChild( currentScreenNode );
           sim.rootNode.insertChild( oldIndex, newScreenNode ); // same place in the tree, so nodes behind/in front stay that way.
@@ -479,7 +482,7 @@ define( function( require ) {
         sim.focusLayer.moveToFront();
       } );
 
-      //When the user presses the home icon, then show the homescreen, otherwise show the screen and navbar
+      // When the user presses the home icon, then show the homescreen, otherwise show the screen and navbar
       sim.simModel.showHomeScreenProperty.link( function( showHomeScreen ) {
         var idx = 0;
         if ( showHomeScreen ) {
@@ -487,6 +490,7 @@ define( function( require ) {
             sim.rootNode.removeChild( currentScreenNode );
           }
           if ( sim.rootNode.isChild( sim.navigationBar ) ) {
+
             // place the home screen where the navigation bar was, if possible
             idx = sim.rootNode.indexOfChild( sim.navigationBar );
             sim.rootNode.removeChild( sim.navigationBar );
@@ -495,6 +499,7 @@ define( function( require ) {
         }
         else {
           if ( sim.homeScreen && sim.rootNode.isChild( sim.homeScreen ) ) {
+
             // place the view / navbar at the same index as the homescreen if possible
             idx = sim.rootNode.indexOfChild( sim.homeScreen );
             sim.rootNode.removeChild( sim.homeScreen );
@@ -535,7 +540,7 @@ define( function( require ) {
       }
     } ) );
 
-    //Fit to the window and render the initial scene
+    // Fit to the window and render the initial scene
     $( window ).resize( function() { sim.resizeToWindow(); } );
     sim.resizeToWindow();
 
@@ -604,7 +609,7 @@ define( function( require ) {
         this.barrierRectangle.rectWidth = width;
         this.barrierRectangle.rectHeight = height;
 
-        //40 px high on Mobile Safari
+        // 40 px high on iPad Mobile Safari
         var navBarHeight = scale * NAVIGATION_BAR_SIZE.height;
         sim.navigationBar.layout( scale, width, navBarHeight, height );
         sim.navigationBar.y = height - navBarHeight;
@@ -612,17 +617,18 @@ define( function( require ) {
 
         var screenHeight = height - sim.navigationBar.height;
 
-        //Layout each of the screens
+        // Layout each of the screens
         _.each( sim.screens, function( m ) { m.view.layout( width, screenHeight ); } );
 
         if ( sim.homeScreen ) {
           sim.homeScreen.layoutWithScale( scale, width, height );
         }
-        //Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
+
+        // Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
 
         sim.display._input.eventLog.push( 'scene.display.setSize(new dot.Dimension2(' + width + ',' + height + '));' );
 
-        //Fixes problems where the div would be way off center on iOS7
+        // Fixes problems where the div would be way off center on iOS7
         if ( platform.mobileSafari ) {
           window.scrollTo( 0, 0 );
         }
@@ -644,6 +650,7 @@ define( function( require ) {
           var request = new XMLHttpRequest();
           request.open( 'GET', this.getEventLogLocation(), true );
           request.onload = function( e ) {
+
             // we create functions, so eval is necessary. we go to the loaded domain on a non-standard port, so cross-domain issues shouldn't present themselves
             /* jshint -W061 */
             sim.startInputEventPlayback( eval( request.responseText ) );
@@ -652,10 +659,10 @@ define( function( require ) {
           return;
         }
 
-        //Keep track of the previous time for computing dt, and initially signify that time hasn't been recorded yet.
+        // Keep track of the previous time for computing dt, and initially signify that time hasn't been recorded yet.
         var lastTime = -1;
 
-        //Make sure requestAnimationFrame is defined
+        // Make sure requestAnimationFrame is defined
         Util.polyfillRequestAnimationFrame();
 
         var websocket;
@@ -675,7 +682,7 @@ define( function( require ) {
         }
 
         // place the rAF *before* the render() to assure as close to 60fps with the setTimeout fallback.
-        //http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+        // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
         (function animationLoop() {
           var dt, screen;
 
@@ -703,35 +710,39 @@ define( function( require ) {
             // TODO: we need more state tracking of individual touch points to do this properly
           }
           else {
+
             // if any input events were received and batched, fire them now.
             if ( sim.options.batchEvents ) {
+
               // if any input events were received and batched, fire them now, but only if the sim is active
               // The sim may be inactive if interactivity was disabled by API usage such as the SimIFrameAPI
               if ( sim.active ) {
                 sim.display._input.fireBatchedEvents();
               }
-              // If the sim was inactive (locked), then discard any scenery events instead of buffering them and applying
-              // them later.
               else {
+
+                // If the sim was inactive (locked), then discard any scenery events instead of buffering them and applying
+                // them later.
                 sim.display._input.clearBatchedEvents();
               }
             }
           }
 
-          //Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
+          // Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
           var time = Date.now();
           var elapsedTimeMilliseconds = (lastTime === -1) ? (1000.0 / 60.0) : (time - lastTime);
           lastTime = time;
 
-          //Convert to seconds
+          // Convert to seconds
           dt = elapsedTimeMilliseconds / 1000.0;
 
           // Step the models, timers and tweens, but only if the sim is active.
           // It may be inactive if it has been paused through the SimIFrameAPI
           if ( sim.active ) {
 
-            //Update the active screen, but not if the user is on the home screen
+            // Update the active screen, but not if the user is on the home screen
             if ( !sim.simModel.showHomeScreen ) {
+
               // step model and view (both optional)
               screen = sim.screens[ sim.simModel.screenIndex ];
               if ( screen.model.step ) {
@@ -744,14 +755,14 @@ define( function( require ) {
 
             Timer.step( dt );
 
-            //If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
-            //Update the tweens after the model is updated but before the scene is redrawn.
+            // If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
+            // Update the tweens after the model is updated but before the scene is redrawn.
             if ( window.TWEEN ) {
               window.TWEEN.update();
             }
-
           }
           if ( sim.options.recordInputEventLog ) {
+
             // push a frame entry into our inputEventLog
             var entry = {
               dt: dt,
@@ -778,7 +789,7 @@ define( function( require ) {
           sim.trigger( 'frameCompleted' );
         })();
 
-        //If state was specified, load it now
+        // If state was specified, load it now
         if ( phet.phetcommon.getQueryParameter( 'state' ) ) {
           var stateString = phet.phetcommon.getQueryParameter( 'state' );
           var decoded = decodeURIComponent( stateString );
@@ -792,7 +803,7 @@ define( function( require ) {
 
         var index = 0; // our index into our frame data.
 
-        //Make sure requestAnimationFrame is defined
+        // Make sure requestAnimationFrame is defined
         Util.polyfillRequestAnimationFrame();
 
         if ( data.length && data[ 0 ].width ) {
@@ -833,13 +844,13 @@ define( function( require ) {
           // instead, we fire pre-recorded events for the scene if it exists (left out for brevity when not necessary)
           if ( frame.fireEvents ) { frame.fireEvents( sim.rootNode, function( x, y ) { return new Vector2( x, y ); } ); }
 
-          //Update the active screen, but not if the user is on the home screen
+          // Update the active screen, but not if the user is on the home screen
           if ( !sim.simModel.showHomeScreen ) {
             sim.screens[ sim.simModel.screenIndex ].model.step( frame.dt ); // use the pre-recorded dt to ensure lack of variation between runs
           }
 
-          //If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
-          //Update the tweens after the model is updated but before the scene is redrawn.
+          // If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
+          // Update the tweens after the model is updated but before the scene is redrawn.
           if ( window.TWEEN ) {
             window.TWEEN.update();
           }
@@ -888,6 +899,7 @@ define( function( require ) {
 
       // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
       mailEventLog: function() {
+
         // if we aren't recording data, don't submit any!
         if ( !this.options.recordInputEventLog ) { return; }
 
@@ -900,6 +912,7 @@ define( function( require ) {
         var sim = this;
 
         var chance;
+
         // run a variable number of events, with a certain chance of bailing out (so no events are possible)
         // models a geometric distribution of events
         while ( ( chance = Math.random() ) < 1 - 1 / sim.fuzzMouseAverage ) {
@@ -949,14 +962,14 @@ define( function( require ) {
         }
       },
 
-      //Destroy a sim so that it will no longer consume any resources.  Used by sim nesting in Smorgasbord
+      // Destroy a sim so that it will no longer consume any resources.  Used by sim nesting in Smorgasbord
       destroy: function() {
         this.destroyed = true;
         var simDiv = this.display.domElement;
         simDiv.parentNode && simDiv.parentNode.removeChild( simDiv );
       },
 
-      //For save/load
+      // For save/load
       getState: function() {
         var state = {};
         for ( var i = 0; i < this.screens.length; i++ ) {
