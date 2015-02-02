@@ -99,6 +99,7 @@ define( function( require ) {
         }
       } );
 
+      // TODO: Switch to button listener--this will also clean up the keyboard accessibility
       largeScreenButton.addInputListener( {
         keydown: function( event ) {
           var keyCode = event.domEvent.keyCode;

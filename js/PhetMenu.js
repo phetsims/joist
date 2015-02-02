@@ -89,14 +89,6 @@ define( function( require ) {
     menuItem.addInputListener( new ButtonListener( {
       fire: fire
     } ) );
-    menuItem.addInputListener( {
-      keydown: function( event, trail ) {
-        var keyCode = event.domEvent.keyCode;
-        if ( keyCode === Input.KEY_ENTER || keyCode === Input.KEY_SPACE ) {
-          fire( event );
-        }
-      }
-    } );
 
     menuItem.separatorBefore = separatorBefore;
 

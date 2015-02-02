@@ -74,11 +74,11 @@ define( function( require ) {
       fire: dialog.hide.bind( dialog )
     } ) );
 
-    // Close the dialog when enter, space or escape is pressed
+    // Close the dialog when escape is pressed, the ButtonListener above will also close it when enter/space pressed
     this.addInputListener( {
-      keydown: function( event, trail ) {
+      keydown: function( event ) {
         var keyCode = event.domEvent.keyCode;
-        if ( keyCode === Input.KEY_ENTER || keyCode === Input.KEY_SPACE || keyCode === Input.KEY_ESCAPE ) {
+        if ( keyCode === Input.KEY_ESCAPE ) {
           dialog.hide();
         }
       }
