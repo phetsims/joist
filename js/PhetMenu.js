@@ -254,7 +254,7 @@ define( function( require ) {
       //Feasibility test for capturing screen shots as images
       {
         text: screenshotString,
-        present: options.showScreenshotOption && !Platform.ie9,
+        present: !Platform.ie9,
         callback: function() {
           var dataURL = sim.getScreenshotDataURL();
 
@@ -284,7 +284,7 @@ define( function( require ) {
       },
       {
         text: fullscreenString,
-        present: options.showFullscreenOption && FullScreen.isFullScreenEnabled(),
+        present: FullScreen.isFullScreenEnabled(),
         checkedProperty: FullScreen.isFullScreenProperty,
         callback: function() {
           FullScreen.toggleFullScreen( sim );

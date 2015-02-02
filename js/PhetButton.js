@@ -41,8 +41,6 @@ define( function( require ) {
 
         var phetMenu = new PhetMenu( sim, {
           showSaveAndLoad: sim.options.showSaveAndLoad,
-          showScreenshotOption: sim.options.showScreenshotOption,
-          showFullscreenOption: sim.options.showFullscreenOption,
           closeCallback: function() {
             // hides the popup and barrier background
             sim.hidePopup( phetMenu, true );
