@@ -17,7 +17,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var AboutDialog = require( 'JOIST/AboutDialog' );
   var OptionsDialog = require( 'JOIST/OptionsDialog' );
-  var ConfirmDataCompleteDialog = require( 'JOIST/ConfirmDataCompleteDialog' );
   var SettingsDialog = require( 'JOIST/SettingsDialog' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
@@ -283,12 +282,6 @@ define( function( require ) {
         }
       },
 
-      // "Done" button, used in data collection studies
-      {
-        text: options.doneButtonLabel,
-        present: options.doneButtonURL,
-        callback: function() { new ConfirmDataCompleteDialog( options ).show(); }  //TODO this will probably fail, but we're not using it yet
-      },
       {
         text: aboutString,
         present: isPhETBrand,

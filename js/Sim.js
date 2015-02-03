@@ -193,12 +193,6 @@ define( function( require ) {
       options.showHomeScreen = stringToBoolean( phet.phetcommon.getQueryParameter( 'showHomeScreen' ) );
     }
 
-    // Custom "Done" button label
-    options.doneButtonLabel = phet.phetcommon.getQueryParameter( 'doneButtonLabel' );
-
-    // Custom "Done" button URL when clicked
-    options.doneButtonURL = phet.phetcommon.getQueryParameter( 'doneButtonURL' );
-
     // Option for profiling
     options.profiler = !!phet.phetcommon.getQueryParameter( 'profiler' );
 
