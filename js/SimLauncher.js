@@ -23,6 +23,11 @@ define( function() {
       //Signify that the SimLauncher was called, see https://github.com/phetsims/joist/issues/142
       window.phet.joist.launchCalled = true;
 
+      // If arch wasn't included in the preloader, then assign null so that `arch && arch.method` statement will work
+      // It is odd to have this method here, but it could be even odder for each simulation to include a script that just
+      // has the one line of code below.
+      window.arch = window.arch || null;
+
       // image elements to remove once we are fully loaded
       var elementsToRemove = [];
 
