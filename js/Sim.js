@@ -55,8 +55,6 @@ define( function( require ) {
   // initial dimensions of the navigation bar, sized for Mobile Safari
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreen.LAYOUT_BOUNDS.width, 40 );
 
-  Property.initArch();
-
   /**
    * Main Sim constructor
    * @param {string} name - the name of the simulation, to be displayed in the navbar and homescreen
@@ -238,7 +236,7 @@ define( function( require ) {
       options.screenIndex = 0;
     }
 
-    phet.arch.active && phet.arch.start( 'system', 'sim', 'Sim', 'simStarted', {
+    arch && arch.start( 'system', 'sim', 'Sim', 'simStarted', {
       studentId: phet.phetcommon.getQueryParameter( 'studentId' ),
       options: options,
       simName: sim.name,
@@ -536,7 +534,7 @@ define( function( require ) {
     $( window ).resize( function() { sim.resizeToWindow(); } );
     sim.resizeToWindow();
 
-    phet.arch.active && phet.arch.end();
+    arch && arch.end();
   }
 
   return inherit( PropertySet, Sim, {

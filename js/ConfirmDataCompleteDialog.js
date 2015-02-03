@@ -39,7 +39,7 @@ define( function( require ) {
     yesButton.addInputListener( {
       upImmediate: function() {
 
-        phet.arch.trigger( 'done.yesButtonPressed' );
+        arch && arch.trigger( 'done.yesButtonPressed' );
 
         var url = options.doneButtonURL + ( options.doneButtonURL.indexOf( '?' ) >= 0 ? '&' : '?' ) + 'studentId=' + encodeURIComponent( phet.phetcommon.getQueryParameter( 'studentId' ) );
         window.location.href = url;
