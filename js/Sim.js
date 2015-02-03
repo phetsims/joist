@@ -230,13 +230,13 @@ define( function( require ) {
       options.screenIndex = 0;
     }
 
-    arch && arch.start( 'system', 'sim', 'Sim', 'simStarted', {
-      studentId: phet.phetcommon.getQueryParameter( 'studentId' ),
-      options: options,
-      simName: sim.name,
-      simVersion: sim.version,
-      url: window.location.href
-    } );
+    var archID = arch && arch.start( 'system', 'sim', 'Sim', 'simStarted', {
+        studentId: phet.phetcommon.getQueryParameter( 'studentId' ),
+        options: options,
+        simName: sim.name,
+        simVersion: sim.version,
+        url: window.location.href
+      } );
 
     //If specifying 'screens' then use 1-based (not zero-based) and "." delimited string such as "1.3.4" to get the 1st, 3rd and 4th screen
     if ( phet.phetcommon.getQueryParameter( 'screens' ) ) {
@@ -528,7 +528,7 @@ define( function( require ) {
     $( window ).resize( function() { sim.resizeToWindow(); } );
     sim.resizeToWindow();
 
-    arch && arch.end();
+    arch && arch.end( archID );
   }
 
   return inherit( PropertySet, Sim, {
