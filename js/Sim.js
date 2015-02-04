@@ -766,6 +766,14 @@ define( function( require ) {
           var decoded = decodeURIComponent( stateString );
           sim.setState( JSON.parse( decoded, SimJSON.reviver ) );
         }
+
+        // Communicate sim load (successfully) to joist/tests/test-sims.html
+        if ( phet.phetcommon.getQueryParameter( 'postMessageOnLoad' ) ) {
+          window.parent && window.parent.postMessage( JSON.stringify( {
+            type: 'load',
+            url: window.location.href
+          } ), '*' );
+        }
       },
 
       // Plays back input events and updateScene() loops based on recorded data. data should be an array of objects (representing frames) with dt and fireEvents( scene, dot )

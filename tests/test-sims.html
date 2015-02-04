@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  When launched, it should iterate through all active simulations and test each for any errors with fuzzing.
+  Red indicates an error
+  Orange indicates it couldn't be loaded at all
+  Green indicates no errors were found within this session
+-->
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+  <title>Simulation tests</title>
+
+  <style type="text/css">
+    body {
+      margin: 10px;
+      padding: 0;
+    }
+    html {
+      margin: 0;
+      padding: 0;
+    }
+
+    iframe {
+      width: 320px;
+      height: 240px;
+      border: 1px solid #888;
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 25px;
+      font-size: 26px;
+    }
+
+    #eventLog {
+      position: absolute;
+      left: 10;
+      top: 10;
+      margin-left: 330px;
+      border: 1px solid #888;
+      padding: 10px;
+    }
+
+    #simList {
+      width: 320px;
+      border: 1px solid #888;
+    }
+
+    /* all status items */
+    .status {
+      font-family: Arial, sans-serif;
+      padding: 0.3em;
+    }
+
+    /* have 'loading' text when it hasn't sent the 'load' postMessage yet */
+    .status.loading::after {
+      content: " (loading)";
+    }
+
+    /* complete (without error) */
+    .status.complete {
+      background-color: #88ff88;
+    }
+
+    /* complete (but without finishin loading - indicates error). uses specificity to override complete */
+    .status.complete.loading {
+      background-color: #ffaa44;
+    }
+
+    /* error (complete or not). uses specificity to override complete */
+    .status.error, .status.complete.error {
+      background-color: #ff8888;
+    }
+  </style>
+</head>
+
+<body>
+<script type="text/javascript">
+  // TODO: consider query parameters for these
+  var DURATION_PER_SIM = 30000; // ms
+  var FUZZ_MOUSE_RATE = 100; // actions per frame
+
+  var simNames; // {Array.<string>} - will be filled in below by an AJAX request
+  var simQueryParameters = [
+    'ea', // assertions
+    'postMessageOnLoad', // send 'load' postMessage once the sim has fully loaded
+    'postMessageOnError', // send 'error' postMessage on any error
+    'fuzzMouse=' + FUZZ_MOUSE_RATE // send random mouse events
+  ];
+
+  var eventLog = document.createElement( 'div' );
+  eventLog.id = 'eventLog';
+  eventLog.innerHTML = '<h1>Errors (tested in Chrome):</h1>';
+  document.body.appendChild( eventLog );
+
+  // a borderless iframe
+  var iframe = document.createElement( 'iframe' );
+  iframe.setAttribute( 'frameborder', '0' );
+  iframe.setAttribute( 'seamless', '1' );
+  // NOTE: we don't set allow-popups, but this was causing a security error when it was open
+  // instead, we override window.open AFTER it sends the load message (which isn't foolproof)
+  // see https://html.spec.whatwg.org/multipage/embedded-content.html#attr-iframe-sandbox
+  // iframe.setAttribute( 'sandbox', 'allow-forms allow-pointer-lock allow-same-origin allow-scripts' );
+  document.body.appendChild( iframe );
+
+  // a place for sim status divs
+  var simListDiv = document.createElement( 'div' );
+  simListDiv.id = 'simList';
+  document.body.appendChild( simListDiv );
+
+  var currentSimName;
+  var currentSimStatusElement; // {DOMElement}, contains the sim name. Classes are added/removed to it
+  var timeoutId; // we need to clear the timeout if we bail from a sim early
+
+  // loads a sim into the iframe, and sets up the status element
+  function loadSim( simName ) {
+    currentSimName = simName;
+    currentSimStatusElement = document.createElement( 'div' );
+    currentSimStatusElement.classList.add( 'status' );
+    currentSimStatusElement.classList.add( 'loading' );
+    currentSimStatusElement.innerHTML = simName;
+    simListDiv.appendChild( currentSimStatusElement );
+    iframe.src = '../../' + simName + '/' + simName + '_en.html?' + simQueryParameters.join( '&' );
+  }
+  // switches to the next sim (if there are any)
+  function nextSim() {
+    clearTimeout( timeoutId );
+
+    if ( currentSimStatusElement ) {
+      currentSimStatusElement.classList.add( 'complete' );
+    }
+
+    if ( simNames.length ) {
+      var simName = simNames.shift();
+      loadSim( simName );
+      timeoutId = setTimeout( nextSim, DURATION_PER_SIM );
+    }
+    else {
+      document.body.removeChild( iframe );
+    }
+  }
+
+  // handling messages from sims
+  window.addEventListener( 'message', function( evt ) {
+    var data = JSON.parse( evt.data );
+
+    function simNameFromURL( url ) {
+      // url like http://localhost/phet/git/molecule-shapes/molecule-shapes_en.html?ea&postMessageOnLoad&postMessageOnError
+      // output molecule-shapes
+      return url.slice( 0, url.lastIndexOf( '_en.html' ) ).slice( url.lastIndexOf( '/' ) + 1 );
+    }
+
+    if ( data.type === 'load' ) {
+      console.log( 'loaded ' + simNameFromURL( data.url ) );
+
+      // not loading anymore
+      currentSimStatusElement.classList.remove( 'loading' );
+
+      // window.open stub on child. otherwise we get tons of "Report Problem..." popups that stall
+      iframe.contentWindow.open = function() {
+        return {
+          focus: function() {},
+          blur: function() {}
+        }
+      };
+    }
+    else if ( data.type === 'error' ) {
+      var simName = simNameFromURL( data.url );
+      console.log( 'error on ' + simName );
+      eventLog.innerHTML += '<strong>' + simName + '</strong>';
+
+      if ( data.message ) {
+        console.log( 'message: ' + data.message );
+        eventLog.innerHTML += '<pre>' + data.message + '</pre>';
+      }
+      if ( data.stack ) {
+        console.log( data.stack );
+        eventLog.innerHTML += '<pre>' + data.stack + '</pre>';
+      }
+
+      // since we can have multiple errors for a single sim (due to being asynchronous),
+      // we need to not move forward more than one sim
+      if ( simName === currentSimName ) {
+        currentSimStatusElement.classList.add( 'error' );
+
+        // on failure, speed up by switching to the next sim
+        nextSim();
+      }
+    }
+  } );
+
+  // load the list of sims before kicing things off
+  ( function() {
+    var req = new XMLHttpRequest();
+    req.onload = function() {
+      var simListText = req.responseText;
+      // handle empty lines (or newline at the end) gracefully
+      simNames = simListText.split( '\n' ).filter( function( simName ) {
+        return simName.length > 0;
+      } );
+
+      // kick off the loop
+      nextSim();
+    };
+    // location of active sims
+    req.open( 'GET', '../../chipper/data/active-sims', true );
+    req.send();
+  } )();
+</script>
+</body>
+</html>
