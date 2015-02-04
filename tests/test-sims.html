@@ -188,6 +188,9 @@
         // on failure, speed up by switching to the next sim
         nextSim();
       }
+      else {
+        console.log( 'stale error, current sim: ' + currentSimName + ', errored sim: ' + simName );
+      }
     }
   } );
 
@@ -197,7 +200,7 @@
     req.onload = function() {
       var simListText = req.responseText;
       // handle empty lines (or newline at the end) gracefully
-      simNames = simListText.split( '\n' ).filter( function( simName ) {
+      simNames = simListText.replace( /\r/g, '' ).split( '\n' ).filter( function( simName ) {
         return simName.length > 0;
       } );
 
