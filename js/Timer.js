@@ -50,8 +50,12 @@ define( function( require ) {
       return callback;
     },
 
-    //Clear a scheduled timeout
-    clearTimeout: function( timeoutID ) { this.removeStepListener( timeoutID ); },
+    //Clear a scheduled timeout. If there was no timeout, nothing is done.
+    clearTimeout: function( timeoutID ) {
+      if ( this.hasStepListener( timeoutID ) ) {
+        this.removeStepListener( timeoutID );
+      }
+    },
 
     //Add a listener to be called at specified intervals (in milliseconds)
     setInterval: function( listener, interval ) {
@@ -71,8 +75,12 @@ define( function( require ) {
       return callback;
     },
 
-    //Clear a scheduled interval
-    clearInterval: function( intervalID ) { this.removeStepListener( intervalID ); },
+    //Clear a scheduled interval. If there was no interval, nothing is done.
+    clearInterval: function( intervalID ) {
+      if ( this.hasStepListener( intervalID ) ) {
+        this.removeStepListener( intervalID );
+      }
+    },
 
     //Add a listener to be called back on every animationFrame with a dt value
     addStepListener: function( listener ) { listeners.push( listener ); },
@@ -84,6 +92,10 @@ define( function( require ) {
       if ( index !== -1 ) {
         listeners.splice( index, 1 );
       }
+    },
+
+    hasStepListener: function( listener ) {
+      return listeners.indexOf( listener ) >= 0;
     }
   };
 } );
