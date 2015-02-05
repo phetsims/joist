@@ -77,10 +77,15 @@
 </head>
 
 <body>
+<script src="../../phetcommon/js/util/query-parameters.js"></script>
 <script type="text/javascript">
+  var durationOverride = phet.phetcommon.getQueryParameter( 'duration' );
+  var fuzzOverride = phet.phetcommon.getQueryParameter( 'fuzz' );
+  var loadOnly = !!phet.phetcommon.getQueryParameter( 'loadOnly' );
+
   // TODO: consider query parameters for these
-  var DURATION_PER_SIM = 30000; // ms
-  var FUZZ_MOUSE_RATE = 100; // actions per frame
+  var DURATION_PER_SIM = durationOverride ? Number.parseInt( durationOverride ) : 30000; // ms
+  var FUZZ_MOUSE_RATE = fuzzOverride ? Number.parseInt( fuzzOverride ) : 100; // actions per frame
 
   var simNames; // {Array.<string>} - will be filled in below by an AJAX request
   var simQueryParameters = [
@@ -111,25 +116,26 @@
   document.body.appendChild( simListDiv );
 
   var currentSimName;
-  var currentSimStatusElement; // {DOMElement}, contains the sim name. Classes are added/removed to it
+  var simStatusElements = {}; // map simName {string} => {DOMElement}, which holds the status w/ classes
   var timeoutId; // we need to clear the timeout if we bail from a sim early
 
   // loads a sim into the iframe, and sets up the status element
   function loadSim( simName ) {
     currentSimName = simName;
-    currentSimStatusElement = document.createElement( 'div' );
-    currentSimStatusElement.classList.add( 'status' );
-    currentSimStatusElement.classList.add( 'loading' );
-    currentSimStatusElement.innerHTML = simName;
-    simListDiv.appendChild( currentSimStatusElement );
+    var simStatusElement = document.createElement( 'div' );
+    simStatusElement.classList.add( 'status' );
+    simStatusElement.classList.add( 'loading' );
+    simStatusElement.innerHTML = simName;
+    simListDiv.appendChild( simStatusElement );
+    simStatusElements[simName] = simStatusElement
     iframe.src = '../../' + simName + '/' + simName + '_en.html?' + simQueryParameters.join( '&' );
   }
   // switches to the next sim (if there are any)
   function nextSim() {
     clearTimeout( timeoutId );
 
-    if ( currentSimStatusElement ) {
-      currentSimStatusElement.classList.add( 'complete' );
+    if ( currentSimName ) {
+      simStatusElements[currentSimName].classList.add( 'complete' );
     }
 
     if ( simNames.length ) {
@@ -152,11 +158,13 @@
       return url.slice( 0, url.lastIndexOf( '_en.html' ) ).slice( url.lastIndexOf( '/' ) + 1 );
     }
 
+    var simName;
     if ( data.type === 'load' ) {
-      console.log( 'loaded ' + simNameFromURL( data.url ) );
+      simName = simNameFromURL( data.url );
+      console.log( 'loaded ' + simName );
 
       // not loading anymore
-      currentSimStatusElement.classList.remove( 'loading' );
+      simStatusElements[simName].classList.remove( 'loading' );
 
       // window.open stub on child. otherwise we get tons of "Report Problem..." popups that stall
       iframe.contentWindow.open = function() {
@@ -165,9 +173,13 @@
           blur: function() {}
         }
       };
+
+      if ( loadOnly ) {
+        nextSim();
+      }
     }
     else if ( data.type === 'error' ) {
-      var simName = simNameFromURL( data.url );
+      simName = simNameFromURL( data.url );
       console.log( 'error on ' + simName );
       eventLog.innerHTML += '<strong>' + simName + '</strong>';
 
@@ -180,11 +192,11 @@
         eventLog.innerHTML += '<pre>' + data.stack + '</pre>';
       }
 
+      simStatusElements[simName].classList.add( 'error' );
+
       // since we can have multiple errors for a single sim (due to being asynchronous),
       // we need to not move forward more than one sim
       if ( simName === currentSimName ) {
-        currentSimStatusElement.classList.add( 'error' );
-
         // on failure, speed up by switching to the next sim
         nextSim();
       }
