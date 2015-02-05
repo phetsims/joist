@@ -503,7 +503,7 @@ define( function( require ) {
     sim.focusLayer.moveToFront();
 
     // layer for popups, dialogs, and their backgrounds and barriers
-    this.topLayer = new Node( { renderer: 'svg' } );
+    this.topLayer = new Node( { renderer: sim.joistRenderer } );
     sim.rootNode.addChild( this.topLayer );
 
     // Semi-transparent black barrier used to block input events when a dialog (or other popup) is present, and fade

@@ -153,7 +153,7 @@ define( function( require ) {
     }, options );
 
     var thisMenu = this;
-    Node.call( thisMenu, { renderer: 'svg' } );
+    Node.call( thisMenu, { renderer: sim.joistRenderer } );
 
     /*
      * Description of the items in the menu. Each descriptor has these properties:
