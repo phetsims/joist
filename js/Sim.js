@@ -174,11 +174,8 @@ define( function( require ) {
     sim.inputEventLog = [];
     sim.inputEventBounds = Bounds2.NOTHING;
 
-    // state for mouse event fuzzing
+    // mouse event fuzzing parameters
     sim.fuzzMouseAverage = 10; // average number of mouse events to synthesize per frame
-    sim.fuzzMouseIsDown = false;
-    sim.fuzzMousePosition = new Vector2(); // start at 0,0
-    sim.fuzzMouseLastMoved = false; // whether the last mouse event was a move (we skew probabilities based on this)
 
     //Set the HTML page title to the localized title
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
@@ -675,7 +672,7 @@ define( function( require ) {
 
           // fire or synthesize input events
           if ( sim.options.fuzzMouse ) {
-            sim.fuzzMouseEvents();
+            sim.display.fuzzMouseEvents( sim.fuzzMouseAverage );
           }
           else if ( sim.options.fuzzTouches ) {
             // TODO: we need more state tracking of individual touch points to do this properly
@@ -885,60 +882,6 @@ define( function( require ) {
         var data = this.getRecordedInputEventLogString();
 
         window.open( 'mailto:phethelp@colorado.edu?subject=' + encodeURIComponent( this.name + ' input event log at ' + Date.now() ) + '&body=' + encodeURIComponent( data ) );
-      },
-
-      fuzzMouseEvents: function() {
-        var sim = this;
-
-        var chance;
-
-        // run a variable number of events, with a certain chance of bailing out (so no events are possible)
-        // models a geometric distribution of events
-        while ( ( chance = Math.random() ) < 1 - 1 / sim.fuzzMouseAverage ) {
-          var domEvent;
-          if ( chance < ( sim.fuzzMouseLastMoved ? 0.02 : 0.4 ) ) {
-            // toggle up/down
-            domEvent = document.createEvent( 'MouseEvent' ); // not 'MouseEvents' according to DOM Level 3 spec
-
-            // technically deprecated, but DOM4 event constructors not out yet. people on #whatwg said to use it
-            domEvent.initMouseEvent( sim.fuzzMouseIsDown ? 'mouseup' : 'mousedown', true, true, window, 1, // click count
-              sim.fuzzMousePosition.x, sim.fuzzMousePosition.y, sim.fuzzMousePosition.x, sim.fuzzMousePosition.y,
-              false, false, false, false,
-              0, // button
-              null );
-
-            sim.display._input.validatePointers();
-
-            if ( sim.fuzzMouseIsDown ) {
-              sim.display._input.mouseUp( sim.fuzzMousePosition, domEvent );
-              sim.fuzzMouseIsDown = false;
-            }
-            else {
-              sim.display._input.mouseDown( sim.fuzzMousePosition, domEvent );
-              sim.fuzzMouseIsDown = true;
-            }
-          }
-          else {
-            // change the mouse position
-            sim.fuzzMousePosition = new Vector2(
-              Math.floor( Math.random() * sim.display.width ),
-              Math.floor( Math.random() * sim.display.height )
-            );
-
-            // our move event
-            domEvent = document.createEvent( 'MouseEvent' ); // not 'MouseEvents' according to DOM Level 3 spec
-
-            // technically deprecated, but DOM4 event constructors not out yet. people on #whatwg said to use it
-            domEvent.initMouseEvent( 'mousemove', true, true, window, 0, // click count
-              sim.fuzzMousePosition.x, sim.fuzzMousePosition.y, sim.fuzzMousePosition.x, sim.fuzzMousePosition.y,
-              false, false, false, false,
-              0, // button
-              null );
-
-            sim.display._input.validatePointers();
-            sim.display._input.mouseMove( sim.fuzzMousePosition, domEvent );
-          }
-        }
       },
 
       // Destroy a sim so that it will no longer consume any resources.  Used by sim nesting in Smorgasbord
