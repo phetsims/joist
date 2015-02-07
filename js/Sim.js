@@ -193,10 +193,6 @@ define( function( require ) {
     // Option for profiling
     options.profiler = !!phet.phetcommon.getQueryParameter( 'profiler' );
 
-    if ( phet.phetcommon.getQueryParameter( 'screenIndex' ) ) {
-      options.screenIndex = parseInt( phet.phetcommon.getQueryParameter( 'screenIndex' ), 10 );
-    }
-
     if ( phet.phetcommon.getQueryParameter( 'recordInputEventLog' ) ) {
       // enables recording of Scenery's input events, request animation frames, and dt's so the sim can be played back
       options.recordInputEventLog = true;
