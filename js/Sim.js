@@ -216,13 +216,6 @@ define( function( require ) {
     // ignore any user input events, and instead fire touch events randomly in an effort to cause an exception
     options.fuzzTouches = !!phet.phetcommon.getQueryParameter( 'fuzzTouches' );
 
-    //If specifying 'standalone' then filter the screens array so that it is just the selected screenIndex
-    options.standalone = !!phet.phetcommon.getQueryParameter( 'standalone' );
-    if ( options.standalone ) {
-      screens = [ screens[ options.screenIndex ] ];
-      options.screenIndex = 0;
-    }
-
     var archID = arch && arch.start( 'system', 'sim', 'Sim', 'simStarted', {
         studentId: phet.phetcommon.getQueryParameter( 'studentId' ),
         options: options,
