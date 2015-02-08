@@ -46,7 +46,7 @@ define( function( require ) {
   // Choose a renderer for the joist components such as HomeScreen, NavigationBar, etc.
   // See #184
   var joistRenderer = phet.phetcommon.getQueryParameter( 'joistRenderer' ) || 'svg';
-  var renderers = [ 'null', 'svg', 'canvas', 'webgl', 'dom' ];
+  var renderers = [ 'null', 'svg', 'canvas', 'webgl', 'dom', 'pixi' ];
   assert && assert( renderers.indexOf( joistRenderer ) >= 0, 'joistRenderer should be one of ' + renderers.join( ',' ) );
   if ( joistRenderer === 'null' ) {
     joistRenderer = null;
