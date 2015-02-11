@@ -245,7 +245,7 @@ define( function( require ) {
       //Feasibility test for capturing screen shots as images
       {
         text: screenshotString,
-        present: phet.phetcommon.getQueryParameter( 'screenshot' ) && !Platform.ie9, // TODO is this going to be implemented for IE9? see issue #212
+        present: phet.chipper.getQueryParameter( 'screenshot' ) && !Platform.ie9, // TODO is this going to be implemented for IE9? see issue #212
         callback: function() {
           var dataURL = sim.getScreenshotDataURL();
 
@@ -275,7 +275,7 @@ define( function( require ) {
       },
       {
         text: fullscreenString,
-        present: phet.phetcommon.getQueryParameter( 'fullscreen' ) && FullScreen.isFullScreenEnabled(),
+        present: phet.chipper.getQueryParameter( 'fullscreen' ) && FullScreen.isFullScreenEnabled(),
         checkedProperty: FullScreen.isFullScreenProperty,
         callback: function() {
           FullScreen.toggleFullScreen( sim );

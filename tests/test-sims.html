@@ -77,11 +77,12 @@
 </head>
 
 <body>
-<script src="../../phetcommon/js/util/query-parameters.js"></script>
+<script src="../../sherpa/jquery-2.1.0.min.js"></script>
+<script src="../../chipper/js/initialize-globals.js"></script>
 <script type="text/javascript">
-  var durationOverride = phet.phetcommon.getQueryParameter( 'duration' );
-  var fuzzOverride = phet.phetcommon.getQueryParameter( 'fuzz' );
-  var loadOnly = !!phet.phetcommon.getQueryParameter( 'loadOnly' );
+  var durationOverride = phet.chipper.getQueryParameter( 'duration' );
+  var fuzzOverride = phet.chipper.getQueryParameter( 'fuzz' );
+  var loadOnly = !!phet.chipper.getQueryParameter( 'loadOnly' );
 
   // TODO: consider query parameters for these
   var DURATION_PER_SIM = durationOverride ? Number.parseInt( durationOverride ) : 30000; // ms

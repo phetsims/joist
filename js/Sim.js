@@ -45,7 +45,7 @@ define( function( require ) {
 
   // Choose a renderer for the joist components such as HomeScreen, NavigationBar, etc.
   // See #184
-  var joistRenderer = phet.phetcommon.getQueryParameter( 'joistRenderer' ) || 'svg';
+  var joistRenderer = phet.chipper.getQueryParameter( 'joistRenderer' ) || 'svg';
   var renderers = [ 'null', 'svg', 'canvas', 'webgl', 'dom', 'pixi' ];
   assert && assert( renderers.indexOf( joistRenderer ) >= 0, 'joistRenderer should be one of ' + renderers.join( ',' ) );
   if ( joistRenderer === 'null' ) {
@@ -186,38 +186,38 @@ define( function( require ) {
     function stringToBoolean( string ) { return string === 'true'; }
 
     // Query parameters override options.
-    if ( phet.phetcommon.getQueryParameter( 'showHomeScreen' ) ) {
-      options.showHomeScreen = stringToBoolean( phet.phetcommon.getQueryParameter( 'showHomeScreen' ) );
+    if ( phet.chipper.getQueryParameter( 'showHomeScreen' ) ) {
+      options.showHomeScreen = stringToBoolean( phet.chipper.getQueryParameter( 'showHomeScreen' ) );
     }
 
     // Option for profiling
-    options.profiler = !!phet.phetcommon.getQueryParameter( 'profiler' );
+    options.profiler = !!phet.chipper.getQueryParameter( 'profiler' );
 
-    if ( phet.phetcommon.getQueryParameter( 'recordInputEventLog' ) ) {
+    if ( phet.chipper.getQueryParameter( 'recordInputEventLog' ) ) {
       // enables recording of Scenery's input events, request animation frames, and dt's so the sim can be played back
       options.recordInputEventLog = true;
-      options.inputEventLogName = phet.phetcommon.getQueryParameter( 'recordInputEventLog' );
+      options.inputEventLogName = phet.chipper.getQueryParameter( 'recordInputEventLog' );
     }
 
-    if ( phet.phetcommon.getQueryParameter( 'playbackInputEventLog' ) ) {
+    if ( phet.chipper.getQueryParameter( 'playbackInputEventLog' ) ) {
       // instead of loading like normal, download a previously-recorded event sequence and play it back (unique to the browser and window size)
       options.playbackInputEventLog = true;
-      options.inputEventLogName = phet.phetcommon.getQueryParameter( 'playbackInputEventLog' );
+      options.inputEventLogName = phet.chipper.getQueryParameter( 'playbackInputEventLog' );
     }
 
-    if ( phet.phetcommon.getQueryParameter( 'fuzzMouse' ) ) {
+    if ( phet.chipper.getQueryParameter( 'fuzzMouse' ) ) {
       // ignore any user input events, and instead fire mouse events randomly in an effort to cause an exception
       options.fuzzMouse = true;
-      if ( phet.phetcommon.getQueryParameter( 'fuzzMouse' ) !== 'undefined' ) {
-        sim.fuzzMouseAverage = parseFloat( phet.phetcommon.getQueryParameter( 'fuzzMouse' ) );
+      if ( phet.chipper.getQueryParameter( 'fuzzMouse' ) !== 'undefined' ) {
+        sim.fuzzMouseAverage = parseFloat( phet.chipper.getQueryParameter( 'fuzzMouse' ) );
       }
     }
 
     // ignore any user input events, and instead fire touch events randomly in an effort to cause an exception
-    options.fuzzTouches = !!phet.phetcommon.getQueryParameter( 'fuzzTouches' );
+    options.fuzzTouches = !!phet.chipper.getQueryParameter( 'fuzzTouches' );
 
     var archID = arch && arch.start( 'system', 'sim', 'Sim', 'simStarted', {
-        studentId: phet.phetcommon.getQueryParameter( 'studentId' ),
+        studentId: phet.chipper.getQueryParameter( 'studentId' ),
         options: options,
         simName: sim.name,
         simVersion: sim.version,
@@ -225,8 +225,8 @@ define( function( require ) {
       } );
 
     //If specifying 'screens' then use 1-based (not zero-based) and "." delimited string such as "1.3.4" to get the 1st, 3rd and 4th screen
-    if ( phet.phetcommon.getQueryParameter( 'screens' ) ) {
-      var screensValueString = phet.phetcommon.getQueryParameter( 'screens' );
+    if ( phet.chipper.getQueryParameter( 'screens' ) ) {
+      var screensValueString = phet.chipper.getQueryParameter( 'screens' );
       screens = screensValueString.split( '.' ).map( function( screenString ) {
         return screens[ parseInt( screenString, 10 ) - 1 ];
       } );
@@ -246,7 +246,7 @@ define( function( require ) {
       allowSceneOverflow: true, // we take up the entire browsable area, so we don't care about clipping
 
       // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
-      allowWebGL: phet.phetcommon.getQueryParameter( 'webgl' ) !== 'false'
+      allowWebGL: phet.chipper.getQueryParameter( 'webgl' ) !== 'false'
     } );
     this.focusLayer = new FocusLayer( window.TWEEN ? { tweenFactory: window.TWEEN } : {} );
     this.ariaSpeech = new AriaSpeech();
@@ -263,8 +263,8 @@ define( function( require ) {
     heartbeatDiv.style.opacity = 0;
     document.body.appendChild( heartbeatDiv );
 
-    if ( phet.phetcommon.getQueryParameter( 'sceneryLog' ) ) {
-      var logNames = phet.phetcommon.getQueryParameter( 'sceneryLog' );
+    if ( phet.chipper.getQueryParameter( 'sceneryLog' ) ) {
+      var logNames = phet.chipper.getQueryParameter( 'sceneryLog' );
       if ( logNames === undefined || logNames === 'undefined' ) {
         sim.display.scenery.enableLogging();
       }
@@ -273,7 +273,7 @@ define( function( require ) {
       }
     }
 
-    if ( phet.phetcommon.getQueryParameter( 'sceneryStringLog' ) ) {
+    if ( phet.chipper.getQueryParameter( 'sceneryStringLog' ) ) {
       sim.display.scenery.switchLogToString();
     }
 
@@ -284,19 +284,19 @@ define( function( require ) {
     window.phet.joist.rootNode = sim.rootNode; // make the scene available for debugging
     window.phet.joist.display = sim.display; // make the display available for debugging
 
-    var showPointers = !!phet.phetcommon.getQueryParameter( 'showPointers' );
+    var showPointers = !!phet.chipper.getQueryParameter( 'showPointers' );
     this.showPointersProperty = new Property( showPointers );
     this.showPointersProperty.link( function( showPointers ) {
       sim.display.setPointerDisplayVisible( !!showPointers );
     } );
 
-    var showPointerAreas = !!phet.phetcommon.getQueryParameter( 'showPointerAreas' );
+    var showPointerAreas = !!phet.chipper.getQueryParameter( 'showPointerAreas' );
     this.showPointerAreasProperty = new Property( showPointerAreas );
     this.showPointerAreasProperty.link( function( showPointerAreas ) {
       sim.display.setPointerAreaDisplayVisible( !!showPointerAreas );
     } );
 
-    var showCanvasNodeBounds = !!phet.phetcommon.getQueryParameter( 'showCanvasNodeBounds' );
+    var showCanvasNodeBounds = !!phet.chipper.getQueryParameter( 'showCanvasNodeBounds' );
     this.showCanvasNodeBoundsProperty = new Property( showCanvasNodeBounds );
     this.showCanvasNodeBoundsProperty.link( function( showCanvasNodeBounds ) {
       sim.display.setCanvasNodeBoundsVisible( !!showCanvasNodeBounds );
@@ -348,7 +348,7 @@ define( function( require ) {
 
       // Show the layoutBounds, see #145
       // TODO: remove code duplication with screen layoutBounds being shown below
-      if ( phet.phetcommon.getQueryParameter( 'dev' ) ) {
+      if ( phet.chipper.getQueryParameter( 'dev' ) ) {
         sim.homeScreen.addChild( new Path( Shape.bounds( sim.homeScreen.layoutBounds ), {
           stroke: 'red',
           lineWidth: 3,
@@ -388,7 +388,7 @@ define( function( require ) {
       screen.view = screen.createView( screen.model );
 
       // Show the layoutBounds, see #145
-      if ( phet.phetcommon.getQueryParameter( 'dev' ) ) {
+      if ( phet.chipper.getQueryParameter( 'dev' ) ) {
         screen.view.addChild( new Path( Shape.bounds( screen.view.layoutBounds ), {
           stroke: 'red',
           lineWidth: 3,
@@ -747,14 +747,14 @@ define( function( require ) {
         })();
 
         // If state was specified, load it now
-        if ( phet.phetcommon.getQueryParameter( 'state' ) ) {
-          var stateString = phet.phetcommon.getQueryParameter( 'state' );
+        if ( phet.chipper.getQueryParameter( 'state' ) ) {
+          var stateString = phet.chipper.getQueryParameter( 'state' );
           var decoded = decodeURIComponent( stateString );
           sim.setState( JSON.parse( decoded, SimJSON.reviver ) );
         }
 
         // Communicate sim load (successfully) to joist/tests/test-sims.html
-        if ( phet.phetcommon.getQueryParameter( 'postMessageOnLoad' ) ) {
+        if ( phet.chipper.getQueryParameter( 'postMessageOnLoad' ) ) {
           window.parent && window.parent.postMessage( JSON.stringify( {
             type: 'load',
             url: window.location.href
