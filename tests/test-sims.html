@@ -83,6 +83,7 @@
   var durationOverride = phet.chipper.getQueryParameter( 'duration' );
   var fuzzOverride = phet.chipper.getQueryParameter( 'fuzz' );
   var loadOnly = !!phet.chipper.getQueryParameter( 'loadOnly' );
+  var testBuild = !!phet.chipper.getQueryParameter( 'build' );
 
   // TODO: consider query parameters for these
   var DURATION_PER_SIM = durationOverride ? Number.parseInt( durationOverride ) : 30000; // ms
@@ -129,7 +130,7 @@
     simStatusElement.innerHTML = simName;
     simListDiv.appendChild( simStatusElement );
     simStatusElements[simName] = simStatusElement
-    iframe.src = '../../' + simName + '/' + simName + '_en.html?' + simQueryParameters.join( '&' );
+    iframe.src = '../../' + simName + '/' + ( testBuild ? 'build/' : '' ) + simName + '_en.html?' + simQueryParameters.join( '&' );
   }
   // switches to the next sim (if there are any)
   function nextSim() {
