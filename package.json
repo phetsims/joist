@@ -1,9 +1,8 @@
 {
   "name": "joist",
-  "version": "1.0.0-dev.1",
-  "phetLibs": "joist axon brand dot kite phetcommon phetcore scenery scenery-phet sun",
-  "preload": "",
+  "version": "0.0.0",
   "license": "MIT",
+  "phetLibs": "joist axon brand dot kite phetcommon phetcore scenery scenery-phet sun",
   "repository": {
     "type": "git",
     "url": "https://github.com/phetsims/joist.git"
