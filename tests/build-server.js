@@ -31,11 +31,8 @@ http.createServer( function( req, res ) {
   console.log( 'building ' + simName );
 
   // TODO: Why do these more portable versions not work?
-  // var ls = spawn( 'grunt', [  ], {
-  // var ls = spawn( '/c/Users/jon/AppData/Roaming/npm/grunt', [  ], {
-  // var ls = spawn( 'bash', [ 'grunt' ], {
-  // var ls = spawn( 'node', [ '/c/Users/jon/AppData/Roaming/npm/node_modules/grunt-cli/bin/grunt' ], {
-  var npmInstall = spawn( 'node', [ 'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js', 'install' ], {
+  // var npmInstall = spawn( 'node', [ 'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js', 'install' ], {
+  var npmInstall = spawn( 'npm', [ 'install' ], {
     cwd: '../../' + simName
   } );
   console.log( 'running npm install on ' + simName );
@@ -56,7 +53,8 @@ http.createServer( function( req, res ) {
     }
     // npm install success, continue with grunt
     else {
-      var grunt = spawn( 'node', [ 'C:\\Users\\jon\\AppData\\Roaming\\npm\\node_modules\\grunt-cli\\bin\\grunt', '--no-color' ], {
+      // var grunt = spawn( 'node', [ 'C:\\Users\\jon\\AppData\\Roaming\\npm\\node_modules\\grunt-cli\\bin\\grunt', '--no-color' ], {
+      var grunt = spawn( 'grunt', [ '--no-color' ], {
         cwd: '../../' + simName
       } );
       console.log( 'running grunt on ' + simName );
