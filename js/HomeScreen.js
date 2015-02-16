@@ -59,7 +59,9 @@ define( function( require ) {
     title.centerX = this.layoutBounds.centerX;
 
     //Keep track of which screen is highlighted so the same screen can remain highlighted even if nodes are replaced (say when one grows larger or smaller)
-    var highlightedIndex = new Property( -1 ).setSendPhetEvents( false );
+    var highlightedScreenIndexProperty = new Property( -1, {
+      propertyID: 'sim.homeScreen.highlightedScreenIndexProperty'
+    } );
 
     var screenChildren = _.map( sim.screens, function( screen ) {
       var index = sim.screens.indexOf( screen );
@@ -69,7 +71,7 @@ define( function( require ) {
       } );
       var frame = new Frame( largeIcon );
 
-      highlightedIndex.link( function( highlightedIndex ) { frame.setHighlighted( highlightedIndex === index ); } );
+      highlightedScreenIndexProperty.link( function( highlightedIndex ) { frame.setHighlighted( highlightedIndex === index ); } );
 
       var largeIconWithFrame = new Node( { children: [ frame, largeIcon ] } );
       var largeText = new Text( screen.name, { font: new PhetFont( 42 ), fill: '#f2e916' } );//Color match with the PhET Logo yellow
@@ -79,10 +81,13 @@ define( function( require ) {
         largeText.scale( largeIconWithFrame.width / largeText.width );
       }
       var largeScreenButton = new VBox( {
+
         //Don't 40 the VBox or it will shift down when the border becomes thicker
         resize: false,
 
-        cursor: 'pointer', children: [
+        cursor: 'pointer',
+
+        children: [
           largeIconWithFrame,
           largeText
         ],
@@ -93,9 +98,11 @@ define( function( require ) {
       //TODO: Switch to buttonListener, but make sure you test it because on 7/17/2013 there is a problem where
       // ButtonListener won't fire if a node has appeared under the pointer
       largeScreenButton.addInputListener( {
-        down: function( event ) {
+        down: function() {
+          var archID = arch && arch.start( 'user', 'screenButtons[' + index + ']', 'button', 'down' );
           sim.simModel.showHomeScreen = false;
-          highlightedIndex.value = -1;
+          highlightedScreenIndexProperty.value = -1;
+          arch && arch.end( archID );
         }
       } );
 
@@ -105,7 +112,7 @@ define( function( require ) {
           var keyCode = event.domEvent.keyCode;
           if ( keyCode === Input.KEY_ENTER || keyCode === Input.KEY_SPACE ) {
             sim.simModel.showHomeScreen = false;
-            highlightedIndex.value = -1;
+            highlightedScreenIndexProperty.value = -1;
 
             // TODO: A way to automatically move focus
             // TODO: Need a way to provide overview descriptive text.  Perhaps a focusable for the entire screen?
@@ -118,7 +125,7 @@ define( function( require ) {
       var smallIconContent = new Node( {
         opacity: 0.5,
         children: [ screen.homeScreenIcon ],
-        scale: sim.screens.length === 4 ? HEIGHT / screen.homeScreenIcon.height :
+        scale: sim.screens.length === 4 ? 1.00 * HEIGHT / screen.homeScreenIcon.height :
                sim.screens.length === 3 ? 1.25 * HEIGHT / screen.homeScreenIcon.height :
                sim.screens.length === 2 ? 1.75 * HEIGHT / screen.homeScreenIcon.height :
                HEIGHT / screen.homeScreenIcon.height
@@ -166,7 +173,7 @@ define( function( require ) {
           if ( keyCode === Input.KEY_ENTER || keyCode === Input.KEY_SPACE ) {
             sim.simModel.screenIndex = index;
             sim.simModel.showHomeScreen = false;
-            highlightedIndex.value = -1;
+            highlightedScreenIndexProperty.value = -1;
 
             // TODO: A way to automatically move focus
             // TODO: Need a way to provide overview descriptive text.  Perhaps a focusable for the entire screen?
@@ -177,14 +184,14 @@ define( function( require ) {
 
       var highlightListener = {
         over: function( event ) {
-          highlightedIndex.value = index;
+          highlightedScreenIndexProperty.value = index;
 
           //TODO: use named children instead of child indices?
           smallScreenButton.children[ 0 ].opacity = 1;
           smallScreenButton.children[ 1 ].fill = 'white';
         },
         out: function( event ) {
-          highlightedIndex.value = -1;
+          highlightedScreenIndexProperty.value = -1;
           smallScreenButton.children[ 0 ].opacity = 0.5;
           smallScreenButton.children[ 1 ].fill = 'gray';
         }

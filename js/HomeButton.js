@@ -25,7 +25,8 @@ define( function( require ) {
         model.showHomeScreen = true;
       },
       focusable: true,
-      textDescription: 'Home Screen: Button'
+      textDescription: 'Home Screen: Button',
+      componentID: 'homeButton'
     }, options );
     JoistButton.call( this, homeIcon, whiteColorScheme, options );
 
