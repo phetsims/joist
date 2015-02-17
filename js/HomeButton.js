@@ -24,7 +24,6 @@ define( function( require ) {
       listener: function() {
         model.showHomeScreen = true;
       },
-      focusable: true,
       textDescription: 'Home Screen: Button',
       componentID: 'homeButton'
     }, options );

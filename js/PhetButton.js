@@ -31,7 +31,6 @@ define( function( require ) {
   function PhetButton( sim, options ) {
 
     options = _.extend( {
-      focusable: true,
       textDescription: 'PhET Menu Button',
       phetLogoScale: 0.28, // {number}
       highlightExtensionWidth: 6,
