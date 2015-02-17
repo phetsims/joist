@@ -128,8 +128,9 @@ define( function( require ) {
   }
 
   Dialog.DEFAULT_LAYOUT_STRATEGY = function( dialog, simBounds, screenBounds, scale ) {
-    dialog.setScaleMagnitude( scale );
-    dialog.center = simBounds.center;
+
+    // The size is set in the Sim.topLayer, but we need to update the location here
+    dialog.center = simBounds.center.times( 1.0 / scale );
   };
 
   return inherit( Panel, Dialog, {

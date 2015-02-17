@@ -563,8 +563,8 @@ define( function( require ) {
 
         var scale = Math.min( width / HomeScreen.LAYOUT_BOUNDS.width, height / HomeScreen.LAYOUT_BOUNDS.height );
 
-        this.barrierRectangle.rectWidth = width;
-        this.barrierRectangle.rectHeight = height;
+        this.barrierRectangle.rectWidth = width / scale;
+        this.barrierRectangle.rectHeight = height / scale;
 
         // 40 px high on iPad Mobile Safari
         var navBarHeight = scale * NAVIGATION_BAR_SIZE.height;
@@ -575,7 +575,12 @@ define( function( require ) {
         var screenHeight = height - sim.navigationBar.height;
 
         // Layout each of the screens
-        _.each( sim.screens, function( m ) { m.view.layout( width, screenHeight ); } );
+        _.each( sim.screens, function( m ) {
+          m.view.layout( width, screenHeight );
+        } );
+
+        // Resize the layer with all of the dialogs, etc.
+        sim.topLayer.setScaleMagnitude( scale );
 
         if ( sim.homeScreen ) {
           sim.homeScreen.layoutWithScale( scale, width, height );
@@ -595,6 +600,10 @@ define( function( require ) {
         this.bounds = new Bounds2( 0, 0, width, height );
         this.screenBounds = new Bounds2( 0, 0, width, screenHeight );
 
+        // Signify that the sim has been resized.
+        // {Bounds2} bounds - the size of the window.innerWidth and window.innerHeight, which depends on the scale
+        // {Bounds2} screenBounds - subtracts off the size of the navbar from the height
+        // {number} scale - the overall scaling factor for elements in the view
         this.trigger( 'resized', this.bounds, this.screenBounds, this.scale );
       },
 
