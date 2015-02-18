@@ -9,7 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Platform = require( 'PHET_CORE/Platform' );
+  var Platform = require( 'PHET_CORE/platform' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );

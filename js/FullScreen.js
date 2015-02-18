@@ -8,7 +8,7 @@
 define( function( require ) {
   'use strict';
 
-  var Platform = require( 'PHET_CORE/Platform' );
+  var Platform = require( 'PHET_CORE/platform' );
   var detectPrefix = require( 'PHET_CORE/detectPrefix' );
   var detectPrefixEvent = require( 'PHET_CORE/detectPrefixEvent' );
   var Property = require( 'AXON/Property' );
