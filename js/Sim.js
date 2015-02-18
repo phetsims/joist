@@ -154,7 +154,12 @@ define( function( require ) {
 
       // If true, there will be a border shown around the home screen icons.  Use this option if the home screen icons
       // have the same color as the backrgound, as in Color Vision.
-      showSmallHomeScreenIconFrame: false
+      showSmallHomeScreenIconFrame: false,
+
+      // THIS IS EXPERIMENTAL, USE AT YOUR OWN PERIL
+      // Text description of the simulation that will be appended to the title, so that screen readers will read the text
+      // when they are launched.
+      textDescription: ''
     }, options );
     this.options = options; // @private store this for access from prototype functions, assumes that it won't be changed later
 
@@ -179,7 +184,7 @@ define( function( require ) {
 
     //Set the HTML page title to the localized title
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
-    $( 'title' ).html( name + ' ' + sim.version ); //TODO i18n of order
+    $( 'title' ).html( name + ' ' + sim.version + options.textDescription ); //TODO i18n of order
 
     // if nothing else specified, try to use the options for showHomeScreen & screenIndex from query parameters,
     // to facilitate testing easily in different screens
