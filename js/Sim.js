@@ -38,16 +38,6 @@ define( function( require ) {
   var CanvasContextWrapper = require( 'SCENERY/util/CanvasContextWrapper' );
   var Input = require( 'SCENERY/input/Input' );
 
-  // The SimIFrameAPI is currently private, so we must only load it if it is available
-  // If you need it, load it using
-  //var SimIFrameAPI = require( 'JOIST/../../together/js/SimIFrameAPI' );
-  var SimIFrameAPI = null;
-
-  // The QueryParameterAPI is currently private, so we must only load it if it is available
-  // If you need it, load it using
-  //var QueryParameterAPI = require( 'JOIST/../../together/js/QueryParameterAPI' );
-  var QueryParameterAPI = null;
-
   // Choose a renderer for the joist components such as HomeScreen, NavigationBar, etc.
   // See #184
   var joistRenderer = phet.chipper.getQueryParameter( 'joistRenderer' ) || 'svg';
@@ -102,12 +92,15 @@ define( function( require ) {
       joistRenderer: joistRenderer
     } );
 
+    // Store a reference for API consumers to use, see SimIFrameAPI.js
+    this.SimJSON = SimJSON;
+
     // If converted to JSON, these properties would create a circular reference error, so we must skip this one.
     this.currentScreenProperty.setSendPhetEvents( false );
 
     // Load the Sim iframe API, if it was enabled by a query parameter
-    if ( SimIFrameAPI ) {
-      SimIFrameAPI.initialize( this );
+    if ( phet.together ) {
+      phet.together.SimIFrameAPI.initialize( this );
     }
 
     assert && assert( window.phet.joist.launchCalled,
@@ -174,8 +167,8 @@ define( function( require ) {
     this.api = this.options.api;
 
     // Do this after this.api is set, since it is used
-    if ( QueryParameterAPI ) {
-      QueryParameterAPI.initialize( this );
+    if ( phet.together ) {
+      phet.together.QueryParameterAPI.initialize( this );
     }
 
     this.destroyed = false;
