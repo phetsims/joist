@@ -45,8 +45,8 @@ define( function( require ) {
 
   // The QueryParameterAPI is currently private, so we must only load it if it is available
   // If you need it, load it using
-  var QueryParameterAPI = require( 'JOIST/../../together/js/QueryParameterAPI' );
-  //var QueryParameterAPI = null;
+  //var QueryParameterAPI = require( 'JOIST/../../together/js/QueryParameterAPI' );
+  var QueryParameterAPI = null;
 
   // Choose a renderer for the joist components such as HomeScreen, NavigationBar, etc.
   // See #184
