@@ -110,10 +110,6 @@ define( function( require ) {
       SimIFrameAPI.initialize( this );
     }
 
-    if ( QueryParameterAPI ) {
-      QueryParameterAPI.initialize( this );
-    }
-
     assert && assert( window.phet.joist.launchCalled,
       'Sim must be launched using SimLauncher, see https://github.com/phetsims/joist/issues/142' );
 
@@ -168,9 +164,19 @@ define( function( require ) {
       // THIS IS EXPERIMENTAL, USE AT YOUR OWN PERIL
       // Text description of the simulation that will be appended to the title, so that screen readers will read the text
       // when they are launched.
-      textDescription: ''
+      textDescription: '',
+
+      // THIS IS EXPERIMENTAL, USE AT YOUR OWN PERIL
+      // Sim API, to be filled in by individual simulations
+      api: {}
     }, options );
     this.options = options; // @private store this for access from prototype functions, assumes that it won't be changed later
+    this.api = this.options.api;
+
+    // Do this after this.api is set, since it is used
+    if ( QueryParameterAPI ) {
+      QueryParameterAPI.initialize( this );
+    }
 
     this.destroyed = false;
 
