@@ -43,6 +43,11 @@ define( function( require ) {
   //var SimIFrameAPI = require( 'JOIST/../../together/js/SimIFrameAPI' );
   var SimIFrameAPI = null;
 
+  // The QueryParameterAPI is currently private, so we must only load it if it is available
+  // If you need it, load it using
+  var QueryParameterAPI = require( 'JOIST/../../together/js/QueryParameterAPI' );
+  //var QueryParameterAPI = null;
+
   // Choose a renderer for the joist components such as HomeScreen, NavigationBar, etc.
   // See #184
   var joistRenderer = phet.chipper.getQueryParameter( 'joistRenderer' ) || 'svg';
@@ -103,6 +108,10 @@ define( function( require ) {
     // Load the Sim iframe API, if it was enabled by a query parameter
     if ( SimIFrameAPI ) {
       SimIFrameAPI.initialize( this );
+    }
+
+    if ( QueryParameterAPI ) {
+      QueryParameterAPI.initialize( this );
     }
 
     assert && assert( window.phet.joist.launchCalled,
@@ -520,6 +529,7 @@ define( function( require ) {
     sim.resizeToWindow();
 
     arch && arch.end( archID );
+    this.trigger( 'simulationStarted' );
   }
 
   return inherit( PropertySet, Sim, {
