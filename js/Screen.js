@@ -52,5 +52,12 @@ define( function( require ) {
   Screen.HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 );
   Screen.NAVBAR_ICON_SIZE = new Dimension2( 147, 100 );
 
-  return inherit( PropertySet, Screen );
+  return inherit( PropertySet, Screen, {
+    getAPI: function( route ) {
+      return {
+        model: this.model.getAPI( route + '.model' ),
+        view: this.view.getAPI( route + '.view' )
+      };
+    }
+  } );
 } );
