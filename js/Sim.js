@@ -98,11 +98,6 @@ define( function( require ) {
     // If converted to JSON, these properties would create a circular reference error, so we must skip this one.
     this.currentScreenProperty.setSendPhetEvents( false );
 
-    // Load the Sim iframe API, if it was enabled by a query parameter
-    if ( phet.together ) {
-      phet.together.SimIFrameAPI.initialize( this );
-    }
-
     assert && assert( window.phet.joist.launchCalled,
       'Sim must be launched using SimLauncher, see https://github.com/phetsims/joist/issues/142' );
 
@@ -168,7 +163,7 @@ define( function( require ) {
 
     // Do this after this.api is set, since it is used
     if ( phet.together ) {
-      phet.together.QueryParameterAPI.initialize( this );
+      phet.together.initializeTogether( this );
     }
 
     this.destroyed = false;
@@ -954,6 +949,13 @@ define( function( require ) {
         var dataURL = canvas.toDataURL( [ 'image/png' ] );
 
         return dataURL;
+      },
+
+      getAPI: function( route ) {
+        var api = {
+          homeScreen: this.homeScreen//TODO: Handle single-screen sims
+        };
+        return api;
       }
     },
 
