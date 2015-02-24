@@ -150,7 +150,7 @@ define( function( require ) {
       showSmallHomeScreenIconFrame: false,
 
       // Whether accessibility features are enabled or not.
-      accessibility: true,
+      accessibility: !!phet.chipper.getQueryParameter( 'accessibility' ),
 
       // THIS IS EXPERIMENTAL, USE AT YOUR OWN PERIL
       // Text description of the simulation that will be appended to the title, so that screen readers will read the text
