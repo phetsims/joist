@@ -149,6 +149,9 @@ define( function( require ) {
       // have the same color as the backrgound, as in Color Vision.
       showSmallHomeScreenIconFrame: false,
 
+      // Whether accessibility features are enabled or not.
+      accessibility: true,
+
       // THIS IS EXPERIMENTAL, USE AT YOUR OWN PERIL
       // Text description of the simulation that will be appended to the title, so that screen readers will read the text
       // when they are launched.
@@ -254,13 +257,18 @@ define( function( require ) {
       allowSceneOverflow: true, // we take up the entire browsable area, so we don't care about clipping
 
       // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
-      allowWebGL: phet.chipper.getQueryParameter( 'webgl' ) !== 'false'
-    } );
-    this.focusLayer = new FocusLayer( window.TWEEN ? { tweenFactory: window.TWEEN } : {} );
-    this.ariaSpeech = new AriaSpeech();
+      allowWebGL: phet.chipper.getQueryParameter( 'webgl' ) !== 'false',
 
-    //Adding the accessibility layer directly to the Display's root makes it easy to use local->global bounds.
-    sim.rootNode.addChild( this.focusLayer );
+      accessibility: options.accessibility
+    } );
+
+    if ( options.accessibility ) {
+      this.focusLayer = new FocusLayer( window.TWEEN ? { tweenFactory: window.TWEEN } : {} );
+      this.ariaSpeech = new AriaSpeech();
+
+      //Adding the accessibility layer directly to the Display's root makes it easy to use local->global bounds.
+      sim.rootNode.addChild( this.focusLayer );
+    }
 
     var simDiv = sim.display.domElement;
     simDiv.id = 'sim';
@@ -437,7 +445,9 @@ define( function( require ) {
         }
         sim.navigationBar.setVisible( !showHomeScreen );
         sim.updateBackground();
-        sim.focusLayer.moveToFront();
+        if ( options.accessibility ) {
+          sim.focusLayer.moveToFront();
+        }
       } );
     }
     else if ( options.screenDisplayStrategy === 'setChildren' ) {
@@ -457,7 +467,9 @@ define( function( require ) {
 
         currentScreenNode = newScreenNode;
         sim.updateBackground();
-        sim.focusLayer.moveToFront();
+        if ( options.accessibility ) {
+          sim.focusLayer.moveToFront();
+        }
       } );
 
       // When the user presses the home icon, then show the homescreen, otherwise show the screen and navbar
@@ -488,13 +500,17 @@ define( function( require ) {
           sim.rootNode.insertChild( idx + 1, sim.navigationBar );
         }
         sim.updateBackground();
-        sim.focusLayer.moveToFront();
+        if ( options.accessibility ) {
+          sim.focusLayer.moveToFront();
+        }
       } );
     }
     else {
       throw new Error( "invalid value for options.screenDisplayStrategy: " + options.screenDisplayStrategy );
     }
-    sim.focusLayer.moveToFront();
+    if ( options.accessibility ) {
+      sim.focusLayer.moveToFront();
+    }
 
     // layer for popups, dialogs, and their backgrounds and barriers
     this.topLayer = new Node( { renderer: sim.joistRenderer } );
@@ -542,7 +558,9 @@ define( function( require ) {
         this.topLayer.addChild( node );
 
         // TODO: Performance concerns
-        this.focusLayer.moveToFront();
+        if ( this.options.accessibility ) {
+          this.focusLayer.moveToFront();
+        }
 
         Input.pushFocusContext( node.getTrails()[ 0 ] );
       },
