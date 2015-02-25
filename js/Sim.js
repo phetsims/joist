@@ -971,7 +971,8 @@ define( function( require ) {
 
       getAPI: function( route ) {
         var api = {
-          homeScreen: this.homeScreen//TODO: Handle single-screen sims
+          // TODO: Home screen API
+          //homeScreen: this.homeScreen.getAPI()//TODO: Handle single-screen sims
         };
         return api;
       }
