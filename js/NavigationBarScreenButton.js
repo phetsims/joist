@@ -18,6 +18,7 @@ define( function( require ) {
   var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
   var ButtonListener = require( 'SUN/buttons/ButtonListener' );
   var Multilink = require( 'AXON/Multilink' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
 
   /**
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
@@ -38,7 +39,9 @@ define( function( require ) {
       scale: ( 0.625 * navBarHeight ) / screen.navigationBarIcon.height
     } );
 
-    var selected = sim.simModel.screenIndexProperty.valueEquals( sim.screens.indexOf( screen ) );
+    var selected = new DerivedProperty( [sim.simModel.screenIndexProperty], function( screenIndex ) {
+      return screenIndex === sim.screens.indexOf( screen );
+    } );
     var buttonModel = new PushButtonModel( {
       listener: function() {
         sim.simModel.screenIndex = sim.screens.indexOf( screen );
