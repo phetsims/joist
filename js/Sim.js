@@ -51,6 +51,19 @@ define( function( require ) {
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreen.LAYOUT_BOUNDS.width, 40 );
 
   /**
+   * For showing ScreenView layoutBounds with 'dev' query parameter.
+   * @param {Bounds2} layoutBounds
+   * @returns {Node}
+   */
+  var devCreateLayoutBoundsNode = function( layoutBounds ) {
+    return new Path( Shape.bounds( layoutBounds ), {
+      stroke: 'red',
+      lineWidth: 3,
+      pickable: false
+    } );
+  };
+
+  /**
    * Main Sim constructor
    * @param {string} name - the name of the simulation, to be displayed in the navbar and homescreen
    * @param {Screen[]} screens - the screens for the sim
@@ -362,14 +375,9 @@ define( function( require ) {
         showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame
       } );
 
-      // Show the layoutBounds, see #145
-      // TODO: remove code duplication with screen layoutBounds being shown below
+      // Show the home screen's layoutBounds
       if ( phet.chipper.getQueryParameter( 'dev' ) ) {
-        sim.homeScreen.addChild( new Path( Shape.bounds( sim.homeScreen.layoutBounds ), {
-          stroke: 'red',
-          lineWidth: 3,
-          pickable: false
-        } ) );
+        sim.homeScreen.addChild( devCreateLayoutBoundsNode( sim.homeScreen.layoutBounds ) );
       }
     }
 
@@ -403,13 +411,9 @@ define( function( require ) {
 
       screen.view = screen.createView( screen.model );
 
-      // Show the layoutBounds, see #145
+      // Show the screen's layoutBounds
       if ( phet.chipper.getQueryParameter( 'dev' ) ) {
-        screen.view.addChild( new Path( Shape.bounds( screen.view.layoutBounds ), {
-          stroke: 'red',
-          lineWidth: 3,
-          pickable: false
-        } ) );
+        screen.view.addChild( devCreateLayoutBoundsNode( screen.view.layoutBounds ) );
       }
 
       var viewCreated = Date.now();
