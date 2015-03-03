@@ -84,9 +84,10 @@ define( function( require ) {
 
     JoistButton.call( this, icon, sim.useInvertedColorsProperty, options );
 
-    Property.multilink( [ this.interactionStateProperty, sim.useInvertedColorsProperty ], function( interactionState, useInvertedColors ) {
-      optionsButton.fill = useInvertedColors ? '#222' : 'white';
-      phetLabel.image = useInvertedColors ? phetLogoDarker : phetLogo;
+    Property.multilink( [ sim.useInvertedColorsProperty, sim.simModel.showHomeScreenProperty ], function( useInvertedColors, showHomeScreen ) {
+      var invert = ( useInvertedColors && !showHomeScreen );
+      optionsButton.fill = invert ? '#222' : 'white';
+      phetLabel.image = invert ? phetLogoDarker : phetLogo;
     } );
   }
 
