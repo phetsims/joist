@@ -203,7 +203,12 @@ define( function( require ) {
     $( 'title' ).html( name + ' ' + sim.version + options.textDescription ); //TODO i18n of order
 
     // if nothing else specified, try to use the options for showHomeScreen & screenIndex from query parameters,
-    // to facilitate testing easily in different screens
+    elimin
+    to
+    facilitate
+    testing
+    easily in different
+    screens
     function stringToBoolean( string ) { return string === 'true'; }
 
     // Query parameters override options.
@@ -665,13 +670,6 @@ define( function( require ) {
           websocket = new WebSocket( 'ws://phet-dev.colorado.edu/some-temporary-url/something', 'scenery-input-events' );
         }
 
-        //Record the pointers (if logging is enabled)
-//    var logPointers = new LogPointers();
-//    logPointers.startLogging();
-//
-//    //For debugging, display the pointers
-//    logPointers.showPointers();
-
         if ( sim.options.profiler ) {
           sim.profiler = new Profiler( sim );
         }
@@ -773,7 +771,6 @@ define( function( require ) {
               entry.width = sim.inputEventWidth;
               entry.height = sim.inputEventHeight;
             }
-            // sim.inputEventLog.push( entry );
             websocket.send( JSON.stringify( entry ) );
             sim.display._input.eventLog = []; // clears the event log so that future actions will fill it
           }
