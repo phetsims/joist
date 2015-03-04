@@ -159,8 +159,8 @@ define( function( require ) {
       // Whether accessibility features are enabled or not.
       accessibility: !!phet.chipper.getQueryParameter( 'accessibility' ),
 
-      // If non-null, this will override the default renderer for the rootNode
-      rootRenderer: null,
+      // the default renderer for the rootNode, see #221 and #184
+      rootRenderer: 'svg',
 
       // THIS IS EXPERIMENTAL, USE AT YOUR OWN PERIL
       // Text description of the simulation that will be appended to the title, so that screen readers will read the text
@@ -171,6 +171,10 @@ define( function( require ) {
       // Sim API, to be filled in by individual simulations
       api: {}
     }, options );
+
+    // override rootRenderer using query parameter, see #221 and #184
+    options.rootRenderer = phet.chipper.getQueryParameter( 'rootRenderer' ) || options.rootRenderer;
+
     this.options = options; // @private store this for access from prototype functions, assumes that it won't be changed later
     this.api = this.options.api;
 
@@ -262,13 +266,9 @@ define( function( require ) {
       document.body.removeChild( document.getElementById( 'sim' ) );
     }
 
-    // Choose a renderer for the joist components such as HomeScreen, NavigationBar, etc.
-    // options.rootRenderer overrides the query parameter, see #221 and #184
-    var rootRenderer = options.rootRenderer ||
-                       phet.chipper.getQueryParameter( 'rootRenderer' ) ||
-                       'svg';
+    console.log( 'options.rootRenderer=' + options.rootRenderer );//XXX
 
-    sim.rootNode = new Node( { renderer: rootRenderer } );
+    sim.rootNode = new Node( { renderer: options.rootRenderer } );
 
     sim.display = new Display( sim.rootNode, {
       allowSceneOverflow: true, // we take up the entire browsable area, so we don't care about clipping
