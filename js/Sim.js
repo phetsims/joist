@@ -257,7 +257,9 @@ define( function( require ) {
     }
 
     var $body = $( 'body' );
-    $body.css( 'padding', '0' ).css( 'margin', '0' ).css( 'overflow', 'hidden' ); // prevent scrollbars
+
+    // prevent scrollbars
+    $body.css( 'padding', '0' ).css( 'margin', '0' ).css( 'overflow', 'hidden' );
 
     // check to see if the sim div already exists in the DOM under the body. This is the case for https://github.com/phetsims/scenery/issues/174 (iOS offline reading list)
     if ( document.getElementById( 'sim' ) && document.getElementById( 'sim' ).parentNode === document.body ) {
