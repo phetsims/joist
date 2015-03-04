@@ -90,7 +90,13 @@ define( function( require ) {
       // Flag for if the sim is active (alive) and the user is able to interact with the sim.
       // If the sim is active, the model.step, view.step, Timer and TWEEN will run.
       // Set to false for when the sim will be controlled externally, such as through record/playback or other controls.
-      active: true
+      active: true,
+
+      showPointerAreas: !!phet.chipper.getQueryParameter( 'showPointerAreas' ),
+
+      showPointers: !!phet.chipper.getQueryParameter( 'showPointers' ),
+
+      showCanvasNodeBounds: !!phet.chipper.getQueryParameter( 'showCanvasNodeBounds' )
     } );
 
     // Store a reference for API consumers to use, see SimIFrameAPI.js
@@ -311,20 +317,14 @@ define( function( require ) {
     window.phet.joist.rootNode = sim.rootNode; // make the scene available for debugging
     window.phet.joist.display = sim.display; // make the display available for debugging
 
-    var showPointers = !!phet.chipper.getQueryParameter( 'showPointers' );
-    this.showPointersProperty = new Property( showPointers );
     this.showPointersProperty.link( function( showPointers ) {
       sim.display.setPointerDisplayVisible( !!showPointers );
     } );
 
-    var showPointerAreas = !!phet.chipper.getQueryParameter( 'showPointerAreas' );
-    this.showPointerAreasProperty = new Property( showPointerAreas );
     this.showPointerAreasProperty.link( function( showPointerAreas ) {
       sim.display.setPointerAreaDisplayVisible( !!showPointerAreas );
     } );
 
-    var showCanvasNodeBounds = !!phet.chipper.getQueryParameter( 'showCanvasNodeBounds' );
-    this.showCanvasNodeBoundsProperty = new Property( showCanvasNodeBounds );
     this.showCanvasNodeBoundsProperty.link( function( showCanvasNodeBounds ) {
       sim.display.setCanvasNodeBoundsVisible( !!showCanvasNodeBounds );
     } );
