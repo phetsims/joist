@@ -49,6 +49,7 @@ define( function( require ) {
     var dialog = this;
 
     this.isModal = options.modal;
+    this.isShown = false; // whether the dialog is currently shown
 
     var dialogContent = new Node( {
       children: [ content ]
@@ -135,11 +136,17 @@ define( function( require ) {
 
   return inherit( Panel, Dialog, {
     show: function() {
-      window.phet.joist.sim.showPopup( this, this.isModal );
+      if ( !this.isShown ) {
+        this.isShown = true;
+        window.phet.joist.sim.showPopup( this, this.isModal );
+      }
     },
 
     hide: function() {
-      window.phet.joist.sim.hidePopup( this, this.isModal );
+      if ( this.isShown ) {
+        this.isShown = false;
+        window.phet.joist.sim.hidePopup( this, this.isModal );
+      }
     }
   } );
 } );
