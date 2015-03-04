@@ -19,7 +19,15 @@ define( function( require ) {
    */
   function LookAndFeel() {
     PropertySet.call( this, {
-      navigationBarFill: 'black'
+
+      // The background color for the screen, which will be set on the Display as its backgroundColor
+      backgroundColor: 'black'
+    } );
+
+    // When the simulation screen's background color changes, update the navbar color as well.
+    this.addDerivedProperty( 'navigationBarFill', [ 'backgroundColor' ], function( backgroundColor ) {
+      var screenIsBlack = !!new Color( backgroundColor ).equals( Color.BLACK );
+      return screenIsBlack ? 'white' : 'black';
     } );
 
     // The color that text should appear in the navigation bar.
@@ -28,12 +36,5 @@ define( function( require ) {
     } );
   }
 
-  return inherit( PropertySet, LookAndFeel, {
-
-    // When the simulation screen's background color changes, update the navbar color as wel.
-    setBackgroundColor: function( backgroundColor ) {
-      var screenIsBlack = !!new Color( backgroundColor ).equals( Color.BLACK );
-      this.navigationBarFill = screenIsBlack ? 'white' : 'black';
-    }
-  } );
+  return inherit( PropertySet, LookAndFeel );
 } );

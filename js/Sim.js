@@ -378,14 +378,14 @@ define( function( require ) {
     sim.navigationBar = new NavigationBar( NAVIGATION_BAR_SIZE, sim, screens, sim.simModel );
 
     this.updateBackground = function() {
-      var backgroundColor = sim.currentScreen ?
-                            sim.currentScreen.backgroundColor.toCSS() :
-                            'black';
-
-      sim.display.backgroundColor = backgroundColor;
-
-      sim.lookAndFeel.setBackgroundColor( backgroundColor );
+      sim.lookAndFeel.backgroundColor = sim.currentScreen ?
+                                        sim.currentScreen.backgroundColor.toCSS() :
+                                        'black';
     };
+
+    sim.lookAndFeel.backgroundColorProperty.link( function( backgroundColor ) {
+      sim.display.backgroundColor = backgroundColor;
+    } );
 
     sim.simModel.multilink( [ 'showHomeScreen', 'screenIndex' ], function() {
       sim.currentScreen = sim.simModel.showHomeScreen ? null : screens[ sim.simModel.screenIndex ];
