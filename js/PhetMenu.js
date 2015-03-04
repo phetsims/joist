@@ -287,7 +287,7 @@ define( function( require ) {
         present: isPhETBrand,
         separatorBefore: true,
         callback: function() {
-          new AboutDialog( sim, Brand ).show();
+          new AboutDialog( sim.name, sim.version, sim.credits, Brand ).show();
         }
       },
 
@@ -297,7 +297,7 @@ define( function( require ) {
         present: !isPhETBrand,
         separatorBefore: false,
         callback: function() {
-          new AboutDialog( sim, Brand ).show();
+          new AboutDialog( sim.name, sim.version, sim.credits, Brand ).show();
         }
       }
     ];

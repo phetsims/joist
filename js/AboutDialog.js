@@ -31,24 +31,26 @@ define( function( require ) {
   var thanksTitleString = require( 'string!JOIST/credits.thanks' );
 
   /**
-   * @param {Sim} sim
+   * @param {string} name - The name of the simulation
+   * @param {string} version - The version of the simulation
+   * @param {string} credits - The credits for the simulation, or falsy to show no credits
    * @param {Brand} Brand?
    * @constructor
    */
-  function AboutDialog( sim, Brand ) {
+  function AboutDialog( name, version, credits, Brand ) {
     var dialog = this;
 
     var children = [
-      new Text( sim.name, { font: new PhetFont( 28 ) } ),
-      new Text( 'version ' + sim.version, { font: new PhetFont( 20 ) } ),
+      new Text( name, { font: new PhetFont( 28 ) } ),
+      new Text( 'version ' + version, { font: new PhetFont( 20 ) } ),
       new VStrut( 15 ),
       new Text( Brand.name, { font: new PhetFont( 16 ) } ),
       new Text( Brand.copyright, { font: new PhetFont( 12 ) } )
     ];
 
-    if ( sim.credits ) {
+    if ( credits ) {
       children.push( new VStrut( 15 ) );
-      children.push( createCreditsNode( sim.credits ) );
+      children.push( createCreditsNode( credits ) );
     }
 
     if ( Brand.links && Brand.links.length ) {
