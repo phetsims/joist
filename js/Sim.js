@@ -203,12 +203,7 @@ define( function( require ) {
     $( 'title' ).html( name + ' ' + sim.version + options.textDescription ); //TODO i18n of order
 
     // if nothing else specified, try to use the options for showHomeScreen & screenIndex from query parameters,
-    elimin
-    to
-    facilitate
-    testing
-    easily in different
-    screens
+    // to facilitate testing easily in different screens
     function stringToBoolean( string ) { return string === 'true'; }
 
     // Query parameters override options.
