@@ -266,8 +266,6 @@ define( function( require ) {
       document.body.removeChild( document.getElementById( 'sim' ) );
     }
 
-    console.log( 'options.rootRenderer=' + options.rootRenderer );//XXX
-
     sim.rootNode = new Node( { renderer: options.rootRenderer } );
 
     sim.display = new Display( sim.rootNode, {
