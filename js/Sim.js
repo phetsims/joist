@@ -545,432 +545,430 @@ define( function( require ) {
   }
 
   return inherit( PropertySet, Sim, {
-      /*
-       * Adds a popup in the global coordinate frame, and optionally displays a semi-transparent black input barrier behind it.
-       * Use hidePopup() to remove it.
-       * @param {Node} node
-       * @param {boolean} isModal - Whether to display the semi-transparent black input barrier behind it.
-       */
-      showPopup: function( node, isModal ) {
-        assert && assert( node );
+    /*
+     * Adds a popup in the global coordinate frame, and optionally displays a semi-transparent black input barrier behind it.
+     * Use hidePopup() to remove it.
+     * @param {Node} node
+     * @param {boolean} isModal - Whether to display the semi-transparent black input barrier behind it.
+     */
+    showPopup: function( node, isModal ) {
+      assert && assert( node );
 
-        if ( isModal ) {
-          this.barrierStack.push( node );
-        }
-        this.topLayer.addChild( node );
+      if ( isModal ) {
+        this.barrierStack.push( node );
+      }
+      this.topLayer.addChild( node );
 
-        // TODO: Performance concerns
-        if ( this.options.accessibility ) {
-          this.focusLayer.moveToFront();
-        }
+      // TODO: Performance concerns
+      if ( this.options.accessibility ) {
+        this.focusLayer.moveToFront();
+      }
 
-        Input.pushFocusContext( node.getTrails()[ 0 ] );
-      },
+      Input.pushFocusContext( node.getTrails()[ 0 ] );
+    },
 
-      /*
-       * Hides a popup that was previously displayed with showPopup()
-       * @param {Node} node
-       * @param {boolean} isModal - Whether the previous popup was modal (or not)
-       */
-      hidePopup: function( node, isModal ) {
-        assert && assert( node && this.barrierStack.contains( node ) );
+    /*
+     * Hides a popup that was previously displayed with showPopup()
+     * @param {Node} node
+     * @param {boolean} isModal - Whether the previous popup was modal (or not)
+     */
+    hidePopup: function( node, isModal ) {
+      assert && assert( node && this.barrierStack.contains( node ) );
 
-        if ( isModal ) {
-          this.barrierStack.remove( node );
-        }
-        Input.popFocusContext( node.getTrails()[ 0 ] );
+      if ( isModal ) {
+        this.barrierStack.remove( node );
+      }
+      Input.popFocusContext( node.getTrails()[ 0 ] );
 
-        this.topLayer.removeChild( node );
-      },
+      this.topLayer.removeChild( node );
+    },
 
-      resizeToWindow: function() {
-        this.resize( window.innerWidth, window.innerHeight );
-      },
+    resizeToWindow: function() {
+      this.resize( window.innerWidth, window.innerHeight );
+    },
 
-      resize: function( width, height ) {
-        var sim = this;
+    resize: function( width, height ) {
+      var sim = this;
 
-        var scale = Math.min( width / HomeScreen.LAYOUT_BOUNDS.width, height / HomeScreen.LAYOUT_BOUNDS.height );
+      var scale = Math.min( width / HomeScreen.LAYOUT_BOUNDS.width, height / HomeScreen.LAYOUT_BOUNDS.height );
 
-        this.barrierRectangle.rectWidth = width / scale;
-        this.barrierRectangle.rectHeight = height / scale;
+      this.barrierRectangle.rectWidth = width / scale;
+      this.barrierRectangle.rectHeight = height / scale;
 
-        // 40 px high on iPad Mobile Safari
-        var navBarHeight = scale * NAVIGATION_BAR_SIZE.height;
-        sim.navigationBar.layout( scale, width, navBarHeight, height );
-        sim.navigationBar.y = height - navBarHeight;
-        sim.display.setSize( new Dimension2( width, height ) );
+      // 40 px high on iPad Mobile Safari
+      var navBarHeight = scale * NAVIGATION_BAR_SIZE.height;
+      sim.navigationBar.layout( scale, width, navBarHeight, height );
+      sim.navigationBar.y = height - navBarHeight;
+      sim.display.setSize( new Dimension2( width, height ) );
 
-        var screenHeight = height - sim.navigationBar.height;
+      var screenHeight = height - sim.navigationBar.height;
 
-        // Layout each of the screens
-        _.each( sim.screens, function( m ) {
-          m.view.layout( width, screenHeight );
-        } );
+      // Layout each of the screens
+      _.each( sim.screens, function( m ) {
+        m.view.layout( width, screenHeight );
+      } );
 
-        // Resize the layer with all of the dialogs, etc.
-        sim.topLayer.setScaleMagnitude( scale );
+      // Resize the layer with all of the dialogs, etc.
+      sim.topLayer.setScaleMagnitude( scale );
 
-        if ( sim.homeScreen ) {
-          sim.homeScreen.layoutWithScale( scale, width, height );
-        }
+      if ( sim.homeScreen ) {
+        sim.homeScreen.layoutWithScale( scale, width, height );
+      }
 
-        // Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
+      // Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
 
-        sim.display._input.eventLog.push( 'scene.display.setSize(new dot.Dimension2(' + width + ',' + height + '));' );
+      sim.display._input.eventLog.push( 'scene.display.setSize(new dot.Dimension2(' + width + ',' + height + '));' );
 
-        // Fixes problems where the div would be way off center on iOS7
-        if ( platform.mobileSafari ) {
-          window.scrollTo( 0, 0 );
-        }
+      // Fixes problems where the div would be way off center on iOS7
+      if ( platform.mobileSafari ) {
+        window.scrollTo( 0, 0 );
+      }
 
-        // update our scale and bounds properties after other changes (so listeners can be fired after screens are resized)
-        this.scale = scale;
-        this.bounds = new Bounds2( 0, 0, width, height );
-        this.screenBounds = new Bounds2( 0, 0, width, screenHeight );
+      // update our scale and bounds properties after other changes (so listeners can be fired after screens are resized)
+      this.scale = scale;
+      this.bounds = new Bounds2( 0, 0, width, height );
+      this.screenBounds = new Bounds2( 0, 0, width, screenHeight );
 
-        // Signify that the sim has been resized.
-        // {Bounds2} bounds - the size of the window.innerWidth and window.innerHeight, which depends on the scale
-        // {Bounds2} screenBounds - subtracts off the size of the navbar from the height
-        // {number} scale - the overall scaling factor for elements in the view
-        this.trigger( 'resized', this.bounds, this.screenBounds, this.scale );
-      },
+      // Signify that the sim has been resized.
+      // {Bounds2} bounds - the size of the window.innerWidth and window.innerHeight, which depends on the scale
+      // {Bounds2} screenBounds - subtracts off the size of the navbar from the height
+      // {number} scale - the overall scaling factor for elements in the view
+      this.trigger( 'resized', this.bounds, this.screenBounds, this.scale );
+    },
 
-      start: function() {
-        var sim = this;
+    start: function() {
+      var sim = this;
 
-        // if the playback flag is set, don't start up like normal. instead download our event log from the server and play it back.
-        // if direct playback (copy-paste) is desired, please directly call sim.startInputEventPlayback( ... ) instead of sim.start().
-        if ( this.options.playbackInputEventLog ) {
-          var request = new XMLHttpRequest();
-          request.open( 'GET', this.getEventLogLocation(), true );
-          request.onload = function( e ) {
+      // if the playback flag is set, don't start up like normal. instead download our event log from the server and play it back.
+      // if direct playback (copy-paste) is desired, please directly call sim.startInputEventPlayback( ... ) instead of sim.start().
+      if ( this.options.playbackInputEventLog ) {
+        var request = new XMLHttpRequest();
+        request.open( 'GET', this.getEventLogLocation(), true );
+        request.onload = function( e ) {
 
-            // we create functions, so eval is necessary. we go to the loaded domain on a non-standard port, so cross-domain issues shouldn't present themselves
-            /* jshint -W061 */
-            sim.startInputEventPlayback( eval( request.responseText ) );
-          };
-          request.send();
-          return;
-        }
+          // we create functions, so eval is necessary. we go to the loaded domain on a non-standard port, so cross-domain issues shouldn't present themselves
+          /* jshint -W061 */
+          sim.startInputEventPlayback( eval( request.responseText ) );
+        };
+        request.send();
+        return;
+      }
 
-        // Keep track of the previous time for computing dt, and initially signify that time hasn't been recorded yet.
-        var lastTime = -1;
+      // Keep track of the previous time for computing dt, and initially signify that time hasn't been recorded yet.
+      var lastTime = -1;
 
-        // Make sure requestAnimationFrame is defined
-        Util.polyfillRequestAnimationFrame();
+      // Make sure requestAnimationFrame is defined
+      Util.polyfillRequestAnimationFrame();
 
-        var websocket;
-        if ( sim.options.recordInputEventLog ) {
-          websocket = new WebSocket( 'ws://phet-dev.colorado.edu/some-temporary-url/something', 'scenery-input-events' );
-        }
+      var websocket;
+      if ( sim.options.recordInputEventLog ) {
+        websocket = new WebSocket( 'ws://phet-dev.colorado.edu/some-temporary-url/something', 'scenery-input-events' );
+      }
 
-        if ( sim.options.profiler ) {
-          sim.profiler = new Profiler( sim );
-        }
+      if ( sim.options.profiler ) {
+        sim.profiler = new Profiler( sim );
+      }
 
-        // place the rAF *before* the render() to assure as close to 60fps with the setTimeout fallback.
-        // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
-        (function animationLoop() {
-          var dt, screen;
+      // place the rAF *before* the render() to assure as close to 60fps with the setTimeout fallback.
+      // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+      (function animationLoop() {
+        var dt, screen;
 
-          sim.profiler && sim.profiler.frameStarted();
+        sim.profiler && sim.profiler.frameStarted();
 
-          // increment this before we can have an exception thrown, to see if we are missing frames
-          sim.frameCounter++;
+        // increment this before we can have an exception thrown, to see if we are missing frames
+        sim.frameCounter++;
 
-          if ( !sim.destroyed ) {
-            window.requestAnimationFrame( animationLoop );
-          }
-
-          phetAllocation && phetAllocation( 'loop' );
-
-          // prevent Safari from going to sleep, see https://github.com/phetsims/joist/issues/140
-          if ( sim.frameCounter % 1000 === 0 ) {
-            sim.heartbeatDiv.innerHTML = Math.random();
-          }
-
-          // fire or synthesize input events
-          if ( sim.options.fuzzMouse ) {
-            sim.display.fuzzMouseEvents( sim.fuzzMouseAverage );
-          }
-          else if ( sim.options.fuzzTouches ) {
-            // TODO: we need more state tracking of individual touch points to do this properly
-          }
-          else {
-
-            // if any input events were received and batched, fire them now.
-            if ( sim.options.batchEvents ) {
-
-              // if any input events were received and batched, fire them now, but only if the sim is active
-              // The sim may be inactive if interactivity was disabled by API usage such as the SimIFrameAPI
-              if ( sim.active ) {
-                sim.display._input.fireBatchedEvents();
-              }
-              else {
-
-                // If the sim was inactive (locked), then discard any scenery events instead of buffering them and applying
-                // them later.
-                sim.display._input.clearBatchedEvents();
-              }
-            }
-          }
-
-          // Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
-          var time = Date.now();
-          var elapsedTimeMilliseconds = (lastTime === -1) ? (1000.0 / 60.0) : (time - lastTime);
-          lastTime = time;
-
-          // Convert to seconds
-          dt = elapsedTimeMilliseconds / 1000.0;
-
-          // Step the models, timers and tweens, but only if the sim is active.
-          // It may be inactive if it has been paused through the SimIFrameAPI
-          if ( sim.active ) {
-
-            // Update the active screen, but not if the user is on the home screen
-            if ( !sim.simModel.showHomeScreen ) {
-
-              // step model and view (both optional)
-              screen = sim.screens[ sim.simModel.screenIndex ];
-              if ( screen.model.step ) {
-                screen.model.step( dt );
-              }
-              if ( screen.view.step ) {
-                screen.view.step( dt );
-              }
-            }
-
-            Timer.step( dt );
-
-            // If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
-            // Update the tweens after the model is updated but before the scene is redrawn.
-            if ( window.TWEEN ) {
-              window.TWEEN.update();
-            }
-          }
-          if ( sim.options.recordInputEventLog ) {
-
-            // push a frame entry into our inputEventLog
-            var entry = {
-              dt: dt,
-              events: sim.display._input.eventLog,
-              id: sim.frameCounter,
-              time: Date.now()
-            };
-            if ( sim.inputEventWidth !== sim.display.width ||
-                 sim.inputEventHeight !== sim.display.height ) {
-              sim.inputEventWidth = sim.display.width;
-              sim.inputEventHeight = sim.display.height;
-
-              entry.width = sim.inputEventWidth;
-              entry.height = sim.inputEventHeight;
-            }
-            websocket.send( JSON.stringify( entry ) );
-            sim.display._input.eventLog = []; // clears the event log so that future actions will fill it
-          }
-          sim.display.updateDisplay();
-
-          sim.profiler && sim.profiler.frameEnded();
-
-          sim.trigger( 'frameCompleted' );
-        })();
-
-        // If state was specified, load it now
-        if ( phet.chipper.getQueryParameter( 'state' ) ) {
-          var stateString = phet.chipper.getQueryParameter( 'state' );
-          var decoded = decodeURIComponent( stateString );
-          sim.setState( JSON.parse( decoded, SimJSON.reviver ) );
-        }
-
-        // Communicate sim load (successfully) to joist/tests/test-sims.html
-        if ( phet.chipper.getQueryParameter( 'postMessageOnLoad' ) ) {
-          window.parent && window.parent.postMessage( JSON.stringify( {
-            type: 'load',
-            url: window.location.href
-          } ), '*' );
-        }
-      },
-
-      // Plays back input events and updateScene() loops based on recorded data. data should be an array of objects (representing frames) with dt and fireEvents( scene, dot )
-      startInputEventPlayback: function( data ) {
-        var sim = this;
-
-        var index = 0; // our index into our frame data.
-
-        // Make sure requestAnimationFrame is defined
-        Util.polyfillRequestAnimationFrame();
-
-        if ( data.length && data[ 0 ].width ) {
-          sim.resize( data[ 0 ].width, data[ 0 ].height );
-        }
-
-        var startTime = Date.now();
-
-        (function animationLoop() {
-          var frame = data[ index++ ];
-
-          // when we have aready played the last frame
-          if ( frame === undefined ) {
-            var endTime = Date.now();
-
-            var elapsedTime = endTime - startTime;
-            var fps = data.length / ( elapsedTime / 1000 );
-
-            // replace the page with a performance message
-            document.body.innerHTML = '<div style="text-align: center; font-size: 16px;">' +
-                                      '<h1>Performance results:</h1>' +
-                                      '<p>Approximate frames per second: <strong>' + fps.toFixed( 1 ) + '</strong></p>' +
-                                      '<p>Average time per frame (ms/frame): <strong>' + (elapsedTime / index).toFixed( 1 ) + '</strong></p>' +
-                                      '<p>Elapsed time: <strong>' + elapsedTime + 'ms</strong></p>' +
-                                      '<p>Number of frames: <strong>' + index + '</strong></p>' +
-                                      '</div>';
-
-            // ensure that the black text is readable (chipper-built sims have a black background right now)
-            document.body.style.backgroundColor = '#fff';
-
-            // bail before the requestAnimationFrame if we are at the end (stops the frame loop)
-            return;
-          }
-
+        if ( !sim.destroyed ) {
           window.requestAnimationFrame( animationLoop );
+        }
 
-          // we don't fire batched input events (prevents them from affecting unit/performance tests).
-          // instead, we fire pre-recorded events for the scene if it exists (left out for brevity when not necessary)
-          if ( frame.fireEvents ) { frame.fireEvents( sim.rootNode, function( x, y ) { return new Vector2( x, y ); } ); }
+        phetAllocation && phetAllocation( 'loop' );
+
+        // prevent Safari from going to sleep, see https://github.com/phetsims/joist/issues/140
+        if ( sim.frameCounter % 1000 === 0 ) {
+          sim.heartbeatDiv.innerHTML = Math.random();
+        }
+
+        // fire or synthesize input events
+        if ( sim.options.fuzzMouse ) {
+          sim.display.fuzzMouseEvents( sim.fuzzMouseAverage );
+        }
+        else if ( sim.options.fuzzTouches ) {
+          // TODO: we need more state tracking of individual touch points to do this properly
+        }
+        else {
+
+          // if any input events were received and batched, fire them now.
+          if ( sim.options.batchEvents ) {
+
+            // if any input events were received and batched, fire them now, but only if the sim is active
+            // The sim may be inactive if interactivity was disabled by API usage such as the SimIFrameAPI
+            if ( sim.active ) {
+              sim.display._input.fireBatchedEvents();
+            }
+            else {
+
+              // If the sim was inactive (locked), then discard any scenery events instead of buffering them and applying
+              // them later.
+              sim.display._input.clearBatchedEvents();
+            }
+          }
+        }
+
+        // Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
+        var time = Date.now();
+        var elapsedTimeMilliseconds = (lastTime === -1) ? (1000.0 / 60.0) : (time - lastTime);
+        lastTime = time;
+
+        // Convert to seconds
+        dt = elapsedTimeMilliseconds / 1000.0;
+
+        // Step the models, timers and tweens, but only if the sim is active.
+        // It may be inactive if it has been paused through the SimIFrameAPI
+        if ( sim.active ) {
 
           // Update the active screen, but not if the user is on the home screen
           if ( !sim.simModel.showHomeScreen ) {
-            sim.screens[ sim.simModel.screenIndex ].model.step( frame.dt ); // use the pre-recorded dt to ensure lack of variation between runs
+
+            // step model and view (both optional)
+            screen = sim.screens[ sim.simModel.screenIndex ];
+            if ( screen.model.step ) {
+              screen.model.step( dt );
+            }
+            if ( screen.view.step ) {
+              screen.view.step( dt );
+            }
           }
+
+          Timer.step( dt );
 
           // If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
           // Update the tweens after the model is updated but before the scene is redrawn.
           if ( window.TWEEN ) {
             window.TWEEN.update();
           }
-          sim.updateBackground();
-          sim.display.updateDisplay();
-        })();
-      },
-
-      // A string that should be evaluated as JavaScript containing an array of "frame" objects, with a dt and an optional fireEvents function
-      getRecordedInputEventLogString: function() {
-        return '[\n' + _.map( this.inputEventLog, function( item ) {
-            var fireEvents = 'fireEvents:function(scene,dot){' + _.map( item.events, function( str ) { return 'display._input.' + str; } ).join( '' ) + '}';
-            return '{dt:' + item.dt + ( item.events.length ? ',' + fireEvents : '' ) + ( item.width ? ',width:' + item.width : '' ) + ( item.height ? ',height:' + item.height : '' ) +
-                   ',id:' + item.id + ',time:' + item.time + '}';
-          } ).join( ',\n' ) + '\n]';
-      },
-
-      // For recording and playing back input events, we use a unique combination of the user agent, width and height, so the same
-      // server can test different recorded input events on different devices/browsers (desired, because events and coordinates are different)
-      getEventLogName: function() {
-        var name = this.options.inputEventLogName;
-        if ( name === 'browser' ) {
-          name = window.navigator.userAgent;
         }
-        return ( this.name + '_' + name ).replace( /[^a-zA-Z0-9]/g, '_' );
-      },
+        if ( sim.options.recordInputEventLog ) {
 
-      // protocol-relative URL to the same-origin on a different port, for loading/saving recorded input events and frames
-      getEventLogLocation: function() {
-        var host = window.location.host.split( ':' )[ 0 ]; // grab the hostname without the port
-        return '//' + host + ':8083/' + this.getEventLogName();
-      },
+          // push a frame entry into our inputEventLog
+          var entry = {
+            dt: dt,
+            events: sim.display._input.eventLog,
+            id: sim.frameCounter,
+            time: Date.now()
+          };
+          if ( sim.inputEventWidth !== sim.display.width ||
+               sim.inputEventHeight !== sim.display.height ) {
+            sim.inputEventWidth = sim.display.width;
+            sim.inputEventHeight = sim.display.height;
 
-      // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
-      submitEventLog: function() {
-        // if we aren't recording data, don't submit any!
-        if ( !this.options.recordInputEventLog ) { return; }
-
-        var data = this.getRecordedInputEventLogString();
-
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open( 'POST', this.getEventLogLocation(), true ); // use a protocol-relative port to send it to Scenery's local event-log server
-        xmlhttp.setRequestHeader( 'Content-type', 'text/javascript' );
-        xmlhttp.send( data );
-      },
-
-      // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
-      mailEventLog: function() {
-
-        // if we aren't recording data, don't submit any!
-        if ( !this.options.recordInputEventLog ) { return; }
-
-        var data = this.getRecordedInputEventLogString();
-
-        window.open( 'mailto:phethelp@colorado.edu?subject=' + encodeURIComponent( this.name + ' input event log at ' + Date.now() ) + '&body=' + encodeURIComponent( data ) );
-      },
-
-      // Destroy a sim so that it will no longer consume any resources.  Used by sim nesting in Smorgasbord
-      destroy: function() {
-        this.destroyed = true;
-        var simDiv = this.display.domElement;
-        simDiv.parentNode && simDiv.parentNode.removeChild( simDiv );
-      },
-
-      // For save/load
-      getState: function() {
-        var state = {};
-        for ( var i = 0; i < this.screens.length; i++ ) {
-          state[ 'screen' + i ] = this.screens[ i ].getState();
+            entry.width = sim.inputEventWidth;
+            entry.height = sim.inputEventHeight;
+          }
+          websocket.send( JSON.stringify( entry ) );
+          sim.display._input.eventLog = []; // clears the event log so that future actions will fill it
         }
-        state.simModel = this.simModel.getValues();
+        sim.display.updateDisplay();
 
-        return state;
-      },
+        sim.profiler && sim.profiler.frameEnded();
 
-      setState: function( state ) {
-        for ( var i = 0; i < this.screens.length; i++ ) {
-          this.screens[ i ].setState( state[ 'screen' + i ] );
-        }
-        this.simModel.setValues( state.simModel );
-      },
+        sim.trigger( 'frameCompleted' );
+      })();
 
-      getStateJSON: function() {
-        return JSON.stringify( this.getState(), SimJSON.replacer );
-      },
+      // If state was specified, load it now
+      if ( phet.chipper.getQueryParameter( 'state' ) ) {
+        var stateString = phet.chipper.getQueryParameter( 'state' );
+        var decoded = decodeURIComponent( stateString );
+        sim.setState( JSON.parse( decoded, SimJSON.reviver ) );
+      }
 
-      getScreenshotDataURL: function() {
-
-        var sim = this;
-
-        // set up our Canvas with the correct background color
-        var canvas = document.createElement( 'canvas' );
-        canvas.width = sim.display.width;
-        canvas.height = sim.display.height;
-        var context = canvas.getContext( '2d' );
-        context.fillStyle = sim.display.domElement.style.backgroundColor;
-        context.fillRect( 0, 0, canvas.width, canvas.height );
-        var wrapper = new CanvasContextWrapper( canvas, context );
-
-        // only render the desired parts to the Canvas (i.e. not the overlay and menu that are visible)
-        if ( sim.simModel.showHomeScreen ) {
-          sim.homeScreen.renderToCanvasSubtree( wrapper, sim.homeScreen.getLocalToGlobalMatrix() );
-        }
-        else {
-          var view = sim.screens[ sim.simModel.screenIndex ].view;
-          var navbar = sim.navigationBar;
-
-          view.renderToCanvasSubtree( wrapper, view.getLocalToGlobalMatrix() );
-          navbar.renderToCanvasSubtree( wrapper, navbar.getLocalToGlobalMatrix() );
-        }
-
-        // get the data URL in PNG format
-        var dataURL = canvas.toDataURL( [ 'image/png' ] );
-
-        return dataURL;
-      },
-
-      getAPI: function( route ) {
-        var api = {
-          // TODO: Home screen API
-          //homeScreen: this.homeScreen.getAPI()//TODO: Handle single-screen sims
-        };
-        return api;
+      // Communicate sim load (successfully) to joist/tests/test-sims.html
+      if ( phet.chipper.getQueryParameter( 'postMessageOnLoad' ) ) {
+        window.parent && window.parent.postMessage( JSON.stringify( {
+          type: 'load',
+          url: window.location.href
+        } ), '*' );
       }
     },
-    // statics
-    {} );
+
+    // Plays back input events and updateScene() loops based on recorded data. data should be an array of objects (representing frames) with dt and fireEvents( scene, dot )
+    startInputEventPlayback: function( data ) {
+      var sim = this;
+
+      var index = 0; // our index into our frame data.
+
+      // Make sure requestAnimationFrame is defined
+      Util.polyfillRequestAnimationFrame();
+
+      if ( data.length && data[ 0 ].width ) {
+        sim.resize( data[ 0 ].width, data[ 0 ].height );
+      }
+
+      var startTime = Date.now();
+
+      (function animationLoop() {
+        var frame = data[ index++ ];
+
+        // when we have aready played the last frame
+        if ( frame === undefined ) {
+          var endTime = Date.now();
+
+          var elapsedTime = endTime - startTime;
+          var fps = data.length / ( elapsedTime / 1000 );
+
+          // replace the page with a performance message
+          document.body.innerHTML = '<div style="text-align: center; font-size: 16px;">' +
+                                    '<h1>Performance results:</h1>' +
+                                    '<p>Approximate frames per second: <strong>' + fps.toFixed( 1 ) + '</strong></p>' +
+                                    '<p>Average time per frame (ms/frame): <strong>' + (elapsedTime / index).toFixed( 1 ) + '</strong></p>' +
+                                    '<p>Elapsed time: <strong>' + elapsedTime + 'ms</strong></p>' +
+                                    '<p>Number of frames: <strong>' + index + '</strong></p>' +
+                                    '</div>';
+
+          // ensure that the black text is readable (chipper-built sims have a black background right now)
+          document.body.style.backgroundColor = '#fff';
+
+          // bail before the requestAnimationFrame if we are at the end (stops the frame loop)
+          return;
+        }
+
+        window.requestAnimationFrame( animationLoop );
+
+        // we don't fire batched input events (prevents them from affecting unit/performance tests).
+        // instead, we fire pre-recorded events for the scene if it exists (left out for brevity when not necessary)
+        if ( frame.fireEvents ) { frame.fireEvents( sim.rootNode, function( x, y ) { return new Vector2( x, y ); } ); }
+
+        // Update the active screen, but not if the user is on the home screen
+        if ( !sim.simModel.showHomeScreen ) {
+          sim.screens[ sim.simModel.screenIndex ].model.step( frame.dt ); // use the pre-recorded dt to ensure lack of variation between runs
+        }
+
+        // If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
+        // Update the tweens after the model is updated but before the scene is redrawn.
+        if ( window.TWEEN ) {
+          window.TWEEN.update();
+        }
+        sim.updateBackground();
+        sim.display.updateDisplay();
+      })();
+    },
+
+    // A string that should be evaluated as JavaScript containing an array of "frame" objects, with a dt and an optional fireEvents function
+    getRecordedInputEventLogString: function() {
+      return '[\n' + _.map( this.inputEventLog, function( item ) {
+          var fireEvents = 'fireEvents:function(scene,dot){' + _.map( item.events, function( str ) { return 'display._input.' + str; } ).join( '' ) + '}';
+          return '{dt:' + item.dt + ( item.events.length ? ',' + fireEvents : '' ) + ( item.width ? ',width:' + item.width : '' ) + ( item.height ? ',height:' + item.height : '' ) +
+                 ',id:' + item.id + ',time:' + item.time + '}';
+        } ).join( ',\n' ) + '\n]';
+    },
+
+    // For recording and playing back input events, we use a unique combination of the user agent, width and height, so the same
+    // server can test different recorded input events on different devices/browsers (desired, because events and coordinates are different)
+    getEventLogName: function() {
+      var name = this.options.inputEventLogName;
+      if ( name === 'browser' ) {
+        name = window.navigator.userAgent;
+      }
+      return ( this.name + '_' + name ).replace( /[^a-zA-Z0-9]/g, '_' );
+    },
+
+    // protocol-relative URL to the same-origin on a different port, for loading/saving recorded input events and frames
+    getEventLogLocation: function() {
+      var host = window.location.host.split( ':' )[ 0 ]; // grab the hostname without the port
+      return '//' + host + ':8083/' + this.getEventLogName();
+    },
+
+    // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
+    submitEventLog: function() {
+      // if we aren't recording data, don't submit any!
+      if ( !this.options.recordInputEventLog ) { return; }
+
+      var data = this.getRecordedInputEventLogString();
+
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.open( 'POST', this.getEventLogLocation(), true ); // use a protocol-relative port to send it to Scenery's local event-log server
+      xmlhttp.setRequestHeader( 'Content-type', 'text/javascript' );
+      xmlhttp.send( data );
+    },
+
+    // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
+    mailEventLog: function() {
+
+      // if we aren't recording data, don't submit any!
+      if ( !this.options.recordInputEventLog ) { return; }
+
+      var data = this.getRecordedInputEventLogString();
+
+      window.open( 'mailto:phethelp@colorado.edu?subject=' + encodeURIComponent( this.name + ' input event log at ' + Date.now() ) + '&body=' + encodeURIComponent( data ) );
+    },
+
+    // Destroy a sim so that it will no longer consume any resources.  Used by sim nesting in Smorgasbord
+    destroy: function() {
+      this.destroyed = true;
+      var simDiv = this.display.domElement;
+      simDiv.parentNode && simDiv.parentNode.removeChild( simDiv );
+    },
+
+    // For save/load
+    getState: function() {
+      var state = {};
+      for ( var i = 0; i < this.screens.length; i++ ) {
+        state[ 'screen' + i ] = this.screens[ i ].getState();
+      }
+      state.simModel = this.simModel.getValues();
+
+      return state;
+    },
+
+    setState: function( state ) {
+      for ( var i = 0; i < this.screens.length; i++ ) {
+        this.screens[ i ].setState( state[ 'screen' + i ] );
+      }
+      this.simModel.setValues( state.simModel );
+    },
+
+    getStateJSON: function() {
+      return JSON.stringify( this.getState(), SimJSON.replacer );
+    },
+
+    getScreenshotDataURL: function() {
+
+      var sim = this;
+
+      // set up our Canvas with the correct background color
+      var canvas = document.createElement( 'canvas' );
+      canvas.width = sim.display.width;
+      canvas.height = sim.display.height;
+      var context = canvas.getContext( '2d' );
+      context.fillStyle = sim.display.domElement.style.backgroundColor;
+      context.fillRect( 0, 0, canvas.width, canvas.height );
+      var wrapper = new CanvasContextWrapper( canvas, context );
+
+      // only render the desired parts to the Canvas (i.e. not the overlay and menu that are visible)
+      if ( sim.simModel.showHomeScreen ) {
+        sim.homeScreen.renderToCanvasSubtree( wrapper, sim.homeScreen.getLocalToGlobalMatrix() );
+      }
+      else {
+        var view = sim.screens[ sim.simModel.screenIndex ].view;
+        var navbar = sim.navigationBar;
+
+        view.renderToCanvasSubtree( wrapper, view.getLocalToGlobalMatrix() );
+        navbar.renderToCanvasSubtree( wrapper, navbar.getLocalToGlobalMatrix() );
+      }
+
+      // get the data URL in PNG format
+      var dataURL = canvas.toDataURL( [ 'image/png' ] );
+
+      return dataURL;
+    },
+
+    getAPI: function( route ) {
+      var api = {
+        // TODO: Home screen API
+        //homeScreen: this.homeScreen.getAPI()//TODO: Handle single-screen sims
+      };
+      return api;
+    }
+  } );
 } );
