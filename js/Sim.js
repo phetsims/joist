@@ -29,7 +29,6 @@ define( function( require ) {
   var SimJSON = require( 'JOIST/SimJSON' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Color = require( 'SCENERY/util/Color' );
   var Shape = require( 'KITE/Shape' );
   var Profiler = require( 'JOIST/Profiler' );
   var FocusLayer = require( 'SCENERY/accessibility/FocusLayer' );
