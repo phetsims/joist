@@ -23,15 +23,14 @@ define( function( require ) {
    *
    * @constructor
    */
-  function AdaptedFromPhETText( useInvertedColorsProperty ) {
+  function AdaptedFromPhETText( lookAndFeel ) {
     var adaptedFromPhetText = this;
     MultiLineText.call( this, 'adapted\nfrom', {
       align: 'right',
       font: font
     } );
-    useInvertedColorsProperty.link( function( useInvertedColors ) {
-      var fill = useInvertedColors ? 'black' : 'white';
-      adaptedFromPhetText.setFill( fill );
+    lookAndFeel.navigationBarTextFillProperty.link( function( navigationBarTextFill ) {
+      adaptedFromPhetText.setFill( navigationBarTextFill );
     } );
   }
 

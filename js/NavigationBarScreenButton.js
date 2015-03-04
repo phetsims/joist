@@ -39,7 +39,7 @@ define( function( require ) {
       scale: ( 0.625 * navBarHeight ) / screen.navigationBarIcon.height
     } );
 
-    var selected = new DerivedProperty( [sim.simModel.screenIndexProperty], function( screenIndex ) {
+    var selected = new DerivedProperty( [ sim.simModel.screenIndexProperty ], function( screenIndex ) {
       return screenIndex === sim.screens.indexOf( screen );
     } );
     var buttonModel = new PushButtonModel( {
@@ -78,15 +78,18 @@ define( function( require ) {
     this.addChild( invertedHighlight );
     this.addChild( overlay );
 
-    this.multilink = new Multilink( [ selected, buttonModel.downProperty, buttonModel.overProperty, sim.useInvertedColorsProperty ], function update() {
+    this.multilink = new Multilink( [ selected, buttonModel.downProperty, buttonModel.overProperty, sim.lookAndFeel.navigationBarFillProperty ], function update() {
+
+      var useInvertedColors = sim.lookAndFeel.navigationBarFill !== 'black';
+
       // Color match yellow with the PhET Logo
-      var selectedTextColor = sim.useInvertedColors ? 'black' : '#f2e916';
-      var unselectedTextColor = sim.useInvertedColors ? 'gray' : 'white';
+      var selectedTextColor = useInvertedColors ? 'black' : '#f2e916';
+      var unselectedTextColor = useInvertedColors ? 'gray' : 'white';
 
       text.fill = selected.get() ? selectedTextColor : unselectedTextColor;
       box.opacity = selected.get() ? 1.0 : buttonModel.down ? 0.65 : 0.5;
-      normalHighlight.visible = !sim.useInvertedColors && ( buttonModel.over || buttonModel.down );
-      invertedHighlight.visible = sim.useInvertedColors && ( buttonModel.over || buttonModel.down );
+      normalHighlight.visible = !useInvertedColors && ( buttonModel.over || buttonModel.down );
+      invertedHighlight.visible = useInvertedColors && ( buttonModel.over || buttonModel.down );
     } );
   }
 

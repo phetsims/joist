@@ -32,7 +32,7 @@ define( function( require ) {
    */
   function NavigationBar( barSize, sim, screens, model ) {
 
-    var thisNode = this;
+    var navigationBar = this;
     this.screens = screens;
 
     this.navBarWidth = barSize.width;
@@ -42,38 +42,39 @@ define( function( require ) {
     //Renderer must be specified here because the node is added directly to the scene (instead of to some other node that already has svg renderer
     Node.call( this );
     this.background = new Rectangle( 0, 0, 0, 0, { pickable: false } );
-    this.addChild( this.background );
-    sim.link( 'useInvertedColors', function( whiteColorScheme ) {
-      thisNode.background.fill = whiteColorScheme ? 'white' : 'black';
+    sim.lookAndFeel.navigationBarFillProperty.link( function( navigationBarFill ) {
+      navigationBar.background.fill = navigationBarFill;
     } );
+    this.addChild( this.background );
 
     this.phetButton = new PhetButton( sim );
     this.addChild( this.phetButton );
 
     this.titleLabel = new Text( sim.name, { font: new PhetFont( 18 ), pickable: false } );
-    this.addChild( this.titleLabel );
-    sim.link( 'useInvertedColors', function( whiteColorScheme ) {
-      thisNode.titleLabel.fill = whiteColorScheme ? 'black' : 'white';
+    sim.lookAndFeel.navigationBarTextFillProperty.link( function( navigationBarTextFill ) {
+      navigationBar.titleLabel.fill = navigationBarTextFill;
     } );
+
+    this.addChild( this.titleLabel );
 
     if ( screens.length > 1 ) {
 
       //Create buttons once so we can get their dimensions
       var buttons = _.map( screens, function( screen ) {
-        return new NavigationBarScreenButton( sim, screen, thisNode.navBarHeight, 0 );
+        return new NavigationBarScreenButton( sim, screen, navigationBar.navBarHeight, 0 );
       } );
       var maxWidth = Math.max( 50, _.max( buttons, function( button ) {return button.width;} ).width );
 
       //Create buttons again with equivalent sizes
       buttons = _.map( screens, function( screen ) {
-        return new NavigationBarScreenButton( sim, screen, thisNode.navBarHeight, maxWidth );
+        return new NavigationBarScreenButton( sim, screen, navigationBar.navBarHeight, maxWidth );
       } );
 
       this.buttonHBox = new HBox( { children: buttons, spacing: 4 } );
       this.addChild( this.buttonHBox );
 
       //add the home button
-      this.homeButton = new HomeButton( 'white', 'gray', '#222', '#444', sim.useInvertedColorsProperty, model );
+      this.homeButton = new HomeButton( 'white', 'gray', '#222', '#444', sim.lookAndFeel, model );
       this.addChild( this.homeButton );
 
       // if the branding specifies to show "adapted from PhET" in the navbar, show it here

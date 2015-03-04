@@ -24,7 +24,7 @@ define( function( require ) {
    * @param {Object} [options] Unused in client code.
    * @constructor
    */
-  function JoistButton( content, useInvertedColorsProperty, options ) {
+  function JoistButton( content, lookAndFeel, options ) {
 
     options = _.extend( {
       cursor: 'pointer', // {string}
@@ -68,7 +68,8 @@ define( function( require ) {
     this.interactionStateProperty = interactionStateProperty;//@protected
 
     // Update the highlights based on whether the button is highlighted and whether it is against a light or dark background.
-    Property.multilink( [ interactionStateProperty, useInvertedColorsProperty ], function( interactionState, useInvertedColors ) {
+    Property.multilink( [ interactionStateProperty, lookAndFeel.navigationBarFillProperty ], function( interactionState, navigationBarFill ) {
+      var useInvertedColors = navigationBarFill !== 'black';
       normalHighlight.visible = !useInvertedColors && (interactionState === 'over' || interactionState === 'pressed');
       invertedHighlight.visible = useInvertedColors && (interactionState === 'over' || interactionState === 'pressed');
     } );

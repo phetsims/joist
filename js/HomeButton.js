@@ -13,7 +13,7 @@ define( function( require ) {
   var JoistButton = require( 'JOIST/JoistButton' );
   var Property = require( 'AXON/Property' );
 
-  function HomeButton( fill, pressedFill, invertedFill, invertedPressedFill, whiteColorScheme, model, options ) {
+  function HomeButton( fill, pressedFill, invertedFill, invertedPressedFill, lookAndFeel, model, options ) {
     var homeIcon = new FontAwesomeNode( 'home', {
       scale: 0.75
     } );
@@ -27,9 +27,10 @@ define( function( require ) {
       textDescription: 'Home Screen: Button',
       componentID: 'homeButton'
     }, options );
-    JoistButton.call( this, homeIcon, whiteColorScheme, options );
+    JoistButton.call( this, homeIcon, lookAndFeel, options );
 
-    Property.multilink( [ this.interactionStateProperty, whiteColorScheme ], function( interactionState, useInvertedColors ) {
+    Property.multilink( [ this.interactionStateProperty, lookAndFeel.navigationBarFillProperty ], function( interactionState, navigationBarFill ) {
+      var useInvertedColors = navigationBarFill !== 'black';
       if ( !useInvertedColors ) {
         homeIcon.fill = interactionState === 'pressed' ? pressedFill : fill;
       }

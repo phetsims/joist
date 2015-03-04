@@ -82,9 +82,10 @@ define( function( require ) {
     // The icon combines the PhET label and the thre horizontal bars in the right relative positions
     var icon = new Node( { children: [ phetLabel, optionsButton ] } );
 
-    JoistButton.call( this, icon, sim.useInvertedColorsProperty, options );
+    JoistButton.call( this, icon, sim.lookAndFeel, options );
 
-    Property.multilink( [ sim.useInvertedColorsProperty, sim.simModel.showHomeScreenProperty ], function( useInvertedColors, showHomeScreen ) {
+    Property.multilink( [ sim.lookAndFeel.navigationBarFillProperty, sim.simModel.showHomeScreenProperty ], function( navigationBarFillProperty, showHomeScreen ) {
+      var useInvertedColors = navigationBarFillProperty !== 'black';
       var invert = ( useInvertedColors && !showHomeScreen );
       optionsButton.fill = invert ? '#222' : 'white';
       phetLabel.image = invert ? phetLogoDarker : phetLogo;

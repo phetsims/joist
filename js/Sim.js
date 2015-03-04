@@ -36,6 +36,7 @@ define( function( require ) {
   var AriaSpeech = require( 'SCENERY/accessibility/AriaSpeech' );
   var CanvasContextWrapper = require( 'SCENERY/util/CanvasContextWrapper' );
   var Input = require( 'SCENERY/input/Input' );
+  var LookAndFeel = require( 'JOIST/LookAndFeel' );
 
   // initial dimensions of the navigation bar, sized for Mobile Safari
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreen.LAYOUT_BOUNDS.width, 40 );
@@ -83,9 +84,6 @@ define( function( require ) {
       // [read-only] {Screen|null} - The current screen, or null if showing the home screen (which is NOT a Screen)
       currentScreen: null,
 
-      // [read-only] {boolean} - Whether our navbar and UI are currently using the inverted (white) style
-      useInvertedColors: false,
-
       // Flag for if the sim is active (alive) and the user is able to interact with the sim.
       // If the sim is active, the model.step, view.step, Timer and TWEEN will run.
       // Set to false for when the sim will be controlled externally, such as through record/playback or other controls.
@@ -97,6 +95,8 @@ define( function( require ) {
 
       showCanvasNodeBounds: !!phet.chipper.getQueryParameter( 'showCanvasNodeBounds' )
     } );
+
+    this.lookAndFeel = new LookAndFeel();
 
     // Store a reference for API consumers to use, see SimIFrameAPI.js
     this.SimJSON = SimJSON;
@@ -382,9 +382,8 @@ define( function( require ) {
       sim.display.backgroundColor = sim.currentScreen ?
                                     sim.currentScreen.backgroundColor.toCSS() :
                                     'black';
-      if ( sim.currentScreen ) {
-        sim.useInvertedColors = !!new Color( sim.currentScreen.backgroundColor ).equals( Color.BLACK );
-      }
+
+      sim.lookAndFeel.setBackgroundColor( sim.display.backgroundColor );
     };
 
     sim.simModel.multilink( [ 'showHomeScreen', 'screenIndex' ], function() {
