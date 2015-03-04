@@ -153,7 +153,7 @@ define( function( require ) {
     }, options );
 
     var thisMenu = this;
-    Node.call( thisMenu, { renderer: sim.joistRenderer } );
+    Node.call( thisMenu );
 
     /*
      * Description of the items in the menu. Each descriptor has these properties:
@@ -206,7 +206,7 @@ define( function( require ) {
         present: false,
         callback: function() {
           var settingsDialog = new SettingsDialog( sim );
-          var plane = new Plane( { fill: 'black', opacity: 0.3, renderer: sim.joistRenderer } );
+          var plane = new Plane( { fill: 'black', opacity: 0.3 } );
           sim.addChild( plane );
           sim.addChild( settingsDialog );
           settingsDialog.addDoneListener( function() {

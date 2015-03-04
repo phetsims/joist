@@ -30,7 +30,7 @@ define( function( require ) {
     var settingsDialog = this;
 
     //Use view, to help center and scale content
-    ScreenView.call( this, { renderer: sim.joistRenderer } );
+    ScreenView.call( this );
 
     var content = new VBox( {
       align: 'center', spacing: 50, children: [
@@ -48,7 +48,12 @@ define( function( require ) {
     } );
 
     //Show a gray overlay that will help focus on the about dialog, and prevent clicks on the sim while the dialog is up
-    this.addChild( new Panel( content, { centerX: this.layoutBounds.centerX, centerY: this.layoutBounds.centerY, xMargin: 20, yMargin: 20 } ) );
+    this.addChild( new Panel( content, {
+      centerX: this.layoutBounds.centerX,
+      centerY: this.layoutBounds.centerY,
+      xMargin: 20,
+      yMargin: 20
+    } ) );
 
     function resize() {
       settingsDialog.layout( $( window ).width(), $( window ).height() );

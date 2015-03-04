@@ -38,15 +38,6 @@ define( function( require ) {
   var CanvasContextWrapper = require( 'SCENERY/util/CanvasContextWrapper' );
   var Input = require( 'SCENERY/input/Input' );
 
-  // Choose a renderer for the joist components such as HomeScreen, NavigationBar, etc.
-  // See #184
-  var joistRenderer = phet.chipper.getQueryParameter( 'joistRenderer' ) || 'svg';
-  var renderers = [ 'null', 'svg', 'canvas', 'webgl', 'dom', 'pixi' ];
-  assert && assert( renderers.indexOf( joistRenderer ) >= 0, 'joistRenderer should be one of ' + renderers.join( ',' ) );
-  if ( joistRenderer === 'null' ) {
-    joistRenderer = null;
-  }
-
   // initial dimensions of the navigation bar, sized for Mobile Safari
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreen.LAYOUT_BOUNDS.width, 40 );
 
@@ -99,10 +90,7 @@ define( function( require ) {
       // Flag for if the sim is active (alive) and the user is able to interact with the sim.
       // If the sim is active, the model.step, view.step, Timer and TWEEN will run.
       // Set to false for when the sim will be controlled externally, such as through record/playback or other controls.
-      active: true,
-
-      // The renderer to use for home screen, navigation bar, etc.
-      joistRenderer: joistRenderer
+      active: true
     } );
 
     // Store a reference for API consumers to use, see SimIFrameAPI.js
@@ -164,6 +152,9 @@ define( function( require ) {
 
       // Whether accessibility features are enabled or not.
       accessibility: !!phet.chipper.getQueryParameter( 'accessibility' ),
+
+      // If non-null, this will override the default renderer for the rootNode
+      rootRenderer: null,
 
       // THIS IS EXPERIMENTAL, USE AT YOUR OWN PERIL
       // Text description of the simulation that will be appended to the title, so that screen readers will read the text
@@ -265,7 +256,14 @@ define( function( require ) {
       document.body.removeChild( document.getElementById( 'sim' ) );
     }
 
-    sim.rootNode = new Node();
+    // Choose a renderer for the joist components such as HomeScreen, NavigationBar, etc.
+    // options.rootRenderer overrides the query parameter, see #221 and #184
+    var rootRenderer = options.rootRenderer ||
+                       phet.chipper.getQueryParameter( 'rootRenderer' ) ||
+                       'svg';
+
+    sim.rootNode = new Node( { renderer: rootRenderer } );
+
     sim.display = new Display( sim.rootNode, {
       allowSceneOverflow: true, // we take up the entire browsable area, so we don't care about clipping
 
@@ -517,7 +515,7 @@ define( function( require ) {
     }
 
     // layer for popups, dialogs, and their backgrounds and barriers
-    this.topLayer = new Node( { renderer: sim.joistRenderer } );
+    this.topLayer = new Node();
     sim.rootNode.addChild( this.topLayer );
 
     // Semi-transparent black barrier used to block input events when a dialog (or other popup) is present, and fade
@@ -981,10 +979,6 @@ define( function( require ) {
         return api;
       }
     },
-
-    // Statics
-    {
-      // Export the selected renderer as a static in case other code wants to use the same renderer
-      joistRenderer: joistRenderer
-    } );
+    // statics
+    {} );
 } );
