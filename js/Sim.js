@@ -16,6 +16,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var NavigationBar = require( 'JOIST/NavigationBar' );
+  var HomeScreen = require( 'JOIST/HomeScreen' );
   var HomeScreenView = require( 'JOIST/HomeScreenView' );
   var Util = require( 'SCENERY/util/Util' );
   var Display = require( 'SCENERY/display/Display' );
@@ -367,14 +368,15 @@ define( function( require ) {
 
     // Multi-screen sims get a home screen.
     if ( screens.length > 1 ) {
-      sim.homeScreenView = new HomeScreenView( sim, {
+      sim.homeScreen = new HomeScreen( sim, {
         warningNode: options.homeScreenWarningNode,
         showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame
       } );
+      sim.homeScreen.initializeModelAndView();
 
       // Show the home screen's layoutBounds
       if ( phet.chipper.getQueryParameter( 'dev' ) ) {
-        sim.homeScreenView.addChild( devCreateLayoutBoundsNode( sim.homeScreenView.layoutBounds ) );
+        sim.homeScreen.view.addChild( devCreateLayoutBoundsNode( sim.homeScreen.view.layoutBounds ) );
       }
     }
 
@@ -417,7 +419,7 @@ define( function( require ) {
     if ( options.screenDisplayStrategy === 'setVisible' ) {
 
       if ( screens.length > 1 ) {
-        sim.rootNode.addChild( sim.homeScreenView );
+        sim.rootNode.addChild( sim.homeScreen.view );
       }
       _.each( screens, function( screen ) {
         screen.view.layerSplit = true;
@@ -425,8 +427,8 @@ define( function( require ) {
       } );
       sim.rootNode.addChild( sim.navigationBar );
       sim.simModel.multilink( [ 'screenIndex', 'showHomeScreen' ], function( screenIndex, showHomeScreen ) {
-        if ( sim.homeScreenView ) {
-          sim.homeScreenView.setVisible( showHomeScreen );
+        if ( sim.homeScreen.view ) {
+          sim.homeScreen.view.setVisible( showHomeScreen );
         }
         for ( var i = 0; i < screens.length; i++ ) {
           screens[ i ].view.setVisible( !showHomeScreen && screenIndex === i );
@@ -473,14 +475,14 @@ define( function( require ) {
             idx = sim.rootNode.indexOfChild( sim.navigationBar );
             sim.rootNode.removeChild( sim.navigationBar );
           }
-          sim.rootNode.insertChild( idx, sim.homeScreenView ); // same place in tree, to preserve nodes in front or behind
+          sim.rootNode.insertChild( idx, sim.homeScreen.view ); // same place in tree, to preserve nodes in front or behind
         }
         else {
-          if ( sim.homeScreenView && sim.rootNode.isChild( sim.homeScreenView ) ) {
+          if ( sim.homeScreen.view && sim.rootNode.isChild( sim.homeScreen.view ) ) {
 
             // place the view / navbar at the same index as the homescreen if possible
-            idx = sim.rootNode.indexOfChild( sim.homeScreenView );
-            sim.rootNode.removeChild( sim.homeScreenView );
+            idx = sim.rootNode.indexOfChild( sim.homeScreen.view );
+            sim.rootNode.removeChild( sim.homeScreen.view );
           }
 
           // same place in tree, to preserve nodes in front or behind
@@ -597,8 +599,8 @@ define( function( require ) {
       // Resize the layer with all of the dialogs, etc.
       sim.topLayer.setScaleMagnitude( scale );
 
-      if ( sim.homeScreenView ) {
-        sim.homeScreenView.layoutWithScale( scale, width, height );
+      if ( sim.homeScreen.view ) {
+        sim.homeScreen.view.layoutWithScale( scale, width, height );
       }
 
       // Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
@@ -933,7 +935,7 @@ define( function( require ) {
 
       // only render the desired parts to the Canvas (i.e. not the overlay and menu that are visible)
       if ( sim.simModel.showHomeScreen ) {
-        sim.homeScreenView.renderToCanvasSubtree( wrapper, sim.homeScreenView.getLocalToGlobalMatrix() );
+        sim.homeScreen.view.renderToCanvasSubtree( wrapper, sim.homeScreen.view.getLocalToGlobalMatrix() );
       }
       else {
         var view = sim.screens[ sim.simModel.screenIndex ].view;
