@@ -87,16 +87,17 @@ define( function( require ) {
       return this._view;
     },
 
-    // @private
+    // Initialize the model.  Clients should use either this or initializeModelAndView
+    // Clients may want to use this method to gain more control over the creation process
     initializeModel: function() {
       assert && assert( this._model === null, 'there was already a model' );
       this._model = this.createModel();
     },
 
-    // @private
+    // Initialize the view.  Clients should use either this or initializeModelAndView
+    // Clients may want to use this method to gain more control over the creation process
     initializeView: function() {
       assert && assert( this._view === null, 'there was already a view' );
-      assert && assert( this._model, 'model has not been initialized' );
       this._view = this.createView( this.model );
 
       // Show the home screen's layoutBounds
@@ -105,6 +106,7 @@ define( function( require ) {
       }
     },
 
+    // Initialize both the model and view
     initializeModelAndView: function() {
       this.initializeModel();
       this.initializeView();
