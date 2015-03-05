@@ -1,7 +1,8 @@
 joist
 =====
 
-Joist is the main framework for PhET Interactive Simulations.  Joist creates and displays the simulation content, home screen, navigation bar, about dialog, enables switching between screens, and other framework-related features.
+Joist is the main framework for PhET Interactive Simulations.  Joist creates and displays the simulation content, home screen,
+navigation bar, About dialog, enables switching between screens, and other framework-related features.
 
 By PhET Interactive Simulations
 http://phet.colorado.edu/
