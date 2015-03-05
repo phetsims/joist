@@ -39,12 +39,12 @@ define( function( require ) {
       scale: ( 0.625 * navBarHeight ) / screen.navigationBarIcon.height
     } );
 
-    var selected = new DerivedProperty( [ sim.simModel.screenIndexProperty ], function( screenIndex ) {
+    var selected = new DerivedProperty( [ sim.screenIndexProperty ], function( screenIndex ) {
       return screenIndex === sim.screens.indexOf( screen );
     } );
     var buttonModel = new PushButtonModel( {
       listener: function() {
-        sim.simModel.screenIndex = sim.screens.indexOf( screen );
+        sim.screenIndex = sim.screens.indexOf( screen );
       }
     } );
     this.addInputListener( new ButtonListener( buttonModel ) );

@@ -84,7 +84,7 @@ define( function( require ) {
 
     JoistButton.call( this, icon, sim.lookAndFeel, options );
 
-    Property.multilink( [ sim.lookAndFeel.navigationBarFillProperty, sim.simModel.showHomeScreenProperty ], function( navigationBarFillProperty, showHomeScreen ) {
+    Property.multilink( [ sim.lookAndFeel.navigationBarFillProperty, sim.showHomeScreenProperty ], function( navigationBarFillProperty, showHomeScreen ) {
       var useInvertedColors = navigationBarFillProperty !== 'black';
       var invert = ( useInvertedColors && !showHomeScreen );
       optionsButton.fill = invert ? '#222' : 'white';

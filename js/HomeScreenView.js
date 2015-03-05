@@ -100,7 +100,7 @@ define( function( require ) {
       largeScreenButton.addInputListener( {
         down: function() {
           var archID = arch && arch.start( 'user', 'screenButtons[' + index + ']', 'button', 'down' );
-          sim.simModel.showHomeScreen = false;
+          sim.showHomeScreen = false;
           highlightedScreenIndexProperty.value = -1;
           arch && arch.end( archID );
         }
@@ -111,7 +111,7 @@ define( function( require ) {
         keydown: function( event ) {
           var keyCode = event.domEvent.keyCode;
           if ( keyCode === Input.KEY_ENTER || keyCode === Input.KEY_SPACE ) {
-            sim.simModel.showHomeScreen = false;
+            sim.showHomeScreen = false;
             highlightedScreenIndexProperty.value = -1;
 
             // TODO: A way to automatically move focus
@@ -155,14 +155,14 @@ define( function( require ) {
       smallScreenButton.mouseArea = smallScreenButton.touchArea = Shape.bounds( smallScreenButton.bounds ); //cover the gap in the vbox
       smallScreenButton.addInputListener( {
         down: function( event ) {
-          sim.simModel.screenIndex = index;
+          sim.screenIndex = index;
         },
 
         //On the home screen if you touch an inactive screen thumbnail, it grows.  If then without lifting your finger you swipe over
         // to the next thumbnail, that one would grow.
         over: function( event ) {
           if ( event.pointer.isTouch ) {
-            sim.simModel.screenIndex = index;
+            sim.screenIndex = index;
           }
         }
       } );
@@ -171,8 +171,8 @@ define( function( require ) {
         keydown: function( event ) {
           var keyCode = event.domEvent.keyCode;
           if ( keyCode === Input.KEY_ENTER || keyCode === Input.KEY_SPACE ) {
-            sim.simModel.screenIndex = index;
-            sim.simModel.showHomeScreen = false;
+            sim.screenIndex = index;
+            sim.showHomeScreen = false;
             highlightedScreenIndexProperty.value = -1;
 
             // TODO: A way to automatically move focus
@@ -205,7 +205,7 @@ define( function( require ) {
 
     var center = new Node( { y: 170 } );
     homeScreenView.addChild( center );
-    sim.simModel.screenIndexProperty.link( function( screenIndex ) {
+    sim.screenIndexProperty.link( function( screenIndex ) {
 
       //Space the icons out more if there are fewer, so they will be spaced nicely
       //Cannot have only 1 screen because for 1-screen sims there is no home screen.

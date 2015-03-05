@@ -55,43 +55,6 @@ define( function( require ) {
     // globals will be attached to window.phet.joist
     window.phet.joist = window.phet.joist || {};
 
-    PropertySet.call( this, {
-
-      // [read-only] how the home screen and navbar are scaled
-      scale: 1,
-
-      // global bounds for the entire simulation
-      bounds: null,
-
-      // global bounds for the screen-specific part (excludes the navigation bar)
-      screenBounds: null,
-
-      // [read-only] {Screen|null} - The current screen, or null if showing the home screen (which is NOT a Screen)
-      currentScreen: null,
-
-      // Flag for if the sim is active (alive) and the user is able to interact with the sim.
-      // If the sim is active, the model.step, view.step, Timer and TWEEN will run.
-      // Set to false for when the sim will be controlled externally, such as through record/playback or other controls.
-      active: true,
-
-      showPointerAreas: !!phet.chipper.getQueryParameter( 'showPointerAreas' ),
-
-      showPointers: !!phet.chipper.getQueryParameter( 'showPointers' ),
-
-      showCanvasNodeBounds: !!phet.chipper.getQueryParameter( 'showCanvasNodeBounds' )
-    } );
-
-    this.lookAndFeel = new LookAndFeel();
-
-    // Store a reference for API consumers to use, see SimIFrameAPI.js
-    this.SimJSON = SimJSON;
-
-    // If converted to JSON, these properties would create a circular reference error, so we must skip this one.
-    this.currentScreenProperty.setSendPhetEvents( false );
-
-    assert && assert( window.phet.joist.launchCalled,
-      'Sim must be launched using SimLauncher, see https://github.com/phetsims/joist/issues/142' );
-
     options = _.extend( {
 
       // whether to show the home screen, or go immediately to the screen indicated by screenIndex
@@ -161,6 +124,49 @@ define( function( require ) {
 
     this.options = options; // @private store this for access from prototype functions, assumes that it won't be changed later
     this.api = this.options.api;
+
+    PropertySet.call( this, {
+
+      // True if the home screen is showing
+      showHomeScreen: showHomeScreen,
+
+      // The selected index
+      screenIndex: options.screenIndex || 0,
+
+      // [read-only] how the home screen and navbar are scaled
+      scale: 1,
+
+      // global bounds for the entire simulation
+      bounds: null,
+
+      // global bounds for the screen-specific part (excludes the navigation bar)
+      screenBounds: null,
+
+      // [read-only] {Screen|null} - The current screen, or null if showing the home screen (which is NOT a Screen)
+      currentScreen: null,
+
+      // Flag for if the sim is active (alive) and the user is able to interact with the sim.
+      // If the sim is active, the model.step, view.step, Timer and TWEEN will run.
+      // Set to false for when the sim will be controlled externally, such as through record/playback or other controls.
+      active: true,
+
+      showPointerAreas: !!phet.chipper.getQueryParameter( 'showPointerAreas' ),
+
+      showPointers: !!phet.chipper.getQueryParameter( 'showPointers' ),
+
+      showCanvasNodeBounds: !!phet.chipper.getQueryParameter( 'showCanvasNodeBounds' )
+    } );
+
+    this.lookAndFeel = new LookAndFeel();
+
+    // Store a reference for API consumers to use, see SimIFrameAPI.js
+    this.SimJSON = SimJSON;
+
+    // If converted to JSON, these properties would create a circular reference error, so we must skip this one.
+    this.currentScreenProperty.setSendPhetEvents( false );
+
+    assert && assert( window.phet.joist.launchCalled,
+      'Sim must be launched using SimLauncher, see https://github.com/phetsims/joist/issues/142' );
 
     // Do this after this.api is set, since it is used
     if ( phet.together ) {
@@ -343,14 +349,6 @@ define( function( require ) {
 
     sim.screens = screens;
 
-    // This model represents where the simulation is, whether it is on the home screen or a screen, and which screen it
-    // is on or is highlighted in the homescreen
-    // TODO: Can these properties be moved into the main PropertySet declaration?
-    sim.simModel = new PropertySet( {
-      showHomeScreen: showHomeScreen,
-      screenIndex: options.screenIndex || 0
-    } );
-
     // Multi-screen sims get a home screen.
     if ( screens.length > 1 ) {
       sim.homeScreen = new HomeScreen( sim, {
@@ -363,7 +361,7 @@ define( function( require ) {
       sim.homeScreen = null;
     }
 
-    sim.navigationBar = new NavigationBar( NAVIGATION_BAR_SIZE, sim, screens, sim.simModel );
+    sim.navigationBar = new NavigationBar( NAVIGATION_BAR_SIZE, sim, screens, sim );
 
     this.updateBackground = function() {
       sim.lookAndFeel.backgroundColor = sim.currentScreen ?
@@ -375,8 +373,8 @@ define( function( require ) {
       sim.display.backgroundColor = backgroundColor;
     } );
 
-    sim.simModel.multilink( [ 'showHomeScreen', 'screenIndex' ], function() {
-      sim.currentScreen = sim.simModel.showHomeScreen ? null : screens[ sim.simModel.screenIndex ];
+    sim.multilink( [ 'showHomeScreen', 'screenIndex' ], function() {
+      sim.currentScreen = sim.showHomeScreen ? null : screens[ sim.screenIndex ];
       sim.updateBackground();
     } );
 
@@ -404,7 +402,7 @@ define( function( require ) {
         sim.rootNode.addChild( screen.view );
       } );
       sim.rootNode.addChild( sim.navigationBar );
-      sim.simModel.multilink( [ 'screenIndex', 'showHomeScreen' ], function( screenIndex, showHomeScreen ) {
+      sim.multilink( [ 'screenIndex', 'showHomeScreen' ], function( screenIndex, showHomeScreen ) {
         if ( sim.homeScreen ) {
           sim.homeScreen.view.setVisible( showHomeScreen );
         }
@@ -423,7 +421,7 @@ define( function( require ) {
       // On startup screenIndex=0 to highlight the 1st screen.
       // When moving from a screen to the homescreen, the previous screen should be highlighted
       // When the user selects a different screen, show it.
-      sim.simModel.screenIndexProperty.link( function( screenIndex ) {
+      sim.screenIndexProperty.link( function( screenIndex ) {
         var newScreenNode = screens[ screenIndex ].view;
         var oldIndex = currentScreenNode ? sim.rootNode.indexOfChild( currentScreenNode ) : -1;
 
@@ -441,7 +439,7 @@ define( function( require ) {
       } );
 
       // When the user presses the home icon, then show the homescreen, otherwise show the screen and navbar
-      sim.simModel.showHomeScreenProperty.link( function( showHomeScreen ) {
+      sim.showHomeScreenProperty.link( function( showHomeScreen ) {
         var idx = 0;
         if ( showHomeScreen ) {
           if ( sim.rootNode.isChild( currentScreenNode ) ) {
@@ -695,10 +693,10 @@ define( function( require ) {
         if ( sim.active ) {
 
           // Update the active screen, but not if the user is on the home screen
-          if ( !sim.simModel.showHomeScreen ) {
+          if ( !sim.showHomeScreen ) {
 
             // step model and view (both optional)
-            screen = sim.screens[ sim.simModel.screenIndex ];
+            screen = sim.screens[ sim.screenIndex ];
             if ( screen.model.step ) {
               screen.model.step( dt );
             }
@@ -806,8 +804,8 @@ define( function( require ) {
         if ( frame.fireEvents ) { frame.fireEvents( sim.rootNode, function( x, y ) { return new Vector2( x, y ); } ); }
 
         // Update the active screen, but not if the user is on the home screen
-        if ( !sim.simModel.showHomeScreen ) {
-          sim.screens[ sim.simModel.screenIndex ].model.step( frame.dt ); // use the pre-recorded dt to ensure lack of variation between runs
+        if ( !sim.showHomeScreen ) {
+          sim.screens[ sim.screenIndex ].model.step( frame.dt ); // use the pre-recorded dt to ensure lack of variation between runs
         }
 
         // If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
@@ -882,8 +880,7 @@ define( function( require ) {
       for ( var i = 0; i < this.screens.length; i++ ) {
         state[ 'screen' + i ] = this.screens[ i ].getState();
       }
-      state.simModel = this.simModel.getValues();
-
+      //TODO: save the state of the Sim PropertySet
       return state;
     },
 
@@ -891,7 +888,7 @@ define( function( require ) {
       for ( var i = 0; i < this.screens.length; i++ ) {
         this.screens[ i ].setState( state[ 'screen' + i ] );
       }
-      this.simModel.setValues( state.simModel );
+      //TODO: restore the state of the Sim PropertySet
     },
 
     getStateJSON: function() {
@@ -912,11 +909,11 @@ define( function( require ) {
       var wrapper = new CanvasContextWrapper( canvas, context );
 
       // only render the desired parts to the Canvas (i.e. not the overlay and menu that are visible)
-      if ( sim.simModel.showHomeScreen ) {
+      if ( sim.showHomeScreen ) {
         sim.homeScreen.view.renderToCanvasSubtree( wrapper, sim.homeScreen.view.getLocalToGlobalMatrix() );
       }
       else {
-        var view = sim.screens[ sim.simModel.screenIndex ].view;
+        var view = sim.screens[ sim.screenIndex ].view;
         var navbar = sim.navigationBar;
 
         view.renderToCanvasSubtree( wrapper, view.getLocalToGlobalMatrix() );
