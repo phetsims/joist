@@ -400,23 +400,12 @@ define( function( require ) {
 
       screen.link( 'backgroundColor', sim.updateBackground );
 
-      // Create each model & view, and keep track of the amount of time it took to create each, which is displayed if 'profiler' is enabled as a query parameter
-      var start = Date.now();
-
       screen.model = screen.createModel();
-      var modelCreated = Date.now();
-
       screen.view = screen.createView( screen.model );
 
       // Show the screen's layoutBounds
       if ( phet.chipper.getQueryParameter( 'dev' ) ) {
         screen.view.addChild( devCreateLayoutBoundsNode( screen.view.layoutBounds ) );
-      }
-
-      var viewCreated = Date.now();
-
-      if ( options.profiler ) {
-        console.log( 'screen ' + index + ' created, total time: ' + (viewCreated - start) + 'ms, model: ' + (modelCreated - start) + 'ms, view: ' + (viewCreated - modelCreated) + 'ms' );
       }
     } );
 
