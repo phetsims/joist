@@ -17,6 +17,21 @@ define( function( require ) {
   var PropertySet = require( 'AXON/PropertySet' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var Color = require( 'SCENERY/util/Color' );
+  var Shape = require( 'KITE/Shape' );
+  var Path = require( 'SCENERY/nodes/Path' );
+
+  /**
+   * For showing ScreenView layoutBounds with 'dev' query parameter.
+   * @param {Bounds2} layoutBounds
+   * @returns {Node}
+   */
+  var devCreateLayoutBoundsNode = function( layoutBounds ) {
+    return new Path( Shape.bounds( layoutBounds ), {
+      stroke: 'red',
+      lineWidth: 3,
+      pickable: false
+    } );
+  };
 
   /**
    * @param {string} name
@@ -80,13 +95,18 @@ define( function( require ) {
     initializeView: function() {
       assert && assert( this._view === null, 'there was already a view' );
       this._view = this.createView( this.model );
+
+      // Show the home screen's layoutBounds
+      if ( phet.chipper.getQueryParameter( 'dev' ) ) {
+        this._view.addChild( devCreateLayoutBoundsNode( this._view.layoutBounds ) );
+      }
     },
 
     initializeModelAndView: function() {
       this.initializeModel();
       this.initializeView();
     },
-    
+
     getAPI: function( route ) {
       return {
         model: this.model.getAPI( route + '.model' ),

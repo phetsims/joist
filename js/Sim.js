@@ -28,9 +28,7 @@ define( function( require ) {
   var platform = require( 'PHET_CORE/platform' );
   var Timer = require( 'JOIST/Timer' );
   var SimJSON = require( 'JOIST/SimJSON' );
-  var Path = require( 'SCENERY/nodes/Path' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Shape = require( 'KITE/Shape' );
   var Profiler = require( 'JOIST/Profiler' );
   var FocusLayer = require( 'SCENERY/accessibility/FocusLayer' );
   var AriaSpeech = require( 'SCENERY/accessibility/AriaSpeech' );
@@ -40,20 +38,6 @@ define( function( require ) {
 
   // initial dimensions of the navigation bar, sized for Mobile Safari
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
-
-  /**
-   * TODO: Move this to Screen.js
-   * For showing ScreenView layoutBounds with 'dev' query parameter.
-   * @param {Bounds2} layoutBounds
-   * @returns {Node}
-   */
-  var devCreateLayoutBoundsNode = function( layoutBounds ) {
-    return new Path( Shape.bounds( layoutBounds ), {
-      stroke: 'red',
-      lineWidth: 3,
-      pickable: false
-    } );
-  };
 
   /**
    * Main Sim constructor
@@ -373,11 +357,6 @@ define( function( require ) {
         showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame
       } );
       sim.homeScreen.initializeModelAndView();
-
-      // Show the home screen's layoutBounds
-      if ( phet.chipper.getQueryParameter( 'dev' ) ) {
-        sim.homeScreen.view.addChild( devCreateLayoutBoundsNode( sim.homeScreen.view.layoutBounds ) );
-      }
     }
 
     sim.navigationBar = new NavigationBar( NAVIGATION_BAR_SIZE, sim, screens, sim.simModel );
@@ -402,11 +381,6 @@ define( function( require ) {
     _.each( screens, function( screen ) {
       screen.link( 'backgroundColor', sim.updateBackground );
       screen.initializeModelAndView();
-
-      // Show the screen's layoutBounds
-      if ( phet.chipper.getQueryParameter( 'dev' ) ) {
-        screen.view.addChild( devCreateLayoutBoundsNode( screen.view.layoutBounds ) );
-      }
     } );
 
     // This will hold the view for the current screen, and is initialized in the screenIndexProperty.link below
