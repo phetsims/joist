@@ -41,6 +41,7 @@ define( function( require ) {
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
 
   /**
+   * TODO: Move this to Screen.js
    * For showing ScreenView layoutBounds with 'dev' query parameter.
    * @param {Bounds2} layoutBounds
    * @returns {Node}
