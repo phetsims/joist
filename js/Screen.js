@@ -60,14 +60,14 @@ define( function( require ) {
     this.name = name;
     this.homeScreenIcon = homeScreenIcon;
     this.navigationBarIcon = options.navigationBarIcon;
-    this.createModel = createModel;
-    this.createView = createView;
+    this.createModel = createModel; // @private
+    this.createView = createView; // @private
 
     // Construction of the model and view are delayed and controlled to enable features like
     // a) faster loading when only loading certain screens
     // b) showing a loading progress bar <not implemented>
-    this._model = null;
-    this._view = null;
+    this._model = null; // @private
+    this._view = null; // @private
   }
 
   Screen.HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 );
@@ -87,13 +87,16 @@ define( function( require ) {
       return this._view;
     },
 
+    // @private
     initializeModel: function() {
       assert && assert( this._model === null, 'there was already a model' );
       this._model = this.createModel();
     },
 
+    // @private
     initializeView: function() {
       assert && assert( this._view === null, 'there was already a view' );
+      assert && assert( this._model, 'model has not been initialized' );
       this._view = this.createView( this.model );
 
       // Show the home screen's layoutBounds
@@ -106,6 +109,7 @@ define( function( require ) {
       this.initializeModel();
       this.initializeView();
     },
+
     getState: function() {
       return {
         model: this.model.getState ? this.model.getState() : {},
