@@ -366,14 +366,14 @@ define( function( require ) {
 
     // Multi-screen sims get a home screen.
     if ( screens.length > 1 ) {
-      sim.homeScreen = new HomeScreenView( sim, {
+      sim.homeScreenView = new HomeScreenView( sim, {
         warningNode: options.homeScreenWarningNode,
         showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame
       } );
 
       // Show the home screen's layoutBounds
       if ( phet.chipper.getQueryParameter( 'dev' ) ) {
-        sim.homeScreen.addChild( devCreateLayoutBoundsNode( sim.homeScreen.layoutBounds ) );
+        sim.homeScreenView.addChild( devCreateLayoutBoundsNode( sim.homeScreenView.layoutBounds ) );
       }
     }
 
@@ -416,7 +416,7 @@ define( function( require ) {
     if ( options.screenDisplayStrategy === 'setVisible' ) {
 
       if ( screens.length > 1 ) {
-        sim.rootNode.addChild( sim.homeScreen );
+        sim.rootNode.addChild( sim.homeScreenView );
       }
       _.each( screens, function( screen ) {
         screen.view.layerSplit = true;
@@ -424,8 +424,8 @@ define( function( require ) {
       } );
       sim.rootNode.addChild( sim.navigationBar );
       sim.simModel.multilink( [ 'screenIndex', 'showHomeScreen' ], function( screenIndex, showHomeScreen ) {
-        if ( sim.homeScreen ) {
-          sim.homeScreen.setVisible( showHomeScreen );
+        if ( sim.homeScreenView ) {
+          sim.homeScreenView.setVisible( showHomeScreen );
         }
         for ( var i = 0; i < screens.length; i++ ) {
           screens[ i ].view.setVisible( !showHomeScreen && screenIndex === i );
@@ -472,14 +472,14 @@ define( function( require ) {
             idx = sim.rootNode.indexOfChild( sim.navigationBar );
             sim.rootNode.removeChild( sim.navigationBar );
           }
-          sim.rootNode.insertChild( idx, sim.homeScreen ); // same place in tree, to preserve nodes in front or behind
+          sim.rootNode.insertChild( idx, sim.homeScreenView ); // same place in tree, to preserve nodes in front or behind
         }
         else {
-          if ( sim.homeScreen && sim.rootNode.isChild( sim.homeScreen ) ) {
+          if ( sim.homeScreenView && sim.rootNode.isChild( sim.homeScreenView ) ) {
 
             // place the view / navbar at the same index as the homescreen if possible
-            idx = sim.rootNode.indexOfChild( sim.homeScreen );
-            sim.rootNode.removeChild( sim.homeScreen );
+            idx = sim.rootNode.indexOfChild( sim.homeScreenView );
+            sim.rootNode.removeChild( sim.homeScreenView );
           }
 
           // same place in tree, to preserve nodes in front or behind
@@ -596,8 +596,8 @@ define( function( require ) {
       // Resize the layer with all of the dialogs, etc.
       sim.topLayer.setScaleMagnitude( scale );
 
-      if ( sim.homeScreen ) {
-        sim.homeScreen.layoutWithScale( scale, width, height );
+      if ( sim.homeScreenView ) {
+        sim.homeScreenView.layoutWithScale( scale, width, height );
       }
 
       // Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
@@ -932,7 +932,7 @@ define( function( require ) {
 
       // only render the desired parts to the Canvas (i.e. not the overlay and menu that are visible)
       if ( sim.simModel.showHomeScreen ) {
-        sim.homeScreen.renderToCanvasSubtree( wrapper, sim.homeScreen.getLocalToGlobalMatrix() );
+        sim.homeScreenView.renderToCanvasSubtree( wrapper, sim.homeScreenView.getLocalToGlobalMatrix() );
       }
       else {
         var view = sim.screens[ sim.simModel.screenIndex ].view;
