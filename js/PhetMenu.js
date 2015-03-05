@@ -202,9 +202,11 @@ define( function( require ) {
       },
       {
         text: settingsString,
-        present: false,
+        present: fase,
         callback: function() {
-          var settingsDialog = new SettingsDialog( sim );
+          var settingsDialog = new SettingsDialog( sim.showPointersProperty );
+
+          // TODO: This is broken.  Should probably use new Dialog infrastruture
           var plane = new Plane( { fill: 'black', opacity: 0.3 } );
           sim.addChild( plane );
           sim.addChild( settingsDialog );

@@ -23,10 +23,10 @@ define( function( require ) {
   var settingsString = require( 'string!JOIST/title.settings' );
 
   /**
-   * @param {Sim} sim
+   * @param {Property.<boolean>} showPointersProperty - whether the sim should show graphical indicators for where the pointers are
    * @constructor
    */
-  function SettingsDialog( sim ) {
+  function SettingsDialog( showPointersProperty ) {
     var settingsDialog = this;
 
     //Use view, to help center and scale content
@@ -35,7 +35,7 @@ define( function( require ) {
     var content = new VBox( {
       align: 'center', spacing: 50, children: [
         new Text( settingsString, { font: new PhetFont( 16 ) } ),
-        new CheckBox( new Text( showPointersString ), sim.showPointersProperty ),
+        new CheckBox( new Text( showPointersString ), showPointersProperty ),
         new TextPushButton( doneString, {
           font: new PhetFont( 20 ),
           listener: function() {
