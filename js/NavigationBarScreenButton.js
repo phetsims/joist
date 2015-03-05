@@ -22,12 +22,16 @@ define( function( require ) {
 
   /**
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
+   * @param {LookAndFeel} lookAndFeel
+   * @param {Property.<number>} screenIndexProperty
    * @param {Sim} sim
+   * @param {Array.<Screen>} screens - all of the available sim content screens (excluding the home screen)
    * @param {Screen} screen
    * @param {number} navBarHeight
+   * @param {number} minWidth
    * @constructor
    */
-  function NavigationBarScreenButton( sim, screen, navBarHeight, minWidth ) {
+  function NavigationBarScreenButton( lookAndFeel, screenIndexProperty, screens, screen, navBarHeight, minWidth ) {
     Node.call( this, {
       cursor: 'pointer',
       focusable: true,
@@ -39,12 +43,12 @@ define( function( require ) {
       scale: ( 0.625 * navBarHeight ) / screen.navigationBarIcon.height
     } );
 
-    var selected = new DerivedProperty( [ sim.screenIndexProperty ], function( screenIndex ) {
-      return screenIndex === sim.screens.indexOf( screen );
+    var selected = new DerivedProperty( [ screenIndexProperty ], function( screenIndex ) {
+      return screenIndex === screens.indexOf( screen );
     } );
     var buttonModel = new PushButtonModel( {
       listener: function() {
-        sim.screenIndex = sim.screens.indexOf( screen );
+        screenIndexProperty.value = screens.indexOf( screen );
       }
     } );
     this.addInputListener( new ButtonListener( buttonModel ) );
@@ -81,9 +85,9 @@ define( function( require ) {
     this.addChild( darkenHighlight );
     this.addChild( overlay );
 
-    this.multilink = new Multilink( [ selected, buttonModel.downProperty, buttonModel.overProperty, sim.lookAndFeel.navigationBarFillProperty ], function update() {
+    this.multilink = new Multilink( [ selected, buttonModel.downProperty, buttonModel.overProperty, lookAndFeel.navigationBarFillProperty ], function update() {
 
-      var useDarkenHighlights = sim.lookAndFeel.navigationBarFill !== 'black';
+      var useDarkenHighlights = lookAndFeel.navigationBarFill !== 'black';
 
       // Color match yellow with the PhET Logo
       var selectedTextColor = useDarkenHighlights ? 'black' : '#f2e916';
