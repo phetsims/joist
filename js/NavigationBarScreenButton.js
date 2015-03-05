@@ -62,34 +62,37 @@ define( function( require ) {
     overlay.centerX = box.centerX;
     overlay.y = box.y;
 
-    var normalHighlight = new HighlightNode( overlay.width + 4, overlay.height, {
+    // Make things brighter when against a dark background
+    var brightenHighlight = new HighlightNode( overlay.width + 4, overlay.height, {
       centerX: box.centerX,
       whiteHighlight: true,
       pickable: false
     } );
-    var invertedHighlight = new HighlightNode( overlay.width + 4, overlay.height, {
+
+    // Make things darker when against a light background
+    var darkenHighlight = new HighlightNode( overlay.width + 4, overlay.height, {
       centerX: box.centerX,
       whiteHighlight: false,
       pickable: false
     } );
 
     this.addChild( box );
-    this.addChild( normalHighlight );
-    this.addChild( invertedHighlight );
+    this.addChild( brightenHighlight );
+    this.addChild( darkenHighlight );
     this.addChild( overlay );
 
     this.multilink = new Multilink( [ selected, buttonModel.downProperty, buttonModel.overProperty, sim.lookAndFeel.navigationBarFillProperty ], function update() {
 
-      var useInvertedColors = sim.lookAndFeel.navigationBarFill !== 'black';
+      var useDarkenHighlights = sim.lookAndFeel.navigationBarFill !== 'black';
 
       // Color match yellow with the PhET Logo
-      var selectedTextColor = useInvertedColors ? 'black' : '#f2e916';
-      var unselectedTextColor = useInvertedColors ? 'gray' : 'white';
+      var selectedTextColor = useDarkenHighlights ? 'black' : '#f2e916';
+      var unselectedTextColor = useDarkenHighlights ? 'gray' : 'white';
 
       text.fill = selected.get() ? selectedTextColor : unselectedTextColor;
       box.opacity = selected.get() ? 1.0 : buttonModel.down ? 0.65 : 0.5;
-      normalHighlight.visible = !useInvertedColors && ( buttonModel.over || buttonModel.down );
-      invertedHighlight.visible = useInvertedColors && ( buttonModel.over || buttonModel.down );
+      brightenHighlight.visible = !useDarkenHighlights && ( buttonModel.over || buttonModel.down );
+      darkenHighlight.visible = useDarkenHighlights && ( buttonModel.over || buttonModel.down );
     } );
   }
 

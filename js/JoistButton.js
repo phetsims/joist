@@ -20,7 +20,7 @@ define( function( require ) {
 
   /**
    * @param {Node} content - the scenery node to render as the content of the button
-   * @param {Property.<boolean>} useInvertedColorsProperty
+   * @param {LookAndFeel} lookAndFeel
    * @param {Object} [options] Unused in client code.
    * @constructor
    */
@@ -53,12 +53,12 @@ define( function( require ) {
     };
 
     // Highlight against the black background
-    var normalHighlight = createHighlight( true );
+    var brightenHighlight = createHighlight( true );
 
     // Highlight against the white background
-    var invertedHighlight = createHighlight( false );
+    var darkenHighlight = createHighlight( false );
 
-    Node.call( this, { children: [ content, normalHighlight, invertedHighlight ] } );
+    Node.call( this, { children: [ content, brightenHighlight, darkenHighlight ] } );
 
     // Button interactions
     var interactionStateProperty = new PushButtonInteractionStateProperty( this.buttonModel, {
@@ -69,9 +69,9 @@ define( function( require ) {
 
     // Update the highlights based on whether the button is highlighted and whether it is against a light or dark background.
     Property.multilink( [ interactionStateProperty, lookAndFeel.navigationBarFillProperty ], function( interactionState, navigationBarFill ) {
-      var useInvertedColors = navigationBarFill !== 'black';
-      normalHighlight.visible = !useInvertedColors && (interactionState === 'over' || interactionState === 'pressed');
-      invertedHighlight.visible = useInvertedColors && (interactionState === 'over' || interactionState === 'pressed');
+      var useDarkenHighlight = navigationBarFill !== 'black';
+      brightenHighlight.visible = !useDarkenHighlight && (interactionState === 'over' || interactionState === 'pressed');
+      darkenHighlight.visible = useDarkenHighlight && (interactionState === 'over' || interactionState === 'pressed');
     } );
 
     this.addInputListener( new ButtonListener( this.buttonModel ) );

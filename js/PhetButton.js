@@ -85,10 +85,9 @@ define( function( require ) {
     JoistButton.call( this, icon, sim.lookAndFeel, options );
 
     Property.multilink( [ sim.lookAndFeel.navigationBarFillProperty, sim.showHomeScreenProperty ], function( navigationBarFillProperty, showHomeScreen ) {
-      var useInvertedColors = navigationBarFillProperty !== 'black';
-      var invert = ( useInvertedColors && !showHomeScreen );
-      optionsButton.fill = invert ? '#222' : 'white';
-      phetLabel.image = invert ? phetLogoDarker : phetLogo;
+      var backgroundIsWhite = navigationBarFillProperty !== 'black' && !showHomeScreen;
+      optionsButton.fill = backgroundIsWhite ? '#222' : 'white';
+      phetLabel.image = backgroundIsWhite ? phetLogoDarker : phetLogo;
     } );
   }
 
