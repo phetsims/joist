@@ -628,7 +628,7 @@ define( function( require ) {
       }
 
       if ( sim.options.profiler ) {
-        sim.profiler = new Profiler( sim );
+        sim.profiler = new Profiler();
       }
 
       // place the rAF *before* the render() to assure as close to 60fps with the setTimeout fallback.

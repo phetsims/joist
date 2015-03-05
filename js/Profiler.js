@@ -19,11 +19,9 @@ define( function( require ) {
 
   /**
    * Construct a Profiler
-   * @param {Sim} sim the main sim
    * @constructor
    */
-  function Profiler( sim ) {
-    this.sim = sim;
+  function Profiler() {
 
     // These data structured were chosen to minimize CPU time.
     // TODO: Now that profiler is buried under a query parameter, we could use more sensible/flexible data structures
@@ -44,7 +42,6 @@ define( function( require ) {
       this.frameCount++;
     },
     frameEnded: function() {
-      var sim = this.sim;
 
       var timeBetweenFrames = this.frameStartTime - this.lastFrameStartTime;
       if ( this.frameCount % 60 === 0 ) {
@@ -77,7 +74,6 @@ define( function( require ) {
         }
         this.allTimes.push( key );
       }
-      sim.frameCount++;
       this.lastFrameStartTime = this.frameStartTime;
     }
   } );
