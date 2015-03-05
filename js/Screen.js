@@ -20,7 +20,7 @@ define( function( require ) {
 
   /**
    * @param {string} name
-   * @param {Node} homeScreenIcon optimal size is 548x373, will be scaled by HomeScreen
+   * @param {Node} homeScreenIcon optimal size is 548x373, will be scaled by HomeScreenView
    * @param {function} createModel
    * @param {function} createView
    * @param {Object} [options]

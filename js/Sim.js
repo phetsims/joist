@@ -16,7 +16,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var NavigationBar = require( 'JOIST/NavigationBar' );
-  var HomeScreen = require( 'JOIST/HomeScreen' );
+  var HomeScreenView = require( 'JOIST/HomeScreenView' );
   var Util = require( 'SCENERY/util/Util' );
   var Display = require( 'SCENERY/display/Display' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -38,7 +38,7 @@ define( function( require ) {
   var LookAndFeel = require( 'JOIST/LookAndFeel' );
 
   // initial dimensions of the navigation bar, sized for Mobile Safari
-  var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreen.LAYOUT_BOUNDS.width, 40 );
+  var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
 
   /**
    * For showing ScreenView layoutBounds with 'dev' query parameter.
@@ -366,7 +366,7 @@ define( function( require ) {
 
     // Multi-screen sims get a home screen.
     if ( screens.length > 1 ) {
-      sim.homeScreen = new HomeScreen( sim, {
+      sim.homeScreen = new HomeScreenView( sim, {
         warningNode: options.homeScreenWarningNode,
         showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame
       } );
@@ -575,7 +575,7 @@ define( function( require ) {
     resize: function( width, height ) {
       var sim = this;
 
-      var scale = Math.min( width / HomeScreen.LAYOUT_BOUNDS.width, height / HomeScreen.LAYOUT_BOUNDS.height );
+      var scale = Math.min( width / HomeScreenView.LAYOUT_BOUNDS.width, height / HomeScreenView.LAYOUT_BOUNDS.height );
 
       this.barrierRectangle.rectWidth = width / scale;
       this.barrierRectangle.rectHeight = height / scale;

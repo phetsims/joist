@@ -33,8 +33,8 @@ define( function( require ) {
   var TITLE_FONT_FAMILY = 'Century Gothic, Futura';
   var LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
 
-  function HomeScreen( sim, options ) {
-    var homeScreen = this;
+  function HomeScreenView( sim, options ) {
+    var homeScreenView = this;
 
     options = _.extend( {
       showSmallHomeScreenIconFrame: false,
@@ -60,7 +60,7 @@ define( function( require ) {
 
     //Keep track of which screen is highlighted so the same screen can remain highlighted even if nodes are replaced (say when one grows larger or smaller)
     var highlightedScreenIndexProperty = new Property( -1, {
-      propertyID: 'sim.homeScreen.highlightedScreenIndexProperty'
+      propertyID: 'sim.homeScreenView.highlightedScreenIndexProperty'
     } );
 
     var screenChildren = _.map( sim.screens, function( screen ) {
@@ -204,7 +204,7 @@ define( function( require ) {
     } );
 
     var center = new Node( { y: 170 } );
-    homeScreen.addChild( center );
+    homeScreenView.addChild( center );
     sim.simModel.screenIndexProperty.link( function( screenIndex ) {
 
       //Space the icons out more if there are fewer, so they will be spaced nicely
@@ -215,7 +215,7 @@ define( function( require ) {
 
       var icons = _.map( screenChildren, function( screenChild ) {return screenChild.index === screenIndex ? screenChild.large : screenChild.small;} );
       center.children = [ new HBox( { spacing: spacing, children: icons, align: 'top', resize: false } ) ];
-      center.centerX = homeScreen.layoutBounds.width / 2;
+      center.centerX = homeScreenView.layoutBounds.width / 2;
     } );
 
     //Only show the full screen button on supported platforms
@@ -249,12 +249,12 @@ define( function( require ) {
     }
   }
 
-  return inherit( ScreenView, HomeScreen, {
+  return inherit( ScreenView, HomeScreenView, {
       layoutWithScale: function( scale, width, height ) {
-        HomeScreen.prototype.layout.call( this, width, height );
+        HomeScreenView.prototype.layout.call( this, width, height );
 
         //Position the phetButton.
-        //It is tricky since it is in the coordinate frame of the HomeScreen (which is a ScreenView, and hence translated and scaled)
+        //It is tricky since it is in the coordinate frame of the HomeScreenView (which is a ScreenView, and hence translated and scaled)
         //We want to match its location with the location in the NavigationBar
         this.phetButton.right = (width - PhetButton.HORIZONTAL_INSET) / scale;
         this.phetButton.bottom = (height - PhetButton.VERTICAL_INSET) / scale;
