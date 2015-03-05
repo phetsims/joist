@@ -139,7 +139,6 @@ define( function( require ) {
     return bubble;
   };
 
-  //TODO: The popup menu should scale with the size of the screen
   function PhetMenu( sim, options ) {
 
     //Only show certain features for PhET Sims, such as links to our website
