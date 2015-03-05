@@ -27,10 +27,9 @@ define( function( require ) {
    * @param {Dimension2} barSize initial dimensions of the navigation bar
    * @param {Sim} sim
    * @param {Screen[]} screens
-   * @param {PropertySet} model see joist.Sim
    * @constructor
    */
-  function NavigationBar( barSize, sim, screens, model ) {
+  function NavigationBar( barSize, sim, screens ) {
 
     var navigationBar = this;
     this.screens = screens;
@@ -74,7 +73,7 @@ define( function( require ) {
       this.addChild( this.buttonHBox );
 
       //add the home button
-      this.homeButton = new HomeButton( 'white', 'gray', '#222', '#444', sim.lookAndFeel, model );
+      this.homeButton = new HomeButton( 'white', 'gray', '#222', '#444', sim.lookAndFeel, sim );
       this.addChild( this.homeButton );
 
       // if the branding specifies to show "adapted from PhET" in the navbar, show it here

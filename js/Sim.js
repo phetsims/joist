@@ -361,7 +361,7 @@ define( function( require ) {
       sim.homeScreen = null;
     }
 
-    sim.navigationBar = new NavigationBar( NAVIGATION_BAR_SIZE, sim, screens, sim );
+    sim.navigationBar = new NavigationBar( NAVIGATION_BAR_SIZE, sim, screens );
 
     this.updateBackground = function() {
       sim.lookAndFeel.backgroundColor = sim.currentScreen ?
