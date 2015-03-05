@@ -345,6 +345,7 @@ define( function( require ) {
 
     // This model represents where the simulation is, whether it is on the home screen or a screen, and which screen it
     // is on or is highlighted in the homescreen
+    // TODO: Can these properties be moved into the main PropertySet declaration?
     sim.simModel = new PropertySet( {
       showHomeScreen: showHomeScreen,
       screenIndex: options.screenIndex || 0
@@ -357,6 +358,9 @@ define( function( require ) {
         showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame
       } );
       sim.homeScreen.initializeModelAndView();
+    }
+    else {
+      sim.homeScreen = null;
     }
 
     sim.navigationBar = new NavigationBar( NAVIGATION_BAR_SIZE, sim, screens, sim.simModel );
@@ -392,7 +396,7 @@ define( function( require ) {
     // Choose the strategy for switching screens.  See options.screenDisplayStrategy documentation above
     if ( options.screenDisplayStrategy === 'setVisible' ) {
 
-      if ( screens.length > 1 ) {
+      if ( sim.homeScreen ) {
         sim.rootNode.addChild( sim.homeScreen.view );
       }
       _.each( screens, function( screen ) {
@@ -401,7 +405,7 @@ define( function( require ) {
       } );
       sim.rootNode.addChild( sim.navigationBar );
       sim.simModel.multilink( [ 'screenIndex', 'showHomeScreen' ], function( screenIndex, showHomeScreen ) {
-        if ( sim.homeScreen.view ) {
+        if ( sim.homeScreen ) {
           sim.homeScreen.view.setVisible( showHomeScreen );
         }
         for ( var i = 0; i < screens.length; i++ ) {
@@ -452,7 +456,7 @@ define( function( require ) {
           sim.rootNode.insertChild( idx, sim.homeScreen.view ); // same place in tree, to preserve nodes in front or behind
         }
         else {
-          if ( sim.homeScreen.view && sim.rootNode.isChild( sim.homeScreen.view ) ) {
+          if ( sim.homeScreen && sim.rootNode.isChild( sim.homeScreen.view ) ) {
 
             // place the view / navbar at the same index as the homescreen if possible
             idx = sim.rootNode.indexOfChild( sim.homeScreen.view );
@@ -573,7 +577,7 @@ define( function( require ) {
       // Resize the layer with all of the dialogs, etc.
       sim.topLayer.setScaleMagnitude( scale );
 
-      if ( sim.homeScreen.view ) {
+      if ( sim.homeScreen ) {
         sim.homeScreen.view.layoutWithScale( scale, width, height );
       }
 
