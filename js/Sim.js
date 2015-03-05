@@ -575,9 +575,7 @@ define( function( require ) {
       // Resize the layer with all of the dialogs, etc.
       sim.topLayer.setScaleMagnitude( scale );
 
-      if ( sim.homeScreen ) {
-        sim.homeScreen.view.layoutWithScale( scale, width, height );
-      }
+      sim.homeScreen && sim.homeScreen.view.layoutWithScale( scale, width, height );
 
       // Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
 
