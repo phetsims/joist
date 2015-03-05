@@ -874,19 +874,22 @@ define( function( require ) {
 
     // For save/load
     getState: function() {
-      var state = {};
+      var state = {
+        showHomeScreen: this.showHomeScreen,
+        screenIndex: this.screenIndex
+      };
       for ( var i = 0; i < this.screens.length; i++ ) {
         state[ 'screen' + i ] = this.screens[ i ].getState();
       }
-      //TODO: save the state of the Sim PropertySet
       return state;
     },
 
     setState: function( state ) {
+      this.showHomeScreen = state.showHomeScreen;
+      this.screenIndex = state.screenIndex;
       for ( var i = 0; i < this.screens.length; i++ ) {
         this.screens[ i ].setState( state[ 'screen' + i ] );
       }
-      //TODO: restore the state of the Sim PropertySet
     },
 
     getStateJSON: function() {

@@ -106,6 +106,12 @@ define( function( require ) {
       this.initializeModel();
       this.initializeView();
     },
+    getState: function() {
+      return {
+        model: this.model.getState ? this.model.getState() : {},
+        view: this.view.getState ? this.view.getState() : {}
+      };
+    },
 
     getAPI: function( route ) {
       return {
