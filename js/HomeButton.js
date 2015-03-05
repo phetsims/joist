@@ -13,7 +13,13 @@ define( function( require ) {
   var JoistButton = require( 'JOIST/JoistButton' );
   var Property = require( 'AXON/Property' );
 
-  function HomeButton( lookAndFeel, model, options ) {
+  /**
+   * @param {LookAndFeel} lookAndFeel
+   * @param {function} showHomeScreen
+   * @param {object} [options]
+   * @constructor
+   */
+  function HomeButton( lookAndFeel, showHomeScreen, options ) {
 
     var homeIcon = new FontAwesomeNode( 'home', {
       scale: 0.75
@@ -22,9 +28,7 @@ define( function( require ) {
       highlightExtensionWidth: 4,
 
       // When pressed, take the user to the home screen.
-      listener: function() {
-        model.showHomeScreen = true;
-      },
+      listener: showHomeScreen,
       textDescription: 'Home Screen: Button',
       componentID: 'homeButton'
     }, options );

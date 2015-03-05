@@ -34,7 +34,7 @@ define( function( require ) {
    * @param {string} name - The name of the simulation
    * @param {string} version - The version of the simulation
    * @param {string} credits - The credits for the simulation, or falsy to show no credits
-   * @param {Brand} Brand?
+   * @param {Brand} Brand
    * @constructor
    */
   function AboutDialog( name, version, credits, Brand ) {

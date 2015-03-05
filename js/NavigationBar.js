@@ -73,7 +73,9 @@ define( function( require ) {
       this.addChild( this.buttonHBox );
 
       //add the home button
-      this.homeButton = new HomeButton( sim.lookAndFeel, sim );
+      this.homeButton = new HomeButton( sim.lookAndFeel, function() {
+        sim.showHomeScreen = true;
+      } );
       this.addChild( this.homeButton );
 
       // if the branding specifies to show "adapted from PhET" in the navbar, show it here
