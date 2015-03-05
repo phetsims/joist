@@ -122,6 +122,14 @@ define( function( require ) {
     // override rootRenderer using query parameter, see #221 and #184
     options.rootRenderer = phet.chipper.getQueryParameter( 'rootRenderer' ) || options.rootRenderer;
 
+    //Default values are to show the home screen with the 1st screen selected
+    var showHomeScreen = ( _.isUndefined( options.showHomeScreen ) ) ? true : options.showHomeScreen;
+
+    //If there is only one screen, do not show the home screen
+    if ( screens.length === 1 ) {
+      showHomeScreen = false;
+    }
+
     this.options = options; // @private store this for access from prototype functions, assumes that it won't be changed later
     this.api = this.options.api;
 
@@ -338,14 +346,6 @@ define( function( require ) {
     window.phet.joist.makeRandomSlowness = function() {
       window.setInterval( function() { sleep( Math.ceil( 100 + Math.random() * 200 ) ); }, Math.ceil( 100 + Math.random() * 200 ) );
     };
-
-    //Default values are to show the home screen with the 1st screen selected
-    var showHomeScreen = ( _.isUndefined( options.showHomeScreen ) ) ? true : options.showHomeScreen;
-
-    //If there is only one screen, do not show the home screen
-    if ( screens.length === 1 ) {
-      showHomeScreen = false;
-    }
 
     sim.screens = screens;
 
