@@ -202,7 +202,7 @@ define( function( require ) {
       },
       {
         text: settingsString,
-        present: fase,
+        present: false,
         callback: function() {
           var settingsDialog = new SettingsDialog( sim.showPointersProperty );
 
