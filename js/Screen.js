@@ -47,12 +47,46 @@ define( function( require ) {
     this.navigationBarIcon = options.navigationBarIcon;
     this.createModel = createModel;
     this.createView = createView;
+
+    // Construction of the model and view are delayed and controlled to enable features like
+    // a) faster loading when only loading certain screens
+    // b) showing a loading progress bar <not implemented>
+    this._model = null;
+    this._view = null;
   }
 
   Screen.HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 );
   Screen.NAVBAR_ICON_SIZE = new Dimension2( 147, 100 );
 
   return inherit( PropertySet, Screen, {
+
+    // Returns the model (if it has been constructed)
+    get model() {
+      assert && assert( this._model, 'Model has not yet been constructed' );
+      return this._model;
+    },
+
+    // Returns the view (if it has been constructed)
+    get view() {
+      assert && assert( this._view, 'View has not yet been constructed' );
+      return this._view;
+    },
+
+    initializeModel: function() {
+      assert && assert( this._model === null, 'there was already a model' );
+      this._model = this.createModel();
+    },
+
+    initializeView: function() {
+      assert && assert( this._view === null, 'there was already a view' );
+      this._view = this.createView( this.model );
+    },
+
+    initializeModelAndView: function() {
+      this.initializeModel();
+      this.initializeView();
+    },
+    
     getAPI: function( route ) {
       return {
         model: this.model.getAPI( route + '.model' ),

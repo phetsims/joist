@@ -397,11 +397,8 @@ define( function( require ) {
     // Instantiate the screens. Currently this is done eagerly, but this pattern leaves open the door for loading things
     // in the background.
     _.each( screens, function( screen ) {
-
       screen.link( 'backgroundColor', sim.updateBackground );
-
-      screen.model = screen.createModel();
-      screen.view = screen.createView( screen.model );
+      screen.initializeModelAndView();
 
       // Show the screen's layoutBounds
       if ( phet.chipper.getQueryParameter( 'dev' ) ) {
