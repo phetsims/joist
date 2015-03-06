@@ -141,6 +141,7 @@ define( function( require ) {
 
     this.options = options; // @private store this for access from prototype functions, assumes that it won't be changed later
     this.api = this.options.api;
+    this.apiRoutes = this.options.apiRoutes;
 
     PropertySet.call( this, {
 
