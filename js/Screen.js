@@ -117,13 +117,6 @@ define( function( require ) {
         model: this.model.getState ? this.model.getState() : {},
         view: this.view.getState ? this.view.getState() : {}
       };
-    },
-
-    getAPI: function( route ) {
-      return {
-        model: this.model.getAPI( route + '.model' ),
-        view: this.view.getAPI( route + '.view' )
-      };
     }
   } );
 } );

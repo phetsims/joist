@@ -133,7 +133,7 @@ define( function( require ) {
       } );
       options.screenIndex = 0;
     }
-    
+
     //If there is only one screen, do not show the home screen
     if ( screens.length === 1 ) {
       showHomeScreen = false;
@@ -926,14 +926,6 @@ define( function( require ) {
       var dataURL = canvas.toDataURL( [ 'image/png' ] );
 
       return dataURL;
-    },
-
-    getAPI: function( route ) {
-      var api = {
-        // TODO: Home screen API
-        //homeScreen: this.homeScreen.getAPI()//TODO: Handle single-screen sims
-      };
-      return api;
     }
   } );
 } );
