@@ -894,7 +894,17 @@ define( function( require ) {
     },
 
     getStateJSON: function() {
-      return JSON.stringify( this.getState(), SimJSON.replacer );
+      return JSON.stringify( this.getState(), SimJSON.replacer, 2 );
+    },
+
+    // Assuming that together.js API features are enabled, return the state for this screen
+    get togetherState() {
+      return JSON.stringify( phet.together.getState( this ), SimJSON.replacer, 2 );
+    },
+
+    set togetherState( stateString ) {
+      var state = JSON.parse( stateString, SimJSON.reviver );
+      phet.together.setState( this, state );
     },
 
     getScreenshotDataURL: function() {
