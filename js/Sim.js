@@ -100,7 +100,7 @@ define( function( require ) {
       showSaveAndLoad: false,
 
       // If true, there will be a border shown around the home screen icons.  Use this option if the home screen icons
-      // have the same color as the backrgound, as in Color Vision.
+      // have the same color as the background, as in Color Vision.
       showSmallHomeScreenIconFrame: false,
 
       // Whether accessibility features are enabled or not.
