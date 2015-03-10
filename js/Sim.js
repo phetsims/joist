@@ -55,6 +55,9 @@ define( function( require ) {
     // globals will be attached to window.phet.joist
     window.phet.joist = window.phet.joist || {};
 
+    // If together does not exist by now (from preloading), mark it as null so that code like together && ... won't error
+    window.together = window.together || null;
+
     options = _.extend( {
 
       // whether to show the home screen, or go immediately to the screen indicated by screenIndex
