@@ -14,12 +14,12 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
 
   /**
-   * @param {LookAndFeel} lookAndFeel
+   * @param {Property.<string>} navigationBarFillProperty - the color of the navbar, as a string.
    * @param {function} showHomeScreen
    * @param {object} [options]
    * @constructor
    */
-  function HomeButton( lookAndFeel, showHomeScreen, options ) {
+  function HomeButton( navigationBarFillProperty, showHomeScreen, options ) {
 
     var homeIcon = new FontAwesomeNode( 'home', {
       scale: 0.75
@@ -32,9 +32,9 @@ define( function( require ) {
       textDescription: 'Home Screen: Button',
       componentID: 'homeButton'
     }, options );
-    JoistButton.call( this, homeIcon, lookAndFeel, options );
+    JoistButton.call( this, homeIcon, navigationBarFillProperty, options );
 
-    Property.multilink( [ this.interactionStateProperty, lookAndFeel.navigationBarFillProperty ], function( interactionState, navigationBarFill ) {
+    Property.multilink( [ this.interactionStateProperty, navigationBarFillProperty ], function( interactionState, navigationBarFill ) {
       if ( navigationBarFill === 'black' ) {
         homeIcon.fill = interactionState === 'pressed' ? 'gray' : 'white';
       }

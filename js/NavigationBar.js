@@ -60,20 +60,20 @@ define( function( require ) {
 
       //Create buttons once so we can get their dimensions
       var buttons = _.map( screens, function( screen ) {
-        return new NavigationBarScreenButton( sim.lookAndFeel, sim.screenIndexProperty, sim.screens, screen, navigationBar.navBarHeight, 0 );
+        return new NavigationBarScreenButton( sim.lookAndFeel.navigationBarFillProperty, sim.screenIndexProperty, sim.screens, screen, navigationBar.navBarHeight, 0 );
       } );
       var maxWidth = Math.max( 50, _.max( buttons, function( button ) {return button.width;} ).width );
 
       //Create buttons again with equivalent sizes
       buttons = _.map( screens, function( screen ) {
-        return new NavigationBarScreenButton( sim.lookAndFeel, sim.screenIndexProperty, sim.screens, screen, navigationBar.navBarHeight, maxWidth );
+        return new NavigationBarScreenButton( sim.lookAndFeel.navigationBarFillProperty, sim.screenIndexProperty, sim.screens, screen, navigationBar.navBarHeight, maxWidth );
       } );
 
       this.buttonHBox = new HBox( { children: buttons, spacing: 4 } );
       this.addChild( this.buttonHBox );
 
       //add the home button
-      this.homeButton = new HomeButton( sim.lookAndFeel, function() {
+      this.homeButton = new HomeButton( sim.lookAndFeel.navigationBarFillProperty, function() {
         sim.showHomeScreen = true;
       } );
       this.addChild( this.homeButton );

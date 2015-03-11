@@ -20,11 +20,11 @@ define( function( require ) {
 
   /**
    * @param {Node} content - the scenery node to render as the content of the button
-   * @param {LookAndFeel} lookAndFeel
+   * @param {Property.<string>} navigationBarFillProperty - the color of the navbar, as a string.
    * @param {Object} [options] Unused in client code.
    * @constructor
    */
-  function JoistButton( content, lookAndFeel, options ) {
+  function JoistButton( content, navigationBarFillProperty, options ) {
 
     options = _.extend( {
       cursor: 'pointer', // {string}
@@ -68,7 +68,7 @@ define( function( require ) {
     this.interactionStateProperty = interactionStateProperty;//@protected
 
     // Update the highlights based on whether the button is highlighted and whether it is against a light or dark background.
-    Property.multilink( [ interactionStateProperty, lookAndFeel.navigationBarFillProperty ], function( interactionState, navigationBarFill ) {
+    Property.multilink( [ interactionStateProperty, navigationBarFillProperty ], function( interactionState, navigationBarFill ) {
       var useDarkenHighlight = navigationBarFill !== 'black';
       brightenHighlight.visible = !useDarkenHighlight && (interactionState === 'over' || interactionState === 'pressed');
       darkenHighlight.visible = useDarkenHighlight && (interactionState === 'over' || interactionState === 'pressed');

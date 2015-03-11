@@ -82,7 +82,7 @@ define( function( require ) {
     // The icon combines the PhET label and the thre horizontal bars in the right relative positions
     var icon = new Node( { children: [ phetLabel, optionsButton ] } );
 
-    JoistButton.call( this, icon, sim.lookAndFeel, options );
+    JoistButton.call( this, icon, sim.lookAndFeel.navigationBarFillProperty, options );
 
     Property.multilink( [ sim.lookAndFeel.navigationBarFillProperty, sim.showHomeScreenProperty ], function( navigationBarFillProperty, showHomeScreen ) {
       var backgroundIsWhite = navigationBarFillProperty !== 'black' && !showHomeScreen;

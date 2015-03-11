@@ -22,7 +22,7 @@ define( function( require ) {
 
   /**
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
-   * @param {LookAndFeel} lookAndFeel
+   * @param {Property.<string>} navigationBarFillProperty - the color of the navbar, as a string.
    * @param {Property.<number>} screenIndexProperty
    * @param {Sim} sim
    * @param {Array.<Screen>} screens - all of the available sim content screens (excluding the home screen)
@@ -31,7 +31,7 @@ define( function( require ) {
    * @param {number} minWidth
    * @constructor
    */
-  function NavigationBarScreenButton( lookAndFeel, screenIndexProperty, screens, screen, navBarHeight, minWidth ) {
+  function NavigationBarScreenButton( navigationBarFillProperty, screenIndexProperty, screens, screen, navBarHeight, minWidth ) {
     Node.call( this, {
       cursor: 'pointer',
       focusable: true,
@@ -85,9 +85,9 @@ define( function( require ) {
     this.addChild( darkenHighlight );
     this.addChild( overlay );
 
-    this.multilink = new Multilink( [ selected, buttonModel.downProperty, buttonModel.overProperty, lookAndFeel.navigationBarFillProperty ], function update() {
+    this.multilink = new Multilink( [ selected, buttonModel.downProperty, buttonModel.overProperty, navigationBarFillProperty ], function update() {
 
-      var useDarkenHighlights = lookAndFeel.navigationBarFill !== 'black';
+      var useDarkenHighlights = navigationBarFillProperty.value !== 'black';
 
       // Color match yellow with the PhET Logo
       var selectedTextColor = useDarkenHighlights ? 'black' : '#f2e916';
