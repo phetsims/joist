@@ -243,6 +243,7 @@ define( function( require ) {
     // ignore any user input events, and instead fire touch events randomly in an effort to cause an exception
     options.fuzzTouches = !!phet.chipper.getQueryParameter( 'fuzzTouches' );
 
+    // If using arch data streams, send a notification that the sim started.
     var archID = arch && arch.start( 'system', 'sim', 'Sim', 'simStarted', {
         studentId: phet.chipper.getQueryParameter( 'studentId' ),
         options: options,
@@ -500,6 +501,8 @@ define( function( require ) {
     sim.resizeToWindow();
 
     this.trigger0( 'simulationStarted' );
+
+    // Signify the end of simulation startup to arch
     arch && arch.end( archID );
   }
 
