@@ -502,7 +502,7 @@ define( function( require ) {
     sim.resizeToWindow();
 
     arch && arch.end( archID );
-    this.trigger( 'simulationStarted' );
+    this.trigger0( 'simulationStarted' );
   }
 
   return inherit( PropertySet, Sim, {
