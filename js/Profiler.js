@@ -52,7 +52,7 @@ define( function( require ) {
         var averageFrameTime = Math.round( totalTime / this.allTimes.length );
         var averageFPS = Math.round( 1000 / (totalTime / this.allTimes.length) );
 
-        var text = 'avg time: ' + averageFrameTime + ' ms, fps = ' + averageFPS + ', ';
+        var text = '' + averageFPS + ' FPS, ' + averageFrameTime + 'ms/frame, ';
         text = text + this.histogram;
         if ( this.longTimes.length ) {
           text = text + ", +++ = " + this.longTimes;
@@ -75,6 +75,16 @@ define( function( require ) {
         this.allTimes.push( key );
       }
       this.lastFrameStartTime = this.frameStartTime;
+    }
+  }, {
+    start: function( sim ) {
+      var profiler = new Profiler();
+      sim.on( 'frameStarted', function() {
+        profiler.frameStarted();
+      } );
+      sim.on( 'frameCompleted', function() {
+        profiler.frameEnded();
+      } );
     }
   } );
 } );

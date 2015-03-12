@@ -78,10 +78,6 @@ define( function( require ) {
       // a {Node} placed onto the home screen (if available)
       homeScreenWarningNode: null,
 
-      // if true, prints screen initialization time (total, model, view) to the console and displays
-      // profiling information on the screen
-      profiler: false,
-
       // if true, records the scenery input events and sends them to a server that can store them
       recordInputEventLog: false,
 
@@ -225,9 +221,6 @@ define( function( require ) {
     if ( phet.chipper.getQueryParameter( 'showHomeScreen' ) ) {
       options.showHomeScreen = stringToBoolean( phet.chipper.getQueryParameter( 'showHomeScreen' ) );
     }
-
-    // Option for profiling
-    options.profiler = !!phet.chipper.getQueryParameter( 'profiler' );
 
     if ( phet.chipper.getQueryParameter( 'recordInputEventLog' ) ) {
       // enables recording of Scenery's input events, request animation frames, and dt's so the sim can be played back
@@ -631,8 +624,11 @@ define( function( require ) {
         websocket = new WebSocket( 'ws://phet-dev.colorado.edu/some-temporary-url/something', 'scenery-input-events' );
       }
 
-      if ( sim.options.profiler ) {
-        sim.profiler = new Profiler();
+      // Option for profiling
+      // if true, prints screen initialization time (total, model, view) to the console and displays
+      // profiling information on the screen
+      if ( !!phet.chipper.getQueryParameter( 'profiler' ) ) {
+        Profiler.start( sim );
       }
 
       // place the rAF *before* the render() to assure as close to 60fps with the setTimeout fallback.
@@ -640,7 +636,7 @@ define( function( require ) {
       (function animationLoop() {
         var dt, screen;
 
-        sim.profiler && sim.profiler.frameStarted();
+        sim.trigger0( 'frameStarted' );
 
         // increment this before we can have an exception thrown, to see if we are missing frames
         sim.frameCounter++;
@@ -737,9 +733,7 @@ define( function( require ) {
         }
         sim.display.updateDisplay();
 
-        sim.profiler && sim.profiler.frameEnded();
-
-        sim.trigger( 'frameCompleted' );
+        sim.trigger0( 'frameCompleted' );
       })();
 
       // If state was specified, load it now
