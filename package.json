@@ -2,7 +2,6 @@
   "name": "joist",
   "version": "0.0.0",
   "license": "MIT",
-  "phetLibs": "joist assert axon brand chipper dot kite phetcommon phetcore scenery scenery-phet sherpa sun",
   "repository": {
     "type": "git",
     "url": "https://github.com/phetsims/joist.git"
