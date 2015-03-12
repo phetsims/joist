@@ -186,9 +186,7 @@ define( function( require ) {
       'Sim must be launched using SimLauncher, see https://github.com/phetsims/joist/issues/142' );
 
     // Do this after this.api is set, since it is used
-    if ( phet.together ) {
-      phet.together.initializeTogether( this );
-    }
+    together && together.initializeTogether( this );
 
     this.destroyed = false;
 
@@ -501,8 +499,8 @@ define( function( require ) {
     $( window ).resize( function() { sim.resizeToWindow(); } );
     sim.resizeToWindow();
 
-    arch && arch.end( archID );
     this.trigger0( 'simulationStarted' );
+    arch && arch.end( archID );
   }
 
   return inherit( PropertySet, Sim, {
@@ -896,12 +894,12 @@ define( function( require ) {
 
     // Assuming that together.js API features are enabled, return the state for this screen
     get togetherState() {
-      return JSON.stringify( phet.together.getState( this ), SimJSON.replacer, 2 );
+      return JSON.stringify( together.getState( this ), SimJSON.replacer, 2 );
     },
 
+    // Assuming that together.js API features are enabled, set the state for this screen
     set togetherState( stateString ) {
-      var state = JSON.parse( stateString, SimJSON.reviver );
-      phet.together.setState( this, state );
+      together.setState( this, JSON.parse( stateString, SimJSON.reviver ) );
     },
 
     getScreenshotDataURL: function() {
