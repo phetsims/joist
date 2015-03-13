@@ -26,6 +26,7 @@ define( function( require ) {
   var Brand = require( 'BRAND/Brand' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var Input = require( 'SCENERY/input/Input' );
+  var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
 
   // strings
   var optionsString = require( 'string!JOIST/menuItem.options' );
@@ -233,7 +234,7 @@ define( function( require ) {
         text: screenshotString,
         present: phet.chipper.getQueryParameter( 'screenshot' ) && !Platform.ie9, // TODO is this going to be implemented for IE9? see issue #212
         callback: function() {
-          var dataURL = sim.getScreenshotDataURL();
+          var dataURL = ScreenshotGenerator.generateScreenshot( sim );
 
           // if we have FileSaver support
           if ( window.Blob && !!new window.Blob() ) {

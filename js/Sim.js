@@ -31,9 +31,9 @@ define( function( require ) {
   var Profiler = require( 'JOIST/Profiler' );
   var FocusLayer = require( 'SCENERY/accessibility/FocusLayer' );
   var AriaSpeech = require( 'SCENERY/accessibility/AriaSpeech' );
-  var CanvasContextWrapper = require( 'SCENERY/util/CanvasContextWrapper' );
   var Input = require( 'SCENERY/input/Input' );
   var LookAndFeel = require( 'JOIST/LookAndFeel' );
+  var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
 
   // initial dimensions of the navigation bar, sized for Mobile Safari
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
@@ -188,6 +188,9 @@ define( function( require ) {
 
     assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
     window.phet.joist.sim = sim;
+
+    // Make ScreenshotGenerator available globally so it can be used in preload files such as together.
+    window.phet.joist.ScreenshotGenerator = ScreenshotGenerator;
 
     sim.name = name;
     sim.version = version();
@@ -858,37 +861,6 @@ define( function( require ) {
       this.destroyed = true;
       var simDiv = this.display.domElement;
       simDiv.parentNode && simDiv.parentNode.removeChild( simDiv );
-    },
-
-    getScreenshotDataURL: function() {
-
-      var sim = this;
-
-      // set up our Canvas with the correct background color
-      var canvas = document.createElement( 'canvas' );
-      canvas.width = sim.display.width;
-      canvas.height = sim.display.height;
-      var context = canvas.getContext( '2d' );
-      context.fillStyle = sim.display.domElement.style.backgroundColor;
-      context.fillRect( 0, 0, canvas.width, canvas.height );
-      var wrapper = new CanvasContextWrapper( canvas, context );
-
-      // only render the desired parts to the Canvas (i.e. not the overlay and menu that are visible)
-      if ( sim.showHomeScreen ) {
-        sim.homeScreen.view.renderToCanvasSubtree( wrapper, sim.homeScreen.view.getLocalToGlobalMatrix() );
-      }
-      else {
-        var view = sim.screens[ sim.screenIndex ].view;
-        var navbar = sim.navigationBar;
-
-        view.renderToCanvasSubtree( wrapper, view.getLocalToGlobalMatrix() );
-        navbar.renderToCanvasSubtree( wrapper, navbar.getLocalToGlobalMatrix() );
-      }
-
-      // get the data URL in PNG format
-      var dataURL = canvas.toDataURL( [ 'image/png' ] );
-
-      return dataURL;
     }
   } );
 } );
