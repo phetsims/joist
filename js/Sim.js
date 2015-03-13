@@ -871,6 +871,7 @@ define( function( require ) {
       simDiv.parentNode && simDiv.parentNode.removeChild( simDiv );
     },
 
+    // TODO: Can this be deleted?
     // For save/load
     getState: function() {
       var state = {
@@ -883,6 +884,7 @@ define( function( require ) {
       return state;
     },
 
+    // TODO: Can this be deleted?
     setState: function( state ) {
       this.showHomeScreen = state.showHomeScreen;
       this.screenIndex = state.screenIndex;
