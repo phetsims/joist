@@ -23,7 +23,6 @@ define( function( require ) {
   var Plane = require( 'SCENERY/nodes/Plane' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var FullScreen = require( 'JOIST/FullScreen' );
-  var SimJSON = require( 'JOIST/SimJSON' );
   var Brand = require( 'BRAND/Brand' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var Input = require( 'SCENERY/input/Input' );
@@ -226,20 +225,6 @@ define( function( require ) {
                     '&url=' + encodeURIComponent( window.location.href );
           var reportWindow = window.open( url, '_blank' );
           reportWindow.focus();
-        }
-      },
-      {
-
-        //One way to allow the user to "save" the state is with a URL.
-        //TODO: This does not preserve other query parameters, it probably should
-        text: 'Navigate to Save URL',
-        present: options.showSaveAndLoad,
-        callback: function() {
-          var state = sim.getState();
-
-          //See http://stackoverflow.com/questions/5817505/is-there-any-method-to-get-url-without-query-string-in-java-script
-          var url = [ location.protocol, '//', location.host, location.pathname ].join( '' ) + '?state=' + encodeURIComponent( JSON.stringify( state, SimJSON.replacer ) );
-          window.location.href = url;
         }
       },
 

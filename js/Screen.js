@@ -110,13 +110,6 @@ define( function( require ) {
     initializeModelAndView: function() {
       this.initializeModel();
       this.initializeView();
-    },
-
-    getState: function() {
-      return {
-        model: this.model.getState ? this.model.getState() : {},
-        view: this.view.getState ? this.view.getState() : {}
-      };
     }
   } );
 } );

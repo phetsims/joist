@@ -27,7 +27,6 @@ define( function( require ) {
   var ObservableArray = require( 'AXON/ObservableArray' );
   var platform = require( 'PHET_CORE/platform' );
   var Timer = require( 'JOIST/Timer' );
-  var SimJSON = require( 'JOIST/SimJSON' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Profiler = require( 'JOIST/Profiler' );
   var FocusLayer = require( 'SCENERY/accessibility/FocusLayer' );
@@ -175,9 +174,6 @@ define( function( require ) {
     } );
 
     this.lookAndFeel = new LookAndFeel();
-
-    // Store a reference for API consumers to use, see SimIFrameAPI.js
-    this.SimJSON = SimJSON;
 
     // If converted to JSON, these properties would create a circular reference error, so we must skip this one.
     this.currentScreenProperty.setSendPhetEvents( false );
@@ -737,13 +733,6 @@ define( function( require ) {
         sim.trigger0( 'frameCompleted' );
       })();
 
-      // If state was specified, load it now
-      if ( phet.chipper.getQueryParameter( 'state' ) ) {
-        var stateString = phet.chipper.getQueryParameter( 'state' );
-        var decoded = decodeURIComponent( stateString );
-        sim.setState( JSON.parse( decoded, SimJSON.reviver ) );
-      }
-
       // Communicate sim load (successfully) to joist/tests/test-sims.html
       if ( phet.chipper.getQueryParameter( 'postMessageOnLoad' ) ) {
         window.parent && window.parent.postMessage( JSON.stringify( {
@@ -869,42 +858,6 @@ define( function( require ) {
       this.destroyed = true;
       var simDiv = this.display.domElement;
       simDiv.parentNode && simDiv.parentNode.removeChild( simDiv );
-    },
-
-    // TODO: Can this be deleted?
-    // For save/load
-    getState: function() {
-      var state = {
-        showHomeScreen: this.showHomeScreen,
-        screenIndex: this.screenIndex
-      };
-      for ( var i = 0; i < this.screens.length; i++ ) {
-        state[ 'screen' + i ] = this.screens[ i ].getState();
-      }
-      return state;
-    },
-
-    // TODO: Can this be deleted?
-    setState: function( state ) {
-      this.showHomeScreen = state.showHomeScreen;
-      this.screenIndex = state.screenIndex;
-      for ( var i = 0; i < this.screens.length; i++ ) {
-        this.screens[ i ].setState( state[ 'screen' + i ] );
-      }
-    },
-
-    getStateJSON: function() {
-      return JSON.stringify( this.getState(), SimJSON.replacer, 2 );
-    },
-
-    // Assuming that together.js API features are enabled, return the state for this screen
-    get togetherState() {
-      return JSON.stringify( together.getState( this ), SimJSON.replacer, 2 );
-    },
-
-    // Assuming that together.js API features are enabled, set the state for this screen
-    set togetherState( stateString ) {
-      together.setState( this, JSON.parse( stateString, SimJSON.reviver ) );
     },
 
     getScreenshotDataURL: function() {
