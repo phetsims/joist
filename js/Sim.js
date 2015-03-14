@@ -243,7 +243,7 @@ define( function( require ) {
     options.fuzzTouches = !!phet.chipper.getQueryParameter( 'fuzzTouches' );
 
     // If using arch data streams, send a notification that the sim started.
-    var archID = arch && arch.start( 'system', 'sim', 'Sim', 'simStarted', {
+    var archID = arch && arch.start( 'system', 'sim', 'simStarted', {
         studentId: phet.chipper.getQueryParameter( 'studentId' ),
         options: options,
         simName: sim.name,

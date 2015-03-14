@@ -99,7 +99,7 @@ define( function( require ) {
       // ButtonListener won't fire if a node has appeared under the pointer
       largeScreenButton.addInputListener( {
         down: function() {
-          var archID = arch && arch.start( 'user', 'screenButtons[' + index + ']', 'button', 'down' );
+          var archID = arch && arch.start( 'user', 'screenButtons[' + index + ']', 'down' );
           sim.showHomeScreen = false;
           highlightedScreenIndexProperty.value = -1;
           arch && arch.end( archID );
