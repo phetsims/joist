@@ -9,7 +9,7 @@
  * per repo???  (d) seemed contraindicated since it is under different licensing, but it would be advantageous to develop
  * each sim API with the sim itself, so it needs to have appropriate licensing.
  * Keeping it all consolidated seems like that would make it very easy to identify API changes.
- * Putting it in joist means we don't need to change any sim config files, since everyting imports Joist.
+ * Putting it in joist means we don't need to change any sim config files, since everything already conveniently imports Joist.
  * Let's discuss it.
  *
  * @author Sam Reid (PhET Interactive Simulations)
