@@ -134,6 +134,22 @@ define( function( require ) {
     Vector2: Vector2,
     Slider: Slider,
     PhetButton: PhetButton,
-    MenuItem: MenuItem
+    MenuItem: MenuItem,
+    createSingleScreen: function( screenAPI ) {
+      var singleScreenJoistAPI = {
+        // TODO: Mix in joist components from another source, so they can be easily shared.
+        'sim': { type: Sim },
+        'navigationBar.phetButton': { type: PhetButton },
+        'navigationBar.phetMenu.phetWebsiteButton': { type: MenuItem },
+        'navigationBar.phetMenu.aboutButton': { type: MenuItem },
+        'navigationBar.phetMenu.reportAProblemButton': { type: MenuItem },
+      };
+      for ( var element in screenAPI ) {
+        if ( screenAPI.hasOwnProperty( element ) ) {
+          singleScreenJoistAPI[ element ] = screenAPI[ element ];
+        }
+      }
+      return singleScreenJoistAPI;
+    }
   };
 } );
