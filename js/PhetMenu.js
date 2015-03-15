@@ -51,7 +51,7 @@ define( function( require ) {
   } );
 
   // Creates a menu item that highlights and fires.
-  var createMenuItem = function( text, width, height, separatorBefore, closeCallback, callback, checkedProperty ) {
+  var createMenuItem = function( text, width, height, separatorBefore, closeCallback, callback, checkedProperty, componentID ) {
     // padding between the check and text
     var CHECK_PADDING = 2;
     // offset that includes the checkmark's width and its padding
@@ -82,8 +82,10 @@ define( function( require ) {
       exit: function() { highlight.fill = null; },
     } );
     var fire = function( event ) {
+      var archID = arch && arch.start( 'user', componentID, 'fire' );
       closeCallback( event );
       callback( event );
+      arch && arch.end( archID );
     };
     menuItem.addInputListener( new ButtonListener( {
       fire: fire
@@ -170,6 +172,7 @@ define( function( require ) {
       },
       {
         text: phetWebsiteString,
+        componentID: 'navigationBar.phetMenu.phetWebsiteButton',
         present: isPhETBrand,
         callback: function() {
           var phetWindow = window.open( 'http://phet.colorado.edu', '_blank' );
@@ -226,7 +229,8 @@ define( function( require ) {
                     '&url=' + encodeURIComponent( window.location.href );
           var reportWindow = window.open( url, '_blank' );
           reportWindow.focus();
-        }
+        },
+        componentID: 'navigationBar.phetMenu.reportAProblemButton'
       },
 
       //Feasibility test for capturing screen shots as images
@@ -275,7 +279,8 @@ define( function( require ) {
         separatorBefore: true,
         callback: function() {
           new AboutDialog( sim.name, sim.version, sim.credits, Brand ).show();
-        }
+        },
+        componentID: 'navigationBar.phetMenu.aboutButton'
       },
 
       //About dialog for non-phet sims
@@ -285,7 +290,8 @@ define( function( require ) {
         separatorBefore: false,
         callback: function() {
           new AboutDialog( sim.name, sim.version, sim.credits, Brand ).show();
-        }
+        },
+        componentID: 'navigationBar.phetMenu.aboutButton'
       }
     ];
 
@@ -298,7 +304,7 @@ define( function( require ) {
     // Create the menu items.
     var items = this.items = _.map( keepItemDescriptors, function( itemDescriptor ) {
       return createMenuItem( itemDescriptor.text, maxTextWidth, maxTextHeight, itemDescriptor.separatorBefore,
-        options.closeCallback, itemDescriptor.callback, itemDescriptor.checkedProperty );
+        options.closeCallback, itemDescriptor.callback, itemDescriptor.checkedProperty, itemDescriptor.componentID );
     } );
     var separatorWidth = _.max( items, function( item ) {return item.width;} ).width;
     var itemHeight = _.max( items, function( item ) {return item.height;} ).height;

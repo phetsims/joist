@@ -114,6 +114,11 @@ define( function( require ) {
     parent: Button
   };
 
+  var MenuItem = {
+    name: 'MenuItem',
+    parent: Button
+  };
+
   return {
     Node: Node,
     ResetAllButton: ResetAllButton,
@@ -128,6 +133,7 @@ define( function( require ) {
     Sim: Sim,
     Vector2: Vector2,
     Slider: Slider,
-    PhetButton: PhetButton
+    PhetButton: PhetButton,
+    MenuItem: MenuItem
   };
 } );
