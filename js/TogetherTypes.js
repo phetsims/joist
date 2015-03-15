@@ -146,6 +146,7 @@ define( function( require ) {
       };
       for ( var element in screenAPI ) {
         if ( screenAPI.hasOwnProperty( element ) ) {
+          assert && assert( !singleScreenJoistAPI.hasOwnProperty( element ), 'key collision' );
           singleScreenJoistAPI[ element ] = screenAPI[ element ];
         }
       }
