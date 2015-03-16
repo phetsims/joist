@@ -114,7 +114,7 @@ define( function( require ) {
 
       // THIS IS EXPERIMENTAL, USE AT YOUR OWN PERIL
       // Sim API, to be filled in by individual simulations
-      api: {}
+      togetherAPI: null
     }, options );
 
     // override rootRenderer using query parameter, see #221 and #184
@@ -138,8 +138,7 @@ define( function( require ) {
     }
 
     this.options = options; // @private store this for access from prototype functions, assumes that it won't be changed later
-    this.api = this.options.api;
-    this.apiRoutes = this.options.apiRoutes;
+    this.togetherAPI = this.options.togetherAPI;
 
     PropertySet.call( this, {
 
@@ -243,7 +242,7 @@ define( function( require ) {
     options.fuzzTouches = !!phet.chipper.getQueryParameter( 'fuzzTouches' );
 
     // If using arch data streams, send a notification that the sim started.
-    var archID = arch && arch.start( 'system', 'sim', 'simStarted', {
+    var archID = arch && arch.start( 'model', 'sim', 'simStarted', {
         studentId: phet.chipper.getQueryParameter( 'studentId' ),
         options: options,
         simName: sim.name,
