@@ -30,7 +30,7 @@ define( function( require ) {
       // When pressed, take the user to the home screen.
       listener: showHomeScreen,
       textDescription: 'Home Screen: Button',
-      componentID: 'homeButton'
+      componentID: 'navigationBar.homeButton'
     }, options );
     JoistButton.call( this, homeIcon, navigationBarFillProperty, options );
 

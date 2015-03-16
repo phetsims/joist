@@ -117,6 +117,12 @@ define( function( require ) {
       togetherAPI: null
     }, options );
 
+    this.options = options; // @private store this for access from prototype functions, assumes that it won't be changed later
+
+    // Initialize together soon, since other components downstream such as properties may be used.
+    this.togetherAPI = this.options.togetherAPI;
+    together && together.initializeTogether( this );
+
     // override rootRenderer using query parameter, see #221 and #184
     options.rootRenderer = phet.chipper.getQueryParameter( 'rootRenderer' ) || options.rootRenderer;
 
@@ -136,9 +142,6 @@ define( function( require ) {
     if ( screens.length === 1 ) {
       showHomeScreen = false;
     }
-
-    this.options = options; // @private store this for access from prototype functions, assumes that it won't be changed later
-    this.togetherAPI = this.options.togetherAPI;
 
     PropertySet.call( this, {
 
@@ -170,7 +173,16 @@ define( function( require ) {
       showPointers: !!phet.chipper.getQueryParameter( 'showPointers' ),
 
       showCanvasNodeBounds: !!phet.chipper.getQueryParameter( 'showCanvasNodeBounds' )
+    }, {
+      componentIDMap: {
+        showHomeScreen: 'sim.showHomeScreen',
+        screenIndex: 'sim.screenIndex'
+      }
     } );
+
+    // Together.js has to be registered *after* events are enabled from PropertySet.call above
+    // but before some events are triggered.
+    together && together.simulationPropertiesCreated( this );
 
     this.lookAndFeel = new LookAndFeel();
 
@@ -179,9 +191,6 @@ define( function( require ) {
 
     assert && assert( window.phet.joist.launchCalled,
       'Sim must be launched using SimLauncher, see https://github.com/phetsims/joist/issues/142' );
-
-    // Do this after this.api is set, since it is used
-    together && together.initializeTogether( this );
 
     this.destroyed = false;
 

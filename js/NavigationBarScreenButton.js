@@ -49,7 +49,8 @@ define( function( require ) {
     var buttonModel = new PushButtonModel( {
       listener: function() {
         screenIndexProperty.value = screens.indexOf( screen );
-      }
+      },
+      componentID: screen.navigationBarScreenButtonComponentID
     } );
     this.addInputListener( new ButtonListener( buttonModel ) );
 

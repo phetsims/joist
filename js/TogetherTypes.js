@@ -80,6 +80,10 @@ define( function( require ) {
     name: 'boolean'
   };
 
+  var Number = {
+    name: 'number'
+  };
+
   var Color = {
     name: 'Color'
   };
@@ -156,6 +160,31 @@ define( function( require ) {
           singleScreenJoistAPI[ element ] = screenAPI[ element ];
         }
       }
+      return singleScreenJoistAPI;
+    },
+    createMultipleScreen: function( screenAPIs ) {
+      var singleScreenJoistAPI = {
+
+        // TODO: Factor out shared items from above
+        'sim': { type: Sim },
+        'navigationBar.phetButton': { type: PhetButton },
+        'navigationBar.phetMenu.phetWebsiteButton': { type: MenuItem },
+        'navigationBar.phetMenu.aboutButton': { type: MenuItem },
+        'navigationBar.phetMenu.reportAProblemButton': { type: MenuItem },
+        'sim.screenIndex': { type: property( Number ) },
+        'sim.showHomeScreen': { type: property( Boolean ) },
+        'navigationBar.homeButton': { type: Button }
+      };
+      for ( var i = 0; i < screenAPIs.length; i++ ) {
+        var screenAPI = screenAPIs[ i ];
+        for ( var element in screenAPI ) {
+          if ( screenAPI.hasOwnProperty( element ) ) {
+            assert && assert( !singleScreenJoistAPI.hasOwnProperty( element ), 'key collision' );
+            singleScreenJoistAPI[ element ] = screenAPI[ element ];
+          }
+        }
+      }
+
       return singleScreenJoistAPI;
     }
   };
