@@ -71,6 +71,11 @@ define( function( require ) {
     parent: Button
   };
 
+  var CheckBox = {
+    name: 'CheckBox',
+    parent: Node
+  };
+
   var Boolean = {
     name: 'boolean'
   };
@@ -135,6 +140,7 @@ define( function( require ) {
     Slider: Slider,
     PhetButton: PhetButton,
     MenuItem: MenuItem,
+    CheckBox: CheckBox,
     createSingleScreen: function( screenAPI ) {
       var singleScreenJoistAPI = {
         // TODO: Mix in joist components from another source, so they can be easily shared.
