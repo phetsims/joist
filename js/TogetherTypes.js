@@ -84,6 +84,10 @@ define( function( require ) {
     name: 'number'
   };
 
+  var String = {
+    name: 'String'
+  };
+
   var Color = {
     name: 'Color'
   };
@@ -145,6 +149,8 @@ define( function( require ) {
     PhetButton: PhetButton,
     MenuItem: MenuItem,
     CheckBox: CheckBox,
+    Number: Number,
+    String: String,
     createSingleScreen: function( screenAPI ) {
       var singleScreenJoistAPI = {
         // TODO: Mix in joist components from another source, so they can be easily shared.
