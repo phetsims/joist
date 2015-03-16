@@ -180,10 +180,6 @@ define( function( require ) {
       }
     } );
 
-    // Together.js has to be registered *after* events are enabled from PropertySet.call above
-    // but before some events are triggered.
-    together && together.simulationPropertiesCreated( this );
-
     this.lookAndFeel = new LookAndFeel();
 
     // If converted to JSON, these properties would create a circular reference error, so we must skip this one.
@@ -508,6 +504,10 @@ define( function( require ) {
     sim.resizeToWindow();
 
     this.trigger0( 'simulationStarted' );
+
+    // Together.js has to be registered *after* events are enabled from PropertySet.call above
+    // but before some events are triggered.
+    together && together.simulationStarted( this );
 
     // Signify the end of simulation startup to arch
     arch && arch.end( archID );
