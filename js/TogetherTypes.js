@@ -132,6 +132,16 @@ define( function( require ) {
     parent: Button
   };
 
+  var OnOffSwitch = {
+    name: 'OnOffSwitch',
+    parent: Node
+  };
+
+  var PlayPauseButton = {
+    name: 'PlayPauseButton',
+    parent: Node
+  };
+
   return {
     Node: Node,
     ResetAllButton: ResetAllButton,
@@ -151,6 +161,8 @@ define( function( require ) {
     CheckBox: CheckBox,
     Number: Number,
     String: String,
+    OnOffSwitch: OnOffSwitch,
+    PlayPauseButton: PlayPauseButton,
     createSingleScreen: function( screenAPI ) {
       var singleScreenJoistAPI = {
         // TODO: Mix in joist components from another source, so they can be easily shared.
