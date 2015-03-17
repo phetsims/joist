@@ -103,9 +103,14 @@ define( function( require ) {
   var property = function( type ) {
     return {
       name: 'Property',
-      value: {
-        type: type
-      }
+      valueType: type
+    };
+  };
+
+  var array = function( type ) {
+    return {
+      name: 'Array',
+      elementType: type
     };
   };
 
@@ -169,6 +174,7 @@ define( function( require ) {
     OnOffSwitch: OnOffSwitch,
     PlayPauseButton: PlayPauseButton,
     ToggleButton: ToggleButton,
+    array: array,
     createSingleScreen: function( screenAPI ) {
       var singleScreenJoistAPI = {
         // TODO: Mix in joist components from another source, so they can be easily shared.
