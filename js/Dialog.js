@@ -79,7 +79,7 @@ define( function( require ) {
 
       if ( options.resize ) {
         content.addEventListener( 'bounds', updateTitlePosition );
-        titleNode.addEventListener( 'bounds', updateTitlePosition );
+        titleNode.addEventListener( 'localBounds', updateTitlePosition );
       }
       updateTitlePosition();
     }
