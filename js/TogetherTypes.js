@@ -171,6 +171,8 @@ define( function( require ) {
         'navigationBar.phetMenu.phetWebsiteButton': { type: MenuItem },
         'navigationBar.phetMenu.aboutButton': { type: MenuItem },
         'navigationBar.phetMenu.reportAProblemButton': { type: MenuItem },
+        'sim.screenIndex': { type: property( Number ) },
+        'sim.showHomeScreen': { type: property( Boolean ) }
       };
       for ( var element in screenAPI ) {
         if ( screenAPI.hasOwnProperty( element ) ) {
