@@ -82,12 +82,7 @@ define( function( require ) {
     this.mutate( options );
   }
 
-  return inherit( Node, JoistButton, {
-
-      // Pass through componentID to the buttonModel, where the arch messages are reported.
-      set componentID( id ) {this.buttonModel.componentID = id;},
-      get componentID() {return this.buttonModel.componentID;}
-    },
+  return inherit( Node, JoistButton,
 
     //statics
     {
