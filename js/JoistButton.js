@@ -61,9 +61,7 @@ define( function( require ) {
     Node.call( this, { children: [ content, brightenHighlight, darkenHighlight ] } );
 
     // Button interactions
-    var interactionStateProperty = new PushButtonInteractionStateProperty( this.buttonModel, {
-      propertyID: options.componentID + 'InteractionStateProperty'
-    } );
+    var interactionStateProperty = new PushButtonInteractionStateProperty( this.buttonModel );
 
     this.interactionStateProperty = interactionStateProperty;//@protected
 
