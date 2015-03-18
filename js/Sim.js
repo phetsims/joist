@@ -182,9 +182,6 @@ define( function( require ) {
 
     this.lookAndFeel = new LookAndFeel();
 
-    // If converted to JSON, these properties would create a circular reference error, so we must skip this one.
-    this.currentScreenProperty.setSendPhetEvents( false );
-
     assert && assert( window.phet.joist.launchCalled,
       'Sim must be launched using SimLauncher, see https://github.com/phetsims/joist/issues/142' );
 
