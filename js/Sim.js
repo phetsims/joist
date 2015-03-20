@@ -120,8 +120,12 @@ define( function( require ) {
     this.options = options; // @private store this for access from prototype functions, assumes that it won't be changed later
 
     // Initialize together soon, since other components downstream such as properties may be used.
+    // Many other components use addComponent at the end of their constructor but in this case we must register early
+    // to (a) enable the SimIFrameAPI as soon as possible and (b) to enable subsequent component registrations,
+    // which require the sim to be registered
     this.togetherAPI = this.options.togetherAPI;
-    together && together.initializeTogether( this );
+    this.componentID = 'sim';
+    together && together.addComponent( this );
 
     // override rootRenderer using query parameter, see #221 and #184
     options.rootRenderer = phet.chipper.getQueryParameter( 'rootRenderer' ) || options.rootRenderer;
