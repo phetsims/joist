@@ -70,7 +70,8 @@ define( function( require ) {
     name: 'Faucet',
     parent: DraggableNode,
     events: {
-      'startTapToDispense': 'startTapToDispense'
+      'startTapToDispense': 'startTapToDispense',
+      'endTapToDispense': 'endTapToDispense'
     }
   };
 
