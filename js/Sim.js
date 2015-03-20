@@ -245,8 +245,7 @@ define( function( require ) {
 
     // If using arch data streams, send a notification that the sim started.
     var archID = arch && arch.start( 'model', 'sim', 'simStarted', {
-        studentId: phet.chipper.getQueryParameter( 'studentId' ),
-        options: options,
+        sessionID: phet.chipper.getQueryParameter( 'sessionID' ) || null,
         simName: sim.name,
         simVersion: sim.version,
         url: window.location.href
