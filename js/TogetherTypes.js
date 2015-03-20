@@ -17,8 +17,13 @@
 define( function( require ) {
   'use strict';
 
+  var Object = {
+    name: 'Object',
+    parent: null
+  };
   var Node = {
     name: 'Node',
+    parent: Object,
     visible: {
       type: 'boolean'
     },
@@ -110,19 +115,23 @@ define( function( require ) {
   };
 
   var Boolean = {
-    name: 'boolean'
+    name: 'Boolean',
+    parent: Object
   };
 
   var Number = {
-    name: 'number'
+    name: 'Number',
+    parent: Object
   };
 
   var String = {
-    name: 'String'
+    name: 'String',
+    parent: Object
   };
 
   var Color = {
-    name: 'Color'
+    name: 'Color',
+    parent: Object
   };
 
   // TODO: I would like this to be capitalized since it is a type, but jshint complains
@@ -137,6 +146,7 @@ define( function( require ) {
     return {
       name: 'Property',
       valueType: type,
+      parent: Object,
       events: {
         changed: 'changed'
       }
@@ -152,12 +162,14 @@ define( function( require ) {
   var array = function( type ) {
     return {
       name: 'Array',
+      parent: Object,
       elementType: type
     };
   };
 
   var Sim = {
     name: 'Sim',
+    parent: Object,
     events: {
       'simStarted': 'simStarted',
       'state': 'state', // The entire state for the sim, for the first frame and for keyframes
@@ -166,7 +178,8 @@ define( function( require ) {
   };
 
   var Vector2 = {
-    name: 'Vector2'
+    name: 'Vector2',
+    parent: Object
   };
 
   var Slider = {
