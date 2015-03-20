@@ -100,7 +100,8 @@ define( function( require ) {
 
   var CheckBox = {
     name: 'CheckBox',
-    parent: Node
+    parent: Node,
+    events: { 'toggled': 'toggled' }
   };
 
   var Boolean = {
