@@ -82,7 +82,7 @@ define( function( require ) {
       exit: function() { highlight.fill = null; },
     } );
     var fire = function( event ) {
-      var messageIndex = arch && arch.start( 'user', componentID, 'fire' );
+      var messageIndex = arch && arch.start( 'user', componentID, 'fired' );
       closeCallback( event );
       callback( event );
       arch && arch.end( messageIndex );

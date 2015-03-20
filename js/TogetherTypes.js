@@ -41,9 +41,24 @@ define( function( require ) {
     }
   };
 
+  var DraggableNode = {
+    parent: Node,
+    events: {
+      dragStarted: 'dragStarted',
+      dragged: 'dragged',
+      dragEnded: 'dragEnded'
+    }
+  };
+
   var Button = {
     name: 'Button',
-    parent: Node
+    parent: Node,
+    events: {
+
+      // Declaring events like this allows us to use property accessors to get to them instead of hardcoded strings
+      // Still, hardcoded strings are nice and verbose, and can be checked with assertions in arch.js
+      fired: 'fired'
+    }
   };
 
   var ResetAllButton = {
@@ -53,12 +68,24 @@ define( function( require ) {
 
   var Faucet = {
     name: 'Faucet',
-    parent: Node
+    parent: DraggableNode
+  };
+
+  var MomentaryButton = {
+    name: 'MomentaryButton',
+    parent: Node,
+    events: {
+      pressed: 'pressed',
+      released: 'released'
+    }
   };
 
   var ComboBox = {
     name: 'ComboBox',
-    parent: Node // not exactly a button, see implementation
+    parent: Node, // not exactly a button, see implementation
+    events: {
+      fired: 'fired'
+    }
   };
 
   var ComboBoxListItem = {
@@ -103,8 +130,17 @@ define( function( require ) {
   var property = function( type ) {
     return {
       name: 'Property',
-      valueType: type
+      valueType: type,
+      events: {
+        changed: 'changed'
+      }
     };
+  };
+
+  // Make property events accessible statically.  Note: We just added a property to a function, this is somewhat
+  // unconventional.
+  property.events = {
+    changed: 'changed'
   };
 
   var array = function( type ) {
@@ -115,7 +151,8 @@ define( function( require ) {
   };
 
   var Sim = {
-    name: 'Sim'
+    name: 'Sim',
+    events: { 'simStarted': 'simStarted' }
   };
 
   var Vector2 = {
@@ -124,7 +161,7 @@ define( function( require ) {
 
   var Slider = {
     name: 'Slider',
-    parent: Node
+    parent: DraggableNode
   };
 
   var PhetButton = {
@@ -152,6 +189,13 @@ define( function( require ) {
     parent: Button
   };
 
+  // For dismissing a ComboBox when clicking outside of the popup
+  var Scene = {
+    name: 'Scene',
+    parent: Node,
+    events: { fired: 'fired' }
+  };
+
   return {
     Node: Node,
     ResetAllButton: ResetAllButton,
@@ -174,6 +218,9 @@ define( function( require ) {
     OnOffSwitch: OnOffSwitch,
     PlayPauseButton: PlayPauseButton,
     ToggleButton: ToggleButton,
+    DraggableNode: DraggableNode,
+    MomentaryButton: MomentaryButton,
+    Scene: Scene,
     array: array,
     createSingleScreen: function( screenAPI ) {
       var singleScreenJoistAPI = {
