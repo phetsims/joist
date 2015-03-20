@@ -152,7 +152,11 @@ define( function( require ) {
 
   var Sim = {
     name: 'Sim',
-    events: { 'simStarted': 'simStarted' }
+    events: {
+      'simStarted': 'simStarted',
+      'state': 'state', // The entire state for the sim, for the first frame and for keyframes
+      'stateDelta': 'stateDelta' // not necessarily a stateChanged because the delta might be empty
+    }
   };
 
   var Vector2 = {
