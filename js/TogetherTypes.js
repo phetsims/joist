@@ -76,7 +76,8 @@ define( function( require ) {
     parent: Node,
     events: {
       pressed: 'pressed',
-      released: 'released'
+      released: 'released',
+      releasedDisabled: 'releasedDisabled'
     }
   };
 
@@ -181,17 +182,21 @@ define( function( require ) {
 
   var OnOffSwitch = {
     name: 'OnOffSwitch',
-    parent: Node
-  };
-
-  var PlayPauseButton = {
-    name: 'PlayPauseButton',
-    parent: Node
+    parent: Node,
+    events: {
+      toggled: 'toggled'
+    }
   };
 
   var ToggleButton = {
     name: 'ToggleButton',
-    parent: Button
+    parent: Node,
+    events: { toggled: 'toggled' }
+  };
+
+  var PlayPauseButton = {
+    name: 'PlayPauseButton',
+    parent: ToggleButton
   };
 
   // For dismissing a ComboBox when clicking outside of the popup
