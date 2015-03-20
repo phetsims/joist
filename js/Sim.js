@@ -244,7 +244,7 @@ define( function( require ) {
     options.fuzzTouches = !!phet.chipper.getQueryParameter( 'fuzzTouches' );
 
     // If using arch data streams, send a notification that the sim started.
-    var archID = arch && arch.start( 'model', 'sim', 'simStarted', {
+    var messageIndex = arch && arch.start( 'model', 'sim', 'simStarted', {
         sessionID: phet.chipper.getQueryParameter( 'sessionID' ) || null,
         simName: sim.name,
         simVersion: sim.version,
@@ -506,7 +506,7 @@ define( function( require ) {
     together && together.simulationStarted( this );
 
     // Signify the end of simulation startup to arch
-    arch && arch.end( archID );
+    arch && arch.end( messageIndex );
   }
 
   return inherit( PropertySet, Sim, {

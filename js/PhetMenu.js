@@ -82,10 +82,10 @@ define( function( require ) {
       exit: function() { highlight.fill = null; },
     } );
     var fire = function( event ) {
-      var archID = arch && arch.start( 'user', componentID, 'fire' );
+      var messageIndex = arch && arch.start( 'user', componentID, 'fire' );
       closeCallback( event );
       callback( event );
-      arch && arch.end( archID );
+      arch && arch.end( messageIndex );
     };
     menuItem.addInputListener( new ButtonListener( {
       fire: fire
