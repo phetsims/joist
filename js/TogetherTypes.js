@@ -68,7 +68,10 @@ define( function( require ) {
 
   var Faucet = {
     name: 'Faucet',
-    parent: DraggableNode
+    parent: DraggableNode,
+    events: {
+      'startTapToDispense': 'startTapToDispense'
+    }
   };
 
   var MomentaryButton = {
