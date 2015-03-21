@@ -19,11 +19,11 @@ define( function( require ) {
 
   var Object = {
     name: 'Object',
-    parent: null
+    superType: null
   };
   var Node = {
     name: 'Node',
-    parent: Object,
+    superType: Object,
     visible: {
       type: 'boolean'
     },
@@ -47,7 +47,7 @@ define( function( require ) {
   };
 
   var DraggableNode = {
-    parent: Node,
+    superType: Node,
     events: {
       dragStarted: 'dragStarted',
       dragged: 'dragged',
@@ -57,7 +57,7 @@ define( function( require ) {
 
   var Button = {
     name: 'Button',
-    parent: Node,
+    superType: Node,
     events: {
 
       // Declaring events like this allows us to use property accessors to get to them instead of hardcoded strings
@@ -68,12 +68,12 @@ define( function( require ) {
 
   var ResetAllButton = {
     name: 'ResetAllButton',
-    parent: Button
+    superType: Button
   };
 
   var Faucet = {
     name: 'Faucet',
-    parent: DraggableNode,
+    superType: DraggableNode,
     events: {
       'startTapToDispense': 'startTapToDispense',
       'endTapToDispense': 'endTapToDispense'
@@ -82,7 +82,7 @@ define( function( require ) {
 
   var MomentaryButton = {
     name: 'MomentaryButton',
-    parent: Node,
+    superType: Node,
     events: {
       pressed: 'pressed',
       released: 'released',
@@ -92,7 +92,7 @@ define( function( require ) {
 
   var ComboBox = {
     name: 'ComboBox',
-    parent: Node, // not exactly a button, see implementation
+    superType: Node, // not exactly a button, see implementation
     events: {
       fired: 'fired'
     }
@@ -100,38 +100,38 @@ define( function( require ) {
 
   var ComboBoxListItem = {
     name: 'ComboBoxButton',
-    parent: Button // Also a special case
+    superType: Button // Also a special case
   };
 
   var RadioButton = {
     name: 'RadioButton',
-    parent: Button
+    superType: Button
   };
 
   var CheckBox = {
     name: 'CheckBox',
-    parent: Node,
+    superType: Node,
     events: { 'toggled': 'toggled' }
   };
 
   var Boolean = {
     name: 'Boolean',
-    parent: Object
+    superType: Object
   };
 
   var Number = {
     name: 'Number',
-    parent: Object
+    superType: Object
   };
 
   var String = {
     name: 'String',
-    parent: Object
+    superType: Object
   };
 
   var Color = {
     name: 'Color',
-    parent: Object
+    superType: Object
   };
 
   // TODO: I would like this to be capitalized since it is a type, but jshint complains
@@ -146,7 +146,7 @@ define( function( require ) {
     return {
       name: 'Property',
       valueType: type,
-      parent: Object,
+      superType: Object,
       events: {
         changed: 'changed'
       }
@@ -162,14 +162,14 @@ define( function( require ) {
   var array = function( type ) {
     return {
       name: 'Array',
-      parent: Object,
+      superType: Object,
       elementType: type
     };
   };
 
   var Sim = {
     name: 'Sim',
-    parent: Object,
+    superType: Object,
     events: {
       'simStarted': 'simStarted',
       'state': 'state', // The entire state for the sim, for the first frame and for keyframes
@@ -179,27 +179,27 @@ define( function( require ) {
 
   var Vector2 = {
     name: 'Vector2',
-    parent: Object
+    superType: Object
   };
 
   var Slider = {
     name: 'Slider',
-    parent: DraggableNode
+    superType: DraggableNode
   };
 
   var PhetButton = {
     name: 'PhetButton',
-    parent: Button
+    superType: Button
   };
 
   var MenuItem = {
     name: 'MenuItem',
-    parent: Button
+    superType: Button
   };
 
   var OnOffSwitch = {
     name: 'OnOffSwitch',
-    parent: Node,
+    superType: Node,
     events: {
       toggled: 'toggled'
     }
@@ -207,19 +207,19 @@ define( function( require ) {
 
   var ToggleButton = {
     name: 'ToggleButton',
-    parent: Node,
+    superType: Node,
     events: { toggled: 'toggled' }
   };
 
   var PlayPauseButton = {
     name: 'PlayPauseButton',
-    parent: ToggleButton
+    superType: ToggleButton
   };
 
   // For dismissing a ComboBox when clicking outside of the popup
   var Scene = {
     name: 'Scene',
-    parent: Node,
+    superType: Node,
     events: { fired: 'fired' }
   };
 
