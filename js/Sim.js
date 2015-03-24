@@ -110,11 +110,7 @@ define( function( require ) {
       // THIS IS EXPERIMENTAL, USE AT YOUR OWN PERIL
       // Text description of the simulation that will be appended to the title, so that screen readers will read the text
       // when they are launched.
-      textDescription: '',
-
-      // THIS IS EXPERIMENTAL, USE AT YOUR OWN PERIL
-      // Sim API, to be filled in by individual simulations
-      togetherAPI: null
+      textDescription: ''
     }, options );
 
     this.options = options; // @private store this for access from prototype functions, assumes that it won't be changed later
@@ -123,7 +119,6 @@ define( function( require ) {
     // Many other components use addComponent at the end of their constructor but in this case we must register early
     // to (a) enable the SimIFrameAPI as soon as possible and (b) to enable subsequent component registrations,
     // which require the sim to be registered
-    this.togetherAPI = this.options.togetherAPI;
     this.componentID = 'sim';
     together && together.addComponent( this );
 
