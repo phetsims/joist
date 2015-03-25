@@ -19,7 +19,6 @@ define( function( require ) {
   var VStrut = require( 'SUN/VStrut' );
   var Dialog = require( 'JOIST/Dialog' );
   var Input = require( 'SCENERY/input/Input' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // strings
   var creditsTitleString = require( 'string!JOIST/credits.title' );
