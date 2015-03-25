@@ -19,6 +19,7 @@ define( function( require ) {
   var VStrut = require( 'SUN/VStrut' );
   var Dialog = require( 'JOIST/Dialog' );
   var Input = require( 'SCENERY/input/Input' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // strings
   var creditsTitleString = require( 'string!JOIST/credits.title' );
@@ -29,6 +30,7 @@ define( function( require ) {
   var graphicArtsString = require( 'string!JOIST/credits.graphicArts' );
   var translationTitleString = require( 'string!JOIST/credits.translation' );
   var thanksTitleString = require( 'string!JOIST/credits.thanks' );
+  var versionPattern = require( 'string!JOIST/versionPattern' );
 
   /**
    * @param {string} name - The name of the simulation
@@ -42,7 +44,7 @@ define( function( require ) {
 
     var children = [
       new Text( name, { font: new PhetFont( 28 ) } ),
-      new Text( 'version ' + version, { font: new PhetFont( 20 ) } ),
+      new Text( StringUtils.format( versionPattern, version ), { font: new PhetFont( 20 ) } ),
       new VStrut( 15 ),
       new Text( Brand.name, { font: new PhetFont( 16 ) } ),
       new Text( Brand.copyright, { font: new PhetFont( 12 ) } )

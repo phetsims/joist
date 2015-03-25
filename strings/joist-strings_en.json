@@ -22,5 +22,6 @@
   "credits.graphicArts": "Graphic Arts: {0}",
   "credits.translation": "Translation",
   "credits.thanks": "Thanks",
-  "options.title": "Options"
+  "options.title": "Options",
+  "versionPattern": "version {0}"
 }
