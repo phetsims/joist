@@ -175,7 +175,8 @@ define( function( require ) {
     }, {
       componentIDMap: {
         showHomeScreen: 'sim.showHomeScreen',
-        screenIndex: 'sim.screenIndex'
+        screenIndex: 'sim.screenIndex',
+        active: 'sim.active'
       }
     } );
 
