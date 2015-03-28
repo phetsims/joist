@@ -114,6 +114,9 @@ define( function( require ) {
       }
     };
 
+    menuItem.componentID = componentID;
+    together && together.addComponent( menuItem );
+
     return menuItem;
   };
 

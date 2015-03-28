@@ -35,7 +35,8 @@ define( function( require ) {
       highlightExtensionHeight: 0,
       highlightCenterOffsetX: 0,
       highlightCenterOffsetY: 0,
-      focusable: true
+      focusable: true,
+      componentID: null
     }, options );
 
     // Button model
@@ -78,6 +79,9 @@ define( function( require ) {
     this.mouseArea = this.touchArea = Shape.bounds( this.bounds );
 
     this.mutate( options );
+
+    this.componentID = options.componentID;
+    together && together.addComponent( this );
   }
 
   return inherit( Node, JoistButton,
