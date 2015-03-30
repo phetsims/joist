@@ -132,7 +132,7 @@ define( function( require ) {
     if ( phet.chipper.getQueryParameter( 'screens' ) ) {
       var screensValueString = phet.chipper.getQueryParameter( 'screens' );
       screens = screensValueString.split( '.' ).map( function( screenString ) {
-        return screens[ parseInt( screenString, 10 ) - 1 ];
+        return screens[parseInt( screenString, 10 ) - 1];
       } );
       options.screenIndex = 0;
     }
@@ -261,7 +261,7 @@ define( function( require ) {
       document.body.removeChild( document.getElementById( 'sim' ) );
     }
 
-    sim.rootNode = new Node( { renderer: options.rootRenderer } );
+    sim.rootNode = new Node( {renderer: options.rootRenderer} );
 
     sim.display = new Display( sim.rootNode, {
       allowSceneOverflow: true, // we take up the entire browsable area, so we don't care about clipping
@@ -273,7 +273,7 @@ define( function( require ) {
     } );
 
     if ( options.accessibility ) {
-      this.focusLayer = new FocusLayer( window.TWEEN ? { tweenFactory: window.TWEEN } : {} );
+      this.focusLayer = new FocusLayer( window.TWEEN ? {tweenFactory: window.TWEEN} : {} );
       this.ariaSpeech = new AriaSpeech();
 
       //Adding the accessibility layer directly to the Display's root makes it easy to use local->global bounds.
@@ -303,7 +303,7 @@ define( function( require ) {
       sim.display.scenery.switchLogToString();
     }
 
-    sim.display.initializeWindowEvents( { batchDOMEvents: this.options.batchEvents } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
+    sim.display.initializeWindowEvents( {batchDOMEvents: this.options.batchEvents} ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
     if ( options.recordInputEventLog ) {
       sim.display._input.logEvents = true; // flag Scenery to log all input events
     }
@@ -368,8 +368,8 @@ define( function( require ) {
       sim.display.backgroundColor = backgroundColor;
     } );
 
-    sim.multilink( [ 'showHomeScreen', 'screenIndex' ], function( showHomeScreen, screenIndex ) {
-      sim.currentScreen = showHomeScreen ? null : screens[ screenIndex ];
+    sim.multilink( ['showHomeScreen', 'screenIndex'], function( showHomeScreen, screenIndex ) {
+      sim.currentScreen = showHomeScreen ? null : screens[screenIndex];
       sim.updateBackground();
     } );
 
@@ -397,12 +397,12 @@ define( function( require ) {
         sim.rootNode.addChild( screen.view );
       } );
       sim.rootNode.addChild( sim.navigationBar );
-      sim.multilink( [ 'screenIndex', 'showHomeScreen' ], function( screenIndex, showHomeScreen ) {
+      sim.multilink( ['screenIndex', 'showHomeScreen'], function( screenIndex, showHomeScreen ) {
         if ( sim.homeScreen ) {
           sim.homeScreen.view.setVisible( showHomeScreen );
         }
         for ( var i = 0; i < screens.length; i++ ) {
-          screens[ i ].view.setVisible( !showHomeScreen && screenIndex === i );
+          screens[i].view.setVisible( !showHomeScreen && screenIndex === i );
         }
         sim.navigationBar.setVisible( !showHomeScreen );
         sim.updateBackground();
@@ -417,7 +417,7 @@ define( function( require ) {
       // When moving from a screen to the homescreen, the previous screen should be highlighted
       // When the user selects a different screen, show it.
       sim.screenIndexProperty.link( function( screenIndex ) {
-        var newScreenNode = screens[ screenIndex ].view;
+        var newScreenNode = screens[screenIndex].view;
         var oldIndex = currentScreenNode ? sim.rootNode.indexOfChild( currentScreenNode ) : -1;
 
         // Swap out the views if the old one is displayed. if not, we are probably in the home screen
@@ -543,9 +543,18 @@ define( function( require ) {
       if ( isModal ) {
         this.barrierStack.remove( node );
       }
-      Input.popFocusContext( node.getTrails()[ 0 ] );
+      Input.popFocusContext( node.getTrails()[0] );
 
       this.topLayer.removeChild( node );
+    },
+
+    /**
+     * Returns true if the node is currently on the barrier stack, and thus 'popped up', and false if not.
+     * @param node
+     */
+    isPoppedUp: function( node ) {
+      assert && assert( node );
+      return this.barrierStack.contains( node );
     },
 
     resizeToWindow: function() {
@@ -698,7 +707,7 @@ define( function( require ) {
           if ( !sim.showHomeScreen ) {
 
             // step model and view (both optional)
-            screen = sim.screens[ sim.screenIndex ];
+            screen = sim.screens[sim.screenIndex];
             if ( screen.model.step ) {
               screen.model.step( dt );
             }
@@ -758,14 +767,14 @@ define( function( require ) {
       // Make sure requestAnimationFrame is defined
       Util.polyfillRequestAnimationFrame();
 
-      if ( data.length && data[ 0 ].width ) {
-        sim.resize( data[ 0 ].width, data[ 0 ].height );
+      if ( data.length && data[0].width ) {
+        sim.resize( data[0].width, data[0].height );
       }
 
       var startTime = Date.now();
 
       (function animationLoop() {
-        var frame = data[ index++ ];
+        var frame = data[index++];
 
         // when we have aready played the last frame
         if ( frame === undefined ) {
@@ -798,7 +807,7 @@ define( function( require ) {
 
         // Update the active screen, but not if the user is on the home screen
         if ( !sim.showHomeScreen ) {
-          sim.screens[ sim.screenIndex ].model.step( frame.dt ); // use the pre-recorded dt to ensure lack of variation between runs
+          sim.screens[sim.screenIndex].model.step( frame.dt ); // use the pre-recorded dt to ensure lack of variation between runs
         }
 
         // If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
@@ -832,7 +841,7 @@ define( function( require ) {
 
     // protocol-relative URL to the same-origin on a different port, for loading/saving recorded input events and frames
     getEventLogLocation: function() {
-      var host = window.location.host.split( ':' )[ 0 ]; // grab the hostname without the port
+      var host = window.location.host.split( ':' )[0]; // grab the hostname without the port
       return '//' + host + ':8083/' + this.getEventLogName();
     },
 
