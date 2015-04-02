@@ -31,7 +31,8 @@ define( function( require ) {
     this.layoutBounds = options.layoutBounds;
 
     Node.call( this, _.extend( {
-      layerSplit: true // so we're not in the same layer as the navbar, etc.
+      layerSplit: true, // so we're not in the same layer as the navbar, etc.
+      excludeInvisible: true // so we don't keep invisible screens in the SVG tree
     }, options ) );
   }
 
