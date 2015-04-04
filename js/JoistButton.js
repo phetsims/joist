@@ -36,7 +36,7 @@ define( function( require ) {
       highlightCenterOffsetX: 0,
       highlightCenterOffsetY: 0,
       focusable: true,
-      componentID: null
+      togetherID: null
     }, options );
 
     // Button model
@@ -80,7 +80,7 @@ define( function( require ) {
 
     this.mutate( options );
 
-    this.componentID = options.componentID;
+    this.togetherID = options.togetherID;
     together && together.addComponent( this );
   }
 

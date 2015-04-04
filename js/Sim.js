@@ -119,7 +119,7 @@ define( function( require ) {
     // Many other components use addComponent at the end of their constructor but in this case we must register early
     // to (a) enable the SimIFrameAPI as soon as possible and (b) to enable subsequent component registrations,
     // which require the sim to be registered
-    this.componentID = 'sim';
+    this.togetherID = 'sim';
     together && together.addComponent( this );
 
     // override rootRenderer using query parameter, see #221 and #184

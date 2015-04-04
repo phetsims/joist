@@ -46,7 +46,7 @@ define( function( require ) {
     } );
     this.addChild( this.background );
 
-    this.phetButton = new PhetButton( sim, { componentID: 'navigationBar.phetButton' } );
+    this.phetButton = new PhetButton( sim, { togetherID: 'navigationBar.phetButton' } );
     this.addChild( this.phetButton );
 
     this.titleLabel = new Text( sim.name, { font: new PhetFont( 18 ), pickable: false } );

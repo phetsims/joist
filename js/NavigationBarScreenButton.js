@@ -50,7 +50,7 @@ define( function( require ) {
       listener: function() {
         screenIndexProperty.value = screens.indexOf( screen );
       },
-      componentID: screen.navigationBarScreenButtonComponentID
+      togetherID: screen.navigationBarScreenButtonComponentID
     } );
     this.addInputListener( new ButtonListener( buttonModel ) );
 

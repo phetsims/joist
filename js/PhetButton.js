@@ -36,7 +36,7 @@ define( function( require ) {
       highlightExtensionWidth: 6,
       highlightExtensionHeight: 5,
       highlightCenterOffsetY: 4,
-      componentID: null,
+      togetherID: null,
       listener: function() {
 
         var phetMenu = new PhetMenu( sim, {

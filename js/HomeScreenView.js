@@ -228,7 +228,7 @@ define( function( require ) {
       } ) );
     }
     else {
-      this.phetButton = new PhetButton( sim, { componentID: 'homeScreen.phetButton' } );
+      this.phetButton = new PhetButton( sim, { togetherID: 'homeScreen.phetButton' } );
       this.addChild( this.phetButton );
     }
 
