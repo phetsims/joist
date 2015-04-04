@@ -173,7 +173,7 @@ define( function( require ) {
 
       showCanvasNodeBounds: !!phet.chipper.getQueryParameter( 'showCanvasNodeBounds' )
     }, {
-      componentIDMap: {
+      togetherIDMap: {
         showHomeScreen: 'sim.showHomeScreen',
         screenIndex: 'sim.screenIndex',
         active: 'sim.active'

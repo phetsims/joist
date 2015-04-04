@@ -97,7 +97,7 @@ define( function( require ) {
       // ButtonListener won't fire if a node has appeared under the pointer
       largeScreenButton.addInputListener( {
         down: function() {
-          var messageIndex = arch && arch.start( 'user', sim.screens[ index ].homeScreenButtonComponentID, 'fired' );
+          var messageIndex = arch && arch.start( 'user', sim.screens[ index ].homeScreenButtonTogetherID, 'fired' );
           sim.showHomeScreen = false;
           highlightedScreenIndexProperty.value = -1;
           arch && arch.end( messageIndex );

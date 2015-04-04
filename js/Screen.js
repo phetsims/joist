@@ -46,11 +46,11 @@ define( function( require ) {
     options = _.extend( {
       backgroundColor: 'white', // {Color|string} - Initial background color of the screen
       navigationBarIcon: homeScreenIcon, // must be a minimum of 147x100 and have an aspect ratio of 548/373=1.469.  See https://github.com/phetsims/joist/issues/76
-      homeScreenButtonComponentID: null,
-      navigationBarScreenButtonComponentID: null
+      homeScreenButtonTogetherID: null,
+      navigationBarScreenButtonTogetherID: null
     }, options );
-    this.homeScreenButtonComponentID = options.homeScreenButtonComponentID;
-    this.navigationBarScreenButtonComponentID = options.navigationBarScreenButtonComponentID;
+    this.homeScreenButtonTogetherID = options.homeScreenButtonTogetherID;
+    this.navigationBarScreenButtonTogetherID = options.navigationBarScreenButtonTogetherID;
 
     var backgroundColor = options.backgroundColor;
     if ( typeof backgroundColor === 'string' ) {
