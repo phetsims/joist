@@ -119,8 +119,7 @@ define( function( require ) {
     // Many other components use addComponent at the end of their constructor but in this case we must register early
     // to (a) enable the SimIFrameAPI as soon as possible and (b) to enable subsequent component registrations,
     // which require the sim to be registered
-    this.togetherID = 'sim';
-    together && together.addComponent( this );
+    together && together.addComponent( this, 'sim' );
 
     // override rootRenderer using query parameter, see #221 and #184
     options.rootRenderer = phet.chipper.getQueryParameter( 'rootRenderer' ) || options.rootRenderer;
@@ -172,12 +171,6 @@ define( function( require ) {
       showPointers: !!phet.chipper.getQueryParameter( 'showPointers' ),
 
       showCanvasNodeBounds: !!phet.chipper.getQueryParameter( 'showCanvasNodeBounds' )
-    }, {
-      togetherIDMap: {
-        showHomeScreen: 'sim.showHomeScreen',
-        screenIndex: 'sim.screenIndex',
-        active: 'sim.active'
-      }
     } );
 
     this.lookAndFeel = new LookAndFeel();
@@ -506,8 +499,14 @@ define( function( require ) {
 
     this.trigger0( 'simulationStarted' );
 
+    // Together support
+    together && together.addComponent( this.activeProperty, 'sim.active' );
+    together && together.addComponent( this.screenIndexProperty, 'sim.screenIndex' );
+    together && together.addComponent( this.showHomeScreenProperty, 'sim.showHomeScreen' );
+
     // Together.js has to be registered *after* events are enabled from PropertySet.call above
     // but before some events are triggered.
+    // TODO: Can't together listen for the 'simulationStarted' event above?
     together && together.simulationStarted( this );
 
     // Signify the end of simulation startup to arch
