@@ -80,8 +80,7 @@ define( function( require ) {
 
     this.mutate( options );
 
-    this.togetherID = options.togetherID;
-    together && together.addComponent( this );
+    together && together.addComponent( this, options.togetherID );
   }
 
   return inherit( Node, JoistButton,

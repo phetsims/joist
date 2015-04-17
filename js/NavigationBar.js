@@ -66,7 +66,9 @@ define( function( require ) {
 
       //Create buttons again with equivalent sizes
       buttons = _.map( screens, function( screen ) {
-        return new NavigationBarScreenButton( sim.lookAndFeel.navigationBarFillProperty, sim.screenIndexProperty, sim.screens, screen, navigationBar.navBarHeight, maxWidth );
+        return new NavigationBarScreenButton( sim.lookAndFeel.navigationBarFillProperty, sim.screenIndexProperty, sim.screens, screen, navigationBar.navBarHeight, maxWidth, {
+          togetherID: screen.navigationBarScreenButtonTogetherID
+        } );
       } );
 
       this.buttonHBox = new HBox( { children: buttons, spacing: 4 } );

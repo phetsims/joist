@@ -31,7 +31,8 @@ define( function( require ) {
    * @param {number} minWidth
    * @constructor
    */
-  function NavigationBarScreenButton( navigationBarFillProperty, screenIndexProperty, screens, screen, navBarHeight, minWidth ) {
+  function NavigationBarScreenButton( navigationBarFillProperty, screenIndexProperty, screens, screen, navBarHeight, minWidth, options ) {
+    options = _.extend( { togetherID: null }, options );
     Node.call( this, {
       cursor: 'pointer',
       focusable: true,
@@ -49,10 +50,14 @@ define( function( require ) {
     var buttonModel = new PushButtonModel( {
       listener: function() {
         screenIndexProperty.value = screens.indexOf( screen );
-      },
-      togetherID: screen.navigationBarScreenButtonTogetherID
+      }
     } );
     this.addInputListener( new ButtonListener( buttonModel ) );
+
+    // Buttons are created once with the wrong size then again with the right size.  Only register the final buttons.
+    if ( options.togetherID ) {
+      together && together.addComponent( { buttonModel: buttonModel }, options.togetherID );
+    }
 
     var text = new Text( screen.name );
 
