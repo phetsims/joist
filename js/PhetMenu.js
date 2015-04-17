@@ -353,7 +353,6 @@ define( function( require ) {
 
   inherit( Node, PhetMenu, {
     dispose: function() {
-      debugger;
       _.each( this.items, function( item ) {
         item.dispose();
       } );
