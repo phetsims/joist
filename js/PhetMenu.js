@@ -112,10 +112,10 @@ define( function( require ) {
       if ( checkedProperty ) {
         checkedProperty.unlink( checkListener );
       }
+      together && together.removeComponent( menuItem, togetherID );
     };
 
-    menuItem.togetherID = togetherID;
-    together && together.addComponent( menuItem );
+    together && together.addComponent( menuItem, togetherID );
 
     return menuItem;
   };
@@ -353,6 +353,7 @@ define( function( require ) {
 
   inherit( Node, PhetMenu, {
     dispose: function() {
+      debugger;
       _.each( this.items, function( item ) {
         item.dispose();
       } );

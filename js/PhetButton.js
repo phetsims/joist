@@ -44,6 +44,7 @@ define( function( require ) {
           closeCallback: function() {
             // hides the popup and barrier background
             sim.hidePopup( phetMenu, true );
+            phetMenu.dispose();
           }
         } );
 
