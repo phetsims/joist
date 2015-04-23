@@ -1,0 +1,80 @@
+{
+  "done": {
+    "value": "Done"
+  },
+  "menuItem.options": {
+    "value": "Options..."
+  },
+  "menuItem.about": {
+    "value": "About..."
+  },
+  "menuItem.mailInputEventsLog": {
+    "value": "Mail Input Events Log"
+  },
+  "menuItem.outputInputEventsLog": {
+    "value": "Output Input Events Log"
+  },
+  "menuItem.outputLog": {
+    "value": "Output Log"
+  },
+  "menuItem.phetWebsite": {
+    "value": "PhET website..."
+  },
+  "menuItem.reportAProblem": {
+    "value": "Report a Problem..."
+  },
+  "menuItem.screenshot": {
+    "value": "Screenshot"
+  },
+  "menuItem.fullscreen": {
+    "value": "Full Screen"
+  },
+  "menuItem.settings": {
+    "value": "Settings..."
+  },
+  "menuItem.submitInputEventsLog": {
+    "value": "Submit Input Events Log"
+  },
+  "title.settings": {
+    "value": "Settings"
+  },
+  "showPointers": {
+    "value": "Show Pointers"
+  },
+  "termsPrivacyAndLicensing": {
+    "value": "Terms, Privacy & Licensing"
+  },
+  "license": {
+    "value": "License"
+  },
+  "credits.title": {
+    "value": "Credits"
+  },
+  "credits.leadDesign": {
+    "value": "Lead Design: {0}"
+  },
+  "credits.softwareDevelopment": {
+    "value": "Software Development: {0}"
+  },
+  "credits.team": {
+    "value": "Team: {0}"
+  },
+  "credits.qualityAssurance": {
+    "value": "Quality Assurance: {0}"
+  },
+  "credits.graphicArts": {
+    "value": "Graphic Arts: {0}"
+  },
+  "credits.translation": {
+    "value": "Translation"
+  },
+  "credits.thanks": {
+    "value": "Thanks"
+  },
+  "options.title": {
+    "value": "Options"
+  },
+  "versionPattern": {
+    "value": "version {0}"
+  }
+}
