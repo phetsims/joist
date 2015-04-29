@@ -93,8 +93,8 @@ define( function( require ) {
         textDescription: screen.name + ' Screen: Button'
       } );
 
-      //TODO: Switch to buttonListener, but make sure you test it because on 7/17/2013 there is a problem where
-      // ButtonListener won't fire if a node has appeared under the pointer
+      // TODO: Switch to buttonListener, but make sure you test it because on 7/17/2013 there is a problem where
+      // TODO: ButtonListener won't fire if a node has appeared under the pointer
       largeScreenButton.addInputListener( {
         down: function() {
           var messageIndex = arch && arch.start( 'user', sim.screens[ index ].homeScreenButtonTogetherID, 'fired' );
