@@ -107,6 +107,9 @@ define( function( require ) {
       // the default renderer for the rootNode, see #221 and #184
       rootRenderer: 'svg',
 
+      // support for exporting instances from the sim
+      tandem: null,
+
       // THIS IS EXPERIMENTAL, USE AT YOUR OWN PERIL
       // Text description of the simulation that will be appended to the title, so that screen readers will read the text
       // when they are launched.
@@ -114,12 +117,6 @@ define( function( require ) {
     }, options );
 
     this.options = options; // @private store this for access from prototype functions, assumes that it won't be changed later
-
-    // Initialize together soon, since other components downstream such as properties may be used.
-    // Many other components use addComponent at the end of their constructor but in this case we must register early
-    // to (a) enable the SimIFrameAPI as soon as possible and (b) to enable subsequent component registrations,
-    // which require the sim to be registered
-    together && together.addComponent( this, 'sim' );
 
     // override rootRenderer using query parameter, see #221 and #184
     options.rootRenderer = phet.chipper.getQueryParameter( 'rootRenderer' ) || options.rootRenderer;
@@ -171,7 +168,19 @@ define( function( require ) {
       showPointers: !!phet.chipper.getQueryParameter( 'showPointers' ),
 
       showCanvasNodeBounds: !!phet.chipper.getQueryParameter( 'showCanvasNodeBounds' )
+    }, {
+      tandemSet: options.tandem ? {
+        active: options.tandem.createTandem( 'sim.active' ),
+        screenIndex: options.tandem.createTandem( 'sim.screenIndex' ),
+        showHomeScreen: options.tandem.createTandem( 'sim.showHomeScreen' )
+      }
+        : {}
     } );
+
+    // Many other components use addInstance at the end of their constructor but in this case we must register early
+    // to (a) enable the SimIFrameAPI as soon as possible and (b) to enable subsequent component registrations,
+    // which require the sim to be registered
+    options.tandem && options.tandem.createTandem( 'sim' ).addInstance( this );
 
     this.lookAndFeel = new LookAndFeel();
 
@@ -236,13 +245,12 @@ define( function( require ) {
     // ignore any user input events, and instead fire touch events randomly in an effort to cause an exception
     options.fuzzTouches = !!phet.chipper.getQueryParameter( 'fuzzTouches' );
 
-    // If using arch data streams, send a notification that the sim started.
-    var messageIndex = arch && arch.start( 'model', 'sim', 'simStarted', {
-        sessionID: phet.chipper.getQueryParameter( 'sessionID' ) || null,
-        simName: sim.name,
-        simVersion: sim.version,
-        url: window.location.href
-      } );
+    this.trigger1( 'simConstructorStarted', {
+      sessionID: phet.chipper.getQueryParameter( 'sessionID' ) || null,
+      simName: sim.name,
+      simVersion: sim.version,
+      url: window.location.href
+    } );
 
     var $body = $( 'body' );
 
@@ -499,18 +507,8 @@ define( function( require ) {
 
     this.trigger0( 'simulationStarted' );
 
-    // Together support
-    together && together.addComponent( this.activeProperty, 'sim.active' );
-    together && together.addComponent( this.screenIndexProperty, 'sim.screenIndex' );
-    together && together.addComponent( this.showHomeScreenProperty, 'sim.showHomeScreen' );
-
-    // Together.js has to be registered *after* events are enabled from PropertySet.call above
-    // but before some events are triggered.
-    // TODO: Can't together listen for the 'simulationStarted' event above?
-    together && together.simulationStarted( this );
-
     // Signify the end of simulation startup to arch
-    arch && arch.end( messageIndex );
+    this.trigger0( 'simConstructorEnded' );
   }
 
   return inherit( PropertySet, Sim, {
