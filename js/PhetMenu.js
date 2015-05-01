@@ -307,9 +307,16 @@ define( function( require ) {
 
     // Create the menu items.
     var items = this.items = _.map( keepItemDescriptors, function( itemDescriptor ) {
-      return createMenuItem( itemDescriptor.text, maxTextWidth, maxTextHeight, itemDescriptor.separatorBefore,
-        options.closeCallback, itemDescriptor.callback, itemDescriptor.checkedProperty,
-        { tandem: options.tandem && tandem.createTandem( itemDescriptor.togetherID ) } );
+      return createMenuItem(
+        itemDescriptor.text,
+        maxTextWidth,
+        maxTextHeight,
+        itemDescriptor.separatorBefore,
+        options.closeCallback,
+        itemDescriptor.callback,
+        itemDescriptor.checkedProperty, {
+          tandem: itemDescriptor.tandem
+        } );
     } );
     var separatorWidth = _.max( items, function( item ) {return item.width;} ).width;
     var itemHeight = _.max( items, function( item ) {return item.height;} ).height;

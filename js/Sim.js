@@ -504,7 +504,7 @@ define( function( require ) {
 
     this.trigger0( 'simulationStarted' );
 
-    // Signify the end of simulation startup to arch
+    // Signify the end of simulation startup.  Used by together.
     this.trigger0( 'simConstructorEnded' );
   }
 
