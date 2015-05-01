@@ -97,10 +97,10 @@ define( function( require ) {
       // TODO: ButtonListener won't fire if a node has appeared under the pointer
       largeScreenButton.addInputListener( {
         down: function() {
-          var messageIndex = arch && arch.start( 'user', sim.screens[ index ].homeScreenButtonTogetherID, 'fired' );
+          largeScreenButton.trigger0( 'startedCallbacksForPressed' );
           sim.showHomeScreen = false;
           highlightedScreenIndexProperty.value = -1;
-          arch && arch.end( messageIndex );
+          largeScreenButton.trigger0( 'endedCallbacksForPressed' );
         }
       } );
 
@@ -228,7 +228,7 @@ define( function( require ) {
       } ) );
     }
     else {
-      this.phetButton = new PhetButton( sim, { togetherID: 'homeScreen.phetButton' } );
+      this.phetButton = new PhetButton( sim, { tandem: options.tandem ? options.tandem.createTandem( 'phetButton' ) : null } );
       this.addChild( this.phetButton );
     }
 

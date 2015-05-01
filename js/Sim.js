@@ -54,9 +54,6 @@ define( function( require ) {
     // globals will be attached to window.phet.joist
     window.phet.joist = window.phet.joist || {};
 
-    // If together does not exist by now (from preloading), mark it as null so that code like together && ... won't error
-    window.together = window.together || null;
-
     options = _.extend( {
 
       // whether to show the home screen, or go immediately to the screen indicated by screenIndex
@@ -362,7 +359,7 @@ define( function( require ) {
       sim.homeScreen = null;
     }
 
-    sim.navigationBar = new NavigationBar( NAVIGATION_BAR_SIZE, sim, screens );
+    sim.navigationBar = new NavigationBar( NAVIGATION_BAR_SIZE, sim, screens, { tandem: options.tandem ? options.tandem.createTandem( 'navigationBar' ) : null } );
 
     this.updateBackground = function() {
       sim.lookAndFeel.backgroundColor = sim.currentScreen ?

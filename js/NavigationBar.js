@@ -27,10 +27,14 @@ define( function( require ) {
    * @param {Dimension2} barSize initial dimensions of the navigation bar
    * @param {Sim} sim
    * @param {Screen[]} screens
+   * @param {Object} [options]
    * @constructor
    */
-  function NavigationBar( barSize, sim, screens ) {
+  function NavigationBar( barSize, sim, screens, options ) {
 
+    options = _.extend( {
+      tandem: null
+    }, options );
     var navigationBar = this;
     this.screens = screens;
 
@@ -46,7 +50,7 @@ define( function( require ) {
     } );
     this.addChild( this.background );
 
-    this.phetButton = new PhetButton( sim, { togetherID: 'navigationBar.phetButton' } );
+    this.phetButton = new PhetButton( sim, { tandem: options.tandem ? options.tandem.createTandem( 'phetButton' ) : null } );
     this.addChild( this.phetButton );
 
     this.titleLabel = new Text( sim.name, { font: new PhetFont( 18 ), pickable: false } );
@@ -60,15 +64,26 @@ define( function( require ) {
 
       //Create buttons once so we can get their dimensions
       var buttons = _.map( screens, function( screen ) {
-        return new NavigationBarScreenButton( sim.lookAndFeel.navigationBarFillProperty, sim.screenIndexProperty, sim.screens, screen, navigationBar.navBarHeight, 0 );
+        return new NavigationBarScreenButton(
+          sim.lookAndFeel.navigationBarFillProperty,
+          sim.screenIndexProperty,
+          sim.screens,
+          screen,
+          navigationBar.navBarHeight,
+          0 );
       } );
       var maxWidth = Math.max( 50, _.max( buttons, function( button ) {return button.width;} ).width );
 
       //Create buttons again with equivalent sizes
       buttons = _.map( screens, function( screen ) {
-        return new NavigationBarScreenButton( sim.lookAndFeel.navigationBarFillProperty, sim.screenIndexProperty, sim.screens, screen, navigationBar.navBarHeight, maxWidth, {
-          togetherID: screen.navigationBarScreenButtonTogetherID
-        } );
+        return new NavigationBarScreenButton( sim.lookAndFeel.navigationBarFillProperty,
+          sim.screenIndexProperty,
+          sim.screens,
+          screen,
+          navigationBar.navBarHeight,
+          maxWidth, {
+            tandem: options.tandem && options.tandem.createTandem( screen.tandemScreenName + 'Button' )
+          } );
       } );
 
       this.buttonHBox = new HBox( { children: buttons, spacing: 4 } );

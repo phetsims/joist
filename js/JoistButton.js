@@ -36,7 +36,7 @@ define( function( require ) {
       highlightCenterOffsetX: 0,
       highlightCenterOffsetY: 0,
       focusable: true,
-      togetherID: null
+      tandem: null
     }, options );
 
     // Button model
@@ -80,7 +80,7 @@ define( function( require ) {
 
     this.mutate( options );
 
-    together && together.addComponent( this, options.togetherID );
+    options.tandem && options.tandem.addInstance( this );
   }
 
   return inherit( Node, JoistButton,

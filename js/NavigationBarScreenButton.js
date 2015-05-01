@@ -29,10 +29,13 @@ define( function( require ) {
    * @param {Screen} screen
    * @param {number} navBarHeight
    * @param {number} minWidth
+   * @param {Object} [options]
    * @constructor
    */
   function NavigationBarScreenButton( navigationBarFillProperty, screenIndexProperty, screens, screen, navBarHeight, minWidth, options ) {
-    options = _.extend( { togetherID: null }, options );
+    options = _.extend( {
+      tandem: null
+    }, options );
     Node.call( this, {
       cursor: 'pointer',
       focusable: true,
@@ -55,9 +58,7 @@ define( function( require ) {
     this.addInputListener( new ButtonListener( buttonModel ) );
 
     // Buttons are created once with the wrong size then again with the right size.  Only register the final buttons.
-    if ( options.togetherID ) {
-      together && together.addComponent( { buttonModel: buttonModel }, options.togetherID );
-    }
+    options.tandem && options.tandem.addInstance( this );
 
     var text = new Text( screen.name );
 

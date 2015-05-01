@@ -46,11 +46,9 @@ define( function( require ) {
     options = _.extend( {
       backgroundColor: 'white', // {Color|string} - Initial background color of the screen
       navigationBarIcon: homeScreenIcon, // must be a minimum of 147x100 and have an aspect ratio of 548/373=1.469.  See https://github.com/phetsims/joist/issues/76
-      homeScreenButtonTogetherID: null,
-      navigationBarScreenButtonTogetherID: null
+      tandemScreenName: null // Will be used to create screen-specific tandems for component registration.  For instance for the navigation bar screen button or buttons from the home screen
     }, options );
-    this.homeScreenButtonTogetherID = options.homeScreenButtonTogetherID;
-    this.navigationBarScreenButtonTogetherID = options.navigationBarScreenButtonTogetherID;
+    this.tandemScreenName = options.tandemScreenName;
 
     var backgroundColor = options.backgroundColor;
     if ( typeof backgroundColor === 'string' ) {

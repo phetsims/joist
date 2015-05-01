@@ -51,7 +51,8 @@ define( function( require ) {
   } );
 
   // Creates a menu item that highlights and fires.
-  var createMenuItem = function( text, width, height, separatorBefore, closeCallback, callback, checkedProperty, togetherID ) {
+  var createMenuItem = function( text, width, height, separatorBefore, closeCallback, callback, checkedProperty, options ) {
+    options = _.extend( { tandem: null }, options );
     // padding between the check and text
     var CHECK_PADDING = 2;
     // offset that includes the checkmark's width and its padding
@@ -82,10 +83,10 @@ define( function( require ) {
       exit: function() { highlight.fill = null; },
     } );
     var fire = function( event ) {
-      var messageIndex = arch && arch.start( 'user', togetherID, 'fired' );
+      menuItem.trigger( 'startedCallbacksForFired' );
       closeCallback( event );
       callback( event );
-      arch && arch.end( messageIndex );
+      menuItem.trigger( 'endedCallbacksForFired' );
     };
     menuItem.addInputListener( new ButtonListener( {
       fire: fire
@@ -112,10 +113,10 @@ define( function( require ) {
       if ( checkedProperty ) {
         checkedProperty.unlink( checkListener );
       }
-      together && together.removeComponent( menuItem, togetherID );
+      options.tandem && options.tandem.addInstance( this );
     };
 
-    together && together.addComponent( menuItem, togetherID );
+    options.tandem && options.tandem.removeInstance( this );
 
     return menuItem;
   };
@@ -175,7 +176,7 @@ define( function( require ) {
       },
       {
         text: phetWebsiteString,
-        togetherID: 'navigationBar.phetMenu.phetWebsiteButton',
+        tandem: options.tandem && options.tandem.createTandem( 'phetWebsiteButton' ),
         present: isPhETBrand,
         callback: function() {
           var phetWindow = window.open( 'http://phet.colorado.edu', '_blank' );
@@ -233,7 +234,7 @@ define( function( require ) {
           var reportWindow = window.open( url, '_blank' );
           reportWindow.focus();
         },
-        togetherID: 'navigationBar.phetMenu.reportAProblemButton'
+        tandem: options.tandem && options.tandem.createTandem( 'reportAProblemButton' )
       },
 
       //Feasibility test for capturing screen shots as images
@@ -283,7 +284,7 @@ define( function( require ) {
         callback: function() {
           new AboutDialog( sim.name, sim.version, sim.credits, Brand ).show();
         },
-        togetherID: 'navigationBar.phetMenu.aboutButton'
+        tandem: options.tandem && options.tandem.createTandem( 'aboutButton' )
       },
 
       //About dialog for non-phet sims
@@ -294,7 +295,7 @@ define( function( require ) {
         callback: function() {
           new AboutDialog( sim.name, sim.version, sim.credits, Brand ).show();
         },
-        togetherID: 'navigationBar.phetMenu.aboutButton'
+        tandem: options.tandem && options.tandem.createTandem( 'aboutButton' )
       }
     ];
 
@@ -307,7 +308,8 @@ define( function( require ) {
     // Create the menu items.
     var items = this.items = _.map( keepItemDescriptors, function( itemDescriptor ) {
       return createMenuItem( itemDescriptor.text, maxTextWidth, maxTextHeight, itemDescriptor.separatorBefore,
-        options.closeCallback, itemDescriptor.callback, itemDescriptor.checkedProperty, itemDescriptor.togetherID );
+        options.closeCallback, itemDescriptor.callback, itemDescriptor.checkedProperty,
+        { tandem: options.tandem && tandem.createTandem( itemDescriptor.togetherID ) } );
     } );
     var separatorWidth = _.max( items, function( item ) {return item.width;} ).width;
     var itemHeight = _.max( items, function( item ) {return item.height;} ).height;
