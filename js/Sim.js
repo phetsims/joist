@@ -242,7 +242,7 @@ define( function( require ) {
     // ignore any user input events, and instead fire touch events randomly in an effort to cause an exception
     options.fuzzTouches = !!phet.chipper.getQueryParameter( 'fuzzTouches' );
 
-    this.trigger1( 'simConstructorStarted', {
+    this.trigger1( 'startedSimConstructor', {
       sessionID: phet.chipper.getQueryParameter( 'sessionID' ) || null,
       simName: sim.name,
       simVersion: sim.version,
@@ -505,7 +505,7 @@ define( function( require ) {
     this.trigger0( 'simulationStarted' );
 
     // Signify the end of simulation startup.  Used by together.
-    this.trigger0( 'simConstructorEnded' );
+    this.trigger0( 'endedSimConstructor' );
   }
 
   return inherit( PropertySet, Sim, {
