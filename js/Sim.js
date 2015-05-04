@@ -22,7 +22,7 @@ define( function( require ) {
   var Display = require( 'SCENERY/display/Display' );
   var Node = require( 'SCENERY/nodes/Node' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
-  var version = require( 'version' );
+  var packageString = require( 'text!REPOSITORY/package.json' );
   var PropertySet = require( 'AXON/PropertySet' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var platform = require( 'PHET_CORE/platform' );
@@ -37,6 +37,8 @@ define( function( require ) {
 
   // initial dimensions of the navigation bar, sized for Mobile Safari
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
+
+  var packageJSON = JSON.parse( packageString );
 
   /**
    * Main Sim constructor
@@ -193,7 +195,7 @@ define( function( require ) {
     window.phet.joist.ScreenshotGenerator = ScreenshotGenerator;
 
     sim.name = name;
-    sim.version = version();
+    sim.version = packageJSON.version;
     sim.credits = options.credits;
 
     // number of animation frames that have occurred
@@ -237,6 +239,13 @@ define( function( require ) {
       if ( phet.chipper.getQueryParameter( 'fuzzMouse' ) !== 'undefined' ) {
         sim.fuzzMouseAverage = parseFloat( phet.chipper.getQueryParameter( 'fuzzMouse' ) );
       }
+
+      window.open = function() {
+        return {
+          focus: function() {},
+          blur: function() {}
+        }
+      };
     }
 
     // ignore any user input events, and instead fire touch events randomly in an effort to cause an exception

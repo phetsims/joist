@@ -230,7 +230,8 @@ define( function( require ) {
           var url = 'http://phet.colorado.edu/files/troubleshooting/' +
                     '?sim=' + encodeURIComponent( sim.name ) +
                     '&version=' + encodeURIComponent( sim.version ) +
-                    '&url=' + encodeURIComponent( window.location.href );
+                    '&url=' + encodeURIComponent( window.location.href ) +
+                    '&dependencies=' + encodeURIComponent( JSON.stringify( phet.chipper.dependencies ) );
           var reportWindow = window.open( url, '_blank' );
           reportWindow.focus();
         },
