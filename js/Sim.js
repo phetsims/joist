@@ -244,7 +244,7 @@ define( function( require ) {
         return {
           focus: function() {},
           blur: function() {}
-        }
+        };
       };
     }
 
