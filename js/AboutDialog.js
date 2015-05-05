@@ -41,13 +41,16 @@ define( function( require ) {
   function AboutDialog( name, version, credits, Brand ) {
     var dialog = this;
 
-    var children = [
-      new Text( name, { font: new PhetFont( 28 ) } ),
-      new Text( StringUtils.format( versionPattern, version ), { font: new PhetFont( 20 ) } ),
-      new VStrut( 15 ),
-      new Text( Brand.name, { font: new PhetFont( 16 ) } ),
-      new Text( Brand.copyright, { font: new PhetFont( 12 ) } )
-    ];
+    var children = [];
+    children.push( new Text( name, { font: new PhetFont( 28 ) } ) );
+    children.push( new Text( StringUtils.format( versionPattern, version ), { font: new PhetFont( 20 ) } ) );
+    if ( phet.chipper.buildTimestamp ) {
+      children.push( new Text( phet.chipper.buildTimestamp, { font: new PhetFont( 12 ) } ) );
+    }
+
+    children.push( new VStrut( 15 ) );
+    children.push( new Text( Brand.name, { font: new PhetFont( 16 ) } ) );
+    children.push( new Text( Brand.copyright, { font: new PhetFont( 12 ) } ) );
 
     if ( credits ) {
       children.push( new VStrut( 15 ) );
