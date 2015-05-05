@@ -229,7 +229,8 @@ define( function( require ) {
         callback: function() {
           var url = 'http://phet.colorado.edu/files/troubleshooting/' +
                     '?sim=' + encodeURIComponent( sim.name ) +
-                    '&version=' + encodeURIComponent( sim.version ) +
+                    '&version=' + encodeURIComponent( sim.version + ' ' +
+                      ( phet.chipper.buildTimestamp ? phet.chipper.buildTimestamp : '(require.js)' ) ) +
                     '&url=' + encodeURIComponent( window.location.href ) +
                     '&dependencies=' + encodeURIComponent( JSON.stringify( phet.chipper.dependencies ) );
           var reportWindow = window.open( url, '_blank' );
