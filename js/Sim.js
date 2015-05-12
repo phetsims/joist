@@ -208,6 +208,9 @@ define( function( require ) {
     // mouse event fuzzing parameters
     sim.fuzzMouseAverage = 10; // average number of mouse events to synthesize per frame
 
+    // Make our locale available
+    sim.locale = phet.chipper.locale || phet.chipper.getQueryParameter( 'locale' ) || 'en';
+
     //Set the HTML page title to the localized title
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
     $( 'title' ).html( name + ' ' + sim.version + options.textDescription ); //TODO i18n of order
