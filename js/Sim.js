@@ -243,6 +243,7 @@ define( function( require ) {
         sim.fuzzMouseAverage = parseFloat( phet.chipper.getQueryParameter( 'fuzzMouse' ) );
       }
 
+      // override window.open with a semi-API-compatible function, so fuzzing doesn't open new windows.
       window.open = function() {
         return {
           focus: function() {},
