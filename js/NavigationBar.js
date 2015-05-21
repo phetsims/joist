@@ -94,12 +94,12 @@ define( function( require ) {
         sim.showHomeScreen = true;
       } );
       this.addChild( this.homeButton );
+    }
 
-      // if the branding specifies to show "adapted from PhET" in the navbar, show it here
-      if ( Brand.adaptedFromPhET === true ) {
-        this.adaptedFromText = new AdaptedFromPhETText( sim.lookAndFeel );
-        this.addChild( this.adaptedFromText );
-      }
+    // if the branding specifies to show "adapted from PhET" in the navbar, show it here
+    if ( Brand.adaptedFromPhET === true ) {
+      this.adaptedFromText = new AdaptedFromPhETText( sim.lookAndFeel );
+      this.addChild( this.adaptedFromText );
     }
   }
 
