@@ -495,7 +495,7 @@ define( function( require ) {
 
     // Semi-transparent black barrier used to block input events when a dialog (or other popup) is present, and fade
     // out the background.
-    this.barrierStack = new ObservableArray();
+    this.barrierStack = new ObservableArray(); // {Node} with node.hide()
     this.barrierRectangle = new Rectangle( 0, 0, 1, 1, 0, 0, {
       fill: 'rgba(0,0,0,0.3)',
       pickable: true
@@ -507,7 +507,8 @@ define( function( require ) {
     this.barrierRectangle.addInputListener( new ButtonListener( {
       fire: function( event ) {
         assert && assert( sim.barrierStack.length > 0 );
-        sim.hidePopup( sim.barrierStack.get( sim.barrierStack.length - 1 ), true );
+
+        sim.barrierStack.get( sim.barrierStack.length - 1 ).hide();
       }
     } ) );
 
@@ -525,11 +526,13 @@ define( function( require ) {
     /*
      * Adds a popup in the global coordinate frame, and optionally displays a semi-transparent black input barrier behind it.
      * Use hidePopup() to remove it.
-     * @param {Node} node
+     * @param {Node} node - Should have node.hide() implemented to hide the popup (should subsequently call
+     *                      sim.hidePopup()).
      * @param {boolean} isModal - Whether to display the semi-transparent black input barrier behind it.
      */
     showPopup: function( node, isModal ) {
       assert && assert( node );
+      assert && assert( !!node.hide, 'Missing node.hide() for showPopup' );
 
       if ( isModal ) {
         this.barrierStack.push( node );

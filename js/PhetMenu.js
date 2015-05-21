@@ -363,6 +363,10 @@ define( function( require ) {
   }
 
   inherit( Node, PhetMenu, {
+    hide: function() {
+      phet.joist.sim.hidePopup( this, true );
+    },
+
     dispose: function() {
       _.each( this.items, function( item ) {
         item.dispose();
