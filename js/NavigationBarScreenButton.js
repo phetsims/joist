@@ -65,6 +65,7 @@ define( function( require ) {
     var box = new VBox( {
       children: [ icon, text ],
       pickable: false,
+      spacing: Math.max( 0, 12 - text.height ), // see https://github.com/phetsims/joist/issues/143
       usesOpacity: true // hint, since we change its opacity
     } );
 
