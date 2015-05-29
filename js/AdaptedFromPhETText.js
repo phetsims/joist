@@ -15,7 +15,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   // constants
-  // TODO: This next line is causing problems.  When using Futura/bold the text looks the same on homescreen vs navbar
+  // TODO: Issue #245 This next line is causing problems.  When using Futura/bold the text looks the same on homescreen vs navbar
   // TODO: on Chrome.  On Firefox it is very blurry!  Changing font makes it render differently on homescreen vs navbar.
   var FONT = new PhetFont( { family: 'Arial', size: 10, weight: 'bold' } );
 
