@@ -1,7 +1,7 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * Shows the about dialog.
+ * The "Settings" dialog.
  *
  * @author Sam Reid
  */
