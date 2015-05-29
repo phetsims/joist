@@ -19,6 +19,7 @@ define( function( require ) {
   var ButtonListener = require( 'SUN/buttons/ButtonListener' );
   var Multilink = require( 'AXON/Multilink' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   /**
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
@@ -60,7 +61,7 @@ define( function( require ) {
     // Buttons are created once with the wrong size then again with the right size.  Only register the final buttons.
     options.tandem && options.tandem.addInstance( this );
 
-    var text = new Text( screen.name );
+    var text = new Text( screen.name, { font: new PhetFont( 10 ) } );
 
     var box = new VBox( {
       children: [ icon, text ],
