@@ -130,7 +130,12 @@ define( function( require ) {
 
     // Credits
     children.push( new Text( creditsTitleString, { font: titleFont } ) );
-    if ( credits.leadDesign ) { children.push( new MultiLineText( StringUtils.format( leadDesignString, credits.leadDesign ), multiLineTextOptions ) ); }
+    if ( credits.leadDesign ) {
+      var t = new MultiLineText( StringUtils.format( leadDesignString, credits.leadDesign ), multiLineTextOptions );
+      t.fill = 'red';
+      t.text = 'Hello World';
+      children.push( t );
+    }
     if ( credits.softwareDevelopment ) { children.push( new MultiLineText( StringUtils.format( softwareDevelopmentString, credits.softwareDevelopment ), multiLineTextOptions ) ); }
     if ( credits.team ) { children.push( new MultiLineText( StringUtils.format( teamString, credits.team ), multiLineTextOptions ) ); }
     if ( credits.qualityAssurance ) { children.push( new MultiLineText( StringUtils.format( qualityAssuranceString, credits.qualityAssurance ), multiLineTextOptions ) ); }
