@@ -83,10 +83,10 @@ define( function( require ) {
       exit: function() { highlight.fill = null; },
     } );
     var fire = function( event ) {
-      menuItem.trigger( 'startedCallbacksForFired' );
+      menuItem.trigger0( 'startedCallbacksForFired' );
       closeCallback( event );
       callback( event );
-      menuItem.trigger( 'endedCallbacksForFired' );
+      menuItem.trigger0( 'endedCallbacksForFired' );
     };
     menuItem.addInputListener( new ButtonListener( {
       fire: fire
@@ -230,7 +230,7 @@ define( function( require ) {
           var url = 'http://phet.colorado.edu/files/troubleshooting/' +
                     '?sim=' + encodeURIComponent( sim.name ) +
                     '&version=' + encodeURIComponent( sim.version + ' ' +
-                      ( phet.chipper.buildTimestamp ? phet.chipper.buildTimestamp : '(require.js)' ) ) +
+                    ( phet.chipper.buildTimestamp ? phet.chipper.buildTimestamp : '(require.js)' ) ) +
                     '&url=' + encodeURIComponent( window.location.href ) +
                     '&dependencies=' + encodeURIComponent( JSON.stringify( phet.chipper.dependencies ) );
           var reportWindow = window.open( url, '_blank' );
