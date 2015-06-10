@@ -723,7 +723,9 @@ define( function( require ) {
 
             // step model and view (both optional)
             screen = sim.screens[ sim.screenIndex ];
-            if ( screen.model.step ) {
+
+            // If the DT is 0, we will skip the model step (see https://github.com/phetsims/joist/issues/171)
+            if ( screen.model.step && dt ) {
               screen.model.step( dt );
             }
             if ( screen.view.step ) {
