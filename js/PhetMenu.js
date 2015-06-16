@@ -238,6 +238,15 @@ define( function( require ) {
         },
         tandem: options.tandem && options.tandem.createTandem( 'reportAProblemButton' )
       },
+      {
+        text: 'QR code',
+        present: phet.chipper.getQueryParameter( 'qrCode' ),
+        callback: function() {
+          var win = window.open( 'http://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent( window.location.href ) + '&size=220x220&margin=0', '_blank' );
+          win.focus();
+        },
+        tandem: options.tandem && options.tandem.createTandem( 'qrCode' )
+      },
 
       //Feasibility test for capturing screen shots as images
       {
