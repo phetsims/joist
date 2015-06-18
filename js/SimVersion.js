@@ -47,6 +47,14 @@ define( function( require ) {
       return 0; // equal
     },
 
+    get isSimNotPublished() {
+      return this.major < 1 || // e.g. 0.0.0-dev.1
+             ( this.major === 1 && // e.g. 1.0.0-dev.1
+               this.minor === 0 &&
+               this.maintenance === 0 &&
+               this.suffix );
+    },
+
     toString: function() {
       return this.major + '.' + this.minor + '.' + this.maintenance + ( this.suffix ? '-' + this.suffix : '' );
     }

@@ -60,6 +60,12 @@ define( function( require ) {
         return;
       }
 
+      // If our sim's version indicates it hasn't been published, don't attempt to send a request for now
+      if ( this.ourVersion.isSimNotPublished ) {
+        self.state = 'up-to-date';
+        return;
+      }
+
       var req = new XMLHttpRequest();
 
       if ( 'withCredentials' in req ) {
