@@ -27,6 +27,7 @@ define( function( require ) {
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var Input = require( 'SCENERY/input/Input' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
+  var UpdateCheck = require( 'JOIST/UpdateCheck' );
 
   // strings
   var optionsString = require( 'string!JOIST/menuItem.options' );
@@ -38,6 +39,7 @@ define( function( require ) {
   var screenshotString = require( 'string!JOIST/menuItem.screenshot' );
   var fullscreenString = require( 'string!JOIST/menuItem.fullscreen' );
   var settingsString = require( 'string!JOIST/menuItem.settings' );
+  var getUpdateString = require( 'string!JOIST/menuItem.getUpdate' );
   var submitInputEventsLogString = require( 'string!JOIST/menuItem.submitInputEventsLog' );
 
   // constants
@@ -247,6 +249,15 @@ define( function( require ) {
         },
         tandem: options.tandem && options.tandem.createTandem( 'qrCode' )
       },
+      {
+        text: getUpdateString,
+        present: UpdateCheck.areUpdatesChecked && UpdateCheck.state === 'out-of-date',
+        callback: function() {
+          var newWindow = window.open( UpdateCheck.updateURL, '_blank' ); // open in a new window/tab
+          newWindow.focus();
+        },
+        tandem: options.tandem && options.tandem.createTandem( 'getUpdate' )
+      },
 
       //Feasibility test for capturing screen shots as images
       {
@@ -372,8 +383,16 @@ define( function( require ) {
   }
 
   inherit( Node, PhetMenu, {
+    show: function() {
+      if ( !window.phet.joist.sim.isPoppedUp( this ) ) {
+        window.phet.joist.sim.showPopup( this, true );
+      }
+    },
+
     hide: function() {
-      phet.joist.sim.hidePopup( this, true );
+      if ( window.phet.joist.sim.isPoppedUp( this ) ) {
+        window.phet.joist.sim.hidePopup( this, true );
+      }
     },
 
     dispose: function() {

@@ -34,7 +34,7 @@ define( function( require ) {
   function UpdateNode( options ) {
     Node.call( this, options );
 
-    var updateTextFont = new PhetFont( 12 );
+    var updateTextFont = new PhetFont( 14 );
 
     // "Checking" state node
     var spinningIndicatorNode = new SpinningIndicatorNode( { indicatorSize: 18 } );

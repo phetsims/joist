@@ -64,7 +64,7 @@ define( function( require ) {
         sim.on( 'resized', onResize );
         onResize( sim.bounds, sim.screenBounds, sim.scale );
 
-        sim.showPopup( phetMenu, true );
+        phetMenu.show();
       }
     }, options );
 

@@ -3,10 +3,10 @@
     "value": "Done"
   },
   "menuItem.options": {
-    "value": "Options..."
+    "value": "Options\u2026"
   },
   "menuItem.about": {
-    "value": "About..."
+    "value": "About\u2026"
   },
   "menuItem.mailInputEventsLog": {
     "value": "Mail Input Events Log"
@@ -18,10 +18,10 @@
     "value": "Output Log"
   },
   "menuItem.phetWebsite": {
-    "value": "PhET website..."
+    "value": "PhET website\u2026"
   },
   "menuItem.reportAProblem": {
-    "value": "Report a Problem..."
+    "value": "Report a Problem\u2026"
   },
   "menuItem.screenshot": {
     "value": "Screenshot"
@@ -30,10 +30,13 @@
     "value": "Full Screen"
   },
   "menuItem.settings": {
-    "value": "Settings..."
+    "value": "Settings\u2026"
   },
   "menuItem.submitInputEventsLog": {
     "value": "Submit Input Events Log"
+  },
+  "menuItem.getUpdate": {
+    "value": "Get Update\u2026"
   },
   "title.settings": {
     "value": "Settings"
@@ -78,7 +81,7 @@
     "value": "version {0}"
   },
   "updates.upToDate": {
-    "value": "Sim is up to date."
+    "value": "Up to date."
   },
   "updates.outOfDate": {
     "value": "New version available"
@@ -87,6 +90,6 @@
     "value": "Checking for updates\u2026"
   },
   "updates.offline": {
-    "value": "Sim is offline."
+    "value": "Unable to check for updates."
   }
 }
