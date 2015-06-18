@@ -3,8 +3,8 @@ var durationOverride = phet.chipper.getQueryParameter( 'duration' );
 var fuzzOverride = phet.chipper.getQueryParameter( 'fuzz' );
 var loadOnly = !!phet.chipper.getQueryParameter( 'loadOnly' );
 
-var DURATION_PER_SIM = durationOverride ? Number.parseInt( durationOverride ) : 30000; // ms
-var FUZZ_MOUSE_RATE = fuzzOverride ? Number.parseInt( fuzzOverride ) : 100; // actions per frame
+var DURATION_PER_SIM = durationOverride ? parseInt( durationOverride, 10 ) : 30000; // ms
+var FUZZ_MOUSE_RATE = fuzzOverride ? parseInt( fuzzOverride, 10 ) : 100; // actions per frame
 
 var simNames; // {Array.<string>} - will be filled in below by an AJAX request
 var testQueue = []; // {Array.<{ simName: {string}, isBuild: {boolean} }>} - Sim test target queue

@@ -63,9 +63,9 @@ define( function( require ) {
       }
 
       return new SimVersion( {
-        major: Number.parseInt( matches[ 1 ] ),
-        minor: Number.parseInt( matches[ 2 ] ),
-        maintenance: Number.parseInt( matches[ 3 ] ),
+        major: parseInt( matches[ 1 ], 10 ),
+        minor: parseInt( matches[ 2 ], 10 ),
+        maintenance: parseInt( matches[ 3 ], 10 ),
         suffix: matches[ 5 ],
         buildTimestamp: buildTimestamp
       } );
