@@ -17,6 +17,7 @@ define( function( require ) {
   var PhetMenu = require( 'JOIST/PhetMenu' );
   var Property = require( 'AXON/Property' );
   var JoistButton = require( 'JOIST/JoistButton' );
+  var UpdateCheck = require( 'JOIST/UpdateCheck' );
 
   // images
   var phetLogo = require( 'image!BRAND/logo.png' );
@@ -85,11 +86,13 @@ define( function( require ) {
 
     JoistButton.call( this, icon, sim.lookAndFeel.navigationBarFillProperty, options );
 
-    Property.multilink( [ sim.lookAndFeel.navigationBarFillProperty, sim.showHomeScreenProperty ], function( navigationBarFillProperty, showHomeScreen ) {
-      var backgroundIsWhite = navigationBarFillProperty !== 'black' && !showHomeScreen;
-      optionsButton.fill = backgroundIsWhite ? '#222' : 'white';
-      phetLabel.image = backgroundIsWhite ? phetLogoDarker : phetLogo;
-    } );
+    Property.multilink( [ sim.lookAndFeel.navigationBarFillProperty, sim.showHomeScreenProperty, UpdateCheck.stateProperty ],
+      function( navigationBarFillProperty, showHomeScreen, updateState ) {
+        var backgroundIsWhite = navigationBarFillProperty !== 'black' && !showHomeScreen;
+        var outOfDate = updateState === 'out-of-date';
+        optionsButton.fill = backgroundIsWhite ? ( outOfDate ? '#283' : '#222' ) : ( outOfDate ? '#9F9' : 'white' );
+        phetLabel.image = backgroundIsWhite ? phetLogoDarker : phetLogo;
+      } );
   }
 
   return inherit( JoistButton, PhetButton, {},

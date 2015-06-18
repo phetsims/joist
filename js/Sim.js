@@ -18,6 +18,7 @@ define( function( require ) {
   var NavigationBar = require( 'JOIST/NavigationBar' );
   var HomeScreen = require( 'JOIST/HomeScreen' );
   var HomeScreenView = require( 'JOIST/HomeScreenView' );
+  var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var Util = require( 'SCENERY/util/Util' );
   var Display = require( 'SCENERY/display/Display' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -515,6 +516,9 @@ define( function( require ) {
     // Fit to the window and render the initial scene
     $( window ).resize( function() { sim.resizeToWindow(); } );
     sim.resizeToWindow();
+
+    // Kick off checking for updates, if that is enabled
+    UpdateCheck.check();
 
     this.trigger0( 'simulationStarted' );
 
