@@ -76,5 +76,17 @@
   },
   "versionPattern": {
     "value": "version {0}"
+  },
+  "updates.upToDate": {
+    "value": "Sim is up to date."
+  },
+  "updates.outOfDate": {
+    "value": "New version available"
+  },
+  "updates.checking": {
+    "value": "Checking for updates\u2026"
+  },
+  "updates.offline": {
+    "value": "Sim is offline."
   }
 }
