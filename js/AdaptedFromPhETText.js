@@ -39,7 +39,6 @@ define( function( require ) {
 
   return inherit( MultiLineText, AdaptedFromPhETText, {
     updateLayout: function( scale, phetButton ) {
-
       this.setScaleMagnitude( scale );
       this.right = phetButton.left - 5 * scale;
       this.centerY = phetButton.centerY - 1 * scale;
