@@ -23,17 +23,17 @@ define( function( require ) {
   var FONT = new PhetFont( { family: 'Arial', size: 10, weight: 'bold' } );
 
   /**
-   *
+   * @param {Property.<Color|string>} fillProperty
    * @constructor
    */
-  function AdaptedFromPhETText( lookAndFeel ) {
+  function AdaptedFromPhETText( fillProperty ) {
     var adaptedFromPhetText = this;
     MultiLineText.call( this, adaptedFromString, {
       align: 'right',
       font: FONT
     } );
-    lookAndFeel.navigationBarTextFillProperty.link( function( navigationBarTextFill ) {
-      adaptedFromPhetText.setFill( navigationBarTextFill );
+    fillProperty.link( function( fill ) {
+      adaptedFromPhetText.fill = fill;
     } );
   }
 

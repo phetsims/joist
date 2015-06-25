@@ -98,7 +98,7 @@ define( function( require ) {
 
     // if the branding specifies to show "adapted from PhET" in the navbar, show it here
     if ( Brand.adaptedFromPhET === true ) {
-      this.adaptedFromText = new AdaptedFromPhETText( sim.lookAndFeel );
+      this.adaptedFromText = new AdaptedFromPhETText( sim.lookAndFeel.navigationBarTextFillProperty );
       this.addChild( this.adaptedFromText );
     }
   }
