@@ -14,6 +14,9 @@ define( function( require ) {
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
+  // strings
+  var adaptedFromString = require( 'string!JOIST/adaptedFrom' );
+
   // constants
   // TODO: Issue #245 This next line is causing problems.  When using Futura/bold the text looks the same on homescreen vs navbar
   // TODO: on Chrome.  On Firefox it is very blurry!  Changing font makes it render differently on homescreen vs navbar.
@@ -25,7 +28,7 @@ define( function( require ) {
    */
   function AdaptedFromPhETText( lookAndFeel ) {
     var adaptedFromPhetText = this;
-    MultiLineText.call( this, 'adapted\nfrom', {
+    MultiLineText.call( this, adaptedFromString, {
       align: 'right',
       font: FONT
     } );

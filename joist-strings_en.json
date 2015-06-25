@@ -91,5 +91,8 @@
   },
   "updates.offline": {
     "value": "Unable to check for updates."
-  }
+  },
+  "adaptedFrom": {
+      "value": "adapted\nfrom"
+    }
 }
