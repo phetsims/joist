@@ -103,5 +103,8 @@
   },
   "updates.noThanks": {
     "value": "No Thanks"
+  },
+  "adaptedFrom": {
+    "value": "adapted\nfrom"
   }
 }

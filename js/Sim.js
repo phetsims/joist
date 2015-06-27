@@ -31,7 +31,6 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Profiler = require( 'JOIST/Profiler' );
   var FocusLayer = require( 'SCENERY/accessibility/FocusLayer' );
-  var AriaSpeech = require( 'SCENERY/accessibility/AriaSpeech' );
   var Input = require( 'SCENERY/input/Input' );
   var LookAndFeel = require( 'JOIST/LookAndFeel' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
@@ -291,7 +290,6 @@ define( function( require ) {
 
     if ( options.accessibility ) {
       this.focusLayer = new FocusLayer( window.TWEEN ? { tweenFactory: window.TWEEN } : {} );
-      this.ariaSpeech = new AriaSpeech();
 
       //Adding the accessibility layer directly to the Display's root makes it easy to use local->global bounds.
       sim.rootNode.addChild( this.focusLayer );

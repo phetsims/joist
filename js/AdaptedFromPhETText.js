@@ -14,29 +14,31 @@ define( function( require ) {
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
+  // strings
+  var adaptedFromString = require( 'string!JOIST/adaptedFrom' );
+
   // constants
   // TODO: Issue #245 This next line is causing problems.  When using Futura/bold the text looks the same on homescreen vs navbar
   // TODO: on Chrome.  On Firefox it is very blurry!  Changing font makes it render differently on homescreen vs navbar.
   var FONT = new PhetFont( { family: 'Arial', size: 10, weight: 'bold' } );
 
   /**
-   *
+   * @param {Property.<Color|string>} fillProperty
    * @constructor
    */
-  function AdaptedFromPhETText( lookAndFeel ) {
+  function AdaptedFromPhETText( fillProperty ) {
     var adaptedFromPhetText = this;
-    MultiLineText.call( this, 'adapted\nfrom', {
+    MultiLineText.call( this, adaptedFromString, {
       align: 'right',
       font: FONT
     } );
-    lookAndFeel.navigationBarTextFillProperty.link( function( navigationBarTextFill ) {
-      adaptedFromPhetText.setFill( navigationBarTextFill );
+    fillProperty.link( function( fill ) {
+      adaptedFromPhetText.fill = fill;
     } );
   }
 
   return inherit( MultiLineText, AdaptedFromPhETText, {
     updateLayout: function( scale, phetButton ) {
-
       this.setScaleMagnitude( scale );
       this.right = phetButton.left - 5 * scale;
       this.centerY = phetButton.centerY - 1 * scale;
