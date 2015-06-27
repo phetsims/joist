@@ -36,7 +36,7 @@
     "value": "Submit Input Events Log"
   },
   "menuItem.getUpdate": {
-    "value": "Get Update\u2026"
+    "value": "Check for Updates\u2026"
   },
   "title.settings": {
     "value": "Settings"
@@ -81,7 +81,7 @@
     "value": "version {0}"
   },
   "updates.upToDate": {
-    "value": "Up to date."
+    "value": "This simulation is up to date."
   },
   "updates.outOfDate": {
     "value": "New version available"
@@ -91,5 +91,17 @@
   },
   "updates.offline": {
     "value": "Unable to check for updates."
+  },
+  "updates.newVersionAvailable": {
+    "value": "There is a new version available: {0}."
+  },
+  "updates.yourCurrentVersion": {
+    "value": "Your current version is: {0}."
+  },
+  "updates.getUpdate": {
+    "value": "Get Update\u2026"
+  },
+  "updates.noThanks": {
+    "value": "No Thanks"
   }
 }

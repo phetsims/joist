@@ -18,6 +18,7 @@ define( function( require ) {
   var AboutDialog = require( 'JOIST/AboutDialog' );
   var OptionsDialog = require( 'JOIST/OptionsDialog' );
   var SettingsDialog = require( 'JOIST/SettingsDialog' );
+  var UpdateDialog = require( 'JOIST/UpdateDialog' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Plane = require( 'SCENERY/nodes/Plane' );
@@ -54,7 +55,10 @@ define( function( require ) {
 
   // Creates a menu item that highlights and fires.
   var createMenuItem = function( text, width, height, separatorBefore, closeCallback, callback, checkedProperty, options ) {
-    options = _.extend( { tandem: null }, options );
+    options = _.extend( {
+      tandem: null,
+      color: '#000'
+    }, options );
     // padding between the check and text
     var CHECK_PADDING = 2;
     // offset that includes the checkmark's width and its padding
@@ -66,7 +70,7 @@ define( function( require ) {
     var Y_MARGIN = 3;
     var CORNER_RADIUS = 5;
 
-    var textNode = new Text( text, { font: new PhetFont( FONT_SIZE ) } );
+    var textNode = new Text( text, { font: new PhetFont( FONT_SIZE ), fill: options.color } );
     var highlight = new Rectangle( 0, 0, width + LEFT_X_MARGIN + RIGHT_X_MARGIN + CHECK_OFFSET, height + Y_MARGIN + Y_MARGIN, CORNER_RADIUS, CORNER_RADIUS );
 
     var menuItem = new Node( {
@@ -261,10 +265,10 @@ define( function( require ) {
       },
       {
         text: getUpdateString,
-        present: UpdateCheck.areUpdatesChecked && UpdateCheck.state === 'out-of-date',
+        present: UpdateCheck.areUpdatesChecked,
+        color: UpdateCheck.state === 'out-of-date' ? '#0a0' : '#000',
         callback: function() {
-          var newWindow = window.open( UpdateCheck.updateURL, '_blank' ); // open in a new window/tab
-          newWindow.focus();
+          new UpdateDialog().show();
         },
         tandem: options.tandem && options.tandem.createTandem( 'getUpdate' )
       },
@@ -347,7 +351,8 @@ define( function( require ) {
         options.closeCallback,
         itemDescriptor.callback,
         itemDescriptor.checkedProperty, {
-          tandem: itemDescriptor.tandem
+          tandem: itemDescriptor.tandem,
+          color: itemDescriptor.color
         } );
     } );
     var separatorWidth = _.max( items, function( item ) {return item.width;} ).width;

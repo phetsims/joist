@@ -33,22 +33,54 @@ define( function( require ) {
        * offline: Last attempt to check failed, most likely offline
        * unchecked: No attempt as been made to check the version against the latest online.
        */
-      state: 'unchecked' // @public {string}, one of 'up-to-date', 'out-of-date', 'checking', 'offline', 'unchecked'
+      state: 'unchecked', // @public {string}, one of 'up-to-date', 'out-of-date', 'checking', 'offline', 'unchecked'
+
+      latestVersion: null // {SimVersion} will be filled in by check() if applicable
     } );
 
     this.ourVersion = simVersion; // {SimVersion}
-    this.latestVersion = null; // {SimVersion} will be filled in by check() if applicable
+
+    this.timeoutCallback = this.timeout.bind( this );
   }
 
   inherit( PropertySet, UpdateCheck, {
-    // Whether we actually allow checking for updates, or showing any update-related UIs.
+    // @public - Whether we actually allow checking for updates, or showing any update-related UIs.
     areUpdatesChecked: !window.together,
 
-    // The URL to be used for "New version available" clicks
+    // @public - The URL to be used for "New version available" clicks
     updateURL: 'http://phet.colorado.edu/html-sim-update' +
                '?simulation=' + encodeURIComponent( simName ) +
                '&version=' + encodeURIComponent( simVersion.toString() ) +
                '&buildTimestamp=' + encodeURIComponent( '' + phet.chipper.buildTimestamp ),
+
+    // @private - Valid only if state === 'checking', the timeout ID of our timeout listener
+    timeoutId: -1,
+
+    // @private - How many ms before we time out (set to 'offline')
+    timeoutMilliseconds: 15000,
+
+    // @private - Clears our timeout listener.
+    clearTimeout: function() {
+      window.clearTimeout( this.timeoutId );
+    },
+
+    // @private - Sets our timeout listener.
+    setTimeout: function() {
+      this.timeoutId = window.setTimeout( this.timeoutCallback, this.timeoutMilliseconds );
+    },
+
+    // @public - If we are checking, it resets our timeout timer to timeoutMilliseconds
+    resetTimeout: function() {
+      if ( this.state === 'checking' ) {
+        this.clearTimeout();
+        this.setTimeout();
+      }
+    },
+
+    // @private - What happens when we actually time out.
+    timeout: function() {
+      this.state = 'offline';
+    },
 
     /**
      * @public - Kicks off the version checking request (if able), resulting in state changes.
@@ -72,7 +104,11 @@ define( function( require ) {
         // we'll be able to send the proper type of request, so we mark ourself as checking
         self.state = 'checking';
 
+        self.setTimeout();
+
         req.onload = function() {
+          self.clearTimeout();
+
           try {
             var data = JSON.parse( req.responseText );
 
@@ -99,11 +135,12 @@ define( function( require ) {
             }
           }
           catch ( e ) {
-            console.log( e );
             self.state = 'offline';
           }
         };
         req.onerror = function() {
+          self.clearTimeout();
+
           self.state = 'offline';
         };
         req.open( 'get', 'http://phet.colorado.edu/sims/html/' + simName + '/latest/dependencies.json', true ); // enable CORS

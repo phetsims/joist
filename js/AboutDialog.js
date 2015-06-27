@@ -11,14 +11,16 @@ define( function( require ) {
   // modules
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var VStrut = require( 'SCENERY/nodes/VStrut' );
   var Dialog = require( 'JOIST/Dialog' );
+  var Timer = require( 'JOIST/Timer' );
   var CreditsNode = require( 'JOIST/CreditsNode' );
-  var UpdateNode = require( 'JOIST/UpdateNode' );
+  var UpdateNodes = require( 'JOIST/UpdateNodes' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var LinkText = require( 'JOIST/LinkText' );
   var Input = require( 'SCENERY/input/Input' );
@@ -44,8 +46,29 @@ define( function( require ) {
     }
 
     if ( UpdateCheck.areUpdatesChecked ) {
-      this.updateNode = new UpdateNode();
-      children.push( this.updateNode );
+      var positionOptions = { left: 0, top: 0 };
+      var checkingNode = UpdateNodes.createCheckingNode( positionOptions );
+      var upToDateNode = UpdateNodes.createUpToDateNode( positionOptions );
+      var outOfDateNode = UpdateNodes.createOutOfDateAboutNode( positionOptions );
+      var offlineNode = UpdateNodes.createOfflineNode( positionOptions );
+
+      // Listener that should be called every frame where we are shown, with {number} dt as a single parameter.
+      this.updateStepListener = checkingNode.stepListener;
+
+      // Listener that should be called whenever our update state changes (while we are displayed)
+      this.updateVisibilityListener = function( state ) {
+        checkingNode.visible = state === 'checking';
+        upToDateNode.visible = state === 'up-to-date';
+        outOfDateNode.visible = state === 'out-of-date';
+        offlineNode.visible = state === 'offline';
+      };
+
+      children.push( new Node( { children: [
+        checkingNode,
+        upToDateNode,
+        outOfDateNode,
+        offlineNode
+      ] } ) );
     }
 
     children.push( new VStrut( 15 ) );
@@ -93,7 +116,20 @@ define( function( require ) {
 
   return inherit( Dialog, AboutDialog, {
     show: function() {
-      this.updateNode && this.updateNode.show();
+      if ( UpdateCheck.areUpdatesChecked ) {
+        UpdateCheck.resetTimeout();
+
+        // Fire off a new update check if we were marked as offline or unchecked before, and we handle updates.
+        if ( UpdateCheck.state === 'offline' || UpdateCheck.state === 'unchecked' ) {
+          UpdateCheck.check();
+        }
+
+        // Hook up our spinner listener when we're shown
+        Timer.addStepListener( this.updateStepListener );
+
+        // Hook up our visibility listener
+        UpdateCheck.stateProperty.link( this.updateVisibilityListener );
+      }
 
       Dialog.prototype.show.call( this );
     },
@@ -101,7 +137,13 @@ define( function( require ) {
     hide: function() {
       Dialog.prototype.hide.call( this );
 
-      this.updateNode && this.updateNode.hide();
+      if ( UpdateCheck.areUpdatesChecked ) {
+        // Disconnect our visibility listener
+        UpdateCheck.stateProperty.unlink( this.updateVisibilityListener );
+
+        // Disconnect our spinner listener when we're hidden
+        Timer.removeStepListener( this.updateStepListener );
+      }
     }
   } );
 } );

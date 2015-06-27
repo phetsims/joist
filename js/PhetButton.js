@@ -90,7 +90,7 @@ define( function( require ) {
       function( navigationBarFillProperty, showHomeScreen, updateState ) {
         var backgroundIsWhite = navigationBarFillProperty !== 'black' && !showHomeScreen;
         var outOfDate = updateState === 'out-of-date';
-        optionsButton.fill = backgroundIsWhite ? ( outOfDate ? '#283' : '#222' ) : ( outOfDate ? '#9F9' : 'white' );
+        optionsButton.fill = backgroundIsWhite ? ( outOfDate ? '#0a0' : '#222' ) : ( outOfDate ? '#3F3' : 'white' );
         phetLabel.image = backgroundIsWhite ? phetLogoDarker : phetLogo;
       } );
   }
