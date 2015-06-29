@@ -26,21 +26,21 @@ define( function( require ) {
 
     options = _.extend( {
       size: Screen.HOME_SCREEN_ICON_SIZE, // {Dimension2} size of the background
-      maxIconWidthFactor: 0.85, // max proportion of the background width occupied by iconNode, (0,1]
-      maxIconHeightFactor: 0.85, // max proportion of the background height occupied by iconNode, (0,1]
+      maxIconWidthProportion: 0.85, // max proportion of the background width occupied by iconNode, (0,1]
+      maxIconHeightProportion: 0.85, // max proportion of the background height occupied by iconNode, (0,1]
       fill: 'white', // {Color|string} background fill
       stroke: null // {Color|string} background stroke
     }, options );
 
-    assert && assert( options.maxIconWidthFactor > 0 && options.maxIconWidthFactor <= 1 );
-    assert && assert( options.maxIconHeightFactor > 0 && options.maxIconHeightFactor <= 1 );
+    assert && assert( options.maxIconWidthProportion > 0 && options.maxIconWidthProportion <= 1 );
+    assert && assert( options.maxIconHeightProportion > 0 && options.maxIconHeightProportion <= 1 );
 
     var background = new Rectangle( 0, 0, options.size.width, options.size.height, {
       fill: options.fill,
       stroke: options.stroke
     } );
 
-    iconNode.setScaleMagnitude( Math.min( options.maxIconWidthFactor * background.width / iconNode.width, options.maxIconHeightFactor * background.height / iconNode.height ) );
+    iconNode.setScaleMagnitude( Math.min( options.maxIconWidthProportion * background.width / iconNode.width, options.maxIconHeightProportion * background.height / iconNode.height ) );
     iconNode.center = background.center;
     iconNode.pickable = false;
 
