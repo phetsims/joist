@@ -26,21 +26,21 @@ define( function( require ) {
 
     options = _.extend( {
       size: Screen.HOME_SCREEN_ICON_SIZE, // {Dimension2} size of the background
-      xScaleFactor: 0.85, // max percentage of the background width occupied by iconNode, [0,1]
-      yScaleFactor: 0.85, // max percentage of the background height occupied by iconNode, [0,1]
+      maxIconWidthFactor: 0.85, // max proportion of the background width occupied by iconNode, (0,1]
+      maxIconHeightFactor: 0.85, // max proportion of the background height occupied by iconNode, (0,1]
       fill: 'white', // {Color|string} background fill
       stroke: null // {Color|string} background stroke
     }, options );
 
-    assert && assert( options.xScaleFactor > 0 && options.xScaleFactor <= 1 );
-    assert && assert( options.yScaleFactor > 0 && options.yScaleFactor <= 1 );
+    assert && assert( options.maxIconWidthFactor > 0 && options.maxIconWidthFactor <= 1 );
+    assert && assert( options.maxIconHeightFactor > 0 && options.maxIconHeightFactor <= 1 );
 
     var background = new Rectangle( 0, 0, options.size.width, options.size.height, {
       fill: options.fill,
       stroke: options.stroke
     } );
 
-    iconNode.setScaleMagnitude( Math.min( options.xScaleFactor * background.width / iconNode.width, options.yScaleFactor * background.height / iconNode.height ) );
+    iconNode.setScaleMagnitude( Math.min( options.maxIconWidthFactor * background.width / iconNode.width, options.maxIconHeightFactor * background.height / iconNode.height ) );
     iconNode.center = background.center;
     iconNode.pickable = false;
 
