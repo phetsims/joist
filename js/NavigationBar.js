@@ -98,7 +98,20 @@ define( function( require ) {
   }
 
   return inherit( Node, NavigationBar, {
-    relayout: function() {
+
+    /**
+     * Called when the navigation bar layout needs to be updated.
+     * @param {number} scale
+     * @param {number} width
+     * @param {number} height
+     * @public
+     */
+    layout: function( scale, width, height ) {
+
+      this.navBarScale = scale;
+      this.navBarWidth = width;
+      this.navBarHeight = height;
+
       var navigationBar = this;
       navigationBar.background.rectHeight = this.navBarHeight;
       navigationBar.background.rectWidth = this.navBarWidth;
@@ -135,12 +148,6 @@ define( function( require ) {
       this.phetButton.setScaleMagnitude( this.navBarScale );
       this.phetButton.right = this.navBarWidth - PhetButton.HORIZONTAL_INSET;
       this.phetButton.bottom = this.navBarHeight - PhetButton.VERTICAL_INSET;
-    },
-    layout: function( scale, width, height ) {
-      this.navBarScale = scale;
-      this.navBarWidth = width;
-      this.navBarHeight = height;
-      this.relayout();
     }
   } );
 } );
