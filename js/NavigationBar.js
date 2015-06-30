@@ -101,7 +101,7 @@ define( function( require ) {
   return inherit( Node, NavigationBar, {
 
     /**
-     * Called when the navigation bar layout needs to be updated.
+     * Called when the navigation bar layout needs to be updated, typically when the browser window is resized.
      * @param {number} scale
      * @param {number} width
      * @param {number} height
