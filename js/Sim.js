@@ -588,7 +588,7 @@ define( function( require ) {
 
       // 40 px high on iPad Mobile Safari
       var navBarHeight = scale * NAVIGATION_BAR_SIZE.height;
-      sim.navigationBar.layout( scale, width, navBarHeight, height );
+      sim.navigationBar.layout( scale, width, navBarHeight );
       sim.navigationBar.y = height - navBarHeight;
       sim.display.setSize( new Dimension2( width, height ) );
 

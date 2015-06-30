@@ -136,7 +136,7 @@ define( function( require ) {
       this.phetButton.right = this.navBarWidth - PhetButton.HORIZONTAL_INSET;
       this.phetButton.bottom = this.navBarHeight - PhetButton.VERTICAL_INSET;
     },
-    layout: function( scale, width, height, windowHeight ) {
+    layout: function( scale, width, height ) {
       this.navBarScale = scale;
       this.navBarWidth = width;
       this.navBarHeight = height;
