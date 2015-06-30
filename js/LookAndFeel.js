@@ -20,6 +20,7 @@ define( function( require ) {
   function LookAndFeel() {
     PropertySet.call( this, {
 
+      //TODO Why is this here? Each screen has its own background color. And the default in Screen is 'white'.
       // The background color for the screen, which will be set on the Display as its backgroundColor
       backgroundColor: 'black'
     } );

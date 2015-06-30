@@ -376,7 +376,7 @@ define( function( require ) {
     this.updateBackground = function() {
       sim.lookAndFeel.backgroundColor = sim.currentScreen ?
                                         sim.currentScreen.backgroundColor.toCSS() :
-                                        'black';
+                                        'black';  //TODO why isn't this sim.homeScreen.backgroundColor.toCSS() ?
     };
 
     sim.lookAndFeel.backgroundColorProperty.link( function( backgroundColor ) {

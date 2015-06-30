@@ -42,7 +42,7 @@ define( function( require ) {
     //Renderer must be specified here because the node is added directly to the scene (instead of to some other node that already has svg renderer
     ScreenView.call( this, { layoutBounds: LAYOUT_BOUNDS } );
 
-    this.backgroundColor = 'black';
+    this.backgroundColor = 'black'; //TODO joist#255 this should be in LookAndFeel
 
     //iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
     var title = new Text( sim.name, {
