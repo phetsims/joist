@@ -24,13 +24,13 @@ define( function( require ) {
       backgroundColor: 'black'
     } );
 
-    // When the simulation screen's background color changes, update the navbar color as well.
+    // Navigation bar background fill
     this.addDerivedProperty( 'navigationBarFill', [ 'backgroundColor' ], function( backgroundColor ) {
       var screenIsBlack = !!new Color( backgroundColor ).equals( Color.BLACK );
       return screenIsBlack ? 'white' : 'black';
     } );
 
-    // The color that text should appear in the navigation bar.
+    // Navigation bar text fill
     this.addDerivedProperty( 'navigationBarTextFill', [ 'navigationBarFill' ], function( navigationBarFill ) {
       return navigationBarFill === 'black' ? 'white' : 'black';
     } );
