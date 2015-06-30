@@ -111,7 +111,6 @@ define( function( require ) {
 
     //statics
     {
-
       //How much space between the PhetButton and the right side of the screen.
       HORIZONTAL_INSET: 5,
 
