@@ -112,12 +112,11 @@ define( function( require ) {
       this.navBarWidth = width;
       this.navBarHeight = height;
 
-      var navigationBar = this;
-      navigationBar.background.rectHeight = this.navBarHeight;
-      navigationBar.background.rectWidth = this.navBarWidth;
+      this.background.rectHeight = this.navBarHeight;
+      this.background.rectWidth = this.navBarWidth;
 
       if ( this.buttonHBox ) {
-        this.buttonHBox.setScaleMagnitude( navigationBar.navBarScale );
+        this.buttonHBox.setScaleMagnitude( this.navBarScale );
       }
 
       var titleInset = 10;
@@ -134,9 +133,9 @@ define( function( require ) {
         this.buttonHBox.top = 2;
 
         //Center the home icon vertically and make it a bit larger than the icons and text, see https://github.com/phetsims/joist/issues/127
-        navigationBar.homeButton.setScaleMagnitude( this.navBarScale * 1.1 );
-        navigationBar.homeButton.centerY = navigationBar.background.rectHeight / 2;
-        navigationBar.homeButton.left = navigationBar.buttonHBox.right + 15;
+        this.homeButton.setScaleMagnitude( this.navBarScale * 1.1 );
+        this.homeButton.centerY = this.background.rectHeight / 2;
+        this.homeButton.left = this.buttonHBox.right + 15;
 
         //If the title overlaps the screen icons, scale it down.  See #128
         var availableSpace = this.buttonHBox.left - titleInset - distanceBetweenTitleAndFirstScreenIcon;
