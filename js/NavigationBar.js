@@ -42,6 +42,7 @@ define( function( require ) {
 
     //Renderer must be specified here because the node is added directly to the scene (instead of to some other node that already has svg renderer
     Node.call( this );
+
     this.background = new Rectangle( 0, 0, 0, 0, { pickable: false } );
     sim.lookAndFeel.navigationBarFillProperty.link( function( navigationBarFill ) {
       navigationBar.background.fill = navigationBarFill;
@@ -57,12 +58,13 @@ define( function( require ) {
     sim.lookAndFeel.navigationBarTextFillProperty.link( function( navigationBarTextFill ) {
       navigationBar.titleLabel.fill = navigationBarTextFill;
     } );
-
     this.addChild( this.titleLabel );
 
+    // Create screen buttons and home buttonm, irrelevant for single-screen sims.
     if ( screens.length > 1 ) {
 
-      //Create buttons once so we can get their dimensions
+      //TODO wow is this wasteful
+      // Create screen buttons once so we can get their dimensions
       var buttons = _.map( screens, function( screen ) {
         return new NavigationBarScreenButton(
           sim.lookAndFeel.navigationBarFillProperty,
@@ -74,7 +76,7 @@ define( function( require ) {
       } );
       var maxWidth = Math.max( 50, _.max( buttons, function( button ) {return button.width;} ).width );
 
-      //Create buttons again with equivalent sizes
+      // Create screen buttons again with equivalent sizes
       buttons = _.map( screens, function( screen ) {
         return new NavigationBarScreenButton( sim.lookAndFeel.navigationBarFillProperty,
           sim.screenIndexProperty,
@@ -86,10 +88,11 @@ define( function( require ) {
           } );
       } );
 
+      //TODO why isn't homeButton in this HBox?
       this.buttonHBox = new HBox( { children: buttons, spacing: 4 } );
       this.addChild( this.buttonHBox );
 
-      //add the home button
+      // Create the home button
       this.homeButton = new HomeButton( sim.lookAndFeel.navigationBarFillProperty, function() {
         sim.showHomeScreen = true;
       } );
