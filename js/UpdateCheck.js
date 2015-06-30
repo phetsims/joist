@@ -152,7 +152,7 @@ define( function( require ) {
           simulation: simName,
           locale: phet.joist.sim.locale,
           currentVersion: self.ourVersion.toString(),
-          buildDate: phet.chipper.buildTimestamp
+          buildTimestamp: phet.chipper.buildTimestamp
         } ) );
       }
     }
