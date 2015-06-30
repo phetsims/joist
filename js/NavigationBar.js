@@ -45,7 +45,7 @@ define( function( require ) {
     } );
     this.addChild( this.background );
 
-    this.phetButton = new PhetButton( sim, sim.lookAndFeel.navigationBarTextFillProperty, {
+    this.phetButton = new PhetButton( sim, sim.lookAndFeel.navigationBarFillProperty, sim.lookAndFeel.navigationBarTextFillProperty, {
       tandem: options.tandem ? options.tandem.createTandem( 'phetButton' ) : null
     } );
     this.addChild( this.phetButton );

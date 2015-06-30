@@ -212,7 +212,7 @@ define( function( require ) {
       center.centerX = homeScreenView.layoutBounds.width / 2;
     } );
 
-    this.phetButton = new PhetButton( sim, new Property( 'white' ), {
+    this.phetButton = new PhetButton( sim, new Property( 'black' ), new Property( 'white' ), {
       tandem: options.tandem ? options.tandem.createTandem( 'phetButton' ) : null
     } );
     this.addChild( this.phetButton );

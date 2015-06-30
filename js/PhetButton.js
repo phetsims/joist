@@ -28,11 +28,12 @@ define( function( require ) {
 
   /**
    * @param {Sim} sim
+   * @param {Property.<Color|string>} backgroundFillProperty
    * @param {Property.<Color|string>} textFillProperty
    * @param {Object} [options] Unused in client code.
    * @constructor
    */
-  function PhetButton( sim, textFillProperty, options ) {
+  function PhetButton( sim, backgroundFillProperty, textFillProperty, options ) {
 
     options = _.extend( {
       textDescription: 'PhET Menu Button',
@@ -87,7 +88,7 @@ define( function( require ) {
     // The icon combines the PhET label and the thre horizontal bars in the right relative positions
     var icon = new Node( { children: [ phetLabel, optionsButton ] } );
 
-    JoistButton.call( this, icon, sim.lookAndFeel.navigationBarFillProperty, options );
+    JoistButton.call( this, icon, backgroundFillProperty, options );
 
     // If this is an "adapted from PhET" brand, decorate the PhET button with "adapted from" text.
     if ( Brand.adaptedFromPhET ) {
@@ -98,9 +99,9 @@ define( function( require ) {
       } ) );
     }
 
-    Property.multilink( [ sim.lookAndFeel.navigationBarFillProperty, sim.showHomeScreenProperty, UpdateCheck.stateProperty ],
-      function( navigationBarFillProperty, showHomeScreen, updateState ) {
-        var backgroundIsWhite = navigationBarFillProperty !== 'black' && !showHomeScreen;
+    Property.multilink( [ backgroundFillProperty, sim.showHomeScreenProperty, UpdateCheck.stateProperty ],
+      function( backgroundFill, showHomeScreen, updateState ) {
+        var backgroundIsWhite = backgroundFill !== 'black' && !showHomeScreen;
         var outOfDate = updateState === 'out-of-date';
         optionsButton.fill = backgroundIsWhite ? ( outOfDate ? '#0a0' : '#222' ) : ( outOfDate ? '#3F3' : 'white' );
         phetLabel.image = backgroundIsWhite ? phetLogoDarker : phetLogo;
