@@ -212,7 +212,10 @@ define( function( require ) {
       center.centerX = homeScreenView.layoutBounds.width / 2;
     } );
 
-    this.phetButton = new PhetButton( sim, new Property( 'black' ), new Property( 'white' ), {
+    //TODO joist#255 move these fill properties to LookAndFeel, chase down other places that they should be used
+    var homeScreenFillProperty = new Property( 'black' );
+    var homeScreenTextFillProperty = new Property( 'white' );
+    this.phetButton = new PhetButton( sim, homeScreenFillProperty, homeScreenTextFillProperty, {
       tandem: options.tandem ? options.tandem.createTandem( 'phetButton' ) : null
     } );
     this.addChild( this.phetButton );
