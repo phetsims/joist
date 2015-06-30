@@ -25,6 +25,7 @@ define( function( require ) {
   function UpdateCheck() {
     PropertySet.call( this, {
       /*
+       * @public
        * Descriptions of states:
        *
        * up-to-date: Simulation version is equal to or greater than the currently published version.
@@ -35,7 +36,11 @@ define( function( require ) {
        */
       state: 'unchecked', // @public {string}, one of 'up-to-date', 'out-of-date', 'checking', 'offline', 'unchecked'
 
-      latestVersion: null // {SimVersion} will be filled in by check() if applicable
+      // @public {SimVersion} will be filled in by check() if applicable
+      latestVersion: null,
+
+      // @public {string} Default update URL, should be replaced by request
+      updateURL: 'http://phet.colorado.edu/en/simulation/' + simName
     } );
 
     this.ourVersion = simVersion; // {SimVersion}
@@ -112,26 +117,23 @@ define( function( require ) {
           try {
             var data = JSON.parse( req.responseText );
 
-            // like "# wave-on-a-string 1.0.0 Thu Sep 18 2014 16:01:13 GMT-0600 (Mountain Daylight Time)"
-            var comment = data.comment;
-            assert && assert( comment.substring( 2, simName.length + 2 ) === simName,
-              'Sim name mismatch for UpdateCheck: ' + simName + ' for ' + comment );
-
-            // extract the version string
-            var versionString = comment.substring( simName.length + 3 );
-            versionString = versionString.substring( 0, versionString.indexOf( ' ' ) );
-
-            var latestVersion = SimVersion.parse( versionString );
-            self.latestVersion = latestVersion;
-
-            // Check to see if our version is definitively before the latest version, assuming version+suffix is
-            // before a version without a suffix.
-            var comparison = self.ourVersion.compare( latestVersion );
-            if ( comparison === -1 || ( comparison === 0 && self.ourVersion.suffix ) ) {
-              self.state = 'out-of-date';
+            if ( data.error ) {
+              console.log( 'Update check failure: ' + data.error );
+              self.state = 'offline';
             }
             else {
-              self.state = 'up-to-date';
+              if ( self.updateURL ) {
+                self.updateURL = data.updateURL;
+              }
+              self.latestVersion = SimVersion.parse( data.latestVersion, data.buildTimestamp );
+
+              if ( data.state === 'out-of-date' || data.state === 'up-to-date' ) {
+                self.state = data.state;
+              }
+              else {
+                console.log( 'Failed to get proper state: ' + data.state );
+                self.state = 'offline';
+              }
             }
           }
           catch ( e ) {
@@ -143,8 +145,15 @@ define( function( require ) {
 
           self.state = 'offline';
         };
-        req.open( 'get', 'http://phet.colorado.edu/sims/html/' + simName + '/latest/dependencies.json', true ); // enable CORS
-        req.send();
+        req.open( 'post', 'http://phet.colorado.edu/services/check-html-updates', true ); // enable CORS
+        req.setRequestHeader( 'Content-type', 'application/json' );
+        req.send( JSON.stringify( {
+          api: '1.0',
+          simulation: simName,
+          locale: phet.joist.sim.locale,
+          currentVersion: self.ourVersion.toString(),
+          buildDate: phet.chipper.buildTimestamp
+        } ) );
       }
     }
   } );
