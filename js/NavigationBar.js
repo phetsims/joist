@@ -33,14 +33,10 @@ define( function( require ) {
     options = _.extend( {
       tandem: null
     }, options );
-    var navigationBar = this;
+
     this.screens = screens;
 
-    this.navBarWidth = barSize.width;
-    this.navBarHeight = barSize.height;
-    this.navBarScale = 1;
-
-    //Renderer must be specified here because the node is added directly to the scene (instead of to some other node that already has svg renderer
+    var navigationBar = this;
     Node.call( this );
 
     this.background = new Rectangle( 0, 0, 0, 0, { pickable: false } );
@@ -71,7 +67,7 @@ define( function( require ) {
           sim.screenIndexProperty,
           sim.screens,
           screen,
-          navigationBar.navBarHeight,
+          barSize.height,
           0 );
       } );
       var maxWidth = Math.max( 50, _.max( buttons, function( button ) {return button.width;} ).width );
@@ -82,7 +78,7 @@ define( function( require ) {
           sim.screenIndexProperty,
           sim.screens,
           screen,
-          navigationBar.navBarHeight,
+          barSize.height,
           maxWidth, {
             tandem: options.tandem && options.tandem.createTandem( screen.tandemScreenName + 'Button' )
           } );
@@ -98,6 +94,8 @@ define( function( require ) {
       } );
       this.addChild( this.homeButton );
     }
+
+    this.layout( 1, barSize.width, barSize.height );
   }
 
   return inherit( Node, NavigationBar, {
@@ -111,45 +109,41 @@ define( function( require ) {
      */
     layout: function( scale, width, height ) {
 
-      this.navBarScale = scale;
-      this.navBarWidth = width;
-      this.navBarHeight = height;
-
       // background
-      this.background.rectHeight = this.navBarHeight;
-      this.background.rectWidth = this.navBarWidth;
+      this.background.rectWidth = width;
+      this.background.rectHeight = height;
 
       // title
       var titleInset = 10;
       var distanceBetweenTitleAndFirstScreenIcon = 20;
-      this.titleLabel.setScaleMagnitude( this.navBarScale );
-      this.titleLabel.centerY = this.navBarHeight / 2;
+      this.titleLabel.setScaleMagnitude( scale );
       this.titleLabel.left = titleInset;
+      this.titleLabel.centerY = height / 2;
 
       // PhET button
-      this.phetButton.setScaleMagnitude( this.navBarScale );
-      this.phetButton.right = this.navBarWidth - PhetButton.HORIZONTAL_INSET;
-      this.phetButton.bottom = this.navBarHeight - PhetButton.VERTICAL_INSET;
+      this.phetButton.setScaleMagnitude( scale );
+      this.phetButton.right = width - PhetButton.HORIZONTAL_INSET;
+      this.phetButton.bottom = height - PhetButton.VERTICAL_INSET;
 
       // Lay out the screen buttons and home button from left to right
       if ( this.screens.length !== 1 ) {
 
-        this.buttonHBox.setScaleMagnitude( this.navBarScale );
+        this.buttonHBox.setScaleMagnitude( scale );
 
         // Center the screen buttons
-        this.buttonHBox.centerX = this.navBarWidth / 2;
+        this.buttonHBox.centerX = width / 2;
         this.buttonHBox.top = 2;
 
         // Center the home icon vertically and make it a bit larger than the icons and text, see https://github.com/phetsims/joist/issues/127
-        this.homeButton.setScaleMagnitude( this.navBarScale * 1.1 );
-        this.homeButton.centerY = this.background.rectHeight / 2;
+        this.homeButton.setScaleMagnitude( scale * 1.1 );
         this.homeButton.left = this.buttonHBox.right + 15;
+        this.homeButton.centerY = this.background.rectHeight / 2;
 
         // If the title overlaps the screen icons, scale it down.  See #128
-        var availableSpace = this.buttonHBox.left - titleInset - distanceBetweenTitleAndFirstScreenIcon;
-        var size = this.titleLabel.width;
-        if ( size > availableSpace ) {
-          this.titleLabel.setScaleMagnitude( this.navBarScale * availableSpace / size );
+        var availableWidth = this.buttonHBox.left - titleInset - distanceBetweenTitleAndFirstScreenIcon;
+        var titleWidth = this.titleLabel.width;
+        if ( titleWidth > availableWidth ) {
+          this.titleLabel.setScaleMagnitude( scale * availableWidth / titleWidth );
         }
       }
     }
