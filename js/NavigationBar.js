@@ -88,7 +88,7 @@ define( function( require ) {
           } );
       } );
 
-      //TODO why isn't homeButton in this HBox?
+      // Put screen buttons in a horizontal box
       this.buttonHBox = new HBox( { children: buttons, spacing: 4 } );
       this.addChild( this.buttonHBox );
 
@@ -115,41 +115,43 @@ define( function( require ) {
       this.navBarWidth = width;
       this.navBarHeight = height;
 
+      // background
       this.background.rectHeight = this.navBarHeight;
       this.background.rectWidth = this.navBarWidth;
 
-      if ( this.buttonHBox ) {
-        this.buttonHBox.setScaleMagnitude( this.navBarScale );
-      }
-
+      // title
       var titleInset = 10;
       var distanceBetweenTitleAndFirstScreenIcon = 20;
       this.titleLabel.setScaleMagnitude( this.navBarScale );
       this.titleLabel.centerY = this.navBarHeight / 2;
       this.titleLabel.left = titleInset;
 
-      //Lay out the components from left to right
+      // PhET button
+      this.phetButton.setScaleMagnitude( this.navBarScale );
+      this.phetButton.right = this.navBarWidth - PhetButton.HORIZONTAL_INSET;
+      this.phetButton.bottom = this.navBarHeight - PhetButton.VERTICAL_INSET;
+
+      // Lay out the screen buttons and home button from left to right
       if ( this.screens.length !== 1 ) {
 
-        //put the center right in the middle
+        this.buttonHBox.setScaleMagnitude( this.navBarScale );
+
+        // Center the screen buttons
         this.buttonHBox.centerX = this.navBarWidth / 2;
         this.buttonHBox.top = 2;
 
-        //Center the home icon vertically and make it a bit larger than the icons and text, see https://github.com/phetsims/joist/issues/127
+        // Center the home icon vertically and make it a bit larger than the icons and text, see https://github.com/phetsims/joist/issues/127
         this.homeButton.setScaleMagnitude( this.navBarScale * 1.1 );
         this.homeButton.centerY = this.background.rectHeight / 2;
         this.homeButton.left = this.buttonHBox.right + 15;
 
-        //If the title overlaps the screen icons, scale it down.  See #128
+        // If the title overlaps the screen icons, scale it down.  See #128
         var availableSpace = this.buttonHBox.left - titleInset - distanceBetweenTitleAndFirstScreenIcon;
         var size = this.titleLabel.width;
         if ( size > availableSpace ) {
           this.titleLabel.setScaleMagnitude( this.navBarScale * availableSpace / size );
         }
       }
-      this.phetButton.setScaleMagnitude( this.navBarScale );
-      this.phetButton.right = this.navBarWidth - PhetButton.HORIZONTAL_INSET;
-      this.phetButton.bottom = this.navBarHeight - PhetButton.VERTICAL_INSET;
     }
   } );
 } );
