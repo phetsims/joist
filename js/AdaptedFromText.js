@@ -26,7 +26,7 @@ define( function( require ) {
    * @param {Property.<Color|string>} fillProperty
    * @constructor
    */
-  function AdaptedFromPhETText( fillProperty ) {
+  function AdaptedFromText( fillProperty ) {
     var adaptedFromPhetText = this;
     MultiLineText.call( this, adaptedFromString, {
       align: 'right',
@@ -37,7 +37,7 @@ define( function( require ) {
     } );
   }
 
-  return inherit( MultiLineText, AdaptedFromPhETText, {
+  return inherit( MultiLineText, AdaptedFromText, {
     updateLayout: function( scale, phetButton ) {
       this.setScaleMagnitude( scale );
       this.right = phetButton.left - 5 * scale;

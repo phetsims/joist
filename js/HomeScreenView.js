@@ -24,7 +24,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var AdaptedFromPhETText = require( 'JOIST/AdaptedFromPhETText' );
+  var AdaptedFromText = require( 'JOIST/AdaptedFromText' );
   var Brand = require( 'BRAND/Brand' );
   var Input = require( 'SCENERY/input/Input' );
 
@@ -234,7 +234,7 @@ define( function( require ) {
 
     // if the branding specifies to show "adapted from PhET" in the navbar, show it here
     if ( Brand.adaptedFromPhET === true ) {
-      this.adaptedFromText = new AdaptedFromPhETText( new Property( 'white' ) );
+      this.adaptedFromText = new AdaptedFromText( new Property( 'white' ) );
       this.addChild( this.adaptedFromText );
     }
 

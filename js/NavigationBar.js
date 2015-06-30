@@ -20,7 +20,7 @@ define( function( require ) {
   var PhetButton = require( 'JOIST/PhetButton' );
   var NavigationBarScreenButton = require( 'JOIST/NavigationBarScreenButton' );
   var Brand = require( 'BRAND/Brand' );
-  var AdaptedFromPhETText = require( 'JOIST/AdaptedFromPhETText' );
+  var AdaptedFromText = require( 'JOIST/AdaptedFromText' );
 
   /**
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
@@ -98,7 +98,7 @@ define( function( require ) {
 
     // if the branding specifies to show "adapted from PhET" in the navbar, show it here
     if ( Brand.adaptedFromPhET === true ) {
-      this.adaptedFromText = new AdaptedFromPhETText( sim.lookAndFeel.navigationBarTextFillProperty );
+      this.adaptedFromText = new AdaptedFromText( sim.lookAndFeel.navigationBarTextFillProperty );
       this.addChild( this.adaptedFromText );
     }
   }
