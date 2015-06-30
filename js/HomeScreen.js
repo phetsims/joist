@@ -18,6 +18,11 @@ define( function( require ) {
    * @constructor
    */
   function HomeScreen( sim, options ) {
+
+    options = _.extend( {
+       backgroundColor: 'black' //TODO joist#255 this should come from LookAndFeel
+    } );
+
     //name, homeScreenIcon, createModel, createView, options
     Screen.call( this,
 
@@ -35,7 +40,9 @@ define( function( require ) {
       // View is where all of the work is done
       function() {
         return new HomeScreenView( sim, options );
-      }
+      },
+
+      options
     );
   }
 

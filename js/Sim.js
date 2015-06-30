@@ -154,6 +154,7 @@ define( function( require ) {
       // global bounds for the screen-specific part (excludes the navigation bar)
       screenBounds: null,
 
+      //TODO this comment is wrong, HomeScreen is a subtype of Screen.
       // [read-only] {Screen|null} - The current screen, or null if showing the home screen (which is NOT a Screen)
       currentScreen: null,
 
@@ -376,7 +377,7 @@ define( function( require ) {
     this.updateBackground = function() {
       sim.lookAndFeel.backgroundColor = sim.currentScreen ?
                                         sim.currentScreen.backgroundColor.toCSS() :
-                                        'black';  //TODO why isn't this sim.homeScreen.backgroundColor.toCSS() ?
+                                        sim.homeScreen.backgroundColor.toCSS()
     };
 
     sim.lookAndFeel.backgroundColorProperty.link( function( backgroundColor ) {
