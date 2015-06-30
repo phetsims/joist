@@ -10,6 +10,8 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var AdaptedFromText = require( 'JOIST/AdaptedFromText' );
+  var Brand = require( 'BRAND/Brand' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Image = require( 'SCENERY/nodes/Image' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
@@ -26,10 +28,11 @@ define( function( require ) {
 
   /**
    * @param {Sim} sim
+   * @param {Property.<Color|string>} textFillProperty
    * @param {Object} [options] Unused in client code.
    * @constructor
    */
-  function PhetButton( sim, options ) {
+  function PhetButton( sim, textFillProperty, options ) {
 
     options = _.extend( {
       textDescription: 'PhET Menu Button',
@@ -85,6 +88,15 @@ define( function( require ) {
     var icon = new Node( { children: [ phetLabel, optionsButton ] } );
 
     JoistButton.call( this, icon, sim.lookAndFeel.navigationBarFillProperty, options );
+
+    // If this is an "adapted from PhET" brand, decorate the PhET button with "adapted from" text.
+    if ( Brand.adaptedFromPhET ) {
+      this.addChild( new AdaptedFromText( textFillProperty, {
+        pickable: false,
+        right: icon.left - 10,
+        centerY: icon.centerY
+      } ) );
+    }
 
     Property.multilink( [ sim.lookAndFeel.navigationBarFillProperty, sim.showHomeScreenProperty, UpdateCheck.stateProperty ],
       function( navigationBarFillProperty, showHomeScreen, updateState ) {

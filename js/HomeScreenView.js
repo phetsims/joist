@@ -24,8 +24,6 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var AdaptedFromText = require( 'JOIST/AdaptedFromText' );
-  var Brand = require( 'BRAND/Brand' );
   var Input = require( 'SCENERY/input/Input' );
 
   // constants
@@ -218,24 +216,20 @@ define( function( require ) {
 
     //Only show the full screen button on supported platforms
     var showFullScreenButton = !platform.android && !platform.mobileSafari && !platform.ie; // might work on IE11 in the future
-    if ( showFullScreenButton && false ) {
+    if ( showFullScreenButton && false ) { //TODO joist#261 why is this short-circuited? Is this block even relevant anymore?
       var fullScreenButton = new FullScreenButton();
       this.addChild( new HBox( {
         spacing: 10,
-        children: [ fullScreenButton, new PhetButton( sim ) ],
+        children: [ fullScreenButton, new PhetButton( sim, new Property( 'white' ) ) ], //TODO joist#261 why is PhetButton created and below, in 2 different ways?
         right: this.layoutBounds.maxX - 5,
         bottom: this.layoutBounds.maxY - 5
       } ) );
     }
     else {
-      this.phetButton = new PhetButton( sim, { tandem: options.tandem ? options.tandem.createTandem( 'phetButton' ) : null } );
+      this.phetButton = new PhetButton( sim, new Property( 'white' ), {
+        tandem: options.tandem ? options.tandem.createTandem( 'phetButton' ) : null
+      } );
       this.addChild( this.phetButton );
-    }
-
-    // if the branding specifies to show "adapted from PhET" in the navbar, show it here
-    if ( Brand.adaptedFromPhET === true ) {
-      this.adaptedFromText = new AdaptedFromText( new Property( 'white' ) );
-      this.addChild( this.adaptedFromText );
     }
 
     if ( options.warningNode ) {
@@ -265,10 +259,6 @@ define( function( require ) {
         //Undo the horizontal centering done in ScreenView so the button can be positioned globally
         else if ( scale === height / this.layoutBounds.height ) {
           this.phetButton.translate( -(width - this.layoutBounds.width * scale) / 2 / scale, 0 );
-        }
-
-        if ( this.adaptedFromText ) {
-          this.adaptedFromText.updateLayout( 1, this.phetButton );
         }
       }
     },

@@ -24,24 +24,23 @@ define( function( require ) {
 
   /**
    * @param {Property.<Color|string>} fillProperty
+   * @param {Object} options
    * @constructor
    */
-  function AdaptedFromText( fillProperty ) {
-    var adaptedFromPhetText = this;
-    MultiLineText.call( this, adaptedFromString, {
+  function AdaptedFromText( fillProperty, options ) {
+
+    options = _.extend( {
       align: 'right',
       font: FONT
-    } );
+    }, options );
+
+    MultiLineText.call( this, adaptedFromString, options );
+
+    var thisText = this;
     fillProperty.link( function( fill ) {
-      adaptedFromPhetText.fill = fill;
+      thisText.fill = fill;
     } );
   }
 
-  return inherit( MultiLineText, AdaptedFromText, {
-    updateLayout: function( scale, phetButton ) {
-      this.setScaleMagnitude( scale );
-      this.right = phetButton.left - 5 * scale;
-      this.centerY = phetButton.centerY - 1 * scale;
-    }
-  } );
+  return inherit( MultiLineText, AdaptedFromText );
 } );

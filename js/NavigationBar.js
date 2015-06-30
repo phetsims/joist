@@ -19,8 +19,6 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PhetButton = require( 'JOIST/PhetButton' );
   var NavigationBarScreenButton = require( 'JOIST/NavigationBarScreenButton' );
-  var Brand = require( 'BRAND/Brand' );
-  var AdaptedFromText = require( 'JOIST/AdaptedFromText' );
 
   /**
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
@@ -50,7 +48,9 @@ define( function( require ) {
     } );
     this.addChild( this.background );
 
-    this.phetButton = new PhetButton( sim, { tandem: options.tandem ? options.tandem.createTandem( 'phetButton' ) : null } );
+    this.phetButton = new PhetButton( sim, sim.lookAndFeel.navigationBarTextFillProperty, {
+      tandem: options.tandem ? options.tandem.createTandem( 'phetButton' ) : null
+    } );
     this.addChild( this.phetButton );
 
     this.titleLabel = new Text( sim.name, { font: new PhetFont( 18 ), pickable: false } );
@@ -95,12 +95,6 @@ define( function( require ) {
       } );
       this.addChild( this.homeButton );
     }
-
-    // if the branding specifies to show "adapted from PhET" in the navbar, show it here
-    if ( Brand.adaptedFromPhET === true ) {
-      this.adaptedFromText = new AdaptedFromText( sim.lookAndFeel.navigationBarTextFillProperty );
-      this.addChild( this.adaptedFromText );
-    }
   }
 
   return inherit( Node, NavigationBar, {
@@ -141,10 +135,6 @@ define( function( require ) {
       this.phetButton.setScaleMagnitude( this.navBarScale );
       this.phetButton.right = this.navBarWidth - PhetButton.HORIZONTAL_INSET;
       this.phetButton.bottom = this.navBarHeight - PhetButton.VERTICAL_INSET;
-
-      if ( this.adaptedFromText ) {
-        this.adaptedFromText.updateLayout( this.navBarScale, this.phetButton );
-      }
     },
     layout: function( scale, width, height, windowHeight ) {
       this.navBarScale = scale;
