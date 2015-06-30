@@ -16,11 +16,9 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Shape = require( 'KITE/Shape' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var platform = require( 'PHET_CORE/platform' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Frame = require( 'JOIST/Frame' );
   var Property = require( 'AXON/Property' );
-  var FullScreenButton = require( 'JOIST/FullScreenButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Bounds2 = require( 'DOT/Bounds2' );
@@ -214,23 +212,10 @@ define( function( require ) {
       center.centerX = homeScreenView.layoutBounds.width / 2;
     } );
 
-    //Only show the full screen button on supported platforms
-    var showFullScreenButton = !platform.android && !platform.mobileSafari && !platform.ie; // might work on IE11 in the future
-    if ( showFullScreenButton && false ) { //TODO joist#261 why is this short-circuited? Is this block even relevant anymore?
-      var fullScreenButton = new FullScreenButton();
-      this.addChild( new HBox( {
-        spacing: 10,
-        children: [ fullScreenButton, new PhetButton( sim, new Property( 'white' ) ) ], //TODO joist#261 why is PhetButton created and below, in 2 different ways?
-        right: this.layoutBounds.maxX - 5,
-        bottom: this.layoutBounds.maxY - 5
-      } ) );
-    }
-    else {
-      this.phetButton = new PhetButton( sim, new Property( 'white' ), {
-        tandem: options.tandem ? options.tandem.createTandem( 'phetButton' ) : null
-      } );
-      this.addChild( this.phetButton );
-    }
+    this.phetButton = new PhetButton( sim, new Property( 'white' ), {
+      tandem: options.tandem ? options.tandem.createTandem( 'phetButton' ) : null
+    } );
+    this.addChild( this.phetButton );
 
     if ( options.warningNode ) {
       var warningNode = options.warningNode;
