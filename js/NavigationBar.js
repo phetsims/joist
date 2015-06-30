@@ -20,6 +20,8 @@ define( function( require ) {
   var PhetButton = require( 'JOIST/PhetButton' );
   var NavigationBarScreenButton = require( 'JOIST/NavigationBarScreenButton' );
 
+  //TODO comment below says "Layout assumes all of the screen widths are the same." What does this mean? Screens don't have a width.
+  //TODO Does it mean ScreenViews? Where should this assumption be verified.
   /**
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
    * @param {Dimension2} barSize initial dimensions of the navigation bar
@@ -56,7 +58,7 @@ define( function( require ) {
     } );
     this.addChild( this.titleLabel );
 
-    // Create screen buttons and home buttonm, irrelevant for single-screen sims.
+    // Create screen buttons and home button, irrelevant for single-screen sims.
     if ( screens.length > 1 ) {
 
       //TODO wow is this wasteful
