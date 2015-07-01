@@ -154,8 +154,7 @@ define( function( require ) {
       // global bounds for the screen-specific part (excludes the navigation bar)
       screenBounds: null,
 
-      //TODO this comment is wrong, HomeScreen is a subtype of Screen.
-      // [read-only] {Screen|null} - The current screen, or null if showing the home screen (which is NOT a Screen)
+      // [read-only] {Screen|null} - The current screen, or null if showing the home screen
       currentScreen: null,
 
       // Flag for if the sim is active (alive) and the user is able to interact with the sim.
