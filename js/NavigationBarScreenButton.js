@@ -48,7 +48,7 @@ define( function( require ) {
       scale: ( 0.625 * navBarHeight ) / screen.navigationBarIcon.height
     } );
 
-    var selected = new DerivedProperty( [ screenIndexProperty ], function( screenIndex ) {
+    var selectedProperty = new DerivedProperty( [ screenIndexProperty ], function( screenIndex ) {
       return screenIndex === screens.indexOf( screen );
     } );
     var buttonModel = new PushButtonModel( {
@@ -94,7 +94,7 @@ define( function( require ) {
     this.addChild( darkenHighlight );
     this.addChild( overlay );
 
-    this.multilink = new Multilink( [ selected, buttonModel.downProperty, buttonModel.overProperty, navigationBarFillProperty ], function update() {
+    this.multilink = new Multilink( [ selectedProperty, buttonModel.downProperty, buttonModel.overProperty, navigationBarFillProperty ], function update() {
 
       var useDarkenHighlights = navigationBarFillProperty.value !== 'black';
 
@@ -102,8 +102,8 @@ define( function( require ) {
       var selectedTextColor = useDarkenHighlights ? 'black' : '#f2e916';
       var unselectedTextColor = useDarkenHighlights ? 'gray' : 'white';
 
-      text.fill = selected.get() ? selectedTextColor : unselectedTextColor;
-      box.opacity = selected.get() ? 1.0 : buttonModel.down ? 0.65 : 0.5;
+      text.fill = selectedProperty.get() ? selectedTextColor : unselectedTextColor;
+      box.opacity = selectedProperty.get() ? 1.0 : buttonModel.down ? 0.65 : 0.5;
       brightenHighlight.visible = !useDarkenHighlights && ( buttonModel.over || buttonModel.down );
       darkenHighlight.visible = useDarkenHighlights && ( buttonModel.over || buttonModel.down );
     } );
