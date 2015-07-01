@@ -34,6 +34,10 @@ define( function( require ) {
   var Input = require( 'SCENERY/input/Input' );
   var LookAndFeel = require( 'JOIST/LookAndFeel' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+
+  // strings
+  var titlePattern = require( 'string!JOIST/titlePattern' );
 
   // initial dimensions of the navigation bar, sized for Mobile Safari
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
@@ -213,7 +217,7 @@ define( function( require ) {
 
     //Set the HTML page title to the localized title
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
-    $( 'title' ).html( name + ' ' + sim.version + options.textDescription ); //TODO i18n of order
+    $( 'title' ).html( StringUtils.format( titlePattern, name, sim.version, options.textDescription ) );
 
     // if nothing else specified, try to use the options for showHomeScreen & screenIndex from query parameters,
     // to facilitate testing easily in different screens

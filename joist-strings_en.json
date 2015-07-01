@@ -106,5 +106,8 @@
   },
   "adaptedFrom": {
     "value": "adapted\nfrom"
+  },
+  "titlePattern": {
+    "value": "{0} {1} {2}"
   }
 }
