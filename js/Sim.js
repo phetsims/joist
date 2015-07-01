@@ -168,6 +168,7 @@ define( function( require ) {
 
       showCanvasNodeBounds: !!phet.chipper.getQueryParameter( 'showCanvasNodeBounds' )
     }, {
+      //TODO Yo! How about some documentation here?
       tandemSet: options.tandem ? {
         active: options.tandem.createTandem( 'sim.active' ),
         screenIndex: options.tandem.createTandem( 'sim.screenIndex' ),
