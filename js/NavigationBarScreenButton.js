@@ -17,7 +17,7 @@ define( function( require ) {
   var HighlightNode = require( 'JOIST/HighlightNode' );
   var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
   var ButtonListener = require( 'SUN/buttons/ButtonListener' );
-  var Multilink = require( 'AXON/Multilink' );
+  var Property = require( 'AXON/Property' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
@@ -48,6 +48,7 @@ define( function( require ) {
       scale: ( 0.625 * navBarHeight ) / screen.navigationBarIcon.height
     } );
 
+    // Is this button's screen selected?
     var selectedProperty = new DerivedProperty( [ screenIndexProperty ], function( screenIndex ) {
       return screenIndex === screens.indexOf( screen );
     } );
@@ -70,7 +71,7 @@ define( function( require ) {
       usesOpacity: true // hint, since we change its opacity
     } );
 
-    //add an overlay so that the icons can be placed next to each other with an HBox, also sets the toucharea/mousearea
+    //add an overlay so that the icons can be placed next to each other with an HBox, also sets the touchArea/mouseArea
     var overlay = new Rectangle( 0, 0, minWidth, box.height );
     overlay.centerX = box.centerX;
     overlay.y = box.y;
@@ -94,19 +95,21 @@ define( function( require ) {
     this.addChild( darkenHighlight );
     this.addChild( overlay );
 
-    this.multilink = new Multilink( [ selectedProperty, buttonModel.downProperty, buttonModel.overProperty, navigationBarFillProperty ], function update() {
+    Property.multilink(
+      [ selectedProperty, buttonModel.downProperty, buttonModel.overProperty, navigationBarFillProperty ],
+      function update( selected, down, over, navigationBarFill ) {
 
-      var useDarkenHighlights = navigationBarFillProperty.value !== 'black';
+        var useDarkenHighlights = ( navigationBarFill !== 'black' );
 
-      // Color match yellow with the PhET Logo
-      var selectedTextColor = useDarkenHighlights ? 'black' : '#f2e916';
-      var unselectedTextColor = useDarkenHighlights ? 'gray' : 'white';
+        // Color match yellow with the PhET Logo
+        var selectedTextColor = useDarkenHighlights ? 'black' : '#f2e916';
+        var unselectedTextColor = useDarkenHighlights ? 'gray' : 'white';
 
-      text.fill = selectedProperty.get() ? selectedTextColor : unselectedTextColor;
-      box.opacity = selectedProperty.get() ? 1.0 : buttonModel.down ? 0.65 : 0.5;
-      brightenHighlight.visible = !useDarkenHighlights && ( buttonModel.over || buttonModel.down );
-      darkenHighlight.visible = useDarkenHighlights && ( buttonModel.over || buttonModel.down );
-    } );
+        text.fill = selected ? selectedTextColor : unselectedTextColor;
+        box.opacity = selected ? 1.0 : ( down ? 0.65 : 0.5 );
+        brightenHighlight.visible = !useDarkenHighlights && ( over || down );
+        darkenHighlight.visible = useDarkenHighlights && ( over || down );
+      } );
   }
 
   return inherit( Node, NavigationBarScreenButton );
