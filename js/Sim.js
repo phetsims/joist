@@ -172,8 +172,7 @@ define( function( require ) {
         active: options.tandem.createTandem( 'sim.active' ),
         screenIndex: options.tandem.createTandem( 'sim.screenIndex' ),
         showHomeScreen: options.tandem.createTandem( 'sim.showHomeScreen' )
-      }
-        : {}
+      } : {}
     } );
 
     // Many other components use addInstance at the end of their constructor but in this case we must register early
