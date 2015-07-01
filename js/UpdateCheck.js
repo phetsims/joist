@@ -146,7 +146,6 @@ define( function( require ) {
           self.state = 'offline';
         };
         req.open( 'post', 'http://phet.colorado.edu/services/check-html-updates', true ); // enable CORS
-        req.setRequestHeader( 'Content-type', 'application/json' );
         req.send( JSON.stringify( {
           api: '1.0',
           simulation: simName,
