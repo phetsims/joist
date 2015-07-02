@@ -111,12 +111,7 @@ define( function( require ) {
       rootRenderer: 'svg',
 
       // support for exporting instances from the sim
-      tandem: null,
-
-      // THIS IS EXPERIMENTAL, USE AT YOUR OWN PERIL
-      // Text description of the simulation that will be appended to the title, so that screen readers will read the text
-      // when they are launched.
-      textDescription: ''
+      tandem: null
     }, options );
 
     this.options = options; // @private store this for access from prototype functions, assumes that it won't be changed later
@@ -217,7 +212,7 @@ define( function( require ) {
 
     //Set the HTML page title to the localized title
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
-    $( 'title' ).html( StringUtils.format( titlePattern, name, sim.version, options.textDescription ) );
+    $( 'title' ).html( StringUtils.format( titlePattern, name, sim.version ) );
 
     // if nothing else specified, try to use the options for showHomeScreen & screenIndex from query parameters,
     // to facilitate testing easily in different screens
