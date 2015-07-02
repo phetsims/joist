@@ -238,8 +238,8 @@ define( function( require ) {
           var dependenciesCopy = phet.chipper.dependencies ? JSON.parse( JSON.stringify( phet.chipper.dependencies ) ) : {};
           delete dependenciesCopy.comment;
           for ( var key in dependenciesCopy ) {
-            if ( dependenciesCopy[key].sha ) {
-              dependenciesCopy[key].sha = dependenciesCopy[key].sha.substring( 0, 8 );
+            if ( dependenciesCopy[ key ].sha ) {
+              dependenciesCopy[ key ].sha = dependenciesCopy[ key ].sha.substring( 0, 8 );
             }
           }
 
@@ -313,21 +313,11 @@ define( function( require ) {
         }
       },
 
+      //About dialog button
       {
         text: aboutString,
-        present: isPhETBrand,
-        separatorBefore: true,
-        callback: function() {
-          new AboutDialog( sim.name, sim.version, sim.credits, Brand ).show();
-        },
-        tandem: options.tandem && options.tandem.createTandem( 'aboutButton' )
-      },
-
-      //About dialog for non-phet sims
-      {
-        text: aboutString,
-        present: !isPhETBrand,
-        separatorBefore: false,
+        present: true,
+        separatorBefore: isPhETBrand,
         callback: function() {
           new AboutDialog( sim.name, sim.version, sim.credits, Brand ).show();
         },
