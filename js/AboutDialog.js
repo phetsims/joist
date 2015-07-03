@@ -24,6 +24,7 @@ define( function( require ) {
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var LinkText = require( 'JOIST/LinkText' );
   var Input = require( 'SCENERY/input/Input' );
+  var SubSupText = require( 'SCENERY_PHET/SubSupText' );
 
   // strings
   var versionPattern = require( 'string!JOIST/versionPattern' );
@@ -72,7 +73,11 @@ define( function( require ) {
     }
 
     children.push( new VStrut( 15 ) );
-    children.push( new Text( Brand.name, { font: new PhetFont( 16 ) } ) );
+    children.push( new SubSupText( Brand.name, {
+      font: new PhetFont( 16 ),
+      supScale: 0.5,
+      supYOffset: 2
+    } ) );
     children.push( new Text( Brand.copyright, { font: new PhetFont( 12 ) } ) );
 
     if ( credits ) {
