@@ -20,6 +20,10 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PhetButton = require( 'JOIST/PhetButton' );
   var NavigationBarScreenButton = require( 'JOIST/NavigationBarScreenButton' );
+  
+  // constants
+  var TITLE_LEFT_MARGIN = 10;
+  var TITLE_RIGHT_MARGIN = 20;
 
   /**
    * Creates a nav bar.
@@ -116,10 +120,8 @@ define( function( require ) {
       this.background.rectHeight = height;
 
       // title
-      var titleInset = 10;
-      var distanceBetweenTitleAndFirstScreenIcon = 20;
       this.titleLabel.setScaleMagnitude( scale );
-      this.titleLabel.left = this.background.left + titleInset;
+      this.titleLabel.left = this.background.left + TITLE_LEFT_MARGIN;
       this.titleLabel.centerY = this.background.centerY;
 
       // PhET button
@@ -141,7 +143,7 @@ define( function( require ) {
         this.homeButton.centerY = this.background.centerY;
 
         // If the title overlaps the screen icons, scale it down.  See #128
-        var availableWidth = this.screenButtonsParent.left - titleInset - distanceBetweenTitleAndFirstScreenIcon;
+        var availableWidth = this.screenButtonsParent.left - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN;
         var titleWidth = this.titleLabel.width;
         if ( titleWidth > availableWidth ) {
           this.titleLabel.setScaleMagnitude( scale * availableWidth / titleWidth );
