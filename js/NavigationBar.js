@@ -44,25 +44,34 @@ define( function( require ) {
     var navigationBar = this;
     Node.call( this );
 
+    // The bar's background
     this.background = new Rectangle( 0, 0, 0, 0, { pickable: false } );
     sim.lookAndFeel.navigationBarFillProperty.link( function( navigationBarFill ) {
       navigationBar.background.fill = navigationBarFill;
     } );
     this.addChild( this.background );
 
-    this.phetButton = new PhetButton( sim, sim.lookAndFeel.navigationBarFillProperty, sim.lookAndFeel.navigationBarTextFillProperty, {
-      tandem: options.tandem ? options.tandem.createTandem( 'phetButton' ) : null
-    } );
-    this.addChild( this.phetButton );
-
+    // Sim title, at left end of bar
     this.titleLabel = new Text( sim.name, { font: new PhetFont( 18 ), pickable: false } );
     sim.lookAndFeel.navigationBarTextFillProperty.link( function( navigationBarTextFill ) {
       navigationBar.titleLabel.fill = navigationBarTextFill;
     } );
     this.addChild( this.titleLabel );
 
-    // Create screen buttons and home button, irrelevant for single-screen sims.
+    // PhET button, at right end of bar
+    this.phetButton = new PhetButton( sim, sim.lookAndFeel.navigationBarFillProperty, sim.lookAndFeel.navigationBarTextFillProperty, {
+      tandem: options.tandem ? options.tandem.createTandem( 'phetButton' ) : null
+    } );
+    this.addChild( this.phetButton );
+
+    // Create the home button and screen buttons (irrelevant for single-screen sims).
     if ( screens.length > 1 ) {
+
+      // Create the home button
+      this.homeButton = new HomeButton( sim.lookAndFeel.navigationBarFillProperty, function() {
+        sim.showHomeScreen = true;
+      } );
+      this.addChild( this.homeButton );
 
       var screenButtons = _.map( screens, function( screen ) {
         return new NavigationBarScreenButton(
@@ -78,19 +87,13 @@ define( function( require ) {
       // Get width of max screen button
       var maxScreenButtonWidth = Math.max( 50, _.max( screenButtons, function( button ) {return button.width;} ).width );
 
-      // Put all screen buttons under a parent, to simplify scaling
+      // Put all screen buttons under a parent, to simplify layout
       this.screenButtonsParent = new Node( { children: screenButtons } );
       var xSpacing = 0;
       for ( var i = 1; i < screenButtons.length; i++ ) {
         screenButtons[ i ].centerX = screenButtons[i-1 ].centerX + maxScreenButtonWidth + xSpacing;
       }
       this.addChild( this.screenButtonsParent );
-
-      // Create the home button
-      this.homeButton = new HomeButton( sim.lookAndFeel.navigationBarFillProperty, function() {
-        sim.showHomeScreen = true;
-      } );
-      this.addChild( this.homeButton );
     }
 
     this.layout( 1, barSize.width, barSize.height );
