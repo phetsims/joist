@@ -2,8 +2,8 @@
 
 /**
  * The navigation bar at the bottom of the screen.
- * For a single-screen sim, it shows the name of the sim at the left and the PhET Logo and options menu at the right.
- * For a multi-screen sim, it shows icons for all of the other screens, with the screen name at the left and the PhET Logo and options menu at the right.
+ * For a single-screen sim, it shows the name of the sim at the far left and the PhET button at the far right.
+ * For a multi-screen sim, it additionally shows buttons for each screen, and a home button.
  *
  * @author Sam Reid
  */
