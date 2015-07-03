@@ -73,19 +73,23 @@ define( function( require ) {
     }
 
     children.push( new VStrut( 15 ) );
-    children.push( new SubSupText( Brand.name, {
-      font: new PhetFont( 16 ),
-      supScale: 0.5,
-      supYOffset: 2
-    } ) );
-    children.push( new Text( Brand.copyright, { font: new PhetFont( 12 ) } ) );
+    if ( Brand.name ) {
+      children.push( new SubSupText( Brand.name, {
+        font: new PhetFont( 16 ),
+        supScale: 0.5,
+        supYOffset: 2
+      } ) );
+    }
+    if ( Brand.copyright ) {
+      children.push( new Text( Brand.copyright, { font: new PhetFont( 12 ) } ) );
+    }
 
     if ( credits ) {
       children.push( new VStrut( 15 ) );
       children.push( new CreditsNode( credits ) );
     }
 
-    if ( Brand.links && Brand.links.length ) {
+    if ( Brand.links && Brand.links.length > 0 ) {
       children.push( new VStrut( 15 ) );
       for ( var i = 0; i < Brand.links.length; i++ ) {
         var link = Brand.links[ i ];
