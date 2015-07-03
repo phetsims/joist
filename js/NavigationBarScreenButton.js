@@ -61,6 +61,7 @@ define( function( require ) {
     } );
     this.addInputListener( new ButtonListener( buttonModel ) );
 
+    //TODO #263 This is done in NavigationBar, and is something that NavigationBarScreenButton shouldn't know about
     // Buttons are created once with the wrong size then again with the right size.  Only register the final buttons.
     options.tandem && options.tandem.addInstance( this );
 
