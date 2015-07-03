@@ -119,8 +119,8 @@ define( function( require ) {
       var titleInset = 10;
       var distanceBetweenTitleAndFirstScreenIcon = 20;
       this.titleLabel.setScaleMagnitude( scale );
-      this.titleLabel.left = titleInset;
-      this.titleLabel.centerY = height / 2;
+      this.titleLabel.left = this.background.left + titleInset;
+      this.titleLabel.centerY = this.background.centerY;
 
       // PhET button
       this.phetButton.setScaleMagnitude( scale );
@@ -133,13 +133,12 @@ define( function( require ) {
         this.screenButtonsParent.setScaleMagnitude( scale );
 
         // Center the screen buttons
-        this.screenButtonsParent.centerX = width / 2;
-        this.screenButtonsParent.top = 2;
+        this.screenButtonsParent.center = this.background.center;
 
         // Center the home icon vertically and make it a bit larger than the icons and text, see https://github.com/phetsims/joist/issues/127
         this.homeButton.setScaleMagnitude( scale * 1.1 );
         this.homeButton.left = this.screenButtonsParent.right + 15;
-        this.homeButton.centerY = this.background.rectHeight / 2;
+        this.homeButton.centerY = this.background.centerY;
 
         // If the title overlaps the screen icons, scale it down.  See #128
         var availableWidth = this.screenButtonsParent.left - titleInset - distanceBetweenTitleAndFirstScreenIcon;
