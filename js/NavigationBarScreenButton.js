@@ -34,9 +34,11 @@ define( function( require ) {
    * @constructor
    */
   function NavigationBarScreenButton( navigationBarFillProperty, screenIndexProperty, screens, screen, navBarHeight, minWidth, options ) {
+
     options = _.extend( {
       tandem: null
     }, options );
+
     Node.call( this, {
       cursor: 'pointer',
       focusable: true,
