@@ -90,7 +90,7 @@ define( function( require ) {
       } );
 
       // Get width of max screen button
-      var maxScreenButtonWidth = Math.max( 50, _.max( screenButtons, function( button ) {return button.width;} ).width );
+      var maxScreenButtonWidth = Math.max( 50, _.max( screenButtons, function( button ) { return button.width; } ).width );
 
       // Put all screen buttons under a parent, to simplify layout
       this.screenButtonsParent = new Node( { children: screenButtons } );
