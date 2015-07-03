@@ -61,7 +61,7 @@ define( function( require ) {
     // Create screen buttons and home button, irrelevant for single-screen sims.
     if ( screens.length > 1 ) {
 
-      //TODO wow is this wasteful
+      //TODO #263 is this really necessary?
       // Create screen buttons once so we can get their dimensions
       var buttons = _.map( screens, function( screen ) {
         return new NavigationBarScreenButton(
