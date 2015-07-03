@@ -20,10 +20,8 @@ define( function( require ) {
   var PhetButton = require( 'JOIST/PhetButton' );
   var NavigationBarScreenButton = require( 'JOIST/NavigationBarScreenButton' );
 
-  //TODO comment below says "Layout assumes all of the screen widths are the same." What does this mean? Screens don't have a width.
-  //TODO Does it mean ScreenViews? Where should this assumption be verified.
   /**
-   * Create a nav bar.  Layout assumes all of the screen widths are the same.
+   * Creates a nav bar.
    * @param {Dimension2} barSize initial dimensions of the navigation bar
    * @param {Sim} sim
    * @param {Screen[]} screens
@@ -35,6 +33,11 @@ define( function( require ) {
     options = _.extend( {
       tandem: null
     }, options );
+
+    assert && assert( _.findIndex( screens, function( screen ) {
+        return ( screen.navigationBarIcon.width !== screens[0].navigationBarIcon.width ) || ( screen.navigationBarIcon.height !== screens[0].navigationBarIcon.height );
+      } ) === -1,
+    'all navigation bar icons must have the same size' );
 
     this.screens = screens;
 
@@ -61,34 +64,27 @@ define( function( require ) {
     // Create screen buttons and home button, irrelevant for single-screen sims.
     if ( screens.length > 1 ) {
 
-      //TODO #263 is this really necessary?
-      // Create screen buttons once so we can get their dimensions
-      var buttons = _.map( screens, function( screen ) {
+      var screenButtons = _.map( screens, function( screen ) {
         return new NavigationBarScreenButton(
           sim.lookAndFeel.navigationBarFillProperty,
           sim.screenIndexProperty,
           sim.screens,
           screen,
-          barSize.height,
-          0 );
-      } );
-      var maxWidth = Math.max( 50, _.max( buttons, function( button ) {return button.width;} ).width );
-
-      // Create screen buttons again with equivalent sizes
-      buttons = _.map( screens, function( screen ) {
-        return new NavigationBarScreenButton( sim.lookAndFeel.navigationBarFillProperty,
-          sim.screenIndexProperty,
-          sim.screens,
-          screen,
-          barSize.height,
-          maxWidth, {
+          barSize.height, {
             tandem: options.tandem && options.tandem.createTandem( screen.tandemScreenName + 'Button' )
           } );
       } );
 
-      // Put screen buttons in a horizontal box
-      this.buttonHBox = new HBox( { children: buttons, spacing: 4 } );
-      this.addChild( this.buttonHBox );
+      // Get width of max screen button
+      var maxScreenButtonWidth = Math.max( 50, _.max( screenButtons, function( button ) {return button.width;} ).width );
+
+      // Put all screen buttons under a parent, to simplify scaling
+      this.screenButtonsParent = new Node( { children: screenButtons } );
+      var xSpacing = 0;
+      for ( var i = 1; i < screenButtons.length; i++ ) {
+        screenButtons[ i ].centerX = screenButtons[i-1 ].centerX + maxScreenButtonWidth + xSpacing;
+      }
+      this.addChild( this.screenButtonsParent );
 
       // Create the home button
       this.homeButton = new HomeButton( sim.lookAndFeel.navigationBarFillProperty, function() {
@@ -130,19 +126,19 @@ define( function( require ) {
       // Lay out the screen buttons and home button from left to right
       if ( this.screens.length !== 1 ) {
 
-        this.buttonHBox.setScaleMagnitude( scale );
+        this.screenButtonsParent.setScaleMagnitude( scale );
 
         // Center the screen buttons
-        this.buttonHBox.centerX = width / 2;
-        this.buttonHBox.top = 2;
+        this.screenButtonsParent.centerX = width / 2;
+        this.screenButtonsParent.top = 2;
 
         // Center the home icon vertically and make it a bit larger than the icons and text, see https://github.com/phetsims/joist/issues/127
         this.homeButton.setScaleMagnitude( scale * 1.1 );
-        this.homeButton.left = this.buttonHBox.right + 15;
+        this.homeButton.left = this.screenButtonsParent.right + 15;
         this.homeButton.centerY = this.background.rectHeight / 2;
 
         // If the title overlaps the screen icons, scale it down.  See #128
-        var availableWidth = this.buttonHBox.left - titleInset - distanceBetweenTitleAndFirstScreenIcon;
+        var availableWidth = this.screenButtonsParent.left - titleInset - distanceBetweenTitleAndFirstScreenIcon;
         var titleWidth = this.titleLabel.width;
         if ( titleWidth > availableWidth ) {
           this.titleLabel.setScaleMagnitude( scale * availableWidth / titleWidth );

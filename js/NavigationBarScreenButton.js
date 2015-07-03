@@ -29,11 +29,10 @@ define( function( require ) {
    * @param {Array.<Screen>} screens - all of the available sim content screens (excluding the home screen)
    * @param {Screen} screen
    * @param {number} navBarHeight
-   * @param {number} minWidth
    * @param {Object} [options]
    * @constructor
    */
-  function NavigationBarScreenButton( navigationBarFillProperty, screenIndexProperty, screens, screen, navBarHeight, minWidth, options ) {
+  function NavigationBarScreenButton( navigationBarFillProperty, screenIndexProperty, screens, screen, navBarHeight, options ) {
 
     options = _.extend( {
       tandem: null
@@ -61,8 +60,6 @@ define( function( require ) {
     } );
     this.addInputListener( new ButtonListener( buttonModel ) );
 
-    //TODO #263 This is done in NavigationBar, and is something that NavigationBarScreenButton shouldn't know about
-    // Buttons are created once with the wrong size then again with the right size.  Only register the final buttons.
     options.tandem && options.tandem.addInstance( this );
 
     var text = new Text( screen.name, { font: new PhetFont( 10 ) } );
@@ -74,8 +71,9 @@ define( function( require ) {
       usesOpacity: true // hint, since we change its opacity
     } );
 
-    //add an overlay so that the icons can be placed next to each other with an HBox, also sets the touchArea/mouseArea
-    var overlay = new Rectangle( 0, 0, minWidth, box.height );
+    //add a transparent overlay for input handling and to size touchArea/mouseArea
+    var overlayXMargin = 8;
+    var overlay = new Rectangle( 0, 0, box.width + 2 * overlayXMargin, box.height );
     overlay.centerX = box.centerX;
     overlay.y = box.y;
 
