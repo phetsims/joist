@@ -94,9 +94,8 @@ define( function( require ) {
 
       // Put all screen buttons under a parent, to simplify layout
       this.screenButtonsParent = new Node( { children: screenButtons } );
-      var xSpacing = 0;
       for ( var i = 1; i < screenButtons.length; i++ ) {
-        screenButtons[ i ].centerX = screenButtons[i-1 ].centerX + maxScreenButtonWidth + xSpacing;
+        screenButtons[ i ].centerX = screenButtons[i-1 ].centerX + maxScreenButtonWidth;
       }
       this.addChild( this.screenButtonsParent );
     }
