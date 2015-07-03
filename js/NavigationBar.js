@@ -6,6 +6,7 @@
  * For a multi-screen sim, it additionally shows buttons for each screen, and a home button.
  *
  * @author Sam Reid
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {
   'use strict';
