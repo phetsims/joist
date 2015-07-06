@@ -25,7 +25,6 @@ define( function( require ) {
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
    * @param {Property.<string>} navigationBarFillProperty - the color of the navbar, as a string.
    * @param {Property.<number>} screenIndexProperty
-   * @param {Sim} sim
    * @param {Array.<Screen>} screens - all of the available sim content screens (excluding the home screen)
    * @param {Screen} screen
    * @param {number} navBarHeight
