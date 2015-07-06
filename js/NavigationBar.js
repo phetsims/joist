@@ -138,7 +138,8 @@ define( function( require ) {
         // Center the screen buttons
         this.screenButtonsParent.center = this.background.center;
 
-        // Center the home icon vertically and make it a bit larger than icons on screen buttons, see https://github.com/phetsims/joist/issues/127
+        // Center the home icon vertically and make it a bit taller than icons on screen buttons.
+        // Multiplier determined empirically. See https://github.com/phetsims/joist/issues/127
         this.homeButton.setScaleMagnitude( 0.825 * scale );
         this.homeButton.left = this.screenButtonsParent.right + 15;
         this.homeButton.centerY = this.background.centerY;
