@@ -156,7 +156,7 @@ define( function( require ) {
     //Only show certain features for PhET Sims, such as links to our website
     //TODO #270 duplicating this string is a bad practice and has caused the introduction of bugs.
     //Note: this string below must stay in sync with the Brand.name or phet features will be dropped
-    var isPhETBrand = Brand.name === 'PhET<sup>\u00ae</sup> Interactive Simulations';
+    var isPhETBrand = ( Brand.name === 'PhET<sup>\u00ae</sup> Interactive Simulations' );
 
     options = _.extend( {
 
