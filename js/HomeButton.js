@@ -21,9 +21,7 @@ define( function( require ) {
    */
   function HomeButton( navigationBarFillProperty, showHomeScreen, options ) {
 
-    var homeIcon = new FontAwesomeNode( 'home', {
-      scale: 0.75
-    } );
+    var homeIcon = new FontAwesomeNode( 'home' );
     options = _.extend( {
       highlightExtensionWidth: 4,
 
