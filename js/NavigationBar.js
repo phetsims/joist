@@ -39,10 +39,12 @@ define( function( require ) {
       tandem: null
     }, options );
 
-    assert && assert( _.findIndex( screens, function( screen ) {
-        return ( screen.navigationBarIcon.width !== screens[0].navigationBarIcon.width ) || ( screen.navigationBarIcon.height !== screens[0].navigationBarIcon.height );
-      } ) === -1,
-    'all navigation bar icons must have the same size' );
+    if ( screens.length > 1 ) {
+      assert && assert( _.findIndex( screens, function( screen ) {
+          return ( screen.navigationBarIcon.width !== screens[ 0 ].navigationBarIcon.width ) || ( screen.navigationBarIcon.height !== screens[ 0 ].navigationBarIcon.height );
+        } ) === -1,
+        'all navigation bar icons must have the same size' );
+    }
 
     this.screens = screens;
 
