@@ -11,16 +11,16 @@
 define( function( require ) {
   'use strict';
 
-  var Node = require( 'SCENERY/nodes/Node' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var Text = require( 'SCENERY/nodes/Text' );
+  // modules
   var HomeButton = require( 'JOIST/HomeButton' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var PhetButton = require( 'JOIST/PhetButton' );
   var NavigationBarScreenButton = require( 'JOIST/NavigationBarScreenButton' );
-  
+  var Node = require( 'SCENERY/nodes/Node' );
+  var PhetButton = require( 'JOIST/PhetButton' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Text = require( 'SCENERY/nodes/Text' );
+
   // constants
   var TITLE_LEFT_MARGIN = 10;
   var TITLE_RIGHT_MARGIN = 20;
