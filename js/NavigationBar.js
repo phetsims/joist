@@ -50,14 +50,16 @@ define( function( require ) {
     Node.call( this );
 
     // The bar's background
-    this.background = new Rectangle( 0, 0, 0, 0, { pickable: false } );
+    this.background = new Rectangle( 0, 0, barSize.width, barSize.height );
     sim.lookAndFeel.navigationBarFillProperty.link( function( navigationBarFill ) {
       navigationBar.background.fill = navigationBarFill;
     } );
     this.addChild( this.background );
 
     // Sim title, at left end of bar
-    this.titleLabel = new Text( sim.name, { font: new PhetFont( 18 ), pickable: false } );
+    this.titleLabel = new Text( sim.name, {
+      font: new PhetFont( 18 )
+    } );
     sim.lookAndFeel.navigationBarTextFillProperty.link( function( navigationBarTextFill ) {
       navigationBar.titleLabel.fill = navigationBarTextFill;
     } );
