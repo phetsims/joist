@@ -21,15 +21,15 @@ define( function( require ) {
    */
   function HomeButton( navigationBarFillProperty, showHomeScreen, options ) {
 
-    var homeIcon = new FontAwesomeNode( 'home' );
     options = _.extend( {
       highlightExtensionWidth: 4,
-
-      // When pressed, take the user to the home screen.
-      listener: showHomeScreen,
+      listener: showHomeScreen, // When pressed, take the user to the home screen.
       textDescription: 'Home Screen: Button',
       tandem: null
     }, options );
+
+    var homeIcon = new FontAwesomeNode( 'home' );
+
     JoistButton.call( this, homeIcon, navigationBarFillProperty, options );
 
     Property.multilink( [ this.interactionStateProperty, navigationBarFillProperty ], function( interactionState, navigationBarFill ) {
