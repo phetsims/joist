@@ -77,8 +77,10 @@ define( function( require ) {
     if ( screens.length > 1 ) {
 
       // Create the home button
-      this.homeButton = new HomeButton( sim.lookAndFeel.navigationBarFillProperty, function() {
-        sim.showHomeScreen = true;
+      this.homeButton = new HomeButton( barSize.height, sim.lookAndFeel.navigationBarFillProperty, {
+        listener: function() {
+          sim.showHomeScreen = true;
+        }
       } );
       this.addChild( this.homeButton );
 
@@ -135,15 +137,13 @@ define( function( require ) {
       // Lay out the screen buttons and home button from left to right
       if ( this.screens.length !== 1 ) {
 
+        // screen buttons
         this.screenButtonsParent.setScaleMagnitude( scale );
-
-        // Center the screen buttons
         this.screenButtonsParent.center = this.background.center;
 
-        // Center the home icon vertically and make it a bit taller than icons on screen buttons.
-        // Multiplier determined empirically. See https://github.com/phetsims/joist/issues/127
-        this.homeButton.setScaleMagnitude( 0.825 * scale );
-        this.homeButton.left = this.screenButtonsParent.right + 15;
+        // home button
+        this.homeButton.setScaleMagnitude( scale );
+        this.homeButton.left = this.screenButtonsParent.right + 4;
         this.homeButton.centerY = this.background.centerY;
 
         // If the title overlaps the screen icons, scale it down.  See #128
