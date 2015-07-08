@@ -109,7 +109,7 @@ define( function( require ) {
           sim.screens,
           screen,
           barSize.height, {
-            maxTextWidth: screenButtonWidth, //TODO this is closer, but not quite right, since it doesn't account for the button highlight
+            maxTextWidth: screenButtonWidth, //TODO #241 this is closer, but not quite right, since it doesn't account for the button highlight
             tandem: options.tandem && options.tandem.createTandem( screen.tandemScreenName + 'Button' )
           } );
       } );
