@@ -9,6 +9,7 @@
 define( function( require ) {
   'use strict';
 
+  // modules
   var Node = require( 'SCENERY/nodes/Node' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -20,6 +21,9 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+
+  // constants
+  var HIGHLIGHT_SPACING = 4;
 
   /**
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
@@ -75,20 +79,19 @@ define( function( require ) {
     } );
 
     //add a transparent overlay for input handling and to size touchArea/mouseArea
-    var overlayXMargin = 8;
-    var overlay = new Rectangle( 0, 0, box.width + 2 * overlayXMargin, box.height );
+    var overlay = new Rectangle( 0, 0, box.width, box.height );
     overlay.centerX = box.centerX;
     overlay.y = box.y;
 
     // Make things brighter when against a dark background
-    var brightenHighlight = new HighlightNode( overlay.width + 4, overlay.height, {
+    var brightenHighlight = new HighlightNode( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, {
       centerX: box.centerX,
       whiteHighlight: true,
       pickable: false
     } );
 
     // Make things darker when against a light background
-    var darkenHighlight = new HighlightNode( overlay.width + 4, overlay.height, {
+    var darkenHighlight = new HighlightNode( overlay.width, overlay.height, {
       centerX: box.centerX,
       whiteHighlight: false,
       pickable: false
