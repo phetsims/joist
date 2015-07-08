@@ -21,7 +21,7 @@ define( function( require ) {
 
     options = _.extend( {
        backgroundColor: 'black' //TODO joist#255 this should come from LookAndFeel
-    } );
+    }, options );
 
     //name, homeScreenIcon, createModel, createView, options
     Screen.call( this,

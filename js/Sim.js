@@ -362,7 +362,8 @@ define( function( require ) {
     if ( screens.length > 1 ) {
       sim.homeScreen = new HomeScreen( sim, {
         warningNode: options.homeScreenWarningNode,
-        showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame
+        showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame,
+        tandem: options.tandem ? options.tandem.createTandem( 'homeScreen' ) : null
       } );
       sim.homeScreen.initializeModelAndView();
     }
