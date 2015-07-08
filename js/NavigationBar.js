@@ -101,7 +101,7 @@ define( function( require ) {
       // total available width for the screen buttons when they are centered
       var availableTotal = 2 * Math.min( availableLeft, availableRight );
       // width per screen button
-      var screenButtonWidth = ( availableTotal / screens.length ) - ( ( screens.length - 1 ) * SCREEN_BUTTON_SPACING);
+      var screenButtonWidth = ( availableTotal / screens.length ) - ( ( screens.length - 1 ) * SCREEN_BUTTON_SPACING );
 
       var screenButtons = _.map( screens, function( screen ) {
         return new NavigationBarScreenButton(
@@ -118,7 +118,7 @@ define( function( require ) {
       // Layout out screen buttons horizontally, with equal distance between their centers
       var maxScreenButtonWidth = Math.max( 50, _.max( screenButtons, function( button ) { return button.width; } ).width );
       for ( var i = 1; i < screenButtons.length; i++ ) {
-        screenButtons[ i ].centerX = screenButtons[ i-1 ].centerX + maxScreenButtonWidth + SCREEN_BUTTON_SPACING;
+        screenButtons[ i ].centerX = screenButtons[ i - 1 ].centerX + maxScreenButtonWidth + SCREEN_BUTTON_SPACING;
       }
 
       // Put all screen buttons under a parent, to simplify layout
