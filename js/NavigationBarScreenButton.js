@@ -61,11 +61,15 @@ define( function( require ) {
 
     options.tandem && options.tandem.addInstance( this );
 
-    var text = new Text( screen.name, { font: new PhetFont( 10 ), maxWidth: options.maxTextWidth } );
+    var text = new Text( screen.name, {
+      font: new PhetFont( 10 ),
+      maxWidth: options.maxTextWidth // constrain width for i18n
+    } );
 
     var box = new VBox( {
       children: [ icon, text ],
       pickable: false,
+      //TODO this workaround looks odd when text.maxWidth is applied, buttons all have different spacing
       spacing: Math.max( 0, 12 - text.height ), // see https://github.com/phetsims/joist/issues/143
       usesOpacity: true // hint, since we change its opacity
     } );
