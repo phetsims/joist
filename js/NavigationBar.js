@@ -26,7 +26,7 @@ define( function( require ) {
   var TITLE_RIGHT_MARGIN = 20;
   var PHET_BUTTON_LEFT_MARGIN = TITLE_RIGHT_MARGIN;
   var HOME_BUTTON_LEFT_MARGIN = 20;
-  var SCREEN_BUTTON_SPACING = 0;
+  var SCREEN_BUTTON_SPACING = 10;
 
   /**
    * Creates a nav bar.
@@ -116,7 +116,7 @@ define( function( require ) {
       } );
 
       // Layout out screen buttons horizontally, with equal distance between their centers
-      var maxScreenButtonWidth = Math.max( 50, _.max( screenButtons, function( button ) { return button.width; } ).width );
+      var maxScreenButtonWidth = _.max( screenButtons, function( button ) { return button.width; } ).width;
       for ( var i = 1; i < screenButtons.length; i++ ) {
         screenButtons[ i ].centerX = screenButtons[ i - 1 ].centerX + maxScreenButtonWidth + SCREEN_BUTTON_SPACING;
       }
