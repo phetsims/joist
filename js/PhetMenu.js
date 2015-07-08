@@ -157,7 +157,7 @@ define( function( require ) {
     //TODO #271 Why is there a string test for identifying the "phet" brand, but a specific flag for identifying the "adapted-from-phet" brand?
     //TODO #270 duplicating this string is a bad practice and has caused the introduction of bugs.
     //Note: this string below must stay in sync with the Brand.name or phet features will be dropped
-    var isPhETBrand = ( Brand.name === 'PhET<sup>\u00ae</sup> Interactive Simulations' );
+    var isPhETBrand = Brand.id === 'phet';
 
     options = _.extend( {
 

@@ -80,7 +80,7 @@ define( function( require ) {
 
     var optionsButton = new FontAwesomeNode( 'reorder', {
       scale: 0.6,
-      left:   phetLabel.width + 10,
+      left: phetLabel.width + 10,
       bottom: phetLabel.bottom - 1.5,
       pickable: false
     } );
@@ -92,7 +92,7 @@ define( function( require ) {
 
     //TODO #271 Why is there a specific flag for identifying the "adapted-from-phet" brand, but a string test for identifying the "phet" brand?
     // If this is an "adapted from PhET" brand, decorate the PhET button with "adapted from" text.
-    if ( Brand.adaptedFromPhET ) {
+    if ( Brand.id === 'adapted-from-phet' ) {
       this.addChild( new AdaptedFromText( textFillProperty, {
         pickable: false,
         right: icon.left - 10,
