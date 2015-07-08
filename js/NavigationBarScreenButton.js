@@ -34,14 +34,14 @@ define( function( require ) {
   function NavigationBarScreenButton( navigationBarFillProperty, screenIndexProperty, screens, screen, navBarHeight, options ) {
 
     options = _.extend( {
-      tandem: null
-    }, options );
-
-    Node.call( this, {
       cursor: 'pointer',
       focusable: true,
-      textDescription: screen.name + ' Screen: Button'
-    } );
+      textDescription: screen.name + ' Screen: Button',
+      tandem: null,
+      maxTextWidth: null
+    }, options );
+
+    Node.call( this );
 
     var icon = new Node( {
       children: [ screen.navigationBarIcon ],
@@ -61,7 +61,7 @@ define( function( require ) {
 
     options.tandem && options.tandem.addInstance( this );
 
-    var text = new Text( screen.name, { font: new PhetFont( 10 ) } );
+    var text = new Text( screen.name, { font: new PhetFont( 10 ), maxWidth: options.maxTextWidth } );
 
     var box = new VBox( {
       children: [ icon, text ],
@@ -110,6 +110,8 @@ define( function( require ) {
         brightenHighlight.visible = !useDarkenHighlights && ( over || down );
         darkenHighlight.visible = useDarkenHighlights && ( over || down );
       } );
+
+    this.mutate( _.omit( options, 'tandem' ) );
   }
 
   return inherit( Node, NavigationBarScreenButton );
