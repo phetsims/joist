@@ -305,7 +305,7 @@ define( function( require ) {
       },
       {
         text: fullscreenString,
-        present: phet.chipper.getQueryParameter( 'fullscreen' ) && FullScreen.isFullScreenEnabled(),
+        present: FullScreen.isFullScreenEnabled(),
         checkedProperty: FullScreen.isFullScreenProperty,
         callback: function() {
           FullScreen.toggleFullScreen( sim );
