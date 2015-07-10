@@ -505,11 +505,13 @@ define( function( require ) {
     } );
     this.barrierRectangle.addInputListener( new ButtonListener( {
       fire: function( event ) {
+        sim.barrierRectangle.trigger0( 'startedCallbacksForFired' );
         assert && assert( sim.barrierStack.length > 0 );
-
         sim.barrierStack.get( sim.barrierStack.length - 1 ).hide();
+        sim.barrierRectangle.trigger0( 'endedCallbacksForFired' );
       }
     } ) );
+    options.tandem && options.tandem.createTandem( 'sim.barrierRectangle' ).addInstance( this.barrierRectangle );
 
     // Fit to the window and render the initial scene
     $( window ).resize( function() { sim.resizeToWindow(); } );
