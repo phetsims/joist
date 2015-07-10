@@ -23,8 +23,6 @@ define( function( require ) {
 
   // images
   var phetLogo = require( 'image!BRAND/logo.png' );
-  //Makes the 'h' a bit darker so it will show up better against a white background
-  var phetLogoDarker = require( 'image!BRAND/logo-on-white.png' );
 
   /**
    * @param {Sim} sim
@@ -106,7 +104,6 @@ define( function( require ) {
         var backgroundIsWhite = backgroundFill !== 'black' && !showHomeScreen;
         var outOfDate = updateState === 'out-of-date';
         optionsButton.fill = backgroundIsWhite ? ( outOfDate ? '#0a0' : '#222' ) : ( outOfDate ? '#3F3' : 'white' );
-        phetLabel.image = backgroundIsWhite ? phetLogoDarker : phetLogo;
       } );
   }
 
