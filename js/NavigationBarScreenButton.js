@@ -56,12 +56,14 @@ define( function( require ) {
     var selectedProperty = new DerivedProperty( [ screenIndexProperty ], function( screenIndex ) {
       return screenIndex === screens.indexOf( screen );
     } );
-    var buttonModel = new PushButtonModel( {
+
+    // create the button model, needs to be public so that together wrappers can hook up to it if needed
+    this.buttonModel = new PushButtonModel( {
       listener: function() {
         screenIndexProperty.value = screens.indexOf( screen );
       }
     } );
-    this.addInputListener( new ButtonListener( buttonModel ) );
+    this.addInputListener( new ButtonListener( this.buttonModel ) );
 
     options.tandem && options.tandem.addInstance( this );
 
@@ -103,7 +105,7 @@ define( function( require ) {
     this.addChild( overlay );
 
     Property.multilink(
-      [ selectedProperty, buttonModel.downProperty, buttonModel.overProperty, navigationBarFillProperty ],
+      [ selectedProperty, this.buttonModel.downProperty, this.buttonModel.overProperty, navigationBarFillProperty ],
       function update( selected, down, over, navigationBarFill ) {
 
         var useDarkenHighlights = ( navigationBarFill !== 'black' );
