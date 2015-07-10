@@ -38,7 +38,7 @@ define( function( require ) {
   var phetWebsiteString = require( 'string!JOIST/menuItem.phetWebsite' );
   var reportAProblemString = require( 'string!JOIST/menuItem.reportAProblem' );
   var screenshotString = require( 'string!JOIST/menuItem.screenshot' );
-  var fullscreenString = require( 'string!JOIST/menuItem.fullscreen' );
+  var fullScreenString = require( 'string!JOIST/menuItem.fullscreen' );
   var settingsString = require( 'string!JOIST/menuItem.settings' );
   var getUpdateString = require( 'string!JOIST/menuItem.getUpdate' );
   var submitInputEventsLogString = require( 'string!JOIST/menuItem.submitInputEventsLog' );
@@ -86,7 +86,7 @@ define( function( require ) {
 
     menuItem.addInputListener( {
       enter: function() { highlight.fill = HIGHLIGHT_COLOR; },
-      exit: function() { highlight.fill = null; },
+      exit: function() { highlight.fill = null; }
     } );
     var fire = function( event ) {
       menuItem.trigger0( 'startedCallbacksForFired' );
@@ -119,10 +119,10 @@ define( function( require ) {
       if ( checkedProperty ) {
         checkedProperty.unlink( checkListener );
       }
-      options.tandem && options.tandem.addInstance( this );
+      options.tandem && options.tandem.removeInstance( menuItem );
     };
 
-    options.tandem && options.tandem.removeInstance( this );
+    options.tandem && options.tandem.addInstance( menuItem );
 
     return menuItem;
   };
@@ -159,7 +159,10 @@ define( function( require ) {
     options = _.extend( {
 
       //For sims that have save/load enabled, show menu items for those.
-      showSaveAndLoad: false
+      showSaveAndLoad: false,
+
+      tandem: null
+
     }, options );
 
     var thisMenu = this;
@@ -304,12 +307,13 @@ define( function( require ) {
         }
       },
       {
-        text: fullscreenString,
+        text: fullScreenString,
         present: FullScreen.isFullScreenEnabled(),
         checkedProperty: FullScreen.isFullScreenProperty,
         callback: function() {
           FullScreen.toggleFullScreen( sim );
-        }
+        },
+        tandem: options.tandem && options.tandem.createTandem( 'fullScreenButton' )
       },
 
       //About dialog button
