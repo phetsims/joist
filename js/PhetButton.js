@@ -22,7 +22,8 @@ define( function( require ) {
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
 
   // images
-  var phetLogo = require( 'image!BRAND/logo.png' );
+  var phetLogo = require( 'image!BRAND/logo.png' ); // on a black navbar
+  var phetLogoDarker = require( 'image!BRAND/logo-on-white.png' ); // on a white navbar
 
   /**
    * @param {Sim} sim
@@ -104,6 +105,7 @@ define( function( require ) {
         var backgroundIsWhite = backgroundFill !== 'black' && !showHomeScreen;
         var outOfDate = updateState === 'out-of-date';
         optionsButton.fill = backgroundIsWhite ? ( outOfDate ? '#0a0' : '#222' ) : ( outOfDate ? '#3F3' : 'white' );
+        phetLabel.image = backgroundIsWhite ? phetLogoDarker : phetLogo;
       } );
   }
 
