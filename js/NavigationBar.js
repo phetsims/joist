@@ -89,7 +89,8 @@ define( function( require ) {
       this.homeButton = new HomeButton( barSize.height, sim.lookAndFeel.navigationBarFillProperty, {
         listener: function() {
           sim.showHomeScreen = true;
-        }
+        },
+        tandem: options.tandem && options.tandem.createTandem( 'homeButton' )
       } );
       this.addChild( this.homeButton );
 
