@@ -9,6 +9,7 @@
 define( function( require ) {
   'use strict';
 
+  // modules
   var Node = require( 'SCENERY/nodes/Node' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -21,11 +22,13 @@ define( function( require ) {
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
+  // constants
+  var HIGHLIGHT_SPACING = 4;
+
   /**
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
    * @param {Property.<string>} navigationBarFillProperty - the color of the navbar, as a string.
    * @param {Property.<number>} screenIndexProperty
-   * @param {Sim} sim
    * @param {Array.<Screen>} screens - all of the available sim content screens (excluding the home screen)
    * @param {Screen} screen
    * @param {number} navBarHeight
@@ -35,14 +38,14 @@ define( function( require ) {
   function NavigationBarScreenButton( navigationBarFillProperty, screenIndexProperty, screens, screen, navBarHeight, options ) {
 
     options = _.extend( {
-      tandem: null
-    }, options );
-
-    Node.call( this, {
       cursor: 'pointer',
       focusable: true,
-      textDescription: screen.name + ' Screen: Button'
-    } );
+      textDescription: screen.name + ' Screen: Button',
+      tandem: null,
+      maxTextWidth: null
+    }, options );
+
+    Node.call( this );
 
     var icon = new Node( {
       children: [ screen.navigationBarIcon ],
@@ -53,39 +56,44 @@ define( function( require ) {
     var selectedProperty = new DerivedProperty( [ screenIndexProperty ], function( screenIndex ) {
       return screenIndex === screens.indexOf( screen );
     } );
-    var buttonModel = new PushButtonModel( {
+
+    // create the button model, needs to be public so that together wrappers can hook up to it if needed
+    this.buttonModel = new PushButtonModel( {
       listener: function() {
         screenIndexProperty.value = screens.indexOf( screen );
       }
     } );
-    this.addInputListener( new ButtonListener( buttonModel ) );
+    this.addInputListener( new ButtonListener( this.buttonModel ) );
 
     options.tandem && options.tandem.addInstance( this );
 
-    var text = new Text( screen.name, { font: new PhetFont( 10 ) } );
+    var text = new Text( screen.name, {
+      font: new PhetFont( 10 ),
+      maxWidth: options.maxTextWidth // constrain width for i18n
+    } );
 
     var box = new VBox( {
       children: [ icon, text ],
       pickable: false,
+      //TODO this workaround looks odd when text.maxWidth is applied, buttons all have different spacing
       spacing: Math.max( 0, 12 - text.height ), // see https://github.com/phetsims/joist/issues/143
       usesOpacity: true // hint, since we change its opacity
     } );
 
     //add a transparent overlay for input handling and to size touchArea/mouseArea
-    var overlayXMargin = 8;
-    var overlay = new Rectangle( 0, 0, box.width + 2 * overlayXMargin, box.height );
+    var overlay = new Rectangle( 0, 0, box.width, box.height );
     overlay.centerX = box.centerX;
     overlay.y = box.y;
 
     // Make things brighter when against a dark background
-    var brightenHighlight = new HighlightNode( overlay.width + 4, overlay.height, {
+    var brightenHighlight = new HighlightNode( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, {
       centerX: box.centerX,
       whiteHighlight: true,
       pickable: false
     } );
 
     // Make things darker when against a light background
-    var darkenHighlight = new HighlightNode( overlay.width + 4, overlay.height, {
+    var darkenHighlight = new HighlightNode( overlay.width, overlay.height, {
       centerX: box.centerX,
       whiteHighlight: false,
       pickable: false
@@ -97,7 +105,7 @@ define( function( require ) {
     this.addChild( overlay );
 
     Property.multilink(
-      [ selectedProperty, buttonModel.downProperty, buttonModel.overProperty, navigationBarFillProperty ],
+      [ selectedProperty, this.buttonModel.downProperty, this.buttonModel.overProperty, navigationBarFillProperty ],
       function update( selected, down, over, navigationBarFill ) {
 
         var useDarkenHighlights = ( navigationBarFill !== 'black' );
@@ -111,6 +119,8 @@ define( function( require ) {
         brightenHighlight.visible = !useDarkenHighlights && ( over || down );
         darkenHighlight.visible = useDarkenHighlights && ( over || down );
       } );
+
+    this.mutate( _.omit( options, 'tandem' ) );
   }
 
   return inherit( Node, NavigationBarScreenButton );

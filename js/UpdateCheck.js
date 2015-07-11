@@ -15,6 +15,7 @@ define( function( require ) {
   var PropertySet = require( 'AXON/PropertySet' );
   var packageString = require( 'text!REPOSITORY/package.json' );
   var SimVersion = require( 'JOIST/SimVersion' );
+  var Brand = require( 'BRAND/Brand' );
 
   // parse name/version out of the package.json
   var packageJSON = JSON.parse( packageString );
@@ -50,7 +51,7 @@ define( function( require ) {
 
   inherit( PropertySet, UpdateCheck, {
     // @public - Whether we actually allow checking for updates, or showing any update-related UIs.
-    areUpdatesChecked: !window.together,
+    areUpdatesChecked: !window.together && Brand.id === 'phet', // If it's not PhET-branded, don't check for updates
 
     // @public - The URL to be used for "New version available" clicks
     updateURL: 'http://phet.colorado.edu/html-sim-update' +

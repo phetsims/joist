@@ -22,9 +22,8 @@ define( function( require ) {
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
 
   // images
-  var phetLogo = require( 'image!BRAND/logo.png' );
-  //Makes the 'h' a bit darker so it will show up better against a white background
-  var phetLogoDarker = require( 'image!BRAND/logo-on-white.png' );
+  var phetLogo = require( 'image!BRAND/logo.png' ); // on a black navbar
+  var phetLogoDarker = require( 'image!BRAND/logo-on-white.png' ); // on a white navbar
 
   /**
    * @param {Sim} sim
@@ -46,6 +45,7 @@ define( function( require ) {
 
         var phetMenu = new PhetMenu( sim, {
           showSaveAndLoad: sim.options.showSaveAndLoad,
+          tandem: options.tandem && options.tandem.createTandem( 'phetMenu' ),
           closeCallback: function() {
             // hides the popup and barrier background
             sim.hidePopup( phetMenu, true );
@@ -80,7 +80,7 @@ define( function( require ) {
 
     var optionsButton = new FontAwesomeNode( 'reorder', {
       scale: 0.6,
-      left:   phetLabel.width + 10,
+      left: phetLabel.width + 10,
       bottom: phetLabel.bottom - 1.5,
       pickable: false
     } );
@@ -90,8 +90,9 @@ define( function( require ) {
 
     JoistButton.call( this, icon, backgroundFillProperty, options );
 
+    //TODO #271 Why is there a specific flag for identifying the "adapted-from-phet" brand, but a string test for identifying the "phet" brand?
     // If this is an "adapted from PhET" brand, decorate the PhET button with "adapted from" text.
-    if ( Brand.adaptedFromPhET ) {
+    if ( Brand.id === 'adapted-from-phet' ) {
       this.addChild( new AdaptedFromText( textFillProperty, {
         pickable: false,
         right: icon.left - 10,

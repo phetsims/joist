@@ -36,10 +36,8 @@ define( function( require ) {
 
     MultiLineText.call( this, adaptedFromString, options );
 
-    var thisText = this;
-    fillProperty.link( function( fill ) {
-      thisText.fill = fill;
-    } );
+    // Synchronize the text fill with the given fill property
+    fillProperty.linkAttribute( this, 'fill' );
   }
 
   return inherit( MultiLineText, AdaptedFromText );
