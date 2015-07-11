@@ -28,6 +28,8 @@ define( function( require ) {
 
   // strings
   var versionPattern = require( 'string!JOIST/versionPattern' );
+  var translationCreditString = require( 'string!JOIST/translation.credits.link' );
+  var licensingString = require( 'string!JOIST/licensing.link' );
 
   /**
    * @param {string} name - The name of the simulation
@@ -64,12 +66,14 @@ define( function( require ) {
         offlineNode.visible = state === 'offline';
       };
 
-      children.push( new Node( { children: [
-        checkingNode,
-        upToDateNode,
-        outOfDateNode,
-        offlineNode
-      ] } ) );
+      children.push( new Node( {
+        children: [
+          checkingNode,
+          upToDateNode,
+          outOfDateNode,
+          offlineNode
+        ]
+      } ) );
     }
 
     children.push( new VStrut( 15 ) );
@@ -96,6 +100,23 @@ define( function( require ) {
         children.push( new LinkText( link.text, link.url, { font: new PhetFont( 14 ) } ) );
       }
     }
+    var displayNameToDevName = function( name ) {
+      var splitName = name.split( " " );
+
+      var devName = '';
+      for ( var i in splitName ) {
+        if ( splitName.hasOwnProperty( i ) ) {
+          devName += splitName[ i ].replace( ":", '' ).toLowerCase() + "-";
+        }
+      }
+      // The last part added a '-' to the end to, so we take it out.
+      return devName.substring( 0, devName.length - 2 );
+    };
+
+    children.push( new LinkText( translationCreditString,
+      'https://phet-dev.colorado.edu/en/for-translators/translation-credit#' + displayNameToDevName( name ) + '-header', { font: new PhetFont( 14 ) } ) );
+    children.push( new LinkText( licensingString, 'https://phet.colorado.edu/licensing', { font: new PhetFont( 14 ) } ) );
+
 
     var content = new VBox( { align: 'left', spacing: 5, children: children } );
 

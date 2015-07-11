@@ -109,5 +109,11 @@
   },
   "titlePattern": {
     "value": "{0} {1}"
+  },
+  "translation.credits.link": {
+    "value": "Translation Credits"
+  },
+  "licensing.link": {
+    "value": "Software Agreement & Licensing"
   }
 }
