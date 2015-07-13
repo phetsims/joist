@@ -83,15 +83,5 @@ define( function( require ) {
     options.tandem && options.tandem.addInstance( this );
   }
 
-  return inherit( Node, JoistButton,
-
-    //statics
-    {
-
-      //How much space between the JoistButton and the right side of the screen.
-      HORIZONTAL_INSET: 5,
-
-      //How much space between the JoistButton and the bottom of the screen
-      VERTICAL_INSET: 0
-    } );
+  return inherit( Node, JoistButton );
 } );
