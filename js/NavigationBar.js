@@ -34,7 +34,7 @@ define( function( require ) {
   var PHET_BUTTON_RIGHT_MARGIN = PhetButton.HORIZONTAL_INSET; // same position as PhetButton on home screen
   var PHET_BUTTON_BOTTOM_MARGIN = PhetButton.VERTICAL_INSET; // same position as PhetButton on home screen
   var HOME_BUTTON_LEFT_MARGIN = 20;
-  var SCREEN_BUTTON_SPACING = 10;
+  var SCREEN_BUTTON_SPACING = 0;
 
   /**
    * Creates a nav bar.
