@@ -83,7 +83,7 @@ define( function( require ) {
       /* multi-screen sim */
 
       // title can occupy this percentage of the bar
-      title.maxWidth = 0.3 * this.background.width;
+      title.maxWidth = 0.25 * this.background.width;
 
       // Create the home button
       this.homeButton = new HomeButton( barSize.height, sim.lookAndFeel.navigationBarFillProperty, {
@@ -104,6 +104,8 @@ define( function( require ) {
       // width per screen button
       var screenButtonWidth = ( availableTotal / screens.length ) - ( ( screens.length - 1 ) * SCREEN_BUTTON_SPACING );
 
+      console.log( 'title.width=' + title.width + ' navbar.width=' + this.background.width + ' availableLeft=' + availableLeft + ' availableRight=' + availableRight + ' availableTotal=' + availableTotal + ' screenButtonWidth=' + screenButtonWidth );
+
       var screenButtons = _.map( screens, function( screen ) {
         return new NavigationBarScreenButton(
           sim.lookAndFeel.navigationBarFillProperty,
@@ -111,7 +113,7 @@ define( function( require ) {
           sim.screens,
           screen,
           barSize.height, {
-            maxTextWidth: screenButtonWidth, //TODO #241 this is closer, but not quite right, since it doesn't account for the button highlight
+            maxButtonWidth: screenButtonWidth,
             tandem: options.tandem && options.tandem.createTandem( screen.tandemScreenName + 'Button' )
           } );
       } );
