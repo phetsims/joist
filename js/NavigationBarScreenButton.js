@@ -5,6 +5,7 @@
  *
  * @author Sam Reid
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {
   'use strict';
@@ -42,7 +43,7 @@ define( function( require ) {
       focusable: true,
       textDescription: screen.name + ' Screen: Button',
       tandem: null,
-      maxTextWidth: null
+      maxButtonWidth: null
     }, options );
 
     Node.call( this );
@@ -68,42 +69,30 @@ define( function( require ) {
     options.tandem && options.tandem.addInstance( this );
 
     var text = new Text( screen.name, {
-      font: new PhetFont( 10 ),
-      maxWidth: options.maxTextWidth // constrain width for i18n
+      font: new PhetFont( 10 )
     } );
 
     var box = new VBox( {
       children: [ icon, text ],
       pickable: false,
-      //TODO this workaround looks odd when text.maxWidth is applied, buttons all have different spacing
       spacing: Math.max( 0, 12 - text.height ), // see https://github.com/phetsims/joist/issues/143
       usesOpacity: true // hint, since we change its opacity
     } );
+    console.log( 'box.width=' + box.width + ' icon.width=' + icon.width + ' text.width=' + text.width );//XXX
 
-    //add a transparent overlay for input handling and to size touchArea/mouseArea
-    var overlay = new Rectangle( 0, 0, box.width, box.height );
-    overlay.centerX = box.centerX;
-    overlay.y = box.y;
+    // add a transparent overlay for input handling and to size touchArea/mouseArea
+    var overlay = new Rectangle( 0, 0, box.width, box.height, { center: box.center } );
 
-    // Make things brighter when against a dark background
-    var brightenHighlight = new HighlightNode( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, {
-      centerX: box.centerX,
-      whiteHighlight: true,
-      pickable: false
-    } );
-
-    // Make things darker when against a light background
-    var darkenHighlight = new HighlightNode( overlay.width, overlay.height, {
-      centerX: box.centerX,
-      whiteHighlight: false,
-      pickable: false
-    } );
+    // highlights
+    var brightenHighlight = createHighlight( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, box.center, true );
+    var darkenHighlight = createHighlight( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, box.center, false );
 
     this.addChild( box );
+    this.addChild( overlay );
     this.addChild( brightenHighlight );
     this.addChild( darkenHighlight );
-    this.addChild( overlay );
 
+    // manage interaction fedback
     Property.multilink(
       [ selectedProperty, this.buttonModel.downProperty, this.buttonModel.overProperty, navigationBarFillProperty ],
       function update( selected, down, over, navigationBarFill ) {
@@ -120,8 +109,35 @@ define( function( require ) {
         darkenHighlight.visible = useDarkenHighlights && ( over || down );
       } );
 
+    // Constrain text width, if necessary
+    if ( options.maxButtonWidth && ( this.width > options.maxButtonWidth ) && ( text.width > icon.width ) ) {
+
+      text.maxWidth = options.maxButtonWidth - ( this.width - text.width );
+
+      // adjust the overlay to account for the smaller text
+      overlay.setRect( 0, 0, box.width, overlay.height );
+      overlay.center = box.center;
+
+      //TODO joist#275 this ugly bit would be unnecessary if spacing in HighlightNode was mutable
+      // recreate the highlights to account for the smaller text
+      this.removeChild( brightenHighlight );
+      this.removeChild( darkenHighlight );
+      brightenHighlight = createHighlight( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, box.center, true );
+      darkenHighlight = createHighlight( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, box.center, false );
+      this.addChild( brightenHighlight );
+      this.addChild( darkenHighlight );
+    }
+
     this.mutate( _.omit( options, 'tandem' ) );
   }
+
+  var createHighlight = function( width, height, center, whiteHighlight ) {
+    return new HighlightNode( width, height, {
+      center: center,
+      whiteHighlight: whiteHighlight,
+      pickable: false
+    } );
+  };
 
   return inherit( Node, NavigationBarScreenButton );
 } );

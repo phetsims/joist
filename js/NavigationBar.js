@@ -23,7 +23,7 @@ define( function( require ) {
 
   // constants
   var TITLE_LEFT_MARGIN = 10;
-  var TITLE_RIGHT_MARGIN = 20;
+  var TITLE_RIGHT_MARGIN = 25;
   var PHET_BUTTON_LEFT_MARGIN = TITLE_RIGHT_MARGIN;
   var HOME_BUTTON_LEFT_MARGIN = 20;
   var SCREEN_BUTTON_SPACING = 10;
@@ -82,8 +82,8 @@ define( function( require ) {
     else {
       /* multi-screen sim */
 
-      // title can occupy this percentage of the bar
-      title.maxWidth = 0.3 * this.background.width;
+      // Start with the assumption that the title can occupy (at most) this percentage of the bar.
+      var maxTitleWidth = Math.min( this.titleParent.width, 0.25 * this.background.width );
 
       // Create the home button
       this.homeButton = new HomeButton( barSize.height, sim.lookAndFeel.navigationBarFillProperty, {
@@ -96,7 +96,7 @@ define( function( require ) {
 
       // Allocate remaining horizontal space equally for screen buttons, assuming they will be centered in the navbar.
       // available width left of center
-      var availableLeft = ( this.background.width / 2 ) - TITLE_LEFT_MARGIN - this.titleParent.width - TITLE_RIGHT_MARGIN;
+      var availableLeft = ( this.background.width / 2 ) - TITLE_LEFT_MARGIN - maxTitleWidth - TITLE_RIGHT_MARGIN;
       // available width right of center
       var availableRight = ( this.background.width / 2 ) - HOME_BUTTON_LEFT_MARGIN - this.homeButton.width - PHET_BUTTON_LEFT_MARGIN - this.phetButton.width - PhetButton.HORIZONTAL_INSET;
       // total available width for the screen buttons when they are centered
@@ -111,7 +111,7 @@ define( function( require ) {
           sim.screens,
           screen,
           barSize.height, {
-            maxTextWidth: screenButtonWidth, //TODO #241 this is closer, but not quite right, since it doesn't account for the button highlight
+            maxButtonWidth: screenButtonWidth,
             tandem: options.tandem && options.tandem.createTandem( screen.tandemScreenName + 'Button' )
           } );
       } );
@@ -125,9 +125,13 @@ define( function( require ) {
       // Put all screen buttons under a parent, to simplify layout
       this.screenButtonsParent = new Node( {
         children: screenButtons,
+        center: this.background.center,
         maxWidth: availableTotal // in case we have so many screens that the screen buttons need to be scaled down
       } );
       this.addChild( this.screenButtonsParent );
+
+      // Now determine how much we really need to scale the title.
+      title.maxWidth = this.screenButtonsParent.left - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN;
     }
 
     this.layout( 1, barSize.width, barSize.height );
