@@ -31,6 +31,8 @@ define( function( require ) {
   var TITLE_LEFT_MARGIN = 10;
   var TITLE_RIGHT_MARGIN = 25;
   var PHET_BUTTON_LEFT_MARGIN = TITLE_RIGHT_MARGIN;
+  var PHET_BUTTON_RIGHT_MARGIN = PhetButton.HORIZONTAL_INSET; // same position as PhetButton on home screen
+  var PHET_BUTTON_BOTTOM_MARGIN = PhetButton.VERTICAL_INSET; // same position as PhetButton on home screen
   var HOME_BUTTON_LEFT_MARGIN = 20;
   var SCREEN_BUTTON_SPACING = 10;
 
@@ -83,7 +85,7 @@ define( function( require ) {
       /* single-screen sim */
 
       // title can occupy all space to the left of the PhET button
-      title.maxWidth = this.background.width - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN - this.phetButton.width - PhetButton.HORIZONTAL_INSET;
+      title.maxWidth = this.background.width - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN - this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN;
     }
     else {
       /* multi-screen sim */
@@ -107,7 +109,7 @@ define( function( require ) {
       // available width left of center
       var availableLeft = ( this.background.width / 2 ) - TITLE_LEFT_MARGIN - maxTitleWidth - TITLE_RIGHT_MARGIN;
       // available width right of center
-      var availableRight = ( this.background.width / 2 ) - HOME_BUTTON_LEFT_MARGIN - this.homeButton.width - PHET_BUTTON_LEFT_MARGIN - this.phetButton.width - PhetButton.HORIZONTAL_INSET;
+      var availableRight = ( this.background.width / 2 ) - HOME_BUTTON_LEFT_MARGIN - this.homeButton.width - PHET_BUTTON_LEFT_MARGIN - this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN;
       // total available width for the screen buttons when they are centered
       var availableTotal = 2 * Math.min( availableLeft, availableRight );
       // width per screen button
@@ -169,8 +171,8 @@ define( function( require ) {
 
       // PhET button at right end
       this.phetButton.setScaleMagnitude( scale );
-      this.phetButton.right = width - PhetButton.HORIZONTAL_INSET;
-      this.phetButton.bottom = height - PhetButton.VERTICAL_INSET;
+      this.phetButton.right = width - PHET_BUTTON_RIGHT_MARGIN;
+      this.phetButton.bottom = height - PHET_BUTTON_BOTTOM_MARGIN;
 
       // For multi-screen sims ...
       if ( this.screens.length !== 1 ) {
