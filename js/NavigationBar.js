@@ -42,7 +42,7 @@ define( function( require ) {
       tandem: null
     }, options );
 
-    //TODO #263 this requirement is disabled until we decide how to address it, since several sims violate it
+    //TODO joist#263 this requirement is disabled until we decide how to address it, since several sims violate it
     //if ( screens.length > 1 ) {
     //  assert && assert( _.findIndex( screens, function( screen ) {
     //      return ( screen.navigationBarIcon.width !== screens[ 0 ].navigationBarIcon.width ) || ( screen.navigationBarIcon.height !== screens[ 0 ].navigationBarIcon.height );
