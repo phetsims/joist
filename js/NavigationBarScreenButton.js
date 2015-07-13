@@ -78,7 +78,8 @@ define( function( require ) {
       children: [ icon, text ],
       pickable: false,
       spacing: Math.max( 0, 12 - text.height ), // see https://github.com/phetsims/joist/issues/143
-      usesOpacity: true // hint, since we change its opacity
+      usesOpacity: true, // hint, since we change its opacity
+      maxHeight: navBarHeight
     } );
 
     // add a transparent overlay for input handling and to size touchArea/mouseArea
