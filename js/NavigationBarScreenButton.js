@@ -52,10 +52,7 @@ define( function( require ) {
     // icon,
     var icon = new Node( {
       children: [ screen.navigationBarIcon ], // wrap in case this icon is used in multiple place (eg, home screen and navbar)
-      scale: ( 0.625 * navBarHeight ) / screen.navigationBarIcon.height
-    } );
-    var iconParent = new Node( {
-      children: [ icon ] // wrap again to avoid issues with setting both scale and maxWidth
+      maxHeight: 0.625 * navBarHeight
     } );
 
     // Is this button's screen selected?
@@ -78,7 +75,7 @@ define( function( require ) {
     } );
 
     var box = new VBox( {
-      children: [ iconParent, text ],
+      children: [ icon, text ],
       pickable: false,
       spacing: Math.max( 0, 12 - text.height ), // see https://github.com/phetsims/joist/issues/143
       usesOpacity: true // hint, since we change its opacity
@@ -123,7 +120,7 @@ define( function( require ) {
     // Constrain text and icon width, if necessary
     if ( options.maxButtonWidth && ( this.width > options.maxButtonWidth ) ) {
 
-      text.maxWidth = iconParent.maxWidth = options.maxButtonWidth - ( this.width - box.width );
+      text.maxWidth = icon.maxWidth = options.maxButtonWidth - ( this.width - box.width );
 
       // adjust the overlay
       overlay.setRect( 0, 0, box.width, overlay.height );
