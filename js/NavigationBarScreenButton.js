@@ -11,18 +11,18 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var ButtonListener = require( 'SUN/buttons/ButtonListener' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var HighlightNode = require( 'JOIST/HighlightNode' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Property = require( 'AXON/Property' );
+  var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var HighlightNode = require( 'JOIST/HighlightNode' );
-  var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
-  var ButtonListener = require( 'SUN/buttons/ButtonListener' );
-  var Property = require( 'AXON/Property' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Util = require( 'DOT/Util' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
 
   // constants
   var HIGHLIGHT_SPACING = 4;
