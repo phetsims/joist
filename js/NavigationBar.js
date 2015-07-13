@@ -5,8 +5,8 @@
  * For a single-screen sim, it shows the name of the sim at the far left and the PhET button at the far right.
  * For a multi-screen sim, it additionally shows buttons for each screen, and a home button.
  *
- * Layout of NavigationBar adapts to different text widths and numbers of screens, and attempts to
- * perform and "optimal" layout. The sim title is initially constrained to a max percentage of the bar width,
+ * Layout of NavigationBar adapts to different text widths, icon widths, and numbers of screens, and attempts to
+ * perform an "optimal" layout. The sim title is initially constrained to a max percentage of the bar width,
  * and that's used to compute how much space is available for screen buttons.  After creation and layout of the
  * screen buttons, we then compute how much space is actually available for the sim title, and use that to
  * constrain the title's width.
