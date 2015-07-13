@@ -83,8 +83,8 @@ define( function( require ) {
     var overlay = new Rectangle( 0, 0, box.width, box.height, { center: box.center } );
 
     // highlights
-    var brightenHighlight = createHighlight( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, box.center, true );
-    var darkenHighlight = createHighlight( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, box.center, false );
+    var brightenHighlight = createHighlight( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, box.center, 'white' );
+    var darkenHighlight = createHighlight( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, box.center, 'black' );
 
     this.addChild( box );
     this.addChild( overlay );
@@ -121,8 +121,8 @@ define( function( require ) {
       // recreate the highlights to account for the smaller text
       this.removeChild( brightenHighlight );
       this.removeChild( darkenHighlight );
-      brightenHighlight = createHighlight( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, box.center, true );
-      darkenHighlight = createHighlight( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, box.center, false );
+      brightenHighlight = createHighlight( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, box.center, 'white' );
+      darkenHighlight = createHighlight( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, box.center, 'black' );
       this.addChild( brightenHighlight );
       this.addChild( darkenHighlight );
     }
@@ -130,10 +130,10 @@ define( function( require ) {
     this.mutate( _.omit( options, 'tandem' ) );
   }
 
-  var createHighlight = function( width, height, center, whiteHighlight ) {
+  var createHighlight = function( width, height, center, fill ) {
     return new HighlightNode( width, height, {
       center: center,
-      whiteHighlight: whiteHighlight,
+      fill: fill,
       pickable: false
     } );
   };

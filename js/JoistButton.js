@@ -43,21 +43,21 @@ define( function( require ) {
     this.buttonModel = new PushButtonModel( options ); // @private
 
     // Create both highlights and only make the one visible that corresponds to the color scheme
-    var createHighlight = function( whiteHighlight ) {
+    var createHighlight = function( fill ) {
 
       return new HighlightNode( content.width + options.highlightExtensionWidth, content.height + options.highlightExtensionHeight, {
         centerX: content.centerX + options.highlightCenterOffsetX,
         centerY: content.centerY + options.highlightCenterOffsetY,
-        whiteHighlight: whiteHighlight,
+        fill: fill,
         pickable: false
       } );
     };
 
     // Highlight against the black background
-    var brightenHighlight = createHighlight( true );
+    var brightenHighlight = createHighlight( 'white' );
 
     // Highlight against the white background
-    var darkenHighlight = createHighlight( false );
+    var darkenHighlight = createHighlight( 'black' );
 
     Node.call( this, { children: [ content, brightenHighlight, darkenHighlight ] } );
 

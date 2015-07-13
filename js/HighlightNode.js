@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Color = require( 'SCENERY/util/Color' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
@@ -24,20 +25,22 @@ define( function( require ) {
   function HighlightNode( width, height, options ) {
 
     options = _.extend( {
-      whiteHighlight: true,
-      hightlightWidth: 1,
+      fill: 'white',
+      highlightWidth: 1,
       pickable: false
     }, options );
 
-    //TODO joist#222 innerColor should be options.fill, outerColor should be transparent
-    var innerColor = options.whiteHighlight ? 'white' : 'black';
-    var outerColor = options.whiteHighlight ? 'black' : 'white';
+    var innerColor = options.fill;
+    var outerColor = Color.toColor( innerColor ).withAlpha( 0 ); // transparent
 
     var barOptions = {
-      fill: new LinearGradient( 0, 0, 0, height ).addColorStop( 0, outerColor ).addColorStop( 0.5, innerColor ).addColorStop( 1, outerColor )
+      fill: new LinearGradient( 0, 0, 0, height )
+        .addColorStop( 0, outerColor )
+        .addColorStop( 0.5, innerColor )
+        .addColorStop( 1, outerColor )
     };
-    var leftBar = new Rectangle( 0, 0, options.hightlightWidth, height, barOptions );
-    var rightBar = new Rectangle( 0, 0, options.hightlightWidth, height, barOptions );
+    var leftBar = new Rectangle( 0, 0, options.highlightWidth, height, barOptions );
+    var rightBar = new Rectangle( 0, 0, options.highlightWidth, height, barOptions );
 
     options.children = [ leftBar, rightBar ];
     options.spacing = width;
