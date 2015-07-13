@@ -94,7 +94,10 @@ define( function( require ) {
       } );
       this.addChild( this.homeButton );
 
-      // Allocate remaining horizontal space equally for screen buttons, assuming they will be centered in the navbar.
+      /*
+       * Allocate remaining horizontal space equally for screen buttons, assuming they will be centered in the navbar.
+       * Computations here reflect the left-to-right layout of the navbar.
+       */
       // available width left of center
       var availableLeft = ( this.background.width / 2 ) - TITLE_LEFT_MARGIN - maxTitleWidth - TITLE_RIGHT_MARGIN;
       // available width right of center
@@ -104,6 +107,7 @@ define( function( require ) {
       // width per screen button
       var screenButtonWidth = ( availableTotal / screens.length ) - ( ( screens.length - 1 ) * SCREEN_BUTTON_SPACING );
 
+      // Create the screen buttons
       var screenButtons = _.map( screens, function( screen ) {
         return new NavigationBarScreenButton(
           sim.lookAndFeel.navigationBarFillProperty,

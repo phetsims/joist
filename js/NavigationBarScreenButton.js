@@ -43,7 +43,7 @@ define( function( require ) {
       focusable: true,
       textDescription: screen.name + ' Screen: Button',
       tandem: null,
-      maxButtonWidth: null
+      maxButtonWidth: null // {number|null} the maximum width of the button, causes text to be scaled down if necessary
     }, options );
 
     Node.call( this );
