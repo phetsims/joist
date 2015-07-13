@@ -113,7 +113,7 @@ define( function( require ) {
       // total available width for the screen buttons when they are centered
       var availableTotal = 2 * Math.min( availableLeft, availableRight );
       // width per screen button
-      var screenButtonWidth = ( availableTotal / screens.length ) - ( ( screens.length - 1 ) * SCREEN_BUTTON_SPACING );
+      var screenButtonWidth = ( availableTotal - ( screens.length - 1 ) * SCREEN_BUTTON_SPACING ) / screens.length;
 
       // Create the screen buttons
       var screenButtons = _.map( screens, function( screen ) {
