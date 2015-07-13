@@ -78,7 +78,6 @@ define( function( require ) {
       spacing: Math.max( 0, 12 - text.height ), // see https://github.com/phetsims/joist/issues/143
       usesOpacity: true // hint, since we change its opacity
     } );
-    console.log( 'box.width=' + box.width + ' icon.width=' + icon.width + ' text.width=' + text.width );//XXX
 
     // add a transparent overlay for input handling and to size touchArea/mouseArea
     var overlay = new Rectangle( 0, 0, box.width, box.height, { center: box.center } );
