@@ -1,7 +1,8 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * The 'PhET' menu, which appears in the bottom-right of the home screen and the navigation bar, with options like "PhET Website", "Settings", etc.
+ * The 'PhET' menu, which appears in the bottom-right of the home screen and the navigation bar, with options like
+ * "PhET Website", "Settings", etc.
  *
  * @author Sam Reid
  */
@@ -376,7 +377,7 @@ define( function( require ) {
     content.left = X_MARGIN;
     content.top = Y_MARGIN;
 
-    thisMenu.mutate( options );
+    thisMenu.mutate( _.omit( options, 'tandem' ) );
 
     // Add a key listener on the menu that will dismiss it when escape is pressed
     // TODO: Test this cross browser, regarding issues like http://stackoverflow.com/questions/1160008/which-keycode-for-escape-key-with-jquery

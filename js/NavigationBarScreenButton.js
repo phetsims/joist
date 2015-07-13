@@ -1,26 +1,28 @@
-// Copyright 2002-2013, University of Colorado Boulder
+// Copyright 2002-2015, University of Colorado Boulder
 
 /**
  * Button for a single screen in the navigation bar, shows the text and the navigation bar icon.
  *
  * @author Sam Reid
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {
   'use strict';
 
   // modules
+  var ButtonListener = require( 'SUN/buttons/ButtonListener' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var HighlightNode = require( 'JOIST/HighlightNode' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Property = require( 'AXON/Property' );
+  var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var HighlightNode = require( 'JOIST/HighlightNode' );
-  var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
-  var ButtonListener = require( 'SUN/buttons/ButtonListener' );
-  var Property = require( 'AXON/Property' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Util = require( 'DOT/Util' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
 
   // constants
   var HIGHLIGHT_SPACING = 4;
@@ -42,14 +44,15 @@ define( function( require ) {
       focusable: true,
       textDescription: screen.name + ' Screen: Button',
       tandem: null,
-      maxTextWidth: null
+      maxButtonWidth: null // {number|null} the maximum width of the button, causes text and/or icon to be scaled down if necessary
     }, options );
 
     Node.call( this );
 
+    // icon,
     var icon = new Node( {
-      children: [ screen.navigationBarIcon ],
-      scale: ( 0.625 * navBarHeight ) / screen.navigationBarIcon.height
+      children: [ screen.navigationBarIcon ], // wrap in case this icon is used in multiple place (eg, home screen and navbar)
+      maxHeight: 0.625 * navBarHeight
     } );
 
     // Is this button's screen selected?
@@ -68,42 +71,37 @@ define( function( require ) {
     options.tandem && options.tandem.addInstance( this );
 
     var text = new Text( screen.name, {
-      font: new PhetFont( 10 ),
-      maxWidth: options.maxTextWidth // constrain width for i18n
+      font: new PhetFont( 10 )
     } );
 
     var box = new VBox( {
       children: [ icon, text ],
       pickable: false,
-      //TODO this workaround looks odd when text.maxWidth is applied, buttons all have different spacing
       spacing: Math.max( 0, 12 - text.height ), // see https://github.com/phetsims/joist/issues/143
-      usesOpacity: true // hint, since we change its opacity
+      usesOpacity: true, // hint, since we change its opacity
+      maxHeight: navBarHeight
     } );
 
-    //add a transparent overlay for input handling and to size touchArea/mouseArea
-    var overlay = new Rectangle( 0, 0, box.width, box.height );
-    overlay.centerX = box.centerX;
-    overlay.y = box.y;
+    // add a transparent overlay for input handling and to size touchArea/mouseArea
+    var overlay = new Rectangle( 0, 0, box.width, box.height, { center: box.center } );
 
-    // Make things brighter when against a dark background
-    var brightenHighlight = new HighlightNode( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, {
-      centerX: box.centerX,
-      whiteHighlight: true,
-      pickable: false
+    // highlights
+    var highlightWidth = overlay.width + ( 2 * HIGHLIGHT_SPACING );
+    var brightenHighlight = new HighlightNode( highlightWidth, overlay.height, {
+      center: box.center,
+      fill: 'white'
     } );
-
-    // Make things darker when against a light background
-    var darkenHighlight = new HighlightNode( overlay.width, overlay.height, {
-      centerX: box.centerX,
-      whiteHighlight: false,
-      pickable: false
+    var darkenHighlight = new HighlightNode( highlightWidth, overlay.height, {
+      center: box.center,
+      fill: 'black'
     } );
 
     this.addChild( box );
+    this.addChild( overlay );
     this.addChild( brightenHighlight );
     this.addChild( darkenHighlight );
-    this.addChild( overlay );
 
+    // manage interaction feedback
     Property.multilink(
       [ selectedProperty, this.buttonModel.downProperty, this.buttonModel.overProperty, navigationBarFillProperty ],
       function update( selected, down, over, navigationBarFill ) {
@@ -119,6 +117,22 @@ define( function( require ) {
         brightenHighlight.visible = !useDarkenHighlights && ( over || down );
         darkenHighlight.visible = useDarkenHighlights && ( over || down );
       } );
+
+    // Constrain text and icon width, if necessary
+    if ( options.maxButtonWidth && ( this.width > options.maxButtonWidth ) ) {
+
+      text.maxWidth = icon.maxWidth = options.maxButtonWidth - ( this.width - box.width );
+
+      // adjust the overlay
+      overlay.setRect( 0, 0, box.width, overlay.height );
+      overlay.center = box.center;
+
+      // adjust the highlights
+      brightenHighlight.spacing = darkenHighlight.spacing = overlay.width + ( 2 * HIGHLIGHT_SPACING );
+      brightenHighlight.center = darkenHighlight.center = box.center;
+
+      assert && assert( Util.toFixed( this.width, 0 ) === Util.toFixed( options.maxButtonWidth, 0 ) );
+    }
 
     this.mutate( _.omit( options, 'tandem' ) );
   }

@@ -90,7 +90,6 @@ define( function( require ) {
 
     JoistButton.call( this, icon, backgroundFillProperty, options );
 
-    //TODO #271 Why is there a specific flag for identifying the "adapted-from-phet" brand, but a string test for identifying the "phet" brand?
     // If this is an "adapted from PhET" brand, decorate the PhET button with "adapted from" text.
     if ( Brand.id === 'adapted-from-phet' ) {
       this.addChild( new AdaptedFromText( textFillProperty, {

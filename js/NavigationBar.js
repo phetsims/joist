@@ -1,9 +1,15 @@
-// Copyright 2002-2013, University of Colorado Boulder
+// Copyright 2002-2015, University of Colorado Boulder
 
 /**
  * The navigation bar at the bottom of the screen.
  * For a single-screen sim, it shows the name of the sim at the far left and the PhET button at the far right.
  * For a multi-screen sim, it additionally shows buttons for each screen, and a home button.
+ *
+ * Layout of NavigationBar adapts to different text widths, icon widths, and numbers of screens, and attempts to
+ * perform an "optimal" layout. The sim title is initially constrained to a max percentage of the bar width,
+ * and that's used to compute how much space is available for screen buttons.  After creation and layout of the
+ * screen buttons, we then compute how much space is actually available for the sim title, and use that to
+ * constrain the title's width.
  *
  * @author Sam Reid
  * @author Chris Malley (PixelZoom, Inc.)
@@ -23,10 +29,12 @@ define( function( require ) {
 
   // constants
   var TITLE_LEFT_MARGIN = 10;
-  var TITLE_RIGHT_MARGIN = 20;
+  var TITLE_RIGHT_MARGIN = 25;
   var PHET_BUTTON_LEFT_MARGIN = TITLE_RIGHT_MARGIN;
+  var PHET_BUTTON_RIGHT_MARGIN = PhetButton.HORIZONTAL_INSET; // same position as PhetButton on home screen
+  var PHET_BUTTON_BOTTOM_MARGIN = PhetButton.VERTICAL_INSET; // same position as PhetButton on home screen
   var HOME_BUTTON_LEFT_MARGIN = 20;
-  var SCREEN_BUTTON_SPACING = 10;
+  var SCREEN_BUTTON_SPACING = 0;
 
   /**
    * Creates a nav bar.
@@ -42,7 +50,7 @@ define( function( require ) {
       tandem: null
     }, options );
 
-    //TODO #263 this requirement is disabled until we decide how to address it, since several sims violate it
+    //TODO joist#263 this requirement is disabled until we decide how to address it, since several sims violate it
     //if ( screens.length > 1 ) {
     //  assert && assert( _.findIndex( screens, function( screen ) {
     //      return ( screen.navigationBarIcon.width !== screens[ 0 ].navigationBarIcon.width ) || ( screen.navigationBarIcon.height !== screens[ 0 ].navigationBarIcon.height );
@@ -77,13 +85,13 @@ define( function( require ) {
       /* single-screen sim */
 
       // title can occupy all space to the left of the PhET button
-      title.maxWidth = this.background.width - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN - this.phetButton.width - PhetButton.HORIZONTAL_INSET;
+      title.maxWidth = this.background.width - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN - this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN;
     }
     else {
       /* multi-screen sim */
 
-      // title can occupy this percentage of the bar
-      title.maxWidth = 0.3 * this.background.width;
+      // Start with the assumption that the title can occupy (at most) this percentage of the bar.
+      var maxTitleWidth = Math.min( this.titleParent.width, 0.25 * this.background.width );
 
       // Create the home button
       this.homeButton = new HomeButton( barSize.height, sim.lookAndFeel.navigationBarFillProperty, {
@@ -94,16 +102,20 @@ define( function( require ) {
       } );
       this.addChild( this.homeButton );
 
-      // Allocate remaining horizontal space equally for screen buttons, assuming they will be centered in the navbar.
+      /*
+       * Allocate remaining horizontal space equally for screen buttons, assuming they will be centered in the navbar.
+       * Computations here reflect the left-to-right layout of the navbar.
+       */
       // available width left of center
-      var availableLeft = ( this.background.width / 2 ) - TITLE_LEFT_MARGIN - this.titleParent.width - TITLE_RIGHT_MARGIN;
+      var availableLeft = ( this.background.width / 2 ) - TITLE_LEFT_MARGIN - maxTitleWidth - TITLE_RIGHT_MARGIN;
       // available width right of center
-      var availableRight = ( this.background.width / 2 ) - HOME_BUTTON_LEFT_MARGIN - this.homeButton.width - PHET_BUTTON_LEFT_MARGIN - this.phetButton.width - PhetButton.HORIZONTAL_INSET;
+      var availableRight = ( this.background.width / 2 ) - HOME_BUTTON_LEFT_MARGIN - this.homeButton.width - PHET_BUTTON_LEFT_MARGIN - this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN;
       // total available width for the screen buttons when they are centered
       var availableTotal = 2 * Math.min( availableLeft, availableRight );
       // width per screen button
-      var screenButtonWidth = ( availableTotal / screens.length ) - ( ( screens.length - 1 ) * SCREEN_BUTTON_SPACING );
+      var screenButtonWidth = ( availableTotal - ( screens.length - 1 ) * SCREEN_BUTTON_SPACING ) / screens.length;
 
+      // Create the screen buttons
       var screenButtons = _.map( screens, function( screen ) {
         return new NavigationBarScreenButton(
           sim.lookAndFeel.navigationBarFillProperty,
@@ -111,7 +123,7 @@ define( function( require ) {
           sim.screens,
           screen,
           barSize.height, {
-            maxTextWidth: screenButtonWidth, //TODO #241 this is closer, but not quite right, since it doesn't account for the button highlight
+            maxButtonWidth: screenButtonWidth,
             tandem: options.tandem && options.tandem.createTandem( screen.tandemScreenName + 'Button' )
           } );
       } );
@@ -125,9 +137,13 @@ define( function( require ) {
       // Put all screen buttons under a parent, to simplify layout
       this.screenButtonsParent = new Node( {
         children: screenButtons,
+        center: this.background.center,
         maxWidth: availableTotal // in case we have so many screens that the screen buttons need to be scaled down
       } );
       this.addChild( this.screenButtonsParent );
+
+      // Now determine the actual width constraint for the sim title.
+      title.maxWidth = this.screenButtonsParent.left - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN;
     }
 
     this.layout( 1, barSize.width, barSize.height );
@@ -155,8 +171,8 @@ define( function( require ) {
 
       // PhET button at right end
       this.phetButton.setScaleMagnitude( scale );
-      this.phetButton.right = width - PhetButton.HORIZONTAL_INSET;
-      this.phetButton.bottom = height - PhetButton.VERTICAL_INSET;
+      this.phetButton.right = width - PHET_BUTTON_RIGHT_MARGIN;
+      this.phetButton.bottom = height - PHET_BUTTON_BOTTOM_MARGIN;
 
       // For multi-screen sims ...
       if ( this.screens.length !== 1 ) {

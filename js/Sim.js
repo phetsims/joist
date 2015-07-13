@@ -371,7 +371,9 @@ define( function( require ) {
       sim.homeScreen = null;
     }
 
-    sim.navigationBar = new NavigationBar( NAVIGATION_BAR_SIZE, sim, screens, { tandem: options.tandem ? options.tandem.createTandem( 'navigationBar' ) : null } );
+    sim.navigationBar = new NavigationBar( NAVIGATION_BAR_SIZE, sim, screens, {
+      tandem: options.tandem ? options.tandem.createTandem( 'navigationBar' ) : null
+    } );
 
     this.updateBackground = function() {
       sim.lookAndFeel.backgroundColor = sim.currentScreen ?
