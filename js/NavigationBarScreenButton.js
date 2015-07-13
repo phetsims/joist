@@ -98,7 +98,7 @@ define( function( require ) {
     this.addChild( brightenHighlight );
     this.addChild( darkenHighlight );
 
-    // manage interaction fedback
+    // manage interaction feedback
     Property.multilink(
       [ selectedProperty, this.buttonModel.downProperty, this.buttonModel.overProperty, navigationBarFillProperty ],
       function update( selected, down, over, navigationBarFill ) {
