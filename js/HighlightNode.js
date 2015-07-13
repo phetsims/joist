@@ -2,32 +2,47 @@
 
 /**
  * Highlight node for navigation bar screen buttons, phet button, etc.
+ *
+ * @author Sam Reid
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {
   'use strict';
 
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  // modules
+  var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
+  /**
+   * @param {number} width
+   * @param {number} height
+   * @param {Object} [options]
+   * @constructor
+   */
   function HighlightNode( width, height, options ) {
+
     options = _.extend( {
-      whiteHighlight: true
+      whiteHighlight: true,
+      hightlightWidth: 1,
+      pickable: false
     }, options );
 
-    var outerColor = options.whiteHighlight ? 'black' : 'white';
+    //TODO joist#222 this logic should be replaced with options.fill
     var innerColor = options.whiteHighlight ? 'white' : 'black';
-    var leftBar = new Rectangle( -0.5, 0, 1, height, 0, 0, {
-      fill: new LinearGradient( 0, 0, 0, height ).addColorStop( 0, outerColor ).addColorStop( 0.5, innerColor ).addColorStop( 1, outerColor )
-    } );
-    var rightBar = new Rectangle( width - 0.5, 0, 1, height, 0, 0, {
-      fill: new LinearGradient( 0, 0, 0, height ).addColorStop( 0, outerColor ).addColorStop( 0.5, innerColor ).addColorStop( 1, outerColor )
-    } );
+    var outerColor = options.whiteHighlight ? 'black' : 'white';
 
-    options = _.extend( { children: [ leftBar, rightBar ], pickable: false }, options );
-    Node.call( this, options );
+    var barOptions = {
+      fill: new LinearGradient( 0, 0, 0, height ).addColorStop( 0, outerColor ).addColorStop( 0.5, innerColor ).addColorStop( 1, outerColor )
+    };
+    var leftBar = new Rectangle( 0, 0, options.hightlightWidth, height, barOptions );
+    var rightBar = new Rectangle( 0, 0, options.hightlightWidth, height, barOptions );
+
+    options.children = [ leftBar, rightBar ];
+    options.spacing = width;
+    HBox.call( this, options );
   }
 
-  return inherit( Node, HighlightNode );
+  return inherit( HBox, HighlightNode );
 } );
