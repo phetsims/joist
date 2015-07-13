@@ -22,6 +22,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Util = require( 'DOT/Util' );
 
   // constants
   var HIGHLIGHT_SPACING = 4;
@@ -131,6 +132,8 @@ define( function( require ) {
       // adjust the highlights
       brightenHighlight.spacing = darkenHighlight.spacing = overlay.width + ( 2 * HIGHLIGHT_SPACING );
       brightenHighlight.center = darkenHighlight.center = box.center;
+
+      assert && assert( Util.toFixed( this.width, 0 ) === Util.toFixed( options.maxButtonWidth, 0 ) );
     }
 
     this.mutate( _.omit( options, 'tandem' ) );
