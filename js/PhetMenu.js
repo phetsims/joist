@@ -1,7 +1,8 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * The 'PhET' menu, which appears in the bottom-right of the home screen and the navigation bar, with options like "PhET Website", "Settings", etc.
+ * The 'PhET' menu, which appears in the bottom-right of the home screen and the navigation bar, with options like
+ * "PhET Website", "Settings", etc.
  *
  * @author Sam Reid
  */
