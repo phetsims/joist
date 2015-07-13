@@ -29,7 +29,7 @@ define( function( require ) {
       pickable: false
     }, options );
 
-    //TODO joist#222 this logic should be replaced with options.fill
+    //TODO joist#222 innerColor should be options.fill, outerColor should be transparent
     var innerColor = options.whiteHighlight ? 'white' : 'black';
     var outerColor = options.whiteHighlight ? 'black' : 'white';
 
