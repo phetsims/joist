@@ -83,8 +83,15 @@ define( function( require ) {
     var overlay = new Rectangle( 0, 0, box.width, box.height, { center: box.center } );
 
     // highlights
-    var brightenHighlight = createHighlight( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, box.center, 'white' );
-    var darkenHighlight = createHighlight( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, box.center, 'black' );
+    var highlightWidth = overlay.width + ( 2 * HIGHLIGHT_SPACING );
+    var brightenHighlight = new HighlightNode( highlightWidth, overlay.height, {
+      center: box.center,
+      fill: 'white'
+    } );
+    var darkenHighlight = new HighlightNode( highlightWidth, overlay.height, {
+      center: box.center,
+      fill: 'black'
+    } );
 
     this.addChild( box );
     this.addChild( overlay );
@@ -113,30 +120,17 @@ define( function( require ) {
 
       text.maxWidth = options.maxButtonWidth - ( this.width - text.width );
 
-      // adjust the overlay to account for the smaller text
+      // adjust the overlay
       overlay.setRect( 0, 0, box.width, overlay.height );
       overlay.center = box.center;
 
-      //TODO joist#275 this ugly bit would be unnecessary if spacing in HighlightNode was mutable
-      // recreate the highlights to account for the smaller text
-      this.removeChild( brightenHighlight );
-      this.removeChild( darkenHighlight );
-      brightenHighlight = createHighlight( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, box.center, 'white' );
-      darkenHighlight = createHighlight( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, box.center, 'black' );
-      this.addChild( brightenHighlight );
-      this.addChild( darkenHighlight );
+      // adjust the highlights
+      brightenHighlight.spacing = darkenHighlight.spacing = overlay.width + ( 2 * HIGHLIGHT_SPACING );
+      brightenHighlight.center = darkenHighlight.center = box.center;
     }
 
     this.mutate( _.omit( options, 'tandem' ) );
   }
-
-  var createHighlight = function( width, height, center, fill ) {
-    return new HighlightNode( width, height, {
-      center: center,
-      fill: fill,
-      pickable: false
-    } );
-  };
 
   return inherit( Node, NavigationBarScreenButton );
 } );
