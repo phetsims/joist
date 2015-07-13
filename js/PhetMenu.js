@@ -377,7 +377,7 @@ define( function( require ) {
     content.left = X_MARGIN;
     content.top = Y_MARGIN;
 
-    thisMenu.mutate( options );
+    thisMenu.mutate( _.omit( options, 'tandem' ) );
 
     // Add a key listener on the menu that will dismiss it when escape is pressed
     // TODO: Test this cross browser, regarding issues like http://stackoverflow.com/questions/1160008/which-keycode-for-escape-key-with-jquery
