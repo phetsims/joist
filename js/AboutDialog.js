@@ -118,12 +118,9 @@ define( function( require ) {
     };
 
     var devName = displayNameToDevName( name );
-    console.log(devName);
 
     children.push( new LinkText( translationCreditString,
       'http://phet-dev.colorado.edu/en/for-translators/translation-credit#' + devName + '-header', { font: new PhetFont( 14 ) } ) );
-    children.push( new LinkText( licensingString, 'https://phet-dev.colorado.edu/licensing', { font: new PhetFont( 14 ) } ) );
-
 
     var content = new VBox( { align: 'left', spacing: 5, children: children } );
 
