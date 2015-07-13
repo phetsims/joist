@@ -21,7 +21,6 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  //var Util = require( 'DOT/Util' );
 
   // constants
   var HIGHLIGHT_SPACING = 4;
@@ -43,7 +42,7 @@ define( function( require ) {
       focusable: true,
       textDescription: screen.name + ' Screen: Button',
       tandem: null,
-      maxButtonWidth: null
+      maxTextWidth: null
     }, options );
 
     Node.call( this );
@@ -69,28 +68,41 @@ define( function( require ) {
     options.tandem && options.tandem.addInstance( this );
 
     var text = new Text( screen.name, {
-      font: new PhetFont( 10 )
+      font: new PhetFont( 10 ),
+      maxWidth: options.maxTextWidth // constrain width for i18n
     } );
 
     var box = new VBox( {
       children: [ icon, text ],
       pickable: false,
+      //TODO this workaround looks odd when text.maxWidth is applied, buttons all have different spacing
       spacing: Math.max( 0, 12 - text.height ), // see https://github.com/phetsims/joist/issues/143
       usesOpacity: true // hint, since we change its opacity
     } );
-    console.log( 'box.width=' + box.width + ' icon.width=' + icon.width + ' text.width=' + text.width );//XXX
 
-    // add a transparent overlay for input handling and to size touchArea/mouseArea
-    var overlay = new Rectangle( 0, 0, box.width, box.height, { center: box.center } );
+    //add a transparent overlay for input handling and to size touchArea/mouseArea
+    var overlay = new Rectangle( 0, 0, box.width, box.height );
+    overlay.centerX = box.centerX;
+    overlay.y = box.y;
 
-    // highlights
-    var brightenHighlight = createHighlight( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, box.center, true );
-    var darkenHighlight = createHighlight( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, box.center, false );
+    // Make things brighter when against a dark background
+    var brightenHighlight = new HighlightNode( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, {
+      centerX: box.centerX,
+      whiteHighlight: true,
+      pickable: false
+    } );
+
+    // Make things darker when against a light background
+    var darkenHighlight = new HighlightNode( overlay.width, overlay.height, {
+      centerX: box.centerX,
+      whiteHighlight: false,
+      pickable: false
+    } );
 
     this.addChild( box );
-    this.addChild( overlay );
     this.addChild( brightenHighlight );
     this.addChild( darkenHighlight );
+    this.addChild( overlay );
 
     Property.multilink(
       [ selectedProperty, this.buttonModel.downProperty, this.buttonModel.overProperty, navigationBarFillProperty ],
@@ -108,40 +120,8 @@ define( function( require ) {
         darkenHighlight.visible = useDarkenHighlights && ( over || down );
       } );
 
-
-    // Constrain text width, if necessary
-    if ( options.maxButtonWidth && ( this.width > options.maxButtonWidth ) && ( text.width > icon.width ) ) {
-
-      //text.maxWidth = options.maxButtonWidth - ( this.width - text.width );
-      //
-      //// recreate the overlay and highlights to account for the smaller icon and/or text
-      //this.removeChild( overlay );
-      //this.removeChild( brightenHighlight );
-      //this.removeChild( darkenHighlight );
-      //
-      //var originalBoxHeight = overlay.height;
-      //overlay = new Rectangle( 0, 0, box.width, originalBoxHeight, { center: box.center } );
-      //brightenHighlight = createHighlight( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, box.center, true );
-      //darkenHighlight = createHighlight( overlay.width + ( 2 * HIGHLIGHT_SPACING ), overlay.height, box.center, false );
-      //
-      //this.addChild( overlay );
-      //this.addChild( brightenHighlight );
-      //this.addChild( darkenHighlight );
-      //
-      //assert && assert( Util.toFixed( this.width ) <= Util.toFixed( options.maxButtonWidth ), 'this.width=' + this.width + ', maxButtonWidth=' + options.maxButtonWidth );
-    }
-    console.log( 'this.width=' + this.width + ', maxButtonWidth=' + options.maxButtonWidth );//XXX
-
     this.mutate( _.omit( options, 'tandem' ) );
   }
-
-  var createHighlight = function( width, height, center, whiteHighlight ) {
-    return new HighlightNode( width, height, {
-      center: center,
-      whiteHighlight: whiteHighlight,
-      pickable: false
-    } );
-  };
 
   return inherit( Node, NavigationBarScreenButton );
 } );
