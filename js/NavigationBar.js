@@ -24,7 +24,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetButton = require( 'JOIST/PhetButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );                              `
   var Text = require( 'SCENERY/nodes/Text' );
 
   // constants
@@ -142,7 +142,7 @@ define( function( require ) {
       } );
       this.addChild( this.screenButtonsParent );
 
-      // Now determine how much we really need to scale the title.
+      // Now determine the actual width constraint for the sim title.
       title.maxWidth = this.screenButtonsParent.left - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN;
     }
 
