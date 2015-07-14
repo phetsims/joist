@@ -34,7 +34,8 @@ define( function( require ) {
 
     options = _.extend( {
       showSmallHomeScreenIconFrame: false,
-      warningNode: null // {Node | null}, to display below the icons as a warning if available
+      warningNode: null, // {Node | null}, to display below the icons as a warning if available
+      tandem: null
     }, options );
 
     //Rendering in SVG seems to solve the problem that the home screen consumes 100% disk and crashes, see https://github.com/phetsims/joist/issues/17
@@ -87,14 +88,19 @@ define( function( require ) {
         textDescription: screen.name + ' Screen: Button'
       } );
 
+      // Even though in the user interface, the small and large buttons seem like a single UI component
+      // that has grown larger, it would be quite a headache to create a composite button for the purposes of 
+      // tandem, so instead the large and small buttons are registered as separate instances.  See https://github.com/phetsims/together/issues/99
+      options.tandem && options.tandem.createTandem( screen.tandemScreenName + 'LargeButton' ).addInstance( largeScreenButton );
+
       // TODO: Switch to buttonListener, but make sure you test it because on 7/17/2013 there is a problem where
       // TODO: ButtonListener won't fire if a node has appeared under the pointer
       largeScreenButton.addInputListener( {
         down: function() {
-          largeScreenButton.trigger0( 'startedCallbacksForPressed' );
+          largeScreenButton.trigger0( 'startedCallbacksForFired' );
           sim.showHomeScreen = false;
           highlightedScreenIndexProperty.value = -1;
-          largeScreenButton.trigger0( 'endedCallbacksForPressed' );
+          largeScreenButton.trigger0( 'endedCallbacksForFired' );
         }
       } );
 
@@ -147,7 +153,9 @@ define( function( require ) {
       smallScreenButton.mouseArea = smallScreenButton.touchArea = Shape.bounds( smallScreenButton.bounds ); //cover the gap in the vbox
       smallScreenButton.addInputListener( {
         down: function( event ) {
+          smallScreenButton.trigger0( 'startedCallbacksForFired' );
           sim.screenIndex = index;
+          smallScreenButton.trigger0( 'endedCallbacksForFired' );
         },
 
         //On the home screen if you touch an inactive screen thumbnail, it grows.  If then without lifting your finger you swipe over
@@ -158,6 +166,8 @@ define( function( require ) {
           }
         }
       } );
+
+      options.tandem && options.tandem.createTandem( screen.tandemScreenName + 'SmallButton' ).addInstance( smallScreenButton );
 
       smallScreenButton.addInputListener( {
         keydown: function( event ) {
