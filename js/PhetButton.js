@@ -22,8 +22,8 @@ define( function( require ) {
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
 
   // images
-  var phetLogo = require( 'image!BRAND/logo.png' ); // on a black navbar
-  var phetLogoDarker = require( 'image!BRAND/logo-on-white.png' ); // on a white navbar
+  var phetLogo = require( 'mipmap!BRAND/logo.png' ); // on a black navbar
+  var phetLogoDarker = require( 'mipmap!BRAND/logo-on-white.png' ); // on a white navbar
 
   /**
    * @param {Sim} sim
