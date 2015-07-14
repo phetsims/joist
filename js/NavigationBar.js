@@ -51,7 +51,7 @@ define( function( require ) {
       tandem: null
     }, options );
 
-    // all icons must have a valid aspect ratio, which matches either a navbar or homescreen dimensions, see joist#263
+    // all icons must have a valid aspect ratio, which matches either navbar or homescreen icon dimensions, see joist#263
     if ( screens.length > 1 ) {
       var navbarIconAspectRatio = Screen.NAVBAR_ICON_SIZE.width / Screen.NAVBAR_ICON_SIZE.height;
       var homeScreenIconAspectRatio = Screen.HOME_SCREEN_ICON_SIZE.width / Screen.HOME_SCREEN_ICON_SIZE.height;
