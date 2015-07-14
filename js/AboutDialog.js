@@ -29,7 +29,6 @@ define( function( require ) {
   // strings
   var versionPattern = require( 'string!JOIST/versionPattern' );
   var translationCreditString = require( 'string!JOIST/translation.credits.link' );
-  var licensingString = require( 'string!JOIST/licensing.link' );
 
   /**
    * @param {string} name - The name of the simulation
