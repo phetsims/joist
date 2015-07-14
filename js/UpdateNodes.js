@@ -103,7 +103,7 @@ define( function( require ) {
             newWindow.focus();
           } } ),
           new TextPushButton( noThanksString, { baseColor: '#ddd', font: updateTextFont, listener: function() {
-            // Will closing be handled?
+            // Closing the dialog is handled by the Dialog listener itself, no need to add code to close it here.
           } } )
         ] } )
       ] }, options ) );
