@@ -1,7 +1,7 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * Shows an ugly dialog that displays the current update status
+ * Shows a fixed-size dialog that displays the current update status
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
