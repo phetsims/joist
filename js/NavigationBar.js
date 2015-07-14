@@ -25,6 +25,7 @@ define( function( require ) {
   var PhetButton = require( 'JOIST/PhetButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Screen = require( 'JOIST/Screen' );
   var Text = require( 'SCENERY/nodes/Text' );
 
   // constants
@@ -50,13 +51,16 @@ define( function( require ) {
       tandem: null
     }, options );
 
-    //TODO joist#263 this requirement is disabled until we decide how to address it, since several sims violate it
-    //if ( screens.length > 1 ) {
-    //  assert && assert( _.findIndex( screens, function( screen ) {
-    //      return ( screen.navigationBarIcon.width !== screens[ 0 ].navigationBarIcon.width ) || ( screen.navigationBarIcon.height !== screens[ 0 ].navigationBarIcon.height );
-    //    } ) === -1,
-    //    'all navigation bar icons must have the same size' );
-    //}
+    // all icons must have a valid aspect ratio, which matches either a navbar or homescreen dimensions, see joist#263
+    if ( screens.length > 1 ) {
+      var navbarIconAspectRatio = Screen.NAVBAR_ICON_SIZE.width / Screen.NAVBAR_ICON_SIZE.height;
+      var homeScreenIconAspectRatio = Screen.HOME_SCREEN_ICON_SIZE.width / Screen.HOME_SCREEN_ICON_SIZE.height;
+      assert && assert( _.filter( screens, function( screen ) {
+          var iconAspectRatio = screen.navigationBarIcon.width / screen.navigationBarIcon.height;
+          return iconAspectRatio === navbarIconAspectRatio || iconAspectRatio === homeScreenIconAspectRatio;
+        } ).length === screens.length,
+        'all navigation bar icons must have a valid aspect ratio' );
+    }
 
     this.screens = screens;
 
