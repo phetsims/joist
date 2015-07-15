@@ -12,19 +12,19 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
 
   /**
-   * @param {object} options - major/minor/maintenance are required
+   * @param {object} version - major/minor/maintenance are required
    * @constructor
    */
-  function SimVersion( options ) {
-    assert && assert( options.major !== undefined );
-    assert && assert( options.minor !== undefined );
-    assert && assert( options.maintenance !== undefined );
+  function SimVersion( version ) {
+    assert && assert( version.major !== undefined );
+    assert && assert( version.minor !== undefined );
+    assert && assert( version.maintenance !== undefined );
 
-    this.major = options.major; // {number} major - Major version number
-    this.minor = options.minor; // {number} minor - Major version number
-    this.maintenance = options.maintenance; // {number} maintenance - Major version number
-    this.suffix = options.suffix; // {string} [suffix] - Optional suffix (like 'dev.3')
-    this.buildTimestamp = options.buildTimestamp; // {string} [buildTimestamp] - Optional build timestamp, like '2015-06-12 16:05:03 UTC' (phet.chipper.buildTimestamp)
+    this.major = version.major; // {number} major - Major version number
+    this.minor = version.minor; // {number} minor - Major version number
+    this.maintenance = version.maintenance; // {number} maintenance - Major version number
+    this.suffix = version.suffix; // {string} [suffix] - Optional suffix (like 'dev.3')
+    this.buildTimestamp = version.buildTimestamp; // {string} [buildTimestamp] - Optional build timestamp, like '2015-06-12 16:05:03 UTC' (phet.chipper.buildTimestamp)
   }
 
   return inherit( Object, SimVersion, {
