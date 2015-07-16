@@ -86,7 +86,8 @@ define( function( require ) {
       children.push( new Text( Brand.copyright, { font: new PhetFont( 12 ) } ) );
     }
 
-    if ( credits ) {
+    // Add credits for specific brands
+    if ( credits && ( Brand.id === 'phet' || Brand.id === 'interoperable' ) ) {
       children.push( new VStrut( 15 ) );
       children.push( new CreditsNode( credits ) );
     }
