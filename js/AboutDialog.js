@@ -28,7 +28,6 @@ define( function( require ) {
 
   // strings
   var versionPattern = require( 'string!JOIST/versionPattern' );
-  var translationCreditString = require( 'string!JOIST/translation.credits.link' );
 
   /**
    * @param {string} name - The name of the simulation
@@ -99,27 +98,6 @@ define( function( require ) {
         children.push( new LinkText( link.text, link.url, { font: new PhetFont( 14 ) } ) );
       }
     }
-
-    // This will only work on english names. TODO make a more robust solution.
-    var displayNameToDevName = function( name ) {
-      var splitName = name.split( " " );
-
-      var devName = '';
-      for ( var i in splitName ) {
-        if ( splitName.hasOwnProperty( i ) ) {
-          devName += splitName[ i ].replace( ":", '' ).toLowerCase() + "-";
-        }
-      }
-      // The last part added a '-' to the end to, so we take it out.
-      // There are wierd unicode chacters as the first index: %E2%80%AA
-      return devName.substring( 1, devName.length - 2 );
-
-    };
-
-    var devName = displayNameToDevName( name );
-
-    children.push( new LinkText( translationCreditString,
-      'http://phet-dev.colorado.edu/en/for-translators/translation-credit#' + devName + '-header', { font: new PhetFont( 14 ) } ) );
 
     var content = new VBox( { align: 'left', spacing: 5, children: children } );
 
