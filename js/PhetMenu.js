@@ -27,7 +27,6 @@ define( function( require ) {
   var FullScreen = require( 'JOIST/FullScreen' );
   var Brand = require( 'BRAND/Brand' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
-  var Input = require( 'SCENERY/input/Input' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
 
@@ -378,17 +377,6 @@ define( function( require ) {
     content.top = Y_MARGIN;
 
     thisMenu.mutate( _.omit( options, 'tandem' ) );
-
-    // Add a key listener on the menu that will dismiss it when escape is pressed
-    // TODO: Test this cross browser, regarding issues like http://stackoverflow.com/questions/1160008/which-keycode-for-escape-key-with-jquery
-    this.addInputListener( {
-      keydown: function( event ) {
-        var keyCode = event.domEvent.keyCode;
-        if ( keyCode === Input.KEY_ESCAPE ) {
-          options && options.closeCallback && options.closeCallback();
-        }
-      }
-    } );
   }
 
   inherit( Node, PhetMenu, {

@@ -16,7 +16,6 @@ define( function( require ) {
   var Timer = require( 'JOIST/Timer' );
   var UpdateNodes = require( 'JOIST/UpdateNodes' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
-  var Input = require( 'SCENERY/input/Input' );
 
   function UpdateDialog() {
     assert && assert( UpdateCheck.areUpdatesChecked,
@@ -40,6 +39,7 @@ define( function( require ) {
         UpdateNodes.createOutOfDateDialogNode( ourVersionString, latestVersionString, positionOptions )
       ];
     }
+
     updateOutOfDateNode();
 
     // Listener that should be called every frame where we are shown, with {number} dt as a single parameter.
@@ -57,12 +57,14 @@ define( function( require ) {
       offlineNode.visible = state === 'offline';
     };
 
-    var content = new Node( { children: [
-      checkingNode,
-      upToDateNode,
-      outOfDateNode,
-      offlineNode
-    ] } );
+    var content = new Node( {
+      children: [
+        checkingNode,
+        upToDateNode,
+        outOfDateNode,
+        offlineNode
+      ]
+    } );
 
     Dialog.call( this, content, {
       modal: true,
@@ -76,16 +78,6 @@ define( function( require ) {
     this.addInputListener( new ButtonListener( {
       fire: dialog.hide.bind( dialog )
     } ) );
-
-    // Close the dialog when escape is pressed, the ButtonListener above will also close it when enter/space pressed
-    this.addInputListener( {
-      keydown: function( event ) {
-        var keyCode = event.domEvent.keyCode;
-        if ( keyCode === Input.KEY_ESCAPE ) {
-          dialog.hide();
-        }
-      }
-    } );
   }
 
   return inherit( Dialog, UpdateDialog, {

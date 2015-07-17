@@ -22,7 +22,6 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var Input = require( 'SCENERY/input/Input' );
 
   // constants
   var HEIGHT = 70; //TODO what is this? is it the height of large icons?
@@ -104,21 +103,6 @@ define( function( require ) {
         }
       } );
 
-      // TODO: Switch to button listener--this will also clean up the keyboard accessibility
-      largeScreenButton.addInputListener( {
-        keydown: function( event ) {
-          var keyCode = event.domEvent.keyCode;
-          if ( keyCode === Input.KEY_ENTER || keyCode === Input.KEY_SPACE ) {
-            sim.showHomeScreen = false;
-            highlightedScreenIndexProperty.value = -1;
-
-            // TODO: A way to automatically move focus
-            // TODO: Need a way to provide overview descriptive text.  Perhaps a focusable for the entire screen?
-            Input.focusedTrailProperty.value = Input.getAllFocusableTrails()[ 0 ];
-          }
-        }
-      } );
-
       //Show a small (unselected) screen icon.  In some cases (if the icon has a black background), a border may be shown around it as well.  See https://github.com/phetsims/color-vision/issues/49
       var smallIconContent = new Node( {
         opacity: 0.5,
@@ -168,21 +152,6 @@ define( function( require ) {
       } );
 
       options.tandem && options.tandem.createTandem( screen.tandemScreenName + 'SmallButton' ).addInstance( smallScreenButton );
-
-      smallScreenButton.addInputListener( {
-        keydown: function( event ) {
-          var keyCode = event.domEvent.keyCode;
-          if ( keyCode === Input.KEY_ENTER || keyCode === Input.KEY_SPACE ) {
-            sim.screenIndex = index;
-            sim.showHomeScreen = false;
-            highlightedScreenIndexProperty.value = -1;
-
-            // TODO: A way to automatically move focus
-            // TODO: Need a way to provide overview descriptive text.  Perhaps a focusable for the entire screen?
-            Input.focusedTrailProperty.value = Input.getAllFocusableTrails()[ 0 ];
-          }
-        }
-      } );
 
       var highlightListener = {
         over: function( event ) {

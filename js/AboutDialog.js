@@ -23,7 +23,6 @@ define( function( require ) {
   var UpdateNodes = require( 'JOIST/UpdateNodes' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var LinkText = require( 'JOIST/LinkText' );
-  var Input = require( 'SCENERY/input/Input' );
   var SubSupText = require( 'SCENERY_PHET/SubSupText' );
 
   // strings
@@ -114,16 +113,6 @@ define( function( require ) {
     this.addInputListener( new ButtonListener( {
       fire: dialog.hide.bind( dialog )
     } ) );
-
-    // Close the dialog when escape is pressed, the ButtonListener above will also close it when enter/space pressed
-    this.addInputListener( {
-      keydown: function( event ) {
-        var keyCode = event.domEvent.keyCode;
-        if ( keyCode === Input.KEY_ESCAPE ) {
-          dialog.hide();
-        }
-      }
-    } );
   }
 
   return inherit( Dialog, AboutDialog, {
