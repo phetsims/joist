@@ -139,8 +139,11 @@ define( function( require ) {
       var maxScreenButtonWidth = Math.max( MINIMUM_SCREEN_BUTTON_WIDTH, _.max( screenButtons, function( button ) {
         return button.width;
       } ).width );
+
+      // Compute the distance between *centers* of each button
       var spaceBetweenButtons = maxScreenButtonWidth + SCREEN_BUTTON_SPACING;
       for ( var i = 0; i < screenButtons.length; i++ ) {
+
         // Equally space the centers of the buttons around the origin of their parent (screenButtonsParent)
         screenButtons[ i ].centerX = spaceBetweenButtons * ( i - ( screenButtons.length - 1 ) / 2 );
       }
@@ -160,7 +163,6 @@ define( function( require ) {
     }
 
     this.layout( 1, barSize.width, barSize.height );
-
   }
 
   return inherit( Node, NavigationBar, {
@@ -191,7 +193,8 @@ define( function( require ) {
       // For multi-screen sims ...
       if ( this.screens.length !== 1 ) {
 
-        // screen buttons centered
+        // screen buttons centered.  The screen buttons are centered around the origin in the screenButtonsParent, so 
+        // the screenButtonsParent can be put at x=center of the navbar
         this.screenButtonsParent.setScaleMagnitude( scale );
         this.screenButtonsParent.x = this.background.centerX;
         this.screenButtonsParent.centerY = this.background.centerY;
