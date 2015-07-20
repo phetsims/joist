@@ -139,14 +139,18 @@ define( function( require ) {
       var maxScreenButtonWidth = Math.max( MINIMUM_SCREEN_BUTTON_WIDTH, _.max( screenButtons, function( button ) {
         return button.width;
       } ).width );
-      for ( var i = 1; i < screenButtons.length; i++ ) {
-        screenButtons[ i ].centerX = screenButtons[ i - 1 ].centerX + maxScreenButtonWidth + SCREEN_BUTTON_SPACING;
+      var spaceBetweenButtons = maxScreenButtonWidth + SCREEN_BUTTON_SPACING;
+      for ( var i = 0; i < screenButtons.length; i++ ) {
+        // Equally space the centers of the buttons around the origin of their parent (screenButtonsParent)
+        screenButtons[ i ].centerX = spaceBetweenButtons * ( i - ( screenButtons.length - 1 ) / 2 );
       }
 
       // Put all screen buttons under a parent, to simplify layout
       this.screenButtonsParent = new Node( {
         children: screenButtons,
-        center: this.background.center,
+        // NOTE: these layout settings are duplicated in layout(), but are necessary due to title's maxWidth requiring layout
+        x: this.background.centerX, // since we have buttons centered around our origin, this centers the buttons
+        centerY: this.background.centerY,
         maxWidth: availableTotal // in case we have so many screens that the screen buttons need to be scaled down
       } );
       this.addChild( this.screenButtonsParent );
@@ -156,6 +160,7 @@ define( function( require ) {
     }
 
     this.layout( 1, barSize.width, barSize.height );
+
   }
 
   return inherit( Node, NavigationBar, {
@@ -188,7 +193,8 @@ define( function( require ) {
 
         // screen buttons centered
         this.screenButtonsParent.setScaleMagnitude( scale );
-        this.screenButtonsParent.center = this.background.center;
+        this.screenButtonsParent.x = this.background.centerX;
+        this.screenButtonsParent.centerY = this.background.centerY;
 
         // home button to the right of screen buttons
         this.homeButton.setScaleMagnitude( scale );
