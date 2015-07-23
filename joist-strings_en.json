@@ -112,5 +112,8 @@
   },
   "translation.credits.link": {
     "value": "Translation Credits"
+  },
+  "third-party.credits.link": {
+    "value": "Third-party Credits"
   }
 }

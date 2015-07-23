@@ -13,12 +13,10 @@ define( function( require ) {
 
   var inherit = require( 'PHET_CORE/inherit' );
   var PropertySet = require( 'AXON/PropertySet' );
-  var packageString = require( 'text!REPOSITORY/package.json' );
+  var packageJSON = require( 'JOIST/PackageJSON' ); // parse name/version out of the package.json
   var SimVersion = require( 'JOIST/SimVersion' );
   var Brand = require( 'BRAND/Brand' );
 
-  // parse name/version out of the package.json
-  var packageJSON = JSON.parse( packageString );
   var simName = packageJSON.name;
   var simVersion = SimVersion.parse( packageJSON.version, phet.chipper.buildTimestamp );
 
@@ -137,7 +135,7 @@ define( function( require ) {
               }
             }
           }
-          catch ( e ) {
+          catch( e ) {
             self.state = 'offline';
           }
         };

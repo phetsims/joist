@@ -23,7 +23,6 @@ define( function( require ) {
   var Display = require( 'SCENERY/display/Display' );
   var Node = require( 'SCENERY/nodes/Node' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
-  var packageString = require( 'text!REPOSITORY/package.json' );
   var PropertySet = require( 'AXON/PropertySet' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var platform = require( 'PHET_CORE/platform' );
@@ -35,14 +34,13 @@ define( function( require ) {
   var LookAndFeel = require( 'JOIST/LookAndFeel' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var packageJSON = require( 'JOIST/PackageJSON' );
 
   // strings
   var titlePattern = require( 'string!JOIST/titlePattern' );
 
   // initial dimensions of the navigation bar, sized for Mobile Safari
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
-
-  var packageJSON = JSON.parse( packageString );
 
   /**
    * Main Sim constructor

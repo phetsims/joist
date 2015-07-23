@@ -24,6 +24,7 @@ define( function( require ) {
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var LinkText = require( 'JOIST/LinkText' );
   var SubSupText = require( 'SCENERY_PHET/SubSupText' );
+  var packageJSON = require( 'JOIST/PackageJSON' );
 
   // strings
   var versionPattern = require( 'string!JOIST/versionPattern' );
@@ -33,9 +34,10 @@ define( function( require ) {
    * @param {string} version - The version of the simulation
    * @param {string} credits - The credits for the simulation, or falsy to show no credits
    * @param {Brand} Brand
+   * @param {string} locale - The locale string
    * @constructor
    */
-  function AboutDialog( name, version, credits, Brand ) {
+  function AboutDialog( name, version, credits, Brand, locale ) {
     var dialog = this;
 
     var children = [];
@@ -91,10 +93,11 @@ define( function( require ) {
       children.push( new CreditsNode( credits ) );
     }
 
-    if ( Brand.links && Brand.links.length > 0 ) {
+    var links = Brand.getLinks( packageJSON.name, locale );
+    if ( links && links.length > 0 ) {
       children.push( new VStrut( 15 ) );
-      for ( var i = 0; i < Brand.links.length; i++ ) {
-        var link = Brand.links[ i ];
+      for ( var i = 0; i < links.length; i++ ) {
+        var link = links[ i ];
         children.push( new LinkText( link.text, link.url, { font: new PhetFont( 14 ) } ) );
       }
     }
