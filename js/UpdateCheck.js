@@ -13,7 +13,7 @@ define( function( require ) {
 
   var inherit = require( 'PHET_CORE/inherit' );
   var PropertySet = require( 'AXON/PropertySet' );
-  var packageJSON = require( 'JOIST/PackageJSON' ); // parse name/version out of the package.json
+  var packageJSON = require( 'JOIST/packageJSON' ); // parse name/version out of the package.json
   var SimVersion = require( 'JOIST/SimVersion' );
   var Brand = require( 'BRAND/Brand' );
 

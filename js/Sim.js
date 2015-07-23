@@ -34,7 +34,7 @@ define( function( require ) {
   var LookAndFeel = require( 'JOIST/LookAndFeel' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var packageJSON = require( 'JOIST/PackageJSON' );
+  var packageJSON = require( 'JOIST/packageJSON' );
 
   // strings
   var titlePattern = require( 'string!JOIST/titlePattern' );

@@ -24,7 +24,7 @@ define( function( require ) {
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var LinkText = require( 'JOIST/LinkText' );
   var SubSupText = require( 'SCENERY_PHET/SubSupText' );
-  var packageJSON = require( 'JOIST/PackageJSON' );
+  var packageJSON = require( 'JOIST/packageJSON' );
 
   // strings
   var versionPattern = require( 'string!JOIST/versionPattern' );
