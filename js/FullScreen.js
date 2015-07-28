@@ -8,7 +8,7 @@
 define( function( require ) {
   'use strict';
 
-  var Platform = require( 'PHET_CORE/platform' );
+  var platform = require( 'PHET_CORE/platform' );
   var detectPrefix = require( 'PHET_CORE/detectPrefix' );
   var detectPrefixEvent = require( 'PHET_CORE/detectPrefixEvent' );
   var Property = require( 'AXON/Property' );
@@ -35,11 +35,11 @@ define( function( require ) {
     },
 
     isFullScreenEnabled: function() {
-      return document[ fullscreenEnabledPropertyName ];
+      return document[ fullscreenEnabledPropertyName ] && !platform.safari7;
     },
 
     enterFullScreen: function( sim ) {
-      if ( !Platform.ie9 && !Platform.ie10 ) {
+      if ( !platform.ie9 && !platform.ie10 ) {
         sim.display.domElement[ requestFullscreenPropertyName ] && sim.display.domElement[ requestFullscreenPropertyName ]();
       }
       else if ( typeof window.ActiveXObject !== 'undefined' ) { // Older IE.
