@@ -59,10 +59,6 @@ define( function( require ) {
       var homeScreenIconAspectRatio = Screen.HOME_SCREEN_ICON_SIZE.width / Screen.HOME_SCREEN_ICON_SIZE.height;
       assert && assert( _.filter( screens, function( screen ) {
           var iconAspectRatio = screen.navigationBarIcon.width / screen.navigationBarIcon.height;
-          if ( iconAspectRatio !== navbarIconAspectRatio && iconAspectRatio !== homeScreenIconAspectRatio ){
-            console.log( 'screen.name = ' + screen.name );
-            debugger;
-          }
           return iconAspectRatio === navbarIconAspectRatio || iconAspectRatio === homeScreenIconAspectRatio;
         } ).length === screens.length,
         'all navigation bar icons must have a valid aspect ratio' );
