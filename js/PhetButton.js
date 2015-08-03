@@ -22,8 +22,11 @@ define( function( require ) {
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
 
   // images
-  var phetLogo = require( 'mipmap!BRAND/logo.png' ); // on a black navbar
-  var phetLogoDarker = require( 'mipmap!BRAND/logo-on-white.png' ); // on a white navbar
+  // The logo images are loaded from the brand which is selected via query parameter (during requirejs mode)
+  // or a grunt option (during the build), please see initialize-globals.js window.phet.chipper.getBrandName for more 
+  // details
+  var logo = require( 'mipmap!BRAND/logo.png' ); // on a black navbar
+  var logoDarker = require( 'mipmap!BRAND/logo-on-white.png' ); // on a white navbar
 
   /**
    * @param {Sim} sim
@@ -36,7 +39,7 @@ define( function( require ) {
 
     options = _.extend( {
       textDescription: 'PhET Menu Button',
-      phetLogoScale: 0.28, // {number}
+      logoScale: 0.28, // {number}
       highlightExtensionWidth: 6,
       highlightExtensionHeight: 5,
       highlightCenterOffsetY: 4,
@@ -73,8 +76,8 @@ define( function( require ) {
     }, options );
 
     // The PhET Label, which is the PhET logo
-    var phetLabel = new Image( phetLogo, {
-      scale: options.phetLogoScale,
+    var phetLabel = new Image( logo, {
+      scale: options.logoScale,
       pickable: false
     } );
 
@@ -104,7 +107,7 @@ define( function( require ) {
         var backgroundIsWhite = backgroundFill !== 'black' && !showHomeScreen;
         var outOfDate = updateState === 'out-of-date';
         optionsButton.fill = backgroundIsWhite ? ( outOfDate ? '#0a0' : '#222' ) : ( outOfDate ? '#3F3' : 'white' );
-        phetLabel.image = backgroundIsWhite ? phetLogoDarker : phetLogo;
+        phetLabel.image = backgroundIsWhite ? logoDarker : logo;
       } );
   }
 
