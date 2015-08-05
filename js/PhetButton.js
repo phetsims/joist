@@ -25,8 +25,17 @@ define( function( require ) {
   // The logo images are loaded from the brand which is selected via query parameter (during requirejs mode)
   // or a grunt option (during the build), please see initialize-globals.js window.phet.chipper.brand for more 
   // details
-  var logo = require( 'mipmap!BRAND/logo.png' ); // on a black navbar
-  var logoDarker = require( 'mipmap!BRAND/logo-on-white.png' ); // on a white navbar
+  var brightLogoMipmap = require( 'mipmap!BRAND/logo.png' ); // on a black navbar
+  var darkLogoMipmap = require( 'mipmap!BRAND/logo-on-white.png' ); // on a white navbar
+
+  // Accommodate logos of any height by scaling them down proportionately.
+  // The primary logo is 108px high and we have been scaling it at 0.28 to make it look good even on higher resolution
+  // displays.  The following math scales up the logo to 108px high so the rest of the layout code will work smoothly
+  // Scale to the same height as the PhET logo, so that layout code works correctly.
+  var PHET_LOGO_HEIGHT = 108;  // height of the PhET logo, brand/phet/images/logo.png
+  var PHET_LOGO_SCALE = 0.28;  // scale applied to the PhET logo
+  assert && assert( brightLogoMipmap instanceof Array, 'logo must be a mipmap' );
+  var LOGO_SCALE = PHET_LOGO_SCALE / brightLogoMipmap[ 0 ].height * PHET_LOGO_HEIGHT;
 
   /**
    * @param {Sim} sim
@@ -37,15 +46,8 @@ define( function( require ) {
    */
   function PhetButton( sim, backgroundFillProperty, textFillProperty, options ) {
 
-    // Accommodate logos of any height by scaling them down proportionately.
-    // The primary logo is 108px high and we have been scaling it at 0.28 to make it look good even on higher resolution
-    // displays.  The following math scales up the logo to 108px high so the rest of the layout code will work smoothly
-    // TODO: Is it safe to use mipmap result this way?  Or abusing a private API?  See https://github.com/phetsims/chipper/issues/218
-    var logoScale = 0.28 / logo[ 0 ].height * 108;
-
     options = _.extend( {
       textDescription: 'PhET Menu Button',
-      logoScale: logoScale, // {number}
       highlightExtensionWidth: 6,
       highlightExtensionHeight: 5,
       highlightCenterOffsetY: 4,
@@ -82,20 +84,20 @@ define( function( require ) {
     }, options );
 
     // The PhET Label, which is the PhET logo
-    var phetLabel = new Image( logo, {
-      scale: options.logoScale,
+    var logoImage = new Image( brightLogoMipmap, {
+      scale: LOGO_SCALE,
       pickable: false
     } );
 
     var optionsButton = new FontAwesomeNode( 'reorder', {
       scale: 0.6,
-      left: phetLabel.width + 10,
-      bottom: phetLabel.bottom - 1.5,
+      left: logoImage.width + 10,
+      bottom: logoImage.bottom - 1.5,
       pickable: false
     } );
 
     // The icon combines the PhET label and the thre horizontal bars in the right relative positions
-    var icon = new Node( { children: [ phetLabel, optionsButton ] } );
+    var icon = new Node( { children: [ logoImage, optionsButton ] } );
 
     JoistButton.call( this, icon, backgroundFillProperty, options );
 
@@ -113,7 +115,7 @@ define( function( require ) {
         var backgroundIsWhite = backgroundFill !== 'black' && !showHomeScreen;
         var outOfDate = updateState === 'out-of-date';
         optionsButton.fill = backgroundIsWhite ? ( outOfDate ? '#0a0' : '#222' ) : ( outOfDate ? '#3F3' : 'white' );
-        phetLabel.image = backgroundIsWhite ? logoDarker : logo;
+        logoImage.image = backgroundIsWhite ? darkLogoMipmap : brightLogoMipmap;
       } );
   }
 
