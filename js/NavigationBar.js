@@ -114,10 +114,14 @@ define( function( require ) {
        */
       // available width left of center
       var availableLeft = ( this.background.width / 2 ) - TITLE_LEFT_MARGIN - maxTitleWidth - TITLE_RIGHT_MARGIN;
+
       // available width right of center
-      var availableRight = ( this.background.width / 2 ) - HOME_BUTTON_LEFT_MARGIN - this.homeButton.width - PHET_BUTTON_LEFT_MARGIN - this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN;
+      var availableRight = ( this.background.width / 2 ) - HOME_BUTTON_LEFT_MARGIN - this.homeButton.width -
+                           PHET_BUTTON_LEFT_MARGIN - this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN;
+
       // total available width for the screen buttons when they are centered
       var availableTotal = 2 * Math.min( availableLeft, availableRight );
+
       // width per screen button
       var screenButtonWidth = ( availableTotal - ( screens.length - 1 ) * SCREEN_BUTTON_SPACING ) / screens.length;
 
