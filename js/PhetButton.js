@@ -37,9 +37,15 @@ define( function( require ) {
    */
   function PhetButton( sim, backgroundFillProperty, textFillProperty, options ) {
 
+    // Accommodate logos of any height by scaling them down proportionately.
+    // The primary logo is 108px high and we have been scaling it at 0.28 to make it look good even on higher resolution
+    // displays.  The following math scales up the logo to 108px high so the rest of the layout code will work smoothly
+    // TODO: Is it safe to use mipmap result this way?  Or abusing a private API?  See https://github.com/phetsims/chipper/issues/218
+    var logoScale = 0.28 / logo[ 0 ].height * 108;
+
     options = _.extend( {
       textDescription: 'PhET Menu Button',
-      logoScale: 0.28, // {number}
+      logoScale: logoScale, // {number}
       highlightExtensionWidth: 6,
       highlightExtensionHeight: 5,
       highlightCenterOffsetY: 4,
