@@ -23,7 +23,7 @@ define( function( require ) {
 
   // images
   // The logo images are loaded from the brand which is selected via query parameter (during requirejs mode)
-  // or a grunt option (during the build), please see initialize-globals.js window.phet.chipper.getBrandName for more 
+  // or a grunt option (during the build), please see initialize-globals.js window.phet.chipper.brand for more 
   // details
   var logo = require( 'mipmap!BRAND/logo.png' ); // on a black navbar
   var logoDarker = require( 'mipmap!BRAND/logo-on-white.png' ); // on a white navbar
