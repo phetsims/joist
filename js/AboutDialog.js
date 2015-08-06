@@ -88,7 +88,7 @@ define( function( require ) {
     }
 
     // Add credits for specific brands
-    if ( credits && ( Brand.id === 'phet' || Brand.id === 'interoperable' ) ) {
+    if ( credits && ( Brand.id === 'phet' || Brand.id === 'phet-io' ) ) {
       children.push( new VStrut( 15 ) );
       children.push( new CreditsNode( credits ) );
     }
