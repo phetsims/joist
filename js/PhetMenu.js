@@ -10,7 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Platform = require( 'PHET_CORE/platform' );
+  var platform = require( 'PHET_CORE/platform' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -278,7 +278,7 @@ define( function( require ) {
       //Feasibility test for capturing screen shots as images
       {
         text: screenshotString,
-        present: phet.chipper.getQueryParameter( 'screenshot' ) && !Platform.ie9, // TODO is this going to be implemented for IE9? see issue #212
+        present: phet.chipper.getQueryParameter( 'screenshot' ) && !platform.ie9, // TODO is this going to be implemented for IE9? see issue #212
         callback: function() {
           var dataURL = ScreenshotGenerator.generateScreenshot( sim );
 
