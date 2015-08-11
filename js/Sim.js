@@ -39,9 +39,6 @@ define( function( require ) {
   // strings
   var titlePattern = require( 'string!JOIST/titlePattern' );
 
-  // initial dimensions of the navigation bar, sized for Mobile Safari
-  var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
-
   /**
    * Main Sim constructor
    * @param {string} name - the name of the simulation, to be displayed in the navbar and homescreen
@@ -369,7 +366,7 @@ define( function( require ) {
       sim.homeScreen = null;
     }
 
-    sim.navigationBar = new NavigationBar( NAVIGATION_BAR_SIZE, sim, screens, {
+    sim.navigationBar = new NavigationBar( sim, screens, {
       tandem: options.tandem ? options.tandem.createTandem( 'navigationBar' ) : null
     } );
 
@@ -589,7 +586,7 @@ define( function( require ) {
       this.barrierRectangle.rectHeight = height / scale;
 
       // 40 px high on iPad Mobile Safari
-      var navBarHeight = scale * NAVIGATION_BAR_SIZE.height;
+      var navBarHeight = scale * NavigationBar.NAVIGATION_BAR_SIZE.height;
       sim.navigationBar.layout( scale, width, navBarHeight );
       sim.navigationBar.y = height - navBarHeight;
       sim.display.setSize( new Dimension2( width, height ) );

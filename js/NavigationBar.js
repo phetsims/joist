@@ -11,16 +11,25 @@
  * screen buttons, we then compute how much space is actually available for the sim title, and use that to
  * constrain the title's width.
  *
+ * The bar is composed of a background (always pixel-perfect), and expandable content (that gets scaled as one part).
+ * If we are width-constrained, the navigation bar is in a 'compact' state where the children of the content (e.g.
+ * home button, screen buttons, phet menu, title) do not change positions. If we are height-constrained, the amount
+ * available to the bar expands, so we lay out the children to fit. See https://github.com/phetsims/joist/issues/283
+ * for more details on how this is done.
+ *
  * @author Sam Reid
  * @author Chris Malley (PixelZoom, Inc.)
+ * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 define( function( require ) {
   'use strict';
 
   // modules
+  var Dimension2 = require( 'DOT/Dimension2' );
   var HomeButton = require( 'JOIST/HomeButton' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NavigationBarScreenButton = require( 'JOIST/NavigationBarScreenButton' );
+  var HomeScreenView = require( 'JOIST/HomeScreenView' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetButton = require( 'JOIST/PhetButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -29,6 +38,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
 
   // constants
+  var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
   var TITLE_LEFT_MARGIN = 10;
   var TITLE_RIGHT_MARGIN = 25;
   var PHET_BUTTON_LEFT_MARGIN = TITLE_RIGHT_MARGIN;
@@ -41,13 +51,12 @@ define( function( require ) {
 
   /**
    * Creates a nav bar.
-   * @param {Dimension2} barSize initial dimensions of the navigation bar
    * @param {Sim} sim
    * @param {Screen[]} screens
    * @param {Object} [options]
    * @constructor
    */
-  function NavigationBar( barSize, sim, screens, options ) {
+  function NavigationBar( sim, screens, options ) {
 
     options = _.extend( {
       tandem: null
@@ -68,55 +77,58 @@ define( function( require ) {
 
     Node.call( this );
 
-    // The bar's background
-    this.background = new Rectangle( 0, 0, barSize.width, barSize.height );
+    // The bar's background (resized in layout)
+    this.background = new Rectangle( 0, 0, NAVIGATION_BAR_SIZE.width, NAVIGATION_BAR_SIZE.height );
     sim.lookAndFeel.navigationBarFillProperty.linkAttribute( this.background, 'fill' );
     this.addChild( this.background );
+
+    // Everything else besides the background in the navigation bar (used for scaling)
+    this.barContents = new Node();
+    this.addChild( this.barContents );
 
     // Sim title
     var title = new Text( sim.name, {
       font: new PhetFont( 18 )
     } );
     sim.lookAndFeel.navigationBarTextFillProperty.linkAttribute( title, 'fill' );
-    this.titleParent = new Node( { children: [ title ] } ); // wrap in a parent node, so we can scale the parent without affecting title.maxWidth
-    this.addChild( this.titleParent );
+    this.barContents.addChild( title );
 
     // PhET button
     this.phetButton = new PhetButton( sim, sim.lookAndFeel.navigationBarFillProperty, sim.lookAndFeel.navigationBarTextFillProperty, {
       tandem: options.tandem ? options.tandem.createTandem( 'phetButton' ) : null
     } );
-    this.addChild( this.phetButton );
+    this.barContents.addChild( this.phetButton );
 
     if ( screens.length === 1 ) {
       /* single-screen sim */
 
       // title can occupy all space to the left of the PhET button
-      title.maxWidth = this.background.width - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN - this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN;
+      title.maxWidth = HomeScreenView.LAYOUT_BOUNDS.width - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN - this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN;
     }
     else {
       /* multi-screen sim */
 
       // Start with the assumption that the title can occupy (at most) this percentage of the bar.
-      var maxTitleWidth = Math.min( this.titleParent.width, 0.25 * this.background.width );
+      var maxTitleWidth = Math.min( title.width, 0.25 * HomeScreenView.LAYOUT_BOUNDS.width );
 
       // Create the home button
-      this.homeButton = new HomeButton( barSize.height, sim.lookAndFeel.navigationBarFillProperty, {
+      this.homeButton = new HomeButton( NAVIGATION_BAR_SIZE.height, sim.lookAndFeel.navigationBarFillProperty, {
         listener: function() {
           sim.showHomeScreen = true;
         },
         tandem: options.tandem && options.tandem.createTandem( 'homeButton' )
       } );
-      this.addChild( this.homeButton );
+      this.barContents.addChild( this.homeButton );
 
       /*
        * Allocate remaining horizontal space equally for screen buttons, assuming they will be centered in the navbar.
        * Computations here reflect the left-to-right layout of the navbar.
        */
       // available width left of center
-      var availableLeft = ( this.background.width / 2 ) - TITLE_LEFT_MARGIN - maxTitleWidth - TITLE_RIGHT_MARGIN;
+      var availableLeft = ( HomeScreenView.LAYOUT_BOUNDS.width / 2 ) - TITLE_LEFT_MARGIN - maxTitleWidth - TITLE_RIGHT_MARGIN;
 
       // available width right of center
-      var availableRight = ( this.background.width / 2 ) - HOME_BUTTON_LEFT_MARGIN - this.homeButton.width -
+      var availableRight = ( HomeScreenView.LAYOUT_BOUNDS.width / 2 ) - HOME_BUTTON_LEFT_MARGIN - this.homeButton.width -
                            PHET_BUTTON_LEFT_MARGIN - this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN;
 
       // total available width for the screen buttons when they are centered
@@ -132,7 +144,7 @@ define( function( require ) {
           sim.screenIndexProperty,
           sim.screens,
           screen,
-          barSize.height, {
+          NAVIGATION_BAR_SIZE.height, {
             maxButtonWidth: screenButtonWidth,
             tandem: options.tandem && options.tandem.createTandem( screen.tandemScreenName + 'Button' )
           } );
@@ -148,25 +160,34 @@ define( function( require ) {
       var spaceBetweenButtons = maxScreenButtonWidth + SCREEN_BUTTON_SPACING;
       for ( var i = 0; i < screenButtons.length; i++ ) {
 
-        // Equally space the centers of the buttons around the origin of their parent (screenButtonsParent)
+        // Equally space the centers of the buttons around the origin of their parent (screenButtonsContainer)
         screenButtons[ i ].centerX = spaceBetweenButtons * ( i - ( screenButtons.length - 1 ) / 2 );
       }
 
       // Put all screen buttons under a parent, to simplify layout
-      this.screenButtonsParent = new Node( {
+      this.screenButtonsContainer = new Node( {
         children: screenButtons,
         // NOTE: these layout settings are duplicated in layout(), but are necessary due to title's maxWidth requiring layout
         x: this.background.centerX, // since we have buttons centered around our origin, this centers the buttons
         centerY: this.background.centerY,
         maxWidth: availableTotal // in case we have so many screens that the screen buttons need to be scaled down
       } );
-      this.addChild( this.screenButtonsParent );
+      this.barContents.addChild( this.screenButtonsContainer );
 
       // Now determine the actual width constraint for the sim title.
-      title.maxWidth = this.screenButtonsParent.left - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN;
+      title.maxWidth = this.screenButtonsContainer.left - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN;
     }
 
-    this.layout( 1, barSize.width, barSize.height );
+    // initial layout (that doesn't need to change when we are re-layed out)
+    title.left = TITLE_LEFT_MARGIN;
+    title.centerY = NAVIGATION_BAR_SIZE.height / 2;
+    this.phetButton.bottom = NAVIGATION_BAR_SIZE.height - PHET_BUTTON_BOTTOM_MARGIN;
+    if ( this.screens.length !== 1 ) {
+      this.screenButtonsContainer.centerY = NAVIGATION_BAR_SIZE.height / 2;
+      this.homeButton.centerY = NAVIGATION_BAR_SIZE.height / 2;
+    }
+
+    this.layout( 1, NAVIGATION_BAR_SIZE.width, NAVIGATION_BAR_SIZE.height );
   }
 
   return inherit( Node, NavigationBar, {
@@ -184,30 +205,34 @@ define( function( require ) {
       this.background.rectWidth = width;
       this.background.rectHeight = height;
 
-      // title at left end
-      this.titleParent.setScaleMagnitude( scale );
-      this.titleParent.left = this.background.left + TITLE_LEFT_MARGIN;
-      this.titleParent.centerY = this.background.centerY;
+      // scale the entire bar contents
+      this.barContents.setScaleMagnitude( scale );
 
-      // PhET button at right end
-      this.phetButton.setScaleMagnitude( scale );
-      this.phetButton.right = width - PHET_BUTTON_RIGHT_MARGIN;
-      this.phetButton.bottom = height - PHET_BUTTON_BOTTOM_MARGIN;
+      // determine our local-coordinate 'right' side of the screen, so we can expand if necessary
+      var right;
+      if ( NAVIGATION_BAR_SIZE.width * scale < width ) {
+        // expanded
+        right = width / scale;
+      }
+      else {
+        // compact
+        right = NAVIGATION_BAR_SIZE.width;
+      }
+
+      // horizontal positioning
+      this.phetButton.right = right - PHET_BUTTON_RIGHT_MARGIN;
 
       // For multi-screen sims ...
       if ( this.screens.length !== 1 ) {
-
-        // screen buttons centered.  The screen buttons are centered around the origin in the screenButtonsParent, so 
-        // the screenButtonsParent can be put at x=center of the navbar
-        this.screenButtonsParent.setScaleMagnitude( scale );
-        this.screenButtonsParent.x = this.background.centerX;
-        this.screenButtonsParent.centerY = this.background.centerY;
+        // screen buttons centered.  The screen buttons are centered around the origin in the screenButtonsContainer, so
+        // the screenButtonsContainer can be put at x=center of the navbar
+        this.screenButtonsContainer.x = right / 2;
 
         // home button to the right of screen buttons
-        this.homeButton.setScaleMagnitude( scale );
-        this.homeButton.left = this.screenButtonsParent.right + HOME_BUTTON_LEFT_MARGIN;
-        this.homeButton.centerY = this.background.centerY;
+        this.homeButton.left = this.screenButtonsContainer.right + HOME_BUTTON_LEFT_MARGIN;
       }
     }
+  }, {
+    NAVIGATION_BAR_SIZE: NAVIGATION_BAR_SIZE
   } );
 } );
