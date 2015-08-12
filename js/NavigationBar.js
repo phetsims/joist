@@ -66,11 +66,12 @@ define( function( require ) {
     if ( screens.length > 1 ) {
       var navbarIconAspectRatio = Screen.NAVBAR_ICON_SIZE.width / Screen.NAVBAR_ICON_SIZE.height;
       var homeScreenIconAspectRatio = Screen.HOME_SCREEN_ICON_SIZE.width / Screen.HOME_SCREEN_ICON_SIZE.height;
-      assert && assert( _.filter( screens, function( screen ) {
-          var iconAspectRatio = screen.navigationBarIcon.width / screen.navigationBarIcon.height;
-          return iconAspectRatio === navbarIconAspectRatio || iconAspectRatio === homeScreenIconAspectRatio;
-        } ).length === screens.length,
-        'all navigation bar icons must have a valid aspect ratio' );
+      for ( var screenIndex = 0; screenIndex < screens.length; screenIndex++ ) {
+        var screen = screens[ screenIndex ];
+        var iconAspectRatio = screen.navigationBarIcon.width / screen.navigationBarIcon.height;
+        var validAspectRatio = iconAspectRatio === navbarIconAspectRatio || iconAspectRatio === homeScreenIconAspectRatio;
+        assert( validAspectRatio, 'NavigationBar icons for screen ' + screenIndex + ' did not have a valid aspect ratio.' );
+      }
     }
 
     this.screens = screens;
