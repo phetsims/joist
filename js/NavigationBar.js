@@ -70,7 +70,7 @@ define( function( require ) {
         var screen = screens[ screenIndex ];
         var iconAspectRatio = screen.navigationBarIcon.width / screen.navigationBarIcon.height;
         var validAspectRatio = iconAspectRatio === navbarIconAspectRatio || iconAspectRatio === homeScreenIconAspectRatio;
-        assert( validAspectRatio, 'NavigationBar icons for screen ' + screenIndex + ' did not have a valid aspect ratio.' );
+        assert && assert( validAspectRatio, 'NavigationBar icons for screen ' + screenIndex + ' did not have a valid aspect ratio.' );
       }
     }
 
