@@ -19,7 +19,7 @@ define( function( require ) {
   /**
    * @param {number} navBarHeight
    * @param {Property.<string>} navigationBarFillProperty - the color of the navbar, as a string.
-   * @param {object} [options]
+   * @param {Object} [options]
    * @constructor
    */
   function HomeButton( navBarHeight, navigationBarFillProperty, options ) {

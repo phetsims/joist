@@ -12,7 +12,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
 
   /**
-   * @param {object} version - major/minor/maintenance are required
+   * @param {Object} version - major/minor/maintenance are required
    * @constructor
    */
   function SimVersion( version ) {

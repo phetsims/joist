@@ -20,7 +20,7 @@ define( function( require ) {
   /**
    * @constructor
    * @param {Node} content - The content to display inside the dialog (not including the title)
-   * @param {object} [options]
+   * @param {Object} [options]
    */
   function Dialog( content, options ) {
     options = _.extend( {
