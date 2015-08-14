@@ -649,8 +649,9 @@ define( function( require ) {
       Util.polyfillRequestAnimationFrame();
 
       var websocket;
+      var websocketQueue = [];
       if ( sim.options.recordInputEventLog ) {
-        websocket = new WebSocket( 'ws://phet-dev.colorado.edu/some-temporary-url/something', 'scenery-input-events' );
+        websocket = new WebSocket( 'ws://localhost:8083/some-temporary-url/something', 'scenery-input-events' );
       }
 
       // Option for profiling
@@ -759,8 +760,14 @@ define( function( require ) {
             entry.width = sim.inputEventWidth;
             entry.height = sim.inputEventHeight;
           }
-          websocket.send( JSON.stringify( entry ) );
+          websocketQueue.push( JSON.stringify( entry ) );
           sim.display._input.eventLog = []; // clears the event log so that future actions will fill it
+          if ( websocket.readyState === WebSocket.OPEN ) {
+            _.each( websocketQueue, function( message ) {
+              websocket.send( message );
+            } );
+            websocketQueue.length = 0;
+          }
         }
         sim.display.updateDisplay();
 
