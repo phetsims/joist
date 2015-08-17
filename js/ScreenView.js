@@ -13,6 +13,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var Events = require( 'AXON/Events' );
 
   /*
    * Default width and height for iPad2, iPad3, iPad4 running Safari with default tabs and decorations
@@ -34,6 +35,9 @@ define( function( require ) {
       layerSplit: true, // so we're not in the same layer as the navbar, etc.
       excludeInvisible: true // so we don't keep invisible screens in the SVG tree
     }, options ) );
+
+    // @public - event channel for notifications
+    this.events = new Events();
   }
 
   inherit( Node, ScreenView, {
@@ -52,15 +56,22 @@ define( function( require ) {
         var scale = this.getLayoutScale( width, height );
         this.setScaleMagnitude( scale );
 
+        var dx = 0;
+        var dy = 0;
+
         //center vertically
         if ( scale === width / this.layoutBounds.width ) {
-          this.translate( 0, (height - this.layoutBounds.height * scale) / 2 / scale );
+          dy = (height / scale - this.layoutBounds.height ) / 2;
         }
 
         //center horizontally
         else if ( scale === height / this.layoutBounds.height ) {
-          this.translate( (width - this.layoutBounds.width * scale) / 2 / scale, 0 );
+          dx = (width / scale - this.layoutBounds.width ) / 2;
         }
+
+        this.translate( dx, dy );
+
+        this.events.trigger( 'layoutFinished', dx, dy, width, height, scale );
       }
     },
 
