@@ -71,7 +71,17 @@ define( function( require ) {
 
         this.translate( dx, dy );
 
-        this.events.trigger( 'layoutFinished', dx, dy, width, height, scale );
+        /**
+         * Trigger notifications that the visible bounds have changed, in case any clients need to update the views.
+         *
+         * @param {number} dx - the horizontal offset in stage coordinates
+         * @param {number} dy - the vertical offset in stage coordinates
+         * @param {number} width - the width of the entire visible area in stage coordinates
+         * @param {number} height - the height of the entire visible area in stage coordinates
+         * @param {number} scale - the scale factor between stage coordinates and pixel coordinates
+         * @public
+         */
+        this.events.trigger( 'layoutFinished', dx, dy, width / scale, height / scale, scale );
       }
     },
 
