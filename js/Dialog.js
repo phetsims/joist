@@ -23,7 +23,9 @@ define( function( require ) {
    * @param {Object} [options]
    */
   function Dialog( content, options ) {
+
     options = _.extend( {
+
       // Dialog-specific options
       modal: false, // {boolean} modal dialogs prevent interaction with the rest of the sim while open
       title: null, // {Node} title to be displayed at top
@@ -55,6 +57,7 @@ define( function( require ) {
     } );
 
     if ( options.title ) {
+
       var titleNode = options.title;
 
       dialogContent.addChild( titleNode );
@@ -86,6 +89,7 @@ define( function( require ) {
     Panel.call( this, dialogContent, options );
 
     if ( options.hasCloseButton ) {
+
       var crossSize = 10;
       var crossNode = new Path( new Shape().moveTo( 0, 0 ).lineTo( crossSize, crossSize ).moveTo( 0, crossSize ).lineTo( crossSize, 0 ), {
         stroke: '#fff',
@@ -134,6 +138,7 @@ define( function( require ) {
   };
 
   return inherit( Panel, Dialog, {
+
     show: function() {
       if ( !window.phet.joist.sim.isPoppedUp( this ) ) {
         window.phet.joist.sim.showPopup( this, this.isModal );
