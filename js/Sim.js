@@ -894,7 +894,8 @@ define( function( require ) {
       window.open( 'mailto:phethelp@colorado.edu?subject=' + encodeURIComponent( this.name + ' input event log at ' + Date.now() ) + '&body=' + encodeURIComponent( data ) );
     },
 
-    // Destroy a sim so that it will no longer consume any resources.  Used by sim nesting in Smorgasbord
+    // Destroy a sim so that it will no longer consume any resources. Formerly used in Smorgasbord.  May not be used by 
+    // anything else at the moment.
     destroy: function() {
       this.destroyed = true;
       var simDiv = this.display.domElement;
