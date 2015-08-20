@@ -187,7 +187,7 @@ define( function( require ) {
         tandem: options.tandem && options.tandem.createTandem( 'phetWebsiteButton' ),
         present: isPhETBrand,
         callback: function() {
-          var phetWindow = window.open( 'http://phet.colorado.edu', '_blank' );
+          var phetWindow = window.open( 'http://phet.colorado.edu/' + sim.locale, '_blank' );
           phetWindow.focus();
         }
       },
