@@ -187,7 +187,8 @@ define( function( require ) {
         tandem: options.tandem && options.tandem.createTandem( 'phetWebsiteButton' ),
         present: isPhETBrand,
         callback: function() {
-          var phetWindow = window.open( 'http://phet.colorado.edu', '_blank' );
+          // Open locale-specific PhET home page. If there is no website translation for locale, fallback will be handled by server. See joist#97.
+          var phetWindow = window.open( 'http://phet.colorado.edu/' + sim.locale, '_blank' );
           phetWindow.focus();
         }
       },
