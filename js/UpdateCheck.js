@@ -52,7 +52,7 @@ define( function( require ) {
     areUpdatesChecked: !window.together && Brand.id === 'phet', // If it's not PhET-branded, don't check for updates
 
     // @public - The URL to be used for "New version available" clicks
-    updateURL: 'http://phet.colorado.edu/html-sim-update' +
+    updateURL: '//phet.colorado.edu/html-sim-update' +
                '?simulation=' + encodeURIComponent( simName ) +
                '&version=' + encodeURIComponent( simVersion.toString() ) +
                '&buildTimestamp=' + encodeURIComponent( '' + phet.chipper.buildTimestamp ),
