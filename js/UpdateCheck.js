@@ -19,6 +19,7 @@ define( function( require ) {
 
   var simName = packageJSON.name;
   var simVersion = SimVersion.parse( packageJSON.version, phet.chipper.buildTimestamp );
+  var requestProtocolString = ( 'https:' === document.location.protocol ? 'https:' : 'http:' );
 
   // NOTE: singleton type!
   function UpdateCheck() {
@@ -52,7 +53,7 @@ define( function( require ) {
     areUpdatesChecked: !window.together && Brand.id === 'phet', // If it's not PhET-branded, don't check for updates
 
     // @public - The URL to be used for "New version available" clicks
-    updateURL: '//phet.colorado.edu/html-sim-update' +
+    updateURL: 'http://phet.colorado.edu/html-sim-update' +
                '?simulation=' + encodeURIComponent( simName ) +
                '&version=' + encodeURIComponent( simVersion.toString() ) +
                '&buildTimestamp=' + encodeURIComponent( '' + phet.chipper.buildTimestamp ),
@@ -144,7 +145,7 @@ define( function( require ) {
 
           self.state = 'offline';
         };
-        req.open( 'post', 'http://phet.colorado.edu/services/check-html-updates', true ); // enable CORS
+        req.open( 'post', requestProtocolString + '//phet.colorado.edu/services/check-html-updates', true ); // enable CORS
         req.send( JSON.stringify( {
           api: '1.0',
           simulation: simName,
