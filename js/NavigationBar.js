@@ -79,7 +79,9 @@ define( function( require ) {
     Node.call( this );
 
     // The bar's background (resized in layout)
-    this.background = new Rectangle( 0, 0, NAVIGATION_BAR_SIZE.width, NAVIGATION_BAR_SIZE.height );
+    this.background = new Rectangle( 0, 0, NAVIGATION_BAR_SIZE.width, NAVIGATION_BAR_SIZE.height, {
+      pickable: true
+    } );
     sim.lookAndFeel.navigationBarFillProperty.linkAttribute( this.background, 'fill' );
     this.addChild( this.background );
 
