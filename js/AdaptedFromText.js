@@ -31,7 +31,8 @@ define( function( require ) {
 
     options = _.extend( {
       align: 'right',
-      font: FONT
+      font: FONT,
+      maxWidth: 60
     }, options );
 
     MultiLineText.call( this, adaptedFromString, options );
