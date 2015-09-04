@@ -29,7 +29,6 @@ define( function( require ) {
   var Timer = require( 'JOIST/Timer' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Profiler = require( 'JOIST/Profiler' );
-  var FocusLayer = require( 'SCENERY/accessibility/FocusLayer' );
   var Input = require( 'SCENERY/input/Input' );
   var LookAndFeel = require( 'JOIST/LookAndFeel' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
@@ -274,20 +273,14 @@ define( function( require ) {
       // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
       allowWebGL: phet.chipper.getQueryParameter( 'webgl' ) !== 'false',
 
-      accessibility: options.accessibility
+      accessibility: options.accessibility,
+      isApplication: true
     } );
 
     // When the sim is inactive, make it non-interactive, see https://github.com/phetsims/scenery/issues/414
     this.activeProperty.link( function( active ) {
       sim.display.interactive = active;
     } );
-
-    if ( options.accessibility ) {
-      this.focusLayer = new FocusLayer( window.TWEEN ? { tweenFactory: window.TWEEN } : {} );
-
-      //Adding the accessibility layer directly to the Display's root makes it easy to use local->global bounds.
-      sim.rootNode.addChild( this.focusLayer );
-    }
 
     var simDiv = sim.display.domElement;
     simDiv.id = 'sim';
@@ -418,9 +411,6 @@ define( function( require ) {
         }
         sim.navigationBar.setVisible( !showHomeScreen );
         sim.updateBackground();
-        if ( options.accessibility ) {
-          sim.focusLayer.moveToFront();
-        }
       } );
     }
     else if ( options.screenDisplayStrategy === 'setChildren' ) {
@@ -440,9 +430,6 @@ define( function( require ) {
 
         currentScreenNode = newScreenNode;
         sim.updateBackground();
-        if ( options.accessibility ) {
-          sim.focusLayer.moveToFront();
-        }
       } );
 
       // When the user presses the home icon, then show the homescreen, otherwise show the screen and navbar
@@ -473,16 +460,10 @@ define( function( require ) {
           sim.rootNode.insertChild( idx + 1, sim.navigationBar );
         }
         sim.updateBackground();
-        if ( options.accessibility ) {
-          sim.focusLayer.moveToFront();
-        }
       } );
     }
     else {
       throw new Error( "invalid value for options.screenDisplayStrategy: " + options.screenDisplayStrategy );
-    }
-    if ( options.accessibility ) {
-      sim.focusLayer.moveToFront();
     }
 
     // layer for popups, dialogs, and their backgrounds and barriers
@@ -539,11 +520,6 @@ define( function( require ) {
         this.barrierStack.push( node );
       }
       this.topLayer.addChild( node );
-
-      // TODO: Performance concerns
-      if ( this.options.accessibility ) {
-        this.focusLayer.moveToFront();
-      }
 
       Input.pushFocusContext( node.getTrails()[ 0 ] );
     },
@@ -894,7 +870,7 @@ define( function( require ) {
       window.open( 'mailto:phethelp@colorado.edu?subject=' + encodeURIComponent( this.name + ' input event log at ' + Date.now() ) + '&body=' + encodeURIComponent( data ) );
     },
 
-    // Destroy a sim so that it will no longer consume any resources. Formerly used in Smorgasbord.  May not be used by 
+    // Destroy a sim so that it will no longer consume any resources. Formerly used in Smorgasbord.  May not be used by
     // anything else at the moment.
     destroy: function() {
       this.destroyed = true;
