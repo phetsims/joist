@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   var Node = require( 'SCENERY/nodes/Node' );
+  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Events = require( 'AXON/Events' );
@@ -33,7 +34,12 @@ define( function( require ) {
 
     Node.call( this, _.extend( {
       layerSplit: true, // so we're not in the same layer as the navbar, etc.
-      excludeInvisible: true // so we don't keep invisible screens in the SVG tree
+      excludeInvisible: true, // so we don't keep invisible screens in the SVG tree
+      accessibleContent: {
+        createPeer: function( trail ) {
+          return new ScreenViewAccessiblePeer( trail, options.screenDescription );
+        }
+      }
     }, options ) );
 
     // @public - event channel for notifications
@@ -90,6 +96,58 @@ define( function( require ) {
       DEFAULT_LAYOUT_BOUNDS: DEFAULT_LAYOUT_BOUNDS
     }
   );
+
+  /**
+   * An accessible peer for handling the parallel DOM for screen views. See https://github.com/phetsims/scenery/issues/461
+   * Provides a description, and nesting with aria-hidden to help with visibility.
+   */
+  function ScreenViewAccessiblePeer( trail, screenDescription ) {
+    this.initialize( trail, screenDescription );
+  }
+  inherit( AccessiblePeer, ScreenViewAccessiblePeer, {
+    initialize: function( trail, screenDescription ) {
+      this.initializeAccessiblePeer();
+
+      this.node = trail.lastNode(); // TODO: may be namespace conflict in future?
+
+      var uniqueId = trail.getUniqueId();
+      this.domElement = document.createElement( 'div' );
+
+      if ( screenDescription ) {
+        var descriptionId = 'screen-description-' + uniqueId;
+        this.domElement.setAttribute( 'aria-describedby', 'screen-description-' + uniqueId );
+
+        var descriptionParagraph = document.createElement( 'p' );
+        descriptionParagraph.id = descriptionId;
+        descriptionParagraph.innerText = screenDescription;
+        this.domElement.appendChild( descriptionParagraph );
+      }
+
+      // Separate container for children needed, since the description can be a child
+      this.containerDOMElement = document.createElement( 'div' );
+      this.domElement.appendChild( this.containerDOMElement );
+
+      this.visibilityListener = this.updateVisibility.bind( this );
+      this.node.onStatic( 'visibility', this.visibilityListener );
+
+      this.updateVisibility();
+    },
+
+    updateVisibility: function() {
+      if ( this.node.visible ) {
+        this.domElement.removeAttribute( 'aria-hidden' );
+      }
+      else {
+        this.domElement.setAttribute( 'aria-hidden', 'true' );
+      }
+    },
+
+    dispose: function() {
+      AccessiblePeer.prototype.dispose.call( this );
+
+      this.node.offStatic( 'visibility', this.visibilityListener );
+    }
+  } );
 
   return ScreenView;
 } );
