@@ -118,5 +118,9 @@
   },
   "thirdParty.credits.link": {
     "value": "Third-party Credits"
+  },
+  "HomeButton.name": {
+    "value": "Home",
+    "visible": false
   }
 }

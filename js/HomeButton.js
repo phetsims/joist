@@ -13,8 +13,11 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var JoistButton = require( 'JOIST/JoistButton' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+
+  var homeButtonNameString = require( 'string!JOIST/HomeButton.name' );
 
   /**
    * @param {number} navBarHeight
@@ -28,7 +31,23 @@ define( function( require ) {
       highlightExtensionWidth: 4,
       listener: null,
       textDescription: 'Home Screen: Button',
-      tandem: null
+      tandem: null,
+      accessibleContent: {
+        createPeer: function( accessibleInstance ) {
+          // will look like <input value="Reset" type="button" tabindex="0">
+          var domElement = document.createElement( 'input' );
+          domElement.value = homeButtonNameString;
+          domElement.type = 'button';
+
+          domElement.tabIndex = '0';
+
+          domElement.addEventListener( 'click', function() {
+            options.listener();
+          } );
+
+          return new AccessiblePeer( accessibleInstance, domElement );
+        }
+      }
     }, options );
 
     var homeIcon = new FontAwesomeNode( 'home' );

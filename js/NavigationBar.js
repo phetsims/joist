@@ -177,6 +177,8 @@ define( function( require ) {
       } );
       this.barContents.addChild( this.screenButtonsContainer );
 
+      this.accessibleOrder = [ this.screenButtonsContainer, this.homeButton ];
+
       // Now determine the actual width constraint for the sim title.
       title.maxWidth = this.screenButtonsContainer.left - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN;
     }

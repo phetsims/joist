@@ -36,8 +36,8 @@ define( function( require ) {
       layerSplit: true, // so we're not in the same layer as the navbar, etc.
       excludeInvisible: true, // so we don't keep invisible screens in the SVG tree
       accessibleContent: {
-        createPeer: function( trail ) {
-          return new ScreenViewAccessiblePeer( trail, options.screenDescription );
+        createPeer: function( accessibleInstance ) {
+          return new ScreenViewAccessiblePeer( accessibleInstance, options.screenDescription );
         }
       }
     }, options ) );
@@ -101,19 +101,19 @@ define( function( require ) {
    * An accessible peer for handling the parallel DOM for screen views. See https://github.com/phetsims/scenery/issues/461
    * Provides a description, and nesting with aria-hidden to help with visibility.
    */
-  function ScreenViewAccessiblePeer( trail, screenDescription ) {
-    this.initialize( trail, screenDescription );
+  function ScreenViewAccessiblePeer( accessibleInstance, screenDescription ) {
+    this.initialize( accessibleInstance, screenDescription );
   }
   inherit( AccessiblePeer, ScreenViewAccessiblePeer, {
-    initialize: function( trail, screenDescription ) {
-      this.initializeAccessiblePeer();
-
+    initialize: function( accessibleInstance, screenDescription ) {
+      var trail = accessibleInstance.trail;
       this.node = trail.lastNode(); // TODO: may be namespace conflict in future?
 
-      var uniqueId = trail.getUniqueId();
       this.domElement = document.createElement( 'div' );
+      this.initializeAccessiblePeer( accessibleInstance, this.domElement );
 
       if ( screenDescription ) {
+        var uniqueId = trail.getUniqueId();
         var descriptionId = 'screen-description-' + uniqueId;
         this.domElement.setAttribute( 'aria-describedby', 'screen-description-' + uniqueId );
 

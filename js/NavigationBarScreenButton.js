@@ -16,6 +16,7 @@ define( function( require ) {
   var HighlightNode = require( 'JOIST/HighlightNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
@@ -39,12 +40,30 @@ define( function( require ) {
    */
   function NavigationBarScreenButton( navigationBarFillProperty, screenIndexProperty, screens, screen, navBarHeight, options ) {
 
+    function clicked() {
+      screenIndexProperty.value = screens.indexOf( screen );
+    }
+
     options = _.extend( {
       cursor: 'pointer',
       focusable: true,
       textDescription: screen.name + ' Screen: Button',
       tandem: null,
-      maxButtonWidth: null // {number|null} the maximum width of the button, causes text and/or icon to be scaled down if necessary
+      maxButtonWidth: null, // {number|null} the maximum width of the button, causes text and/or icon to be scaled down if necessary
+      accessibleContent: {
+        createPeer: function( accessibleInstance ) {
+          // will look like <input value="Reset" type="button" tabindex="0">
+          var domElement = document.createElement( 'input' );
+          domElement.value = screen.name; // TODO: do we have to wrap this with a translated string, to say "Switch to ...", etc.?
+          domElement.type = 'button';
+
+          domElement.tabIndex = '0';
+
+          domElement.addEventListener( 'click', clicked );
+
+          return new AccessiblePeer( accessibleInstance, domElement );
+        }
+      }
     }, options );
 
     Node.call( this );
@@ -62,9 +81,7 @@ define( function( require ) {
 
     // create the button model, needs to be public so that together wrappers can hook up to it if needed
     this.buttonModel = new PushButtonModel( {
-      listener: function() {
-        screenIndexProperty.value = screens.indexOf( screen );
-      }
+      listener: clicked
     } );
     this.addInputListener( new ButtonListener( this.buttonModel ) );
 
