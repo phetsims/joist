@@ -134,12 +134,7 @@ define( function( require ) {
     },
 
     updateVisibility: function() {
-      if ( this.node.visible ) {
-        this.domElement.removeAttribute( 'aria-hidden' );
-      }
-      else {
-        this.domElement.setAttribute( 'aria-hidden', 'true' );
-      }
+      this.domElement.hidden = !this.node.visible;
     },
 
     dispose: function() {
