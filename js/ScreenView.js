@@ -100,17 +100,27 @@ define( function( require ) {
   /**
    * An accessible peer for handling the parallel DOM for screen views. See https://github.com/phetsims/scenery/issues/461
    * Provides a description, and nesting with 'hidden' attribute to help with visibility.
+   *
+   * @param {AccessibleInstance} accessibleInstance
+   * @param {string} screenDescription - Invisible description of the simulation at sim start up which is presented to
+   *                                     accessible technologies.
    */
   function ScreenViewAccessiblePeer( accessibleInstance, screenDescription ) {
     this.initialize( accessibleInstance, screenDescription );
   }
 
   inherit( AccessiblePeer, ScreenViewAccessiblePeer, {
+    /**
+     * Initialized dom elements and its attributes for the screen view in the parallel DOM.
+     *
+     * @param {AccessibleInstance} accessibleInstance
+     * @param {string} screenDescription - invisible auditory description of sim state at sim start up.
+     */
     initialize: function( accessibleInstance, screenDescription ) {
       var trail = accessibleInstance.trail;
-      this.node = trail.lastNode(); // TODO: may be namespace conflict in future?
+      this.node = trail.lastNode(); // @private TODO: may be namespace conflict in future?
 
-      this.domElement = document.createElement( 'div' );
+      this.domElement = document.createElement( 'div' ); // @private
       this.initializeAccessiblePeer( accessibleInstance, this.domElement );
 
       if ( screenDescription ) {
@@ -125,19 +135,22 @@ define( function( require ) {
       }
 
       // Separate container for children needed, since the description can be a child
-      this.containerDOMElement = document.createElement( 'div' );
+      this.containerDOMElement = document.createElement( 'div' ); // @private
 
       // add a unique class name to the screen view so that the document can quickly set everything to hidden with the
       // presence of a modal.
       this.containerDOMElement.className = 'screenView';
       this.domElement.appendChild( this.containerDOMElement );
 
-      this.visibilityListener = this.updateVisibility.bind( this );
+      this.visibilityListener = this.updateVisibility.bind( this ); // @private
       this.node.onStatic( 'visibility', this.visibilityListener );
 
       this.updateVisibility();
     },
 
+    /**
+     * Make unused screen views unavailable to a screen reader by setting the html attribute hidden.
+     */
     updateVisibility: function() {
       this.domElement.hidden = !this.node.visible;
     },

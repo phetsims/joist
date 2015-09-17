@@ -139,15 +139,31 @@ define( function( require ) {
       VERTICAL_INSET: 0
     } );
 
+  /**
+   * An accessible peer for creating a check box element in the Parallel DOM.
+   * See https://github.com/phetsims/scenery/issues/461
+   *
+   * @param {AccessibleInstance} accessibleInstance
+   * @param {function} listener - listener function fired by this checkbox
+   * @param {string} buttonDescription - invisible string description provided to accessible technologies
+   */
   function PhetButtonAccessiblePeer( accessibleInstance, listener, buttonDescription ) {
     this.initialize( accessibleInstance, listener, buttonDescription );
   }
 
   inherit( AccessiblePeer, PhetButtonAccessiblePeer, {
+
+    /**
+     * Create the dom element and its attributes for an accessible PhETButton in the parallel DOM.
+     *
+     * @param {AccessibleInstance} accessibleInstance
+     * @param {function} listener - listener function fired by this checkbox
+     * @param {string} buttonDescription - invisible string description provided to accessible technologies
+     */
     initialize: function( accessibleInstance, listener, buttonDescription ) {
       // will look like <input id="phetButtonId" value="Phet Button" type="button">
 
-      this.domElement = document.createElement( 'input' );
+      this.domElement = document.createElement( 'input' ); // @private
       this.domElement.type = 'button';
       this.domElement.value = buttonDescription;
       this.domElement.tabIndex = '0';
@@ -155,7 +171,7 @@ define( function( require ) {
 
       this.initializeAccessiblePeer( accessibleInstance, this.domElement );
       this.domElement.addEventListener( 'click', function() {
-        // use hidden on all screenView elements and this button to pull out of the navigation order
+        // use hidden on all screenView elements and this button to quickly pull out of the navigation order
         this.hidden = true;
         var screenViewElements = document.getElementsByClassName( 'screenView' );
         _.each( screenViewElements, function( element ) {
