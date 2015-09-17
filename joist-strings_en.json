@@ -5,6 +5,10 @@
   "done": {
     "value": "Done"
   },
+  "PhetButton.name": {
+    "value": "PhET Menu Button",
+    "visible": false
+  },
   "menuItem.options": {
     "value": "Options\u2026"
   },

@@ -20,6 +20,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var JoistButton = require( 'JOIST/JoistButton' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
+  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
 
   // images
   // The logo images are loaded from the brand which is selected via query parameter (during requirejs mode)
@@ -27,6 +28,9 @@ define( function( require ) {
   // details
   var brightLogoMipmap = require( 'mipmap!BRAND/logo.png' ); // on a black navbar
   var darkLogoMipmap = require( 'mipmap!BRAND/logo-on-white.png' ); // on a white navbar
+
+  // strings
+  var phetButtonNameString = require( 'string!JOIST/PhetButton.name' );
 
   // Accommodate logos of any height by scaling them down proportionately.
   // The primary logo is 108px high and we have been scaling it at 0.28 to make it look good even on higher resolution
@@ -80,6 +84,11 @@ define( function( require ) {
         onResize( sim.bounds, sim.screenBounds, sim.scale );
 
         phetMenu.show();
+      },
+      accessibleContent: {
+        createPeer: function( accessibleInstance ) {
+          return new PhetButtonAccessiblePeer( accessibleInstance, options.listener, phetButtonNameString );
+        }
       }
     }, options );
 
@@ -119,7 +128,7 @@ define( function( require ) {
       } );
   }
 
-  return inherit( JoistButton, PhetButton, {},
+  inherit( JoistButton, PhetButton, {},
 
     //statics
     {
@@ -129,4 +138,54 @@ define( function( require ) {
       //How much space between the PhetButton and the bottom of the screen
       VERTICAL_INSET: 0
     } );
+
+  function PhetButtonAccessiblePeer( accessibleInstance, listener, buttonDescription ) {
+    this.initialize( accessibleInstance, listener, buttonDescription );
+  }
+
+  inherit( AccessiblePeer, PhetButtonAccessiblePeer, {
+    initialize: function( accessibleInstance, listener, buttonDescription ) {
+      // will look like <input id="phetButtonId" value="Phet Button" type="button">
+
+      this.domElement = document.createElement( 'input' );
+      this.domElement.type = 'button';
+      this.domElement.value = buttonDescription;
+      this.domElement.tabIndex = '0';
+      this.domElement.className = 'PhetButton';
+
+      this.initializeAccessiblePeer( accessibleInstance, this.domElement );
+      this.domElement.addEventListener( 'click', function() {
+        // use hidden on all screenView elements and this button to pull out of the navigation order
+        this.hidden = true;
+        var screenViewElements = document.getElementsByClassName( 'screenView' );
+        _.each( screenViewElements, function( element ) {
+          element.hidden = true;
+        } );
+
+        // fire the listener, instantiating all menu items.
+        listener();
+
+        // set focus to the first element item.
+        document.getElementsByClassName( 'phetMenuItem' )[ 0 ].focus();
+
+      } );
+
+      // temporary event listener that will fire when over the button.  This is in place of the highlight for now.
+      this.domElement.addEventListener( 'focus', function() {
+        console.log( 'focus is over the phet button: ' + this.id );
+      } );
+    },
+
+
+
+    /**
+     * Dispose function for the accessible check box.
+     */
+    dispose: function() {
+      // TODO
+    }
+
+  } );
+
+  return PhetButton;
 } );

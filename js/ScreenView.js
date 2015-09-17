@@ -99,11 +99,12 @@ define( function( require ) {
 
   /**
    * An accessible peer for handling the parallel DOM for screen views. See https://github.com/phetsims/scenery/issues/461
-   * Provides a description, and nesting with aria-hidden to help with visibility.
+   * Provides a description, and nesting with 'hidden' attribute to help with visibility.
    */
   function ScreenViewAccessiblePeer( accessibleInstance, screenDescription ) {
     this.initialize( accessibleInstance, screenDescription );
   }
+
   inherit( AccessiblePeer, ScreenViewAccessiblePeer, {
     initialize: function( accessibleInstance, screenDescription ) {
       var trail = accessibleInstance.trail;
@@ -125,6 +126,10 @@ define( function( require ) {
 
       // Separate container for children needed, since the description can be a child
       this.containerDOMElement = document.createElement( 'div' );
+
+      // add a unique class name to the screen view so that the document can quickly set everything to hidden with the
+      // presence of a modal.
+      this.containerDOMElement.className = 'screenView';
       this.domElement.appendChild( this.containerDOMElement );
 
       this.visibilityListener = this.updateVisibility.bind( this );
