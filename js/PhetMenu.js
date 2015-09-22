@@ -135,13 +135,28 @@ define( function( require ) {
         domElement.value = text;
         domElement.tabIndex = '0';
         domElement.className = 'phetMenuItem';
-        domElement.addEventListener( 'click', function() {
-          fire();
-        } );
 
-        // temporary event listener that will fire when over the button.  This is in place of the highlight for now.
-        domElement.addEventListener( 'focus', function() {
-          console.log( 'focus is over a menu item: ' + domElement.id );
+        domElement.addEventListener( 'click', function() {
+          // fire the listener
+          fire();
+
+          // if a modal dialog has opened, focus it immediately
+          var openDialog = document.getElementsByClassName( 'Dialog' )[ 0 ];
+          if ( openDialog ) {
+            openDialog.focus();
+          }
+          // otherwise, we have been redirected to a new page so make sure screen view elements and PhET Button are back
+          // in tab order.
+          else {
+            // all screen view elements are injected back into the navigation order.
+            var screenViewElements = document.getElementsByClassName( 'ScreenView' );
+            _.each( screenViewElements, function( element ) {
+              element.hidden = false;
+            } );
+
+            // make sure that the phet button is also in the tab order
+            document.getElementsByClassName( 'PhetButton' )[ 0 ].hidden = false;
+          }
         } );
 
         return new AccessiblePeer( accessibleInstance, domElement );
@@ -413,7 +428,7 @@ define( function( require ) {
 
         // TODO: hopefully, this event should bubble down to menu items.
         domElement.addEventListener( 'keydown', function( event ) {
-          if( event.keyCode === 27 ) {
+          if ( event.keyCode === 27 ) {
             thisMenu.exitMenu();
           }
         } );
@@ -438,7 +453,7 @@ define( function( require ) {
       } );
 
       // make sure that the phet button is also in the tab order.
-      document.getElementsByClassName( 'PhetButton' )[0].hidden = false;
+      document.getElementsByClassName( 'PhetButton' )[ 0 ].hidden = false;
 
       // hide the menu
       this.hide();

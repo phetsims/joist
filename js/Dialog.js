@@ -16,6 +16,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Panel = require( 'SUN/Panel' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
+  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
 
   /**
    * @constructor
@@ -24,6 +25,7 @@ define( function( require ) {
    */
   function Dialog( content, options ) {
 
+    var dialog = this;
     options = _.extend( {
 
       // Dialog-specific options
@@ -45,10 +47,13 @@ define( function( require ) {
       backgroundPickable: true,
       xMargin: 20,
       yMargin: 20,
-      closeButtonMargin: 5 // {number} how far away should the close button be from the panel border
+      closeButtonMargin: 5, // {number} how far away should the close button be from the panel border
+      accessibleContent: {
+        createPeer: function( accessibleInstance ) {
+          return new DialogAccessiblePeer( accessibleInstance, dialog );
+        }
+      }
     }, options );
-
-    var dialog = this;
 
     this.isModal = options.modal;
 
@@ -137,7 +142,7 @@ define( function( require ) {
     dialog.center = simBounds.center.times( 1.0 / scale );
   };
 
-  return inherit( Panel, Dialog, {
+  inherit( Panel, Dialog, {
 
     show: function() {
       if ( !window.phet.joist.sim.isPoppedUp( this ) ) {
@@ -150,5 +155,68 @@ define( function( require ) {
         window.phet.joist.sim.hidePopup( this, this.isModal );
       }
     }
+  }, {
+
+    DialogAccessiblePeer: function( accessibleInstance, dialog ) {
+      return new DialogAccessiblePeer( accessibleInstance, dialog );
+    }
+
   } );
+
+  function DialogAccessiblePeer( accessibleInstance, dialog ) {
+    this.initialize( accessibleInstance, dialog );
+  }
+
+  inherit( AccessiblePeer, DialogAccessiblePeer, {
+
+    /**
+     * Initialize an accessible peer in the parallel DOM for a Dialog.
+     *
+     * @param {AccessibleInstance} accessibleInstance
+     * @param dialog
+     */
+    initialize: function( accessibleInstance, dialog ) {
+
+      /*
+       We will want the parallel DOM element for a dialog to look like:
+       <div tabIndex='0' role='dialog' aria-labelledby='someLabelDescription' class="Dialog"></div>
+       */
+      var trail = accessibleInstance.trail;
+
+      // create the dom element and initialize the peer.
+      this.domElement = document.createElement( 'div' ); // @private
+      this.initializeAccessiblePeer( accessibleInstance, this.domElement );
+
+      // set dom element attributes and class name so that the element can be found elsewhere in the DOM.
+      this.domElement.setAttribute( 'role', 'dialog' );
+      this.domElement.tabIndex = '0';
+      this.domElement.className = 'Dialog';
+
+      var dialogDescription = document.createElement( 'h2' );
+      dialogDescription.id = 'dialog-' + trail.uniqueId;
+      dialogDescription.hidden = true;
+
+      this.domElement.setAttribute( 'aria-labelledby', dialogDescription.id );
+
+      this.domElement.addEventListener( 'keydown', function( event ) {
+        // on escape key
+        if ( event.keyCode === 27 ) {
+          // all screen view elements are injected back into the navigation order.
+          var screenViewElements = document.getElementsByClassName( 'ScreenView' );
+          _.each( screenViewElements, function( element ) {
+            element.hidden = false;
+          } );
+
+          // make sure that the phet button is also in the tab order
+          document.getElementsByClassName( 'PhetButton' )[ 0 ].hidden = false;
+
+          // hide the menu
+          dialog.hide();
+        }
+      } );
+
+    }
+  } );
+
+  return Dialog;
 } );

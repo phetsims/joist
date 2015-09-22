@@ -185,11 +185,6 @@ define( function( require ) {
         document.getElementsByClassName( 'phetMenuItem' )[ 0 ].focus();
 
       } );
-
-      // temporary event listener that will fire when over the button.  This is in place of the highlight for now.
-      this.domElement.addEventListener( 'focus', function() {
-        console.log( 'focus is over the phet button: ' + this.id );
-      } );
     },
 
 

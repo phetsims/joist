@@ -139,7 +139,7 @@ define( function( require ) {
 
       // add a unique class name to the screen view so that the document can quickly set everything to hidden with the
       // presence of a modal.
-      this.containerDOMElement.className = 'screenView';
+      this.containerDOMElement.className = 'ScreenView';
       this.domElement.appendChild( this.containerDOMElement );
 
       this.visibilityListener = this.updateVisibility.bind( this ); // @private

@@ -109,7 +109,24 @@ define( function( require ) {
       hasCloseButton: false,
 
       // Focusable so it can be dismissed
-      focusable: true
+      focusable: true,
+
+      // accessible content
+      accessibleContent: {
+        createPeer: function( accessibleInstance ) {
+          var accessiblePeer = Dialog.DialogAccessiblePeer( accessibleInstance, dialog );
+          var trail = accessibleInstance.trail;
+
+          var domElement = accessiblePeer.domElement;
+
+          var nameElement = document.createElement( 'h1' );
+          nameElement.id = 'simName-' + trail.uniqueId;
+          nameElement.innerText = name;
+
+          domElement.appendChild( nameElement );
+          return accessiblePeer;
+        }
+      }
     } );
 
     // close it on a click
