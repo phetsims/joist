@@ -4,8 +4,10 @@
  *
  * @author Sam Reid
  */
-define( function() {
+define( function( require ) {
   'use strict';
+
+  var setupGlobalNamespaces = require( 'JOIST/setupGlobalNamespaces' );
 
   return {
     /**
@@ -63,6 +65,10 @@ define( function() {
           }
         } );
       } );
+
+      if ( phet.chipper.getQueryParameter( 'namespaces' ) ) {
+        setupGlobalNamespaces();
+      }
     }
   };
 } );
