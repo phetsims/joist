@@ -55,7 +55,7 @@ define( function( require ) {
         var text = '' + averageFPS + ' FPS, ' + averageFrameTime + 'ms/frame, ';
         text = text + this.histogram;
         if ( this.longTimes.length ) {
-          text = text + ", +++ = " + this.longTimes;
+          text = text + ', +++ = ' + this.longTimes;
         }
         $( '#trace' ).html( text );
         for ( i = 0; i < 30; i++ ) {

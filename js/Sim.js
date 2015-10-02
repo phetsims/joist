@@ -463,7 +463,7 @@ define( function( require ) {
       } );
     }
     else {
-      throw new Error( "invalid value for options.screenDisplayStrategy: " + options.screenDisplayStrategy );
+      throw new Error( 'invalid value for options.screenDisplayStrategy: ' + options.screenDisplayStrategy );
     }
 
     // layer for popups, dialogs, and their backgrounds and barriers

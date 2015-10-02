@@ -27,7 +27,7 @@ define( function( require ) {
     },
 
     reviver: function( k, v ) {
-      if ( k === "" ) {
+      if ( k === '' ) {
         return v;
       }
       if ( v && v._type && v._type === 'Vector2' ) {
