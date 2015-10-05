@@ -108,6 +108,9 @@ define( function( require ) {
       tandem: null
     }, options );
 
+    // Export for usage in together.js
+    this.tandem = options.tandem;
+
     this.options = options; // @private store this for access from prototype functions, assumes that it won't be changed later
 
     // override rootRenderer using query parameter, see #221 and #184
