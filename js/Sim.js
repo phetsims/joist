@@ -636,7 +636,7 @@ define( function( require ) {
       // Option for profiling
       // if true, prints screen initialization time (total, model, view) to the console and displays
       // profiling information on the screen
-      if ( !!phet.chipper.getQueryParameter( 'profiler' ) ) {
+      if ( phet.chipper.getQueryParameter( 'profiler' ) ) {
         Profiler.start( sim );
       }
 
