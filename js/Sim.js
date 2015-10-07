@@ -614,7 +614,6 @@ define( function( require ) {
         request.onload = function( e ) {
 
           // we create functions, so eval is necessary. we go to the loaded domain on a non-standard port, so cross-domain issues shouldn't present themselves
-          /* jshint -W061 */
           sim.startInputEventPlayback( eval( request.responseText ) );
         };
         request.send();
