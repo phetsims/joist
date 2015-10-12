@@ -428,7 +428,9 @@ define( function( require ) {
         // Swap out the views if the old one is displayed. if not, we are probably in the home screen
         if ( oldIndex >= 0 ) {
           sim.rootNode.removeChild( currentScreenNode );
-          sim.rootNode.insertChild( oldIndex, newScreenNode ); // same place in the tree, so nodes behind/in front stay that way.
+
+          // same place in the tree, so nodes behind/in front stay that way.
+          sim.rootNode.insertChild( oldIndex, newScreenNode ); 
         }
 
         currentScreenNode = newScreenNode;
@@ -606,14 +608,16 @@ define( function( require ) {
     start: function() {
       var sim = this;
 
-      // if the playback flag is set, don't start up like normal. instead download our event log from the server and play it back.
-      // if direct playback (copy-paste) is desired, please directly call sim.startInputEventPlayback( ... ) instead of sim.start().
+      // if the playback flag is set, don't start up like normal. instead download our event log from the server and 
+      // play it back.  If direct playback (copy-paste) is desired, please directly call 
+      // sim.startInputEventPlayback( ... ) instead of sim.start().
       if ( this.options.playbackInputEventLog ) {
         var request = new XMLHttpRequest();
         request.open( 'GET', this.getEventLogLocation(), true );
         request.onload = function( e ) {
 
-          // we create functions, so eval is necessary. we go to the loaded domain on a non-standard port, so cross-domain issues shouldn't present themselves
+          // we create functions, so eval is necessary. we go to the loaded domain on a non-standard port, so 
+          // cross-domain issues shouldn't present themselves
           sim.startInputEventPlayback( eval( request.responseText ) );
         };
         request.send();
@@ -761,7 +765,8 @@ define( function( require ) {
       }
     },
 
-    // Plays back input events and updateScene() loops based on recorded data. data should be an array of objects (representing frames) with dt and fireEvents( scene, dot )
+    // Plays back input events and updateScene() loops based on recorded data. data should be an array of objects 
+    // (representing frames) with dt and fireEvents( scene, dot )
     startInputEventPlayback: function( data ) {
       var sim = this;
 
@@ -810,7 +815,9 @@ define( function( require ) {
 
         // Update the active screen, but not if the user is on the home screen
         if ( !sim.showHomeScreen ) {
-          sim.screens[ sim.screenIndex ].model.step( frame.dt ); // use the pre-recorded dt to ensure lack of variation between runs
+
+          // use the pre-recorded dt to ensure lack of variation between runs
+          sim.screens[ sim.screenIndex ].model.step( frame.dt ); 
         }
 
         // If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
@@ -823,17 +830,23 @@ define( function( require ) {
       })();
     },
 
-    // A string that should be evaluated as JavaScript containing an array of "frame" objects, with a dt and an optional fireEvents function
+    // A string that should be evaluated as JavaScript containing an array of "frame" objects, with a dt and an optional
+    // fireEvents function
     getRecordedInputEventLogString: function() {
       return '[\n' + _.map( this.inputEventLog, function( item ) {
-          var fireEvents = 'fireEvents:function(scene,dot){' + _.map( item.events, function( str ) { return 'display._input.' + str; } ).join( '' ) + '}';
-          return '{dt:' + item.dt + ( item.events.length ? ',' + fireEvents : '' ) + ( item.width ? ',width:' + item.width : '' ) + ( item.height ? ',height:' + item.height : '' ) +
+          var fireEvents = 'fireEvents:function(scene,dot){' + _.map( item.events, function( str ) {
+              return 'display._input.' + str;
+            } ).join( '' ) + '}';
+
+          return '{dt:' + item.dt + ( item.events.length ? ',' + fireEvents : '' ) +
+                 ( item.width ? ',width:' + item.width : '' ) + ( item.height ? ',height:' + item.height : '' ) +
                  ',id:' + item.id + ',time:' + item.time + '}';
         } ).join( ',\n' ) + '\n]';
     },
 
-    // For recording and playing back input events, we use a unique combination of the user agent, width and height, so the same
-    // server can test different recorded input events on different devices/browsers (desired, because events and coordinates are different)
+    // For recording and playing back input events, we use a unique combination of the user agent, width and height, so 
+    // the same server can test different recorded input events on different devices/browsers (desired, because events 
+    // and coordinates are different)
     getEventLogName: function() {
       var name = this.options.inputEventLogName;
       if ( name === 'browser' ) {
@@ -848,20 +861,23 @@ define( function( require ) {
       return '//' + host + ':8083/' + this.getEventLogName();
     },
 
-    // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
+    // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, 
+    // from the same directory)
     submitEventLog: function() {
       // if we aren't recording data, don't submit any!
       if ( !this.options.recordInputEventLog ) { return; }
 
       var data = this.getRecordedInputEventLogString();
 
+      // use a protocol-relative port to send it to Scenery's local event-log server
       var xmlhttp = new XMLHttpRequest();
-      xmlhttp.open( 'POST', this.getEventLogLocation(), true ); // use a protocol-relative port to send it to Scenery's local event-log server
+      xmlhttp.open( 'POST', this.getEventLogLocation(), true );
       xmlhttp.setRequestHeader( 'Content-type', 'text/javascript' );
       xmlhttp.send( data );
     },
 
-    // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
+    // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node,
+    // from the same directory)
     mailEventLog: function() {
 
       // if we aren't recording data, don't submit any!
