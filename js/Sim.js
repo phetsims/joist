@@ -274,6 +274,11 @@ define( function( require ) {
       document.body.removeChild( document.getElementById( 'sim' ) );
     }
 
+    // Prevents selection cursor issues in Safari, see https://github.com/phetsims/scenery/issues/476
+    document.onselectstart = function() {
+      return false;
+    };
+
     sim.rootNode = new Node( { renderer: options.rootRenderer } );
 
     sim.display = new Display( sim.rootNode, {
