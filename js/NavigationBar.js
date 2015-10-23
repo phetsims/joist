@@ -69,7 +69,8 @@ define( function( require ) {
       for ( var screenIndex = 0; screenIndex < screens.length; screenIndex++ ) {
         var screen = screens[ screenIndex ];
         var iconAspectRatio = screen.navigationBarIcon.width / screen.navigationBarIcon.height;
-        var validAspectRatio = iconAspectRatio === navbarIconAspectRatio || iconAspectRatio === homeScreenIconAspectRatio;
+        var tolerance = 1E-3;
+        var validAspectRatio = Math.abs( iconAspectRatio - navbarIconAspectRatio ) < tolerance || Math.abs( iconAspectRatio - homeScreenIconAspectRatio ) < tolerance;
         assert && assert( validAspectRatio, 'NavigationBar icons for screen ' + screenIndex + ' did not have a valid aspect ratio.' );
       }
     }
