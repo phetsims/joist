@@ -303,6 +303,14 @@ define( function( require ) {
     // for preventing Safari from going to sleep. see https://github.com/phetsims/joist/issues/140
     var heartbeatDiv = this.heartbeatDiv = document.createElement( 'div' );
     heartbeatDiv.style.opacity = 0;
+    // Extra style (also used for accessibility) that makes it take up no visual layout space.
+    // Without this, it could cause some layout issues. See https://github.com/phetsims/gravity-force-lab/issues/39
+    heartbeatDiv.style.position = 'absolute';
+    heartbeatDiv.style.left = '0';
+    heartbeatDiv.style.top = '0';
+    heartbeatDiv.style.width = '0';
+    heartbeatDiv.style.height = '0';
+    heartbeatDiv.style.clip = 'rect(0,0,0,0)';
     document.body.appendChild( heartbeatDiv );
 
     if ( phet.chipper.getQueryParameter( 'sceneryLog' ) ) {
