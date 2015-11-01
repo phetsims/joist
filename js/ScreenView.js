@@ -95,7 +95,18 @@ define( function( require ) {
 
     //statics
     {
-      DEFAULT_LAYOUT_BOUNDS: DEFAULT_LAYOUT_BOUNDS
+      DEFAULT_LAYOUT_BOUNDS: DEFAULT_LAYOUT_BOUNDS,
+
+      /**
+       *
+       * @param {AccessibleInstance} accessibleInstance
+       * @param {string} screenDescription
+       * @returns {ScreenViewAccessiblePeer}
+       * @constructor
+       */
+      ScreenViewAccessiblePeer: function( accessibleInstance, screenDescription ) {
+        return new ScreenViewAccessiblePeer( accessibleInstance, screenDescription );
+      }
     }
   );
 
@@ -122,7 +133,7 @@ define( function( require ) {
       var trail = accessibleInstance.trail;
       this.node = trail.lastNode(); // @private TODO: may be namespace conflict in future?
 
-      this.domElement = document.createElement( 'div' ); // @private
+      this.domElement = document.createElement( 'div' ); // @protected
       this.initializeAccessiblePeer( accessibleInstance, this.domElement );
 
       if ( screenDescription ) {
