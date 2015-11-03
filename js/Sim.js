@@ -665,6 +665,11 @@ define( function( require ) {
       simDiv.parentNode && simDiv.parentNode.removeChild( simDiv );
     },
 
+    // @public (together) - Disable the animation frames for playback via input events, see #303
+    disableRequestAnimationFrame: function() {
+      this.boundRunAnimationLoop = function() {};
+    },
+
     // Bound to this.boundRunAnimationLoop so it can be run in window.requestAnimationFrame
     runAnimationLoop: function() {
 
