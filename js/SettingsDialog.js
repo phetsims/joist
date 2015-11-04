@@ -20,7 +20,7 @@ define( function( require ) {
   // strings
   var showPointersString = require( 'string!JOIST/showPointers' );
   var doneString = require( 'string!JOIST/done' );
-  var settingsString = require( 'string!JOIST/title.settings' );
+  var titleSettingsString = require( 'string!JOIST/title.settings' );
 
   /**
    * @param {Property.<boolean>} showPointersProperty - whether the sim should show graphical indicators for where the pointers are
@@ -34,7 +34,7 @@ define( function( require ) {
 
     var content = new VBox( {
       align: 'center', spacing: 50, children: [
-        new Text( settingsString, { font: new PhetFont( 16 ) } ),
+        new Text( titleSettingsString, { font: new PhetFont( 16 ) } ),
         new CheckBox( new Text( showPointersString, { font: new PhetFont( 10 ) } ), showPointersProperty ),
         new TextPushButton( doneString, {
           font: new PhetFont( 20 ),

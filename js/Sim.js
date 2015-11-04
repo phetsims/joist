@@ -36,7 +36,7 @@ define( function( require ) {
   var PlaybackSim = require( 'JOIST/PlaybackSim' );
 
   // strings
-  var titlePattern = require( 'string!JOIST/titlePattern' );
+  var titlePatternString = require( 'string!JOIST/titlePattern' );
 
   /**
    * Main Sim constructor
@@ -215,7 +215,7 @@ define( function( require ) {
 
     //Set the HTML page title to the localized title
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
-    $( 'title' ).html( StringUtils.format( titlePattern, name, sim.version ) );
+    $( 'title' ).html( StringUtils.format( titlePatternString, name, sim.version ) );
 
     // if nothing else specified, try to use the options for showHomeScreen & screenIndex from query parameters,
     // to facilitate testing easily in different screens

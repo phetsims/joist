@@ -32,17 +32,17 @@ define( function( require ) {
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
 
   // strings
-  var optionsString = require( 'string!JOIST/menuItem.options' );
-  var aboutString = require( 'string!JOIST/menuItem.about' );
-  var mailInputEventsLogString = require( 'string!JOIST/menuItem.mailInputEventsLog' );
-  var outputInputEventsLogString = require( 'string!JOIST/menuItem.outputInputEventsLog' );
-  var phetWebsiteString = require( 'string!JOIST/menuItem.phetWebsite' );
-  var reportAProblemString = require( 'string!JOIST/menuItem.reportAProblem' );
-  var screenshotString = require( 'string!JOIST/menuItem.screenshot' );
-  var fullScreenString = require( 'string!JOIST/menuItem.fullscreen' );
-  var settingsString = require( 'string!JOIST/menuItem.settings' );
-  var getUpdateString = require( 'string!JOIST/menuItem.getUpdate' );
-  var submitInputEventsLogString = require( 'string!JOIST/menuItem.submitInputEventsLog' );
+  var menuItemOptionsString = require( 'string!JOIST/menuItem.options' );
+  var menuItemAboutString = require( 'string!JOIST/menuItem.about' );
+  var menuItemMailInputEventsLogString = require( 'string!JOIST/menuItem.mailInputEventsLog' );
+  var menuItemOutputInputEventsLogString = require( 'string!JOIST/menuItem.outputInputEventsLog' );
+  var menuItemPhetWebsiteString = require( 'string!JOIST/menuItem.phetWebsite' );
+  var menuItemReportAProblemString = require( 'string!JOIST/menuItem.reportAProblem' );
+  var menuItemScreenshotString = require( 'string!JOIST/menuItem.screenshot' );
+  var menuItemFullscreenString = require( 'string!JOIST/menuItem.fullscreen' );
+  var menuItemSettingsString = require( 'string!JOIST/menuItem.settings' );
+  var menuItemGetUpdateString = require( 'string!JOIST/menuItem.getUpdate' );
+  var menuItemSubmitInputEventsLogString = require( 'string!JOIST/menuItem.submitInputEventsLog' );
 
   // constants
   var FONT_SIZE = 18;
@@ -215,14 +215,14 @@ define( function( require ) {
      */
     var itemDescriptors = [
       {
-        text: optionsString,
+        text: menuItemOptionsString,
         present: !!sim.options.optionsNode,
         callback: function() {
           new OptionsDialog( sim.options.optionsNode ).show();
         }
       },
       {
-        text: phetWebsiteString,
+        text: menuItemPhetWebsiteString,
         tandem: options.tandem && options.tandem.createTandem( 'phetWebsiteButton' ),
         present: isPhETBrand,
         callback: function() {
@@ -232,7 +232,7 @@ define( function( require ) {
         }
       },
       {
-        text: outputInputEventsLogString,
+        text: menuItemOutputInputEventsLogString,
         present: !!sim.options.recordInputEventLog,
         callback: function() {
           // prints the recorded input event log to the console
@@ -240,7 +240,7 @@ define( function( require ) {
         }
       },
       {
-        text: submitInputEventsLogString,
+        text: menuItemSubmitInputEventsLogString,
         present: !!sim.options.recordInputEventLog,
         callback: function() {
           // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
@@ -248,7 +248,7 @@ define( function( require ) {
         }
       },
       {
-        text: mailInputEventsLogString,
+        text: menuItemMailInputEventsLogString,
         present: !!sim.options.recordInputEventLog,
         callback: function() {
           // mailto: link including the body to email
@@ -256,7 +256,7 @@ define( function( require ) {
         }
       },
       {
-        text: settingsString,
+        text: menuItemSettingsString,
         present: false,
         callback: function() {
           var settingsDialog = new SettingsDialog( sim.showPointersProperty );
@@ -272,7 +272,7 @@ define( function( require ) {
         }
       },
       {
-        text: reportAProblemString,
+        text: menuItemReportAProblemString,
         present: isPhETBrand,
         callback: function() {
           // Create a smaller version of our dependencies to send, due to the URL length issues.
@@ -306,7 +306,7 @@ define( function( require ) {
         tandem: options.tandem && options.tandem.createTandem( 'qrCode' )
       },
       {
-        text: getUpdateString,
+        text: menuItemGetUpdateString,
         present: UpdateCheck.areUpdatesChecked,
         color: UpdateCheck.state === 'out-of-date' ? '#0a0' : '#000',
         callback: function() {
@@ -317,7 +317,7 @@ define( function( require ) {
 
       //Feasibility test for capturing screen shots as images
       {
-        text: screenshotString,
+        text: menuItemScreenshotString,
         present: phet.chipper.getQueryParameter( 'screenshot' ) && !platform.ie9, // TODO is this going to be implemented for IE9? see issue #212
         callback: function() {
           var dataURL = ScreenshotGenerator.generateScreenshot( sim );
@@ -347,7 +347,7 @@ define( function( require ) {
         }
       },
       {
-        text: fullScreenString,
+        text: menuItemFullscreenString,
         present: FullScreen.isFullScreenEnabled(),
         checkedProperty: FullScreen.isFullScreenProperty,
         callback: function() {
@@ -358,7 +358,7 @@ define( function( require ) {
 
       //About dialog button
       {
-        text: aboutString,
+        text: menuItemAboutString,
         present: true,
         separatorBefore: isPhETBrand,
         callback: function() {

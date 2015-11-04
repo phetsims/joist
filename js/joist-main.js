@@ -16,7 +16,7 @@ define( function( require ) {
   var SimLauncher = require( 'JOIST/SimLauncher' );
 
   // strings
-  var title = require( 'string!JOIST/joist.title' );
+  var joistTitleString = require( 'string!JOIST/joist.title' );
 
   var screens = [
         new Screen( 'Dialogs',
@@ -40,6 +40,6 @@ define( function( require ) {
   };
 
   SimLauncher.launch( function() {
-    new Sim( title, screens, options ).start();
+    new Sim( joistTitleString, screens, options ).start();
   } );
 } );

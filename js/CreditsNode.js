@@ -17,13 +17,13 @@ define( function( require ) {
 
   // strings
   var creditsTitleString = require( 'string!JOIST/credits.title' );
-  var leadDesignString = require( 'string!JOIST/credits.leadDesign' );
-  var softwareDevelopmentString = require( 'string!JOIST/credits.softwareDevelopment' );
-  var teamString = require( 'string!JOIST/credits.team' );
-  var qualityAssuranceString = require( 'string!JOIST/credits.qualityAssurance' );
-  var graphicArtsString = require( 'string!JOIST/credits.graphicArts' );
-  var translationTitleString = require( 'string!JOIST/credits.translation' );
-  var thanksTitleString = require( 'string!JOIST/credits.thanks' );
+  var creditsLeadDesignString = require( 'string!JOIST/credits.leadDesign' );
+  var creditsSoftwareDevelopmentString = require( 'string!JOIST/credits.softwareDevelopment' );
+  var creditsTeamString = require( 'string!JOIST/credits.team' );
+  var creditsQualityAssuranceString = require( 'string!JOIST/credits.qualityAssurance' );
+  var creditsGraphicArtsString = require( 'string!JOIST/credits.graphicArts' );
+  var creditsTranslationString = require( 'string!JOIST/credits.translation' );
+  var creditsThanksString = require( 'string!JOIST/credits.thanks' );
 
   /**
    * Creates node that displays the credits.
@@ -39,24 +39,24 @@ define( function( require ) {
 
     // Credits
     children.push( new Text( creditsTitleString, { font: titleFont } ) );
-    if ( credits.leadDesign ) { children.push( new MultiLineText( StringUtils.format( leadDesignString, credits.leadDesign ), multiLineTextOptions ) ); }
-    if ( credits.softwareDevelopment ) { children.push( new MultiLineText( StringUtils.format( softwareDevelopmentString, credits.softwareDevelopment ), multiLineTextOptions ) ); }
-    if ( credits.team ) { children.push( new MultiLineText( StringUtils.format( teamString, credits.team ), multiLineTextOptions ) ); }
-    if ( credits.qualityAssurance ) { children.push( new MultiLineText( StringUtils.format( qualityAssuranceString, credits.qualityAssurance ), multiLineTextOptions ) ); }
-    if ( credits.graphicArts ) { children.push( new MultiLineText( StringUtils.format( graphicArtsString, credits.graphicArts ), multiLineTextOptions ) ); }
+    if ( credits.leadDesign ) { children.push( new MultiLineText( StringUtils.format( creditsLeadDesignString, credits.leadDesign ), multiLineTextOptions ) ); }
+    if ( credits.softwareDevelopment ) { children.push( new MultiLineText( StringUtils.format( creditsSoftwareDevelopmentString, credits.softwareDevelopment ), multiLineTextOptions ) ); }
+    if ( credits.team ) { children.push( new MultiLineText( StringUtils.format( creditsTeamString, credits.team ), multiLineTextOptions ) ); }
+    if ( credits.qualityAssurance ) { children.push( new MultiLineText( StringUtils.format( creditsQualityAssuranceString, credits.qualityAssurance ), multiLineTextOptions ) ); }
+    if ( credits.graphicArts ) { children.push( new MultiLineText( StringUtils.format( creditsGraphicArtsString, credits.graphicArts ), multiLineTextOptions ) ); }
 
     //TODO see joist#163, translation credit should be obtained from string files
     // Translation
     if ( credits.translation ) {
       if ( children.length > 0 ) { children.push( new VStrut( 10 ) ); }
-      children.push( new Text( translationTitleString, { font: titleFont } ) );
+      children.push( new Text( creditsTranslationString, { font: titleFont } ) );
       children.push( new MultiLineText( credits.translation, multiLineTextOptions ) );
     }
 
     // Thanks
     if ( credits.thanks ) {
       if ( children.length > 0 ) { children.push( new VStrut( 10 ) ); }
-      children.push( new Text( thanksTitleString, { font: titleFont } ) );
+      children.push( new Text( creditsThanksString, { font: titleFont } ) );
       children.push( new MultiLineText( credits.thanks, multiLineTextOptions ) );
     }
 

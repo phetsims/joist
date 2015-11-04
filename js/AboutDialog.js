@@ -27,7 +27,7 @@ define( function( require ) {
   var packageJSON = require( 'JOIST/packageJSON' );
 
   // strings
-  var versionPattern = require( 'string!JOIST/versionPattern' );
+  var versionPatternString = require( 'string!JOIST/versionPattern' );
 
   /**
    * @param {string} name - The name of the simulation
@@ -42,7 +42,7 @@ define( function( require ) {
 
     var children = [];
     children.push( new Text( name, { font: new PhetFont( 28 ) } ) );
-    children.push( new Text( StringUtils.format( versionPattern, version ), { font: new PhetFont( 20 ) } ) );
+    children.push( new Text( StringUtils.format( versionPatternString, version ), { font: new PhetFont( 20 ) } ) );
     if ( phet.chipper.buildTimestamp ) {
       children.push( new Text( phet.chipper.buildTimestamp, { font: new PhetFont( 13 ) } ) );
     }
