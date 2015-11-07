@@ -1,4 +1,4 @@
-// Copyright 2002-2015, University of Colorado Boulder
+// Copyright 2015, University of Colorado Boulder
 
 /**
  * An icon suitable for one of the screen-selection buttons on the home screen or navigation bar.

@@ -1,4 +1,4 @@
-// Copyright 2002-2013, University of Colorado Boulder
+// Copyright 2015, University of Colorado Boulder
 
 /**
  * Creates global references (on the phet object) to all normal modules loaded through require.js. For example, if the

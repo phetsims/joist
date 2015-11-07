@@ -1,4 +1,4 @@
-// Copyright 2002-2013, University of Colorado Boulder
+// Copyright 2014-2015, University of Colorado Boulder
 
 /**
  * Base class for Joist buttons such as the "home" button and "PhET" button that show custom highlighting on mouseover.
