@@ -55,6 +55,7 @@ define( function( require ) {
       }
     }, options );
 
+    // @private
     this.isModal = options.modal;
 
     var dialogContent = new Node( {
@@ -136,6 +137,7 @@ define( function( require ) {
     updateLayout();
   }
 
+  // @private
   Dialog.DEFAULT_LAYOUT_STRATEGY = function( dialog, simBounds, screenBounds, scale ) {
 
     // The size is set in the Sim.topLayer, but we need to update the location here
@@ -144,12 +146,14 @@ define( function( require ) {
 
   inherit( Panel, Dialog, {
 
+    // @public
     show: function() {
       if ( !window.phet.joist.sim.isPoppedUp( this ) ) {
         window.phet.joist.sim.showPopup( this, this.isModal );
       }
     },
 
+    // @public
     hide: function() {
       if ( window.phet.joist.sim.isPoppedUp( this ) ) {
         window.phet.joist.sim.hidePopup( this, this.isModal );
@@ -157,10 +161,10 @@ define( function( require ) {
     }
   }, {
 
+    // @public (accessibility)
     DialogAccessiblePeer: function( accessibleInstance, dialog ) {
       return new DialogAccessiblePeer( accessibleInstance, dialog );
     }
-
   } );
 
   function DialogAccessiblePeer( accessibleInstance, dialog ) {
@@ -174,6 +178,7 @@ define( function( require ) {
      *
      * @param {AccessibleInstance} accessibleInstance
      * @param dialog
+     * @public (accessibility)
      */
     initialize: function( accessibleInstance, dialog ) {
 
@@ -183,7 +188,7 @@ define( function( require ) {
        */
       var trail = accessibleInstance.trail;
 
-      // create the dom element and initialize the peer.
+      // @private - create the dom element and initialize the peer.
       this.domElement = document.createElement( 'div' ); // @private
       this.initializeAccessiblePeer( accessibleInstance, this.domElement );
 
@@ -214,7 +219,6 @@ define( function( require ) {
           dialog.hide();
         }
       } );
-
     }
   } );
 

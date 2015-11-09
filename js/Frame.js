@@ -21,8 +21,6 @@ define( function( require ) {
    */
   function Frame( content, options ) {
 
-    var thisNode = this;
-
     // default options
     options = _.extend( {
       xMargin1: 6,
@@ -30,13 +28,16 @@ define( function( require ) {
       cornerRadius: 0 // radius of the rounded corners on the background
     }, options );
 
-    Node.call( thisNode );
+    Node.call( this );
 
-    var width1 = content.width + 2 * options.xMargin1;
-    var height1 = content.height + 2 * options.yMargin1;
+    var frameWidth = content.width + 2 * options.xMargin1;
+    var frameHeight = content.height + 2 * options.yMargin1;
 
-    this.gradient = new LinearGradient( 0, 0, width1, 0 ).addColorStop( 0, '#fbff41' ).addColorStop( 118 / 800.0, '#fef98b' ).addColorStop( 372 / 800.0, '#feff40' ).addColorStop( 616 / 800, '#fffccd' ).addColorStop( 1, '#fbff41' );
-    this.rectangle = new Rectangle( 0, 0, width1, height1, options.cornerRadius, options.cornerRadius, {
+    // @private
+    this.gradient = new LinearGradient( 0, 0, frameWidth, 0 ).addColorStop( 0, '#fbff41' ).addColorStop( 118 / 800.0, '#fef98b' ).addColorStop( 372 / 800.0, '#feff40' ).addColorStop( 616 / 800, '#fffccd' ).addColorStop( 1, '#fbff41' );
+
+    // @private
+    this.rectangle = new Rectangle( 0, 0, frameWidth, frameHeight, options.cornerRadius, options.cornerRadius, {
       stroke: this.gradient,
       lineWidth: 3,
       x: content.x - options.xMargin1,
@@ -46,20 +47,26 @@ define( function( require ) {
 
     // Apply options after the layout is done, so that options that use the bounds will work properly.
     this.mutate( options );
-    this.width1 = width1;
-    this.height1 = height1;
+
+    // @private
+    this.frameWidth = frameWidth;
+
+    // @private
+    this.frameHeight = frameHeight;
   }
 
   inherit( Node, Frame, {
+
+    // @public
     setHighlighted: function( highlighted ) {
       this.rectangle.lineWidth = highlighted ? 4.5 : 3;
 
       //Make the frame larger when highlighted, but only so that it expands out
       if ( highlighted ) {
-        this.rectangle.setRect( -1.5 / 2, -1.5 / 2, this.width1 + 1.5, this.height1 + 1.5 );
+        this.rectangle.setRect( -1.5 / 2, -1.5 / 2, this.frameWidth + 1.5, this.frameHeight + 1.5 );
       }
       else {
-        this.rectangle.setRect( 0, 0, this.width1, this.height1 );
+        this.rectangle.setRect( 0, 0, this.frameWidth, this.frameHeight );
       }
     }
   } );
