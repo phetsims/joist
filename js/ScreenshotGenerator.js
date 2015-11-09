@@ -22,7 +22,7 @@ define( function( require ) {
 
   return inherit( Object, ScreenshotGenerator, {}, {
 
-    // Given a sim, generate a screenshot as a data url
+    // @public - Given a sim, generate a screenshot as a data url
     generateScreenshot: function( sim ) {
 
       // set up our Canvas with the correct background color

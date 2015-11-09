@@ -1,9 +1,7 @@
 // Copyright 2013-2015, University of Colorado Boulder
 
 /**
- * The view portion of a Screen.
- * Specifies the layout strategy.
- * TODO: should extend this to be compatible with the Sim.js framework.
+ * The view portion of a Screen, specifies the layout strategy.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -50,14 +48,26 @@ define( function( require ) {
 
   inherit( Node, ScreenView, {
 
-      //Get the scale to use for laying out the sim components and the navigation bar, so its size will track with the sim size
+      /**
+       * Get the scale to use for laying out the sim components and the navigation bar, so its size will track
+       * with the sim size
+       * @param {number} width
+       * @param {number} height
+       * @returns {number}
+       * @public (joist-internal)
+       */
       getLayoutScale: function( width, height ) {
         return Math.min( width / this.layoutBounds.width, height / this.layoutBounds.height );
       },
 
-      //Default layout function uses the layoutWidth and layoutHeight to scale the content (based on whichever is more limiting: width or height)
-      //and centers the content in the screen vertically and horizontally
-      //This function can be replaced by subclasses that wish to perform their own custom layout.
+      /**
+       * Default layout function uses the layoutWidth and layoutHeight to scale the content (based on whichever is more limiting: width or height)
+       * and centers the content in the screen vertically and horizontally
+       * This function can be replaced by subclasses that wish to perform their own custom layout.
+       * @param {number} width
+       * @param {number} height
+       * @public (joist-internal)
+       */
       layout: function( width, height ) {
         this.resetTransform();
 
@@ -95,6 +105,7 @@ define( function( require ) {
 
     //statics
     {
+      // @public
       DEFAULT_LAYOUT_BOUNDS: DEFAULT_LAYOUT_BOUNDS,
 
       /**
@@ -103,6 +114,7 @@ define( function( require ) {
        * @param {string} screenDescription
        * @returns {ScreenViewAccessiblePeer}
        * @constructor
+       * @public
        */
       ScreenViewAccessiblePeer: function( accessibleInstance, screenDescription ) {
         return new ScreenViewAccessiblePeer( accessibleInstance, screenDescription );
@@ -128,6 +140,7 @@ define( function( require ) {
      *
      * @param {AccessibleInstance} accessibleInstance
      * @param {string} screenDescription - invisible auditory description of sim state at sim start up.
+     * @public (accessibility)
      */
     initialize: function( accessibleInstance, screenDescription ) {
       var trail = accessibleInstance.trail;
@@ -163,11 +176,15 @@ define( function( require ) {
 
     /**
      * Make unused screen views unavailable to a screen reader by setting the html attribute hidden.
+     * @public (accessibility)
      */
     updateVisibility: function() {
       this.domElement.hidden = !this.node.visible;
     },
 
+    /**
+     * @public (accessibility)
+     */
     dispose: function() {
       AccessiblePeer.prototype.dispose.call( this );
 

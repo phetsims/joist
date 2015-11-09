@@ -479,7 +479,7 @@ define( function( require ) {
       }
     },
 
-    // @public (joist)
+    // @public (joist-internal)
     dispose: function() {
       _.each( this.items, function( item ) {
         item.dispose();

@@ -213,7 +213,7 @@ define( function( require ) {
 
   return inherit( ScreenView, HomeScreenView, {
 
-      // @public (joist)
+      // @public (joist-internal)
       layoutWithScale: function( scale, width, height ) {
         HomeScreenView.prototype.layout.call( this, width, height );
 

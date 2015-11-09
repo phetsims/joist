@@ -89,7 +89,7 @@ define( function( require ) {
     /**
      * Initialize the model.  Clients should use either this or initializeModelAndView
      * Clients may want to use this method to gain more control over the creation process
-     * @public (joist)
+     * @public (joist-internal)
      */
     initializeModel: function() {
       assert && assert( this._model === null, 'there was already a model' );
@@ -99,7 +99,7 @@ define( function( require ) {
     /**
      * Initialize the view.  Clients should use either this or initializeModelAndView
      * Clients may want to use this method to gain more control over the creation process
-     * @public (joist)
+     * @public (joist-internal)
      */
     initializeView: function() {
       assert && assert( this._view === null, 'there was already a view' );

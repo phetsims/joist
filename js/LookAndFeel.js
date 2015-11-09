@@ -25,13 +25,13 @@ define( function( require ) {
       backgroundColor: 'black'
     } );
 
-    // @public (joist) - Navigation bar background fill
+    // @public (joist-internal) - Navigation bar background fill
     this.addDerivedProperty( 'navigationBarFill', [ 'backgroundColor' ], function( backgroundColor ) {
       var screenIsBlack = !!new Color( backgroundColor ).equals( Color.BLACK );
       return screenIsBlack ? 'white' : 'black';
     } );
 
-    // @public (joist) - Navigation bar text fill
+    // @public (joist-internal) - Navigation bar text fill
     this.addDerivedProperty( 'navigationBarTextFill', [ 'navigationBarFill' ], function( navigationBarFill ) {
       return navigationBarFill === 'black' ? 'white' : 'black';
     } );
