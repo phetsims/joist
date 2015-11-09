@@ -8,7 +8,7 @@
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
-define( function( require ) {
+define( function() {
   'use strict';
 
   return function() {

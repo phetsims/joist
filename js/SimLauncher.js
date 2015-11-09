@@ -16,6 +16,7 @@ define( function( require ) {
      * TODO: add an awesome loading screen
      *
      * @param callback the callback function which should create and start the sim, given that the images are loaded
+     * @public - to be called by main()s everywhere
      */
     launch: function( callback ) {
 

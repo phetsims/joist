@@ -43,12 +43,13 @@ define( function( require ) {
       updateURL: 'http://phet.colorado.edu/en/simulation/' + simName
     } );
 
-    this.ourVersion = simVersion; // {SimVersion}
+    this.ourVersion = simVersion; // public - {SimVersion}
 
-    this.timeoutCallback = this.timeout.bind( this );
+    this.timeoutCallback = this.timeout.bind( this ); // @public (joist-internal)
   }
 
   inherit( PropertySet, UpdateCheck, {
+
     // @public - Whether we actually allow checking for updates, or showing any update-related UIs.
     areUpdatesChecked: !window.together && Brand.id === 'phet', // If it's not PhET-branded, don't check for updates
 

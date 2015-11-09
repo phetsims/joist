@@ -38,6 +38,7 @@ define( function( require ) {
      *
      * @param {Object} [options] - passed to the Node
      * @returns {Node} the Checking node, with step( dt ) and stepListener (bound to the node itself)
+     * @public (joist-internal)
      */
     createCheckingNode: function( options ) {
       var spinningIndicatorNode = new SpinningIndicatorNode( { indicatorSize: options.big ? 24 : 18 } );
@@ -58,6 +59,7 @@ define( function( require ) {
      * "Up-to-date" state node
      * @param {Object} [options] - passed to the Node
      * @returns {Node}
+     * @public (joist-internal)
      */
     createUpToDateNode: function( options ) {
       return new HBox( _.extend( { spacing: 8, children: [
@@ -72,6 +74,7 @@ define( function( require ) {
      * "Out-of-date" state node for the "About" dialog.
      * @param {Object} [options] - passed to the Node
      * @returns {Node}
+     * @public (joist-internal)
      */
     createOutOfDateAboutNode: function( options ) {
       return new HBox( _.extend( { spacing: 8, cursor: 'pointer', children: [
@@ -86,6 +89,7 @@ define( function( require ) {
      * @param {string} latestVersionString
      * @param {Object} [options] - passed to the Node
      * @returns {Node}
+     * @public (joist-internal)
      */
     createOutOfDateDialogNode: function( ourVersionString, latestVersionString, options ) {
       return new VBox( _.extend( { spacing: 15, children: [
@@ -113,6 +117,7 @@ define( function( require ) {
      * "Offline" state node
      * @param {Object} [options] - passed to the Node
      * @returns {Node}
+     * @public (joist-internal)
      */
     createOfflineNode: function( options ) {
       return new HBox( _.extend( { spacing: 0, children: [

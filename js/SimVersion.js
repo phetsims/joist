@@ -20,14 +20,16 @@ define( function( require ) {
     assert && assert( version.minor !== undefined );
     assert && assert( version.maintenance !== undefined );
 
-    this.major = version.major; // {number} major - Major version number
-    this.minor = version.minor; // {number} minor - Major version number
-    this.maintenance = version.maintenance; // {number} maintenance - Major version number
-    this.suffix = version.suffix; // {string} [suffix] - Optional suffix (like 'dev.3')
-    this.buildTimestamp = version.buildTimestamp; // {string} [buildTimestamp] - Optional build timestamp, like '2015-06-12 16:05:03 UTC' (phet.chipper.buildTimestamp)
+    this.major = version.major; // @public - {number} major - Major version number
+    this.minor = version.minor; // @public - {number} minor - Major version number
+    this.maintenance = version.maintenance; // @public - {number} maintenance - Major version number
+    this.suffix = version.suffix; // @public - {string} [suffix] - Optional suffix (like 'dev.3')
+    this.buildTimestamp = version.buildTimestamp; // @public - {string} [buildTimestamp] - Optional build timestamp,
+                                                  // like '2015-06-12 16:05:03 UTC' (phet.chipper.buildTimestamp)
   }
 
   return inherit( Object, SimVersion, {
+
     /**
      * Compares versions, returning -1 if this version is before the passed in version, 0 if equal, or 1 if this version
      * is after.
@@ -36,6 +38,7 @@ define( function( require ) {
      * for now.
      *
      * @param {SimVersion} version
+     * @public
      */
     compare: function( version ) {
       if ( this.major < version.major ) { return -1; }
@@ -47,6 +50,10 @@ define( function( require ) {
       return 0; // equal
     },
 
+    /**
+     * @returns {boolean|*}
+     * @public
+     */
     get isSimNotPublished() {
       return this.major < 1 || // e.g. 0.0.0-dev.1
              ( this.major === 1 && // e.g. 1.0.0-dev.1
@@ -55,6 +62,10 @@ define( function( require ) {
                this.suffix );
     },
 
+    /**
+     * @returns {string}
+     * @public
+     */
     toString: function() {
       return this.major + '.' + this.minor + '.' + this.maintenance + ( this.suffix ? '-' + this.suffix : '' );
     }
@@ -62,6 +73,7 @@ define( function( require ) {
     /**
      * @param {string} versionString - e.g. '1.0.0', '1.0.1-dev.3', etc.
      * @param {string} [buildTimestamp] - Optional build timestamp, like '2015-06-12 16:05:03 UTC' (phet.chipper.buildTimestamp)
+     * @public
      */
     parse: function( versionString, buildTimestamp ) {
       var matches = versionString.match( /(\d+)\.(\d+)\.(\d+)(-(.+))?/ );

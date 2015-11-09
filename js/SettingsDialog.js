@@ -62,10 +62,12 @@ define( function( require ) {
     //Fit to the window and render the initial scene
     $( window ).resize( resize );
     resize();
-    this.doneListeners = [];
+    this.doneListeners = []; // @private
   }
 
   return inherit( ScreenView, SettingsDialog, {
+
+    // @public (scenery-internal)
     addDoneListener: function( listener ) {
       this.doneListeners.push( listener );
     }

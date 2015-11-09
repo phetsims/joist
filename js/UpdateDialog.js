@@ -42,7 +42,7 @@ define( function( require ) {
 
     updateOutOfDateNode();
 
-    // Listener that should be called every frame where we are shown, with {number} dt as a single parameter.
+    // @private - Listener that should be called every frame where we are shown, with {number} dt as a single parameter.
     this.updateStepListener = checkingNode.stepListener;
 
     // Listener that should be called whenever our update state changes (while we are displayed)
@@ -81,6 +81,8 @@ define( function( require ) {
   }
 
   return inherit( Dialog, UpdateDialog, {
+
+    // @public (joist-internal)
     show: function() {
       if ( UpdateCheck.areUpdatesChecked ) {
         UpdateCheck.resetTimeout();
@@ -100,6 +102,7 @@ define( function( require ) {
       Dialog.prototype.show.call( this );
     },
 
+    // @public (joist-internal)
     hide: function() {
       Dialog.prototype.hide.call( this );
 

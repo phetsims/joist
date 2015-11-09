@@ -111,12 +111,13 @@ define( function( require ) {
       tandem: null
     }, options );
 
-    // Export for usage in together.js
+    // @private - Export for usage in together.js
     this.tandem = options.tandem;
 
-    this.options = options; // @private store this for access from prototype functions, assumes that it won't be changed later
+    // @private - store this for access from prototype functions, assumes that it won't be changed later
+    this.options = options;
 
-    // TODO: Is this still needed?
+    // @private - TODO: Is this still needed?
     this.playbackMode = options.playbackMode;
 
     // override rootRenderer using query parameter, see #221 and #184
@@ -141,33 +142,37 @@ define( function( require ) {
 
     PropertySet.call( this, {
 
-      // True if the home screen is showing
+      // @public (joist-internal) - True if the home screen is showing
       showHomeScreen: showHomeScreen,
 
-      // The selected index
+      // @public (joist-internal) - The selected index
       screenIndex: options.screenIndex || 0,
 
-      // [read-only] how the home screen and navbar are scaled
+      // @public (joist-internal, read-only) - how the home screen and navbar are scaled
       scale: 1,
 
-      // global bounds for the entire simulation
+      // @public (joist-internal, read-only) - global bounds for the entire simulation
       bounds: null,
 
-      // global bounds for the screen-specific part (excludes the navigation bar)
+      // @public (joist-internal, read-only) - global bounds for the screen-specific part (excludes the navigation bar)
       screenBounds: null,
 
-      // [read-only] {Screen|null} - The current screen, or null if showing the home screen
+      // @public (joist-internal, read-only) - {Screen|null} - The current screen, or null if showing the home screen
       currentScreen: null,
 
       // Flag for if the sim is active (alive) and the user is able to interact with the sim.
       // If the sim is active, the model.step, view.step, Timer and TWEEN will run.
       // Set to false for when the sim will be controlled externally, such as through record/playback or other controls.
+      // @public
       active: true,
 
+      // @public
       showPointerAreas: !!phet.chipper.getQueryParameter( 'showPointerAreas' ),
 
+      // @public
       showPointers: !!phet.chipper.getQueryParameter( 'showPointers' ),
 
+      // @public
       showCanvasNodeBounds: !!phet.chipper.getQueryParameter( 'showCanvasNodeBounds' )
     }, {
       // Tandems for properties in this PropertySet
@@ -183,11 +188,13 @@ define( function( require ) {
     // which require the sim to be registered
     options.tandem && options.tandem.createTandem( 'sim' ).addInstance( this );
 
+    // @public
     this.lookAndFeel = new LookAndFeel();
 
-    assert && assert( window.phet.joist.launchCalled,
-      'Sim must be launched using SimLauncher, see https://github.com/phetsims/joist/issues/142' );
+    assert && assert( window.phet.joist.launchCalled, 'Sim must be launched using SimLauncher, ' +
+                                                      'see https://github.com/phetsims/joist/issues/142' );
 
+    // @private
     this.destroyed = false;
 
     assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
@@ -196,22 +203,22 @@ define( function( require ) {
     // Make ScreenshotGenerator available globally so it can be used in preload files such as together.
     window.phet.joist.ScreenshotGenerator = ScreenshotGenerator;
 
-    sim.name = name;
-    sim.version = packageJSON.version;
-    sim.credits = options.credits;
+    this.name = name;                   // @public (joist-internal)
+    this.version = packageJSON.version; // @public (joist-internal)
+    this.credits = options.credits;     // @public (joist-internal)
 
-    // number of animation frames that have occurred
-    sim.frameCounter = 0;
+    // @private - number of animation frames that have occurred
+    this.frameCounter = 0;
 
     // used to store input events and requestAnimationFrame cycles
-    sim.inputEventLog = [];
-    sim.inputEventBounds = Bounds2.NOTHING;
+    this.inputEventLog = [];                 // @public (joist-internal)
+    this.inputEventBounds = Bounds2.NOTHING; // @public (joist-internal)
 
-    // mouse event fuzzing parameters
-    sim.fuzzMouseAverage = 10; // average number of mouse events to synthesize per frame
+    // @public (joist-internal) - mouse event fuzzing parameters, average number of mouse events to synthesize per frame
+    this.fuzzMouseAverage = 10;
 
-    // Make our locale available
-    sim.locale = phet.chipper.locale || phet.chipper.getQueryParameter( 'locale' ) || 'en';
+    // @public - Make our locale available
+    this.locale = phet.chipper.locale || phet.chipper.getQueryParameter( 'locale' ) || 'en';
 
     //Set the HTML page title to the localized title
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
@@ -259,8 +266,8 @@ define( function( require ) {
 
     this.trigger1( 'startedSimConstructor', {
       sessionID: phet.chipper.getQueryParameter( 'sessionID' ) || null,
-      simName: sim.name,
-      simVersion: sim.version,
+      simName: this.name,
+      simVersion: this.version,
       url: window.location.href
     } );
 
@@ -279,9 +286,11 @@ define( function( require ) {
       return false;
     };
 
-    sim.rootNode = new Node( { renderer: options.rootRenderer } );
+    // @private
+    this.rootNode = new Node( { renderer: options.rootRenderer } );
 
-    sim.display = new Display( sim.rootNode, {
+    // @private
+    this.display = new Display( sim.rootNode, {
       allowSceneOverflow: true, // we take up the entire browsable area, so we don't care about clipping
 
       // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
@@ -316,20 +325,20 @@ define( function( require ) {
     if ( phet.chipper.getQueryParameter( 'sceneryLog' ) ) {
       var logNames = phet.chipper.getQueryParameter( 'sceneryLog' );
       if ( logNames === undefined || logNames === 'undefined' ) {
-        sim.display.scenery.enableLogging();
+        this.display.scenery.enableLogging();
       }
       else {
-        sim.display.scenery.enableLogging( logNames.split( '.' ) );
+        this.display.scenery.enableLogging( logNames.split( '.' ) );
       }
     }
 
     if ( phet.chipper.getQueryParameter( 'sceneryStringLog' ) ) {
-      sim.display.scenery.switchLogToString();
+      this.display.scenery.switchLogToString();
     }
 
-    sim.display.initializeWindowEvents( { batchDOMEvents: this.options.batchEvents } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
-    window.phet.joist.rootNode = sim.rootNode; // make the scene available for debugging
-    window.phet.joist.display = sim.display; // make the display available for debugging
+    this.display.initializeWindowEvents( { batchDOMEvents: this.options.batchEvents } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
+    window.phet.joist.rootNode = this.rootNode; // make the scene available for debugging
+    window.phet.joist.display = this.display; // make the display available for debugging
 
     this.showPointersProperty.link( function( showPointers ) {
       sim.display.setPointerDisplayVisible( !!showPointers );
@@ -363,36 +372,39 @@ define( function( require ) {
       window.setInterval( function() { sleep( Math.ceil( 100 + Math.random() * 200 ) ); }, Math.ceil( 100 + Math.random() * 200 ) );
     };
 
-    sim.screens = screens;
+    // @public
+    this.screens = screens;
 
     // Multi-screen sims get a home screen.
     if ( screens.length > 1 ) {
-      sim.homeScreen = new HomeScreen( sim, {
+      this.homeScreen = new HomeScreen( this, {
         warningNode: options.homeScreenWarningNode,
         showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame,
         tandem: options.tandem ? options.tandem.createTandem( 'homeScreen' ) : null
       } );
-      sim.homeScreen.initializeModelAndView();
+      this.homeScreen.initializeModelAndView();
     }
     else {
-      sim.homeScreen = null;
+      this.homeScreen = null;
     }
 
-    sim.navigationBar = new NavigationBar( sim, screens, {
+    // @public (joist-internal)
+    this.navigationBar = new NavigationBar( this, screens, {
       tandem: options.tandem ? options.tandem.createTandem( 'navigationBar' ) : null
     } );
 
+    // @public (joist-internal)
     this.updateBackground = function() {
       sim.lookAndFeel.backgroundColor = sim.currentScreen ?
                                         sim.currentScreen.backgroundColor.toCSS() :
                                         sim.homeScreen.backgroundColor.toCSS();
     };
 
-    sim.lookAndFeel.backgroundColorProperty.link( function( backgroundColor ) {
+    this.lookAndFeel.backgroundColorProperty.link( function( backgroundColor ) {
       sim.display.backgroundColor = backgroundColor;
     } );
 
-    sim.multilink( [ 'showHomeScreen', 'screenIndex' ], function( showHomeScreen, screenIndex ) {
+    this.multilink( [ 'showHomeScreen', 'screenIndex' ], function( showHomeScreen, screenIndex ) {
       sim.currentScreen = showHomeScreen ? null : screens[ screenIndex ];
       sim.updateBackground();
     } );
@@ -413,15 +425,15 @@ define( function( require ) {
     // Choose the strategy for switching screens.  See options.screenDisplayStrategy documentation above
     if ( options.screenDisplayStrategy === 'setVisible' ) {
 
-      if ( sim.homeScreen ) {
-        sim.rootNode.addChild( sim.homeScreen.view );
+      if ( this.homeScreen ) {
+        this.rootNode.addChild( this.homeScreen.view );
       }
       _.each( screens, function( screen ) {
         screen.view.layerSplit = true;
         sim.rootNode.addChild( screen.view );
       } );
-      sim.rootNode.addChild( sim.navigationBar );
-      sim.multilink( [ 'screenIndex', 'showHomeScreen' ], function( screenIndex, showHomeScreen ) {
+      this.rootNode.addChild( this.navigationBar );
+      this.multilink( [ 'screenIndex', 'showHomeScreen' ], function( screenIndex, showHomeScreen ) {
         if ( sim.homeScreen ) {
           sim.homeScreen.view.setVisible( showHomeScreen );
         }
@@ -437,7 +449,7 @@ define( function( require ) {
       // On startup screenIndex=0 to highlight the 1st screen.
       // When moving from a screen to the homescreen, the previous screen should be highlighted
       // When the user selects a different screen, show it.
-      sim.screenIndexProperty.link( function( screenIndex ) {
+      this.screenIndexProperty.link( function( screenIndex ) {
         var newScreenNode = screens[ screenIndex ].view;
         var oldIndex = currentScreenNode ? sim.rootNode.indexOfChild( currentScreenNode ) : -1;
 
@@ -489,11 +501,13 @@ define( function( require ) {
 
     // layer for popups, dialogs, and their backgrounds and barriers
     this.topLayer = new Node();
-    sim.rootNode.addChild( this.topLayer );
+    this.rootNode.addChild( this.topLayer );
 
-    // Semi-transparent black barrier used to block input events when a dialog (or other popup) is present, and fade
-    // out the background.
+    // @public (joist-internal) - Semi-transparent black barrier used to block input events when a dialog
+    // (or other popup) is present, and fade out the background.
     this.barrierStack = new ObservableArray(); // {Node} with node.hide()
+
+    // @public (joist-internal)
     this.barrierRectangle = new Rectangle( 0, 0, 1, 1, 0, 0, {
       fill: 'rgba(0,0,0,0.3)',
       pickable: true
@@ -514,15 +528,17 @@ define( function( require ) {
 
     // Fit to the window and render the initial scene
     $( window ).resize( function() { sim.resizeToWindow(); } );
-    sim.resizeToWindow();
+    this.resizeToWindow();
 
     // Kick off checking for updates, if that is enabled
     UpdateCheck.check();
 
-    // Keep track of the previous time for computing dt, and initially signify that time hasn't been recorded yet.
+    // @public (joist-internal) - Keep track of the previous time for computing dt, and initially signify that time
+    // hasn't been recorded yet.
     this.lastTime = -1;
 
-    // Bind the animation loop so it can be called from requestAnimationFrame with the right this
+    // @public (joist-internal) - Bind the animation loop so it can be called from requestAnimationFrame with the right
+    // this
     this.boundRunAnimationLoop = null;
     if ( window.togetherDataLog ) {
       var playbackSim = new PlaybackSim( sim, window.togetherDataLog );
@@ -538,12 +554,14 @@ define( function( require ) {
   }
 
   return inherit( PropertySet, Sim, {
+
     /*
      * Adds a popup in the global coordinate frame, and optionally displays a semi-transparent black input barrier behind it.
      * Use hidePopup() to remove it.
      * @param {Node} node - Should have node.hide() implemented to hide the popup (should subsequently call
      *                      sim.hidePopup()).
      * @param {boolean} isModal - Whether to display the semi-transparent black input barrier behind it.
+     * @public
      */
     showPopup: function( node, isModal ) {
       assert && assert( node );
@@ -561,6 +579,7 @@ define( function( require ) {
      * Hides a popup that was previously displayed with showPopup()
      * @param {Node} node
      * @param {boolean} isModal - Whether the previous popup was modal (or not)
+     * @public
      */
     hidePopup: function( node, isModal ) {
       assert && assert( node && this.barrierStack.contains( node ) );
@@ -576,16 +595,21 @@ define( function( require ) {
     /**
      * Returns true if the node is currently on the barrier stack, and thus 'popped up', and false if not.
      * @param node
+     * @public
      */
     isPoppedUp: function( node ) {
       assert && assert( node );
       return this.barrierStack.contains( node );
     },
 
+    /**
+     * @public (joist-internal)
+     */
     resizeToWindow: function() {
       this.resize( window.innerWidth, window.innerHeight );
     },
 
+    // @public (joist-internal)
     resize: function( width, height ) {
       var sim = this;
 
@@ -631,6 +655,7 @@ define( function( require ) {
       this.trigger( 'resized', this.bounds, this.screenBounds, this.scale );
     },
 
+    // @public (joist-internal)
     start: function() {
 
       // Make sure requestAnimationFrame is defined
@@ -659,6 +684,7 @@ define( function( require ) {
 
     // Destroy a sim so that it will no longer consume any resources. Formerly used in Smorgasbord.  May not be used by
     // anything else at the moment.
+    // @public (joist-internal)
     destroy: function() {
       this.destroyed = true;
       var simDiv = this.display.domElement;
@@ -670,7 +696,7 @@ define( function( require ) {
       this.boundRunAnimationLoop = function() {};
     },
 
-    // Bound to this.boundRunAnimationLoop so it can be run in window.requestAnimationFrame
+    // @private - Bound to this.boundRunAnimationLoop so it can be run in window.requestAnimationFrame
     runAnimationLoop: function() {
 
       if ( !this.destroyed ) {
@@ -690,6 +716,7 @@ define( function( require ) {
     /**
      * Update the simulation model, view, scenery display with an elapsed time of dt.
      * @param {number} dt in seconds
+     * @private, though used by together
      */
     stepSimulation: function( dt ) {
 
