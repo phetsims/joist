@@ -416,7 +416,7 @@ define( function( require ) {
     content.left = X_MARGIN;
     content.top = Y_MARGIN;
 
-    // accessibility
+    // @public (accessibility)
     this.accessibleContent = {
       createPeer: function( accessibleInstance ) {
         /*
@@ -445,7 +445,12 @@ define( function( require ) {
 
   inherit( Node, PhetMenu, {
 
+    /**
+     * Close the menu from a keystroke
+     * @public (accessibility)
+     */
     exitMenu: function() {
+
       // all screen view elements are injected back into the navigation order.
       var screenViewElements = document.getElementsByClassName( 'screenView' );
       _.each( screenViewElements, function( element ) {
@@ -458,12 +463,15 @@ define( function( require ) {
       // hide the menu
       this.hide();
     },
+
+    // @public
     show: function() {
       if ( !window.phet.joist.sim.isPoppedUp( this ) ) {
         window.phet.joist.sim.showPopup( this, true );
       }
     },
 
+    // @public
     hide: function() {
       if ( window.phet.joist.sim.isPoppedUp( this ) ) {
         this.dispose();
@@ -471,6 +479,7 @@ define( function( require ) {
       }
     },
 
+    // @public (joist)
     dispose: function() {
       _.each( this.items, function( item ) {
         item.dispose();

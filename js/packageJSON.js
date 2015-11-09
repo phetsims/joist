@@ -2,6 +2,8 @@
 
 /**
  * Make the package.json contents available to the simulation, so it can access the version, sim name, etc.
+ *
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';

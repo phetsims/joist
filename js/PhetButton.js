@@ -128,16 +128,14 @@ define( function( require ) {
       } );
   }
 
-  inherit( JoistButton, PhetButton, {},
-
-    //statics
-    {
-      //How much space between the PhetButton and the right side of the screen.
+  inherit( JoistButton, PhetButton, {}, {
+      // @public - How much space between the PhetButton and the right side of the screen.
       HORIZONTAL_INSET: 5,
 
-      //How much space between the PhetButton and the bottom of the screen
+      // @ public - How much space between the PhetButton and the bottom of the screen
       VERTICAL_INSET: 0
-    } );
+    }
+  );
 
   /**
    * An accessible peer for creating a check box element in the Parallel DOM.
@@ -146,6 +144,7 @@ define( function( require ) {
    * @param {AccessibleInstance} accessibleInstance
    * @param {function} listener - listener function fired by this checkbox
    * @param {string} buttonDescription - invisible string description provided to accessible technologies
+   * @public (accessibility)
    */
   function PhetButtonAccessiblePeer( accessibleInstance, listener, buttonDescription ) {
     this.initialize( accessibleInstance, listener, buttonDescription );
@@ -159,6 +158,7 @@ define( function( require ) {
      * @param {AccessibleInstance} accessibleInstance
      * @param {function} listener - listener function fired by this checkbox
      * @param {string} buttonDescription - invisible string description provided to accessible technologies
+     * @public (accessibility)
      */
     initialize: function( accessibleInstance, listener, buttonDescription ) {
       // will look like <input id="phetButtonId" value="Phet Button" type="button">
@@ -183,14 +183,12 @@ define( function( require ) {
 
         // set focus to the first element item.
         document.getElementsByClassName( 'phetMenuItem' )[ 0 ].focus();
-
       } );
     },
 
-
-
     /**
      * Dispose function for the accessible check box.
+     * @public (accessibility)
      */
     dispose: function() {
       // TODO

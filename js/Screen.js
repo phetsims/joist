@@ -56,48 +56,51 @@ define( function( require ) {
     }
 
     PropertySet.call( this, {
-      backgroundColor: backgroundColor
+      backgroundColor: backgroundColor // @public
     } );
 
-    this.name = name;
-    this.homeScreenIcon = homeScreenIcon;
-    this.navigationBarIcon = options.navigationBarIcon;
-    this.createModel = createModel; // @private
-    this.createView = createView; // @private
+    this.name = name;                                   // @public
+    this.homeScreenIcon = homeScreenIcon;               // @public
+    this.navigationBarIcon = options.navigationBarIcon; // @public
+    this.createModel = createModel;                     // @private
+    this.createView = createView;                       // @private
 
     // Construction of the model and view are delayed and controlled to enable features like
     // a) faster loading when only loading certain screens
     // b) showing a loading progress bar <not implemented>
     this._model = null; // @private
-    this._view = null; // @private
+    this._view = null;  // @private
   }
-
-  Screen.HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 );
-  Screen.NAVBAR_ICON_SIZE = new Dimension2( 147, 100 );
 
   return inherit( PropertySet, Screen, {
 
-    // Returns the model (if it has been constructed)
+    // @public - Returns the model (if it has been constructed)
     get model() {
       assert && assert( this._model, 'Model has not yet been constructed' );
       return this._model;
     },
 
-    // Returns the view (if it has been constructed)
+    // @public - Returns the view (if it has been constructed)
     get view() {
       assert && assert( this._view, 'View has not yet been constructed' );
       return this._view;
     },
 
-    // Initialize the model.  Clients should use either this or initializeModelAndView
-    // Clients may want to use this method to gain more control over the creation process
+    /**
+     * Initialize the model.  Clients should use either this or initializeModelAndView
+     * Clients may want to use this method to gain more control over the creation process
+     * @public (joist)
+     */
     initializeModel: function() {
       assert && assert( this._model === null, 'there was already a model' );
       this._model = this.createModel();
     },
 
-    // Initialize the view.  Clients should use either this or initializeModelAndView
-    // Clients may want to use this method to gain more control over the creation process
+    /**
+     * Initialize the view.  Clients should use either this or initializeModelAndView
+     * Clients may want to use this method to gain more control over the creation process
+     * @public (joist)
+     */
     initializeView: function() {
       assert && assert( this._view === null, 'there was already a view' );
       this._view = this.createView( this.model );
@@ -113,5 +116,12 @@ define( function( require ) {
       this.initializeModel();
       this.initializeView();
     }
+  }, {
+
+    // @public
+    HOME_SCREEN_ICON_SIZE: new Dimension2( 548, 373 ),
+
+    // @public
+    NAVBAR_ICON_SIZE: new Dimension2( 147, 100 )
   } );
 } );

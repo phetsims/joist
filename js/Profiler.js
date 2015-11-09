@@ -26,10 +26,10 @@ define( function( require ) {
     // These data structured were chosen to minimize CPU time.
     // TODO: Now that profiler is buried under a query parameter, we could use more sensible/flexible data structures
     // here.
-    this.histogram = [];
-    this.longTimes = [];
-    this.allTimes = [];
-    this.frameCount = 0;
+    this.histogram = []; // @private
+    this.longTimes = []; // @private
+    this.allTimes = [];  // @private
+    this.frameCount = 0; // @private
     for ( var i = 0; i < 30; i++ ) {
       this.histogram.push( 0 );
     }
@@ -37,10 +37,14 @@ define( function( require ) {
   }
 
   return inherit( Object, Profiler, {
+
+    // @private
     frameStarted: function() {
       this.frameStartTime = Date.now();
       this.frameCount++;
     },
+
+    // @private
     frameEnded: function() {
 
       var timeBetweenFrames = this.frameStartTime - this.lastFrameStartTime;
@@ -77,6 +81,8 @@ define( function( require ) {
       this.lastFrameStartTime = this.frameStartTime;
     }
   }, {
+
+    // @public
     start: function( sim ) {
       var profiler = new Profiler();
       sim.on( 'frameStarted', function() {

@@ -17,11 +17,12 @@ define( function( require ) {
    * @constructor
    */
   function PlaybackSim( sim, dataLog ) {
-    this.playbackStartTime = 0;
-    this.playbackIndex = 0;
-    this.playbackFrameCount = 0;
-    this.sim = sim;
-    this.dataLog = dataLog;
+
+    this.playbackStartTime = 0;  // @private
+    this.playbackIndex = 0;      // @private
+    this.playbackFrameCount = 0; // @private
+    this.sim = sim;              // @private
+    this.dataLog = dataLog;      // @private
   }
 
   return inherit( Object, PlaybackSim, {
