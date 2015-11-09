@@ -75,18 +75,19 @@ define( function( require ) {
       }
     }
 
+    // @private
     this.screens = screens;
 
     Node.call( this );
 
-    // The bar's background (resized in layout)
+    // @private - The bar's background (resized in layout)
     this.background = new Rectangle( 0, 0, NAVIGATION_BAR_SIZE.width, NAVIGATION_BAR_SIZE.height, {
       pickable: true
     } );
     sim.lookAndFeel.navigationBarFillProperty.linkAttribute( this.background, 'fill' );
     this.addChild( this.background );
 
-    // Everything else besides the background in the navigation bar (used for scaling)
+    // @private - Everything else besides the background in the navigation bar (used for scaling)
     this.barContents = new Node();
     this.addChild( this.barContents );
 
@@ -97,7 +98,7 @@ define( function( require ) {
     sim.lookAndFeel.navigationBarTextFillProperty.linkAttribute( title, 'fill' );
     this.barContents.addChild( title );
 
-    // PhET button
+    // @private - PhET button
     this.phetButton = new PhetButton( sim, sim.lookAndFeel.navigationBarFillProperty, sim.lookAndFeel.navigationBarTextFillProperty, {
       tandem: options.tandem ? options.tandem.createTandem( 'phetButton' ) : null
     } );
@@ -115,7 +116,7 @@ define( function( require ) {
       // Start with the assumption that the title can occupy (at most) this percentage of the bar.
       var maxTitleWidth = Math.min( title.width, 0.25 * HomeScreenView.LAYOUT_BOUNDS.width );
 
-      // Create the home button
+      // @private - Create the home button
       this.homeButton = new HomeButton( NAVIGATION_BAR_SIZE.height, sim.lookAndFeel.navigationBarFillProperty, {
         listener: function() {
           sim.showHomeScreen = true;
@@ -168,7 +169,7 @@ define( function( require ) {
         screenButtons[ i ].centerX = spaceBetweenButtons * ( i - ( screenButtons.length - 1 ) / 2 );
       }
 
-      // Put all screen buttons under a parent, to simplify layout
+      // @private - Put all screen buttons under a parent, to simplify layout
       this.screenButtonsContainer = new Node( {
         children: screenButtons,
         // NOTE: these layout settings are duplicated in layout(), but are necessary due to title's maxWidth requiring layout
@@ -239,6 +240,8 @@ define( function( require ) {
       }
     }
   }, {
+
+    // @public
     NAVIGATION_BAR_SIZE: NAVIGATION_BAR_SIZE
   } );
 } );

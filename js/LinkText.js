@@ -15,11 +15,13 @@ define( function( require ) {
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
 
   function LinkText( text, url, options ) {
+
     // defaults
     options = _.extend( {
       handleEvent: false, // whether the up in the click event should be handled, e.g. to prevent the About dialog closing.
       accessibleContent: {
         createPeer: function( accessibleInstance ) {
+
           /* We want the accessible peer to look like the following in the Parallel DOM.
            *
            * <a href=url tabindex='0' target="_blank">text></a>

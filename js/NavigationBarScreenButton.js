@@ -79,7 +79,7 @@ define( function( require ) {
       return screenIndex === screens.indexOf( screen );
     } );
 
-    // create the button model, needs to be public so that together wrappers can hook up to it if needed
+    // @private - create the button model, needs to be public so that together wrappers can hook up to it if needed
     this.buttonModel = new PushButtonModel( {
       listener: clicked
     } );
@@ -119,21 +119,24 @@ define( function( require ) {
     this.addChild( darkenHighlight );
 
     // manage interaction feedback
-    Property.multilink(
-      [ selectedProperty, this.buttonModel.downProperty, this.buttonModel.overProperty, navigationBarFillProperty ],
-      function update( selected, down, over, navigationBarFill ) {
+    Property.multilink( [
+      selectedProperty,
+      this.buttonModel.downProperty,
+      this.buttonModel.overProperty,
+      navigationBarFillProperty
+    ], function update( selected, down, over, navigationBarFill ) {
 
-        var useDarkenHighlights = ( navigationBarFill !== 'black' );
+      var useDarkenHighlights = ( navigationBarFill !== 'black' );
 
-        // Color match yellow with the PhET Logo
-        var selectedTextColor = useDarkenHighlights ? 'black' : '#f2e916';
-        var unselectedTextColor = useDarkenHighlights ? 'gray' : 'white';
+      // Color match yellow with the PhET Logo
+      var selectedTextColor = useDarkenHighlights ? 'black' : '#f2e916';
+      var unselectedTextColor = useDarkenHighlights ? 'gray' : 'white';
 
-        text.fill = selected ? selectedTextColor : unselectedTextColor;
-        box.opacity = selected ? 1.0 : ( down ? 0.65 : 0.5 );
-        brightenHighlight.visible = !useDarkenHighlights && ( over || down );
-        darkenHighlight.visible = useDarkenHighlights && ( over || down );
-      } );
+      text.fill = selected ? selectedTextColor : unselectedTextColor;
+      box.opacity = selected ? 1.0 : ( down ? 0.65 : 0.5 );
+      brightenHighlight.visible = !useDarkenHighlights && ( over || down );
+      darkenHighlight.visible = useDarkenHighlights && ( over || down );
+    } );
 
     // Constrain text and icon width, if necessary
     if ( options.maxButtonWidth && ( this.width > options.maxButtonWidth ) ) {

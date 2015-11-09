@@ -37,14 +37,17 @@ define( function( require ) {
       tandem: null
     }, options );
 
-    //Rendering in SVG seems to solve the problem that the home screen consumes 100% disk and crashes, see https://github.com/phetsims/joist/issues/17
-    //Also makes it more responsive (and crisper on retina displays)
-    //Renderer must be specified here because the node is added directly to the scene (instead of to some other node that already has svg renderer
+    // Rendering in SVG seems to solve the problem that the home screen consumes 100% disk and crashes, see https://github.com/phetsims/joist/issues/17
+    // Also makes it more responsive (and crisper on retina displays)
+    // Renderer must be specified here because the node is added directly to the scene (instead of to some other node that already has svg renderer
     ScreenView.call( this, { layoutBounds: LAYOUT_BOUNDS } );
 
-    //iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
+    // iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
     var title = new Text( sim.name, {
-      font: new PhetFont( { size: 52, family: TITLE_FONT_FAMILY } ),
+      font: new PhetFont( {
+        size: 52,
+        family: TITLE_FONT_FAMILY
+      } ),
       fill: 'white',
       y: 110
     } );
@@ -192,6 +195,8 @@ define( function( require ) {
     //TODO joist#255 move these fill properties to LookAndFeel, chase down other places that they should be used
     var homeScreenFillProperty = new Property( 'black' );
     var homeScreenTextFillProperty = new Property( 'white' );
+
+    // @private
     this.phetButton = new PhetButton( sim, homeScreenFillProperty, homeScreenTextFillProperty, {
       tandem: options.tandem ? options.tandem.createTandem( 'phetButton' ) : null
     } );
@@ -207,6 +212,8 @@ define( function( require ) {
   }
 
   return inherit( ScreenView, HomeScreenView, {
+
+      // @public (joist)
       layoutWithScale: function( scale, width, height ) {
         HomeScreenView.prototype.layout.call( this, width, height );
 
@@ -228,7 +235,7 @@ define( function( require ) {
       }
     },
 
-    //statics
+    // @public - statics
     {
       TITLE_FONT_FAMILY: TITLE_FONT_FAMILY,
       LAYOUT_BOUNDS: LAYOUT_BOUNDS

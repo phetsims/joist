@@ -1,7 +1,7 @@
 // Copyright 2015, University of Colorado Boulder
 
 /**
- *
+ * Provides colors for Joist elements.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -19,18 +19,19 @@ define( function( require ) {
    */
   function LookAndFeel() {
     PropertySet.call( this, {
+
       //TODO this is poorly named, should be something like currentScreenBackgroundColor
       // The background color for the currently selected screen, which will be set on the Display as its backgroundColor
       backgroundColor: 'black'
     } );
 
-    // Navigation bar background fill
+    // @public (joist) - Navigation bar background fill
     this.addDerivedProperty( 'navigationBarFill', [ 'backgroundColor' ], function( backgroundColor ) {
       var screenIsBlack = !!new Color( backgroundColor ).equals( Color.BLACK );
       return screenIsBlack ? 'white' : 'black';
     } );
 
-    // Navigation bar text fill
+    // @public (joist) - Navigation bar text fill
     this.addDerivedProperty( 'navigationBarTextFill', [ 'navigationBarFill' ], function( navigationBarFill ) {
       return navigationBarFill === 'black' ? 'white' : 'black';
     } );

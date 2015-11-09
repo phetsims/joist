@@ -39,8 +39,8 @@ define( function( require ) {
       tandem: null
     }, options );
 
-    // Button model
-    this.buttonModel = new PushButtonModel( options ); // @private
+    // @private - Button model
+    this.buttonModel = new PushButtonModel( options );
 
     // Create both highlights and only make the one visible that corresponds to the color scheme
     var createHighlight = function( fill ) {
@@ -64,7 +64,8 @@ define( function( require ) {
     // Button interactions
     var interactionStateProperty = new PushButtonInteractionStateProperty( this.buttonModel );
 
-    this.interactionStateProperty = interactionStateProperty;//@protected
+    // @protected
+    this.interactionStateProperty = interactionStateProperty;
 
     // Update the highlights based on whether the button is highlighted and whether it is against a light or dark background.
     Property.multilink( [ interactionStateProperty, navigationBarFillProperty ], function( interactionState, navigationBarFill ) {
