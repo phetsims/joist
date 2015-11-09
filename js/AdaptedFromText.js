@@ -18,9 +18,13 @@ define( function( require ) {
   var adaptedFromString = require( 'string!JOIST/adaptedFrom' );
 
   // constants
-  // TODO: Issue #245 This next line is causing problems.  When using Futura/bold the text looks the same on homescreen vs navbar
-  // TODO: on Chrome.  On Firefox it is very blurry!  Changing font makes it render differently on homescreen vs navbar.
-  var FONT = new PhetFont( { family: 'Arial', size: 10, weight: 'bold' } );
+  // TODO: Issue #245 When using Futura/bold the text looks the same on homescreen vs navbar on Chrome.  On Firefox it
+  // TODO: is very blurry!  Changing font makes it render differently on homescreen vs navbar.
+  var FONT = new PhetFont( {
+    family: 'Arial',
+    size: 10,
+    weight: 'bold'
+  } );
 
   /**
    * @param {Property.<Color|string>} fillProperty

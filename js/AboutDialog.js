@@ -54,10 +54,10 @@ define( function( require ) {
       var outOfDateNode = UpdateNodes.createOutOfDateAboutNode( positionOptions );
       var offlineNode = UpdateNodes.createOfflineNode( positionOptions );
 
-      // Listener that should be called every frame where we are shown, with {number} dt as a single parameter.
+      // @private - Listener that should be called every frame where we are shown, with {number} dt as a single parameter.
       this.updateStepListener = checkingNode.stepListener;
 
-      // Listener that should be called whenever our update state changes (while we are displayed)
+      // @private - Listener that should be called whenever our update state changes (while we are displayed)
       this.updateVisibilityListener = function( state ) {
         checkingNode.visible = state === 'checking';
         upToDateNode.visible = state === 'up-to-date';
@@ -76,6 +76,8 @@ define( function( require ) {
     }
 
     children.push( new VStrut( 15 ) );
+
+    // Show the brand name, if it exists
     if ( Brand.name ) {
       children.push( new SubSupText( Brand.name, {
         font: new PhetFont( 16 ),
@@ -83,6 +85,8 @@ define( function( require ) {
         supYOffset: 2
       } ) );
     }
+
+    // Show the brand copyright statement, if it exists
     if ( Brand.copyright ) {
       children.push( new Text( Brand.copyright, { font: new PhetFont( 12 ) } ) );
     }
@@ -93,6 +97,7 @@ define( function( require ) {
       children.push( new CreditsNode( credits ) );
     }
 
+    // Show any links identified in the brand
     var links = Brand.getLinks( packageJSON.name, locale );
     if ( links && links.length > 0 ) {
       children.push( new VStrut( 15 ) );
@@ -102,7 +107,11 @@ define( function( require ) {
       }
     }
 
-    var content = new VBox( { align: 'left', spacing: 5, children: children } );
+    var content = new VBox( {
+      align: 'left',
+      spacing: 5,
+      children: children
+    } );
 
     Dialog.call( this, content, {
       modal: true,
@@ -136,6 +145,11 @@ define( function( require ) {
   }
 
   return inherit( Dialog, AboutDialog, {
+
+    /**
+     * Show the dialog
+     * @public
+     */
     show: function() {
       if ( UpdateCheck.areUpdatesChecked ) {
         UpdateCheck.resetTimeout();
@@ -155,6 +169,10 @@ define( function( require ) {
       Dialog.prototype.show.call( this );
     },
 
+    /**
+     * Hide the dialog
+     * @public
+     */
     hide: function() {
       Dialog.prototype.hide.call( this );
 

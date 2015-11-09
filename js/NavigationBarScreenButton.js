@@ -3,7 +3,7 @@
 /**
  * Button for a single screen in the navigation bar, shows the text and the navigation bar icon.
  *
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  * @author Chris Malley (PixelZoom, Inc.)
  */

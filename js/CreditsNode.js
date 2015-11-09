@@ -2,6 +2,10 @@
 
 /**
  * Displays the credits section in the About dialog
+ *
+ * @author Sam Reid (PhET Interactive Simulations)
+ * @author Chris Malley (PixelZoom, Inc.)
+ * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 define( function( require ) {
   'use strict';
@@ -39,11 +43,21 @@ define( function( require ) {
 
     // Credits
     children.push( new Text( creditsTitleString, { font: titleFont } ) );
-    if ( credits.leadDesign ) { children.push( new MultiLineText( StringUtils.format( creditsLeadDesignString, credits.leadDesign ), multiLineTextOptions ) ); }
-    if ( credits.softwareDevelopment ) { children.push( new MultiLineText( StringUtils.format( creditsSoftwareDevelopmentString, credits.softwareDevelopment ), multiLineTextOptions ) ); }
-    if ( credits.team ) { children.push( new MultiLineText( StringUtils.format( creditsTeamString, credits.team ), multiLineTextOptions ) ); }
-    if ( credits.qualityAssurance ) { children.push( new MultiLineText( StringUtils.format( creditsQualityAssuranceString, credits.qualityAssurance ), multiLineTextOptions ) ); }
-    if ( credits.graphicArts ) { children.push( new MultiLineText( StringUtils.format( creditsGraphicArtsString, credits.graphicArts ), multiLineTextOptions ) ); }
+    if ( credits.leadDesign ) {
+      children.push( new MultiLineText( StringUtils.format( creditsLeadDesignString, credits.leadDesign ), multiLineTextOptions ) );
+    }
+    if ( credits.softwareDevelopment ) {
+      children.push( new MultiLineText( StringUtils.format( creditsSoftwareDevelopmentString, credits.softwareDevelopment ), multiLineTextOptions ) );
+    }
+    if ( credits.team ) {
+      children.push( new MultiLineText( StringUtils.format( creditsTeamString, credits.team ), multiLineTextOptions ) );
+    }
+    if ( credits.qualityAssurance ) {
+      children.push( new MultiLineText( StringUtils.format( creditsQualityAssuranceString, credits.qualityAssurance ), multiLineTextOptions ) );
+    }
+    if ( credits.graphicArts ) {
+      children.push( new MultiLineText( StringUtils.format( creditsGraphicArtsString, credits.graphicArts ), multiLineTextOptions ) );
+    }
 
     //TODO see joist#163, translation credit should be obtained from string files
     // Translation
@@ -60,7 +74,11 @@ define( function( require ) {
       children.push( new MultiLineText( credits.thanks, multiLineTextOptions ) );
     }
 
-    VBox.call( this, _.extend( { align: 'left', spacing: 1, children: children }, options ) );
+    VBox.call( this, _.extend( {
+      align: 'left',
+      spacing: 1,
+      children: children
+    }, options ) );
   }
 
   return inherit( VBox, CreditsNode );
