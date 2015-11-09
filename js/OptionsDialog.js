@@ -30,10 +30,8 @@ define( function( require ) {
     } );
   }
 
-  inherit( Dialog, OptionsDialog );
-
-  OptionsDialog.DEFAULT_FONT = new PhetFont( 15 );
-  OptionsDialog.DEFAULT_SPACING = 10;
-
-  return OptionsDialog;
+  return inherit( Dialog, OptionsDialog, {}, {
+    DEFAULT_FONT: new PhetFont( 15 ),
+    DEFAULT_SPACING: 10
+  } );
 } );
