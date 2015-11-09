@@ -8,7 +8,7 @@
  * This class may centralize default behavior or state for Screens in the future, but right now it only allows you to create
  * Sims without using named parameter object literals.
  *
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';

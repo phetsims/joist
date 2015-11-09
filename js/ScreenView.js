@@ -5,7 +5,7 @@
  * Specifies the layout strategy.
  * TODO: should extend this to be compatible with the Sim.js framework.
  *
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';

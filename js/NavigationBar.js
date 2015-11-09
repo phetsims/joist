@@ -17,7 +17,7 @@
  * available to the bar expands, so we lay out the children to fit. See https://github.com/phetsims/joist/issues/283
  * for more details on how this is done.
  *
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */

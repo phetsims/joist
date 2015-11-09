@@ -3,7 +3,7 @@
 /**
  * Base class for Joist buttons such as the "home" button and "PhET" button that show custom highlighting on mouseover.
  *
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';

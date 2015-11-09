@@ -3,7 +3,7 @@
 /**
  * Decorative frame around the selected node
  *
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';

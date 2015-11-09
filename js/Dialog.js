@@ -4,7 +4,7 @@
  * General dialog type
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';

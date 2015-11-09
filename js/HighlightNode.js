@@ -3,7 +3,7 @@
 /**
  * Highlight node for navigation bar screen buttons, phet button, etc.
  *
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {

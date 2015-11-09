@@ -4,7 +4,7 @@
  * Timer so that other modules can run timing related code through the simulation's requestAnimationFrame.
  * Note: this is not specific to the running screen, it is global across all screens.
  *
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';

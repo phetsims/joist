@@ -5,7 +5,7 @@
  * Note: Not all dependencies should be put here, or this file will have too many require statements.  At some point, we will probably have to allow
  * sims to declare some of their own components for replacer/reviver.
  *
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';

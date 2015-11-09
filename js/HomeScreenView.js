@@ -3,7 +3,7 @@
 /**
  * Shows the home screen for a multi-screen simulation, which lets the user see all of the screens and select one.
  *
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';

@@ -3,7 +3,7 @@
 /**
  * The Home button that appears in the navigation bar.
  *
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';

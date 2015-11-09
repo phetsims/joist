@@ -30,14 +30,18 @@ define( function( require ) {
   }
 
   var FullScreen = {
+
+    // @public (joist)
     isFullScreen: function() {
       return !!document[ fullscreenElementPropertyName ];
     },
 
+    // @public (joist)
     isFullScreenEnabled: function() {
       return document[ fullscreenEnabledPropertyName ] && !platform.safari7;
     },
 
+    // @public (joist)
     enterFullScreen: function( sim ) {
       if ( !platform.ie9 && !platform.ie10 ) {
         sim.display.domElement[ requestFullscreenPropertyName ] && sim.display.domElement[ requestFullscreenPropertyName ]();
@@ -50,10 +54,12 @@ define( function( require ) {
       }
     },
 
+    // @public (joist)
     exitFullScreen: function() {
       document[ exitFullscreenPropertyName ] && document[ exitFullscreenPropertyName ]();
     },
 
+    // @public (joist)
     toggleFullScreen: function( sim ) {
       if ( FullScreen.isFullScreen() ) {
         FullScreen.exitFullScreen();

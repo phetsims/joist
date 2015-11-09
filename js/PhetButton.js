@@ -4,7 +4,7 @@
  * The button that pops up the PhET menu, which appears in the bottom right of the home screen and on the right side
  * of the navbar.
  *
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';
