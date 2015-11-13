@@ -27,6 +27,7 @@ define( function( require ) {
   var platform = require( 'PHET_CORE/platform' );
   var Timer = require( 'JOIST/Timer' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var TransformTracker = require( 'SCENERY/util/TransformTracker' );
   var Profiler = require( 'JOIST/Profiler' );
   var Input = require( 'SCENERY/input/Input' );
   var LookAndFeel = require( 'JOIST/LookAndFeel' );
@@ -433,6 +434,13 @@ define( function( require ) {
         sim.rootNode.addChild( screen.view );
       } );
       this.rootNode.addChild( this.navigationBar );
+
+      if ( this.homeScreen ) {
+        // Once both the navbar and homescreen have been added, link the PhET button positions together.
+        // See https://github.com/phetsims/joist/issues/304.
+        this.linkPhetButtonTransform();
+      }
+
       this.multilink( [ 'screenIndex', 'showHomeScreen' ], function( screenIndex, showHomeScreen ) {
         if ( sim.homeScreen ) {
           sim.homeScreen.view.setVisible( showHomeScreen );
@@ -603,6 +611,35 @@ define( function( require ) {
     },
 
     /**
+     * Ensures that the home-screen's phet button will have the same global transform as the navbar's phet button.
+     * Listens to both sides (the navbar button, and the home-screen's button's parent) so that when either changes,
+     * the transforms are synchronized by changing the home-screen's button position.
+     * See https://github.com/phetsims/joist/issues/304.
+     * @private
+     */
+    linkPhetButtonTransform: function() {
+      var homeScreenButton = this.homeScreen.view.phetButton;
+
+      var navBarButtonTracker = new TransformTracker( this.navigationBar.phetButton.getUniqueTrailTo( this.rootNode ), {
+        isStatic: true // our listener won't change any listeners - TODO: replace with emitter?
+      } );
+      var homeScreenTracker = new TransformTracker( homeScreenButton.getParent().getUniqueTrailTo( this.rootNode ), {
+        isStatic: true // our listener won't change any listeners - TODO: replace with emitter?
+      } );
+      function transformPhetButton() {
+        // Ensure transform equality: navBarButton(global) = homeScreen(global) * homeScreenButton(self)
+        homeScreenButton.matrix = homeScreenTracker.matrix.inverted().timesMatrix( navBarButtonTracker.matrix );
+      }
+
+      // hook up listeners
+      navBarButtonTracker.addListener( transformPhetButton );
+      homeScreenTracker.addListener( transformPhetButton );
+
+      // synchronize immediately, in case there are no more transform changes before display
+      transformPhetButton();
+    },
+
+    /**
      * @public (joist-internal)
      */
     resizeToWindow: function() {
@@ -634,7 +671,7 @@ define( function( require ) {
       // Resize the layer with all of the dialogs, etc.
       sim.topLayer.setScaleMagnitude( scale );
 
-      sim.homeScreen && sim.homeScreen.view.layoutWithScale( scale, width, height );
+      sim.homeScreen && sim.homeScreen.view.layout( width, height );
 
       // Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
 

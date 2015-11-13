@@ -91,7 +91,7 @@ define( function( require ) {
       } );
 
       // Even though in the user interface, the small and large buttons seem like a single UI component
-      // that has grown larger, it would be quite a headache to create a composite button for the purposes of 
+      // that has grown larger, it would be quite a headache to create a composite button for the purposes of
       // tandem, so instead the large and small buttons are registered as separate instances.  See https://github.com/phetsims/together/issues/99
       options.tandem && options.tandem.createTandem( screen.tandemScreenName + 'LargeButton' ).addInstance( largeScreenButton );
 
@@ -196,7 +196,8 @@ define( function( require ) {
     var homeScreenFillProperty = new Property( 'black' );
     var homeScreenTextFillProperty = new Property( 'white' );
 
-    // @private
+    // @public (joist-internal) - This PhET button is public since our creator (Sim.js) is responsible for positioning
+    // this button. See https://github.com/phetsims/joist/issues/304.
     this.phetButton = new PhetButton( sim, homeScreenFillProperty, homeScreenTextFillProperty, {
       tandem: options.tandem ? options.tandem.createTandem( 'phetButton' ) : null
     } );
@@ -211,30 +212,7 @@ define( function( require ) {
     }
   }
 
-  return inherit( ScreenView, HomeScreenView, {
-
-      // @public (joist-internal)
-      layoutWithScale: function( scale, width, height ) {
-        HomeScreenView.prototype.layout.call( this, width, height );
-
-        //Position the phetButton.
-        //It is tricky since it is in the coordinate frame of the HomeScreenView (which is a ScreenView, and hence translated and scaled)
-        //We want to match its location with the location in the NavigationBar
-        this.phetButton.right = (width - PhetButton.HORIZONTAL_INSET) / scale;
-        this.phetButton.bottom = (height - PhetButton.VERTICAL_INSET) / scale;
-
-        //Undo the vertical centering done in ScreenView so the button can be positioned globally
-        if ( scale === width / this.layoutBounds.width ) {
-          this.phetButton.translate( 0, -(height - this.layoutBounds.height * scale) / 2 / scale );
-        }
-
-        //Undo the horizontal centering done in ScreenView so the button can be positioned globally
-        else if ( scale === height / this.layoutBounds.height ) {
-          this.phetButton.translate( -(width - this.layoutBounds.width * scale) / 2 / scale, 0 );
-        }
-      }
-    },
-
+  return inherit( ScreenView, HomeScreenView, {},
     // @public - statics
     {
       TITLE_FONT_FAMILY: TITLE_FONT_FAMILY,

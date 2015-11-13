@@ -98,7 +98,8 @@ define( function( require ) {
     sim.lookAndFeel.navigationBarTextFillProperty.linkAttribute( title, 'fill' );
     this.barContents.addChild( title );
 
-    // @private - PhET button
+    // @public (joist-internal) - PhET button. The transform of this is tracked, so we can mirror it over to the
+    // homescreen's button. See https://github.com/phetsims/joist/issues/304.
     this.phetButton = new PhetButton( sim, sim.lookAndFeel.navigationBarFillProperty, sim.lookAndFeel.navigationBarTextFillProperty, {
       tandem: options.tandem ? options.tandem.createTandem( 'phetButton' ) : null
     } );
