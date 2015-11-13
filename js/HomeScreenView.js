@@ -98,7 +98,7 @@ define( function( require ) {
             var domElement = document.createElement( 'input' );
             domElement.setAttribute( 'type', 'button' );
             domElement.setAttribute( 'value', screen.name );
-            domElement.tabIndex = "0";
+            domElement.tabIndex = '0';
 
             domElement.addEventListener( 'click', function() {
               // TODO: identical to identical to 'down' event for largeScreenButton input listener
@@ -164,7 +164,7 @@ define( function( require ) {
             // However, this is trivial: on accessible focus, the small button will immediately become a 'large' button
             var domElement = document.createElement( 'input' );
             domElement.setAttribute( 'value', screen.name );
-            domElement.tabIndex = "0";
+            domElement.tabIndex = '0';
 
             // when the small button receives accessible focus, the thumbnail should grow
             domElement.addEventListener( 'focus', function() {
