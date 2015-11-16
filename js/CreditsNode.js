@@ -44,19 +44,19 @@ define( function( require ) {
     // Credits
     children.push( new Text( creditsTitleString, { font: titleFont } ) );
     if ( credits.leadDesign ) {
-      children.push( new MultiLineText( StringUtils.format( creditsLeadDesignString, credits.leadDesign ), multiLineTextOptions ) );
+      children.push( new MultiLineText( StringUtils.format( creditsLeadDesignString, '\u202a' + credits.leadDesign + '\u202c' ), multiLineTextOptions ) );
     }
     if ( credits.softwareDevelopment ) {
-      children.push( new MultiLineText( StringUtils.format( creditsSoftwareDevelopmentString, credits.softwareDevelopment ), multiLineTextOptions ) );
+      children.push( new MultiLineText( StringUtils.format( creditsSoftwareDevelopmentString, '\u202a' + credits.softwareDevelopment + '\u202c' ), multiLineTextOptions ) );
     }
     if ( credits.team ) {
-      children.push( new MultiLineText( StringUtils.format( creditsTeamString, credits.team ), multiLineTextOptions ) );
+      children.push( new MultiLineText( StringUtils.format( creditsTeamString, '\u202a' + credits.team + '\u202c' ), multiLineTextOptions ) );
     }
     if ( credits.qualityAssurance ) {
-      children.push( new MultiLineText( StringUtils.format( creditsQualityAssuranceString, credits.qualityAssurance ), multiLineTextOptions ) );
+      children.push( new MultiLineText( StringUtils.format( creditsQualityAssuranceString, '\u202a' + credits.qualityAssurance + '\u202c' ), multiLineTextOptions ) );
     }
     if ( credits.graphicArts ) {
-      children.push( new MultiLineText( StringUtils.format( creditsGraphicArtsString, credits.graphicArts ), multiLineTextOptions ) );
+      children.push( new MultiLineText( StringUtils.format( creditsGraphicArtsString, '\u202a' + credits.graphicArts + '\u202c' ), multiLineTextOptions ) );
     }
 
     //TODO see joist#163, translation credit should be obtained from string files
