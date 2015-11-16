@@ -142,6 +142,10 @@ define( function( require ) {
        * the transforms are synchronized by changing the home-screen's button position.
        * See https://github.com/phetsims/joist/issues/304.
        * @public (joist-internal)
+       *
+       * @param {HomeScreenView} homeScreen - The home screen view, where we will position the phet button.
+       * @param {NavigationBar} navigationBar - The main navigation bar
+       * @param {Node} rootNode - The root of the Display's node tree
        */
       linkPhetButtonTransform: function( homeScreen, navigationBar, rootNode ) {
         var homeScreenButton = homeScreen.view.phetButton;
