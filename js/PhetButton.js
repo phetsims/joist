@@ -21,10 +21,11 @@ define( function( require ) {
   var JoistButton = require( 'JOIST/JoistButton' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  var TransformTracker = require( 'SCENERY/util/TransformTracker' );
 
   // images
   // The logo images are loaded from the brand which is selected via query parameter (during requirejs mode)
-  // or a grunt option (during the build), please see initialize-globals.js window.phet.chipper.brand for more 
+  // or a grunt option (during the build), please see initialize-globals.js window.phet.chipper.brand for more
   // details
   var brightLogoMipmap = require( 'mipmap!BRAND/logo.png' ); // on a black navbar
   var darkLogoMipmap = require( 'mipmap!BRAND/logo-on-white.png' ); // on a white navbar
@@ -133,7 +134,36 @@ define( function( require ) {
       HORIZONTAL_INSET: 5,
 
       // @ public - How much space between the PhetButton and the bottom of the screen
-      VERTICAL_INSET: 0
+      VERTICAL_INSET: 0,
+
+      /**
+       * Ensures that the home-screen's phet button will have the same global transform as the navbar's phet button.
+       * Listens to both sides (the navbar button, and the home-screen's button's parent) so that when either changes,
+       * the transforms are synchronized by changing the home-screen's button position.
+       * See https://github.com/phetsims/joist/issues/304.
+       * @public (joist-internal)
+       */
+      linkPhetButtonTransform: function( homeScreen, navigationBar, rootNode ) {
+        var homeScreenButton = homeScreen.view.phetButton;
+
+        var navBarButtonTracker = new TransformTracker( navigationBar.phetButton.getUniqueTrailTo( rootNode ), {
+          isStatic: true // our listener won't change any listeners - TODO: replace with emitter?
+        } );
+        var homeScreenTracker = new TransformTracker( homeScreenButton.getParent().getUniqueTrailTo( rootNode ), {
+          isStatic: true // our listener won't change any listeners - TODO: replace with emitter?
+        } );
+        function transformPhetButton() {
+          // Ensure transform equality: navBarButton(global) = homeScreen(global) * homeScreenButton(self)
+          homeScreenButton.matrix = homeScreenTracker.matrix.inverted().timesMatrix( navBarButtonTracker.matrix );
+        }
+
+        // hook up listeners
+        navBarButtonTracker.addListener( transformPhetButton );
+        homeScreenTracker.addListener( transformPhetButton );
+
+        // synchronize immediately, in case there are no more transform changes before display
+        transformPhetButton();
+      }
     }
   );
 

@@ -27,7 +27,6 @@ define( function( require ) {
   var platform = require( 'PHET_CORE/platform' );
   var Timer = require( 'JOIST/Timer' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var TransformTracker = require( 'SCENERY/util/TransformTracker' );
   var Profiler = require( 'JOIST/Profiler' );
   var Input = require( 'SCENERY/input/Input' );
   var LookAndFeel = require( 'JOIST/LookAndFeel' );
@@ -35,6 +34,7 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var packageJSON = require( 'JOIST/packageJSON' );
   var PlaybackSim = require( 'JOIST/PlaybackSim' );
+  var PhetButton = require( 'JOIST/PhetButton' );
 
   // strings
   var titlePatternString = require( 'string!JOIST/titlePattern' );
@@ -438,7 +438,7 @@ define( function( require ) {
       if ( this.homeScreen ) {
         // Once both the navbar and homescreen have been added, link the PhET button positions together.
         // See https://github.com/phetsims/joist/issues/304.
-        this.linkPhetButtonTransform();
+        PhetButton.linkPhetButtonTransform( this.homeScreen, this.navigationBar, this.rootNode );
       }
 
       this.multilink( [ 'screenIndex', 'showHomeScreen' ], function( screenIndex, showHomeScreen ) {
@@ -608,35 +608,6 @@ define( function( require ) {
     isPoppedUp: function( node ) {
       assert && assert( node );
       return this.barrierStack.contains( node );
-    },
-
-    /**
-     * Ensures that the home-screen's phet button will have the same global transform as the navbar's phet button.
-     * Listens to both sides (the navbar button, and the home-screen's button's parent) so that when either changes,
-     * the transforms are synchronized by changing the home-screen's button position.
-     * See https://github.com/phetsims/joist/issues/304.
-     * @private
-     */
-    linkPhetButtonTransform: function() {
-      var homeScreenButton = this.homeScreen.view.phetButton;
-
-      var navBarButtonTracker = new TransformTracker( this.navigationBar.phetButton.getUniqueTrailTo( this.rootNode ), {
-        isStatic: true // our listener won't change any listeners - TODO: replace with emitter?
-      } );
-      var homeScreenTracker = new TransformTracker( homeScreenButton.getParent().getUniqueTrailTo( this.rootNode ), {
-        isStatic: true // our listener won't change any listeners - TODO: replace with emitter?
-      } );
-      function transformPhetButton() {
-        // Ensure transform equality: navBarButton(global) = homeScreen(global) * homeScreenButton(self)
-        homeScreenButton.matrix = homeScreenTracker.matrix.inverted().timesMatrix( navBarButtonTracker.matrix );
-      }
-
-      // hook up listeners
-      navBarButtonTracker.addListener( transformPhetButton );
-      homeScreenTracker.addListener( transformPhetButton );
-
-      // synchronize immediately, in case there are no more transform changes before display
-      transformPhetButton();
     },
 
     /**
