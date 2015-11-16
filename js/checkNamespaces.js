@@ -1,10 +1,11 @@
 // Copyright 2015, University of Colorado Boulder
 
 /**
- * Creates global references (on the phet object) to all normal modules loaded through require.js. For example, if the
- * sim uses SCENERY_PHET/buttons/ArrowButton, calling process() will create phet.sceneryPhet.ArrowButton.
+ * Checks global references (on the phet object) to verify all modules loaded through require.js that match the usual
+ * pattern that would be namespaced. For example, if the sim uses SCENERY_PHET/buttons/ArrowButton, calling this
+ * will check (with assertions) for the presence of phet.sceneryPhet.ArrowButton.
  *
- * Currently, this is mainly used as a debugging aid, so that it's possible to access modules easily from the console.
+ * See https://github.com/phetsims/tasks/issues/378
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
@@ -12,6 +13,11 @@ define( function() {
   'use strict';
 
   return function() {
+    // Skip everything if we don't have assertions on, since that's the point of this function.
+    if ( !assert ) {
+      return;
+    }
+
     // Get a reference to the defined modules. There doesn't seem to be a common way to access this internal
     // information yet in the optimizer (with almond) and with require.js, so we have a fall-back set up.
     var defined = window.requirejs._defined || window.require.s.contexts._.defined;
@@ -37,19 +43,20 @@ define( function() {
 
       // Convert to camel-case, e.g. 'SCENERY_PHET' to 'sceneryPhet'
       var prefixTokens = prefix.toLowerCase().split( '_' );
-      var mappedPrefix = [ prefixTokens[ 0 ] ].concat( prefixTokens.slice( 1 ).map( function( token ) {
+      var namespace = [ prefixTokens[ 0 ] ].concat( prefixTokens.slice( 1 ).map( function( token ) {
         return token.charAt( 0 ).toUpperCase() + token.slice( 1 );
       } ) ).join( '' );
 
-      // Check to see if the repository's prefix namespace already exists (e.g. phet.sceneryPhet)
-      if ( !phet[ mappedPrefix ] ) {
-        phet[ mappedPrefix ] = {};
+      // Skip things with the same name as the namespace, as this is most likely a namespace object (e.g. scenery.js)
+      if ( namespace === name ) {
+        continue;
       }
 
-      // Only set the value if the namespaced object doesn't already exist.
-      if ( !phet[ mappedPrefix ][ name ] ) {
-        phet[ mappedPrefix ][ name ] = defined[ moduleName ];
-      }
+      var namespacedObject = phet[ namespace ] && phet[ namespace ][ name ];
+
+      assert && assert( !namespacedObject, 'not namespaced: ' + namespace + '.' + name );
+      assert && assert( namespacedObject === defined[ moduleName ],
+        namespace + '.' + name + ' is different than the expected namespaced object' );
     }
   };
 } );

@@ -7,7 +7,7 @@
 define( function( require ) {
   'use strict';
 
-  var setupGlobalNamespaces = require( 'JOIST/setupGlobalNamespaces' );
+  var checkNamespaces = require( 'JOIST/checkNamespaces' );
 
   return {
     /**
@@ -67,8 +67,10 @@ define( function( require ) {
         } );
       } );
 
-      if ( phet.chipper.getQueryParameter( 'namespaces' ) ) {
-        setupGlobalNamespaces();
+      // Only check namespaces if the query parameter is there AND if assertions are enabled (e.g. ?ea).
+      // see https://github.com/phetsims/joist/issues/307.
+      if ( phet.chipper.getQueryParameter( 'checkNamespaces' ) ) {
+        checkNamespaces();
       }
     }
   };
