@@ -54,7 +54,7 @@ define( function() {
 
       var namespacedObject = phet[ namespace ] && phet[ namespace ][ name ];
 
-      assert && assert( !namespacedObject, 'not namespaced: ' + namespace + '.' + name );
+      assert && assert( namespacedObject, 'not namespaced: ' + namespace + '.' + name );
       assert && assert( namespacedObject === defined[ moduleName ],
         namespace + '.' + name + ' is different than the expected namespaced object' );
     }
