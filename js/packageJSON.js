@@ -9,7 +9,14 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var joist = require( 'JOIST/joist' );
+
+  // strings
   var packageString = require( 'text!REPOSITORY/package.json' );
 
-  return JSON.parse( packageString );
+  var packageJSON = JSON.parse( packageString );
+
+  joist.register( 'packageJSON', packageJSON );
+
+  return packageJSON;
 } );

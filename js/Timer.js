@@ -9,11 +9,14 @@
 define( function( require ) {
   'use strict';
 
+  // modules
   var cleanArray = require( 'PHET_CORE/cleanArray' );
+  var joist = require( 'JOIST/joist' );
 
   var listeners = [];
   var listenersDefensiveCopy = []; // separated out to prevent garbage collection issues
-  return {
+
+  var Timer = {
 
     // @public (joist-internal) - Trigger a step event, called by Sim.js in the animation loop
     step: function( dt ) {
@@ -101,4 +104,8 @@ define( function( require ) {
       return listeners.indexOf( listener ) >= 0;
     }
   };
+
+  joist.register( 'Timer', Timer );
+
+  return Timer;
 } );

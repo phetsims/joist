@@ -16,7 +16,9 @@ define( function( require ) {
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var joist = require( 'JOIST/joist' );
 
+  // strings
   var homeButtonNameString = require( 'string!JOIST/HomeButton.name' );
 
   /**
@@ -71,6 +73,8 @@ define( function( require ) {
       }
     } );
   }
+
+  joist.register( 'HomeButton', HomeButton );
 
   return inherit( JoistButton, HomeButton );
 } );

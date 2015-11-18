@@ -8,12 +8,14 @@
 define( function( require ) {
   'use strict';
 
+  // modules
   var Node = require( 'SCENERY/nodes/Node' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var inherit = require( 'PHET_CORE/inherit' );
   var platform = require( 'PHET_CORE/platform' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Events = require( 'AXON/Events' );
+  var joist = require( 'JOIST/joist' );
 
   /*
    * Default width and height for iPad2, iPad3, iPad4 running Safari with default tabs and decorations
@@ -45,6 +47,8 @@ define( function( require ) {
     // @public - event channel for notifications
     this.events = new Events();
   }
+
+  joist.register( 'ScreenView', ScreenView );
 
   inherit( Node, ScreenView, {
 

@@ -12,6 +12,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var CanvasContextWrapper = require( 'SCENERY/util/CanvasContextWrapper' );
+  var joist = require( 'JOIST/joist' );
 
   /**
    *
@@ -19,6 +20,8 @@ define( function( require ) {
    */
   function ScreenshotGenerator() {
   }
+
+  joist.register( 'ScreenshotGenerator', ScreenshotGenerator );
 
   return inherit( Object, ScreenshotGenerator, {}, {
 

@@ -13,6 +13,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var joist = require( 'JOIST/joist' );
 
   // strings
   var adaptedFromString = require( 'string!JOIST/adaptedFrom' );
@@ -44,6 +45,8 @@ define( function( require ) {
     // Synchronize the text fill with the given fill property
     fillProperty.linkAttribute( this, 'fill' );
   }
+
+  joist.register( 'AdaptedFromText', AdaptedFromText );
 
   return inherit( MultiLineText, AdaptedFromText );
 } );

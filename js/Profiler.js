@@ -16,6 +16,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var joist = require( 'JOIST/joist' );
 
   /**
    * Construct a Profiler
@@ -35,6 +36,8 @@ define( function( require ) {
     }
     $( 'body' ).append( '<div style="z-index: 99999999;position: absolute;color:red" id="trace" ></div>' );
   }
+
+  joist.register( 'Profiler', Profiler );
 
   return inherit( Object, Profiler, {
 

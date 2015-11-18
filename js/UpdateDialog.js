@@ -16,6 +16,7 @@ define( function( require ) {
   var Timer = require( 'JOIST/Timer' );
   var UpdateNodes = require( 'JOIST/UpdateNodes' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
+  var joist = require( 'JOIST/joist' );
 
   function UpdateDialog() {
     assert && assert( UpdateCheck.areUpdatesChecked,
@@ -79,6 +80,8 @@ define( function( require ) {
       fire: dialog.hide.bind( dialog )
     } ) );
   }
+
+  joist.register( 'UpdateDialog', UpdateDialog );
 
   return inherit( Dialog, UpdateDialog, {
 

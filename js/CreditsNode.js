@@ -18,6 +18,7 @@ define( function( require ) {
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var VStrut = require( 'SCENERY/nodes/VStrut' );
+  var joist = require( 'JOIST/joist' );
 
   // strings
   var creditsTitleString = require( 'string!JOIST/credits.title' );
@@ -80,6 +81,8 @@ define( function( require ) {
       children: children
     }, options ) );
   }
+
+  joist.register( 'CreditsNode', CreditsNode );
 
   return inherit( VBox, CreditsNode );
 } );

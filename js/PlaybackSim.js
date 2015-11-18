@@ -11,6 +11,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var joist = require( 'JOIST/joist' );
 
   /**
    *
@@ -24,6 +25,8 @@ define( function( require ) {
     this.sim = sim;              // @private
     this.dataLog = dataLog;      // @private
   }
+
+  joist.register( 'PlaybackSim', PlaybackSim );
 
   return inherit( Object, PlaybackSim, {
     playbackAnimationLoop: function() {

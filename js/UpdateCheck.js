@@ -11,11 +11,13 @@
 define( function( require ) {
   'use strict';
 
+  // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var PropertySet = require( 'AXON/PropertySet' );
   var packageJSON = require( 'JOIST/packageJSON' ); // parse name/version out of the package.json
   var SimVersion = require( 'JOIST/SimVersion' );
   var Brand = require( 'BRAND/Brand' );
+  var joist = require( 'JOIST/joist' );
 
   var simName = packageJSON.name;
   var simVersion = SimVersion.parse( packageJSON.version, phet.chipper.buildTimestamp );
@@ -158,5 +160,9 @@ define( function( require ) {
     }
   } );
 
-  return new UpdateCheck();
+  var instance = new UpdateCheck();
+
+  joist.register( 'UpdateCheck', instance );
+
+  return instance;
 } );

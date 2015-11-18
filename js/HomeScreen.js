@@ -12,6 +12,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Screen = require( 'JOIST/Screen' );
   var HomeScreenView = require( 'JOIST/HomeScreenView' );
+  var joist = require( 'JOIST/joist' );
 
   /**
    *
@@ -45,6 +46,8 @@ define( function( require ) {
       options
     );
   }
+
+  joist.register( 'HomeScreen', HomeScreen );
 
   return inherit( Screen, HomeScreen );
 } );

@@ -22,6 +22,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var joist = require( 'JOIST/joist' );
 
   // constants
   var HEIGHT = 70; //TODO what is this? is it the height of large icons?
@@ -211,6 +212,8 @@ define( function( require ) {
       warningNode.bottom = this.layoutBounds.maxY - 20;
     }
   }
+
+  joist.register( 'HomeScreenView', HomeScreenView );
 
   return inherit( ScreenView, HomeScreenView, {},
     // @public - statics

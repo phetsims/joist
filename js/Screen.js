@@ -19,6 +19,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var joist = require( 'JOIST/joist' );
 
   /**
    * For showing ScreenView layoutBounds with 'dev' query parameter.
@@ -71,6 +72,8 @@ define( function( require ) {
     this._model = null; // @private
     this._view = null;  // @private
   }
+
+  joist.register( 'Screen', Screen );
 
   return inherit( PropertySet, Screen, {
 

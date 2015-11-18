@@ -15,6 +15,7 @@ define( function( require ) {
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var joist = require( 'JOIST/joist' );
 
   // constants
   var BUTTON_FONT = new PhetFont( { size: 20 } );
@@ -46,6 +47,8 @@ define( function( require ) {
     } );
     this.addChild( nonModalDialogButton );
   }
+
+  joist.register( 'DialogsDemoView', DialogsDemoView );
 
   /**
    * Creates a model or non-modal dialog

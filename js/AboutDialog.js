@@ -25,6 +25,7 @@ define( function( require ) {
   var LinkText = require( 'JOIST/LinkText' );
   var SubSupText = require( 'SCENERY_PHET/SubSupText' );
   var packageJSON = require( 'JOIST/packageJSON' );
+  var joist = require( 'JOIST/joist' );
 
   // strings
   var versionPatternString = require( 'string!JOIST/versionPattern' );
@@ -143,6 +144,8 @@ define( function( require ) {
       fire: dialog.hide.bind( dialog )
     } ) );
   }
+
+  joist.register( 'AboutDialog', AboutDialog );
 
   return inherit( Dialog, AboutDialog, {
 

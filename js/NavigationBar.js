@@ -36,6 +36,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Screen = require( 'JOIST/Screen' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var joist = require( 'JOIST/joist' );
 
   // constants
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
@@ -197,6 +198,8 @@ define( function( require ) {
 
     this.layout( 1, NAVIGATION_BAR_SIZE.width, NAVIGATION_BAR_SIZE.height );
   }
+
+  joist.register( 'NavigationBar', NavigationBar );
 
   return inherit( Node, NavigationBar, {
 

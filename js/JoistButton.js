@@ -17,6 +17,7 @@ define( function( require ) {
   var PushButtonInteractionStateProperty = require( 'SUN/buttons/PushButtonInteractionStateProperty' );
   var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
   var Property = require( 'AXON/Property' );
+  var joist = require( 'JOIST/joist' );
 
   /**
    * @param {Node} content - the scenery node to render as the content of the button
@@ -83,6 +84,8 @@ define( function( require ) {
 
     options.tandem && options.tandem.addInstance( this );
   }
+
+  joist.register( 'JoistButton', JoistButton );
 
   return inherit( Node, JoistButton );
 } );

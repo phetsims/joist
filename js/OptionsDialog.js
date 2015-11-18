@@ -13,6 +13,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Dialog = require( 'JOIST/Dialog' );
+  var joist = require( 'JOIST/joist' );
 
   // strings
   var optionsTitleString = require( 'string!JOIST/options.title' );
@@ -29,6 +30,8 @@ define( function( require ) {
       hasCloseButton: true
     } );
   }
+
+  joist.register( 'OptionsDialog', OptionsDialog );
 
   return inherit( Dialog, OptionsDialog, {}, {
     DEFAULT_FONT: new PhetFont( 15 ),

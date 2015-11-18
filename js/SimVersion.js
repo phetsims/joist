@@ -9,7 +9,9 @@
 define( function( require ) {
   'use strict';
 
+  // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var joist = require( 'JOIST/joist' );
 
   /**
    * @param {Object} version - major/minor/maintenance are required
@@ -27,6 +29,8 @@ define( function( require ) {
     this.buildTimestamp = version.buildTimestamp; // @public - {string} [buildTimestamp] - Optional build timestamp,
                                                   // like '2015-06-12 16:05:03 UTC' (phet.chipper.buildTimestamp)
   }
+
+  joist.register( 'SimVersion', SimVersion );
 
   return inherit( Object, SimVersion, {
 

@@ -17,6 +17,7 @@ define( function( require ) {
   var Panel = require( 'SUN/Panel' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  var joist = require( 'JOIST/joist' );
 
   /**
    * @constructor
@@ -136,6 +137,8 @@ define( function( require ) {
     sim.on( 'resized', updateLayout );
     updateLayout();
   }
+
+  joist.register( 'Dialog', Dialog );
 
   // @private
   Dialog.DEFAULT_LAYOUT_STRATEGY = function( dialog, simBounds, screenBounds, scale ) {

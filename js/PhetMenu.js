@@ -30,6 +30,7 @@ define( function( require ) {
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  var joist = require( 'JOIST/joist' );
 
   // strings
   var menuItemOptionsString = require( 'string!JOIST/menuItem.options' );
@@ -442,6 +443,8 @@ define( function( require ) {
 
     thisMenu.mutate( _.omit( options, 'tandem' ) );
   }
+
+  joist.register( 'PhetMenu', PhetMenu );
 
   inherit( Node, PhetMenu, {
 

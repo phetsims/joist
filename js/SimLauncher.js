@@ -7,9 +7,11 @@
 define( function( require ) {
   'use strict';
 
+  // modules
   var checkNamespaces = require( 'JOIST/checkNamespaces' );
+  var joist = require( 'JOIST/joist' );
 
-  return {
+  var SimLauncher = {
     /**
      * Launch the Sim by preloading the images and calling the callback.
      *
@@ -74,4 +76,8 @@ define( function( require ) {
       }
     }
   };
+
+  joist.register( 'SimLauncher', SimLauncher );
+
+  return SimLauncher;
 } );

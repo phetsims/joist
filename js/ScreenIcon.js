@@ -15,6 +15,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Screen = require( 'JOIST/Screen' );
+  var joist = require( 'JOIST/joist' );
 
   /**
    * @param {Node} iconNode
@@ -47,6 +48,8 @@ define( function( require ) {
     options.children = [ background, iconNode ];
     Node.call( this, options );
   }
+
+  joist.register( 'ScreenIcon', ScreenIcon );
 
   return inherit( Node, ScreenIcon );
 } );

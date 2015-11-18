@@ -8,6 +8,7 @@
 define( function( require ) {
   'use strict';
 
+  // modules
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -16,6 +17,7 @@ define( function( require ) {
   var CheckBox = require( 'SUN/CheckBox' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var TextPushButton = require( 'SUN/buttons/TextPushButton' );
+  var joist = require( 'JOIST/joist' );
 
   // strings
   var showPointersString = require( 'string!JOIST/showPointers' );
@@ -64,6 +66,8 @@ define( function( require ) {
     resize();
     this.doneListeners = []; // @private
   }
+
+  joist.register( 'SettingsDialog', SettingsDialog );
 
   return inherit( ScreenView, SettingsDialog, {
 

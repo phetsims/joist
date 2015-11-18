@@ -13,6 +13,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  var joist = require( 'JOIST/joist' );
 
   function LinkText( text, url, options ) {
 
@@ -50,6 +51,8 @@ define( function( require ) {
       }
     } ) );
   }
+
+  joist.register( 'LinkText', LinkText );
 
   return inherit( Text, LinkText );
 } );

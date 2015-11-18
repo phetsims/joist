@@ -22,6 +22,7 @@ define( function( require ) {
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var TransformTracker = require( 'SCENERY/util/TransformTracker' );
+  var joist = require( 'JOIST/joist' );
 
   // images
   // The logo images are loaded from the brand which is selected via query parameter (during requirejs mode)
@@ -128,6 +129,8 @@ define( function( require ) {
         logoImage.image = backgroundIsWhite ? darkLogoMipmap : brightLogoMipmap;
       } );
   }
+
+  joist.register( 'PhetButton', PhetButton );
 
   inherit( JoistButton, PhetButton, {}, {
       // @public - How much space between the PhetButton and the right side of the screen.

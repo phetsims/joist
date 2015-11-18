@@ -19,6 +19,7 @@ define( function( require ) {
   var VStrut = require( 'SCENERY/nodes/VStrut' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var LinkText = require( 'JOIST/LinkText' );
+  var joist = require( 'JOIST/joist' );
 
   // strings
   var updatesUpToDateString = require( 'string!JOIST/updates.upToDate' );
@@ -32,7 +33,8 @@ define( function( require ) {
 
   var updateTextFont = new PhetFont( 14 );
 
-  return {
+  var UpdateNodes = {
+
     /**
      * "Checking" state node. With two size options (if options.big == true, it will be bigger)
      *
@@ -126,4 +128,8 @@ define( function( require ) {
       ] }, options ) );
     }
   };
+
+  joist.register( 'UpdateNodes', UpdateNodes );
+
+  return UpdateNodes;
 } );

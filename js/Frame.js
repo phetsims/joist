@@ -13,6 +13,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  var joist = require( 'JOIST/joist' );
 
   /**
    * @param {Node} content
@@ -54,6 +55,8 @@ define( function( require ) {
     // @private
     this.frameHeight = frameHeight;
   }
+
+  joist.register( 'Frame', Frame );
 
   inherit( Node, Frame, {
 

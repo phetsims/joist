@@ -12,6 +12,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var PropertySet = require( 'AXON/PropertySet' );
   var Color = require( 'SCENERY/util/Color' );
+  var joist = require( 'JOIST/joist' );
 
   /**
    *
@@ -36,6 +37,8 @@ define( function( require ) {
       return navigationBarFill === 'black' ? 'white' : 'black';
     } );
   }
+
+  joist.register( 'LookAndFeel', LookAndFeel );
 
   return inherit( PropertySet, LookAndFeel );
 } );

@@ -15,6 +15,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var joist = require( 'JOIST/joist' );
 
   /**
    * @param {number} width
@@ -46,6 +47,8 @@ define( function( require ) {
     options.spacing = width;
     HBox.call( this, options );
   }
+
+  joist.register( 'HighlightNode', HighlightNode );
 
   return inherit( HBox, HighlightNode );
 } );

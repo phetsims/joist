@@ -9,10 +9,13 @@
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
-define( function() {
+define( function( require ) {
   'use strict';
 
-  return function() {
+  // modules
+  var joist = require( 'JOIST/joist' );
+
+  var checkNamespaces = function() {
 
     // Skip everything if we don't have assertions on, since that's the point of this function.
     if ( !assert ) {
@@ -80,4 +83,8 @@ define( function() {
       assert && assert( false, errorMessage );
     } );
   };
+
+  joist.register( 'checkNamespaces', checkNamespaces );
+
+  return checkNamespaces;
 } );
