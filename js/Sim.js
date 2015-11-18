@@ -35,6 +35,7 @@ define( function( require ) {
   var packageJSON = require( 'JOIST/packageJSON' );
   var PlaybackSim = require( 'JOIST/PlaybackSim' );
   var PhetButton = require( 'JOIST/PhetButton' );
+  var joist = require( 'JOIST/joist' );
 
   // strings
   var titlePatternString = require( 'string!JOIST/titlePattern' );
@@ -560,6 +561,8 @@ define( function( require ) {
     // Signify the end of simulation startup.  Used by together.
     this.trigger0( 'endedSimConstructor' );
   }
+
+  joist.register( 'Sim', Sim );
 
   return inherit( PropertySet, Sim, {
 
