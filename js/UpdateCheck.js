@@ -160,9 +160,9 @@ define( function( require ) {
     }
   } );
 
-  var instance = new UpdateCheck();
+  var singleton = new UpdateCheck();
 
-  joist.register( 'UpdateCheck', instance );
+  joist.register( 'UpdateCheck', singleton );
 
-  return instance;
+  return singleton;
 } );
