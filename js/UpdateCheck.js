@@ -161,8 +161,6 @@ define( function( require ) {
   } );
 
   var singleton = new UpdateCheck();
-
   joist.register( 'UpdateCheck', singleton );
-
   return singleton;
 } );
