@@ -23,6 +23,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var joist = require( 'JOIST/joist' );
+  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
 
   // constants
   var HEIGHT = 70; //TODO what is this? is it the height of large icons?
@@ -76,6 +77,14 @@ define( function( require ) {
       if ( largeText.width > largeIconWithFrame.width ) {
         largeText.scale( largeIconWithFrame.width / largeText.width );
       }
+
+      // 'down' function for the large button, refactored for input listener and accessibility
+      var largeButtonDown = function() {
+        largeScreenButton.trigger0( 'startedCallbacksForFired' );
+        sim.showHomeScreen = false;
+        highlightedScreenIndexProperty.value = -1;
+        largeScreenButton.trigger0( 'endedCallbacksForFired' );
+      };
       var largeScreenButton = new VBox( {
 
         //Don't 40 the VBox or it will shift down when the border becomes thicker
@@ -88,7 +97,27 @@ define( function( require ) {
           largeText
         ],
         focusable: true,
-        textDescription: screen.name + ' Screen: Button'
+        textDescription: screen.name + ' Screen: Button',
+        accessibleContent: {
+          createPeer: function( accessibleInstance ) {
+
+            // We want DOM elements to look like this:
+            // <input type="button" tabIndex="0" value="screenName" id="largeButton-index">
+            var domElement = document.createElement( 'input' );
+            domElement.setAttribute( 'type', 'button' );
+            domElement.setAttribute( 'value', screen.name );
+            domElement.id = 'largeButton-' + index;
+            domElement.tabIndex = '0';
+
+            // enter the selected screen on 'click'
+            domElement.addEventListener( 'click', function() {
+              largeButtonDown();
+            } );
+
+            return new AccessiblePeer( accessibleInstance, domElement );
+
+          }
+        }
       } );
 
       // Even though in the user interface, the small and large buttons seem like a single UI component
@@ -100,10 +129,7 @@ define( function( require ) {
       // TODO: ButtonListener won't fire if a node has appeared under the pointer
       largeScreenButton.addInputListener( {
         down: function() {
-          largeScreenButton.trigger0( 'startedCallbacksForFired' );
-          sim.showHomeScreen = false;
-          highlightedScreenIndexProperty.value = -1;
-          largeScreenButton.trigger0( 'endedCallbacksForFired' );
+          largeButtonDown();
         }
       } );
 
@@ -130,20 +156,45 @@ define( function( require ) {
         smallText.scale( smallIcon.width / smallText.width );
       }
 
+      // down function for small button, refactored for accessibility and the input listener
+      var smallButtonDown = function() {
+        smallScreenButton.trigger0( 'startedCallbacksForFired' );
+        sim.screenIndex = index;
+        smallScreenButton.trigger0( 'endedCallbacksForFired' );
+      };
       var smallScreenButton = new VBox( {
         spacing: 3, cursor: 'pointer', children: [
           smallIcon,
           smallText
         ],
         focusable: true,
-        textDescription: screen.name + ' Screen: Button'
+        textDescription: screen.name + ' Screen: Button',
+        accessibleContent: {
+          createPeer: function( accessibleInstance ) {
+
+            // We want DOM elements to look like this:
+            // <input type="button" tabindex="0">
+            // However, this is trivial: on accessible focus, the small button will immediately become a 'large' button
+            var domElement = document.createElement( 'input' );
+            domElement.setAttribute( 'type', 'button' );
+            domElement.setAttribute( 'value', screen.name );
+            domElement.tabIndex = '0';
+            domElement.id = 'smallButton-' + index;
+
+            // when the small button receives accessible focus, the thumbnail should grow and focus should be passed to
+            // the large button.
+            domElement.addEventListener( 'focus', function() {
+              smallButtonDown();
+              document.getElementById( 'largeButton-' + index ).focus();
+            } );
+            return new AccessiblePeer( accessibleInstance, domElement );
+          }
+        }
       } );
       smallScreenButton.mouseArea = smallScreenButton.touchArea = Shape.bounds( smallScreenButton.bounds ); //cover the gap in the vbox
       smallScreenButton.addInputListener( {
         down: function( event ) {
-          smallScreenButton.trigger0( 'startedCallbacksForFired' );
-          sim.screenIndex = index;
-          smallScreenButton.trigger0( 'endedCallbacksForFired' );
+          smallButtonDown();
         },
 
         //On the home screen if you touch an inactive screen thumbnail, it grows.  If then without lifting your finger you swipe over
