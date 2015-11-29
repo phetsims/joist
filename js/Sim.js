@@ -85,11 +85,6 @@ define( function( require ) {
       // when playing back a recorded scenery input event log, use the specified filename.  Please see getEventLogName for more
       inputEventLogName: undefined,
 
-      // The screen display strategy chooses which way to switch screens, using setVisible or setChildren.
-      // setVisible is faster in scenery 0.1 but crashes some apps due to memory restrictions, so some apps need to specify 'setChildren'
-      // See https://github.com/phetsims/joist/issues/96
-      screenDisplayStrategy: 'setVisible',
-
       // Whether events should be batched until they need to be fired. If false, events will be fired immediately, not
       // waiting for the next animation frame
       batchEvents: false,
@@ -424,89 +419,31 @@ define( function( require ) {
     // ModuleIndex should always be defined.  On startup screenIndex=0 to highlight the 1st screen.
     // When moving from a screen to the homescreen, the previous screen should be highlighted
 
-    // Choose the strategy for switching screens.  See options.screenDisplayStrategy documentation above
-    if ( options.screenDisplayStrategy === 'setVisible' ) {
+    if ( this.homeScreen ) {
+      this.rootNode.addChild( this.homeScreen.view );
+    }
+    _.each( screens, function( screen ) {
+      screen.view.layerSplit = true;
+      sim.rootNode.addChild( screen.view );
+    } );
+    this.rootNode.addChild( this.navigationBar );
 
-      if ( this.homeScreen ) {
-        this.rootNode.addChild( this.homeScreen.view );
+    if ( this.homeScreen ) {
+      // Once both the navbar and homescreen have been added, link the PhET button positions together.
+      // See https://github.com/phetsims/joist/issues/304.
+      PhetButton.linkPhetButtonTransform( this.homeScreen, this.navigationBar, this.rootNode );
+    }
+
+    this.multilink( [ 'screenIndex', 'showHomeScreen' ], function( screenIndex, showHomeScreen ) {
+      if ( sim.homeScreen ) {
+        sim.homeScreen.view.setVisible( showHomeScreen );
       }
-      _.each( screens, function( screen ) {
-        screen.view.layerSplit = true;
-        sim.rootNode.addChild( screen.view );
-      } );
-      this.rootNode.addChild( this.navigationBar );
-
-      if ( this.homeScreen ) {
-        // Once both the navbar and homescreen have been added, link the PhET button positions together.
-        // See https://github.com/phetsims/joist/issues/304.
-        PhetButton.linkPhetButtonTransform( this.homeScreen, this.navigationBar, this.rootNode );
+      for ( var i = 0; i < screens.length; i++ ) {
+        screens[ i ].view.setVisible( !showHomeScreen && screenIndex === i );
       }
-
-      this.multilink( [ 'screenIndex', 'showHomeScreen' ], function( screenIndex, showHomeScreen ) {
-        if ( sim.homeScreen ) {
-          sim.homeScreen.view.setVisible( showHomeScreen );
-        }
-        for ( var i = 0; i < screens.length; i++ ) {
-          screens[ i ].view.setVisible( !showHomeScreen && screenIndex === i );
-        }
-        sim.navigationBar.setVisible( !showHomeScreen );
-        sim.updateBackground();
-      } );
-    }
-    else if ( options.screenDisplayStrategy === 'setChildren' ) {
-
-      // On startup screenIndex=0 to highlight the 1st screen.
-      // When moving from a screen to the homescreen, the previous screen should be highlighted
-      // When the user selects a different screen, show it.
-      this.screenIndexProperty.link( function( screenIndex ) {
-        var newScreenNode = screens[ screenIndex ].view;
-        var oldIndex = currentScreenNode ? sim.rootNode.indexOfChild( currentScreenNode ) : -1;
-
-        // Swap out the views if the old one is displayed. if not, we are probably in the home screen
-        if ( oldIndex >= 0 ) {
-          sim.rootNode.removeChild( currentScreenNode );
-
-          // same place in the tree, so nodes behind/in front stay that way.
-          sim.rootNode.insertChild( oldIndex, newScreenNode );
-        }
-
-        currentScreenNode = newScreenNode;
-        sim.updateBackground();
-      } );
-
-      // When the user presses the home icon, then show the homescreen, otherwise show the screen and navbar
-      sim.showHomeScreenProperty.link( function( showHomeScreen ) {
-        var idx = 0;
-        if ( showHomeScreen ) {
-          if ( sim.rootNode.isChild( currentScreenNode ) ) {
-            sim.rootNode.removeChild( currentScreenNode );
-          }
-          if ( sim.rootNode.isChild( sim.navigationBar ) ) {
-
-            // place the home screen where the navigation bar was, if possible
-            idx = sim.rootNode.indexOfChild( sim.navigationBar );
-            sim.rootNode.removeChild( sim.navigationBar );
-          }
-          sim.rootNode.insertChild( idx, sim.homeScreen.view ); // same place in tree, to preserve nodes in front or behind
-        }
-        else {
-          if ( sim.homeScreen && sim.rootNode.isChild( sim.homeScreen.view ) ) {
-
-            // place the view / navbar at the same index as the homescreen if possible
-            idx = sim.rootNode.indexOfChild( sim.homeScreen.view );
-            sim.rootNode.removeChild( sim.homeScreen.view );
-          }
-
-          // same place in tree, to preserve nodes in front or behind
-          sim.rootNode.insertChild( idx, currentScreenNode );
-          sim.rootNode.insertChild( idx + 1, sim.navigationBar );
-        }
-        sim.updateBackground();
-      } );
-    }
-    else {
-      throw new Error( 'invalid value for options.screenDisplayStrategy: ' + options.screenDisplayStrategy );
-    }
+      sim.navigationBar.setVisible( !showHomeScreen );
+      sim.updateBackground();
+    } );
 
     // layer for popups, dialogs, and their backgrounds and barriers
     this.topLayer = new Node();
