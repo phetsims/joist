@@ -413,9 +413,6 @@ define( function( require ) {
       screen.initializeModelAndView();
     } );
 
-    // This will hold the view for the current screen, and is initialized in the screenIndexProperty.link below
-    var currentScreenNode;
-
     // ModuleIndex should always be defined.  On startup screenIndex=0 to highlight the 1st screen.
     // When moving from a screen to the homescreen, the previous screen should be highlighted
 
