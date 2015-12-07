@@ -39,7 +39,7 @@ define( function( require ) {
       excludeInvisible: true, // so we don't keep invisible screens in the SVG tree
       accessibleContent: {
         createPeer: function( accessibleInstance ) {
-          return new ScreenViewAccessiblePeer( accessibleInstance, options.screenDescription );
+          return new ScreenViewAccessiblePeer( accessibleInstance, options.screenDescription, options.screenLabel );
         }
       }
     }, options ) );
@@ -116,12 +116,13 @@ define( function( require ) {
        *
        * @param {AccessibleInstance} accessibleInstance
        * @param {string} screenDescription
+       * @param {string} screenLabel
        * @returns {ScreenViewAccessiblePeer}
        * @constructor
        * @public
        */
-      ScreenViewAccessiblePeer: function( accessibleInstance, screenDescription ) {
-        return new ScreenViewAccessiblePeer( accessibleInstance, screenDescription );
+      ScreenViewAccessiblePeer: function( accessibleInstance, screenDescription, screenLabel ) {
+        return new ScreenViewAccessiblePeer( accessibleInstance, screenDescription, screenLabel );
       }
     }
   );
@@ -133,9 +134,10 @@ define( function( require ) {
    * @param {AccessibleInstance} accessibleInstance
    * @param {string} screenDescription - Invisible description of the simulation at sim start up which is presented to
    *                                     accessible technologies.
+   * @param {string} screenLabel - Short label for the screen view, invisible but accessible
    */
-  function ScreenViewAccessiblePeer( accessibleInstance, screenDescription ) {
-    this.initialize( accessibleInstance, screenDescription );
+  function ScreenViewAccessiblePeer( accessibleInstance, screenDescription, screenLabel ) {
+    this.initialize( accessibleInstance, screenDescription, screenLabel );
   }
 
   inherit( AccessiblePeer, ScreenViewAccessiblePeer, {
@@ -144,32 +146,73 @@ define( function( require ) {
      *
      * @param {AccessibleInstance} accessibleInstance
      * @param {string} screenDescription - invisible auditory description of sim state at sim start up.
+     * @param {string} screenLabel - Short label for the screen view, invisible but accessible
      * @public (accessibility)
      */
-    initialize: function( accessibleInstance, screenDescription ) {
+    initialize: function( accessibleInstance, screenDescription, screenLabel ) {
       var trail = accessibleInstance.trail;
+      var uniqueId = trail.getUniqueId();
       this.node = trail.lastNode(); // @private TODO: may be namespace conflict in future?
 
+      // we want the representative element in the Parallel DOM to look like this:
+      //  <div class="ScreenView">
+      //    <header role="banner" aria-labelledby="scene-label" aria-describedby="scene-description">
+      //      <h2 id="scene-label">Short label for the whole screen view</h1> 
+      //      <!-- General scene description for page load. Parts will need change dynamically.-->
+      //      <div id="scene-description">
+      //        <p>Long description for layout and components of screen view...</p>
+      //      </div>
+      //    </header>
+      //    <!-- Container element for all other children inside of the screen view -->
+      //    <div class="ScreenViewContainer">...</div>
       this.domElement = document.createElement( 'div' ); // @protected
+      this.domElement.className = 'ScreenView';
       this.initializeAccessiblePeer( accessibleInstance, this.domElement );
 
-      if ( screenDescription ) {
-        var uniqueId = trail.getUniqueId();
-        var descriptionId = 'screen-description-' + uniqueId;
-        this.domElement.setAttribute( 'aria-describedby', 'screen-description-' + uniqueId );
+      // create the header element which will contain the accessible label and description
+      var headerElement = document.createElement( 'header' );
+      headerElement.setAttribute( 'role', 'banner' );
+      this.domElement.appendChild( headerElement );
 
+      if ( screenLabel ) {
+        // create the heading for the label, giving it a unique id for ARIA
+        var labelElement = document.createElement( 'h1' );
+        labelElement.id = 'scene-label-' + uniqueId;
+
+        // link the label to the header element with aria-labelledby
+        headerElement.setAttribute( 'aria-labelledby', labelElement.id );
+
+        // set the innerText from the translatable label string
+        labelElement.innerText = screenLabel;
+
+        // add the label as a child of the header element
+        headerElement.appendChild( labelElement );
+      }
+
+      if ( screenDescription ) {
+        // create the container div for the description element and its paragraph
+        var descriptionElement = document.createElement( 'div' );
         var descriptionParagraph = document.createElement( 'p' );
-        descriptionParagraph.id = descriptionId;
+
+        // assign the div with an id for ARIA, and set the header attribute
+        descriptionElement.id = 'scene-descripion-' + uniqueId;
+        headerElement.setAttribute( 'aria-describedby', descriptionElement.id );
+
+        // set the innerText for the description paragraph
         descriptionParagraph.innerText = screenDescription;
-        this.domElement.appendChild( descriptionParagraph );
+
+        // structure the description
+        descriptionElement.appendChild( descriptionParagraph );
+
+        // add the description element as a child of the header
+        headerElement.appendChild( descriptionElement );
       }
 
       // Separate container for children needed, since the description can be a child
       this.containerDOMElement = document.createElement( 'div' ); // @private
 
-      // add a unique class name to the screen view so that the document can quickly set everything to hidden with the
-      // presence of a modal.
-      this.containerDOMElement.className = 'ScreenView';
+      this.containerDOMElement.className = 'ScreenViewContainer';
+      this.containerDOMElement.setAttribute( 'role', 'main' ); 
       this.domElement.appendChild( this.containerDOMElement );
 
       this.visibilityListener = this.updateVisibility.bind( this ); // @private
