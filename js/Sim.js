@@ -170,7 +170,10 @@ define( function( require ) {
       showPointers: !!phet.chipper.getQueryParameter( 'showPointers' ),
 
       // @public
-      showCanvasNodeBounds: !!phet.chipper.getQueryParameter( 'showCanvasNodeBounds' )
+      showCanvasNodeBounds: !!phet.chipper.getQueryParameter( 'showCanvasNodeBounds' ),
+
+      // @public
+      showFittedBlockBounds: !!phet.chipper.getQueryParameter( 'showFittedBlockBounds' )
     }, {
       // Tandems for properties in this PropertySet
       tandemSet: options.tandem ? {
@@ -347,6 +350,10 @@ define( function( require ) {
 
     this.showCanvasNodeBoundsProperty.link( function( showCanvasNodeBounds ) {
       sim.display.setCanvasNodeBoundsVisible( !!showCanvasNodeBounds );
+    } );
+
+    this.showFittedBlockBoundsProperty.link( function( showFittedBlockBounds ) {
+      sim.display.setFittedBlockBoundsVisible( !!showFittedBlockBounds );
     } );
 
     function sleep( millis ) {
