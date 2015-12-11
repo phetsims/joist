@@ -182,8 +182,8 @@ define( function( require ) {
         // link the label to the header element with aria-labelledby
         headerElement.setAttribute( 'aria-labelledby', labelElement.id );
 
-        // set the innerText from the translatable label string
-        labelElement.innerText = screenLabel;
+        // set the textContent from the translatable label string
+        labelElement.textContent = screenLabel;
 
         // add the label as a child of the header element
         headerElement.appendChild( labelElement );
@@ -198,8 +198,8 @@ define( function( require ) {
         descriptionElement.id = 'scene-descripion-' + uniqueId;
         headerElement.setAttribute( 'aria-describedby', descriptionElement.id );
 
-        // set the innerText for the description paragraph
-        descriptionParagraph.innerText = screenDescription;
+        // set the textContent for the description paragraph
+        descriptionParagraph.textContent = screenDescription;
 
         // structure the description
         descriptionElement.appendChild( descriptionParagraph );
