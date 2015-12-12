@@ -297,7 +297,7 @@ define( function( require ) {
       allowWebGL: phet.chipper.getQueryParameter( 'webgl' ) !== 'false',
 
       accessibility: options.accessibility,
-      isApplication: true
+      isApplication: false
     } );
 
     // When the sim is inactive, make it non-interactive, see https://github.com/phetsims/scenery/issues/414
