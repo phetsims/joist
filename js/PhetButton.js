@@ -86,11 +86,6 @@ define( function( require ) {
         onResize( sim.bounds, sim.screenBounds, sim.scale );
 
         phetMenu.show();
-      },
-      accessibleContent: {
-        createPeer: function( accessibleInstance ) {
-          return new PhetButtonAccessiblePeer( accessibleInstance, options.listener, phetButtonNameString );
-        }
       }
     }, options );
 
@@ -180,11 +175,10 @@ define( function( require ) {
    *
    * @param {AccessibleInstance} accessibleInstance
    * @param {function} listener - listener function fired by this checkbox
-   * @param {string} buttonDescription - invisible string description provided to accessible technologies
    * @public (accessibility)
    */
-  function PhetButtonAccessiblePeer( accessibleInstance, listener, buttonDescription ) {
-    this.initialize( accessibleInstance, listener, buttonDescription );
+  function PhetButtonAccessiblePeer( accessibleInstance, listener ) {
+    this.initialize( accessibleInstance, listener );
   }
 
   inherit( AccessiblePeer, PhetButtonAccessiblePeer, {
@@ -194,15 +188,15 @@ define( function( require ) {
      *
      * @param {AccessibleInstance} accessibleInstance
      * @param {function} listener - listener function fired by this checkbox
-     * @param {string} buttonDescription - invisible string description provided to accessible technologies
+     * @param {string} ion - invisible string description provided to accessible technologies
      * @public (accessibility)
      */
-    initialize: function( accessibleInstance, listener, buttonDescription ) {
+    initialize: function( accessibleInstance, listener ) {
       // will look like <input id="phetButtonId" value="Phet Button" type="button">
 
       this.domElement = document.createElement( 'input' ); // @private
       this.domElement.type = 'button';
-      this.domElement.value = buttonDescription;
+      this.domElement.value = phetButtonNameString;
       this.domElement.tabIndex = '0';
       this.domElement.className = 'PhetButton';
 
