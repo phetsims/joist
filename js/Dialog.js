@@ -184,44 +184,23 @@ define( function( require ) {
      * @public (accessibility)
      */
     initialize: function( accessibleInstance, dialog ) {
+      var trail = accessibleInstance.trail;
+      var uniqueId = trail.getUniqueId();
 
       /*
-       We will want the parallel DOM element for a dialog to look like:
-       <div tabIndex='0' role='dialog' aria-labelledby='someLabelDescription' class="Dialog"></div>
+       * We will want the parallel DOM element for a dialog to look like:
+       * <div id="dialog-id" aria-hidden="true" role="dialog" tabindex="0">
        */
-      var trail = accessibleInstance.trail;
 
       // @private - create the dom element and initialize the peer.
       this.domElement = document.createElement( 'div' ); // @private
       this.initializeAccessiblePeer( accessibleInstance, this.domElement );
 
-      // set dom element attributes and class name so that the element can be found elsewhere in the DOM.
+      // set dom element attributes
+      this.domElement.id = 'dialog-' + uniqueId;
       this.domElement.setAttribute( 'role', 'dialog' );
       this.domElement.tabIndex = '0';
-      this.domElement.className = 'Dialog';
 
-      var dialogDescription = document.createElement( 'h2' );
-      dialogDescription.id = 'dialog-' + trail.uniqueId;
-      dialogDescription.hidden = true;
-
-      this.domElement.setAttribute( 'aria-labelledby', dialogDescription.id );
-
-      this.domElement.addEventListener( 'keydown', function( event ) {
-        // on escape key
-        if ( event.keyCode === 27 ) {
-          // all screen view elements are injected back into the navigation order.
-          var screenViewElements = document.getElementsByClassName( 'ScreenView' );
-          _.each( screenViewElements, function( element ) {
-            element.hidden = false;
-          } );
-
-          // make sure that the phet button is also in the tab order
-          document.getElementsByClassName( 'PhetButton' )[ 0 ].hidden = false;
-
-          // hide the menu
-          dialog.hide();
-        }
-      } );
     }
   } );
 
