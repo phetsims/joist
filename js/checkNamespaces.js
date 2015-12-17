@@ -57,8 +57,8 @@ define( function( require ) {
           return token.charAt( 0 ).toUpperCase() + token.slice( 1 );
         } ) ).join( '' );
 
-        // Skip things with the same name as the namespace, as this is most likely a namespace object (e.g. scenery.js)
-        if ( namespace === name ) {
+        // Skip the module that contains the namespace object (e.g. scenery.js, tandemNamespace.js)
+        if ( name === namespace || name === ( namespace + 'Namespace' ) ) {
           continue;
         }
 
