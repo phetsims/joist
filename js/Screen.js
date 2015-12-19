@@ -46,10 +46,13 @@ define( function( require ) {
 
     options = _.extend( {
       backgroundColor: 'white', // {Color|string} - Initial background color of the screen
-      navigationBarIcon: homeScreenIcon, // must be a minimum of 147x100 and have an aspect ratio of 548/373=1.469.  See https://github.com/phetsims/joist/issues/76
-      tandemScreenName: null // Will be used to create screen-specific tandems for component registration.  For instance for the navigation bar screen button or buttons from the home screen
+      navigationBarIcon: homeScreenIcon // must be a minimum of 147x100 and have an aspect ratio of 548/373=1.469.  See https://github.com/phetsims/joist/issues/76
+      // the tandem is optional, supplied only for instrumented simulations
     }, options );
-    this.tandemScreenName = options.tandemScreenName;
+
+    if ( options.tandem ) {
+      this.tandem = options.tandem;
+    }
 
     var backgroundColor = options.backgroundColor;
     if ( typeof backgroundColor === 'string' ) {

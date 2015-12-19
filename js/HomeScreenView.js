@@ -123,7 +123,7 @@ define( function( require ) {
       // Even though in the user interface, the small and large buttons seem like a single UI component
       // that has grown larger, it would be quite a headache to create a composite button for the purposes of
       // tandem, so instead the large and small buttons are registered as separate instances.  See https://github.com/phetsims/together/issues/99
-      options.tandem && options.tandem.createTandem( screen.tandemScreenName + 'LargeButton' ).addInstance( largeScreenButton );
+      options.tandem && options.tandem.createTandem( screen.tandem.tail + 'LargeButton' ).addInstance( largeScreenButton );
 
       // TODO: Switch to buttonListener, but make sure you test it because on 7/17/2013 there is a problem where
       // TODO: ButtonListener won't fire if a node has appeared under the pointer
@@ -206,7 +206,7 @@ define( function( require ) {
         }
       } );
 
-      options.tandem && options.tandem.createTandem( screen.tandemScreenName + 'SmallButton' ).addInstance( smallScreenButton );
+      options.tandem && options.tandem.createTandem( screen.tandem.tail + 'SmallButton' ).addInstance( smallScreenButton );
 
       var highlightListener = {
         over: function( event ) {
