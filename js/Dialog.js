@@ -158,9 +158,7 @@ define( function( require ) {
 
     // @public
     hide: function() {
-      if ( window.phet.joist.sim.isPoppedUp( this ) ) {
-        window.phet.joist.sim.hidePopup( this, this.isModal );
-      }
+      window.phet.joist.sim.hidePopup( this, this.isModal );
     }
   }, {
 
