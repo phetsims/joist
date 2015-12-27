@@ -64,7 +64,9 @@ define( function( require ) {
           showSaveAndLoad: sim.options.showSaveAndLoad,
           tandem: options.tandem && options.tandem.createTandem( 'phetMenu' ),
           closeCallback: function() {
+
             // hides the popup and barrier background
+            phetMenu.isShowing = false;
             sim.hidePopup( phetMenu, true );
             phetMenu.dispose();
           }

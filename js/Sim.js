@@ -455,7 +455,7 @@ define( function( require ) {
 
     // @public (joist-internal) - Semi-transparent black barrier used to block input events when a dialog
     // (or other popup) is present, and fade out the background.
-    this.barrierStack = new ObservableArray(); // {Node} with node.hide()
+    this.modalNodeStack = new ObservableArray(); // {Node} with node.hide()
 
     // @public (joist-internal)
     this.barrierRectangle = new Rectangle( 0, 0, 1, 1, 0, 0, {
@@ -463,14 +463,14 @@ define( function( require ) {
       pickable: true
     } );
     this.topLayer.addChild( this.barrierRectangle );
-    this.barrierStack.lengthProperty.link( function( numBarriers ) {
+    this.modalNodeStack.lengthProperty.link( function( numBarriers ) {
       sim.barrierRectangle.visible = numBarriers > 0;
     } );
     this.barrierRectangle.addInputListener( new ButtonListener( {
       fire: function( event ) {
         sim.barrierRectangle.trigger0( 'startedCallbacksForFired' );
-        assert && assert( sim.barrierStack.length > 0 );
-        sim.barrierStack.get( sim.barrierStack.length - 1 ).hide();
+        assert && assert( sim.modalNodeStack.length > 0 );
+        sim.modalNodeStack.get( sim.modalNodeStack.length - 1 ).hide();
         sim.barrierRectangle.trigger0( 'endedCallbacksForFired' );
       }
     } ) );
@@ -520,7 +520,7 @@ define( function( require ) {
       assert && assert( !!node.hide, 'Missing node.hide() for showPopup' );
 
       if ( isModal ) {
-        this.barrierStack.push( node );
+        this.modalNodeStack.push( node );
       }
       this.topLayer.addChild( node );
 
@@ -534,24 +534,14 @@ define( function( require ) {
      * @public
      */
     hidePopup: function( node, isModal ) {
-      assert && assert( node && this.barrierStack.contains( node ) );
+      assert && assert( node && this.modalNodeStack.contains( node ) );
 
       if ( isModal ) {
-        this.barrierStack.remove( node );
+        this.modalNodeStack.remove( node );
       }
       Input.popFocusContext( node.getTrails()[ 0 ] );
 
       this.topLayer.removeChild( node );
-    },
-
-    /**
-     * Returns true if the node is currently on the barrier stack, and thus 'popped up', and false if not.
-     * @param node
-     * @public
-     */
-    isPoppedUp: function( node ) {
-      assert && assert( node );
-      return this.barrierStack.contains( node );
     },
 
     /**

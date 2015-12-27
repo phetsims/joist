@@ -59,6 +59,9 @@ define( function( require ) {
     // @private
     this.isModal = options.modal;
 
+    // @public - whether the dialog is showing
+    this.isShowing = false;
+
     var dialogContent = new Node( {
       children: [ content ]
     } );
@@ -151,15 +154,17 @@ define( function( require ) {
 
     // @public
     show: function() {
-      if ( !window.phet.joist.sim.isPoppedUp( this ) ) {
+      if ( !this.isShowing ) {
         window.phet.joist.sim.showPopup( this, this.isModal );
+        this.isShowing = true;
       }
     },
 
     // @public
     hide: function() {
-      if ( window.phet.joist.sim.isPoppedUp( this ) ) {
+      if ( this.isShowing ) {
         window.phet.joist.sim.hidePopup( this, this.isModal );
+        this.isShowing = false;
       }
     }
   }, {

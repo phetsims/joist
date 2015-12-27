@@ -441,6 +441,9 @@ define( function( require ) {
       }
     };
 
+    // @public - whether the PhetMenu is showing
+    this.isShowing = false;
+
     thisMenu.mutate( _.omit( options, 'tandem' ) );
   }
 
@@ -469,14 +472,16 @@ define( function( require ) {
 
     // @public
     show: function() {
-      if ( !window.phet.joist.sim.isPoppedUp( this ) ) {
+      if ( !this.isShowing ) {
         window.phet.joist.sim.showPopup( this, true );
+        this.isShowing = true;
       }
     },
 
     // @public
     hide: function() {
-      if ( window.phet.joist.sim.isPoppedUp( this ) ) {
+      if ( this.isShowing ) {
+        this.isShowing = false;
         this.dispose();
         window.phet.joist.sim.hidePopup( this, true );
       }
