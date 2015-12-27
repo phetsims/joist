@@ -307,6 +307,7 @@ define( function( require ) {
 
     var simDiv = sim.display.domElement;
     simDiv.id = 'sim';
+    simDiv.setAttribute( 'aria-hidden', true ); // hide div from screen readers (a11y)  
     document.body.appendChild( simDiv );
 
     // for preventing Safari from going to sleep. see https://github.com/phetsims/joist/issues/140
@@ -320,6 +321,7 @@ define( function( require ) {
     heartbeatDiv.style.width = '0';
     heartbeatDiv.style.height = '0';
     heartbeatDiv.style.clip = 'rect(0,0,0,0)';
+    heartbeatDiv.setAttribute( 'aria-hidden', true ); // hide div from screen readers (a11y)
     document.body.appendChild( heartbeatDiv );
 
     if ( phet.chipper.getQueryParameter( 'sceneryLog' ) ) {
