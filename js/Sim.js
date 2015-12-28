@@ -455,11 +455,12 @@ define( function( require ) {
     this.topLayer = new Node();
     this.rootNode.addChild( this.topLayer );
 
-    // @public (joist-internal) - Semi-transparent black barrier used to block input events when a dialog
-    // (or other popup) is present, and fade out the background.
+    // @private list of nodes that are "modal" and hence block input with the barrierRectangle.  Used by modal dialogs
+    // and the PhetMenu
     this.modalNodeStack = new ObservableArray(); // {Node} with node.hide()
 
-    // @public (joist-internal)
+    // @public (joist-internal) Semi-transparent black barrier used to block input events when a dialog (or other popup)
+    // is present, and fade out the background.
     this.barrierRectangle = new Rectangle( 0, 0, 1, 1, 0, 0, {
       fill: 'rgba(0,0,0,0.3)',
       pickable: true
