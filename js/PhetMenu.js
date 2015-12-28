@@ -441,7 +441,7 @@ define( function( require ) {
       }
     };
 
-    // @public - whether the PhetMenu is showing
+    // @private (PhetButton.js) - whether the PhetMenu is showing
     this.isShowing = false;
 
     thisMenu.mutate( _.omit( options, 'tandem' ) );
