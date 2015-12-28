@@ -56,7 +56,7 @@ define( function( require ) {
       }
     }, options );
 
-    // @private
+    // @private (read-only)
     this.isModal = options.modal;
 
     // @public - whether the dialog is showing
