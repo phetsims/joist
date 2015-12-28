@@ -59,7 +59,7 @@ define( function( require ) {
     // @private (read-only)
     this.isModal = options.modal;
 
-    // @public - whether the dialog is showing
+    // @private - whether the dialog is showing
     this.isShowing = false;
 
     var dialogContent = new Node( {
