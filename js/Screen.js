@@ -51,6 +51,8 @@ define( function( require ) {
     }, options );
 
     if ( options.tandem ) {
+
+      // @private (read-only, joist)
       this.tandem = options.tandem;
     }
 
