@@ -307,7 +307,7 @@ define( function( require ) {
 
     var simDiv = sim.display.domElement;
     simDiv.id = 'sim';
-    simDiv.setAttribute( 'aria-hidden', true ); // hide div from screen readers (a11y)  
+    simDiv.setAttribute( 'aria-hidden', true ); // hide div from screen readers (a11y)
     document.body.appendChild( simDiv );
 
     // for preventing Safari from going to sleep. see https://github.com/phetsims/joist/issues/140
@@ -521,6 +521,7 @@ define( function( require ) {
     showPopup: function( node, isModal ) {
       assert && assert( node );
       assert && assert( !!node.hide, 'Missing node.hide() for showPopup' );
+      assert && assert( !this.topLayer.hasChild( node ), 'Popup already shown' );
 
       if ( isModal ) {
         this.modalNodeStack.push( node );
@@ -538,6 +539,7 @@ define( function( require ) {
      */
     hidePopup: function( node, isModal ) {
       assert && assert( node && this.modalNodeStack.contains( node ) );
+      assert && assert( this.topLayer.hasChild( node ), 'Popup was not shown' );
 
       if ( isModal ) {
         this.modalNodeStack.remove( node );
