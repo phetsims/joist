@@ -307,7 +307,8 @@ define( function( require ) {
 
     var simDiv = sim.display.domElement;
     simDiv.id = 'sim';
-    simDiv.setAttribute( 'aria-hidden', true ); // hide div from screen readers (a11y)
+    // (a11y) wait to hide until https://github.com/phetsims/scenery/issues/505 is resolved
+    // simDiv.setAttribute( 'aria-hidden', true );
     document.body.appendChild( simDiv );
 
     // for preventing Safari from going to sleep. see https://github.com/phetsims/joist/issues/140
