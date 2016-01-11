@@ -25,7 +25,7 @@ define( function( require ) {
   var PropertySet = require( 'AXON/PropertySet' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var platform = require( 'PHET_CORE/platform' );
-  var Timer = require( 'JOIST/Timer' );
+  var Timer = require( 'PHET_CORE/Timer' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Profiler = require( 'JOIST/Profiler' );
   var Input = require( 'SCENERY/input/Input' );

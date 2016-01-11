@@ -13,7 +13,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Dialog = require( 'JOIST/Dialog' );
-  var Timer = require( 'JOIST/Timer' );
+  var Timer = require( 'PHET_CORE/Timer' );
   var UpdateNodes = require( 'JOIST/UpdateNodes' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var joist = require( 'JOIST/joist' );

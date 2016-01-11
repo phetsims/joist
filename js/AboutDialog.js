@@ -18,7 +18,7 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var VStrut = require( 'SCENERY/nodes/VStrut' );
   var Dialog = require( 'JOIST/Dialog' );
-  var Timer = require( 'JOIST/Timer' );
+  var Timer = require( 'PHET_CORE/Timer' );
   var CreditsNode = require( 'JOIST/CreditsNode' );
   var UpdateNodes = require( 'JOIST/UpdateNodes' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
