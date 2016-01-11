@@ -37,15 +37,15 @@ define( function( require ) {
     } );
     this.addChild( modalDialogButton );
 
-    var nonModalDialogButton = new RectangularPushButton( {
-      content: new Text( 'non-modal dialog', { font: BUTTON_FONT } ),
-      listener: function() {
-        createDialog( false ).show();
-      },
-      left: modalDialogButton.right + 20,
-      top: modalDialogButton.top
-    } );
-    this.addChild( nonModalDialogButton );
+    // var nonModalDialogButton = new RectangularPushButton( {
+    //   content: new Text( 'non-modal dialog', { font: BUTTON_FONT } ),
+    //   listener: function() {
+    //     createDialog( false ).show();
+    //   },
+    //   left: modalDialogButton.right + 20,
+    //   top: modalDialogButton.top
+    // } );
+    // this.addChild( nonModalDialogButton );
   }
 
   joist.register( 'DialogsDemoView', DialogsDemoView );
