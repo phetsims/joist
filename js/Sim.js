@@ -268,7 +268,8 @@ define( function( require ) {
       sessionID: phet.chipper.getQueryParameter( 'sessionID' ) || null,
       simName: this.name,
       simVersion: this.version,
-      url: window.location.href
+      url: window.location.href,
+      randomSeed: window.phet.chipper.randomSeed
     } );
 
     var $body = $( 'body' );
