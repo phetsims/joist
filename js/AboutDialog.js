@@ -24,6 +24,7 @@ define( function( require ) {
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var LinkText = require( 'JOIST/LinkText' );
   var SubSupText = require( 'SCENERY_PHET/SubSupText' );
+  var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var packageJSON = require( 'JOIST/packageJSON' );
   var joist = require( 'JOIST/joist' );
 
@@ -90,6 +91,18 @@ define( function( require ) {
     // Show the brand copyright statement, if it exists
     if ( Brand.copyright ) {
       children.push( new Text( Brand.copyright, { font: new PhetFont( 12 ) } ) );
+    }
+
+    // TODO: Move this into the brand?
+    if ( Brand.id === 'phet-io' ) {
+      children.push( new MultiLineText( 'This PhET-iO interoperable simulation file requires a license.\n' +
+                                        'USE WITHOUT A LICENSE AGREEMENT IS STRICTLY PROHIBITED.\n' +
+                                        'Contact phethelp@colorado.edu regarding licensing.', {
+          font: new PhetFont( 10 ),
+          fill: 'gray',
+          align: 'left'
+        }
+      ) );
     }
 
     // Add credits for specific brands
