@@ -93,11 +93,9 @@ define( function( require ) {
       children.push( new Text( Brand.copyright, { font: new PhetFont( 12 ) } ) );
     }
 
-    // TODO: Move this into the brand?
-    if ( Brand.id === 'phet-io' ) {
-      children.push( new MultiLineText( 'This PhET-iO interoperable simulation file requires a license.\n' +
-                                        'USE WITHOUT A LICENSE AGREEMENT IS STRICTLY PROHIBITED.\n' +
-                                        'Contact phethelp@colorado.edu regarding licensing.', {
+    // Optional additionalLicenseStatement, used in phet-io
+    if ( Brand.additionalLicenseStatement ) {
+      children.push( new MultiLineText( Brand.additionalLicenseStatement, {
           font: new PhetFont( 10 ),
           fill: 'gray',
           align: 'left'
