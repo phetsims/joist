@@ -209,10 +209,9 @@ define( function( require ) {
       }
 
       // Separate container for children needed, since the description can be a child
-      this.containerDOMElement = document.createElement( 'div' ); // @private
+      this.containerDOMElement = document.createElement( 'main' ); // @private
 
       this.containerDOMElement.className = 'ScreenViewContainer';
-      this.containerDOMElement.setAttribute( 'role', 'main' ); 
       this.domElement.appendChild( this.containerDOMElement );
 
       this.visibilityListener = this.updateVisibility.bind( this ); // @private
