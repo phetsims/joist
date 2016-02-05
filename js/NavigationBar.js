@@ -47,8 +47,7 @@ define( function( require ) {
   var PHET_BUTTON_BOTTOM_MARGIN = PhetButton.VERTICAL_INSET; // same position as PhetButton on home screen
   var HOME_BUTTON_LEFT_MARGIN = 8;
   var SCREEN_BUTTON_SPACING = 0;
-  var MINIMUM_SCREEN_BUTTON_WIDTH = 60; // Make sure each button is at least a minimum width so they don't get too close
-                                        // together, see #279
+  var MINIMUM_SCREEN_BUTTON_WIDTH = 60; // Make sure each button is at least a minimum width so they don't get too close together, see #279
 
   /**
    * Creates a nav bar.
