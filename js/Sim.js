@@ -199,7 +199,7 @@ define( function( require ) {
     assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
     window.phet.joist.sim = sim;
 
-    // Make ScreenshotGenerator available globally so it can be used in preload files such as together.
+    // Make ScreenshotGenerator available globally so it can be used in preload files such as PhET-iO.
     window.phet.joist.ScreenshotGenerator = ScreenshotGenerator;
 
     this.name = name;                   // @public (joist-internal)
@@ -496,7 +496,7 @@ define( function( require ) {
     this.boundRunAnimationLoop = this.runAnimationLoop.bind( this );
     this.trigger0( 'simulationStarted' );
 
-    // Signify the end of simulation startup.  Used by together.
+    // Signify the end of simulation startup.  Used by PhET-iO.
     this.trigger0( 'endedSimConstructor' );
   }
 
