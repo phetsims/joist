@@ -657,7 +657,7 @@ define( function( require ) {
     /**
      * Update the simulation model, view, scenery display with an elapsed time of dt.
      * @param {number} dt in seconds
-     * @private, though used by together
+     * @public (phet-io)
      */
     stepSimulation: function( dt ) {
 
