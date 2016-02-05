@@ -108,7 +108,7 @@ define( function( require ) {
       tandem: null
     }, options );
 
-    // @private - Export for usage in together.js
+    // @private - Export for usage in phetio.js
     this.tandem = options.tandem;
 
     // @private - store this for access from prototype functions, assumes that it won't be changed later
