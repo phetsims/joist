@@ -2,7 +2,7 @@
 
 /**
  * Generate a rasterized screenshot for a simulation using scenery's built-in machinery.
- * Used in together as well as PhetMenu (optionally)
+ * Used in phet-io as well as PhetMenu (optionally)
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

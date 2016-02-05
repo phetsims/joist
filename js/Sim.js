@@ -309,7 +309,7 @@ define( function( require ) {
     var simDiv = sim.display.domElement;
     simDiv.id = 'sim';
     simDiv.setAttribute( 'aria-hidden', true );
-    document.body.appendChild( simDiv );  
+    document.body.appendChild( simDiv );
 
     // for preventing Safari from going to sleep. see https://github.com/phetsims/joist/issues/140
     var heartbeatDiv = this.heartbeatDiv = document.createElement( 'div' );
@@ -494,13 +494,7 @@ define( function( require ) {
     // @public (joist-internal) - Bind the animation loop so it can be called from requestAnimationFrame with the right
     // this
     this.boundRunAnimationLoop = null;
-    if ( window.togetherDataLog ) {
-      var playbackSim = new PlaybackSim( sim, window.togetherDataLog );
-      this.boundRunAnimationLoop = playbackSim.playbackAnimationLoop.bind( playbackSim );
-    }
-    else {
-      this.boundRunAnimationLoop = this.runAnimationLoop.bind( this );
-    }
+    this.boundRunAnimationLoop = this.runAnimationLoop.bind( this );
     this.trigger0( 'simulationStarted' );
 
     // Signify the end of simulation startup.  Used by together.
