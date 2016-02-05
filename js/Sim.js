@@ -33,7 +33,6 @@ define( function( require ) {
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var packageJSON = require( 'JOIST/packageJSON' );
-  var PlaybackSim = require( 'JOIST/PlaybackSim' );
   var PhetButton = require( 'JOIST/PhetButton' );
   var joist = require( 'JOIST/joist' );
 
