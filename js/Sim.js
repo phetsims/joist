@@ -435,6 +435,7 @@ define( function( require ) {
     this.rootNode.addChild( this.navigationBar );
 
     if ( this.homeScreen ) {
+
       // Once both the navbar and homescreen have been added, link the PhET button positions together.
       // See https://github.com/phetsims/joist/issues/304.
       PhetButton.linkPhetButtonTransform( this.homeScreen, this.navigationBar, this.rootNode );
