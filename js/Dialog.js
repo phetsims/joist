@@ -185,7 +185,8 @@ define( function( require ) {
   inherit( AccessiblePeer, DialogAccessiblePeer, {
 
     /**
-     * Initialize an accessible peer in the parallel DOM for a Dialog.
+     * Initialize an accessible peer in the parallel DOM for a Dialog.  This element does not exist in the parallel
+     * DOM until it is constructed, so it does not need to be hidden from screen readers.
      *
      * @param {AccessibleInstance} accessibleInstance
      * @param dialog
@@ -197,7 +198,7 @@ define( function( require ) {
 
       /*
        * We will want the parallel DOM element for a dialog to look like:
-       * <div id="dialog-id" aria-hidden="true" role="dialog" tabindex="0">
+       * <div id="dialog-id" role="dialog">
        */
 
       // @private - create the dom element and initialize the peer.
