@@ -207,7 +207,6 @@ define( function( require ) {
       // set dom element attributes
       this.domElement.id = 'dialog-' + uniqueId;
       this.domElement.setAttribute( 'role', 'dialog' );
-      this.domElement.tabIndex = '0';
 
     }
   } );
