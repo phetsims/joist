@@ -196,7 +196,7 @@ define( function( require ) {
       var trail = accessibleInstance.trail;
       var uniqueId = trail.getUniqueId();
 
-      /*
+      /* 
        * We will want the parallel DOM element for a dialog to look like:
        * <div id="dialog-id" role="dialog">
        */
@@ -207,7 +207,7 @@ define( function( require ) {
 
       // set dom element attributes
       this.domElement.id = 'dialog-' + uniqueId;
-      this.domElement.setAttribute( 'role', 'dialog' );
+      this.domElement.setAttribute( 'role', 'document' );
 
     }
   } );
