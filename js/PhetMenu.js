@@ -444,7 +444,10 @@ define( function( require ) {
     // @private (PhetButton.js) - whether the PhetMenu is showing
     this.isShowing = false;
 
-    thisMenu.mutate( _.omit( options, 'tandem' ) );
+    options.tandem && options.tandem.addInstance( this );
+    this.disposePhetMenu = function() {
+      options.tandem && options.tandem.removeInstance( this );
+    };
   }
 
   joist.register( 'PhetMenu', PhetMenu );
@@ -489,6 +492,7 @@ define( function( require ) {
 
     // @public (joist-internal)
     dispose: function() {
+      this.disposePhetMenu();
       _.each( this.items, function( item ) {
         item.dispose();
       } );
