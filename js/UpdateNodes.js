@@ -33,6 +33,9 @@ define( function( require ) {
 
   var updateTextFont = new PhetFont( 14 );
 
+  // Maximum width of the resulting update items
+  var MAX_WIDTH = 550;
+
   var UpdateNodes = {
 
     /**
@@ -44,10 +47,14 @@ define( function( require ) {
      */
     createCheckingNode: function( options ) {
       var spinningIndicatorNode = new SpinningIndicatorNode( { indicatorSize: options.big ? 24 : 18 } );
-      var checkingNode = new HBox( _.extend( { spacing: options.big ? 10 : 8, children: [
-        spinningIndicatorNode,
-        new Text( updatesCheckingString, { font: new PhetFont( options.big ? 16 : 14 ), fontWeight: options.big ? 'bold' : 'normal' } )
-      ] }, options ) );
+      var checkingNode = new HBox( _.extend( {
+        spacing: options.big ? 10 : 8,
+        maxWidth: MAX_WIDTH,
+        children: [
+          spinningIndicatorNode,
+          new Text( updatesCheckingString, { font: new PhetFont( options.big ? 16 : 14 ), fontWeight: options.big ? 'bold' : 'normal' } )
+        ]
+      }, options ) );
       checkingNode.step = function( dt ) {
         if ( UpdateCheck.state === 'checking' ) {
           spinningIndicatorNode.step( dt );
@@ -64,12 +71,16 @@ define( function( require ) {
      * @public (joist-internal)
      */
     createUpToDateNode: function( options ) {
-      return new HBox( _.extend( { spacing: 8, children: [
-        new Rectangle( 0, 0, 20, 20, 5, 5, { fill: '#5c3', scale: options.big ? 1.2 : 1, children: [
-          new FontAwesomeNode( 'check_without_box', { fill: '#fff', scale: 0.38, centerX: 10, centerY: 10 } )
-        ] } ),
-        new Text( updatesUpToDateString, { font: new PhetFont( options.big ? 16 : 14 ), fontWeight: options.big ? 'bold' : 'normal' } )
-      ] }, options ) );
+      return new HBox( _.extend( {
+        spacing: 8,
+        maxWidth: MAX_WIDTH,
+        children: [
+          new Rectangle( 0, 0, 20, 20, 5, 5, { fill: '#5c3', scale: options.big ? 1.2 : 1, children: [
+            new FontAwesomeNode( 'check_without_box', { fill: '#fff', scale: 0.38, centerX: 10, centerY: 10 } )
+          ] } ),
+          new Text( updatesUpToDateString, { font: new PhetFont( options.big ? 16 : 14 ), fontWeight: options.big ? 'bold' : 'normal' } )
+        ]
+      }, options ) );
     },
 
     /**
@@ -79,10 +90,15 @@ define( function( require ) {
      * @public (joist-internal)
      */
     createOutOfDateAboutNode: function( options ) {
-      return new HBox( _.extend( { spacing: 8, cursor: 'pointer', children: [
-        new FontAwesomeNode( 'warning_sign', { fill: '#E87600', scale: 0.5 } ), // "safety orange", according to Wikipedia
-        new LinkText( updatesOutOfDateString, UpdateCheck.updateURL, { font: updateTextFont } )
-      ] }, options ) );
+      return new HBox( _.extend( {
+        spacing: 8,
+        cursor: 'pointer',
+        maxWidth: MAX_WIDTH,
+        children: [
+          new FontAwesomeNode( 'warning_sign', { fill: '#E87600', scale: 0.5 } ), // "safety orange", according to Wikipedia
+          new LinkText( updatesOutOfDateString, UpdateCheck.updateURL, { font: updateTextFont } )
+        ]
+      }, options ) );
     },
 
     /**
@@ -94,25 +110,29 @@ define( function( require ) {
      * @public (joist-internal)
      */
     createOutOfDateDialogNode: function( ourVersionString, latestVersionString, options ) {
-      return new VBox( _.extend( { spacing: 15, children: [
-        new VBox( { spacing: 5, align: 'left', children: [
-          new Text( StringUtils.format( updatesNewVersionAvailableString, latestVersionString ), {
-            font: new PhetFont( 16 ), fontWeight: 'bold'
-          } ),
-          new Text( StringUtils.format( updatesYourCurrentVersionString, ourVersionString ), {
-            font: updateTextFont
-          } )
-        ] } ),
-        new HBox( { spacing: 25, children: [
-          new TextPushButton( updatesGetUpdateString, { baseColor: '#6f6', font: updateTextFont, listener: function() {
-            var newWindow = window.open( UpdateCheck.updateURL, '_blank' ); // open in a new window/tab
-            newWindow.focus();
-          } } ),
-          new TextPushButton( updatesNoThanksString, { baseColor: '#ddd', font: updateTextFont, listener: function() {
-            // Closing the dialog is handled by the Dialog listener itself, no need to add code to close it here.
-          } } )
-        ] } )
-      ] }, options ) );
+      return new VBox( _.extend( {
+        spacing: 15,
+        maxWidth: MAX_WIDTH,
+        children: [
+          new VBox( { spacing: 5, align: 'left', children: [
+            new Text( StringUtils.format( updatesNewVersionAvailableString, latestVersionString ), {
+              font: new PhetFont( 16 ), fontWeight: 'bold'
+            } ),
+            new Text( StringUtils.format( updatesYourCurrentVersionString, ourVersionString ), {
+              font: updateTextFont
+            } )
+          ] } ),
+          new HBox( { spacing: 25, children: [
+            new TextPushButton( updatesGetUpdateString, { baseColor: '#6f6', font: updateTextFont, listener: function() {
+              var newWindow = window.open( UpdateCheck.updateURL, '_blank' ); // open in a new window/tab
+              newWindow.focus();
+            } } ),
+            new TextPushButton( updatesNoThanksString, { baseColor: '#ddd', font: updateTextFont, listener: function() {
+              // Closing the dialog is handled by the Dialog listener itself, no need to add code to close it here.
+            } } )
+          ] } )
+        ]
+      }, options ) );
     },
 
     /**
@@ -122,10 +142,14 @@ define( function( require ) {
      * @public (joist-internal)
      */
     createOfflineNode: function( options ) {
-      return new HBox( _.extend( { spacing: 0, children: [
-        new VStrut( 20 ), // spacer to match layout of other nodes
-        new Text( updatesOfflineString, { font: new PhetFont( options.big ? 16 : 14 ), fontWeight: options.big ? 'bold' : 'normal' } )
-      ] }, options ) );
+      return new HBox( _.extend( {
+        spacing: 0,
+        maxWidth: MAX_WIDTH,
+        children: [
+          new VStrut( 20 ), // spacer to match layout of other nodes
+          new Text( updatesOfflineString, { font: new PhetFont( options.big ? 16 : 14 ), fontWeight: options.big ? 'bold' : 'normal' } )
+        ]
+      }, options ) );
     }
   };
 

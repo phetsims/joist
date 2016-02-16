@@ -48,6 +48,7 @@ define( function( require ) {
   // constants
   var FONT_SIZE = 18;
   var HIGHLIGHT_COLOR = '#a6d2f4';
+  var MAX_ITEM_WIDTH = 400;
 
   // the checkmark used for toggle-able menu items
   var checkNode = new FontAwesomeNode( 'check_without_box', {
@@ -72,7 +73,7 @@ define( function( require ) {
     var Y_MARGIN = 3;
     var CORNER_RADIUS = 5;
 
-    var textNode = new Text( text, { font: new PhetFont( FONT_SIZE ), fill: options.color } );
+    var textNode = new Text( text, { font: new PhetFont( FONT_SIZE ), fill: options.color, maxWidth: MAX_ITEM_WIDTH } );
     var highlight = new Rectangle( 0, 0, width + LEFT_X_MARGIN + RIGHT_X_MARGIN + CHECK_OFFSET, height + Y_MARGIN + Y_MARGIN, CORNER_RADIUS, CORNER_RADIUS );
 
     var menuItem = new Node( {
@@ -371,7 +372,7 @@ define( function( require ) {
 
     // Menu items have uniform size, so compute the max text dimensions.
     var keepItemDescriptors = _.filter( itemDescriptors, function( itemDescriptor ) {return itemDescriptor.present;} );
-    var textNodes = _.map( keepItemDescriptors, function( item ) {return new Text( item.text, { font: new PhetFont( FONT_SIZE ) } );} );
+    var textNodes = _.map( keepItemDescriptors, function( item ) {return new Text( item.text, { font: new PhetFont( FONT_SIZE ), maxWidth: MAX_ITEM_WIDTH } );} );
     var maxTextWidth = _.max( textNodes, function( node ) {return node.width;} ).width;
     var maxTextHeight = _.max( textNodes, function( node ) {return node.height;} ).height;
 

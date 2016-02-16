@@ -31,6 +31,9 @@ define( function( require ) {
   // strings
   var versionPatternString = require( 'string!JOIST/versionPattern' );
 
+  // Maximum width of elements in the dialog
+  var MAX_WIDTH = 550;
+
   /**
    * @param {string} name - The name of the simulation
    * @param {string} version - The version of the simulation
@@ -43,10 +46,10 @@ define( function( require ) {
     var dialog = this;
 
     var children = [];
-    children.push( new Text( name, { font: new PhetFont( 28 ) } ) );
-    children.push( new Text( StringUtils.format( versionPatternString, version ), { font: new PhetFont( 20 ) } ) );
+    children.push( new Text( name, { font: new PhetFont( 28 ), maxWidth: MAX_WIDTH } ) );
+    children.push( new Text( StringUtils.format( versionPatternString, version ), { font: new PhetFont( 20 ), maxWidth: MAX_WIDTH } ) );
     if ( phet.chipper.buildTimestamp ) {
-      children.push( new Text( phet.chipper.buildTimestamp, { font: new PhetFont( 13 ) } ) );
+      children.push( new Text( phet.chipper.buildTimestamp, { font: new PhetFont( 13 ), maxWidth: MAX_WIDTH } ) );
     }
 
     if ( UpdateCheck.areUpdatesChecked ) {
@@ -73,7 +76,8 @@ define( function( require ) {
           upToDateNode,
           outOfDateNode,
           offlineNode
-        ]
+        ],
+        maxWidth: MAX_WIDTH
       } ) );
     }
 
@@ -84,13 +88,14 @@ define( function( require ) {
       children.push( new SubSupText( Brand.name, {
         font: new PhetFont( 16 ),
         supScale: 0.5,
-        supYOffset: 2
+        supYOffset: 2,
+        maxWidth: MAX_WIDTH
       } ) );
     }
 
     // Show the brand copyright statement, if it exists
     if ( Brand.copyright ) {
-      children.push( new Text( Brand.copyright, { font: new PhetFont( 12 ) } ) );
+      children.push( new Text( Brand.copyright, { font: new PhetFont( 12 ), maxWidth: MAX_WIDTH } ) );
     }
 
     // Optional additionalLicenseStatement, used in phet-io
@@ -98,7 +103,8 @@ define( function( require ) {
       children.push( new MultiLineText( Brand.additionalLicenseStatement, {
           font: new PhetFont( 10 ),
           fill: 'gray',
-          align: 'left'
+          align: 'left',
+          maxWidth: MAX_WIDTH
         }
       ) );
     }
@@ -106,7 +112,9 @@ define( function( require ) {
     // Add credits for specific brands
     if ( credits && ( Brand.id === 'phet' || Brand.id === 'phet-io' ) ) {
       children.push( new VStrut( 15 ) );
-      children.push( new CreditsNode( credits ) );
+      children.push( new CreditsNode( credits, {
+        maxWidth: MAX_WIDTH
+      } ) );
     }
 
     // Show any links identified in the brand
@@ -115,7 +123,7 @@ define( function( require ) {
       children.push( new VStrut( 15 ) );
       for ( var i = 0; i < links.length; i++ ) {
         var link = links[ i ];
-        children.push( new LinkText( link.text, link.url, { font: new PhetFont( 14 ) } ) );
+        children.push( new LinkText( link.text, link.url, { font: new PhetFont( 14 ), maxWidth: MAX_WIDTH } ) );
       }
     }
 
