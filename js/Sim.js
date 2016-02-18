@@ -100,8 +100,8 @@ define( function( require ) {
       // Whether accessibility features are enabled or not.
       accessibility: !!phet.chipper.getQueryParameter( 'accessibility' ),
 
-      // the default renderer for the rootNode, see #221 and #184
-      rootRenderer: 'svg',
+      // the default renderer for the rootNode, see #221, #184 and https://github.com/phetsims/molarity/issues/24
+      rootRenderer: platform.edge ? 'canvas' : 'svg',
 
       // support for exporting instances from the sim
       tandem: null
