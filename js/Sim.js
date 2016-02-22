@@ -102,7 +102,7 @@ define( function( require ) {
       accessibility: !!phet.chipper.getQueryParameter( 'accessibility' ),
 
       // the default renderer for the rootNode, see #221 and #184
-      rootRenderer: 'svg',
+      rootRenderer: platform.edge ? 'canvas' : 'svg',
 
       // support for exporting instances from the sim
       tandem: null
@@ -309,7 +309,7 @@ define( function( require ) {
     var simDiv = sim.display.domElement;
     simDiv.id = 'sim';
     simDiv.setAttribute( 'aria-hidden', true );
-    document.body.appendChild( simDiv );  
+    document.body.appendChild( simDiv );
 
     // for preventing Safari from going to sleep. see https://github.com/phetsims/joist/issues/140
     var heartbeatDiv = this.heartbeatDiv = document.createElement( 'div' );
