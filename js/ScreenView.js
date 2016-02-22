@@ -13,7 +13,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var platform = require( 'PHET_CORE/platform' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Events = require( 'AXON/Events' );
 
@@ -34,7 +33,6 @@ define( function( require ) {
     this.layoutBounds = options.layoutBounds;
 
     Node.call( this, _.extend( {
-      renderer: platform.edge ? 'canvas' : null,
       layerSplit: true, // so we're not in the same layer as the navbar, etc.
       excludeInvisible: true, // so we don't keep invisible screens in the SVG tree
       accessibleContent: {
