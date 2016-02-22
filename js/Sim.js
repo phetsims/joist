@@ -101,7 +101,7 @@ define( function( require ) {
       accessibility: !!phet.chipper.getQueryParameter( 'accessibility' ),
 
       // the default renderer for the rootNode, see #221 and #184
-      rootRenderer: 'svg',
+      rootRenderer: platform.edge ? 'canvas' : 'svg',
 
       // support for exporting instances from the sim
       tandem: null

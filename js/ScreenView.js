@@ -12,7 +12,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var platform = require( 'PHET_CORE/platform' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Events = require( 'AXON/Events' );
   var joist = require( 'JOIST/joist' );
@@ -34,7 +33,6 @@ define( function( require ) {
     this.layoutBounds = options.layoutBounds;
 
     Node.call( this, _.extend( {
-      renderer: platform.edge ? 'canvas' : null,
       layerSplit: true, // so we're not in the same layer as the navbar, etc.
       excludeInvisible: true, // so we don't keep invisible screens in the SVG tree
       accessibleContent: {
@@ -157,7 +155,7 @@ define( function( require ) {
       // we want the representative element in the Parallel DOM to look like this:
       //  <div class="ScreenView">
       //    <header role="banner" aria-labelledby="scene-label" aria-describedby="scene-description">
-      //      <h2 id="scene-label">Short label for the whole screen view</h1> 
+      //      <h2 id="scene-label">Short label for the whole screen view</h1>
       //      <!-- General scene description for page load. Parts will need change dynamically.-->
       //      <div id="scene-description">
       //        <p>Long description for layout and components of screen view...</p>
