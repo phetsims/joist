@@ -6,6 +6,8 @@
  * If the simulation has only one screen, then there is no homescreen, home icon or screen icon in the navigation bar.
  *
  * @author Sam Reid (PhET Interactive Simulations)
+ * @author Chris Malley (PixelZoom, Inc.)
+ * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 define( function( require ) {
   'use strict';
