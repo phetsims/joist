@@ -495,7 +495,6 @@ define( function( require ) {
 
     // @public (joist-internal) - Bind the animation loop so it can be called from requestAnimationFrame with the right
     // this
-    this.boundRunAnimationLoop = null;
     this.boundRunAnimationLoop = this.runAnimationLoop.bind( this );
     this.trigger0( 'simulationStarted' );
 
