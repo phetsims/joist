@@ -234,6 +234,10 @@ define( function( require ) {
 
       this.node.offStatic( 'visibility', this.visibilityListener );
     }
+  }, {
+
+    // @public (read-only)
+    DEFAULT_LAYOUT_BOUNDS: DEFAULT_LAYOUT_BOUNDS
   } );
 
   return ScreenView;
