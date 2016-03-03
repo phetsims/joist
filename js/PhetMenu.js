@@ -317,7 +317,7 @@ define( function( require ) {
         tandem: options.tandem && options.tandem.createTandem( 'getUpdate' )
       },
 
-      //Feasibility test for capturing screen shots as images
+      // "Screenshot" Menu item
       {
         text: menuItemScreenshotString,
         present: phet.chipper.getQueryParameter( 'screenshot' ) && !platform.ie9, // TODO is this going to be implemented for IE9? see issue #212
