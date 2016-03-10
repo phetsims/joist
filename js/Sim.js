@@ -293,7 +293,8 @@ define( function( require ) {
 
     // @private
     this.display = new Display( sim.rootNode, {
-      allowSceneOverflow: false, // we take up the entire browsable area, so we don't care about clipping
+      // prevent overflow that can cause iOS bugginess, see https://github.com/phetsims/phet-io/issues/341
+      allowSceneOverflow: false,
 
       // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
       allowWebGL: phet.chipper.getQueryParameter( 'webgl' ) !== 'false',
