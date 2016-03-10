@@ -31,6 +31,7 @@ define( function( require ) {
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var joist = require( 'JOIST/joist' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // strings
   var menuItemOptionsString = require( 'string!JOIST/menuItem.options' );
@@ -340,7 +341,7 @@ define( function( require ) {
             var blob = new window.Blob( [ byteArray ], { type: 'image/png' } );
 
             // our preferred filename
-            var filename = sim.name + ' screenshot.png';
+            var filename = StringUtils.stripEmbeddingMarks( sim.name ) + ' screenshot.png';
 
             window.saveAs( blob, filename );
           }
