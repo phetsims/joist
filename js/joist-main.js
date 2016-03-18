@@ -18,21 +18,6 @@ define( function( require ) {
   // strings
   var joistTitleString = require( 'string!JOIST/joist.title' );
 
-  var screens = [
-        new Screen( 'Dialogs',
-          new Rectangle( 0, 0, Screen.HOME_SCREEN_ICON_SIZE.width, Screen.HOME_SCREEN_ICON_SIZE.height, { fill: 'white' } ),
-          function() { return {}; },
-          function( model ) { return new DialogsDemoView(); },
-          { backgroundColor: 'white' }
-        ),
-        new Screen( 'Dialogs 2',
-          new Rectangle( 0, 0, Screen.HOME_SCREEN_ICON_SIZE.width, Screen.HOME_SCREEN_ICON_SIZE.height, { fill: 'white' } ),
-          function() { return {}; },
-          function( model ) { return new DialogsDemoView(); },
-          { backgroundColor: 'white' }
-        )
-      ];
-
   var options = {
     credits: {
       leadDesign: 'PhET'
@@ -40,6 +25,20 @@ define( function( require ) {
   };
 
   SimLauncher.launch( function() {
+    var screens = [
+      new Screen( 'Dialogs',
+        new Rectangle( 0, 0, Screen.HOME_SCREEN_ICON_SIZE.width, Screen.HOME_SCREEN_ICON_SIZE.height, { fill: 'white' } ),
+        function() { return {}; },
+        function( model ) { return new DialogsDemoView(); },
+        { backgroundColor: 'white' }
+      ),
+      new Screen( 'Dialogs 2',
+        new Rectangle( 0, 0, Screen.HOME_SCREEN_ICON_SIZE.width, Screen.HOME_SCREEN_ICON_SIZE.height, { fill: 'white' } ),
+        function() { return {}; },
+        function( model ) { return new DialogsDemoView(); },
+        { backgroundColor: 'white' }
+      )
+    ];
     new Sim( joistTitleString, screens, options ).start();
   } );
 } );
