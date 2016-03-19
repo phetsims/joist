@@ -489,7 +489,6 @@ define( function( require ) {
     hide: function() {
       if ( this.isShowing ) {
         this.isShowing = false;
-        this.dispose();
         window.phet.joist.sim.hidePopup( this, true );
       }
     },
