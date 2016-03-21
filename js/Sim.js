@@ -102,6 +102,9 @@ define( function( require ) {
       // Whether accessibility features are enabled or not.
       accessibility: !!phet.chipper.getQueryParameter( 'accessibility' ),
 
+      // Whether accessibility features are enabled or not.
+      virtualCursor: !!phet.chipper.getQueryParameter( 'virtualCursor' ),
+
       // the default renderer for the rootNode, see #221, #184 and https://github.com/phetsims/molarity/issues/24
       rootRenderer: platform.edge ? 'canvas' : 'svg',
 
@@ -300,6 +303,7 @@ define( function( require ) {
       allowWebGL: phet.chipper.getQueryParameter( 'webgl' ) !== 'false',
 
       accessibility: options.accessibility,
+      virtualCursor: options.virtualCursor,
       isApplication: false
     } );
 
