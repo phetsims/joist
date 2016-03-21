@@ -322,7 +322,7 @@ define( function( require ) {
       // "Screenshot" Menu item
       {
         text: menuItemScreenshotString,
-        present: phet.chipper.getQueryParameter( 'screenshot' ) && !platform.ie9, // TODO is this going to be implemented for IE9? see issue #212
+        present: !platform.ie9, // Not supported by IE9, see https://github.com/phetsims/joist/issues/212
         callback: function() {
           var dataURL = ScreenshotGenerator.generateScreenshot( sim );
 

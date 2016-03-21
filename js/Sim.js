@@ -291,7 +291,7 @@ define( function( require ) {
       return false;
     };
 
-    // @private
+    // @public
     this.rootNode = new Node( { renderer: options.rootRenderer } );
 
     // @private

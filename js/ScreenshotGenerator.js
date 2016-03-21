@@ -37,17 +37,7 @@ define( function( require ) {
       context.fillRect( 0, 0, canvas.width, canvas.height );
       var wrapper = new CanvasContextWrapper( canvas, context );
 
-      // only render the desired parts to the Canvas (i.e. not the overlay and menu that are visible)
-      if ( sim.showHomeScreen ) {
-        sim.homeScreen.view.renderToCanvasSubtree( wrapper, sim.homeScreen.view.getLocalToGlobalMatrix() );
-      }
-      else {
-        var view = sim.screens[ sim.screenIndex ].view;
-        var navbar = sim.navigationBar;
-
-        view.renderToCanvasSubtree( wrapper, view.getLocalToGlobalMatrix() );
-        navbar.renderToCanvasSubtree( wrapper, navbar.getLocalToGlobalMatrix() );
-      }
+      sim.rootNode.renderToCanvasSubtree( wrapper );
 
       // get the data URL in PNG format
       var dataURL = canvas.toDataURL( [ 'image/png' ] );
