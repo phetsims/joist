@@ -172,12 +172,11 @@ define( function( require ) {
   );
 
   /**
-   * An accessible peer for creating a check box element in the Parallel DOM.
-   * See https://github.com/phetsims/scenery/issues/461
+   * An accessible peer for the PhET button.
    *
    * @param {AccessibleInstance} accessibleInstance
-   * @param {function} listener - listener function fired by this checkbox
-   * @public (accessibility)
+   * @param {function} listener - listener function fired by this button
+   * @public (a11y)
    */
   function PhetButtonAccessiblePeer( accessibleInstance, listener ) {
     this.initialize( accessibleInstance, listener );
@@ -186,12 +185,11 @@ define( function( require ) {
   inherit( AccessiblePeer, PhetButtonAccessiblePeer, {
 
     /**
-     * Create the dom element and its attributes for an accessible PhETButton in the parallel DOM.
+     * Initialize the PhETButton's accessible peer.
      *
      * @param {AccessibleInstance} accessibleInstance
-     * @param {function} listener - listener function fired by this checkbox
-     * @param {string} ion - invisible string description provided to accessible technologies
-     * @public (accessibility)
+     * @param {function} listener - listener function fired by this button
+     * @public (a11y)
      */
     initialize: function( accessibleInstance, listener ) {
       // will look like <input id="phetButtonId" value="Phet Button" type="button">
@@ -199,32 +197,39 @@ define( function( require ) {
       this.domElement = document.createElement( 'input' ); // @private
       this.domElement.type = 'button';
       this.domElement.value = phetButtonNameString;
-      this.domElement.tabIndex = '0';
       this.domElement.className = 'PhetButton';
 
       this.initializeAccessiblePeer( accessibleInstance, this.domElement );
-      this.domElement.addEventListener( 'click', function() {
-        // use hidden on all screenView elements and this button to quickly pull out of the navigation order
-        this.hidden = true;
-        var screenViewElements = document.getElementsByClassName( 'screenView' );
+
+      // @private - listener for the accessible PhETButton - fire the button listener and hide all elements
+      // in the screen view since the PhETMenu acts like a dialog
+      this.domElementListener = function() {
+        this.hidden = !this.hidden;
+        var screenViewElements = document.getElementsByClassName( 'ScreenView' );
         _.each( screenViewElements, function( element ) {
-          element.hidden = true;
+          element.hidden = !element.hidden;
         } );
 
-        // fire the listener, instantiating all menu items.
         listener();
 
-        // set focus to the first element item.
-        document.getElementsByClassName( 'phetMenuItem' )[ 0 ].focus();
-      } );
+        // set focus to the first item in the phet menu
+        document.getElementsByClassName( 'phetMenuItem' )[0].focus();
+
+      };
+
+      // register the listener to the 'click' event
+      this.domElement.addEventListener( 'click', this.domElementListener );
+
+      this.dispose();
     },
 
     /**
-     * Dispose function for the accessible check box.
-     * @public (accessibility)
+     * Dispose the accessible PhetButton so domElement is eligible for garbage collection.
+     * @public (a11y)
      */
     dispose: function() {
-      // TODO
+      AccessiblePeer.prototype.dispose.call( this );
+      this.domElement.removeEventListener( 'click', this.domElementListener );
     }
 
   } );
