@@ -52,6 +52,29 @@ define( function( require ) {
    */
   function PhetButton( sim, backgroundFillProperty, textFillProperty, options ) {
 
+    var phetMenu = new PhetMenu( sim, {
+      showSaveAndLoad: sim.options.showSaveAndLoad,
+      tandem: options.tandem && options.tandem.createTandem( 'phetMenu' ),
+      closeCallback: function() {
+        phetMenu.hide();
+      }
+    } );
+
+    /**
+     * Sim.js handles scaling the popup menu.  This code sets the position of the popup menu.
+     * @param {Bounds2} bounds - the size of the window.innerWidth and window.innerHeight, which depends on the scale
+     * @param {Bounds2} screenBounds - subtracts off the size of the navbar from the height
+     * @param {number} scale - the overall scaling factor for elements in the view
+     */
+    function onResize( bounds, screenBounds, scale ) {
+      phetMenu.right = bounds.right / scale - 2 / scale;
+      var navBarHeight = bounds.height - screenBounds.height;
+      phetMenu.bottom = screenBounds.bottom / scale + navBarHeight / 2 / scale;
+    }
+
+    // sim.bounds are null on init, but we will get the callback when it is sized for the first time
+    sim.on( 'resized', onResize );
+
     options = _.extend( {
       textDescription: 'PhET Menu Button',
       highlightExtensionWidth: 6,
@@ -59,34 +82,6 @@ define( function( require ) {
       highlightCenterOffsetY: 4,
       tandem: null,
       listener: function() {
-
-        var phetMenu = new PhetMenu( sim, {
-          showSaveAndLoad: sim.options.showSaveAndLoad,
-          tandem: options.tandem && options.tandem.createTandem( 'phetMenu' ),
-          closeCallback: function() {
-
-            // hides the popup and barrier background
-            phetMenu.isShowing = false;
-            sim.hidePopup( phetMenu, true );
-            phetMenu.dispose();
-          }
-        } );
-
-        /**
-         * Sim.js handles scaling the popup menu.  This code sets the position of the popup menu.
-         * @param {Bounds2} bounds - the size of the window.innerWidth and window.innerHeight, which depends on the scale
-         * @param {Bounds2} screenBounds - subtracts off the size of the navbar from the height
-         * @param {number} scale - the overall scaling factor for elements in the view
-         */
-        function onResize( bounds, screenBounds, scale ) {
-          phetMenu.right = bounds.right / scale - 2 / scale;
-          var navBarHeight = bounds.height - screenBounds.height;
-          phetMenu.bottom = screenBounds.bottom / scale + navBarHeight / 2 / scale;
-        }
-
-        sim.on( 'resized', onResize );
-        onResize( sim.bounds, sim.screenBounds, sim.scale );
-
         phetMenu.show();
       }
     }, options );
@@ -156,6 +151,7 @@ define( function( require ) {
         var homeScreenTracker = new TransformTracker( homeScreenButton.getParent().getUniqueTrailTo( rootNode ), {
           isStatic: true // our listener won't change any listeners - TODO: replace with emitter?
         } );
+
         function transformPhetButton() {
           // Ensure transform equality: navBarButton(global) = homeScreen(global) * homeScreenButton(self)
           homeScreenButton.matrix = homeScreenTracker.matrix.inverted().timesMatrix( navBarButtonTracker.matrix );
