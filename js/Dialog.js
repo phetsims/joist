@@ -20,9 +20,9 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
 
   /**
-   * @constructor
    * @param {Node} content - The content to display inside the dialog (not including the title)
    * @param {Object} [options]
+   * @constructor
    */
   function Dialog( content, options ) {
 
