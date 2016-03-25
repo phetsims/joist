@@ -51,6 +51,9 @@ define( function( require ) {
   var HIGHLIGHT_COLOR = '#a6d2f4';
   var MAX_ITEM_WIDTH = 400;
 
+  // Whether window.open or other popups (e.g. save screenshot) should be shown.
+  var allowPopups = !phet.chipper.getQueryParameter( 'fuzzMouse' );
+
   // the checkmark used for toggle-able menu items
   var checkNode = new FontAwesomeNode( 'check_without_box', {
     fill: 'rgba(0,0,0,0.7)',
@@ -230,9 +233,11 @@ define( function( require ) {
         tandem: options.tandem && options.tandem.createTandem( 'phetWebsiteButton' ),
         present: isPhETBrand && !isPhetApp,
         callback: function() {
-          // Open locale-specific PhET home page. If there is no website translation for locale, fallback will be handled by server. See joist#97.
-          var phetWindow = window.open( 'http://phet.colorado.edu/' + sim.locale, '_blank' );
-          phetWindow.focus();
+          if ( allowPopups ) {
+            // Open locale-specific PhET home page. If there is no website translation for locale, fallback will be handled by server. See joist#97.
+            var phetWindow = window.open( 'http://phet.colorado.edu/' + sim.locale, '_blank' );
+            phetWindow.focus();
+          }
         }
       },
       {
@@ -295,8 +300,11 @@ define( function( require ) {
                     ( phet.chipper.buildTimestamp ? phet.chipper.buildTimestamp : '(require.js)' ) ) +
                     '&url=' + encodeURIComponent( window.location.href ) +
                     '&dependencies=' + encodeURIComponent( JSON.stringify( dependenciesCopy ) );
-          var reportWindow = window.open( url, '_blank' );
-          reportWindow.focus();
+
+          if ( allowPopups ) {
+            var reportWindow = window.open( url, '_blank' );
+            reportWindow.focus();
+          }
         },
         tandem: options.tandem && options.tandem.createTandem( 'reportAProblemButton' )
       },
@@ -304,8 +312,10 @@ define( function( require ) {
         text: 'QR code',
         present: phet.chipper.getQueryParameter( 'qrCode' ),
         callback: function() {
-          var win = window.open( 'http://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent( window.location.href ) + '&size=220x220&margin=0', '_blank' );
-          win.focus();
+          if ( allowPopups ) {
+            var win = window.open( 'http://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent( window.location.href ) + '&size=220x220&margin=0', '_blank' );
+            win.focus();
+          }
         },
         tandem: options.tandem && options.tandem.createTandem( 'qrCode' )
       },
@@ -343,9 +353,11 @@ define( function( require ) {
             // our preferred filename
             var filename = StringUtils.stripEmbeddingMarks( sim.name ) + ' screenshot.png';
 
-            window.saveAs( blob, filename );
+            if ( allowPopups ) {
+              window.saveAs( blob, filename );
+            }
           }
-          else {
+          else if ( allowPopups ) {
             window.open( dataURL, '_blank', '' );
           }
         }
