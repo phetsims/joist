@@ -225,7 +225,7 @@ define( function( require ) {
       {
         text: phetWebsiteString,
         tandem: options.tandem && options.tandem.createTandem( 'phetWebsiteButton' ),
-        present: isPhETBrand && !isPhetApp,
+        present: isPhETBrand,
         callback: function() {
           // Open locale-specific PhET home page. If there is no website translation for locale, fallback will be handled by server. See joist#97.
           var phetWindow = window.open( 'http://phet.colorado.edu/' + sim.locale, '_blank' );
@@ -319,7 +319,7 @@ define( function( require ) {
       //Feasibility test for capturing screen shots as images
       {
         text: screenshotString,
-        present: phet.chipper.getQueryParameter( 'screenshot' ) && !platform.ie9, // TODO is this going to be implemented for IE9? see issue #212
+        present: phet.chipper.getQueryParameter( 'screenshot' ) && !platform.ie9 && !isPhetApp, // TODO is this going to be implemented for IE9? see issue #212
         callback: function() {
           var dataURL = ScreenshotGenerator.generateScreenshot( sim );
 
