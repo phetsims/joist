@@ -231,7 +231,7 @@ define( function( require ) {
       {
         text: menuItemPhetWebsiteString,
         tandem: options.tandem && options.tandem.createTandem( 'phetWebsiteButton' ),
-        present: isPhETBrand && !isPhetApp,
+        present: isPhETBrand,
         callback: function() {
           if ( allowPopups ) {
             // Open locale-specific PhET home page. If there is no website translation for locale, fallback will be handled by server. See joist#97.
@@ -332,7 +332,7 @@ define( function( require ) {
       // "Screenshot" Menu item
       {
         text: menuItemScreenshotString,
-        present: !platform.ie9, // Not supported by IE9, see https://github.com/phetsims/joist/issues/212
+        present: !platform.ie9 && !isPhetApp, // Not supported by IE9, see https://github.com/phetsims/joist/issues/212
         callback: function() {
           var dataURL = ScreenshotGenerator.generateScreenshot( sim );
 
