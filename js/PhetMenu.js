@@ -196,6 +196,7 @@ define( function( require ) {
 
     //Only show certain features for PhET Sims, such as links to our website
     var isPhETBrand = Brand.id === 'phet';
+    var isPhetApp = Brand.isPhetApp;
 
     options = _.extend( {
 
@@ -275,7 +276,7 @@ define( function( require ) {
       },
       {
         text: menuItemReportAProblemString,
-        present: isPhETBrand,
+        present: isPhETBrand && !isPhetApp,
         callback: function() {
           // Create a smaller version of our dependencies to send, due to the URL length issues.
           // See https://github.com/phetsims/joist/issues/249.
@@ -320,7 +321,7 @@ define( function( require ) {
       //Feasibility test for capturing screen shots as images
       {
         text: menuItemScreenshotString,
-        present: phet.chipper.getQueryParameter( 'screenshot' ) && !platform.ie9, // TODO is this going to be implemented for IE9? see issue #212
+        present: phet.chipper.getQueryParameter( 'screenshot' ) && !platform.ie9 && !isPhetApp, // TODO is this going to be implemented for IE9? see issue #212
         callback: function() {
           var dataURL = ScreenshotGenerator.generateScreenshot( sim );
 
@@ -350,7 +351,7 @@ define( function( require ) {
       },
       {
         text: menuItemFullscreenString,
-        present: FullScreen.isFullScreenEnabled(),
+        present: FullScreen.isFullScreenEnabled() && !isPhetApp,
         checkedProperty: FullScreen.isFullScreenProperty,
         callback: function() {
           FullScreen.toggleFullScreen( sim );
@@ -397,7 +398,7 @@ define( function( require ) {
     var ySpacing = 2;
     var separator;
     _.each( items, function( item ) {
-      if ( item.separatorBefore ) {
+      if ( item.separatorBefore && items[ 0 ] !== item ) {
         y += ySpacing;
         separator = new Path( Shape.lineSegment( 0, y, separatorWidth, y ), { stroke: 'gray', lineWidth: 1 } );
         content.addChild( separator );
