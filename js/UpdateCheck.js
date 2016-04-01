@@ -51,7 +51,7 @@ define( function( require ) {
   inherit( PropertySet, UpdateCheck, {
 
     // @public - Whether we actually allow checking for updates, or showing any update-related UIs.
-    areUpdatesChecked: !window.together && Brand.id === 'phet', // If it's not PhET-branded, don't check for updates
+    areUpdatesChecked: !window.together && Brand.id === 'phet' && !phet.chipper.getQueryParameter( 'phet-app' ), // If it's not PhET-branded, don't check for updates
 
     // @public - The URL to be used for "New version available" clicks
     updateURL: 'http://phet.colorado.edu/html-sim-update' +
