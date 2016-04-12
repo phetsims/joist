@@ -231,7 +231,14 @@ define( function( require ) {
 
     var center = new Node( { y: 170 } );
     homeScreenView.addChild( center );
+    var iconHBox = null;
     sim.screenIndexProperty.link( function( screenIndex ) {
+
+      // remove and clean up previous HBox to avoid leaking memory
+      if ( iconHBox ){
+        center.removeChild( iconHBox );
+        iconHBox.removeAllChildren();
+      }
 
       //Space the icons out more if there are fewer, so they will be spaced nicely
       //Cannot have only 1 screen because for 1-screen sims there is no home screen.
@@ -240,7 +247,8 @@ define( function( require ) {
                     33;
 
       var icons = _.map( screenChildren, function( screenChild ) {return screenChild.index === screenIndex ? screenChild.large : screenChild.small;} );
-      center.children = [ new HBox( { spacing: spacing, children: icons, align: 'top', resize: false } ) ];
+      iconHBox = new HBox( { spacing: spacing, children: icons, align: 'top', resize: false } );
+      center.addChild( iconHBox );
       center.centerX = homeScreenView.layoutBounds.width / 2;
     } );
 
