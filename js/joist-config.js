@@ -26,7 +26,8 @@ require.config( {
     SCENERY: '../../scenery/js',
     SCENERY_PHET: '../../scenery-phet/js',
     SHERPA: '../../sherpa',
-    SUN: '../../sun/js'
+    SUN: '../../sun/js',
+    TANDEM: '../../tandem/js',
   },
 
   // optional cache buster to make browser refresh load all included scripts, can be disabled with ?cacheBuster=false
