@@ -35,6 +35,23 @@ define( function( require ) {
   };
 
   /**
+   * For showing ScreenView layoutBounds with 'showVisibleBounds' query parameter.
+   * @param {ScreenView} screenView
+   * @returns {Node}
+   */
+  var devCreateVisibleBoundsNode = function( screenView ) {
+    var path = new Path( Shape.bounds( screenView.visibleBoundsProperty.value ), {
+      stroke: 'blue',
+      lineWidth: 6,
+      pickable: false
+    } );
+    screenView.visibleBoundsProperty.link( function( visibleBounds ) {
+      path.shape = Shape.bounds( visibleBounds );
+    } );
+    return path;
+  };
+
+  /**
    * @param {string} name
    * @param {Node} homeScreenIcon optimal size is 548x373, will be scaled by HomeScreenView
    * @param {function} createModel
@@ -116,6 +133,12 @@ define( function( require ) {
       // Show the home screen's layoutBounds
       if ( phet.chipper.getQueryParameter( 'dev' ) ) {
         this._view.addChild( devCreateLayoutBoundsNode( this._view.layoutBounds ) );
+      }
+
+      // For debugging, make it possible to see the visibleBounds.  This is not included with ?dev since
+      // it should just be equal to what you see.
+      if ( phet.chipper.getQueryParameter( 'showVisibleBounds' ) ) {
+        this._view.addChild( devCreateVisibleBoundsNode( this._view ) );
       }
     },
 
