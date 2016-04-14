@@ -29,7 +29,6 @@ define( function( require ) {
   var HEIGHT = 70; //TODO what is this? is it the height of large icons?
   var TITLE_FONT_FAMILY = 'Century Gothic, Futura';
   var LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
-  var ICONS_TOP = 170;
 
   function HomeScreenView( sim, options ) {
     var homeScreenView = this;
@@ -230,7 +229,7 @@ define( function( require ) {
       return { screen: screen, small: smallScreenButton, large: largeScreenButton, index: index };
     } );
 
-    var center = new Node( { y: ICONS_TOP } );
+    var center = new Node( { y: 170 } );
     homeScreenView.addChild( center );
     var iconHBox = null;
     sim.screenIndexProperty.link( function( screenIndex ) {
@@ -250,9 +249,7 @@ define( function( require ) {
       var icons = _.map( screenChildren, function( screenChild ) {return screenChild.index === screenIndex ? screenChild.large : screenChild.small;} );
       iconHBox = new HBox( { spacing: spacing, children: icons, align: 'top', resize: false } );
       center.addChild( iconHBox );
-
-      // Workaround for #331 which caused the icons to float toward the top of the screen.
-      center.top = ICONS_TOP;
+      center.centerX = homeScreenView.layoutBounds.width / 2;
     } );
 
     //TODO joist#255 move these fill properties to LookAndFeel, chase down other places that they should be used
