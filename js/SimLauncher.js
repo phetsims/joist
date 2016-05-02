@@ -69,11 +69,8 @@ define( function( require ) {
         } );
       } );
 
-      // Only check namespaces if the query parameter is there AND if assertions are enabled (e.g. ?ea).
-      // see https://github.com/phetsims/joist/issues/307.
-      if ( phet.chipper.getQueryParameter( 'checkNamespaces' ) ) {
-        checkNamespaces();
-      }
+      // Check namespaces if assertions are enabled, see https://github.com/phetsims/joist/issues/307.
+      assert && checkNamespaces();
     }
   };
 
