@@ -24,6 +24,7 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var joist = require( 'JOIST/joist' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  var Util = require( 'DOT/Util' );
 
   // constants
   var HEIGHT = 70; //TODO what is this? is it the height of large icons?
@@ -134,14 +135,14 @@ define( function( require ) {
         }
       } );
 
+      // For 4 screens, scale is 1.0, for 2 screens scale is 1.75, linearly extrapolate/interpolate
+      var scale = Util.linear( 2, 4, 1.75, 1.00, sim.screens.length );
+
       //Show a small (unselected) screen icon.  In some cases (if the icon has a black background), a border may be shown around it as well.  See https://github.com/phetsims/color-vision/issues/49
       var smallIconContent = new Node( {
         opacity: 0.5,
         children: [ screen.homeScreenIcon ],
-        scale: sim.screens.length === 4 ? 1.00 * HEIGHT / screen.homeScreenIcon.height :
-               sim.screens.length === 3 ? 1.25 * HEIGHT / screen.homeScreenIcon.height :
-               sim.screens.length === 2 ? 1.75 * HEIGHT / screen.homeScreenIcon.height :
-               HEIGHT / screen.homeScreenIcon.height
+        scale: scale * HEIGHT / screen.homeScreenIcon.height
       } );
 
       var smallFrame = new Rectangle( 0, 0, smallIconContent.width, smallIconContent.height, {
