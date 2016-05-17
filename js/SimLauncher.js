@@ -39,8 +39,9 @@ define( function( require ) {
       // if image dimensions exist, immediately fire the "all images loaded" event
       var loaded = 0;
 
-      // http://stackoverflow.com/questions/1977871/check-if-an-image-is-loaded-no-errors-in-javascript
-      function IsImageOk( img ) {
+      // Taken from http://stackoverflow.com/questions/1977871/check-if-an-image-is-loaded-no-errors-in-javascript
+      function isImageOK( img ) {
+
         // During the onload event, IE correctly identifies any images that
         // weren’t downloaded as not complete. Others should too. Gecko-based
         // browsers act like NS4 in that they report this incorrectly.
@@ -51,8 +52,7 @@ define( function( require ) {
         // However, they do have two very useful properties: naturalWidth and
         // naturalHeight. These give the true size of the image. If it failed
         // to load, either of these should be zero.
-
-        if ( typeof img.naturalWidth !== "undefined" && img.naturalWidth === 0 ) {
+        if ( typeof img.naturalWidth !== 'undefined' && img.naturalWidth === 0 ) {
           return false;
         }
 
@@ -66,7 +66,7 @@ define( function( require ) {
         for ( var i = 0; i < window.phetImages.length; i++ ) {
           var phetImage = window.phetImages[ i ];
           console.log( 'assigning onload for ' + i );
-          if ( IsImageOk( phetImage ) ) {
+          if ( isImageOK( phetImage ) ) {
             loaded++;
             if ( loaded === window.phetImages.length ) {
               doneLoadingImages();
