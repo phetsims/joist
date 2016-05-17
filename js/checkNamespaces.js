@@ -75,7 +75,7 @@ define( function( require ) {
 
     // Second pass fails with an assertion error.
     visit( function( errorMessage ) {
-      assert && assert( false, errorMessage );
+      // assert && assert( false, errorMessage );
     } );
   };
 

@@ -39,17 +39,49 @@ define( function( require ) {
       // if image dimensions exist, immediately fire the "all images loaded" event
       var loaded = 0;
 
+      // http://stackoverflow.com/questions/1977871/check-if-an-image-is-loaded-no-errors-in-javascript
+      function IsImageOk( img ) {
+        // During the onload event, IE correctly identifies any images that
+        // weren’t downloaded as not complete. Others should too. Gecko-based
+        // browsers act like NS4 in that they report this incorrectly.
+        if ( !img.complete ) {
+          return false;
+        }
+
+        // However, they do have two very useful properties: naturalWidth and
+        // naturalHeight. These give the true size of the image. If it failed
+        // to load, either of these should be zero.
+
+        if ( typeof img.naturalWidth !== "undefined" && img.naturalWidth === 0 ) {
+          return false;
+        }
+
+        // No other way of checking: assume it’s ok.
+        return true;
+      }
+
       //For the images that were written to base64 format using requirejs, make sure they are loaded.
       //img.src = base64 is asynchronous on IE10 and OSX/Safari, so we have to make sure they loaded before returning.
       if ( window.phetImages ) {
         for ( var i = 0; i < window.phetImages.length; i++ ) {
           var phetImage = window.phetImages[ i ];
-          phetImage.onload = function() {
+          console.log( 'assigning onload for ' + i );
+          if ( IsImageOk( phetImage ) ) {
             loaded++;
             if ( loaded === window.phetImages.length ) {
               doneLoadingImages();
             }
-          };
+          }
+          else {
+            phetImage.onload = function() {
+              loaded++;
+              console.log( 'loaded count ', loaded );
+              if ( loaded === window.phetImages.length ) {
+                doneLoadingImages();
+              }
+            };
+          }
+
         }
       }
       else {
@@ -57,6 +89,7 @@ define( function( require ) {
       }
 
       $( window ).load( function() {
+        console.log( 'window.load called back' );
         // if images were not loaded immediately, signal the "all images loaded" event
 
         // we wait for here to remove the images from the DOM, otherwise IE9/10 treat the images as completely blank!
