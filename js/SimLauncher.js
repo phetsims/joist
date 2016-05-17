@@ -71,6 +71,9 @@ define( function( require ) {
       if ( window.phetImages ) {
         for ( var i = 0; i < window.phetImages.length; i++ ) {
           var phetImage = window.phetImages[ i ];
+
+          // For built versions that use phet-io, the simulation may have already loaded all of the images, so
+          // check them here before scheduling them for load.
           if ( isImageOK( phetImage ) ) {
             loaded++;
             if ( loaded === window.phetImages.length ) {
