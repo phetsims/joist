@@ -93,7 +93,6 @@ define( function( require ) {
       }
 
       $( window ).load( function() {
-        console.log( 'window.load called back' );
         // if images were not loaded immediately, signal the "all images loaded" event
 
         // we wait for here to remove the images from the DOM, otherwise IE9/10 treat the images as completely blank!
