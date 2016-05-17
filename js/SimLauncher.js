@@ -10,6 +10,7 @@ define( function( require ) {
   // modules
   var checkNamespaces = require( 'JOIST/checkNamespaces' );
   var joist = require( 'JOIST/joist' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   var SimLauncher = {
     /**
@@ -33,6 +34,11 @@ define( function( require ) {
 
       function doneLoadingImages() {
         $( '#splash' ).remove();
+
+        // Register all of the static tandems.
+        Tandem.launch();
+
+        // Instantiate the sim and show it.
         callback();
       }
 
