@@ -71,7 +71,6 @@ define( function( require ) {
       if ( window.phetImages ) {
         for ( var i = 0; i < window.phetImages.length; i++ ) {
           var phetImage = window.phetImages[ i ];
-          console.log( 'assigning onload for ' + i );
           if ( isImageOK( phetImage ) ) {
             loaded++;
             if ( loaded === window.phetImages.length ) {
@@ -81,7 +80,6 @@ define( function( require ) {
           else {
             phetImage.onload = function() {
               loaded++;
-              console.log( 'loaded count ', loaded );
               if ( loaded === window.phetImages.length ) {
                 doneLoadingImages();
               }
