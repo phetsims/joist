@@ -11,6 +11,7 @@ define( function( require ) {
   var checkNamespaces = require( 'JOIST/checkNamespaces' );
   var joist = require( 'JOIST/joist' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var SimIFrameAPI = require( 'ifphetio!PHET_IO/SimIFrameAPI' );
 
   var SimLauncher = {
     /**
@@ -35,11 +36,22 @@ define( function( require ) {
       function doneLoadingImages() {
         $( '#splash' ).remove();
 
-        // Register all of the static tandems.
-        Tandem.launch();
+        window.phetLaunchSimulation = function() {
 
-        // Instantiate the sim and show it.
-        callback();
+          // Register all of the static tandems.
+          Tandem.launch();
+
+          // Instantiate the sim and show it.
+          callback();
+        };
+
+        // PhET-iO simulations support an initialization phase (before the sim launches)
+        if ( phet.chipper.brand === 'phet-io' ) {
+          SimIFrameAPI.initialize(); // calls back to window.phetLaunchSimulation
+        }
+        if ( phet.chipper.getQueryParameter( 'phet-io.standalone' ) || phet.chipper.brand !== 'phet-io' ) {
+          window.phetLaunchSimulation();
+        }
       }
 
       // if image dimensions exist, immediately fire the "all images loaded" event
