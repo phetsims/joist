@@ -20,6 +20,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
   var joist = require( 'JOIST/joist' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * For showing ScreenView layoutBounds with 'dev' query parameter.
@@ -66,6 +67,8 @@ define( function( require ) {
       navigationBarIcon: homeScreenIcon // must be a minimum of 147x100 and have an aspect ratio of 548/373=1.469.  See https://github.com/phetsims/joist/issues/76
       // the tandem is optional, supplied only for instrumented simulations
     }, options );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     if ( options.tandem ) {
 

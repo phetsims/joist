@@ -37,6 +37,7 @@ define( function( require ) {
   var packageJSON = require( 'JOIST/packageJSON' );
   var PhetButton = require( 'JOIST/PhetButton' );
   var joist = require( 'JOIST/joist' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // strings
   var titlePatternString = require( 'string!JOIST/titlePattern' );
@@ -111,6 +112,8 @@ define( function( require ) {
       // support for exporting instances from the sim
       tandem: null
     }, options );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     // @private - Export for usage in phetio.js
     this.tandem = options.tandem;
