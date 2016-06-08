@@ -18,6 +18,7 @@ define( function( require ) {
   var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
   var Property = require( 'AXON/Property' );
   var joist = require( 'JOIST/joist' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Node} content - the scenery node to render as the content of the button
@@ -39,6 +40,8 @@ define( function( require ) {
       focusable: true,
       tandem: null
     }, options );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     // @private - Button model
     this.buttonModel = new PushButtonModel( options );

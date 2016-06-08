@@ -10,6 +10,8 @@ define( function( require ) {
   // modules
   var checkNamespaces = require( 'JOIST/checkNamespaces' );
   var joist = require( 'JOIST/joist' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  var SimIFrameAPI = require( 'ifphetio!PHET_IO/SimIFrameAPI' );
 
   var SimLauncher = {
     /**
@@ -33,23 +35,72 @@ define( function( require ) {
 
       function doneLoadingImages() {
         $( '#splash' ).remove();
-        callback();
+
+        window.phetLaunchSimulation = function() {
+
+          // Register all of the static tandems.
+          Tandem.launch();
+
+          // Instantiate the sim and show it.
+          callback();
+        };
+
+        // PhET-iO simulations support an initialization phase (before the sim launches)
+        if ( phet.chipper.brand === 'phet-io' ) {
+          SimIFrameAPI.initialize(); // calls back to window.phetLaunchSimulation
+        }
+        if ( phet.chipper.getQueryParameter( 'phet-io.standalone' ) || phet.chipper.brand !== 'phet-io' ) {
+          window.phetLaunchSimulation();
+        }
       }
 
       // if image dimensions exist, immediately fire the "all images loaded" event
       var loaded = 0;
+
+      // Taken from http://stackoverflow.com/questions/1977871/check-if-an-image-is-loaded-no-errors-in-javascript
+      function isImageOK( img ) {
+
+        // During the onload event, IE correctly identifies any images that
+        // weren’t downloaded as not complete. Others should too. Gecko-based
+        // browsers act like NS4 in that they report this incorrectly.
+        if ( !img.complete ) {
+          return false;
+        }
+
+        // However, they do have two very useful properties: naturalWidth and
+        // naturalHeight. These give the true size of the image. If it failed
+        // to load, either of these should be zero.
+        if ( typeof img.naturalWidth !== 'undefined' && img.naturalWidth === 0 ) {
+          return false;
+        }
+
+        // No other way of checking: assume it’s ok.
+        return true;
+      }
 
       //For the images that were written to base64 format using requirejs, make sure they are loaded.
       //img.src = base64 is asynchronous on IE10 and OSX/Safari, so we have to make sure they loaded before returning.
       if ( window.phetImages ) {
         for ( var i = 0; i < window.phetImages.length; i++ ) {
           var phetImage = window.phetImages[ i ];
-          phetImage.onload = function() {
+
+          // For built versions that use phet-io, the simulation may have already loaded all of the images, so
+          // check them here before scheduling them for load.
+          if ( isImageOK( phetImage ) ) {
             loaded++;
             if ( loaded === window.phetImages.length ) {
               doneLoadingImages();
             }
-          };
+          }
+          else {
+            phetImage.onload = function() {
+              loaded++;
+              if ( loaded === window.phetImages.length ) {
+                doneLoadingImages();
+              }
+            };
+          }
+
         }
       }
       else {
@@ -69,11 +120,8 @@ define( function( require ) {
         } );
       } );
 
-      // Only check namespaces if the query parameter is there AND if assertions are enabled (e.g. ?ea).
-      // see https://github.com/phetsims/joist/issues/307.
-      if ( phet.chipper.getQueryParameter( 'checkNamespaces' ) ) {
-        checkNamespaces();
-      }
+      // Check namespaces if assertions are enabled, see https://github.com/phetsims/joist/issues/307.
+      assert && checkNamespaces();
     }
   };
 

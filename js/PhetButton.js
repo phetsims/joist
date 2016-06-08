@@ -23,6 +23,7 @@ define( function( require ) {
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var TransformTracker = require( 'SCENERY/util/TransformTracker' );
   var joist = require( 'JOIST/joist' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // images
   // The logo images are loaded from the brand which is selected via query parameter (during requirejs mode)
@@ -59,6 +60,8 @@ define( function( require ) {
         phetMenu.hide();
       }
     } );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     /**
      * Sim.js handles scaling the popup menu.  This code sets the position of the popup menu.

@@ -32,6 +32,7 @@ define( function( require ) {
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var joist = require( 'JOIST/joist' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // strings
   var menuItemOptionsString = require( 'string!JOIST/menuItem.options' );
@@ -66,6 +67,9 @@ define( function( require ) {
       tandem: null,
       color: '#000'
     }, options );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
+    
     // padding between the check and text
     var CHECK_PADDING = 2;
     // offset that includes the checkmark's width and its padding
@@ -210,6 +214,8 @@ define( function( require ) {
       tandem: null
 
     }, options );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     var thisMenu = this;
     Node.call( thisMenu );
@@ -360,7 +366,8 @@ define( function( require ) {
           else if ( allowPopups ) {
             window.open( dataURL, '_blank', '' );
           }
-        }
+        },
+        tandem: options.tandem && options.tandem.createTandem( 'screenshotMenuItem' )
       },
       {
         text: menuItemFullscreenString,

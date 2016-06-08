@@ -3,7 +3,7 @@
 /**
  * Checks global references (on the phet object) to verify all modules loaded through require.js that match the usual
  * pattern that would be namespaced. For example, if the sim uses SCENERY_PHET/buttons/ArrowButton, calling this
- * will check (with assertions) for the presence of phet.sceneryPhet.ArrowButton.
+ * will check for the presence of phet.sceneryPhet.ArrowButton.
  *
  * See https://github.com/phetsims/tasks/issues/378
  *
@@ -16,11 +16,6 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
 
   var checkNamespaces = function() {
-
-    // Skip everything if we don't have assertions on, since that's the point of this function.
-    if ( !assert ) {
-      return;
-    }
 
     // Get a reference to the defined modules. There doesn't seem to be a common way to access this internal
     // information yet in the optimizer (with almond) and with require.js, so we have a fall-back set up.

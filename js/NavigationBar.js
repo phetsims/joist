@@ -37,6 +37,7 @@ define( function( require ) {
   var Screen = require( 'JOIST/Screen' );
   var Text = require( 'SCENERY/nodes/Text' );
   var joist = require( 'JOIST/joist' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
@@ -61,6 +62,8 @@ define( function( require ) {
     options = _.extend( {
       tandem: null
     }, options );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     // all icons must have a valid aspect ratio, which matches either navbar or homescreen icon dimensions, see joist#263
     if ( screens.length > 1 ) {
