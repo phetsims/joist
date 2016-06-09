@@ -1,8 +1,8 @@
-// Copyright 2002-2014, University of Colorado Boulder
+// Copyright 2015, University of Colorado Boulder
 
 /**
  * Generate a rasterized screenshot for a simulation using scenery's built-in machinery.
- * Used in together as well as PhetMenu (optionally)
+ * Used in phet-io as well as PhetMenu (optionally)
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -12,6 +12,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var CanvasContextWrapper = require( 'SCENERY/util/CanvasContextWrapper' );
+  var joist = require( 'JOIST/joist' );
 
   /**
    *
@@ -20,10 +21,21 @@ define( function( require ) {
   function ScreenshotGenerator() {
   }
 
+  joist.register( 'ScreenshotGenerator', ScreenshotGenerator );
+
   return inherit( Object, ScreenshotGenerator, {}, {
 
-    // Given a sim, generate a screenshot as a data url
-    generateScreenshot: function( sim ) {
+    /**
+     * Given a sim, generate a screenshot as a data url
+     * @param {Sim} sim
+     * @param {string} [mimeType] - String for the image mimeType, defaults to 'image/png'
+     * @returns {string} dataURL
+     * @public
+     */
+    generateScreenshot: function( sim, mimeType ) {
+
+      // Default to PNG
+      mimeType = mimeType || 'image/png';
 
       // set up our Canvas with the correct background color
       var canvas = document.createElement( 'canvas' );
@@ -34,20 +46,10 @@ define( function( require ) {
       context.fillRect( 0, 0, canvas.width, canvas.height );
       var wrapper = new CanvasContextWrapper( canvas, context );
 
-      // only render the desired parts to the Canvas (i.e. not the overlay and menu that are visible)
-      if ( sim.showHomeScreen ) {
-        sim.homeScreen.view.renderToCanvasSubtree( wrapper, sim.homeScreen.view.getLocalToGlobalMatrix() );
-      }
-      else {
-        var view = sim.screens[ sim.screenIndex ].view;
-        var navbar = sim.navigationBar;
-
-        view.renderToCanvasSubtree( wrapper, view.getLocalToGlobalMatrix() );
-        navbar.renderToCanvasSubtree( wrapper, navbar.getLocalToGlobalMatrix() );
-      }
+      sim.rootNode.renderToCanvasSubtree( wrapper );
 
       // get the data URL in PNG format
-      var dataURL = canvas.toDataURL( [ 'image/png' ] );
+      var dataURL = canvas.toDataURL( mimeType );
 
       return dataURL;
     }
