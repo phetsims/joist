@@ -40,7 +40,7 @@ define( function( require ) {
       sim.rootNode.renderToCanvasSubtree( wrapper );
 
       // get the data URL in PNG format
-      var dataURL = canvas.toDataURL( [ 'image/jpeg' ] );
+      var dataURL = canvas.toDataURL( [ 'image/png' ] );
 
       return dataURL;
     }
