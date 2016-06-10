@@ -75,7 +75,7 @@ define( function( require ) {
     api: {
       active: TProperty( TBoolean ),
       barrierRectangle: TBarrierRectangle,
-      screenIndex: TProperty( TNumber ),
+      screenIndex: TProperty( TNumber( 'unitless' ) ),
       showHomeScreen: TProperty( TBoolean )
     },
     documentation: 'The type for the simulation instance',
