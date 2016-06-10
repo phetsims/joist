@@ -12,9 +12,9 @@ define( function( require ) {
   var assertInstanceOf = require( 'PHET_IO/assertions/assertInstanceOf' );
   var phetioInherit = require( 'PHET_IO/phetioInherit' );
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
-  var TButton = require( 'PHET_IO/api/sun/buttons/TButton' );
-  var TNode = require( 'PHET_IO/api/scenery/nodes/TNode' );
-  var TMenuItem = require( 'PHET_IO/api/joist/TMenuItem' );
+  var TButton = require( 'PHET_IO/types/sun/buttons/TButton' );
+  var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
+  var TMenuItem = require( 'PHET_IO/types/joist/TMenuItem' );
 
   var TPhetMenu = phetioInherit( TNode, 'TPhetMenu', function( phetMenu, phetioID ) {
     TButton.call( this, phetMenu, phetioID );

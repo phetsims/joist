@@ -14,15 +14,15 @@ define( function( require ) {
   var phetioInherit = require( 'PHET_IO/phetioInherit' );
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
   var SimIFrameAPI = require( 'PHET_IO/SimIFrameAPI' );
-  var TFunctionWrapper = require( 'PHET_IO/api/TFunctionWrapper' );
-  var TObject = require( 'PHET_IO/api/TObject' );
+  var TFunctionWrapper = require( 'PHET_IO/types/TFunctionWrapper' );
+  var TObject = require( 'PHET_IO/types/TObject' );
   var toEventOnStatic = require( 'PHET_IO/events/toEventOnStatic' );
-  var TString = require( 'PHET_IO/api/TString' );
-  var TVoid = require( 'PHET_IO/api/TVoid' );
-  var TBarrierRectangle = require( 'PHET_IO/api/scenery/nodes/TBarrierRectangle' );
-  var TBoolean = require( 'PHET_IO/api/TBoolean' );
-  var TNumber = require( 'PHET_IO/api/TNumber' );
-  var TProperty = require( 'PHET_IO/api/axon/TProperty' );
+  var TString = require( 'PHET_IO/types/TString' );
+  var TVoid = require( 'PHET_IO/types/TVoid' );
+  var TBarrierRectangle = require( 'PHET_IO/types/scenery/nodes/TBarrierRectangle' );
+  var TBoolean = require( 'PHET_IO/types/TBoolean' );
+  var TNumber = require( 'PHET_IO/types/TNumber' );
+  var TProperty = require( 'PHET_IO/types/axon/TProperty' );
 
   var TSim = phetioInherit( TObject, 'TSim', function( sim, phetioID ) {
     TObject.call( this, sim, phetioID );

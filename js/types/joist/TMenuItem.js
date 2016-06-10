@@ -12,7 +12,7 @@ define( function( require ) {
   var assertInstanceOf = require( 'PHET_IO/assertions/assertInstanceOf' );
   var phetioInherit = require( 'PHET_IO/phetioInherit' );
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
-  var TButton = require( 'PHET_IO/api/sun/buttons/TButton' );
+  var TButton = require( 'PHET_IO/types/sun/buttons/TButton' );
 
   var TMenuItem = phetioInherit( TButton, 'TMenuItem', function( menuItem, phetioID ) {
     TButton.call( this, menuItem, phetioID );
