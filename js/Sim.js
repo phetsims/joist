@@ -427,7 +427,7 @@ define( function( require ) {
 
     // Instantiate the screens. Currently this is done eagerly, but this pattern leaves open the door for loading things
     // in the background.
-    _.each( screens, function( screen ) {
+    screens.forEach( function initializeScreen( screen ) {
       screen.backgroundColorProperty.link( sim.updateBackground );
       screen.initializeModelAndView();
     } );
