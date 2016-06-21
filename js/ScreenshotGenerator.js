@@ -25,8 +25,17 @@ define( function( require ) {
 
   return inherit( Object, ScreenshotGenerator, {}, {
 
-    // @public - Given a sim, generate a screenshot as a data url
-    generateScreenshot: function( sim ) {
+    /**
+     * Given a sim, generate a screenshot as a data url
+     * @param {Sim} sim
+     * @param {string} [mimeType] - String for the image mimeType, defaults to 'image/png'
+     * @returns {string} dataURL
+     * @public
+     */
+    generateScreenshot: function( sim, mimeType ) {
+
+      // Default to PNG
+      mimeType = mimeType || 'image/png';
 
       // set up our Canvas with the correct background color
       var canvas = document.createElement( 'canvas' );
@@ -40,7 +49,7 @@ define( function( require ) {
       sim.rootNode.renderToCanvasSubtree( wrapper );
 
       // get the data URL in PNG format
-      var dataURL = canvas.toDataURL( [ 'image/png' ] );
+      var dataURL = canvas.toDataURL( mimeType );
 
       return dataURL;
     }
