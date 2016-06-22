@@ -25,7 +25,8 @@ define( function( require ) {
       fullScreenButton: TMenuItem,
       phetWebsiteButton: TMenuItem,
       reportAProblemButton: TMenuItem,
-      screenshotMenuItem: TMenuItem
+      screenshotMenuItem: TMenuItem,
+      optionsButton: TMenuItem
     },
     documentation: 'The PhET Menu in the bottom right of the screen'
   } );
