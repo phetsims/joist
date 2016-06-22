@@ -24,14 +24,11 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var joist = require( 'JOIST/joist' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
-  var Util = require( 'DOT/Util' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   var HEIGHT = 70; //TODO what is this? is it the height of large icons?
   var TITLE_FONT_FAMILY = 'Century Gothic, Futura';
   var LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
-  var ICONS_TOP = 170;
 
   function HomeScreenView( sim, options ) {
     var homeScreenView = this;
@@ -123,8 +120,6 @@ define( function( require ) {
         }
       } );
 
-      Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
-      
       // Even though in the user interface, the small and large buttons seem like a single UI component
       // that has grown larger, it would be quite a headache to create a composite button for the purposes of
       // tandem, so instead the large and small buttons are registered as separate instances.  See https://github.com/phetsims/phet-io/issues/99
@@ -138,14 +133,14 @@ define( function( require ) {
         }
       } );
 
-      // For 4 screens, scale is 1.0, for 2 screens scale is 1.75, linearly extrapolate/interpolate
-      var scale = Util.linear( 2, 4, 1.75, 1.00, sim.screens.length );
-
       //Show a small (unselected) screen icon.  In some cases (if the icon has a black background), a border may be shown around it as well.  See https://github.com/phetsims/color-vision/issues/49
       var smallIconContent = new Node( {
         opacity: 0.5,
         children: [ screen.homeScreenIcon ],
-        scale: scale * HEIGHT / screen.homeScreenIcon.height
+        scale: sim.screens.length === 4 ? 1.00 * HEIGHT / screen.homeScreenIcon.height :
+               sim.screens.length === 3 ? 1.25 * HEIGHT / screen.homeScreenIcon.height :
+               sim.screens.length === 2 ? 1.75 * HEIGHT / screen.homeScreenIcon.height :
+               HEIGHT / screen.homeScreenIcon.height
       } );
 
       var smallFrame = new Rectangle( 0, 0, smallIconContent.width, smallIconContent.height, {
@@ -234,16 +229,9 @@ define( function( require ) {
       return { screen: screen, small: smallScreenButton, large: largeScreenButton, index: index };
     } );
 
-    var center = new Node( { y: ICONS_TOP } );
+    var center = new Node( { y: 170 } );
     homeScreenView.addChild( center );
-    var iconHBox = null;
     sim.screenIndexProperty.link( function( screenIndex ) {
-
-      // remove and clean up previous HBox to avoid leaking memory
-      if ( iconHBox ) {
-        center.removeChild( iconHBox );
-        iconHBox.removeAllChildren();
-      }
 
       //Space the icons out more if there are fewer, so they will be spaced nicely
       //Cannot have only 1 screen because for 1-screen sims there is no home screen.
@@ -252,13 +240,8 @@ define( function( require ) {
                     33;
 
       var icons = _.map( screenChildren, function( screenChild ) {return screenChild.index === screenIndex ? screenChild.large : screenChild.small;} );
-      iconHBox = new HBox( { spacing: spacing, children: icons, align: 'top', resize: false } );
-      center.addChild( iconHBox );
-
+      center.children = [ new HBox( { spacing: spacing, children: icons, align: 'top', resize: false } ) ];
       center.centerX = homeScreenView.layoutBounds.width / 2;
-
-      // Workaround for #331 which caused the icons to float toward the top of the screen.
-      center.top = ICONS_TOP;
     } );
 
     //TODO joist#255 move these fill properties to LookAndFeel, chase down other places that they should be used

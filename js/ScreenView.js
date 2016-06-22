@@ -13,8 +13,8 @@ define( function( require ) {
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var Events = require( 'AXON/Events' );
   var joist = require( 'JOIST/joist' );
-  var Property = require( 'AXON/Property' );
 
   /*
    * Default width and height for iPad2, iPad3, iPad4 running Safari with default tabs and decorations
@@ -42,11 +42,8 @@ define( function( require ) {
       }
     }, options ) );
 
-    // The visible bounds of the ScreenView in ScreenView coordinates.  This includes top/bottom or left/right margins
-    // depending on the aspect ratio of the screen.
-    // Initialize to defaults, then update as soon as layout() is called, which is before the ScreenView is displayed
-    // @public (read-only)
-    this.visibleBoundsProperty = new Property( options.layoutBounds );
+    // @public - event channel for notifications
+    this.events = new Events();
   }
 
   joist.register( 'ScreenView', ScreenView );
@@ -94,7 +91,17 @@ define( function( require ) {
 
         this.translate( dx, dy );
 
-        this.visibleBoundsProperty.set( new Bounds2( -dx, -dy, width / scale - dx, height / scale - dy ) );
+        /**
+         * Trigger notifications that the visible bounds have changed, in case any clients need to update the views.
+         *
+         * @param {number} dx - the horizontal offset in stage coordinates
+         * @param {number} dy - the vertical offset in stage coordinates
+         * @param {number} width - the width of the entire visible area in stage coordinates
+         * @param {number} height - the height of the entire visible area in stage coordinates
+         * @param {number} scale - the scale factor between stage coordinates and pixel coordinates
+         * @public
+         */
+        this.events.trigger( 'layoutFinished', dx, dy, width / scale, height / scale, scale );
       }
     },
 

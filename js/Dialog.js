@@ -136,15 +136,12 @@ define( function( require ) {
 
     var sim = window.phet.joist.sim;
 
-    // @private
-    this.updateLayout = function() {
+    function updateLayout() {
       options.layoutStrategy( dialog, sim.bounds, sim.screenBounds, sim.scale );
-    };
+    }
 
-    this.updateLayout();
-
-    // @private
-    this.sim = sim;
+    sim.on( 'resized', updateLayout );
+    updateLayout();
   }
 
   joist.register( 'Dialog', Dialog );
@@ -163,7 +160,6 @@ define( function( require ) {
       if ( !this.isShowing ) {
         window.phet.joist.sim.showPopup( this, this.isModal );
         this.isShowing = true;
-        this.sim.on( 'resized', this.updateLayout );
       }
     },
 
@@ -172,7 +168,6 @@ define( function( require ) {
       if ( this.isShowing ) {
         window.phet.joist.sim.hidePopup( this, this.isModal );
         this.isShowing = false;
-        this.sim.off( 'resized', this.updateLayout );
       }
     }
   }, {

@@ -25,7 +25,6 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var joist = require( 'JOIST/joist' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   var HIGHLIGHT_SPACING = 4;
@@ -67,8 +66,6 @@ define( function( require ) {
         }
       }
     }, options );
-
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     Node.call( this );
 
