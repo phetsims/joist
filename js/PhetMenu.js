@@ -232,7 +232,8 @@ define( function( require ) {
         present: !!sim.options.optionsNode,
         callback: function() {
           new OptionsDialog( sim.options.optionsNode ).show();
-        }
+        },
+        tandem: options.tandem && options.tandem.createTandem( 'optionsButton' ),
       },
       {
         text: menuItemPhetWebsiteString,
