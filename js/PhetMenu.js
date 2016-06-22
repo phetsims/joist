@@ -233,7 +233,7 @@ define( function( require ) {
         callback: function() {
           new OptionsDialog( sim.options.optionsNode ).show();
         },
-        tandem: options.tandem && options.tandem.createTandem( 'optionsButton' ),
+        tandem: options.tandem && options.tandem.createTandem( 'optionsButton' )
       },
       {
         text: menuItemPhetWebsiteString,
