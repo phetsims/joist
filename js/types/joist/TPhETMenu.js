@@ -26,7 +26,10 @@ define( function( require ) {
       phetWebsiteButton: TMenuItem,
       reportAProblemButton: TMenuItem,
       screenshotMenuItem: TMenuItem,
-      optionsButton: TMenuItem
+      optionsButton: TMenuItem,
+      optionsDialog: TNode.extend( {
+        closeButton: TButton
+      } ) // TODO: We need TDialog class
     },
     documentation: 'The PhET Menu in the bottom right of the screen'
   } );
