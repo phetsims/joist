@@ -69,7 +69,7 @@ define( function( require ) {
     }, options );
 
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
-    
+
     // padding between the check and text
     var CHECK_PADDING = 2;
     // offset that includes the checkmark's width and its padding
@@ -231,7 +231,9 @@ define( function( require ) {
         text: menuItemOptionsString,
         present: !!sim.options.optionsNode,
         callback: function() {
-          new OptionsDialog( sim.options.optionsNode ).show();
+          new OptionsDialog( sim.options.optionsNode, {
+            tandem: options.tandem && options.tandem.createTandem( 'optionsDialog' )
+          } ).show();
         },
         tandem: options.tandem && options.tandem.createTandem( 'optionsButton' )
       },
@@ -394,7 +396,12 @@ define( function( require ) {
 
     // Menu items have uniform size, so compute the max text dimensions.
     var keepItemDescriptors = _.filter( itemDescriptors, function( itemDescriptor ) {return itemDescriptor.present;} );
-    var textNodes = _.map( keepItemDescriptors, function( item ) {return new Text( item.text, { font: new PhetFont( FONT_SIZE ), maxWidth: MAX_ITEM_WIDTH } );} );
+    var textNodes = _.map( keepItemDescriptors, function( item ) {
+      return new Text( item.text, {
+        font: new PhetFont( FONT_SIZE ),
+        maxWidth: MAX_ITEM_WIDTH
+      } );
+    } );
     var maxTextWidth = _.max( textNodes, function( node ) {return node.width;} ).width;
     var maxTextHeight = _.max( textNodes, function( node ) {return node.height;} ).height;
 

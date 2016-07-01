@@ -22,13 +22,14 @@ define( function( require ) {
    * @param {Node} optionsNode
    * @constructor
    */
-  function OptionsDialog( optionsNode ) {
-    Dialog.call( this, optionsNode, {
+  function OptionsDialog( optionsNode, options ) {
+    options = _.extend( {
       title: new Text( optionsTitleString, { font: new PhetFont( 30 ) } ),
       titleAlign: 'center',
       modal: true,
       hasCloseButton: true
-    } );
+    }, options );
+    Dialog.call( this, optionsNode, options );
   }
 
   joist.register( 'OptionsDialog', OptionsDialog );

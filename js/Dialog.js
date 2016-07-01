@@ -53,7 +53,8 @@ define( function( require ) {
         createPeer: function( accessibleInstance ) {
           return new DialogAccessiblePeer( accessibleInstance, dialog );
         }
-      }
+      },
+      tandem: null
     }, options );
 
     // @private (read-only)
@@ -116,7 +117,8 @@ define( function( require ) {
         yMargin: 5,
         listener: function() {
           dialog.hide();
-        }
+        },
+        tandem: options.tandem && options.tandem.createTandem( 'closeButton' )
       } );
       this.addChild( closeButton );
 
