@@ -184,9 +184,9 @@ define( function( require ) {
     }, {
       // Tandems for properties in this PropertySet
       tandemSet: options.tandem ? {
-        active: options.tandem.createTandem( 'sim.active' ),
-        screenIndex: options.tandem.createTandem( 'sim.screenIndex' ),
-        showHomeScreen: options.tandem.createTandem( 'sim.showHomeScreen' )
+        active: options.tandem.createTandem( 'sim.activeProperty' ),
+        screenIndex: options.tandem.createTandem( 'sim.screenIndexProperty' ),
+        showHomeScreen: options.tandem.createTandem( 'sim.showHomeScreenProperty' )
       } : {}
     } );
 
