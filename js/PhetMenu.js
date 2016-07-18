@@ -33,6 +33,8 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var TMenuItem = require( 'ifphetio!PHET_IO/types/joist/TMenuItem' );
+  var TPhetMenu = require( 'ifphetio!PHET_IO/types/joist/TPhetMenu' );
 
   // strings
   var menuItemOptionsString = require( 'string!JOIST/menuItem.options' );
@@ -133,7 +135,7 @@ define( function( require ) {
       options.tandem && options.tandem.removeInstance( menuItem );
     };
 
-    options.tandem && options.tandem.addInstance( menuItem );
+    options.tandem && options.tandem.addInstance( menuItem, TMenuItem );
 
     // accessibility
     menuItem.accessibleContent = {
@@ -475,7 +477,7 @@ define( function( require ) {
     // @private (PhetButton.js) - whether the PhetMenu is showing
     this.isShowing = false;
 
-    options.tandem && options.tandem.addInstance( this );
+    options.tandem && options.tandem.addInstance( this, TPhetMenu );
     this.disposePhetMenu = function() {
       options.tandem && options.tandem.removeInstance( this );
     };

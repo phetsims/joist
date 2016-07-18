@@ -19,6 +19,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var joist = require( 'JOIST/joist' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var TPhetButton = require('ifphetio!PHET_IO/types/joist/TPhetButton');
 
   /**
    * @param {Node} content - the scenery node to render as the content of the button
@@ -85,7 +86,7 @@ define( function( require ) {
 
     this.mutate( _.omit( options, 'tandem' ) );
 
-    options.tandem && options.tandem.addInstance( this );
+    options.tandem && options.tandem.addInstance( this,TPhetButton );
   }
 
   joist.register( 'JoistButton', JoistButton );

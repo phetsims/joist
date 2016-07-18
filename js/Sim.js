@@ -38,6 +38,8 @@ define( function( require ) {
   var PhetButton = require( 'JOIST/PhetButton' );
   var joist = require( 'JOIST/joist' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var TSim = require('ifphetio!PHET_IO/types/joist/TSim');
+  var TBarrierRectangle = require('ifphetio!PHET_IO/types/scenery/nodes/TBarrierRectangle');
 
   // strings
   var titlePatternString = require( 'string!JOIST/titlePattern' );
@@ -193,7 +195,7 @@ define( function( require ) {
     // Many other components use addInstance at the end of their constructor but in this case we must register early
     // to (a) enable the SimIFrameAPI as soon as possible and (b) to enable subsequent component registrations,
     // which require the sim to be registered
-    options.tandem && options.tandem.createTandem( 'sim' ).addInstance( this );
+    options.tandem && options.tandem.createTandem( 'sim' ).addInstance( this, TSim );
 
     // @public
     this.lookAndFeel = new LookAndFeel();
@@ -488,7 +490,7 @@ define( function( require ) {
         sim.barrierRectangle.trigger0( 'endedCallbacksForFired' );
       }
     } ) );
-    options.tandem && options.tandem.createTandem( 'sim.barrierRectangle' ).addInstance( this.barrierRectangle );
+    options.tandem && options.tandem.createTandem( 'sim.barrierRectangle' ).addInstance( this.barrierRectangle,TBarrierRectangle );
 
     // Fit to the window and render the initial scene
     $( window ).resize( function() { sim.resizeToWindow(); } );
