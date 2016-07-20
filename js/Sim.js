@@ -40,6 +40,8 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var TSim = require('ifphetio!PHET_IO/types/joist/TSim');
   var TBarrierRectangle = require('ifphetio!PHET_IO/types/scenery/nodes/TBarrierRectangle');
+  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
+  var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
 
   // strings
   var titlePatternString = require( 'string!JOIST/titlePattern' );
@@ -189,7 +191,12 @@ define( function( require ) {
         active: options.tandem.createTandem( 'sim.activeProperty' ),
         screenIndex: options.tandem.createTandem( 'sim.screenIndexProperty' ),
         showHomeScreen: options.tandem.createTandem( 'sim.showHomeScreenProperty' )
-      } : {}
+      } : {},
+      typeSet: {
+        active: TBoolean,
+        screenIndex: TNumber && TNumber( 'unitless' ),
+        showHomeScreen: TBoolean
+      }
     } );
 
     // Many other components use addInstance at the end of their constructor but in this case we must register early
