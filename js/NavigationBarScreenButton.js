@@ -26,6 +26,7 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
   var joist = require( 'JOIST/joist' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var TButton = require( 'ifphetio!PHET_IO/types/sun/buttons/TButton' );
 
   // constants
   var HIGHLIGHT_SPACING = 4;
@@ -89,7 +90,7 @@ define( function( require ) {
     } );
     this.addInputListener( new ButtonListener( this.buttonModel ) );
 
-    options.tandem && options.tandem.addInstance( this );
+    options.tandem && options.tandem.addInstance( this, TButton );
 
     var text = new Text( screen.name, {
       font: new PhetFont( 10 )
