@@ -11,7 +11,11 @@ define( function( require ) {
   var checkNamespaces = require( 'JOIST/checkNamespaces' );
   var joist = require( 'JOIST/joist' );
   var Tandem = require( 'TANDEM/Tandem' );
+
+  // PhET-iO modules
   var SimIFrameAPI = require( 'ifphetio!PHET_IO/SimIFrameAPI' );
+  var phetio = require( 'ifphetio!PHET_IO/phetio' );
+  var TPhETIO = require( 'ifphetio!PHET_IO/types/TPhETIO' );
 
   var SimLauncher = {
     /**
@@ -47,6 +51,7 @@ define( function( require ) {
 
         // PhET-iO simulations support an initialization phase (before the sim launches)
         if ( phet.chipper.brand === 'phet-io' ) {
+          new Tandem( 'phetio' ).addInstance( phetio, TPhETIO );
           SimIFrameAPI.initialize(); // calls back to window.phetLaunchSimulation
         }
         if ( phet.chipper.getQueryParameter( 'phet-io.standalone' ) || phet.chipper.brand !== 'phet-io' ) {
