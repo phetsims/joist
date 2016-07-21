@@ -12,7 +12,7 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
   var Tandem = require( 'TANDEM/Tandem' );
 
-  // PhET-iO modules
+  // phet-io modules
   var SimIFrameAPI = require( 'ifphetio!PHET_IO/SimIFrameAPI' );
   var phetio = require( 'ifphetio!PHET_IO/phetio' );
   var TPhETIO = require( 'ifphetio!PHET_IO/types/TPhETIO' );
