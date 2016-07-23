@@ -19,7 +19,7 @@ define( function( require ) {
   var TScreenButton = phetioInherit( TNode, 'TScreenButton', function( button, phetioID ) {
     TNode.call( this, button, phetioID );
     assertInstanceOf( button, phet.scenery.VBox );
-    toEventOnStatic( button, 'CallbacksForFired', 'user', phetioID, 'fired' );
+    toEventOnStatic( button, 'CallbacksForFired', 'user', phetioID, TScreenButton, 'fired' );
   }, {
     fire: {
       returnType: TVoid,

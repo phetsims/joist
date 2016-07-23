@@ -28,7 +28,7 @@ define( function( require ) {
     TObject.call( this, sim, phetioID );
     assertInstanceOf( sim, phet.joist.Sim );
 
-    toEventOnStatic( sim, 'SimConstructor', 'model', phetioID, 'simStarted', function( value ) {
+    toEventOnStatic( sim, 'SimConstructor', 'model', phetioID, TSim, 'simStarted', function( value ) {
       return {
         sessionID: value.sessionID,
         simName: value.simName,
