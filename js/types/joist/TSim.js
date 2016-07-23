@@ -72,12 +72,6 @@ define( function( require ) {
       documentation: 'Gets a base64 representation of a screenshot of the simulation as a data url'
     }
   }, {
-    api: {
-      activeProperty: TProperty( TBoolean ),
-      barrierRectangle: TBarrierRectangle,
-      screenIndexProperty: TProperty( TNumber( 'unitless' ) ),
-      showHomeScreenProperty: TProperty( TBoolean )
-    },
     documentation: 'The type for the simulation instance',
     events: [
       'simStarted'

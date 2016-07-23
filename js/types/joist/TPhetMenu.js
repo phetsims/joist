@@ -20,17 +20,6 @@ define( function( require ) {
     TButton.call( this, phetMenu, phetioID );
     assertInstanceOf( phetMenu, phet.joist.PhetMenu );
   }, {}, {
-    api: {
-      aboutButton: TMenuItem,
-      fullScreenButton: TMenuItem,
-      phetWebsiteButton: TMenuItem,
-      reportAProblemButton: TMenuItem,
-      screenshotMenuItem: TMenuItem,
-      optionsButton: TMenuItem,
-      optionsDialog: TNode.extend( {
-        closeButton: TButton
-      } ) // TODO: We need TDialog class
-    },
     documentation: 'The PhET Menu in the bottom right of the screen'
   } );
 
