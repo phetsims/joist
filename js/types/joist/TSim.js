@@ -80,20 +80,7 @@ define( function( require ) {
     },
     documentation: 'The type for the simulation instance',
     events: [
-      'simStarted',
-
-      // The entire state for the sim, for the first frame and for keyframes
-      'state',
-
-      // not necessarily a stateChanged because the delta might be empty
-      'stateDelta',
-
-      // For addEventListener, not emitted at every frame into the data stream
-      'frameCompleted',
-
-      'stepSimulation',
-
-      'inputEvent'
+      'simStarted'
     ]
   } );
 
