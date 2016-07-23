@@ -25,8 +25,6 @@ define( function( require ) {
       returnType: TVoid,
       parameterTypes: [],
       implementation: function() {
-
-        // TODO: There are other button types there that this will fail, this works for TextButton/PushButtonModel
         this.instance.buttonModel.fire();
       },
       documentation: 'Fire the button\'s action, as if the button has been pressed and released'
