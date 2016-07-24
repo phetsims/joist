@@ -26,6 +26,8 @@ define( function( require ) {
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var Util = require( 'DOT/Util' );
   var Tandem = require( 'TANDEM/Tandem' );
+
+  // phet-io modules
   var TScreenButton = require( 'ifphetio!PHET_IO/types/joist/TScreenButton' );
 
   // constants

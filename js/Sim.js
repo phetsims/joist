@@ -38,6 +38,8 @@ define( function( require ) {
   var PhetButton = require( 'JOIST/PhetButton' );
   var joist = require( 'JOIST/joist' );
   var Tandem = require( 'TANDEM/Tandem' );
+
+  // phet-io modules
   var TSim = require( 'ifphetio!PHET_IO/types/joist/TSim' );
   var TBarrierRectangle = require( 'ifphetio!PHET_IO/types/scenery/nodes/TBarrierRectangle' );
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );

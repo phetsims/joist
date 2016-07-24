@@ -26,6 +26,8 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
   var joist = require( 'JOIST/joist' );
   var Tandem = require( 'TANDEM/Tandem' );
+
+  // phet-io modules
   var TButton = require( 'ifphetio!PHET_IO/types/sun/buttons/TButton' );
 
   // constants

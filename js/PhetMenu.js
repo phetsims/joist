@@ -33,6 +33,8 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Tandem = require( 'TANDEM/Tandem' );
+
+  // phet-io modules
   var TMenuItem = require( 'ifphetio!PHET_IO/types/joist/TMenuItem' );
   var TPhetMenu = require( 'ifphetio!PHET_IO/types/joist/TPhetMenu' );
 

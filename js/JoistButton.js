@@ -19,6 +19,8 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var joist = require( 'JOIST/joist' );
   var Tandem = require( 'TANDEM/Tandem' );
+
+  // phet-io modules
   var TPhetButton = require('ifphetio!PHET_IO/types/joist/TPhetButton');
 
   /**
