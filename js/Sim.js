@@ -38,8 +38,8 @@ define( function( require ) {
   var PhetButton = require( 'JOIST/PhetButton' );
   var joist = require( 'JOIST/joist' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TSim = require('ifphetio!PHET_IO/types/joist/TSim');
-  var TBarrierRectangle = require('ifphetio!PHET_IO/types/scenery/nodes/TBarrierRectangle');
+  var TSim = require( 'ifphetio!PHET_IO/types/joist/TSim' );
+  var TBarrierRectangle = require( 'ifphetio!PHET_IO/types/scenery/nodes/TBarrierRectangle' );
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
 
@@ -194,7 +194,7 @@ define( function( require ) {
       } : {},
       typeSet: {
         active: TBoolean,
-        screenIndex: TNumber && TNumber( 'unitless' ),
+        screenIndex: TNumber && TNumber( 'unitless', { values: _.range( 0, screens.length ) } ),
         showHomeScreen: TBoolean
       }
     } );
