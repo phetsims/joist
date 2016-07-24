@@ -14,7 +14,6 @@ define( function( require ) {
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
   var TButton = require( 'PHET_IO/types/sun/buttons/TButton' );
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
-  var TMenuItem = require( 'PHET_IO/types/joist/TMenuItem' );
 
   var TPhetMenu = phetioInherit( TNode, 'TPhetMenu', function( phetMenu, phetioID ) {
     TButton.call( this, phetMenu, phetioID );

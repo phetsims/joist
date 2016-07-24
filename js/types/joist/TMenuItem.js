@@ -16,7 +16,9 @@ define( function( require ) {
 
   var TMenuItem = phetioInherit( TButton, 'TMenuItem', function( menuItem, phetioID ) {
     TButton.call( this, menuItem, phetioID );
-    assertInstanceOf( menuItem, phet.scenery.Node ); // Menu item from Joist // TODO: be more specific about this type
+
+    // Menu item from Joist, it is defined in PhetMenu.js and does not have its own type
+    assertInstanceOf( menuItem, phet.scenery.Node );
   }, {}, {
     documentation: 'The item buttons shown in a popup menu',
     events: TButton.events
