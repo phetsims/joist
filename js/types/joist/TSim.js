@@ -19,10 +19,6 @@ define( function( require ) {
   var toEventOnStatic = require( 'PHET_IO/events/toEventOnStatic' );
   var TString = require( 'PHET_IO/types/TString' );
   var TVoid = require( 'PHET_IO/types/TVoid' );
-  var TBarrierRectangle = require( 'PHET_IO/types/scenery/nodes/TBarrierRectangle' );
-  var TBoolean = require( 'PHET_IO/types/TBoolean' );
-  var TNumber = require( 'PHET_IO/types/TNumber' );
-  var TProperty = require( 'PHET_IO/types/axon/TProperty' );
 
   var TSim = phetioInherit( TObject, 'TSim', function( sim, phetioID ) {
     TObject.call( this, sim, phetioID );
