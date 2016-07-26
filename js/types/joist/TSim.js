@@ -43,6 +43,7 @@ define( function( require ) {
       phetio.simulationStarted();
     } );
   }, {
+
     disableRequestAnimationFrame: {
       returnType: TVoid,
       parameterTypes: [],
@@ -51,6 +52,7 @@ define( function( require ) {
       },
       documentation: 'Prevents the simulation from animating/updating'
     },
+
     addEventListener: {
       returnType: TVoid,
       parameterTypes: [ TString, TFunctionWrapper( TVoid, [ TString, TFunctionWrapper( TVoid, [] ) ] ) ],
@@ -59,6 +61,7 @@ define( function( require ) {
       },
       documentation: 'Add an event listener to the sim instance'
     },
+
     getScreenshotDataURL: {
       returnType: TString,
       parameterTypes: [],
