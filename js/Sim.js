@@ -196,7 +196,7 @@ define( function( require ) {
       } : {},
       typeSet: {
         active: TBoolean,
-        screenIndex: TNumber && TNumber( 'unitless', { values: _.range( 0, screens.length ) } ),
+        screenIndex: TNumber( 'unitless', { values: _.range( 0, screens.length ) } ),
         showHomeScreen: TBoolean
       }
     } );
