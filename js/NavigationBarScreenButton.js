@@ -92,7 +92,7 @@ define( function( require ) {
     } );
     this.addInputListener( new ButtonListener( this.buttonModel ) );
 
-    TButton && options.tandem && options.tandem.addInstance( this, TButton );
+    options.tandem && options.tandem.addInstance( this, TButton );
 
     var text = new Text( screen.name, {
       font: new PhetFont( 10 )

@@ -88,7 +88,7 @@ define( function( require ) {
 
     this.mutate( _.omit( options, 'tandem' ) );
 
-    TPhetButton && options.tandem && options.tandem.addInstance( this, TPhetButton );
+    options.tandem && options.tandem.addInstance( this, TPhetButton );
   }
 
   joist.register( 'JoistButton', JoistButton );

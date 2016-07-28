@@ -137,7 +137,7 @@ define( function( require ) {
       options.tandem && options.tandem.removeInstance( menuItem );
     };
 
-    TMenuItem && options.tandem && options.tandem.addInstance( menuItem, TMenuItem );
+    options.tandem && options.tandem.addInstance( menuItem, TMenuItem );
 
     // accessibility
     menuItem.accessibleContent = {
@@ -479,7 +479,7 @@ define( function( require ) {
     // @private (PhetButton.js) - whether the PhetMenu is showing
     this.isShowing = false;
 
-    TPhetMenu && options.tandem && options.tandem.addInstance( this, TPhetMenu );
+    options.tandem && options.tandem.addInstance( this, TPhetMenu );
     this.disposePhetMenu = function() {
       options.tandem && options.tandem.removeInstance( this );
     };
