@@ -194,7 +194,7 @@ define( function( require ) {
         screenIndex: options.tandem.createTandem( 'sim.screenIndexProperty' ),
         showHomeScreen: options.tandem.createTandem( 'sim.showHomeScreenProperty' )
       } : {},
-      typeSet: {
+      phetioValueTypeSet: {
         active: TBoolean,
         screenIndex: TNumber( 'unitless', { values: _.range( 0, screens.length ) } ),
         showHomeScreen: TBoolean
