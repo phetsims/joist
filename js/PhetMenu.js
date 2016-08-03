@@ -196,6 +196,7 @@ define( function( require ) {
 
     //Only show certain features for PhET Sims, such as links to our website
     var isPhETBrand = Brand.id === 'phet';
+    var isPhetApp = Brand.isPhetApp;
 
     options = _.extend( {
 
