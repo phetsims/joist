@@ -196,6 +196,7 @@ define( function( require ) {
 
     //Only show certain features for PhET Sims, such as links to our website
     var isPhETBrand = Brand.id === 'phet';
+    var isPhetApp = Brand.isPhetApp;
 
     options = _.extend( {
 
@@ -320,7 +321,7 @@ define( function( require ) {
       //Feasibility test for capturing screen shots as images
       {
         text: menuItemScreenshotString,
-        present: phet.chipper.getQueryParameter( 'screenshot' ) && !platform.ie9, // TODO is this going to be implemented for IE9? see issue #212
+        present: !platform.ie9 && !isPhetApp, // Not supported by IE9, see https://github.com/phetsims/joist/issues/212
         callback: function() {
           var dataURL = ScreenshotGenerator.generateScreenshot( sim );
 
