@@ -196,7 +196,7 @@ define( function( require ) {
       } : {},
       phetioValueTypeSet: {
         active: TBoolean,
-        screenIndex: TNumber( 'unitless', { values: _.range( 0, screens.length ) } ),
+        screenIndex: TNumber( { values: _.range( 0, screens.length ) } ),
         showHomeScreen: TBoolean
       }
     } );
