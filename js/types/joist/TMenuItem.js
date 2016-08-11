@@ -14,12 +14,14 @@ define( function( require ) {
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
   var TButton = require( 'PHET_IO/types/sun/buttons/TButton' );
 
-  var TMenuItem = phetioInherit( TButton, 'TMenuItem', function( menuItem, phetioID ) {
+  var TMenuItem = function( menuItem, phetioID ) {
     TButton.call( this, menuItem, phetioID );
 
     // Menu item from Joist, it is defined in PhetMenu.js and does not have its own type
     assertInstanceOf( menuItem, phet.scenery.Node );
-  }, {}, {
+  };
+
+  phetioInherit( TButton, 'TMenuItem', TMenuItem, {}, {
     documentation: 'The item buttons shown in a popup menu',
     events: TButton.events
   } );
