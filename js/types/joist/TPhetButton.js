@@ -15,13 +15,15 @@ define( function( require ) {
   var phetioInherit = require( 'PHET_IO/phetioInherit' );
   var TButton = require( 'PHET_IO/types/sun/buttons/TButton' );
 
-  var TPhetButton = phetioInherit( TButton, 'TPhetButton', function( phetButton, phetioID ) {
+  var TPhetButton = function( phetButton, phetioID ) {
     TButton.call( this, phetButton, phetioID );
     assertInstanceOfTypes( phetButton, [
       phet.joist.PhetButton,
       phet.joist.HomeButton
     ] );
-  }, {}, {
+  };
+
+  phetioInherit( TButton, 'TPhetButton', TPhetButton, {}, {
     documentation: 'The buttons used in the home screen and navigation bar',
     events: TButton.events
   } );

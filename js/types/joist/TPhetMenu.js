@@ -15,10 +15,12 @@ define( function( require ) {
   var TButton = require( 'PHET_IO/types/sun/buttons/TButton' );
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
 
-  var TPhetMenu = phetioInherit( TNode, 'TPhetMenu', function( phetMenu, phetioID ) {
+  var TPhetMenu = function( phetMenu, phetioID ) {
     TButton.call( this, phetMenu, phetioID );
     assertInstanceOf( phetMenu, phet.joist.PhetMenu );
-  }, {}, {
+  };
+
+  phetioInherit( TNode, 'TPhetMenu', TPhetMenu, {}, {
     documentation: 'The PhET Menu in the bottom right of the screen'
   } );
 
