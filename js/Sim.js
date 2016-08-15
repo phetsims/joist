@@ -432,7 +432,7 @@ define( function( require ) {
     } );
 
     this.multilink( [ 'showHomeScreen', 'screenIndex' ], function( showHomeScreen, screenIndex ) {
-      sim.currentScreen = showHomeScreen ? null : screens[ screenIndex ];
+      sim.currentScreen = showHomeScreen && sim.homeScreen ? null : screens[ screenIndex ];
       sim.updateBackground();
     } );
 
