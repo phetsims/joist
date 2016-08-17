@@ -517,6 +517,9 @@ define( function( require ) {
 
     // Signify the end of simulation startup.  Used by PhET-iO.
     this.trigger0( 'endedSimConstructor' );
+
+    // Send out initial screen size
+    this.trigger( 'resized', this.bounds, this.screenBounds, this.scale );
   }
 
   joist.register( 'Sim', Sim );
@@ -613,6 +616,7 @@ define( function( require ) {
       // {Bounds2} screenBounds - subtracts off the size of the navbar from the height
       // {number} scale - the overall scaling factor for elements in the view
       this.trigger( 'resized', this.bounds, this.screenBounds, this.scale );
+      console.log( 'trigger resized' );
     },
 
     // @public (joist-internal)
