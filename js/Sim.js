@@ -113,16 +113,16 @@ define( function( require ) {
       virtualCursor: !!phet.chipper.getQueryParameter( 'virtualCursor' ),
 
       // the default renderer for the rootNode, see #221, #184 and https://github.com/phetsims/molarity/issues/24
-      rootRenderer: platform.edge ? 'canvas' : 'svg',
-
-      // support for exporting instances from the sim
-      tandem: null
+      rootRenderer: platform.edge ? 'canvas' : 'svg'
     }, options );
 
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
+    // Tandems should no longer be passed as an option, see https://github.com/phetsims/phet-io/issues/549
+    // TODO: We can probably remove this once this new pattern is established.
+    assert && assert( !options.tandem, 'Sim.options should not receive a tandem' );
 
     // @private - Export for usage in phetio.js
-    this.tandem = options.tandem;
+    this.tandem = Tandem.createRootTandem();
+    var tandem = this.tandem;
 
     // @private - store this for access from prototype functions, assumes that it won't be changed later
     this.options = options;
@@ -189,11 +189,11 @@ define( function( require ) {
       showFittedBlockBounds: !!phet.chipper.getQueryParameter( 'showFittedBlockBounds' )
     }, {
       // Tandems for properties in this PropertySet
-      tandemSet: options.tandem ? {
-        active: options.tandem.createTandem( 'sim.activeProperty' ),
-        screenIndex: options.tandem.createTandem( 'sim.screenIndexProperty' ),
-        showHomeScreen: options.tandem.createTandem( 'sim.showHomeScreenProperty' )
-      } : {},
+      tandemSet: {
+        active: tandem.createTandem( 'sim.activeProperty' ),
+        screenIndex: tandem.createTandem( 'sim.screenIndexProperty' ),
+        showHomeScreen: tandem.createTandem( 'sim.showHomeScreenProperty' )
+      },
       phetioValueTypeSet: {
         active: TBoolean,
         screenIndex: TNumber( { values: _.range( 0, screens.length ) } ),
@@ -204,7 +204,7 @@ define( function( require ) {
     // Many other components use addInstance at the end of their constructor but in this case we must register early
     // to (a) enable the SimIFrameAPI as soon as possible and (b) to enable subsequent component registrations,
     // which require the sim to be registered
-    options.tandem && options.tandem.createTandem( 'sim' ).addInstance( this, TSim );
+    tandem.createTandem( 'sim' ).addInstance( this, TSim );
 
     // @public
     this.lookAndFeel = new LookAndFeel();
@@ -407,7 +407,7 @@ define( function( require ) {
       this.homeScreen = new HomeScreen( this, {
         warningNode: options.homeScreenWarningNode,
         showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame,
-        tandem: options.tandem ? options.tandem.createTandem( 'homeScreen' ) : null
+        tandem: tandem.createTandem( 'homeScreen' )
       } );
       this.homeScreen.initializeModelAndView();
     }
@@ -416,9 +416,7 @@ define( function( require ) {
     }
 
     // @public (joist-internal)
-    this.navigationBar = new NavigationBar( this, screens, {
-      tandem: options.tandem ? options.tandem.createTandem( 'navigationBar' ) : null
-    } );
+    this.navigationBar = new NavigationBar( this, screens, tandem.createTandem( 'navigationBar' ) );
 
     // @public (joist-internal)
     this.updateBackground = function() {
@@ -499,7 +497,7 @@ define( function( require ) {
         sim.barrierRectangle.trigger0( 'endedCallbacksForFired' );
       }
     } ) );
-    options.tandem && options.tandem.createTandem( 'sim.barrierRectangle' ).addInstance( this.barrierRectangle, TBarrierRectangle );
+    tandem.createTandem( 'sim.barrierRectangle' ).addInstance( this.barrierRectangle, TBarrierRectangle );
 
     // Fit to the window and render the initial scene
     $( window ).resize( function() { sim.resizeToWindow(); } );

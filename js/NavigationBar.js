@@ -54,16 +54,10 @@ define( function( require ) {
    * Creates a nav bar.
    * @param {Sim} sim
    * @param {Screen[]} screens
-   * @param {Object} [options]
+   * @param {Tandem} tandem
    * @constructor
    */
-  function NavigationBar( sim, screens, options ) {
-
-    options = _.extend( {
-      tandem: null
-    }, options );
-
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
+  function NavigationBar( sim, screens, tandem ) {
 
     // all icons must have a valid aspect ratio, which matches either navbar or homescreen icon dimensions, see joist#263
     if ( screens.length > 1 ) {
@@ -104,7 +98,7 @@ define( function( require ) {
     // @public (joist-internal) - PhET button. The transform of this is tracked, so we can mirror it over to the
     // homescreen's button. See https://github.com/phetsims/joist/issues/304.
     this.phetButton = new PhetButton( sim, sim.lookAndFeel.navigationBarFillProperty, sim.lookAndFeel.navigationBarTextFillProperty, {
-      tandem: options.tandem ? options.tandem.createTandem( 'phetButton' ) : null
+      tandem: tandem.createTandem( 'phetButton' )
     } );
     this.barContents.addChild( this.phetButton );
 
@@ -125,7 +119,7 @@ define( function( require ) {
         listener: function() {
           sim.showHomeScreen = true;
         },
-        tandem: options.tandem && options.tandem.createTandem( 'homeButton' )
+        tandem: tandem.createTandem( 'homeButton' )
       } );
       this.barContents.addChild( this.homeButton );
 
@@ -155,7 +149,7 @@ define( function( require ) {
           screen,
           NAVIGATION_BAR_SIZE.height, {
             maxButtonWidth: screenButtonWidth,
-            tandem: options.tandem && options.tandem.createTandem( screen.tandem.tail + 'Button' )
+            tandem: screen.tandem && tandem.createTandem( screen.tandem.tail + 'Button' ) // not all screens are instrumented
           } );
       } );
 
