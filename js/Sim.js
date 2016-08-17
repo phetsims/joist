@@ -518,7 +518,7 @@ define( function( require ) {
     // Signify the end of simulation startup.  Used by PhET-iO.
     this.trigger0( 'endedSimConstructor' );
 
-    // Send out initial screen size
+    // Send out initial screen size.  TODO: find a way to use the resize trigger that occurs during startup, see https://github.com/phetsims/phet-io/issues/550
     this.trigger( 'resized', this.bounds, this.screenBounds, this.scale );
   }
 
