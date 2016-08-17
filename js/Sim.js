@@ -616,7 +616,6 @@ define( function( require ) {
       // {Bounds2} screenBounds - subtracts off the size of the navbar from the height
       // {number} scale - the overall scaling factor for elements in the view
       this.trigger( 'resized', this.bounds, this.screenBounds, this.scale );
-      console.log( 'trigger resized' );
     },
 
     // @public (joist-internal)
