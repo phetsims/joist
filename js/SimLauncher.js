@@ -11,6 +11,7 @@ define( function( require ) {
   var checkNamespaces = require( 'JOIST/checkNamespaces' );
   var joist = require( 'JOIST/joist' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var Random = require( 'DOT/Random' );
 
   // phet-io modules
   var SimIFrameAPI = require( 'ifphetio!PHET_IO/SimIFrameAPI' );
@@ -44,6 +45,10 @@ define( function( require ) {
 
           // Register all of the static tandems.
           Tandem.launch();
+
+          // Provide a global Random that is easy to use and seedable from phet-io for playback
+          // phet-io configuration hapens after SimLauncher.launch is called and before phetLaunchSimulation is called
+          phet.joist.random = new Random( { staticSeed: true } );
 
           // Instantiate the sim and show it.
           callback();
