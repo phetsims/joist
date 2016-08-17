@@ -37,7 +37,6 @@ define( function( require ) {
   var Screen = require( 'JOIST/Screen' );
   var Text = require( 'SCENERY/nodes/Text' );
   var joist = require( 'JOIST/joist' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
