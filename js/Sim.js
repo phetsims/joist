@@ -569,7 +569,7 @@ define( function( require ) {
       this.resize( window.innerWidth, window.innerHeight );
     },
 
-    // @public (joist-internal)
+    // @public (joist-internal, phet-io)
     resize: function( width, height ) {
       var sim = this;
 
