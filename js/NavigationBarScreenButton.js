@@ -28,7 +28,7 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
 
   // phet-io modules
-  var TButton = require( 'ifphetio!PHET_IO/types/sun/buttons/TButton' );
+  var TPushButton = require( 'ifphetio!PHET_IO/types/sun/buttons/TPushButton' );
 
   // constants
   var HIGHLIGHT_SPACING = 4;
@@ -92,7 +92,7 @@ define( function( require ) {
     } );
     this.addInputListener( new ButtonListener( this.buttonModel ) );
 
-    options.tandem && options.tandem.addInstance( this, TButton );
+    options.tandem && options.tandem.addInstance( this, TPushButton );
 
     var text = new Text( screen.name, {
       font: new PhetFont( 10 )
