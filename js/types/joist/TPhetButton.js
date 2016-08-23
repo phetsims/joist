@@ -13,19 +13,19 @@ define( function( require ) {
   var assertInstanceOfTypes = require( 'PHET_IO/assertions/assertInstanceOfTypes' );
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
   var phetioInherit = require( 'PHET_IO/phetioInherit' );
-  var TButton = require( 'PHET_IO/types/sun/buttons/TButton' );
+  var TPushButton = require( 'PHET_IO/types/sun/buttons/TPushButton' );
 
   var TPhetButton = function( phetButton, phetioID ) {
-    TButton.call( this, phetButton, phetioID );
+    TPushButton.call( this, phetButton, phetioID );
     assertInstanceOfTypes( phetButton, [
       phet.joist.PhetButton,
       phet.joist.HomeButton
     ] );
   };
 
-  phetioInherit( TButton, 'TPhetButton', TPhetButton, {}, {
+  phetioInherit( TPushButton, 'TPhetButton', TPhetButton, {}, {
     documentation: 'The buttons used in the home screen and navigation bar',
-    events: TButton.events
+    events: TPushButton.events
   } );
 
   phetioNamespace.register( 'TPhetButton', TPhetButton );

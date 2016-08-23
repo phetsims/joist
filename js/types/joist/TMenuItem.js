@@ -12,18 +12,18 @@ define( function( require ) {
   var assertInstanceOf = require( 'PHET_IO/assertions/assertInstanceOf' );
   var phetioInherit = require( 'PHET_IO/phetioInherit' );
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
-  var TButton = require( 'PHET_IO/types/sun/buttons/TButton' );
+  var TPushButton = require( 'PHET_IO/types/sun/buttons/TPushButton' );
 
   var TMenuItem = function( menuItem, phetioID ) {
-    TButton.call( this, menuItem, phetioID );
+    TPushButton.call( this, menuItem, phetioID );
 
     // Menu item from Joist, it is defined in PhetMenu.js and does not have its own type
     assertInstanceOf( menuItem, phet.scenery.Node );
   };
 
-  phetioInherit( TButton, 'TMenuItem', TMenuItem, {}, {
+  phetioInherit( TPushButton, 'TMenuItem', TMenuItem, {}, {
     documentation: 'The item buttons shown in a popup menu',
-    events: TButton.events
+    events: TPushButton.events
   } );
 
   phetioNamespace.register( 'TMenuItem', TMenuItem );
