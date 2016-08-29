@@ -41,7 +41,7 @@ define( function( require ) {
 
       // View is where all of the work is done
       function() {
-        return new HomeScreenView( sim, options );
+        return new HomeScreenView( sim, options.tandem, options );
       },
 
       options

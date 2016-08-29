@@ -36,13 +36,19 @@ define( function( require ) {
   var LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
   var ICONS_TOP = 170;
 
-  function HomeScreenView( sim, options ) {
+  /**
+   *
+   * @param {Sim} sim
+   * @param {Tandem} tandem
+   * @param {Object} [options]
+   * @constructor
+   */
+  function HomeScreenView( sim, tandem, options ) {
     var homeScreenView = this;
 
     options = _.extend( {
       showSmallHomeScreenIconFrame: false,
-      warningNode: null, // {Node | null}, to display below the icons as a warning if available
-      tandem: null
+      warningNode: null // {Node | null}, to display below the icons as a warning if available
     }, options );
 
     // Rendering in SVG seems to solve the problem that the home screen consumes 100% disk and crashes, see https://github.com/phetsims/joist/issues/17
@@ -131,7 +137,7 @@ define( function( require ) {
       // Even though in the user interface, the small and large buttons seem like a single UI component
       // that has grown larger, it would be quite a headache to create a composite button for the purposes of
       // tandem, so instead the large and small buttons are registered as separate instances.  See https://github.com/phetsims/phet-io/issues/99
-      options.tandem && screen.tandem && options.tandem.createTandem( screen.tandem.tail + 'LargeButton' ).addInstance( largeScreenButton, TScreenButton );
+      screen.tandem && tandem.createTandem( screen.tandem.tail + 'LargeButton' ).addInstance( largeScreenButton, TScreenButton );
 
       // TODO: Switch to buttonListener, but make sure you test it because on 7/17/2013 there is a problem where
       // TODO: ButtonListener won't fire if a node has appeared under the pointer
@@ -214,7 +220,7 @@ define( function( require ) {
         }
       } );
 
-      TScreenButton && screen.tandem && options.tandem && options.tandem.createTandem( screen.tandem.tail + 'SmallButton' ).addInstance( smallScreenButton, TScreenButton );
+      screen.tandem && tandem.createTandem( screen.tandem.tail + 'SmallButton' ).addInstance( smallScreenButton, TScreenButton );
 
       var highlightListener = {
         over: function( event ) {
@@ -271,7 +277,7 @@ define( function( require ) {
     // @public (joist-internal) - This PhET button is public since our creator (Sim.js) is responsible for positioning
     // this button. See https://github.com/phetsims/joist/issues/304.
     this.phetButton = new PhetButton( sim, homeScreenFillProperty, homeScreenTextFillProperty, {
-      tandem: options.tandem ? options.tandem.createTandem( 'phetButton' ) : null
+      tandem: tandem.createTandem( 'phetButton' )
     } );
     this.addChild( this.phetButton );
 
