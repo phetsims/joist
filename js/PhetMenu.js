@@ -204,7 +204,13 @@ define( function( require ) {
     return bubble;
   };
 
-  function PhetMenu( sim, options ) {
+  /**
+   * @param {Sim} sim
+   * @param {Tandem} tandem
+   * @param {Object} [options]
+   * @constructor
+   */
+  function PhetMenu( sim, tandem, options ) {
 
     //Only show certain features for PhET Sims, such as links to our website
     var isPhETBrand = Brand.id === 'phet';
@@ -213,13 +219,9 @@ define( function( require ) {
     options = _.extend( {
 
       //For sims that have save/load enabled, show menu items for those.
-      showSaveAndLoad: false,
-
-      tandem: null
+      showSaveAndLoad: false
 
     }, options );
-
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     var thisMenu = this;
     Node.call( thisMenu );
@@ -236,14 +238,14 @@ define( function( require ) {
         present: !!sim.options.optionsNode,
         callback: function() {
           new OptionsDialog( sim.options.optionsNode, {
-            tandem: options.tandem && options.tandem.createTandem( 'optionsDialog' )
+            tandem: tandem.createTandem( 'optionsDialog' )
           } ).show();
         },
-        tandem: options.tandem && options.tandem.createTandem( 'optionsButton' )
+        tandem: tandem.createTandem( 'optionsButton' )
       },
       {
         text: menuItemPhetWebsiteString,
-        tandem: options.tandem && options.tandem.createTandem( 'phetWebsiteButton' ),
+        tandem: tandem.createTandem( 'phetWebsiteButton' ),
         present: isPhETBrand,
         callback: function() {
           if ( allowPopups ) {
@@ -319,7 +321,7 @@ define( function( require ) {
             reportWindow.focus();
           }
         },
-        tandem: options.tandem && options.tandem.createTandem( 'reportAProblemButton' )
+        tandem: tandem.createTandem( 'reportAProblemButton' )
       },
       {
         text: 'QR code',
@@ -330,7 +332,7 @@ define( function( require ) {
             win.focus();
           }
         },
-        tandem: options.tandem && options.tandem.createTandem( 'qrCode' )
+        tandem: tandem.createTandem( 'qrCode' )
       },
       {
         text: menuItemGetUpdateString,
@@ -339,7 +341,7 @@ define( function( require ) {
         callback: function() {
           new UpdateDialog().show();
         },
-        tandem: options.tandem && options.tandem.createTandem( 'getUpdate' )
+        tandem: tandem.createTandem( 'getUpdate' )
       },
 
       // "Screenshot" Menu item
@@ -374,7 +376,7 @@ define( function( require ) {
             window.open( dataURL, '_blank', '' );
           }
         },
-        tandem: options.tandem && options.tandem.createTandem( 'screenshotMenuItem' )
+        tandem: tandem.createTandem( 'screenshotMenuItem' )
       },
       {
         text: menuItemFullscreenString,
@@ -383,7 +385,7 @@ define( function( require ) {
         callback: function() {
           FullScreen.toggleFullScreen( sim );
         },
-        tandem: options.tandem && options.tandem.createTandem( 'fullScreenButton' )
+        tandem: tandem.createTandem( 'fullScreenButton' )
       },
 
       //About dialog button
@@ -394,7 +396,7 @@ define( function( require ) {
         callback: function() {
           new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale ).show();
         },
-        tandem: options.tandem && options.tandem.createTandem( 'aboutButton' )
+        tandem: tandem.createTandem( 'aboutButton' )
       }
     ];
 
@@ -479,9 +481,9 @@ define( function( require ) {
     // @private (PhetButton.js) - whether the PhetMenu is showing
     this.isShowing = false;
 
-    options.tandem && options.tandem.addInstance( this, TPhetMenu );
+    tandem.addInstance( this, TPhetMenu );
     this.disposePhetMenu = function() {
-      options.tandem && options.tandem.removeInstance( this );
+      tandem.removeInstance( this );
     };
   }
 

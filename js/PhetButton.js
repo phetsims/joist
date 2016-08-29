@@ -53,9 +53,8 @@ define( function( require ) {
    */
   function PhetButton( sim, backgroundFillProperty, textFillProperty, options ) {
 
-    var phetMenu = new PhetMenu( sim, {
+    var phetMenu = new PhetMenu( sim, options.tandem.createTandem( 'phetMenu' ), {
       showSaveAndLoad: sim.options.showSaveAndLoad,
-      tandem: options.tandem && options.tandem.createTandem( 'phetMenu' ),
       closeCallback: function() {
         phetMenu.hide();
       }
@@ -212,7 +211,7 @@ define( function( require ) {
         listener();
 
         // set focus to the first item in the phet menu
-        document.getElementsByClassName( 'phetMenuItem' )[0].focus();
+        document.getElementsByClassName( 'phetMenuItem' )[ 0 ].focus();
 
       };
 
