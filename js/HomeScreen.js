@@ -18,10 +18,11 @@ define( function( require ) {
    *
    * @constructor
    */
-  function HomeScreen( sim, options ) {
+  function HomeScreen( sim, tandem, options ) {
 
     options = _.extend( {
-       backgroundColor: 'black' //TODO joist#255 this should come from LookAndFeel
+      backgroundColor: 'black', //TODO joist#255 this should come from LookAndFeel
+      tandem: tandem
     }, options );
 
     //name, homeScreenIcon, createModel, createView, options

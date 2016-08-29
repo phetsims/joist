@@ -404,10 +404,9 @@ define( function( require ) {
 
     // Multi-screen sims get a home screen.
     if ( screens.length > 1 ) {
-      this.homeScreen = new HomeScreen( this, {
+      this.homeScreen = new HomeScreen( this, tandem.createTandem( 'homeScreen' ), {
         warningNode: options.homeScreenWarningNode,
-        showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame,
-        tandem: tandem.createTandem( 'homeScreen' )
+        showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame
       } );
       this.homeScreen.initializeModelAndView();
     }
