@@ -24,16 +24,17 @@ define( function( require ) {
   /**
    * @param {number} navBarHeight
    * @param {Property.<string>} navigationBarFillProperty - the color of the navbar, as a string.
+   * @param {Tandem} tandem
    * @param {Object} [options]
    * @constructor
    */
-  function HomeButton( navBarHeight, navigationBarFillProperty, options ) {
+  function HomeButton( navBarHeight, navigationBarFillProperty, tandem, options ) {
 
     options = _.extend( {
       highlightExtensionWidth: 4,
       listener: null,
       textDescription: 'Home Screen: Button',
-      tandem: null,
+      tandem: tandem,
       accessibleContent: {
         createPeer: function( accessibleInstance ) {
           // will look like <input value="Reset" type="button" tabindex="0">

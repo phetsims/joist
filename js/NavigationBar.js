@@ -114,12 +114,14 @@ define( function( require ) {
       var maxTitleWidth = Math.min( title.width, 0.25 * HomeScreenView.LAYOUT_BOUNDS.width );
 
       // @private - Create the home button
-      this.homeButton = new HomeButton( NAVIGATION_BAR_SIZE.height, sim.lookAndFeel.navigationBarFillProperty, {
-        listener: function() {
-          sim.showHomeScreen = true;
-        },
-        tandem: tandem.createTandem( 'homeButton' )
-      } );
+      this.homeButton = new HomeButton(
+        NAVIGATION_BAR_SIZE.height,
+        sim.lookAndFeel.navigationBarFillProperty,
+        tandem.createTandem( 'homeButton' ), {
+          listener: function() {
+            sim.showHomeScreen = true;
+          }
+        } );
       this.barContents.addChild( this.homeButton );
 
       /*
