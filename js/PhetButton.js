@@ -23,7 +23,6 @@ define( function( require ) {
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var TransformTracker = require( 'SCENERY/util/TransformTracker' );
   var joist = require( 'JOIST/joist' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   // images
   // The logo images are loaded from the brand which is selected via query parameter (during requirejs mode)
@@ -48,19 +47,17 @@ define( function( require ) {
    * @param {Sim} sim
    * @param {Property.<Color|string>} backgroundFillProperty
    * @param {Property.<Color|string>} textFillProperty
-   * @param {Object} [options] Unused in client code.
+   * @param {Tandem} tandem
    * @constructor
    */
-  function PhetButton( sim, backgroundFillProperty, textFillProperty, options ) {
+  function PhetButton( sim, backgroundFillProperty, textFillProperty, tandem ) {
 
-    var phetMenu = new PhetMenu( sim, options.tandem.createTandem( 'phetMenu' ), {
+    var phetMenu = new PhetMenu( sim, tandem.createTandem( 'phetMenu' ), {
       showSaveAndLoad: sim.options.showSaveAndLoad,
       closeCallback: function() {
         phetMenu.hide();
       }
     } );
-
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     /**
      * Sim.js handles scaling the popup menu.  This code sets the position of the popup menu.
@@ -77,7 +74,7 @@ define( function( require ) {
     // sim.bounds are null on init, but we will get the callback when it is sized for the first time
     sim.on( 'resized', onResize );
 
-    options = _.extend( {
+    var options = {
       textDescription: 'PhET Menu Button',
       highlightExtensionWidth: 6,
       highlightExtensionHeight: 5,
@@ -85,7 +82,7 @@ define( function( require ) {
       listener: function() {
         phetMenu.show();
       }
-    }, options );
+    };
 
     // The PhET Label, which is the PhET logo
     var logoImage = new Image( brightLogoMipmap, {
@@ -103,7 +100,7 @@ define( function( require ) {
     // The icon combines the PhET label and the thre horizontal bars in the right relative positions
     var icon = new Node( { children: [ logoImage, optionsButton ] } );
 
-    JoistButton.call( this, icon, backgroundFillProperty, options.tandem, options );
+    JoistButton.call( this, icon, backgroundFillProperty, tandem, options );
 
     // If this is an "adapted from PhET" brand, decorate the PhET button with "adapted from" text.
     if ( Brand.id === 'adapted-from-phet' ) {

@@ -96,9 +96,7 @@ define( function( require ) {
 
     // @public (joist-internal) - PhET button. The transform of this is tracked, so we can mirror it over to the
     // homescreen's button. See https://github.com/phetsims/joist/issues/304.
-    this.phetButton = new PhetButton( sim, sim.lookAndFeel.navigationBarFillProperty, sim.lookAndFeel.navigationBarTextFillProperty, {
-      tandem: tandem.createTandem( 'phetButton' )
-    } );
+    this.phetButton = new PhetButton( sim, sim.lookAndFeel.navigationBarFillProperty, sim.lookAndFeel.navigationBarTextFillProperty, tandem.createTandem( 'phetButton' ) );
     this.barContents.addChild( this.phetButton );
 
     if ( screens.length === 1 ) {

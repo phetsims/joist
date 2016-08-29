@@ -273,9 +273,7 @@ define( function( require ) {
 
     // @public (joist-internal) - This PhET button is public since our creator (Sim.js) is responsible for positioning
     // this button. See https://github.com/phetsims/joist/issues/304.
-    this.phetButton = new PhetButton( sim, homeScreenFillProperty, homeScreenTextFillProperty, {
-      tandem: tandem.createTandem( 'phetButton' )
-    } );
+    this.phetButton = new PhetButton( sim, homeScreenFillProperty, homeScreenTextFillProperty, tandem.createTandem( 'phetButton' ) );
     this.addChild( this.phetButton );
 
     if ( options.warningNode ) {
