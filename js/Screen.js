@@ -68,7 +68,10 @@ define( function( require ) {
       // the tandem is optional, supplied only for instrumented simulations
     }, options );
 
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
+    // Home screen does not use tandem in its options, since tandem is required in joist.
+    if ( name !== null ) {
+      Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
+    }
 
     if ( options.tandem ) {
 

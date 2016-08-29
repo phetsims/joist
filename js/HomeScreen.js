@@ -21,8 +21,7 @@ define( function( require ) {
   function HomeScreen( sim, tandem, options ) {
 
     options = _.extend( {
-      backgroundColor: 'black', //TODO joist#255 this should come from LookAndFeel
-      tandem: tandem
+      backgroundColor: 'black' //TODO joist#255 this should come from LookAndFeel
     }, options );
 
     //name, homeScreenIcon, createModel, createView, options
@@ -35,13 +34,11 @@ define( function( require ) {
       null,
 
       // Trivial model
-      function() {
-        return {};
-      },
+      function() { return {}; },
 
       // View is where all of the work is done
       function() {
-        return new HomeScreenView( sim, options.tandem, options );
+        return new HomeScreenView( sim, tandem, options );
       },
 
       options
