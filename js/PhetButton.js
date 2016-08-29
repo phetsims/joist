@@ -82,7 +82,6 @@ define( function( require ) {
       highlightExtensionWidth: 6,
       highlightExtensionHeight: 5,
       highlightCenterOffsetY: 4,
-      tandem: null,
       listener: function() {
         phetMenu.show();
       }
@@ -104,7 +103,7 @@ define( function( require ) {
     // The icon combines the PhET label and the thre horizontal bars in the right relative positions
     var icon = new Node( { children: [ logoImage, optionsButton ] } );
 
-    JoistButton.call( this, icon, backgroundFillProperty, options );
+    JoistButton.call( this, icon, backgroundFillProperty, options.tandem, options );
 
     // If this is an "adapted from PhET" brand, decorate the PhET button with "adapted from" text.
     if ( Brand.id === 'adapted-from-phet' ) {

@@ -34,7 +34,6 @@ define( function( require ) {
       highlightExtensionWidth: 4,
       listener: null,
       textDescription: 'Home Screen: Button',
-      tandem: tandem,
       accessibleContent: {
         createPeer: function( accessibleInstance ) {
           // will look like <input value="Reset" type="button" tabindex="0">
@@ -63,7 +62,7 @@ define( function( require ) {
 
     var content = new Node( { children: [ background, homeIcon ] } );
 
-    JoistButton.call( this, content, navigationBarFillProperty, options );
+    JoistButton.call( this, content, navigationBarFillProperty, tandem, options );
 
     Property.multilink( [ this.interactionStateProperty, navigationBarFillProperty ], function( interactionState, navigationBarFill ) {
       if ( navigationBarFill === 'black' ) {

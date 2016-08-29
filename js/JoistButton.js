@@ -18,18 +18,18 @@ define( function( require ) {
   var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
   var Property = require( 'AXON/Property' );
   var joist = require( 'JOIST/joist' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   // phet-io modules
-  var TPhetButton = require('ifphetio!PHET_IO/types/joist/TPhetButton');
+  var TPhetButton = require( 'ifphetio!PHET_IO/types/joist/TPhetButton' );
 
   /**
    * @param {Node} content - the scenery node to render as the content of the button
    * @param {Property.<string>} navigationBarFillProperty - the color of the navbar, as a string.
+   * @param {Tandem} tandem
    * @param {Object} [options] Unused in client code.
    * @constructor
    */
-  function JoistButton( content, navigationBarFillProperty, options ) {
+  function JoistButton( content, navigationBarFillProperty, tandem, options ) {
 
     options = _.extend( {
       cursor: 'pointer', // {string}
@@ -40,11 +40,8 @@ define( function( require ) {
       highlightExtensionHeight: 0,
       highlightCenterOffsetX: 0,
       highlightCenterOffsetY: 0,
-      focusable: true,
-      tandem: null
+      focusable: true
     }, options );
-
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     // @private - Button model
     this.buttonModel = new PushButtonModel( options );
@@ -88,7 +85,7 @@ define( function( require ) {
 
     this.mutate( _.omit( options, 'tandem' ) );
 
-    options.tandem && options.tandem.addInstance( this, TPhetButton );
+    tandem.addInstance( this, TPhetButton );
   }
 
   joist.register( 'JoistButton', JoistButton );
