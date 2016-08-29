@@ -117,8 +117,7 @@ define( function( require ) {
     }, options );
 
     // @private - Export for usage in phetio.js
-    this.tandem = Tandem.createRootTandem();
-    var tandem = this.tandem;
+    var tandem = Tandem.createRootTandem();
 
     // @private - store this for access from prototype functions, assumes that it won't be changed later
     this.options = options;
