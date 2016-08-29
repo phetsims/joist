@@ -116,10 +116,6 @@ define( function( require ) {
       rootRenderer: platform.edge ? 'canvas' : 'svg'
     }, options );
 
-    // Tandems should no longer be passed as an option, see https://github.com/phetsims/phet-io/issues/549
-    // TODO: We can probably remove this once this new pattern is established.
-    assert && assert( !options.tandem, 'Sim.options should not receive a tandem' );
-
     // @private - Export for usage in phetio.js
     this.tandem = Tandem.createRootTandem();
     var tandem = this.tandem;
