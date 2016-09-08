@@ -23,36 +23,6 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
 
   /**
-   * For showing ScreenView layoutBounds with 'dev' query parameter.
-   * @param {Bounds2} layoutBounds
-   * @returns {Node}
-   */
-  var devCreateLayoutBoundsNode = function( layoutBounds ) {
-    return new Path( Shape.bounds( layoutBounds ), {
-      stroke: 'red',
-      lineWidth: 3,
-      pickable: false
-    } );
-  };
-
-  /**
-   * For showing ScreenView layoutBounds with 'showVisibleBounds' query parameter.
-   * @param {ScreenView} screenView
-   * @returns {Node}
-   */
-  var devCreateVisibleBoundsNode = function( screenView ) {
-    var path = new Path( Shape.bounds( screenView.visibleBoundsProperty.value ), {
-      stroke: 'blue',
-      lineWidth: 6,
-      pickable: false
-    } );
-    screenView.visibleBoundsProperty.link( function( visibleBounds ) {
-      path.shape = Shape.bounds( visibleBounds );
-    } );
-    return path;
-  };
-
-  /**
    * @param {string} name
    * @param {Node} homeScreenIcon optimal size is 548x373, will be scaled by HomeScreenView
    * @param {function} createModel
@@ -105,6 +75,36 @@ define( function( require ) {
   }
 
   joist.register( 'Screen', Screen );
+
+  /**
+   * For showing ScreenView layoutBounds with 'dev' query parameter.
+   * @param {Bounds2} layoutBounds
+   * @returns {Node}
+   */
+  var devCreateLayoutBoundsNode = function( layoutBounds ) {
+    return new Path( Shape.bounds( layoutBounds ), {
+      stroke: 'red',
+      lineWidth: 3,
+      pickable: false
+    } );
+  };
+
+  /**
+   * For showing ScreenView layoutBounds with 'showVisibleBounds' query parameter.
+   * @param {ScreenView} screenView
+   * @returns {Node}
+   */
+  var devCreateVisibleBoundsNode = function( screenView ) {
+    var path = new Path( Shape.bounds( screenView.visibleBoundsProperty.value ), {
+      stroke: 'blue',
+      lineWidth: 6,
+      pickable: false
+    } );
+    screenView.visibleBoundsProperty.link( function( visibleBounds ) {
+      path.shape = Shape.bounds( visibleBounds );
+    } );
+    return path;
+  };
 
   return inherit( PropertySet, Screen, {
 
