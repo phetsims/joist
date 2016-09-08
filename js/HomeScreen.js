@@ -24,6 +24,9 @@ define( function( require ) {
       backgroundColor: 'black' //TODO joist#255 this should come from LookAndFeel
     }, options );
 
+    assert && assert( !options.tandem, 'tandem is a required constructor parameter, not an option' );
+    options.tandem = tandem;
+
     //name, homeScreenIcon, createModel, createView, options
     Screen.call( this,
 
@@ -38,7 +41,7 @@ define( function( require ) {
 
       // View is where all of the work is done
       function() {
-        return new HomeScreenView( sim, tandem, options );
+        return new HomeScreenView( sim, tandem.createTandem( 'view' ), options );
       },
 
       options

@@ -39,20 +39,14 @@ define( function( require ) {
 
     options = _.extend( {
       backgroundColor: 'white', // {Color|string} initial background color of the screen
-      navigationBarIcon: homeScreenIcon // {Node} icon shown in the navigation bar
-      // the tandem is optional, supplied only for instrumented simulations
+      navigationBarIcon: homeScreenIcon, // {Node} icon shown in the navigation bar
+      tandem: null
     }, options );
 
-    // Home screen does not use tandem in its options, since tandem is required in joist.
-    if ( name !== null ) {
-      Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
-    }
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
-    if ( options.tandem ) {
-
-      // @private (read-only, joist)
-      this.tandem = options.tandem;
-    }
+    // @private (read-only, joist)
+    this.tandem = options.tandem;
 
     var backgroundColor = options.backgroundColor;
     if ( typeof backgroundColor === 'string' ) {
@@ -77,6 +71,8 @@ define( function( require ) {
     // b) showing a loading progress bar <not implemented>
     this._model = null; // @private
     this._view = null;  // @private
+
+    //TODO missing tandem.addInstance ?
   }
 
   joist.register( 'Screen', Screen );
