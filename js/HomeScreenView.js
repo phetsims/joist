@@ -31,9 +31,11 @@ define( function( require ) {
 
   // constants
   var HEIGHT = 70; //TODO what is this? is it the height of large icons?
-  var TITLE_FONT_FAMILY = 'Century Gothic, Futura';
   var LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
   var ICONS_TOP = 170;
+
+  // iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
+  var TITLE_FONT_FAMILY = 'Century Gothic, Futura';
 
   /**
    *
@@ -55,7 +57,6 @@ define( function( require ) {
     // Renderer must be specified here because the node is added directly to the scene (instead of to some other node that already has svg renderer
     ScreenView.call( this, { layoutBounds: LAYOUT_BOUNDS } );
 
-    // iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
     var title = new Text( sim.name, {
       font: new PhetFont( {
         size: 52,
