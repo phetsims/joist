@@ -74,6 +74,9 @@ define( function( require ) {
 
     var screenChildren = _.map( sim.screens, function( screen ) {
       var index = sim.screens.indexOf( screen );
+
+      // Wrap in a Node because we're scaling, and the same icon will be used for smallIconContent,
+      // and may be used by the navigation bar.
       var largeIcon = new Node( {
         children: [ screen.homeScreenIcon ],
         scale: HEIGHT / screen.homeScreenIcon.height * 2
@@ -148,7 +151,10 @@ define( function( require ) {
       // For 4 screens, scale is 1.0, for 2 screens scale is 1.75, linearly extrapolate/interpolate
       var scale = Util.linear( 2, 4, 1.75, 1.00, sim.screens.length );
 
-      //Show a small (unselected) screen icon.  In some cases (if the icon has a black background), a border may be shown around it as well.  See https://github.com/phetsims/color-vision/issues/49
+      // Show a small (unselected) screen icon.  In some cases (if the icon has a black background), a border may be
+      // shown around it as well.  See https://github.com/phetsims/color-vision/issues/49
+      // Wrap in a Node because we're scaling, and the same icon will be used for largeIcon,
+      // and may be used by the navigation bar.
       var smallIconContent = new Node( {
         opacity: 0.5,
         children: [ screen.homeScreenIcon ],
