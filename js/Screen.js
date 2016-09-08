@@ -88,11 +88,14 @@ define( function( require ) {
       backgroundColor: backgroundColor // @public
     } );
 
-    this.name = name;                                   // @public
-    this.homeScreenIcon = homeScreenIcon;               // @public
-    this.navigationBarIcon = options.navigationBarIcon; // @public
-    this.createModel = createModel;                     // @private
-    this.createView = createView;                       // @private
+    // @public
+    this.name = name;
+    this.homeScreenIcon = homeScreenIcon;
+    this.navigationBarIcon = options.navigationBarIcon;
+
+    // @private
+    this.createModel = createModel;
+    this.createView = createView;
 
     // Construction of the model and view are delayed and controlled to enable features like
     // a) faster loading when only loading certain screens
