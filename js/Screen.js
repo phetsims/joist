@@ -24,12 +24,12 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
-  var HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 );
+  var HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 ); // optimal size, icon will be scaled by HomeScreenView
   var NAVBAR_ICON_SIZE = new Dimension2( 147, 100 ); // minimum size, see https://github.com/phetsims/joist/issues/76
 
   /**
    * @param {string} name
-   * @param {Node} homeScreenIcon optimal size is 548x373, will be scaled by HomeScreenView
+   * @param {Node} homeScreenIcon
    * @param {function} createModel
    * @param {function} createView
    * @param {Object} [options]
