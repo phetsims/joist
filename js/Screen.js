@@ -24,8 +24,15 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
-  var HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 ); // optimal size, icon will be scaled by HomeScreenView
-  var NAVBAR_ICON_SIZE = new Dimension2( 147, 100 ); // minimum size, see https://github.com/phetsims/joist/issues/76
+  var HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 ); // minimum size
+  var NAVBAR_ICON_SIZE = new Dimension2( 147, 100 ); // minimum size
+  var NAVBAR_ICON_ASPECT_RATIO = NAVBAR_ICON_SIZE.width / NAVBAR_ICON_SIZE.height;
+  var HOME_SCREEN_ICON_ASPECT_RATIO = HOME_SCREEN_ICON_SIZE.width / HOME_SCREEN_ICON_SIZE.height;
+  var ICON_ASPECT_RATIO_TOLERANCE = 5E-3; // how close to the ideal aspect ratio an icon must be
+
+  // Home screen and navigation bar icons must have the same aspect ratio, see https://github.com/phetsims/joist/issues/76
+  assert && assert( Math.abs( HOME_SCREEN_ICON_ASPECT_RATIO - HOME_SCREEN_ICON_ASPECT_RATIO ) < ICON_ASPECT_RATIO_TOLERANCE,
+    'HOME_SCREEN_ICON_SIZE and NAVBAR_ICON_SIZE must have the same aspect ratio' );
 
   /**
    * @param {string} name
@@ -44,6 +51,24 @@ define( function( require ) {
     }, options );
 
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
+
+    // Validate home screen icon size and aspect ratio. HomeScreen has no icon.
+    if ( homeScreenIcon ) {
+      assert && assert( homeScreenIcon.width >= HOME_SCREEN_ICON_SIZE.width && homeScreenIcon.height >= HOME_SCREEN_ICON_SIZE.height,
+        'homeScreenIcon is too small: ' + homeScreenIcon.width + 'x' + homeScreenIcon.height );
+      var homeScreenIconAspectRatio = homeScreenIcon.width / homeScreenIcon.height;
+      assert && assert( Math.abs( HOME_SCREEN_ICON_ASPECT_RATIO - homeScreenIconAspectRatio ) < ICON_ASPECT_RATIO_TOLERANCE,
+        'homeScreenIcon has invalid aspect ratio: ' + homeScreenIconAspectRatio );
+    }
+
+    // Validate navigation bar icon size and aspect ratio, if the icon is different than homeScreenIcon.
+    if ( options.navigationBarIcon && ( options.navigationBarIcon !== homeScreenIcon ) ) {
+      assert && assert( options.navigationBarIcon.width >= NAVBAR_ICON_SIZE.width && options.navigationBarIcon.height >= NAVBAR_ICON_SIZE.height,
+        'navigationBarIcon is too small: ' + options.navigationBarIcon.width + 'x' + options.navigationBarIcon.height );
+      var navigationBarIconAspectRatio = options.navigationBarIcon.width / options.navigationBarIcon.height;
+      assert && assert( Math.abs( NAVBAR_ICON_ASPECT_RATIO - navigationBarIconAspectRatio ) < ICON_ASPECT_RATIO_TOLERANCE,
+        'navigationBarIcon has invalid aspect ratio: ' + navigationBarIconAspectRatio );
+    }
 
     // @private (read-only, joist)
     this.tandem = options.tandem;

@@ -34,7 +34,6 @@ define( function( require ) {
   var PhetButton = require( 'JOIST/PhetButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Screen = require( 'JOIST/Screen' );
   var Text = require( 'SCENERY/nodes/Text' );
   var joist = require( 'JOIST/joist' );
 
@@ -57,19 +56,6 @@ define( function( require ) {
    * @constructor
    */
   function NavigationBar( sim, screens, tandem ) {
-
-    // all icons must have a valid aspect ratio, which matches either navbar or homescreen icon dimensions, see joist#263
-    if ( screens.length > 1 ) {
-      var navbarIconAspectRatio = Screen.NAVBAR_ICON_SIZE.width / Screen.NAVBAR_ICON_SIZE.height;
-      var homeScreenIconAspectRatio = Screen.HOME_SCREEN_ICON_SIZE.width / Screen.HOME_SCREEN_ICON_SIZE.height;
-      for ( var screenIndex = 0; screenIndex < screens.length; screenIndex++ ) {
-        var screen = screens[ screenIndex ];
-        var iconAspectRatio = screen.navigationBarIcon.width / screen.navigationBarIcon.height;
-        var tolerance = 1E-3;
-        var validAspectRatio = Math.abs( iconAspectRatio - navbarIconAspectRatio ) < tolerance || Math.abs( iconAspectRatio - homeScreenIconAspectRatio ) < tolerance;
-        assert && assert( validAspectRatio, 'NavigationBar icons for screen ' + screenIndex + ' did not have a valid aspect ratio.' );
-      }
-    }
 
     // @private
     this.screens = screens;
