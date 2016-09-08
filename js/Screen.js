@@ -13,6 +13,7 @@
 define( function( require ) {
   'use strict';
 
+  // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var PropertySet = require( 'AXON/PropertySet' );
   var Dimension2 = require( 'DOT/Dimension2' );
@@ -21,6 +22,10 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var joist = require( 'JOIST/joist' );
   var Tandem = require( 'TANDEM/Tandem' );
+
+  // constants
+  var HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 );
+  var NAVBAR_ICON_SIZE = new Dimension2( 147, 100 ); // minimum size, see https://github.com/phetsims/joist/issues/76
 
   /**
    * @param {string} name
@@ -33,8 +38,8 @@ define( function( require ) {
   function Screen( name, homeScreenIcon, createModel, createView, options ) {
 
     options = _.extend( {
-      backgroundColor: 'white', // {Color|string} - Initial background color of the screen
-      navigationBarIcon: homeScreenIcon // must be a minimum of 147x100 and have an aspect ratio of 548/373=1.469.  See https://github.com/phetsims/joist/issues/76
+      backgroundColor: 'white', // {Color|string} initial background color of the screen
+      navigationBarIcon: homeScreenIcon // {Node} icon shown in the navigation bar
       // the tandem is optional, supplied only for instrumented simulations
     }, options );
 
@@ -159,9 +164,9 @@ define( function( require ) {
   }, {
 
     // @public
-    HOME_SCREEN_ICON_SIZE: new Dimension2( 548, 373 ),
+    HOME_SCREEN_ICON_SIZE: HOME_SCREEN_ICON_SIZE,
 
     // @public
-    NAVBAR_ICON_SIZE: new Dimension2( 147, 100 )
+    NAVBAR_ICON_SIZE: NAVBAR_ICON_SIZE
   } );
 } );
