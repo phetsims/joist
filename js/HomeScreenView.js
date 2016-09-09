@@ -73,6 +73,10 @@ define( function( require ) {
     var highlightedScreenIndexProperty = new Property( -1 );
 
     var screenChildren = _.map( sim.screens, function( screen ) {
+
+      assert && assert( screen.name, 'name is required for screen ' + sim.screens.indexOf( screen ) );
+      assert && assert( screen.homeScreenIcon, 'homeScreenIcon is required for screen ' + screen.name );
+
       var index = sim.screens.indexOf( screen );
 
       // Wrap in a Node because we're scaling, and the same icon will be used for smallIconContent,

@@ -45,6 +45,9 @@ define( function( require ) {
    */
   function NavigationBarScreenButton( navigationBarFillProperty, screenIndexProperty, screens, screen, navBarHeight, options ) {
 
+    assert && assert( screen.name, 'name is required for screen ' + screens.indexOf( screen ) );
+    assert && assert( screen.navigationBarIcon, 'navigationBarIcon is required for screen ' + screen.name );
+
     function clicked() {
       screenIndexProperty.value = screens.indexOf( screen );
     }
