@@ -10,7 +10,6 @@ define( function( require ) {
 
   // modules
   var DialogsDemoView = require( 'JOIST/demo/DialogsDemoView' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Screen = require( 'JOIST/Screen' );
   var Sim = require( 'JOIST/Sim' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
@@ -18,27 +17,33 @@ define( function( require ) {
   // strings
   var joistTitleString = require( 'string!JOIST/joist.title' );
 
-  var options = {
+  var simOptions = {
     credits: {
       leadDesign: 'PhET'
     }
   };
 
   SimLauncher.launch( function() {
+
     var screens = [
-      new Screen( 'Dialogs',
-        new Rectangle( 0, 0, Screen.HOME_SCREEN_ICON_SIZE.width, Screen.HOME_SCREEN_ICON_SIZE.height, { fill: 'white' } ),
+      new Screen(
         function() { return {}; },
         function( model ) { return new DialogsDemoView(); },
-        { backgroundColor: 'white' }
+        {
+          name: 'Dialogs 1',
+          backgroundColor: 'white'
+        }
       ),
-      new Screen( 'Dialogs 2',
-        new Rectangle( 0, 0, Screen.HOME_SCREEN_ICON_SIZE.width, Screen.HOME_SCREEN_ICON_SIZE.height, { fill: 'white' } ),
+      new Screen(
         function() { return {}; },
         function( model ) { return new DialogsDemoView(); },
-        { backgroundColor: 'white' }
+        {
+          name: 'Dialogs 2',
+          backgroundColor: 'white'
+        }
       )
     ];
-    new Sim( joistTitleString, screens, options ).start();
+
+    new Sim( joistTitleString, screens, simOptions ).start();
   } );
 } );
