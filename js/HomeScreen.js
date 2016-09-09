@@ -27,19 +27,12 @@ define( function( require ) {
     assert && assert( !options.tandem, 'tandem is a required constructor parameter, not an option' );
     options.tandem = tandem;
 
-    //name, homeScreenIcon, createModel, createView, options
     Screen.call( this,
 
-      // The HomeScreen does not have a user-visible name
-      null,
-
-      // The HomeScreen icon gets special treatment, doesn't appear in homescreen, does appear (custom) in navbar
-      null,
-
-      // Trivial model
+      // createModel
       function() { return {}; },
 
-      // View is where all of the work is done
+      // createView
       function() {
         return new HomeScreenView( sim, tandem.createTandem( 'view' ), options );
       },

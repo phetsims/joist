@@ -14,13 +14,14 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var PropertySet = require( 'AXON/PropertySet' );
-  var Dimension2 = require( 'DOT/Dimension2' );
   var Color = require( 'SCENERY/util/Color' );
-  var Shape = require( 'KITE/Shape' );
-  var Path = require( 'SCENERY/nodes/Path' );
+  var Dimension2 = require( 'DOT/Dimension2' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var PropertySet = require( 'AXON/PropertySet' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
@@ -35,34 +36,49 @@ define( function( require ) {
     'HOME_SCREEN_ICON_SIZE and NAVBAR_ICON_SIZE must have the same aspect ratio' );
 
   /**
-   * @param {string} name
-   * @param {Node} homeScreenIcon
    * @param {function} createModel
    * @param {function} createView
    * @param {Object} [options]
    * @constructor
    */
-  function Screen( name, homeScreenIcon, createModel, createView, options ) {
+  function Screen( createModel, createView, options ) {
 
     options = _.extend( {
-      backgroundColor: 'white', // {Color|string} initial background color of the screen
-      navigationBarIcon: homeScreenIcon, // {Node} icon shown in the navigation bar
+
+      // {string|null} name of the sim, as displayed to the user.
+      // For single-screen sims, there is no home screen or navigation bar, and null is OK.
+      // For multi-screen sims, this must be provided.
+      name: null,
+
+      // {Color|string} initial background color of the Screen
+      backgroundColor: 'white',
+
+      // {Node} icon shown on the home screen.
+      // For single-screen sims, there is no home screen and the default is OK.
+      homeScreenIcon: new Rectangle( 0, 0, HOME_SCREEN_ICON_SIZE.width, HOME_SCREEN_ICON_SIZE.height, { fill: 'white' } ),
+
+      // {Node|null} icon shown in the navigation bar. If null, then the home screen icon will be used, scaled to fit.
+      navigationBarIcon: null,
+
       tandem: null
     }, options );
 
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
-
-    // Validate home screen icon size and aspect ratio. HomeScreen has no icon.
-    if ( homeScreenIcon ) {
-      assert && assert( homeScreenIcon.width >= HOME_SCREEN_ICON_SIZE.width && homeScreenIcon.height >= HOME_SCREEN_ICON_SIZE.height,
-        'homeScreenIcon is too small: ' + homeScreenIcon.width + 'x' + homeScreenIcon.height );
-      var homeScreenIconAspectRatio = homeScreenIcon.width / homeScreenIcon.height;
-      assert && assert( Math.abs( HOME_SCREEN_ICON_ASPECT_RATIO - homeScreenIconAspectRatio ) < ICON_ASPECT_RATIO_TOLERANCE,
-        'homeScreenIcon has invalid aspect ratio: ' + homeScreenIconAspectRatio );
+    // navigationBarIcon defaults to homeScreenIcon, and will be scaled down
+    if ( !options.navigationBarIcon ) {
+      options.navigationBarIcon = options.homeScreenIcon;
     }
 
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
+
+    // Validate home screen icon size and aspect ratio.
+    assert && assert( options.homeScreenIcon.width >= HOME_SCREEN_ICON_SIZE.width && options.homeScreenIcon.height >= HOME_SCREEN_ICON_SIZE.height,
+      'homeScreenIcon is too small: ' + options.homeScreenIcon.width + 'x' + options.homeScreenIcon.height );
+    var homeScreenIconAspectRatio = options.homeScreenIcon.width / options.homeScreenIcon.height;
+    assert && assert( Math.abs( HOME_SCREEN_ICON_ASPECT_RATIO - homeScreenIconAspectRatio ) < ICON_ASPECT_RATIO_TOLERANCE,
+      'homeScreenIcon has invalid aspect ratio: ' + homeScreenIconAspectRatio );
+
     // Validate navigation bar icon size and aspect ratio, if the icon is different than homeScreenIcon.
-    if ( options.navigationBarIcon && ( options.navigationBarIcon !== homeScreenIcon ) ) {
+    if ( options.navigationBarIcon !== options.homeScreenIcon ) {
       assert && assert( options.navigationBarIcon.width >= NAVBAR_ICON_SIZE.width && options.navigationBarIcon.height >= NAVBAR_ICON_SIZE.height,
         'navigationBarIcon is too small: ' + options.navigationBarIcon.width + 'x' + options.navigationBarIcon.height );
       var navigationBarIconAspectRatio = options.navigationBarIcon.width / options.navigationBarIcon.height;
@@ -83,8 +99,8 @@ define( function( require ) {
     } );
 
     // @public
-    this.name = name;
-    this.homeScreenIcon = homeScreenIcon;
+    this.name = options.name;
+    this.homeScreenIcon = options.homeScreenIcon;
     this.navigationBarIcon = options.navigationBarIcon;
 
     // @private
