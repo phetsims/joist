@@ -48,6 +48,9 @@ define( function( require ) {
   // strings
   var titlePatternString = require( 'string!JOIST/titlePattern' );
 
+  // globals
+  phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for replicable playbacks
+
   /**
    * Main Sim constructor
    * @param {string} name - the name of the simulation, to be displayed in the navbar and homescreen
@@ -60,9 +63,6 @@ define( function( require ) {
    */
   function Sim( name, screens, options ) {
     var sim = this;
-
-    // globals will be attached to window.phet.joist
-    window.phet.joist = window.phet.joist || {};
 
     options = _.extend( {
 
@@ -505,8 +505,9 @@ define( function( require ) {
     this.lastTime = -1;
 
     // @public (joist-internal) - Bind the animation loop so it can be called from requestAnimationFrame with the right
-    // this
-    this.boundRunAnimationLoop = this.runAnimationLoop.bind( this );
+    // this.  If PhET-iO sets playbackMode to be true, the sim clock won't run and instead
+    // the sim will receive dt events from stepSimulation calls.
+    this.boundRunAnimationLoop = phet.joist.playbackMode ? function() {} : this.runAnimationLoop.bind( this );
     this.trigger0( 'simulationStarted' );
 
     // Signify the end of simulation startup.  Used by PhET-iO.
@@ -674,6 +675,8 @@ define( function( require ) {
      */
     stepSimulation: function( dt ) {
 
+      phet.joist.elapsedTime = phet.joist.elapsedTime + dt * 1000; // TODO: we are /1000 just to *1000?  Seems wasteful and like opportunity for error.
+
       var screen;
 
       this.trigger0( 'frameStarted' );
@@ -738,7 +741,7 @@ define( function( require ) {
         // If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
         // Update the tweens after the model is updated but before the scene is redrawn.
         if ( window.TWEEN ) {
-          window.TWEEN.update();
+          window.TWEEN.update( phet.joist.elapsedTime );
         }
       }
       this.display.updateDisplay();

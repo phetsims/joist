@@ -28,8 +28,6 @@ define( function( require ) {
      * @public - to be called by main()s everywhere
      */
     launch: function( callback ) {
-
-      window.phet.joist = window.phet.joist || {};
       assert && assert( !window.phet.launchCalled, 'Tried to launch twice' );
 
       //Signify that the SimLauncher was called, see https://github.com/phetsims/joist/issues/142
