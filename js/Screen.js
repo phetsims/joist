@@ -81,19 +81,14 @@ define( function( require ) {
       'homeScreenIcon has invalid aspect ratio: ' + homeScreenIconAspectRatio
     );
 
-    // If the navigation bar icon is the same as the home screen icon, it doesn't need to be validated because the
-    // homescreen icon size is larger than the navbar icon size and the aspect ration is the same.
-    if ( options.navigationBarIcon !== options.homeScreenIcon ) {
+    // Validate navigation bar icon size
+    assert && assert( options.navigationBarIcon.width >= NAVBAR_ICON_SIZE.width, 'navigationBarIcon is too wide: ' + options.navigationBarIcon.width );
+    assert && assert( options.navigationBarIcon.height >= NAVBAR_ICON_SIZE.height, 'navigationBarIcon is too tall: ' + options.navigationBarIcon.height );
 
-      // Validate navigation bar icon size
-      assert && assert( options.navigationBarIcon.width >= NAVBAR_ICON_SIZE.width, 'navigationBarIcon is too wide: ' + options.navigationBarIcon.width );
-      assert && assert( options.navigationBarIcon.height >= NAVBAR_ICON_SIZE.height, 'navigationBarIcon is too tall: ' + options.navigationBarIcon.height );
-
-      // Validate aspect ratio
-      var navigationBarIconAspectRatio = options.navigationBarIcon.width / options.navigationBarIcon.height;
-      assert && assert( Math.abs( NAVBAR_ICON_ASPECT_RATIO - navigationBarIconAspectRatio ) < ICON_ASPECT_RATIO_TOLERANCE,
-        'navigationBarIcon has invalid aspect ratio: ' + navigationBarIconAspectRatio );
-    }
+    // Validate aspect ratio
+    var navigationBarIconAspectRatio = options.navigationBarIcon.width / options.navigationBarIcon.height;
+    assert && assert( Math.abs( NAVBAR_ICON_ASPECT_RATIO - navigationBarIconAspectRatio ) < ICON_ASPECT_RATIO_TOLERANCE,
+      'navigationBarIcon has invalid aspect ratio: ' + navigationBarIconAspectRatio );
 
     // @private (read-only, joist)
     this.tandem = options.tandem;
