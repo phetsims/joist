@@ -38,7 +38,6 @@ define( function( require ) {
   var TITLE_FONT_FAMILY = 'Century Gothic, Futura';
 
   /**
-   *
    * @param {Sim} sim
    * @param {Tandem} tandem
    * @param {Object} [options]
@@ -52,9 +51,10 @@ define( function( require ) {
       warningNode: null // {Node | null}, to display below the icons as a warning if available
     }, options );
 
-    // Rendering in SVG seems to solve the problem that the home screen consumes 100% disk and crashes, see https://github.com/phetsims/joist/issues/17
-    // Also makes it more responsive (and crisper on retina displays)
-    // Renderer must be specified here because the node is added directly to the scene (instead of to some other node that already has svg renderer
+    // Rendering in SVG seems to solve the problem that the home screen consumes 100% disk and crashes, see
+    // https://github.com/phetsims/joist/issues/17.  This also makes it more responsive (and crisper on retina
+    // displays). The renderer must be specified here because the node is added directly to the scene (instead of to
+    // some other node that already has svg renderer).
     ScreenView.call( this, { layoutBounds: LAYOUT_BOUNDS } );
 
     var title = new Text( sim.name, {
@@ -69,7 +69,8 @@ define( function( require ) {
     title.scale( Math.min( 1, 0.9 * this.layoutBounds.width / title.width ) );
     title.centerX = this.layoutBounds.centerX;
 
-    //Keep track of which screen is highlighted so the same screen can remain highlighted even if nodes are replaced (say when one grows larger or smaller)
+    // Keep track of which screen is highlighted so the same screen can remain highlighted even if nodes are replaced
+    // (say when one grows larger or smaller).
     var highlightedScreenIndexProperty = new Property( -1 );
 
     var screenChildren = _.map( sim.screens, function( screen ) {
@@ -79,8 +80,8 @@ define( function( require ) {
 
       var index = sim.screens.indexOf( screen );
 
-      // Wrap in a Node because we're scaling, and the same icon will be used for smallIconContent,
-      // and may be used by the navigation bar.
+      // Wrap in a Node because we're scaling, and the same icon will be used for smallIconContent, and may be used by
+      // the navigation bar.
       var largeIcon = new Node( {
         children: [ screen.homeScreenIcon ],
         scale: HEIGHT / screen.homeScreenIcon.height * 2
@@ -139,9 +140,9 @@ define( function( require ) {
         }
       } );
 
-      // Even though in the user interface, the small and large buttons seem like a single UI component
-      // that has grown larger, it would be quite a headache to create a composite button for the purposes of
-      // tandem, so instead the large and small buttons are registered as separate instances.  See https://github.com/phetsims/phet-io/issues/99
+      // Even though in the user interface the small and large buttons seem like a single UI component that has grown
+      // larger, it would be quite a headache to create a composite button for the purposes of tandem, so instead the
+      // large and small buttons are registered as separate instances.  See https://github.com/phetsims/phet-io/issues/99
       screen.tandem && tandem.createTandem( screen.tandem.tail + 'LargeButton' ).addInstance( largeScreenButton, TScreenButton );
 
       // TODO: Switch to buttonListener, but make sure you test it because on 7/17/2013 there is a problem where
@@ -157,8 +158,8 @@ define( function( require ) {
 
       // Show a small (unselected) screen icon.  In some cases (if the icon has a black background), a border may be
       // shown around it as well.  See https://github.com/phetsims/color-vision/issues/49
-      // Wrap in a Node because we're scaling, and the same icon will be used for largeIcon,
-      // and may be used by the navigation bar.
+      // Wrap in a Node because we're scaling, and the same icon will be used for largeIcon, and may be used by the
+      // navigation bar.
       var smallIconContent = new Node( {
         opacity: 0.5,
         children: [ screen.homeScreenIcon ],
@@ -219,8 +220,8 @@ define( function( require ) {
           smallButtonDown();
         },
 
-        //On the home screen if you touch an inactive screen thumbnail, it grows.  If then without lifting your finger you swipe over
-        // to the next thumbnail, that one would grow.
+        // On the home screen if you touch an inactive screen thumbnail, it grows.  If then without lifting your finger
+        // you swipe over to the next thumbnail, that one would grow.
         over: function( event ) {
           if ( event.pointer.isTouch ) {
             sim.screenIndex = index;
@@ -262,8 +263,8 @@ define( function( require ) {
         iconHBox.removeAllChildren();
       }
 
-      //Space the icons out more if there are fewer, so they will be spaced nicely
-      //Cannot have only 1 screen because for 1-screen sims there is no home screen.
+      // Space the icons out more if there are fewer, so they will be spaced nicely.
+      // Cannot have only 1 screen because for 1-screen sims there is no home screen.
       var spacing = sim.screens.length === 2 ? 60 :
                     sim.screens.length === 3 ? 60 :
                     33;
