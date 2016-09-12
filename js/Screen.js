@@ -78,8 +78,8 @@ define( function( require ) {
      * @param {string} name - the name of the icon type (for assert messages)
      */
     var validateIconSize = function( icon, minimumSize, aspectRatio, name ) {
-      assert && assert( icon.width >= minimumSize.width, name + ' too wide: ' + icon.width );
-      assert && assert( icon.height >= minimumSize.height, name + ' too tall: ' + icon.height );
+      assert && assert( icon.width >= minimumSize.width, name + ' too small: ' + icon.width );
+      assert && assert( icon.height >= minimumSize.height, name + ' too small: ' + icon.height );
 
       // Validate home screen aspect ratio
       var actualAspectRatio = icon.width / icon.height;
