@@ -70,25 +70,28 @@ define( function( require ) {
 
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
-    // Validate home screen icon size
-    assert && assert( options.homeScreenIcon.width >= HOME_SCREEN_ICON_SIZE.width, 'homeScreenIcon too wide: ' + options.homeScreenIcon.width );
-    assert && assert( options.homeScreenIcon.height >= HOME_SCREEN_ICON_SIZE.height, 'homeScreenIcon too tall: ' + options.homeScreenIcon.height );
+    /**
+     * Convenience function to validate the sizes for the home screen icon and navigation bar icon.
+     * @param {Node} icon - the icon to validate
+     * @param {Dimension2} minimumSize - the minimum allowed size for the icon
+     * @param {number} aspectRatio - the required aspect ratio
+     * @param {string} name - the name of the icon type (for assert messages)
+     */
+    var validateIconSize = function( icon, minimumSize, aspectRatio, name ) {
+      assert && assert( icon.width >= minimumSize.width, name + ' too wide: ' + icon.width );
+      assert && assert( icon.height >= minimumSize.height, name + ' too tall: ' + icon.height );
 
-    // Validate home screen aspect ratio
-    var homeScreenIconAspectRatio = options.homeScreenIcon.width / options.homeScreenIcon.height;
-    assert && assert(
-      Math.abs( HOME_SCREEN_ICON_ASPECT_RATIO - homeScreenIconAspectRatio ) < ICON_ASPECT_RATIO_TOLERANCE,
-      'homeScreenIcon has invalid aspect ratio: ' + homeScreenIconAspectRatio
-    );
+      // Validate home screen aspect ratio
+      var actualAspectRatio = icon.width / icon.height;
+      assert && assert(
+        Math.abs( aspectRatio - actualAspectRatio ) < ICON_ASPECT_RATIO_TOLERANCE,
+        name + ' has invalid aspect ratio: ' + actualAspectRatio
+      );
+    };
 
-    // Validate navigation bar icon size
-    assert && assert( options.navigationBarIcon.width >= NAVBAR_ICON_SIZE.width, 'navigationBarIcon is too wide: ' + options.navigationBarIcon.width );
-    assert && assert( options.navigationBarIcon.height >= NAVBAR_ICON_SIZE.height, 'navigationBarIcon is too tall: ' + options.navigationBarIcon.height );
-
-    // Validate aspect ratio
-    var navigationBarIconAspectRatio = options.navigationBarIcon.width / options.navigationBarIcon.height;
-    assert && assert( Math.abs( NAVBAR_ICON_ASPECT_RATIO - navigationBarIconAspectRatio ) < ICON_ASPECT_RATIO_TOLERANCE,
-      'navigationBarIcon has invalid aspect ratio: ' + navigationBarIconAspectRatio );
+    // Validate icon sizes
+    validateIconSize( options.homeScreenIcon, HOME_SCREEN_ICON_SIZE, HOME_SCREEN_ICON_ASPECT_RATIO, 'homeScreenIcon' );
+    validateIconSize( options.navigationBarIcon, NAVBAR_ICON_SIZE, NAVBAR_ICON_ASPECT_RATIO, 'navigationBarIcon' );
 
     // @private (read-only, joist)
     this.tandem = options.tandem;
