@@ -70,25 +70,6 @@ define( function( require ) {
 
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
-    /**
-     * Convenience function to validate the sizes for the home screen icon and navigation bar icon.
-     * @param {Node} icon - the icon to validate
-     * @param {Dimension2} minimumSize - the minimum allowed size for the icon
-     * @param {number} aspectRatio - the required aspect ratio
-     * @param {string} name - the name of the icon type (for assert messages)
-     */
-    var validateIconSize = function( icon, minimumSize, aspectRatio, name ) {
-      assert && assert( icon.width >= minimumSize.width, name + ' too small: ' + icon.width );
-      assert && assert( icon.height >= minimumSize.height, name + ' too small: ' + icon.height );
-
-      // Validate home screen aspect ratio
-      var actualAspectRatio = icon.width / icon.height;
-      assert && assert(
-        Math.abs( aspectRatio - actualAspectRatio ) < ICON_ASPECT_RATIO_TOLERANCE,
-        name + ' has invalid aspect ratio: ' + actualAspectRatio
-      );
-    };
-
     // Validate icon sizes
     validateIconSize( options.homeScreenIcon, HOME_SCREEN_ICON_SIZE, HOME_SCREEN_ICON_ASPECT_RATIO, 'homeScreenIcon' );
     validateIconSize( options.navigationBarIcon, NAVBAR_ICON_SIZE, NAVBAR_ICON_ASPECT_RATIO, 'navigationBarIcon' );
@@ -124,6 +105,25 @@ define( function( require ) {
   }
 
   joist.register( 'Screen', Screen );
+
+  /**
+   * Convenience function to validate the sizes for the home screen icon and navigation bar icon.
+   * @param {Node} icon - the icon to validate
+   * @param {Dimension2} minimumSize - the minimum allowed size for the icon
+   * @param {number} aspectRatio - the required aspect ratio
+   * @param {string} name - the name of the icon type (for assert messages)
+   */
+  var validateIconSize = function( icon, minimumSize, aspectRatio, name ) {
+    assert && assert( icon.width >= minimumSize.width, name + ' too small: ' + icon.width );
+    assert && assert( icon.height >= minimumSize.height, name + ' too small: ' + icon.height );
+
+    // Validate home screen aspect ratio
+    var actualAspectRatio = icon.width / icon.height;
+    assert && assert(
+      Math.abs( aspectRatio - actualAspectRatio ) < ICON_ASPECT_RATIO_TOLERANCE,
+      name + ' has invalid aspect ratio: ' + actualAspectRatio
+    );
+  };
 
   /**
    * For showing ScreenView layoutBounds with 'dev' query parameter.
