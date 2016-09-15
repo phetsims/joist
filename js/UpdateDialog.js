@@ -22,7 +22,7 @@ define( function( require ) {
     assert && assert( UpdateCheck.areUpdatesChecked,
       'Updates need to be checked for UpdateDialog to be created' );
 
-    var dialog = this;
+    var self = this;
 
 
     var positionOptions = { centerX: 0, centerY: 0, big: true };
@@ -77,7 +77,7 @@ define( function( require ) {
 
     // close it on a click
     this.addInputListener( new ButtonListener( {
-      fire: dialog.hide.bind( dialog )
+      fire: self.hide.bind( self )
     } ) );
   }
 

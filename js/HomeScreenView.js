@@ -44,7 +44,7 @@ define( function( require ) {
    * @constructor
    */
   function HomeScreenView( sim, tandem, options ) {
-    var homeScreenView = this;
+    var self = this;
 
     options = _.extend( {
       showSmallHomeScreenIconFrame: false,
@@ -253,7 +253,7 @@ define( function( require ) {
     } );
 
     var center = new Node( { y: ICONS_TOP } );
-    homeScreenView.addChild( center );
+    self.addChild( center );
     var iconHBox = null;
     sim.screenIndexProperty.link( function( screenIndex ) {
 
@@ -273,7 +273,7 @@ define( function( require ) {
       iconHBox = new HBox( { spacing: spacing, children: icons, align: 'top', resize: false } );
       center.addChild( iconHBox );
 
-      center.centerX = homeScreenView.layoutBounds.width / 2;
+      center.centerX = self.layoutBounds.width / 2;
 
       // Workaround for #331 which caused the icons to float toward the top of the screen.
       center.top = ICONS_TOP;

@@ -223,8 +223,8 @@ define( function( require ) {
 
     }, options );
 
-    var thisMenu = this;
-    Node.call( thisMenu );
+    var self = this;
+    Node.call( self );
 
     /*
      * Description of the items in the menu. Each descriptor has these properties:
@@ -449,8 +449,8 @@ define( function( require ) {
     var Y_MARGIN = 5;
     var bubble = createBubble( content.width + X_MARGIN + X_MARGIN, content.height + Y_MARGIN + Y_MARGIN );
 
-    thisMenu.addChild( bubble );
-    thisMenu.addChild( content );
+    self.addChild( bubble );
+    self.addChild( content );
     content.left = X_MARGIN;
     content.top = Y_MARGIN;
 
@@ -467,11 +467,11 @@ define( function( require ) {
         // TODO: hopefully, this event should bubble down to menu items.
         domElement.addEventListener( 'keydown', function( event ) {
           if ( event.keyCode === 27 ) {
-            thisMenu.exitMenu();
+            self.exitMenu();
           }
         } );
 
-        thisMenu.dispose();
+        self.dispose();
 
         return new AccessiblePeer( accessibleInstance, domElement );
 

@@ -29,7 +29,7 @@ define( function( require ) {
    * @constructor
    */
   function SettingsDialog( showPointersProperty ) {
-    var settingsDialog = this;
+    var self = this;
 
     //Use view, to help center and scale content
     ScreenView.call( this );
@@ -41,7 +41,7 @@ define( function( require ) {
         new TextPushButton( doneString, {
           font: new PhetFont( 20 ),
           listener: function() {
-            settingsDialog.doneListeners.forEach( function( listener ) {
+            self.doneListeners.forEach( function( listener ) {
               listener();
             } );
           }
@@ -58,7 +58,7 @@ define( function( require ) {
     } ) );
 
     function resize() {
-      settingsDialog.layout( $( window ).width(), $( window ).height() );
+      self.layout( $( window ).width(), $( window ).height() );
     }
 
     //Fit to the window and render the initial scene

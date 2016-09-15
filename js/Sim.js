@@ -62,7 +62,8 @@ define( function( require ) {
    * - resized( bounds, screenBounds, scale ): Fires when the sim is resized.
    */
   function Sim( name, screens, options ) {
-    var sim = this;
+
+    var self = this;
 
     options = _.extend( {
 
@@ -211,7 +212,7 @@ define( function( require ) {
     this.destroyed = false;
 
     assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
-    window.phet.joist.sim = sim;
+    window.phet.joist.sim = self;
 
     // Make ScreenshotGenerator available globally so it can be used in preload files such as PhET-iO.
     window.phet.joist.ScreenshotGenerator = ScreenshotGenerator;
@@ -235,7 +236,7 @@ define( function( require ) {
 
     //Set the HTML page title to the localized title
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
-    $( 'title' ).html( StringUtils.format( titlePatternString, name, sim.version ) );
+    $( 'title' ).html( StringUtils.format( titlePatternString, name, self.version ) );
 
     // if nothing else specified, try to use the options for showHomeScreen & screenIndex from query parameters,
     // to facilitate testing easily in different screens
@@ -262,7 +263,7 @@ define( function( require ) {
       // ignore any user input events, and instead fire mouse events randomly in an effort to cause an exception
       options.fuzzMouse = true;
       if ( phet.chipper.getQueryParameter( 'fuzzMouse' ) !== 'undefined' ) {
-        sim.fuzzMouseAverage = parseFloat( phet.chipper.getQueryParameter( 'fuzzMouse' ) );
+        self.fuzzMouseAverage = parseFloat( phet.chipper.getQueryParameter( 'fuzzMouse' ) );
       }
 
       // override window.open with a semi-API-compatible function, so fuzzing doesn't open new windows.
@@ -304,7 +305,7 @@ define( function( require ) {
     this.rootNode = new Node( { renderer: options.rootRenderer } );
 
     // @private
-    this.display = new Display( sim.rootNode, {
+    this.display = new Display( self.rootNode, {
       // prevent overflow that can cause iOS bugginess, see https://github.com/phetsims/phet-io/issues/341
       allowSceneOverflow: false,
 
@@ -318,10 +319,10 @@ define( function( require ) {
 
     // When the sim is inactive, make it non-interactive, see https://github.com/phetsims/scenery/issues/414
     this.activeProperty.link( function( active ) {
-      sim.display.interactive = active;
+      self.display.interactive = active;
     } );
 
-    var simDiv = sim.display.domElement;
+    var simDiv = self.display.domElement;
     simDiv.id = 'sim';
     simDiv.setAttribute( 'aria-hidden', true );
     document.body.appendChild( simDiv );
@@ -359,19 +360,19 @@ define( function( require ) {
     window.phet.joist.display = this.display; // make the display available for debugging
 
     this.showPointersProperty.link( function( showPointers ) {
-      sim.display.setPointerDisplayVisible( !!showPointers );
+      self.display.setPointerDisplayVisible( !!showPointers );
     } );
 
     this.showPointerAreasProperty.link( function( showPointerAreas ) {
-      sim.display.setPointerAreaDisplayVisible( !!showPointerAreas );
+      self.display.setPointerAreaDisplayVisible( !!showPointerAreas );
     } );
 
     this.showCanvasNodeBoundsProperty.link( function( showCanvasNodeBounds ) {
-      sim.display.setCanvasNodeBoundsVisible( !!showCanvasNodeBounds );
+      self.display.setCanvasNodeBoundsVisible( !!showCanvasNodeBounds );
     } );
 
     this.showFittedBlockBoundsProperty.link( function( showFittedBlockBounds ) {
-      sim.display.setFittedBlockBoundsVisible( !!showFittedBlockBounds );
+      self.display.setFittedBlockBoundsVisible( !!showFittedBlockBounds );
     } );
 
     function sleep( millis ) {
@@ -414,24 +415,24 @@ define( function( require ) {
 
     // @public (joist-internal)
     this.updateBackground = function() {
-      sim.lookAndFeel.backgroundColor = sim.currentScreen ?
-                                        sim.currentScreen.backgroundColor.toCSS() :
-                                        sim.homeScreen.backgroundColor.toCSS();
+      self.lookAndFeel.backgroundColor = self.currentScreen ?
+                                         self.currentScreen.backgroundColor.toCSS() :
+                                         self.homeScreen.backgroundColor.toCSS();
     };
 
     this.lookAndFeel.backgroundColorProperty.link( function( backgroundColor ) {
-      sim.display.backgroundColor = backgroundColor;
+      self.display.backgroundColor = backgroundColor;
     } );
 
     this.multilink( [ 'showHomeScreen', 'screenIndex' ], function( showHomeScreen, screenIndex ) {
-      sim.currentScreen = showHomeScreen && sim.homeScreen ? null : screens[ screenIndex ];
-      sim.updateBackground();
+      self.currentScreen = showHomeScreen && self.homeScreen ? null : screens[ screenIndex ];
+      self.updateBackground();
     } );
 
     // Instantiate the screens. Currently this is done eagerly, but this pattern leaves open the door for loading things
     // in the background.
     screens.forEach( function initializeScreen( screen ) {
-      screen.backgroundColorProperty.link( sim.updateBackground );
+      screen.backgroundColorProperty.link( self.updateBackground );
       screen.initializeModelAndView();
     } );
 
@@ -443,7 +444,7 @@ define( function( require ) {
     }
     _.each( screens, function( screen ) {
       screen.view.layerSplit = true;
-      sim.rootNode.addChild( screen.view );
+      self.rootNode.addChild( screen.view );
     } );
     this.rootNode.addChild( this.navigationBar );
 
@@ -455,14 +456,14 @@ define( function( require ) {
     }
 
     this.multilink( [ 'screenIndex', 'showHomeScreen' ], function( screenIndex, showHomeScreen ) {
-      if ( sim.homeScreen ) {
-        sim.homeScreen.view.setVisible( showHomeScreen );
+      if ( self.homeScreen ) {
+        self.homeScreen.view.setVisible( showHomeScreen );
       }
       for ( var i = 0; i < screens.length; i++ ) {
         screens[ i ].view.setVisible( !showHomeScreen && screenIndex === i );
       }
-      sim.navigationBar.setVisible( !showHomeScreen );
-      sim.updateBackground();
+      self.navigationBar.setVisible( !showHomeScreen );
+      self.updateBackground();
     } );
 
     // layer for popups, dialogs, and their backgrounds and barriers
@@ -481,20 +482,20 @@ define( function( require ) {
     } );
     this.topLayer.addChild( this.barrierRectangle );
     this.modalNodeStack.lengthProperty.link( function( numBarriers ) {
-      sim.barrierRectangle.visible = numBarriers > 0;
+      self.barrierRectangle.visible = numBarriers > 0;
     } );
     this.barrierRectangle.addInputListener( new ButtonListener( {
       fire: function( event ) {
-        sim.barrierRectangle.trigger0( 'startedCallbacksForFired' );
-        assert && assert( sim.modalNodeStack.length > 0 );
-        sim.modalNodeStack.get( sim.modalNodeStack.length - 1 ).hide();
-        sim.barrierRectangle.trigger0( 'endedCallbacksForFired' );
+        self.barrierRectangle.trigger0( 'startedCallbacksForFired' );
+        assert && assert( self.modalNodeStack.length > 0 );
+        self.modalNodeStack.get( self.modalNodeStack.length - 1 ).hide();
+        self.barrierRectangle.trigger0( 'endedCallbacksForFired' );
       }
     } ) );
     tandem.createTandem( 'sim.barrierRectangle' ).addInstance( this.barrierRectangle, TBarrierRectangle );
 
     // Fit to the window and render the initial scene
-    $( window ).resize( function() { sim.resizeToWindow(); } );
+    $( window ).resize( function() { self.resizeToWindow(); } );
     this.resizeToWindow();
 
     // Kick off checking for updates, if that is enabled
@@ -566,7 +567,7 @@ define( function( require ) {
 
     // @public (joist-internal, phet-io)
     resize: function( width, height ) {
-      var sim = this;
+      var self = this;
 
       var scale = Math.min( width / HomeScreenView.LAYOUT_BOUNDS.width, height / HomeScreenView.LAYOUT_BOUNDS.height );
 
@@ -575,21 +576,21 @@ define( function( require ) {
 
       // 40 px high on iPad Mobile Safari
       var navBarHeight = scale * NavigationBar.NAVIGATION_BAR_SIZE.height;
-      sim.navigationBar.layout( scale, width, navBarHeight );
-      sim.navigationBar.y = height - navBarHeight;
-      sim.display.setSize( new Dimension2( width, height ) );
+      self.navigationBar.layout( scale, width, navBarHeight );
+      self.navigationBar.y = height - navBarHeight;
+      self.display.setSize( new Dimension2( width, height ) );
 
-      var screenHeight = height - sim.navigationBar.height;
+      var screenHeight = height - self.navigationBar.height;
 
       // Layout each of the screens
-      _.each( sim.screens, function( m ) {
+      _.each( self.screens, function( m ) {
         m.view.layout( width, screenHeight );
       } );
 
       // Resize the layer with all of the dialogs, etc.
-      sim.topLayer.setScaleMagnitude( scale );
+      self.topLayer.setScaleMagnitude( scale );
 
-      sim.homeScreen && sim.homeScreen.view.layout( width, height );
+      self.homeScreen && self.homeScreen.view.layout( width, height );
 
       // Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
 

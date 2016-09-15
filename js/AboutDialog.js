@@ -43,7 +43,7 @@ define( function( require ) {
    * @constructor
    */
   function AboutDialog( name, version, credits, Brand, locale ) {
-    var dialog = this;
+    var self = this;
 
     var children = [];
     children.push( new Text( name, { font: new PhetFont( 28 ), maxWidth: MAX_WIDTH } ) );
@@ -143,7 +143,7 @@ define( function( require ) {
       // accessible content
       accessibleContent: {
         createPeer: function( accessibleInstance ) {
-          var accessiblePeer = Dialog.DialogAccessiblePeer( accessibleInstance, dialog );
+          var accessiblePeer = Dialog.DialogAccessiblePeer( accessibleInstance, self );
           var trail = accessibleInstance.trail;
 
           var domElement = accessiblePeer.domElement;
@@ -160,7 +160,7 @@ define( function( require ) {
 
     // close it on a click
     this.addInputListener( new ButtonListener( {
-      fire: dialog.hide.bind( dialog )
+      fire: self.hide.bind( self )
     } ) );
   }
 

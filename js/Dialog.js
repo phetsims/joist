@@ -26,7 +26,7 @@ define( function( require ) {
    */
   function Dialog( content, options ) {
 
-    var dialog = this;
+    var self = this;
     options = _.extend( {
 
       // Dialog-specific options
@@ -51,7 +51,7 @@ define( function( require ) {
       closeButtonMargin: 5, // {number} how far away should the close button be from the panel border
       accessibleContent: {
         createPeer: function( accessibleInstance ) {
-          return new DialogAccessiblePeer( accessibleInstance, dialog );
+          return new DialogAccessiblePeer( accessibleInstance, self );
         }
       },
       tandem: null
@@ -116,7 +116,7 @@ define( function( require ) {
         xMargin: 5,
         yMargin: 5,
         listener: function() {
-          dialog.hide();
+          self.hide();
         },
         tandem: options.tandem && options.tandem.createTandem( 'closeButton' )
       } );
@@ -140,7 +140,7 @@ define( function( require ) {
 
     // @private
     this.updateLayout = function() {
-      options.layoutStrategy( dialog, sim.bounds, sim.screenBounds, sim.scale );
+      options.layoutStrategy( self, sim.bounds, sim.screenBounds, sim.scale );
     };
 
     this.updateLayout();
