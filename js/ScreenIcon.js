@@ -3,7 +3,7 @@
 /**
  * An icon suitable for one of the screen-selection buttons on the home screen or navigation bar.
  * By default, the size is optimized for the home screen.
- * To optimize for the navigation bar, use options.size: Screen.NAVBAR_ICON_SIZE
+ * To optimize for the navigation bar, use options.size: Screen.MINIMUM_NAVBAR_ICON_SIZE
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -26,7 +26,7 @@ define( function( require ) {
   function ScreenIcon( iconNode, options ) {
 
     options = _.extend( {
-      size: Screen.HOME_SCREEN_ICON_SIZE, // {Dimension2} size of the background
+      size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE, // {Dimension2} size of the background
       maxIconWidthProportion: 0.85, // max proportion of the background width occupied by iconNode, (0,1]
       maxIconHeightProportion: 0.85, // max proportion of the background height occupied by iconNode, (0,1]
       fill: 'white', // {Color|string} background fill

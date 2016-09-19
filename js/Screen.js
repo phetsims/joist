@@ -25,15 +25,15 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
-  var HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 ); // minimum size
-  var NAVBAR_ICON_SIZE = new Dimension2( 147, 100 ); // minimum size
-  var NAVBAR_ICON_ASPECT_RATIO = NAVBAR_ICON_SIZE.width / NAVBAR_ICON_SIZE.height;
-  var HOME_SCREEN_ICON_ASPECT_RATIO = HOME_SCREEN_ICON_SIZE.width / HOME_SCREEN_ICON_SIZE.height;
+  var MINIMUM_HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 ); // minimum size
+  var MINIMUM_NAVBAR_ICON_SIZE = new Dimension2( 147, 100 ); // minimum size
+  var NAVBAR_ICON_ASPECT_RATIO = MINIMUM_NAVBAR_ICON_SIZE.width / MINIMUM_NAVBAR_ICON_SIZE.height;
+  var HOME_SCREEN_ICON_ASPECT_RATIO = MINIMUM_HOME_SCREEN_ICON_SIZE.width / MINIMUM_HOME_SCREEN_ICON_SIZE.height;
   var ICON_ASPECT_RATIO_TOLERANCE = 5E-3; // how close to the ideal aspect ratio an icon must be
 
   // Home screen and navigation bar icons must have the same aspect ratio, see https://github.com/phetsims/joist/issues/76
   assert && assert( Math.abs( HOME_SCREEN_ICON_ASPECT_RATIO - HOME_SCREEN_ICON_ASPECT_RATIO ) < ICON_ASPECT_RATIO_TOLERANCE,
-    'HOME_SCREEN_ICON_SIZE and NAVBAR_ICON_SIZE must have the same aspect ratio' );
+    'MINIMUM_HOME_SCREEN_ICON_SIZE and MINIMUM_NAVBAR_ICON_SIZE must have the same aspect ratio' );
 
   /**
    * @param {function} createModel
@@ -55,7 +55,7 @@ define( function( require ) {
 
       // {Node} icon shown on the home screen.
       // For single-screen sims, there is no home screen and the default is OK.
-      homeScreenIcon: new Rectangle( 0, 0, HOME_SCREEN_ICON_SIZE.width, HOME_SCREEN_ICON_SIZE.height, { fill: 'white' } ),
+      homeScreenIcon: new Rectangle( 0, 0, MINIMUM_HOME_SCREEN_ICON_SIZE.width, MINIMUM_HOME_SCREEN_ICON_SIZE.height, { fill: 'white' } ),
 
       // {Node|null} icon shown in the navigation bar. If null, then the home screen icon will be used, scaled to fit.
       navigationBarIcon: null,
@@ -71,8 +71,8 @@ define( function( require ) {
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     // Validate icon sizes
-    validateIconSize( options.homeScreenIcon, HOME_SCREEN_ICON_SIZE, HOME_SCREEN_ICON_ASPECT_RATIO, 'homeScreenIcon' );
-    validateIconSize( options.navigationBarIcon, NAVBAR_ICON_SIZE, NAVBAR_ICON_ASPECT_RATIO, 'navigationBarIcon' );
+    validateIconSize( options.homeScreenIcon, MINIMUM_HOME_SCREEN_ICON_SIZE, HOME_SCREEN_ICON_ASPECT_RATIO, 'homeScreenIcon' );
+    validateIconSize( options.navigationBarIcon, MINIMUM_NAVBAR_ICON_SIZE, NAVBAR_ICON_ASPECT_RATIO, 'navigationBarIcon' );
 
     // @private (read-only, joist)
     this.tandem = options.tandem;
@@ -208,9 +208,9 @@ define( function( require ) {
   }, {
 
     // @public
-    HOME_SCREEN_ICON_SIZE: HOME_SCREEN_ICON_SIZE,
+    MINIMUM_HOME_SCREEN_ICON_SIZE: MINIMUM_HOME_SCREEN_ICON_SIZE,
 
     // @public
-    NAVBAR_ICON_SIZE: NAVBAR_ICON_SIZE
+    MINIMUM_NAVBAR_ICON_SIZE: MINIMUM_NAVBAR_ICON_SIZE
   } );
 } );
