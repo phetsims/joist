@@ -25,8 +25,8 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
-  var MINIMUM_HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 ); // minimum size
-  var MINIMUM_NAVBAR_ICON_SIZE = new Dimension2( 147, 100 ); // minimum size
+  var MINIMUM_HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 );
+  var MINIMUM_NAVBAR_ICON_SIZE = new Dimension2( 147, 100 );
   var NAVBAR_ICON_ASPECT_RATIO = MINIMUM_NAVBAR_ICON_SIZE.width / MINIMUM_NAVBAR_ICON_SIZE.height;
   var HOME_SCREEN_ICON_ASPECT_RATIO = MINIMUM_HOME_SCREEN_ICON_SIZE.width / MINIMUM_HOME_SCREEN_ICON_SIZE.height;
   var ICON_ASPECT_RATIO_TOLERANCE = 5E-3; // how close to the ideal aspect ratio an icon must be
