@@ -55,7 +55,10 @@ define( function( require ) {
 
       // {Node} icon shown on the home screen.
       // For single-screen sims, there is no home screen and the default is OK.
-      homeScreenIcon: new Rectangle( 0, 0, MINIMUM_HOME_SCREEN_ICON_SIZE.width, MINIMUM_HOME_SCREEN_ICON_SIZE.height, { fill: 'white' } ),
+      homeScreenIcon: new Rectangle( 0, 0, MINIMUM_HOME_SCREEN_ICON_SIZE.width, MINIMUM_HOME_SCREEN_ICON_SIZE.height, {
+        fill: 'white',
+        stroke: 'black'
+      } ),
 
       // {Node|null} icon shown in the navigation bar. If null, then the home screen icon will be used, scaled to fit.
       navigationBarIcon: null,
