@@ -20,7 +20,7 @@ define( function( require ) {
   var TString = require( 'PHET_IO/types/TString' );
   var TVoid = require( 'PHET_IO/types/TVoid' );
 
-  var TSim = function( sim, phetioID ) {
+  function TSim( sim, phetioID ) {
     TObject.call( this, sim, phetioID );
     assertInstanceOf( sim, phet.joist.Sim );
 
@@ -42,7 +42,7 @@ define( function( require ) {
     sim.onStatic( 'simulationStarted', function() {
       phetio.simulationStarted();
     } );
-  };
+  }
 
   phetioInherit( TObject, 'TSim', TSim, {
 
