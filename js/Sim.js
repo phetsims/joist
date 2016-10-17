@@ -33,7 +33,6 @@ define( function( require ) {
   var Input = require( 'SCENERY/input/Input' );
   var LookAndFeel = require( 'JOIST/LookAndFeel' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var packageJSON = require( 'JOIST/packageJSON' );
   var PhetButton = require( 'JOIST/PhetButton' );
   var joist = require( 'JOIST/joist' );
@@ -44,9 +43,6 @@ define( function( require ) {
   var TBarrierRectangle = require( 'ifphetio!PHET_IO/types/scenery/nodes/TBarrierRectangle' );
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
-
-  // strings
-  var titlePatternString = require( 'string!JOIST/titlePattern' );
 
   // globals
   phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for replicable playbacks
@@ -236,7 +232,7 @@ define( function( require ) {
 
     //Set the HTML page title to the localized title
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
-    $( 'title' ).html( StringUtils.format( titlePatternString, name, self.version ) );
+    $( 'title' ).html( name );
 
     // if nothing else specified, try to use the options for showHomeScreen & screenIndex from query parameters,
     // to facilitate testing easily in different screens
