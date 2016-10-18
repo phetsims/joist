@@ -166,6 +166,10 @@ define( function( require ) {
         window.phet.joist.sim.showPopup( this, this.isModal );
         this.isShowing = true;
         this.sim.on( 'resized', this.updateLayout );
+
+        // In case the window size has changed since the dialog was hidden, we should try layout out again.
+        // See https://github.com/phetsims/joist/issues/362
+        this.updateLayout();
       }
     },
 
@@ -203,7 +207,7 @@ define( function( require ) {
       var trail = accessibleInstance.trail;
       var uniqueId = trail.getUniqueId();
 
-      /* 
+      /*
        * We will want the parallel DOM element for a dialog to look like:
        * <div id="dialog-id" role="dialog">
        */
