@@ -230,10 +230,6 @@ define( function( require ) {
     // @public - Make our locale available
     this.locale = phet.chipper.locale || 'en';
 
-    //Set the HTML page title to the localized title
-    //TODO: When a sim is embedded on a page, we shouldn't retitle the page
-    $( 'title' ).html( name );
-
     // if nothing else specified, try to use the options for showHomeScreen & screenIndex from query parameters,
     // to facilitate testing easily in different screens
     function stringToBoolean( string ) { return string === 'true'; }
