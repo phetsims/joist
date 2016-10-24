@@ -230,6 +230,12 @@ define( function( require ) {
     // @public - Make our locale available
     this.locale = phet.chipper.locale || 'en';
 
+    // If the locale query parameter was specified, then we may be running the all.html file, so adjust the title.
+    // See https://github.com/phetsims/chipper/issues/510
+    if ( phet.chipper.getQueryParameter( 'locale' ) ) {
+      $( 'title' ).html( name );
+    }
+
     // if nothing else specified, try to use the options for showHomeScreen & screenIndex from query parameters,
     // to facilitate testing easily in different screens
     function stringToBoolean( string ) { return string === 'true'; }
