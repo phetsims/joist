@@ -142,56 +142,58 @@ define( function( require ) {
       showHomeScreen = false;
     }
 
-    PropertySet.call( this, {
+    var properties = {
 
       // @public (joist-internal) - True if the home screen is showing
-      showHomeScreen: showHomeScreen,
+      showHomeScreen: {
+        value: showHomeScreen,
+        tandem: tandem.createTandem( 'sim.showHomeScreenProperty' ),
+        phetioValueType: TBoolean
+      },
 
-      // @public (joist-internal) - The selected index
-      screenIndex: options.screenIndex || 0,
+      // @public (joist-internal) - The selected screen's index
+      screenIndex: {
+        value: options.screenIndex || 0,
+        tandem: tandem.createTandem( 'sim.screenIndexProperty' ),
+        phetioValueType: TNumber( { values: _.range( 0, screens.length ) } )
+      },
 
-      // @public (joist-internal, read-only) - how the home screen and navbar are scaled
-      scale: 1,
-
-      // @public (joist-internal, read-only) - global bounds for the entire simulation
-      bounds: null,
-
-      // @public (joist-internal, read-only) - global bounds for the screen-specific part (excludes the navigation bar)
-      screenBounds: null,
-
-      // @public (joist-internal, read-only) - {Screen|null} - The current screen, or null if showing the home screen
-      currentScreen: null,
-
+      // @public
       // Flag for if the sim is active (alive) and the user is able to interact with the sim.
       // If the sim is active, the model.step, view.step, Timer and TWEEN will run.
       // Set to false for when the sim will be controlled externally, such as through record/playback or other controls.
-      // @public
-      active: true,
-
-      // @public
-      showPointerAreas: !!phet.chipper.getQueryParameter( 'showPointerAreas' ),
-
-      // @public
-      showPointers: !!phet.chipper.getQueryParameter( 'showPointers' ),
-
-      // @public
-      showCanvasNodeBounds: !!phet.chipper.getQueryParameter( 'showCanvasNodeBounds' ),
-
-      // @public
-      showFittedBlockBounds: !!phet.chipper.getQueryParameter( 'showFittedBlockBounds' )
-    }, {
-      // Tandems for properties in this PropertySet
-      tandemSet: {
-        active: tandem.createTandem( 'sim.activeProperty' ),
-        screenIndex: tandem.createTandem( 'sim.screenIndexProperty' ),
-        showHomeScreen: tandem.createTandem( 'sim.showHomeScreenProperty' )
+      active: {
+        value: true,
+        tandem: tandem.createTandem( 'sim.activeProperty' ),
+        phetioValueType: TBoolean
       },
-      phetioValueTypeSet: {
-        active: TBoolean,
-        screenIndex: TNumber( { values: _.range( 0, screens.length ) } ),
-        showHomeScreen: TBoolean
-      }
-    } );
+
+      // @public (joist-internal, read-only) - how the home screen and navbar are scaled
+      scale: { value: 1 },
+
+      // @public (joist-internal, read-only) - global bounds for the entire simulation
+      bounds: { value: null },
+
+      // @public (joist-internal, read-only) - global bounds for the screen-specific part (excludes the navigation bar)
+      screenBounds: { value: null },
+
+      // @public (joist-internal, read-only) - {Screen|null} - The current screen, or null if showing the home screen
+      currentScreen: { value: null },
+
+      // @public
+      showPointerAreas: { value: !!phet.chipper.getQueryParameter( 'showPointerAreas' ) },
+
+      // @public
+      showPointers: { value: !!phet.chipper.getQueryParameter( 'showPointers' ) },
+
+      // @public
+      showCanvasNodeBounds: { value: !!phet.chipper.getQueryParameter( 'showCanvasNodeBounds' ) },
+
+      // @public
+      showFittedBlockBounds: { value: !!phet.chipper.getQueryParameter( 'showFittedBlockBounds' ) }
+    };
+
+    PropertySet.call( this, null, null, properties );
 
     // Many other components use addInstance at the end of their constructor but in this case we must register early
     // to (a) enable the SimIFrameAPI as soon as possible and (b) to enable subsequent component registrations,
