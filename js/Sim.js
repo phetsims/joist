@@ -193,7 +193,7 @@ define( function( require ) {
       showFittedBlockBounds: { value: !!phet.chipper.getQueryParameter( 'showFittedBlockBounds' ) }
     };
 
-    PropertySet.call( this, null, null, properties );
+    PropertySet.call( this, null, properties );
 
     // Many other components use addInstance at the end of their constructor but in this case we must register early
     // to (a) enable the SimIFrameAPI as soon as possible and (b) to enable subsequent component registrations,
