@@ -275,9 +275,6 @@ define( function( require ) {
       };
     }
 
-    // ignore any user input events, and instead fire touch events randomly in an effort to cause an exception
-    options.fuzzTouches = !!phet.chipper.getQueryParameter( 'fuzzTouches' );
-
     this.trigger1( 'startedSimConstructor', {
       sessionID: phet.chipper.getQueryParameter( 'sessionID' ) || null,
       simName: this.name,
@@ -695,9 +692,6 @@ define( function( require ) {
       // fire or synthesize input events
       if ( this.options.fuzzMouse ) {
         this.display.fuzzMouseEvents( this.fuzzMouseAverage );
-      }
-      else if ( this.options.fuzzTouches ) {
-        // TODO: we need more state tracking of individual touch points to do this properly
       }
       else {
 
