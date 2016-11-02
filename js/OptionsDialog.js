@@ -14,6 +14,10 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Dialog = require( 'JOIST/Dialog' );
   var joist = require( 'JOIST/joist' );
+  var Tandem = require( 'TANDEM/Tandem' );
+
+  // phet-io modules
+  var TOptionsDialog = require( 'ifphetio!PHET_IO/types/joist/TOptionsDialog' );
 
   // strings
   var optionsTitleString = require( 'string!JOIST/options.title' );
@@ -27,9 +31,18 @@ define( function( require ) {
       title: new Text( optionsTitleString, { font: new PhetFont( 30 ) } ),
       titleAlign: 'center',
       modal: true,
-      hasCloseButton: true
+      hasCloseButton: true,
+      tandem: Tandem.createDefaultTandem( 'optionsDialog' )
     }, options );
+
+    var thisTandem = options.tandem;
+    var superTandem = options.tandem.createSupertypeTandem();
+    options.tandem = superTandem;
+
     Dialog.call( this, optionsNode, options );
+
+    thisTandem.addInstance( this, TOptionsDialog );
+    // Panel calls tandem.addInstance
   }
 
   joist.register( 'OptionsDialog', OptionsDialog );
