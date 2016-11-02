@@ -226,6 +226,9 @@ define( function( require ) {
     var self = this;
     Node.call( self );
 
+    // Define optionsDialog outside callbacks to avoid recreating
+    var optionsDialog = null;
+
     /*
      * Description of the items in the menu. Each descriptor has these properties:
      * {string} text - the item's text
@@ -237,9 +240,14 @@ define( function( require ) {
         text: menuItemOptionsString,
         present: !!sim.options.optionsNode,
         callback: function() {
-          new OptionsDialog( sim.options.optionsNode, {
+
+        if ( !optionsDialog ) {
+          optionsDialog = new OptionsDialog( sim.options.optionsNode, {
             tandem: tandem.createTandem( 'optionsDialog' )
-          } ).show();
+          } );
+        }
+
+          optionsDialog.show();
         },
         tandem: tandem.createTandem( 'optionsButton' )
       },
