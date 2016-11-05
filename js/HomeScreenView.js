@@ -25,6 +25,7 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var Util = require( 'DOT/Util' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
   // phet-io modules
   var TScreenButton = require( 'ifphetio!PHET_IO/types/joist/TScreenButton' );
@@ -91,7 +92,7 @@ define( function( require ) {
       highlightedScreenIndexProperty.link( function( highlightedIndex ) { frame.setHighlighted( highlightedIndex === index ); } );
 
       var largeIconWithFrame = new Node( { children: [ frame, largeIcon ] } );
-      var largeText = new Text( screen.name, { font: new PhetFont( 42 ), fill: '#f2e916' } );//Color match with the PhET Logo yellow
+      var largeText = new Text( screen.name, { font: new PhetFont( 42 ), fill: PhetColorScheme.PHET_YELLOW } );//Color match with the PhET Logo yellow
 
       //Shrink the text if it goes beyond the edge of the image
       if ( largeText.width > largeIconWithFrame.width ) {

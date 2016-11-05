@@ -26,6 +26,7 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
   var joist = require( 'JOIST/joist' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
   // phet-io modules
   var TPushButton = require( 'ifphetio!PHET_IO/types/sun/buttons/TPushButton' );
@@ -139,7 +140,7 @@ define( function( require ) {
       var useDarkenHighlights = ( navigationBarFill !== 'black' );
 
       // Color match yellow with the PhET Logo
-      var selectedTextColor = useDarkenHighlights ? 'black' : '#f2e916';
+      var selectedTextColor = useDarkenHighlights ? 'black' : PhetColorScheme.PHET_YELLOW;
       var unselectedTextColor = useDarkenHighlights ? 'gray' : 'white';
 
       text.fill = selected ? selectedTextColor : unselectedTextColor;
