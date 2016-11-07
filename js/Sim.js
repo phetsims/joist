@@ -48,6 +48,11 @@ define( function( require ) {
   // globals
   phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for replicable playbacks
 
+  //TODO delete this after converting to QueryStringMachine
+  // if nothing else specified, try to use the options for showHomeScreen & screenIndex from query parameters,
+  // to facilitate testing easily in different screens
+  function stringToBoolean( string ) { return string === 'true'; }
+
   /**
    * Main Sim constructor
    * @param {string} name - the name of the simulation, to be displayed in the navbar and homescreen
@@ -65,7 +70,7 @@ define( function( require ) {
     options = _.extend( {
 
       // whether to show the home screen, or go immediately to the screen indicated by screenIndex
-      showHomeScreen: true,
+      showHomeScreen: ( screens.length > 1 ),
 
       // index of the screen that will be selected at startup
       screenIndex: 0,
@@ -114,6 +119,14 @@ define( function( require ) {
       rootRenderer: platform.edge ? 'canvas' : 'svg'
     }, options );
 
+    if ( screens.length > 1 && phet.chipper.getQueryParameter( 'showHomeScreen' ) ) {
+      options.showHomeScreen = stringToBoolean( phet.chipper.getQueryParameter( 'showHomeScreen' ) );
+    }
+
+    if ( phet.chipper.getQueryParameter( 'screenIndex' ) ) {
+      options.screenIndex = parseInt( phet.chipper.getQueryParameter( 'screenIndex' ), 10 );
+    }
+
     //TODO this is inappropriate inheritance, but was required when PropertySet was removed, because PropertySet extends Events
     Events.call( this );
 
@@ -129,25 +142,16 @@ define( function( require ) {
     // override rootRenderer using query parameter, see #221 and #184
     options.rootRenderer = phet.chipper.getQueryParameter( 'rootRenderer' ) || options.rootRenderer;
 
-    //Default values are to show the home screen with the 1st screen selected
-    var showHomeScreen = ( _.isUndefined( options.showHomeScreen ) ) ? true : options.showHomeScreen;
-
     //If specifying 'screens' then use 1-based (not zero-based) and "." delimited string such as "1.3.4" to get the 1st, 3rd and 4th screen
     if ( phet.chipper.getQueryParameter( 'screens' ) ) {
       var screensValueString = phet.chipper.getQueryParameter( 'screens' );
       screens = screensValueString.split( '.' ).map( function( screenString ) {
         return screens[ parseInt( screenString, 10 ) - 1 ];
       } );
-      options.screenIndex = 0;
-    }
-
-    //If there is only one screen, do not show the home screen
-    if ( screens.length === 1 ) {
-      showHomeScreen = false;
     }
 
     // @public (joist-internal) - True if the home screen is showing
-    this.showHomeScreenProperty = new Property( showHomeScreen, {
+    this.showHomeScreenProperty = new Property( options.showHomeScreen, {
       tandem: tandem.createTandem( 'sim.showHomeScreenProperty' ),
       phetioValueType: TBoolean
     } );
@@ -227,15 +231,6 @@ define( function( require ) {
     // See https://github.com/phetsims/chipper/issues/510
     if ( phet.chipper.getQueryParameter( 'locale' ) ) {
       $( 'title' ).html( name );
-    }
-
-    // if nothing else specified, try to use the options for showHomeScreen & screenIndex from query parameters,
-    // to facilitate testing easily in different screens
-    function stringToBoolean( string ) { return string === 'true'; }
-
-    // Query parameters override options.
-    if ( phet.chipper.getQueryParameter( 'showHomeScreen' ) ) {
-      options.showHomeScreen = stringToBoolean( phet.chipper.getQueryParameter( 'showHomeScreen' ) );
     }
 
     if ( phet.chipper.getQueryParameter( 'recordInputEventLog' ) ) {
