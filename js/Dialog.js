@@ -140,7 +140,7 @@ define( function( require ) {
 
     // @private
     this.updateLayout = function() {
-      options.layoutStrategy( self, sim.bounds, sim.screenBounds, sim.scale );
+      options.layoutStrategy( self, sim.boundsProperty.value, sim.screenBoundsProperty.value, sim.scaleProperty.value );
     };
 
     this.updateLayout();

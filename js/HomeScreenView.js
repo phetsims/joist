@@ -102,7 +102,7 @@ define( function( require ) {
       // 'down' function for the large button, refactored for input listener and accessibility
       var largeButtonDown = function() {
         largeScreenButton.trigger0( 'startedCallbacksForFired' );
-        sim.showHomeScreen = false;
+        sim.showHomeScreenProperty.value = false;
         highlightedScreenIndexProperty.value = -1;
         largeScreenButton.trigger0( 'endedCallbacksForFired' );
       };
@@ -183,7 +183,7 @@ define( function( require ) {
       // down function for small button, refactored for accessibility and the input listener
       var smallButtonDown = function() {
         smallScreenButton.trigger0( 'startedCallbacksForFired' );
-        sim.screenIndex = index;
+        sim.screenIndexProperty.value = index;
         smallScreenButton.trigger0( 'endedCallbacksForFired' );
       };
       var smallScreenButton = new VBox( {
@@ -225,7 +225,7 @@ define( function( require ) {
         // you swipe over to the next thumbnail, that one would grow.
         over: function( event ) {
           if ( event.pointer.isTouch ) {
-            sim.screenIndex = index;
+            sim.screenIndexProperty.value = index;
           }
         }
       } );

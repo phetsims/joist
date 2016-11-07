@@ -103,7 +103,7 @@ define( function( require ) {
         sim.lookAndFeel.navigationBarFillProperty,
         tandem.createTandem( 'homeButton' ), {
           listener: function() {
-            sim.showHomeScreen = true;
+            sim.showHomeScreenProperty.value = true;
           }
         } );
       this.barContents.addChild( this.homeButton );

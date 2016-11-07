@@ -24,7 +24,7 @@ define( function( require ) {
   var Display = require( 'SCENERY/display/Display' );
   var Node = require( 'SCENERY/nodes/Node' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
-  var PropertySet = require( 'AXON/PropertySet' );
+  var Property = require( 'AXON/Property' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var platform = require( 'PHET_CORE/platform' );
   var Timer = require( 'PHET_CORE/Timer' );
@@ -37,6 +37,7 @@ define( function( require ) {
   var PhetButton = require( 'JOIST/PhetButton' );
   var joist = require( 'JOIST/joist' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var Events = require( 'AXON/Events' );
 
   // phet-io modules
   var TSim = require( 'ifphetio!PHET_IO/types/joist/TSim' );
@@ -113,6 +114,9 @@ define( function( require ) {
       rootRenderer: platform.edge ? 'canvas' : 'svg'
     }, options );
 
+    //TODO this is inappropriate inheritance, but was required when PropertySet was removed, because PropertySet extends Events
+    Events.call( this );
+
     // @private - Export for usage in phetio.js
     var tandem = Tandem.createRootTandem();
 
@@ -142,58 +146,45 @@ define( function( require ) {
       showHomeScreen = false;
     }
 
-    var properties = {
+    // @public (joist-internal) - True if the home screen is showing
+    this.showHomeScreenProperty = new Property( showHomeScreen, {
+      tandem: tandem.createTandem( 'sim.showHomeScreenProperty' ),
+      phetioValueType: TBoolean
+    } );
 
-      // @public (joist-internal) - True if the home screen is showing
-      showHomeScreen: {
-        value: showHomeScreen,
-        tandem: tandem.createTandem( 'sim.showHomeScreenProperty' ),
-        phetioValueType: TBoolean
-      },
+    // @public (joist-internal) - The selected screen's index
+    this.screenIndexProperty = new Property( options.screenIndex, {
+      tandem: tandem.createTandem( 'sim.screenIndexProperty' ),
+      phetioValueType: TNumber( { values: _.range( 0, screens.length ) } )
+    } );
 
-      // @public (joist-internal) - The selected screen's index
-      screenIndex: {
-        value: options.screenIndex || 0,
-        tandem: tandem.createTandem( 'sim.screenIndexProperty' ),
-        phetioValueType: TNumber( { values: _.range( 0, screens.length ) } )
-      },
+    // @public
+    // Flag for if the sim is active (alive) and the user is able to interact with the sim.
+    // If the sim is active, the model.step, view.step, Timer and TWEEN will run.
+    // Set to false for when the sim will be controlled externally, such as through record/playback or other controls.
+    this.activeProperty = new Property( true, {
+      tandem: tandem.createTandem( 'sim.activeProperty' ),
+      phetioValueType: TBoolean
+    } );
 
-      // @public
-      // Flag for if the sim is active (alive) and the user is able to interact with the sim.
-      // If the sim is active, the model.step, view.step, Timer and TWEEN will run.
-      // Set to false for when the sim will be controlled externally, such as through record/playback or other controls.
-      active: {
-        value: true,
-        tandem: tandem.createTandem( 'sim.activeProperty' ),
-        phetioValueType: TBoolean
-      },
+    // @public (joist-internal, read-only) - how the home screen and navbar are scaled
+    this.scaleProperty = new Property( 1 );
 
-      // @public (joist-internal, read-only) - how the home screen and navbar are scaled
-      scale: { value: 1 },
+    // @public (joist-internal, read-only) - global bounds for the entire simulation
+    this.boundsProperty = new Property( null );
 
-      // @public (joist-internal, read-only) - global bounds for the entire simulation
-      bounds: { value: null },
+    // @public (joist-internal, read-only) - global bounds for the screen-specific part (excludes the navigation bar)
+    this.screenBoundsProperty = new Property( null );
 
-      // @public (joist-internal, read-only) - global bounds for the screen-specific part (excludes the navigation bar)
-      screenBounds: { value: null },
+    // @public (joist-internal, read-only) - {Screen|null} - The current screen, or null if showing the home screen
+    this.currentScreenProperty = new Property( null );
 
-      // @public (joist-internal, read-only) - {Screen|null} - The current screen, or null if showing the home screen
-      currentScreen: { value: null },
-
-      // @public
-      showPointerAreas: { value: !!phet.chipper.getQueryParameter( 'showPointerAreas' ) },
-
-      // @public
-      showPointers: { value: !!phet.chipper.getQueryParameter( 'showPointers' ) },
-
-      // @public
-      showCanvasNodeBounds: { value: !!phet.chipper.getQueryParameter( 'showCanvasNodeBounds' ) },
-
-      // @public
-      showFittedBlockBounds: { value: !!phet.chipper.getQueryParameter( 'showFittedBlockBounds' ) }
-    };
-
-    PropertySet.call( this, null, properties );
+    //TODO why are these Properties? should their visibility be joist internal?
+    // @public
+    this.showPointerAreasProperty = new Property( !!phet.chipper.getQueryParameter( 'showPointerAreas' ) );
+    this.showPointersProperty = new Property( !!phet.chipper.getQueryParameter( 'showPointers' ) );
+    this.showCanvasNodeBoundsProperty = new Property( !!phet.chipper.getQueryParameter( 'showCanvasNodeBounds' ) );
+    this.showFittedBlockBoundsProperty = new Property( !!phet.chipper.getQueryParameter( 'showFittedBlockBounds' ) );
 
     // Many other components use addInstance at the end of their constructor but in this case we must register early
     // to (a) enable the SimIFrameAPI as soon as possible and (b) to enable subsequent component registrations,
@@ -412,19 +403,20 @@ define( function( require ) {
 
     // @public (joist-internal)
     this.updateBackground = function() {
-      self.lookAndFeel.backgroundColorProperty.value = self.currentScreen ?
-                                                       self.currentScreen.backgroundColorProperty.get().toCSS() :
-                                                       self.homeScreen.backgroundColorProperty.get().toCSS();
+      self.lookAndFeel.backgroundColorProperty.value = self.currentScreenProperty.value ?
+                                                       self.currentScreenProperty.value.backgroundColorProperty.value.toCSS() :
+                                                       self.homeScreen.backgroundColorProperty.value.toCSS();
     };
 
     this.lookAndFeel.backgroundColorProperty.link( function( backgroundColor ) {
       self.display.backgroundColor = backgroundColor;
     } );
 
-    this.multilink( [ 'showHomeScreen', 'screenIndex' ], function( showHomeScreen, screenIndex ) {
-      self.currentScreen = showHomeScreen && self.homeScreen ? null : screens[ screenIndex ];
-      self.updateBackground();
-    } );
+    Property.multilink( [ this.showHomeScreenProperty, this.screenIndexProperty ],
+      function( showHomeScreen, screenIndex ) {
+        self.currentScreenProperty.value = ( showHomeScreen && self.homeScreen ) ? null : screens[ screenIndex ];
+        self.updateBackground();
+      } );
 
     // Instantiate the screens. Currently this is done eagerly, but this pattern leaves open the door for loading things
     // in the background.
@@ -452,16 +444,17 @@ define( function( require ) {
       PhetButton.linkPhetButtonTransform( this.homeScreen, this.navigationBar, this.rootNode );
     }
 
-    this.multilink( [ 'screenIndex', 'showHomeScreen' ], function( screenIndex, showHomeScreen ) {
-      if ( self.homeScreen ) {
-        self.homeScreen.view.setVisible( showHomeScreen );
-      }
-      for ( var i = 0; i < screens.length; i++ ) {
-        screens[ i ].view.setVisible( !showHomeScreen && screenIndex === i );
-      }
-      self.navigationBar.setVisible( !showHomeScreen );
-      self.updateBackground();
-    } );
+    Property.multilink( [ this.showHomeScreenProperty, this.screenIndexProperty ],
+      function( showHomeScreen, screenIndex ) {
+        if ( self.homeScreen ) {
+          self.homeScreen.view.setVisible( showHomeScreen );
+        }
+        for ( var i = 0; i < screens.length; i++ ) {
+          screens[ i ].view.setVisible( !showHomeScreen && screenIndex === i );
+        }
+        self.navigationBar.setVisible( !showHomeScreen );
+        self.updateBackground();
+      } );
 
     // layer for popups, dialogs, and their backgrounds and barriers
     this.topLayer = new Node();
@@ -514,7 +507,7 @@ define( function( require ) {
 
   joist.register( 'Sim', Sim );
 
-  return inherit( PropertySet, Sim, {
+  return inherit( Events, Sim, {
 
     /*
      * Adds a popup in the global coordinate frame, and optionally displays a semi-transparent black input barrier behind it.
@@ -597,15 +590,15 @@ define( function( require ) {
       }
 
       // update our scale and bounds properties after other changes (so listeners can be fired after screens are resized)
-      this.scale = scale;
-      this.bounds = new Bounds2( 0, 0, width, height );
-      this.screenBounds = new Bounds2( 0, 0, width, screenHeight );
+      this.scaleProperty.value = scale;
+      this.boundsProperty.value = new Bounds2( 0, 0, width, height );
+      this.screenBoundsProperty.value = new Bounds2( 0, 0, width, screenHeight );
 
       // Signify that the sim has been resized.
       // {Bounds2} bounds - the size of the window.innerWidth and window.innerHeight, which depends on the scale
       // {Bounds2} screenBounds - subtracts off the size of the navbar from the height
       // {number} scale - the overall scaling factor for elements in the view
-      this.trigger( 'resized', this.bounds, this.screenBounds, this.scale );
+      this.trigger( 'resized', this.boundsProperty.value, this.screenBoundsProperty.value, this.scaleProperty.value );
     },
 
     // @public (joist-internal)
@@ -700,7 +693,7 @@ define( function( require ) {
 
           // if any input events were received and batched, fire them now, but only if the sim is active
           // The sim may be inactive if interactivity was disabled by API usage such as the SimIFrameAPI
-          if ( this.active ) {
+          if ( this.activeProperty.value ) {
             this.display._input.fireBatchedEvents();
           }
           else {
@@ -714,13 +707,13 @@ define( function( require ) {
 
       // Step the models, timers and tweens, but only if the sim is active.
       // It may be inactive if it has been paused through the SimIFrameAPI
-      if ( this.active ) {
+      if ( this.activeProperty.value ) {
 
         // Update the active screen, but not if the user is on the home screen
-        if ( !this.showHomeScreen ) {
+        if ( !this.showHomeScreenProperty.value ) {
 
           // step model and view (both optional)
-          screen = this.screens[ this.screenIndex ];
+          screen = this.screens[ this.screenIndexProperty.value ];
 
           // If the DT is 0, we will skip the model step (see https://github.com/phetsims/joist/issues/171)
           if ( screen.model.step && dt ) {
