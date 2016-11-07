@@ -19,7 +19,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var PropertySet = require( 'AXON/PropertySet' );
+  var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
@@ -80,14 +80,8 @@ define( function( require ) {
     // @private (read-only, joist)
     this.tandem = options.tandem;
 
-    var backgroundColor = options.backgroundColor;
-    if ( typeof backgroundColor === 'string' ) {
-      backgroundColor = new Color( backgroundColor );
-    }
-
-    PropertySet.call( this, {
-      backgroundColor: backgroundColor // @public
-    } );
+    // @public
+    this.backgroundColorProperty = new Property( Color.toColor( options.backgroundColor ) );
 
     // @public
     this.name = options.name;
@@ -158,7 +152,12 @@ define( function( require ) {
     return path;
   };
 
-  return inherit( PropertySet, Screen, {
+  return inherit( Object, Screen, {
+
+    // @public
+    reset: function() {
+      this.backgroundColorProperty.reset();
+    },
 
     // @public - Returns the model (if it has been constructed)
     get model() {

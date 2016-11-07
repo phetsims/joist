@@ -413,8 +413,8 @@ define( function( require ) {
     // @public (joist-internal)
     this.updateBackground = function() {
       self.lookAndFeel.backgroundColor = self.currentScreen ?
-                                         self.currentScreen.backgroundColor.toCSS() :
-                                         self.homeScreen.backgroundColor.toCSS();
+                                         self.currentScreen.backgroundColorProperty.get().toCSS() :
+                                         self.homeScreen.backgroundColorProperty.get().toCSS();
     };
 
     this.lookAndFeel.backgroundColorProperty.link( function( backgroundColor ) {
