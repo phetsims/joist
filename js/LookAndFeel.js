@@ -1,4 +1,4 @@
-// Copyright 2015, University of Colorado Boulder
+// Copyright 2015-2016, University of Colorado Boulder
 
 /**
  * Provides colors for Joist elements.
@@ -9,36 +9,42 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var PropertySet = require( 'AXON/PropertySet' );
   var Color = require( 'SCENERY/util/Color' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
+  var Property = require( 'AXON/Property' );
 
   /**
    *
    * @constructor
    */
   function LookAndFeel() {
-    PropertySet.call( this, {
 
-      //TODO this is poorly named, should be something like currentScreenBackgroundColor
-      // The background color for the currently selected screen, which will be set on the Display as its backgroundColor
-      backgroundColor: 'black'
-    } );
+    // @public background color for the currently selected screen, which will be set on the Display as its backgroundColor
+    this.backgroundColorProperty = new Property( 'black' );
 
     // @public (joist-internal) - Navigation bar background fill
-    this.addDerivedProperty( 'navigationBarFill', [ 'backgroundColor' ], function( backgroundColor ) {
-      var screenIsBlack = !!new Color( backgroundColor ).equals( Color.BLACK );
-      return screenIsBlack ? 'white' : 'black';
-    } );
+    this.navigationBarFillProperty = new DerivedProperty( [ this.backgroundColorProperty ],
+      function( backgroundColor ) {
+        var screenIsBlack = !!new Color( backgroundColor ).equals( Color.BLACK );
+        return screenIsBlack ? 'white' : 'black';
+      } );
 
     // @public (joist-internal) - Navigation bar text fill
-    this.addDerivedProperty( 'navigationBarTextFill', [ 'navigationBarFill' ], function( navigationBarFill ) {
-      return navigationBarFill === 'black' ? 'white' : 'black';
-    } );
+    this.navigationBarTextFillProperty = new DerivedProperty( [ this.navigationBarFillProperty ],
+      function( navigationBarFill ) {
+        return navigationBarFill === 'black' ? 'white' : 'black';
+      } );
   }
 
   joist.register( 'LookAndFeel', LookAndFeel );
 
-  return inherit( PropertySet, LookAndFeel );
+  return inherit( Object, LookAndFeel, {
+
+    // @public
+    reset: function() {
+      this.backgroundColorProperty.reset();
+    }
+  } );
 } );
