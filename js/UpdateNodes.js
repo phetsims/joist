@@ -56,7 +56,7 @@ define( function( require ) {
         ]
       }, options ) );
       checkingNode.step = function( dt ) {
-        if ( UpdateCheck.state === 'checking' ) {
+        if ( UpdateCheck.stateProperty === 'checking' ) {
           spinningIndicatorNode.step( dt );
         }
       };

@@ -13,7 +13,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var PropertySet = require( 'AXON/PropertySet' );
+  var Property = require( 'AXON/Property' );
   var packageJSON = require( 'JOIST/packageJSON' ); // parse name/version out of the package.json
   var SimVersion = require( 'JOIST/SimVersion' );
   var Brand = require( 'BRAND/Brand' );
@@ -25,32 +25,27 @@ define( function( require ) {
 
   // NOTE: singleton type!
   function UpdateCheck() {
-    PropertySet.call( this, {
-      /*
-       * @public
-       * Descriptions of states:
-       *
-       * up-to-date: Simulation version is equal to or greater than the currently published version.
-       * out-of-date: Simulation version is less than currently published version (or equal but has a suffix)
-       * checking: Request to server sent out, has not processed reply yet.
-       * offline: Last attempt to check failed, most likely offline
-       * unchecked: No attempt as been made to check the version against the latest online.
-       */
-      state: 'unchecked', // @public {string}, one of 'up-to-date', 'out-of-date', 'checking', 'offline', 'unchecked'
 
-      // @public {SimVersion} will be filled in by check() if applicable
-      latestVersion: null,
-
-      // @public {string} Default update URL, should be replaced by request
-      updateURL: 'http://phet.colorado.edu/en/simulation/' + simName
+    // @public (joist-internal)
+    this.stateProperty = new Property( 'unchecked', {
+      validValues: [
+        'up-to-date',  // Simulation version is equal to or greater than the currently published version.
+        'out-of-date', // Simulation version is less than currently published version (or equal but has a suffix)
+        'checking',    // Request to server sent out, has not processed reply yet.
+        'offline',     // Last attempt to check failed, most likely offline
+        'unchecked'    // No attempt as been made to check the version against the latest online.
+      ]
     } );
 
-    this.ourVersion = simVersion; // public - {SimVersion}
+    // @public (joist-internal) {SimVersion} will be filled in by check() if applicable
+    this.latestVersionProperty = new Property( null );
+
+    this.ourVersion = simVersion; // @public (joist-internal) {SimVersion} version of the sim that is running
 
     this.timeoutCallback = this.timeout.bind( this ); // @public (joist-internal)
   }
 
-  inherit( PropertySet, UpdateCheck, {
+  inherit( Object, UpdateCheck, {
 
     // @public - Whether we actually allow checking for updates, or showing any update-related UIs.
     // If it's not PhET-branded OR if it is phet-io or in the phet-app, do not check for updates
@@ -80,7 +75,7 @@ define( function( require ) {
 
     // @public - If we are checking, it resets our timeout timer to timeoutMilliseconds
     resetTimeout: function() {
-      if ( this.state === 'checking' ) {
+      if ( this.stateProperty.value === 'checking' ) {
         this.clearTimeout();
         this.setTimeout();
       }
@@ -88,7 +83,7 @@ define( function( require ) {
 
     // @private - What happens when we actually time out.
     timeout: function() {
-      this.state = 'offline';
+      this.stateProperty.value = 'offline';
     },
 
     /**
@@ -97,13 +92,13 @@ define( function( require ) {
     check: function() {
       var self = this;
 
-      if ( !this.areUpdatesChecked || ( self.state !== 'unchecked' && self.state !== 'offline' ) ) {
+      if ( !this.areUpdatesChecked || ( self.stateProperty.value !== 'unchecked' && self.stateProperty.value !== 'offline' ) ) {
         return;
       }
 
       // If our sim's version indicates it hasn't been published, don't attempt to send a request for now
       if ( this.ourVersion.isSimNotPublished ) {
-        self.state = 'up-to-date';
+        self.stateProperty.value = 'up-to-date';
         return;
       }
 
@@ -111,7 +106,7 @@ define( function( require ) {
 
       if ( 'withCredentials' in req ) {
         // we'll be able to send the proper type of request, so we mark ourself as checking
-        self.state = 'checking';
+        self.stateProperty.value = 'checking';
 
         self.setTimeout();
 
@@ -123,7 +118,7 @@ define( function( require ) {
 
             if ( data.error ) {
               console.log( 'Update check failure: ' + data.error );
-              self.state = 'offline';
+              self.stateProperty.value = 'offline';
             }
             else {
               if ( self.updateURL ) {
@@ -132,22 +127,22 @@ define( function( require ) {
               self.latestVersion = SimVersion.parse( data.latestVersion, data.buildTimestamp );
 
               if ( data.state === 'out-of-date' || data.state === 'up-to-date' ) {
-                self.state = data.state;
+                self.stateProperty.value = data.state;
               }
               else {
                 console.log( 'Failed to get proper state: ' + data.state );
-                self.state = 'offline';
+                self.stateProperty.value = 'offline';
               }
             }
           }
           catch( e ) {
-            self.state = 'offline';
+            self.stateProperty.value = 'offline';
           }
         };
         req.onerror = function() {
           self.clearTimeout();
 
-          self.state = 'offline';
+          self.stateProperty.value = 'offline';
         };
         req.open( 'post', requestProtocolString + '//phet.colorado.edu/services/check-html-updates', true ); // enable CORS
         req.send( JSON.stringify( {

@@ -177,7 +177,7 @@ define( function( require ) {
         UpdateCheck.resetTimeout();
 
         // Fire off a new update check if we were marked as offline or unchecked before, and we handle updates.
-        if ( UpdateCheck.state === 'offline' || UpdateCheck.state === 'unchecked' ) {
+        if ( UpdateCheck.stateProperty.value === 'offline' || UpdateCheck.stateProperty.value === 'unchecked' ) {
           UpdateCheck.check();
         }
 

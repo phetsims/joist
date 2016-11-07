@@ -345,7 +345,7 @@ define( function( require ) {
       {
         text: menuItemGetUpdateString,
         present: UpdateCheck.areUpdatesChecked,
-        color: UpdateCheck.state === 'out-of-date' ? '#0a0' : '#000',
+        color: UpdateCheck.stateProperty.value === 'out-of-date' ? '#0a0' : '#000',
         callback: function() {
           new UpdateDialog().show();
         },
