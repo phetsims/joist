@@ -67,6 +67,16 @@ define( function( require ) {
 
     var self = this;
 
+    // Allow overriding the selected screens via a query parameter. Uses 1-based (not zero-based) and "." delimited
+    // string such as "1.3.4" to get the 1st, 3rd and 4th screen. Must be done before evaluating showHomeScreen for the
+    // options, since no home screen should be shown when a single screen is selected.
+    if ( phet.chipper.getQueryParameter( 'screens' ) ) {
+      var screensValueString = phet.chipper.getQueryParameter( 'screens' );
+      screens = screensValueString.split( '.' ).map( function( screenString ) {
+        return screens[ parseInt( screenString, 10 ) - 1 ];
+      } );
+    }
+
     options = _.extend( {
 
       // whether to show the home screen, or go immediately to the screen indicated by screenIndex
@@ -141,14 +151,6 @@ define( function( require ) {
 
     // override rootRenderer using query parameter, see #221 and #184
     options.rootRenderer = phet.chipper.getQueryParameter( 'rootRenderer' ) || options.rootRenderer;
-
-    //If specifying 'screens' then use 1-based (not zero-based) and "." delimited string such as "1.3.4" to get the 1st, 3rd and 4th screen
-    if ( phet.chipper.getQueryParameter( 'screens' ) ) {
-      var screensValueString = phet.chipper.getQueryParameter( 'screens' );
-      screens = screensValueString.split( '.' ).map( function( screenString ) {
-        return screens[ parseInt( screenString, 10 ) - 1 ];
-      } );
-    }
 
     // @public (joist-internal) - True if the home screen is showing
     this.showHomeScreenProperty = new Property( options.showHomeScreen, {
