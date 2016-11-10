@@ -94,8 +94,8 @@ define( function( require ) {
       };
 
       if ( options.resize ) {
-        content.addEventListener( 'bounds', updateTitlePosition );
-        titleNode.addEventListener( 'localBounds', updateTitlePosition );
+        content.on( 'bounds', updateTitlePosition );
+        titleNode.on( 'localBounds', updateTitlePosition );
       }
       updateTitlePosition();
     }
@@ -127,10 +127,11 @@ define( function( require ) {
         closeButton.top = dialogContent.top - options.xMargin + options.closeButtonMargin;
       };
 
+      // TODO: is this leaking memory here?
       if ( options.resize ) {
-        dialogContent.addEventListener( 'bounds', updateClosePosition );
+        dialogContent.on( 'bounds', updateClosePosition );
         if ( options.title ) {
-          options.title.addEventListener( 'bounds', updateClosePosition );
+          options.title.on( 'bounds', updateClosePosition );
         }
       }
       updateClosePosition();
