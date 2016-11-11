@@ -85,7 +85,8 @@ define( function( require ) {
     var Y_MARGIN = 3;
     var CORNER_RADIUS = 5;
 
-    var textNode = new Text( text, { font: new PhetFont( FONT_SIZE ), fill: options.color, maxWidth: MAX_ITEM_WIDTH } );
+    var textColor = options.color === undefined ? 'black' : options.color;
+    var textNode = new Text( text, { font: new PhetFont( FONT_SIZE ), fill: textColor, maxWidth: MAX_ITEM_WIDTH } );
     var highlight = new Rectangle( 0, 0, width + LEFT_X_MARGIN + RIGHT_X_MARGIN + CHECK_OFFSET, height + Y_MARGIN + Y_MARGIN, CORNER_RADIUS, CORNER_RADIUS );
 
     var menuItem = new Node( {
