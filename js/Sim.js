@@ -67,14 +67,19 @@ define( function( require ) {
 
     var self = this;
 
-    // Allow overriding the selected screens via a query parameter. Uses 1-based (not zero-based) and "." delimited
-    // string such as "1.3.4" to get the 1st, 3rd and 4th screen. Must be done before evaluating showHomeScreen for the
-    // options, since no home screen should be shown when a single screen is selected.
-    if ( phet.chipper.getQueryParameter( 'screens' ) ) {
-      var screensValueString = phet.chipper.getQueryParameter( 'screens' );
-      screens = screensValueString.split( '.' ).map( function( screenString ) {
-        return screens[ parseInt( screenString, 10 ) - 1 ];
+    // The screens to be included, and their order, may be specified via a query parameter.
+    // For documentation, see the schema for phet.chipper.queryParameters.screens in initialize-globals.js.
+    // Do this before setting options.showHomeScreen, since no home screen should be shown if we have 1 screen.
+    if ( phet.chipper.queryParameters.screens ) {
+      var newScreens = [];
+      phet.chipper.queryParameters.screens.forEach( function( userIndex ) {
+        var screenIndex = userIndex - 1; // screens query parameter is 1-based
+        if ( screenIndex < 0 || screenIndex > screens.length - 1 ) {
+          throw new Error( 'invalid screen index: ' + userIndex );
+        }
+        newScreens.push( screens[ screenIndex ] );
       } );
+      screens = newScreens;
     }
 
     options = _.extend( {
