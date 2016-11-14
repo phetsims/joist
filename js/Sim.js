@@ -48,11 +48,6 @@ define( function( require ) {
   // globals
   phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for replicable playbacks
 
-  //TODO delete this after converting to QueryStringMachine
-  // if nothing else specified, try to use the options for showHomeScreen & screenIndex from query parameters,
-  // to facilitate testing easily in different screens
-  function stringToBoolean( string ) { return string === 'true'; }
-
   /**
    * Main Sim constructor
    * @param {string} name - the name of the simulation, to be displayed in the navbar and homescreen
