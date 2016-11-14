@@ -14,6 +14,12 @@ define( function( require ) {
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
   var TPushButton = require( 'PHET_IO/types/sun/buttons/TPushButton' );
 
+  /**
+   * Wrapper type for phet/joist's MenuItem
+   * @param menuItem
+   * @param phetioID
+   * @constructor
+   */
   function TMenuItem( menuItem, phetioID ) {
     TPushButton.call( this, menuItem, phetioID );
 

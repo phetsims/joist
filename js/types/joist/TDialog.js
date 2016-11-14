@@ -15,7 +15,7 @@ define( function( require ) {
 
   /**
    * @constructor
-   *
+   * Wrapper type for phet/joist's Dialog
    * @param {Dialog} dialog - instance of Dialog
    * @param {string} phetioID - identifier string
    */

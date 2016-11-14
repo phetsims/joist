@@ -20,6 +20,12 @@ define( function( require ) {
   var TString = require( 'PHET_IO/types/TString' );
   var TVoid = require( 'PHET_IO/types/TVoid' );
 
+  /**
+   * Wrapper type for phet/joist's Sim class.
+   * @param sim
+   * @param phetioID
+   * @constructor
+   */
   function TSim( sim, phetioID ) {
     TObject.call( this, sim, phetioID );
     assertInstanceOf( sim, phet.joist.Sim );

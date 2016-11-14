@@ -15,6 +15,12 @@ define( function( require ) {
   var TPushButton = require( 'PHET_IO/types/sun/buttons/TPushButton' );
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
 
+  /**
+   * Wrapper type for phet/joist's PhetMenu
+   * @param phetMenu
+   * @param phetioID
+   * @constructor
+   */
   function TPhetMenu( phetMenu, phetioID ) {
     TPushButton.call( this, phetMenu, phetioID );
     assertInstanceOf( phetMenu, phet.joist.PhetMenu );

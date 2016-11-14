@@ -15,6 +15,12 @@ define( function( require ) {
   var phetioInherit = require( 'PHET_IO/phetioInherit' );
   var TPushButton = require( 'PHET_IO/types/sun/buttons/TPushButton' );
 
+  /**
+   * Wrapper type for phet/joist's PhetButton
+   * @param phetButton
+   * @param phetioID
+   * @constructor
+   */
   function TPhetButton( phetButton, phetioID ) {
     TPushButton.call( this, phetButton, phetioID );
     assertInstanceOfTypes( phetButton, [

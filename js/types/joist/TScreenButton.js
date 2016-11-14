@@ -16,6 +16,12 @@ define( function( require ) {
   var toEventOnStatic = require( 'PHET_IO/events/toEventOnStatic' );
   var TVoid = require( 'PHET_IO/types/TVoid' );
 
+  /**
+   * Wrapper type for phet/joist's ScreenButton
+   * @param button
+   * @param phetioID
+   * @constructor
+   */
   function TScreenButton( button, phetioID ) {
     TNode.call( this, button, phetioID );
     assertInstanceOf( button, phet.scenery.VBox );
