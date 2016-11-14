@@ -101,7 +101,7 @@ define( function( require ) {
       recordInputEventLog: false,
 
       // TODO: Is this still needed?
-      playbackMode: !!phet.chipper.getQueryParameter( 'playbackMode' ),
+      playbackMode: phet.chipper.queryParameters.playbackMode,
 
       // when playing back a recorded scenery input event log, use the specified filename.  Please see getEventLogName for more
       inputEventLogName: undefined,
@@ -179,10 +179,10 @@ define( function( require ) {
 
     //TODO why are these Properties? should their visibility be joist internal?
     // @public
-    this.showPointerAreasProperty = new Property( !!phet.chipper.getQueryParameter( 'showPointerAreas' ) );
-    this.showPointersProperty = new Property( !!phet.chipper.getQueryParameter( 'showPointers' ) );
-    this.showCanvasNodeBoundsProperty = new Property( !!phet.chipper.getQueryParameter( 'showCanvasNodeBounds' ) );
-    this.showFittedBlockBoundsProperty = new Property( !!phet.chipper.getQueryParameter( 'showFittedBlockBounds' ) );
+    this.showPointerAreasProperty = new Property( phet.chipper.queryParameters.showPointerAreas );
+    this.showPointersProperty = new Property( phet.chipper.queryParameters.showPointers );
+    this.showCanvasNodeBoundsProperty = new Property( phet.chipper.queryParameters.showCanvasNodeBounds );
+    this.showFittedBlockBoundsProperty = new Property( phet.chipper.queryParameters.showFittedBlockBounds );
 
     // Many other components use addInstance at the end of their constructor but in this case we must register early
     // to (a) enable the SimIFrameAPI as soon as possible and (b) to enable subsequent component registrations,
@@ -223,20 +223,20 @@ define( function( require ) {
 
     // If the locale query parameter was specified, then we may be running the all.html file, so adjust the title.
     // See https://github.com/phetsims/chipper/issues/510
-    if ( phet.chipper.getQueryParameter( 'locale' ) ) {
+    if ( phet.chipper.queryParameters.locale ) {
       $( 'title' ).html( name );
     }
 
-    if ( phet.chipper.getQueryParameter( 'recordInputEventLog' ) ) {
+    if ( phet.chipper.queryParameters.recordInputEventLog ) {
       // enables recording of Scenery's input events, request animation frames, and dt's so the sim can be played back
       options.recordInputEventLog = true;
-      options.inputEventLogName = phet.chipper.getQueryParameter( 'recordInputEventLog' );
+      options.inputEventLogName = phet.chipper.queryParameter.recordInputEventLog;
     }
 
-    if ( phet.chipper.getQueryParameter( 'playbackInputEventLog' ) ) {
+    if ( phet.chipper.queryParameters.playbackInputEventLog ) {
       // instead of loading like normal, download a previously-recorded event sequence and play it back (unique to the browser and window size)
       options.playbackInputEventLog = true;
-      options.inputEventLogName = phet.chipper.getQueryParameter( 'playbackInputEventLog' );
+      options.inputEventLogName = phet.chipper.queryParameter.playbackInputEventLog;
     }
 
     if ( phet.chipper.getQueryParameter( 'fuzzMouse' ) ) {
@@ -256,7 +256,7 @@ define( function( require ) {
     }
 
     this.trigger1( 'startedSimConstructor', {
-      sessionID: phet.chipper.getQueryParameter( 'sessionID' ) || null,
+      sessionID: phet.chipper.queryParameters.sessionID,
       simName: this.name,
       simVersion: this.version,
       url: window.location.href,
@@ -287,7 +287,7 @@ define( function( require ) {
       allowSceneOverflow: false,
 
       // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
-      allowWebGL: phet.chipper.getQueryParameter( 'webgl' ) !== 'false',
+      allowWebGL: phet.chipper.queryParameters.webgl,
 
       accessibility: options.accessibility,
       virtualCursor: options.virtualCursor,
@@ -318,8 +318,8 @@ define( function( require ) {
     heartbeatDiv.setAttribute( 'aria-hidden', true ); // hide div from screen readers (a11y)
     document.body.appendChild( heartbeatDiv );
 
-    if ( phet.chipper.getQueryParameter( 'sceneryLog' ) ) {
-      var logNames = phet.chipper.getQueryParameter( 'sceneryLog' );
+    if ( phet.chipper.queryParameters.sceneryLog ) {
+      var logNames = phet.chipper.queryParameters.sceneryLog;
       if ( logNames === undefined || logNames === 'undefined' ) {
         this.display.scenery.enableLogging();
       }
@@ -328,7 +328,7 @@ define( function( require ) {
       }
     }
 
-    if ( phet.chipper.getQueryParameter( 'sceneryStringLog' ) ) {
+    if ( phet.chipper.queryParameters.sceneryStringLog ) {
       this.display.scenery.switchLogToString();
     }
 
@@ -599,7 +599,7 @@ define( function( require ) {
       // Option for profiling
       // if true, prints screen initialization time (total, model, view) to the console and displays
       // profiling information on the screen
-      if ( phet.chipper.getQueryParameter( 'profiler' ) ) {
+      if ( phet.chipper.queryParameters.profiler ) {
         Profiler.start( this );
       }
 
@@ -609,7 +609,7 @@ define( function( require ) {
       this.boundRunAnimationLoop();
 
       // Communicate sim load (successfully) to joist/tests/test-sims.html
-      if ( phet.chipper.getQueryParameter( 'postMessageOnLoad' ) ) {
+      if ( phet.chipper.queryParameters.postMessageOnLoad ) {
         window.parent && window.parent.postMessage( JSON.stringify( {
           type: 'load',
           url: window.location.href
