@@ -191,13 +191,13 @@ define( function( require ) {
       this._view = this.createView( this.model );
 
       // Show the home screen's layoutBounds
-      if ( phet.chipper.getQueryParameter( 'dev' ) ) {
+      if ( phet.chipper.queryParameters.dev ) {
         this._view.addChild( devCreateLayoutBoundsNode( this._view.layoutBounds ) );
       }
 
       // For debugging, make it possible to see the visibleBounds.  This is not included with ?dev since
       // it should just be equal to what you see.
-      if ( phet.chipper.getQueryParameter( 'showVisibleBounds' ) ) {
+      if ( phet.chipper.queryParameters.showVisibleBounds ) {
         this._view.addChild( devCreateVisibleBoundsNode( this._view ) );
       }
     },

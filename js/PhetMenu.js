@@ -57,7 +57,7 @@ define( function( require ) {
   var MAX_ITEM_WIDTH = 400;
 
   // Whether window.open or other popups (e.g. save screenshot) should be shown.
-  var allowPopups = !phet.chipper.getQueryParameter( 'fuzzMouse' );
+  var allowPopups = !phet.chipper.queryParameters.fuzzMouse;
 
   // the checkmark used for toggle-able menu items
   var checkNode = new FontAwesomeNode( 'check_without_box', {
@@ -334,7 +334,7 @@ define( function( require ) {
       },
       {
         text: 'QR code',
-        present: phet.chipper.getQueryParameter( 'qrCode' ),
+        present: phet.chipper.queryParameters.qrCode,
         callback: function() {
           if ( allowPopups ) {
             var win = window.open( 'http://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent( window.location.href ) + '&size=220x220&margin=0', '_blank' );
