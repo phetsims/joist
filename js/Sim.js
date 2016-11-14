@@ -142,7 +142,7 @@ define( function( require ) {
     this.playbackMode = options.playbackMode;
 
     // override rootRenderer using query parameter, see #221 and #184
-    options.rootRenderer = phet.chipper.getQueryParameter( 'rootRenderer' ) || options.rootRenderer;
+    options.rootRenderer = phet.chipper.queryParameters.rootRenderer || options.rootRenderer;
 
     // @public (joist-internal) - True if the home screen is showing
     this.showHomeScreenProperty = new Property( options.showHomeScreen, {
