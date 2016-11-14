@@ -80,10 +80,10 @@ define( function( require ) {
     options = _.extend( {
 
       // whether to show the home screen, or go immediately to the screen indicated by screenIndex
-      showHomeScreen: ( screens.length > 1 ),
+      showHomeScreen: ( screens.length > 1 ) && phet.chipper.queryParameters.showHomeScreen,
 
       // index of the screen that will be selected at startup
-      screenIndex: 0,
+      screenIndex: phet.chipper.queryParameters.screenIndex,
 
       // whether to run the screen indicated by screenIndex as a standalone sim
       standalone: false,
@@ -120,22 +120,14 @@ define( function( require ) {
       showSmallHomeScreenIconFrame: false,
 
       // Whether accessibility features are enabled or not.
-      accessibility: !!phet.chipper.getQueryParameter( 'accessibility' ),
+      accessibility: phet.chipper.queryParameters.accessibility,
 
       // Whether accessibility features are enabled or not.
-      virtualCursor: !!phet.chipper.getQueryParameter( 'virtualCursor' ),
+      virtualCursor: phet.chipper.queryParameters.virtualCursor,
 
       // the default renderer for the rootNode, see #221, #184 and https://github.com/phetsims/molarity/issues/24
       rootRenderer: platform.edge ? 'canvas' : 'svg'
     }, options );
-
-    if ( screens.length > 1 && phet.chipper.getQueryParameter( 'showHomeScreen' ) ) {
-      options.showHomeScreen = stringToBoolean( phet.chipper.getQueryParameter( 'showHomeScreen' ) );
-    }
-
-    if ( phet.chipper.getQueryParameter( 'screenIndex' ) ) {
-      options.screenIndex = parseInt( phet.chipper.getQueryParameter( 'screenIndex' ), 10 );
-    }
 
     //TODO this is inappropriate inheritance, but was required when PropertySet was removed, because PropertySet extends Events
     Events.call( this );
