@@ -119,11 +119,9 @@ define( function( require ) {
       // have the same color as the background, as in Color Vision.
       showSmallHomeScreenIconFrame: false,
 
-      // Whether accessibility features are enabled or not.
+      // Whether accessibility features are enabled or not.  Use this option to render the Parallel DOM for
+      // keyboard navigation and screen reader based auditory descriptions. 
       accessibility: phet.chipper.queryParameters.accessibility,
-
-      // Whether accessibility features are enabled or not.
-      virtualCursor: phet.chipper.queryParameters.virtualCursor,
 
       // the default renderer for the rootNode, see #221, #184 and https://github.com/phetsims/molarity/issues/24
       rootRenderer: platform.edge ? 'canvas' : 'svg'
@@ -290,7 +288,6 @@ define( function( require ) {
       allowWebGL: phet.chipper.queryParameters.webgl,
 
       accessibility: options.accessibility,
-      virtualCursor: options.virtualCursor,
       isApplication: false
     } );
 
