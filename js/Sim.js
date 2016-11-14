@@ -213,9 +213,6 @@ define( function( require ) {
     this.inputEventLog = [];                 // @public (joist-internal)
     this.inputEventBounds = Bounds2.NOTHING; // @public (joist-internal)
 
-    // @public (joist-internal) - mouse event fuzzing parameters, average number of mouse events to synthesize per frame
-    this.fuzzMouseAverage = 10;
-
     // @public - Make our locale available
     this.locale = phet.chipper.locale || 'en';
 
@@ -228,23 +225,17 @@ define( function( require ) {
     if ( phet.chipper.queryParameters.recordInputEventLog ) {
       // enables recording of Scenery's input events, request animation frames, and dt's so the sim can be played back
       options.recordInputEventLog = true;
-      options.inputEventLogName = phet.chipper.queryParameter.recordInputEventLog;
+      options.inputEventLogName = phet.chipper.queryParameters.recordInputEventLog;
     }
 
     if ( phet.chipper.queryParameters.playbackInputEventLog ) {
       // instead of loading like normal, download a previously-recorded event sequence and play it back (unique to the browser and window size)
       options.playbackInputEventLog = true;
-      options.inputEventLogName = phet.chipper.queryParameter.playbackInputEventLog;
+      options.inputEventLogName = phet.chipper.queryParameters.playbackInputEventLog;
     }
 
-    if ( phet.chipper.getQueryParameter( 'fuzzMouse' ) ) {
-      // ignore any user input events, and instead fire mouse events randomly in an effort to cause an exception
-      options.fuzzMouse = true;
-      if ( phet.chipper.getQueryParameter( 'fuzzMouse' ) !== 'undefined' ) {
-        self.fuzzMouseAverage = parseFloat( phet.chipper.getQueryParameter( 'fuzzMouse' ) );
-      }
-
-      // override window.open with a semi-API-compatible function, so fuzzing doesn't open new windows.
+    // override window.open with a semi-API-compatible function, so fuzzing doesn't open new windows.
+    if ( phet.chipper.queryParameters.fuzzMouse ) {
       window.open = function() {
         return {
           focus: function() {},
@@ -669,8 +660,8 @@ define( function( require ) {
       }
 
       // fire or synthesize input events
-      if ( this.options.fuzzMouse ) {
-        this.display.fuzzMouseEvents( this.fuzzMouseAverage );
+      if ( phet.chipper.queryParameters.fuzzMouse ) {
+        this.display.fuzzMouseEvents( phet.chipper.queryParameters.fuzzRate );
       }
       else {
 
