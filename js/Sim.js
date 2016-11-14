@@ -221,7 +221,7 @@ define( function( require ) {
 
     // If the locale query parameter was specified, then we may be running the all.html file, so adjust the title.
     // See https://github.com/phetsims/chipper/issues/510
-    if ( phet.chipper.queryParameters.locale ) {
+    if ( QueryStringMachine.containsKey( 'locale' ) ) {
       $( 'title' ).html( name );
     }
 
