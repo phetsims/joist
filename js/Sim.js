@@ -307,13 +307,7 @@ define( function( require ) {
     document.body.appendChild( heartbeatDiv );
 
     if ( phet.chipper.queryParameters.sceneryLog ) {
-      var logNames = phet.chipper.queryParameters.sceneryLog;
-      if ( logNames === undefined || logNames === 'undefined' ) {
-        this.display.scenery.enableLogging();
-      }
-      else {
-        this.display.scenery.enableLogging( logNames.split( '.' ) );
-      }
+      this.display.scenery.enableLogging( phet.chipper.queryParameters.sceneryLog );
     }
 
     if ( phet.chipper.queryParameters.sceneryStringLog ) {
