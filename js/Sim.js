@@ -65,7 +65,7 @@ define( function( require ) {
     // The screens to be included, and their order, may be specified via a query parameter.
     // For documentation, see the schema for phet.chipper.queryParameters.screens in initialize-globals.js.
     // Do this before setting options.showHomeScreen, since no home screen should be shown if we have 1 screen.
-    if ( phet.chipper.queryParameters.screens ) {
+    if ( phet.chipper.queryParameters.screens.length > 0 ) {
       var newScreens = [];
       phet.chipper.queryParameters.screens.forEach( function( userIndex ) {
         var screenIndex = userIndex - 1; // screens query parameter is 1-based
