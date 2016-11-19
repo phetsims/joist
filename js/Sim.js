@@ -82,11 +82,8 @@ define( function( require ) {
       // whether to show the home screen, or go immediately to the screen indicated by screenIndex
       showHomeScreen: ( screens.length > 1 ) && phet.chipper.queryParameters.showHomeScreen,
 
-      // index of the screen that will be selected at startup
-      screenIndex: phet.chipper.queryParameters.screenIndex,
-
-      // whether to run the screen indicated by screenIndex as a standalone sim
-      standalone: false,
+      // index of the screen that will be selected at startup (the query parameter is 1-based)
+      screenIndex: phet.chipper.queryParameters.screenIndex - 1,
 
       // credits, see AboutDialog for format
       credits: {},
@@ -396,7 +393,7 @@ define( function( require ) {
       screen.initializeModelAndView();
     } );
 
-    // ModuleIndex should always be defined.  On startup screenIndex=0 to highlight the 1st screen.
+    // ModuleIndex should always be defined.  On startup screenIndex=1 to highlight the 1st screen.
     // When moving from a screen to the homescreen, the previous screen should be highlighted
 
     if ( this.homeScreen ) {
