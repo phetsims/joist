@@ -91,7 +91,6 @@ define( function( require ) {
 
     var menuItem = new Node( {
       cursor: 'pointer',
-      focusable: true,
       textDescription: text + ' Button'
     } );
     menuItem.addChild( highlight );

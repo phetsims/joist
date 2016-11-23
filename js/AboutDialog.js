@@ -137,9 +137,6 @@ define( function( require ) {
       modal: true,
       hasCloseButton: false,
 
-      // Focusable so it can be dismissed
-      focusable: true,
-
       // accessible content
       accessibleContent: {
         createPeer: function( accessibleInstance ) {

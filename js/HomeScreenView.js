@@ -117,7 +117,6 @@ define( function( require ) {
           largeIconWithFrame,
           largeText
         ],
-        focusable: true,
         textDescription: screen.name + ' Screen: Button',
         accessibleContent: {
           createPeer: function( accessibleInstance ) {
@@ -191,7 +190,6 @@ define( function( require ) {
           smallIcon,
           smallText
         ],
-        focusable: true,
         textDescription: screen.name + ' Screen: Button',
         accessibleContent: {
           createPeer: function( accessibleInstance ) {

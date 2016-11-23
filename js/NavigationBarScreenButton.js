@@ -55,7 +55,6 @@ define( function( require ) {
 
     options = _.extend( {
       cursor: 'pointer',
-      focusable: true,
       textDescription: screen.name + ' Screen: Button',
       tandem: null,
       maxButtonWidth: null, // {number|null} the maximum width of the button, causes text and/or icon to be scaled down if necessary
