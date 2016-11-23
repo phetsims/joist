@@ -97,9 +97,6 @@ define( function( require ) {
       // if true, records the scenery input events and sends them to a server that can store them
       recordInputEventLog: false,
 
-      // TODO: Is this still needed?
-      playbackMode: phet.chipper.queryParameters.playbackMode,
-
       // when playing back a recorded scenery input event log, use the specified filename.  Please see getEventLogName for more
       inputEventLogName: undefined,
 
@@ -132,9 +129,6 @@ define( function( require ) {
 
     // @private - store this for access from prototype functions, assumes that it won't be changed later
     this.options = options;
-
-    // @private - TODO: Is this still needed?
-    this.playbackMode = options.playbackMode;
 
     // override rootRenderer using query parameter, see #221 and #184
     options.rootRenderer = phet.chipper.queryParameters.rootRenderer || options.rootRenderer;
@@ -464,7 +458,7 @@ define( function( require ) {
     this.lastTime = -1;
 
     // @public (joist-internal) - Bind the animation loop so it can be called from requestAnimationFrame with the right
-    // this.  If PhET-iO sets playbackMode to be true, the sim clock won't run and instead
+    // this.  If PhET-iO sets phet.joist.playbackMode to be true, the sim clock won't run and instead
     // the sim will receive dt events from stepSimulation calls.
     this.boundRunAnimationLoop = phet.joist.playbackMode ? function() {} : this.runAnimationLoop.bind( this );
     this.trigger0( 'simulationStarted' );
