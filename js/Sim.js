@@ -47,6 +47,7 @@ define( function( require ) {
 
   // globals
   phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for replicable playbacks
+  phet.joist.playbackMode = false; // sets whether the sim is for PhET-iO playback, overriden TPhETIO for playback
 
   /**
    * Main Sim constructor
