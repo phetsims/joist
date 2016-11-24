@@ -51,7 +51,7 @@ define( function( require ) {
       name: null,
 
       // {Color|string} initial background color of the Screen
-      backgroundColor: 'white',
+      backgroundColorProperty: new Property( new Color( 'white' ) ),
 
       // {Node} icon shown on the home screen.
       // For single-screen sims, there is no home screen and the default is OK.
@@ -80,8 +80,10 @@ define( function( require ) {
     // @private (read-only, joist)
     this.tandem = options.tandem;
 
+    assert && assert( !options.backgroundColor, 'Please provide backgroundColorProperty instead' );
+
     // @public
-    this.backgroundColorProperty = new Property( Color.toColor( options.backgroundColor ) );
+    this.backgroundColorProperty = options.backgroundColorProperty;
 
     // @public
     this.name = options.name;
@@ -156,7 +158,7 @@ define( function( require ) {
 
     // @public
     reset: function() {
-      this.backgroundColorProperty.reset();
+      // Background color not reset, as it's a responsibility of the code that changes the property
     },
 
     // @public - Returns the model (if it has been constructed)
