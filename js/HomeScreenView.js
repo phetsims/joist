@@ -33,7 +33,6 @@ define( function( require ) {
   // constants
   var HEIGHT = 70; //TODO what is this? is it the height of large icons?
   var LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
-  var ICONS_TOP = 170; //TODO workaround for drifting of home screen icons, https://github.com/phetsims/joist/issues/331
 
   // iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
   var TITLE_FONT_FAMILY = 'Century Gothic, Futura';
@@ -251,31 +250,27 @@ define( function( require ) {
       return { screen: screen, small: smallScreenButton, large: largeScreenButton, index: index };
     } );
 
-    var centerNode = new Node( { y: ICONS_TOP } );
-    self.addChild( centerNode );
-    var iconHBox = null;
+    // Intermediate node, so that icons are always in the same rendering layer
+    var iconsParentNode = new Node();
+    self.addChild( iconsParentNode );
+
+    // Space the icons out more if there are fewer, so they will be spaced nicely.
+    // Cannot have only 1 screen because for 1-screen sims there is no home screen.
+    var spacing = ( sim.screens.length <= 3 ) ? 60 : 33;
+
     sim.screenIndexProperty.link( function( screenIndex ) {
 
-      // remove and clean up previous HBox to avoid leaking memory
-      if ( iconHBox ) {
-        centerNode.removeChild( iconHBox );
-        iconHBox.removeAllChildren();
-      }
+      // remove previous layout of icons
+      assert && assert( iconsParentNode.getChildrenCount() <= 1, 'iconsParentNode should have at most 1 child' );
+      iconsParentNode.removeAllChildren();
 
-      // Space the icons out more if there are fewer, so they will be spaced nicely.
-      // Cannot have only 1 screen because for 1-screen sims there is no home screen.
-      var spacing = sim.screens.length === 2 ? 60 :
-                    sim.screens.length === 3 ? 60 :
-                    33;
-
+      // add new layout of icons
       var icons = _.map( screenChildren, function( screenChild ) {return screenChild.index === screenIndex ? screenChild.large : screenChild.small;} );
-      iconHBox = new HBox( { spacing: spacing, children: icons, align: 'top', resize: false } );
-      centerNode.addChild( iconHBox );
+      iconsParentNode.addChild( new HBox( { spacing: spacing, children: icons, align: 'top', resize: false } ) );
 
-      centerNode.centerX = self.layoutBounds.width / 2;
-
-      // Workaround for #331 which caused the icons to float toward the top of the screen.
-      centerNode.top = ICONS_TOP;
+      // position the icons
+      iconsParentNode.centerX = self.layoutBounds.width / 2;
+      iconsParentNode.top = 170;
     } );
 
     //TODO move these Properties to LookAndFeel, see https://github.com/phetsims/joist/issues/255
