@@ -100,7 +100,7 @@ define( function( require ) {
     this._model = null; // @private
     this._view = null;  // @private
 
-    //TODO missing tandem.addInstance ?
+    //TODO missing tandem.addInstance? See https://github.com/phetsims/joist/issues/376
   }
 
   joist.register( 'Screen', Screen );
