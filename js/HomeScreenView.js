@@ -33,7 +33,7 @@ define( function( require ) {
   // constants
   var HEIGHT = 70; //TODO what is this? is it the height of large icons?
   var LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
-  var ICONS_TOP = 170;
+  var ICONS_TOP = 170; //TODO workaround for drifting of home screen icons, https://github.com/phetsims/joist/issues/331
 
   // iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
   var TITLE_FONT_FAMILY = 'Century Gothic, Futura';
