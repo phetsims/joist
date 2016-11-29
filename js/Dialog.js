@@ -48,6 +48,7 @@ define( function( require ) {
       backgroundPickable: true,
       xMargin: 20,
       yMargin: 20,
+      closeButtonBaseColor: '#d00',
       closeButtonMargin: 5, // {number} how far away should the close button be from the panel border
       accessibleContent: {
         createPeer: function( accessibleInstance ) {
@@ -112,7 +113,7 @@ define( function( require ) {
 
       var closeButton = new RectangularPushButton( {
         content: crossNode,
-        baseColor: '#d00', // TODO: color dependent on scheme?
+        baseColor: options.closeButtonBaseColor,
         xMargin: 5,
         yMargin: 5,
         listener: function() {
@@ -127,7 +128,7 @@ define( function( require ) {
         closeButton.top = dialogContent.top - options.xMargin + options.closeButtonMargin;
       };
 
-      // TODO: is this leaking memory here?
+      //TODO memory leak, see https://github.com/phetsims/joist/issues/357
       if ( options.resize ) {
         dialogContent.on( 'bounds', updateClosePosition );
         if ( options.title ) {
