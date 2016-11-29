@@ -251,14 +251,14 @@ define( function( require ) {
       return { screen: screen, small: smallScreenButton, large: largeScreenButton, index: index };
     } );
 
-    var center = new Node( { y: ICONS_TOP } );
-    self.addChild( center );
+    var centerNode = new Node( { y: ICONS_TOP } );
+    self.addChild( centerNode );
     var iconHBox = null;
     sim.screenIndexProperty.link( function( screenIndex ) {
 
       // remove and clean up previous HBox to avoid leaking memory
       if ( iconHBox ) {
-        center.removeChild( iconHBox );
+        centerNode.removeChild( iconHBox );
         iconHBox.removeAllChildren();
       }
 
@@ -270,12 +270,12 @@ define( function( require ) {
 
       var icons = _.map( screenChildren, function( screenChild ) {return screenChild.index === screenIndex ? screenChild.large : screenChild.small;} );
       iconHBox = new HBox( { spacing: spacing, children: icons, align: 'top', resize: false } );
-      center.addChild( iconHBox );
+      centerNode.addChild( iconHBox );
 
-      center.centerX = self.layoutBounds.width / 2;
+      centerNode.centerX = self.layoutBounds.width / 2;
 
       // Workaround for #331 which caused the icons to float toward the top of the screen.
-      center.top = ICONS_TOP;
+      centerNode.top = ICONS_TOP;
     } );
 
     //TODO move these Properties to LookAndFeel, see https://github.com/phetsims/joist/issues/255
