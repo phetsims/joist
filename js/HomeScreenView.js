@@ -278,7 +278,7 @@ define( function( require ) {
       center.top = ICONS_TOP;
     } );
 
-    //TODO joist#255 move these fill properties to LookAndFeel, chase down other places that they should be used
+    //TODO move these Properties to LookAndFeel, see https://github.com/phetsims/joist/issues/255
     var homeScreenFillProperty = new Property( 'black' );
     var homeScreenTextFillProperty = new Property( 'white' );
 
