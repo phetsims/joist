@@ -62,7 +62,9 @@ define( function( require ) {
         createPeer: function( accessibleInstance ) {
           // will look like <input value="Reset" type="button" tabindex="0">
           var domElement = document.createElement( 'input' );
-          domElement.value = screen.name; // TODO: do we have to wrap this with a translated string, to say "Switch to ...", etc.?
+
+          //TODO do we have to wrap this with a translated string, to say "Switch to ...", etc.?  See https://github.com/phetsims/joist/issues/375
+          domElement.value = screen.name;
           domElement.type = 'button';
 
           domElement.tabIndex = '0';
