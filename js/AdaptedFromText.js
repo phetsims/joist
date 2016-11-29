@@ -19,8 +19,7 @@ define( function( require ) {
   var adaptedFromString = require( 'string!JOIST/adaptedFrom' );
 
   // constants
-  // TODO: Issue #245 When using Futura/bold the text looks the same on homescreen vs navbar on Chrome.  On Firefox it
-  // TODO: is very blurry!  Changing font makes it render differently on homescreen vs navbar.
+  // TODO: address Firefox font problem, see https://github.com/phetsims/joist/issues/245
   var FONT = new PhetFont( {
     family: 'Arial',
     size: 10,
