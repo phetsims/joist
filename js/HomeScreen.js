@@ -23,7 +23,9 @@ define( function( require ) {
   function HomeScreen( sim, tandem, options ) {
 
     options = _.extend( {
-      backgroundColorProperty: new Property( Color.toColor( 'black' ) ) //TODO joist#255 this should come from LookAndFeel
+
+      //TODO get this color from LookAndFeel, see https://github.com/phetsims/joist/issues/255
+      backgroundColorProperty: new Property( Color.toColor( 'black' ) )
     }, options );
 
     assert && assert( !options.tandem, 'tandem is a required constructor parameter, not an option' );
