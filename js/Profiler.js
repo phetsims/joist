@@ -58,6 +58,7 @@ define( function( require ) {
       this.histogram.push( 0 );
     }
 
+    // this is where the profiler displays its output
     $( 'body' ).append( '<div style="z-index: 99999999;position: absolute;color:red" id="trace" ></div>' );
   }
 
