@@ -18,7 +18,7 @@
  * 48 FPS - 21ms/frame - 0,0,5,0,0,0,0,0,1,0,0,0,0,3,1,3,18,19,5,3,1,0,1,0,0,0,0,1,0,0 - 50,37,217
  *
  * The histogram field is a sequence of 30 numbers, for 0-29ms. Each number indicates the number of frames that took
- * that amount of time. In the above example, there were 5 frames that took 2ms.
+ * that amount of time. In the above example, histogram[2] is 5; there were 5 frames that took 2ms.
  *
  * The longTimes field is the set of frame times that exceeded 29ms, and thus don't fit in the histogram.
  * If 2 frames took 37ms, then 37ms will appear twice.  If no frames exceeded 29ms, then this field will be absent.
