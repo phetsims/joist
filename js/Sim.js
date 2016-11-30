@@ -47,7 +47,7 @@ define( function( require ) {
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
 
   // constants
-  var PROGRESS_BAR_WIDTH = 200;
+  var PROGRESS_BAR_WIDTH = 273;
 
   // globals
   phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for replicable playbacks
@@ -391,12 +391,6 @@ define( function( require ) {
   return inherit( Events, Sim, {
     finishInit: function( screens, tandem ) {
       var self = this;
-      // // Instantiate the screens. Currently this is done eagerly, but this pattern leaves open the door for loading things
-      // // in the background.
-      // screens.forEach( function initializeScreen( screen ) {
-      //   screen.backgroundColorProperty.link( self.updateBackground );
-      //   screen.initializeModelAndView();
-      // } );
 
       // ModuleIndex should always be defined.  On startup screenIndex=1 to highlight the 1st screen.
       // When moving from a screen to the homescreen, the previous screen should be highlighted
@@ -477,7 +471,6 @@ define( function( require ) {
       // Signify the end of simulation startup.  Used by PhET-iO.
       this.trigger0( 'endedSimConstructor' );
     },
-
 
     /*
      * Adds a popup in the global coordinate frame, and optionally displays a semi-transparent black input barrier behind it.
