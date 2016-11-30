@@ -7,7 +7,7 @@
  * happen, which are typically a spike in a single frame.  Hence, the data is shown as a histogram. Data that
  * doesn't fit in the histogram appears in an optional 'longTimes' field.
  *
- * Output is displayed in the upper-left corner of the browser window.
+ * Output is displayed in the upper-left corner of the browser window, and updates every 60 frames.
  *
  * The general format is:
  *
@@ -46,8 +46,8 @@ define( function( require ) {
 
     //TODO Now that profiler is enabled via a query parameter, we should use more sensible/flexible data structures here.
     // These data structured were chosen to minimize CPU time.
-    this.histogram = []; // @private
-    this.longTimes = []; // @private
+    this.histogram = []; // @private array index corresponds to number of ms, value is number of frames at that time
+    this.longTimes = []; // @private any times that didn't fit in histogram
     this.allTimes = [];  // @private
     this.frameCount = 0; // @private
     for ( var i = 0; i < 30; i++ ) {
@@ -85,15 +85,16 @@ define( function( require ) {
         var averageFrameTime = Math.round( totalTime / this.allTimes.length );
         text = text + FIELD_SEPARATOR + averageFrameTime + 'ms/frame';
 
-        // histogram is for frame rates from 0-29ms, where the value is the number of frames for each frame rate.
+        // histogram
         text = text + FIELD_SEPARATOR + this.histogram;
 
-        // longTimes includes any frame rates that exceed 29ms, and therefore don't fit in the histogram.
+        // longTimes
         if ( this.longTimes.length ) {
           this.longTimes.sort( function( a, b ){ return b - a; } ); // sort longTimes in descending order
           text = text + FIELD_SEPARATOR + this.longTimes;
         }
 
+        // update the display
         $( '#trace' ).html( text );
 
         // clear data structures
