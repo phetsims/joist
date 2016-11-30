@@ -31,7 +31,7 @@ define( function( require ) {
   var TScreenButton = require( 'ifphetio!PHET_IO/types/joist/TScreenButton' );
 
   // constants
-  var HEIGHT = 70; //TODO what is this? is it the height of large icons?
+  var LARGE_ICON_HEIGHT = 140;
   var LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
 
   // iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
@@ -84,7 +84,7 @@ define( function( require ) {
       // the navigation bar.
       var largeIcon = new Node( {
         children: [ screen.homeScreenIcon ],
-        scale: HEIGHT / screen.homeScreenIcon.height * 2
+        scale: LARGE_ICON_HEIGHT / screen.homeScreenIcon.height
       } );
       var frame = new Frame( largeIcon );
 
@@ -152,8 +152,8 @@ define( function( require ) {
         }
       } );
 
-      // For 4 screens, scale is 1.0, for 2 screens scale is 1.75, linearly extrapolate/interpolate
-      var scale = Util.linear( 2, 4, 1.75, 1.00, sim.screens.length );
+      // Maps the number of screens to a scale for the small icons. The scale is percentage of LARGE_ICON_HEIGHT.
+      var smallIconScale = Util.linear( 2, 4, 0.875, 0.50, sim.screens.length );
 
       // Show a small (unselected) screen icon.  In some cases (if the icon has a black background), a border may be
       // shown around it as well.  See https://github.com/phetsims/color-vision/issues/49
@@ -162,7 +162,7 @@ define( function( require ) {
       var smallIconContent = new Node( {
         opacity: 0.5,
         children: [ screen.homeScreenIcon ],
-        scale: scale * HEIGHT / screen.homeScreenIcon.height
+        scale: smallIconScale * LARGE_ICON_HEIGHT / screen.homeScreenIcon.height
       } );
 
       var smallFrame = new Rectangle( 0, 0, smallIconContent.width, smallIconContent.height, {
