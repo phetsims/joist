@@ -46,13 +46,17 @@ define( function( require ) {
 
     //TODO Now that profiler is enabled via a query parameter, we should use more sensible/flexible data structures here.
     // These data structured were chosen to minimize CPU time.
+    this.allTimes = [];  // @private
     this.histogram = []; // @private array index corresponds to number of ms, value is number of frames at that time
     this.longTimes = []; // @private any times that didn't fit in histogram
-    this.allTimes = [];  // @private
     this.frameCount = 0; // @private
+    this.frameStartTime = 0; // @private
+
+    // initialize histogram
     for ( var i = 0; i < 30; i++ ) {
       this.histogram.push( 0 );
     }
+
     $( 'body' ).append( '<div style="z-index: 99999999;position: absolute;color:red" id="trace" ></div>' );
   }
 
@@ -69,7 +73,7 @@ define( function( require ) {
     // @private
     frameEnded: function() {
 
-      var timeBetweenFrames = this.frameStartTime - this.lastFrameStartTime;
+      // update the display every 60 frames
       if ( this.frameCount % 60 === 0 ) {
 
         var totalTime = 0;
@@ -89,8 +93,8 @@ define( function( require ) {
         text = text + FIELD_SEPARATOR + this.histogram;
 
         // longTimes
-        if ( this.longTimes.length ) {
-          this.longTimes.sort( function( a, b ){ return b - a; } ); // sort longTimes in descending order
+        if ( this.longTimes.length > 0 ) {
+          this.longTimes.sort( function( a, b ) { return b - a; } ); // sort longTimes in descending order
           text = text + FIELD_SEPARATOR + this.longTimes;
         }
 
@@ -104,17 +108,18 @@ define( function( require ) {
         this.longTimes.length = 0;
         this.allTimes.length = 0;
       }
-      else {
-        var key = timeBetweenFrames;
-        if ( key < 30 ) {
-          this.histogram[ key ]++;
-        }
-        else {
-          this.longTimes.push( key );
-        }
-        this.allTimes.push( key );
+
+      // record data for the current frame
+      var dt = this.frameStartTime - this.previousFrameStartTime;
+      this.allTimes.push( dt );
+      if ( dt < 30 ) {
+        this.histogram[ dt ]++; // increment the histogram cell for the corresponding time
       }
-      this.lastFrameStartTime = this.frameStartTime;
+      else {
+        this.longTimes.push( dt ); // time doesn't fit in histogram, record in longTimes
+      }
+
+      this.previousFrameStartTime = this.frameStartTime;
     }
   }, {
 
