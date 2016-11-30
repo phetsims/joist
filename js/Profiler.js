@@ -22,6 +22,7 @@
  *
  * The longTimes field is the set of frame times that exceeded 29ms, and thus don't fit in the histogram.
  * If 2 frames took 37ms, then 37ms will appear twice.  If no frames exceeded 29ms, then this field will be absent.
+ * These values are sorted in descending order, so you can easily identify the largest frame time.
  *
  * TODO: Could take further steps to helping identify the time spent in render vs input handling vs model, etc.
  *
