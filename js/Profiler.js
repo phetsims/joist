@@ -45,12 +45,12 @@ define( function( require ) {
    */
   function Profiler() {
 
-    // These data structured were chosen to minimize CPU time.
-    this.allTimes = [];  // @private
-    this.histogram = []; // @private array index corresponds to number of ms, value is number of frames at that time
-    this.longTimes = []; // @private any times that didn't fit in histogram
-    this.frameStartTime = 0; // @private
-    this.previousFrameStartTime = 0; // @private
+    // @private These data structured were chosen to minimize CPU time.
+    this.allTimes = [];  // {number[]} times for all frames, in ms
+    this.histogram = []; // {number[]} array index corresponds to number of ms, value is number of frames at that time
+    this.longTimes = []; // {number[]} any frame times that didn't fit in histogram
+    this.frameStartTime = 0; // {number} start time of the current frame
+    this.previousFrameStartTime = 0; // {number} start time of the previous frame
 
     // initialize histogram
     for ( var i = 0; i < HISTOGRAM_LENGTH; i++ ) {
@@ -108,7 +108,7 @@ define( function( require ) {
         this.allTimes.length = 0;
       }
 
-      // record data for the current frame
+      // record data for the current frame, skip first frame because we can't compute its dt
       if ( this.previousFrameStartTime ) {
         var dt = this.frameStartTime - this.previousFrameStartTime;
         this.allTimes.push( dt );
