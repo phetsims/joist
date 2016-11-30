@@ -56,8 +56,7 @@ define( function( require ) {
    * @param {Object} [options] - see below for options
    * @constructor
    *
-   * Events:
-   * - resized( bounds, screenBounds, scale ): Fires when the sim is resized.
+   * Events: search for 'trigger' to find the supported Events
    */
   function Sim( name, screens, options ) {
 
