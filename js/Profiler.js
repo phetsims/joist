@@ -120,6 +120,7 @@ define( function( require ) {
           this.longTimes.push( dt ); // time doesn't fit in histogram, record in longTimes
         }
       }
+
       this.previousFrameStartTime = this.frameStartTime;
     }
   }, {
