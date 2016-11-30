@@ -50,7 +50,6 @@ define( function( require ) {
     this.allTimes = [];  // @private
     this.histogram = []; // @private array index corresponds to number of ms, value is number of frames at that time
     this.longTimes = []; // @private any times that didn't fit in histogram
-    this.frameCount = 0; // @private
     this.frameStartTime = 0; // @private
     this.previousFrameStartTime = 0; // @private
 
@@ -69,14 +68,13 @@ define( function( require ) {
     // @private
     frameStarted: function() {
       this.frameStartTime = Date.now();
-      this.frameCount++;
     },
 
     // @private
     frameEnded: function() {
 
       // update the display every 60 frames
-      if ( this.frameCount % 60 === 0 ) {
+      if ( this.allTimes.length > 0 && this.allTimes.length % 60 === 0 ) {
 
         var totalTime = 0;
         for ( var i = 0; i < this.allTimes.length; i++ ) {
