@@ -37,6 +37,7 @@ define( function( require ) {
   var PhetButton = require( 'JOIST/PhetButton' );
   var joist = require( 'JOIST/joist' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var DotUtil = require( 'DOT/Util' );// eslint-disable-line
   var Events = require( 'AXON/Events' );
 
   // phet-io modules
@@ -44,6 +45,9 @@ define( function( require ) {
   var TBarrierRectangle = require( 'ifphetio!PHET_IO/types/scenery/nodes/TBarrierRectangle' );
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
+
+  // constants
+  var PROGRESS_BAR_WIDTH = 200;
 
   // globals
   phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for replicable playbacks
@@ -126,6 +130,7 @@ define( function( require ) {
 
     // @private - Export for usage in phetio.js
     var tandem = Tandem.createRootTandem();
+    this.tandem = tandem;
 
     // @private - store this for access from prototype functions, assumes that it won't be changed later
     this.options = options;
@@ -379,97 +384,100 @@ define( function( require ) {
         self.currentScreenProperty.value = ( showHomeScreen && self.homeScreen ) ? null : screens[ screenIndex ];
         self.updateBackground();
       } );
-
-    // Instantiate the screens. Currently this is done eagerly, but this pattern leaves open the door for loading things
-    // in the background.
-    screens.forEach( function initializeScreen( screen ) {
-      screen.backgroundColorProperty.link( self.updateBackground );
-      screen.initializeModelAndView();
-    } );
-
-    // ModuleIndex should always be defined.  On startup screenIndex=1 to highlight the 1st screen.
-    // When moving from a screen to the homescreen, the previous screen should be highlighted
-
-    if ( this.homeScreen ) {
-      this.rootNode.addChild( this.homeScreen.view );
-    }
-    _.each( screens, function( screen ) {
-      screen.view.layerSplit = true;
-      self.rootNode.addChild( screen.view );
-    } );
-    this.rootNode.addChild( this.navigationBar );
-
-    if ( this.homeScreen ) {
-
-      // Once both the navbar and homescreen have been added, link the PhET button positions together.
-      // See https://github.com/phetsims/joist/issues/304.
-      PhetButton.linkPhetButtonTransform( this.homeScreen, this.navigationBar, this.rootNode );
-    }
-
-    Property.multilink( [ this.showHomeScreenProperty, this.screenIndexProperty ],
-      function( showHomeScreen, screenIndex ) {
-        if ( self.homeScreen ) {
-          self.homeScreen.view.setVisible( showHomeScreen );
-        }
-        for ( var i = 0; i < screens.length; i++ ) {
-          screens[ i ].view.setVisible( !showHomeScreen && screenIndex === i );
-        }
-        self.navigationBar.setVisible( !showHomeScreen );
-        self.updateBackground();
-      } );
-
-    // layer for popups, dialogs, and their backgrounds and barriers
-    this.topLayer = new Node();
-    this.rootNode.addChild( this.topLayer );
-
-    // @private list of nodes that are "modal" and hence block input with the barrierRectangle.  Used by modal dialogs
-    // and the PhetMenu
-    this.modalNodeStack = new ObservableArray(); // {Node} with node.hide()
-
-    // @public (joist-internal) Semi-transparent black barrier used to block input events when a dialog (or other popup)
-    // is present, and fade out the background.
-    this.barrierRectangle = new Rectangle( 0, 0, 1, 1, 0, 0, {
-      fill: 'rgba(0,0,0,0.3)',
-      pickable: true
-    } );
-    this.topLayer.addChild( this.barrierRectangle );
-    this.modalNodeStack.lengthProperty.link( function( numBarriers ) {
-      self.barrierRectangle.visible = numBarriers > 0;
-    } );
-    this.barrierRectangle.addInputListener( new ButtonListener( {
-      fire: function( event ) {
-        self.barrierRectangle.trigger0( 'startedCallbacksForFired' );
-        assert && assert( self.modalNodeStack.length > 0 );
-        self.modalNodeStack.get( self.modalNodeStack.length - 1 ).hide();
-        self.barrierRectangle.trigger0( 'endedCallbacksForFired' );
-      }
-    } ) );
-    tandem.createTandem( 'sim.barrierRectangle' ).addInstance( this.barrierRectangle, TBarrierRectangle );
-
-    // Fit to the window and render the initial scene
-    $( window ).resize( function() { self.resizeToWindow(); } );
-    this.resizeToWindow();
-
-    // Kick off checking for updates, if that is enabled
-    UpdateCheck.check();
-
-    // @public (joist-internal) - Keep track of the previous time for computing dt, and initially signify that time
-    // hasn't been recorded yet.
-    this.lastTime = -1;
-
-    // @public (joist-internal) - Bind the animation loop so it can be called from requestAnimationFrame with the right
-    // this.  If PhET-iO sets phet.joist.playbackMode to be true, the sim clock won't run and instead
-    // the sim will receive dt events from stepSimulation calls.
-    this.boundRunAnimationLoop = phet.joist.playbackMode ? function() {} : this.runAnimationLoop.bind( this );
-    this.trigger0( 'simulationStarted' );
-
-    // Signify the end of simulation startup.  Used by PhET-iO.
-    this.trigger0( 'endedSimConstructor' );
   }
 
   joist.register( 'Sim', Sim );
 
   return inherit( Events, Sim, {
+    finishInit: function( screens, tandem ) {
+      var self = this;
+      // // Instantiate the screens. Currently this is done eagerly, but this pattern leaves open the door for loading things
+      // // in the background.
+      // screens.forEach( function initializeScreen( screen ) {
+      //   screen.backgroundColorProperty.link( self.updateBackground );
+      //   screen.initializeModelAndView();
+      // } );
+
+      // ModuleIndex should always be defined.  On startup screenIndex=1 to highlight the 1st screen.
+      // When moving from a screen to the homescreen, the previous screen should be highlighted
+
+      if ( this.homeScreen ) {
+        this.rootNode.addChild( this.homeScreen.view );
+      }
+      _.each( screens, function( screen ) {
+        screen.view.layerSplit = true;
+        self.rootNode.addChild( screen.view );
+      } );
+      this.rootNode.addChild( this.navigationBar );
+
+      if ( this.homeScreen ) {
+
+        // Once both the navbar and homescreen have been added, link the PhET button positions together.
+        // See https://github.com/phetsims/joist/issues/304.
+        PhetButton.linkPhetButtonTransform( this.homeScreen, this.navigationBar, this.rootNode );
+      }
+
+      Property.multilink( [ this.showHomeScreenProperty, this.screenIndexProperty ],
+        function( showHomeScreen, screenIndex ) {
+          if ( self.homeScreen ) {
+            self.homeScreen.view.setVisible( showHomeScreen );
+          }
+          for ( var i = 0; i < screens.length; i++ ) {
+            screens[ i ].view.setVisible( !showHomeScreen && screenIndex === i );
+          }
+          self.navigationBar.setVisible( !showHomeScreen );
+          self.updateBackground();
+        } );
+
+      // layer for popups, dialogs, and their backgrounds and barriers
+      this.topLayer = new Node();
+      this.rootNode.addChild( this.topLayer );
+
+      // @private list of nodes that are "modal" and hence block input with the barrierRectangle.  Used by modal dialogs
+      // and the PhetMenu
+      this.modalNodeStack = new ObservableArray(); // {Node} with node.hide()
+
+      // @public (joist-internal) Semi-transparent black barrier used to block input events when a dialog (or other popup)
+      // is present, and fade out the background.
+      this.barrierRectangle = new Rectangle( 0, 0, 1, 1, 0, 0, {
+        fill: 'rgba(0,0,0,0.3)',
+        pickable: true
+      } );
+      this.topLayer.addChild( this.barrierRectangle );
+      this.modalNodeStack.lengthProperty.link( function( numBarriers ) {
+        self.barrierRectangle.visible = numBarriers > 0;
+      } );
+      this.barrierRectangle.addInputListener( new ButtonListener( {
+        fire: function( event ) {
+          self.barrierRectangle.trigger0( 'startedCallbacksForFired' );
+          assert && assert( self.modalNodeStack.length > 0 );
+          self.modalNodeStack.get( self.modalNodeStack.length - 1 ).hide();
+          self.barrierRectangle.trigger0( 'endedCallbacksForFired' );
+        }
+      } ) );
+      tandem.createTandem( 'sim.barrierRectangle' ).addInstance( this.barrierRectangle, TBarrierRectangle );
+
+      // Fit to the window and render the initial scene
+      $( window ).resize( function() { self.resizeToWindow(); } );
+      this.resizeToWindow();
+
+      // Kick off checking for updates, if that is enabled
+      UpdateCheck.check();
+
+      // @public (joist-internal) - Keep track of the previous time for computing dt, and initially signify that time
+      // hasn't been recorded yet.
+      this.lastTime = -1;
+
+      // @public (joist-internal) - Bind the animation loop so it can be called from requestAnimationFrame with the right
+      // this.  If PhET-iO sets phet.joist.playbackMode to be true, the sim clock won't run and instead
+      // the sim will receive dt events from stepSimulation calls.
+      this.boundRunAnimationLoop = phet.joist.playbackMode ? function() {} : this.runAnimationLoop.bind( this );
+      this.trigger0( 'simulationStarted' );
+
+      // Signify the end of simulation startup.  Used by PhET-iO.
+      this.trigger0( 'endedSimConstructor' );
+    },
+
 
     /*
      * Adds a popup in the global coordinate frame, and optionally displays a semi-transparent black input barrier behind it.
@@ -566,28 +574,81 @@ define( function( require ) {
     // @public (joist-internal)
     start: function() {
 
-      // Make sure requestAnimationFrame is defined
-      Util.polyfillRequestAnimationFrame();
+      var self = this;
 
-      // Option for profiling
-      // if true, prints screen initialization time (total, model, view) to the console and displays
-      // profiling information on the screen
-      if ( phet.chipper.queryParameters.profiler ) {
-        Profiler.start( this );
-      }
+      // In order to animate the loading progress bar, we must schedule work with setTimeout
+      // This array of {function} is the work that must be completed to launch the sim.
+      var workItems = [];
 
-      // place the rAF *before* the render() to assure as close to 60fps with the setTimeout fallback.
-      // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
-      // Launch the bound version so it can easily be swapped out for debugging.
-      this.boundRunAnimationLoop();
+      var screens = this.screens;
 
-      // Communicate sim load (successfully) to joist/tests/test-sims.html
-      if ( phet.chipper.queryParameters.postMessageOnLoad ) {
-        window.parent && window.parent.postMessage( JSON.stringify( {
-          type: 'load',
-          url: window.location.href
-        } ), '*' );
-      }
+      // Schedule instantiation of the screens
+      screens.forEach( function initializeScreen( screen ) {
+        workItems.push( function() {
+          screen.backgroundColorProperty.link( self.updateBackground );
+          screen.initializeModel();
+        } );
+        workItems.push( function() {
+          screen.initializeView();
+        } );
+      } );
+
+      // loop to run startup items asynchronously so the DOM can be updated to show animation on the progress bar
+      var runItem = function( i ) {
+        setTimeout(
+          function() {
+            workItems[ i ]();
+            // Move the progress ahead by one so we show the full progress bar for a moment before the sim starts up
+
+            var progress = DotUtil.linear( 0, workItems.length - 1, 0.25, 1.0, i );
+            // console.log( i, workItems.length, progress );
+            document.getElementById( 'progressBarForeground' ).setAttribute( 'width', (progress * PROGRESS_BAR_WIDTH) + '' );
+            if ( i + 1 < workItems.length ) {
+              runItem( i + 1 );
+            }
+            else {
+
+              setTimeout( function() {
+                self.finishInit( screens, self.tandem );
+
+                // Make sure requestAnimationFrame is defined
+                Util.polyfillRequestAnimationFrame();
+
+                // Option for profiling
+                // if true, prints screen initialization time (total, model, view) to the console and displays
+                // profiling information on the screen
+                if ( phet.chipper.queryParameters.profiler ) {
+                  Profiler.start( self );
+                }
+
+                // place the rAF *before* the render() to assure as close to 60fps with the setTimeout fallback.
+                // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+                // Launch the bound version so it can easily be swapped out for debugging.
+                self.boundRunAnimationLoop();
+
+                // Communicate sim load (successfully) to joist/tests/test-sims.html
+                if ( phet.chipper.queryParameters.postMessageOnLoad ) {
+                  window.parent && window.parent.postMessage( JSON.stringify( {
+                    type: 'load',
+                    url: window.location.href
+                  } ), '*' );
+                }
+
+                // After the application is ready to go, remove the splash screen and progress bar
+                $( '#splash' ).remove();
+                $( '#progressBar' ).remove();
+              }, 25 ); // pause for a few milliseconds with the progress bar filled in before going to the home screen
+            }
+          },
+          // The following sets the amount of delay between each work item to make it easier to see the changes to the
+          // progress bar.  A total value is divided by the number of work items.  This makes it possible to see the
+          // progress bar when few work items exist, such as for a single screen sim, but allows things to move
+          // reasonably quickly when more work items exist, such as for a four-screen sim.
+          30 / workItems.length
+        );
+      };
+
+      runItem( 0 );
     },
 
     // Destroy a sim so that it will no longer consume any resources. Formerly used in Smorgasbord.  May not be used by
