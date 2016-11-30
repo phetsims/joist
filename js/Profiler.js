@@ -52,6 +52,7 @@ define( function( require ) {
     this.longTimes = []; // @private any times that didn't fit in histogram
     this.frameCount = 0; // @private
     this.frameStartTime = 0; // @private
+    this.previousFrameStartTime = 0; // @private
 
     // initialize histogram
     for ( var i = 0; i < HISTOGRAM_LENGTH; i++ ) {
@@ -111,15 +112,16 @@ define( function( require ) {
       }
 
       // record data for the current frame
-      var dt = this.frameStartTime - this.previousFrameStartTime;
-      this.allTimes.push( dt );
-      if ( dt < HISTOGRAM_LENGTH ) {
-        this.histogram[ dt ]++; // increment the histogram cell for the corresponding time
+      if ( this.previousFrameStartTime ) {
+        var dt = this.frameStartTime - this.previousFrameStartTime;
+        this.allTimes.push( dt );
+        if ( dt < HISTOGRAM_LENGTH ) {
+          this.histogram[ dt ]++; // increment the histogram cell for the corresponding time
+        }
+        else {
+          this.longTimes.push( dt ); // time doesn't fit in histogram, record in longTimes
+        }
       }
-      else {
-        this.longTimes.push( dt ); // time doesn't fit in histogram, record in longTimes
-      }
-
       this.previousFrameStartTime = this.frameStartTime;
     }
   }, {
