@@ -31,9 +31,8 @@ define( function( require ) {
   var TScreenButton = require( 'ifphetio!PHET_IO/types/joist/TScreenButton' );
 
   // constants
-  var HEIGHT = 70; //TODO what is this? is it the height of large icons?
+  var LARGE_ICON_HEIGHT = 140;
   var LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
-  var ICONS_TOP = 170;
 
   // iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
   var TITLE_FONT_FAMILY = 'Century Gothic, Futura';
@@ -85,14 +84,14 @@ define( function( require ) {
       // the navigation bar.
       var largeIcon = new Node( {
         children: [ screen.homeScreenIcon ],
-        scale: HEIGHT / screen.homeScreenIcon.height * 2
+        scale: LARGE_ICON_HEIGHT / screen.homeScreenIcon.height
       } );
       var frame = new Frame( largeIcon );
 
       highlightedScreenIndexProperty.link( function( highlightedIndex ) { frame.setHighlighted( highlightedIndex === index ); } );
 
       var largeIconWithFrame = new Node( { children: [ frame, largeIcon ] } );
-      var largeText = new Text( screen.name, { font: new PhetFont( 42 ), fill: PhetColorScheme.PHET_YELLOW } );//Color match with the PhET Logo yellow
+      var largeText = new Text( screen.name, { font: new PhetFont( 42 ), fill: PhetColorScheme.PHET_LOGO_YELLOW } );//Color match with the PhET Logo yellow
 
       //Shrink the text if it goes beyond the edge of the image
       if ( largeText.width > largeIconWithFrame.width ) {
@@ -117,7 +116,6 @@ define( function( require ) {
           largeIconWithFrame,
           largeText
         ],
-        focusable: true,
         textDescription: screen.name + ' Screen: Button',
         accessibleContent: {
           createPeer: function( accessibleInstance ) {
@@ -154,8 +152,8 @@ define( function( require ) {
         }
       } );
 
-      // For 4 screens, scale is 1.0, for 2 screens scale is 1.75, linearly extrapolate/interpolate
-      var scale = Util.linear( 2, 4, 1.75, 1.00, sim.screens.length );
+      // Maps the number of screens to a scale for the small icons. The scale is percentage of LARGE_ICON_HEIGHT.
+      var smallIconScale = Util.linear( 2, 4, 0.875, 0.50, sim.screens.length );
 
       // Show a small (unselected) screen icon.  In some cases (if the icon has a black background), a border may be
       // shown around it as well.  See https://github.com/phetsims/color-vision/issues/49
@@ -164,7 +162,7 @@ define( function( require ) {
       var smallIconContent = new Node( {
         opacity: 0.5,
         children: [ screen.homeScreenIcon ],
-        scale: scale * HEIGHT / screen.homeScreenIcon.height
+        scale: smallIconScale * LARGE_ICON_HEIGHT / screen.homeScreenIcon.height
       } );
 
       var smallFrame = new Rectangle( 0, 0, smallIconContent.width, smallIconContent.height, {
@@ -191,7 +189,6 @@ define( function( require ) {
           smallIcon,
           smallText
         ],
-        focusable: true,
         textDescription: screen.name + ' Screen: Button',
         accessibleContent: {
           createPeer: function( accessibleInstance ) {
@@ -253,34 +250,30 @@ define( function( require ) {
       return { screen: screen, small: smallScreenButton, large: largeScreenButton, index: index };
     } );
 
-    var center = new Node( { y: ICONS_TOP } );
-    self.addChild( center );
-    var iconHBox = null;
+    // Intermediate node, so that icons are always in the same rendering layer
+    var iconsParentNode = new Node();
+    self.addChild( iconsParentNode );
+
+    // Space the icons out more if there are fewer, so they will be spaced nicely.
+    // Cannot have only 1 screen because for 1-screen sims there is no home screen.
+    var spacing = ( sim.screens.length <= 3 ) ? 60 : 33;
+
     sim.screenIndexProperty.link( function( screenIndex ) {
 
-      // remove and clean up previous HBox to avoid leaking memory
-      if ( iconHBox ) {
-        center.removeChild( iconHBox );
-        iconHBox.removeAllChildren();
-      }
+      // remove previous layout of icons
+      assert && assert( iconsParentNode.getChildrenCount() <= 1, 'iconsParentNode should have at most 1 child' );
+      iconsParentNode.removeAllChildren();
 
-      // Space the icons out more if there are fewer, so they will be spaced nicely.
-      // Cannot have only 1 screen because for 1-screen sims there is no home screen.
-      var spacing = sim.screens.length === 2 ? 60 :
-                    sim.screens.length === 3 ? 60 :
-                    33;
-
+      // add new layout of icons
       var icons = _.map( screenChildren, function( screenChild ) {return screenChild.index === screenIndex ? screenChild.large : screenChild.small;} );
-      iconHBox = new HBox( { spacing: spacing, children: icons, align: 'top', resize: false } );
-      center.addChild( iconHBox );
+      iconsParentNode.addChild( new HBox( { spacing: spacing, children: icons, align: 'top', resize: false } ) );
 
-      center.centerX = self.layoutBounds.width / 2;
-
-      // Workaround for #331 which caused the icons to float toward the top of the screen.
-      center.top = ICONS_TOP;
+      // position the icons
+      iconsParentNode.centerX = self.layoutBounds.width / 2;
+      iconsParentNode.top = 170;
     } );
 
-    //TODO joist#255 move these fill properties to LookAndFeel, chase down other places that they should be used
+    //TODO move these Properties to LookAndFeel, see https://github.com/phetsims/joist/issues/255
     var homeScreenFillProperty = new Property( 'black' );
     var homeScreenTextFillProperty = new Property( 'white' );
 

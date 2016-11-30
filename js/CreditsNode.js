@@ -60,7 +60,7 @@ define( function( require ) {
       children.push( new MultiLineText( StringUtils.format( creditsGraphicArtsString, '\u202a' + credits.graphicArts + '\u202c' ), multiLineTextOptions ) );
     }
 
-    //TODO see joist#163, translation credit should be obtained from string files
+    //TODO obtain translation credit from strings file, see https://github.com/phetsims/joist/issues/163
     // Translation
     if ( credits.translation ) {
       if ( children.length > 0 ) { children.push( new VStrut( 10 ) ); }

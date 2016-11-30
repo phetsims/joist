@@ -55,7 +55,6 @@ define( function( require ) {
 
     options = _.extend( {
       cursor: 'pointer',
-      focusable: true,
       textDescription: screen.name + ' Screen: Button',
       tandem: null,
       maxButtonWidth: null, // {number|null} the maximum width of the button, causes text and/or icon to be scaled down if necessary
@@ -63,11 +62,9 @@ define( function( require ) {
         createPeer: function( accessibleInstance ) {
           // will look like <input value="Reset" type="button" tabindex="0">
           var domElement = document.createElement( 'input' );
-          domElement.value = screen.name; // TODO: do we have to wrap this with a translated string, to say "Switch to ...", etc.?
+          domElement.value = screen.name;
           domElement.type = 'button';
-
           domElement.tabIndex = '0';
-
           domElement.addEventListener( 'click', clicked );
 
           return new AccessiblePeer( accessibleInstance, domElement );
@@ -140,7 +137,7 @@ define( function( require ) {
       var useDarkenHighlights = ( navigationBarFill !== 'black' );
 
       // Color match yellow with the PhET Logo
-      var selectedTextColor = useDarkenHighlights ? 'black' : PhetColorScheme.PHET_YELLOW;
+      var selectedTextColor = useDarkenHighlights ? 'black' : PhetColorScheme.PHET_LOGO_YELLOW;
       var unselectedTextColor = useDarkenHighlights ? 'gray' : 'white';
 
       text.fill = selected ? selectedTextColor : unselectedTextColor;

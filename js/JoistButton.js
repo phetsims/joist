@@ -39,8 +39,7 @@ define( function( require ) {
       highlightExtensionWidth: 0,
       highlightExtensionHeight: 0,
       highlightCenterOffsetX: 0,
-      highlightCenterOffsetY: 0,
-      focusable: true
+      highlightCenterOffsetY: 0
     }, options );
 
     // @private - Button model
