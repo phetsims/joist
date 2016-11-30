@@ -37,6 +37,7 @@ define( function( require ) {
 
   // constants
   var FIELD_SEPARATOR = ' \u2014 '; // em dash, a long horizontal dash
+  var HISTOGRAM_LENGTH = 30;
 
   /**
    * Construct a Profiler
@@ -53,7 +54,7 @@ define( function( require ) {
     this.frameStartTime = 0; // @private
 
     // initialize histogram
-    for ( var i = 0; i < 30; i++ ) {
+    for ( var i = 0; i < HISTOGRAM_LENGTH; i++ ) {
       this.histogram.push( 0 );
     }
 
@@ -102,7 +103,7 @@ define( function( require ) {
         $( '#trace' ).html( text );
 
         // clear data structures
-        for ( i = 0; i < 30; i++ ) {
+        for ( i = 0; i < HISTOGRAM_LENGTH; i++ ) {
           this.histogram[ i ] = 0;
         }
         this.longTimes.length = 0;
@@ -112,7 +113,7 @@ define( function( require ) {
       // record data for the current frame
       var dt = this.frameStartTime - this.previousFrameStartTime;
       this.allTimes.push( dt );
-      if ( dt < 30 ) {
+      if ( dt < HISTOGRAM_LENGTH ) {
         this.histogram[ dt ]++; // increment the histogram cell for the corresponding time
       }
       else {
