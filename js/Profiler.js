@@ -45,7 +45,6 @@ define( function( require ) {
    */
   function Profiler() {
 
-    //TODO Now that profiler is enabled via a query parameter, we should use more sensible/flexible data structures here.
     // These data structured were chosen to minimize CPU time.
     this.allTimes = [];  // @private
     this.histogram = []; // @private array index corresponds to number of ms, value is number of frames at that time
