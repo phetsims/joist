@@ -90,6 +90,7 @@ define( function( require ) {
 
         // longTimes includes any frame rates that exceed 29ms, and therefore don't fit in the histogram.
         if ( this.longTimes.length ) {
+          this.longTimes.sort( function( a, b ){ return a - b; } ); // sort longTimes in ascending order
           text = text + FIELD_SEPARATOR + this.longTimes;
         }
 
