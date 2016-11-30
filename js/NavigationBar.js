@@ -74,12 +74,12 @@ define( function( require ) {
     this.addChild( this.barContents );
 
     // Sim title
-    var title = new TandemText( sim.name, {
+    var titleTextNode = new TandemText( sim.name, {
       font: new PhetFont( 18 ),
       tandem: tandem.createTandem( 'titleTextNode' )
     } );
-    sim.lookAndFeel.navigationBarTextFillProperty.linkAttribute( title, 'fill' );
-    this.barContents.addChild( title );
+    sim.lookAndFeel.navigationBarTextFillProperty.linkAttribute( titleTextNode, 'fill' );
+    this.barContents.addChild( titleTextNode );
 
     // @public (joist-internal) - PhET button. The transform of this is tracked, so we can mirror it over to the
     // homescreen's button. See https://github.com/phetsims/joist/issues/304.
@@ -90,13 +90,13 @@ define( function( require ) {
       /* single-screen sim */
 
       // title can occupy all space to the left of the PhET button
-      title.maxWidth = HomeScreenView.LAYOUT_BOUNDS.width - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN - this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN;
+      titleTextNode.maxWidth = HomeScreenView.LAYOUT_BOUNDS.width - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN - this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN;
     }
     else {
       /* multi-screen sim */
 
       // Start with the assumption that the title can occupy (at most) this percentage of the bar.
-      var maxTitleWidth = Math.min( title.width, 0.25 * HomeScreenView.LAYOUT_BOUNDS.width );
+      var maxTitleWidth = Math.min( titleTextNode.width, 0.25 * HomeScreenView.LAYOUT_BOUNDS.width );
 
       // @private - Create the home button
       this.homeButton = new HomeButton(
@@ -166,12 +166,12 @@ define( function( require ) {
       this.accessibleOrder = [ this.screenButtonsContainer, this.homeButton ];
 
       // Now determine the actual width constraint for the sim title.
-      title.maxWidth = this.screenButtonsContainer.left - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN;
+      titleTextNode.maxWidth = this.screenButtonsContainer.left - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN;
     }
 
     // initial layout (that doesn't need to change when we are re-layed out)
-    title.left = TITLE_LEFT_MARGIN;
-    title.centerY = NAVIGATION_BAR_SIZE.height / 2;
+    titleTextNode.left = TITLE_LEFT_MARGIN;
+    titleTextNode.centerY = NAVIGATION_BAR_SIZE.height / 2;
     this.phetButton.bottom = NAVIGATION_BAR_SIZE.height - PHET_BUTTON_BOTTOM_MARGIN;
     if ( this.screens.length !== 1 ) {
       this.screenButtonsContainer.centerY = NAVIGATION_BAR_SIZE.height / 2;
