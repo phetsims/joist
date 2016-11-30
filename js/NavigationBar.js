@@ -34,7 +34,7 @@ define( function( require ) {
   var PhetButton = require( 'JOIST/PhetButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Text = require( 'SCENERY/nodes/Text' );
+  var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
   var joist = require( 'JOIST/joist' );
 
   // constants
@@ -74,8 +74,9 @@ define( function( require ) {
     this.addChild( this.barContents );
 
     // Sim title
-    var title = new Text( sim.name, {
-      font: new PhetFont( 18 )
+    var title = new TandemText( sim.name, {
+      font: new PhetFont( 18 ),
+      tandem: tandem.createTandem( 'titleTextNode' )
     } );
     sim.lookAndFeel.navigationBarTextFillProperty.linkAttribute( title, 'fill' );
     this.barContents.addChild( title );
