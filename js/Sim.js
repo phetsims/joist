@@ -237,6 +237,7 @@ define( function( require ) {
 
     this.trigger1( 'startedSimConstructor', {
       sessionID: phet.chipper.queryParameters.sessionID,
+      repoName: packageJSON.name,
       simName: this.name,
       simVersion: this.version,
       url: window.location.href,
