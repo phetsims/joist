@@ -33,6 +33,7 @@ define( function( require ) {
     toEventOnStatic( sim, 'SimConstructor', 'model', phetioID, TSim, 'simStarted', function( value ) {
       return {
         sessionID: value.sessionID,
+        repoName: value.repoName,
         simName: value.simName,
         simVersion: value.simVersion,
         url: value.url,
