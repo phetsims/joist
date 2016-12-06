@@ -14,7 +14,8 @@ define( function( require ) {
   var Brand = require( 'BRAND/Brand' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Image = require( 'SCENERY/nodes/Image' );
-  var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
+  var Shape = require( 'KITE/Shape' );
+  var Path = require( 'SCENERY/nodes/Path' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetMenu = require( 'JOIST/PhetMenu' );
   var Property = require( 'AXON/Property' );
@@ -90,10 +91,16 @@ define( function( require ) {
       pickable: false
     } );
 
-    var optionsButton = new FontAwesomeNode( 'reorder', {
-      scale: 0.6,
-      left: logoImage.width + 10,
-      bottom: logoImage.bottom - 1.5,
+    var optionsShape = new Shape();
+    var optionsCircleRadius = 2.5;
+    for ( var i = 0; i < 3; i++ ) {
+      var circleOffset = i * 3.5 * optionsCircleRadius;
+      optionsShape.arc( 0, circleOffset, optionsCircleRadius, 0, 2 * Math.PI, false );
+    }
+
+    var optionsButton = new Path( optionsShape, {
+      left: logoImage.width + 8,
+      bottom: logoImage.bottom,
       pickable: false
     } );
 
@@ -124,7 +131,7 @@ define( function( require ) {
 
   inherit( JoistButton, PhetButton, {}, {
       // @public - How much space between the PhetButton and the right side of the screen.
-      HORIZONTAL_INSET: 5,
+      HORIZONTAL_INSET: 10,
 
       // @ public - How much space between the PhetButton and the bottom of the screen
       VERTICAL_INSET: 0,
