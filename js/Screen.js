@@ -24,6 +24,9 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
 
+  // phet-io modules
+  var TScreen = require( 'ifphetio!PHET_IO/types/joist/TScreen' );
+
   // constants
   var MINIMUM_HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 );
   var MINIMUM_NAVBAR_ICON_SIZE = new Dimension2( 147, 100 );
@@ -100,7 +103,7 @@ define( function( require ) {
     this._model = null; // @private
     this._view = null;  // @private
 
-    //TODO missing tandem.addInstance? See https://github.com/phetsims/joist/issues/376
+    options.tandem.addInstance( this, TScreen );
   }
 
   joist.register( 'Screen', Screen );
