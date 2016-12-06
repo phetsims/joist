@@ -258,15 +258,19 @@ define( function( require ) {
     // Cannot have only 1 screen because for 1-screen sims there is no home screen.
     var spacing = ( sim.screens.length <= 3 ) ? 60 : 33;
 
+    var hBox = null;
     sim.screenIndexProperty.link( function( screenIndex ) {
 
       // remove previous layout of icons
-      assert && assert( iconsParentNode.getChildrenCount() <= 1, 'iconsParentNode should have at most 1 child' );
-      iconsParentNode.removeAllChildren();
+      if ( hBox ) {
+        hBox.removeAllChildren(); // because icons have reference to hBox (their parent)
+        iconsParentNode.removeChild( hBox );
+      }
 
       // add new layout of icons
       var icons = _.map( screenChildren, function( screenChild ) {return screenChild.index === screenIndex ? screenChild.large : screenChild.small;} );
-      iconsParentNode.addChild( new HBox( { spacing: spacing, children: icons, align: 'top', resize: false } ) );
+      hBox = new HBox( { spacing: spacing, children: icons, align: 'top', resize: false } );
+      iconsParentNode.addChild( hBox );
 
       // position the icons
       iconsParentNode.centerX = self.layoutBounds.width / 2;
