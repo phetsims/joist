@@ -46,7 +46,7 @@ define( function( require ) {
   var PHET_BUTTON_LEFT_MARGIN = 13;
   var PHET_BUTTON_RIGHT_MARGIN = PhetButton.HORIZONTAL_INSET; // same position as PhetButton on home screen
   var PHET_BUTTON_BOTTOM_MARGIN = PhetButton.VERTICAL_INSET; // same position as PhetButton on home screen
-  var KEYBOARD_HELP_BUTTON_RIGHT_MARGIN = PHET_BUTTON_RIGHT_MARGIN;
+  var KEYBOARD_HELP_BUTTON_LEFT_MARGIN = 50;
   var HOME_BUTTON_LEFT_MARGIN = 5;
   var HOME_BUTTON_RIGHT_MARGIN = HOME_BUTTON_LEFT_MARGIN;
   var SCREEN_BUTTON_SPACING = 0;
@@ -79,7 +79,7 @@ define( function( require ) {
 
     // Sim title
     this.titleTextNode = new TandemText( sim.name, {
-      font: new PhetFont( 18 ),
+      font: new PhetFont( 16 ),
       tandem: tandem.createTandem( 'titleTextNode' )
     } );
     sim.lookAndFeel.navigationBarTextFillProperty.linkAttribute( this.titleTextNode, 'fill' );
@@ -103,7 +103,8 @@ define( function( require ) {
       /* single-screen sim */
 
       // title can occupy all space to the left of the PhET button
-      this.titleTextNode.maxWidth = HomeScreenView.LAYOUT_BOUNDS.width - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN - this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN;
+      this.titleTextNode.maxWidth = HomeScreenView.LAYOUT_BOUNDS.width - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN -
+                                    this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN - this.keyboardHelpButton.width - KEYBOARD_HELP_BUTTON_LEFT_MARGIN;
     }
     else {
       /* multi-screen sim */
@@ -132,7 +133,7 @@ define( function( require ) {
 
       // available width right of center
       var availableRight = ( HomeScreenView.LAYOUT_BOUNDS.width / 2 ) - this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN -
-                             this.keyboardHelpButton.width - KEYBOARD_HELP_BUTTON_RIGHT_MARGIN;
+                             this.keyboardHelpButton.width - KEYBOARD_HELP_BUTTON_LEFT_MARGIN;
 
       // total available width for the screen buttons when they are centered
       var availableTotal = 2 * Math.min( availableLeft, availableRight );
@@ -235,9 +236,9 @@ define( function( require ) {
 
       // For multi-screen sims ...
       if ( this.screens.length !== 1 ) {
-        // screen buttons and home screen button are centered.  The screen buttons are centered
+        // screen buttons and home screen button are centered.  These buttons are centered
         // around the origin in the screenButtonsContainer, so the screenButtonsContainer can
-        // be put at the center of the navbar, shifted by the width of the home button
+        // be put at the center of the navbar, shifted by the width of the home button.
         this.screenButtonsContainer.x = right / 2 + this.homeButton.width / 2;
 
         // home button to the left of screen buttons
