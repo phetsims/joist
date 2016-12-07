@@ -117,6 +117,9 @@ define( function( require ) {
       // keyboard navigation and screen reader based auditory descriptions. 
       accessibility: phet.chipper.queryParameters.accessibility,
 
+      // a {Node} placed into the keyboard help dialog that can be opened from the navigation bar
+      keyboardHelpNode: null, 
+
       // the default renderer for the rootNode, see #221, #184 and https://github.com/phetsims/molarity/issues/24
       rootRenderer: platform.edge ? 'canvas' : 'svg'
     }, options );
@@ -186,6 +189,12 @@ define( function( require ) {
 
     // @private
     this.destroyed = false;
+
+    // @public ( joist-internal, read-only )
+    this.accessible = options.accessibility;
+
+    // @public ( joist-internal, read-only )
+    this.keyboardHelpNode = options.keyboardHelpNode;
 
     assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
     window.phet.joist.sim = self;

@@ -54,7 +54,7 @@ define( function( require ) {
 
     var homeIcon = new FontAwesomeNode( 'home' );
     // scale so that the icon is slightly taller than screen button icons, value determined empirically, see joist#127
-    homeIcon.setScaleMagnitude( 0.66 * navBarHeight / homeIcon.height );
+    homeIcon.setScaleMagnitude( 0.48 * navBarHeight / homeIcon.height );
 
     // transparent background, size determined empirically so that highlight is the same size as highlight on screen buttons
     var background = new Rectangle( 0, 0, homeIcon.width + 12, navBarHeight );
