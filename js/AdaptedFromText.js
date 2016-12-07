@@ -22,7 +22,7 @@ define( function( require ) {
   //TODO address Firefox font problem, see https://github.com/phetsims/joist/issues/245
   var FONT = new PhetFont( {
     family: 'Arial',
-    size: 10,
+    size: 8,
     weight: 'bold'
   } );
 
