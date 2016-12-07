@@ -25,7 +25,8 @@ define( function( require ) {
     TPushButton.call( this, phetButton, phetioID );
     assertInstanceOfTypes( phetButton, [
       phet.joist.PhetButton,
-      phet.joist.HomeButton
+      phet.joist.HomeButton,
+      phet.joist.KeyboardHelpButton
     ] );
   }
 
