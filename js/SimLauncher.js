@@ -37,7 +37,6 @@ define( function( require ) {
       var elementsToRemove = [];
 
       function doneLoadingImages() {
-        $( '#splash' ).remove();
 
         window.phetLaunchSimulation = function() {
 
