@@ -21,7 +21,6 @@ define( function( require ) {
   var UpdateDialog = require( 'JOIST/UpdateDialog' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
-  var Plane = require( 'SCENERY/nodes/Plane' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var FullScreen = require( 'JOIST/FullScreen' );
   var Brand = require( 'BRAND/Brand' );
@@ -46,7 +45,6 @@ define( function( require ) {
   var menuItemReportAProblemString = require( 'string!JOIST/menuItem.reportAProblem' );
   var menuItemScreenshotString = require( 'string!JOIST/menuItem.screenshot' );
   var menuItemFullscreenString = require( 'string!JOIST/menuItem.fullscreen' );
-  var menuItemSettingsString = require( 'string!JOIST/menuItem.settings' );
   var menuItemGetUpdateString = require( 'string!JOIST/menuItem.getUpdate' );
   var menuItemSubmitInputEventsLogString = require( 'string!JOIST/menuItem.submitInputEventsLog' );
 
