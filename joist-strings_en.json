@@ -36,9 +36,6 @@
   "menuItem.fullscreen": {
     "value": "Full Screen"
   },
-  "menuItem.settings": {
-    "value": "Settings\u2026"
-  },
   "menuItem.submitInputEventsLog": {
     "value": "Submit Input Events Log"
   },
