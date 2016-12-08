@@ -59,7 +59,7 @@ define( function( require ) {
     }
 
     // this is where the profiler displays its output
-    $( 'body' ).append( '<div style="z-index: 99999999;position: absolute;color:red" id="trace" ></div>' );
+    $( 'body' ).append( '<div style="z-index: 99999999;position: absolute;color:red" id="phetProfiler" ></div>' );
   }
 
   joist.register( 'Profiler', Profiler );
@@ -100,7 +100,7 @@ define( function( require ) {
         }
 
         // update the display
-        $( '#trace' ).html( text );
+        $( '#phetProfiler' ).html( text );
 
         // clear data structures
         for ( i = 0; i < HISTOGRAM_LENGTH; i++ ) {
