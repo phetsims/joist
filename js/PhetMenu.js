@@ -18,7 +18,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var AboutDialog = require( 'JOIST/AboutDialog' );
   var OptionsDialog = require( 'JOIST/OptionsDialog' );
-  var SettingsDialog = require( 'JOIST/SettingsDialog' );
   var UpdateDialog = require( 'JOIST/UpdateDialog' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
@@ -241,11 +240,11 @@ define( function( require ) {
         present: !!sim.options.optionsNode,
         callback: function() {
 
-        if ( !optionsDialog ) {
-          optionsDialog = new OptionsDialog( sim.options.optionsNode, {
-            tandem: tandem.createTandem( 'optionsDialog' )
-          } );
-        }
+          if ( !optionsDialog ) {
+            optionsDialog = new OptionsDialog( sim.options.optionsNode, {
+              tandem: tandem.createTandem( 'optionsDialog' )
+            } );
+          }
 
           optionsDialog.show();
         },
@@ -285,22 +284,6 @@ define( function( require ) {
         callback: function() {
           // mailto: link including the body to email
           sim.mailEventLog();
-        }
-      },
-      {
-        text: menuItemSettingsString,
-        present: false,
-        callback: function() {
-          var settingsDialog = new SettingsDialog( sim.showPointersProperty );
-
-          // TODO: This is broken.  Should probably use new Dialog infrastruture
-          var plane = new Plane( { fill: 'black', opacity: 0.3 } );
-          sim.addChild( plane );
-          sim.addChild( settingsDialog );
-          settingsDialog.addDoneListener( function() {
-            plane.detach();
-            settingsDialog.detach();
-          } );
         }
       },
       {
