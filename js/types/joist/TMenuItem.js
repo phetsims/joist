@@ -34,7 +34,7 @@ define( function( require ) {
 
   phetioInherit( TNode, 'TMenuItem', TMenuItem, {}, {
     documentation: 'The item buttons shown in a popup menu',
-    events: TNode.events
+    events: [ 'fired']
   } );
 
   phetioNamespace.register( 'TMenuItem', TMenuItem );

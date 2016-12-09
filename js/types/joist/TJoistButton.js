@@ -10,9 +10,10 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var assertInstanceOfTypes = require( 'PHET_IO/assertions/assertInstanceOfTypes' );
+  var assertInstanceOf = require( 'PHET_IO/assertions/assertInstanceOf' );
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
   var phetioInherit = require( 'PHET_IO/phetioInherit' );
+  var toEventOnEmit = require( 'PHET_IO/events/toEventOnEmit' );
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
 
   /**
@@ -23,14 +24,16 @@ define( function( require ) {
    */
   function TJoistButton( phetButton, phetioID ) {
     TNode.call( this, phetButton, phetioID );
-    assertInstanceOfTypes( phetButton, [
-      phet.joist.JoistButton
-    ] );
+    assertInstanceOf( phetButton, phet.joist.JoistButton );
+
+    assert && assert( phetButton.buttonModel.startedCallbacksForFiredEmitter, 'button models should use emitters' );
+    toEventOnEmit( phetButton.buttonModel.startedCallbacksForFiredEmitter, phetButton.buttonModel.endedCallbacksForFiredEmitter, 'user', phetioID, TJoistButton, 'fired' );
+
   }
 
   phetioInherit( TNode, 'TJoistButton', TJoistButton, {}, {
     documentation: 'The buttons used in the home screen and navigation bar',
-    events: TNode.events
+    events: [ 'fired']
   } );
 
   phetioNamespace.register( 'TJoistButton', TJoistButton );
