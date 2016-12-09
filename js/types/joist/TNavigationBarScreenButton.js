@@ -14,7 +14,6 @@ define( function( require ) {
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
   var toEventOnEmit = require( 'PHET_IO/events/toEventOnEmit' );
-  var TVoid = require( 'PHET_IO/types/TVoid' );
 
   /**
    * Wrapper type for phet/sun's PushButton class.
