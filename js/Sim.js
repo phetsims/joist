@@ -30,7 +30,6 @@ define( function( require ) {
   var Timer = require( 'PHET_CORE/Timer' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Profiler = require( 'JOIST/Profiler' );
-  var Input = require( 'SCENERY/input/Input' );
   var LookAndFeel = require( 'JOIST/LookAndFeel' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   var packageJSON = require( 'JOIST/packageJSON' );
@@ -500,7 +499,6 @@ define( function( require ) {
       }
       this.topLayer.addChild( node );
 
-      Input.pushFocusContext( node.getTrails()[ 0 ] );
     },
 
     /*
@@ -516,9 +514,8 @@ define( function( require ) {
       if ( isModal ) {
         this.modalNodeStack.remove( node );
       }
-      Input.popFocusContext( node.getTrails()[ 0 ] );
-
       this.topLayer.removeChild( node );
+      
     },
 
     /**
