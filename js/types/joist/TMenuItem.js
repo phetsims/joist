@@ -12,7 +12,9 @@ define( function( require ) {
   var assertInstanceOf = require( 'PHET_IO/assertions/assertInstanceOf' );
   var phetioInherit = require( 'PHET_IO/phetioInherit' );
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
-  var TPushButton = require( 'PHET_IO/types/sun/buttons/TPushButton' );
+  var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
+  var toEventOnStatic = require( 'PHET_IO/events/toEventOnStatic' );
+
 
   /**
    * Wrapper type for phet/joist's MenuItem
@@ -21,15 +23,18 @@ define( function( require ) {
    * @constructor
    */
   function TMenuItem( menuItem, phetioID ) {
-    TPushButton.call( this, menuItem, phetioID );
+    TNode.call( this, menuItem, phetioID );
 
     // Menu item from Joist, it is defined in PhetMenu.js and does not have its own type
     assertInstanceOf( menuItem, phet.scenery.Node );
+
+    toEventOnStatic( menuItem, 'CallbacksForFired', 'user', phetioID, TMenuItem, 'fired' );
+
   }
 
-  phetioInherit( TPushButton, 'TMenuItem', TMenuItem, {}, {
+  phetioInherit( TNode, 'TMenuItem', TMenuItem, {}, {
     documentation: 'The item buttons shown in a popup menu',
-    events: TPushButton.events
+    events: TNode.events
   } );
 
   phetioNamespace.register( 'TMenuItem', TMenuItem );

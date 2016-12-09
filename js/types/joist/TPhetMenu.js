@@ -12,8 +12,9 @@ define( function( require ) {
   var assertInstanceOf = require( 'PHET_IO/assertions/assertInstanceOf' );
   var phetioInherit = require( 'PHET_IO/phetioInherit' );
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
-  var TPushButton = require( 'PHET_IO/types/sun/buttons/TPushButton' );
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
+  var toEventOnStatic = require( 'PHET_IO/events/toEventOnStatic' );
+
 
   /**
    * Wrapper type for phet/joist's PhetMenu
@@ -22,8 +23,9 @@ define( function( require ) {
    * @constructor
    */
   function TPhetMenu( phetMenu, phetioID ) {
-    TPushButton.call( this, phetMenu, phetioID );
+    TNode.call( this, phetMenu, phetioID );
     assertInstanceOf( phetMenu, phet.joist.PhetMenu );
+    toEventOnStatic( phetMenu, 'CallbacksForFired', 'user', phetioID, TPhetMenu, 'fired' );
   }
 
   phetioInherit( TNode, 'TPhetMenu', TPhetMenu, {}, {

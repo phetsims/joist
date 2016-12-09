@@ -13,7 +13,7 @@ define( function( require ) {
   var assertInstanceOfTypes = require( 'PHET_IO/assertions/assertInstanceOfTypes' );
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
   var phetioInherit = require( 'PHET_IO/phetioInherit' );
-  var TPushButton = require( 'PHET_IO/types/sun/buttons/TPushButton' );
+  var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
 
   /**
    * Wrapper type for phet/joist's PhetButton
@@ -22,15 +22,15 @@ define( function( require ) {
    * @constructor
    */
   function TJoistButton( phetButton, phetioID ) {
-    TPushButton.call( this, phetButton, phetioID );
+    TNode.call( this, phetButton, phetioID );
     assertInstanceOfTypes( phetButton, [
       phet.joist.JoistButton
     ] );
   }
 
-  phetioInherit( TPushButton, 'TJoistButton', TJoistButton, {}, {
+  phetioInherit( TNode, 'TJoistButton', TJoistButton, {}, {
     documentation: 'The buttons used in the home screen and navigation bar',
-    events: TPushButton.events
+    events: TNode.events
   } );
 
   phetioNamespace.register( 'TJoistButton', TJoistButton );
