@@ -20,7 +20,7 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
 
   // phet-io modules
-  var TPhetButton = require( 'ifphetio!PHET_IO/types/joist/TPhetButton' );
+  var TJoistButton = require( 'ifphetio!PHET_IO/types/joist/TJoistButton' );
 
   /**
    * @param {Node} content - the scenery node to render as the content of the button
@@ -84,7 +84,8 @@ define( function( require ) {
 
     this.mutate( _.omit( options, 'tandem' ) );
 
-    tandem.addInstance( this, TPhetButton );
+    // Rename to TJoistButton
+    tandem.addInstance( this, TJoistButton );
   }
 
   joist.register( 'JoistButton', JoistButton );
