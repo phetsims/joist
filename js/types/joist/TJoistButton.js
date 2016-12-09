@@ -21,22 +21,20 @@ define( function( require ) {
    * @param phetioID
    * @constructor
    */
-  function TPhetButton( phetButton, phetioID ) {
+  function TJoistButton( phetButton, phetioID ) {
     TPushButton.call( this, phetButton, phetioID );
     assertInstanceOfTypes( phetButton, [
-      phet.joist.PhetButton,
-      phet.joist.HomeButton,
-      phet.joist.KeyboardHelpButton
+      phet.joist.JoistButton
     ] );
   }
 
-  phetioInherit( TPushButton, 'TPhetButton', TPhetButton, {}, {
+  phetioInherit( TPushButton, 'TJoistButton', TJoistButton, {}, {
     documentation: 'The buttons used in the home screen and navigation bar',
     events: TPushButton.events
   } );
 
-  phetioNamespace.register( 'TPhetButton', TPhetButton );
+  phetioNamespace.register( 'TJoistButton', TJoistButton );
 
-  return TPhetButton;
+  return TJoistButton;
 } );
 
