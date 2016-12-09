@@ -29,7 +29,7 @@ define( function( require ) {
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
   // phet-io modules
-  var TPushButton = require( 'ifphetio!PHET_IO/types/sun/buttons/TPushButton' );
+  var TNavigationBarScreenButton = require( 'ifphetio!PHET_IO/types/joist/TNavigationBarScreenButton' );
 
   // constants
   var HIGHLIGHT_SPACING = 4;
@@ -93,7 +93,7 @@ define( function( require ) {
     } );
     this.addInputListener( new ButtonListener( this.buttonModel ) );
 
-    options.tandem && options.tandem.addInstance( this, TPushButton );
+    options.tandem && options.tandem.addInstance( this, TNavigationBarScreenButton );
 
     var text = new Text( screen.name, {
       font: new PhetFont( 10 )
