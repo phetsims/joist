@@ -29,10 +29,10 @@ define( function( require ) {
     ] );
 
     assert && assert( navBarScreenButton.buttonModel.startedCallbacksForFiredEmitter, 'button models should use emitters' );
-      toEventOnEmit( navBarScreenButton.buttonModel.startedCallbacksForFiredEmitter, navBarScreenButton.buttonModel.endedCallbacksForFiredEmitter, 'user', phetioID, TNavigationBarScreenButton, 'fired' );
+    toEventOnEmit( navBarScreenButton.buttonModel.startedCallbacksForFiredEmitter, navBarScreenButton.buttonModel.endedCallbacksForFiredEmitter, 'user', phetioID, TNavigationBarScreenButton, 'fired' );
   }
 
-  phetioInherit( TNode, 'TNavigationBarScreenButton', TNavigationBarScreenButton, {} , {
+  phetioInherit( TNode, 'TNavigationBarScreenButton', TNavigationBarScreenButton, {}, {
     documentation: 'A pressable button in the simulation',
     events: [ 'fired' ]
   } );

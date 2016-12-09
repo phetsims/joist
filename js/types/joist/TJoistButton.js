@@ -33,7 +33,7 @@ define( function( require ) {
 
   phetioInherit( TNode, 'TJoistButton', TJoistButton, {}, {
     documentation: 'The buttons used in the home screen and navigation bar',
-    events: [ 'fired']
+    events: [ 'fired' ]
   } );
 
   phetioNamespace.register( 'TJoistButton', TJoistButton );

@@ -14,7 +14,6 @@ define( function( require ) {
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
   var toEventOnStatic = require( 'PHET_IO/events/toEventOnStatic' );
-  var toEventOnEmit = require( 'PHET_IO/events/toEventOnEmit' );
 
 
   /**
@@ -32,7 +31,7 @@ define( function( require ) {
 
   phetioInherit( TNode, 'TPhetMenu', TPhetMenu, {}, {
     documentation: 'The PhET Menu in the bottom right of the screen',
-    event: ['fired']
+    event: [ 'fired' ]
   } );
 
   phetioNamespace.register( 'TPhetMenu', TPhetMenu );
