@@ -38,6 +38,7 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var DotUtil = require( 'DOT/Util' );// eslint-disable-line
   var Events = require( 'AXON/Events' );
+  var Emitter = require( 'AXON/Emitter' );
 
   // phet-io modules
   var TSim = require( 'ifphetio!PHET_IO/types/joist/TSim' );
@@ -64,6 +65,10 @@ define( function( require ) {
   function Sim( name, screens, options ) {
 
     var self = this;
+
+    // Listeners for PhET-iO to know when the Sim constructor started and ended.
+    this.startedSimConstructorEmitter = new Emitter();
+    this.endedSimConstructorEmitter = new Emitter();
 
     // The screens to be included, and their order, may be specified via a query parameter.
     // For documentation, see the schema for phet.chipper.queryParameters.screens in initialize-globals.js.
@@ -121,7 +126,7 @@ define( function( require ) {
       accessibility: phet.chipper.queryParameters.accessibility,
 
       // a {Node} placed into the keyboard help dialog that can be opened from the navigation bar
-      keyboardHelpNode: null, 
+      keyboardHelpNode: null,
 
       // the default renderer for the rootNode, see #221, #184 and https://github.com/phetsims/molarity/issues/24
       rootRenderer: platform.edge ? 'canvas' : 'svg'
@@ -248,7 +253,7 @@ define( function( require ) {
       };
     }
 
-    this.trigger1( 'startedSimConstructor', {
+    this.startedSimConstructorEmitter.emit1( {
       sessionID: phet.chipper.queryParameters.sessionID,
       repoName: packageJSON.name,
       simName: this.name,
@@ -478,7 +483,7 @@ define( function( require ) {
       this.trigger0( 'simulationStarted' );
 
       // Signify the end of simulation startup.  Used by PhET-iO.
-      this.trigger0( 'endedSimConstructor' );
+      this.endedSimConstructorEmitter.emit();
     },
 
     /*
@@ -515,7 +520,7 @@ define( function( require ) {
         this.modalNodeStack.remove( node );
       }
       this.topLayer.removeChild( node );
-      
+
     },
 
     /**
