@@ -16,7 +16,7 @@ define( function( require ) {
   var SimIFrameAPI = require( 'PHET_IO/SimIFrameAPI' );
   var TFunctionWrapper = require( 'PHET_IO/types/TFunctionWrapper' );
   var TObject = require( 'PHET_IO/types/TObject' );
-  var toEventOnStatic = require( 'PHET_IO/events/toEventOnStatic' );
+  var toEventOnEmit = require( 'PHET_IO/events/toEventOnEmit' );
   var TString = require( 'PHET_IO/types/TString' );
   var TVoid = require( 'PHET_IO/types/TVoid' );
 
@@ -30,18 +30,19 @@ define( function( require ) {
     TObject.call( this, sim, phetioID );
     assertInstanceOf( sim, phet.joist.Sim );
 
-    toEventOnStatic( sim, 'SimConstructor', 'model', phetioID, TSim, 'simStarted', function( value ) {
-      return {
-        sessionID: value.sessionID,
-        repoName: value.repoName,
-        simName: value.simName,
-        simVersion: value.simVersion,
-        url: value.url,
-        userAgent: window.navigator.userAgent,
-        randomSeed: value.randomSeed,
-        provider: 'PhET Interactive Simulations, University of Colorado Boulder' // See #137
-      };
-    } );
+    toEventOnEmit( sim.startedSimConstructorEmitter, sim.endedSimConstructorEmitter, 'model', phetioID, TSim, 'simStarted',
+      function( value ) {
+        return {
+          sessionID: value.sessionID,
+          repoName: value.repoName,
+          simName: value.simName,
+          simVersion: value.simVersion,
+          url: value.url,
+          userAgent: window.navigator.userAgent,
+          randomSeed: value.randomSeed,
+          provider: 'PhET Interactive Simulations, University of Colorado Boulder' // See #137
+        };
+      } );
 
     // Store a reference to the sim so that subsequent calls will be simpler.  PhET-iO only works with a single sim.
     phetio.sim = sim;
