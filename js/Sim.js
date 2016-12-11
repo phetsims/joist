@@ -38,12 +38,14 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var DotUtil = require( 'DOT/Util' );// eslint-disable-line
   var Emitter = require( 'AXON/Emitter' );
+  var TandemEmitter = require( 'TANDEM/axon/TandemEmitter' );
 
   // phet-io modules
   var TSim = require( 'ifphetio!PHET_IO/types/joist/TSim' );
   var TBarrierRectangle = require( 'ifphetio!PHET_IO/types/scenery/nodes/TBarrierRectangle' );
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
+  var TNode = require( 'ifphetio!PHET_IO/types/scenery/nodes/TNode' );
 
   // constants
   var PROGRESS_BAR_WIDTH = 273;
@@ -63,13 +65,21 @@ define( function( require ) {
 
     var self = this;
 
+    // @private - Export for usage in phetio.js
+    var tandem = Tandem.createRootTandem();
+    var simTandem = tandem.createTandem( 'sim' );
+    this.tandem = tandem;
+
     // Listeners for PhET-iO to know when the Sim constructor started and ended.
     this.startedSimConstructorEmitter = new Emitter();
     this.endedSimConstructorEmitter = new Emitter();
 
     this.resizedEmitter = new Emitter();
     this.frameStartedEmitter = new Emitter();
-    this.frameEndedEmitter = new Emitter();
+    this.frameEndedEmitter = new TandemEmitter( {
+      tandem: simTandem.createTandem( 'frameEndedEmitter' ),
+      phetioArgumentTypes: [ TNumber( { units: 'seconds' } ) ]
+    } );
 
     // The screens to be included, and their order, may be specified via a query parameter.
     // For documentation, see the schema for phet.chipper.queryParameters.screens in initialize-globals.js.
@@ -133,10 +143,6 @@ define( function( require ) {
       rootRenderer: platform.edge ? 'canvas' : 'svg'
     }, options );
 
-    // @private - Export for usage in phetio.js
-    var tandem = Tandem.createRootTandem();
-    this.tandem = tandem;
-
     // @private - store this for access from prototype functions, assumes that it won't be changed later
     this.options = options;
 
@@ -186,7 +192,7 @@ define( function( require ) {
     // Many other components use addInstance at the end of their constructor but in this case we must register early
     // to (a) enable the SimIFrameAPI as soon as possible and (b) to enable subsequent component registrations,
     // which require the sim to be registered
-    tandem.createTandem( 'sim' ).addInstance( this, TSim );
+    simTandem.addInstance( this, TSim );
 
     // @public
     this.lookAndFeel = new LookAndFeel();
@@ -441,7 +447,10 @@ define( function( require ) {
 
       // @private list of nodes that are "modal" and hence block input with the barrierRectangle.  Used by modal dialogs
       // and the PhetMenu
-      this.modalNodeStack = new ObservableArray(); // {Node} with node.hide()
+      this.modalNodeStack = new ObservableArray( {
+        tandem: tandem.createTandem( 'modalNodeStack' ),
+        phetioValueType: TNode
+      } ); // {Node} with node.hide()
 
       // @public (joist-internal) Semi-transparent black barrier used to block input events when a dialog (or other popup)
       // is present, and fade out the background.
