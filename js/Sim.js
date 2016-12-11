@@ -480,7 +480,6 @@ define( function( require ) {
       // this.  If PhET-iO sets phet.joist.playbackMode to be true, the sim clock won't run and instead
       // the sim will receive dt events from stepSimulation calls.
       this.boundRunAnimationLoop = phet.joist.playbackMode ? function() {} : this.runAnimationLoop.bind( this );
-      this.trigger0( 'simulationStarted' );
 
       // Signify the end of simulation startup.  Used by PhET-iO.
       this.endedSimConstructorEmitter.emit();
