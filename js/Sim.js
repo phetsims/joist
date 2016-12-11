@@ -132,7 +132,7 @@ define( function( require ) {
       rootRenderer: platform.edge ? 'canvas' : 'svg'
     }, options );
 
-    //TODO this is inappropriate inheritance, but was required when PropertySet was removed, because PropertySet extends Events
+    //TODO this is inappropriate inheritance, but was required when PropertySet was removed, because PropertySet extends Events, see https://github.com/phetsims/joist/issues/368
     Events.call( this );
 
     // @private - Export for usage in phetio.js
