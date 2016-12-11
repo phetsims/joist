@@ -71,6 +71,8 @@ define( function( require ) {
     this.endedSimConstructorEmitter = new Emitter();
 
     this.resizedEmitter = new Emitter();
+    this.frameStartedEmitter = new Emitter();
+    this.frameEndedEmitter = new Emitter();
 
     // The screens to be included, and their order, may be specified via a query parameter.
     // For documentation, see the schema for phet.chipper.queryParameters.screens in initialize-globals.js.
@@ -699,7 +701,7 @@ define( function( require ) {
 
       var screen;
 
-      this.trigger0( 'frameStarted' );
+      this.frameStartedEmitter.emit();
 
       // increment this before we can have an exception thrown, to see if we are missing frames
       this.frameCounter++;
@@ -763,7 +765,7 @@ define( function( require ) {
       }
       this.display.updateDisplay();
 
-      this.trigger1( 'frameCompleted', dt );
+      this.frameEndedEmitter.emit1( dt );
     }
   } );
 } );

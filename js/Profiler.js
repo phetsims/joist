@@ -129,10 +129,10 @@ define( function( require ) {
     // @public
     start: function( sim ) {
       var profiler = new Profiler();
-      sim.on( 'frameStarted', function() {
+      sim.frameStartedEmitter.addListener( function() {
         profiler.frameStarted();
       } );
-      sim.on( 'frameCompleted', function() {
+      sim.frameEndedEmitter.addListener( function() {
         profiler.frameEnded();
       } );
     }
