@@ -78,7 +78,8 @@ define( function( require ) {
     this.frameStartedEmitter = new Emitter();
     this.frameEndedEmitter = new TandemEmitter( {
       tandem: simTandem.createTandem( 'frameEndedEmitter' ),
-      phetioArgumentTypes: [ TNumber( { units: 'seconds' } ) ]
+      phetioArgumentTypes: [ TNumber( { units: 'seconds' } ) ],
+      phetioEmitData: false // Do not spam the data stream with dt's
     } );
 
     // The screens to be included, and their order, may be specified via a query parameter.
