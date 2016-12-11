@@ -70,6 +70,8 @@ define( function( require ) {
     this.startedSimConstructorEmitter = new Emitter();
     this.endedSimConstructorEmitter = new Emitter();
 
+    this.resizedEmitter = new Emitter();
+
     // The screens to be included, and their order, may be specified via a query parameter.
     // For documentation, see the schema for phet.chipper.queryParameters.screens in initialize-globals.js.
     // Do this before setting options.showHomeScreen, since no home screen should be shown if we have 1 screen.
@@ -572,7 +574,7 @@ define( function( require ) {
       // {Bounds2} bounds - the size of the window.innerWidth and window.innerHeight, which depends on the scale
       // {Bounds2} screenBounds - subtracts off the size of the navbar from the height
       // {number} scale - the overall scaling factor for elements in the view
-      this.trigger( 'resized', this.boundsProperty.value, this.screenBoundsProperty.value, this.scaleProperty.value );
+      this.resizedEmitter.emit3( this.boundsProperty.value, this.screenBoundsProperty.value, this.scaleProperty.value );
     },
 
     // @public (joist-internal)

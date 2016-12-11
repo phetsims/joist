@@ -73,7 +73,7 @@ define( function( require ) {
     }
 
     // sim.bounds are null on init, but we will get the callback when it is sized for the first time
-    sim.on( 'resized', onResize );
+    sim.resizedEmitter.addListener( onResize );
 
     var options = {
       textDescription: 'PhET Menu Button',

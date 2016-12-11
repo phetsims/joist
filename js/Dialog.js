@@ -167,7 +167,7 @@ define( function( require ) {
       if ( !this.isShowing ) {
         window.phet.joist.sim.showPopup( this, this.isModal );
         this.isShowing = true;
-        this.sim.on( 'resized', this.updateLayout );
+        this.sim.resizedEmitter.addListener( this.updateLayout );
 
         // In case the window size has changed since the dialog was hidden, we should try layout out again.
         // See https://github.com/phetsims/joist/issues/362
@@ -180,7 +180,7 @@ define( function( require ) {
       if ( this.isShowing ) {
         window.phet.joist.sim.hidePopup( this, this.isModal );
         this.isShowing = false;
-        this.sim.off( 'resized', this.updateLayout );
+        this.sim.resizedEmitter.removeListener( this.updateLayout );
       }
     }
   }, {
