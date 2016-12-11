@@ -37,7 +37,6 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
   var Tandem = require( 'TANDEM/Tandem' );
   var DotUtil = require( 'DOT/Util' );// eslint-disable-line
-  var Events = require( 'AXON/Events' );
   var Emitter = require( 'AXON/Emitter' );
 
   // phet-io modules
@@ -59,8 +58,6 @@ define( function( require ) {
    * @param {Screen[]} screens - the screens for the sim
    * @param {Object} [options] - see below for options
    * @constructor
-   *
-   * Events: search for 'trigger' to find the supported Events
    */
   function Sim( name, screens, options ) {
 
@@ -135,9 +132,6 @@ define( function( require ) {
       // the default renderer for the rootNode, see #221, #184 and https://github.com/phetsims/molarity/issues/24
       rootRenderer: platform.edge ? 'canvas' : 'svg'
     }, options );
-
-    //TODO this is inappropriate inheritance, but was required when PropertySet was removed, because PropertySet extends Events, see https://github.com/phetsims/joist/issues/368
-    Events.call( this );
 
     // @private - Export for usage in phetio.js
     var tandem = Tandem.createRootTandem();
@@ -406,7 +400,7 @@ define( function( require ) {
 
   joist.register( 'Sim', Sim );
 
-  return inherit( Events, Sim, {
+  return inherit( Object, Sim, {
     finishInit: function( screens, tandem ) {
       var self = this;
 
