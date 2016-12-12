@@ -276,7 +276,7 @@ define( function( require ) {
       },
       {
         text: menuItemReportAProblemString,
-        present: isPhETBrand,
+        present: isPhETBrand && !isPhetApp,
         callback: function() {
           // Create a smaller version of our dependencies to send, due to the URL length issues.
           // See https://github.com/phetsims/joist/issues/249.
@@ -351,7 +351,7 @@ define( function( require ) {
       },
       {
         text: menuItemFullscreenString,
-        present: FullScreen.isFullScreenEnabled(),
+        present: FullScreen.isFullScreenEnabled() && !isPhetApp,
         checkedProperty: FullScreen.isFullScreenProperty,
         callback: function() {
           FullScreen.toggleFullScreen( sim );
@@ -398,7 +398,7 @@ define( function( require ) {
     var ySpacing = 2;
     var separator;
     _.each( items, function( item ) {
-      if ( item.separatorBefore ) {
+      if ( item.separatorBefore && items[ 0 ] !== item ) {
         y += ySpacing;
         separator = new Path( Shape.lineSegment( 0, y, separatorWidth, y ), { stroke: 'gray', lineWidth: 1 } );
         content.addChild( separator );
