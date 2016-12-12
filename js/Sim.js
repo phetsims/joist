@@ -65,17 +65,25 @@ define( function( require ) {
 
     var self = this;
 
-    // @private - Export for usage in phetio.js
     var tandem = Tandem.createRootTandem();
     var simTandem = tandem.createTandem( 'sim' );
+
+    // @public (phet-io)
     this.tandem = tandem;
 
-    // Listeners for PhET-iO to know when the Sim constructor started and ended.
+    // @public (phet-io) Emitter for PhET-iO data stream to describe the startup sequence
     this.startedSimConstructorEmitter = new Emitter();
+
+    // @public (phet-io) Emitter for PhET-iO data stream to describe the startup sequence
     this.endedSimConstructorEmitter = new Emitter();
 
+    // @public Emitter that indicates when the sim resized
     this.resizedEmitter = new Emitter();
+
+    // @public Emitter that indicates when a frame starts
     this.frameStartedEmitter = new Emitter();
+
+    // @public Emitter that indicates when a frame ends
     this.frameEndedEmitter = new TandemEmitter( {
       tandem: simTandem.createTandem( 'frameEndedEmitter' ),
       phetioArgumentTypes: [ TNumber( { units: 'seconds' } ) ],
