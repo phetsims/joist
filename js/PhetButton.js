@@ -39,7 +39,8 @@ define( function( require ) {
   // The primary logo is 108px high and we have been scaling it at 0.28 to make it look good even on higher resolution
   // displays.  The following math scales up the logo to 108px high so the rest of the layout code will work smoothly
   // Scale to the same height as the PhET logo, so that layout code works correctly.
-  var PHET_LOGO_HEIGHT = 108;  // height of the PhET logo, brand/phet/images/logo.png
+  // height of the PhET logo, brand/phet/images/logo.png or brand/adapted-from-phet/images/logo.png
+  var PHET_LOGO_HEIGHT = Brand.id === 'adapted-from-phet' ? 67 : 108;
   var PHET_LOGO_SCALE = 0.28;  // scale applied to the PhET logo
   assert && assert( brightLogoMipmap instanceof Array, 'logo must be a mipmap' );
   var LOGO_SCALE = PHET_LOGO_SCALE / brightLogoMipmap[ 0 ].height * PHET_LOGO_HEIGHT;
@@ -75,11 +76,12 @@ define( function( require ) {
     // sim.bounds are null on init, but we will get the callback when it is sized for the first time
     sim.resizedEmitter.addListener( onResize );
 
+    var adaptedFromPhet = Brand.id === 'adapted-from-phet';
     var options = {
       textDescription: 'PhET Menu Button',
       highlightExtensionWidth: 6,
-      highlightExtensionHeight: 5,
-      highlightCenterOffsetY: 4,
+      highlightExtensionHeight: adaptedFromPhet ? 10 : 5,
+      highlightCenterOffsetY: adaptedFromPhet ? 0 : 4,
       listener: function() {
         phetMenu.show();
       }
@@ -113,8 +115,9 @@ define( function( require ) {
     if ( Brand.id === 'adapted-from-phet' ) {
       this.addChild( new AdaptedFromText( textFillProperty, {
         pickable: false,
-        right: icon.left - 10,
-        centerY: icon.centerY
+        left: icon.left,
+        bottom: icon.top + 3,
+        maxWidth: logoImage.width
       } ) );
     }
 
@@ -134,7 +137,7 @@ define( function( require ) {
       HORIZONTAL_INSET: 10,
 
       // @ public - How much space between the PhetButton and the bottom of the screen
-      VERTICAL_INSET: 0,
+      VERTICAL_INSET: ( Brand.id === 'adapted-from-phet' ? 3 : 0 ),
 
       /**
        * Ensures that the home-screen's phet button will have the same global transform as the navbar's phet button.

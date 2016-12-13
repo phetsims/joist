@@ -13,21 +13,31 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
+  var Image = require( 'SCENERY/nodes/Image' );
   var JoistButton = require( 'JOIST/JoistButton' );
-  var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var joist = require( 'JOIST/joist' );
+
+  // images
+  var brightIconMipmap = require( 'mipmap!JOIST/keyboard-icon.png' ); // on a black navbar
+  var darkIconMipmap = require( 'mipmap!JOIST/keyboard-icon-on-white.png' ); // on a white navbar
+  assert && assert( brightIconMipmap instanceof Array, 'icon must be a mipmap' );
+
+  // constants
+  var HELP_BUTTON_HEIGHT = 67;
+  var HELP_BUTTON_SCALE = 0.32;  // scale applied to the icon
+  var BUTTON_SCALE = HELP_BUTTON_SCALE / brightIconMipmap[ 0 ].height * HELP_BUTTON_HEIGHT;
 
   function KeyboardHelpButton( sim, backgroundFillProperty, tandem ) {
 
     var options = {
-      highlightExtensionWidth: 8,
-      highlightExtensionHeight: 15,
-      highlightCenterOffsetY: 0,
+      highlightExtensionWidth: 5,
+      highlightExtensionHeight: 10,
+      highlightCenterOffsetY: 3,
       listener: function() {}
     };
 
-    var icon = new FontAwesomeNode( 'keyboard', {
-      scale: 0.6,
+    var icon = new Image( brightIconMipmap, {
+      scale: BUTTON_SCALE,
       pickable: false
     } );
 
@@ -36,7 +46,7 @@ define( function( require ) {
     Property.multilink( [ backgroundFillProperty, sim.showHomeScreenProperty ],
       function( backgroundFill, showHomeScreen ) {
         var backgroundIsWhite = backgroundFill !== 'black' && !showHomeScreen;
-        icon.fill = backgroundIsWhite ? '#222' : 'white';
+        icon.image = backgroundIsWhite ? darkIconMipmap : brightIconMipmap;
       } );
   } 
 
