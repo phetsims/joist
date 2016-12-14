@@ -453,7 +453,7 @@ define( function( require ) {
         domElement.className = 'PhetMenu';
         domElement.tabIndex = '-1';
 
-        // TODO: hopefully, this event should bubble down to menu items.
+        // TODO: hopefully, this event should bubble down to menu items, see https://github.com/phetsims/joist/issues/384
         domElement.addEventListener( 'keydown', function( event ) {
           if ( event.keyCode === 27 ) {
             self.exitMenu();
