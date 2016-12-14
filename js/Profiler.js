@@ -24,8 +24,6 @@
  * If 2 frames took 37ms, then 37ms will appear twice.  If no frames exceeded 29ms, then this field will be absent.
  * These values are sorted in descending order, so you can easily identify the largest frame time.
  *
- * TODO: Could take further steps to helping identify the time spent in render vs input handling vs model, etc.
- *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chris Malley (PixelZoom, Inc.)
  */
