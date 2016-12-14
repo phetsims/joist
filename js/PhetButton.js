@@ -154,10 +154,10 @@ define( function( require ) {
         var homeScreenButton = homeScreen.view.phetButton;
 
         var navBarButtonTracker = new TransformTracker( navigationBar.phetButton.getUniqueTrailTo( rootNode ), {
-          isStatic: true // our listener won't change any listeners - TODO: replace with emitter?
+          isStatic: true // our listener won't change any listeners - TODO: replace with emitter? see https://github.com/phetsims/scenery/issues/594
         } );
         var homeScreenTracker = new TransformTracker( homeScreenButton.getParent().getUniqueTrailTo( rootNode ), {
-          isStatic: true // our listener won't change any listeners - TODO: replace with emitter?
+          isStatic: true // our listener won't change any listeners - TODO: replace with emitter? see https://github.com/phetsims/scenery/issues/594
         } );
 
         function transformPhetButton() {
