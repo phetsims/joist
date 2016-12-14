@@ -604,8 +604,12 @@ define( function( require ) {
             // Move the progress ahead by one so we show the full progress bar for a moment before the sim starts up
 
             var progress = DotUtil.linear( 0, workItems.length - 1, 0.25, 1.0, i );
-            // console.log( i, workItems.length, progress );
-            document.getElementById( 'progressBarForeground' ).setAttribute( 'width', (progress * PROGRESS_BAR_WIDTH) + '' );
+
+            // Support iOS Reading Mode, which saves a DOM snapshot after the progressBarForeground has already
+            // been removed from the document, see https://github.com/phetsims/joist/issues/389
+            if ( document.getElementById( 'progressBarForeground' ) ) {
+              document.getElementById( 'progressBarForeground' ).setAttribute( 'width', (progress * PROGRESS_BAR_WIDTH) + '' );
+            }
             if ( i + 1 < workItems.length ) {
               runItem( i + 1 );
             }
