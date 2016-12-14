@@ -164,13 +164,13 @@ define( function( require ) {
         stroke: options.showSmallHomeScreenIconFrame ? '#dddddd' : null,
         lineWidth: 0.7
       } );
-      var smallIcon = new Node( { opacity: 0.5, children: [ smallFrame, smallIconContent ] } );
+      var smallScreenButtonIcon = new Node( { opacity: 0.5, children: [ smallFrame, smallIconContent ] } );
 
-      var smallText = new Text( screen.name, { font: new PhetFont( 18 ), fill: 'gray' } );
+      var smallScreenButtonText = new Text( screen.name, { font: new PhetFont( 18 ), fill: 'gray' } );
 
       //Shrink the text if it goes beyond the edge of the image
-      if ( smallText.width > smallIcon.width ) {
-        smallText.scale( smallIcon.width / smallText.width );
+      if ( smallScreenButtonText.width > smallScreenButtonIcon.width ) {
+        smallScreenButtonText.scale( smallScreenButtonIcon.width / smallScreenButtonText.width );
       }
 
       // down function for small button, refactored for accessibility and the input listener
@@ -181,8 +181,8 @@ define( function( require ) {
       };
       var smallScreenButton = new VBox( {
         spacing: 3, cursor: 'pointer', children: [
-          smallIcon,
-          smallText
+          smallScreenButtonIcon,
+          smallScreenButtonText
         ],
         textDescription: screen.name + ' Screen: Button',
         accessibleContent: {
@@ -227,15 +227,13 @@ define( function( require ) {
       var highlightListener = {
         over: function( event ) {
           highlightedScreenIndexProperty.value = index;
-
-          //TODO: use named children instead of child indices?
-          smallScreenButton.children[ 0 ].opacity = 1;
-          smallScreenButton.children[ 1 ].fill = 'white';
+          smallScreenButtonIcon.opacity = 1;
+          smallScreenButtonText.fill = 'white';
         },
         out: function( event ) {
           highlightedScreenIndexProperty.value = -1;
-          smallScreenButton.children[ 0 ].opacity = 0.5;
-          smallScreenButton.children[ 1 ].fill = 'gray';
+          smallScreenButtonIcon.opacity = 0.5;
+          smallScreenButtonText.fill = 'gray';
         }
       };
       smallScreenButton.addInputListener( highlightListener );
