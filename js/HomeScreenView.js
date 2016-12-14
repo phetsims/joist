@@ -129,9 +129,7 @@ define( function( require ) {
             domElement.tabIndex = '0';
 
             // enter the selected screen on 'click'
-            domElement.addEventListener( 'click', function() {
-              largeButtonDown();
-            } );
+            domElement.addEventListener( 'click', largeButtonDown );
 
             return new AccessiblePeer( accessibleInstance, domElement );
 
@@ -144,12 +142,9 @@ define( function( require ) {
       // large and small buttons are registered as separate instances.  See https://github.com/phetsims/phet-io/issues/99
       tandem.createTandem( screen.tandem.tail + 'LargeButton' ).addInstance( largeScreenButton, TScreenButton );
 
-      // TODO: Switch to buttonListener, but make sure you test it because on 7/17/2013 there is a problem where
-      // TODO: ButtonListener won't fire if a node has appeared under the pointer
+      // Activate the large screen button when pressed
       largeScreenButton.addInputListener( {
-        down: function() {
-          largeButtonDown();
-        }
+        down: largeButtonDown
       } );
 
       // Maps the number of screens to a scale for the small icons. The scale is percentage of LARGE_ICON_HEIGHT.
