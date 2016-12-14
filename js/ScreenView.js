@@ -143,7 +143,7 @@ define( function( require ) {
     initialize: function( accessibleInstance, screenDescription, screenLabel ) {
       var trail = accessibleInstance.trail;
       var uniqueId = trail.getUniqueId();
-      this.node = trail.lastNode(); // @private TODO: may be namespace conflict in future?
+      this.node = trail.lastNode(); // @private TODO: may be namespace conflict in future? See https://github.com/phetsims/joist/issues/386
 
       // we want the representative element in the Parallel DOM to look like this:
       //  <div class="ScreenView">
