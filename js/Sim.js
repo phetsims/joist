@@ -191,13 +191,6 @@ define( function( require ) {
     // @public (joist-internal, read-only) - {Screen|null} - The current screen, or null if showing the home screen
     this.currentScreenProperty = new Property( null );
 
-    //TODO why are these Properties? should their visibility be joist internal?
-    // @public
-    this.showPointerAreasProperty = new Property( phet.chipper.queryParameters.showPointerAreas );
-    this.showPointersProperty = new Property( phet.chipper.queryParameters.showPointers );
-    this.showCanvasNodeBoundsProperty = new Property( phet.chipper.queryParameters.showCanvasNodeBounds );
-    this.showFittedBlockBoundsProperty = new Property( phet.chipper.queryParameters.showFittedBlockBounds );
-
     // Many other components use addInstance at the end of their constructor but in this case we must register early
     // to (a) enable the SimIFrameAPI as soon as possible and (b) to enable subsequent component registrations,
     // which require the sim to be registered
@@ -341,21 +334,11 @@ define( function( require ) {
     window.phet.joist.rootNode = this.rootNode; // make the scene available for debugging
     window.phet.joist.display = this.display; // make the display available for debugging
 
-    this.showPointersProperty.link( function( showPointers ) {
-      self.display.setPointerDisplayVisible( !!showPointers );
-    } );
-
-    this.showPointerAreasProperty.link( function( showPointerAreas ) {
-      self.display.setPointerAreaDisplayVisible( !!showPointerAreas );
-    } );
-
-    this.showCanvasNodeBoundsProperty.link( function( showCanvasNodeBounds ) {
-      self.display.setCanvasNodeBoundsVisible( !!showCanvasNodeBounds );
-    } );
-
-    this.showFittedBlockBoundsProperty.link( function( showFittedBlockBounds ) {
-      self.display.setFittedBlockBoundsVisible( !!showFittedBlockBounds );
-    } );
+    // Pass through query parameters to scenery for showing supplemental information
+    self.display.setPointerDisplayVisible( phet.chipper.queryParameters.showPointers );
+    self.display.setPointerAreaDisplayVisible( phet.chipper.queryParameters.showPointerAreas );
+    self.display.setCanvasNodeBoundsVisible( phet.chipper.queryParameters.showCanvasNodeBounds );
+    self.display.setFittedBlockBoundsVisible( phet.chipper.queryParameters.showFittedBlockBounds );
 
     function sleep( millis ) {
       var date = new Date();
