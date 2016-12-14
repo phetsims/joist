@@ -119,7 +119,7 @@ define( function( require ) {
         // we wait for here to remove the images from the DOM, otherwise IE9/10 treat the images as completely blank!
         _.each( elementsToRemove, function( element ) {
 
-          //TODO: Why is this null sometimes?
+          //TODO: Why is this null sometimes?  see https://github.com/phetsims/joist/issues/388
           if ( element.parentNode ) {
             element.parentNode.removeChild( element );
           }
