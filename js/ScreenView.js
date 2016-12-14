@@ -143,7 +143,9 @@ define( function( require ) {
     initialize: function( accessibleInstance, screenDescription, screenLabel ) {
       var trail = accessibleInstance.trail;
       var uniqueId = trail.getUniqueId();
-      this.node = trail.lastNode(); // @private TODO: may be namespace conflict in future? See https://github.com/phetsims/joist/issues/386
+
+      // @private
+      this.screenViewNode = trail.lastNode();
 
       // we want the representative element in the Parallel DOM to look like this:
       //  <div class="ScreenView">
@@ -206,7 +208,7 @@ define( function( require ) {
       this.domElement.appendChild( this.containerDOMElement );
 
       this.visibilityListener = this.updateVisibility.bind( this ); // @private
-      this.node.onStatic( 'visibility', this.visibilityListener );
+      this.screenViewNode.onStatic( 'visibility', this.visibilityListener );
 
       this.updateVisibility();
     },
@@ -216,7 +218,7 @@ define( function( require ) {
      * @public (accessibility)
      */
     updateVisibility: function() {
-      this.domElement.hidden = !this.node.visible;
+      this.domElement.hidden = !this.screenViewNode.visible;
     },
 
     /**
@@ -225,7 +227,7 @@ define( function( require ) {
     dispose: function() {
       AccessiblePeer.prototype.dispose.call( this );
 
-      this.node.offStatic( 'visibility', this.visibilityListener );
+      this.screenViewNode.offStatic( 'visibility', this.visibilityListener );
     }
   }, {
 
