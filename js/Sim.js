@@ -45,7 +45,6 @@ define( function( require ) {
   var TBarrierRectangle = require( 'ifphetio!PHET_IO/types/scenery/nodes/TBarrierRectangle' );
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
-  var TNode = require( 'ifphetio!PHET_IO/types/scenery/nodes/TNode' );
 
   // constants
   var PROGRESS_BAR_WIDTH = 273;
