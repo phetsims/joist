@@ -42,7 +42,7 @@ define( function( require ) {
    * @param {string} locale - The locale string
    * @constructor
    */
-  function AboutDialog( name, version, credits, Brand, locale ) {
+  function AboutDialog( name, version, credits, Brand, locale, tandem ) {
     var self = this;
 
     var children = [];
@@ -100,21 +100,24 @@ define( function( require ) {
 
     // Optional additionalLicenseStatement, used in phet-io
     if ( Brand.additionalLicenseStatement ) {
-      children.push( new MultiLineText( Brand.additionalLicenseStatement, {
+      this.additionalLicenseStatement = new MultiLineText( Brand.additionalLicenseStatement, {
           font: new PhetFont( 10 ),
           fill: 'gray',
           align: 'left',
-          maxWidth: MAX_WIDTH
+          maxWidth: MAX_WIDTH,
+          tandem: tandem.createTandem('additionLicenseStatement')
         }
-      ) );
+      );
+      children.push( this.additionalLicenseStatement );
     }
 
     // Add credits for specific brands
     if ( credits && ( Brand.id === 'phet' || Brand.id === 'phet-io' ) ) {
       children.push( new VStrut( 15 ) );
-      children.push( new CreditsNode( credits, {
+      this.creditsNode = new CreditsNode( credits, tandem.createTandem('creditsNode'), {
         maxWidth: MAX_WIDTH
-      } ) );
+      } );
+      children.push( this.creditsNode );
     }
 
     // Show any links identified in the brand
@@ -193,6 +196,7 @@ define( function( require ) {
      * @public
      */
     hide: function() {
+      // When hidden, this dialog is as good as disposed because it is never shown again
       Dialog.prototype.hide.call( this );
 
       if ( UpdateCheck.areUpdatesChecked ) {
@@ -202,6 +206,9 @@ define( function( require ) {
         // Disconnect our spinner listener when we're hidden
         Timer.removeStepListener( this.updateStepListener );
       }
+
+      this.creditsNode && this.creditsNode.dispose();
+      this.additionalLicenseStatement && this.additionalLicenseStatement.dispose();
     }
   } );
 } );

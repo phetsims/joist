@@ -383,7 +383,7 @@ define( function( require ) {
         present: true,
         separatorBefore: isPhETBrand,
         callback: function() {
-          new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale ).show();
+          new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, tandem.createTandem('aboutDialog') ).show();
         },
         tandem: tandem.createTandem( 'aboutButton' )
       }
