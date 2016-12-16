@@ -440,8 +440,8 @@ define( function( require ) {
       // @private list of nodes that are "modal" and hence block input with the barrierRectangle.  Used by modal dialogs
       // and the PhetMenu
       this.modalNodeStack = new ObservableArray( {
-        tandem: tandem.createTandem( 'modalNodeStack' ),
-        phetioValueType: TNode
+        // tandem: tandem.createTandem( 'modalNodeStack' ),
+        // phetioValueType: TNode
       } ); // {Node} with node.hide()
 
       // @public (joist-internal) Semi-transparent black barrier used to block input events when a dialog (or other popup)
