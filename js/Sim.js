@@ -74,7 +74,7 @@ define( function( require ) {
     this.startedSimConstructorEmitter = new Emitter();
 
     // @public (phet-io) Emitter for PhET-iO data stream to describe the startup sequence
-    this.endedSimConstructorEmitter = new Emitter();
+    this.endedSimConstructionEmitter = new Emitter();
 
     // @public Emitter that indicates when the sim resized
     this.resizedEmitter = new Emitter();
@@ -478,9 +478,6 @@ define( function( require ) {
       // this.  If PhET-iO sets phet.joist.playbackMode to be true, the sim clock won't run and instead
       // the sim will receive dt events from stepSimulation calls.
       this.boundRunAnimationLoop = phet.joist.playbackMode ? function() {} : this.runAnimationLoop.bind( this );
-
-      // Signify the end of simulation startup.  Used by PhET-iO.
-      this.endedSimConstructorEmitter.emit();
     },
 
     /*
@@ -643,6 +640,9 @@ define( function( require ) {
                 // After the application is ready to go, remove the splash screen and progress bar
                 $( '#splash' ).remove();
                 $( '#progressBar' ).remove();
+
+                // Signify the end of simulation startup.  Used by PhET-iO.
+                self.endedSimConstructionEmitter.emit();
               }, 25 ); // pause for a few milliseconds with the progress bar filled in before going to the home screen
             }
           },
