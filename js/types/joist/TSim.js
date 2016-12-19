@@ -30,7 +30,9 @@ define( function( require ) {
     TObject.call( this, sim, phetioID );
     assertInstanceOf( sim, phet.joist.Sim );
 
-    toEventOnEmit( sim.startedSimConstructorEmitter, sim.endedSimConstructorEmitter, 'model', phetioID, TSim, 'simStarted',
+    // startedSimConstructorEmitter is called in the constructor of the sim, and endedSimConstructionEmitter is called
+    // once all of the screens have been fully initialized, hence construction not constructor.
+    toEventOnEmit( sim.startedSimConstructorEmitter, sim.endedSimConstructionEmitter, 'model', phetioID, TSim, 'simStarted',
       function( value ) {
         return {
           sessionID: value.sessionID,
@@ -47,7 +49,7 @@ define( function( require ) {
     // Store a reference to the sim so that subsequent calls will be simpler.  PhET-iO only works with a single sim.
     phetio.sim = sim;
     SimIFrameAPI.triggerSimInitialized();
-    sim.endedSimConstructorEmitter.addListener( function() {
+    sim.endedSimConstructionEmitter.addListener( function() {
       phetio.simulationStarted();
     } );
   }
