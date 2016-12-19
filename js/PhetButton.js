@@ -10,8 +10,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var AdaptedFromText = require( 'JOIST/AdaptedFromText' );
-  var Brand = require( 'BRAND/Brand' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Image = require( 'SCENERY/nodes/Image' );
   var Shape = require( 'KITE/Shape' );
@@ -40,7 +38,7 @@ define( function( require ) {
   // displays.  The following math scales up the logo to 108px high so the rest of the layout code will work smoothly
   // Scale to the same height as the PhET logo, so that layout code works correctly.
   // height of the PhET logo, brand/phet/images/logo.png or brand/adapted-from-phet/images/logo.png
-  var PHET_LOGO_HEIGHT = Brand.id === 'adapted-from-phet' ? 67 : 108;
+  var PHET_LOGO_HEIGHT = 108;
   var PHET_LOGO_SCALE = 0.28;  // scale applied to the PhET logo
   assert && assert( brightLogoMipmap instanceof Array, 'logo must be a mipmap' );
   var LOGO_SCALE = PHET_LOGO_SCALE / brightLogoMipmap[ 0 ].height * PHET_LOGO_HEIGHT;
@@ -76,12 +74,11 @@ define( function( require ) {
     // sim.bounds are null on init, but we will get the callback when it is sized for the first time
     sim.resizedEmitter.addListener( onResize );
 
-    var adaptedFromPhet = Brand.id === 'adapted-from-phet';
     var options = {
       textDescription: 'PhET Menu Button',
       highlightExtensionWidth: 6,
-      highlightExtensionHeight: adaptedFromPhet ? 10 : 5,
-      highlightCenterOffsetY: adaptedFromPhet ? 0 : 4,
+      highlightExtensionHeight: 5,
+      highlightCenterOffsetY: 4,
       listener: function() {
         phetMenu.show();
       }
@@ -111,16 +108,6 @@ define( function( require ) {
 
     JoistButton.call( this, icon, backgroundFillProperty, tandem, options );
 
-    // If this is an "adapted from PhET" brand, decorate the PhET button with "adapted from" text.
-    if ( Brand.id === 'adapted-from-phet' ) {
-      this.addChild( new AdaptedFromText( textFillProperty, {
-        pickable: false,
-        left: icon.left,
-        bottom: icon.top + 3,
-        maxWidth: logoImage.width
-      } ) );
-    }
-
     Property.multilink( [ backgroundFillProperty, sim.showHomeScreenProperty, UpdateCheck.stateProperty ],
       function( backgroundFill, showHomeScreen, updateState ) {
         var backgroundIsWhite = backgroundFill !== 'black' && !showHomeScreen;
@@ -137,7 +124,7 @@ define( function( require ) {
       HORIZONTAL_INSET: 10,
 
       // @ public - How much space between the PhetButton and the bottom of the screen
-      VERTICAL_INSET: ( Brand.id === 'adapted-from-phet' ? 3 : 0 ),
+      VERTICAL_INSET: 0,
 
       /**
        * Ensures that the home-screen's phet button will have the same global transform as the navbar's phet button.
