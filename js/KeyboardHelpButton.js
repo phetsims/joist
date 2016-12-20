@@ -15,6 +15,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var Image = require( 'SCENERY/nodes/Image' );
   var JoistButton = require( 'JOIST/JoistButton' );
+  var KeyboardHelpDialog = require( 'JOIST/KeyboardHelpDialog' );
   var joist = require( 'JOIST/joist' );
 
   // images
@@ -33,7 +34,9 @@ define( function( require ) {
       highlightExtensionWidth: 5,
       highlightExtensionHeight: 10,
       highlightCenterOffsetY: 3,
-      listener: function() {}
+      listener: function() {
+        new KeyboardHelpDialog( sim.keyboardHelpNode ).show();
+      }
     };
 
     var icon = new Image( brightIconMipmap, {
