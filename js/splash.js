@@ -15,7 +15,13 @@
   var PROGRESS_BAR_Y = '25'; // {string} Vertical offset of progress bar from splash logo
   var POSITION_Y = 0.435; // Center the content above the middle of the screen because it looks better that way.
 
-  function centerDiv( div, splashImg ) {
+  /**
+   * Scale and position the given div, using the dimensions of the image for sizing.
+   * @param {Element} div - the div to position
+   * @param {HTMLImageElement} splashImg - the image to use for determining scale factor.  Not as exact as using the full
+   *                                     - container div, but that dimension is not available on startup.
+   */
+  function positionDiv( div, splashImg ) {
     var currentWidth = splashImg.width;
     var currentHeight = splashImg.height;
 
@@ -30,32 +36,31 @@
     var translationX = Math.round( (availableWidth - currentWidth * scale) / 2 );
     var translationY = Math.round( (availableHeight - currentHeight * scale) * POSITION_Y );
 
-    div.style.position = 'fixed';
-    div.style.left = '0px';
-    div.style.top = '0px';
-    div.style[ '-webkit-transform' ] = 'translate(' + translationX + 'px, ' + translationY + 'px) ' + 'scale3d(' + scale + ', ' + scale + ', 1)';
-    div.style[ '-webkit-transform-origin' ] = '0 0';
-
-    div.style[ '-ms-transform' ] = 'translate(' + translationX + 'px, ' + translationY + 'px) ' + 'scale3d(' + scale + ', ' + scale + ', 1)';
-    div.style[ '-ms-transform-origin' ] = '0 0';
-
-    div.style[ 'transform' ] = 'translate(' + translationX + 'px, ' + translationY + 'px) ' + 'scale3d(' + scale + ', ' + scale + ', 1)';
-    div.style[ 'transform-origin' ] = '0 0';
+    // Position the div using CSS
+    var transformString = 'translate(' + translationX + 'px, ' + translationY + 'px) ' + 'scale3d(' + scale + ', ' + scale + ', 1)';
+    div.style[ '-webkit-transform' ] = transformString;
+    div.style[ '-ms-transform' ] = transformString;
+    div.style.transform = transformString;
   }
 
+  // Create the main container div, which will hold the splash image and progress bar
   var div = document.createElement( 'div' );
   div.id = SPLASH_CONTAINER_ID;
+  div.style.position = 'fixed';
+  div.style.left = '0px';
+  div.style.top = '0px';
+  div.style[ '-webkit-transform-origin' ] = '0 0';
+  div.style[ '-ms-transform-origin' ] = '0 0';
+  div.style[ 'transform-origin' ] = '0 0';
 
+  // Create the splash image, which is an SVG logo
   var splashImage = document.createElement( 'img' );
   splashImage.style.display = 'block';
   splashImage.setAttribute( 'id', 'splash' );
 
-  // Identify the brand (assume generated brand if not provided with query parameters)
-  var brandMatch = location.search.match( /brand=([^&]+)/ );
-  var brand = brandMatch ? decodeURIComponent( brandMatch[ 1 ] ) : 'adapted-from-phet';
-
-  var centerClosure = function() {
-    centerDiv( div, splashImage );
+  // Closure which binds the values to positionDiv, which can be used as a listener reference.
+  var adjustPosition = function() {
+    positionDiv( div, splashImage );
   };
 
   // Wait until the image has loaded so that everything appears at once.
@@ -63,18 +68,20 @@
   splashImage.onload = function() {
 
     // Center before showing so it appears at the correct location.
-    centerClosure();
+    adjustPosition();
+
+    window.addEventListener( 'resize', adjustPosition );
+    window.addEventListener( 'load', adjustPosition );
 
     // Make sure the body did not already have such a div (if Chrome=>save as iOS Reading Mode saved a copy of the DOM).
     var previousSplashContainer = document.getElementById( SPLASH_CONTAINER_ID );
     previousSplashContainer && previousSplashContainer.parentNode.removeChild( previousSplashContainer );
 
+    // After creating and positioning the div, add it to the body
     document.body.appendChild( div );
-
-    window.addEventListener( 'resize', centerClosure );
-    window.addEventListener( 'load', centerClosure );
   };
 
+  // Create the progress bar
   var progressBarDiv = document.createElement( 'div' );
   progressBarDiv.setAttribute( 'id', 'progressBar' );
   progressBarDiv.setAttribute( 'style', 'width:273px;height:10px' );
@@ -103,10 +110,15 @@
 
   svg.appendChild( progressBarBackground );
   svg.appendChild( progressBarForeground );
+
+  // Add elements
   div.appendChild( splashImage );
   div.appendChild( svg );
 
   // Load the desired splash screen image
+  // Identify the brand (assume generated brand if not provided with query parameters)
+  var brandMatch = location.search.match( /brand=([^&]+)/ );
+  var brand = brandMatch ? decodeURIComponent( brandMatch[ 1 ] ) : 'adapted-from-phet';
   splashImage.src = '../brand/' + brand + '/images/splash.svg';
 
   window.phetSplashScreen = {
@@ -115,8 +127,8 @@
      * Dispose the splash screen and all its associated listeners.  Can only be called once.
      */
     dispose: function() {
-      window.removeEventListener( 'resize', centerClosure );
-      window.removeEventListener( 'load', centerClosure );
+      window.removeEventListener( 'resize', adjustPosition );
+      window.removeEventListener( 'load', adjustPosition );
       document.body.removeChild( div );
       delete window.phetSplashScreen;
     }
