@@ -115,11 +115,19 @@
   div.appendChild( splashImage );
   div.appendChild( svg );
 
-  // Load the desired splash screen image
-  // Identify the brand (assume generated brand if not provided with query parameters)
-  var brandMatch = location.search.match( /brand=([^&]+)/ );
-  var brand = brandMatch ? decodeURIComponent( brandMatch[ 1 ] ) : 'adapted-from-phet';
-  splashImage.src = '../brand/' + brand + '/images/splash.svg';
+  // Load the splash screen image
+  if ( window.PHET_SPLASH_DATA_URI ) {
+
+    // For builds, this is substituted in the sim.html template.
+    splashImage.src = window.PHET_SPLASH_DATA_URI;
+  }
+  else {
+
+    // Identify the brand (assume generated brand if not provided with query parameters)
+    var brandMatch = location.search.match( /brand=([^&]+)/ );
+    var brand = brandMatch ? decodeURIComponent( brandMatch[ 1 ] ) : 'adapted-from-phet';
+    splashImage.src = '../brand/' + brand + '/images/splash.svg';
+  }
 
   window.phetSplashScreen = {
 
@@ -127,6 +135,11 @@
      * Dispose the splash screen and all its associated listeners.  Can only be called once.
      */
     dispose: function() {
+
+      // For built versions, clean up the memory that stored the splash image.
+      if ( window.PHET_SPLASH_DATA_URI ) {
+        delete window.PHET_SPLASH_DATA_URI;
+      }
       window.removeEventListener( 'resize', adjustPosition );
       window.removeEventListener( 'load', adjustPosition );
       document.body.removeChild( div );
