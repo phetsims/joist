@@ -33,31 +33,37 @@ define( function( require ) {
   /**
    * Creates node that displays the credits.
    * @param {Object} credits - see implementation herein for supported {string} fields
+   * @param tandem
    * @param {Object} [options] - Passed to VBox
    * @constructor
    */
-  function CreditsNode( credits, options ) {
+  function CreditsNode( credits, tandem, options ) {
     var titleFont = new PhetFont( { size: 14, weight: 'bold' } );
     var font = new PhetFont( 12 );
     var multiLineTextOptions = { font: font, align: 'left' };
     var children = [];
 
+    var addTandemToOptions = function( tandemName ) {
+      return _.extend( {
+        tandem: tandem.createTandem(tandemName)
+      }, multiLineTextOptions );
+    };
     // Credits
     children.push( new Text( creditsTitleString, { font: titleFont } ) );
     if ( credits.leadDesign ) {
-      children.push( new MultiLineText( StringUtils.format( creditsLeadDesignString, '\u202a' + credits.leadDesign + '\u202c' ), multiLineTextOptions ) );
+      children.push( new MultiLineText( StringUtils.format( creditsLeadDesignString, '\u202a' + credits.leadDesign + '\u202c' ), addTandemToOptions('creditsLeadDesignString') ) );
     }
     if ( credits.softwareDevelopment ) {
-      children.push( new MultiLineText( StringUtils.format( creditsSoftwareDevelopmentString, '\u202a' + credits.softwareDevelopment + '\u202c' ), multiLineTextOptions ) );
+      children.push( new MultiLineText( StringUtils.format( creditsSoftwareDevelopmentString, '\u202a' + credits.softwareDevelopment + '\u202c' ), addTandemToOptions('creditsSoftwareDevelopmentString') ) );
     }
     if ( credits.team ) {
-      children.push( new MultiLineText( StringUtils.format( creditsTeamString, '\u202a' + credits.team + '\u202c' ), multiLineTextOptions ) );
+      children.push( new MultiLineText( StringUtils.format( creditsTeamString, '\u202a' + credits.team + '\u202c' ), addTandemToOptions('creditsTeamString') ) );
     }
     if ( credits.qualityAssurance ) {
-      children.push( new MultiLineText( StringUtils.format( creditsQualityAssuranceString, '\u202a' + credits.qualityAssurance + '\u202c' ), multiLineTextOptions ) );
+      children.push( new MultiLineText( StringUtils.format( creditsQualityAssuranceString, '\u202a' + credits.qualityAssurance + '\u202c' ), addTandemToOptions('creditsQualityAssuranceString') ) );
     }
     if ( credits.graphicArts ) {
-      children.push( new MultiLineText( StringUtils.format( creditsGraphicArtsString, '\u202a' + credits.graphicArts + '\u202c' ), multiLineTextOptions ) );
+      children.push( new MultiLineText( StringUtils.format( creditsGraphicArtsString, '\u202a' + credits.graphicArts + '\u202c' ), addTandemToOptions('creditsGraphicArtsString') ) );
     }
 
     //TODO obtain translation credit from strings file, see https://github.com/phetsims/joist/issues/163
@@ -65,14 +71,14 @@ define( function( require ) {
     if ( credits.translation ) {
       if ( children.length > 0 ) { children.push( new VStrut( 10 ) ); }
       children.push( new Text( creditsTranslationString, { font: titleFont } ) );
-      children.push( new MultiLineText( credits.translation, multiLineTextOptions ) );
+      children.push( new MultiLineText( credits.translation, addTandemToOptions('creditsTranslationString') ) );
     }
 
     // Thanks
     if ( credits.thanks ) {
       if ( children.length > 0 ) { children.push( new VStrut( 10 ) ); }
       children.push( new Text( creditsThanksString, { font: titleFont } ) );
-      children.push( new MultiLineText( credits.thanks, multiLineTextOptions ) );
+      children.push( new MultiLineText( credits.thanks, addTandemToOptions('creditsThanksString') ) );
     }
 
     VBox.call( this, _.extend( {
@@ -80,9 +86,19 @@ define( function( require ) {
       spacing: 1,
       children: children
     }, options ) );
+
+    this.disposeCreditsNode = function() {
+      children.forEach( function( child ) {
+        child.dispose && child.dispose();
+      } );
+    };
   }
 
   joist.register( 'CreditsNode', CreditsNode );
 
-  return inherit( VBox, CreditsNode );
+  return inherit( VBox, CreditsNode, {
+    dispose: function() {
+      this.disposeCreditsNode();
+    }
+  } );
 } );
