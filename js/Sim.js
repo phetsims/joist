@@ -643,7 +643,7 @@ define( function( require ) {
 
                 // Signify the end of simulation startup.  Used by PhET-iO.
                 self.endedSimConstructionEmitter.emit();
-              }, 25 ); // pause for a few milliseconds with the progress bar filled in before going to the home screen
+              }, 250000 ); // pause for a few milliseconds with the progress bar filled in before going to the home screen
             }
           },
           // The following sets the amount of delay between each work item to make it easier to see the changes to the

@@ -9,7 +9,7 @@
   'use strict';
 
   // Overall scale factor for the image + progress bar, matched empirically to desired size
-  var SCALE_FACTOR = 1.0 / 4.0;
+  var SCALE_FACTOR = 1.0 / 4.0 * 1.042;
   var XML_NAMESPACE = 'http://www.w3.org/2000/svg';
 
   function centerDiv( div, splashImg ) {
@@ -73,11 +73,13 @@
   progressBarDiv.setAttribute( 'style', 'width:273px;height:10px' );
   progressBarDiv.style.display = 'block';
 
+  var progressBarY = '25';
+
   var svg = document.createElementNS( XML_NAMESPACE, 'svg' );
   var progressBarBackground = document.createElementNS( XML_NAMESPACE, 'rect' );
   progressBarBackground.setAttribute( 'id', 'progressBarBackground' );
   progressBarBackground.setAttribute( 'x', '0' );
-  progressBarBackground.setAttribute( 'y', '10' );
+  progressBarBackground.setAttribute( 'y', progressBarY );
   progressBarBackground.setAttribute( 'width', '273' );
   progressBarBackground.setAttribute( 'height', '10' );
   progressBarBackground.setAttribute( 'rx', '3' );
@@ -87,7 +89,7 @@
   var progressBarForeground = document.createElementNS( XML_NAMESPACE, 'rect' );
   progressBarForeground.setAttribute( 'id', 'progressBarForeground' );
   progressBarForeground.setAttribute( 'x', '0' );
-  progressBarForeground.setAttribute( 'y', '10' );
+  progressBarForeground.setAttribute( 'y', progressBarY );
   progressBarForeground.setAttribute( 'width', '0' );
   progressBarForeground.setAttribute( 'height', '10' );
   progressBarForeground.setAttribute( 'rx', '3' );
