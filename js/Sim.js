@@ -638,12 +638,11 @@ define( function( require ) {
                 }
 
                 // After the application is ready to go, remove the splash screen and progress bar
-                $( '#splash' ).remove();
-                $( '#progressBar' ).remove();
+                window.phetSplashScreen.dispose();
 
                 // Signify the end of simulation startup.  Used by PhET-iO.
                 self.endedSimConstructionEmitter.emit();
-              }, 250000 ); // pause for a few milliseconds with the progress bar filled in before going to the home screen
+              }, 25 ); // pause for a few milliseconds with the progress bar filled in before going to the home screen
             }
           },
           // The following sets the amount of delay between each work item to make it easier to see the changes to the
