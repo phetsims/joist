@@ -48,8 +48,10 @@ define( function( require ) {
 
     // Store a reference to the sim so that subsequent calls will be simpler.  PhET-iO only works with a single sim.
     phetio.sim = sim;
-    SimIFrameAPI.triggerSimInitialized();
     sim.endedSimConstructionEmitter.addListener( function() {
+
+      // TODO: Can these be coalesced?
+      SimIFrameAPI.triggerSimInitialized();
       phetio.simulationStarted();
     } );
   }
