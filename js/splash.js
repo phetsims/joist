@@ -56,7 +56,6 @@
   // Create the splash image, which is an SVG logo
   var splashImage = document.createElement( 'img' );
   splashImage.style.display = 'block';
-  splashImage.setAttribute( 'id', 'splash' );
 
   // Closure which binds the values to positionDiv, which can be used as a listener reference.
   var adjustPosition = function() {
@@ -83,13 +82,11 @@
 
   // Create the progress bar
   var progressBarDiv = document.createElement( 'div' );
-  progressBarDiv.setAttribute( 'id', 'progressBar' );
   progressBarDiv.setAttribute( 'style', 'width:273px;height:10px' );
   progressBarDiv.style.display = 'block';
 
   var svg = document.createElementNS( XML_NAMESPACE, 'svg' );
   var progressBarBackground = document.createElementNS( XML_NAMESPACE, 'rect' );
-  progressBarBackground.setAttribute( 'id', 'progressBarBackground' );
   progressBarBackground.setAttribute( 'x', '0' );
   progressBarBackground.setAttribute( 'y', PROGRESS_BAR_Y );
   progressBarBackground.setAttribute( 'width', '273' );
