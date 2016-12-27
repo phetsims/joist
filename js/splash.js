@@ -98,6 +98,8 @@
   progressBarBackground.setAttribute( 'ry', '3' );
   progressBarBackground.setAttribute( 'style', 'stroke: white;stroke-width:1' );
 
+  // The progress bar foreground begins with a width of 0 and grows to the right.  It is updated incrementally during
+  // the startup sequence in Sim.js
   var progressBarForeground = document.createElementNS( XML_NAMESPACE, 'rect' );
   progressBarForeground.setAttribute( 'id', 'progressBarForeground' );
   progressBarForeground.setAttribute( 'x', '0' );
