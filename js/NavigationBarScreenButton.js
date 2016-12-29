@@ -16,7 +16,6 @@ define( function( require ) {
   var HighlightNode = require( 'JOIST/HighlightNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
@@ -57,19 +56,7 @@ define( function( require ) {
       cursor: 'pointer',
       textDescription: screen.name + ' Screen: Button',
       tandem: null,
-      maxButtonWidth: null, // {number|null} the maximum width of the button, causes text and/or icon to be scaled down if necessary
-      accessibleContent: {
-        createPeer: function( accessibleInstance ) {
-          // will look like <input value="Reset" type="button" tabindex="0">
-          var domElement = document.createElement( 'input' );
-          domElement.value = screen.name;
-          domElement.type = 'button';
-          domElement.tabIndex = '0';
-          domElement.addEventListener( 'click', clicked );
-
-          return new AccessiblePeer( accessibleInstance, domElement );
-        }
-      }
+      maxButtonWidth: null // {number|null} the maximum width of the button, causes text and/or icon to be scaled down if necessary
     }, options );
 
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'

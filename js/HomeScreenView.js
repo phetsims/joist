@@ -23,7 +23,6 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var joist = require( 'JOIST/joist' );
-  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var Util = require( 'DOT/Util' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
@@ -115,26 +114,7 @@ define( function( require ) {
         children: [
           largeIconWithFrame,
           largeText
-        ],
-        textDescription: screen.name + ' Screen: Button',
-        accessibleContent: {
-          createPeer: function( accessibleInstance ) {
-
-            // We want DOM elements to look like this:
-            // <input type="button" tabIndex="0" value="screenName" id="largeButton-index">
-            var domElement = document.createElement( 'input' );
-            domElement.setAttribute( 'type', 'button' );
-            domElement.setAttribute( 'value', screen.name );
-            domElement.id = 'largeButton-' + index;
-            domElement.tabIndex = '0';
-
-            // enter the selected screen on 'click'
-            domElement.addEventListener( 'click', largeButtonDown );
-
-            return new AccessiblePeer( accessibleInstance, domElement );
-
-          }
-        }
+        ]
       } );
 
       // Even though in the user interface the small and large buttons seem like a single UI component that has grown
@@ -183,29 +163,7 @@ define( function( require ) {
         spacing: 3, cursor: 'pointer', children: [
           smallScreenButtonIcon,
           smallScreenButtonText
-        ],
-        textDescription: screen.name + ' Screen: Button',
-        accessibleContent: {
-          createPeer: function( accessibleInstance ) {
-
-            // We want DOM elements to look like this:
-            // <input type="button" tabindex="0">
-            // However, this is trivial: on accessible focus, the small button will immediately become a 'large' button
-            var domElement = document.createElement( 'input' );
-            domElement.setAttribute( 'type', 'button' );
-            domElement.setAttribute( 'value', screen.name );
-            domElement.tabIndex = '0';
-            domElement.id = 'smallButton-' + index;
-
-            // when the small button receives accessible focus, the thumbnail should grow and focus should be passed to
-            // the large button.
-            domElement.addEventListener( 'focus', function() {
-              smallButtonDown();
-              document.getElementById( 'largeButton-' + index ).focus();
-            } );
-            return new AccessiblePeer( accessibleInstance, domElement );
-          }
-        }
+        ]
       } );
       smallScreenButton.mouseArea = smallScreenButton.touchArea = Shape.bounds( smallScreenButton.bounds ); //cover the gap in the vbox
       smallScreenButton.addInputListener( {
