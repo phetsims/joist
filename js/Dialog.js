@@ -18,6 +18,7 @@ define( function( require ) {
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var joist = require( 'JOIST/joist' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Node} content - The content to display inside the dialog (not including the title)
@@ -55,7 +56,7 @@ define( function( require ) {
           return new DialogAccessiblePeer( accessibleInstance, self );
         }
       },
-      tandem: null
+      tandem: Tandem.createDefaultTandem( 'dialog' )
     }, options );
 
     // @private (read-only)
