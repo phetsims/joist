@@ -40,6 +40,7 @@ define( function( require ) {
    * @param {string} credits - The credits for the simulation, or falsy to show no credits
    * @param {Brand} Brand
    * @param {string} locale - The locale string
+   * @param {Tandem} tandem
    * @constructor
    */
   function AboutDialog( name, version, credits, Brand, locale, tandem ) {
@@ -47,7 +48,10 @@ define( function( require ) {
 
     var children = [];
     children.push( new Text( name, { font: new PhetFont( 28 ), maxWidth: MAX_WIDTH } ) );
-    children.push( new Text( StringUtils.format( versionPatternString, version ), { font: new PhetFont( 20 ), maxWidth: MAX_WIDTH } ) );
+    children.push( new Text( StringUtils.format( versionPatternString, version ), {
+      font: new PhetFont( 20 ),
+      maxWidth: MAX_WIDTH
+    } ) );
     if ( phet.chipper.buildTimestamp ) {
       children.push( new Text( phet.chipper.buildTimestamp, { font: new PhetFont( 13 ), maxWidth: MAX_WIDTH } ) );
     }
@@ -105,7 +109,7 @@ define( function( require ) {
           fill: 'gray',
           align: 'left',
           maxWidth: MAX_WIDTH,
-          tandem: tandem.createTandem('additionLicenseStatement')
+        tandem: tandem.createTandem( 'additionLicenseStatement' )
         }
       );
       children.push( this.additionalLicenseStatement );
@@ -114,7 +118,7 @@ define( function( require ) {
     // Add credits for specific brands
     if ( credits && ( Brand.id === 'phet' || Brand.id === 'phet-io' ) ) {
       children.push( new VStrut( 15 ) );
-      this.creditsNode = new CreditsNode( credits, tandem.createTandem('creditsNode'), {
+      this.creditsNode = new CreditsNode( credits, tandem.createTandem( 'creditsNode' ), {
         maxWidth: MAX_WIDTH
       } );
       children.push( this.creditsNode );
@@ -155,7 +159,9 @@ define( function( require ) {
           domElement.appendChild( nameElement );
           return accessiblePeer;
         }
-      }
+      },
+
+      tandem: tandem
     } );
 
     // close it on a click

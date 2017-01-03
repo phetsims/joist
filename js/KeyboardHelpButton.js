@@ -3,7 +3,7 @@
 /**
  * The button that pops up the Keyboard Help Dialog, which appears in the right side of the navbar and
  * to the left of the PhetButton.
- * 
+ *
  * @author Jesse Greenberg
  */
 
@@ -30,12 +30,17 @@ define( function( require ) {
 
   function KeyboardHelpButton( sim, backgroundFillProperty, tandem ) {
 
+    var keyboardHelpDialog = null;
     var options = {
       highlightExtensionWidth: 5,
       highlightExtensionHeight: 10,
       highlightCenterOffsetY: 3,
       listener: function() {
-        new KeyboardHelpDialog( sim.keyboardHelpNode ).show();
+        keyboardHelpDialog && keyboardHelpDialog.dispose();
+        keyboardHelpDialog = new KeyboardHelpDialog( sim.keyboardHelpNode, {
+          tandem: tandem.createTandem( 'keyboardHelpDialog' )
+        } );
+        keyboardHelpDialog.show();
       }
     };
 
@@ -51,7 +56,7 @@ define( function( require ) {
         var backgroundIsWhite = backgroundFill !== 'black' && !showHomeScreen;
         icon.image = backgroundIsWhite ? darkIconMipmap : brightIconMipmap;
       } );
-  } 
+  }
 
   joist.register( 'KeyboardHelpButton', KeyboardHelpButton );
 
