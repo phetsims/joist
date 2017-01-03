@@ -40,6 +40,7 @@ define( function( require ) {
           simName: value.simName,
           simVersion: value.simVersion,
           url: value.url,
+          referrer: document.referrer,
           userAgent: window.navigator.userAgent,
           randomSeed: value.randomSeed,
           provider: 'PhET Interactive Simulations, University of Colorado Boulder' // See #137
