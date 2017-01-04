@@ -13,7 +13,7 @@ define( function( require ) {
   var phetioInherit = require( 'PHET_IO/phetioInherit' );
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
-  var toEventOnStatic = require( 'PHET_IO/events/toEventOnStatic' );
+  var toEventOnEmit = require( 'PHET_IO/events/toEventOnEmit' );
 
 
   /**
@@ -28,8 +28,13 @@ define( function( require ) {
     // Menu item from Joist, it is defined in PhetMenu.js and does not have its own type
     assertInstanceOf( menuItem, phet.scenery.Node );
 
-    toEventOnStatic( menuItem, 'CallbacksForFired', 'user', phetioID, TMenuItem, 'fired' );
-
+    toEventOnEmit(
+      menuItem.startedCallbacksForFiredEmitter,
+      menuItem.endedCallbacksForFiredEmitter,
+      'user',
+      phetioID,
+      TMenuItem,
+      'fired' );
   }
 
   phetioInherit( TNode, 'TMenuItem', TMenuItem, {}, {

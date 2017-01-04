@@ -13,7 +13,7 @@ define( function( require ) {
   var phetioInherit = require( 'PHET_IO/phetioInherit' );
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
-  var toEventOnStatic = require( 'PHET_IO/events/toEventOnStatic' );
+  var toEventOnEmit = require( 'PHET_IO/events/toEventOnEmit' );
   var TVoid = require( 'PHET_IO/types/TVoid' );
 
   /**
@@ -25,7 +25,13 @@ define( function( require ) {
   function TScreenButton( button, phetioID ) {
     TNode.call( this, button, phetioID );
     assertInstanceOf( button, phet.scenery.VBox );
-    toEventOnStatic( button, 'CallbacksForFired', 'user', phetioID, TScreenButton, 'fired' );
+    toEventOnEmit(
+      button.startedCallbacksForFiredEmitter,
+      button.endedCallbacksForFiredEmitter,
+      'user',
+      phetioID,
+      TScreenButton,
+      'fired' );
   }
 
   phetioInherit( TNode, 'TScreenButton', TScreenButton, {
