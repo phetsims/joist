@@ -31,6 +31,7 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var Emitter = require( 'AXON/Emitter' );
 
   // phet-io modules
   var TMenuItem = require( 'ifphetio!PHET_IO/types/joist/TMenuItem' );
@@ -96,15 +97,18 @@ define( function( require ) {
     textNode.left = highlight.left + LEFT_X_MARGIN + CHECK_OFFSET; // text is left aligned
     textNode.centerY = highlight.centerY;
 
+    menuItem.startedCallbacksForFiredEmitter = new Emitter();
+    menuItem.endedCallbacksForFiredEmitter = new Emitter();
+
     menuItem.addInputListener( {
       enter: function() { highlight.fill = HIGHLIGHT_COLOR; },
       exit: function() { highlight.fill = null; }
     } );
     var fire = function( event ) {
-      menuItem.trigger0( 'startedCallbacksForFired' );
+      menuItem.startedCallbacksForFiredEmitter.emit();
       closeCallback( event );
       callback( event );
-      menuItem.trigger0( 'endedCallbacksForFired' );
+      menuItem.endedCallbacksForFiredEmitter.emit();
     };
     menuItem.addInputListener( new ButtonListener( {
       fire: fire
@@ -383,7 +387,7 @@ define( function( require ) {
         present: true,
         separatorBefore: isPhETBrand,
         callback: function() {
-          new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, tandem.createTandem('aboutDialog') ).show();
+          new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, tandem.createTandem( 'aboutDialog' ) ).show();
         },
         tandem: tandem.createTandem( 'aboutButton' )
       }

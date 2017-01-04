@@ -449,16 +449,18 @@ define( function( require ) {
         fill: 'rgba(0,0,0,0.3)',
         pickable: true
       } );
+      this.barrierRectangle.startedCallbacksForFiredEmitter = new Emitter();
+      this.barrierRectangle.endedCallbacksForFiredEmitter = new Emitter();
       this.topLayer.addChild( this.barrierRectangle );
       this.modalNodeStack.lengthProperty.link( function( numBarriers ) {
         self.barrierRectangle.visible = numBarriers > 0;
       } );
       this.barrierRectangle.addInputListener( new ButtonListener( {
         fire: function( event ) {
-          self.barrierRectangle.trigger0( 'startedCallbacksForFired' );
+          self.barrierRectangle.startedCallbacksForFiredEmitter.emit();
           assert && assert( self.modalNodeStack.length > 0 );
           self.modalNodeStack.get( self.modalNodeStack.length - 1 ).hide();
-          self.barrierRectangle.trigger0( 'endedCallbacksForFired' );
+          self.barrierRectangle.startedCallbacksForFiredEmitter.emit();
         }
       } ) );
       tandem.createTandem( 'sim.barrierRectangle' ).addInstance( this.barrierRectangle, TBarrierRectangle );

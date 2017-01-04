@@ -11,6 +11,7 @@ define( function( require ) {
   // modules
   var PhetButton = require( 'JOIST/PhetButton' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var Emitter = require( 'AXON/Emitter' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -99,10 +100,10 @@ define( function( require ) {
 
       // 'down' function for the large button, refactored for input listener and accessibility
       var largeButtonDown = function() {
-        largeScreenButton.trigger0( 'startedCallbacksForFired' );
+        largeScreenButton.startedCallbacksForFiredEmitter.emit();
         sim.showHomeScreenProperty.value = false;
         highlightedScreenIndexProperty.value = -1;
-        largeScreenButton.trigger0( 'endedCallbacksForFired' );
+        largeScreenButton.endedCallbacksForFiredEmitter.emit();
       };
       var largeScreenButton = new VBox( {
 
@@ -116,6 +117,9 @@ define( function( require ) {
           largeText
         ]
       } );
+
+      largeScreenButton.startedCallbacksForFiredEmitter = new Emitter();
+      largeScreenButton.endedCallbacksForFiredEmitter = new Emitter();
 
       // Even though in the user interface the small and large buttons seem like a single UI component that has grown
       // larger, it would be quite a headache to create a composite button for the purposes of tandem, so instead the
@@ -155,9 +159,9 @@ define( function( require ) {
 
       // down function for small button, refactored for accessibility and the input listener
       var smallButtonDown = function() {
-        smallScreenButton.trigger0( 'startedCallbacksForFired' );
+        smallScreenButton.startedCallbacksForFiredEmitter.emit();
         sim.screenIndexProperty.value = index;
-        smallScreenButton.trigger0( 'endedCallbacksForFired' );
+        smallScreenButton.endedCallbacksForFiredEmitter.emit();
       };
       var smallScreenButton = new VBox( {
         spacing: 3, cursor: 'pointer', children: [
@@ -165,6 +169,9 @@ define( function( require ) {
           smallScreenButtonText
         ]
       } );
+
+      smallScreenButton.startedCallbacksForFiredEmitter = new Emitter();
+      smallScreenButton.endedCallbacksForFiredEmitter = new Emitter();
       smallScreenButton.mouseArea = smallScreenButton.touchArea = Shape.bounds( smallScreenButton.bounds ); //cover the gap in the vbox
       smallScreenButton.addInputListener( {
         down: function( event ) {
