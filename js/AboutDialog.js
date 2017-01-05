@@ -45,6 +45,7 @@ define( function( require ) {
    */
   function AboutDialog( name, version, credits, Brand, locale, tandem ) {
     var self = this;
+    this.tandem = tandem;
 
     var children = [];
     children.push( new Text( name, { font: new PhetFont( 28 ), maxWidth: MAX_WIDTH } ) );
@@ -109,7 +110,7 @@ define( function( require ) {
           fill: 'gray',
           align: 'left',
           maxWidth: MAX_WIDTH,
-        tandem: tandem.createTandem( 'additionLicenseStatement' )
+          tandem: tandem.createTandem( 'additionLicenseStatement' )
         }
       );
       children.push( this.additionalLicenseStatement );
@@ -198,7 +199,7 @@ define( function( require ) {
     },
 
     /**
-     * Hide the dialog
+     * Hide the dialog ( basically disposing it )
      * @public
      */
     hide: function() {
@@ -213,6 +214,7 @@ define( function( require ) {
         Timer.removeStepListener( this.updateStepListener );
       }
 
+      this.tandem.removeInstance( this );
       this.creditsNode && this.creditsNode.dispose();
       this.additionalLicenseStatement && this.additionalLicenseStatement.dispose();
     }
