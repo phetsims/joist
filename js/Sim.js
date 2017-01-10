@@ -258,8 +258,10 @@ define( function( require ) {
       };
     }
 
+    var sessionID = (window.phetio && window.phetio.queryParameters && window.phetio.queryParameters.sessionID) ?
+                    window.phetio.queryParameters.sessionID : null;
     this.startedSimConstructorEmitter.emit1( {
-      sessionID: phet.chipper.queryParameters.sessionID,
+      sessionID:sessionID,
       repoName: packageJSON.name,
       simName: this.name,
       simVersion: this.version,
