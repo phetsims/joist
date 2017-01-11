@@ -223,7 +223,7 @@ define( function( require ) {
     // @private - number of animation frames that have occurred
     this.frameCounter = 0;
 
-    // @private {boolean} - Whether we need to process a
+    // @private {boolean} - Whether the window has resized since our last updateDisplay()
     this.resizePending = true;
 
     // used to store input events and requestAnimationFrame cycles
