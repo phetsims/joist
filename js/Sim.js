@@ -141,7 +141,7 @@ define( function( require ) {
       showSmallHomeScreenIconFrame: false,
 
       // Whether accessibility features are enabled or not.  Use this option to render the Parallel DOM for
-      // keyboard navigation and screen reader based auditory descriptions. 
+      // keyboard navigation and screen reader based auditory descriptions.
       accessibility: phet.chipper.queryParameters.accessibility,
 
       // a {Node} placed into the keyboard help dialog that can be opened from the navigation bar
@@ -222,6 +222,9 @@ define( function( require ) {
 
     // @private - number of animation frames that have occurred
     this.frameCounter = 0;
+
+    // @private {boolean} - Whether we need to process a
+    this.resizePending = true;
 
     // used to store input events and requestAnimationFrame cycles
     this.inputEventLog = [];                 // @public (joist-internal)
@@ -468,7 +471,9 @@ define( function( require ) {
       tandem.createTandem( 'sim.barrierRectangle' ).addInstance( this.barrierRectangle, TBarrierRectangle );
 
       // Fit to the window and render the initial scene
-      $( window ).resize( function() { self.resizeToWindow(); } );
+      // Can't synchronously do this in Firefox, see https://github.com/phetsims/vegas/issues/55 and
+      // https://bugzilla.mozilla.org/show_bug.cgi?id=840412.
+      $( window ).resize( function() { self.resizePending = true; } );
       this.resizeToWindow();
 
       // Kick off checking for updates, if that is enabled
@@ -714,6 +719,11 @@ define( function( require ) {
       // prevent Safari from going to sleep, see https://github.com/phetsims/joist/issues/140
       if ( this.frameCounter % 1000 === 0 ) {
         this.heartbeatDiv.innerHTML = Math.random();
+      }
+
+      if ( this.resizePending ) {
+        this.resizeToWindow();
+        this.resizePending = false;
       }
 
       // fire or synthesize input events
