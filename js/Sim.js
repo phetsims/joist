@@ -530,6 +530,8 @@ define( function( require ) {
      * @public (joist-internal)
      */
     resizeToWindow: function() {
+      this.resizePending = false;
+
       this.resize( window.innerWidth, window.innerHeight );
     },
 
@@ -723,7 +725,6 @@ define( function( require ) {
 
       if ( this.resizePending ) {
         this.resizeToWindow();
-        this.resizePending = false;
       }
 
       // fire or synthesize input events
