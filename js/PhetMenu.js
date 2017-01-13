@@ -31,6 +31,7 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var Emitter = require( 'AXON/Emitter' );
 
   // phet-io modules
@@ -67,7 +68,11 @@ define( function( require ) {
   var createMenuItem = function( text, width, height, separatorBefore, closeCallback, callback, checkedProperty, options ) {
     options = _.extend( {
       tandem: null,
-      color: '#000'
+
+      // derived property so that item color can change, for instance with the UpdateCheck.stateProperty
+      colorProperty: new DerivedProperty( [], function() {
+        return '#000';
+      } )
     }, options );
 
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
@@ -83,9 +88,15 @@ define( function( require ) {
     var Y_MARGIN = 3;
     var CORNER_RADIUS = 5;
 
-    var textColor = options.color === undefined ? 'black' : options.color;
+    var textColor = options.colorProperty === undefined ? 'black' : options.colorProperty.value;
     var textNode = new Text( text, { font: new PhetFont( FONT_SIZE ), fill: textColor, maxWidth: MAX_ITEM_WIDTH } );
     var highlight = new Rectangle( 0, 0, width + LEFT_X_MARGIN + RIGHT_X_MARGIN + CHECK_OFFSET, height + Y_MARGIN + Y_MARGIN, CORNER_RADIUS, CORNER_RADIUS );
+
+    // if defined, change text fill with the derived color property, storing handle for dispose
+    var colorHandle;
+    if ( options.colorProperty ) {
+      colorHandle = options.colorProperty.linkAttribute( textNode, 'fill' );
+    }
 
     var menuItem = new Node( {
       cursor: 'pointer',
@@ -134,6 +145,9 @@ define( function( require ) {
     menuItem.dispose = function() {
       if ( checkedProperty ) {
         checkedProperty.unlink( checkListener );
+      }
+      if ( options.colorProperty ) {
+        options.colorProperty.unlinkAttribute( colorHandle );
       }
       options.tandem && options.tandem.removeInstance( menuItem );
     };
@@ -330,7 +344,9 @@ define( function( require ) {
       {
         text: menuItemGetUpdateString,
         present: UpdateCheck.areUpdatesChecked,
-        color: UpdateCheck.stateProperty.value === 'out-of-date' ? '#0a0' : '#000',
+        colorProperty: new DerivedProperty( [ UpdateCheck.stateProperty ], function( state ) {
+          return state === 'out-of-date' ? '#0a0' : '#000';
+        } ),
         callback: function() {
           new UpdateDialog().show();
         },
@@ -415,7 +431,7 @@ define( function( require ) {
         itemDescriptor.callback,
         itemDescriptor.checkedProperty, {
           tandem: itemDescriptor.tandem,
-          color: itemDescriptor.color
+          colorProperty: itemDescriptor.colorProperty
         } );
     } );
     var separatorWidth = _.max( items, function( item ) {return item.width;} ).width;
