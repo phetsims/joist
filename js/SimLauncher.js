@@ -55,8 +55,8 @@ define( function( require ) {
           new Tandem( 'phetio' ).addInstance( phetio, TPhETIO );
           SimIFrameAPI.initialize(); // calls back to window.phetLaunchSimulation
         }
-        if ( window.phetio && window.phetio.queryParameters &&
-             window.phetio.queryParameters.phetioStandalone || phet.chipper.brand !== 'phet-io' ) {
+        if ( phet.phetio && phet.phetio.queryParameters &&
+             phet.phetio.queryParameters.phetioStandalone || phet.chipper.brand !== 'phet-io' ) {
           window.phetLaunchSimulation();
         }
       }
