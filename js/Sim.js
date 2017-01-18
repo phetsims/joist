@@ -465,7 +465,7 @@ define( function( require ) {
           self.barrierRectangle.startedCallbacksForFiredEmitter.emit();
           assert && assert( self.modalNodeStack.length > 0 );
           self.modalNodeStack.get( self.modalNodeStack.length - 1 ).hide();
-          self.barrierRectangle.startedCallbacksForFiredEmitter.emit();
+          self.barrierRectangle.endedCallbacksForFiredEmitter.emit();
         }
       } ) );
       tandem.createTandem( 'sim.barrierRectangle' ).addInstance( this.barrierRectangle, TBarrierRectangle );
