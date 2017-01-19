@@ -34,7 +34,7 @@ define( function( require ) {
     // once all of the screens have been fully initialized, hence construction not constructor.
     toEventOnEmit( sim.startedSimConstructorEmitter, sim.endedSimConstructionEmitter, 'model', phetioID, TSim, 'simStarted',
       function( value ) {
-        return {
+        var simStartedData = {
           sessionID: value.sessionID,
           repoName: value.repoName,
           simName: value.simName,
@@ -45,6 +45,10 @@ define( function( require ) {
           randomSeed: value.randomSeed,
           provider: 'PhET Interactive Simulations, University of Colorado Boulder' // See #137
         };
+        if ( window.simStartedMetadata ) {
+          simStartedData.extraSimStartedMetadata = window.simStartedMetadata;
+        }
+        return simStartedData;
       } );
 
     // Store a reference to the sim so that subsequent calls will be simpler.  PhET-iO only works with a single sim.
