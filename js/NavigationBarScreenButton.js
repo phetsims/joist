@@ -55,11 +55,9 @@ define( function( require ) {
     options = _.extend( {
       cursor: 'pointer',
       textDescription: screen.name + ' Screen: Button',
-      tandem: null,
+      tandem: Tandem.tandemRequired(),
       maxButtonWidth: null // {number|null} the maximum width of the button, causes text and/or icon to be scaled down if necessary
     }, options );
-
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     Node.call( this );
 

@@ -67,11 +67,9 @@ define( function( require ) {
   // Creates a menu item that highlights and fires.
   var createMenuItem = function( text, width, height, separatorBefore, closeCallback, callback, checkedProperty, options ) {
     options = _.extend( {
-      tandem: null,
+      tandem: Tandem.tandemRequired(),
       textFill: 'black'
     }, options );
-
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     // padding between the check and text
     var CHECK_PADDING = 2;

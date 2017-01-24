@@ -74,8 +74,6 @@ define( function( require ) {
       options.navigationBarIcon = options.homeScreenIcon;
     }
 
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
-
     // Validate icon sizes
     validateIconSize( options.homeScreenIcon, MINIMUM_HOME_SCREEN_ICON_SIZE, HOME_SCREEN_ICON_ASPECT_RATIO, 'homeScreenIcon' );
     validateIconSize( options.navigationBarIcon, MINIMUM_NAVBAR_ICON_SIZE, NAVBAR_ICON_ASPECT_RATIO, 'navigationBarIcon' );
