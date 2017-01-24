@@ -32,7 +32,7 @@ define( function( require ) {
       titleAlign: 'center',
       modal: true,
       hasCloseButton: true,
-      tandem: Tandem.createDefaultTandem( 'optionsDialog' )
+      tandem: Tandem.tandemRequired()
     }, options );
 
     var thisTandem = options.tandem;

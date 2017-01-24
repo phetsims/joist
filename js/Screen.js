@@ -66,7 +66,7 @@ define( function( require ) {
       // {Node|null} icon shown in the navigation bar. If null, then the home screen icon will be used, scaled to fit.
       navigationBarIcon: null,
 
-      tandem: Tandem.createDefaultTandem( 'screen' )
+      tandem: Tandem.tandemRequired()
     }, options );
 
     // navigationBarIcon defaults to homeScreenIcon, and will be scaled down

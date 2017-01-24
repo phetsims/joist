@@ -56,7 +56,7 @@ define( function( require ) {
           return new DialogAccessiblePeer( accessibleInstance, self );
         }
       },
-      tandem: Tandem.createDefaultTandem( 'dialog' )
+      tandem: Tandem.tandemRequired()
     }, options );
 
     // @private (read-only)
