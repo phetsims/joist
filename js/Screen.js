@@ -53,7 +53,7 @@ define( function( require ) {
       // For multi-screen sims, this must be provided.
       name: null,
 
-      // {Color|string} initial background color of the Screen
+      // {Property.<Color|string>} background color of the Screen
       backgroundColorProperty: new Property( new Color( 'white' ) ),
 
       // {Node} icon shown on the home screen.
