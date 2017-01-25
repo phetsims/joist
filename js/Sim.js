@@ -15,6 +15,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var Color = require( 'SCENERY/util/Color' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var NavigationBar = require( 'JOIST/NavigationBar' );
   var HomeScreen = require( 'JOIST/HomeScreen' );
@@ -385,8 +386,8 @@ define( function( require ) {
     // @public (joist-internal)
     this.updateBackground = function() {
       self.lookAndFeel.backgroundColorProperty.value = self.currentScreenProperty.value ?
-                                                       self.currentScreenProperty.value.backgroundColorProperty.value.toCSS() :
-                                                       self.homeScreen.backgroundColorProperty.value.toCSS();
+                                                       Color.toColor( self.currentScreenProperty.value.backgroundColorProperty.value ).toCSS() :
+                                                       Color.toColor( self.homeScreen.backgroundColorProperty.value ).toCSS();
     };
 
     this.lookAndFeel.backgroundColorProperty.link( function( backgroundColor ) {
