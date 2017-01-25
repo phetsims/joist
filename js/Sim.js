@@ -15,7 +15,6 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var Color = require( 'SCENERY/util/Color' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var NavigationBar = require( 'JOIST/NavigationBar' );
   var HomeScreen = require( 'JOIST/HomeScreen' );
