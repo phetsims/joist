@@ -83,10 +83,12 @@ define( function( require ) {
     this.frameStartedEmitter = new Emitter();
 
     // @public Emitter that indicates when a frame ends
+    // phetioEmitData is false because we only want this manually wired for phetio event recording.
     this.frameEndedEmitter = new TandemEmitter( {
       tandem: simTandem.createTandem( 'frameEndedEmitter' ),
       phetioArgumentTypes: [ TNumber( { units: 'seconds' } ) ],
-      phetioEmitData: false // Do not spam the data stream with dt's
+      phetioEmitData: false // An adapter in phetio will create input events when recording for playback.
+      // If we are not recording for visual playback, then we omit these from the data stream so that we don't get spammed with dt's.
     } );
 
     // The screens to be included, and their order, may be specified via a query parameter.
