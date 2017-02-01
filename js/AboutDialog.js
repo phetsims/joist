@@ -205,7 +205,7 @@ define( function( require ) {
     },
 
     /**
-     * Hide the dialog ( basically disposing it )
+     * Hide the dialog ( basically disposing it because a new one is created is the dialog is opened again )
      * @public
      */
     hide: function() {
@@ -220,6 +220,7 @@ define( function( require ) {
         Timer.removeStepListener( this.updateStepListener );
       }
 
+      // Tandems should be removed at disposal. The 'hide' function is used as dispose for the AboutDialog
       this.tandem.removeInstance( this );
       this.creditsNode && this.creditsNode.dispose();
       this.additionalLicenseStatement && this.additionalLicenseStatement.dispose();
