@@ -14,7 +14,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Color = require( 'SCENERY/util/Color' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
@@ -54,7 +53,7 @@ define( function( require ) {
       name: null,
 
       // {Property.<Color|string>} background color of the Screen
-      backgroundColorProperty: new Property( new Color( 'white' ) ),
+      backgroundColorProperty: new Property( 'white' ),
 
       // {Node} icon shown on the home screen.
       // For single-screen sims, there is no home screen and the default is OK.
