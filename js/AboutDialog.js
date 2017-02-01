@@ -28,6 +28,10 @@ define( function( require ) {
   var packageJSON = require( 'JOIST/packageJSON' );
   var joist = require( 'JOIST/joist' );
 
+  // phet-io modules
+  var TDialog = require( 'ifphetio!PHET_IO/types/joist/TDialog' );
+
+
   // strings
   var versionPatternString = require( 'string!JOIST/versionPattern' );
 
@@ -162,13 +166,15 @@ define( function( require ) {
         }
       },
 
-      tandem: tandem
+      tandem: tandem.createSupertypeTandem()
     } );
 
     // close it on a click
     this.addInputListener( new ButtonListener( {
       fire: self.hide.bind( self )
     } ) );
+
+    tandem.addInstance( this, TDialog);
   }
 
   joist.register( 'AboutDialog', AboutDialog );
