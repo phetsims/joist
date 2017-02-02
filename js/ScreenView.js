@@ -51,7 +51,7 @@ define( function( require ) {
     // when the screen view is invisible, hide all accessible content - must be disposed
     var self = this;
     var visibilityListener = function() {
-      self.accessibleHidden = self.visible;
+      self.accessibleHidden = !self.visible;
     };
     visibilityListener();
 
