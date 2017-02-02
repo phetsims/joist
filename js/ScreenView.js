@@ -10,7 +10,6 @@ define( function( require ) {
 
   // modules
   var Node = require( 'SCENERY/nodes/Node' );
-  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var joist = require( 'JOIST/joist' );
@@ -35,11 +34,12 @@ define( function( require ) {
     Node.call( this, _.extend( {
       layerSplit: true, // so we're not in the same layer as the navbar, etc.
       excludeInvisible: true, // so we don't keep invisible screens in the SVG tree
-      accessibleContent: {
-        createPeer: function( accessibleInstance ) {
-          return new ScreenViewAccessiblePeer( accessibleInstance, options.screenDescription, options.screenLabel );
-        }
-      }
+
+      // a11y options
+      parentContainerTagName: 'article',
+      tagName: 'div',
+      labelTagName: 'h1',
+      prependLabels: true
     }, options ) );
 
     // The visible bounds of the ScreenView in ScreenView coordinates.  This includes top/bottom or left/right margins
@@ -47,11 +47,25 @@ define( function( require ) {
     // Initialize to defaults, then update as soon as layout() is called, which is before the ScreenView is displayed
     // @public (read-only)
     this.visibleBoundsProperty = new Property( options.layoutBounds );
+
+    // when the screen view is invisible, hide all accessible content - must be disposed
+    var self = this;
+    var visibilityListener = function() {
+      self.accessibleHidden = self.visible;
+    };
+    visibilityListener();
+
+    this.on( 'visibility', visibilityListener );
+
+    // @private - make eligible for garbage collection
+    this.disposeScreenView = function() {
+      this.off( 'visibility', visibilityListener );
+    };
   }
 
   joist.register( 'ScreenView', ScreenView );
 
-  inherit( Node, ScreenView, {
+  return inherit( Node, ScreenView, {
 
       /**
        * Get the scale to use for laying out the sim components and the navigation bar, so its size will track
@@ -95,145 +109,21 @@ define( function( require ) {
         this.translate( dx, dy );
 
         this.visibleBoundsProperty.set( new Bounds2( -dx, -dy, width / scale - dx, height / scale - dy ) );
+      },
+
+      /**
+       * Make screen view eligible for garbage collection.
+       * @public
+       */
+      dispose: function() {
+        this.disposeScreenView();
       }
     },
 
     //statics
     {
       // @public
-      DEFAULT_LAYOUT_BOUNDS: DEFAULT_LAYOUT_BOUNDS,
-
-      /**
-       *
-       * @param {AccessibleInstance} accessibleInstance
-       * @param {string} screenDescription
-       * @param {string} screenLabel
-       * @returns {ScreenViewAccessiblePeer}
-       * @constructor
-       * @public
-       */
-      ScreenViewAccessiblePeer: function( accessibleInstance, screenDescription, screenLabel ) {
-        return new ScreenViewAccessiblePeer( accessibleInstance, screenDescription, screenLabel );
-      }
+      DEFAULT_LAYOUT_BOUNDS: DEFAULT_LAYOUT_BOUNDS
     }
   );
-
-  /**
-   * An accessible peer for handling the parallel DOM for screen views. See https://github.com/phetsims/scenery/issues/461
-   * Provides a description, and nesting with 'hidden' attribute to help with visibility.
-   *
-   * @param {AccessibleInstance} accessibleInstance
-   * @param {string} screenDescription - Invisible description of the simulation at sim start up which is presented to
-   *                                     accessible technologies.
-   * @param {string} screenLabel - Short label for the screen view, invisible but accessible
-   */
-  function ScreenViewAccessiblePeer( accessibleInstance, screenDescription, screenLabel ) {
-    this.initialize( accessibleInstance, screenDescription, screenLabel );
-  }
-
-  inherit( AccessiblePeer, ScreenViewAccessiblePeer, {
-    /**
-     * Initialized dom elements and its attributes for the screen view in the parallel DOM.
-     *
-     * @param {AccessibleInstance} accessibleInstance
-     * @param {string} screenDescription - invisible auditory description of sim state at sim start up.
-     * @param {string} screenLabel - Short label for the screen view, invisible but accessible
-     * @public (accessibility)
-     */
-    initialize: function( accessibleInstance, screenDescription, screenLabel ) {
-      var trail = accessibleInstance.trail;
-      var uniqueId = trail.getUniqueId();
-
-      // @private
-      this.screenViewNode = trail.lastNode();
-
-      // we want the representative element in the Parallel DOM to look like this:
-      //  <div class="ScreenView">
-      //    <header role="banner" aria-labelledby="scene-label" aria-describedby="scene-description">
-      //      <h2 id="scene-label">Short label for the whole screen view</h1>
-      //      <!-- General scene description for page load. Parts will need change dynamically.-->
-      //      <div id="scene-description">
-      //        <p>Long description for layout and components of screen view...</p>
-      //      </div>
-      //    </header>
-      //    <!-- Container element for all other children inside of the screen view -->
-      //    <div class="ScreenViewContainer">...</div>
-      this.domElement = document.createElement( 'div' ); // @protected
-      this.domElement.className = 'ScreenView';
-      this.initializeAccessiblePeer( accessibleInstance, this.domElement );
-
-      // create the header element which will contain the accessible label and description
-      var headerElement = document.createElement( 'header' );
-      headerElement.setAttribute( 'role', 'banner' );
-      this.domElement.appendChild( headerElement );
-
-      if ( screenLabel ) {
-        // create the heading for the label, giving it a unique id for ARIA
-        var labelElement = document.createElement( 'h1' );
-        labelElement.id = 'scene-label-' + uniqueId;
-
-        // link the label to the header element with aria-labelledby
-        headerElement.setAttribute( 'aria-labelledby', labelElement.id );
-
-        // set the textContent from the translatable label string
-        labelElement.textContent = screenLabel;
-
-        // add the label as a child of the header element
-        headerElement.appendChild( labelElement );
-      }
-
-      if ( screenDescription ) {
-        // create the container div for the description element and its paragraph
-        var descriptionElement = document.createElement( 'div' );
-        var descriptionParagraph = document.createElement( 'p' );
-
-        // assign the div with an id for ARIA, and set the header attribute
-        descriptionElement.id = 'scene-descripion-' + uniqueId;
-        headerElement.setAttribute( 'aria-describedby', descriptionElement.id );
-
-        // set the textContent for the description paragraph
-        descriptionParagraph.textContent = screenDescription;
-
-        // structure the description
-        descriptionElement.appendChild( descriptionParagraph );
-
-        // add the description element as a child of the header
-        headerElement.appendChild( descriptionElement );
-      }
-
-      // Separate container for children needed, since the description can be a child
-      this.containerDOMElement = document.createElement( 'main' ); // @private
-
-      this.containerDOMElement.className = 'ScreenViewContainer';
-      this.domElement.appendChild( this.containerDOMElement );
-
-      this.visibilityListener = this.updateVisibility.bind( this ); // @private
-      this.screenViewNode.onStatic( 'visibility', this.visibilityListener );
-
-      this.updateVisibility();
-    },
-
-    /**
-     * Make unused screen views unavailable to a screen reader by setting the html attribute hidden.
-     * @public (accessibility)
-     */
-    updateVisibility: function() {
-      this.domElement.hidden = !this.screenViewNode.visible;
-    },
-
-    /**
-     * @public (accessibility)
-     */
-    dispose: function() {
-      AccessiblePeer.prototype.dispose.call( this );
-
-      this.screenViewNode.offStatic( 'visibility', this.visibilityListener );
-    }
-  }, {
-
-    // @public (read-only)
-    DEFAULT_LAYOUT_BOUNDS: DEFAULT_LAYOUT_BOUNDS
-  } );
-
-  return ScreenView;
 } );
