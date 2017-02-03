@@ -156,7 +156,7 @@ define( function( require ) {
 
       // Layout out screen buttons horizontally, with equal distance between their centers
       // Make sure each button is at least a minimum size, so they don't get too close together, see #279
-      var maxScreenButtonWidth = Math.max( MINIMUM_SCREEN_BUTTON_WIDTH, _.max( screenButtons, function( button ) {
+      var maxScreenButtonWidth = Math.max( MINIMUM_SCREEN_BUTTON_WIDTH, _.maxBy( screenButtons, function( button ) {
         return button.width;
       } ).width );
 

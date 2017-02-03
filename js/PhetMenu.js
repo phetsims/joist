@@ -401,8 +401,8 @@ define( function( require ) {
         maxWidth: MAX_ITEM_WIDTH
       } );
     } );
-    var maxTextWidth = _.max( textNodes, function( node ) {return node.width;} ).width;
-    var maxTextHeight = _.max( textNodes, function( node ) {return node.height;} ).height;
+    var maxTextWidth = _.maxBy( textNodes, function( node ) {return node.width;} ).width;
+    var maxTextHeight = _.maxBy( textNodes, function( node ) {return node.height;} ).height;
 
     // Create the menu items.
     var items = this.items = _.map( keepItemDescriptors, function( itemDescriptor ) {
@@ -418,8 +418,8 @@ define( function( require ) {
           textFill: itemDescriptor.textFill
         } );
     } );
-    var separatorWidth = _.max( items, function( item ) {return item.width;} ).width;
-    var itemHeight = _.max( items, function( item ) {return item.height;} ).height;
+    var separatorWidth = _.maxBy( items, function( item ) {return item.width;} ).width;
+    var itemHeight = _.maxBy( items, function( item ) {return item.height;} ).height;
     var content = new Node();
     var y = 0;
     var ySpacing = 2;
