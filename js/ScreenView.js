@@ -48,19 +48,10 @@ define( function( require ) {
     // @public (read-only)
     this.visibleBoundsProperty = new Property( options.layoutBounds );
 
-    // when the screen view is invisible, hide all accessible content - must be disposed
-    var self = this;
-    var visibilityListener = function() {
-      self.accessibleHidden = !self.visible;
-    };
-    visibilityListener();
-
-    this.on( 'visibility', visibilityListener );
-
-    // @private - make eligible for garbage collection
-    this.disposeScreenView = function() {
-      this.off( 'visibility', visibilityListener );
-    };
+    // @private (a11y) - show/hide accessible content when ScreenView visibility changes
+    this.accessibleHiddenListener = this.updateAccessibleHidden.bind( this );
+    this.on( 'visibility', this.accessibleHiddenListener );
+    this.updateAccessibleHidden();
   }
 
   joist.register( 'ScreenView', ScreenView );
@@ -112,10 +103,20 @@ define( function( require ) {
       },
 
       /**
+       * Show or hide the accessible content from assistive technology when ScreenView visibility changes. When 
+       * hidden, nothing in the ScreenView will be tab navigable. 
+       * @public
+       */
+      updateAccessibleHidden: function() {
+        this.accessibleHidden = !this.visible;
+      },
+
+      /**
        * Make screen view eligible for garbage collection.
        * @public
        */
       dispose: function() {
+        Node.prototype.dispose.call( this );
         this.disposeScreenView();
       }
     },
