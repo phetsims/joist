@@ -36,7 +36,7 @@ define( function( require ) {
   var KeyboardHelpButton = require( 'JOIST/KeyboardHelpButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
+  var Text = require( 'SCENERY/nodes/Text' );
   var joist = require( 'JOIST/joist' );
 
   // constants
@@ -78,7 +78,7 @@ define( function( require ) {
     this.addChild( this.barContents );
 
     // Sim title
-    this.titleTextNode = new TandemText( sim.name, {
+    this.titleTextNode = new Text( sim.name, {
       font: new PhetFont( 16 ),
       tandem: tandem.createTandem( 'titleTextNode' )
     } );
