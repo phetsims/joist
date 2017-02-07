@@ -49,7 +49,7 @@ define( function( require ) {
    */
   function AboutDialog( name, version, credits, Brand, locale, tandem ) {
     var self = this;
-    this.tandem = tandem;
+    this.aboutDialogTandem = tandem;
 
     var children = [];
     children.push( new Text( name, { font: new PhetFont( 28 ), maxWidth: MAX_WIDTH } ) );
@@ -221,7 +221,7 @@ define( function( require ) {
       }
 
       // Tandems should be removed at disposal. The 'hide' function is used as dispose for the AboutDialog
-      this.tandem.removeInstance( this );
+      this.aboutDialogTandem.removeInstance( this );
       this.creditsNode && this.creditsNode.dispose();
       this.additionalLicenseStatement && this.additionalLicenseStatement.dispose();
     }
