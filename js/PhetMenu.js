@@ -476,7 +476,7 @@ define( function( require ) {
 
     tandem.addInstance( this, TPhetMenu );
     this.disposePhetMenu = function() {
-      tandem.removeInstance( this );
+      tandem.removeInstance( self );
     };
   }
 
