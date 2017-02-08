@@ -83,6 +83,10 @@ define( function( require ) {
           // Don't 40 the VBox or it will shift down when the border becomes thicker
           resize: false,
           cursor: 'pointer',
+
+          // Even though in the user interface the small and large buttons seem like a single UI component that has grown
+          // larger, it would be quite a headache to create a composite button for the purposes of tandem, so instead the
+          // large and small buttons are registered as separate instances.  See https://github.com/phetsims/phet-io/issues/99
           tandem: tandem.createTandem( screen.tandem.tail + 'LargeButton' )
 
         } );
@@ -98,6 +102,10 @@ define( function( require ) {
           cursor: 'pointer',
 
           showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame,
+
+          // Even though in the user interface the small and large buttons seem like a single UI component that has grown
+          // larger, it would be quite a headache to create a composite button for the purposes of tandem, so instead the
+          // large and small buttons are registered as separate instances.  See https://github.com/phetsims/phet-io/issues/99
           tandem: tandem.createTandem( screen.tandem.tail + 'SmallButton' )
         }
       );
@@ -105,6 +113,8 @@ define( function( require ) {
 
       smallScreenButton.addInputListener( smallScreenButton.highlightListener );
       largeScreenButton.addInputListener( smallScreenButton.highlightListener );
+      // largeScreenButton.mouseArea = largeScreenButton.touchArea = Shape.bounds( largeScreenButton.bounds ); // cover the gap in the vbox
+
 
       return { screen: screen, small: smallScreenButton, large: largeScreenButton, index: index };
     } );
