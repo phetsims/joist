@@ -23,12 +23,11 @@ define( function( require ) {
   var Util = require( 'SCENERY/util/Util' );
   var Display = require( 'SCENERY/display/Display' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Property = require( 'AXON/Property' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var platform = require( 'PHET_CORE/platform' );
   var Timer = require( 'PHET_CORE/Timer' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var BarrierRectangle = require( 'JOIST/BarrierRectangle' );
   var Profiler = require( 'JOIST/Profiler' );
   var LookAndFeel = require( 'JOIST/LookAndFeel' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
@@ -42,7 +41,6 @@ define( function( require ) {
 
   // phet-io modules
   var TSim = require( 'ifphetio!PHET_IO/types/joist/TSim' );
-  var TBarrierRectangle = require( 'ifphetio!PHET_IO/types/scenery/nodes/TBarrierRectangle' );
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
 
@@ -452,25 +450,13 @@ define( function( require ) {
 
       // @public (joist-internal) Semi-transparent black barrier used to block input events when a dialog (or other popup)
       // is present, and fade out the background.
-      this.barrierRectangle = new Rectangle( 0, 0, 1, 1, 0, 0, {
+      this.barrierRectangle = new BarrierRectangle( 0, 0, 1, 1, 0, 0, this.modalNodeStack, {
         fill: 'rgba(0,0,0,0.3)',
-        pickable: true
+        pickable: true,
+        tandem: tandem.createTandem('sim.barrierRectangle')
       } );
-      this.barrierRectangle.startedCallbacksForFiredEmitter = new Emitter();
-      this.barrierRectangle.endedCallbacksForFiredEmitter = new Emitter();
       this.topLayer.addChild( this.barrierRectangle );
-      this.modalNodeStack.lengthProperty.link( function( numBarriers ) {
-        self.barrierRectangle.visible = numBarriers > 0;
-      } );
-      this.barrierRectangle.addInputListener( new ButtonListener( {
-        fire: function( event ) {
-          self.barrierRectangle.startedCallbacksForFiredEmitter.emit();
-          assert && assert( self.modalNodeStack.length > 0 );
-          self.modalNodeStack.get( self.modalNodeStack.length - 1 ).hide();
-          self.barrierRectangle.endedCallbacksForFiredEmitter.emit();
-        }
-      } ) );
-      tandem.createTandem( 'sim.barrierRectangle' ).addInstance( this.barrierRectangle, TBarrierRectangle );
+
 
       // Fit to the window and render the initial scene
       // Can't synchronously do this in Firefox, see https://github.com/phetsims/vegas/issues/55 and
