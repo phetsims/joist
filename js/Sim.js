@@ -453,7 +453,7 @@ define( function( require ) {
       this.barrierRectangle = new BarrierRectangle( 0, 0, 1, 1, 0, 0, this.modalNodeStack, {
         fill: 'rgba(0,0,0,0.3)',
         pickable: true,
-        tandem: tandem.createTandem('sim.barrierRectangle')
+        tandem: tandem.createTandem( 'sim.barrierRectangle' )
       } );
       this.topLayer.addChild( this.barrierRectangle );
 

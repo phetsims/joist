@@ -13,7 +13,6 @@ define( function( require ) {
   var Emitter = require( 'AXON/Emitter' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
 
   // phet-io modules
@@ -63,10 +62,10 @@ define( function( require ) {
     } ) );
 
 
-    this.mutate({ tandem: tandem, phetioType: TBarrierRectangle});
+    this.mutate( { tandem: tandem, phetioType: TBarrierRectangle } );
   }
 
   joist.register( 'BarrierRectangle', BarrierRectangle );
 
   return inherit( Rectangle, BarrierRectangle );
-});
+} );
