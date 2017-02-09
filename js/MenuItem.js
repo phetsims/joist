@@ -62,6 +62,7 @@ define( function( require ) {
       textFill: 'black'
     }, options );
 
+    //TODO #393 don't pass option to Node.call and mutate
     Node.call( this, {
       cursor: 'pointer',
       textDescription: text + ' Button',
@@ -119,6 +120,7 @@ define( function( require ) {
       this.addChild( CHECK_MARK_NODEHolder );
     }
 
+    //TODO #393 does not follow PhET convention, see for example sun.Carousel
     this.dispose = function() {
       if ( checkedProperty ) {
         checkedProperty.unlink( checkListener );
@@ -164,7 +166,7 @@ define( function( require ) {
     };
 
     this.mutate( {
-      tandem: options.tandem,
+      tandem: options.tandem,  //TODO #393 different than the tandem passed to Node.call, bug?
       phetioType: TMenuItem
     } );
   }
