@@ -45,6 +45,7 @@ define( function( require ) {
 
     var screen = sim.screens[ index ];
 
+    //TODO #393 missing visibility annotations
     this.startedCallbacksForFiredEmitter = new Emitter();
     this.endedCallbacksForFiredEmitter = new Emitter();
 
@@ -126,6 +127,8 @@ define( function( require ) {
 
     // Set highlight listeners to the small screen button
     if ( !large ) {
+
+      //TODO #395 missing visibility annotation
       this.highlightListener = {
         over: function( event ) {
           highlightedScreenIndexProperty.value = index;
