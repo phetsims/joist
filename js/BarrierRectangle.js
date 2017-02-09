@@ -26,8 +26,8 @@ define( function( require ) {
    * @param height
    * @param cornerXRadius
    * @param cornerYRadius
-   * @param modalNodeStack
-   * @param options
+   * @param {ObservableArray} modalNodeStack - see usage in Sim.js
+   * @param {Object} [options]
    * @constructor
    */
   function BarrierRectangle( x, y, width, height, cornerXRadius, cornerYRadius, modalNodeStack, options ) {
