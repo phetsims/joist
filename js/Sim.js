@@ -450,7 +450,7 @@ define( function( require ) {
 
       // @public (joist-internal) Semi-transparent black barrier used to block input events when a dialog (or other popup)
       // is present, and fade out the background.
-      this.barrierRectangle = new BarrierRectangle( 0, 0, 1, 1, 0, 0, this.modalNodeStack, {
+      this.barrierRectangle = new BarrierRectangle( 0, 0, 1, 1, this.modalNodeStack, {
         fill: 'rgba(0,0,0,0.3)',
         pickable: true,
         tandem: tandem.createTandem( 'sim.barrierRectangle' )

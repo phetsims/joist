@@ -30,9 +30,11 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
-  function BarrierRectangle( x, y, width, height, cornerXRadius, cornerYRadius, modalNodeStack, options ) {
+  function BarrierRectangle( x, y, width, height, modalNodeStack, options ) {
 
-    options = options || {};
+    options = _.extend( {
+      cornerRadius: 0
+    }, options );
 
     var self = this;
 
@@ -41,7 +43,7 @@ define( function( require ) {
     // This will be passed up to parents
     options.tandem = tandem.createSupertypeTandem();
 
-    Rectangle.call( this, x, y, width, height, cornerXRadius, cornerYRadius, options );
+    Rectangle.call( this, x, y, width, height, options );
 
     this.startedCallbacksForFiredEmitter = new Emitter();
     this.endedCallbacksForFiredEmitter = new Emitter();
