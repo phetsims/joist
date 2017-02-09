@@ -1,15 +1,16 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
+ * TODO #393 document me
  *
  * @author - Michael Kauzmann (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';
 
+  // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
-
   var Emitter = require( 'AXON/Emitter' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -24,10 +25,12 @@ define( function( require ) {
   // phet-io modules
   var TScreenButton = require( 'ifphetio!PHET_IO/types/joist/TScreenButton' );
 
+  // constants
   var LARGE_ICON_HEIGHT = 140;
 
+  //TODO #395 type expressions for params
   /**
-   * @param large {boolean} - whether or not this is a large or small screenButton
+   * @param {boolean} large - whether or not this is a large or small screenButton
    * @param sim
    * @param index - index of this screen so we can get the screen, sorta backwards
    * @param highlightedScreenIndexProperty
@@ -38,7 +41,7 @@ define( function( require ) {
     var self = this;
 
     var tandem = options.tandem;
-    options.tandem = tandem.createSupertypeTandem();
+    options.tandem = tandem.createSupertypeTandem(); //TODO #395 this will fail if options.tandem is null
 
     var screen = sim.screens[ index ];
 
@@ -50,7 +53,6 @@ define( function( require ) {
 
     // Use the small icon scale if this is a small screen button
     var height = large ? LARGE_ICON_HEIGHT : smallIconScale * LARGE_ICON_HEIGHT;
-
 
     // The small screen's nodes have an opacity of .5
     var opacity = options.opacity ? options.opacity : 1;
@@ -74,9 +76,9 @@ define( function( require ) {
       } );
     }
 
+    //TODO #395 implement dispose or document why unlink is unnecessary
     // Only link if a large button
     large && highlightedScreenIndexProperty.link( function( highlightedIndex ) { frame.setHighlighted( highlightedIndex === index ); } );
-
 
     // Create the icon with the frame inside
     var iconWithFrame = new Node( {
@@ -95,6 +97,7 @@ define( function( require ) {
       text.scale( iconWithFrame.width / text.width );
     }
 
+    //TODO #395 don't pass options to both VBox.call and mutate
     VBox.call( this, _.extend( {
         children: [
           iconWithFrame,
@@ -149,7 +152,11 @@ define( function( require ) {
 
     this.mouseArea = this.touchArea = Shape.bounds( this.bounds ); // cover the gap in the vbox
 
-    this.mutate( { tandem: tandem, phetioType: TScreenButton } );
+    //TODO #395 don't pass options to both VBox.call and mutate
+    this.mutate( {
+      tandem: tandem, //TODO #395 this is not the tandem that you passed to VBox.call, bug?
+      phetioType: TScreenButton
+    } );
   }
 
   joist.register( 'ScreenButton', ScreenButton );
