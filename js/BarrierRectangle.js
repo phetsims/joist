@@ -24,8 +24,6 @@ define( function( require ) {
    * @param y
    * @param width
    * @param height
-   * @param cornerXRadius
-   * @param cornerYRadius
    * @param {ObservableArray} modalNodeStack - see usage in Sim.js
    * @param {Object} [options]
    * @constructor
