@@ -14,7 +14,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Color = require( 'SCENERY/util/Color' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
@@ -53,8 +52,8 @@ define( function( require ) {
       // For multi-screen sims, this must be provided.
       name: null,
 
-      // {Color|string} initial background color of the Screen
-      backgroundColorProperty: new Property( new Color( 'white' ) ),
+      // {Property.<Color|string>} background color of the Screen
+      backgroundColorProperty: new Property( 'white' ),
 
       // {Node} icon shown on the home screen.
       // For single-screen sims, there is no home screen and the default is OK.
@@ -66,15 +65,13 @@ define( function( require ) {
       // {Node|null} icon shown in the navigation bar. If null, then the home screen icon will be used, scaled to fit.
       navigationBarIcon: null,
 
-      tandem: Tandem.createDefaultTandem( 'screen' )
+      tandem: Tandem.tandemRequired()
     }, options );
 
     // navigationBarIcon defaults to homeScreenIcon, and will be scaled down
     if ( !options.navigationBarIcon ) {
       options.navigationBarIcon = options.homeScreenIcon;
     }
-
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     // Validate icon sizes
     validateIconSize( options.homeScreenIcon, MINIMUM_HOME_SCREEN_ICON_SIZE, HOME_SCREEN_ICON_ASPECT_RATIO, 'homeScreenIcon' );

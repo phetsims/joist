@@ -23,12 +23,11 @@ define( function( require ) {
   var Util = require( 'SCENERY/util/Util' );
   var Display = require( 'SCENERY/display/Display' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Property = require( 'AXON/Property' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var platform = require( 'PHET_CORE/platform' );
   var Timer = require( 'PHET_CORE/Timer' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var BarrierRectangle = require( 'JOIST/BarrierRectangle' );
   var Profiler = require( 'JOIST/Profiler' );
   var LookAndFeel = require( 'JOIST/LookAndFeel' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
@@ -42,7 +41,6 @@ define( function( require ) {
 
   // phet-io modules
   var TSim = require( 'ifphetio!PHET_IO/types/joist/TSim' );
-  var TBarrierRectangle = require( 'ifphetio!PHET_IO/types/scenery/nodes/TBarrierRectangle' );
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
 
@@ -83,10 +81,12 @@ define( function( require ) {
     this.frameStartedEmitter = new Emitter();
 
     // @public Emitter that indicates when a frame ends
+    // phetioEmitData is false because we only want this manually wired for phetio event recording.
     this.frameEndedEmitter = new TandemEmitter( {
       tandem: simTandem.createTandem( 'frameEndedEmitter' ),
       phetioArgumentTypes: [ TNumber( { units: 'seconds' } ) ],
-      phetioEmitData: false // Do not spam the data stream with dt's
+      phetioEmitData: false // An adapter in phetio will create input events when recording for playback.
+      // If we are not recording for visual playback, then we omit these from the data stream so that we don't get spammed with dt's.
     } );
 
     // The screens to be included, and their order, may be specified via a query parameter.
@@ -141,7 +141,7 @@ define( function( require ) {
       showSmallHomeScreenIconFrame: false,
 
       // Whether accessibility features are enabled or not.  Use this option to render the Parallel DOM for
-      // keyboard navigation and screen reader based auditory descriptions. 
+      // keyboard navigation and screen reader based auditory descriptions.
       accessibility: phet.chipper.queryParameters.accessibility,
 
       // a {Node} placed into the keyboard help dialog that can be opened from the navigation bar
@@ -223,6 +223,9 @@ define( function( require ) {
     // @private - number of animation frames that have occurred
     this.frameCounter = 0;
 
+    // @private {boolean} - Whether the window has resized since our last updateDisplay()
+    this.resizePending = true;
+
     // used to store input events and requestAnimationFrame cycles
     this.inputEventLog = [];                 // @public (joist-internal)
     this.inputEventBounds = Bounds2.NOTHING; // @public (joist-internal)
@@ -258,8 +261,10 @@ define( function( require ) {
       };
     }
 
+    var sessionID = (phet.phetio && phet.phetio.queryParameters && phet.phetio.queryParameters.sessionID) ?
+                    phet.phetio.queryParameters.sessionID : null;
     this.startedSimConstructorEmitter.emit1( {
-      sessionID: phet.chipper.queryParameters.sessionID,
+      sessionID: sessionID,
       repoName: packageJSON.name,
       simName: this.name,
       simVersion: this.version,
@@ -380,8 +385,8 @@ define( function( require ) {
     // @public (joist-internal)
     this.updateBackground = function() {
       self.lookAndFeel.backgroundColorProperty.value = self.currentScreenProperty.value ?
-                                                       self.currentScreenProperty.value.backgroundColorProperty.value.toCSS() :
-                                                       self.homeScreen.backgroundColorProperty.value.toCSS();
+                                                       self.currentScreenProperty.value.backgroundColorProperty.value :
+                                                       self.homeScreen.backgroundColorProperty.value;
     };
 
     this.lookAndFeel.backgroundColorProperty.link( function( backgroundColor ) {
@@ -445,26 +450,24 @@ define( function( require ) {
 
       // @public (joist-internal) Semi-transparent black barrier used to block input events when a dialog (or other popup)
       // is present, and fade out the background.
-      this.barrierRectangle = new Rectangle( 0, 0, 1, 1, 0, 0, {
+      this.barrierRectangle = new BarrierRectangle( 0, 0, 1, 1, this.modalNodeStack, {
         fill: 'rgba(0,0,0,0.3)',
-        pickable: true
+        pickable: true,
+        tandem: tandem.createTandem( 'sim.barrierRectangle' )
       } );
       this.topLayer.addChild( this.barrierRectangle );
-      this.modalNodeStack.lengthProperty.link( function( numBarriers ) {
-        self.barrierRectangle.visible = numBarriers > 0;
-      } );
-      this.barrierRectangle.addInputListener( new ButtonListener( {
-        fire: function( event ) {
-          self.barrierRectangle.trigger0( 'startedCallbacksForFired' );
-          assert && assert( self.modalNodeStack.length > 0 );
-          self.modalNodeStack.get( self.modalNodeStack.length - 1 ).hide();
-          self.barrierRectangle.trigger0( 'endedCallbacksForFired' );
-        }
-      } ) );
-      tandem.createTandem( 'sim.barrierRectangle' ).addInstance( this.barrierRectangle, TBarrierRectangle );
+
 
       // Fit to the window and render the initial scene
-      $( window ).resize( function() { self.resizeToWindow(); } );
+      // Can't synchronously do this in Firefox, see https://github.com/phetsims/vegas/issues/55 and
+      // https://bugzilla.mozilla.org/show_bug.cgi?id=840412.
+      $( window ).resize( function() {
+        // Don't resize on window size changes if we are playing back input events.
+        // See https://github.com/phetsims/joist/issues/37
+        if ( !phet.joist.playbackMode ) {
+          self.resizePending = true;
+        }
+      } );
       this.resizeToWindow();
 
       // Kick off checking for updates, if that is enabled
@@ -521,6 +524,8 @@ define( function( require ) {
      * @public (joist-internal)
      */
     resizeToWindow: function() {
+      this.resizePending = false;
+
       this.resize( window.innerWidth, window.innerHeight );
     },
 
@@ -711,6 +716,10 @@ define( function( require ) {
       // prevent Safari from going to sleep, see https://github.com/phetsims/joist/issues/140
       if ( this.frameCounter % 1000 === 0 ) {
         this.heartbeatDiv.innerHTML = Math.random();
+      }
+
+      if ( this.resizePending ) {
+        this.resizeToWindow();
       }
 
       // fire or synthesize input events

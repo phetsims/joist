@@ -14,7 +14,6 @@ define( function( require ) {
   var HomeScreenView = require( 'JOIST/HomeScreenView' );
   var joist = require( 'JOIST/joist' );
   var Property = require( 'AXON/Property' );
-  var Color = require( 'SCENERY/util/Color' );
 
   /**
    *
@@ -25,7 +24,7 @@ define( function( require ) {
     options = _.extend( {
 
       //TODO get this color from LookAndFeel, see https://github.com/phetsims/joist/issues/255
-      backgroundColorProperty: new Property( Color.toColor( 'black' ) )
+      backgroundColorProperty: new Property( 'black' )
     }, options );
 
     assert && assert( !options.tandem, 'tandem is a required constructor parameter, not an option' );

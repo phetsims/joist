@@ -59,11 +59,12 @@ define( function( require ) {
     closeButtonPath.mouseArea = Shape.rect( closeButtonPath.left - closeButtonPath.width * 2, closeButtonPath.top - CLOSE_BUTTON_MARGIN / 2, closeButtonPath.width * 4, closeButtonPath.height + CLOSE_BUTTON_MARGIN );
     closeButtonPath.touchArea = closeButtonPath.mouseArea;
 
+    Dialog.call( this, helpContent, options );
+
+    // position and add the close button
     closeButtonPath.right = helpContent.right - CLOSE_BUTTON_MARGIN;
     closeButtonPath.top = helpContent.top + CLOSE_BUTTON_MARGIN;
-    helpContent.addChild( closeButtonPath );
-
-    Dialog.call( this, helpContent, options );
+    this.addChild( closeButtonPath );
 
   }
 

@@ -19,21 +19,19 @@ define( function( require ) {
   var AboutDialog = require( 'JOIST/AboutDialog' );
   var OptionsDialog = require( 'JOIST/OptionsDialog' );
   var UpdateDialog = require( 'JOIST/UpdateDialog' );
+  var MenuItem = require( 'JOIST/MenuItem' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var FullScreen = require( 'JOIST/FullScreen' );
   var Brand = require( 'BRAND/Brand' );
-  var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var joist = require( 'JOIST/joist' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
 
   // phet-io modules
-  var TMenuItem = require( 'ifphetio!PHET_IO/types/joist/TMenuItem' );
   var TPhetMenu = require( 'ifphetio!PHET_IO/types/joist/TPhetMenu' );
 
   // strings
@@ -50,132 +48,10 @@ define( function( require ) {
 
   // constants
   var FONT_SIZE = 18;
-  var HIGHLIGHT_COLOR = '#a6d2f4';
   var MAX_ITEM_WIDTH = 400;
 
   // For disabling features that are incompatible with fuzzMouse
   var fuzzMouse = phet.chipper.queryParameters.fuzzMouse;
-
-  // the checkmark used for toggle-able menu items
-  var checkNode = new FontAwesomeNode( 'check_without_box', {
-    fill: 'rgba(0,0,0,0.7)',
-    scale: 0.4
-  } );
-
-  // Creates a menu item that highlights and fires.
-  var createMenuItem = function( text, width, height, separatorBefore, closeCallback, callback, checkedProperty, options ) {
-    options = _.extend( {
-      tandem: null,
-      color: '#000'
-    }, options );
-
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
-
-    // padding between the check and text
-    var CHECK_PADDING = 2;
-    // offset that includes the checkmark's width and its padding
-    var CHECK_OFFSET = checkNode.width + CHECK_PADDING;
-
-    var LEFT_X_MARGIN = 2;
-    var RIGHT_X_MARGIN = 5;
-
-    var Y_MARGIN = 3;
-    var CORNER_RADIUS = 5;
-
-    var textColor = options.color === undefined ? 'black' : options.color;
-    var textNode = new Text( text, { font: new PhetFont( FONT_SIZE ), fill: textColor, maxWidth: MAX_ITEM_WIDTH } );
-    var highlight = new Rectangle( 0, 0, width + LEFT_X_MARGIN + RIGHT_X_MARGIN + CHECK_OFFSET, height + Y_MARGIN + Y_MARGIN, CORNER_RADIUS, CORNER_RADIUS );
-
-    var menuItem = new Node( {
-      cursor: 'pointer',
-      textDescription: text + ' Button'
-    } );
-    menuItem.addChild( highlight );
-    menuItem.addChild( textNode );
-
-    textNode.left = highlight.left + LEFT_X_MARGIN + CHECK_OFFSET; // text is left aligned
-    textNode.centerY = highlight.centerY;
-
-    menuItem.addInputListener( {
-      enter: function() { highlight.fill = HIGHLIGHT_COLOR; },
-      exit: function() { highlight.fill = null; }
-    } );
-    var fire = function( event ) {
-      menuItem.trigger0( 'startedCallbacksForFired' );
-      closeCallback( event );
-      callback( event );
-      menuItem.trigger0( 'endedCallbacksForFired' );
-    };
-    menuItem.addInputListener( new ButtonListener( {
-      fire: fire
-    } ) );
-
-    menuItem.separatorBefore = separatorBefore;
-
-    // if there is a check-mark property, add the check mark and hook up visibility changes
-    var checkListener;
-    if ( checkedProperty ) {
-      var checkNodeHolder = new Node( {
-        children: [ checkNode ],
-        right: textNode.left - CHECK_PADDING,
-        centerY: textNode.centerY
-      } );
-      checkListener = function( isChecked ) {
-        checkNodeHolder.visible = isChecked;
-      };
-      checkedProperty.link( checkListener );
-      menuItem.addChild( checkNodeHolder );
-    }
-
-    menuItem.dispose = function() {
-      if ( checkedProperty ) {
-        checkedProperty.unlink( checkListener );
-      }
-      options.tandem && options.tandem.removeInstance( menuItem );
-    };
-
-    options.tandem && options.tandem.addInstance( menuItem, TMenuItem );
-
-    // accessibility
-    menuItem.accessibleContent = {
-      id: text,
-      createPeer: function( accessibleInstance ) {
-        // will look like <input id="menuItemId" value="Phet Button" type="button" tabIndex="0">
-        var domElement = document.createElement( 'input' );
-        domElement.type = 'button';
-        domElement.value = text;
-        domElement.tabIndex = '0';
-        domElement.className = 'phetMenuItem';
-
-        domElement.addEventListener( 'click', function() {
-          // fire the listener
-          fire();
-
-          // if a modal dialog has opened, focus it immediately
-          var openDialog = document.getElementsByClassName( 'Dialog' )[ 0 ];
-          if ( openDialog ) {
-            openDialog.focus();
-          }
-          // otherwise, we have been redirected to a new page so make sure screen view elements and PhET Button are back
-          // in tab order.
-          else {
-            // all screen view elements are injected back into the navigation order.
-            var screenViewElements = document.getElementsByClassName( 'ScreenView' );
-            _.each( screenViewElements, function( element ) {
-              element.hidden = false;
-            } );
-
-            // make sure that the phet button is also in the tab order
-            document.getElementsByClassName( 'PhetButton' )[ 0 ].hidden = false;
-          }
-        } );
-
-        return new AccessiblePeer( accessibleInstance, domElement );
-      }
-    };
-
-    return menuItem;
-  };
 
   // Creates a comic-book style bubble.
   var createBubble = function( width, height ) {
@@ -326,7 +202,9 @@ define( function( require ) {
       {
         text: menuItemGetUpdateString,
         present: UpdateCheck.areUpdatesChecked,
-        color: UpdateCheck.stateProperty.value === 'out-of-date' ? '#0a0' : '#000',
+        textFill: new DerivedProperty( [ UpdateCheck.stateProperty ], function( state ) {
+          return state === 'out-of-date' ? '#0a0' : '#000';
+        } ),
         callback: function() {
           new UpdateDialog().show();
         },
@@ -383,7 +261,7 @@ define( function( require ) {
         present: true,
         separatorBefore: isPhETBrand,
         callback: function() {
-          new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, tandem.createTandem('aboutDialog') ).show();
+          new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, tandem.createTandem( 'aboutDialog' ) ).show();
         },
         tandem: tandem.createTandem( 'aboutButton' )
       }
@@ -397,12 +275,12 @@ define( function( require ) {
         maxWidth: MAX_ITEM_WIDTH
       } );
     } );
-    var maxTextWidth = _.max( textNodes, function( node ) {return node.width;} ).width;
-    var maxTextHeight = _.max( textNodes, function( node ) {return node.height;} ).height;
+    var maxTextWidth = _.maxBy( textNodes, function( node ) {return node.width;} ).width;
+    var maxTextHeight = _.maxBy( textNodes, function( node ) {return node.height;} ).height;
 
     // Create the menu items.
     var items = this.items = _.map( keepItemDescriptors, function( itemDescriptor ) {
-      return createMenuItem(
+      return new MenuItem(
         itemDescriptor.text,
         maxTextWidth,
         maxTextHeight,
@@ -411,11 +289,11 @@ define( function( require ) {
         itemDescriptor.callback,
         itemDescriptor.checkedProperty, {
           tandem: itemDescriptor.tandem,
-          color: itemDescriptor.color
+          textFill: itemDescriptor.textFill
         } );
     } );
-    var separatorWidth = _.max( items, function( item ) {return item.width;} ).width;
-    var itemHeight = _.max( items, function( item ) {return item.height;} ).height;
+    var separatorWidth = _.maxBy( items, function( item ) {return item.width;} ).width;
+    var itemHeight = _.maxBy( items, function( item ) {return item.height;} ).height;
     var content = new Node();
     var y = 0;
     var ySpacing = 2;
@@ -472,7 +350,7 @@ define( function( require ) {
 
     tandem.addInstance( this, TPhetMenu );
     this.disposePhetMenu = function() {
-      tandem.removeInstance( this );
+      tandem.removeInstance( self );
     };
   }
 
@@ -521,6 +399,7 @@ define( function( require ) {
       _.each( this.items, function( item ) {
         item.dispose();
       } );
+      Node.prototype.dispose.call( this );
     }
   } );
 

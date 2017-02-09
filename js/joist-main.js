@@ -10,11 +10,10 @@ define( function( require ) {
 
   // modules
   var DialogsDemoView = require( 'JOIST/demo/DialogsDemoView' );
+  var Property = require( 'AXON/Property' );
   var Screen = require( 'JOIST/Screen' );
   var Sim = require( 'JOIST/Sim' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
-  var Property = require( 'AXON/Property' );
-  var Color = require( 'SCENERY/util/Color' );
 
   // strings
   var joistTitleString = require( 'string!JOIST/joist.title' );
@@ -33,7 +32,7 @@ define( function( require ) {
         function( model ) { return new DialogsDemoView(); },
         {
           name: 'Dialogs 1',
-          backgroundColorProperty: new Property( Color.toColor( 'white' ) )
+          backgroundColorProperty: new Property( 'white' )
         }
       ),
       new Screen(
@@ -41,7 +40,7 @@ define( function( require ) {
         function( model ) { return new DialogsDemoView(); },
         {
           name: 'Dialogs 2',
-          backgroundColorProperty: new Property( Color.toColor( 'white' ) )
+          backgroundColorProperty: new Property( 'white' )
         }
       )
     ];

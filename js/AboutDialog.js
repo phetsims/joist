@@ -28,6 +28,10 @@ define( function( require ) {
   var packageJSON = require( 'JOIST/packageJSON' );
   var joist = require( 'JOIST/joist' );
 
+  // phet-io modules
+  var TDialog = require( 'ifphetio!PHET_IO/types/joist/TDialog' );
+
+
   // strings
   var versionPatternString = require( 'string!JOIST/versionPattern' );
 
@@ -40,14 +44,19 @@ define( function( require ) {
    * @param {string} credits - The credits for the simulation, or falsy to show no credits
    * @param {Brand} Brand
    * @param {string} locale - The locale string
+   * @param {Tandem} tandem
    * @constructor
    */
   function AboutDialog( name, version, credits, Brand, locale, tandem ) {
     var self = this;
+    this.aboutDialogTandem = tandem;
 
     var children = [];
     children.push( new Text( name, { font: new PhetFont( 28 ), maxWidth: MAX_WIDTH } ) );
-    children.push( new Text( StringUtils.format( versionPatternString, version ), { font: new PhetFont( 20 ), maxWidth: MAX_WIDTH } ) );
+    children.push( new Text( StringUtils.format( versionPatternString, version ), {
+      font: new PhetFont( 20 ),
+      maxWidth: MAX_WIDTH
+    } ) );
     if ( phet.chipper.buildTimestamp ) {
       children.push( new Text( phet.chipper.buildTimestamp, { font: new PhetFont( 13 ), maxWidth: MAX_WIDTH } ) );
     }
@@ -105,7 +114,7 @@ define( function( require ) {
           fill: 'gray',
           align: 'left',
           maxWidth: MAX_WIDTH,
-          tandem: tandem.createTandem('additionLicenseStatement')
+          tandem: tandem.createTandem( 'additionLicenseStatement' )
         }
       );
       children.push( this.additionalLicenseStatement );
@@ -114,7 +123,7 @@ define( function( require ) {
     // Add credits for specific brands
     if ( credits && ( Brand.id === 'phet' || Brand.id === 'phet-io' ) ) {
       children.push( new VStrut( 15 ) );
-      this.creditsNode = new CreditsNode( credits, tandem.createTandem('creditsNode'), {
+      this.creditsNode = new CreditsNode( credits, tandem.createTandem( 'creditsNode' ), {
         maxWidth: MAX_WIDTH
       } );
       children.push( this.creditsNode );
@@ -155,13 +164,17 @@ define( function( require ) {
           domElement.appendChild( nameElement );
           return accessiblePeer;
         }
-      }
+      },
+
+      tandem: tandem.createSupertypeTandem()
     } );
 
     // close it on a click
     this.addInputListener( new ButtonListener( {
       fire: self.hide.bind( self )
     } ) );
+
+    tandem.addInstance( this, TDialog);
   }
 
   joist.register( 'AboutDialog', AboutDialog );
@@ -192,7 +205,7 @@ define( function( require ) {
     },
 
     /**
-     * Hide the dialog
+     * Hide the dialog ( basically disposing it because a new one is created is the dialog is opened again )
      * @public
      */
     hide: function() {
@@ -207,6 +220,8 @@ define( function( require ) {
         Timer.removeStepListener( this.updateStepListener );
       }
 
+      // Tandems should be removed at disposal. The 'hide' function is used as dispose for the AboutDialog
+      this.aboutDialogTandem.removeInstance( this );
       this.creditsNode && this.creditsNode.dispose();
       this.additionalLicenseStatement && this.additionalLicenseStatement.dispose();
     }
