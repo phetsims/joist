@@ -84,6 +84,7 @@ define( function( require ) {
     textNode.left = highlight.left + LEFT_X_MARGIN + CHECK_OFFSET; // text is left aligned
     textNode.centerY = highlight.centerY;
 
+    //TODO #393 missing visibility annotations, probably 'public (phet-io)'
     this.startedCallbacksForFiredEmitter = new Emitter();
     this.endedCallbacksForFiredEmitter = new Emitter();
 
@@ -103,6 +104,7 @@ define( function( require ) {
       fire: fire
     } ) );
 
+    //TODO #393 missing visibility annotation
     this.separatorBefore = separatorBefore;
 
     // if there is a check-mark property, add the check mark and hook up visibility changes
@@ -121,12 +123,14 @@ define( function( require ) {
     }
 
     //TODO #393 does not follow PhET convention, see for example sun.Carousel
+    //TODO #393 missing visibility annotation
     this.dispose = function() {
       if ( checkedProperty ) {
         checkedProperty.unlink( checkListener );
       }
     };
 
+    //TODO #393 missing visibility annotation
     // accessibility
     this.accessibleContent = {
       id: text,
