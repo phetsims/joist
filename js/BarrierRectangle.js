@@ -1,6 +1,8 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
+ * Semi-transparent black barrier used to block input events when a dialog
+ * (or other popup) is present, and fade out the background.
  *
  * @author - Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -14,17 +16,10 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
 
-
   // phet-io modules
   var TBarrierRectangle = require( 'ifphetio!PHET_IO/types/scenery/nodes/TBarrierRectangle' );
 
-
   /**
-   * @public (joist-internal)
-   *
-   * Semi-transparent black barrier used to block input events when a dialog
-   * (or other popup) is present, and fade out the background.
-   *
    * @param x
    * @param y
    * @param width
@@ -36,13 +31,14 @@ define( function( require ) {
    * @constructor
    */
   function BarrierRectangle( x, y, width, height, cornerXRadius, cornerYRadius, modalNodeStack, options ) {
-    var self = this;
 
+    var self = this;
 
     var tandem = options.tandem;
 
     // This will be passed up to parents
     options.tandem = tandem.createSupertypeTandem();
+
     Rectangle.call( this, x, y, width, height, cornerXRadius, cornerYRadius, options );
 
     this.startedCallbacksForFiredEmitter = new Emitter();
@@ -61,8 +57,10 @@ define( function( require ) {
       }
     } ) );
 
-
-    this.mutate( { tandem: tandem, phetioType: TBarrierRectangle } );
+    this.mutate( {
+      tandem: tandem,
+      phetioType: TBarrierRectangle
+    } );
   }
 
   joist.register( 'BarrierRectangle', BarrierRectangle );
