@@ -43,7 +43,7 @@ define( function( require ) {
     // This will be passed up to parents
     options.tandem = tandem.createSupertypeTandem();
 
-    //TODO #394 don't pass optiosn to both Rectangle.call and mutate
+    //TODO #394 don't pass options to both Rectangle.call and mutate
     Rectangle.call( this, x, y, width, height, options );
 
     this.startedCallbacksForFiredEmitter = new Emitter();
@@ -63,7 +63,7 @@ define( function( require ) {
       }
     } ) );
 
-    //TODO #394 don't pass optiosn to both Rectangle.call and mutate
+    //TODO #394 don't pass options to both Rectangle.call and mutate
     this.mutate( {
       tandem: tandem, //TODO #394 this is not the tandem that you passed to Rectangle.call, bug?
       phetioType: TBarrierRectangle
