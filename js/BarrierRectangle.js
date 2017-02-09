@@ -44,6 +44,7 @@ define( function( require ) {
     //TODO #394 don't pass options to both Rectangle.call and mutate
     Rectangle.call( this, x, y, width, height, options );
 
+    //TODO #394 missing visibility annotations
     this.startedCallbacksForFiredEmitter = new Emitter();
     this.endedCallbacksForFiredEmitter = new Emitter();
 
