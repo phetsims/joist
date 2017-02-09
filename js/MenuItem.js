@@ -1,6 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
+ * TODO #393 document me
  *
  * @author - Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -20,37 +21,28 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
 
-
   // phet-io modules
   var TMenuItem = require( 'ifphetio!PHET_IO/types/joist/TMenuItem' );
 
-
-  // the checkmark used for toggle-able menu items
-  var checkNode = new FontAwesomeNode( 'check_without_box', {
+  // the check mark used for toggle-able menu items
+  var CHECK_MARK_NODE = new FontAwesomeNode( 'check_without_box', {
     fill: 'rgba(0,0,0,0.7)',
     scale: 0.4
   } );
-
 
   // constants
   var FONT_SIZE = 18;
   var HIGHLIGHT_COLOR = '#a6d2f4';
   var MAX_ITEM_WIDTH = 400;
-
-  // padding between the check and text
-  var CHECK_PADDING = 2;
-  // offset that includes the checkmark's width and its padding
-  var CHECK_OFFSET = checkNode.width + CHECK_PADDING;
-
+  var CHECK_PADDING = 2;  // padding between the check and text
+  var CHECK_OFFSET = CHECK_MARK_NODE.width + CHECK_PADDING; // offset that includes the check mark's width and padding
   var LEFT_X_MARGIN = 2;
   var RIGHT_X_MARGIN = 5;
-
   var Y_MARGIN = 3;
   var CORNER_RADIUS = 5;
 
-
+  //TODO #393 type expressions and documentation for params
   /**
-   *
    * @param text
    * @param width
    * @param height
@@ -62,26 +54,28 @@ define( function( require ) {
    * @constructor
    */
   function MenuItem( text, width, height, separatorBefore, closeCallback, callback, checkedProperty, options ) {
+    
     var self = this;
+    
     options = _.extend( {
       tandem: Tandem.tandemRequired(),
       textFill: 'black'
     }, options );
-
 
     Node.call( this, {
       cursor: 'pointer',
       textDescription: text + ' Button',
       tandem: options.tandem.createSupertypeTandem()
     } );
+    
     var textNode = new Text( text, {
       font: new PhetFont( FONT_SIZE ),
       fill: options.textFill,
       maxWidth: MAX_ITEM_WIDTH
     } );
+    
     var highlight = new Rectangle( 0, 0, width + LEFT_X_MARGIN + RIGHT_X_MARGIN + CHECK_OFFSET,
       height + Y_MARGIN + Y_MARGIN, CORNER_RADIUS, CORNER_RADIUS );
-
 
     this.addChild( highlight );
     this.addChild( textNode );
@@ -96,12 +90,14 @@ define( function( require ) {
       enter: function() { highlight.fill = HIGHLIGHT_COLOR; },
       exit: function() { highlight.fill = null; }
     } );
+
     var fire = function( event ) {
       self.startedCallbacksForFiredEmitter.emit();
       closeCallback( event );
       callback( event );
       self.endedCallbacksForFiredEmitter.emit();
     };
+
     this.addInputListener( new ButtonListener( {
       fire: fire
     } ) );
@@ -111,16 +107,16 @@ define( function( require ) {
     // if there is a check-mark property, add the check mark and hook up visibility changes
     var checkListener;
     if ( checkedProperty ) {
-      var checkNodeHolder = new Node( {
-        children: [ checkNode ],
+      var CHECK_MARK_NODEHolder = new Node( {
+        children: [ CHECK_MARK_NODE ],
         right: textNode.left - CHECK_PADDING,
         centerY: textNode.centerY
       } );
       checkListener = function( isChecked ) {
-        checkNodeHolder.visible = isChecked;
+        CHECK_MARK_NODEHolder.visible = isChecked;
       };
       checkedProperty.link( checkListener );
-      this.addChild( checkNodeHolder );
+      this.addChild( CHECK_MARK_NODEHolder );
     }
 
     this.dispose = function() {
@@ -128,7 +124,6 @@ define( function( require ) {
         checkedProperty.unlink( checkListener );
       }
     };
-
 
     // accessibility
     this.accessibleContent = {
@@ -168,8 +163,10 @@ define( function( require ) {
       }
     };
 
-
-    this.mutate( { tandem: options.tandem, phetioType: TMenuItem } );
+    this.mutate( {
+      tandem: options.tandem,
+      phetioType: TMenuItem
+    } );
   }
 
   joist.register( 'MenuItem', MenuItem );
