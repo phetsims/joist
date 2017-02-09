@@ -9,9 +9,9 @@
 define( function( require ) {
   'use strict';
 
+  // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
-
   var Emitter = require( 'AXON/Emitter' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
@@ -43,11 +43,13 @@ define( function( require ) {
     // This will be passed up to parents
     options.tandem = tandem.createSupertypeTandem();
 
+    //TODO #394 don't pass optiosn to both Rectangle.call and mutate
     Rectangle.call( this, x, y, width, height, options );
 
     this.startedCallbacksForFiredEmitter = new Emitter();
     this.endedCallbacksForFiredEmitter = new Emitter();
 
+    //TODO #394 implement dispose or document why unlink is unnecessary
     modalNodeStack.lengthProperty.link( function( numBarriers ) {
       self.visible = numBarriers > 0;
     } );
@@ -61,8 +63,9 @@ define( function( require ) {
       }
     } ) );
 
+    //TODO #394 don't pass optiosn to both Rectangle.call and mutate
     this.mutate( {
-      tandem: tandem,
+      tandem: tandem, //TODO #394 this is not the tandem that you passed to Rectangle.call, bug?
       phetioType: TBarrierRectangle
     } );
   }
