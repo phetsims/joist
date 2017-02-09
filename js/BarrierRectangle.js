@@ -32,6 +32,8 @@ define( function( require ) {
    */
   function BarrierRectangle( x, y, width, height, cornerXRadius, cornerYRadius, modalNodeStack, options ) {
 
+    options = options || {};
+
     var self = this;
 
     var tandem = options.tandem;
