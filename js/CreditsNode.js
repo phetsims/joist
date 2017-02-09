@@ -99,6 +99,7 @@ define( function( require ) {
   return inherit( VBox, CreditsNode, {
     dispose: function() {
       this.disposeCreditsNode();
+      VBox.prototype.dispose.call( this );
     }
   } );
 } );

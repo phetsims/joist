@@ -399,6 +399,7 @@ define( function( require ) {
       _.each( this.items, function( item ) {
         item.dispose();
       } );
+      Node.prototype.dispose.call( this );
     }
   } );
 
