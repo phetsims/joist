@@ -86,8 +86,9 @@
   progressBarDiv.style.display = 'block';
 
   var svg = document.createElementNS( XML_NAMESPACE, 'svg' );
+  svg.style[ 'margin-left' ] = '-1px'; // compensates for the offset of x=1
   var progressBarBackground = document.createElementNS( XML_NAMESPACE, 'rect' );
-  progressBarBackground.setAttribute( 'x', '0' );
+  progressBarBackground.setAttribute( 'x', '1' ); // prevent clipping on the left side, see https://github.com/phetsims/joist/issues/400
   progressBarBackground.setAttribute( 'y', PROGRESS_BAR_Y );
   progressBarBackground.setAttribute( 'width', '273' );
   progressBarBackground.setAttribute( 'height', '10' );
@@ -99,7 +100,7 @@
   // the startup sequence in Sim.js
   var progressBarForeground = document.createElementNS( XML_NAMESPACE, 'rect' );
   progressBarForeground.setAttribute( 'id', 'progressBarForeground' );
-  progressBarForeground.setAttribute( 'x', '0' );
+  progressBarForeground.setAttribute( 'x', '1' ); // prevent clipping on the left side, see https://github.com/phetsims/joist/issues/400
   progressBarForeground.setAttribute( 'y', PROGRESS_BAR_Y );
   progressBarForeground.setAttribute( 'width', '0' );
   progressBarForeground.setAttribute( 'height', '10' );
