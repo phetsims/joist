@@ -181,6 +181,10 @@ define( function( require ) {
   joist.register( 'MenuItem', MenuItem );
 
   return inherit( Node, MenuItem, {
+
+    /**
+     * @public - dispose the menu item when it will no longer be used.
+     */
     dispose: function() {
       this.disposeMenuItem();
       Node.prototype.dispose.call( this );
