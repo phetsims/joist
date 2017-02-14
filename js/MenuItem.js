@@ -45,8 +45,8 @@ define( function( require ) {
   /**
    * A list item to be in the PhetMenu.js
    *
-   * @param width {number}
-   * @param height {number}
+   * @param width {number} - the width of the menu item
+   * @param height {number} - the height of the menu item
    * @param closeCallback {function} - called when closing the dialog that the menu item opened
    * @param itemDescriptor {object} - Each descriptor has these properties:
    *                                 {string} text - the item's text
@@ -57,7 +57,6 @@ define( function( require ) {
    */
   function MenuItem( width, height, closeCallback, itemDescriptor ) {
     var self = this;
-
 
     assert && assert( itemDescriptor.text, 'Text must be supplied' );
     assert && assert( itemDescriptor.present, 'Present must be supplied' );
@@ -86,9 +85,7 @@ define( function( require ) {
     textNode.left = highlight.left + LEFT_X_MARGIN + CHECK_OFFSET; // text is left aligned
     textNode.centerY = highlight.centerY;
 
-    /**
-     * @public (phet-io)
-      */
+    // @public (phet-io)
     this.startedCallbacksForFiredEmitter = new Emitter();
     this.endedCallbacksForFiredEmitter = new Emitter();
 
@@ -108,10 +105,7 @@ define( function( require ) {
       fire: fire
     } ) );
 
-
-    /**
-     * @public
-     */
+    // @public (joist)
     this.separatorBefore = itemDescriptor.separatorBefore;
 
     // if there is a check-mark property, add the check mark and hook up visibility changes
@@ -129,20 +123,7 @@ define( function( require ) {
       this.addChild( CHECK_MARK_NODEHolder );
     }
 
-    /**
-     * @private
-     */
-    this.disposeMenuItem = function() {
-      if ( itemDescriptor.checkedProperty ) {
-        itemDescriptor.checkedProperty.unlink( checkListener );
-      }
-    };
-
-
-    /**
-     * accessibility
-     * @private
-     */
+    // @public (a11y)
     this.accessibleContent = {
       id: itemDescriptor.text,
       createPeer: function( accessibleInstance ) {
@@ -186,6 +167,15 @@ define( function( require ) {
       tandem: itemDescriptor.tandem,
       phetioType: TMenuItem
     } );
+
+    /**
+     * @private - dispose the menu item
+     */
+    this.disposeMenuItem = function() {
+      if ( itemDescriptor.checkedProperty ) {
+        itemDescriptor.checkedProperty.unlink( checkListener );
+      }
+    };
   }
 
   joist.register( 'MenuItem', MenuItem );
@@ -194,8 +184,6 @@ define( function( require ) {
     dispose: function() {
       this.disposeMenuItem();
       Node.prototype.dispose.call( this );
-
     }
   } );
 } );
-
