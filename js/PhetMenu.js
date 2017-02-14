@@ -103,10 +103,7 @@ define( function( require ) {
     var optionsDialog = null;
 
     /*
-     * Description of the items in the menu. Each descriptor has these properties:
-     * {string} text - the item's text
-     * {boolean} present - whether the item should be added to the menu
-     * {function} callback - called when the item fires
+     * Description of the items in the menu. See Menu Item for a list of properties for each itemDescriptor
      */
     var itemDescriptors = [
       {
@@ -280,18 +277,16 @@ define( function( require ) {
 
     // Create the menu items.
     var items = this.items = _.map( keepItemDescriptors, function( itemDescriptor ) {
+
       return new MenuItem(
-        itemDescriptor.text,
-        maxTextWidth,
-        maxTextHeight,
-        itemDescriptor.separatorBefore,
-        options.closeCallback,
-        itemDescriptor.callback,
-        itemDescriptor.checkedProperty, {
-          tandem: itemDescriptor.tandem,
-          textFill: itemDescriptor.textFill
-        } );
-    } );
+          maxTextWidth,
+          maxTextHeight,
+          options.closeCallback,
+          itemDescriptor
+        );
+      }
+    );
+
     var separatorWidth = _.maxBy( items, function( item ) {return item.width;} ).width;
     var itemHeight = _.maxBy( items, function( item ) {return item.height;} ).height;
     var content = new Node();

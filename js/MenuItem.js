@@ -1,7 +1,8 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * TODO #393 document me
+ * Class for an item that is listed in the PhetMenu
+ * See PhetMenu.js for more information
  *
  * @author - Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -41,40 +42,41 @@ define( function( require ) {
   var Y_MARGIN = 3;
   var CORNER_RADIUS = 5;
 
-  //TODO #393 type expressions and documentation for params
   /**
-   * @param text
-   * @param width
-   * @param height
-   * @param separatorBefore
-   * @param closeCallback
-   * @param callback
-   * @param checkedProperty
-   * @param options
+   * A list item to be in the PhetMenu.js
+   *
+   * @param width {number}
+   * @param height {number}
+   * @param closeCallback {function} - called when closing the dialog that the menu item opened
+   * @param itemDescriptor {object} - Each descriptor has these properties:
+   *                                 {string} text - the item's text
+   *                                 {boolean} present - whether the item should be added to the menu
+   *                                 {function} callback - called when the item fires
+   *                                 {Tandem} tandem - required for MenuItems
    * @constructor
    */
-  function MenuItem( text, width, height, separatorBefore, closeCallback, callback, checkedProperty, options ) {
-    
+  function MenuItem( width, height, closeCallback, itemDescriptor ) {
     var self = this;
-    
-    options = _.extend( {
+
+
+    assert && assert( itemDescriptor.text, 'Text must be supplied' );
+    assert && assert( itemDescriptor.present, 'Present must be supplied' );
+    assert && assert( itemDescriptor.callback, 'Callback must be supplied' );
+
+    // Extend the itemDescriptor object with defaults.
+    itemDescriptor = _.extend( {
       tandem: Tandem.tandemRequired(),
       textFill: 'black'
-    }, options );
+    }, itemDescriptor );
 
-    //TODO #393 don't pass option to Node.call and mutate
-    Node.call( this, {
-      cursor: 'pointer',
-      textDescription: text + ' Button',
-      tandem: options.tandem.createSupertypeTandem()
-    } );
-    
-    var textNode = new Text( text, {
+    Node.call( this );
+
+    var textNode = new Text( itemDescriptor.text, {
       font: new PhetFont( FONT_SIZE ),
-      fill: options.textFill,
+      fill: itemDescriptor.textFill,
       maxWidth: MAX_ITEM_WIDTH
     } );
-    
+
     var highlight = new Rectangle( 0, 0, width + LEFT_X_MARGIN + RIGHT_X_MARGIN + CHECK_OFFSET,
       height + Y_MARGIN + Y_MARGIN, CORNER_RADIUS, CORNER_RADIUS );
 
@@ -84,7 +86,9 @@ define( function( require ) {
     textNode.left = highlight.left + LEFT_X_MARGIN + CHECK_OFFSET; // text is left aligned
     textNode.centerY = highlight.centerY;
 
-    //TODO #393 missing visibility annotations, probably 'public (phet-io)'
+    /**
+     * @public (phet-io)
+      */
     this.startedCallbacksForFiredEmitter = new Emitter();
     this.endedCallbacksForFiredEmitter = new Emitter();
 
@@ -96,7 +100,7 @@ define( function( require ) {
     var fire = function( event ) {
       self.startedCallbacksForFiredEmitter.emit();
       closeCallback( event );
-      callback( event );
+      itemDescriptor.callback( event );
       self.endedCallbacksForFiredEmitter.emit();
     };
 
@@ -104,12 +108,15 @@ define( function( require ) {
       fire: fire
     } ) );
 
-    //TODO #393 missing visibility annotation
-    this.separatorBefore = separatorBefore;
+
+    /**
+     * @public
+     */
+    this.separatorBefore = itemDescriptor.separatorBefore;
 
     // if there is a check-mark property, add the check mark and hook up visibility changes
     var checkListener;
-    if ( checkedProperty ) {
+    if ( itemDescriptor.checkedProperty ) {
       var CHECK_MARK_NODEHolder = new Node( {
         children: [ CHECK_MARK_NODE ],
         right: textNode.left - CHECK_PADDING,
@@ -118,27 +125,31 @@ define( function( require ) {
       checkListener = function( isChecked ) {
         CHECK_MARK_NODEHolder.visible = isChecked;
       };
-      checkedProperty.link( checkListener );
+      itemDescriptor.checkedProperty.link( checkListener );
       this.addChild( CHECK_MARK_NODEHolder );
     }
 
-    //TODO #393 does not follow PhET convention, see for example sun.Carousel
-    //TODO #393 missing visibility annotation
-    this.dispose = function() {
-      if ( checkedProperty ) {
-        checkedProperty.unlink( checkListener );
+    /**
+     * @private
+     */
+    this.disposeMenuItem = function() {
+      if ( itemDescriptor.checkedProperty ) {
+        itemDescriptor.checkedProperty.unlink( checkListener );
       }
     };
 
-    //TODO #393 missing visibility annotation
-    // accessibility
+
+    /**
+     * accessibility
+     * @private
+     */
     this.accessibleContent = {
-      id: text,
+      id: itemDescriptor.text,
       createPeer: function( accessibleInstance ) {
         // will look like <input id="menuItemId" value="Phet Button" type="button" tabIndex="0">
         var domElement = document.createElement( 'input' );
         domElement.type = 'button';
-        domElement.value = text;
+        domElement.value = itemDescriptor.text;
         domElement.tabIndex = '0';
         domElement.className = 'phetMenuItem';
 
@@ -170,13 +181,21 @@ define( function( require ) {
     };
 
     this.mutate( {
-      tandem: options.tandem,  //TODO #393 different than the tandem passed to Node.call, bug?
+      cursor: 'pointer',
+      textDescription: itemDescriptor.text + ' Button',
+      tandem: itemDescriptor.tandem,
       phetioType: TMenuItem
     } );
   }
 
   joist.register( 'MenuItem', MenuItem );
 
-  return inherit( Node, MenuItem );
+  return inherit( Node, MenuItem, {
+    dispose: function() {
+      this.disposeMenuItem();
+      Node.prototype.dispose.call( this );
+
+    }
+  } );
 } );
 
