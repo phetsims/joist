@@ -67,19 +67,10 @@ define( function( require ) {
     } );
 
     // Frame for large
-    var frame = new Frame( icon );
-
-    // Frame for small
-    if ( !large ) {
-      frame = new Rectangle( 0, 0, icon.width, icon.height, {
-        stroke: options.showSmallHomeScreenIconFrame ? '#dddddd' : null,
-        lineWidth: 0.7
-      } );
-    }
-
-    //TODO #395 implement dispose or document why unlink is unnecessary
-    // Only link if a large button
-    large && highlightedScreenIndexProperty.link( function( highlightedIndex ) { frame.setHighlighted( highlightedIndex === index ); } );
+    var frame = large ? new Frame( icon ) : new Rectangle( 0, 0, icon.width, icon.height, {
+                        stroke: options.showSmallHomeScreenIconFrame ? '#dddddd' : null,
+                        lineWidth: 0.7
+                      } );
 
     // Create the icon with the frame inside
     var iconWithFrame = new Node( {
@@ -97,6 +88,15 @@ define( function( require ) {
     if ( text.width > iconWithFrame.width ) {
       text.scale( iconWithFrame.width / text.width );
     }
+
+    //TODO #395 implement dispose or document why unlink is unnecessary
+    // Only link if a large button
+    highlightedScreenIndexProperty.link( function( highlightedIndex ) {
+      var highlighted = highlightedIndex === index;
+      frame.setHighlighted && frame.setHighlighted( highlighted );
+      icon.opacity = (large || highlighted) ? 1 : 0.5;
+      text.fill = (large || highlighted) ? 'white' : 'gray';
+    } );
 
     //TODO #395 don't pass options to both VBox.call and mutate
     VBox.call( this, _.extend( {
@@ -132,13 +132,9 @@ define( function( require ) {
       this.highlightListener = {
         over: function( event ) {
           highlightedScreenIndexProperty.value = index;
-          icon.opacity = 1;
-          text.fill = 'white';
         },
         out: function( event ) {
           highlightedScreenIndexProperty.value = -1;
-          icon.opacity = 0.5;
-          text.fill = 'gray';
         }
       };
 
