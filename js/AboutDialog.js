@@ -148,24 +148,6 @@ define( function( require ) {
     Dialog.call( this, content, {
       modal: true,
       hasCloseButton: false,
-
-      // accessible content
-      accessibleContent: {
-        createPeer: function( accessibleInstance ) {
-          var accessiblePeer = Dialog.DialogAccessiblePeer( accessibleInstance, self );
-          var trail = accessibleInstance.trail;
-
-          var domElement = accessiblePeer.domElement;
-
-          var nameElement = document.createElement( 'h1' );
-          nameElement.id = 'simName-' + trail.uniqueId;
-          nameElement.innerText = name;
-
-          domElement.appendChild( nameElement );
-          return accessiblePeer;
-        }
-      },
-
       tandem: tandem.createSupertypeTandem()
     } );
 

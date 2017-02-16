@@ -16,7 +16,6 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Panel = require( 'SUN/Panel' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
-  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var joist = require( 'JOIST/joist' );
   var Tandem = require( 'TANDEM/Tandem' );
 
@@ -51,11 +50,6 @@ define( function( require ) {
       yMargin: 20,
       closeButtonBaseColor: '#d00',
       closeButtonMargin: 5, // {number} how far away should the close button be from the panel border
-      accessibleContent: {
-        createPeer: function( accessibleInstance ) {
-          return new DialogAccessiblePeer( accessibleInstance, self );
-        }
-      },
       tandem: Tandem.tandemRequired()
     }, options );
 
@@ -161,7 +155,7 @@ define( function( require ) {
     dialog.center = simBounds.center.times( 1.0 / scale );
   };
 
-  inherit( Panel, Dialog, {
+  return inherit( Panel, Dialog, {
 
     // @public
     show: function() {
@@ -184,47 +178,5 @@ define( function( require ) {
         this.sim.resizedEmitter.removeListener( this.updateLayout );
       }
     }
-  }, {
-
-    // @public (accessibility)
-    DialogAccessiblePeer: function( accessibleInstance, dialog ) {
-      return new DialogAccessiblePeer( accessibleInstance, dialog );
-    }
   } );
-
-  function DialogAccessiblePeer( accessibleInstance, dialog ) {
-    this.initialize( accessibleInstance, dialog );
-  }
-
-  inherit( AccessiblePeer, DialogAccessiblePeer, {
-
-    /**
-     * Initialize an accessible peer in the parallel DOM for a Dialog.  This element does not exist in the parallel
-     * DOM until it is constructed, so it does not need to be hidden from screen readers.
-     *
-     * @param {AccessibleInstance} accessibleInstance
-     * @param dialog
-     * @public (accessibility)
-     */
-    initialize: function( accessibleInstance, dialog ) {
-      var trail = accessibleInstance.trail;
-      var uniqueId = trail.getUniqueId();
-
-      /*
-       * We will want the parallel DOM element for a dialog to look like:
-       * <div id="dialog-id" role="dialog">
-       */
-
-      // @private - create the dom element and initialize the peer.
-      this.domElement = document.createElement( 'div' ); // @private
-      this.initializeAccessiblePeer( accessibleInstance, this.domElement );
-
-      // set dom element attributes
-      this.domElement.id = 'dialog-' + uniqueId;
-      this.domElement.setAttribute( 'role', 'document' );
-
-    }
-  } );
-
-  return Dialog;
 } );
