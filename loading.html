@@ -1,0 +1,29 @@
+<html>
+<!--Temporary test for loading bar.-->
+<head>
+  <style>
+    body {
+      background-color: black;
+    }
+  </style>
+
+</head>
+<body>
+
+<div id="progressBar"
+     style="position:absolute;top:50%;left:50%;margin-left:-147px;margin-top:50px;width:273px;height:10px">
+  <svg>
+    <rect id="progressBarBackground" x="10" y="10" width="273" height="10" rx="3" ry="3"
+          style="stroke: white;stroke-width:1"></rect>
+    <rect id="progressBarForeground" x="10" y="10" width="0" height="10" rx="3" ry="3" style="fill:#6acef5;"></rect>
+  </svg>
+</div>
+<script>
+  var background = document.getElementById( 'progressBarBackground' );
+  var w = 3;
+  setInterval( function() {
+    background.style[ 'stroke-width' ] = (Math.sin( Date.now() / 1000 * 4 ) * 1.5 + 2).toFixed( 2 );
+  }, 16 );
+</script>
+</body>
+</html>
