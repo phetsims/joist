@@ -1,6 +1,7 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
+ * Wrapper type for NavigationBarScreenButton
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)
@@ -16,24 +17,30 @@ define( function( require ) {
   var toEventOnEmit = require( 'PHET_IO/events/toEventOnEmit' );
 
   /**
-   * Wrapper type for phet/sun's PushButton class.
-   * @param navBarScreenButton
-   * @param phetioID
+   * @param {NavigationBarScreenButton} navigationBarScreenButton
+   * @param {string} phetioID
    * @constructor
    */
-  function TNavigationBarScreenButton( navBarScreenButton, phetioID ) {
-    TNode.call( this, navBarScreenButton, phetioID );
+  function TNavigationBarScreenButton( navigationBarScreenButton, phetioID ) {
+    TNode.call( this, navigationBarScreenButton, phetioID );
 
-    assertInstanceOfTypes( navBarScreenButton, [
-      phet.joist.NavigationBarScreenButton
-    ] );
+    assertInstanceOfTypes( navigationBarScreenButton, [ phet.joist.NavigationBarScreenButton ] );
 
-    assert && assert( navBarScreenButton.buttonModel.startedCallbacksForFiredEmitter, 'button models should use emitters' );
-    toEventOnEmit( navBarScreenButton.buttonModel.startedCallbacksForFiredEmitter, navBarScreenButton.buttonModel.endedCallbacksForFiredEmitter, 'user', phetioID, TNavigationBarScreenButton, 'fired' );
+    assert && assert( navigationBarScreenButton.buttonModel.startedCallbacksForFiredEmitter, 'button models should use emitters' );
+
+    // Send a message on the data stream when the button is pressed.
+    toEventOnEmit(
+      navigationBarScreenButton.buttonModel.startedCallbacksForFiredEmitter,
+      navigationBarScreenButton.buttonModel.endedCallbacksForFiredEmitter,
+      'user',
+      phetioID,
+      TNavigationBarScreenButton,
+      'fired'
+    );
   }
 
   phetioInherit( TNode, 'TNavigationBarScreenButton', TNavigationBarScreenButton, {}, {
-    documentation: 'A pressable button in the simulation',
+    documentation: 'A pressable button in the simulation\'s navigation bar',
     events: [ 'fired' ]
   } );
 
