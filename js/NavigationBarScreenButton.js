@@ -72,7 +72,7 @@ define( function( require ) {
       return screenIndex === screens.indexOf( screen );
     } );
 
-    // @private - create the button model, needs to be public so that PhET-iO wrappers can hook up to it if needed
+    // @public (phet-io) - create the button model, needs to be public so that PhET-iO wrappers can hook up to it if needed
     this.buttonModel = new PushButtonModel( {
       listener: clicked
     } );
