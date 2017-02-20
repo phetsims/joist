@@ -768,6 +768,7 @@ define( function( require ) {
 
         Timer.step( dt );
 
+        //TODO https://github.com/phetsims/joist/issues/404 run TWEENs for the selected screen only
         // If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
         // Update the tweens after the model is updated but before the scene is redrawn.
         if ( window.TWEEN ) {
