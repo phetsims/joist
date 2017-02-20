@@ -1,10 +1,11 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
+ * Wrapper type for JustButton
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)
- * @author Andrea Lin
+ * @author Andrea Lin (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';
@@ -17,18 +18,23 @@ define( function( require ) {
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
 
   /**
-   * Wrapper type for phet/joist's PhetButton
-   * @param phetButton
-   * @param phetioID
+   * @param {JoistButton} joistButton
+   * @param {string} phetioID
    * @constructor
    */
-  function TJoistButton( phetButton, phetioID ) {
-    TNode.call( this, phetButton, phetioID );
-    assertInstanceOf( phetButton, phet.joist.JoistButton );
+  function TJoistButton( joistButton, phetioID ) {
+    TNode.call( this, joistButton, phetioID );
+    assertInstanceOf( joistButton, phet.joist.JoistButton );
 
-    assert && assert( phetButton.buttonModel.startedCallbacksForFiredEmitter, 'button models should use emitters' );
-    toEventOnEmit( phetButton.buttonModel.startedCallbacksForFiredEmitter, phetButton.buttonModel.endedCallbacksForFiredEmitter, 'user', phetioID, TJoistButton, 'fired' );
-
+    // Add button fire events to the data stream.
+    toEventOnEmit(
+      joistButton.buttonModel.startedCallbacksForFiredEmitter,
+      joistButton.buttonModel.endedCallbacksForFiredEmitter,
+      'user',
+      phetioID,
+      TJoistButton,
+      'fired'
+    );
   }
 
   phetioInherit( TNode, 'TJoistButton', TJoistButton, {}, {
@@ -40,4 +46,3 @@ define( function( require ) {
 
   return TJoistButton;
 } );
-
