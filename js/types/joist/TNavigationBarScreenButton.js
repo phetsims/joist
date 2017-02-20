@@ -26,8 +26,6 @@ define( function( require ) {
 
     assertInstanceOfTypes( navigationBarScreenButton, [ phet.joist.NavigationBarScreenButton ] );
 
-    assert && assert( navigationBarScreenButton.buttonModel.startedCallbacksForFiredEmitter, 'button models should use emitters' );
-
     // Send a message on the data stream when the button is pressed.
     toEventOnEmit(
       navigationBarScreenButton.buttonModel.startedCallbacksForFiredEmitter,
