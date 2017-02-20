@@ -14,7 +14,6 @@ define( function( require ) {
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
   var toEventOnEmit = require( 'PHET_IO/events/toEventOnEmit' );
-  var TVoid = require( 'PHET_IO/types/TVoid' );
 
   /**
    * Wrapper type for phet/joist's ScreenButton
@@ -34,16 +33,7 @@ define( function( require ) {
       'fired' );
   }
 
-  phetioInherit( TNode, 'TScreenButton', TScreenButton, {
-    fire: {
-      returnType: TVoid,
-      parameterTypes: [],
-      implementation: function() {
-        this.instance.buttonModel.fire();
-      },
-      documentation: 'Fire the button\'s action, as if the button has been pressed and released'
-    }
-  }, {
+  phetioInherit( TNode, 'TScreenButton', TScreenButton, {}, {
     documentation: 'A pressable button in the simulation, in the home screen',
     events: [ 'fired' ]
   } );
