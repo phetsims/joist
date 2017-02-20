@@ -299,7 +299,10 @@ define( function( require ) {
       allowWebGL: phet.chipper.queryParameters.webgl,
 
       accessibility: options.accessibility,
-      isApplication: false
+      isApplication: false,
+
+      batchDOMEvents: this.options.batchEvents,
+      assumeFullWindow: true // a bit faster if we can assume no coordinate translations are needed for the display.
     } );
 
     // When the sim is inactive, make it non-interactive, see https://github.com/phetsims/scenery/issues/414
@@ -334,7 +337,7 @@ define( function( require ) {
       this.display.scenery.switchLogToString();
     }
 
-    this.display.initializeWindowEvents( { batchDOMEvents: this.options.batchEvents } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
+    this.display.initializeEvents(); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
     window.phet.joist.rootNode = this.rootNode; // make the scene available for debugging
     window.phet.joist.display = this.display; // make the display available for debugging
 
