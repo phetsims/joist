@@ -42,7 +42,7 @@ define( function( require ) {
       highlightCenterOffsetY: 0
     }, options );
 
-    // @private - Button model
+    // @public (phet-io) - Button model
     this.buttonModel = new PushButtonModel( options );
 
     // Create both highlights and only make the one visible that corresponds to the color scheme
