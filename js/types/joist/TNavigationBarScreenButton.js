@@ -10,7 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var assertInstanceOfTypes = require( 'PHET_IO/assertions/assertInstanceOfTypes' );
+  var assertInstanceOf = require( 'PHET_IO/assertions/assertInstanceOf' );
   var phetioInherit = require( 'PHET_IO/phetioInherit' );
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
   var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
@@ -24,7 +24,7 @@ define( function( require ) {
   function TNavigationBarScreenButton( navigationBarScreenButton, phetioID ) {
     TNode.call( this, navigationBarScreenButton, phetioID );
 
-    assertInstanceOfTypes( navigationBarScreenButton, [ phet.joist.NavigationBarScreenButton ] );
+    assertInstanceOf( navigationBarScreenButton, phet.joist.NavigationBarScreenButton );
 
     // Send a message on the data stream when the button is pressed.
     toEventOnEmit(
