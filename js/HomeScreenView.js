@@ -54,7 +54,8 @@ define( function( require ) {
         family: TITLE_FONT_FAMILY
       } ),
       fill: 'white',
-      y: 110
+      y: 110,
+      tandem: tandem.createTandem( 'title' )
     } );
     this.addChild( title );
     title.scale( Math.min( 1, 0.9 * this.layoutBounds.width / title.width ) );

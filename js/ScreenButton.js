@@ -81,7 +81,8 @@ define( function( require ) {
     // Text for the screen button
     var text = new Text( screen.name, {
       font: new PhetFont( large ? 42 : 18 ),
-      fill: large ? PhetColorScheme.PHET_LOGO_YELLOW : 'gray' // Color match with the PhET Logo yellow
+      fill: large ? PhetColorScheme.PHET_LOGO_YELLOW : 'gray', // Color match with the PhET Logo yellow
+      tandem: tandem.createTandem( 'text' )
     } );
 
     // Shrink the text if it goes beyond the edge of the image
