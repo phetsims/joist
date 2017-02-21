@@ -61,10 +61,11 @@ define( function( require ) {
 
     Node.call( this );
 
-    // icon,
+    // icon
     var icon = new Node( {
       children: [ screen.navigationBarIcon ], // wrap in case this icon is used in multiple place (eg, home screen and navbar)
-      maxHeight: 0.625 * navBarHeight
+      maxHeight: 0.625 * navBarHeight,
+      tandem: options.tandem.createTandem( 'icon' )
     } );
 
     // Is this button's screen selected?
@@ -78,10 +79,11 @@ define( function( require ) {
     } );
     this.addInputListener( new ButtonListener( this.buttonModel ) );
 
-    options.tandem && options.tandem.addInstance( this, TNavigationBarScreenButton );
+    options.tandem.addInstance( this, TNavigationBarScreenButton );
 
     var text = new Text( screen.name, {
-      font: new PhetFont( 10 )
+      font: new PhetFont( 10 ),
+      tandem: options.tandem.createTandem( 'text' )
     } );
 
     var box = new VBox( {

@@ -264,7 +264,8 @@ define( function( require ) {
       }
     ];
 
-    // Menu items have uniform size, so compute the max text dimensions.
+    // Menu items have uniform size, so compute the max text dimensions.  These are only used for sizing and thus don't
+    // need to be tandemized.
     var keepItemDescriptors = _.filter( itemDescriptors, function( itemDescriptor ) {return itemDescriptor.present;} );
     var textNodes = _.map( keepItemDescriptors, function( item ) {
       return new Text( item.text, {
