@@ -334,7 +334,7 @@ define( function( require ) {
           }
         } );
 
-        self.dispose();
+        // self.dispose();
 
         return new AccessiblePeer( accessibleInstance, domElement );
 
