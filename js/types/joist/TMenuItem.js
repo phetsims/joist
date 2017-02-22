@@ -23,10 +23,10 @@ define( function( require ) {
    * @constructor
    */
   function TMenuItem( menuItem, phetioID ) {
+    assertInstanceOf( menuItem, phet.scenery.Node );
     TNode.call( this, menuItem, phetioID );
 
     // Menu item from Joist, it is defined in PhetMenu.js and does not have its own type
-    assertInstanceOf( menuItem, phet.scenery.Node );
 
     toEventOnEmit(
       menuItem.startedCallbacksForFiredEmitter,

@@ -24,7 +24,6 @@ define( function( require ) {
   function TPhetMenu( phetMenu, phetioID ) {
     TNode.call( this, phetMenu, phetioID );
     assertInstanceOf( phetMenu, phet.joist.PhetMenu );
-
   }
 
   phetioInherit( TNode, 'TPhetMenu', TPhetMenu, {}, {

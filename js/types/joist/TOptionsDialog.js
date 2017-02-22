@@ -20,8 +20,8 @@ define( function( require ) {
    * @param {string} phetioID - identifier string
    */
   function TOptionsDialog( dialog, phetioID ) {
-    TDialog.call( this, dialog, phetioID );
     assertInstanceOf( dialog, phet.sun.Panel );
+    TDialog.call( this, dialog, phetioID );
   }
 
   phetioInherit( TDialog, 'TOptionsDialog', TOptionsDialog, {}, {

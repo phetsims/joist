@@ -21,8 +21,8 @@ define( function( require ) {
    * @constructor
    */
   function TScreen( screen, phetioID ) {
-    TObject.call( this, screen, phetioID );
     assertInstanceOf( screen, phet.joist.Screen );
+    TObject.call( this, screen, phetioID );
   }
 
   phetioInherit( TObject, 'TScreen', TScreen, {}, {

@@ -22,8 +22,8 @@ define( function( require ) {
    * @constructor
    */
   function TScreenButton( button, phetioID ) {
-    TNode.call( this, button, phetioID );
     assertInstanceOf( button, phet.scenery.VBox );
+    TNode.call( this, button, phetioID );
     toEventOnEmit(
       button.startedCallbacksForFiredEmitter,
       button.endedCallbacksForFiredEmitter,

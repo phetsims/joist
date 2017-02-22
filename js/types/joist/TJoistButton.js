@@ -23,8 +23,8 @@ define( function( require ) {
    * @constructor
    */
   function TJoistButton( joistButton, phetioID ) {
-    TNode.call( this, joistButton, phetioID );
     assertInstanceOf( joistButton, phet.joist.JoistButton );
+    TNode.call( this, joistButton, phetioID );
 
     // Add button fire events to the data stream.
     toEventOnEmit(

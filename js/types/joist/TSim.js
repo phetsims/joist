@@ -27,8 +27,8 @@ define( function( require ) {
    * @constructor
    */
   function TSim( sim, phetioID ) {
-    TObject.call( this, sim, phetioID );
     assertInstanceOf( sim, phet.joist.Sim );
+    TObject.call( this, sim, phetioID );
 
     // startedSimConstructorEmitter is called in the constructor of the sim, and endedSimConstructionEmitter is called
     // once all of the screens have been fully initialized, hence construction not constructor.

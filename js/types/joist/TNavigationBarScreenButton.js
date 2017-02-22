@@ -22,9 +22,8 @@ define( function( require ) {
    * @constructor
    */
   function TNavigationBarScreenButton( navigationBarScreenButton, phetioID ) {
-    TNode.call( this, navigationBarScreenButton, phetioID );
-
     assertInstanceOf( navigationBarScreenButton, phet.joist.NavigationBarScreenButton );
+    TNode.call( this, navigationBarScreenButton, phetioID );
 
     // Send a message on the data stream when the button is pressed.
     toEventOnEmit(
