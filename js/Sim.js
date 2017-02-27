@@ -771,7 +771,7 @@ define( function( require ) {
         // View step is the last thing before updateDisplay(), so we can do paint updates there.
         // See https://github.com/phetsims/joist/issues/401.
         if ( screen && screen.view.step ) {
-          screen.view.step();
+          screen.view.step( dt );
         }
       }
       this.display.updateDisplay();
