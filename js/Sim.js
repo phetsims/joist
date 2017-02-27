@@ -706,8 +706,6 @@ define( function( require ) {
       // Store the elapsed time in milliseconds for usage by Tween clients
       phet.joist.elapsedTime = phet.joist.elapsedTime + dt * 1000; // TODO: we are /1000 just to *1000?  Seems wasteful and like opportunity for error. See https://github.com/phetsims/joist/issues/387
 
-      var screen;
-
       this.frameStartedEmitter.emit();
 
       // increment this before we can have an exception thrown, to see if we are missing frames
@@ -751,28 +749,29 @@ define( function( require ) {
       // It may be inactive if it has been paused through the SimIFrameAPI
       if ( this.activeProperty.value ) {
 
-        // Update the active screen, but not if the user is on the home screen
-        if ( !this.showHomeScreenProperty.value ) {
+        // If the user is on the home screen, we won't have a Screen that we'll want to step
+        var screen = this.showHomeScreenProperty.value ? null : this.screens[ this.screenIndexProperty.value ];
 
-          // step model and view (both optional)
-          screen = this.screens[ this.screenIndexProperty.value ];
-
-          // If the DT is 0, we will skip the model step (see https://github.com/phetsims/joist/issues/171)
-          if ( screen.model.step && dt ) {
-            screen.model.step( dt );
-          }
-          if ( screen.view.step ) {
-            screen.view.step( dt );
-          }
-        }
-
+        // Timer step before model/view steps, see https://github.com/phetsims/joist/issues/401
         Timer.step( dt );
 
-        //TODO https://github.com/phetsims/joist/issues/404 run TWEENs for the selected screen only
+        // If the DT is 0, we will skip the model step (see https://github.com/phetsims/joist/issues/171)
+        if ( screen && screen.model.step && dt ) {
+          screen.model.step( dt );
+        }
+
         // If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
-        // Update the tweens after the model is updated but before the scene is redrawn.
+        // Update the tweens after the model is updated but before the view step.
+        // See https://github.com/phetsims/joist/issues/401.
+        //TODO https://github.com/phetsims/joist/issues/404 run TWEENs for the selected screen only
         if ( window.TWEEN ) {
           window.TWEEN.update( phet.joist.elapsedTime );
+        }
+
+        // View step is the last thing before updateDisplay(), so we can do paint updates there.
+        // See https://github.com/phetsims/joist/issues/401.
+        if ( screen && screen.view.step ) {
+          screen.view.step();
         }
       }
       this.display.updateDisplay();
