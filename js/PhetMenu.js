@@ -279,11 +279,18 @@ define( function( require ) {
     // Create the menu items.
     var items = this.items = _.map( keepItemDescriptors, function( itemDescriptor ) {
 
-      return new MenuItem(
+        return new MenuItem(
           maxTextWidth,
           maxTextHeight,
           options.closeCallback,
-          itemDescriptor
+          itemDescriptor.text,
+          itemDescriptor.callback,
+          itemDescriptor.tandem,
+          {
+            textFill: itemDescriptor.textFill,
+            checkedProperty: itemDescriptor.checkedProperty,
+            separatorBefore: itemDescriptor.separatorBefore
+          }
         );
       }
     );

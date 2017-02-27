@@ -12,7 +12,6 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var Emitter = require( 'AXON/Emitter' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -43,38 +42,30 @@ define( function( require ) {
   var CORNER_RADIUS = 5;
 
   /**
-   * A list item to be in the PhetMenu.js
-   *
    * @param width {number} - the width of the menu item
    * @param height {number} - the height of the menu item
    * @param closeCallback {function} - called when closing the dialog that the menu item opened
-   * @param itemDescriptor {object} - Each descriptor has these properties:
-   *                                 {string} text - the item's text
-   *                                 {boolean} present - whether the item should be added to the menu
-   *                                 {function} callback - called when the item fires
-   *                                 {Tandem} tandem - required for MenuItems
+   * @param text {String}
+   * @param callback {function}
+   * @param tandem {Tandem}
+   * @param options {Object}
    * @constructor
    */
-  function MenuItem( width, height, closeCallback, itemDescriptor ) {
+  function MenuItem( width, height, closeCallback, text, callback, tandem, options ) {
     var self = this;
 
-    assert && assert( itemDescriptor.text, 'Text must be supplied' );
-    assert && assert( itemDescriptor.present, 'Present must be supplied' );
-    assert && assert( itemDescriptor.callback, 'Callback must be supplied' );
-
-    // Extend the itemDescriptor object with defaults.
-    itemDescriptor = _.extend( {
-      tandem: Tandem.tandemRequired(),
+    // Extend the object with defaults.
+    options = _.extend( {
       textFill: 'black'
-    }, itemDescriptor );
+    }, options );
 
     Node.call( this );
 
-    var textNode = new Text( itemDescriptor.text, {
+    var textNode = new Text( text, {
       font: new PhetFont( FONT_SIZE ),
-      fill: itemDescriptor.textFill,
+      fill: options.textFill,
       maxWidth: MAX_ITEM_WIDTH,
-      tandem: itemDescriptor.tandem.createTandem( 'textNode' )
+      tandem: tandem.createTandem( 'textNode' )
     } );
 
     var highlight = new Rectangle( 0, 0, width + LEFT_X_MARGIN + RIGHT_X_MARGIN + CHECK_OFFSET,
@@ -98,7 +89,7 @@ define( function( require ) {
     var fire = function( event ) {
       self.startedCallbacksForFiredEmitter.emit();
       closeCallback( event );
-      itemDescriptor.callback( event );
+      callback( event );
       self.endedCallbacksForFiredEmitter.emit();
     };
 
@@ -107,11 +98,11 @@ define( function( require ) {
     } ) );
 
     // @public (joist)
-    this.separatorBefore = itemDescriptor.separatorBefore;
+    this.separatorBefore = options.separatorBefore;
 
     // if there is a check-mark property, add the check mark and hook up visibility changes
     var checkListener;
-    if ( itemDescriptor.checkedProperty ) {
+    if ( options.checkedProperty ) {
       var CHECK_MARK_NODEHolder = new Node( {
         children: [ CHECK_MARK_NODE ],
         right: textNode.left - CHECK_PADDING,
@@ -120,18 +111,18 @@ define( function( require ) {
       checkListener = function( isChecked ) {
         CHECK_MARK_NODEHolder.visible = isChecked;
       };
-      itemDescriptor.checkedProperty.link( checkListener );
+      options.checkedProperty.link( checkListener );
       this.addChild( CHECK_MARK_NODEHolder );
     }
 
     // @public (a11y)
     this.accessibleContent = {
-      id: itemDescriptor.text,
+      id: text,
       createPeer: function( accessibleInstance ) {
         // will look like <input id="menuItemId" value="Phet Button" type="button" tabIndex="0">
         var domElement = document.createElement( 'input' );
         domElement.type = 'button';
-        domElement.value = itemDescriptor.text;
+        domElement.value = text;
         domElement.tabIndex = '0';
         domElement.className = 'phetMenuItem';
 
@@ -164,8 +155,8 @@ define( function( require ) {
 
     this.mutate( {
       cursor: 'pointer',
-      textDescription: itemDescriptor.text + ' Button',
-      tandem: itemDescriptor.tandem,
+      textDescription: text + ' Button',
+      tandem: tandem,
       phetioType: TMenuItem
     } );
 
@@ -173,8 +164,8 @@ define( function( require ) {
      * @private - dispose the menu item
      */
     this.disposeMenuItem = function() {
-      if ( itemDescriptor.checkedProperty ) {
-        itemDescriptor.checkedProperty.unlink( checkListener );
+      if ( options.checkedProperty ) {
+        options.checkedProperty.unlink( checkListener );
       }
     };
   }
