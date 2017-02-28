@@ -453,11 +453,14 @@ define( function( require ) {
 
       // @public (joist-internal) Semi-transparent black barrier used to block input events when a dialog (or other popup)
       // is present, and fade out the background.
-      this.barrierRectangle = new BarrierRectangle( 0, 0, 1, 1, this.modalNodeStack, {
-        fill: 'rgba(0,0,0,0.3)',
-        pickable: true,
-        tandem: tandem.createTandem( 'sim.barrierRectangle' )
-      } );
+      this.barrierRectangle = new BarrierRectangle(
+        this.modalNodeStack,
+        {
+          fill: 'rgba(0,0,0,0.3)',
+          pickable: true,
+          tandem: tandem.createTandem( 'sim.barrierRectangle' )
+        } );
+
       this.topLayer.addChild( this.barrierRectangle );
 
 
@@ -537,9 +540,6 @@ define( function( require ) {
       var self = this;
 
       var scale = Math.min( width / HomeScreenView.LAYOUT_BOUNDS.width, height / HomeScreenView.LAYOUT_BOUNDS.height );
-
-      this.barrierRectangle.rectWidth = width / scale;
-      this.barrierRectangle.rectHeight = height / scale;
 
       // 40 px high on iPad Mobile Safari
       var navBarHeight = scale * NavigationBar.NAVIGATION_BAR_SIZE.height;

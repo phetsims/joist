@@ -1,8 +1,8 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Semi-transparent black barrier used to block input events when a dialog
- * (or other popup) is present, and fade out the background.
+ * Semi-transparent black barrier used to block input events when a dialog (or other popup) is present, and fade out
+ * the background.
  *
  * @author - Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -13,42 +13,34 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
   var Emitter = require( 'AXON/Emitter' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Plane = require( 'SCENERY/nodes/Plane' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
+  var Tandem = require( 'TANDEM/Tandem');
 
   // phet-io modules
   var TBarrierRectangle = require( 'ifphetio!PHET_IO/types/scenery/nodes/TBarrierRectangle' );
 
   /**
-   * @param x
-   * @param y
-   * @param width
-   * @param height
    * @param {ObservableArray} modalNodeStack - see usage in Sim.js
    * @param {Object} [options]
    * @constructor
    */
-  function BarrierRectangle( x, y, width, height, modalNodeStack, options ) {
-
-    options = _.extend( {
-      cornerRadius: 0
-    }, options );
-
+  function BarrierRectangle( modalNodeStack, options ) {
     var self = this;
 
-    var tandem = options.tandem;
+    options = _.extend( {
+        tandem: Tandem.tandemRequired(),
+        phetioType: TBarrierRectangle
+      },
+      options
+    );
 
-    // This will be passed up to parents
-    options.tandem = tandem.createSupertypeTandem();
+    Plane.call( this);
 
-    //TODO #394 don't pass options to both Rectangle.call and mutate
-    Rectangle.call( this, x, y, width, height, options );
-
-    //TODO #394 missing visibility annotations
+    // @private
     this.startedCallbacksForFiredEmitter = new Emitter();
     this.endedCallbacksForFiredEmitter = new Emitter();
 
-    //TODO #394 implement dispose or document why unlink is unnecessary
     modalNodeStack.lengthProperty.link( function( numBarriers ) {
       self.visible = numBarriers > 0;
     } );
@@ -62,14 +54,19 @@ define( function( require ) {
       }
     } ) );
 
-    //TODO #394 don't pass options to both Rectangle.call and mutate
-    this.mutate( {
-      tandem: tandem, //TODO #394 this is not the tandem that you passed to Rectangle.call, bug?
-      phetioType: TBarrierRectangle
-    } );
+    this.disposeBarrierRectangle = function() {
+      modalNodeStack.lengthProperty.unlink();
+    };
+
+    this.mutate( options );
   }
 
   joist.register( 'BarrierRectangle', BarrierRectangle );
 
-  return inherit( Rectangle, BarrierRectangle );
+  return inherit( Plane, BarrierRectangle, {
+    dispose: function() {
+      this.disposeBarrierRectangle();
+      Plane.prototype.dispose.call( this );
+    }
+  } );
 } );
