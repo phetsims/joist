@@ -27,7 +27,7 @@ define( function( require ) {
   var ObservableArray = require( 'AXON/ObservableArray' );
   var platform = require( 'PHET_CORE/platform' );
   var Timer = require( 'PHET_CORE/Timer' );
-  var BarrierRectangle = require( 'JOIST/BarrierRectangle' );
+  var BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
   var Profiler = require( 'JOIST/Profiler' );
   var LookAndFeel = require( 'JOIST/LookAndFeel' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
