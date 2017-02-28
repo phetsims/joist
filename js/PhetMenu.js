@@ -19,7 +19,7 @@ define( function( require ) {
   var AboutDialog = require( 'JOIST/AboutDialog' );
   var OptionsDialog = require( 'JOIST/OptionsDialog' );
   var UpdateDialog = require( 'JOIST/UpdateDialog' );
-  var MenuItem = require( 'JOIST/MenuItem' );
+  var MenuItem = require( 'SUN/MenuItem' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var FullScreen = require( 'JOIST/FullScreen' );
@@ -285,11 +285,11 @@ define( function( require ) {
           options.closeCallback,
           itemDescriptor.text,
           itemDescriptor.callback,
-          itemDescriptor.tandem,
           {
             textFill: itemDescriptor.textFill,
             checkedProperty: itemDescriptor.checkedProperty,
-            separatorBefore: itemDescriptor.separatorBefore
+            separatorBefore: itemDescriptor.separatorBefore,
+            tandem: itemDescriptor.tandem
           }
         );
       }
