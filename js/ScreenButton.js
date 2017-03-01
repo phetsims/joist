@@ -1,7 +1,8 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * TODO #393 document me
+ * A ScreenButton is displayed on the HomeScreen. There are small and large ScreenButtons, that can be toggled through
+ * to select the desired sim screen to go to. See HomeScreenView.js for more information.
  *
  * @author - Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -28,25 +29,31 @@ define( function( require ) {
   // constants
   var LARGE_ICON_HEIGHT = 140;
 
-  //TODO #395 type expressions for params
   /**
    * @param {boolean} large - whether or not this is a large or small screenButton
-   * @param sim
-   * @param index - index of this screen so we can get the screen, sorta backwards
-   * @param highlightedScreenIndexProperty
-   * @param options
+   * @param {Sim} sim
+   * @param {number} index - index of this screen so we can get the screen, sorta backwards
+   * @param {Property} highlightedScreenIndexProperty
+   * @param {Tandem} tandem
+   * @param {object} options
    * @constructor
    */
-  function ScreenButton( large, sim, index, highlightedScreenIndexProperty, options ) {
+  function ScreenButton( large, sim, index, highlightedScreenIndexProperty, tandem, options ) {
     var self = this;
 
-    var tandem = options.tandem;
-    options.tandem = tandem.createSupertypeTandem(); //TODO #395 this will fail if options.tandem is null
+    options = _.extend( {
+      opacity: 1,  // The small screen's nodes have an opacity of .5
+      tandem: tandem, // To be passed into mutate, but tandem should be a required param in joist
+      phetioType: TScreenButton
+    }, options );
+
 
     var screen = sim.screens[ index ];
 
-    //TODO #393 missing visibility annotations
+    // @public
     this.startedCallbacksForFiredEmitter = new Emitter();
+
+    // @public
     this.endedCallbacksForFiredEmitter = new Emitter();
 
     // Maps the number of screens to a scale for the small icons. The scale is percentage of LARGE_ICON_HEIGHT.
@@ -55,13 +62,10 @@ define( function( require ) {
     // Use the small icon scale if this is a small screen button
     var height = large ? LARGE_ICON_HEIGHT : smallIconScale * LARGE_ICON_HEIGHT;
 
-    // The small screen's nodes have an opacity of .5
-    var opacity = options.opacity ? options.opacity : 1;
-
     // Wrap in a Node because we're scaling, and the same icon will be used for small and large icon, and may be used by
     // the navigation bar.
     var icon = new Node( {
-      opacity: opacity,
+      opacity: options.opacity,
       children: [ screen.homeScreenIcon ],
       scale: height / screen.homeScreenIcon.height
     } );
@@ -74,7 +78,7 @@ define( function( require ) {
 
     // Create the icon with the frame inside
     var iconWithFrame = new Node( {
-      opacity: opacity,
+      opacity: options.opacity,
       children: [ frame, icon ]
     } );
 
@@ -90,7 +94,6 @@ define( function( require ) {
       text.scale( iconWithFrame.width / text.width );
     }
 
-    //TODO #395 implement dispose or document why unlink is unnecessary
     // Only link if a large button
     highlightedScreenIndexProperty.link( function( highlightedIndex ) {
       var highlighted = highlightedIndex === index;
@@ -99,16 +102,15 @@ define( function( require ) {
       text.fill = (large || highlighted) ? 'white' : 'gray';
     } );
 
-    //TODO #395 don't pass options to both VBox.call and mutate
-    VBox.call( this, _.extend( {
-        children: [
-          iconWithFrame,
-          text
-        ]
-      }, options )
-    );
+    // The children are needed in the VBox constructor, but the rest of the options should be mutated later.
+    VBox.call( this, {
+      children: [
+        iconWithFrame,
+        text
+      ]
+    } );
 
-    // Input listeners after the parent call
+    // Input listeners after the parent call depending on if the ScreenButton is large or small
     var buttonDown = large ?
                      function() {
                        sim.showHomeScreenProperty.value = false;
@@ -129,7 +131,7 @@ define( function( require ) {
     // Set highlight listeners to the small screen button
     if ( !large ) {
 
-      //TODO #395 missing visibility annotation
+      // @public (joist-internal)
       this.highlightListener = {
         over: function( event ) {
           highlightedScreenIndexProperty.value = index;
@@ -152,14 +154,19 @@ define( function( require ) {
 
     this.mouseArea = this.touchArea = Shape.bounds( this.bounds ); // cover the gap in the vbox
 
-    //TODO #395 don't pass options to both VBox.call and mutate
-    this.mutate( {
-      tandem: tandem, //TODO #395 this is not the tandem that you passed to VBox.call, bug?
-      phetioType: TScreenButton
-    } );
+    this.disposeScreenButton = function() {
+      highlightedScreenIndexProperty.unlink();
+    };
+
+    this.mutate( options );
   }
 
   joist.register( 'ScreenButton', ScreenButton );
 
-  return inherit( VBox, ScreenButton );
+  return inherit( VBox, ScreenButton, {
+    dispose: function() {
+      this.disposeScreenButton();
+      VBox.prototype.dispose.call( this );
+    }
+  } );
 } );
