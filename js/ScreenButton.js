@@ -35,7 +35,7 @@ define( function( require ) {
    * @param {number} index - index of this screen so we can get the screen, sorta backwards
    * @param {Property} highlightedScreenIndexProperty
    * @param {Tandem} tandem
-   * @param {object} options
+   * @param {Object} [options]
    * @constructor
    */
   function ScreenButton( large, sim, index, highlightedScreenIndexProperty, tandem, options ) {
@@ -46,7 +46,6 @@ define( function( require ) {
       tandem: tandem, // To be passed into mutate, but tandem should be a required param in joist
       phetioType: TScreenButton
     }, options );
-
 
     var screen = sim.screens[ index ];
 
@@ -164,6 +163,8 @@ define( function( require ) {
   joist.register( 'ScreenButton', ScreenButton );
 
   return inherit( VBox, ScreenButton, {
+
+    // @public
     dispose: function() {
       this.disposeScreenButton();
       VBox.prototype.dispose.call( this );
