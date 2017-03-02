@@ -26,7 +26,6 @@ define( function( require ) {
   var Brand = require( 'BRAND/Brand' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
-  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var joist = require( 'JOIST/joist' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
@@ -324,30 +323,6 @@ define( function( require ) {
     content.left = X_MARGIN;
     content.top = Y_MARGIN;
 
-    // @public (accessibility)
-    this.accessibleContent = {
-      createPeer: function( accessibleInstance ) {
-        /*
-         * Element of the parallel DOM should look like:
-         */
-        var domElement = document.createElement( 'div' );
-        domElement.className = 'PhetMenu';
-        domElement.tabIndex = '-1';
-
-        // keydown event will bubble down to menu items
-        domElement.addEventListener( 'keydown', function( event ) {
-          if ( event.keyCode === 27 ) {
-            self.exitMenu();
-          }
-        } );
-
-        // self.dispose();
-
-        return new AccessiblePeer( accessibleInstance, domElement );
-
-      }
-    };
-
     // @private (PhetButton.js) - whether the PhetMenu is showing
     this.isShowing = false;
 
@@ -360,25 +335,6 @@ define( function( require ) {
   joist.register( 'PhetMenu', PhetMenu );
 
   inherit( Node, PhetMenu, {
-
-    /**
-     * Close the menu from a keystroke
-     * @public (accessibility)
-     */
-    exitMenu: function() {
-
-      // all screen view elements are injected back into the navigation order.
-      var screenViewElements = document.getElementsByClassName( 'screenView' );
-      _.each( screenViewElements, function( element ) {
-        element.hidden = false;
-      } );
-
-      // make sure that the phet button is also in the tab order.
-      document.getElementsByClassName( 'PhetButton' )[ 0 ].hidden = false;
-
-      // hide the menu
-      this.hide();
-    },
 
     // @public
     show: function() {
