@@ -20,6 +20,11 @@ define( function( require ) {
   var TString = require( 'PHET_IO/types/TString' );
   var TVoid = require( 'PHET_IO/types/TVoid' );
 
+  // constants
+  // The token for the event that occurs when the simulation constructor completes. This is hard-coded in many places
+  // such as th playback wrapper, so should not be changed lightly!
+  var SIM_STARTED = 'simStarted';
+
   /**
    * Wrapper type for phet/joist's Sim class.
    * @param sim
@@ -32,7 +37,8 @@ define( function( require ) {
 
     // startedSimConstructorEmitter is called in the constructor of the sim, and endedSimConstructionEmitter is called
     // once all of the screens have been fully initialized, hence construction not constructor.
-    toEventOnEmit( sim.startedSimConstructorEmitter, sim.endedSimConstructionEmitter, 'model', phetioID, TSim, 'simStarted',
+    // The simStarted event is guaranteed to be a top-level event, not nested under other events.
+    toEventOnEmit( sim.startedSimConstructorEmitter, sim.endedSimConstructionEmitter, 'model', phetioID, TSim, SIM_STARTED,
       function( value ) {
         return {
           sessionID: value.sessionID,
@@ -88,7 +94,7 @@ define( function( require ) {
   }, {
     documentation: 'The type for the simulation instance',
     events: [
-      'simStarted'
+      SIM_STARTED
     ]
   } );
 
