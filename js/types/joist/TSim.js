@@ -48,7 +48,7 @@ define( function( require ) {
           simURL: value.url,
           userAgent: window.navigator.userAgent,
           randomSeed: value.randomSeed,
-          extraMetadata: window.simStartedMetadata,
+          wrapperMetadata: window.simStartedMetadata,
           provider: 'PhET Interactive Simulations, University of Colorado Boulder' // See #137
         };
       } );
