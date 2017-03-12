@@ -27,7 +27,6 @@ require.config( {
     PHET_IO: '../../phet-io/js',
     SCENERY: '../../scenery/js',
     SCENERY_PHET: '../../scenery-phet/js',
-    SHERPA: '../../sherpa',
     SUN: '../../sun/js',
     TANDEM: '../../tandem/js'
   },
