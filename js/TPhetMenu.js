@@ -8,11 +8,13 @@
 define( function( require ) {
   'use strict';
 
+  // modules
+  var joist = require( 'JOIST/joist' );
+  var TNode = require( 'SCENERY/nodes/TNode' );
+
   // phet-io modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  var joist = require( 'JOIST/joist' );
-  var TNode = require( 'ifphetio!PHET_IO/types/scenery/nodes/TNode' );
 
   /**
    * Wrapper type for phet/joist's PhetMenu
