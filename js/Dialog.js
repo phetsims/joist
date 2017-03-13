@@ -157,6 +157,9 @@ define( function( require ) {
     if ( options.title ) {
       options.title.domElement && this.setAriaLabelledByElement( options.title.domElement );
     }
+
+    // @private (a11y) - the active element when the dialog is shown, tracked so that focus can be restored on hidden
+    this.activeElement = null;
   }
 
   joist.register( 'Dialog', Dialog );
@@ -180,6 +183,9 @@ define( function( require ) {
         // a11y - hide all ScreenView content from assistive technology when the dialog is shown
         this.setAccessibleViewsHidden( true );
 
+        // a11y - store the currently active element
+        this.activeElement = document.activeElement;
+
         // In case the window size has changed since the dialog was hidden, we should try layout out again.
         // See https://github.com/phetsims/joist/issues/362
         this.updateLayout();
@@ -195,18 +201,23 @@ define( function( require ) {
 
         // a11y - when the dialog is hidden, unhide all ScreenView content from assistive technology
         this.setAccessibleViewsHidden( false );
+
+        // a11y - restore focus to the active element
+        this.activeElement && this.activeElement.focus();
       }
     },
 
     /**
-     * Hide or show all accessible content related to the sim ScreenViews.
+     * Hide or show all accessible content related to the sim ScreenViews and navigation bar.
      * 
-     * @param  {boolean} hidden
+     * @param {boolean} hidden
      */
     setAccessibleViewsHidden: function( hidden ) {
       for ( var i = 0; i < this.sim.screens.length; i++ ) {
         this.sim.screens[ i ].view.accessibleHidden = hidden;
       }
+
+      this.sim.navigationBar.accessibleHidden = hidden;
     }
   } );
 } );
