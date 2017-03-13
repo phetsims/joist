@@ -29,9 +29,7 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
-
-  // phet-io modules
-  var TPhetMenu = require( 'ifphetio!PHET_IO/types/joist/TPhetMenu' );
+  var TPhetMenu = require( 'JOIST/TPhetMenu' );
 
   // strings
   var menuItemOptionsString = require( 'string!JOIST/menuItem.options' );

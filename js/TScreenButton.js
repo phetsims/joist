@@ -8,12 +8,12 @@
 define( function( require ) {
   'use strict';
 
-  // modules
-  var assertInstanceOf = require( 'PHET_IO/assertions/assertInstanceOf' );
-  var phetioInherit = require( 'PHET_IO/phetioInherit' );
-  var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
-  var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
-  var toEventOnEmit = require( 'PHET_IO/events/toEventOnEmit' );
+  // phet-io modules
+  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
+  var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
+  var joist = require( 'JOIST/joist' );
+  var TNode = require( 'ifphetio!PHET_IO/types/scenery/nodes/TNode' );
+  var toEventOnEmit = require( 'ifphetio!PHET_IO/events/toEventOnEmit' );
 
   /**
    * Wrapper type for phet/joist's ScreenButton
@@ -38,7 +38,7 @@ define( function( require ) {
     events: [ 'fired' ]
   } );
 
-  phetioNamespace.register( 'TScreenButton', TScreenButton );
+  joist.register( 'TScreenButton', TScreenButton );
 
   return TScreenButton;
 } );

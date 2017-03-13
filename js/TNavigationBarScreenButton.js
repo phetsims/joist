@@ -9,12 +9,12 @@
 define( function( require ) {
   'use strict';
 
-  // modules
-  var assertInstanceOf = require( 'PHET_IO/assertions/assertInstanceOf' );
-  var phetioInherit = require( 'PHET_IO/phetioInherit' );
-  var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
-  var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
-  var toEventOnEmit = require( 'PHET_IO/events/toEventOnEmit' );
+  // phet-io modules
+  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
+  var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
+  var joist = require( 'JOIST/joist' );
+  var TNode = require( 'ifphetio!PHET_IO/types/scenery/nodes/TNode' );
+  var toEventOnEmit = require( 'ifphetio!PHET_IO/events/toEventOnEmit' );
 
   /**
    * @param {NavigationBarScreenButton} navigationBarScreenButton
@@ -41,7 +41,7 @@ define( function( require ) {
     events: [ 'fired' ]
   } );
 
-  phetioNamespace.register( 'TNavigationBarScreenButton', TNavigationBarScreenButton );
+  joist.register( 'TNavigationBarScreenButton', TNavigationBarScreenButton );
 
   return TNavigationBarScreenButton;
 } );

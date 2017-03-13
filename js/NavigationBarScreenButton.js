@@ -26,9 +26,7 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
   var Tandem = require( 'TANDEM/Tandem' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-
-  // phet-io modules
-  var TNavigationBarScreenButton = require( 'ifphetio!PHET_IO/types/joist/TNavigationBarScreenButton' );
+  var TNavigationBarScreenButton = require( 'JOIST/TNavigationBarScreenButton' );
 
   // constants
   var HIGHLIGHT_SPACING = 4;

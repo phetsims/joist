@@ -38,9 +38,9 @@ define( function( require ) {
   var DotUtil = require( 'DOT/Util' );// eslint-disable-line
   var Emitter = require( 'AXON/Emitter' );
   var TandemEmitter = require( 'TANDEM/axon/TandemEmitter' );
+  var TSim = require( 'JOIST/TSim' );
 
   // phet-io modules
-  var TSim = require( 'ifphetio!PHET_IO/types/joist/TSim' );
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
 

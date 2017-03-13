@@ -22,9 +22,7 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var Shape = require( 'KITE/Shape' );
-
-  // phet-io modules
-  var TScreenButton = require( 'ifphetio!PHET_IO/types/joist/TScreenButton' );
+  var TScreenButton = require( 'JOIST/TScreenButton' );
 
   // constants
   var LARGE_ICON_HEIGHT = 140;

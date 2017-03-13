@@ -7,11 +7,11 @@
 define( function( require ) {
   'use strict';
 
-  // modules
-  var assertInstanceOf = require( 'PHET_IO/assertions/assertInstanceOf' );
-  var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
-  var phetioInherit = require( 'PHET_IO/phetioInherit' );
-  var TPanel = require( 'PHET_IO/types/sun/TPanel' );
+  // phet-io modules
+  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
+  var joist = require( 'JOIST/joist' );
+  var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
+  var TPanel = require( 'ifphetio!PHET_IO/types/sun/TPanel' );
 
   /**
    * @constructor
@@ -28,7 +28,7 @@ define( function( require ) {
     documentation: 'A dialog panel'
   } );
 
-  phetioNamespace.register( 'TDialog', TDialog );
+  joist.register( 'TDialog', TDialog );
 
   return TDialog;
 } );

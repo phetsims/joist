@@ -18,9 +18,7 @@ define( function( require ) {
   var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
   var Property = require( 'AXON/Property' );
   var joist = require( 'JOIST/joist' );
-
-  // phet-io modules
-  var TJoistButton = require( 'ifphetio!PHET_IO/types/joist/TJoistButton' );
+  var TJoistButton = require( 'JOIST/TJoistButton' );
 
   /**
    * @param {Node} content - the scenery node to render as the content of the button

@@ -8,12 +8,11 @@
 define( function( require ) {
   'use strict';
 
-  // modules
-  var assertInstanceOf = require( 'PHET_IO/assertions/assertInstanceOf' );
-  var phetioInherit = require( 'PHET_IO/phetioInherit' );
-  var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
-  var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
-
+  // phet-io modules
+  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
+  var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
+  var joist = require( 'JOIST/joist' );
+  var TNode = require( 'ifphetio!PHET_IO/types/scenery/nodes/TNode' );
 
   /**
    * Wrapper type for phet/joist's PhetMenu
@@ -31,7 +30,7 @@ define( function( require ) {
     event: [ 'fired' ]
   } );
 
-  phetioNamespace.register( 'TPhetMenu', TPhetMenu );
+  joist.register( 'TPhetMenu', TPhetMenu );
 
   return TPhetMenu;
 } );

@@ -8,11 +8,11 @@
 define( function( require ) {
   'use strict';
 
-  // modules
-  var assertInstanceOf = require( 'PHET_IO/assertions/assertInstanceOf' );
-  var phetioInherit = require( 'PHET_IO/phetioInherit' );
-  var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
-  var TObject = require( 'PHET_IO/types/TObject' );
+  // phet-io modules
+  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
+  var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
+  var joist = require( 'JOIST/joist' );
+  var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
 
   /**
    * Wrapper type for phet/joist's Screen class.
@@ -29,7 +29,7 @@ define( function( require ) {
     documentation: 'A single screen for a PhET simulation'
   } );
 
-  phetioNamespace.register( 'TScreen', TScreen );
+  joist.register( 'TScreen', TScreen );
 
   return TScreen;
 } );

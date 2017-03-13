@@ -8,17 +8,17 @@
 define( function( require ) {
   'use strict';
 
-  // modules
-  var assertInstanceOf = require( 'PHET_IO/assertions/assertInstanceOf' );
-  var phetio = require( 'PHET_IO/phetio' );
-  var phetioInherit = require( 'PHET_IO/phetioInherit' );
-  var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
-  var SimIFrameAPI = require( 'PHET_IO/SimIFrameAPI' );
-  var TFunctionWrapper = require( 'PHET_IO/types/TFunctionWrapper' );
-  var TObject = require( 'PHET_IO/types/TObject' );
-  var toEventOnEmit = require( 'PHET_IO/events/toEventOnEmit' );
-  var TString = require( 'PHET_IO/types/TString' );
-  var TVoid = require( 'PHET_IO/types/TVoid' );
+  // phet-io modules
+  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
+  var phetio = require( 'ifphetio!PHET_IO/phetio' );
+  var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
+  var joist = require( 'JOIST/joist' );
+  var SimIFrameAPI = require( 'ifphetio!PHET_IO/SimIFrameAPI' );
+  var TFunctionWrapper = require( 'ifphetio!PHET_IO/types/TFunctionWrapper' );
+  var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
+  var toEventOnEmit = require( 'ifphetio!PHET_IO/events/toEventOnEmit' );
+  var TString = require( 'ifphetio!PHET_IO/types/TString' );
+  var TVoid = require( 'ifphetio!PHET_IO/types/TVoid' );
 
   // constants
   // The token for the event that occurs when the simulation constructor completes. This is hard-coded in many places
@@ -57,7 +57,7 @@ define( function( require ) {
     phetio.sim = sim;
     sim.endedSimConstructionEmitter.addListener( function() {
 
-      // TODO: Can these be coalesced?
+      // TODO: Can these be coalesced?  See https://github.com/phetsims/joist/issues/412
       SimIFrameAPI.triggerSimInitialized();
       phetio.simulationStarted();
     } );
@@ -99,7 +99,7 @@ define( function( require ) {
   } );
 
 
-  phetioNamespace.register( 'TSim', TSim );
+  joist.register( 'TSim', TSim );
 
   return TSim;
 } );

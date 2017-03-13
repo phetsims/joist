@@ -22,9 +22,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
-
-  // phet-io modules
-  var TScreen = require( 'ifphetio!PHET_IO/types/joist/TScreen' );
+  var TScreen = require( 'JOIST/TScreen' );
 
   // constants
   var MINIMUM_HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 );

@@ -15,9 +15,7 @@ define( function( require ) {
   var Dialog = require( 'JOIST/Dialog' );
   var joist = require( 'JOIST/joist' );
   var Tandem = require( 'TANDEM/Tandem' );
-
-  // phet-io modules
-  var TOptionsDialog = require( 'ifphetio!PHET_IO/types/joist/TOptionsDialog' );
+  var TOptionsDialog = require( 'JOIST/TOptionsDialog' );
 
   // strings
   var optionsTitleString = require( 'string!JOIST/options.title' );

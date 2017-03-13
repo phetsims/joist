@@ -27,10 +27,7 @@ define( function( require ) {
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var packageJSON = require( 'JOIST/packageJSON' );
   var joist = require( 'JOIST/joist' );
-
-  // phet-io modules
-  var TDialog = require( 'ifphetio!PHET_IO/types/joist/TDialog' );
-
+  var TDialog = require( 'JOIST/TDialog' );
 
   // strings
   var versionPatternString = require( 'string!JOIST/versionPattern' );

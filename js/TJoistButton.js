@@ -10,12 +10,12 @@
 define( function( require ) {
   'use strict';
 
-  // modules
-  var assertInstanceOf = require( 'PHET_IO/assertions/assertInstanceOf' );
-  var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
-  var phetioInherit = require( 'PHET_IO/phetioInherit' );
-  var toEventOnEmit = require( 'PHET_IO/events/toEventOnEmit' );
-  var TNode = require( 'PHET_IO/types/scenery/nodes/TNode' );
+  // phet-io modules
+  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
+  var joist = require( 'JOIST/joist' );
+  var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
+  var toEventOnEmit = require( 'ifphetio!PHET_IO/events/toEventOnEmit' );
+  var TNode = require( 'ifphetio!PHET_IO/types/scenery/nodes/TNode' );
 
   /**
    * @param {JoistButton} joistButton
@@ -42,7 +42,7 @@ define( function( require ) {
     events: [ 'fired' ]
   } );
 
-  phetioNamespace.register( 'TJoistButton', TJoistButton );
+  joist.register( 'TJoistButton', TJoistButton );
 
   return TJoistButton;
 } );
