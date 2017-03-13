@@ -11,7 +11,7 @@ define( function( require ) {
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
   var joist = require( 'JOIST/joist' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  var TPanel = require( 'ifphetio!PHET_IO/types/sun/TPanel' );
+  var TPanel = require( 'SUN/TPanel' );
 
   /**
    * @constructor
