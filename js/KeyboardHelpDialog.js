@@ -15,7 +15,10 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var Text = require( 'SCENERY/nodes/Text' );
   var Shape = require( 'KITE/Shape' );
+  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   // constants
   var CLOSE_BUTTON_WIDTH = 7;
@@ -29,8 +32,21 @@ define( function( require ) {
    */
   function KeyboardHelpDialog( helpContent, options ) {
 
+    // title
+    var titleText = new Text( JoistA11yStrings.hotKeysAndHelpString, {
+      font: new PhetFont( {
+        weight: 'bold',
+        size: 20
+      } ),
+
+      // a11y options
+      tagName: 'h1',
+      accessibleLabel: JoistA11yStrings.hotKeysAndHelpString
+    } );
+
     options = _.extend( {
       titleAlign: 'center',
+      title: titleText,
       modal: true,
       hasCloseButton: false,
       fill: 'rgb( 214, 237, 30 )',
@@ -46,8 +62,13 @@ define( function( require ) {
       stroke: 'black',
       lineCap: 'round',
       lineWidth: 2,
-      cursor: 'pointer'
-    } );
+      cursor: 'pointer',
+
+      // a11y
+      tagName: 'button',
+      accessibleLabel: JoistA11yStrings.closeString,
+      focusHighlight: Shape.bounds( closeButtonShape.getBounds().dilated( 10 ) )
+    } );  
 
     // add a listener to hide the dialog
     var self = this;
@@ -66,9 +87,26 @@ define( function( require ) {
     closeButtonPath.top = helpContent.top + CLOSE_BUTTON_MARGIN;
     this.addChild( closeButtonPath );
 
+    // a11y - input listener for the close button, must be disposed
+    var clickListener = { click: function() { self.hide(); } };
+    closeButtonPath.addAccessibleInputListener( clickListener );
+
+    // @private - for garbage collection
+    this.disposeKeyboardHelpDialog = function() {
+      closeButtonPath.removeAccessibleInputListener( clickListener );
+    };
   }
 
   joist.register( 'KeyboardHelpDialog', KeyboardHelpDialog );
 
-  return inherit( Dialog, KeyboardHelpDialog );
+  return inherit( Dialog, KeyboardHelpDialog, {
+
+    /**
+     * So the Dialog is eligible for garbage collection.
+     */
+    dispose: function() {
+      this.disposeKeyboardHelpDialog();
+      Dialog.prototype.dispose && Dialog.prototype.dispose.call( this );
+    }
+  } );
 } );

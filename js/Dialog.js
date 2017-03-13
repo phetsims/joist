@@ -50,7 +50,11 @@ define( function( require ) {
       yMargin: 20,
       closeButtonBaseColor: '#d00',
       closeButtonMargin: 5, // {number} how far away should the close button be from the panel border
-      tandem: Tandem.tandemRequired()
+      tandem: Tandem.tandemRequired(),
+
+      // a11y options
+      tagName: 'div',
+      ariaRole: 'dialog'
     }, options );
 
     // @private (read-only)
@@ -69,7 +73,6 @@ define( function( require ) {
     if ( options.title ) {
 
       var titleNode = options.title;
-
       dialogContent.addChild( titleNode );
 
       var updateTitlePosition = function() {
@@ -144,6 +147,16 @@ define( function( require ) {
 
     // @private
     this.sim = sim;
+
+    // a11y - set the order of content for accessibility, title before content
+    this.accessibleOrder = [ titleNode, dialogContent ];
+
+    // a11y - set the aria labelledby and describedby relations so that whenever focus enters the dialog, the title
+    // and description content are read in full
+    content.domElement && this.setAriaDescribedByElement( content.domElement );
+    if ( options.title ) {
+      options.title.domElement && this.setAriaLabelledByElement( options.title.domElement );
+    }
   }
 
   joist.register( 'Dialog', Dialog );
@@ -164,6 +177,9 @@ define( function( require ) {
         this.isShowing = true;
         this.sim.resizedEmitter.addListener( this.updateLayout );
 
+        // a11y - hide all ScreenView content from assistive technology when the dialog is shown
+        this.setAccessibleViewsHidden( true );
+
         // In case the window size has changed since the dialog was hidden, we should try layout out again.
         // See https://github.com/phetsims/joist/issues/362
         this.updateLayout();
@@ -176,6 +192,20 @@ define( function( require ) {
         window.phet.joist.sim.hidePopup( this, this.isModal );
         this.isShowing = false;
         this.sim.resizedEmitter.removeListener( this.updateLayout );
+
+        // a11y - when the dialog is hidden, unhide all ScreenView content from assistive technology
+        this.setAccessibleViewsHidden( false );
+      }
+    },
+
+    /**
+     * Hide or show all accessible content related to the sim ScreenViews.
+     * 
+     * @param  {boolean} hidden
+     */
+    setAccessibleViewsHidden: function( hidden ) {
+      for ( var i = 0; i < this.sim.screens.length; i++ ) {
+        this.sim.screens[ i ].view.accessibleHidden = hidden;
       }
     }
   } );

@@ -1,0 +1,27 @@
+// Copyright 2017, University of Colorado Boulder
+
+/**
+ * Single location of all accessibility strings used in joist.  These 
+ * strings are not meant to be translatable yet.  Rosetta needs some work to
+ * provide translators with context for these strings, and we want to receive
+ * some community feedback before these strings are submitted for translation.
+ * 
+ * @author Jesse Greenberg
+ */
+define( function( require ) {
+  'use strict';
+
+  var joist = require( 'JOIST/joist' );
+
+  var JoistA11yStrings = {
+    hotKeysAndHelpString: 'Hot Keys and Help',
+    closeString: 'Close'
+  };
+
+  // verify that object is immutable, without the runtime penalty in production code
+  if ( assert ) { Object.freeze( JoistA11yStrings ); }
+
+  joist.register( 'JoistA11yStrings', JoistA11yStrings );
+
+  return JoistA11yStrings;
+} );
