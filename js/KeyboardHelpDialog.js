@@ -58,7 +58,9 @@ define( function( require ) {
     var closeButtonShape = new Shape();
     closeButtonShape.moveTo( -CLOSE_BUTTON_WIDTH, - CLOSE_BUTTON_WIDTH ).lineTo( CLOSE_BUTTON_WIDTH, CLOSE_BUTTON_WIDTH );
     closeButtonShape.moveTo( CLOSE_BUTTON_WIDTH, -CLOSE_BUTTON_WIDTH ).lineTo( -CLOSE_BUTTON_WIDTH, CLOSE_BUTTON_WIDTH );
-    var closeButtonPath = new Path( closeButtonShape, {
+
+    // @public (joist-internal)
+    this.closeButtonPath = new Path( closeButtonShape, {
       stroke: 'black',
       lineCap: 'round',
       lineWidth: 2,
@@ -72,29 +74,32 @@ define( function( require ) {
 
     // add a listener to hide the dialog
     var self = this;
-    closeButtonPath.addInputListener( new ButtonListener( {
+    this.closeButtonPath.addInputListener( new ButtonListener( {
       down: function() {
         self.hide();
       }
     } ) );
-    closeButtonPath.mouseArea = Shape.rect( closeButtonPath.left - closeButtonPath.width * 2, closeButtonPath.top - CLOSE_BUTTON_MARGIN / 2, closeButtonPath.width * 4, closeButtonPath.height + CLOSE_BUTTON_MARGIN );
-    closeButtonPath.touchArea = closeButtonPath.mouseArea;
+
+    // mouse/touch areas for the close button
+    var areaX = this.closeButtonPath.left - this.closeButtonPath.width * 2;
+    var areaY = this.closeButtonPath.top - CLOSE_BUTTON_MARGIN / 2;
+    var width = this.closeButtonPath.width * 4;
+    var height = this.closeButtonPath.height + CLOSE_BUTTON_MARGIN;
+    this.closeButtonPath.mouseArea = Shape.rect( areaX, areaY, width, height );
+    this.closeButtonPath.touchArea = this.closeButtonPath.mouseArea;
 
     Dialog.call( this, helpContent, options );
 
     // position and add the close button
-    closeButtonPath.right = helpContent.right - CLOSE_BUTTON_MARGIN;
-    closeButtonPath.top = helpContent.top + CLOSE_BUTTON_MARGIN;
-    this.addChild( closeButtonPath );
+    this.closeButtonPath.right = helpContent.right - CLOSE_BUTTON_MARGIN;
+    this.closeButtonPath.top = helpContent.top + CLOSE_BUTTON_MARGIN;
+    this.addChild( this.closeButtonPath );
 
     // a11y - input listener for the close button, must be disposed
-    var clickListener = { click: function() { self.hide(); } };
-    closeButtonPath.addAccessibleInputListener( clickListener );
-
-    // @private - for garbage collection
-    this.disposeKeyboardHelpDialog = function() {
-      closeButtonPath.removeAccessibleInputListener( clickListener );
-    };
+    this.clickListener = { click: function() {
+      self.hide();
+    } };
+    this.closeButtonPath.addAccessibleInputListener( this.clickListener );
   }
 
   joist.register( 'KeyboardHelpDialog', KeyboardHelpDialog );
@@ -105,7 +110,7 @@ define( function( require ) {
      * So the Dialog is eligible for garbage collection.
      */
     dispose: function() {
-      this.disposeKeyboardHelpDialog();
+      this.closeButtonPath.removeAccessibleInputListener( this.clickListener );
       Dialog.prototype.dispose && Dialog.prototype.dispose.call( this );
     }
   } );

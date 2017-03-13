@@ -197,6 +197,9 @@ define( function( require ) {
     }
 
     this.layout( 1, NAVIGATION_BAR_SIZE.width, NAVIGATION_BAR_SIZE.height );
+
+    // a11y - container tag name for all accessible buttons in the nav bar
+    this.tagName = 'div';
   }
 
   joist.register( 'NavigationBar', NavigationBar );

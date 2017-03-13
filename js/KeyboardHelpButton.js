@@ -16,6 +16,7 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var JoistButton = require( 'JOIST/JoistButton' );
   var KeyboardHelpDialog = require( 'JOIST/KeyboardHelpDialog' );
+  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var joist = require( 'JOIST/joist' );
 
   // images
@@ -31,17 +32,23 @@ define( function( require ) {
   function KeyboardHelpButton( sim, backgroundFillProperty, tandem ) {
 
     var keyboardHelpDialog = null;
+    var openDialog = function() {
+      keyboardHelpDialog && keyboardHelpDialog.dispose();
+      keyboardHelpDialog = new KeyboardHelpDialog( sim.keyboardHelpNode, {
+        tandem: tandem.createTandem( 'keyboardHelpDialog' )
+      } );
+      keyboardHelpDialog.show();
+    };
+
     var options = {
       highlightExtensionWidth: 5,
       highlightExtensionHeight: 10,
       highlightCenterOffsetY: 3,
-      listener: function() {
-        keyboardHelpDialog && keyboardHelpDialog.dispose();
-        keyboardHelpDialog = new KeyboardHelpDialog( sim.keyboardHelpNode, {
-          tandem: tandem.createTandem( 'keyboardHelpDialog' )
-        } );
-        keyboardHelpDialog.show();
-      }
+      listener: openDialog,
+
+      // a11y options
+      tagName: 'button',
+      accessibleLabel: JoistA11yStrings.hotKeysAndHelpString
     };
 
     var icon = new Image( brightIconMipmap, {
@@ -56,10 +63,27 @@ define( function( require ) {
         var backgroundIsWhite = backgroundFill !== 'black' && !showHomeScreen;
         icon.image = backgroundIsWhite ? darkIconMipmap : brightIconMipmap;
       } );
+
+    // a11y - open the dialog on 'spacebar' or 'enter' and focus the 'Close' button immediately
+    this.clickListener = { click: function() {
+      openDialog();
+      keyboardHelpDialog.closeButtonPath.focus();
+    } };
+    this.addAccessibleInputListener( this.clickListener );
   }
 
   joist.register( 'KeyboardHelpButton', KeyboardHelpButton );
 
-  return inherit( JoistButton, KeyboardHelpButton );
+  return inherit( JoistButton, KeyboardHelpButton, {
+
+    /**
+     * To make eligible for garbage collection.
+     * @public
+     */
+    dispose: function() {
+      this.removeAccessibleInputListener( this.clickListener );
+      JoistButton.prototype.dispose && JoistButton.prototype.dispose.call( this );
+    }
+  } );
 
 } );
