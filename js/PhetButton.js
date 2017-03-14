@@ -19,7 +19,6 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var JoistButton = require( 'JOIST/JoistButton' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
-  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var TransformTracker = require( 'SCENERY/util/TransformTracker' );
   var joist = require( 'JOIST/joist' );
 
@@ -29,9 +28,6 @@ define( function( require ) {
   // details
   var brightLogoMipmap = require( 'mipmap!BRAND/logo.png' ); // on a black navbar
   var darkLogoMipmap = require( 'mipmap!BRAND/logo-on-white.png' ); // on a white navbar
-
-  // strings
-  var phetButtonNameString = require( 'string!JOIST/PhetButton.name' );
 
   // Accommodate logos of any height by scaling them down proportionately.
   // The primary logo is 108px high and we have been scaling it at 0.28 to make it look good even on higher resolution
@@ -119,7 +115,7 @@ define( function( require ) {
 
   joist.register( 'PhetButton', PhetButton );
 
-  inherit( JoistButton, PhetButton, {}, {
+  return inherit( JoistButton, PhetButton, {}, {
       // @public - How much space between the PhetButton and the right side of the screen.
       HORIZONTAL_INSET: 10,
 
@@ -161,69 +157,4 @@ define( function( require ) {
       }
     }
   );
-
-  /**
-   * An accessible peer for the PhET button.
-   *
-   * @param {AccessibleInstance} accessibleInstance
-   * @param {function} listener - listener function fired by this button
-   * @public (a11y)
-   */
-  function PhetButtonAccessiblePeer( accessibleInstance, listener ) {
-    this.initialize( accessibleInstance, listener );
-  }
-
-  inherit( AccessiblePeer, PhetButtonAccessiblePeer, {
-
-    /**
-     * Initialize the PhETButton's accessible peer.
-     *
-     * @param {AccessibleInstance} accessibleInstance
-     * @param {function} listener - listener function fired by this button
-     * @public (a11y)
-     */
-    initialize: function( accessibleInstance, listener ) {
-      // will look like <input id="phetButtonId" value="Phet Button" type="button">
-
-      this.domElement = document.createElement( 'input' ); // @private
-      this.domElement.type = 'button';
-      this.domElement.value = phetButtonNameString;
-      this.domElement.className = 'PhetButton';
-
-      this.initializeAccessiblePeer( accessibleInstance, this.domElement );
-
-      // @private - listener for the accessible PhETButton - fire the button listener and hide all elements
-      // in the screen view since the PhETMenu acts like a dialog
-      this.domElementListener = function() {
-        this.hidden = !this.hidden;
-        var screenViewElements = document.getElementsByClassName( 'ScreenView' );
-        _.each( screenViewElements, function( element ) {
-          element.hidden = !element.hidden;
-        } );
-
-        listener();
-
-        // set focus to the first item in the phet menu
-        document.getElementsByClassName( 'phetMenuItem' )[ 0 ].focus();
-
-      };
-
-      // register the listener to the 'click' event
-      this.domElement.addEventListener( 'click', this.domElementListener );
-
-      this.dispose();
-    },
-
-    /**
-     * Dispose the accessible PhetButton so domElement is eligible for garbage collection.
-     * @public (a11y)
-     */
-    dispose: function() {
-      AccessiblePeer.prototype.dispose.call( this );
-      this.domElement.removeEventListener( 'click', this.domElementListener );
-    }
-
-  } );
-
-  return PhetButton;
 } );

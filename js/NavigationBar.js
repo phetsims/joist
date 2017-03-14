@@ -200,6 +200,9 @@ define( function( require ) {
 
     // a11y - container tag name for all accessible buttons in the nav bar
     this.tagName = 'div';
+
+    // a11y
+    this.accessibleOrder = [ this.keyboardHelpButton, this.phetButton ];
   }
 
   joist.register( 'NavigationBar', NavigationBar );
