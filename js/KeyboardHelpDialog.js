@@ -49,7 +49,7 @@ define( function( require ) {
       title: titleText,
       modal: true,
       hasCloseButton: false,
-      fill: 'rgb( 214, 237, 30 )',
+      fill: 'rgb( 214, 237, 249 )',
       xMargin: 0,
       yMargin: 0
     }, options );
