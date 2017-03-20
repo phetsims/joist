@@ -95,7 +95,7 @@ define( function( require ) {
     this.closeButtonPath.top = helpContent.top + CLOSE_BUTTON_MARGIN;
     this.addChild( this.closeButtonPath );
 
-    // a11y - input listener for the close button, must be disposed
+    // @private (a11y) - input listener for the close button, must be disposed
     this.clickListener = this.closeButtonPath.addAccessibleInputListener( {
       click: function() {
         self.hide();

@@ -14,6 +14,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var Input = require( 'SCENERY/input/Input' );
   var Panel = require( 'SUN/Panel' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var joist = require( 'JOIST/joist' );
@@ -158,6 +159,15 @@ define( function( require ) {
       options.title.domElement && this.setAriaLabelledByElement( options.title.domElement );
     }
 
+    // close the dialog when the user presses 'escape'
+    this.escapeListener = this.addAccessibleInputListener( {
+      keydown: function( event ) {
+        if ( event.keyCode === Input.KEY_ESCAPE ) {
+          self.hide();
+        }
+      }
+    } );
+
     // @private (a11y) - the active element when the dialog is shown, tracked so that focus can be restored on hidden
     this.activeElement = null;
   }
@@ -198,6 +208,7 @@ define( function( require ) {
         window.phet.joist.sim.hidePopup( this, this.isModal );
         this.isShowing = false;
         this.sim.resizedEmitter.removeListener( this.updateLayout );
+        this.removeAccessibleInputListener( this.escapeListener );
 
         // a11y - when the dialog is hidden, unhide all ScreenView content from assistive technology
         this.setAccessibleViewsHidden( false );

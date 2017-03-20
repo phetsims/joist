@@ -198,10 +198,11 @@ define( function( require ) {
 
     this.layout( 1, NAVIGATION_BAR_SIZE.width, NAVIGATION_BAR_SIZE.height );
 
-    // a11y - container tag name for all accessible buttons in the nav bar
+    // a11y - container tag name and role for all buttons in the nav bar
     this.tagName = 'div';
+    this.ariaRole = 'navigation';
 
-    // a11y
+    // a11y - keyboard help button before phet menu button
     this.accessibleOrder = [ this.keyboardHelpButton, this.phetButton ];
   }
 

@@ -20,7 +20,11 @@ define( function( require ) {
   var JoistButton = require( 'JOIST/JoistButton' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var TransformTracker = require( 'SCENERY/util/TransformTracker' );
+  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var joist = require( 'JOIST/joist' );
+
+  // strings
+  var phetString = JoistA11yStrings.phetString;
 
   // images
   // The logo images are loaded from the brand which is selected via query parameter (during requirejs mode)
@@ -77,7 +81,11 @@ define( function( require ) {
       highlightCenterOffsetY: 4,
       listener: function() {
         phetMenu.show();
-      }
+      },
+
+      // a11y
+      tagName: 'button',
+      accessibleLabel: phetString
     };
 
     // The PhET Label, which is the PhET logo
@@ -111,6 +119,25 @@ define( function( require ) {
         optionsButton.fill = backgroundIsWhite ? ( outOfDate ? '#0a0' : '#222' ) : ( outOfDate ? '#3F3' : 'white' );
         logoImage.image = backgroundIsWhite ? darkLogoMipmap : brightLogoMipmap;
       } );
+
+    // a11y - add a listener that opens the menu on 'click' and 'reset', and closes it on escape and if the
+    // button receives focus again
+    this.addAccessibleInputListener( {
+      click: function() {
+
+        // open and set focus on the first item
+        phetMenu.show();
+        phetMenu.items[ 0 ].focus();
+      },
+      focus: function() {
+        if ( phetMenu.isShowing ) {
+          phetMenu.hide();
+        }
+      }
+    } );
+
+    // a11y - add an attribute that lets the user know the button opens a menu
+    this.setAccessibleAttribute( 'aria-haspopup', true );
   }
 
   joist.register( 'PhetButton', PhetButton );

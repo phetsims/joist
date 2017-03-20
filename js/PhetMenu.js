@@ -29,6 +29,8 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var Input = require( 'SCENERY/input/Input' );
+  var AccessibilityUtil = require( 'SCENERY/accessibility/AccessibilityUtil' );
   var TPhetMenu = require( 'JOIST/TPhetMenu' );
 
   // strings
@@ -116,7 +118,8 @@ define( function( require ) {
 
           optionsDialog.show();
         },
-        tandem: tandem.createTandem( 'optionsButton' )
+        tandem: tandem.createTandem( 'optionsButton' ),
+        tagName: 'button'
       },
       {
         text: menuItemPhetWebsiteString,
@@ -128,7 +131,8 @@ define( function( require ) {
             var phetWindow = window.open( 'http://phet.colorado.edu/' + sim.locale, '_blank' );
             phetWindow.focus();
           }
-        }
+        },
+        tagName: 'a'
       },
       {
         text: menuItemOutputInputEventsLogString,
@@ -136,7 +140,8 @@ define( function( require ) {
         callback: function() {
           // prints the recorded input event log to the console
           console.log( sim.getRecordedInputEventLogString() );
-        }
+        },
+        tagName: 'button'
       },
       {
         text: menuItemSubmitInputEventsLogString,
@@ -144,7 +149,8 @@ define( function( require ) {
         callback: function() {
           // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
           sim.submitEventLog();
-        }
+        },
+        tagName: 'button'
       },
       {
         text: menuItemMailInputEventsLogString,
@@ -152,7 +158,8 @@ define( function( require ) {
         callback: function() {
           // mailto: link including the body to email
           sim.mailEventLog();
-        }
+        },
+        tagName: 'button'
       },
       {
         text: menuItemReportAProblemString,
@@ -180,7 +187,8 @@ define( function( require ) {
             reportWindow.focus();
           }
         },
-        tandem: tandem.createTandem( 'reportAProblemButton' )
+        tandem: tandem.createTandem( 'reportAProblemButton' ),
+        tagName: 'a'
       },
       {
         text: 'QR code',
@@ -191,7 +199,8 @@ define( function( require ) {
             win.focus();
           }
         },
-        tandem: tandem.createTandem( 'qrCode' )
+        tandem: tandem.createTandem( 'qrCode' ),
+        tagName: 'a'
       },
       {
         text: menuItemGetUpdateString,
@@ -202,7 +211,8 @@ define( function( require ) {
         callback: function() {
           new UpdateDialog().show();
         },
-        tandem: tandem.createTandem( 'getUpdate' )
+        tandem: tandem.createTandem( 'getUpdate' ),
+        tagName: 'button'
       },
 
       // "Screenshot" Menu item
@@ -237,7 +247,8 @@ define( function( require ) {
             window.open( dataURL, '_blank', '' );
           }
         },
-        tandem: tandem.createTandem( 'screenshotMenuItem' )
+        tandem: tandem.createTandem( 'screenshotMenuItem' ),
+        tagName: 'button'
       },
       {
         text: menuItemFullscreenString,
@@ -246,7 +257,8 @@ define( function( require ) {
         callback: function() {
           FullScreen.toggleFullScreen( sim );
         },
-        tandem: tandem.createTandem( 'fullScreenButton' )
+        tandem: tandem.createTandem( 'fullScreenButton' ),
+        tagName: 'button'
       },
 
       //About dialog button
@@ -257,7 +269,8 @@ define( function( require ) {
         callback: function() {
           new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, tandem.createTandem( 'aboutDialog' ) ).show();
         },
-        tandem: tandem.createTandem( 'aboutButton' )
+        tandem: tandem.createTandem( 'aboutButton' ),
+        tagName: 'button'
       }
     ];
 
@@ -286,7 +299,8 @@ define( function( require ) {
             textFill: itemDescriptor.textFill,
             checkedProperty: itemDescriptor.checkedProperty,
             separatorBefore: itemDescriptor.separatorBefore,
-            tandem: itemDescriptor.tandem
+            tandem: itemDescriptor.tandem,
+            tagName: itemDescriptor.tagName
           }
         );
       }
@@ -324,9 +338,48 @@ define( function( require ) {
     // @private (PhetButton.js) - whether the PhetMenu is showing
     this.isShowing = false;
 
+    // a11y, tagname and role for content in the menu
+    this.tagName = 'ul';
+    this.ariaRole = 'menu';
+
+    // a11y - add the keydown listener, handling arrow, escape, and tab keys
+    var keydownListener = this.addAccessibleInputListener( {
+      keydown: function( event ) {
+        var firstItem = self.items[ 0 ];
+        var lastItem = self.items[ self.items.length - 1 ];
+
+        if ( event.keyCode === Input.KEY_DOWN_ARROW ) {
+
+          // On down arrow, focus next item in the list, or wrap up to the first item if focus is at the end
+          var nextFocusable = lastItem.focussed ? firstItem : AccessibilityUtil.getNextFocusable();
+          nextFocusable.focus();
+        }
+        else if ( event.keyCode === Input.KEY_UP_ARROW ) {
+
+          // On up arow, focus previous item in the list, or wrap back to the last item if focus is on first item
+          var previousFocusable = firstItem.focussed ? lastItem : AccessibilityUtil.getPreviousFocusable();
+          previousFocusable.focus();
+        }
+        else if ( event.keyCode === Input.KEY_ESCAPE ) {
+
+          // On escape, close the menu and focus the PhET button
+          options.closeCallback();
+          sim.navigationBar.phetButton.focus();
+        }
+        else if ( event.keyCode === Input.KEY_TAB && !event.shiftKey ) {
+
+          // If we tab out of the menu, close it
+          if ( lastItem.focussed ) {
+            options.closeCallback();
+          }
+        }
+      }
+    } );
+
     tandem.addInstance( this, TPhetMenu );
     this.disposePhetMenu = function() {
       tandem.removeInstance( self );
+      self.removeAccessibleInputListener( keydownListener );
     };
   }
 

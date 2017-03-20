@@ -14,8 +14,13 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
 
   var JoistA11yStrings = {
+
+    // dialogs
     hotKeysAndHelpString: 'Hot Keys and Help',
-    closeString: 'Close'
+    closeString: 'Close',
+
+    // PhET menu ('menu' label added by aria role)
+    phetString: 'PhET'
   };
 
   // verify that object is immutable, without the runtime penalty in production code
