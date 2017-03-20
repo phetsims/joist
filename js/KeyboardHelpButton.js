@@ -65,11 +65,12 @@ define( function( require ) {
       } );
 
     // a11y - open the dialog on 'spacebar' or 'enter' and focus the 'Close' button immediately
-    this.clickListener = { click: function() {
-      openDialog();
-      keyboardHelpDialog.closeButtonPath.focus();
-    } };
-    this.addAccessibleInputListener( this.clickListener );
+    this.clickListener = this.addAccessibleInputListener( {
+      click: function() {
+        openDialog();
+        keyboardHelpDialog.closeButtonPath.focus();
+      } }
+    );
   }
 
   joist.register( 'KeyboardHelpButton', KeyboardHelpButton );

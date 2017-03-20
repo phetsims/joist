@@ -96,10 +96,11 @@ define( function( require ) {
     this.addChild( this.closeButtonPath );
 
     // a11y - input listener for the close button, must be disposed
-    this.clickListener = { click: function() {
-      self.hide();
-    } };
-    this.closeButtonPath.addAccessibleInputListener( this.clickListener );
+    this.clickListener = this.closeButtonPath.addAccessibleInputListener( {
+      click: function() {
+        self.hide();
+      } }
+    );
   }
 
   joist.register( 'KeyboardHelpDialog', KeyboardHelpDialog );
