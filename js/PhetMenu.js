@@ -132,7 +132,8 @@ define( function( require ) {
             phetWindow.focus();
           }
         },
-        tagName: 'a'
+        tagName: 'button',
+        ariaRole: 'link'
       },
       {
         text: menuItemOutputInputEventsLogString,
@@ -188,7 +189,8 @@ define( function( require ) {
           }
         },
         tandem: tandem.createTandem( 'reportAProblemButton' ),
-        tagName: 'a'
+        tagName: 'button',
+        ariaRole: 'link'
       },
       {
         text: 'QR code',
@@ -200,7 +202,8 @@ define( function( require ) {
           }
         },
         tandem: tandem.createTandem( 'qrCode' ),
-        tagName: 'a'
+        tagName: 'button',
+        ariaRole: 'link'
       },
       {
         text: menuItemGetUpdateString,
@@ -300,7 +303,8 @@ define( function( require ) {
             checkedProperty: itemDescriptor.checkedProperty,
             separatorBefore: itemDescriptor.separatorBefore,
             tandem: itemDescriptor.tandem,
-            tagName: itemDescriptor.tagName
+            tagName: itemDescriptor.tagName,
+            ariaRole: itemDescriptor.ariaRole
           }
         );
       }
