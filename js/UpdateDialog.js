@@ -69,7 +69,7 @@ define( function( require ) {
 
     Dialog.call( this, content, {
       modal: true,
-      hasCloseButton: false
+      hasCloseButton: true
     } );
 
     // close it on a click
