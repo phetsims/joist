@@ -129,13 +129,6 @@ define( function( require ) {
       } );
       this.addChild( closeButton );
 
-      // @private (a11y) close the dialog on 'enter' or spacebar, must be disposed
-      var clickListener = closeButton.addAccessibleInputListener( {
-        click: function() {
-          self.hide();
-        }
-      } );
-
       var updateClosePosition = function() {
         closeButton.right = dialogContent.right + options.xMargin - options.closeButtonMargin;
         closeButton.top = dialogContent.top - options.xMargin + options.closeButtonMargin;
@@ -173,24 +166,42 @@ define( function( require ) {
       options.title.domElement && this.setAriaLabelledByElement( options.title.domElement );
     }
 
-    // close the dialog when the user presses 'escape'
-    this.escapeListener = this.addAccessibleInputListener( {
-      keydown: function( event ) {
-        if ( event.keyCode === Input.KEY_ESCAPE ) {
-          self.hide();
-        }
-      }
-    } );
-
     // @private (a11y) - the active element when the dialog is shown, tracked so that focus can be restored on hidden
     this.activeElement = null;
 
+    var clickListener;
+    var escapeListener;
+
+    // @private - add the input listeners for accessibility when the dialog is shown
+    // the listeners must be added when shown because all listeners are removed
+    // when the dialog is hidden
+    this.addAccessibleInputListeners = function() {
+
+      // close the dialog when the user presses 'escape'
+      escapeListener = this.addAccessibleInputListener( {
+        keydown: function( event ) {
+          if ( event.keyCode === Input.KEY_ESCAPE ) {
+            self.hide();
+          }
+        }
+      } );
+
+      // close the dialog when the button is pressed by the keyboard
+      if ( options.hasCloseButton ) {
+        clickListener = closeButton.addAccessibleInputListener( {
+          click: function() {
+            self.hide();
+          }
+        } );
+      }
+    };
+
     // @private (a11y) - remove a11y listeners to make eligible for garbage collection
     this.removeAccessibleListeners = function() {
-      this.removeAccessibleInputListener( this.escapeListener );
+      this.removeAccessibleInputListener( escapeListener );
 
-      if ( options.closeButton ) {
-       this.closeButton.removeAccessibleInputListener( clickListener ); 
+      if ( options.hasCloseButton ) {
+        closeButton.removeAccessibleInputListener( clickListener ); 
       }
     };
   }
@@ -212,6 +223,9 @@ define( function( require ) {
         window.phet.joist.sim.showPopup( this, this.isModal );
         this.isShowing = true;
         this.sim.resizedEmitter.addListener( this.updateLayout );
+
+        // a11y - add the listeners that will close the dialog on 
+        this.addAccessibleInputListeners();
 
         // a11y - hide all ScreenView content from assistive technology when the dialog is shown
         this.setAccessibleViewsHidden( true );
