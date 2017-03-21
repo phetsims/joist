@@ -18,7 +18,10 @@ define( function( require ) {
   var Panel = require( 'SUN/Panel' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var joist = require( 'JOIST/joist' );
+  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var Tandem = require( 'TANDEM/Tandem' );
+
+  var closeString = JoistA11yStrings.closeString;
 
   /**
    * @param {Node} content - The content to display inside the dialog (not including the title)
@@ -115,12 +118,23 @@ define( function( require ) {
         baseColor: options.closeButtonBaseColor,
         xMargin: 5,
         yMargin: 5,
-        listener: function() {
+        listener: function() { 
           self.hide();
         },
-        tandem: options.tandem && options.tandem.createTandem( 'closeButton' )
+        tandem: options.tandem && options.tandem.createTandem( 'closeButton' ),
+
+        // a11y options
+        tagName: 'button',
+        accessibleLabel: closeString
       } );
       this.addChild( closeButton );
+
+      // @private (a11y) close the dialog on 'enter' or spacebar, must be disposed
+      var clickListener = closeButton.addAccessibleInputListener( {
+        click: function() {
+          self.hide();
+        }
+      } );
 
       var updateClosePosition = function() {
         closeButton.right = dialogContent.right + options.xMargin - options.closeButtonMargin;
@@ -170,6 +184,15 @@ define( function( require ) {
 
     // @private (a11y) - the active element when the dialog is shown, tracked so that focus can be restored on hidden
     this.activeElement = null;
+
+    // @private (a11y) - remove a11y listeners to make eligible for garbage collection
+    this.removeAccessibleListeners = function() {
+      this.removeAccessibleInputListener( this.escapeListener );
+
+      if ( options.closeButton ) {
+       this.closeButton.removeAccessibleInputListener( clickListener ); 
+      }
+    };
   }
 
   joist.register( 'Dialog', Dialog );
@@ -207,8 +230,11 @@ define( function( require ) {
       if ( this.isShowing ) {
         window.phet.joist.sim.hidePopup( this, this.isModal );
         this.isShowing = false;
+
+        // dispose dialog - a new one will be created on show()
         this.sim.resizedEmitter.removeListener( this.updateLayout );
-        this.removeAccessibleInputListener( this.escapeListener );
+        
+        this.removeAccessibleListeners();
 
         // a11y - when the dialog is hidden, unhide all ScreenView content from assistive technology
         this.setAccessibleViewsHidden( false );

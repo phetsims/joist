@@ -104,14 +104,18 @@ define( function( require ) {
 
     // @public (joist-internal)
     hide: function() {
-      Dialog.prototype.hide.call( this );
 
-      if ( UpdateCheck.areUpdatesChecked ) {
-        // Disconnect our visibility listener
-        UpdateCheck.stateProperty.unlink( this.updateVisibilityListener );
+      // when hiding, dispose the dialog because a new one is created when the dialog opens again
+      if ( this.isShowing ) {
+        Dialog.prototype.hide.call( this );
 
-        // Disconnect our spinner listener when we're hidden
-        Timer.removeStepListener( this.updateStepListener );
+        if ( UpdateCheck.areUpdatesChecked ) {
+          // Disconnect our visibility listener
+          UpdateCheck.stateProperty.unlink( this.updateVisibilityListener );
+
+          // Disconnect our spinner listener when we're hidden
+          Timer.removeStepListener( this.updateStepListener );
+        }
       }
     }
   } );

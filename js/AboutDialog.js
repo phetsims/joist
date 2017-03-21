@@ -188,21 +188,24 @@ define( function( require ) {
      * @public
      */
     hide: function() {
+      
       // When hidden, this dialog is as good as disposed because it is never shown again
-      Dialog.prototype.hide.call( this );
+      if ( this.isShowing ) {
+        Dialog.prototype.hide.call( this );
 
-      if ( UpdateCheck.areUpdatesChecked ) {
-        // Disconnect our visibility listener
-        UpdateCheck.stateProperty.unlink( this.updateVisibilityListener );
+        if ( UpdateCheck.areUpdatesChecked ) {
+          // Disconnect our visibility listener
+          UpdateCheck.stateProperty.unlink( this.updateVisibilityListener );
 
-        // Disconnect our spinner listener when we're hidden
-        Timer.removeStepListener( this.updateStepListener );
+          // Disconnect our spinner listener when we're hidden
+          Timer.removeStepListener( this.updateStepListener );
+        }
+
+        // Tandems should be removed at disposal. The 'hide' function is used as dispose for the AboutDialog
+        this.aboutDialogTandem.removeInstance( this );
+        this.creditsNode && this.creditsNode.dispose();
+        this.additionalLicenseStatement && this.additionalLicenseStatement.dispose();
       }
-
-      // Tandems should be removed at disposal. The 'hide' function is used as dispose for the AboutDialog
-      this.aboutDialogTandem.removeInstance( this );
-      this.creditsNode && this.creditsNode.dispose();
-      this.additionalLicenseStatement && this.additionalLicenseStatement.dispose();
     }
   } );
 } );
