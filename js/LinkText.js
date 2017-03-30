@@ -23,7 +23,11 @@ define( function( require ) {
 
     Text.call( this, text, _.extend( {
       fill: 'rgb(27,0,241)', // blue, like a typical hypertext link
-      cursor: 'pointer'
+      cursor: 'pointer',
+
+      // a11y
+      tagName: 'a',
+      accessibleLabel: text
     }, options ) );
 
     this.addInputListener( new ButtonListener( {
@@ -33,6 +37,10 @@ define( function( require ) {
         newWindow.focus();
       }
     } ) );
+
+    // a11y - open the link in the new tab when activated with a keyboard
+    this.setAccessibleAttribute( 'href', url );
+    this.setAccessibleAttribute( 'target', '_blank' );
   }
 
   joist.register( 'LinkText', LinkText );
