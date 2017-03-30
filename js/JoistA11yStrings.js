@@ -19,6 +19,9 @@ define( function( require ) {
     hotKeysAndHelpString: 'Hot Keys and Help',
     closeString: 'Close',
 
+    // navigation bar
+    simResourcesAndToolsString: 'Sim Resources and Tools',
+
     // PhET menu ('menu' label added by aria role)
     phetString: 'PhET'
   };

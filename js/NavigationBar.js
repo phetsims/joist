@@ -37,6 +37,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var joist = require( 'JOIST/joist' );
 
   // constants
@@ -198,9 +199,9 @@ define( function( require ) {
 
     this.layout( 1, NAVIGATION_BAR_SIZE.width, NAVIGATION_BAR_SIZE.height );
 
-    // a11y - container tag name and role for all buttons in the nav bar
-    this.tagName = 'div';
-    this.ariaRole = 'navigation';
+    // a11y - container tag name and accessible label for all content in the nav bar
+    this.tagName = 'footer';
+    this.ariaLabel = JoistA11yStrings.simResourcesAndToolsString;
 
     // a11y - keyboard help button before phet menu button
     this.accessibleOrder = [ this.keyboardHelpButton, this.phetButton ];
