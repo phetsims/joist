@@ -119,7 +119,10 @@ define( function( require ) {
           optionsDialog.show();
         },
         tandem: tandem.createTandem( 'optionsButton' ),
-        tagName: 'button'
+
+        // a11y
+        tagName: 'button',
+        focusAfterCallback: true
       },
       {
         text: menuItemPhetWebsiteString,
@@ -132,6 +135,8 @@ define( function( require ) {
             phetWindow.focus();
           }
         },
+
+        // a11y
         tagName: 'button',
         ariaRole: 'link'
       },
@@ -202,6 +207,8 @@ define( function( require ) {
           }
         },
         tandem: tandem.createTandem( 'qrCode' ),
+
+        // a11y
         tagName: 'button',
         ariaRole: 'link'
       },
@@ -215,7 +222,10 @@ define( function( require ) {
           new UpdateDialog().show();
         },
         tandem: tandem.createTandem( 'getUpdate' ),
-        tagName: 'button'
+
+        // a11y
+        tagName: 'button',
+        focusAfterCallback: true
       },
 
       // "Screenshot" Menu item
@@ -273,7 +283,8 @@ define( function( require ) {
           new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, tandem.createTandem( 'aboutDialog' ) ).show();
         },
         tandem: tandem.createTandem( 'aboutButton' ),
-        tagName: 'button'
+        tagName: 'button',
+        focusAfterCallback: true
       }
     ];
 
@@ -304,7 +315,8 @@ define( function( require ) {
             separatorBefore: itemDescriptor.separatorBefore,
             tandem: itemDescriptor.tandem,
             tagName: itemDescriptor.tagName,
-            ariaRole: itemDescriptor.ariaRole
+            ariaRole: itemDescriptor.ariaRole,
+            focusAfterCallback: itemDescriptor.focusAfterCallback
           }
         );
       }
