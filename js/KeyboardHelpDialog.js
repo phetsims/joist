@@ -23,6 +23,7 @@ define( function( require ) {
   // constants
   var CLOSE_BUTTON_WIDTH = 7;
   var CLOSE_BUTTON_MARGIN = 10;
+  var HELP_CONTENT_MARGIN = 20;
 
   /**
    * Constructor.
@@ -50,8 +51,9 @@ define( function( require ) {
       modal: true,
       hasCloseButton: false,
       fill: 'rgb( 214, 237, 249 )',
-      xMargin: 0,
-      yMargin: 0
+      xMargin: HELP_CONTENT_MARGIN,
+      yMargin: HELP_CONTENT_MARGIN,
+      titleSpacing: HELP_CONTENT_MARGIN
     }, options );
 
     // shape and path for a custom close button
@@ -91,7 +93,7 @@ define( function( require ) {
     Dialog.call( this, helpContent, options );
 
     // position and add the close button
-    this.closeButtonPath.right = helpContent.right - CLOSE_BUTTON_MARGIN;
+    this.closeButtonPath.right = helpContent.right + 2 * HELP_CONTENT_MARGIN - CLOSE_BUTTON_MARGIN;
     this.closeButtonPath.top = helpContent.top + CLOSE_BUTTON_MARGIN;
     this.addChild( this.closeButtonPath );
 
