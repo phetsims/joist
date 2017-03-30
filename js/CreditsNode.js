@@ -48,8 +48,15 @@ define( function( require ) {
         tandem: tandem.createTandem(tandemName)
       }, multiLineTextOptions );
     };
+
     // Credits
-    children.push( new Text( creditsTitleString, { font: titleFont } ) );
+    children.push( new Text( creditsTitleString, {
+      font: titleFont,
+
+      // a11y
+      tagName: 'h2',
+      accessibleLabel: creditsTitleString
+    } ) );
     if ( credits.leadDesign ) {
       children.push( new MultiLineText( StringUtils.format( creditsLeadDesignString, '\u202a' + credits.leadDesign + '\u202c' ), addTandemToOptions('creditsLeadDesignString') ) );
     }
@@ -70,14 +77,14 @@ define( function( require ) {
     // Translation
     if ( credits.translation ) {
       if ( children.length > 0 ) { children.push( new VStrut( 10 ) ); }
-      children.push( new Text( creditsTranslationString, { font: titleFont } ) );
+      children.push( new Text( creditsTranslationString, { font: titleFont, tagName: 'h2', accessibleLabel: creditsTranslationString } ) );
       children.push( new MultiLineText( credits.translation, addTandemToOptions('creditsTranslationString') ) );
     }
 
     // Thanks
     if ( credits.thanks ) {
       if ( children.length > 0 ) { children.push( new VStrut( 10 ) ); }
-      children.push( new Text( creditsThanksString, { font: titleFont } ) );
+      children.push( new Text( creditsThanksString, { font: titleFont, tagName: 'h2', accessibleLabel: creditsThanksString } ) );
       children.push( new MultiLineText( credits.thanks, addTandemToOptions('creditsThanksString') ) );
     }
 
