@@ -49,13 +49,27 @@ define( function( require ) {
     this.aboutDialogTandem = tandem;
 
     var children = [];
-    children.push( new Text( name, { font: new PhetFont( 28 ), maxWidth: MAX_WIDTH } ) );
-    children.push( new Text( StringUtils.format( versionPatternString, version ), {
+    children.push( new Text( name, {
+      font: new PhetFont( 28 ),
+      maxWidth: MAX_WIDTH,
+      tagName: 'h1',
+      accessibleLabel: name
+    } ) );
+
+    var versionString = StringUtils.format( versionPatternString, version );
+    children.push( new Text( versionString, {
       font: new PhetFont( 20 ),
-      maxWidth: MAX_WIDTH
+      maxWidth: MAX_WIDTH,
+      tagName: 'p',
+      accessibleLabel: versionString
     } ) );
     if ( phet.chipper.buildTimestamp ) {
-      children.push( new Text( phet.chipper.buildTimestamp, { font: new PhetFont( 13 ), maxWidth: MAX_WIDTH } ) );
+      children.push( new Text( phet.chipper.buildTimestamp, {
+        font: new PhetFont( 13 ),
+        maxWidth: MAX_WIDTH,
+        tagName: 'p',
+        accessibleLabel: phet.chipper.buildTimestamp
+      } ) );
     }
 
     if ( UpdateCheck.areUpdatesChecked ) {
@@ -74,6 +88,12 @@ define( function( require ) {
         upToDateNode.visible = state === 'up-to-date';
         outOfDateNode.visible = state === 'out-of-date';
         offlineNode.visible = state === 'offline';
+
+        // a11y - make update content visible/invisible for screen readers
+        checkingNode.accessibleHidden = !checkingNode.visible;
+        upToDateNode.accessibleHidden = !upToDateNode.visible;
+        outOfDateNode.accessibleHidden = !outOfDateNode.visible;
+        offlineNode.accessibleHidden = !offlineNode.visible;
       };
 
       children.push( new Node( {
@@ -95,13 +115,23 @@ define( function( require ) {
         font: new PhetFont( 16 ),
         supScale: 0.5,
         supYOffset: 2,
-        maxWidth: MAX_WIDTH
+        maxWidth: MAX_WIDTH,
+
+        // a11y
+        tagName: 'h2',
+        accessibleLabel: Brand.name
       } ) );
     }
 
     // Show the brand copyright statement, if it exists
     if ( Brand.copyright ) {
-      children.push( new Text( Brand.copyright, { font: new PhetFont( 12 ), maxWidth: MAX_WIDTH } ) );
+      children.push( new Text( Brand.copyright, {
+        font: new PhetFont( 12 ), maxWidth: MAX_WIDTH,
+
+        // a11y
+        tagName: 'p',
+        accessibleLabel: Brand.copyright
+      } ) );
     }
 
     // Optional additionalLicenseStatement, used in phet-io
@@ -132,14 +162,20 @@ define( function( require ) {
       children.push( new VStrut( 15 ) );
       for ( var i = 0; i < links.length; i++ ) {
         var link = links[ i ];
-        children.push( new LinkText( link.text, link.url, { font: new PhetFont( 14 ), maxWidth: MAX_WIDTH } ) );
+        children.push( new LinkText( link.text, link.url, {
+          font: new PhetFont( 14 ),
+          maxWidth: MAX_WIDTH
+        } ) );
       }
     }
 
     var content = new VBox( {
       align: 'left',
       spacing: 5,
-      children: children
+      children: children,
+
+      // a11y
+      tagName: 'div'
     } );
 
     Dialog.call( this, content, {
