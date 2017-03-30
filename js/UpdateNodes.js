@@ -53,7 +53,11 @@ define( function( require ) {
         children: [
           spinningIndicatorNode,
           new Text( updatesCheckingString, { font: new PhetFont( options.big ? 16 : 14 ), fontWeight: options.big ? 'bold' : 'normal' } )
-        ]
+        ],
+
+        // a11y
+        tagName: 'p',
+        accessibleLabel: updatesCheckingString
       }, options ) );
       checkingNode.step = function( dt ) {
         if ( UpdateCheck.stateProperty === 'checking' ) {
@@ -79,7 +83,11 @@ define( function( require ) {
             new FontAwesomeNode( 'check_without_box', { fill: '#fff', scale: 0.38, centerX: 10, centerY: 10 } )
           ] } ),
           new Text( updatesUpToDateString, { font: new PhetFont( options.big ? 16 : 14 ), fontWeight: options.big ? 'bold' : 'normal' } )
-        ]
+        ],
+
+        // a11y
+        tagName: 'p',
+        accessibleLabel: updatesUpToDateString
       }, options ) );
     },
 
@@ -97,19 +105,23 @@ define( function( require ) {
         children: [
           new FontAwesomeNode( 'warning_sign', { fill: '#E87600', scale: 0.5 } ), // "safety orange", according to Wikipedia
           new LinkText( updatesOutOfDateString, UpdateCheck.updateURL, { font: updateTextFont } )
-        ]
+        ],
+
+        // a11y
+        tagName: 'div'
       }, options ) );
     },
 
     /**
      * "Out-of-date" state node for the "Check for udpate" dialog.
+     * @param {UpdateDialog} dialog - the dialog, so that it can be closed with the "No thanks..." button
      * @param {string} ourVersionString
      * @param {string} latestVersionString
      * @param {Object} [options] - passed to the Node
      * @returns {Node}
      * @public (joist-internal)
      */
-    createOutOfDateDialogNode: function( ourVersionString, latestVersionString, options ) {
+    createOutOfDateDialogNode: function( dialog, ourVersionString, latestVersionString, options ) {
       return new VBox( _.extend( {
         spacing: 15,
         maxWidth: MAX_WIDTH,
@@ -128,6 +140,7 @@ define( function( require ) {
               newWindow.focus();
             } } ),
             new TextPushButton( updatesNoThanksString, { baseColor: '#ddd', font: updateTextFont, listener: function() {
+              dialog.hide();
               // Closing the dialog is handled by the Dialog listener itself, no need to add code to close it here.
             } } )
           ] } )
@@ -148,7 +161,11 @@ define( function( require ) {
         children: [
           new VStrut( 20 ), // spacer to match layout of other nodes
           new Text( updatesOfflineString, { font: new PhetFont( options.big ? 16 : 14 ), fontWeight: options.big ? 'bold' : 'normal' } )
-        ]
+        ],
+
+        // a11y
+        tagName: 'p',
+        accessibleLabel: updatesOfflineString
       }, options ) );
     }
   };

@@ -36,8 +36,11 @@ define( function( require ) {
       var latestVersionString = UpdateCheck.latestVersion ? UpdateCheck.latestVersion.toString() : 'x.x.xx';
       var ourVersionString = UpdateCheck.ourVersion.toString();
 
+      // a11y - dialog content contained in parent div so ARIA roles can be applied to all children
+      outOfDateNode.tagName = 'div';
+
       outOfDateNode.children = [
-        UpdateNodes.createOutOfDateDialogNode( ourVersionString, latestVersionString, positionOptions )
+        UpdateNodes.createOutOfDateDialogNode( self, ourVersionString, latestVersionString, positionOptions )
       ];
     }
 
@@ -56,6 +59,12 @@ define( function( require ) {
       upToDateNode.visible = state === 'up-to-date';
       outOfDateNode.visible = state === 'out-of-date';
       offlineNode.visible = state === 'offline';
+      
+      // update visibility of update nodes for screen readers
+      checkingNode.accessibleHidden = !checkingNode.visible;
+      upToDateNode.accessibleHidden = !upToDateNode.visible;
+      outOfDateNode.accessibleHidden = !outOfDateNode.visible;
+      offlineNode.accessibleHidden = !offlineNode.visible;
     };
 
     var content = new Node( {
@@ -64,12 +73,19 @@ define( function( require ) {
         upToDateNode,
         outOfDateNode,
         offlineNode
-      ]
+      ],
+
+      // a11y
+      tagName: 'div'
     } );
 
     Dialog.call( this, content, {
       modal: true,
-      hasCloseButton: true
+      hasCloseButton: true,
+
+      // margins large enough to make space for close button
+      xMargin: 30,
+      yMargin: 30
     } );
 
     // close it on a click
