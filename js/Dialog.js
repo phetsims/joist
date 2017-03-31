@@ -19,6 +19,7 @@ define( function( require ) {
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var joist = require( 'JOIST/joist' );
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
+  var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
   var Tandem = require( 'TANDEM/Tandem' );
 
   var closeString = JoistA11yStrings.closeString;
@@ -133,7 +134,7 @@ define( function( require ) {
         closeButton.right = dialogContent.right + options.xMargin - options.closeButtonMargin;
         closeButton.top = dialogContent.top - options.xMargin + options.closeButtonMargin;
 
-        // place the focus highlight, and dilate
+        // place the focus highlight, and make it a bit bigger than the 
         closeButton.focusHighlight = Shape.bounds( crossNode.bounds.dilated( 10 ) );
       };
 
@@ -262,7 +263,7 @@ define( function( require ) {
     },
 
     /**
-     * Hide or show all accessible content related to the sim ScreenViews and navigation bar.
+     * Hide or show all accessible content related to the sim ScreenViews, navigation bar, and alert content.
      * 
      * @param {boolean} hidden
      */
@@ -270,8 +271,8 @@ define( function( require ) {
       for ( var i = 0; i < this.sim.screens.length; i++ ) {
         this.sim.screens[ i ].view.accessibleHidden = hidden;
       }
-
       this.sim.navigationBar.accessibleHidden = hidden;
+      AriaHerald.clearAll();
     }
   } );
 } );
