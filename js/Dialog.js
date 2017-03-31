@@ -132,6 +132,9 @@ define( function( require ) {
       var updateClosePosition = function() {
         closeButton.right = dialogContent.right + options.xMargin - options.closeButtonMargin;
         closeButton.top = dialogContent.top - options.xMargin + options.closeButtonMargin;
+
+        // place the focus highlight, and dilate
+        closeButton.focusHighlight = Shape.bounds( crossNode.bounds.dilated( 10 ) );
       };
 
       //TODO memory leak, see https://github.com/phetsims/joist/issues/357
