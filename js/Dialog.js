@@ -200,12 +200,15 @@ define( function( require ) {
       }
     };
 
-    // @private (a11y) - remove a11y listeners to make eligible for garbage collection
-    this.removeAccessibleListeners = function() {
-      this.removeAccessibleInputListener( escapeListener );
+    // @private - remove listeners so that the dialog is eligible for garbage collection
+    // called every time the dialog is hidden
+    this.disposeDialog = function() {
+      self.sim.resizedEmitter.removeListener( self.updateLayout );
+      self.removeAccessibleInputListener( escapeListener );
 
       if ( options.hasCloseButton ) {
-        closeButton.removeAccessibleInputListener( clickListener ); 
+        closeButton.removeAccessibleInputListener( clickListener );
+        options.tandem && options.tandem.removeInstance( closeButton );
       }
     };
   }
@@ -249,10 +252,8 @@ define( function( require ) {
         window.phet.joist.sim.hidePopup( this, this.isModal );
         this.isShowing = false;
 
-        // dispose dialog - a new one will be created on show()
-        this.sim.resizedEmitter.removeListener( this.updateLayout );
-        
-        this.removeAccessibleListeners();
+        // dispose dialog - a new one will be created on show()        
+        this.disposeDialog();
 
         // a11y - when the dialog is hidden, unhide all ScreenView content from assistive technology
         this.setAccessibleViewsHidden( false );
