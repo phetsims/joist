@@ -33,7 +33,7 @@ define( function( require ) {
       navigationBarScreenButton.buttonModel.endedCallbacksForFiredEmitter,
       'user',
       phetioID,
-      TNavigationBarScreenButton,
+      this.constructor,
       'fired'
     );
   }

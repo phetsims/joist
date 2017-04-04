@@ -31,7 +31,7 @@ define( function( require ) {
       button.endedCallbacksForFiredEmitter,
       'user',
       phetioID,
-      TScreenButton,
+      this.constructor,
       'fired' );
   }
 

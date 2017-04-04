@@ -38,7 +38,7 @@ define( function( require ) {
     // startedSimConstructorEmitter is called in the constructor of the sim, and endedSimConstructionEmitter is called
     // once all of the screens have been fully initialized, hence construction not constructor.
     // The simStarted event is guaranteed to be a top-level event, not nested under other events.
-    toEventOnEmit( sim.startedSimConstructorEmitter, sim.endedSimConstructionEmitter, 'model', phetioID, TSim, SIM_STARTED,
+    toEventOnEmit( sim.startedSimConstructorEmitter, sim.endedSimConstructionEmitter, 'model', phetioID, this.constructor, SIM_STARTED,
       function( value ) {
         return {
           sessionID: value.sessionID,

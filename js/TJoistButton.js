@@ -34,7 +34,7 @@ define( function( require ) {
       joistButton.buttonModel.endedCallbacksForFiredEmitter,
       'user',
       phetioID,
-      TJoistButton,
+      this.constructor,
       'fired'
     );
   }
