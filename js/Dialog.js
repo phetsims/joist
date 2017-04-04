@@ -114,6 +114,7 @@ define( function( require ) {
         lineWidth: 3
       } );
 
+      var closeButtonTandem = options.tandem && options.tandem.createTandem( 'closeButton' );
       var closeButton = new RectangularPushButton( {
         content: crossNode,
         baseColor: options.closeButtonBaseColor,
@@ -122,7 +123,7 @@ define( function( require ) {
         listener: function() { 
           self.hide();
         },
-        tandem: options.tandem && options.tandem.createTandem( 'closeButton' ),
+        tandem: closeButtonTandem,
 
         // a11y options
         tagName: 'button',
@@ -208,7 +209,7 @@ define( function( require ) {
 
       if ( options.hasCloseButton ) {
         closeButton.removeAccessibleInputListener( clickListener );
-        options.tandem && options.tandem.removeInstance( closeButton );
+        closeButtonTandem && closeButtonTandem.removeInstance( closeButton );
       }
     };
   }
