@@ -1,4 +1,4 @@
-// Copyright 2014-2015, University of Colorado Boulder
+// Copyright 2014-2017, University of Colorado Boulder
 
 /**
  * Shows an Options dialog that consists of sim-global options.
@@ -22,11 +22,15 @@ define( function( require ) {
 
   /**
    * @param {Node} optionsNode
+   * @param {Object} [options]
    * @constructor
    */
   function OptionsDialog( optionsNode, options ) {
     options = _.extend( {
-      title: new Text( optionsTitleString, { font: new PhetFont( 30 ) } ),
+      title: new Text( optionsTitleString, {
+        font: new PhetFont( 30 ),
+        maxWidth: 400
+      } ),
       titleAlign: 'center',
       modal: true,
       hasCloseButton: true,
