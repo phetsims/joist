@@ -360,18 +360,21 @@ define( function( require ) {
     this.ariaRole = 'menu';
 
     // a11y - add the keydown listener, handling arrow, escape, and tab keys
+    // When using the arrow keys, we prevent the virtual cursor from moving in VoiceOver
     var keydownListener = this.addAccessibleInputListener( {
       keydown: function( event ) {
         var firstItem = self.items[ 0 ];
         var lastItem = self.items[ self.items.length - 1 ];
 
         if ( event.keyCode === Input.KEY_DOWN_ARROW ) {
+          event.preventDefault();
 
           // On down arrow, focus next item in the list, or wrap up to the first item if focus is at the end
           var nextFocusable = lastItem.focussed ? firstItem : AccessibilityUtil.getNextFocusable();
           nextFocusable.focus();
         }
         else if ( event.keyCode === Input.KEY_UP_ARROW ) {
+          event.preventDefault();
 
           // On up arow, focus previous item in the list, or wrap back to the last item if focus is on first item
           var previousFocusable = firstItem.focussed ? lastItem : AccessibilityUtil.getPreviousFocusable();
