@@ -30,6 +30,7 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var Input = require( 'SCENERY/input/Input' );
+  var Display = require( 'SCENERY/display/Display' );
   var AccessibilityUtil = require( 'SCENERY/accessibility/AccessibilityUtil' );
   var TPhetMenu = require( 'JOIST/TPhetMenu' );
 
@@ -392,10 +393,19 @@ define( function( require ) {
       }
     } );
 
+    // a11y - if the focus goes to something outside of the PhET menu, close it
+    var focusListener = function( focus ) {
+      if ( focus && !_.includes( focus.trail.nodes, self ) ) {
+        self.hide();
+      }
+    };
+    Display.focusProperty.lazyLink( focusListener );
+
     tandem.addInstance( this, TPhetMenu );
     this.disposePhetMenu = function() {
       tandem.removeInstance( self );
       self.removeAccessibleInputListener( keydownListener );
+      Display.focusProperty.unlink( focusListener );
     };
   }
 

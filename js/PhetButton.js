@@ -128,11 +128,6 @@ define( function( require ) {
         // open and set focus on the first item
         phetMenu.show();
         phetMenu.items[ 0 ].focus();
-      },
-      focus: function() {
-        if ( phetMenu.isShowing ) {
-          phetMenu.hide();
-        }
       }
     } );
 
