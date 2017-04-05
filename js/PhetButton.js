@@ -112,8 +112,8 @@ define( function( require ) {
 
     JoistButton.call( this, icon, backgroundFillProperty, tandem, options );
 
-    // a11y - the bounds of the button push the default highlight out of bounds
-    this.focusHighlight = Shape.bounds( icon.bounds.dilated( 2 ) );
+    // a11y - the bounds of the button push the default highlight out of dev bounds
+    this.focusHighlight = Shape.bounds( icon.bounds.dilated( 4 ) );
 
     Property.multilink( [ backgroundFillProperty, sim.showHomeScreenProperty, UpdateCheck.stateProperty ],
       function( backgroundFill, showHomeScreen, updateState ) {
