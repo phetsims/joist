@@ -16,7 +16,7 @@ define( function( require ) {
   var JoistA11yStrings = {
 
     // dialogs
-    hotKeysAndHelpString: 'Hot Keys and Help',
+    hotKeysAndHelpString: 'Keyboard Shortcuts',
     closeString: 'Close',
 
     // navigation bar
