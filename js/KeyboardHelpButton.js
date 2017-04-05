@@ -13,6 +13,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
+  var Shape = require( 'KITE/Shape' );
   var Image = require( 'SCENERY/nodes/Image' );
   var JoistButton = require( 'JOIST/JoistButton' );
   var KeyboardHelpDialog = require( 'JOIST/KeyboardHelpDialog' );
@@ -57,6 +58,9 @@ define( function( require ) {
     } );
 
     JoistButton.call( this, icon, backgroundFillProperty, tandem, options );
+
+    // a11y - focus highlight since the bounds of the button push the default highlight out of bounds
+    this.focusHighlight = Shape.bounds( icon.bounds.dilated( 5 ) );
 
     Property.multilink( [ backgroundFillProperty, sim.showHomeScreenProperty ],
       function( backgroundFill, showHomeScreen ) {
