@@ -133,7 +133,7 @@ define( function( require ) {
     //If specifying 'screens' then use 1-based (not zero-based) and "." delimited string such as "1.3.4" to get the 1st, 3rd and 4th screen
     if ( phet.chipper.getQueryParameter( 'screens' ) ) {
       var screensValueString = phet.chipper.getQueryParameter( 'screens' );
-      screens = screensValueString.split( '.' ).map( function( screenString ) {
+      screens = screensValueString.split( ',' ).map( function( screenString ) {
         return screens[ parseInt( screenString, 10 ) - 1 ];
       } );
       options.screenIndex = 0;
