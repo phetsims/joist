@@ -22,8 +22,8 @@ define( function( require ) {
     // navigation bar
     simResourcesAndToolsString: 'Sim Resources and Tools',
 
-    // PhET menu ('menu' label added by aria role)
-    phetString: 'PhET'
+    // PhET menu
+    phetString: 'PhET Menu'
   };
 
   if ( phet.chipper.queryParameters.stringTest === 'xss' ) {
