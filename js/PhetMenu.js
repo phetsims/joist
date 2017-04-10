@@ -386,12 +386,14 @@ define( function( require ) {
           options.closeCallback();
           sim.navigationBar.phetButton.focus();
         }
-        else if ( event.keyCode === Input.KEY_TAB && !event.shiftKey ) {
+        else if ( event.keyCode === Input.KEY_TAB ) {
 
-          // If we tab out of the menu, close it
-          if ( lastItem.focussed ) {
-            options.closeCallback();
-          }
+          // close the menu whenever the user tabs out of it
+          options.closeCallback();
+
+          // send focus back to the phet button - the browser should then focus the next/previous focusable
+          // element with default 'tab' behavior
+          sim.navigationBar.phetButton.focus();
         }
       }
     } );
