@@ -274,6 +274,12 @@ define( function( require ) {
         this.sim.screens[ i ].view.accessibleHidden = hidden;
       }
       this.sim.navigationBar.accessibleHidden = hidden;
+
+      // workaround for a strange Edge bug where this child of the navigation bar remains hidden,
+      // see https://github.com/phetsims/a11y-research/issues/30
+      this.sim.navigationBar.keyboardHelpButton.accessibleHidden = hidden;
+
+      // clear the aria-live alert content from the DOM
       AriaHerald.clearAll();
     }
   } );
