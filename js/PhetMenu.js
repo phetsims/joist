@@ -119,7 +119,7 @@ define( function( require ) {
 
           optionsDialog.show();
         },
-        tandem: tandem.createTandem( 'optionsButton' ),
+        tandem: tandem.createTandem( 'optionsMenuItem' ),
 
         // a11y
         tagName: 'button',
@@ -127,7 +127,7 @@ define( function( require ) {
       },
       {
         text: menuItemPhetWebsiteString,
-        tandem: tandem.createTandem( 'phetWebsiteButton' ),
+        tandem: tandem.createTandem( 'phetWebsiteMenuItem' ),
         present: isPhETBrand,
         callback: function() {
           if ( !fuzzMouse ) {
@@ -194,7 +194,7 @@ define( function( require ) {
             reportWindow.focus();
           }
         },
-        tandem: tandem.createTandem( 'reportAProblemButton' ),
+        tandem: tandem.createTandem( 'reportAProblemMenuItem' ),
         tagName: 'button',
         ariaRole: 'link'
       },
@@ -207,7 +207,7 @@ define( function( require ) {
             win.focus();
           }
         },
-        tandem: tandem.createTandem( 'qrCode' ),
+        tandem: tandem.createTandem( 'qrCodeMenuItem' ),
 
         // a11y
         tagName: 'button',
@@ -222,7 +222,7 @@ define( function( require ) {
         callback: function() {
           new UpdateDialog().show();
         },
-        tandem: tandem.createTandem( 'getUpdate' ),
+        tandem: tandem.createTandem( 'getUpdateMenuItem' ),
 
         // a11y
         tagName: 'button',
@@ -271,7 +271,7 @@ define( function( require ) {
         callback: function() {
           FullScreen.toggleFullScreen( sim );
         },
-        tandem: tandem.createTandem( 'fullScreenButton' ),
+        tandem: tandem.createTandem( 'fullScreenMenuItem' ),
         tagName: 'button'
       },
 
@@ -283,7 +283,7 @@ define( function( require ) {
         callback: function() {
           new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, tandem.createTandem( 'aboutDialog' ) ).show();
         },
-        tandem: tandem.createTandem( 'aboutButton' ),
+        tandem: tandem.createTandem( 'aboutMenuItem' ),
         tagName: 'button',
         focusAfterCallback: true
       }
