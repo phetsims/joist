@@ -312,7 +312,6 @@ define( function( require ) {
 
     var simDiv = self.display.domElement;
     simDiv.id = 'sim';
-    simDiv.setAttribute( 'aria-hidden', true );
     document.body.appendChild( simDiv );
 
     // for preventing Safari from going to sleep. see https://github.com/phetsims/joist/issues/140
