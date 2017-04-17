@@ -23,7 +23,7 @@ define( function( require ) {
   var UpdateNodes = require( 'JOIST/UpdateNodes' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var LinkText = require( 'JOIST/LinkText' );
-  var SubSupText = require( 'SCENERY_PHET/SubSupText' );
+  var RichText = require( 'SCENERY_PHET/RichText' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var packageJSON = require( 'JOIST/packageJSON' );
   var joist = require( 'JOIST/joist' );
@@ -111,7 +111,7 @@ define( function( require ) {
 
     // Show the brand name, if it exists
     if ( Brand.name ) {
-      children.push( new SubSupText( Brand.name, {
+      children.push( new RichText( Brand.name, {
         font: new PhetFont( 16 ),
         supScale: 0.5,
         supYOffset: 2,
@@ -224,7 +224,7 @@ define( function( require ) {
      * @public
      */
     hide: function() {
-      
+
       // When hidden, this dialog is as good as disposed because it is never shown again
       if ( this.isShowing ) {
         Dialog.prototype.hide.call( this );
