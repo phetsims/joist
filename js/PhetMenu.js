@@ -138,8 +138,7 @@ define( function( require ) {
         },
 
         // a11y
-        tagName: 'button',
-        ariaRole: 'link'
+        tagName: 'button'
       },
       {
         text: menuItemOutputInputEventsLogString,
@@ -195,8 +194,7 @@ define( function( require ) {
           }
         },
         tandem: tandem.createTandem( 'reportAProblemMenuItem' ),
-        tagName: 'button',
-        ariaRole: 'link'
+        tagName: 'button'
       },
       {
         text: 'QR code',
@@ -210,8 +208,7 @@ define( function( require ) {
         tandem: tandem.createTandem( 'qrCodeMenuItem' ),
 
         // a11y
-        tagName: 'button',
-        ariaRole: 'link'
+        tagName: 'button'
       },
       {
         text: menuItemGetUpdateString,
@@ -316,7 +313,6 @@ define( function( require ) {
             separatorBefore: itemDescriptor.separatorBefore,
             tandem: itemDescriptor.tandem,
             tagName: itemDescriptor.tagName,
-            ariaRole: itemDescriptor.ariaRole,
             focusAfterCallback: itemDescriptor.focusAfterCallback
           }
         );
