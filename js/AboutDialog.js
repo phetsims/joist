@@ -126,8 +126,8 @@ define( function( require ) {
     // Show the brand copyright statement, if it exists
     if ( Brand.copyright ) {
       
-      var year = phet.chipper.buildTimestamp ?
-                 phet.chipper.buildTimestamp.split( '-' )[0] : // for built versions, e.g. "2017-04-20 19:04:59 UTC" -> "2017"
+      var year = phet.chipper.buildTimestamp ? // defined for built versions
+                 phet.chipper.buildTimestamp.split( '-' )[0] : // e.g. "2017-04-20 19:04:59 UTC" -> "2017"
                  new Date().getFullYear(); // in requirejs mode
 
       var copyright = StringUtils.fillIn( Brand.copyright, { year: year } );
