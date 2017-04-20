@@ -125,7 +125,14 @@ define( function( require ) {
 
     // Show the brand copyright statement, if it exists
     if ( Brand.copyright ) {
-      children.push( new Text( Brand.copyright, {
+      
+      var year = phet.chipper.buildTimestamp ?
+                 phet.chipper.buildTimestamp.split( '-' )[0] : // for built versions
+                 new Date().getFullYear(); // in requirejs mode
+
+      var copyright = StringUtils.fillIn( Brand.copyright, { year: year } );
+
+      children.push( new Text( copyright, {
         font: new PhetFont( 12 ), maxWidth: MAX_WIDTH,
 
         // a11y
