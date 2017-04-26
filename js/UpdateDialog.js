@@ -60,11 +60,12 @@ define( function( require ) {
       outOfDateNode.visible = state === 'out-of-date';
       offlineNode.visible = state === 'offline';
       
-      // update visibility of update nodes for screen readers
-      checkingNode.accessibleHidden = !checkingNode.visible;
-      upToDateNode.accessibleHidden = !upToDateNode.visible;
-      outOfDateNode.accessibleHidden = !outOfDateNode.visible;
-      offlineNode.accessibleHidden = !offlineNode.visible;
+      // a11y - update visibility of update nodes for screen readers by adding/removing content from the DOM, 
+      // necessary because screen readers will read hidden content in a Dialog
+      checkingNode.accessibleContentDisplayed = checkingNode.visible;
+      upToDateNode.accessibleContentDisplayed = upToDateNode.visible;
+      outOfDateNode.accessibleContentDisplayed = outOfDateNode.visible;
+      offlineNode.accessibleContentDisplayed = offlineNode.visible;
     };
 
     var content = new Node( {
