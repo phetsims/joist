@@ -24,6 +24,9 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var TScreen = require( 'JOIST/TScreen' );
 
+  // phet-io modules
+  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
+
   // constants
   var MINIMUM_HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 );
   var MINIMUM_NAVBAR_ICON_SIZE = new Dimension2( 147, 100 );
@@ -101,7 +104,10 @@ define( function( require ) {
     // @public {Property.<boolean>} indicates whether the Screen is active. Clients can read this, joist sets it.
     // To prevent potential visual glitches, the value should change only while the screen's view is invisible.
     // That is: transitions from false to true before a Screen becomes visible, and from true to false after a Screen becomes invisible.
-    this.isActiveProperty = new Property( false );
+    this.isActiveProperty = new Property( false, {
+      tandem: options.tandem.createTandem( 'isActiveProperty' ),
+      phetioValueType: TBoolean
+    } );
     var self = this;
     assert && this.isActiveProperty.lazyLink( function( isActive ) {
       assert( self._view, 'isActive should not change before the Screen view has been initialized' );
