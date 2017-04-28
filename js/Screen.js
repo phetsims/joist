@@ -98,6 +98,16 @@ define( function( require ) {
     this._model = null; // @private
     this._view = null;  // @private
 
+    // @public {Property.<boolean>} indicates whether the Screen is active. Clients can read this, joist sets it.
+    // To prevent potential visual glitches, the value should change only while the screen's view is invisible.
+    // That is: transitions from false to true before a Screen becomes visible, and from true to false after a Screen becomes invisible.
+    this.isActiveProperty = new Property( false );
+    var self = this;
+    assert && this.isActiveProperty.lazyLink( function( isActive ) {
+      assert( self._view, 'isActive should not change before the Screen view has been initialized' );
+      assert( !self._view.isVisible(), 'isActive should not change while the Screen view is visible' );
+    } );
+
     options.tandem.addInstance( this, TScreen );
   }
 
@@ -189,6 +199,7 @@ define( function( require ) {
     initializeView: function() {
       assert && assert( this._view === null, 'there was already a view' );
       this._view = this.createView( this.model );
+      this._view.setVisible( false ); // a Screen is invisible until selected
 
       // Show the home screen's layoutBounds
       if ( phet.chipper.queryParameters.dev ) {

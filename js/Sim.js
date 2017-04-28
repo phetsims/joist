@@ -429,12 +429,26 @@ define( function( require ) {
 
       Property.multilink( [ this.showHomeScreenProperty, this.screenIndexProperty ],
         function( showHomeScreen, screenIndex ) {
+
           if ( self.homeScreen ) {
             self.homeScreen.view.setVisible( showHomeScreen );
           }
+
+          // Make the selected screen visible and active, other screens invisible and inactive.
+          // screen.isActiveProperty should change only while the screen is invisible.
+          // See https://github.com/phetsims/joist/issues/418.
           for ( var i = 0; i < screens.length; i++ ) {
-            screens[ i ].view.setVisible( !showHomeScreen && screenIndex === i );
+            var screen = screens[ i ];
+            var visible = ( !showHomeScreen && screenIndex === i );
+            if ( visible ) {
+              screen.isActiveProperty.set( visible );
+            }
+            screen.view.setVisible( visible );
+            if ( !visible ) {
+              screen.isActiveProperty.set( visible );
+            }
           }
+
           self.navigationBar.setVisible( !showHomeScreen );
           self.updateBackground();
         } );
