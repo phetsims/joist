@@ -104,10 +104,9 @@ define( function( require ) {
     // @public {Property.<boolean>} indicates whether the Screen is active. Clients can read this, joist sets it.
     // To prevent potential visual glitches, the value should change only while the screen's view is invisible.
     // That is: transitions from false to true before a Screen becomes visible, and from true to false after a Screen becomes invisible.
-    this.isActiveProperty = new Property( false, {
-      tandem: options.tandem.createTandem( 'isActiveProperty' ),
-      phetioValueType: TBoolean
-    } );
+    // Do NOT instrument this Property for PhET-iO, clients should not have access to this.
+    // See https://github.com/phetsims/joist/issues/418
+    this.isActiveProperty = new Property( false );
     var self = this;
     assert && this.isActiveProperty.lazyLink( function( isActive ) {
       assert( self._view, 'isActive should not change before the Screen view has been initialized' );
