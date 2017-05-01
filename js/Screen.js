@@ -39,8 +39,8 @@ define( function( require ) {
     'MINIMUM_HOME_SCREEN_ICON_SIZE and MINIMUM_NAVBAR_ICON_SIZE must have the same aspect ratio' );
 
   /**
-   * @param {function} createModel
-   * @param {function} createView
+   * @param {function} createModel - function( options ), see initializeModel for args
+   * @param {function} createView - function( model, options ), see initializeView for args
    * @param {Object} [options]
    * @constructor
    */
@@ -195,7 +195,9 @@ define( function( require ) {
      */
     initializeModel: function() {
       assert && assert( this._model === null, 'there was already a model' );
-      this._model = this.createModel();
+      this._model = this.createModel( {
+        activeProperty: this.activeProperty
+      } );
     },
 
     /**
@@ -205,7 +207,9 @@ define( function( require ) {
      */
     initializeView: function() {
       assert && assert( this._view === null, 'there was already a view' );
-      this._view = this.createView( this.model );
+      this._view = this.createView( this.model, {
+        activeProperty: this.activeProperty
+      } );
       this._view.setVisible( false ); // a Screen is invisible until selected
 
       // Show the home screen's layoutBounds
