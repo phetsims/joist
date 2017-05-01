@@ -235,7 +235,7 @@ define( function( require ) {
         // a11y - add the listeners that will close the dialog on 
         this.addAccessibleInputListeners();
 
-        // a11y - store the currently active element, set before hidding views so that document.activeElement
+        // a11y - store the currently active element, set before hiding views so that document.activeElement
         // isn't blurred
         this.activeElement = document.activeElement;
 
