@@ -235,11 +235,12 @@ define( function( require ) {
         // a11y - add the listeners that will close the dialog on 
         this.addAccessibleInputListeners();
 
+        // a11y - store the currently active element, set before hidding views so that document.activeElement
+        // isn't blurred
+        this.activeElement = document.activeElement;
+
         // a11y - hide all ScreenView content from assistive technology when the dialog is shown
         this.setAccessibleViewsHidden( true );
-
-        // a11y - store the currently active element
-        this.activeElement = document.activeElement;
 
         // In case the window size has changed since the dialog was hidden, we should try layout out again.
         // See https://github.com/phetsims/joist/issues/362
