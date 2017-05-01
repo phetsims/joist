@@ -217,7 +217,8 @@ define( function( require ) {
           return state === 'out-of-date' ? '#0a0' : '#000';
         } ),
         callback: function() {
-          new UpdateDialog().show();
+          var phetButton = sim.navigationBar.phetButton;
+          new UpdateDialog( phetButton ).show();
         },
         tandem: tandem.createTandem( 'getUpdateMenuItem' ),
 
@@ -278,7 +279,8 @@ define( function( require ) {
         present: true,
         separatorBefore: isPhETBrand,
         callback: function() {
-          new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, tandem.createTandem( 'aboutDialog' ) ).show();
+          var phetButton = sim.navigationBar.phetButton;
+          new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, phetButton, tandem.createTandem( 'aboutDialog' ) ).show();
         },
         tandem: tandem.createTandem( 'aboutMenuItem' ),
         tagName: 'button',

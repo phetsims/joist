@@ -41,10 +41,11 @@ define( function( require ) {
    * @param {string} credits - The credits for the simulation, or falsy to show no credits
    * @param {Brand} Brand
    * @param {string} locale - The locale string
+   * @param {Node} phetButton - The PhET button in the navigation bar, receives focus when this dialog is closed
    * @param {Tandem} tandem
    * @constructor
    */
-  function AboutDialog( name, version, credits, Brand, locale, tandem ) {
+  function AboutDialog( name, version, credits, Brand, locale, phetButton, tandem ) {
     var self = this;
     this.aboutDialogTandem = tandem;
 
@@ -189,7 +190,8 @@ define( function( require ) {
     Dialog.call( this, content, {
       modal: true,
       hasCloseButton: true,
-      tandem: tandem.createSupertypeTandem()
+      tandem: tandem.createSupertypeTandem(),
+      focusOnCloseNode: phetButton
     } );
 
     // close it on a click

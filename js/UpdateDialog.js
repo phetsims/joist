@@ -18,7 +18,10 @@ define( function( require ) {
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var joist = require( 'JOIST/joist' );
 
-  function UpdateDialog() {
+  /**
+   * @param {PhETButton} phetButton - PhET button in the navigation bar, receives focus when this dialog is closed
+   */
+  function UpdateDialog( phetButton ) {
     assert && assert( UpdateCheck.areUpdatesChecked,
       'Updates need to be checked for UpdateDialog to be created' );
 
@@ -86,7 +89,10 @@ define( function( require ) {
 
       // margins large enough to make space for close button
       xMargin: 30,
-      yMargin: 30
+      yMargin: 30,
+
+      // a11y
+      focusOnCloseNode: phetButton
     } );
 
     // close it on a click

@@ -101,6 +101,7 @@ define( function( require ) {
     this.clickListener = this.closeButtonPath.addAccessibleInputListener( {
       click: function() {
         self.hide();
+        self.focusActiveElement();  
       } }
     );
   }
