@@ -138,7 +138,7 @@ define( function( require ) {
 
         // a11y
         tagName: 'p',
-        accessibleLabel: Brand.copyright
+        accessibleLabel: copyright
       } ) );
     }
 
