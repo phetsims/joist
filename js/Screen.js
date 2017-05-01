@@ -104,13 +104,13 @@ define( function( require ) {
     // @public {Property.<boolean>} indicates whether the Screen is active. Clients can read this, joist sets it.
     // To prevent potential visual glitches, the value should change only while the screen's view is invisible.
     // That is: transitions from false to true before a Screen becomes visible, and from true to false after a Screen becomes invisible.
-    this.isActiveProperty = new Property( false, {
-      tandem: options.tandem.createTandem( 'isActiveProperty' ),
+    this.activeProperty = new Property( false, {
+      tandem: options.tandem.createTandem( 'activeProperty' ),
       phetioValueType: TBoolean,
       phetioInstanceDocumentation: 'this Property is read-only, do not attempt to set its value'
     } );
     var self = this;
-    assert && this.isActiveProperty.lazyLink( function( isActive ) {
+    assert && this.activeProperty.lazyLink( function( isActive ) {
       assert( self._view, 'isActive should not change before the Screen view has been initialized' );
       assert( !self._view.isVisible(), 'isActive should not change while the Screen view is visible' );
     } );

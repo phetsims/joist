@@ -1,4 +1,4 @@
-// Copyright 2013-2015, University of Colorado Boulder
+// Copyright 2013-2017, University of Colorado Boulder
 
 /**
  * Main class that represents one simulation.
@@ -441,11 +441,11 @@ define( function( require ) {
             var screen = screens[ i ];
             var visible = ( !showHomeScreen && screenIndex === i );
             if ( visible ) {
-              screen.isActiveProperty.set( visible );
+              screen.activeProperty.set( visible );
             }
             screen.view.setVisible( visible );
             if ( !visible ) {
-              screen.isActiveProperty.set( visible );
+              screen.activeProperty.set( visible );
             }
           }
 
