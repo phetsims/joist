@@ -188,6 +188,7 @@ define( function( require ) {
       escapeListener = this.addAccessibleInputListener( {
         keydown: function( event ) {
           if ( event.keyCode === Input.KEY_ESCAPE ) {
+            event.preventDefault();
             self.hide();
             self.focusActiveElement();
           }
@@ -252,19 +253,23 @@ define( function( require ) {
 
         // a11y - when the dialog is hidden, unhide all ScreenView content from assistive technology
         this.setAccessibleViewsHidden( false );
+
       }
     },
 
     /**
-     * Hide or show all accessible content related to the sim ScreenViews, navigation bar, and alert content.
+     * Hide or show all accessible content related to the sim ScreenViews, navigation bar, and alert content. Instead
+     * of using setHidden, we have to remove the subtree of accessible content from each view element in order to
+     * prevent an IE11 bug where content remains invisible in the accessibility tree, see
+     * https://github.com/phetsims/john-travoltage/issues/247
      * 
      * @param {boolean} hidden
      */
     setAccessibleViewsHidden: function( hidden ) {
       for ( var i = 0; i < this.sim.screens.length; i++ ) {
-        this.sim.screens[ i ].view.accessibleHidden = hidden;
+        this.sim.screens[ i ].view.accessibleContentDisplayed = !hidden;
       }
-      this.sim.navigationBar.accessibleHidden = hidden;
+      this.sim.navigationBar.accessibleContentDisplayed = !hidden;
 
       // workaround for a strange Edge bug where this child of the navigation bar remains hidden,
       // see https://github.com/phetsims/a11y-research/issues/30
