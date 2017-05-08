@@ -12,6 +12,7 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Random = require( 'DOT/Random' );
+  var Brand = require( 'BRAND/Brand' );
 
   // phet-io modules
   var SimIFrameAPI = require( 'ifphetio!PHET_IO/SimIFrameAPI' );
@@ -51,7 +52,7 @@ define( function( require ) {
         };
 
         // PhET-iO simulations support an initialization phase (before the sim launches)
-        if ( phet.chipper.brand === 'phet-io' ) {
+        if ( Brand.phetioEnabled ) {
           new Tandem( 'phetio' ).addInstance( phetio, TPhETIO );
           SimIFrameAPI.initialize(); // calls back to window.phetLaunchSimulation
         }
