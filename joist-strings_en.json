@@ -114,5 +114,8 @@
   "HomeButton.name": {
     "value": "Home",
     "visible": false
+  },
+  "keyboardShortcuts.title": {
+    "value": "Keyboard Shortcuts"
   }
 }

@@ -25,6 +25,9 @@ define( function( require ) {
   var CLOSE_BUTTON_MARGIN = 10;
   var HELP_CONTENT_MARGIN = 20;
 
+  // string
+  var keyboardShortcutsTitleString = require( 'string!JOIST/keyboardShortcuts.title' );
+
   /**
    * Constructor.
    * @param {Node} helpContent - a node containing the sim specific keyboard help content
@@ -34,7 +37,7 @@ define( function( require ) {
   function KeyboardHelpDialog( helpContent, options ) {
 
     // title
-    var titleText = new Text( JoistA11yStrings.hotKeysAndHelpString, {
+    var titleText = new Text( keyboardShortcutsTitleString, {
       font: new PhetFont( {
         weight: 'bold',
         size: 20
