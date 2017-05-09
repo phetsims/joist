@@ -50,12 +50,14 @@ define( function( require ) {
     this.aboutDialogTandem = tandem;
 
     var children = [];
-    children.push( new Text( name, {
+
+    var titleText = new Text( name, { 
       font: new PhetFont( 28 ),
       maxWidth: MAX_WIDTH,
       tagName: 'h1',
       accessibleLabel: name
-    } ) );
+    } );
+    children.push( titleText );
 
     var versionString = StringUtils.format( versionPatternString, version );
     children.push( new Text( versionString, {
@@ -191,7 +193,10 @@ define( function( require ) {
       modal: true,
       hasCloseButton: true,
       tandem: tandem.createSupertypeTandem(),
-      focusOnCloseNode: phetButton
+      focusOnCloseNode: phetButton,
+
+      // a11y - label association so the title is read when focus enters the Dialog
+      ariaLabelledByElement: titleText.domElement
     } );
 
     // close it on a click
