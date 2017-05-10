@@ -194,6 +194,8 @@ define( function( require ) {
       hasCloseButton: true,
       tandem: tandem.createSupertypeTandem(),
       focusOnCloseNode: phetButton,
+      xMargin: 25,
+      yMargin: 25,
 
       // a11y - label association so the title is read when focus enters the Dialog
       ariaLabelledByElement: titleText.domElement
