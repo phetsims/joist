@@ -34,10 +34,11 @@ define( function( require ) {
 
     var keyboardHelpDialog = null;
     var openDialog = function() {
-      keyboardHelpDialog && keyboardHelpDialog.dispose();
-      keyboardHelpDialog = new KeyboardHelpDialog( sim.keyboardHelpNode, {
-        tandem: tandem.createTandem( 'keyboardHelpDialog' )
-      } );
+      if ( !keyboardHelpDialog ) {
+        keyboardHelpDialog = new KeyboardHelpDialog( sim.keyboardHelpNode, {
+          tandem: tandem.createTandem( 'keyboardHelpDialog' )
+        } );
+      }
       keyboardHelpDialog.show();
     };
 
