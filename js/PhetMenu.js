@@ -424,6 +424,9 @@ define( function( require ) {
       if ( !this.isShowing ) {
         window.phet.joist.sim.showPopup( this, true );
         this.isShowing = true;
+
+        // make sure that any previously focused elements no longer have focus
+        document.activeElement && document.activeElement.blur();
       }
     },
 
