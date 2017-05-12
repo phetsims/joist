@@ -424,7 +424,7 @@ define( function( require ) {
       if ( !this.isShowing ) {
 
         // make sure that any previously focused elements no longer have focus
-        document.activeElement && document.activeElement.blur();
+        Display.focusProperty.set( null );
         
         window.phet.joist.sim.showPopup( this, true );
         this.isShowing = true;
