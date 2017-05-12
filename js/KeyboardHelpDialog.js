@@ -24,6 +24,7 @@ define( function( require ) {
   var CLOSE_BUTTON_WIDTH = 7;
   var CLOSE_BUTTON_MARGIN = 10;
   var HELP_CONTENT_MARGIN = 20;
+  var TITLE_MAX_WIDTH = 500;
 
   // string
   var keyboardShortcutsTitleString = require( 'string!JOIST/keyboardShortcuts.title' );
@@ -42,6 +43,7 @@ define( function( require ) {
         weight: 'bold',
         size: 20
       } ),
+      maxWidth: TITLE_MAX_WIDTH,
 
       // a11y options
       tagName: 'h1',
