@@ -20,6 +20,8 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
+  var AccessibilityUtil = require( 'SCENERY/accessibility/AccessibilityUtil' );
+  var FullScreen = require( 'JOIST/FullScreen' );
   var Tandem = require( 'TANDEM/Tandem' );
 
   var closeString = JoistA11yStrings.closeString;
@@ -191,6 +193,19 @@ define( function( require ) {
             event.preventDefault();
             self.hide();
             self.focusActiveElement();
+          }
+          else if ( event.keyCode === Input.KEY_TAB && FullScreen.isFullScreen() ) {
+
+            // prevent a particular bug in Windows 7/8.1 Firefox where focus gets trapped in the document
+            // when the navigation bar is hidden and there is only one focusable element in the DOM
+            // see https://bugzilla.mozilla.org/show_bug.cgi?id=910136
+            var activeElement = document.activeElement;
+            var noNextFocusable = AccessibilityUtil.getNextFocusable( self.domElement ) === activeElement;
+            var noPreviousFocusable = AccessibilityUtil.getPreviousFocusable( self.domElement ) === activeElement;
+
+            if ( noNextFocusable && noPreviousFocusable ) {
+              event.preventDefault();
+            }
           }
         }
       } );
