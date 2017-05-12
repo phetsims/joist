@@ -25,6 +25,7 @@ define( function( require ) {
   var creditsLeadDesignString = require( 'string!JOIST/credits.leadDesign' );
   var creditsSoftwareDevelopmentString = require( 'string!JOIST/credits.softwareDevelopment' );
   var creditsTeamString = require( 'string!JOIST/credits.team' );
+  var creditsContributorsString = require( 'string!JOIST/credits.contributors' );
   var creditsQualityAssuranceString = require( 'string!JOIST/credits.qualityAssurance' );
   var creditsGraphicArtsString = require( 'string!JOIST/credits.graphicArts' );
   var creditsTranslationString = require( 'string!JOIST/credits.translation' );
@@ -65,6 +66,9 @@ define( function( require ) {
     }
     if ( credits.team ) {
       children.push( new MultiLineText( StringUtils.format( creditsTeamString, '\u202a' + credits.team + '\u202c' ), addTandemToOptions('creditsTeamString') ) );
+    }
+    if ( credits.contributors ) {
+      children.push( new MultiLineText( StringUtils.format( creditsContributorsString, '\u202a' + credits.contributors + '\u202c' ), addTandemToOptions('creditsContributorsString') ) );
     }
     if ( credits.qualityAssurance ) {
       children.push( new MultiLineText( StringUtils.format( creditsQualityAssuranceString, '\u202a' + credits.qualityAssurance + '\u202c' ), addTandemToOptions('creditsQualityAssuranceString') ) );

@@ -63,6 +63,9 @@
   "credits.team": {
     "value": "Team: {0}"
   },
+  "credits.contributors": {
+    "value": "Contributors: {0}"
+  },
   "credits.qualityAssurance": {
     "value": "Quality Assurance: {0}"
   },
