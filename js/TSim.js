@@ -40,8 +40,7 @@ define( function( require ) {
     // The simStarted event is guaranteed to be a top-level event, not nested under other events.
     toEventOnEmit( sim.startedSimConstructorEmitter, sim.endedSimConstructionEmitter, 'model', phetioID, this.constructor, SIM_STARTED,
       function( value ) {
-        return {
-          sessionID: value.sessionID,
+        var simData = {
           repoName: value.repoName,
           simName: value.simName,
           simVersion: value.simVersion,
@@ -51,6 +50,10 @@ define( function( require ) {
           wrapperMetadata: window.simStartedMetadata,
           provider: 'PhET Interactive Simulations, University of Colorado Boulder' // See #137
         };
+
+        // Delete this global object once it has been used with this emitted event.
+        delete window.simStartedMetadata;
+        return simData;
       } );
 
     // Store a reference to the sim so that subsequent calls will be simpler.  PhET-iO only works with a single sim.
