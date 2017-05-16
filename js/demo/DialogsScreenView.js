@@ -23,7 +23,7 @@ define( function( require ) {
   /**
    * @constructor
    */
-  function DialogsDemoView() {
+  function DialogsScreenView() {
 
     ScreenView.call( this );
 
@@ -48,7 +48,7 @@ define( function( require ) {
     // this.addChild( nonModalDialogButton );
   }
 
-  joist.register( 'DialogsDemoView', DialogsDemoView );
+  joist.register( 'DialogsScreenView', DialogsScreenView );
 
   /**
    * Creates a model or non-modal dialog
@@ -65,5 +65,5 @@ define( function( require ) {
     } );
   };
 
-  return inherit( ScreenView, DialogsDemoView );
+  return inherit( ScreenView, DialogsScreenView );
 } );

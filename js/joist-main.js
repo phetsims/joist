@@ -9,7 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var DialogsDemoView = require( 'JOIST/demo/DialogsDemoView' );
+  var DialogsScreenView = require( 'JOIST/demo/DialogsScreenView' );
   var Property = require( 'AXON/Property' );
   var Screen = require( 'JOIST/Screen' );
   var Sim = require( 'JOIST/Sim' );
@@ -29,7 +29,7 @@ define( function( require ) {
     var screens = [
       new Screen(
         function() { return {}; },
-        function( model ) { return new DialogsDemoView(); },
+        function( model ) { return new DialogsScreenView(); },
         {
           name: 'Dialogs 1',
           backgroundColorProperty: new Property( 'white' )
@@ -37,7 +37,7 @@ define( function( require ) {
       ),
       new Screen(
         function() { return {}; },
-        function( model ) { return new DialogsDemoView(); },
+        function( model ) { return new DialogsScreenView(); },
         {
           name: 'Dialogs 2',
           backgroundColorProperty: new Property( 'white' )
