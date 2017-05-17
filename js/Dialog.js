@@ -123,7 +123,7 @@ define( function( require ) {
         baseColor: options.closeButtonBaseColor,
         xMargin: 5,
         yMargin: 5,
-        listener: function() { 
+        listener: function() {
           self.hide();
         },
         accessibleFire: function() {
@@ -218,7 +218,7 @@ define( function( require ) {
       self.removeAccessibleInputListener( escapeListener );
 
       if ( options.hasCloseButton ) {
-        closeButtonTandem && closeButtonTandem.removeInstance( closeButton );
+        closeButton.dispose();
       }
     };
   }
@@ -277,7 +277,7 @@ define( function( require ) {
      * of using setHidden, we have to remove the subtree of accessible content from each view element in order to
      * prevent an IE11 bug where content remains invisible in the accessibility tree, see
      * https://github.com/phetsims/john-travoltage/issues/247
-     * 
+     *
      * @param {boolean} hidden
      */
     setAccessibleViewsHidden: function( hidden ) {
@@ -296,7 +296,7 @@ define( function( require ) {
 
     /**
      * If there is an active element, focus it.  Should almost always be closed after the Dialog has been closed.
-     * 
+     *
      * @public
      * @a11y
      */
