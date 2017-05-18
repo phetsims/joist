@@ -99,9 +99,6 @@ define( function( require ) {
     var self = this;
     Node.call( self );
 
-    // Define optionsDialog outside callbacks to avoid recreating
-    var optionsDialog = null;
-
     /*
      * Description of the items in the menu. See Menu Item for a list of properties for each itemDescriptor
      */
@@ -110,14 +107,7 @@ define( function( require ) {
         text: menuItemOptionsString,
         present: !!sim.options.optionsNode,
         callback: function() {
-
-          if ( !optionsDialog ) {
-            optionsDialog = new OptionsDialog( sim.options.optionsNode, {
-              tandem: tandem.createTandem( 'optionsDialog' )
-            } );
-          }
-
-          optionsDialog.show();
+          new OptionsDialog( sim.options.optionsNode, { tandem: tandem.createTandem( 'optionsDialog' ) } ).show();
         },
         tandem: tandem.createTandem( 'optionsMenuItem' ),
 
@@ -425,7 +415,7 @@ define( function( require ) {
 
         // make sure that any previously focused elements no longer have focus
         Display.focusProperty.set( null );
-        
+
         window.phet.joist.sim.showPopup( this, true );
         this.isShowing = true;
       }

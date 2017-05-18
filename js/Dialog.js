@@ -257,7 +257,11 @@ define( function( require ) {
       }
     },
 
-    // @public
+    /**
+     * This function acts as a dispose function for a dialog, and it is assumed that a new Dialog will be created before
+     * it is shown.
+     * @public
+     */
     hide: function() {
       if ( this.isShowing ) {
         window.phet.joist.sim.hidePopup( this, this.isModal );
