@@ -38,18 +38,30 @@ define( function( require ) {
     }, options );
 
     var thisTandem = options.tandem;
-    var superTandem = options.tandem.createSupertypeTandem();
-    options.tandem = superTandem;
+    options.tandem = options.tandem.createSupertypeTandem();
 
     Dialog.call( this, optionsNode, options );
 
     thisTandem.addInstance( this, TOptionsDialog );
-    // Panel calls tandem.addInstance
+
+    this.disposeOptionsDialog = function() {
+      thisTandem.removeInstance( this );
+    };
   }
 
   joist.register( 'OptionsDialog', OptionsDialog );
 
-  return inherit( Dialog, OptionsDialog, {}, {
+  return inherit( Dialog, OptionsDialog, {
+
+    /**
+     * Override Dialog's hide function to properly dispose what needs to be disposed on hide.
+     * @public
+     */
+    hide: function() {
+      this.disposeOptionsDialog();
+      Dialog.prototype.hide.call( this );
+    }
+  }, {
     DEFAULT_FONT: new PhetFont( 15 ),
     DEFAULT_SPACING: 10
   } );

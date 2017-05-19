@@ -117,7 +117,7 @@ define( function( require ) {
         lineWidth: 3
       } );
 
-      var closeButtonTandem = options.tandem && options.tandem.createTandem( 'closeButton' );
+      var closeButtonTandem = options.tandem.createTandem( 'closeButton' );
       var closeButton = new RectangularPushButton( {
         content: crossNode,
         baseColor: options.closeButtonBaseColor,
@@ -214,6 +214,7 @@ define( function( require ) {
     // @private - remove listeners so that the dialog is eligible for garbage collection
     // called every time the dialog is hidden
     this.disposeDialog = function() {
+      options.tandem.removeInstance( this );
       self.sim.resizedEmitter.removeListener( self.updateLayout );
       self.removeAccessibleInputListener( escapeListener );
 
@@ -272,7 +273,6 @@ define( function( require ) {
 
         // a11y - when the dialog is hidden, unhide all ScreenView content from assistive technology
         this.setAccessibleViewsHidden( false );
-
       }
     },
 
