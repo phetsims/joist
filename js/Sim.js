@@ -178,6 +178,18 @@ define( function( require ) {
       phetioValueType: TBoolean
     } );
 
+    // @public (read-only) - property that indicates whether the browser tab containing the simulation is currently visible
+    this.browserTabVisibleProperty = new Property( true, {
+      tandem: tandem.createTandem( 'browserTabVisibleProperty' ),
+      phetioValueType: TBoolean,
+      phetioInstanceDocumentation: 'this Property is read-only, do not attempt to set its value'
+    } );
+
+    // set the state of the property that indicates if the browser tab is visible
+    document.addEventListener( 'visibilitychange', function() {
+      self.browserTabVisibleProperty.set( document.visibilityState === 'visible' );
+    }, false );
+
     // @public (joist-internal, read-only) - how the home screen and navbar are scaled
     this.scaleProperty = new Property( 1 );
 
