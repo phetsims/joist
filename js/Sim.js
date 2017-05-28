@@ -39,6 +39,7 @@ define( function( require ) {
   var Emitter = require( 'AXON/Emitter' );
   var TandemEmitter = require( 'TANDEM/axon/TandemEmitter' );
   var TSim = require( 'JOIST/TSim' );
+  var LegendsOfLearningSupport = require( 'JOIST/thirdPartySupport/LegendsOfLearningSupport' );
 
   // phet-io modules
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
@@ -328,7 +329,7 @@ define( function( require ) {
     // https://github.com/phetsims/joist/issues/140
     var heartbeatDiv = this.heartbeatDiv = document.createElement( 'div' );
     heartbeatDiv.style.opacity = 0;
-    
+
     // Extra style (also used for accessibility) that makes it take up no visual layout space.
     // Without this, it could cause some layout issues. See https://github.com/phetsims/gravity-force-lab/issues/39
     heartbeatDiv.style.position = 'absolute';
@@ -412,6 +413,9 @@ define( function( require ) {
         self.currentScreenProperty.value = ( showHomeScreen && self.homeScreen ) ? null : screens[ screenIndex ];
         self.updateBackground();
       } );
+
+    // Third party support
+    phet.chipper.queryParameters.legendsOfLearning && new LegendsOfLearningSupport( this ).start();
   }
 
   joist.register( 'Sim', Sim );
@@ -676,6 +680,7 @@ define( function( require ) {
 
                 // Signify the end of simulation startup.  Used by PhET-iO.
                 self.endedSimConstructionEmitter.emit();
+
               }, 25 ); // pause for a few milliseconds with the progress bar filled in before going to the home screen
             }
           },
