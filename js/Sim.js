@@ -505,6 +505,23 @@ define( function( require ) {
 
     // Signify the end of simulation startup.  Used by PhET-iO.
     this.trigger0( 'endedSimConstructor' );
+
+    if ( phet.chipper.getQueryParameter( 'legendsOfLearning' ) ) {
+
+      // Respond to pause/resume commands from the Legends of Learning platform
+      window.addEventListener( 'message', function( message ) {
+          if ( message.data.messageName === 'pause' ) {
+            sim.activeProperty.value = false;
+          }
+          else if ( message.data.messageName === 'resume' ) {
+            sim.activeProperty.value = true;
+          }
+        }
+      );
+
+      // Send init message when sim has started up so that Legends of Learning can remove their splash screen
+      window.parent && window.parent.postMessage( { message: 'init' }, '*' );
+    }
   }
 
   joist.register( 'Sim', Sim );
