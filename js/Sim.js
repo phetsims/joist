@@ -39,7 +39,7 @@ define( function( require ) {
   var Emitter = require( 'AXON/Emitter' );
   var TandemEmitter = require( 'TANDEM/axon/TandemEmitter' );
   var TSim = require( 'JOIST/TSim' );
-  var ThirdPartySupport = require( 'JOIST/thirdPartySupport/ThirdPartySupport' );
+  var LegendsOfLearningSupport = require( 'JOIST/thirdPartySupport/LegendsOfLearningSupport' );
 
   // phet-io modules
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
@@ -414,13 +414,8 @@ define( function( require ) {
         self.updateBackground();
       } );
 
-    // Third party support - if specified, construct communication and set up listeners so Sim can communicate
-    // with a third party wrapper
-    var thirdParty = phet.chipper.queryParameters.thirdPartySupport;
-    if ( thirdParty ) {
-      assert && assert( ThirdPartySupport[ thirdParty ], 'PhET does not support third party ' + thirdParty );
-      new ThirdPartySupport[ thirdParty ]( self ).start();
-    }
+    // Third party support
+    phet.chipper.queryParameters.legendsOfLearning && new LegendsOfLearningSupport( this ).start();
   }
 
   joist.register( 'Sim', Sim );
