@@ -128,10 +128,7 @@ define( function( require ) {
       // when playing back a recorded scenery input event log, use the specified filename.  Please see getEventLogName for more
       inputEventLogName: undefined,
 
-      // Whether events should be batched until they need to be fired. If false, events will be fired immediately, not
-      // waiting for the next animation frame
-      batchEvents: false,
-
+      // TODO https://github.com/phetsims/energy-skate-park-basics/issues/370
       // this function is currently (9-5-2014) specific to Energy Skate Park: Basics, which shows Save/Load buttons in
       // the PhET menu.  This interface is not very finalized and will probably be changed for future versions,
       // so don't rely on it.
@@ -174,7 +171,7 @@ define( function( require ) {
     // Flag for if the sim is active (alive) and the user is able to interact with the sim.
     // If the sim is active, the model.step, view.step, Timer and TWEEN will run.
     // Set to false for when the sim will be controlled externally, such as through record/playback or other controls.
-    this.activeProperty = new Property( true, {
+    this.activeProperty = new Property( !phet.joist.playbackMode, {
       tandem: tandem.createTandem( 'sim.activeProperty' ),
       phetioValueType: TBoolean
     } );
@@ -311,7 +308,6 @@ define( function( require ) {
       accessibility: options.accessibility,
       isApplication: false,
 
-      batchDOMEvents: this.options.batchEvents,
       assumeFullWindow: true // a bit faster if we can assume no coordinate translations are needed for the display.
     } );
 
@@ -512,10 +508,9 @@ define( function( require ) {
       // hasn't been recorded yet.
       this.lastTime = -1;
 
-      // @public (joist-internal) - Bind the animation loop so it can be called from requestAnimationFrame with the right
-      // this.  If PhET-iO sets phet.joist.playbackMode to be true, the sim clock won't run and instead
-      // the sim will receive dt events from stepSimulation calls.
-      this.boundRunAnimationLoop = phet.joist.playbackMode ? function() {} : this.runAnimationLoop.bind( this );
+      // @public (joist-internal)
+      // Bind the animation loop so it can be called from requestAnimationFrame with the right this.
+      this.boundRunAnimationLoop = this.runAnimationLoop.bind( this );
     },
 
     /*
@@ -704,11 +699,6 @@ define( function( require ) {
       simDiv.parentNode && simDiv.parentNode.removeChild( simDiv );
     },
 
-    // @public (phet-io) - Disable the animation frames for playback via input events, see #303
-    disableRequestAnimationFrame: function() {
-      this.boundRunAnimationLoop = function() {};
-    },
-
     // @private - Bound to this.boundRunAnimationLoop so it can be run in window.requestAnimationFrame
     runAnimationLoop: function() {
 
@@ -724,8 +714,9 @@ define( function( require ) {
       // Convert to seconds
       var dt = elapsedTimeMilliseconds / 1000.0;
 
-      // Don't run the simulation on steps back in time (see https://github.com/phetsims/joist/issues/409).
-      if ( dt >= 0 ) {
+      // Don't run the simulation on steps back in time (see https://github.com/phetsims/joist/issues/409)
+      // or if the sim is inactive, in which case the client may call stepSimulation via PhET-iO.
+      if ( dt >= 0 && this.activeProperty.value && !phet.joist.playbackMode ) {
         this.stepSimulation( dt );
       }
     },
@@ -761,54 +752,32 @@ define( function( require ) {
       if ( phet.chipper.queryParameters.fuzzMouse ) {
         this.display.fuzzMouseEvents( phet.chipper.queryParameters.fuzzRate );
       }
-      else {
 
-        // if any input events were received and batched, fire them now.
-        if ( this.options.batchEvents ) {
+      // If the user is on the home screen, we won't have a Screen that we'll want to step
+      var screen = this.showHomeScreenProperty.value ? null : this.screens[ this.screenIndexProperty.value ];
 
-          // if any input events were received and batched, fire them now, but only if the sim is active
-          // The sim may be inactive if interactivity was disabled by API usage such as the SimIFrameAPI
-          if ( this.activeProperty.value ) {
-            this.display._input.fireBatchedEvents();
-          }
-          else {
+      // Timer step before model/view steps, see https://github.com/phetsims/joist/issues/401
+      Timer.step( dt );
 
-            // If the sim was inactive (locked), then discard any scenery events instead of buffering them and applying
-            // them later.
-            this.display._input.clearBatchedEvents();
-          }
-        }
+      // If the DT is 0, we will skip the model step (see https://github.com/phetsims/joist/issues/171)
+      if ( screen && screen.model.step && dt ) {
+        screen.model.step( dt );
       }
 
-      // Step the models, timers and tweens, but only if the sim is active.
-      // It may be inactive if it has been paused through the SimIFrameAPI
-      if ( this.activeProperty.value ) {
-
-        // If the user is on the home screen, we won't have a Screen that we'll want to step
-        var screen = this.showHomeScreenProperty.value ? null : this.screens[ this.screenIndexProperty.value ];
-
-        // Timer step before model/view steps, see https://github.com/phetsims/joist/issues/401
-        Timer.step( dt );
-
-        // If the DT is 0, we will skip the model step (see https://github.com/phetsims/joist/issues/171)
-        if ( screen && screen.model.step && dt ) {
-          screen.model.step( dt );
-        }
-
-        // If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
-        // Update the tweens after the model is updated but before the view step.
-        // See https://github.com/phetsims/joist/issues/401.
-        //TODO https://github.com/phetsims/joist/issues/404 run TWEENs for the selected screen only
-        if ( window.TWEEN ) {
-          window.TWEEN.update( phet.joist.elapsedTime );
-        }
-
-        // View step is the last thing before updateDisplay(), so we can do paint updates there.
-        // See https://github.com/phetsims/joist/issues/401.
-        if ( screen && screen.view.step ) {
-          screen.view.step( dt );
-        }
+      // If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
+      // Update the tweens after the model is updated but before the view step.
+      // See https://github.com/phetsims/joist/issues/401.
+      //TODO https://github.com/phetsims/joist/issues/404 run TWEENs for the selected screen only
+      if ( window.TWEEN ) {
+        window.TWEEN.update( phet.joist.elapsedTime );
       }
+
+      // View step is the last thing before updateDisplay(), so we can do paint updates there.
+      // See https://github.com/phetsims/joist/issues/401.
+      if ( screen && screen.view.step ) {
+        screen.view.step( dt );
+      }
+
       this.display.updateDisplay();
 
       this.frameEndedEmitter.emit1( dt );
