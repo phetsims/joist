@@ -91,7 +91,7 @@ define( function( require ) {
 
       highlightedScreenIndexProperty.link( function( highlightedIndex ) { frame.setHighlighted( highlightedIndex === index ); } );
 
-      var largeButtonTandem = screen.tandem.createTandem( screen.tandem.tail + 'LargeButton' );
+      var largeButtonTandem = tandem.createTandem( screen.tandem.tail + 'LargeButton' );
 
       var largeIconWithFrame = new Node( { children: [ frame, largeIcon ] } );
       var largeText = new TandemText( screen.name, {
@@ -156,7 +156,7 @@ define( function( require ) {
         lineWidth: 0.7
       } );
 
-      var smallButtonTandem = screen.tandem.createTandem( screen.tandem.tail + 'SmallButton' );
+      var smallButtonTandem = tandem.createTandem( screen.tandem.tail + 'SmallButton' );
 
       var smallScreenButtonIcon = new Node( { opacity: 0.5, children: [ smallFrame, smallIconContent ] } );
 
