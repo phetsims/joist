@@ -66,6 +66,9 @@ define( function( require ) {
       // {Node|null} icon shown in the navigation bar. If null, then the home screen icon will be used, scaled to fit.
       navigationBarIcon: null,
 
+      // dt cap in seconds, see https://github.com/phetsims/joist/issues/130
+      maxDT: 0.5,
+
       tandem: Tandem.tandemRequired()
     }, options );
 
@@ -86,10 +89,13 @@ define( function( require ) {
     // @public
     this.backgroundColorProperty = options.backgroundColorProperty;
 
-    // @public
+    // @public (read-only)
     this.name = options.name;
     this.homeScreenIcon = options.homeScreenIcon;
     this.navigationBarIcon = options.navigationBarIcon;
+
+    // @public (read-only, joist)
+    this.maxDT = options.maxDT;
 
     // @private
     this.createModel = createModel;

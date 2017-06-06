@@ -728,6 +728,14 @@ define( function( require ) {
      */
     stepSimulation: function( dt ) {
 
+      // If the user is on the home screen, we won't have a Screen that we'll want to step
+      var screen = this.showHomeScreenProperty.value ? null : this.screens[ this.screenIndexProperty.value ];
+
+      // cap dt based on the current screen, see https://github.com/phetsims/joist/issues/130
+      if ( screen && screen.maxDT ) {
+        dt = Math.min( dt, screen.maxDT );
+      }
+
       // TODO: we are /1000 just to *1000?  Seems wasteful and like opportunity for error. See https://github.com/phetsims/joist/issues/387
       // Store the elapsed time in milliseconds for usage by Tween clients
       phet.joist.elapsedTime = phet.joist.elapsedTime + dt * 1000;
@@ -752,9 +760,6 @@ define( function( require ) {
       if ( phet.chipper.queryParameters.fuzzMouse ) {
         this.display.fuzzMouseEvents( phet.chipper.queryParameters.fuzzRate );
       }
-
-      // If the user is on the home screen, we won't have a Screen that we'll want to step
-      var screen = this.showHomeScreenProperty.value ? null : this.screens[ this.screenIndexProperty.value ];
 
       // Timer step before model/view steps, see https://github.com/phetsims/joist/issues/401
       Timer.step( dt );
