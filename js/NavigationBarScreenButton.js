@@ -20,7 +20,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Text = require( 'SCENERY/nodes/Text' );
+  var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var joist = require( 'JOIST/joist' );
@@ -82,8 +82,9 @@ define( function( require ) {
 
     options.tandem && options.tandem.addInstance( this, TNavigationBarScreenButton );
 
-    var text = new Text( screen.name, {
-      font: new PhetFont( 10 )
+    var text = new TandemText( screen.name, {
+      font: new PhetFont( 10 ),
+      tandem: options.tandem && options.tandem.createTandem( 'text' )
     } );
 
     var box = new VBox( {

@@ -15,6 +15,7 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
   var Shape = require( 'KITE/Shape' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ScreenView = require( 'JOIST/ScreenView' );
@@ -90,8 +91,14 @@ define( function( require ) {
 
       highlightedScreenIndexProperty.link( function( highlightedIndex ) { frame.setHighlighted( highlightedIndex === index ); } );
 
+      var largeButtonTandem = screen.tandem.createTandem( screen.tandem.tail + 'LargeButton' );
+
       var largeIconWithFrame = new Node( { children: [ frame, largeIcon ] } );
-      var largeText = new Text( screen.name, { font: new PhetFont( 42 ), fill: PhetColorScheme.PHET_LOGO_YELLOW } );//Color match with the PhET Logo yellow
+      var largeText = new TandemText( screen.name, {
+        font: new PhetFont( 42 ),
+        fill: PhetColorScheme.PHET_LOGO_YELLOW, // Color match with the PhET Logo yellow
+        tandem: largeButtonTandem.createTandem( 'text' )
+      } );
 
       //Shrink the text if it goes beyond the edge of the image
       if ( largeText.width > largeIconWithFrame.width ) {
@@ -124,7 +131,7 @@ define( function( require ) {
       // Even though in the user interface the small and large buttons seem like a single UI component that has grown
       // larger, it would be quite a headache to create a composite button for the purposes of tandem, so instead the
       // large and small buttons are registered as separate instances.  See https://github.com/phetsims/phet-io/issues/99
-      tandem.createTandem( screen.tandem.tail + 'LargeButton' ).addInstance( largeScreenButton, TScreenButton );
+      largeButtonTandem.addInstance( largeScreenButton, TScreenButton );
 
       // Activate the large screen button when pressed
       largeScreenButton.addInputListener( {
@@ -148,9 +155,16 @@ define( function( require ) {
         stroke: options.showSmallHomeScreenIconFrame ? '#dddddd' : null,
         lineWidth: 0.7
       } );
+
+      var smallButtonTandem = screen.tandem.createTandem( screen.tandem.tail + 'SmallButton' );
+
       var smallScreenButtonIcon = new Node( { opacity: 0.5, children: [ smallFrame, smallIconContent ] } );
 
-      var smallScreenButtonText = new Text( screen.name, { font: new PhetFont( 18 ), fill: 'gray' } );
+      var smallScreenButtonText = new TandemText( screen.name, {
+        font: new PhetFont( 18 ),
+        fill: 'gray',
+        tandem: smallButtonTandem.createTandem( 'text' )
+      } );
 
       //Shrink the text if it goes beyond the edge of the image
       if ( smallScreenButtonText.width > smallScreenButtonIcon.width ) {
@@ -187,7 +201,7 @@ define( function( require ) {
         }
       } );
 
-      tandem.createTandem( screen.tandem.tail + 'SmallButton' ).addInstance( smallScreenButton, TScreenButton );
+      smallButtonTandem.addInstance( smallScreenButton, TScreenButton );
 
       var highlightListener = {
         over: function( event ) {
