@@ -737,8 +737,9 @@ define( function( require ) {
      */
     stepSimulation: function( dt ) {
 
+      // TODO: we are /1000 just to *1000?  Seems wasteful and like opportunity for error. See https://github.com/phetsims/joist/issues/387
       // Store the elapsed time in milliseconds for usage by Tween clients
-      phet.joist.elapsedTime = phet.joist.elapsedTime + dt * 1000; // TODO: we are /1000 just to *1000?  Seems wasteful and like opportunity for error. See https://github.com/phetsims/joist/issues/387
+      phet.joist.elapsedTime = phet.joist.elapsedTime + dt * 1000;
 
       this.frameStartedEmitter.emit();
 
