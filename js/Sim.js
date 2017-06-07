@@ -722,6 +722,15 @@ define( function( require ) {
     },
 
     /**
+     * Returns the selected screen, or null if the home screen is showing.
+     * @returns {Screen|null}
+     * @private
+     */
+    getSelectedScreen: function() {
+      return this.showHomeScreenProperty.value ? null : this.screens[ this.screenIndexProperty.value ];
+    },
+
+    /**
      * Update the simulation model, view, scenery display with an elapsed time of dt.
      * @param {number} dt in seconds
      * @public (phet-io)
@@ -729,7 +738,7 @@ define( function( require ) {
     stepSimulation: function( dt ) {
 
       // If the user is on the home screen, we won't have a Screen that we'll want to step
-      var screen = this.showHomeScreenProperty.value ? null : this.screens[ this.screenIndexProperty.value ];
+      var screen = this.getSelectedScreen();
 
       // cap dt based on the current screen, see https://github.com/phetsims/joist/issues/130
       if ( screen && screen.maxDT ) {
@@ -759,6 +768,9 @@ define( function( require ) {
       // fire or synthesize input events
       if ( phet.chipper.queryParameters.fuzzMouse ) {
         this.display.fuzzMouseEvents( phet.chipper.queryParameters.fuzzRate );
+
+        // The fuzz mouse may have changed the selected screen, so update the screen variable just in case, see #130
+        screen = this.getSelectedScreen();
       }
 
       // Timer step before model/view steps, see https://github.com/phetsims/joist/issues/401
