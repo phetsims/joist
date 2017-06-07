@@ -737,18 +737,6 @@ define( function( require ) {
      */
     stepSimulation: function( dt ) {
 
-      // If the user is on the home screen, we won't have a Screen that we'll want to step
-      var screen = this.getSelectedScreen();
-
-      // cap dt based on the current screen, see https://github.com/phetsims/joist/issues/130
-      if ( screen && screen.maxDT ) {
-        dt = Math.min( dt, screen.maxDT );
-      }
-
-      // TODO: we are /1000 just to *1000?  Seems wasteful and like opportunity for error. See https://github.com/phetsims/joist/issues/387
-      // Store the elapsed time in milliseconds for usage by Tween clients
-      phet.joist.elapsedTime = phet.joist.elapsedTime + dt * 1000;
-
       this.frameStartedEmitter.emit();
 
       // increment this before we can have an exception thrown, to see if we are missing frames
@@ -768,10 +756,20 @@ define( function( require ) {
       // fire or synthesize input events
       if ( phet.chipper.queryParameters.fuzzMouse ) {
         this.display.fuzzMouseEvents( phet.chipper.queryParameters.fuzzRate );
-
-        // The fuzz mouse may have changed the selected screen, so update the screen variable just in case, see #130
-        screen = this.getSelectedScreen();
       }
+
+      // If the user is on the home screen, we won't have a Screen that we'll want to step.  This must be done after
+      // fuzz mouse, because fuzzing could change the selected screen, see #130
+      var screen = this.getSelectedScreen();
+
+      // cap dt based on the current screen, see https://github.com/phetsims/joist/issues/130
+      if ( screen && screen.maxDT ) {
+        dt = Math.min( dt, screen.maxDT );
+      }
+
+      // TODO: we are /1000 just to *1000?  Seems wasteful and like opportunity for error. See https://github.com/phetsims/joist/issues/387
+      // Store the elapsed time in milliseconds for usage by Tween clients
+      phet.joist.elapsedTime = phet.joist.elapsedTime + dt * 1000;
 
       // Timer step before model/view steps, see https://github.com/phetsims/joist/issues/401
       Timer.step( dt );
