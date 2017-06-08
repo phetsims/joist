@@ -117,7 +117,6 @@ define( function( require ) {
         lineWidth: 3
       } );
 
-      var closeButtonTandem = options.tandem.createTandem( 'closeButton' );
       var closeButton = new RectangularPushButton( {
         content: crossNode,
         baseColor: options.closeButtonBaseColor,
@@ -129,7 +128,7 @@ define( function( require ) {
         accessibleFire: function() {
           self.focusActiveElement();
         },
-        tandem: closeButtonTandem,
+        tandem: options.tandem.createTandem( 'closeButton' ),
 
         // a11y options
         tagName: 'button',
