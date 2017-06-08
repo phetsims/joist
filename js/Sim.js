@@ -443,7 +443,16 @@ define( function( require ) {
         function( showHomeScreen, screenIndex ) {
 
           if ( self.homeScreen ) {
-            self.homeScreen.view.setVisible( showHomeScreen );
+
+            // You can't set the active property if the screen is visible, so order matters here
+            if ( showHomeScreen ) {
+              self.homeScreen.activeProperty.set( true );
+              self.homeScreen.view.setVisible( true );
+            }
+            else {
+              self.homeScreen.view.setVisible( false );
+              self.homeScreen.activeProperty.set( false );
+            }
           }
 
           // Make the selected screen visible and active, other screens invisible and inactive.
