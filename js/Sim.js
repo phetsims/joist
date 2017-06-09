@@ -56,7 +56,7 @@ define( function( require ) {
   // This must be set before the simulation is launched in order to ensure that no errant stepSimulation steps are called
   // before the playback events begin.  This value is overridden for playback by TPhETIO.
   // @public (phet-io)
-  phet.joist.playbackModeEnabled = false;
+  phet.joist.playbackModeEnabled = new Property( false );
 
   /**
    * Main Sim constructor
@@ -68,6 +68,12 @@ define( function( require ) {
   function Sim( name, screens, options ) {
 
     var self = this;
+
+    // playbackModeEnabled cannot be changed after Sim construction has begun, hence this listener is added before
+    // anything else is done, see https://github.com/phetsims/phet-io/issues/1146
+    phet.joist.playbackModeEnabled.lazyLink( function( playbackModeEnabled ) {
+      throw new Error( 'playbackModeEnabled cannot be changed after Sim construction has begun' );
+    } );
 
     var tandem = Tandem.createRootTandem();
     var simTandem = tandem.createTandem( 'sim' );
@@ -178,7 +184,7 @@ define( function( require ) {
     //
     // Set to false for when the sim will be paused.  If the sim has playbackModeEnabled set to true, the activeProperty will
     // automatically be set to false so the timing and inputs can be controlled by the playback engine
-    this.activeProperty = new Property( !phet.joist.playbackModeEnabled, {
+    this.activeProperty = new Property( !phet.joist.playbackModeEnabled.value, {
       tandem: tandem.createTandem( 'sim.activeProperty' ),
       phetioValueType: TBoolean
     } );
@@ -324,7 +330,7 @@ define( function( require ) {
 
       // The sim must remain inactive while playbackModeEnabled is true
       if ( active ) {
-        assert && assert( !phet.joist.playbackModeEnabled, 'The sim must remain inactive while playbackModeEnabled is true' );
+        assert && assert( !phet.joist.playbackModeEnabled.value, 'The sim must remain inactive while playbackModeEnabled is true' );
       }
     } );
 
@@ -514,9 +520,10 @@ define( function( require ) {
       // Can't synchronously do this in Firefox, see https://github.com/phetsims/vegas/issues/55 and
       // https://bugzilla.mozilla.org/show_bug.cgi?id=840412.
       $( window ).resize( function() {
+
         // Don't resize on window size changes if we are playing back input events.
         // See https://github.com/phetsims/joist/issues/37
-        if ( !phet.joist.playbackModeEnabled ) {
+        if ( !phet.joist.playbackModeEnabled.value ) {
           self.resizePending = true;
         }
       } );
