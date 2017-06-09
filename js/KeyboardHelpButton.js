@@ -31,11 +31,12 @@ define( function( require ) {
   var BUTTON_SCALE = HELP_BUTTON_SCALE / brightIconMipmap[ 0 ].height * HELP_BUTTON_HEIGHT;
 
   function KeyboardHelpButton( sim, backgroundFillProperty, tandem ) {
+    var self = this;
 
     var keyboardHelpDialog = null;
     var openDialog = function() {
       if ( !keyboardHelpDialog ) {
-        keyboardHelpDialog = new KeyboardHelpDialog( sim.keyboardHelpNode, {
+        keyboardHelpDialog = new KeyboardHelpDialog( self, sim.keyboardHelpNode, {
           tandem: tandem.createTandem( 'keyboardHelpDialog' )
         } );
       }

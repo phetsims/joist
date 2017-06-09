@@ -31,11 +31,12 @@ define( function( require ) {
 
   /**
    * Constructor.
+   * @param {KeyboardHelpButton} keyboardHelpButton
    * @param {Node} helpContent - a node containing the sim specific keyboard help content
    * @param {object} options
    * @constructor
    */
-  function KeyboardHelpDialog( helpContent, options ) {
+  function KeyboardHelpDialog( keyboardHelpButton, helpContent, options ) {
 
     // title
     var titleText = new Text( keyboardShortcutsTitleString, {
@@ -58,7 +59,8 @@ define( function( require ) {
       fill: 'rgb( 214, 237, 249 )',
       xMargin: HELP_CONTENT_MARGIN,
       yMargin: HELP_CONTENT_MARGIN,
-      titleSpacing: HELP_CONTENT_MARGIN
+      titleSpacing: HELP_CONTENT_MARGIN,
+      focusOnCloseNode: keyboardHelpButton
     }, options );
 
     // shape and path for a custom close button

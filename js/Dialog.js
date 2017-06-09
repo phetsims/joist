@@ -174,9 +174,9 @@ define( function( require ) {
 
     // a11y - set the aria labelledby and describedby relations so that whenever focus enters the dialog, the title
     // and description content are read in full
-    content.domElement && this.setAriaDescribedByElement( content.domElement );
+    content.tagName && content.setAriaDescribesNode( this );
     if ( options.title ) {
-      options.title.domElement && this.setAriaLabelledByElement( options.title.domElement );
+      options.title.tagName && options.title.setAriaLabelsNode( this );
     }
 
     // @private (a11y) - the active element when the dialog is shown, tracked so that focus can be restored on close
@@ -202,8 +202,8 @@ define( function( require ) {
             // when the navigation bar is hidden and there is only one focusable element in the DOM
             // see https://bugzilla.mozilla.org/show_bug.cgi?id=910136
             var activeElement = document.activeElement;
-            var noNextFocusable = AccessibilityUtil.getNextFocusable( self.domElement ) === activeElement;
-            var noPreviousFocusable = AccessibilityUtil.getPreviousFocusable( self.domElement ) === activeElement;
+            var noNextFocusable = AccessibilityUtil.getNextFocusable() === activeElement;
+            var noPreviousFocusable = AccessibilityUtil.getPreviousFocusable() === activeElement;
 
             if ( noNextFocusable && noPreviousFocusable ) {
               event.preventDefault();
