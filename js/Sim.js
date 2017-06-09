@@ -50,7 +50,12 @@ define( function( require ) {
 
   // globals
   phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for replicable playbacks
-  phet.joist.playbackMode = false; // sets whether the sim is for PhET-iO playback, overriden by TPhETIO for playback
+
+  // When the simulation is going to be used to play back a recorded session, the simulation must be put into a special
+  // mode in which it will only update the model + view based on the playback clock events rather than the system clock.
+  // This must be set before the simulation is launched in order to ensure that no errant stepSimulation steps are called
+  // before the playback events begin.  This value is overriden for playback by TPhETIO.
+  phet.joist.playbackMode = false;
 
   /**
    * Main Sim constructor
