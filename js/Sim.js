@@ -55,7 +55,8 @@ define( function( require ) {
   // mode in which it will only update the model + view based on the playback clock events rather than the system clock.
   // This must be set before the simulation is launched in order to ensure that no errant stepSimulation steps are called
   // before the playback events begin.  This value is overriden for playback by TPhETIO.
-  phet.joist.playbackMode = false;
+  // @public (phet-io)
+  phet.joist.isPlaybackMode = false;
 
   /**
    * Main Sim constructor
@@ -176,7 +177,7 @@ define( function( require ) {
     // Flag for if the sim is active (alive) and the user is able to interact with the sim.
     // If the sim is active, the model.step, view.step, Timer and TWEEN will run.
     // Set to false for when the sim will be controlled externally, such as through record/playback or other controls.
-    this.activeProperty = new Property( !phet.joist.playbackMode, {
+    this.activeProperty = new Property( !phet.joist.isPlaybackMode, {
       tandem: tandem.createTandem( 'sim.activeProperty' ),
       phetioValueType: TBoolean
     } );
@@ -509,7 +510,7 @@ define( function( require ) {
       $( window ).resize( function() {
         // Don't resize on window size changes if we are playing back input events.
         // See https://github.com/phetsims/joist/issues/37
-        if ( !phet.joist.playbackMode ) {
+        if ( !phet.joist.isPlaybackMode ) {
           self.resizePending = true;
         }
       } );
@@ -730,7 +731,7 @@ define( function( require ) {
 
       // Don't run the simulation on steps back in time (see https://github.com/phetsims/joist/issues/409)
       // or if the sim is inactive, in which case the client may call stepSimulation via PhET-iO.
-      if ( dt >= 0 && this.activeProperty.value && !phet.joist.playbackMode ) {
+      if ( dt >= 0 && this.activeProperty.value && !phet.joist.isPlaybackMode ) {
         this.stepSimulation( dt );
       }
     },
