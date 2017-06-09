@@ -123,6 +123,9 @@ define( function( require ) {
         xMargin: 5,
         yMargin: 5,
         listener: function() {
+
+          // This setTimeout call is a workaround until hide and dispose are separated. It should be removed once
+          // https://github.com/phetsims/joist/issues/424 is complete.
           setTimeout( function() { self.hide(); }, 0 );
         },
         accessibleFire: function() {
