@@ -123,7 +123,7 @@ define( function( require ) {
         xMargin: 5,
         yMargin: 5,
         listener: function() {
-          self.hide();
+          setTimeout( function() { self.hide(); }, 0 );
         },
         accessibleFire: function() {
           self.focusActiveElement();
