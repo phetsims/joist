@@ -56,7 +56,7 @@ define( function( require ) {
   // This must be set before the simulation is launched in order to ensure that no errant stepSimulation steps are called
   // before the playback events begin.  This value is overridden for playback by TPhETIO.
   // @public (phet-io)
-  phet.joist.isPlaybackMode = false;
+  phet.joist.playbackModeEnabled = false;
 
   /**
    * Main Sim constructor
@@ -176,9 +176,9 @@ define( function( require ) {
     // @public
     // When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.
     //
-    // Set to false for when the sim will be paused.  If the sim has isPlaybackMode set to true, the activeProperty will
+    // Set to false for when the sim will be paused.  If the sim has playbackModeEnabled set to true, the activeProperty will
     // automatically be set to false so the timing and inputs can be controlled by the playback engine
-    this.activeProperty = new Property( !phet.joist.isPlaybackMode, {
+    this.activeProperty = new Property( !phet.joist.playbackModeEnabled, {
       tandem: tandem.createTandem( 'sim.activeProperty' ),
       phetioValueType: TBoolean
     } );
@@ -322,9 +322,9 @@ define( function( require ) {
     this.activeProperty.link( function( active ) {
       self.display.interactive = active;
 
-      // The sim must remain inactive while isPlaybackMode is true
+      // The sim must remain inactive while playbackModeEnabled is true
       if ( active ) {
-        assert && assert( !phet.joist.isPlaybackMode, 'The sim must remain inactive while isPlaybackMode is true' );
+        assert && assert( !phet.joist.playbackModeEnabled, 'The sim must remain inactive while playbackModeEnabled is true' );
       }
     } );
 
@@ -516,7 +516,7 @@ define( function( require ) {
       $( window ).resize( function() {
         // Don't resize on window size changes if we are playing back input events.
         // See https://github.com/phetsims/joist/issues/37
-        if ( !phet.joist.isPlaybackMode ) {
+        if ( !phet.joist.playbackModeEnabled ) {
           self.resizePending = true;
         }
       } );
@@ -728,7 +728,7 @@ define( function( require ) {
       }
 
       // Setting the activeProperty to false pauses the sim and also enables optional support for playback back recorded
-      // events (if isPlaybackMode) is true
+      // events (if playbackModeEnabled) is true
       if ( this.activeProperty.value ) {
 
         // Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
