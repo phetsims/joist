@@ -50,7 +50,13 @@ define( function( require ) {
 
   // globals
   phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for replicable playbacks
-  phet.joist.playbackMode = false; // sets whether the sim is for PhET-iO playback, overriden by TPhETIO for playback
+
+  // When the simulation is going to be used to play back a recorded session, the simulation must be put into a special
+  // mode in which it will only update the model + view based on the playback clock events rather than the system clock.
+  // This must be set before the simulation is launched in order to ensure that no errant stepSimulation steps are called
+  // before the playback events begin.  This value is overriden for playback by TPhETIO.
+  // @public (phet-io)
+  phet.joist.isPlaybackMode = false;
 
   /**
    * Main Sim constructor
@@ -168,10 +174,11 @@ define( function( require ) {
     } );
 
     // @public
-    // Flag for if the sim is active (alive) and the user is able to interact with the sim.
-    // If the sim is active, the model.step, view.step, Timer and TWEEN will run.
-    // Set to false for when the sim will be controlled externally, such as through record/playback or other controls.
-    this.activeProperty = new Property( !phet.joist.playbackMode, {
+    // When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.
+    //
+    // Set to false for when the sim will be paused.  If the sim has isPlaybackMode set to true, the activeProperty will
+    // automatically be set to false so the timing and inputs can be controlled by the playback engine
+    this.activeProperty = new Property( !phet.joist.isPlaybackMode, {
       tandem: tandem.createTandem( 'sim.activeProperty' ),
       phetioValueType: TBoolean
     } );
@@ -314,6 +321,11 @@ define( function( require ) {
     // When the sim is inactive, make it non-interactive, see https://github.com/phetsims/scenery/issues/414
     this.activeProperty.link( function( active ) {
       self.display.interactive = active;
+
+      // The sim must remain inactive while isPlaybackMode is true
+      if ( active ) {
+        assert && assert( !phet.joist.isPlaybackMode, 'The sim must remain inactive while isPlaybackMode is true' );
+      }
     } );
 
     var simDiv = self.display.domElement;
@@ -504,7 +516,7 @@ define( function( require ) {
       $( window ).resize( function() {
         // Don't resize on window size changes if we are playing back input events.
         // See https://github.com/phetsims/joist/issues/37
-        if ( !phet.joist.playbackMode ) {
+        if ( !phet.joist.isPlaybackMode ) {
           self.resizePending = true;
         }
       } );
@@ -715,18 +727,22 @@ define( function( require ) {
         window.requestAnimationFrame( this.boundRunAnimationLoop );
       }
 
-      // Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
-      var time = Date.now();
-      var elapsedTimeMilliseconds = (this.lastTime === -1) ? (1000.0 / 60.0) : (time - this.lastTime);
-      this.lastTime = time;
+      // Setting the activeProperty to false pauses the sim and also enables optional support for playback back recorded
+      // events (if isPlaybackMode) is true
+      if ( this.activeProperty.value ) {
 
-      // Convert to seconds
-      var dt = elapsedTimeMilliseconds / 1000.0;
+        // Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
+        var time = Date.now();
+        var elapsedTimeMilliseconds = (this.lastTime === -1) ? (1000.0 / 60.0) : (time - this.lastTime);
+        this.lastTime = time;
 
-      // Don't run the simulation on steps back in time (see https://github.com/phetsims/joist/issues/409)
-      // or if the sim is inactive, in which case the client may call stepSimulation via PhET-iO.
-      if ( dt >= 0 && this.activeProperty.value && !phet.joist.playbackMode ) {
-        this.stepSimulation( dt );
+        // Convert to seconds
+        var dt = elapsedTimeMilliseconds / 1000.0;
+
+        // Don't run the simulation on steps back in time (see https://github.com/phetsims/joist/issues/409)
+        if ( dt >= 0 ) {
+          this.stepSimulation( dt );
+        }
       }
     },
 
