@@ -24,6 +24,7 @@ define( function( require ) {
   var Display = require( 'SCENERY/display/Display' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var platform = require( 'PHET_CORE/platform' );
   var Timer = require( 'PHET_CORE/Timer' );
@@ -56,7 +57,7 @@ define( function( require ) {
   // This must be set before the simulation is launched in order to ensure that no errant stepSimulation steps are called
   // before the playback events begin.  This value is overridden for playback by TPhETIO.
   // @public (phet-io)
-  phet.joist.playbackModeEnabled = new Property( false );
+  phet.joist.playbackModeEnabledProperty = new BooleanProperty( false );
 
   /**
    * Main Sim constructor
@@ -69,10 +70,10 @@ define( function( require ) {
 
     var self = this;
 
-    // playbackModeEnabled cannot be changed after Sim construction has begun, hence this listener is added before
+    // playbackModeEnabledProperty cannot be changed after Sim construction has begun, hence this listener is added before
     // anything else is done, see https://github.com/phetsims/phet-io/issues/1146
-    phet.joist.playbackModeEnabled.lazyLink( function( playbackModeEnabled ) {
-      throw new Error( 'playbackModeEnabled cannot be changed after Sim construction has begun' );
+    phet.joist.playbackModeEnabledProperty.lazyLink( function( playbackModeEnabledProperty ) {
+      throw new Error( 'playbackModeEnabledProperty cannot be changed after Sim construction has begun' );
     } );
 
     var tandem = Tandem.createRootTandem();
@@ -182,9 +183,9 @@ define( function( require ) {
     // @public
     // When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.
     //
-    // Set to false for when the sim will be paused.  If the sim has playbackModeEnabled set to true, the activeProperty will
+    // Set to false for when the sim will be paused.  If the sim has playbackModeEnabledProperty set to true, the activeProperty will
     // automatically be set to false so the timing and inputs can be controlled by the playback engine
-    this.activeProperty = new Property( !phet.joist.playbackModeEnabled.value, {
+    this.activeProperty = new Property( !phet.joist.playbackModeEnabledProperty.value, {
       tandem: tandem.createTandem( 'sim.activeProperty' ),
       phetioValueType: TBoolean
     } );
@@ -328,9 +329,9 @@ define( function( require ) {
     this.activeProperty.link( function( active ) {
       self.display.interactive = active;
 
-      // The sim must remain inactive while playbackModeEnabled is true
+      // The sim must remain inactive while playbackModeEnabledProperty is true
       if ( active ) {
-        assert && assert( !phet.joist.playbackModeEnabled.value, 'The sim must remain inactive while playbackModeEnabled is true' );
+        assert && assert( !phet.joist.playbackModeEnabledProperty.value, 'The sim must remain inactive while playbackModeEnabledProperty is true' );
       }
     } );
 
@@ -523,7 +524,7 @@ define( function( require ) {
 
         // Don't resize on window size changes if we are playing back input events.
         // See https://github.com/phetsims/joist/issues/37
-        if ( !phet.joist.playbackModeEnabled.value ) {
+        if ( !phet.joist.playbackModeEnabledProperty.value ) {
           self.resizePending = true;
         }
       } );
@@ -735,7 +736,7 @@ define( function( require ) {
       }
 
       // Setting the activeProperty to false pauses the sim and also enables optional support for playback back recorded
-      // events (if playbackModeEnabled) is true
+      // events (if playbackModeEnabledProperty) is true
       if ( this.activeProperty.value ) {
 
         // Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
