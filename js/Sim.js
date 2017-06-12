@@ -311,6 +311,13 @@ define( function( require ) {
     // @public
     this.rootNode = new Node( { renderer: options.rootRenderer } );
 
+    // When the sim becomes inactive, interrupt any currently active input listeners, see https://github.com/phetsims/scenery/issues/619.
+    this.activeProperty.lazyLink( function( active ) {
+      if ( !active ) {
+        self.rootNode.interruptSubtreeInput();
+      }
+    } );
+
     // @private
     this.display = new Display( self.rootNode, {
       // prevent overflow that can cause iOS bugginess, see https://github.com/phetsims/phet-io/issues/341
@@ -340,7 +347,7 @@ define( function( require ) {
     document.body.appendChild( simDiv );
 
     // for preventing Safari from going to sleep - added to the simDiv instead of the body to prevent a VoiceOver bug
-    // where the virtual cursor would spontaneously move when the div content changed, see 
+    // where the virtual cursor would spontaneously move when the div content changed, see
     // https://github.com/phetsims/joist/issues/140
     var heartbeatDiv = this.heartbeatDiv = document.createElement( 'div' );
     heartbeatDiv.style.opacity = 0;
@@ -428,6 +435,17 @@ define( function( require ) {
         self.currentScreenProperty.value = ( showHomeScreen && self.homeScreen ) ? null : screens[ screenIndex ];
         self.updateBackground();
       } );
+
+    // When the user switches screens, interrupt the input on the previous screen.
+    // See https://github.com/phetsims/scenery/issues/218
+    this.currentScreenProperty.lazyLink( function( newScreen, oldScreen ) {
+      if ( oldScreen === null ) {
+        self.homeScreen.view.interruptSubtreeInput();
+      }
+      else {
+        oldScreen.view.interruptSubtreeInput();
+      }
+    } );
 
     // Third party support
     phet.chipper.queryParameters.legendsOfLearning && new LegendsOfLearningSupport( this ).start();
