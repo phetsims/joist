@@ -294,6 +294,13 @@ define( function( require ) {
     // @public
     this.rootNode = new Node( { renderer: options.rootRenderer } );
 
+    // When the sim becomes inactive, interrupt any currently active input listeners, see https://github.com/phetsims/scenery/issues/619.
+    this.activeProperty.lazyLink( function( active ) {
+      if ( !active ) {
+        sim.rootNode.interruptSubtreeInput();
+      }
+    } );
+
     // @private
     this.display = new Display( sim.rootNode, {
       // prevent overflow that can cause iOS bugginess, see https://github.com/phetsims/phet-io/issues/341
@@ -427,6 +434,17 @@ define( function( require ) {
     _.each( screens, function( screen ) {
       screen.backgroundColorProperty.link( sim.updateBackground );
       screen.initializeModelAndView();
+    } );
+
+    // When the user switches screens, interrupt the input on the previous screen.
+    // See https://github.com/phetsims/scenery/issues/218
+    this.currentScreenProperty.lazyLink( function( newScreen, oldScreen ) {
+      if ( oldScreen === null ) {
+        sim.homeScreen.view.interruptSubtreeInput();
+      }
+      else {
+        oldScreen.view.interruptSubtreeInput();
+      }
     } );
 
     // ModuleIndex should always be defined.  On startup screenIndex=0 to highlight the 1st screen.
