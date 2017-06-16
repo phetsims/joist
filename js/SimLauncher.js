@@ -56,8 +56,12 @@ define( function( require ) {
           new Tandem( 'phetio' ).addInstance( phetio, TPhETIO );
           SimIFrameAPI.initialize(); // calls back to window.phetLaunchSimulation
         }
-        if ( phet.phetio && phet.phetio.queryParameters &&
-             phet.phetio.queryParameters.phetioStandalone || phet.chipper.brand !== 'phet-io' ) {
+
+        https://github.com/phetsims/phet-io/issues/1106        if ( phet.phetio && !phet.phetio.queryParameters.phetioStandalone ) {
+
+          // Wait for phet-io to finish adding listeners. It will direct the launch from there.
+        }
+        else {
           window.phetLaunchSimulation();
         }
       }
