@@ -57,7 +57,7 @@ define( function( require ) {
           SimIFrameAPI.initialize(); // calls back to window.phetLaunchSimulation
         }
 
-        https://github.com/phetsims/phet-io/issues/1106        if ( phet.phetio && !phet.phetio.queryParameters.phetioStandalone ) {
+        if ( phet.phetio && !phet.phetio.queryParameters.phetioStandalone ) {
 
           // Wait for phet-io to finish adding listeners. It will direct the launch from there.
         }
