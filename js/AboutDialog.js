@@ -152,7 +152,7 @@ define( function( require ) {
           fill: 'gray',
           align: 'left',
           maxWidth: MAX_WIDTH,
-          tandem: tandem.createTandem( 'additionLicenseStatement' )
+          tandem: tandem.createTandem( 'additionalLicenseStatement' )
         }
       );
       children.push( this.additionalLicenseStatement );
