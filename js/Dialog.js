@@ -129,7 +129,10 @@ define( function( require ) {
           setTimeout( function() { self.hide(); }, 0 );
         },
         accessibleFire: function() {
-          self.focusActiveElement();
+
+          // the active element must be focused after the Dialog is hidden, so this must also be wrapped in a 
+          // timeout. This should also be removed once https://github.com/phetsims/joist/issues/424 is complete.
+          setTimeout( function() { self.focusActiveElement(); }, 0 );
         },
         tandem: options.tandem.createTandem( 'closeButton' ),
 
