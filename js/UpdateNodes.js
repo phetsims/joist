@@ -80,7 +80,7 @@ define( function( require ) {
         maxWidth: MAX_WIDTH,
         children: [
           new Rectangle( 0, 0, 20, 20, 5, 5, { fill: '#5c3', scale: options.big ? 1.2 : 1, children: [
-            new FontAwesomeNode( 'check_without_box', { fill: '#fff', scale: 0.38, centerX: 10, centerY: 10 } )
+            new FontAwesomeNode( 'check', { fill: '#fff', scale: 0.38, centerX: 10, centerY: 10 } )
           ] } ),
           new Text( updatesUpToDateString, { font: new PhetFont( options.big ? 16 : 14 ), fontWeight: options.big ? 'bold' : 'normal' } )
         ],
