@@ -28,6 +28,7 @@ define( function( require ) {
   var packageJSON = require( 'JOIST/packageJSON' );
   var joist = require( 'JOIST/joist' );
   var TDialog = require( 'JOIST/TDialog' );
+  var TNode = require( 'SCENERY/nodes/TNode' );
 
   // strings
   var versionPatternString = require( 'string!JOIST/versionPattern' );
@@ -51,7 +52,7 @@ define( function( require ) {
 
     var children = [];
 
-    var titleText = new Text( name, { 
+    var titleText = new Text( name, {
       font: new PhetFont( 28 ),
       maxWidth: MAX_WIDTH,
       tagName: 'h1',
@@ -129,9 +130,8 @@ define( function( require ) {
 
     // Show the brand copyright statement, if it exists
     if ( Brand.copyright ) {
-      
       var year = phet.chipper.buildTimestamp ? // defined for built versions
-                 phet.chipper.buildTimestamp.split( '-' )[0] : // e.g. "2017-04-20 19:04:59 UTC" -> "2017"
+                 phet.chipper.buildTimestamp.split( '-' )[ 0 ] : // e.g. "2017-04-20 19:04:59 UTC" -> "2017"
                  new Date().getFullYear(); // in requirejs mode
 
       var copyright = StringUtils.fillIn( Brand.copyright, { year: year } );
@@ -152,7 +152,8 @@ define( function( require ) {
           fill: 'gray',
           align: 'left',
           maxWidth: MAX_WIDTH,
-          tandem: tandem.createTandem( 'additionalLicenseStatement' )
+          tandem: tandem.createTandem( 'additionalLicenseStatement' ),
+          phetioType: TNode
         }
       );
       children.push( this.additionalLicenseStatement );
@@ -206,7 +207,7 @@ define( function( require ) {
       fire: self.hide.bind( self )
     } ) );
 
-    tandem.addInstance( this, TDialog);
+    tandem.addInstance( this, TDialog );
   }
 
   joist.register( 'AboutDialog', AboutDialog );

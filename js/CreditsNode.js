@@ -18,6 +18,7 @@ define( function( require ) {
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var VStrut = require( 'SCENERY/nodes/VStrut' );
+  var TNode = require( 'SCENERY/nodes/TNode' );
   var joist = require( 'JOIST/joist' );
 
   // strings
@@ -46,7 +47,8 @@ define( function( require ) {
 
     var addTandemToOptions = function( tandemName ) {
       return _.extend( {
-        tandem: tandem.createTandem(tandemName)
+        tandem: tandem.createTandem(tandemName),
+        phetioType: TNode
       }, multiLineTextOptions );
     };
 
