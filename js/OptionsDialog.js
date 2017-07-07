@@ -27,16 +27,21 @@ define( function( require ) {
    */
   function OptionsDialog( optionsNode, options ) {
     options = _.extend( {
-      title: new Text( optionsTitleString, {
-        font: new PhetFont( 30 ),
-        maxWidth: 400
-      } ),
       titleAlign: 'center',
       modal: true,
       hasCloseButton: true,
       tandem: Tandem.tandemRequired(),
       phetioType: TOptionsDialog
     }, options );
+
+    // Can't be in the extend call because it needs the tandem.
+    if ( !options.title ) {
+      options.title = new Text( optionsTitleString, {
+        font: new PhetFont( 30 ),
+        maxWidth: 400,
+        tandem: options.tandem.createTandem( 'title' )
+      } );
+    }
 
     Dialog.call( this, optionsNode, options );
   }
@@ -50,7 +55,6 @@ define( function( require ) {
      * @public
      */
     hide: function() {
-      this.disposeOptionsDialog();
       Dialog.prototype.hide.call( this );
     }
   }, {
