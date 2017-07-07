@@ -34,19 +34,11 @@ define( function( require ) {
       titleAlign: 'center',
       modal: true,
       hasCloseButton: true,
-      tandem: Tandem.tandemRequired()
+      tandem: Tandem.tandemRequired(),
+      phetioType: TOptionsDialog
     }, options );
 
-    var thisTandem = options.tandem;
-    options.tandem = options.tandem.createSupertypeTandem();
-
     Dialog.call( this, optionsNode, options );
-
-    thisTandem.addInstance( this, TOptionsDialog );
-
-    this.disposeOptionsDialog = function() {
-      thisTandem.removeInstance( this );
-    };
   }
 
   joist.register( 'OptionsDialog', OptionsDialog );
