@@ -223,6 +223,8 @@ define( function( require ) {
       self.sim.resizedEmitter.removeListener( self.updateLayout );
       self.removeAccessibleInputListener( escapeListener );
 
+      dialogContent.dispose();
+
       if ( options.hasCloseButton ) {
         closeButton.dispose();
       }
