@@ -130,7 +130,7 @@ define( function( require ) {
         },
         accessibleFire: function() {
 
-          // the active element must be focused after the Dialog is hidden, so this must also be wrapped in a 
+          // the active element must be focused after the Dialog is hidden, so this must also be wrapped in a
           // timeout. This should also be removed once https://github.com/phetsims/joist/issues/424 is complete.
           setTimeout( function() { self.focusActiveElement(); }, 0 );
         },
@@ -146,7 +146,7 @@ define( function( require ) {
         closeButton.right = dialogContent.right + options.xMargin - options.closeButtonMargin;
         closeButton.top = dialogContent.top - options.xMargin + options.closeButtonMargin;
 
-        // place the focus highlight, and make it a bit bigger than the 
+        // place the focus highlight, and make it a bit bigger than the
         closeButton.focusHighlight = Shape.bounds( crossNode.bounds.dilated( 10 ) );
       };
 
@@ -228,6 +228,12 @@ define( function( require ) {
       if ( options.hasCloseButton ) {
         closeButton.dispose();
       }
+
+      if ( options.title ) {
+        if ( options.resize ) {
+          content.off( 'bounds', updateTitlePosition );
+        }
+      }
     };
   }
 
@@ -249,7 +255,7 @@ define( function( require ) {
         this.isShowing = true;
         this.sim.resizedEmitter.addListener( this.updateLayout );
 
-        // a11y - add the listeners that will close the dialog on 
+        // a11y - add the listeners that will close the dialog on
         this.addAccessibleInputListeners();
 
         // a11y - store the currently active element, set before hiding views so that document.activeElement
@@ -275,7 +281,7 @@ define( function( require ) {
         window.phet.joist.sim.hidePopup( this, this.isModal );
         this.isShowing = false;
 
-        // dispose dialog - a new one will be created on show()        
+        // dispose dialog - a new one will be created on show()
         this.disposeDialog();
 
         // a11y - when the dialog is hidden, unhide all ScreenView content from assistive technology
