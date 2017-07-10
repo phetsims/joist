@@ -44,6 +44,10 @@ define( function( require ) {
     }
 
     Dialog.call( this, optionsNode, options );
+
+    this.disposeOptionsDialog = function(){
+      options.title && options.title.dispose();
+    };
   }
 
   joist.register( 'OptionsDialog', OptionsDialog );
@@ -55,6 +59,9 @@ define( function( require ) {
      * @public
      */
     hide: function() {
+
+      // It is not ideal to dispose in the hide function, it should be decoupled.
+      this.disposeOptionsDialog();
       Dialog.prototype.hide.call( this );
     }
   }, {
