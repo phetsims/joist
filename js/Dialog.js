@@ -150,7 +150,6 @@ define( function( require ) {
         closeButton.focusHighlight = Shape.bounds( crossNode.bounds.dilated( 10 ) );
       };
 
-      //TODO memory leak, see https://github.com/phetsims/joist/issues/357
       if ( options.resize ) {
         dialogContent.on( 'bounds', updateClosePosition );
         if ( options.title ) {
@@ -182,58 +181,59 @@ define( function( require ) {
       options.title.tagName && options.title.setAriaLabelsNode( this );
     }
 
+    // must be removed on dispose
+    this.sim.resizedEmitter.addListener( this.updateLayout );
+
     // @private (a11y) - the active element when the dialog is shown, tracked so that focus can be restored on close
     this.activeElement = options.focusOnCloseNode || null;
 
-    // @private - add the input listeners for accessibility when the dialog is shown
-    // the listeners must be added when shown because all listeners are removed
-    // when the dialog is hidden
-    var escapeListener;
-    this.addAccessibleInputListeners = function() {
+    // a11y - close the dialog when pressing "escape"
+    var escapeListener = this.addAccessibleInputListener( {
+      keydown: function( event ) {
+        if ( event.keyCode === Input.KEY_ESCAPE ) {
+          event.preventDefault();
+          self.hide();
+          self.focusActiveElement();
+        }
+        else if ( event.keyCode === Input.KEY_TAB && FullScreen.isFullScreen() ) {
 
-      // close the dialog when the user presses 'escape'
-      escapeListener = this.addAccessibleInputListener( {
-        keydown: function( event ) {
-          if ( event.keyCode === Input.KEY_ESCAPE ) {
+          // prevent a particular bug in Windows 7/8.1 Firefox where focus gets trapped in the document
+          // when the navigation bar is hidden and there is only one focusable element in the DOM
+          // see https://bugzilla.mozilla.org/show_bug.cgi?id=910136
+          var activeElement = document.activeElement;
+          var noNextFocusable = AccessibilityUtil.getNextFocusable() === activeElement;
+          var noPreviousFocusable = AccessibilityUtil.getPreviousFocusable() === activeElement;
+
+          if ( noNextFocusable && noPreviousFocusable ) {
             event.preventDefault();
-            self.hide();
-            self.focusActiveElement();
-          }
-          else if ( event.keyCode === Input.KEY_TAB && FullScreen.isFullScreen() ) {
-
-            // prevent a particular bug in Windows 7/8.1 Firefox where focus gets trapped in the document
-            // when the navigation bar is hidden and there is only one focusable element in the DOM
-            // see https://bugzilla.mozilla.org/show_bug.cgi?id=910136
-            var activeElement = document.activeElement;
-            var noNextFocusable = AccessibilityUtil.getNextFocusable() === activeElement;
-            var noPreviousFocusable = AccessibilityUtil.getPreviousFocusable() === activeElement;
-
-            if ( noNextFocusable && noPreviousFocusable ) {
-              event.preventDefault();
-            }
           }
         }
-      } );
-    };
+      }
+    } );
 
-    // @private - remove listeners so that the dialog is eligible for garbage collection
-    // called every time the dialog is hidden
+    // @private - to be called on dispose()
     this.disposeDialog = function() {
       options.tandem.removeInstance( this );
       self.sim.resizedEmitter.removeListener( self.updateLayout );
       self.removeAccessibleInputListener( escapeListener );
 
-      dialogContent.dispose();
-
       if ( options.hasCloseButton ) {
         closeButton.dispose();
       }
 
-      if ( options.title ) {
-        if ( options.resize ) {
+      if ( options.resize ) {
+        dialogContent.off( 'bounds', updateClosePosition );
+        if ( options.title ) {
+          options.title.off( 'bounds', updateClosePosition );
+          titleNode.off( 'localBounds', updateTitlePosition );
           content.off( 'bounds', updateTitlePosition );
         }
       }
+
+      // remove dialog content from scene graph, but don't dispose because Panel
+      // needs to remove listeners on the content in its dispose()
+      dialogContent.removeAllChildren();
+      dialogContent.detach();
     };
   }
 
@@ -253,16 +253,10 @@ define( function( require ) {
       if ( !this.isShowing ) {
         window.phet.joist.sim.showPopup( this, this.isModal );
         this.isShowing = true;
-        this.sim.resizedEmitter.addListener( this.updateLayout );
 
-        // a11y - add the listeners that will close the dialog on
-        this.addAccessibleInputListeners();
-
-        // a11y - store the currently active element, set before hiding views so that document.activeElement
-        // isn't blurred
+        // a11y - store the currently active element before hiding all other accessible content
+        // so that the active element isn't blurred
         this.activeElement = this.activeElement || document.activeElement;
-
-        // a11y - hide all ScreenView content from assistive technology when the dialog is shown
         this.setAccessibleViewsHidden( true );
 
         // In case the window size has changed since the dialog was hidden, we should try layout out again.
@@ -272,8 +266,8 @@ define( function( require ) {
     },
 
     /**
-     * This function acts as a dispose function for a dialog, and it is assumed that a new Dialog will be created before
-     * it is shown.
+     * Hide the dialog.  If you create a new dialog next time you show(), be sure to dispose this
+     * dialog instead.
      * @public
      */
     hide: function() {
@@ -281,12 +275,19 @@ define( function( require ) {
         window.phet.joist.sim.hidePopup( this, this.isModal );
         this.isShowing = false;
 
-        // dispose dialog - a new one will be created on show()
-        this.disposeDialog();
-
         // a11y - when the dialog is hidden, unhide all ScreenView content from assistive technology
         this.setAccessibleViewsHidden( false );
       }
+    },
+
+    /**
+     * Make eligible for garbage collection.
+     * @public
+     */
+    dispose: function() {
+      this.hide();
+      this.disposeDialog();
+      Panel.prototype.dispose.call( this );
     },
 
     /**
