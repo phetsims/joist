@@ -203,11 +203,22 @@ define( function( require ) {
     titleText.setAriaLabelsNode( this );
 
     // close it on a click
-    this.addInputListener( new ButtonListener( {
+    var closeListener = new ButtonListener( {
       fire: self.hide.bind( self )
-    } ) );
+    } );
+    this.addInputListener( closeListener );
 
     tandem.addInstance( this, TDialog );
+
+    // @private - to be called in dispose
+    this.disposeAboutDialog = function() {
+      this.removeInputListener( closeListener );
+
+      // Tandems should be removed at disposal.
+      this.aboutDialogTandem.removeInstance( this );
+      this.creditsNode && this.creditsNode.dispose();
+      this.additionalLicenseStatement && this.additionalLicenseStatement.dispose();
+    };
   }
 
   joist.register( 'AboutDialog', AboutDialog );
@@ -238,28 +249,31 @@ define( function( require ) {
     },
 
     /**
-     * Hide the dialog ( basically disposing it because a new one is created is the dialog is opened again )
+     * Remove listeners that should only be called when the dialog is shown.
      * @public
      */
     hide: function() {
-
-      // When hidden, this dialog is as good as disposed because it is never shown again
       if ( this.isShowing ) {
         Dialog.prototype.hide.call( this );
 
         if ( UpdateCheck.areUpdatesChecked ) {
+
           // Disconnect our visibility listener
           UpdateCheck.stateProperty.unlink( this.updateVisibilityListener );
 
           // Disconnect our spinner listener when we're hidden
           Timer.removeStepListener( this.updateStepListener );
         }
-
-        // Tandems should be removed at disposal. The 'hide' function is used as dispose for the AboutDialog
-        this.aboutDialogTandem.removeInstance( this );
-        this.creditsNode && this.creditsNode.dispose();
-        this.additionalLicenseStatement && this.additionalLicenseStatement.dispose();
       }
+    },
+
+    /**
+     * Make eligible for garbage collection.
+     * @public
+     */
+    dispose: function() {
+      this.disposeAboutDialog();
+      Dialog.prototype.dispose.call( this );
     }
   } );
 } );
