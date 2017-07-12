@@ -27,7 +27,6 @@ define( function( require ) {
 
     var self = this;
 
-
     var positionOptions = { centerX: 0, centerY: 0, big: true };
     var checkingNode = UpdateNodes.createCheckingNode( positionOptions );
     var upToDateNode = UpdateNodes.createUpToDateNode( positionOptions );
@@ -96,16 +95,26 @@ define( function( require ) {
     } );
 
     // close it on a click
-    this.addInputListener( new ButtonListener( {
+    var buttonListener = new ButtonListener( {
       fire: self.hide.bind( self )
-    } ) );
+    } );
+    this.addInputListener( buttonListener );
+
+    // @private - to be called by dispose()
+    this.disposeUpdateDialog = function() {
+      self.removeInputListener( buttonListener );
+    };
   }
 
   joist.register( 'UpdateDialog', UpdateDialog );
 
   return inherit( Dialog, UpdateDialog, {
 
-    // @public (joist-internal)
+    /**
+     * Show the UpdateDialog, registering listeners that should only be called while
+     * the dialog is shown.
+     * @public (joist-internal)
+     */
     show: function() {
       if ( UpdateCheck.areUpdatesChecked ) {
         UpdateCheck.resetTimeout();
@@ -125,14 +134,16 @@ define( function( require ) {
       Dialog.prototype.show.call( this );
     },
 
-    // @public (joist-internal)
+    /**
+     * Remove listeners that should only be called when the Dialog is shown.
+     * @public (joist-internal)
+     */
     hide: function() {
-
-      // when hiding, dispose the dialog because a new one is created when the dialog opens again
       if ( this.isShowing ) {
         Dialog.prototype.hide.call( this );
 
         if ( UpdateCheck.areUpdatesChecked ) {
+
           // Disconnect our visibility listener
           UpdateCheck.stateProperty.unlink( this.updateVisibilityListener );
 
@@ -140,6 +151,15 @@ define( function( require ) {
           Timer.removeStepListener( this.updateStepListener );
         }
       }
+    },
+
+    /**
+     * Dispose the UpdateDialog so that it is eligible for garbage collection.
+     * @public
+     */
+    dispose: function() {
+      this.disposeUpdateDialog();
+      Dialog.prototype.dispose.call( this );
     }
   } );
 } );
