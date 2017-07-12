@@ -45,6 +45,7 @@ define( function( require ) {
 
     Dialog.call( this, optionsNode, options );
 
+    // @private - to be called by dispose
     this.disposeOptionsDialog = function(){
       options.title && options.title.dispose();
     };
@@ -55,14 +56,12 @@ define( function( require ) {
   return inherit( Dialog, OptionsDialog, {
 
     /**
-     * Override Dialog's hide function to properly dispose what needs to be disposed on hide.
+     * Make the options dialog eligible for garbage collection.
      * @public
      */
-    hide: function() {
-
-      // It is not ideal to dispose in the hide function, it should be decoupled.
+    dispose: function() {
       this.disposeOptionsDialog();
-      Dialog.prototype.hide.call( this );
+      Dialog.prototype.dispose.call( this );
     }
   }, {
     DEFAULT_FONT: new PhetFont( 15 ),
