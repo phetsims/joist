@@ -83,11 +83,12 @@ define( function( require ) {
 
     // add a listener to hide the dialog
     var self = this;
-    this.closeButtonPath.addInputListener( new ButtonListener( {
+    var buttonListener = new ButtonListener( {
       down: function() {
         self.hide();
       }
-    } ) );
+    } );
+    this.closeButtonPath.addInputListener( buttonListener );
 
     // mouse/touch areas for the close button
     var areaX = this.closeButtonPath.left - this.closeButtonPath.width * 2;
@@ -105,12 +106,18 @@ define( function( require ) {
     this.addChild( this.closeButtonPath );
 
     // @private (a11y) - input listener for the close button, must be disposed
-    this.clickListener = this.closeButtonPath.addAccessibleInputListener( {
+    var clickListener = this.closeButtonPath.addAccessibleInputListener( {
       click: function() {
         self.hide();
         self.focusActiveElement();  
       } }
     );
+
+    // @private - to be called by dispose
+    this.disposeKeyboardHelpDialog = function() {
+      self.closeButtonPath.removeInputListener( buttonListener );
+      self.closeButtonPath.removeAccessibleInputListener( clickListener );
+    };
   }
 
   joist.register( 'KeyboardHelpDialog', KeyboardHelpDialog );
@@ -121,8 +128,8 @@ define( function( require ) {
      * So the Dialog is eligible for garbage collection.
      */
     dispose: function() {
-      this.closeButtonPath.removeAccessibleInputListener( this.clickListener );
-      Dialog.prototype.dispose && Dialog.prototype.dispose.call( this );
+      this.disposeKeyboardHelpDialog();
+      Dialog.prototype.dispose.call( this );
     }
   } );
 } );
