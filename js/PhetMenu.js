@@ -99,6 +99,13 @@ define( function( require ) {
     var self = this;
     Node.call( self );
 
+    // Dialogs that could be constructed by the menu. The menu will create a dialog the
+    // first time the item is selected, and they will be reused after that.  Must
+    // be created lazily because Dialog requires Sim to have bounds during construction
+    var aboutDialog = null;
+    var optionsDialog = null;
+    var updateDialog = null;
+
     /*
      * Description of the items in the menu. See Menu Item for a list of properties for each itemDescriptor
      */
@@ -107,7 +114,10 @@ define( function( require ) {
         text: menuItemOptionsString,
         present: !!sim.options.optionsNode,
         callback: function() {
-          new OptionsDialog( sim.options.optionsNode, { tandem: tandem.createTandem( 'optionsDialog' ) } ).show();
+          if ( !optionsDialog ) {
+            optionsDialog = new OptionsDialog( sim.options.optionsNode, { tandem: tandem.createTandem( 'optionsDialog' ) } );
+          }
+          optionsDialog.show();
         },
         tandem: tandem.createTandem( 'optionsMenuItem' ),
 
@@ -207,8 +217,11 @@ define( function( require ) {
           return state === 'out-of-date' ? '#0a0' : '#000';
         } ),
         callback: function() {
-          var phetButton = sim.navigationBar.phetButton;
-          new UpdateDialog( phetButton ).show();
+          if ( !updateDialog ) {
+            var phetButton = sim.navigationBar.phetButton;
+            updateDialog = new UpdateDialog( phetButton );
+          }
+          updateDialog.show();
         },
         tandem: tandem.createTandem( 'getUpdateMenuItem' ),
 
@@ -269,8 +282,11 @@ define( function( require ) {
         present: true,
         separatorBefore: isPhETBrand,
         callback: function() {
-          var phetButton = sim.navigationBar.phetButton;
-          new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, phetButton, tandem.createTandem( 'aboutDialog' ) ).show();
+          if ( !aboutDialog ) {
+            var phetButton = sim.navigationBar.phetButton;
+            aboutDialog = new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, phetButton, tandem.createTandem( 'aboutDialog' ) );
+          } 
+          aboutDialog.show();
         },
         tandem: tandem.createTandem( 'aboutMenuItem' ),
         tagName: 'button',
