@@ -123,16 +123,10 @@ define( function( require ) {
         xMargin: 5,
         yMargin: 5,
         listener: function() {
-
-          // This setTimeout call is a workaround until hide and dispose are separated. It should be removed once
-          // https://github.com/phetsims/joist/issues/424 is complete.
-          setTimeout( function() { self.hide(); }, 0 );
+          self.hide();
         },
         accessibleFire: function() {
-
-          // the active element must be focused after the Dialog is hidden, so this must also be wrapped in a
-          // timeout. This should also be removed once https://github.com/phetsims/joist/issues/424 is complete.
-          setTimeout( function() { self.focusActiveElement(); }, 0 );
+          self.focusActiveElement();
         },
         tandem: options.tandem.createTandem( 'closeButton' ),
 
