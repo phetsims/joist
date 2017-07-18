@@ -24,6 +24,7 @@ define( function( require ) {
   var FullScreen = require( 'JOIST/FullScreen' );
   var Tandem = require( 'TANDEM/Tandem' );
 
+  // strings
   var closeString = JoistA11yStrings.closeString;
 
   /**
