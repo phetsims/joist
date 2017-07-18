@@ -13,6 +13,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Shape = require( 'KITE/Shape' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var Display = require( 'SCENERY/display/Display' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Input = require( 'SCENERY/input/Input' );
   var Panel = require( 'SUN/Panel' );
@@ -195,7 +196,7 @@ define( function( require ) {
           // prevent a particular bug in Windows 7/8.1 Firefox where focus gets trapped in the document
           // when the navigation bar is hidden and there is only one focusable element in the DOM
           // see https://bugzilla.mozilla.org/show_bug.cgi?id=910136
-          var activeElement = document.activeElement;
+          var activeElement = Display.focusedNode;
           var noNextFocusable = AccessibilityUtil.getNextFocusable() === activeElement;
           var noPreviousFocusable = AccessibilityUtil.getPreviousFocusable() === activeElement;
 
@@ -251,7 +252,7 @@ define( function( require ) {
 
         // a11y - store the currently active element before hiding all other accessible content
         // so that the active element isn't blurred
-        this.activeElement = this.activeElement || document.activeElement;
+        this.activeElement = this.activeElement || Display.focusedNode;
         this.setAccessibleViewsHidden( true );
 
         // In case the window size has changed since the dialog was hidden, we should try layout out again.
