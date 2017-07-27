@@ -27,7 +27,6 @@ define( function( require ) {
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var packageJSON = require( 'JOIST/packageJSON' );
   var joist = require( 'JOIST/joist' );
-  var TDialog = require( 'JOIST/TDialog' );
   var TNode = require( 'SCENERY/nodes/TNode' );
 
   // strings
@@ -48,7 +47,6 @@ define( function( require ) {
    */
   function AboutDialog( name, version, credits, Brand, locale, phetButton, tandem ) {
     var self = this;
-    this.aboutDialogTandem = tandem;
 
     var children = [];
 
@@ -193,7 +191,7 @@ define( function( require ) {
     Dialog.call( this, content, {
       modal: true,
       hasCloseButton: true,
-      tandem: tandem.createSupertypeTandem(),
+      tandem: tandem,
       focusOnCloseNode: phetButton,
       xMargin: 25,
       yMargin: 25
@@ -208,14 +206,10 @@ define( function( require ) {
     } );
     this.addInputListener( closeListener );
 
-    tandem.addInstance( this, TDialog );
-
     // @private - to be called in dispose
     this.disposeAboutDialog = function() {
       this.removeInputListener( closeListener );
 
-      // Tandems should be removed at disposal.
-      this.aboutDialogTandem.removeInstance( this );
       this.creditsNode && this.creditsNode.dispose();
       this.additionalLicenseStatement && this.additionalLicenseStatement.dispose();
     };
