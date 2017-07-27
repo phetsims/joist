@@ -23,6 +23,7 @@ define( function( require ) {
   var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
   var AccessibilityUtil = require( 'SCENERY/accessibility/AccessibilityUtil' );
   var FullScreen = require( 'JOIST/FullScreen' );
+  var TDialog = require( 'JOIST/TDialog' );
   var Tandem = require( 'TANDEM/Tandem' );
 
   // strings
@@ -60,6 +61,7 @@ define( function( require ) {
       closeButtonBaseColor: '#d00',
       closeButtonMargin: 5, // {number} how far away should the close button be from the panel border
       tandem: Tandem.tandemRequired(),
+      phetioType: TDialog,
 
       // a11y options
       tagName: 'div',

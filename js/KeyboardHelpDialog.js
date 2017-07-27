@@ -19,6 +19,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   var CLOSE_BUTTON_WIDTH = 7;
@@ -60,12 +61,13 @@ define( function( require ) {
       xMargin: HELP_CONTENT_MARGIN,
       yMargin: HELP_CONTENT_MARGIN,
       titleSpacing: HELP_CONTENT_MARGIN,
-      focusOnCloseNode: keyboardHelpButton
+      focusOnCloseNode: keyboardHelpButton,
+      tandem: Tandem.tandemRequired()
     }, options );
 
     // shape and path for a custom close button
     var closeButtonShape = new Shape();
-    closeButtonShape.moveTo( -CLOSE_BUTTON_WIDTH, - CLOSE_BUTTON_WIDTH ).lineTo( CLOSE_BUTTON_WIDTH, CLOSE_BUTTON_WIDTH );
+    closeButtonShape.moveTo( -CLOSE_BUTTON_WIDTH, -CLOSE_BUTTON_WIDTH ).lineTo( CLOSE_BUTTON_WIDTH, CLOSE_BUTTON_WIDTH );
     closeButtonShape.moveTo( CLOSE_BUTTON_WIDTH, -CLOSE_BUTTON_WIDTH ).lineTo( -CLOSE_BUTTON_WIDTH, CLOSE_BUTTON_WIDTH );
 
     // @public (joist-internal)
@@ -79,7 +81,7 @@ define( function( require ) {
       tagName: 'button',
       accessibleLabel: JoistA11yStrings.closeString,
       focusHighlight: Shape.bounds( closeButtonShape.getBounds().dilated( 10 ) )
-    } );  
+    } );
 
     // add a listener to hide the dialog
     var self = this;
@@ -107,10 +109,11 @@ define( function( require ) {
 
     // @private (a11y) - input listener for the close button, must be disposed
     var clickListener = this.closeButtonPath.addAccessibleInputListener( {
-      click: function() {
-        self.hide();
-        self.focusActiveElement();  
-      } }
+        click: function() {
+          self.hide();
+          self.focusActiveElement();
+        }
+      }
     );
 
     // @private - to be called by dispose
