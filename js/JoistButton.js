@@ -37,8 +37,12 @@ define( function( require ) {
       highlightExtensionWidth: 0,
       highlightExtensionHeight: 0,
       highlightCenterOffsetX: 0,
-      highlightCenterOffsetY: 0
+      highlightCenterOffsetY: 0,
+
+      phetioType: TJoistButton
     }, options );
+
+    options.tandem = tandem;
 
     // @public (phet-io) - Button model
     this.buttonModel = new PushButtonModel( options );
@@ -80,10 +84,7 @@ define( function( require ) {
     // eliminate interactivity gap between label and button
     this.mouseArea = this.touchArea = Shape.bounds( this.bounds );
 
-    this.mutate( _.omit( options, 'tandem' ) );
-
-    // Rename to TJoistButton
-    tandem.addInstance( this, TJoistButton );
+    this.mutate( options );
   }
 
   joist.register( 'JoistButton', JoistButton );

@@ -54,6 +54,7 @@ define( function( require ) {
       cursor: 'pointer',
       textDescription: screen.name + ' Screen: Button',
       tandem: Tandem.tandemRequired(),
+      phetioType: TNavigationBarScreenButton,
       maxButtonWidth: null // {number|null} the maximum width of the button, causes text and/or icon to be scaled down if necessary
     }, options );
 
@@ -76,8 +77,6 @@ define( function( require ) {
       listener: clicked
     } );
     this.addInputListener( new ButtonListener( this.buttonModel ) );
-
-    options.tandem.addInstance( this, TNavigationBarScreenButton );
 
     var text = new Text( screen.name, {
       font: new PhetFont( 10 ),
@@ -147,7 +146,7 @@ define( function( require ) {
       assert && assert( Util.toFixed( this.width, 0 ) === Util.toFixed( options.maxButtonWidth, 0 ) );
     }
 
-    this.mutate( _.omit( options, 'tandem' ) );
+    this.mutate( options );
   }
 
   joist.register( 'NavigationBarScreenButton', NavigationBarScreenButton );

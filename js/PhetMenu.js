@@ -85,19 +85,22 @@ define( function( require ) {
    */
   function PhetMenu( sim, tandem, options ) {
 
-    //Only show certain features for PhET Sims, such as links to our website
+    // Only show certain features for PhET Sims, such as links to our website
     var isPhETBrand = Brand.id === 'phet';
     var isPhetApp = Brand.isPhetApp;
 
     options = _.extend( {
 
-      //For sims that have save/load enabled, show menu items for those.
-      showSaveAndLoad: false
+      // For sims that have save/load enabled, show menu items for those.
+      showSaveAndLoad: false,
 
+      phetioType: TPhetMenu
     }, options );
 
+    options.tandem = tandem;
+
     var self = this;
-    Node.call( self );
+    Node.call( this );
 
     // Dialogs that could be constructed by the menu. The menu will create a dialog the
     // first time the item is selected, and they will be reused after that.  Must
@@ -285,7 +288,7 @@ define( function( require ) {
           if ( !aboutDialog ) {
             var phetButton = sim.navigationBar.phetButton;
             aboutDialog = new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, phetButton, tandem.createTandem( 'aboutDialog' ) );
-          } 
+          }
           aboutDialog.show();
         },
         tandem: tandem.createTandem( 'aboutMenuItem' ),
@@ -351,8 +354,8 @@ define( function( require ) {
     var Y_MARGIN = 5;
     var bubble = createBubble( content.width + X_MARGIN + X_MARGIN, content.height + Y_MARGIN + Y_MARGIN );
 
-    self.addChild( bubble );
-    self.addChild( content );
+    this.addChild( bubble );
+    this.addChild( content );
     content.left = X_MARGIN;
     content.top = Y_MARGIN;
 
@@ -413,9 +416,10 @@ define( function( require ) {
     };
     Display.focusProperty.lazyLink( focusListener );
 
-    tandem.addInstance( this, TPhetMenu );
+
+    this.mutate( options);
+
     this.disposePhetMenu = function() {
-      tandem.removeInstance( self );
       self.removeAccessibleInputListener( keydownListener );
       Display.focusProperty.unlink( focusListener );
     };
