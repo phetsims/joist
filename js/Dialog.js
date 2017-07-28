@@ -142,7 +142,7 @@ define( function( require ) {
 
       var updateClosePosition = function() {
         closeButton.right = dialogContent.right + options.xMargin - options.closeButtonMargin;
-        closeButton.top = dialogContent.top - options.xMargin + options.closeButtonMargin;
+        closeButton.top = dialogContent.top - options.yMargin + options.closeButtonMargin;
 
         // place the focus highlight, and make it a bit bigger than the
         closeButton.focusHighlight = Shape.bounds( crossNode.bounds.dilated( 10 ) );
