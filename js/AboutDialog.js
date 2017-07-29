@@ -27,7 +27,6 @@ define( function( require ) {
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var packageJSON = require( 'JOIST/packageJSON' );
   var joist = require( 'JOIST/joist' );
-  var TNode = require( 'SCENERY/nodes/TNode' );
 
   // strings
   var versionPatternString = require( 'string!JOIST/versionPattern' );
@@ -149,9 +148,7 @@ define( function( require ) {
           font: new PhetFont( 10 ),
           fill: 'gray',
           align: 'left',
-          maxWidth: MAX_WIDTH,
-          tandem: tandem.createTandem( 'additionalLicenseStatement' ),
-          phetioType: TNode
+          maxWidth: MAX_WIDTH
         }
       );
       children.push( this.additionalLicenseStatement );
@@ -160,7 +157,7 @@ define( function( require ) {
     // Add credits for specific brands
     if ( credits && ( Brand.id === 'phet' || Brand.id === 'phet-io' ) ) {
       children.push( new VStrut( 15 ) );
-      this.creditsNode = new CreditsNode( credits, tandem.createTandem( 'creditsNode' ), {
+      this.creditsNode = new CreditsNode( credits, {
         maxWidth: MAX_WIDTH
       } );
       children.push( this.creditsNode );
