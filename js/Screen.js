@@ -115,10 +115,16 @@ define( function( require ) {
       phetioValueType: TBoolean,
       phetioInstanceDocumentation: 'this Property is read-only, do not attempt to set its value'
     } );
+
     var self = this;
     assert && this.activeProperty.lazyLink( function( isActive ) {
-      assert( self._view, 'isActive should not change before the Screen view has been initialized' );
-      assert( !self._view.isVisible(), 'isActive should not change while the Screen view is visible' );
+
+      // In phet-io mode, the state of a sim can be set without a deterministic order. The activeProperty could be
+      // changed before the view's visibility is set.
+      if ( !phet.phetio ) {
+        assert( self._view, 'isActive should not change before the Screen view has been initialized' );
+        assert( !self._view.isVisible(), 'isActive should not change while the Screen view is visible' );
+      }
     } );
 
     options.tandem.addInstance( this, TScreen );
