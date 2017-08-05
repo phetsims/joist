@@ -38,7 +38,6 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var DotUtil = require( 'DOT/Util' );// eslint-disable-line
   var Emitter = require( 'AXON/Emitter' );
-  var TandemEmitter = require( 'TANDEM/axon/TandemEmitter' );
   var TSim = require( 'JOIST/TSim' );
   var LegendsOfLearningSupport = require( 'JOIST/thirdPartySupport/LegendsOfLearningSupport' );
 
@@ -96,7 +95,7 @@ define( function( require ) {
 
     // @public Emitter that indicates when a frame ends
     // phetioEmitData is false because we only want this manually wired for phetio event recording.
-    this.frameEndedEmitter = new TandemEmitter( {
+    this.frameEndedEmitter = new Emitter( {
       tandem: simTandem.createTandem( 'frameEndedEmitter' ),
       phetioArgumentTypes: [ TNumber( { units: 'seconds' } ) ],
       phetioEmitData: false // An adapter in phetio will create input events when recording for playback.
