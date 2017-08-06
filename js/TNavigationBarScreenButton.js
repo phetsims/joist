@@ -16,7 +16,7 @@ define( function( require ) {
   // phet-io modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  var toEventOnEmit = require( 'ifphetio!PHET_IO/events/toEventOnEmit' );
+  var toEventOnEmit = require( 'ifphetio!PHET_IO/toEventOnEmit' );
 
   /**
    * @param {NavigationBarScreenButton} navigationBarScreenButton

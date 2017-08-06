@@ -16,7 +16,7 @@ define( function( require ) {
   var SimIFrameAPI = require( 'ifphetio!PHET_IO/SimIFrameAPI' );
   var TFunctionWrapper = require( 'ifphetio!PHET_IO/types/TFunctionWrapper' );
   var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
-  var toEventOnEmit = require( 'ifphetio!PHET_IO/events/toEventOnEmit' );
+  var toEventOnEmit = require( 'ifphetio!PHET_IO/toEventOnEmit' );
   var TString = require( 'ifphetio!PHET_IO/types/TString' );
   var TVoid = require( 'ifphetio!PHET_IO/types/TVoid' );
 
