@@ -21,7 +21,7 @@ define( function( require ) {
    */
   function TDialog( dialog, phetioID ) {
     TPanel.call( this, dialog, phetioID );
-    assertInstanceOf( dialog, phet.sun.Panel );
+    assertInstanceOf( dialog, phet.joist.Dialog );
   }
 
   phetioInherit( TPanel, 'TDialog', TDialog, {}, {
