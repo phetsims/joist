@@ -22,8 +22,8 @@ define( function( require ) {
    * @param {string} phetioID - identifier string
    */
   function TOptionsDialog( dialog, phetioID ) {
-    assertInstanceOf( dialog, phet.sun.Panel );
     TDialog.call( this, dialog, phetioID );
+    assertInstanceOf( dialog, phet.joist.OptionsDialog );
   }
 
   phetioInherit( TDialog, 'TOptionsDialog', TOptionsDialog, {}, {
