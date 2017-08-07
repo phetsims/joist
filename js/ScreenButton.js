@@ -48,10 +48,10 @@ define( function( require ) {
     var screen = sim.screens[ index ];
 
     // @public
-    this.startedCallbacksForFiredEmitter = new Emitter();
+    this.startedCallbacksForFiredEmitter = new Emitter( { indicateCallbacks: false } );
 
     // @public
-    this.endedCallbacksForFiredEmitter = new Emitter();
+    this.endedCallbacksForFiredEmitter = new Emitter( { indicateCallbacks: false } );
 
     // Maps the number of screens to a scale for the small icons. The scale is percentage of LARGE_ICON_HEIGHT.
     var smallIconScale = Util.linear( 2, 4, 0.875, 0.50, sim.screens.length );
