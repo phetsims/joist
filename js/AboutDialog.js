@@ -23,7 +23,7 @@ define( function( require ) {
   var UpdateNodes = require( 'JOIST/UpdateNodes' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var LinkText = require( 'JOIST/LinkText' );
-  var RichText = require( 'SCENERY_PHET/RichText' );
+  var RichText = require( 'SCENERY/nodes/RichText' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var packageJSON = require( 'JOIST/packageJSON' );
   var joist = require( 'JOIST/joist' );
