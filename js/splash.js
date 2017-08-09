@@ -12,7 +12,7 @@
   var SCALE_FACTOR = 1.0 / 4.0 * 1.042;
   var XML_NAMESPACE = 'http://www.w3.org/2000/svg';
   var SPLASH_CONTAINER_ID = 'splash-container';
-  var PROGRESS_BAR_Y = '25'; // {string} Vertical offset of progress bar from splash logo
+  var PROGRESS_BAR_Y = 25; // {string} Vertical offset of progress bar from splash logo
   var POSITION_Y = 0.435; // Center the content above the middle of the screen because it looks better that way.
 
   // Store the initial width and height to use for layout in case it changes, see
@@ -98,7 +98,7 @@
   svg.style[ 'margin-left' ] = '-1px'; // compensates for the offset of x=1
   var progressBarBackground = document.createElementNS( XML_NAMESPACE, 'rect' );
   progressBarBackground.setAttribute( 'x', '1' ); // prevent clipping on the left side, see https://github.com/phetsims/joist/issues/400
-  progressBarBackground.setAttribute( 'y', PROGRESS_BAR_Y );
+  progressBarBackground.setAttribute( 'y', PROGRESS_BAR_Y + '' );
   progressBarBackground.setAttribute( 'width', '273' );
   progressBarBackground.setAttribute( 'height', '10' );
   progressBarBackground.setAttribute( 'rx', '3' );
@@ -110,7 +110,7 @@
   var progressBarForeground = document.createElementNS( XML_NAMESPACE, 'rect' );
   progressBarForeground.setAttribute( 'id', 'progressBarForeground' );
   progressBarForeground.setAttribute( 'x', '1' ); // prevent clipping on the left side, see https://github.com/phetsims/joist/issues/400
-  progressBarForeground.setAttribute( 'y', PROGRESS_BAR_Y );
+  progressBarForeground.setAttribute( 'y', PROGRESS_BAR_Y + '' );
   progressBarForeground.setAttribute( 'width', '0' );
   progressBarForeground.setAttribute( 'height', '10' );
   progressBarForeground.setAttribute( 'rx', '3' );
