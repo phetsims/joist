@@ -15,6 +15,11 @@
   var PROGRESS_BAR_Y = '25'; // {string} Vertical offset of progress bar from splash logo
   var POSITION_Y = 0.435; // Center the content above the middle of the screen because it looks better that way.
 
+  // Store the initial width and height to use for layout in case it changes, see
+  // https://github.com/phetsims/joist/issues/407
+  var splashImageWidth = 0;
+  var splashImageHeight = 0;
+
   /**
    * Scale and position the given div, using the dimensions of the image for sizing.
    * @param {Element} div - the div to position
@@ -22,8 +27,12 @@
    *                                     - container div, but that dimension is not available on startup.
    */
   function positionDiv( div, splashImg ) {
-    var currentWidth = splashImg.width;
-    var currentHeight = splashImg.height;
+    if ( splashImageWidth === 0 && splashImageHeight === 0 ) {
+      splashImageWidth = splashImg.width;
+      splashImageHeight = splashImg.height;
+    }
+    var currentWidth = splashImageWidth;
+    var currentHeight = splashImageHeight;
 
     var availableHeight = window.innerHeight;
     var availableWidth = window.innerWidth;
