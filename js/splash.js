@@ -86,7 +86,9 @@
     previousSplashContainer && previousSplashContainer.parentNode.removeChild( previousSplashContainer );
 
     // After creating and positioning the div, add it to the body
-    document.body.appendChild( div );
+    if ( splashImage.naturalWidth > 0 && splashImage.naturalHeight > 0 ) {
+      document.body.appendChild( div );
+    }
   };
 
   // Create the progress bar
