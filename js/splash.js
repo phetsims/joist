@@ -99,6 +99,7 @@
   var svg = document.createElementNS( XML_NAMESPACE, 'svg' );
   svg.style[ 'margin-left' ] = '-1px'; // compensates for the offset of x=1
   var progressBarBackground = document.createElementNS( XML_NAMESPACE, 'rect' );
+  progressBarBackground.setAttribute( 'id', 'progressBarBackground' );
   progressBarBackground.setAttribute( 'x', '1' ); // prevent clipping on the left side, see https://github.com/phetsims/joist/issues/400
   progressBarBackground.setAttribute( 'y', PROGRESS_BAR_Y + '' );
   progressBarBackground.setAttribute( 'width', '273' );
@@ -121,6 +122,19 @@
 
   svg.appendChild( progressBarBackground );
   svg.appendChild( progressBarForeground );
+
+  // fade/glow the background of the loading bar
+  var phetSplashScreenAnimationInterval = setInterval( function() {
+    progressBarBackground.style[ 'stroke-width' ] = (Math.sin( Date.now() / 1000 * 4 ) * 0.55 + 1).toFixed( 2 );
+  }, 16 );
+
+  // After download is complete, stop the animation of the background
+  window.phetSplashScreenDownloadComplete = function() {
+    clearInterval( phetSplashScreenAnimationInterval );
+
+    // Grow the progress bar foreground to the right based on the progress so far.
+    progressBarBackground.style[ 'stroke-width' ] = 1;
+  };
 
   // Add elements
   div.appendChild( splashImage );

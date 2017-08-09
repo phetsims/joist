@@ -69,6 +69,8 @@ define( function( require ) {
 
     var self = this;
 
+    window.phetSplashScreenDownloadComplete();
+
     // playbackModeEnabledProperty cannot be changed after Sim construction has begun, hence this listener is added before
     // anything else is done, see https://github.com/phetsims/phet-io/issues/1146
     phet.joist.playbackModeEnabledProperty.lazyLink( function( playbackModeEnabled ) {
