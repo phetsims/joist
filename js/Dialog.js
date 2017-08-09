@@ -1,4 +1,4 @@
-// Copyright 2014-2015, University of Colorado Boulder
+// Copyright 2014-2017, University of Colorado Boulder
 
 /**
  * General dialog type
@@ -13,12 +13,21 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Shape = require( 'KITE/Shape' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var Display = require( 'SCENERY/display/Display' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var Input = require( 'SCENERY/input/Input' );
   var Panel = require( 'SUN/Panel' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
-  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var joist = require( 'JOIST/joist' );
+  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
+  var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
+  var AccessibilityUtil = require( 'SCENERY/accessibility/AccessibilityUtil' );
+  var FullScreen = require( 'JOIST/FullScreen' );
+  var TDialog = require( 'JOIST/TDialog' );
   var Tandem = require( 'TANDEM/Tandem' );
+
+  // strings
+  var closeString = JoistA11yStrings.closeString;
 
   /**
    * @param {Node} content - The content to display inside the dialog (not including the title)
@@ -51,12 +60,13 @@ define( function( require ) {
       yMargin: 20,
       closeButtonBaseColor: '#d00',
       closeButtonMargin: 5, // {number} how far away should the close button be from the panel border
-      accessibleContent: {
-        createPeer: function( accessibleInstance ) {
-          return new DialogAccessiblePeer( accessibleInstance, self );
-        }
-      },
-      tandem: Tandem.tandemRequired()
+      tandem: Tandem.tandemRequired(),
+      phetioType: TDialog,
+
+      // a11y options
+      tagName: 'div',
+      ariaRole: 'dialog',
+      focusOnCloseNode: null // {Node} receives focus on close, if null focus returns to element that had focus on open
     }, options );
 
     // @private (read-only)
@@ -75,7 +85,6 @@ define( function( require ) {
     if ( options.title ) {
 
       var titleNode = options.title;
-
       dialogContent.addChild( titleNode );
 
       var updateTitlePosition = function() {
@@ -120,16 +129,25 @@ define( function( require ) {
         listener: function() {
           self.hide();
         },
-        tandem: options.tandem && options.tandem.createTandem( 'closeButton' )
+        accessibleFire: function() {
+          self.focusActiveElement();
+        },
+        tandem: options.tandem.createTandem( 'closeButton' ),
+
+        // a11y options
+        tagName: 'button',
+        accessibleLabel: closeString
       } );
       this.addChild( closeButton );
 
       var updateClosePosition = function() {
         closeButton.right = dialogContent.right + options.xMargin - options.closeButtonMargin;
-        closeButton.top = dialogContent.top - options.xMargin + options.closeButtonMargin;
+        closeButton.top = dialogContent.top - options.yMargin + options.closeButtonMargin;
+
+        // place the focus highlight, and make it a bit bigger than the
+        closeButton.focusHighlight = Shape.bounds( crossNode.bounds.dilated( 10 ) );
       };
 
-      //TODO memory leak, see https://github.com/phetsims/joist/issues/357
       if ( options.resize ) {
         dialogContent.on( 'bounds', updateClosePosition );
         if ( options.title ) {
@@ -150,6 +168,71 @@ define( function( require ) {
 
     // @private
     this.sim = sim;
+
+    // a11y - set the order of content for accessibility, title before content
+    this.accessibleOrder = [ titleNode, dialogContent ];
+
+    // a11y - set the aria labelledby and describedby relations so that whenever focus enters the dialog, the title
+    // and description content are read in full
+    content.tagName && content.setAriaDescribesNode( this );
+    if ( options.title ) {
+      options.title.tagName && options.title.setAriaLabelsNode( this );
+    }
+
+    // must be removed on dispose
+    this.sim.resizedEmitter.addListener( this.updateLayout );
+
+    // @private (a11y) - the active element when the dialog is shown, tracked so that focus can be restored on close
+    this.activeElement = options.focusOnCloseNode || null;
+
+    // a11y - close the dialog when pressing "escape"
+    var escapeListener = this.addAccessibleInputListener( {
+      keydown: function( event ) {
+        if ( event.keyCode === Input.KEY_ESCAPE ) {
+          event.preventDefault();
+          self.hide();
+          self.focusActiveElement();
+        }
+        else if ( event.keyCode === Input.KEY_TAB && FullScreen.isFullScreen() ) {
+
+          // prevent a particular bug in Windows 7/8.1 Firefox where focus gets trapped in the document
+          // when the navigation bar is hidden and there is only one focusable element in the DOM
+          // see https://bugzilla.mozilla.org/show_bug.cgi?id=910136
+          var activeElement = Display.focusedNode;
+          var noNextFocusable = AccessibilityUtil.getNextFocusable() === activeElement;
+          var noPreviousFocusable = AccessibilityUtil.getPreviousFocusable() === activeElement;
+
+          if ( noNextFocusable && noPreviousFocusable ) {
+            event.preventDefault();
+          }
+        }
+      }
+    } );
+
+    // @private - to be called on dispose()
+    this.disposeDialog = function() {
+      options.tandem.removeInstance( this );
+      self.sim.resizedEmitter.removeListener( self.updateLayout );
+      self.removeAccessibleInputListener( escapeListener );
+
+      if ( options.hasCloseButton ) {
+        closeButton.dispose();
+      }
+
+      if ( options.resize ) {
+        dialogContent.off( 'bounds', updateClosePosition );
+        if ( options.title ) {
+          options.title.off( 'bounds', updateClosePosition );
+          titleNode.off( 'localBounds', updateTitlePosition );
+          content.off( 'bounds', updateTitlePosition );
+        }
+      }
+
+      // remove dialog content from scene graph, but don't dispose because Panel
+      // needs to remove listeners on the content in its dispose()
+      dialogContent.removeAllChildren();
+      dialogContent.detach();
+    };
   }
 
   joist.register( 'Dialog', Dialog );
@@ -161,14 +244,18 @@ define( function( require ) {
     dialog.center = simBounds.center.times( 1.0 / scale );
   };
 
-  inherit( Panel, Dialog, {
+  return inherit( Panel, Dialog, {
 
     // @public
     show: function() {
       if ( !this.isShowing ) {
         window.phet.joist.sim.showPopup( this, this.isModal );
         this.isShowing = true;
-        this.sim.resizedEmitter.addListener( this.updateLayout );
+
+        // a11y - store the currently active element before hiding all other accessible content
+        // so that the active element isn't blurred
+        this.activeElement = this.activeElement || Display.focusedNode;
+        this.setAccessibleViewsHidden( true );
 
         // In case the window size has changed since the dialog was hidden, we should try layout out again.
         // See https://github.com/phetsims/joist/issues/362
@@ -176,55 +263,61 @@ define( function( require ) {
       }
     },
 
-    // @public
+    /**
+     * Hide the dialog.  If you create a new dialog next time you show(), be sure to dispose this
+     * dialog instead.
+     * @public
+     */
     hide: function() {
       if ( this.isShowing ) {
         window.phet.joist.sim.hidePopup( this, this.isModal );
         this.isShowing = false;
-        this.sim.resizedEmitter.removeListener( this.updateLayout );
+
+        // a11y - when the dialog is hidden, unhide all ScreenView content from assistive technology
+        this.setAccessibleViewsHidden( false );
       }
-    }
-  }, {
-
-    // @public (accessibility)
-    DialogAccessiblePeer: function( accessibleInstance, dialog ) {
-      return new DialogAccessiblePeer( accessibleInstance, dialog );
-    }
-  } );
-
-  function DialogAccessiblePeer( accessibleInstance, dialog ) {
-    this.initialize( accessibleInstance, dialog );
-  }
-
-  inherit( AccessiblePeer, DialogAccessiblePeer, {
+    },
 
     /**
-     * Initialize an accessible peer in the parallel DOM for a Dialog.  This element does not exist in the parallel
-     * DOM until it is constructed, so it does not need to be hidden from screen readers.
-     *
-     * @param {AccessibleInstance} accessibleInstance
-     * @param dialog
-     * @public (accessibility)
+     * Make eligible for garbage collection.
+     * @public
      */
-    initialize: function( accessibleInstance, dialog ) {
-      var trail = accessibleInstance.trail;
-      var uniqueId = trail.getUniqueId();
+    dispose: function() {
+      this.hide();
+      this.disposeDialog();
+      Panel.prototype.dispose.call( this );
+    },
 
-      /*
-       * We will want the parallel DOM element for a dialog to look like:
-       * <div id="dialog-id" role="dialog">
-       */
+    /**
+     * Hide or show all accessible content related to the sim ScreenViews, navigation bar, and alert content. Instead
+     * of using setHidden, we have to remove the subtree of accessible content from each view element in order to
+     * prevent an IE11 bug where content remains invisible in the accessibility tree, see
+     * https://github.com/phetsims/john-travoltage/issues/247
+     *
+     * @param {boolean} hidden
+     */
+    setAccessibleViewsHidden: function( hidden ) {
+      for ( var i = 0; i < this.sim.screens.length; i++ ) {
+        this.sim.screens[ i ].view.accessibleContentDisplayed = !hidden;
+      }
+      this.sim.navigationBar.accessibleContentDisplayed = !hidden;
 
-      // @private - create the dom element and initialize the peer.
-      this.domElement = document.createElement( 'div' ); // @private
-      this.initializeAccessiblePeer( accessibleInstance, this.domElement );
+      // workaround for a strange Edge bug where this child of the navigation bar remains hidden,
+      // see https://github.com/phetsims/a11y-research/issues/30
+      this.sim.navigationBar.keyboardHelpButton.accessibleHidden = hidden;
 
-      // set dom element attributes
-      this.domElement.id = 'dialog-' + uniqueId;
-      this.domElement.setAttribute( 'role', 'document' );
+      // clear the aria-live alert content from the DOM
+      AriaHerald.clearAll();
+    },
 
+    /**
+     * If there is an active element, focus it.  Should almost always be closed after the Dialog has been closed.
+     *
+     * @public
+     * @a11y
+     */
+    focusActiveElement: function() {
+      this.activeElement && this.activeElement.focus();
     }
   } );
-
-  return Dialog;
 } );

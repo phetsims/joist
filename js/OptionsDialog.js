@@ -1,4 +1,4 @@
-// Copyright 2014-2015, University of Colorado Boulder
+// Copyright 2014-2017, University of Colorado Boulder
 
 /**
  * Shows an Options dialog that consists of sim-global options.
@@ -15,39 +15,55 @@ define( function( require ) {
   var Dialog = require( 'JOIST/Dialog' );
   var joist = require( 'JOIST/joist' );
   var Tandem = require( 'TANDEM/Tandem' );
-
-  // phet-io modules
-  var TOptionsDialog = require( 'ifphetio!PHET_IO/types/joist/TOptionsDialog' );
+  var TOptionsDialog = require( 'JOIST/TOptionsDialog' );
 
   // strings
   var optionsTitleString = require( 'string!JOIST/options.title' );
 
   /**
    * @param {Node} optionsNode
+   * @param {Object} [options]
    * @constructor
    */
   function OptionsDialog( optionsNode, options ) {
     options = _.extend( {
-      title: new Text( optionsTitleString, { font: new PhetFont( 30 ) } ),
       titleAlign: 'center',
       modal: true,
       hasCloseButton: true,
-      tandem: Tandem.tandemRequired()
+      tandem: Tandem.tandemRequired(),
+      phetioType: TOptionsDialog
     }, options );
 
-    var thisTandem = options.tandem;
-    var superTandem = options.tandem.createSupertypeTandem();
-    options.tandem = superTandem;
+    // Can't be in the extend call because it needs the tandem.
+    if ( !options.title ) {
+      options.title = new Text( optionsTitleString, {
+        font: new PhetFont( 30 ),
+        maxWidth: 400,
+        tandem: options.tandem.createTandem( 'title' )
+      } );
+    }
 
     Dialog.call( this, optionsNode, options );
 
-    thisTandem.addInstance( this, TOptionsDialog );
-    // Panel calls tandem.addInstance
+    // @private - to be called by dispose
+    this.disposeOptionsDialog = function(){
+      options.title && options.title.dispose();
+    };
   }
 
   joist.register( 'OptionsDialog', OptionsDialog );
 
-  return inherit( Dialog, OptionsDialog, {}, {
+  return inherit( Dialog, OptionsDialog, {
+
+    /**
+     * Make the options dialog eligible for garbage collection.
+     * @public
+     */
+    dispose: function() {
+      this.disposeOptionsDialog();
+      Dialog.prototype.dispose.call( this );
+    }
+  }, {
     DEFAULT_FONT: new PhetFont( 15 ),
     DEFAULT_SPACING: 10
   } );

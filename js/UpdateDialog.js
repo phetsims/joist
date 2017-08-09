@@ -18,12 +18,14 @@ define( function( require ) {
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var joist = require( 'JOIST/joist' );
 
-  function UpdateDialog() {
+  /**
+   * @param {PhETButton} phetButton - PhET button in the navigation bar, receives focus when this dialog is closed
+   */
+  function UpdateDialog( phetButton ) {
     assert && assert( UpdateCheck.areUpdatesChecked,
       'Updates need to be checked for UpdateDialog to be created' );
 
     var self = this;
-
 
     var positionOptions = { centerX: 0, centerY: 0, big: true };
     var checkingNode = UpdateNodes.createCheckingNode( positionOptions );
@@ -36,8 +38,11 @@ define( function( require ) {
       var latestVersionString = UpdateCheck.latestVersion ? UpdateCheck.latestVersion.toString() : 'x.x.xx';
       var ourVersionString = UpdateCheck.ourVersion.toString();
 
+      // a11y - dialog content contained in parent div so ARIA roles can be applied to all children
+      outOfDateNode.tagName = 'div';
+
       outOfDateNode.children = [
-        UpdateNodes.createOutOfDateDialogNode( ourVersionString, latestVersionString, positionOptions )
+        UpdateNodes.createOutOfDateDialogNode( self, ourVersionString, latestVersionString, positionOptions )
       ];
     }
 
@@ -56,6 +61,13 @@ define( function( require ) {
       upToDateNode.visible = state === 'up-to-date';
       outOfDateNode.visible = state === 'out-of-date';
       offlineNode.visible = state === 'offline';
+      
+      // a11y - update visibility of update nodes for screen readers by adding/removing content from the DOM, 
+      // necessary because screen readers will read hidden content in a Dialog
+      checkingNode.accessibleContentDisplayed = checkingNode.visible;
+      upToDateNode.accessibleContentDisplayed = upToDateNode.visible;
+      outOfDateNode.accessibleContentDisplayed = outOfDateNode.visible;
+      offlineNode.accessibleContentDisplayed = offlineNode.visible;
     };
 
     var content = new Node( {
@@ -64,25 +76,45 @@ define( function( require ) {
         upToDateNode,
         outOfDateNode,
         offlineNode
-      ]
+      ],
+
+      // a11y
+      tagName: 'div'
     } );
 
     Dialog.call( this, content, {
       modal: true,
-      hasCloseButton: false
+      hasCloseButton: true,
+
+      // margins large enough to make space for close button
+      xMargin: 30,
+      yMargin: 30,
+
+      // a11y
+      focusOnCloseNode: phetButton
     } );
 
     // close it on a click
-    this.addInputListener( new ButtonListener( {
+    var buttonListener = new ButtonListener( {
       fire: self.hide.bind( self )
-    } ) );
+    } );
+    this.addInputListener( buttonListener );
+
+    // @private - to be called by dispose()
+    this.disposeUpdateDialog = function() {
+      self.removeInputListener( buttonListener );
+    };
   }
 
   joist.register( 'UpdateDialog', UpdateDialog );
 
   return inherit( Dialog, UpdateDialog, {
 
-    // @public (joist-internal)
+    /**
+     * Show the UpdateDialog, registering listeners that should only be called while
+     * the dialog is shown.
+     * @public (joist-internal)
+     */
     show: function() {
       if ( UpdateCheck.areUpdatesChecked ) {
         UpdateCheck.resetTimeout();
@@ -102,17 +134,32 @@ define( function( require ) {
       Dialog.prototype.show.call( this );
     },
 
-    // @public (joist-internal)
+    /**
+     * Remove listeners that should only be called when the Dialog is shown.
+     * @public (joist-internal)
+     */
     hide: function() {
-      Dialog.prototype.hide.call( this );
+      if ( this.isShowing ) {
+        Dialog.prototype.hide.call( this );
 
-      if ( UpdateCheck.areUpdatesChecked ) {
-        // Disconnect our visibility listener
-        UpdateCheck.stateProperty.unlink( this.updateVisibilityListener );
+        if ( UpdateCheck.areUpdatesChecked ) {
 
-        // Disconnect our spinner listener when we're hidden
-        Timer.removeStepListener( this.updateStepListener );
+          // Disconnect our visibility listener
+          UpdateCheck.stateProperty.unlink( this.updateVisibilityListener );
+
+          // Disconnect our spinner listener when we're hidden
+          Timer.removeStepListener( this.updateStepListener );
+        }
       }
+    },
+
+    /**
+     * Dispose the UpdateDialog so that it is eligible for garbage collection.
+     * @public
+     */
+    dispose: function() {
+      this.disposeUpdateDialog();
+      Dialog.prototype.dispose.call( this );
     }
   } );
 } );

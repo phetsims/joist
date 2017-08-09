@@ -13,9 +13,11 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
+  var Shape = require( 'KITE/Shape' );
   var Image = require( 'SCENERY/nodes/Image' );
   var JoistButton = require( 'JOIST/JoistButton' );
   var KeyboardHelpDialog = require( 'JOIST/KeyboardHelpDialog' );
+  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var joist = require( 'JOIST/joist' );
 
   // images
@@ -29,19 +31,27 @@ define( function( require ) {
   var BUTTON_SCALE = HELP_BUTTON_SCALE / brightIconMipmap[ 0 ].height * HELP_BUTTON_HEIGHT;
 
   function KeyboardHelpButton( sim, backgroundFillProperty, tandem ) {
+    var self = this;
 
     var keyboardHelpDialog = null;
+    var openDialog = function() {
+      if ( !keyboardHelpDialog ) {
+        keyboardHelpDialog = new KeyboardHelpDialog( self, sim.keyboardHelpNode, {
+          tandem: tandem.createTandem( 'keyboardHelpDialog' )
+        } );
+      }
+      keyboardHelpDialog.show();
+    };
+
     var options = {
       highlightExtensionWidth: 5,
       highlightExtensionHeight: 10,
       highlightCenterOffsetY: 3,
-      listener: function() {
-        keyboardHelpDialog && keyboardHelpDialog.dispose();
-        keyboardHelpDialog = new KeyboardHelpDialog( sim.keyboardHelpNode, {
-          tandem: tandem.createTandem( 'keyboardHelpDialog' )
-        } );
-        keyboardHelpDialog.show();
-      }
+      listener: openDialog,
+
+      // a11y options
+      tagName: 'button',
+      accessibleLabel: JoistA11yStrings.hotKeysAndHelpString
     };
 
     var icon = new Image( brightIconMipmap, {
@@ -51,15 +61,36 @@ define( function( require ) {
 
     JoistButton.call( this, icon, backgroundFillProperty, tandem, options );
 
+    // a11y - focus highlight since the bounds of the button push the default highlight out of bounds
+    this.focusHighlight = Shape.bounds( icon.bounds.dilated( 5 ) );
+
     Property.multilink( [ backgroundFillProperty, sim.showHomeScreenProperty ],
       function( backgroundFill, showHomeScreen ) {
         var backgroundIsWhite = backgroundFill !== 'black' && !showHomeScreen;
         icon.image = backgroundIsWhite ? darkIconMipmap : brightIconMipmap;
       } );
+
+    // a11y - open the dialog on 'spacebar' or 'enter' and focus the 'Close' button immediately
+    this.clickListener = this.addAccessibleInputListener( {
+      click: function() {
+        openDialog();
+        keyboardHelpDialog.closeButtonPath.focus();
+      } }
+    );
   }
 
   joist.register( 'KeyboardHelpButton', KeyboardHelpButton );
 
-  return inherit( JoistButton, KeyboardHelpButton );
+  return inherit( JoistButton, KeyboardHelpButton, {
+
+    /**
+     * To make eligible for garbage collection.
+     * @public
+     */
+    dispose: function() {
+      this.removeAccessibleInputListener( this.clickListener );
+      JoistButton.prototype.dispose && JoistButton.prototype.dispose.call( this );
+    }
+  } );
 
 } );

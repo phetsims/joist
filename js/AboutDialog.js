@@ -23,14 +23,10 @@ define( function( require ) {
   var UpdateNodes = require( 'JOIST/UpdateNodes' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var LinkText = require( 'JOIST/LinkText' );
-  var SubSupText = require( 'SCENERY_PHET/SubSupText' );
+  var RichText = require( 'SCENERY/nodes/RichText' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var packageJSON = require( 'JOIST/packageJSON' );
   var joist = require( 'JOIST/joist' );
-
-  // phet-io modules
-  var TDialog = require( 'ifphetio!PHET_IO/types/joist/TDialog' );
-
 
   // strings
   var versionPatternString = require( 'string!JOIST/versionPattern' );
@@ -44,21 +40,37 @@ define( function( require ) {
    * @param {string} credits - The credits for the simulation, or falsy to show no credits
    * @param {Brand} Brand
    * @param {string} locale - The locale string
+   * @param {Node} phetButton - The PhET button in the navigation bar, receives focus when this dialog is closed
    * @param {Tandem} tandem
    * @constructor
    */
-  function AboutDialog( name, version, credits, Brand, locale, tandem ) {
+  function AboutDialog( name, version, credits, Brand, locale, phetButton, tandem ) {
     var self = this;
-    this.aboutDialogTandem = tandem;
 
     var children = [];
-    children.push( new Text( name, { font: new PhetFont( 28 ), maxWidth: MAX_WIDTH } ) );
-    children.push( new Text( StringUtils.format( versionPatternString, version ), {
+
+    var titleText = new Text( name, {
+      font: new PhetFont( 28 ),
+      maxWidth: MAX_WIDTH,
+      tagName: 'h1',
+      accessibleLabel: name
+    } );
+    children.push( titleText );
+
+    var versionString = StringUtils.format( versionPatternString, version );
+    children.push( new Text( versionString, {
       font: new PhetFont( 20 ),
-      maxWidth: MAX_WIDTH
+      maxWidth: MAX_WIDTH,
+      tagName: 'p',
+      accessibleLabel: versionString
     } ) );
     if ( phet.chipper.buildTimestamp ) {
-      children.push( new Text( phet.chipper.buildTimestamp, { font: new PhetFont( 13 ), maxWidth: MAX_WIDTH } ) );
+      children.push( new Text( phet.chipper.buildTimestamp, {
+        font: new PhetFont( 13 ),
+        maxWidth: MAX_WIDTH,
+        tagName: 'p',
+        accessibleLabel: phet.chipper.buildTimestamp
+      } ) );
     }
 
     if ( UpdateCheck.areUpdatesChecked ) {
@@ -77,6 +89,13 @@ define( function( require ) {
         upToDateNode.visible = state === 'up-to-date';
         outOfDateNode.visible = state === 'out-of-date';
         offlineNode.visible = state === 'offline';
+
+        // a11y - make update content visible/invisible for screen readers by explicitly removing content
+        // from the DOM, necessary because AT will ready hidden content in a Dialog.
+        checkingNode.accessibleContentDisplayed = checkingNode.visible;
+        upToDateNode.accessibleContentDisplayed = upToDateNode.visible;
+        outOfDateNode.accessibleContentDisplayed = outOfDateNode.visible;
+        offlineNode.accessibleContentDisplayed = offlineNode.visible;
       };
 
       children.push( new Node( {
@@ -94,17 +113,33 @@ define( function( require ) {
 
     // Show the brand name, if it exists
     if ( Brand.name ) {
-      children.push( new SubSupText( Brand.name, {
+      children.push( new RichText( Brand.name, {
         font: new PhetFont( 16 ),
         supScale: 0.5,
         supYOffset: 2,
-        maxWidth: MAX_WIDTH
+        maxWidth: MAX_WIDTH,
+
+        // a11y
+        tagName: 'h2',
+        accessibleLabel: Brand.name
       } ) );
     }
 
     // Show the brand copyright statement, if it exists
     if ( Brand.copyright ) {
-      children.push( new Text( Brand.copyright, { font: new PhetFont( 12 ), maxWidth: MAX_WIDTH } ) );
+      var year = phet.chipper.buildTimestamp ? // defined for built versions
+                 phet.chipper.buildTimestamp.split( '-' )[ 0 ] : // e.g. "2017-04-20 19:04:59 UTC" -> "2017"
+                 new Date().getFullYear(); // in requirejs mode
+
+      var copyright = StringUtils.fillIn( Brand.copyright, { year: year } );
+
+      children.push( new Text( copyright, {
+        font: new PhetFont( 12 ), maxWidth: MAX_WIDTH,
+
+        // a11y
+        tagName: 'p',
+        accessibleLabel: copyright
+      } ) );
     }
 
     // Optional additionalLicenseStatement, used in phet-io
@@ -113,8 +148,7 @@ define( function( require ) {
           font: new PhetFont( 10 ),
           fill: 'gray',
           align: 'left',
-          maxWidth: MAX_WIDTH,
-          tandem: tandem.createTandem( 'additionLicenseStatement' )
+          maxWidth: MAX_WIDTH
         }
       );
       children.push( this.additionalLicenseStatement );
@@ -123,7 +157,7 @@ define( function( require ) {
     // Add credits for specific brands
     if ( credits && ( Brand.id === 'phet' || Brand.id === 'phet-io' ) ) {
       children.push( new VStrut( 15 ) );
-      this.creditsNode = new CreditsNode( credits, tandem.createTandem( 'creditsNode' ), {
+      this.creditsNode = new CreditsNode( credits, {
         maxWidth: MAX_WIDTH
       } );
       children.push( this.creditsNode );
@@ -135,46 +169,47 @@ define( function( require ) {
       children.push( new VStrut( 15 ) );
       for ( var i = 0; i < links.length; i++ ) {
         var link = links[ i ];
-        children.push( new LinkText( link.text, link.url, { font: new PhetFont( 14 ), maxWidth: MAX_WIDTH } ) );
+        children.push( new LinkText( link.text, link.url, {
+          font: new PhetFont( 14 ),
+          maxWidth: MAX_WIDTH
+        } ) );
       }
     }
 
     var content = new VBox( {
       align: 'left',
       spacing: 5,
-      children: children
+      children: children,
+
+      // a11y
+      tagName: 'div'
     } );
 
     Dialog.call( this, content, {
       modal: true,
-      hasCloseButton: false,
-
-      // accessible content
-      accessibleContent: {
-        createPeer: function( accessibleInstance ) {
-          var accessiblePeer = Dialog.DialogAccessiblePeer( accessibleInstance, self );
-          var trail = accessibleInstance.trail;
-
-          var domElement = accessiblePeer.domElement;
-
-          var nameElement = document.createElement( 'h1' );
-          nameElement.id = 'simName-' + trail.uniqueId;
-          nameElement.innerText = name;
-
-          domElement.appendChild( nameElement );
-          return accessiblePeer;
-        }
-      },
-
-      tandem: tandem.createSupertypeTandem()
+      hasCloseButton: true,
+      tandem: tandem,
+      focusOnCloseNode: phetButton,
+      xMargin: 25,
+      yMargin: 25
     } );
 
-    // close it on a click
-    this.addInputListener( new ButtonListener( {
-      fire: self.hide.bind( self )
-    } ) );
+    // a11y - set label association so the title is read when focus enters the dialog
+    titleText.setAriaLabelsNode( this );
 
-    tandem.addInstance( this, TDialog);
+    // close it on a click
+    var closeListener = new ButtonListener( {
+      fire: self.hide.bind( self )
+    } );
+    this.addInputListener( closeListener );
+
+    // @private - to be called in dispose
+    this.disposeAboutDialog = function() {
+      this.removeInputListener( closeListener );
+
+      this.creditsNode && this.creditsNode.dispose();
+      this.additionalLicenseStatement && this.additionalLicenseStatement.dispose();
+    };
   }
 
   joist.register( 'AboutDialog', AboutDialog );
@@ -205,25 +240,31 @@ define( function( require ) {
     },
 
     /**
-     * Hide the dialog ( basically disposing it because a new one is created is the dialog is opened again )
+     * Remove listeners that should only be called when the dialog is shown.
      * @public
      */
     hide: function() {
-      // When hidden, this dialog is as good as disposed because it is never shown again
-      Dialog.prototype.hide.call( this );
+      if ( this.isShowing ) {
+        Dialog.prototype.hide.call( this );
 
-      if ( UpdateCheck.areUpdatesChecked ) {
-        // Disconnect our visibility listener
-        UpdateCheck.stateProperty.unlink( this.updateVisibilityListener );
+        if ( UpdateCheck.areUpdatesChecked ) {
 
-        // Disconnect our spinner listener when we're hidden
-        Timer.removeStepListener( this.updateStepListener );
+          // Disconnect our visibility listener
+          UpdateCheck.stateProperty.unlink( this.updateVisibilityListener );
+
+          // Disconnect our spinner listener when we're hidden
+          Timer.removeStepListener( this.updateStepListener );
+        }
       }
+    },
 
-      // Tandems should be removed at disposal. The 'hide' function is used as dispose for the AboutDialog
-      this.aboutDialogTandem.removeInstance( this );
-      this.creditsNode && this.creditsNode.dispose();
-      this.additionalLicenseStatement && this.additionalLicenseStatement.dispose();
+    /**
+     * Make eligible for garbage collection.
+     * @public
+     */
+    dispose: function() {
+      this.disposeAboutDialog();
+      Dialog.prototype.dispose.call( this );
     }
   } );
 } );

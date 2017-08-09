@@ -26,9 +26,7 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
   var Tandem = require( 'TANDEM/Tandem' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-
-  // phet-io modules
-  var TNavigationBarScreenButton = require( 'ifphetio!PHET_IO/types/joist/TNavigationBarScreenButton' );
+  var TNavigationBarScreenButton = require( 'JOIST/TNavigationBarScreenButton' );
 
   // constants
   var HIGHLIGHT_SPACING = 4;
@@ -56,15 +54,17 @@ define( function( require ) {
       cursor: 'pointer',
       textDescription: screen.name + ' Screen: Button',
       tandem: Tandem.tandemRequired(),
+      phetioType: TNavigationBarScreenButton,
       maxButtonWidth: null // {number|null} the maximum width of the button, causes text and/or icon to be scaled down if necessary
     }, options );
 
     Node.call( this );
 
-    // icon,
+    // icon
     var icon = new Node( {
       children: [ screen.navigationBarIcon ], // wrap in case this icon is used in multiple place (eg, home screen and navbar)
-      maxHeight: 0.625 * navBarHeight
+      maxHeight: 0.625 * navBarHeight,
+      tandem: options.tandem.createTandem( 'icon' )
     } );
 
     // Is this button's screen selected?
@@ -72,16 +72,15 @@ define( function( require ) {
       return screenIndex === screens.indexOf( screen );
     } );
 
-    // @private - create the button model, needs to be public so that PhET-iO wrappers can hook up to it if needed
+    // @public (phet-io) - create the button model, needs to be public so that PhET-iO wrappers can hook up to it if needed
     this.buttonModel = new PushButtonModel( {
       listener: clicked
     } );
     this.addInputListener( new ButtonListener( this.buttonModel ) );
 
-    options.tandem && options.tandem.addInstance( this, TNavigationBarScreenButton );
-
     var text = new Text( screen.name, {
-      font: new PhetFont( 10 )
+      font: new PhetFont( 10 ),
+      tandem: options.tandem.createTandem( 'text' )
     } );
 
     var box = new VBox( {
@@ -147,7 +146,7 @@ define( function( require ) {
       assert && assert( Util.toFixed( this.width, 0 ) === Util.toFixed( options.maxButtonWidth, 0 ) );
     }
 
-    this.mutate( _.omit( options, 'tandem' ) );
+    this.mutate( options );
   }
 
   joist.register( 'NavigationBarScreenButton', NavigationBarScreenButton );

@@ -51,12 +51,16 @@ define( function( require ) {
         };
 
         // PhET-iO simulations support an initialization phase (before the sim launches)
-        if ( phet.chipper.brand === 'phet-io' ) {
+        if ( phet.phetio ) {
           new Tandem( 'phetio' ).addInstance( phetio, TPhETIO );
           SimIFrameAPI.initialize(); // calls back to window.phetLaunchSimulation
         }
-        if ( phet.phetio && phet.phetio.queryParameters &&
-             phet.phetio.queryParameters.phetioStandalone || phet.chipper.brand !== 'phet-io' ) {
+
+        if ( phet.phetio && !phet.phetio.queryParameters.phetioStandalone ) {
+
+          // Wait for phet-io to finish adding listeners. It will direct the launch from there.
+        }
+        else {
           window.phetLaunchSimulation();
         }
       }

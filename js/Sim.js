@@ -1,4 +1,4 @@
-// Copyright 2013-2015, University of Colorado Boulder
+// Copyright 2013-2017, University of Colorado Boulder
 
 /**
  * Main class that represents one simulation.
@@ -24,10 +24,11 @@ define( function( require ) {
   var Display = require( 'SCENERY/display/Display' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var platform = require( 'PHET_CORE/platform' );
   var Timer = require( 'PHET_CORE/Timer' );
-  var BarrierRectangle = require( 'JOIST/BarrierRectangle' );
+  var BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
   var Profiler = require( 'JOIST/Profiler' );
   var LookAndFeel = require( 'JOIST/LookAndFeel' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
@@ -37,10 +38,10 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var DotUtil = require( 'DOT/Util' );// eslint-disable-line
   var Emitter = require( 'AXON/Emitter' );
-  var TandemEmitter = require( 'TANDEM/axon/TandemEmitter' );
+  var TSim = require( 'JOIST/TSim' );
+  var LegendsOfLearningSupport = require( 'JOIST/thirdPartySupport/LegendsOfLearningSupport' );
 
   // phet-io modules
-  var TSim = require( 'ifphetio!PHET_IO/types/joist/TSim' );
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
 
@@ -49,7 +50,13 @@ define( function( require ) {
 
   // globals
   phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for replicable playbacks
-  phet.joist.playbackMode = false; // sets whether the sim is for PhET-iO playback, overriden by TPhETIO for playback
+
+  // When the simulation is going to be used to play back a recorded session, the simulation must be put into a special
+  // mode in which it will only update the model + view based on the playback clock events rather than the system clock.
+  // This must be set before the simulation is launched in order to ensure that no errant stepSimulation steps are called
+  // before the playback events begin.  This value is overridden for playback by TPhETIO.
+  // @public (phet-io)
+  phet.joist.playbackModeEnabledProperty = new BooleanProperty( false );
 
   /**
    * Main Sim constructor
@@ -61,6 +68,12 @@ define( function( require ) {
   function Sim( name, screens, options ) {
 
     var self = this;
+
+    // playbackModeEnabledProperty cannot be changed after Sim construction has begun, hence this listener is added before
+    // anything else is done, see https://github.com/phetsims/phet-io/issues/1146
+    phet.joist.playbackModeEnabledProperty.lazyLink( function( playbackModeEnabled ) {
+      throw new Error( 'playbackModeEnabledProperty cannot be changed after Sim construction has begun' );
+    } );
 
     var tandem = Tandem.createRootTandem();
     var simTandem = tandem.createTandem( 'sim' );
@@ -82,7 +95,7 @@ define( function( require ) {
 
     // @public Emitter that indicates when a frame ends
     // phetioEmitData is false because we only want this manually wired for phetio event recording.
-    this.frameEndedEmitter = new TandemEmitter( {
+    this.frameEndedEmitter = new Emitter( {
       tandem: simTandem.createTandem( 'frameEndedEmitter' ),
       phetioArgumentTypes: [ TNumber( { units: 'seconds' } ) ],
       phetioEmitData: false // An adapter in phetio will create input events when recording for playback.
@@ -127,10 +140,7 @@ define( function( require ) {
       // when playing back a recorded scenery input event log, use the specified filename.  Please see getEventLogName for more
       inputEventLogName: undefined,
 
-      // Whether events should be batched until they need to be fired. If false, events will be fired immediately, not
-      // waiting for the next animation frame
-      batchEvents: false,
-
+      // TODO https://github.com/phetsims/energy-skate-park-basics/issues/370
       // this function is currently (9-5-2014) specific to Energy Skate Park: Basics, which shows Save/Load buttons in
       // the PhET menu.  This interface is not very finalized and will probably be changed for future versions,
       // so don't rely on it.
@@ -170,13 +180,26 @@ define( function( require ) {
     } );
 
     // @public
-    // Flag for if the sim is active (alive) and the user is able to interact with the sim.
-    // If the sim is active, the model.step, view.step, Timer and TWEEN will run.
-    // Set to false for when the sim will be controlled externally, such as through record/playback or other controls.
-    this.activeProperty = new Property( true, {
+    // When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.
+    //
+    // Set to false for when the sim will be paused.  If the sim has playbackModeEnabledProperty set to true, the activeProperty will
+    // automatically be set to false so the timing and inputs can be controlled by the playback engine
+    this.activeProperty = new Property( !phet.joist.playbackModeEnabledProperty.value, {
       tandem: tandem.createTandem( 'sim.activeProperty' ),
       phetioValueType: TBoolean
     } );
+
+    // @public (read-only) - property that indicates whether the browser tab containing the simulation is currently visible
+    this.browserTabVisibleProperty = new Property( true, {
+      tandem: tandem.createTandem( 'browserTabVisibleProperty' ),
+      phetioValueType: TBoolean,
+      phetioInstanceDocumentation: 'this Property is read-only, do not attempt to set its value'
+    } );
+
+    // set the state of the property that indicates if the browser tab is visible
+    document.addEventListener( 'visibilitychange', function() {
+      self.browserTabVisibleProperty.set( document.visibilityState === 'visible' );
+    }, false );
 
     // @public (joist-internal, read-only) - how the home screen and navbar are scaled
     this.scaleProperty = new Property( 1 );
@@ -261,10 +284,7 @@ define( function( require ) {
       };
     }
 
-    var sessionID = (phet.phetio && phet.phetio.queryParameters && phet.phetio.queryParameters.sessionID) ?
-                    phet.phetio.queryParameters.sessionID : null;
     this.startedSimConstructorEmitter.emit1( {
-      sessionID: sessionID,
       repoName: packageJSON.name,
       simName: this.name,
       simVersion: this.version,
@@ -290,6 +310,13 @@ define( function( require ) {
     // @public
     this.rootNode = new Node( { renderer: options.rootRenderer } );
 
+    // When the sim becomes inactive, interrupt any currently active input listeners, see https://github.com/phetsims/scenery/issues/619.
+    this.activeProperty.lazyLink( function( active ) {
+      if ( !active ) {
+        self.rootNode.interruptSubtreeInput();
+      }
+    } );
+
     // @private
     this.display = new Display( self.rootNode, {
       // prevent overflow that can cause iOS bugginess, see https://github.com/phetsims/phet-io/issues/341
@@ -299,22 +326,31 @@ define( function( require ) {
       allowWebGL: phet.chipper.queryParameters.webgl,
 
       accessibility: options.accessibility,
-      isApplication: false
+      isApplication: false,
+
+      assumeFullWindow: true // a bit faster if we can assume no coordinate translations are needed for the display.
     } );
 
     // When the sim is inactive, make it non-interactive, see https://github.com/phetsims/scenery/issues/414
     this.activeProperty.link( function( active ) {
       self.display.interactive = active;
+
+      // The sim must remain inactive while playbackModeEnabledProperty is true
+      if ( active ) {
+        assert && assert( !phet.joist.playbackModeEnabledProperty.value, 'The sim must remain inactive while playbackModeEnabledProperty is true' );
+      }
     } );
 
     var simDiv = self.display.domElement;
     simDiv.id = 'sim';
-    simDiv.setAttribute( 'aria-hidden', true );
     document.body.appendChild( simDiv );
 
-    // for preventing Safari from going to sleep. see https://github.com/phetsims/joist/issues/140
+    // for preventing Safari from going to sleep - added to the simDiv instead of the body to prevent a VoiceOver bug
+    // where the virtual cursor would spontaneously move when the div content changed, see
+    // https://github.com/phetsims/joist/issues/140
     var heartbeatDiv = this.heartbeatDiv = document.createElement( 'div' );
     heartbeatDiv.style.opacity = 0;
+
     // Extra style (also used for accessibility) that makes it take up no visual layout space.
     // Without this, it could cause some layout issues. See https://github.com/phetsims/gravity-force-lab/issues/39
     heartbeatDiv.style.position = 'absolute';
@@ -324,7 +360,7 @@ define( function( require ) {
     heartbeatDiv.style.height = '0';
     heartbeatDiv.style.clip = 'rect(0,0,0,0)';
     heartbeatDiv.setAttribute( 'aria-hidden', true ); // hide div from screen readers (a11y)
-    document.body.appendChild( heartbeatDiv );
+    simDiv.appendChild( heartbeatDiv );
 
     if ( phet.chipper.queryParameters.sceneryLog ) {
       this.display.scenery.enableLogging( phet.chipper.queryParameters.sceneryLog );
@@ -334,7 +370,7 @@ define( function( require ) {
       this.display.scenery.switchLogToString();
     }
 
-    this.display.initializeWindowEvents( { batchDOMEvents: this.options.batchEvents } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
+    this.display.initializeEvents(); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
     window.phet.joist.rootNode = this.rootNode; // make the scene available for debugging
     window.phet.joist.display = this.display; // make the display available for debugging
 
@@ -398,6 +434,20 @@ define( function( require ) {
         self.currentScreenProperty.value = ( showHomeScreen && self.homeScreen ) ? null : screens[ screenIndex ];
         self.updateBackground();
       } );
+
+    // When the user switches screens, interrupt the input on the previous screen.
+    // See https://github.com/phetsims/scenery/issues/218
+    this.currentScreenProperty.lazyLink( function( newScreen, oldScreen ) {
+      if ( oldScreen === null ) {
+        self.homeScreen.view.interruptSubtreeInput();
+      }
+      else {
+        oldScreen.view.interruptSubtreeInput();
+      }
+    } );
+
+    // Third party support
+    phet.chipper.queryParameters.legendsOfLearning && new LegendsOfLearningSupport( this ).start();
   }
 
   joist.register( 'Sim', Sim );
@@ -427,12 +477,35 @@ define( function( require ) {
 
       Property.multilink( [ this.showHomeScreenProperty, this.screenIndexProperty ],
         function( showHomeScreen, screenIndex ) {
+
           if ( self.homeScreen ) {
-            self.homeScreen.view.setVisible( showHomeScreen );
+
+            // You can't set the active property if the screen is visible, so order matters here
+            if ( showHomeScreen ) {
+              self.homeScreen.activeProperty.set( true );
+              self.homeScreen.view.setVisible( true );
+            }
+            else {
+              self.homeScreen.view.setVisible( false );
+              self.homeScreen.activeProperty.set( false );
+            }
           }
+
+          // Make the selected screen visible and active, other screens invisible and inactive.
+          // screen.isActiveProperty should change only while the screen is invisible.
+          // See https://github.com/phetsims/joist/issues/418.
           for ( var i = 0; i < screens.length; i++ ) {
-            screens[ i ].view.setVisible( !showHomeScreen && screenIndex === i );
+            var screen = screens[ i ];
+            var visible = ( !showHomeScreen && screenIndex === i );
+            if ( visible ) {
+              screen.activeProperty.set( visible );
+            }
+            screen.view.setVisible( visible );
+            if ( !visible ) {
+              screen.activeProperty.set( visible );
+            }
           }
+
           self.navigationBar.setVisible( !showHomeScreen );
           self.updateBackground();
         } );
@@ -450,11 +523,14 @@ define( function( require ) {
 
       // @public (joist-internal) Semi-transparent black barrier used to block input events when a dialog (or other popup)
       // is present, and fade out the background.
-      this.barrierRectangle = new BarrierRectangle( 0, 0, 1, 1, this.modalNodeStack, {
-        fill: 'rgba(0,0,0,0.3)',
-        pickable: true,
-        tandem: tandem.createTandem( 'sim.barrierRectangle' )
-      } );
+      this.barrierRectangle = new BarrierRectangle(
+        this.modalNodeStack,
+        {
+          fill: 'rgba(0,0,0,0.3)',
+          pickable: true,
+          tandem: tandem.createTandem( 'sim.barrierRectangle' )
+        } );
+
       this.topLayer.addChild( this.barrierRectangle );
 
 
@@ -462,9 +538,10 @@ define( function( require ) {
       // Can't synchronously do this in Firefox, see https://github.com/phetsims/vegas/issues/55 and
       // https://bugzilla.mozilla.org/show_bug.cgi?id=840412.
       $( window ).resize( function() {
+
         // Don't resize on window size changes if we are playing back input events.
         // See https://github.com/phetsims/joist/issues/37
-        if ( !phet.joist.playbackMode ) {
+        if ( !phet.joist.playbackModeEnabledProperty.value ) {
           self.resizePending = true;
         }
       } );
@@ -477,10 +554,9 @@ define( function( require ) {
       // hasn't been recorded yet.
       this.lastTime = -1;
 
-      // @public (joist-internal) - Bind the animation loop so it can be called from requestAnimationFrame with the right
-      // this.  If PhET-iO sets phet.joist.playbackMode to be true, the sim clock won't run and instead
-      // the sim will receive dt events from stepSimulation calls.
-      this.boundRunAnimationLoop = phet.joist.playbackMode ? function() {} : this.runAnimationLoop.bind( this );
+      // @public (joist-internal)
+      // Bind the animation loop so it can be called from requestAnimationFrame with the right this.
+      this.boundRunAnimationLoop = this.runAnimationLoop.bind( this );
     },
 
     /*
@@ -534,9 +610,6 @@ define( function( require ) {
       var self = this;
 
       var scale = Math.min( width / HomeScreenView.LAYOUT_BOUNDS.width, height / HomeScreenView.LAYOUT_BOUNDS.height );
-
-      this.barrierRectangle.rectWidth = width / scale;
-      this.barrierRectangle.rectHeight = height / scale;
 
       // 40 px high on iPad Mobile Safari
       var navBarHeight = scale * NavigationBar.NAVIGATION_BAR_SIZE.height;
@@ -649,6 +722,7 @@ define( function( require ) {
 
                 // Signify the end of simulation startup.  Used by PhET-iO.
                 self.endedSimConstructionEmitter.emit();
+
               }, 25 ); // pause for a few milliseconds with the progress bar filled in before going to the home screen
             }
           },
@@ -672,11 +746,6 @@ define( function( require ) {
       simDiv.parentNode && simDiv.parentNode.removeChild( simDiv );
     },
 
-    // @public (phet-io) - Disable the animation frames for playback via input events, see #303
-    disableRequestAnimationFrame: function() {
-      this.boundRunAnimationLoop = function() {};
-    },
-
     // @private - Bound to this.boundRunAnimationLoop so it can be run in window.requestAnimationFrame
     runAnimationLoop: function() {
 
@@ -684,14 +753,32 @@ define( function( require ) {
         window.requestAnimationFrame( this.boundRunAnimationLoop );
       }
 
-      // Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
-      var time = Date.now();
-      var elapsedTimeMilliseconds = (this.lastTime === -1) ? (1000.0 / 60.0) : (time - this.lastTime);
-      this.lastTime = time;
+      // Setting the activeProperty to false pauses the sim and also enables optional support for playback back recorded
+      // events (if playbackModeEnabledProperty) is true
+      if ( this.activeProperty.value ) {
 
-      // Convert to seconds
-      var dt = elapsedTimeMilliseconds / 1000.0;
-      this.stepSimulation( dt );
+        // Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
+        var time = Date.now();
+        var elapsedTimeMilliseconds = (this.lastTime === -1) ? (1000.0 / 60.0) : (time - this.lastTime);
+        this.lastTime = time;
+
+        // Convert to seconds
+        var dt = elapsedTimeMilliseconds / 1000.0;
+
+        // Don't run the simulation on steps back in time (see https://github.com/phetsims/joist/issues/409)
+        if ( dt >= 0 ) {
+          this.stepSimulation( dt );
+        }
+      }
+    },
+
+    /**
+     * Returns the selected screen, or null if the home screen is showing.
+     * @returns {Screen|null}
+     * @private
+     */
+    getSelectedScreen: function() {
+      return this.showHomeScreenProperty.value ? null : this.screens[ this.screenIndexProperty.value ];
     },
 
     /**
@@ -700,11 +787,6 @@ define( function( require ) {
      * @public (phet-io)
      */
     stepSimulation: function( dt ) {
-
-      // Store the elapsed time in milliseconds for usage by Tween clients
-      phet.joist.elapsedTime = phet.joist.elapsedTime + dt * 1000; // TODO: we are /1000 just to *1000?  Seems wasteful and like opportunity for error. See https://github.com/phetsims/joist/issues/387
-
-      var screen;
 
       this.frameStartedEmitter.emit();
 
@@ -726,52 +808,42 @@ define( function( require ) {
       if ( phet.chipper.queryParameters.fuzzMouse ) {
         this.display.fuzzMouseEvents( phet.chipper.queryParameters.fuzzRate );
       }
-      else {
 
-        // if any input events were received and batched, fire them now.
-        if ( this.options.batchEvents ) {
+      // If the user is on the home screen, we won't have a Screen that we'll want to step.  This must be done after
+      // fuzz mouse, because fuzzing could change the selected screen, see #130
+      var screen = this.getSelectedScreen();
 
-          // if any input events were received and batched, fire them now, but only if the sim is active
-          // The sim may be inactive if interactivity was disabled by API usage such as the SimIFrameAPI
-          if ( this.activeProperty.value ) {
-            this.display._input.fireBatchedEvents();
-          }
-          else {
-
-            // If the sim was inactive (locked), then discard any scenery events instead of buffering them and applying
-            // them later.
-            this.display._input.clearBatchedEvents();
-          }
-        }
+      // cap dt based on the current screen, see https://github.com/phetsims/joist/issues/130
+      if ( screen && screen.maxDT ) {
+        dt = Math.min( dt, screen.maxDT );
       }
 
-      // Step the models, timers and tweens, but only if the sim is active.
-      // It may be inactive if it has been paused through the SimIFrameAPI
-      if ( this.activeProperty.value ) {
+      // TODO: we are /1000 just to *1000?  Seems wasteful and like opportunity for error. See https://github.com/phetsims/joist/issues/387
+      // Store the elapsed time in milliseconds for usage by Tween clients
+      phet.joist.elapsedTime = phet.joist.elapsedTime + dt * 1000;
 
-        // Update the active screen, but not if the user is on the home screen
-        if ( !this.showHomeScreenProperty.value ) {
+      // Timer step before model/view steps, see https://github.com/phetsims/joist/issues/401
+      Timer.step( dt );
 
-          // step model and view (both optional)
-          screen = this.screens[ this.screenIndexProperty.value ];
-
-          // If the DT is 0, we will skip the model step (see https://github.com/phetsims/joist/issues/171)
-          if ( screen.model.step && dt ) {
-            screen.model.step( dt );
-          }
-          if ( screen.view.step ) {
-            screen.view.step( dt );
-          }
-        }
-
-        Timer.step( dt );
-
-        // If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
-        // Update the tweens after the model is updated but before the scene is redrawn.
-        if ( window.TWEEN ) {
-          window.TWEEN.update( phet.joist.elapsedTime );
-        }
+      // If the DT is 0, we will skip the model step (see https://github.com/phetsims/joist/issues/171)
+      if ( screen && screen.model.step && dt ) {
+        screen.model.step( dt );
       }
+
+      // If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
+      // Update the tweens after the model is updated but before the view step.
+      // See https://github.com/phetsims/joist/issues/401.
+      //TODO https://github.com/phetsims/joist/issues/404 run TWEENs for the selected screen only
+      if ( window.TWEEN ) {
+        window.TWEEN.update( phet.joist.elapsedTime );
+      }
+
+      // View step is the last thing before updateDisplay(), so we can do paint updates there.
+      // See https://github.com/phetsims/joist/issues/401.
+      if ( screen && screen.view.step ) {
+        screen.view.step( dt );
+      }
+
       this.display.updateDisplay();
 
       this.frameEndedEmitter.emit1( dt );

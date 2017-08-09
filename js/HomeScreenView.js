@@ -54,7 +54,8 @@ define( function( require ) {
         family: TITLE_FONT_FAMILY
       } ),
       fill: 'white',
-      y: 110
+      y: 110,
+      tandem: tandem.createTandem( 'title' )
     } );
     this.addChild( title );
     title.scale( Math.min( 1, 0.9 * this.layoutBounds.width / title.width ) );
@@ -71,6 +72,10 @@ define( function( require ) {
 
       var index = sim.screens.indexOf( screen );
 
+      // Even though in the user interface the small and large buttons seem like a single UI component that has grown
+      // larger, it would be quite a headache to create a composite button for the purposes of tandem, so instead the
+      // large and small buttons are registered as separate instances.  See https://github.com/phetsims/phet-io/issues/99
+      var largeTandem = tandem.createTandem( screen.tandem.tail + 'LargeButton' );
 
       var isLarge = true;
       var largeScreenButton = new ScreenButton(
@@ -78,18 +83,17 @@ define( function( require ) {
         sim,
         index,
         highlightedScreenIndexProperty,
+        largeTandem,
         {
-
           // Don't 40 the VBox or it will shift down when the border becomes thicker
           resize: false,
-          cursor: 'pointer',
-
-          // Even though in the user interface the small and large buttons seem like a single UI component that has grown
-          // larger, it would be quite a headache to create a composite button for the purposes of tandem, so instead the
-          // large and small buttons are registered as separate instances.  See https://github.com/phetsims/phet-io/issues/99
-          tandem: tandem.createTandem( screen.tandem.tail + 'LargeButton' )
-
+          cursor: 'pointer'
         } );
+
+      // Even though in the user interface the small and large buttons seem like a single UI component that has grown
+      // larger, it would be quite a headache to create a composite button for the purposes of tandem, so instead the
+      // large and small buttons are registered as separate instances.  See https://github.com/phetsims/phet-io/issues/99
+      var smallTandem = tandem.createTandem( screen.tandem.tail + 'SmallButton' );
 
       isLarge = false;
       var smallScreenButton = new ScreenButton(
@@ -97,16 +101,11 @@ define( function( require ) {
         sim,
         index,
         highlightedScreenIndexProperty,
+        smallTandem,
         {
           spacing: 3,
           cursor: 'pointer',
-
           showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame,
-
-          // Even though in the user interface the small and large buttons seem like a single UI component that has grown
-          // larger, it would be quite a headache to create a composite button for the purposes of tandem, so instead the
-          // large and small buttons are registered as separate instances.  See https://github.com/phetsims/phet-io/issues/99
-          tandem: tandem.createTandem( screen.tandem.tail + 'SmallButton' )
         }
       );
 

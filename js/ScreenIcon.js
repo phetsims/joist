@@ -20,7 +20,6 @@ define( function( require ) {
   /**
    * @param {Node} iconNode
    * @param options
-   * @returns {*}
    * @constructor
    */
   function ScreenIcon( iconNode, options ) {

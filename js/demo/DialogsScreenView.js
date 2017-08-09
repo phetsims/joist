@@ -23,14 +23,21 @@ define( function( require ) {
   /**
    * @constructor
    */
-  function DialogsDemoView() {
+  function DialogsScreenView() {
 
     ScreenView.call( this );
+
+    // dialog will be created the first time the button is pressed, lazily because Dialog
+    // requires sim bounds during Dialog construction
+    var dialog = null;
 
     var modalDialogButton = new RectangularPushButton( {
       content: new Text( 'modal dialog', { font: BUTTON_FONT } ),
       listener: function() {
-        createDialog( true ).show();
+        if ( !dialog ) {
+          dialog = createDialog( true );
+        }
+        dialog.show();
       },
       left: this.layoutBounds.left + 100,
       top: this.layoutBounds.top + 100
@@ -48,7 +55,7 @@ define( function( require ) {
     // this.addChild( nonModalDialogButton );
   }
 
-  joist.register( 'DialogsDemoView', DialogsDemoView );
+  joist.register( 'DialogsScreenView', DialogsScreenView );
 
   /**
    * Creates a model or non-modal dialog
@@ -65,5 +72,5 @@ define( function( require ) {
     } );
   };
 
-  return inherit( ScreenView, DialogsDemoView );
+  return inherit( ScreenView, DialogsScreenView );
 } );

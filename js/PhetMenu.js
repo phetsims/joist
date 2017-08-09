@@ -19,20 +19,20 @@ define( function( require ) {
   var AboutDialog = require( 'JOIST/AboutDialog' );
   var OptionsDialog = require( 'JOIST/OptionsDialog' );
   var UpdateDialog = require( 'JOIST/UpdateDialog' );
-  var MenuItem = require( 'JOIST/MenuItem' );
+  var MenuItem = require( 'SUN/MenuItem' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var FullScreen = require( 'JOIST/FullScreen' );
   var Brand = require( 'BRAND/Brand' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
-  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var joist = require( 'JOIST/joist' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
-
-  // phet-io modules
-  var TPhetMenu = require( 'ifphetio!PHET_IO/types/joist/TPhetMenu' );
+  var Input = require( 'SCENERY/input/Input' );
+  var Display = require( 'SCENERY/display/Display' );
+  var AccessibilityUtil = require( 'SCENERY/accessibility/AccessibilityUtil' );
+  var TPhetMenu = require( 'JOIST/TPhetMenu' );
 
   // strings
   var menuItemOptionsString = require( 'string!JOIST/menuItem.options' );
@@ -85,48 +85,52 @@ define( function( require ) {
    */
   function PhetMenu( sim, tandem, options ) {
 
-    //Only show certain features for PhET Sims, such as links to our website
+    // Only show certain features for PhET Sims, such as links to our website
     var isPhETBrand = Brand.id === 'phet';
     var isPhetApp = Brand.isPhetApp;
 
     options = _.extend( {
 
-      //For sims that have save/load enabled, show menu items for those.
-      showSaveAndLoad: false
+      // For sims that have save/load enabled, show menu items for those.
+      showSaveAndLoad: false,
 
+      phetioType: TPhetMenu
     }, options );
 
-    var self = this;
-    Node.call( self );
+    options.tandem = tandem;
 
-    // Define optionsDialog outside callbacks to avoid recreating
+    var self = this;
+    Node.call( this );
+
+    // Dialogs that could be constructed by the menu. The menu will create a dialog the
+    // first time the item is selected, and they will be reused after that.  Must
+    // be created lazily because Dialog requires Sim to have bounds during construction
+    var aboutDialog = null;
     var optionsDialog = null;
+    var updateDialog = null;
 
     /*
-     * Description of the items in the menu. Each descriptor has these properties:
-     * {string} text - the item's text
-     * {boolean} present - whether the item should be added to the menu
-     * {function} callback - called when the item fires
+     * Description of the items in the menu. See Menu Item for a list of properties for each itemDescriptor
      */
     var itemDescriptors = [
       {
         text: menuItemOptionsString,
         present: !!sim.options.optionsNode,
         callback: function() {
-
           if ( !optionsDialog ) {
-            optionsDialog = new OptionsDialog( sim.options.optionsNode, {
-              tandem: tandem.createTandem( 'optionsDialog' )
-            } );
+            optionsDialog = new OptionsDialog( sim.options.optionsNode, { tandem: tandem.createTandem( 'optionsDialog' ) } );
           }
-
           optionsDialog.show();
         },
-        tandem: tandem.createTandem( 'optionsButton' )
+        tandem: tandem.createTandem( 'optionsMenuItem' ),
+
+        // a11y
+        tagName: 'button',
+        focusAfterCallback: true
       },
       {
         text: menuItemPhetWebsiteString,
-        tandem: tandem.createTandem( 'phetWebsiteButton' ),
+        tandem: tandem.createTandem( 'phetWebsiteMenuItem' ),
         present: isPhETBrand,
         callback: function() {
           if ( !fuzzMouse ) {
@@ -134,7 +138,10 @@ define( function( require ) {
             var phetWindow = window.open( 'http://phet.colorado.edu/' + sim.locale, '_blank' );
             phetWindow.focus();
           }
-        }
+        },
+
+        // a11y
+        tagName: 'button'
       },
       {
         text: menuItemOutputInputEventsLogString,
@@ -142,7 +149,8 @@ define( function( require ) {
         callback: function() {
           // prints the recorded input event log to the console
           console.log( sim.getRecordedInputEventLogString() );
-        }
+        },
+        tagName: 'button'
       },
       {
         text: menuItemSubmitInputEventsLogString,
@@ -150,7 +158,8 @@ define( function( require ) {
         callback: function() {
           // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
           sim.submitEventLog();
-        }
+        },
+        tagName: 'button'
       },
       {
         text: menuItemMailInputEventsLogString,
@@ -158,7 +167,8 @@ define( function( require ) {
         callback: function() {
           // mailto: link including the body to email
           sim.mailEventLog();
-        }
+        },
+        tagName: 'button'
       },
       {
         text: menuItemReportAProblemString,
@@ -186,7 +196,8 @@ define( function( require ) {
             reportWindow.focus();
           }
         },
-        tandem: tandem.createTandem( 'reportAProblemButton' )
+        tandem: tandem.createTandem( 'reportAProblemMenuItem' ),
+        tagName: 'button'
       },
       {
         text: 'QR code',
@@ -197,7 +208,10 @@ define( function( require ) {
             win.focus();
           }
         },
-        tandem: tandem.createTandem( 'qrCode' )
+        tandem: tandem.createTandem( 'qrCodeMenuItem' ),
+
+        // a11y
+        tagName: 'button'
       },
       {
         text: menuItemGetUpdateString,
@@ -206,9 +220,17 @@ define( function( require ) {
           return state === 'out-of-date' ? '#0a0' : '#000';
         } ),
         callback: function() {
-          new UpdateDialog().show();
+          if ( !updateDialog ) {
+            var phetButton = sim.navigationBar.phetButton;
+            updateDialog = new UpdateDialog( phetButton );
+          }
+          updateDialog.show();
         },
-        tandem: tandem.createTandem( 'getUpdate' )
+        tandem: tandem.createTandem( 'getUpdateMenuItem' ),
+
+        // a11y
+        tagName: 'button',
+        focusAfterCallback: true
       },
 
       // "Screenshot" Menu item
@@ -243,7 +265,8 @@ define( function( require ) {
             window.open( dataURL, '_blank', '' );
           }
         },
-        tandem: tandem.createTandem( 'screenshotMenuItem' )
+        tandem: tandem.createTandem( 'screenshotMenuItem' ),
+        tagName: 'button'
       },
       {
         text: menuItemFullscreenString,
@@ -252,7 +275,8 @@ define( function( require ) {
         callback: function() {
           FullScreen.toggleFullScreen( sim );
         },
-        tandem: tandem.createTandem( 'fullScreenButton' )
+        tandem: tandem.createTandem( 'fullScreenMenuItem' ),
+        tagName: 'button'
       },
 
       //About dialog button
@@ -261,13 +285,20 @@ define( function( require ) {
         present: true,
         separatorBefore: isPhETBrand,
         callback: function() {
-          new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, tandem.createTandem( 'aboutDialog' ) ).show();
+          if ( !aboutDialog ) {
+            var phetButton = sim.navigationBar.phetButton;
+            aboutDialog = new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, phetButton, tandem.createTandem( 'aboutDialog' ) );
+          }
+          aboutDialog.show();
         },
-        tandem: tandem.createTandem( 'aboutButton' )
+        tandem: tandem.createTandem( 'aboutMenuItem' ),
+        tagName: 'button',
+        focusAfterCallback: true
       }
     ];
 
-    // Menu items have uniform size, so compute the max text dimensions.
+    // Menu items have uniform size, so compute the max text dimensions.  These are only used for sizing and thus don't
+    // need to be tandemized.
     var keepItemDescriptors = _.filter( itemDescriptors, function( itemDescriptor ) {return itemDescriptor.present;} );
     var textNodes = _.map( keepItemDescriptors, function( item ) {
       return new Text( item.text, {
@@ -280,18 +311,25 @@ define( function( require ) {
 
     // Create the menu items.
     var items = this.items = _.map( keepItemDescriptors, function( itemDescriptor ) {
-      return new MenuItem(
-        itemDescriptor.text,
-        maxTextWidth,
-        maxTextHeight,
-        itemDescriptor.separatorBefore,
-        options.closeCallback,
-        itemDescriptor.callback,
-        itemDescriptor.checkedProperty, {
-          tandem: itemDescriptor.tandem,
-          textFill: itemDescriptor.textFill
-        } );
-    } );
+
+        return new MenuItem(
+          maxTextWidth,
+          maxTextHeight,
+          options.closeCallback,
+          itemDescriptor.text,
+          itemDescriptor.callback,
+          {
+            textFill: itemDescriptor.textFill,
+            checkedProperty: itemDescriptor.checkedProperty,
+            separatorBefore: itemDescriptor.separatorBefore,
+            tandem: itemDescriptor.tandem,
+            tagName: itemDescriptor.tagName,
+            focusAfterCallback: itemDescriptor.focusAfterCallback
+          }
+        );
+      }
+    );
+
     var separatorWidth = _.maxBy( items, function( item ) {return item.width;} ).width;
     var itemHeight = _.maxBy( items, function( item ) {return item.height;} ).height;
     var content = new Node();
@@ -316,41 +354,74 @@ define( function( require ) {
     var Y_MARGIN = 5;
     var bubble = createBubble( content.width + X_MARGIN + X_MARGIN, content.height + Y_MARGIN + Y_MARGIN );
 
-    self.addChild( bubble );
-    self.addChild( content );
+    this.addChild( bubble );
+    this.addChild( content );
     content.left = X_MARGIN;
     content.top = Y_MARGIN;
-
-    // @public (accessibility)
-    this.accessibleContent = {
-      createPeer: function( accessibleInstance ) {
-        /*
-         * Element of the parallel DOM should look like:
-         */
-        var domElement = document.createElement( 'div' );
-        domElement.className = 'PhetMenu';
-        domElement.tabIndex = '-1';
-
-        // keydown event will bubble down to menu items
-        domElement.addEventListener( 'keydown', function( event ) {
-          if ( event.keyCode === 27 ) {
-            self.exitMenu();
-          }
-        } );
-
-        self.dispose();
-
-        return new AccessiblePeer( accessibleInstance, domElement );
-
-      }
-    };
 
     // @private (PhetButton.js) - whether the PhetMenu is showing
     this.isShowing = false;
 
-    tandem.addInstance( this, TPhetMenu );
+    // a11y, tagname and role for content in the menu
+    this.tagName = 'ul';
+    this.ariaRole = 'menu';
+
+    // a11y - add the keydown listener, handling arrow, escape, and tab keys
+    // When using the arrow keys, we prevent the virtual cursor from moving in VoiceOver
+    var keydownListener = this.addAccessibleInputListener( {
+      keydown: function( event ) {
+        var firstItem = self.items[ 0 ];
+        var lastItem = self.items[ self.items.length - 1 ];
+
+        // this attempts to prevents the scren reader's virtual cursor from also moving with the arrow keys
+        if ( Input.isArrowKey( event.keyCode ) ) {
+          event.preventDefault();
+        }
+
+        if ( event.keyCode === Input.KEY_DOWN_ARROW ) {
+
+          // On down arrow, focus next item in the list, or wrap up to the first item if focus is at the end
+          var nextFocusable = lastItem.focussed ? firstItem : AccessibilityUtil.getNextFocusable();
+          nextFocusable.focus();
+        }
+        else if ( event.keyCode === Input.KEY_UP_ARROW ) {
+
+          // On up arow, focus previous item in the list, or wrap back to the last item if focus is on first item
+          var previousFocusable = firstItem.focussed ? lastItem : AccessibilityUtil.getPreviousFocusable();
+          previousFocusable.focus();
+        }
+        else if ( event.keyCode === Input.KEY_ESCAPE ) {
+
+          // On escape, close the menu and focus the PhET button
+          options.closeCallback();
+          sim.navigationBar.phetButton.focus();
+        }
+        else if ( event.keyCode === Input.KEY_TAB ) {
+
+          // close the menu whenever the user tabs out of it
+          options.closeCallback();
+
+          // send focus back to the phet button - the browser should then focus the next/previous focusable
+          // element with default 'tab' behavior
+          sim.navigationBar.phetButton.focus();
+        }
+      }
+    } );
+
+    // a11y - if the focus goes to something outside of the PhET menu, close it
+    var focusListener = function( focus ) {
+      if ( focus && !_.includes( focus.trail.nodes, self ) ) {
+        self.hide();
+      }
+    };
+    Display.focusProperty.lazyLink( focusListener );
+
+
+    this.mutate( options);
+
     this.disposePhetMenu = function() {
-      tandem.removeInstance( self );
+      self.removeAccessibleInputListener( keydownListener );
+      Display.focusProperty.unlink( focusListener );
     };
   }
 
@@ -358,28 +429,13 @@ define( function( require ) {
 
   inherit( Node, PhetMenu, {
 
-    /**
-     * Close the menu from a keystroke
-     * @public (accessibility)
-     */
-    exitMenu: function() {
-
-      // all screen view elements are injected back into the navigation order.
-      var screenViewElements = document.getElementsByClassName( 'screenView' );
-      _.each( screenViewElements, function( element ) {
-        element.hidden = false;
-      } );
-
-      // make sure that the phet button is also in the tab order.
-      document.getElementsByClassName( 'PhetButton' )[ 0 ].hidden = false;
-
-      // hide the menu
-      this.hide();
-    },
-
     // @public
     show: function() {
       if ( !this.isShowing ) {
+
+        // make sure that any previously focused elements no longer have focus
+        Display.focusProperty.set( null );
+
         window.phet.joist.sim.showPopup( this, true );
         this.isShowing = true;
       }

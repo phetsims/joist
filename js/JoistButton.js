@@ -18,9 +18,7 @@ define( function( require ) {
   var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
   var Property = require( 'AXON/Property' );
   var joist = require( 'JOIST/joist' );
-
-  // phet-io modules
-  var TJoistButton = require( 'ifphetio!PHET_IO/types/joist/TJoistButton' );
+  var TJoistButton = require( 'JOIST/TJoistButton' );
 
   /**
    * @param {Node} content - the scenery node to render as the content of the button
@@ -39,10 +37,14 @@ define( function( require ) {
       highlightExtensionWidth: 0,
       highlightExtensionHeight: 0,
       highlightCenterOffsetX: 0,
-      highlightCenterOffsetY: 0
+      highlightCenterOffsetY: 0,
+
+      phetioType: TJoistButton
     }, options );
 
-    // @private - Button model
+    options.tandem = tandem;
+
+    // @public (phet-io) - Button model
     this.buttonModel = new PushButtonModel( options );
 
     // Create both highlights and only make the one visible that corresponds to the color scheme
@@ -82,10 +84,7 @@ define( function( require ) {
     // eliminate interactivity gap between label and button
     this.mouseArea = this.touchArea = Shape.bounds( this.bounds );
 
-    this.mutate( _.omit( options, 'tandem' ) );
-
-    // Rename to TJoistButton
-    tandem.addInstance( this, TJoistButton );
+    this.mutate( options );
   }
 
   joist.register( 'JoistButton', JoistButton );
