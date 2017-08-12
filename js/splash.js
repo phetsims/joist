@@ -85,10 +85,9 @@
     var previousSplashContainer = document.getElementById( SPLASH_CONTAINER_ID );
     previousSplashContainer && previousSplashContainer.parentNode.removeChild( previousSplashContainer );
 
-    // After creating and positioning the div, add it to the body
-    if ( splashImage.naturalWidth > 0 && splashImage.naturalHeight > 0 ) {
-      document.body.appendChild( div );
-    }
+    // After creating and positioning the div, add it to the body.  This could show in the wrong position if the image
+    // dimensions are 0x0, see https://github.com/phetsims/joist/issues/408
+    document.body.appendChild( div );
   };
 
   // Create the progress bar
