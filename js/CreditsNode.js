@@ -39,6 +39,11 @@ define( function( require ) {
    * @constructor
    */
   function CreditsNode( credits, options ) {
+
+    options = _.extend( {
+      maxWidth: 550
+    }, options );
+
     var titleFont = new PhetFont( { size: 14, weight: 'bold' } );
     var font = new PhetFont( 12 );
     var multiLineTextOptions = { font: font, align: 'left', lineWrap: options.maxWidth };
