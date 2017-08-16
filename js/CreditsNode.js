@@ -35,12 +35,14 @@ define( function( require ) {
   /**
    * Creates node that displays the credits.
    * @param {Object} credits - see implementation herein for supported {string} fields
-   * @param {Object} [options] - Passed to VBox and RichText
+   * @param {Object} [options]
    * @constructor
    */
   function CreditsNode( credits, options ) {
 
     options = _.extend( {
+      align: 'left',
+      spacing: 1,
       maxWidth: 550
     }, options );
 
@@ -99,11 +101,10 @@ define( function( require ) {
       children.push( new RichText( credits.thanks, multiLineTextOptions ) );
     }
 
-    VBox.call( this, _.extend( {
-      align: 'left',
-      spacing: 1,
-      children: children
-    }, options ) );
+    assert && assert( !options.children, 'this node sets its own children' );
+    options.children = children;
+
+    VBox.call( this, options );
 
     this.disposeCreditsNode = function() {
       children.forEach( function( child ) {
