@@ -56,7 +56,7 @@ define( function( require ) {
   // This must be set before the simulation is launched in order to ensure that no errant stepSimulation steps are called
   // before the playback events begin.  This value is overridden for playback by TPhETIO.
   // @public (phet-io)
-  phet.joist.playbackModeEnabledProperty = new BooleanProperty( false );
+  phet.joist.playbackModeEnabledProperty = new BooleanProperty( phet.chipper.queryParameters.playbackMode );
 
   /**
    * Main Sim constructor

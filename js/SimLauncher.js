@@ -56,7 +56,15 @@ define( function( require ) {
           SimIFrameAPI.initialize(); // calls back to window.phetLaunchSimulation
         }
 
-        if ( phet.phetio && !phet.phetio.queryParameters.phetioStandalone ) {
+        if ( phet.chipper.queryParameters.postMessageOnReady ) {
+          window.parent && window.parent.postMessage( JSON.stringify( {
+            type: 'ready',
+            url: window.location.href
+          } ), '*' );
+        }
+
+        if ( ( phet.phetio && !phet.phetio.queryParameters.phetioStandalone ) ||
+             phet.chipper.queryParameters.playbackMode ) {
 
           // Wait for phet-io to finish adding listeners. It will direct the launch from there.
         }
