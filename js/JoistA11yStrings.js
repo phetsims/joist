@@ -19,6 +19,9 @@ define( function( require ) {
     hotKeysAndHelpString: 'Keyboard Shortcuts',
     closeString: 'Close',
 
+    // sections in a simulation
+    playAreaString: 'Play Area',
+
     // navigation bar
     simResourcesAndToolsString: 'Sim Resources and Tools',
 
