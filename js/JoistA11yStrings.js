@@ -20,7 +20,9 @@ define( function( require ) {
     closeString: 'Close',
 
     // sections in a simulation
+    sceneSummaryString: 'Scene Summary',
     playAreaString: 'Play Area',
+    controlPanelString: 'Control Panel',
 
     // navigation bar
     simResourcesAndToolsString: 'Sim Resources and Tools',
