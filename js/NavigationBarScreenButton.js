@@ -149,6 +149,7 @@ define( function( require ) {
     else {
 
       // Don't allow the text to grow larger than the icon if changed later on using PhET-iO, see #438
+      // Text is allowed to go beyond the bounds of the icon, hence we use `this.width` instead of `icon.width`
       text.maxWidth = this.width;
     }
 
