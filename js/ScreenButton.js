@@ -69,9 +69,9 @@ define( function( require ) {
 
     // Frame for large
     var frame = large ? new Frame( icon ) : new Rectangle( 0, 0, icon.width, icon.height, {
-                        stroke: options.showSmallHomeScreenIconFrame ? '#dddddd' : null,
-                        lineWidth: 0.7
-                      } );
+      stroke: options.showSmallHomeScreenIconFrame ? '#dddddd' : null,
+      lineWidth: 0.7
+    } );
 
     // Create the icon with the frame inside
     var iconWithFrame = new Node( {
@@ -87,9 +87,7 @@ define( function( require ) {
     } );
 
     // Shrink the text if it goes beyond the edge of the image
-    if ( text.width > iconWithFrame.width ) {
-      text.scale( iconWithFrame.width / text.width );
-    }
+    text.maxWidth = iconWithFrame.width;
 
     // Only link if a large button
     highlightedScreenIndexProperty.link( function( highlightedIndex ) {
