@@ -146,6 +146,11 @@ define( function( require ) {
 
       assert && assert( Util.toFixed( this.width, 0 ) === Util.toFixed( options.maxButtonWidth, 0 ) );
     }
+    else {
+
+      // Don't allow the text to grow larger than the icon if changed later on using PhET-iO, see #438
+      text.maxWidth = this.width;
+    }
 
     this.mutate( options );
   }
