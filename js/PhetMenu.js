@@ -381,13 +381,13 @@ define( function( require ) {
         if ( event.keyCode === Input.KEY_DOWN_ARROW ) {
 
           // On down arrow, focus next item in the list, or wrap up to the first item if focus is at the end
-          var nextFocusable = lastItem.focussed ? firstItem : AccessibilityUtil.getNextFocusable();
+          var nextFocusable = lastItem.focused ? firstItem : AccessibilityUtil.getNextFocusable();
           nextFocusable.focus();
         }
         else if ( event.keyCode === Input.KEY_UP_ARROW ) {
 
           // On up arow, focus previous item in the list, or wrap back to the last item if focus is on first item
-          var previousFocusable = firstItem.focussed ? lastItem : AccessibilityUtil.getPreviousFocusable();
+          var previousFocusable = firstItem.focused ? lastItem : AccessibilityUtil.getPreviousFocusable();
           previousFocusable.focus();
         }
         else if ( event.keyCode === Input.KEY_ESCAPE ) {
