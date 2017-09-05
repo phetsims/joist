@@ -174,9 +174,9 @@ define( function( require ) {
 
     // a11y - set the aria labelledby and describedby relations so that whenever focus enters the dialog, the title
     // and description content are read in full
-    content.tagName && content.setAriaDescribesNode( this );
+    content.tagName && this.setAriaDescribedByNode( content );
     if ( options.title ) {
-      options.title.tagName && options.title.setAriaLabelsNode( this );
+      options.title.tagName && this.setAriaLabelledByNode( options.title );
     }
 
     // must be removed on dispose

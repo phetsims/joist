@@ -195,7 +195,7 @@ define( function( require ) {
     } );
 
     // a11y - set label association so the title is read when focus enters the dialog
-    titleText.setAriaLabelsNode( this );
+    this.setAriaLabelledByNode( titleText );
 
     // close it on a click
     var closeListener = new ButtonListener( {
