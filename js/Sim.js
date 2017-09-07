@@ -664,7 +664,11 @@ define( function( require ) {
       // Schedule instantiation of the screens
       screens.forEach( function initializeScreen( screen ) {
         workItems.push( function() {
-          screen.backgroundColorProperty.link( self.updateBackground );
+
+          // Screens may share the same instance of backgroundProperty, see joist#441
+          if ( !screen.backgroundColorProperty.hasListener( self.updateBackground ) ) {
+            screen.backgroundColorProperty.link( self.updateBackground );
+          }
           screen.initializeModel();
         } );
         workItems.push( function() {
