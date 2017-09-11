@@ -99,7 +99,7 @@ define( function( require ) {
     // phetioEmitData is false because we only want this manually wired for phetio event recording.
     this.frameEndedEmitter = new Emitter( {
       tandem: simTandem.createTandem( 'frameEndedEmitter' ),
-      phetioArgumentTypes: [ TNumber( { units: 'seconds' } ) ],
+      phetioArgumentTypes: [ TNumber ],
       phetioEmitData: false // An adapter in phetio will create input events when recording for playback.
       // If we are not recording for visual playback, then we omit these from the data stream so that we don't get spammed with dt's.
     } );
@@ -178,7 +178,8 @@ define( function( require ) {
     // @public (joist-internal) - The selected screen's index
     this.screenIndexProperty = new Property( options.screenIndex, {
       tandem: tandem.createTandem( 'sim.screenIndexProperty' ),
-      phetioValueType: TNumber( { values: _.range( 0, screens.length ) } )
+      validValues: _.range( 0, screens.length ),
+      phetioValueType: TNumber
     } );
 
     // @public
