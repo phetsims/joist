@@ -83,10 +83,12 @@ define( function( require ) {
     // @public (phet-io)
     this.tandem = tandem;
 
-    // @public (phet-io) Emitter for PhET-iO data stream to describe the startup sequence
-    this.startedSimConstructorEmitter = new Emitter();
+    // @public Emitter that indicates sim construction began.  This was added for PhET-iO but can be used by any client.
+    this.startedSimConstructionEmitter = new Emitter();
 
-    // @public (phet-io) Emitter for PhET-iO data stream to describe the startup sequence
+    // @public Emitter that indicates sim construction completed.  This was added for PhET-iO but can be used by any client.
+    // This does not coincide with the end of the Sim constructor (because Sim has asynchronous steps that finish
+    // after the constructor is completed)
     this.endedSimConstructionEmitter = new Emitter();
 
     // @public Emitter that indicates when the sim resized
@@ -287,7 +289,7 @@ define( function( require ) {
       };
     }
 
-    this.startedSimConstructorEmitter.emit1( {
+    this.startedSimConstructionEmitter.emit1( {
       repoName: packageJSON.name,
       simName: this.name,
       simVersion: this.version,

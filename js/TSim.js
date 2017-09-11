@@ -35,10 +35,10 @@ define( function( require ) {
     assertInstanceOf( sim, phet.joist.Sim );
     TObject.call( this, sim, phetioID );
 
-    // startedSimConstructorEmitter is called in the constructor of the sim, and endedSimConstructionEmitter is called
+    // startedSimConstructionEmitter is called in the constructor of the sim, and endedSimConstructionEmitter is called
     // once all of the screens have been fully initialized, hence construction not constructor.
     // The simStarted event is guaranteed to be a top-level event, not nested under other events.
-    toEventOnEmit( sim.startedSimConstructorEmitter, sim.endedSimConstructionEmitter, 'model', phetioID, this.constructor, SIM_STARTED,
+    toEventOnEmit( sim.startedSimConstructionEmitter, sim.endedSimConstructionEmitter, 'model', phetioID, this.constructor, SIM_STARTED,
       function( value ) {
         var simData = {
           repoName: value.repoName,
