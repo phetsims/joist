@@ -10,9 +10,9 @@ define( function( require ) {
 
   // phet-io modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
+  var joist = require( 'JOIST/joist' );
   var phetio = require( 'ifphetio!PHET_IO/phetio' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  var joist = require( 'JOIST/joist' );
   var SimIFrameAPI = require( 'ifphetio!PHET_IO/SimIFrameAPI' );
   var TFunctionWrapper = require( 'ifphetio!PHET_IO/types/TFunctionWrapper' );
   var TObject = require( 'ifphetio!PHET_IO/types/TObject' );

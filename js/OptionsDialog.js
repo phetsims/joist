@@ -9,12 +9,12 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Text = require( 'SCENERY/nodes/Text' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Dialog = require( 'JOIST/Dialog' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var Text = require( 'SCENERY/nodes/Text' );
   var TOptionsDialog = require( 'JOIST/TOptionsDialog' );
 
   // strings

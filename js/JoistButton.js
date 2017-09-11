@@ -9,15 +9,15 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Node = require( 'SCENERY/nodes/Node' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Shape = require( 'KITE/Shape' );
-  var HighlightNode = require( 'JOIST/HighlightNode' );
   var ButtonListener = require( 'SUN/buttons/ButtonListener' );
+  var HighlightNode = require( 'JOIST/HighlightNode' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var joist = require( 'JOIST/joist' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var Property = require( 'AXON/Property' );
   var PushButtonInteractionStateProperty = require( 'SUN/buttons/PushButtonInteractionStateProperty' );
   var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
-  var Property = require( 'AXON/Property' );
-  var joist = require( 'JOIST/joist' );
+  var Shape = require( 'KITE/Shape' );
   var TJoistButton = require( 'JOIST/TJoistButton' );
 
   /**

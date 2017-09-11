@@ -11,14 +11,14 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Property = require( 'AXON/Property' );
-  var Shape = require( 'KITE/Shape' );
   var Image = require( 'SCENERY/nodes/Image' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var joist = require( 'JOIST/joist' );
+  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var JoistButton = require( 'JOIST/JoistButton' );
   var KeyboardHelpDialog = require( 'JOIST/KeyboardHelpDialog' );
-  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
-  var joist = require( 'JOIST/joist' );
+  var Property = require( 'AXON/Property' );
+  var Shape = require( 'KITE/Shape' );
 
   // images
   var brightIconMipmap = require( 'mipmap!JOIST/keyboard-icon.png' ); // on a black navbar

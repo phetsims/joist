@@ -10,10 +10,10 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var joist = require( 'JOIST/joist' );
+  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
-  var joist = require( 'JOIST/joist' );
 
   /**
    * @param {Node} content

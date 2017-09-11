@@ -11,11 +11,11 @@ define( function( require ) {
   // modules
   var Dialog = require( 'JOIST/Dialog' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var joist = require( 'JOIST/joist' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var joist = require( 'JOIST/joist' );
 
   // constants
   var BUTTON_FONT = new PhetFont( { size: 20 } );

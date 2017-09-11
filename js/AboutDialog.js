@@ -9,24 +9,24 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var VBox = require( 'SCENERY/nodes/VBox' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var inherit = require( 'PHET_CORE/inherit' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var VStrut = require( 'SCENERY/nodes/VStrut' );
-  var Dialog = require( 'JOIST/Dialog' );
-  var Timer = require( 'PHET_CORE/Timer' );
   var CreditsNode = require( 'JOIST/CreditsNode' );
-  var UpdateNodes = require( 'JOIST/UpdateNodes' );
-  var UpdateCheck = require( 'JOIST/UpdateCheck' );
-  var LinkText = require( 'JOIST/LinkText' );
-  var RichText = require( 'SCENERY/nodes/RichText' );
-  var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
-  var packageJSON = require( 'JOIST/packageJSON' );
+  var Dialog = require( 'JOIST/Dialog' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
+  var LinkText = require( 'JOIST/LinkText' );
+  var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var packageJSON = require( 'JOIST/packageJSON' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var RichText = require( 'SCENERY/nodes/RichText' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var Text = require( 'SCENERY/nodes/Text' );
+  var Timer = require( 'PHET_CORE/Timer' );
+  var UpdateCheck = require( 'JOIST/UpdateCheck' );
+  var UpdateNodes = require( 'JOIST/UpdateNodes' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
+  var VStrut = require( 'SCENERY/nodes/VStrut' );
 
   // strings
   var versionPatternString = require( 'string!JOIST/versionPattern' );

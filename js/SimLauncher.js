@@ -10,13 +10,13 @@ define( function( require ) {
   // modules
   var checkNamespaces = require( 'JOIST/checkNamespaces' );
   var joist = require( 'JOIST/joist' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var Random = require( 'DOT/Random' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // phet-io modules
+  var phetio = require( 'ifphetio!PHET_IO/phetio' );
   var SimIFrameAPI = require( 'ifphetio!PHET_IO/SimIFrameAPI' );
   var TPhETIO = require( 'ifphetio!PHET_IO/types/TPhETIO' );
-  var phetio = require( 'ifphetio!PHET_IO/phetio' );
 
   var SimLauncher = {
 

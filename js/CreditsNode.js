@@ -11,15 +11,15 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var joist = require( 'JOIST/joist' );
+  // var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var joist = require( 'JOIST/joist' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var RichText = require( 'SCENERY/nodes/RichText' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var VStrut = require( 'SCENERY/nodes/VStrut' );
-  // var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   // strings
   var creditsContributorsString = require( 'string!JOIST/credits.contributors' );

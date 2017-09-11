@@ -27,18 +27,18 @@ define( function( require ) {
   // modules
   var Dimension2 = require( 'DOT/Dimension2' );
   var HomeButton = require( 'JOIST/HomeButton' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var platform = require( 'PHET_CORE/platform' );
-  var NavigationBarScreenButton = require( 'JOIST/NavigationBarScreenButton' );
   var HomeScreenView = require( 'JOIST/HomeScreenView' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var joist = require( 'JOIST/joist' );
+  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
+  var KeyboardHelpButton = require( 'JOIST/KeyboardHelpButton' );
+  var NavigationBarScreenButton = require( 'JOIST/NavigationBarScreenButton' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetButton = require( 'JOIST/PhetButton' );
-  var KeyboardHelpButton = require( 'JOIST/KeyboardHelpButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var platform = require( 'PHET_CORE/platform' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
-  var joist = require( 'JOIST/joist' );
 
   // constants
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );

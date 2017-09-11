@@ -9,14 +9,14 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Node = require( 'SCENERY/nodes/Node' );
-  var inherit = require( 'PHET_CORE/inherit' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Dialog = require( 'JOIST/Dialog' );
-  var Timer = require( 'PHET_CORE/Timer' );
-  var UpdateNodes = require( 'JOIST/UpdateNodes' );
-  var UpdateCheck = require( 'JOIST/UpdateCheck' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var Timer = require( 'PHET_CORE/Timer' );
+  var UpdateCheck = require( 'JOIST/UpdateCheck' );
+  var UpdateNodes = require( 'JOIST/UpdateNodes' );
 
   /**
    * @param {PhETButton} phetButton - PhET button in the navigation bar, receives focus when this dialog is closed

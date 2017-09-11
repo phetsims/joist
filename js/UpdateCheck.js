@@ -12,12 +12,12 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Property = require( 'AXON/Property' );
-  var packageJSON = require( 'JOIST/packageJSON' ); // parse name/version out of the package.json
-  var SimVersion = require( 'JOIST/SimVersion' );
   var Brand = require( 'BRAND/Brand' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
+  var packageJSON = require( 'JOIST/packageJSON' ); // parse name/version out of the package.json
+  var Property = require( 'AXON/Property' );
+  var SimVersion = require( 'JOIST/SimVersion' );
 
   var simName = packageJSON.name;
   var simVersion = SimVersion.parse( packageJSON.version, phet.chipper.buildTimestamp );

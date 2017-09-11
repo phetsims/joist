@@ -10,40 +10,40 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var platform = require( 'PHET_CORE/platform' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Shape = require( 'KITE/Shape' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var inherit = require( 'PHET_CORE/inherit' );
   var AboutDialog = require( 'JOIST/AboutDialog' );
-  var OptionsDialog = require( 'JOIST/OptionsDialog' );
-  var UpdateDialog = require( 'JOIST/UpdateDialog' );
-  var MenuItem = require( 'SUN/MenuItem' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var FullScreen = require( 'JOIST/FullScreen' );
-  var Brand = require( 'BRAND/Brand' );
-  var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
-  var UpdateCheck = require( 'JOIST/UpdateCheck' );
-  var joist = require( 'JOIST/joist' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var Input = require( 'SCENERY/input/Input' );
-  var Display = require( 'SCENERY/display/Display' );
   var AccessibilityUtil = require( 'SCENERY/accessibility/AccessibilityUtil' );
+  var Brand = require( 'BRAND/Brand' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var Display = require( 'SCENERY/display/Display' );
+  var FullScreen = require( 'JOIST/FullScreen' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Input = require( 'SCENERY/input/Input' );
+  var joist = require( 'JOIST/joist' );
+  var MenuItem = require( 'SUN/MenuItem' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var OptionsDialog = require( 'JOIST/OptionsDialog' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var platform = require( 'PHET_CORE/platform' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
+  var Shape = require( 'KITE/Shape' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var Text = require( 'SCENERY/nodes/Text' );
   var TPhetMenu = require( 'JOIST/TPhetMenu' );
+  var UpdateCheck = require( 'JOIST/UpdateCheck' );
+  var UpdateDialog = require( 'JOIST/UpdateDialog' );
 
   // strings
-  var menuItemOptionsString = require( 'string!JOIST/menuItem.options' );
   var menuItemAboutString = require( 'string!JOIST/menuItem.about' );
+  var menuItemFullscreenString = require( 'string!JOIST/menuItem.fullscreen' );
+  var menuItemGetUpdateString = require( 'string!JOIST/menuItem.getUpdate' );
   var menuItemMailInputEventsLogString = require( 'string!JOIST/menuItem.mailInputEventsLog' );
+  var menuItemOptionsString = require( 'string!JOIST/menuItem.options' );
   var menuItemOutputInputEventsLogString = require( 'string!JOIST/menuItem.outputInputEventsLog' );
   var menuItemPhetWebsiteString = require( 'string!JOIST/menuItem.phetWebsite' );
   var menuItemReportAProblemString = require( 'string!JOIST/menuItem.reportAProblem' );
   var menuItemScreenshotString = require( 'string!JOIST/menuItem.screenshot' );
-  var menuItemFullscreenString = require( 'string!JOIST/menuItem.fullscreen' );
-  var menuItemGetUpdateString = require( 'string!JOIST/menuItem.getUpdate' );
   var menuItemSubmitInputEventsLogString = require( 'string!JOIST/menuItem.submitInputEventsLog' );
 
   // constants

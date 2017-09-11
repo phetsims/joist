@@ -9,10 +9,10 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Text = require( 'SCENERY/nodes/Text' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
+  var Text = require( 'SCENERY/nodes/Text' );
 
   function LinkText( text, url, options ) {
 

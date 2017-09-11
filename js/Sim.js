@@ -13,33 +13,33 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
+  var BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Dimension2 = require( 'DOT/Dimension2' );
-  var NavigationBar = require( 'JOIST/NavigationBar' );
-  var HomeScreen = require( 'JOIST/HomeScreen' );
-  var HomeScreenView = require( 'JOIST/HomeScreenView' );
-  var UpdateCheck = require( 'JOIST/UpdateCheck' );
-  var Util = require( 'SCENERY/util/Util' );
   var Display = require( 'SCENERY/display/Display' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Property = require( 'AXON/Property' );
-  var BooleanProperty = require( 'AXON/BooleanProperty' );
-  var ObservableArray = require( 'AXON/ObservableArray' );
-  var platform = require( 'PHET_CORE/platform' );
-  var Timer = require( 'PHET_CORE/Timer' );
-  var BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
-  var Profiler = require( 'JOIST/Profiler' );
-  var LookAndFeel = require( 'JOIST/LookAndFeel' );
-  var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
-  var packageJSON = require( 'JOIST/packageJSON' );
-  var PhetButton = require( 'JOIST/PhetButton' );
-  var joist = require( 'JOIST/joist' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var DotUtil = require( 'DOT/Util' );// eslint-disable-line
   var Emitter = require( 'AXON/Emitter' );
-  var TSim = require( 'JOIST/TSim' );
+  var HomeScreen = require( 'JOIST/HomeScreen' );
+  var HomeScreenView = require( 'JOIST/HomeScreenView' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var joist = require( 'JOIST/joist' );
   var LegendsOfLearningSupport = require( 'JOIST/thirdPartySupport/LegendsOfLearningSupport' );
+  var LookAndFeel = require( 'JOIST/LookAndFeel' );
+  var NavigationBar = require( 'JOIST/NavigationBar' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var ObservableArray = require( 'AXON/ObservableArray' );
+  var packageJSON = require( 'JOIST/packageJSON' );
+  var PhetButton = require( 'JOIST/PhetButton' );
+  var platform = require( 'PHET_CORE/platform' );
+  var Profiler = require( 'JOIST/Profiler' );
+  var Property = require( 'AXON/Property' );
+  var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  var Timer = require( 'PHET_CORE/Timer' );
+  var TSim = require( 'JOIST/TSim' );
+  var UpdateCheck = require( 'JOIST/UpdateCheck' );
+  var Util = require( 'SCENERY/util/Util' );
 
   // phet-io modules
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );

@@ -10,16 +10,16 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Dialog = require( 'JOIST/Dialog' );
-  var joist = require( 'JOIST/joist' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var Shape = require( 'KITE/Shape' );
+  var Dialog = require( 'JOIST/Dialog' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var joist = require( 'JOIST/joist' );
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
+  var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var Text = require( 'SCENERY/nodes/Text' );
 
   // constants
   var CLOSE_BUTTON_WIDTH = 7;

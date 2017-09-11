@@ -7,29 +7,29 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
-  var TextPushButton = require( 'SUN/buttons/TextPushButton' );
-  var SpinningIndicatorNode = require( 'SCENERY_PHET/SpinningIndicatorNode' );
-  var VStrut = require( 'SCENERY/nodes/VStrut' );
-  var UpdateCheck = require( 'JOIST/UpdateCheck' );
-  var LinkText = require( 'JOIST/LinkText' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
   var joist = require( 'JOIST/joist' );
+  var LinkText = require( 'JOIST/LinkText' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var SpinningIndicatorNode = require( 'SCENERY_PHET/SpinningIndicatorNode' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var Text = require( 'SCENERY/nodes/Text' );
+  var TextPushButton = require( 'SUN/buttons/TextPushButton' );
+  var UpdateCheck = require( 'JOIST/UpdateCheck' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
+  var VStrut = require( 'SCENERY/nodes/VStrut' );
 
   // strings
-  var updatesUpToDateString = require( 'string!JOIST/updates.upToDate' );
-  var updatesOutOfDateString = require( 'string!JOIST/updates.outOfDate' );
   var updatesCheckingString = require( 'string!JOIST/updates.checking' );
-  var updatesOfflineString = require( 'string!JOIST/updates.offline' );
-  var updatesNewVersionAvailableString = require( 'string!JOIST/updates.newVersionAvailable' );
-  var updatesYourCurrentVersionString = require( 'string!JOIST/updates.yourCurrentVersion' );
   var updatesGetUpdateString = require( 'string!JOIST/updates.getUpdate' );
+  var updatesNewVersionAvailableString = require( 'string!JOIST/updates.newVersionAvailable' );
   var updatesNoThanksString = require( 'string!JOIST/updates.noThanks' );
+  var updatesOfflineString = require( 'string!JOIST/updates.offline' );
+  var updatesOutOfDateString = require( 'string!JOIST/updates.outOfDate' );
+  var updatesUpToDateString = require( 'string!JOIST/updates.upToDate' );
+  var updatesYourCurrentVersionString = require( 'string!JOIST/updates.yourCurrentVersion' );
 
   var updateTextFont = new PhetFont( 14 );
 

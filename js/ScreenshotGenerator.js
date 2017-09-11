@@ -10,8 +10,8 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
   var CanvasContextWrapper = require( 'SCENERY/util/CanvasContextWrapper' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
 
   /**

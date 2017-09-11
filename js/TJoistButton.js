@@ -11,8 +11,8 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var TNode = require( 'SCENERY/nodes/TNode' );
   var joist = require( 'JOIST/joist' );
+  var TNode = require( 'SCENERY/nodes/TNode' );
 
   // phet-io modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );

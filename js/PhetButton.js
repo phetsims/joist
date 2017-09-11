@@ -10,18 +10,18 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Node = require( 'SCENERY/nodes/Node' );
   var Image = require( 'SCENERY/nodes/Image' );
-  var Shape = require( 'KITE/Shape' );
-  var Path = require( 'SCENERY/nodes/Path' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var joist = require( 'JOIST/joist' );
+  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
+  var JoistButton = require( 'JOIST/JoistButton' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var Path = require( 'SCENERY/nodes/Path' );
   var PhetMenu = require( 'JOIST/PhetMenu' );
   var Property = require( 'AXON/Property' );
-  var JoistButton = require( 'JOIST/JoistButton' );
-  var UpdateCheck = require( 'JOIST/UpdateCheck' );
+  var Shape = require( 'KITE/Shape' );
   var TransformTracker = require( 'SCENERY/util/TransformTracker' );
-  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
-  var joist = require( 'JOIST/joist' );
+  var UpdateCheck = require( 'JOIST/UpdateCheck' );
 
   // strings
   var phetString = JoistA11yStrings.phetString;

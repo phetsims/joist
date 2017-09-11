@@ -13,9 +13,9 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var joist = require( 'JOIST/joist' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var joist = require( 'JOIST/joist' );
 
   /**
    * @param {number} width

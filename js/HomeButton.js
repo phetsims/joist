@@ -11,11 +11,11 @@ define( function( require ) {
   // modules
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var joist = require( 'JOIST/joist' );
   var JoistButton = require( 'JOIST/JoistButton' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var joist = require( 'JOIST/joist' );
 
   /**
    * @param {number} navBarHeight

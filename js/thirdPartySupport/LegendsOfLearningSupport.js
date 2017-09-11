@@ -9,8 +9,8 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var joist = require( 'JOIST/joist' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var joist = require( 'JOIST/joist' );
 
   /**
    * @param {Sim} sim

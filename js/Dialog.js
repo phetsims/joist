@@ -10,21 +10,21 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Shape = require( 'KITE/Shape' );
-  var Node = require( 'SCENERY/nodes/Node' );
+  var AccessibilityUtil = require( 'SCENERY/accessibility/AccessibilityUtil' );
+  var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
   var Display = require( 'SCENERY/display/Display' );
-  var Path = require( 'SCENERY/nodes/Path' );
+  var FullScreen = require( 'JOIST/FullScreen' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var Input = require( 'SCENERY/input/Input' );
-  var Panel = require( 'SUN/Panel' );
-  var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var joist = require( 'JOIST/joist' );
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
-  var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
-  var AccessibilityUtil = require( 'SCENERY/accessibility/AccessibilityUtil' );
-  var FullScreen = require( 'JOIST/FullScreen' );
-  var TDialog = require( 'JOIST/TDialog' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var Panel = require( 'SUN/Panel' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
+  var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var TDialog = require( 'JOIST/TDialog' );
 
   // strings
   var closeString = JoistA11yStrings.closeString;

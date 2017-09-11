@@ -15,18 +15,18 @@ define( function( require ) {
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var joist = require( 'JOIST/joist' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var TNavigationBarScreenButton = require( 'JOIST/TNavigationBarScreenButton' );
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
-  var joist = require( 'JOIST/joist' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  var TNavigationBarScreenButton = require( 'JOIST/TNavigationBarScreenButton' );
 
   // constants
   var HIGHLIGHT_SPACING = 4;

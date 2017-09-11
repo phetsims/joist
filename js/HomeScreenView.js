@@ -9,17 +9,17 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var PhetButton = require( 'JOIST/PhetButton' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var ScreenView = require( 'JOIST/ScreenView' );
-  var ScreenButton = require( 'JOIST/ScreenButton' );
-  var Property = require( 'AXON/Property' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var PhetButton = require( 'JOIST/PhetButton' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Property = require( 'AXON/Property' );
+  var ScreenButton = require( 'JOIST/ScreenButton' );
+  var ScreenView = require( 'JOIST/ScreenView' );
+  var Text = require( 'SCENERY/nodes/Text' );
 
 
   // constants
