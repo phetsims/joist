@@ -148,7 +148,11 @@ define( function( require ) {
           font: new PhetFont( 10 ),
           fill: 'gray',
           align: 'left',
-          maxWidth: MAX_WIDTH
+          maxWidth: MAX_WIDTH,
+
+          // a11y
+          tagName: 'p',
+          accessibleLabel: Brand.additionalLicenseStatement
         }
       );
       children.push( this.additionalLicenseStatement );
