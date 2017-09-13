@@ -46,7 +46,10 @@ define( function( require ) {
     // https://github.com/phetsims/joist/issues/17.  This also makes it more responsive (and crisper on retina
     // displays). The renderer must be specified here because the node is added directly to the scene (instead of to
     // some other node that already has svg renderer).
-    ScreenView.call( this, { layoutBounds: LAYOUT_BOUNDS } );
+    ScreenView.call( this, {
+      layoutBounds: LAYOUT_BOUNDS,
+      tandem: tandem
+    } );
 
     var title = new Text( sim.name, {
       font: new PhetFont( {

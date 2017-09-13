@@ -14,6 +14,7 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   /*
    * Default width and height for iPad2, iPad3, iPad4 running Safari with default tabs and decorations
@@ -34,6 +35,7 @@ define( function( require ) {
     Node.call( this, _.extend( {
       layerSplit: true, // so we're not in the same layer as the navbar, etc.
       excludeInvisible: true, // so we don't keep invisible screens in the SVG tree
+      tandem: Tandem.tandemRequired(),
 
       // a11y options
       parentContainerTagName: 'article',
