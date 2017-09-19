@@ -51,9 +51,9 @@ define( function( require ) {
     this.visibleBoundsProperty = new Property( options.layoutBounds );
 
     // @private (a11y) - show/hide accessible content when ScreenView visibility changes
-    this.accessibleHiddenListener = this.updateAccessibleHidden.bind( this );
-    this.on( 'visibility', this.accessibleHiddenListener );
-    this.updateAccessibleHidden();
+    this.accessibleVisibleListener = this.updateAccessibleVisible.bind( this );
+    this.on( 'visibility', this.accessibleVisibleListener );
+    this.updateAccessibleVisible();
   }
 
   joist.register( 'ScreenView', ScreenView );
@@ -109,8 +109,8 @@ define( function( require ) {
        * hidden, nothing in the ScreenView will be tab navigable. 
        * @public
        */
-      updateAccessibleHidden: function() {
-        this.accessibleHidden = !this.visible;
+      updateAccessibleVisible: function() {
+        this.accessibleVisible = this.visible;
       },
 
       /**

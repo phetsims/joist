@@ -255,7 +255,7 @@ define( function( require ) {
         // a11y - store the currently active element before hiding all other accessible content
         // so that the active element isn't blurred
         this.activeElement = this.activeElement || Display.focusedNode;
-        this.setAccessibleViewsHidden( true );
+        this.setAccessibleViewsVisible( false );
 
         // In case the window size has changed since the dialog was hidden, we should try layout out again.
         // See https://github.com/phetsims/joist/issues/362
@@ -273,8 +273,8 @@ define( function( require ) {
         window.phet.joist.sim.hidePopup( this, this.isModal );
         this.isShowing = false;
 
-        // a11y - when the dialog is hidden, unhide all ScreenView content from assistive technology
-        this.setAccessibleViewsHidden( false );
+        // a11y - when the dialog is hidden, make all ScreenView content visible to assistive technology
+        this.setAccessibleViewsVisible( true );
       }
     },
 
@@ -290,21 +290,21 @@ define( function( require ) {
 
     /**
      * Hide or show all accessible content related to the sim ScreenViews, navigation bar, and alert content. Instead
-     * of using setHidden, we have to remove the subtree of accessible content from each view element in order to
+     * of using setVisible, we have to remove the subtree of accessible content from each view element in order to
      * prevent an IE11 bug where content remains invisible in the accessibility tree, see
      * https://github.com/phetsims/john-travoltage/issues/247
      *
-     * @param {boolean} hidden
+     * @param {boolean} visible
      */
-    setAccessibleViewsHidden: function( hidden ) {
+    setAccessibleViewsVisible: function( visible ) {
       for ( var i = 0; i < this.sim.screens.length; i++ ) {
-        this.sim.screens[ i ].view.accessibleContentDisplayed = !hidden;
+        this.sim.screens[ i ].view.accessibleContentDisplayed = visible;
       }
-      this.sim.navigationBar.accessibleContentDisplayed = !hidden;
+      this.sim.navigationBar.accessibleContentDisplayed = visible;
 
-      // workaround for a strange Edge bug where this child of the navigation bar remains hidden,
+      // workaround for a strange Edge bug where this child of the navigation bar remains visible,
       // see https://github.com/phetsims/a11y-research/issues/30
-      this.sim.navigationBar.keyboardHelpButton.accessibleHidden = hidden;
+      this.sim.navigationBar.keyboardHelpButton.accessibleVisible = visible;
 
       // clear the aria-live alert content from the DOM
       AriaHerald.clearAll();
