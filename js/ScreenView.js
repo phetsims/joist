@@ -49,11 +49,6 @@ define( function( require ) {
     // Initialize to defaults, then update as soon as layout() is called, which is before the ScreenView is displayed
     // @public (read-only)
     this.visibleBoundsProperty = new Property( options.layoutBounds );
-
-    // @private (a11y) - show/hide accessible content when ScreenView visibility changes
-    this.accessibleVisibleListener = this.updateAccessibleVisible.bind( this );
-    this.on( 'visibility', this.accessibleVisibleListener );
-    this.updateAccessibleVisible();
   }
 
   joist.register( 'ScreenView', ScreenView );
@@ -102,15 +97,6 @@ define( function( require ) {
         this.translate( dx, dy );
 
         this.visibleBoundsProperty.set( new Bounds2( -dx, -dy, width / scale - dx, height / scale - dy ) );
-      },
-
-      /**
-       * Show or hide the accessible content from assistive technology when ScreenView visibility changes. When 
-       * hidden, nothing in the ScreenView will be tab navigable. 
-       * @public
-       */
-      updateAccessibleVisible: function() {
-        this.accessibleVisible = this.visible;
       },
 
       /**
