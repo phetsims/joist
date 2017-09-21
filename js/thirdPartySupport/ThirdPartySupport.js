@@ -1,4 +1,4 @@
-// Copyright 2016, University of Colorado Boulder
+// Copyright 2017, University of Colorado Boulder
 
 /**
  * Enumeration of third parties that PhET supports.  Each third party has its own type that sets up listeners for
