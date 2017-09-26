@@ -122,7 +122,7 @@ define( function( require ) {
       var useDarkenHighlights = ( navigationBarFill !== 'black' );
 
       // Color match yellow with the PhET Logo
-      var selectedTextColor = useDarkenHighlights ? 'black' : PhetColorScheme.PHET_LOGO_YELLOW;
+      var selectedTextColor = useDarkenHighlights ? 'black' : PhetColorScheme.BUTTON_YELLOW;
       var unselectedTextColor = useDarkenHighlights ? 'gray' : 'white';
 
       text.fill = selected ? selectedTextColor : unselectedTextColor;
