@@ -145,7 +145,7 @@ define( function( require ) {
         closeButton.top = dialogContent.top - options.yMargin + options.closeButtonMargin;
 
         // place the focus highlight, and make it a bit bigger than the
-        closeButton.focusHighlight = Shape.bounds( crossNode.bounds.dilated( 10 ) );
+        closeButton.focusHighlight = Shape.bounds( crossNode.bounds.dilated( 8 ) );
       };
 
       if ( options.resize ) {
