@@ -24,6 +24,9 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
+  // phet-io modules
+  var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
+
   // constants
   var LARGE_ICON_HEIGHT = 140;
 
@@ -37,7 +40,6 @@ define( function( require ) {
    * @constructor
    */
   function ScreenButton( large, sim, index, highlightedScreenIndexProperty, tandem, options ) {
-    var self = this;
 
     options = _.extend( {
       opacity: 1,  // The small screen's nodes have an opacity of .5
@@ -46,12 +48,6 @@ define( function( require ) {
     }, options );
 
     var screen = sim.screens[ index ];
-
-    // @public
-    this.startedCallbacksForFiredEmitter = new Emitter( { indicateCallbacks: false } );
-
-    // @public
-    this.endedCallbacksForFiredEmitter = new Emitter( { indicateCallbacks: false } );
 
     // Maps the number of screens to a scale for the small icons. The scale is percentage of LARGE_ICON_HEIGHT.
     var smallIconScale = Util.linear( 2, 4, 0.875, 0.50, sim.screens.length );
@@ -117,9 +113,9 @@ define( function( require ) {
 
     this.addInputListener( {
       down: function( event ) {
-        self.startedCallbacksForFiredEmitter.emit();
+        var id = phetioEvents.start && phetioEvents.start( 'user', tandem.id, TScreenButton, 'fired' );
         buttonDown();
-        self.endedCallbacksForFiredEmitter.emit();
+        phetioEvents.end && phetioEvents.end( id );
       }
     } );
 
