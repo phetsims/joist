@@ -112,9 +112,9 @@ define( function( require ) {
 
     this.addInputListener( {
       down: function( event ) {
-        var id = phetioEvents.start && phetioEvents.start( 'user', tandem.id, TScreenButton, 'fired' );
+        var id = phetioEvents.start( 'user', tandem.id, TScreenButton, 'fired' );
         buttonDown();
-        phetioEvents.end && phetioEvents.end( id );
+        phetioEvents.end( id );
       }
     } );
 
