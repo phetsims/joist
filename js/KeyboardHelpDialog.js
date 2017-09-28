@@ -24,7 +24,7 @@ define( function( require ) {
   // constants
   var CLOSE_BUTTON_WIDTH = 7;
   var CLOSE_BUTTON_MARGIN = 10;
-  var HELP_CONTENT_MARGIN = 20;
+  var HELP_CONTENT_MARGIN = 10;
   var TITLE_MAX_WIDTH = 500;
 
   // string
