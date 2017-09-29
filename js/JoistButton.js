@@ -18,7 +18,6 @@ define( function( require ) {
   var PushButtonInteractionStateProperty = require( 'SUN/buttons/PushButtonInteractionStateProperty' );
   var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
   var Shape = require( 'KITE/Shape' );
-  var TJoistButton = require( 'JOIST/TJoistButton' );
 
   /**
    * @param {Node} content - the scenery node to render as the content of the button
@@ -37,9 +36,7 @@ define( function( require ) {
       highlightExtensionWidth: 0,
       highlightExtensionHeight: 0,
       highlightCenterOffsetX: 0,
-      highlightCenterOffsetY: 0,
-
-      phetioType: TJoistButton
+      highlightCenterOffsetY: 0
     }, options );
 
     options.tandem = tandem;

@@ -24,7 +24,6 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var TNavigationBarScreenButton = require( 'JOIST/TNavigationBarScreenButton' );
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
@@ -54,7 +53,6 @@ define( function( require ) {
       cursor: 'pointer',
       textDescription: screen.name + ' Screen: Button',
       tandem: Tandem.tandemRequired(),
-      phetioType: TNavigationBarScreenButton,
       maxButtonWidth: null // {number|null} the maximum width of the button, causes text and/or icon to be scaled down if necessary
     }, options );
 
@@ -75,7 +73,7 @@ define( function( require ) {
     // @public (phet-io) - create the button model, needs to be public so that PhET-iO wrappers can hook up to it if needed
     this.buttonModel = new PushButtonModel( {
       listener: clicked,
-      tandem: options.tandem.createTandem( 'buttonModel' )
+      tandem: options.tandem // note the same tandem is passed through so the event stream will show the events as coming from this button
     } );
     this.addInputListener( new ButtonListener( this.buttonModel ) );
 
@@ -96,7 +94,7 @@ define( function( require ) {
     var overlay = new Rectangle( 0, 0, box.width, box.height, { center: box.center } );
 
     // highlights
-    var highlightWidth = overlay.width + ( 2 * HIGHLIGHT_SPACING );
+    var highlightWidth = overlay.width + (2 * HIGHLIGHT_SPACING);
     var brightenHighlight = new HighlightNode( highlightWidth, overlay.height, {
       center: box.center,
       fill: 'white'
@@ -119,29 +117,29 @@ define( function( require ) {
       navigationBarFillProperty
     ], function update( selected, down, over, navigationBarFill ) {
 
-      var useDarkenHighlights = ( navigationBarFill !== 'black' );
+      var useDarkenHighlights = (navigationBarFill !== 'black');
 
       // Color match yellow with the PhET Logo
       var selectedTextColor = useDarkenHighlights ? 'black' : PhetColorScheme.BUTTON_YELLOW;
       var unselectedTextColor = useDarkenHighlights ? 'gray' : 'white';
 
       text.fill = selected ? selectedTextColor : unselectedTextColor;
-      box.opacity = selected ? 1.0 : ( down ? 0.65 : 0.5 );
-      brightenHighlight.visible = !useDarkenHighlights && ( over || down );
-      darkenHighlight.visible = useDarkenHighlights && ( over || down );
+      box.opacity = selected ? 1.0 : (down ? 0.65 : 0.5);
+      brightenHighlight.visible = !useDarkenHighlights && (over || down);
+      darkenHighlight.visible = useDarkenHighlights && (over || down);
     } );
 
     // Constrain text and icon width, if necessary
-    if ( options.maxButtonWidth && ( this.width > options.maxButtonWidth ) ) {
+    if ( options.maxButtonWidth && (this.width > options.maxButtonWidth) ) {
 
-      text.maxWidth = icon.maxWidth = options.maxButtonWidth - ( this.width - box.width );
+      text.maxWidth = icon.maxWidth = options.maxButtonWidth - (this.width - box.width);
 
       // adjust the overlay
       overlay.setRect( 0, 0, box.width, overlay.height );
       overlay.center = box.center;
 
       // adjust the highlights
-      brightenHighlight.spacing = darkenHighlight.spacing = overlay.width + ( 2 * HIGHLIGHT_SPACING );
+      brightenHighlight.spacing = darkenHighlight.spacing = overlay.width + (2 * HIGHLIGHT_SPACING);
       brightenHighlight.center = darkenHighlight.center = box.center;
 
       assert && assert( Util.toFixed( this.width, 0 ) === Util.toFixed( options.maxButtonWidth, 0 ) );
