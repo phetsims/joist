@@ -8,9 +8,11 @@
 define( function( require ) {
   'use strict';
 
+  // modules
+  var joist = require( 'JOIST/joist' );
+
   // phet-io modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
-  var joist = require( 'JOIST/joist' );
   var phetio = require( 'ifphetio!PHET_IO/phetio' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
   var SimIFrameAPI = require( 'ifphetio!PHET_IO/SimIFrameAPI' );
