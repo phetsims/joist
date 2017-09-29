@@ -22,7 +22,6 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TScreen = require( 'JOIST/TScreen' );
 
   // phet-io modules
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
@@ -111,7 +110,6 @@ define( function( require ) {
     // To prevent potential visual glitches, the value should change only while the screen's view is invisible.
     // That is: transitions from false to true before a Screen becomes visible, and from true to false after a Screen becomes invisible.
     this.activeProperty = new Property( false, {
-      tandem: options.tandem.createTandem( 'activeProperty' ),
       phetioValueType: TBoolean,
       phetioInstanceDocumentation: 'this Property is read-only, do not attempt to set its value'
     } );
@@ -126,8 +124,6 @@ define( function( require ) {
         assert( !self._view.isVisible(), 'isActive should not change while the Screen view is visible' );
       }
     } );
-
-    options.tandem.addInstance( this, TScreen );
   }
 
   joist.register( 'Screen', Screen );
