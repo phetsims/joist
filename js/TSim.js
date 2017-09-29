@@ -18,7 +18,6 @@ define( function( require ) {
   var SimIFrameAPI = require( 'ifphetio!PHET_IO/SimIFrameAPI' );
   var TFunctionWrapper = require( 'ifphetio!PHET_IO/types/TFunctionWrapper' );
   var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
-  var toEventOnEmit = require( 'ifphetio!PHET_IO/toEventOnEmit' );
   var TString = require( 'ifphetio!PHET_IO/types/TString' );
   var TVoid = require( 'ifphetio!PHET_IO/types/TVoid' );
 
@@ -36,27 +35,6 @@ define( function( require ) {
   function TSim( sim, phetioID ) {
     assertInstanceOf( sim, phet.joist.Sim );
     TObject.call( this, sim, phetioID );
-
-    // startedSimConstructionEmitter is called in the constructor of the sim, and endedSimConstructionEmitter is called
-    // once all of the screens have been fully initialized, hence construction not constructor.
-    // The simStarted event is guaranteed to be a top-level event, not nested under other events.
-    toEventOnEmit( sim.startedSimConstructionEmitter, sim.endedSimConstructionEmitter, 'model', phetioID, this.constructor, SIM_STARTED,
-      function( value ) {
-        var simData = {
-          repoName: value.repoName,
-          simName: value.simName,
-          simVersion: value.simVersion,
-          simURL: value.url,
-          userAgent: window.navigator.userAgent,
-          randomSeed: value.randomSeed,
-          wrapperMetadata: window.simStartedMetadata,
-          provider: 'PhET Interactive Simulations, University of Colorado Boulder' // See #137
-        };
-
-        // Delete this global object once it has been used with this emitted event.
-        delete window.simStartedMetadata;
-        return simData;
-      } );
 
     // Store a reference to the sim so that subsequent calls will be simpler.  PhET-iO only works with a single sim.
     phetio.sim = sim;

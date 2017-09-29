@@ -42,6 +42,7 @@ define( function( require ) {
   var Util = require( 'SCENERY/util/Util' );
 
   // phet-io modules
+  var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
 
@@ -82,9 +83,6 @@ define( function( require ) {
 
     // @public (phet-io)
     this.tandem = tandem;
-
-    // @public Emitter that indicates sim construction began.  This was added for PhET-iO but can be used by any client.
-    this.startedSimConstructionEmitter = new Emitter();
 
     // @public Emitter that indicates sim construction completed.  This was added for PhET-iO but can be used by any client.
     // This does not coincide with the end of the Sim constructor (because Sim has asynchronous steps that finish
@@ -289,7 +287,9 @@ define( function( require ) {
       };
     }
 
-    this.startedSimConstructionEmitter.emit1( {
+    // The simStarted event is guaranteed to be a top-level event, not nested under other events.
+    // This phetio event is hard-coded in many places such as th playback wrapper, so should not be changed lightly!
+    this.phetioSimStartedEventId = phetioEvents.start( 'model', this.tandem.id, TSim, 'simStarted', {
       repoName: packageJSON.name,
       simName: this.name,
       simVersion: this.version,
@@ -729,7 +729,10 @@ define( function( require ) {
                 // After the application is ready to go, remove the splash screen and progress bar
                 window.phetSplashScreen.dispose();
 
-                // Signify the end of simulation startup.  Used by PhET-iO.
+                // Signify the end of simulation startup, finish the simStartedEvent.  Used by PhET-iO. This does not
+                // coincide with the end of the Sim constructor (because Sim has asynchronous steps that finish after
+                // the constructor is completed )
+                phetioEvents.end( self.phetioSimStartedEventId );
                 self.endedSimConstructionEmitter.emit();
 
               }, 25 ); // pause for a few milliseconds with the progress bar filled in before going to the home screen
