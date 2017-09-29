@@ -86,12 +86,12 @@ define( function( require ) {
 
         //center vertically
         if ( scale === width / this.layoutBounds.width ) {
-          dy = (height / scale - this.layoutBounds.height ) / 2;
+          dy = (height / scale - this.layoutBounds.height) / 2;
         }
 
         //center horizontally
         else if ( scale === height / this.layoutBounds.height ) {
-          dx = (width / scale - this.layoutBounds.width ) / 2;
+          dx = (width / scale - this.layoutBounds.width) / 2;
         }
 
         this.translate( dx, dy );
