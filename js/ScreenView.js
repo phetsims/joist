@@ -35,7 +35,7 @@ define( function( require ) {
     Node.call( this, _.extend( {
       layerSplit: true, // so we're not in the same layer as the navbar, etc.
       excludeInvisible: true, // so we don't keep invisible screens in the SVG tree
-      tandem: Tandem.tandemRequired(),
+      tandem: Tandem.tandemOptional(),
 
       // a11y options
       parentContainerTagName: 'article',
