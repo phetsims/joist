@@ -61,9 +61,6 @@ define( function( require ) {
 
     JoistButton.call( this, icon, backgroundFillProperty, tandem, options );
 
-    // a11y - focus highlight since the bounds of the button push the default highlight out of bounds
-    this.focusHighlight = Shape.bounds( icon.bounds.dilated( 5 ) );
-
     Property.multilink( [ backgroundFillProperty, sim.showHomeScreenProperty ],
       function( backgroundFill, showHomeScreen ) {
         var backgroundIsWhite = backgroundFill !== 'black' && !showHomeScreen;
