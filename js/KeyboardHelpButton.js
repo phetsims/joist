@@ -18,7 +18,6 @@ define( function( require ) {
   var JoistButton = require( 'JOIST/JoistButton' );
   var KeyboardHelpDialog = require( 'JOIST/KeyboardHelpDialog' );
   var Property = require( 'AXON/Property' );
-  var Shape = require( 'KITE/Shape' );
 
   // images
   var brightIconMipmap = require( 'mipmap!JOIST/keyboard-icon.png' ); // on a black navbar
