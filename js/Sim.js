@@ -16,6 +16,7 @@ define( function( require ) {
   var BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var Brand = require( 'BRAND/Brand' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var Display = require( 'SCENERY/display/Display' );
   var DotUtil = require( 'DOT/Util' );// eslint-disable-line
@@ -734,6 +735,9 @@ define( function( require ) {
                 // the constructor is completed )
                 phetioEvents.end( self.phetioSimStartedEventId );
                 self.endedSimConstructionEmitter.emit();
+
+                // Sanity check that there is no phetio object in phet brand, see https://github.com/phetsims/phet-io/issues/1229
+                Brand.name === 'phet' && assert && assert( !phet.phetio, 'window.phet.phetio should not be truthy if loading form phet brand' );
 
               }, 25 ); // pause for a few milliseconds with the progress bar filled in before going to the home screen
             }
