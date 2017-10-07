@@ -24,7 +24,7 @@ define( function( require ) {
   // constants
   var CLOSE_BUTTON_WIDTH = 7;
   var CLOSE_BUTTON_MARGIN = 10;
-  var HELP_CONTENT_MARGIN = 10;
+  var HELP_CONTENT_MARGIN = 15;
   var TITLE_MAX_WIDTH = 500;
 
   // string
@@ -43,7 +43,7 @@ define( function( require ) {
     var titleText = new Text( keyboardShortcutsTitleString, {
       font: new PhetFont( {
         weight: 'bold',
-        size: 20
+        size: 18
       } ),
       maxWidth: TITLE_MAX_WIDTH,
 
