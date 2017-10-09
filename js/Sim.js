@@ -101,8 +101,7 @@ define( function( require ) {
     this.frameEndedEmitter = new Emitter( {
       tandem: simTandem.createTandem( 'frameEndedEmitter' ),
       phetioArgumentTypes: [ TNumber ],
-      phetioEmitData: false // An adapter in phetio will create input events when recording for playback.
-      // If we are not recording for visual playback, then we omit these from the data stream so that we don't get spammed with dt's.
+      phetioEvents: false // Opt out of the Emitter's events so we are never spammed with dt changes.
     } );
 
     // The screens to be included, and their order, may be specified via a query parameter.
