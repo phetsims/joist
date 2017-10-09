@@ -18,6 +18,7 @@ define( function( require ) {
   var PushButtonInteractionStateProperty = require( 'SUN/buttons/PushButtonInteractionStateProperty' );
   var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
   var Shape = require( 'KITE/Shape' );
+  var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
 
   /**
    * @param {Node} content - the scenery node to render as the content of the button
@@ -82,6 +83,10 @@ define( function( require ) {
     this.mouseArea = this.touchArea = Shape.bounds( this.bounds );
 
     this.mutate( options );
+
+    // shift the focus highlight for the joist button so that the bottom is always on screen
+    var highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );
+    this.focusHighlight = Shape.bounds( this.bounds.shiftedY( -highlightLineWidth ) );
   }
 
   joist.register( 'JoistButton', JoistButton );
