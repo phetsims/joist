@@ -90,6 +90,11 @@ define( function( require ) {
     // after the constructor is completed)
     this.endedSimConstructionEmitter = new Emitter();
 
+    // Many other components use addInstance at the end of their constructor but in this case we must register early
+    // to (a) enable the SimIFrameAPI as soon as possible and (b) to enable subsequent component registrations,
+    // which require the sim to be registered
+    tandem.addInstance( this, TSim );
+
     // @public Emitter that indicates when the sim resized
     this.resizedEmitter = new Emitter();
 
@@ -215,11 +220,6 @@ define( function( require ) {
 
     // @public (joist-internal, read-only) - {Screen|null} - The current screen, or null if showing the home screen
     this.currentScreenProperty = new Property( null );
-
-    // Many other components use addInstance at the end of their constructor but in this case we must register early
-    // to (a) enable the SimIFrameAPI as soon as possible and (b) to enable subsequent component registrations,
-    // which require the sim to be registered
-    simTandem.addInstance( this, TSim );
 
     // @public
     this.lookAndFeel = new LookAndFeel();
