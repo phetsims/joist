@@ -80,10 +80,11 @@ define( function( require ) {
     } );
 
     var tandem = Tandem.createRootTandem();
-    var simTandem = tandem.createTandem( 'sim' );
+    this.tandem = tandem; // @public (phet-io)
 
-    // @public (phet-io)
-    this.tandem = tandem;
+    // This tandem is used to organize joist specific components. Rather than having Sim.js properties on the root tandem.
+    var simTandem = tandem.createTandem( 'sim' );
+    this.simTandem = simTandem; // @private
 
     // @public Emitter that indicates sim construction completed.  This was added for PhET-iO but can be used by any client.
     // This does not coincide with the end of the Sim constructor (because Sim has asynchronous steps that finish
@@ -176,13 +177,13 @@ define( function( require ) {
 
     // @public (joist-internal) - True if the home screen is showing
     this.showHomeScreenProperty = new Property( options.showHomeScreen, {
-      tandem: tandem.createTandem( 'sim.showHomeScreenProperty' ),
+      tandem: simTandem.createTandem( 'showHomeScreenProperty' ),
       phetioValueType: TBoolean
     } );
 
     // @public (joist-internal) - The selected screen's index
     this.screenIndexProperty = new Property( options.screenIndex, {
-      tandem: tandem.createTandem( 'sim.screenIndexProperty' ),
+      tandem: simTandem.createTandem( 'screenIndexProperty' ),
       validValues: _.range( 0, screens.length ),
       phetioValueType: TNumber
     } );
@@ -193,13 +194,13 @@ define( function( require ) {
     // Set to false for when the sim will be paused.  If the sim has playbackModeEnabledProperty set to true, the activeProperty will
     // automatically be set to false so the timing and inputs can be controlled by the playback engine
     this.activeProperty = new Property( !phet.joist.playbackModeEnabledProperty.value, {
-      tandem: tandem.createTandem( 'sim.activeProperty' ),
+      tandem: simTandem.createTandem( 'activeProperty' ),
       phetioValueType: TBoolean
     } );
 
     // @public (read-only) - property that indicates whether the browser tab containing the simulation is currently visible
     this.browserTabVisibleProperty = new Property( true, {
-      tandem: tandem.createTandem( 'browserTabVisibleProperty' ),
+      tandem: simTandem.createTandem( 'browserTabVisibleProperty' ),
       phetioValueType: TBoolean,
       phetioInstanceDocumentation: 'this Property is read-only, do not attempt to set its value'
     } );
@@ -458,7 +459,7 @@ define( function( require ) {
   joist.register( 'Sim', Sim );
 
   return inherit( Object, Sim, {
-    finishInit: function( screens, tandem ) {
+    finishInit: function( screens ) {
       var self = this;
 
       // ModuleIndex should always be defined.  On startup screenIndex=1 to highlight the 1st screen.
@@ -521,10 +522,7 @@ define( function( require ) {
 
       // @private list of nodes that are "modal" and hence block input with the barrierRectangle.  Used by modal dialogs
       // and the PhetMenu
-      this.modalNodeStack = new ObservableArray( {
-        // tandem: tandem.createTandem( 'modalNodeStack' ),
-        // phetioValueType: TNode
-      } ); // {Node} with node.hide()
+      this.modalNodeStack = new ObservableArray(); // {Node} with node.hide()
 
       // @public (joist-internal) Semi-transparent black barrier used to block input events when a dialog (or other popup)
       // is present, and fade out the background.
@@ -533,7 +531,7 @@ define( function( require ) {
         {
           fill: 'rgba(0,0,0,0.3)',
           pickable: true,
-          tandem: tandem.createTandem( 'sim.barrierRectangle' )
+          tandem: this.simTandem.createTandem( 'barrierRectangle' )
         } );
 
       this.topLayer.addChild( this.barrierRectangle );
