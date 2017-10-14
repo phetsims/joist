@@ -93,7 +93,7 @@ define( function( require ) {
     // Many other components use addInstance at the end of their constructor but in this case we must register early
     // to (a) enable the SimIFrameAPI as soon as possible and (b) to enable subsequent component registrations,
     // which require the sim to be registered
-    tandem.addInstance( this, TSim );
+    tandem.addInstance( this, TSim, options );
 
     // @public Emitter that indicates when the sim resized
     this.resizedEmitter = new Emitter();
