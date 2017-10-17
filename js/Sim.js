@@ -82,10 +82,6 @@ define( function( require ) {
     var tandem = Tandem.createRootTandem();
     this.tandem = tandem; // @public (phet-io)
 
-    // This tandem is used to organize joist specific components. Rather than having Sim.js properties on the root tandem.
-    var simTandem = tandem.createTandem( 'sim' );
-    this.simTandem = simTandem; // @private
-
     // @public Emitter that indicates sim construction completed.  This was added for PhET-iO but can be used by any client.
     // This does not coincide with the end of the Sim constructor (because Sim has asynchronous steps that finish
     // after the constructor is completed)
@@ -105,7 +101,7 @@ define( function( require ) {
     // @public Emitter that indicates when a frame ends
     // phetioEmitData is false because we only want this manually wired for phetio event recording.
     this.frameEndedEmitter = new Emitter( {
-      tandem: simTandem.createTandem( 'frameEndedEmitter' ),
+      tandem: tandem.createTandem( 'frameEndedEmitter' ),
       phetioArgumentTypes: [ TNumber ],
       phetioEvents: false // Opt out of the Emitter's events so we are never spammed with dt changes.
     } );
@@ -177,13 +173,13 @@ define( function( require ) {
 
     // @public (joist-internal) - True if the home screen is showing
     this.showHomeScreenProperty = new Property( options.showHomeScreen, {
-      tandem: simTandem.createTandem( 'showHomeScreenProperty' ),
+      tandem: tandem.createTandem( 'showHomeScreenProperty' ),
       phetioValueType: TBoolean
     } );
 
     // @public (joist-internal) - The selected screen's index
     this.screenIndexProperty = new Property( options.screenIndex, {
-      tandem: simTandem.createTandem( 'screenIndexProperty' ),
+      tandem: tandem.createTandem( 'screenIndexProperty' ),
       validValues: _.range( 0, screens.length ),
       phetioValueType: TNumber
     } );
@@ -194,13 +190,13 @@ define( function( require ) {
     // Set to false for when the sim will be paused.  If the sim has playbackModeEnabledProperty set to true, the activeProperty will
     // automatically be set to false so the timing and inputs can be controlled by the playback engine
     this.activeProperty = new Property( !phet.joist.playbackModeEnabledProperty.value, {
-      tandem: simTandem.createTandem( 'activeProperty' ),
+      tandem: tandem.createTandem( 'activeProperty' ),
       phetioValueType: TBoolean
     } );
 
     // @public (read-only) - property that indicates whether the browser tab containing the simulation is currently visible
     this.browserTabVisibleProperty = new Property( true, {
-      tandem: simTandem.createTandem( 'browserTabVisibleProperty' ),
+      tandem: tandem.createTandem( 'browserTabVisibleProperty' ),
       phetioValueType: TBoolean,
       phetioInstanceDocumentation: 'this Property is read-only, do not attempt to set its value'
     } );
@@ -531,7 +527,7 @@ define( function( require ) {
         {
           fill: 'rgba(0,0,0,0.3)',
           pickable: true,
-          tandem: this.simTandem.createTandem( 'barrierRectangle' )
+          tandem: this.tandem.createTandem( 'barrierRectangle' )
         } );
 
       this.topLayer.addChild( this.barrierRectangle );
