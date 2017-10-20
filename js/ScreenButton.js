@@ -110,13 +110,13 @@ define( function( require ) {
                        sim.screenIndexProperty.value = index;
                      };
 
-    this.addInputListener( {
-      down: function( event ) {
-        var id = phetioEvents.start( 'user', tandem.id, TScreenButton, 'fired' );
-        buttonDown();
-        phetioEvents.end( id );
-      }
-    } );
+    var downListener = function( event ) {
+      var id = phetioEvents.start( 'user', tandem.id, TScreenButton, 'fired' );
+      buttonDown();
+      phetioEvents.end( id );
+    };
+    this.addInputListener( { down: downListener } );
+    this.addAccessibleInputListener( { click: downListener } );
 
     // Set highlight listeners to the small screen button
     if ( !large ) {

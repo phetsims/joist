@@ -68,7 +68,10 @@ define( function( require ) {
       // dt cap in seconds, see https://github.com/phetsims/joist/issues/130
       maxDT: 0.5,
 
-      tandem: Tandem.tandemRequired()
+      tandem: Tandem.tandemRequired(),
+
+      // The description that is used on the home screen when interacting with this screen's large/small buttons.
+      accessibleDescription: ''
     }, options );
 
     // navigationBarIcon defaults to homeScreenIcon, and will be scaled down
@@ -112,7 +115,11 @@ define( function( require ) {
     this.activeProperty = new Property( false, {
       phetioValueType: TBoolean,
       phetioInstanceDocumentation: 'this Property is read-only, do not attempt to set its value'
+
     } );
+
+    // @public (a11y)
+    this.accessibleDescription = options.accessibleDescription;
 
     var self = this;
     assert && this.activeProperty.lazyLink( function( isActive ) {

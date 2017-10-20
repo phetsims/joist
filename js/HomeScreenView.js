@@ -19,8 +19,12 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var ScreenButton = require( 'JOIST/ScreenButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
 
+  // a11y-strings
+  var simScreensString = 'Sim Screens';
+  var homeScreenDescriptionPatternString = 'Come explore with {{name}}. It has {{screens}} screens.';
 
   // constants
   var LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
@@ -64,6 +68,20 @@ define( function( require ) {
     title.scale( Math.min( 1, 0.9 * this.layoutBounds.width / title.width ) );
     title.centerX = this.layoutBounds.centerX;
 
+    // a11y heading and description
+    this.addChild( new Node( {
+      accessibleLabel: sim.name, // display name
+      tagName: 'h1',
+    } ) );
+    this.addChild( new Node( {
+      tagName: 'p',
+      accessibleLabel: StringUtils.fillIn( homeScreenDescriptionPatternString, {
+        name: sim.name,
+        screens: sim.screens.length
+      } )
+    } ) );
+
+
     // Keep track of which screen is highlighted so the same screen can remain highlighted even if nodes are replaced
     // (say when one grows larger or smaller).
     var highlightedScreenIndexProperty = new Property( -1 );
@@ -80,6 +98,13 @@ define( function( require ) {
       // large and small buttons are registered as separate instances.  See https://github.com/phetsims/phet-io/issues/99
       var largeTandem = tandem.createTandem( screen.tandem.tail + 'LargeButton' );
 
+      var a11yScreenButtonOptions = {
+        tagName: 'button',
+        accessibleLabel: screen.name,
+        accessibleDescription: screen.accessibleDescription,
+        parentContainerTagName: 'li'
+      };
+
       var isLarge = true;
       var largeScreenButton = new ScreenButton(
         isLarge,
@@ -87,11 +112,11 @@ define( function( require ) {
         index,
         highlightedScreenIndexProperty,
         largeTandem,
-        {
+        _.extend( a11yScreenButtonOptions, {
           // Don't 40 the VBox or it will shift down when the border becomes thicker
           resize: false,
           cursor: 'pointer'
-        } );
+        } ) );
 
       // Even though in the user interface the small and large buttons seem like a single UI component that has grown
       // larger, it would be quite a headache to create a composite button for the purposes of tandem, so instead the
@@ -105,25 +130,46 @@ define( function( require ) {
         index,
         highlightedScreenIndexProperty,
         smallTandem,
-        {
-          spacing: 3,
-          cursor: 'pointer',
-          showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame,
-        }
-      );
+        _.extend( a11yScreenButtonOptions, {
+            spacing: 3,
+            cursor: 'pointer',
+            showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame
+          }
+        ) );
 
 
       smallScreenButton.addInputListener( smallScreenButton.highlightListener );
       largeScreenButton.addInputListener( smallScreenButton.highlightListener );
+
+      // a11y support for click listeners on the screen buttons
+      var toggleListener = function() {
+        smallScreenButton.visible && smallScreenButton.focus();
+        largeScreenButton.visible && largeScreenButton.focus();
+      };
+      smallScreenButton.addAccessibleInputListener( { click: toggleListener } );
+      largeScreenButton.addAccessibleInputListener( { click: toggleListener } );
       // largeScreenButton.mouseArea = largeScreenButton.touchArea = Shape.bounds( largeScreenButton.bounds ); // cover the gap in the vbox
 
 
       return { screen: screen, small: smallScreenButton, large: largeScreenButton, index: index };
     } );
 
+    // a11y this is needed to create the right pDOM structure, the phet menu shouldn't be a child of this 'nav', so
+    // the HomeScreenView can't be the 'nav' tag.
+    var navIconsNode = new Node( {
+
+      // a11y
+      tagName: 'nav',
+      useAriaLabel: true,
+      accessibleLabel: simScreensString
+    } );
+
     // Intermediate node, so that icons are always in the same rendering layer
-    var iconsParentNode = new Node();
-    self.addChild( iconsParentNode );
+    var iconsParentNode = new Node( { tagName: 'ol' } );
+
+    // add the icons to the nav tag Node
+    navIconsNode.addChild( iconsParentNode );
+    this.addChild( navIconsNode );
 
     // Space the icons out more if there are fewer, so they will be spaced nicely.
     // Cannot have only 1 screen because for 1-screen sims there is no home screen.
