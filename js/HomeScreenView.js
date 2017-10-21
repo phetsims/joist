@@ -24,6 +24,7 @@ define( function( require ) {
 
   // a11y-strings
   var simScreensString = 'Sim Screens';
+  var simScreenString = 'Sim Screen';
   var homeScreenDescriptionPatternString = 'Come explore with {{name}}. It has {{screens}} screens.';
 
   // constants
@@ -105,6 +106,7 @@ define( function( require ) {
         parentContainerTagName: 'li'
       };
 
+
       var isLarge = true;
       var largeScreenButton = new ScreenButton(
         isLarge,
@@ -150,6 +152,9 @@ define( function( require ) {
       largeScreenButton.addAccessibleInputListener( { click: toggleListener } );
       // largeScreenButton.mouseArea = largeScreenButton.touchArea = Shape.bounds( largeScreenButton.bounds ); // cover the gap in the vbox
 
+      // a11y - add the right aria attributes to the buttons
+      smallScreenButton.setAccessibleAttribute( 'aria-roledescription', simScreenString );
+      largeScreenButton.setAccessibleAttribute( 'aria-roledescription', simScreenString );
 
       return { screen: screen, small: smallScreenButton, large: largeScreenButton, index: index };
     } );
