@@ -29,12 +29,14 @@ define( function( require ) {
   var LookAndFeel = require( 'JOIST/LookAndFeel' );
   var NavigationBar = require( 'JOIST/NavigationBar' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var NumberProperty = require( 'AXON/NumberProperty' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var packageJSON = require( 'JOIST/packageJSON' );
   var PhetButton = require( 'JOIST/PhetButton' );
   var platform = require( 'PHET_CORE/platform' );
   var Profiler = require( 'JOIST/Profiler' );
   var Property = require( 'AXON/Property' );
+  var Range = require( 'DOT/Range' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Timer = require( 'PHET_CORE/Timer' );
@@ -182,10 +184,10 @@ define( function( require ) {
     } );
 
     // @public (joist-internal) - The selected screen's index
-    this.screenIndexProperty = new Property( options.screenIndex, {
+    this.screenIndexProperty = new NumberProperty( options.screenIndex, {
       tandem: simTandem.createTandem( 'screenIndexProperty' ),
-      validValues: _.range( 0, screens.length ),
-      phetioValueType: TNumber
+      range: new Range( 0, screens.length - 1 ),
+      valueType: 'Integer'
     } );
 
     // @public
