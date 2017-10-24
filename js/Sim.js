@@ -186,7 +186,7 @@ define( function( require ) {
     // @public (joist-internal) - The selected screen's index
     this.screenIndexProperty = new NumberProperty( options.screenIndex, {
       tandem: simTandem.createTandem( 'screenIndexProperty' ),
-      range: new Range( 0, screens.length - 1 ),
+      validValues: _.range( 0, screens.length ),
       valueType: 'Integer'
     } );
 
