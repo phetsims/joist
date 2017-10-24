@@ -36,7 +36,6 @@ define( function( require ) {
   var platform = require( 'PHET_CORE/platform' );
   var Profiler = require( 'JOIST/Profiler' );
   var Property = require( 'AXON/Property' );
-  var Range = require( 'DOT/Range' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Timer = require( 'PHET_CORE/Timer' );
