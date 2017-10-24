@@ -116,7 +116,8 @@ define( function( require ) {
       phetioEvents.end( id );
     };
     this.addInputListener( { down: downListener } );
-    this.addAccessibleInputListener( { click: downListener } );
+    this.addAccessibleInputListener( { click: function() { large && downListener(); } } );
+    this.addAccessibleInputListener( { focus: function() { !large && downListener(); } } );
 
     // Set highlight listeners to the small screen button
     if ( !large ) {

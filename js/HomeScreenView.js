@@ -148,7 +148,7 @@ define( function( require ) {
         smallScreenButton.visible && smallScreenButton.focus();
         largeScreenButton.visible && largeScreenButton.focus();
       };
-      smallScreenButton.addAccessibleInputListener( { click: toggleListener } );
+      smallScreenButton.addAccessibleInputListener( { focus: toggleListener } );
       largeScreenButton.addAccessibleInputListener( { click: toggleListener } );
       // largeScreenButton.mouseArea = largeScreenButton.touchArea = Shape.bounds( largeScreenButton.bounds ); // cover the gap in the vbox
 
