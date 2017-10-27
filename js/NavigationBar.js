@@ -36,9 +36,13 @@ define( function( require ) {
   var KeyboardHelpButton = require( 'JOIST/KeyboardHelpButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var joist = require( 'JOIST/joist' );
+
+  // strings
+  var simTitleWithScreenNamePattern = require( 'string!JOIST/simTitleWithScreenNamePattern' );
 
   // constants
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
@@ -82,7 +86,10 @@ define( function( require ) {
 
     // If the 'screens' query parameter only selects 1 screen, than update the nav bar title to include that screen name.
     if ( phet.chipper.queryParameters.screens && phet.chipper.queryParameters.screens.length === 1 && screens[ 0 ].name ) {
-      title = sim.name + ' \u2014 ' + screens[ 0 ].name; // em dash
+      title = StringUtils.fillIn( simTitleWithScreenNamePattern, {
+        simName: sim.name,
+        screenName: screens[ 0 ].name
+      } );
     }
 
     // Sim title

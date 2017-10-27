@@ -120,5 +120,8 @@
   },
   "keyboardShortcuts.title": {
     "value": "Keyboard Shortcuts"
+  },
+  "simTitleWithScreenNamePattern": {
+    "value": "{{simName}} \u2014 {{screenName}}"
   }
 }
