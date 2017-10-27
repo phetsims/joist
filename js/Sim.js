@@ -46,7 +46,6 @@ define( function( require ) {
   // phet-io modules
   var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
-  var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
 
   // constants
   var PROGRESS_BAR_WIDTH = 273;
@@ -104,12 +103,8 @@ define( function( require ) {
     this.frameStartedEmitter = new Emitter();
 
     // @public Emitter that indicates when a frame ends
-    // phetioEmitData is false because we only want this manually wired for phetio event recording.
-    this.frameEndedEmitter = new Emitter( {
-      tandem: simTandem.createTandem( 'frameEndedEmitter' ),
-      phetioArgumentTypes: [ TNumber ],
-      phetioEvents: false // Opt out of the Emitter's events so we are never spammed with dt changes.
-    } );
+    // is false because we only want this manually wired for phetio event recording.
+    this.frameEndedEmitter = new Emitter();
 
     // The screens to be included, and their order, may be specified via a query parameter.
     // For documentation, see the schema for phet.chipper.queryParameters.screens in initialize-globals.js.
