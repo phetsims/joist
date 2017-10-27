@@ -48,15 +48,6 @@ define( function( require ) {
 
   phetioInherit( TObject, 'TSim', TSim, {
 
-    disableRequestAnimationFrame: {
-      returnType: TVoid,
-      parameterTypes: [],
-      implementation: function() {
-        this.instance.disableRequestAnimationFrame();
-      },
-      documentation: 'Prevents the simulation from animating/updating'
-    },
-
     addEventListener: {
       returnType: TVoid,
       parameterTypes: [ TString, TFunctionWrapper( TVoid, [ TString, TFunctionWrapper( TVoid, [] ) ] ) ],
