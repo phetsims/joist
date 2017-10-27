@@ -41,10 +41,9 @@ define( function( require ) {
    * @param {Brand} Brand
    * @param {string} locale - The locale string
    * @param {Node} phetButton - The PhET button in the navigation bar, receives focus when this dialog is closed
-   * @param {Tandem} tandem
    * @constructor
    */
-  function AboutDialog( name, version, credits, Brand, locale, phetButton, tandem ) {
+  function AboutDialog( name, version, credits, Brand, locale, phetButton ) {
     var self = this;
 
     var children = [];
@@ -192,7 +191,6 @@ define( function( require ) {
     Dialog.call( this, content, {
       modal: true,
       hasCloseButton: true,
-      tandem: tandem,
       focusOnCloseNode: phetButton,
       xMargin: 25,
       yMargin: 25

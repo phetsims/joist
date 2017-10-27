@@ -279,7 +279,7 @@ define( function( require ) {
         tagName: 'button'
       },
 
-      //About dialog button
+      // About dialog button
       {
         text: menuItemAboutString,
         present: true,
@@ -287,11 +287,10 @@ define( function( require ) {
         callback: function() {
           if ( !aboutDialog ) {
             var phetButton = sim.navigationBar.phetButton;
-            aboutDialog = new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, phetButton, tandem.createTandem( 'aboutDialog' ) );
+            aboutDialog = new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, phetButton);
           }
           aboutDialog.show();
         },
-        tandem: tandem.createTandem( 'aboutMenuItem' ),
         tagName: 'button',
         focusAfterCallback: true
       }
@@ -312,20 +311,25 @@ define( function( require ) {
     // Create the menu items.
     var items = this.items = _.map( keepItemDescriptors, function( itemDescriptor ) {
 
-        return new MenuItem(
+      var menuItemOptions = {
+        textFill: itemDescriptor.textFill,
+        checkedProperty: itemDescriptor.checkedProperty,
+        separatorBefore: itemDescriptor.separatorBefore,
+        tagName: itemDescriptor.tagName,
+        tandem: itemDescriptor.tandem,
+        focusAfterCallback: itemDescriptor.focusAfterCallback
+      };
+
+      // This is needed to support MenuItem as tandemOptional because `{ tandem: undefined}` in options will override default.
+      !itemDescriptor.tandem && delete menuItemOptions.tandem;
+
+      return new MenuItem(
           maxTextWidth,
           maxTextHeight,
           options.closeCallback,
           itemDescriptor.text,
           itemDescriptor.callback,
-          {
-            textFill: itemDescriptor.textFill,
-            checkedProperty: itemDescriptor.checkedProperty,
-            separatorBefore: itemDescriptor.separatorBefore,
-            tandem: itemDescriptor.tandem,
-            tagName: itemDescriptor.tagName,
-            focusAfterCallback: itemDescriptor.focusAfterCallback
-          }
+          menuItemOptions
         );
       }
     );
