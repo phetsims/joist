@@ -78,8 +78,15 @@ define( function( require ) {
     this.barContents = new Node();
     this.addChild( this.barContents );
 
+    var title = sim.name;
+
+    // If the 'screens' query parameter only selects 1 screen, than update the nav bar title to include that screen name.
+    if ( phet.chipper.queryParameters.screens && phet.chipper.queryParameters.screens.length === 1 && screens[ 0 ].name ) {
+      title = sim.name + ' \u2014 ' + screens[ 0 ].name; // em dash
+    }
+
     // Sim title
-    this.titleTextNode = new Text( sim.name, {
+    this.titleTextNode = new Text( title, {
       font: new PhetFont( 16 ),
       tandem: tandem.createTandem( 'titleTextNode' )
     } );
@@ -98,7 +105,7 @@ define( function( require ) {
     // not in mobile safari
     if ( sim.accessible && sim.keyboardHelpNode && !platform.mobileSafari ) {
       this.barContents.addChild( this.keyboardHelpButton );
-    } 
+    }
 
     if ( screens.length === 1 ) {
       /* single-screen sim */
@@ -130,11 +137,11 @@ define( function( require ) {
        */
       // available width left of center
       var availableLeft = ( HomeScreenView.LAYOUT_BOUNDS.width / 2 ) - TITLE_LEFT_MARGIN - maxTitleWidth - TITLE_RIGHT_MARGIN -
-                            this.homeButton.width - HOME_BUTTON_RIGHT_MARGIN;
+                          this.homeButton.width - HOME_BUTTON_RIGHT_MARGIN;
 
       // available width right of center
       var availableRight = ( HomeScreenView.LAYOUT_BOUNDS.width / 2 ) - this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN -
-                             this.keyboardHelpButton.width - KEYBOARD_HELP_BUTTON_LEFT_MARGIN;
+                           this.keyboardHelpButton.width - KEYBOARD_HELP_BUTTON_LEFT_MARGIN;
 
       // total available width for the screen buttons when they are centered
       var availableTotal = 2 * Math.min( availableLeft, availableRight );
@@ -183,7 +190,7 @@ define( function( require ) {
 
       // Now determine the actual width constraint for the sim title.
       this.titleTextNode.maxWidth = this.screenButtonsContainer.left - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN -
-                                HOME_BUTTON_RIGHT_MARGIN - this.homeButton.width - HOME_BUTTON_LEFT_MARGIN;
+                                    HOME_BUTTON_RIGHT_MARGIN - this.homeButton.width - HOME_BUTTON_LEFT_MARGIN;
     }
 
 
