@@ -24,7 +24,6 @@ define( function( require ) {
     // Respond to pause/resume commands from the Legends of Learning platform
     window.addEventListener( 'message', function( message ) {
       if ( message.data.messageName === 'pause' ) {
-        sim.boundRunAnimationLoop();
         sim.activeProperty.value = false;
       }
       else if ( message.data.messageName === 'resume' ) {
