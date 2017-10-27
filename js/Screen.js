@@ -113,9 +113,9 @@ define( function( require ) {
     // To prevent potential visual glitches, the value should change only while the screen's view is invisible.
     // That is: transitions from false to true before a Screen becomes visible, and from true to false after a Screen becomes invisible.
     this.activeProperty = new Property( false, {
+      tandem: options.tandem.createTandem( 'activeProperty' ),
       phetioValueType: TBoolean,
       phetioInstanceDocumentation: 'this Property is read-only, do not attempt to set its value'
-
     } );
 
     // @public (a11y)
