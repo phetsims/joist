@@ -60,7 +60,7 @@ define( function( require ) {
       yMargin: 20,
       closeButtonBaseColor: '#d00',
       closeButtonMargin: 5, // {number} how far away should the close button be from the panel border
-      tandem: Tandem.tandemRequired(),
+      tandem: Tandem.tandemOptional(),
       phetioType: TDialog,
 
       // a11y options
