@@ -130,7 +130,6 @@ define( function( require ) {
       },
       {
         text: menuItemPhetWebsiteString,
-        tandem: tandem.createTandem( 'phetWebsiteMenuItem' ),
         present: isPhETBrand,
         callback: function() {
           if ( !fuzzMouse ) {
@@ -196,7 +195,6 @@ define( function( require ) {
             reportWindow.focus();
           }
         },
-        tandem: tandem.createTandem( 'reportAProblemMenuItem' ),
         tagName: 'button'
       },
       {
@@ -208,7 +206,6 @@ define( function( require ) {
             win.focus();
           }
         },
-        tandem: tandem.createTandem( 'qrCodeMenuItem' ),
 
         // a11y
         tagName: 'button'
@@ -226,7 +223,6 @@ define( function( require ) {
           }
           updateDialog.show();
         },
-        tandem: tandem.createTandem( 'getUpdateMenuItem' ),
 
         // a11y
         tagName: 'button',
