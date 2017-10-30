@@ -20,6 +20,7 @@ define( function( require ) {
   var PhetMenu = require( 'JOIST/PhetMenu' );
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
+  var TPhetButton = require( 'JOIST/TPhetButton' );
   var TransformTracker = require( 'SCENERY/util/TransformTracker' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
 
@@ -110,7 +111,7 @@ define( function( require ) {
     // The icon combines the PhET label and the thre horizontal bars in the right relative positions
     var icon = new Node( { children: [ logoImage, optionsButton ] } );
 
-    JoistButton.call( this, icon, backgroundFillProperty, tandem, options );
+    JoistButton.call( this, icon, backgroundFillProperty, tandem.createSupertypeTandem(), options );
 
     Property.multilink( [ backgroundFillProperty, sim.showHomeScreenProperty, UpdateCheck.stateProperty ],
       function( backgroundFill, showHomeScreen, updateState ) {
@@ -133,6 +134,8 @@ define( function( require ) {
 
     // a11y - add an attribute that lets the user know the button opens a menu
     this.setAccessibleAttribute( 'aria-haspopup', true );
+
+    tandem.addInstance( this, TPhetButton );
   }
 
   joist.register( 'PhetButton', PhetButton );
