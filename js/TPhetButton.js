@@ -12,6 +12,7 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
+  var TFunctionWrapper = require( 'ifphetio!PHET_IO/types/TFunctionWrapper' );
   var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
   var TVoid = require( 'ifphetio!PHET_IO/types/TVoid' );
 
@@ -42,9 +43,47 @@ define( function( require ) {
         return this.instance.isPickable();
       },
       documentation: 'Get whether the phet button will be pickable (and hence interactive)'
+    },
+    addPickableListener: {
+      returnType: TVoid,
+      parameterTypes: [ TFunctionWrapper( TVoid, [ TBoolean ] ) ],
+      implementation: function( callback ) {
+        var inst = this.instance;
+        this.instance.on( 'pickability', function() {
+          callback( inst.isPickable() );
+        } );
+      },
+      documentation: 'Adds a listener for when pickability of the PhetButton changes'
     }
   }, {
-    documentation: 'A pressable PhET logo in the simulation, it usually opens the PhET menu.'
+    documentation: 'A pressable PhET logo in the simulation, it usually opens the PhET menu.',
+
+    /**
+     * Encodes a PhetButton instance to a state.
+     * @param {Object} instance
+     * @returns {Object} - a state object
+     */
+    toStateObject: function( instance ) {
+      return { pickable: instance.pickable };
+    },
+
+    /**
+     * Decodes a state into a PhetButton.
+     * @param {Object} stateObject
+     * @returns {Object}
+     */
+    fromStateObject: function( stateObject ) {
+      return stateObject;
+    },
+
+    /**
+     * Used to set the value of the instance when loading a state
+     * @param {PhetButton} instance
+     * @param {Object} stateObject
+     */
+    setValue: function( instance, stateObject ) {
+      instance.pickable = stateObject.pickable;
+    }
   } );
 
   joist.register( 'TPhetButton', TPhetButton );
