@@ -857,5 +857,50 @@ define( function( require ) {
 
       this.frameEndedEmitter.emit1( dt );
     }
+  }, {
+
+    /**
+     * Allows cloning/copying of screens.  Given screen factories and optionally window.phet.phetio.screenCreationCommand
+     * (set in TPhETIO) to create the screens for a PhET-iO sim.  If window.phet.phetio.screenCreationCommand is not
+     * supplied then the default screens are created.  An example of screenCreationCommand is:
+     *
+     *  [
+     *    { screen: 1, phetioID: 'helloScreen' },
+     *    { screen: 1, phetioID: 'thereScreen' },
+     *    { screen: 2, phetioID: 'alloScreen' }
+     *  ]
+     *
+     *  This would create 3 screens, the first two as variants of screen1 and the third as a variant of screen 2, with the
+     *  given tandem names.  Simulation *main.js files must be updated to use a screen factory pattern and to call this
+     *  method for it to work.
+     *
+     *  See https://github.com/phetsims/phet-io/issues/1247
+     *
+     * @param {Object[]} screenFactories - each entry having {screen: {number}, phetioID: {string}}
+     * @returns {Screen[]}
+     * @public (phet-io)
+     */
+    createScreens: function( screenFactories ) {
+      var screens = [];
+      var screenCreationCommand = window.phet && window.phet.phetio && window.phet.phetio.screenCreationCommand;
+      if ( screenCreationCommand ) {
+        for ( var i = 0; i < screenCreationCommand.length; i++ ) {
+          var screenSpec = screenCreationCommand[ i ];
+          var screenIndex = screenSpec.screen - 1; // screen are 1-indexed
+          var tandemName = screenSpec.phetioID;
+          var screenFactory = screenFactories[ screenIndex ];
+          screens.push( screenFactory( tandemName ) );
+        }
+      }
+      else {
+
+        // default screens
+        for ( var k = 0; k < screenFactories.length; k++ ) {
+          var factory = screenFactories[ k ];
+          screens.push( factory() );
+        }
+      }
+      return screens;
+    }
   } );
 } );
