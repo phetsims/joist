@@ -39,9 +39,6 @@ define( function( require ) {
 
         window.phetLaunchSimulation = function() {
 
-          // Register all of the static tandems.
-          Tandem.launch();
-
           // Provide a global Random that is easy to use and seedable from phet-io for playback
           // phet-io configuration happens after SimLauncher.launch is called and before phetLaunchSimulation is called
           phet.joist.random = new Random( { staticSeed: true } );
