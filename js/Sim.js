@@ -106,6 +106,10 @@ define( function( require ) {
     // is false because we only want this manually wired for phetio event recording.
     this.frameEndedEmitter = new Emitter();
 
+    if ( screens.length === 1 ) {
+      assert && assert( !QueryStringMachine.containsKey( 'homeScreen' ), 'homeScreen query parameter not supported for single-screen sims' );
+    }
+
     // The screens to be included, and their order, may be specified via a query parameter.
     // For documentation, see the schema for phet.chipper.queryParameters.screens in initialize-globals.js.
     // Do this before setting options.showHomeScreen, since no home screen should be shown if we have 1 screen.
@@ -124,7 +128,7 @@ define( function( require ) {
     options = _.extend( {
 
       // whether to show the home screen, or go immediately to the screen indicated by screenIndex
-      showHomeScreen: ( screens.length > 1 ) && phet.chipper.queryParameters.showHomeScreen,
+      showHomeScreen: ( screens.length > 1 ) && phet.chipper.queryParameters.homeScreen,
 
       // index of the screen that will be selected at startup (the query parameter is 1-based)
       screenIndex: phet.chipper.queryParameters.screenIndex - 1,
