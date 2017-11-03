@@ -108,6 +108,8 @@ define( function( require ) {
 
     if ( screens.length === 1 ) {
       assert && assert( !QueryStringMachine.containsKey( 'homeScreen' ), 'homeScreen query parameter not supported for single-screen sims' );
+      assert && assert( !QueryStringMachine.containsKey( 'initialScreen' ), 'initialScreen query parameter not supported for single-screen sims' );
+      assert && assert( !QueryStringMachine.containsKey( 'screens' ), 'screens query parameter not supported for single-screen sims' );
     }
 
     var initialScreen = phet.chipper.queryParameters.initialScreen;
