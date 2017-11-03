@@ -766,18 +766,24 @@ define( function( require ) {
       // events (if playbackModeEnabledProperty) is true
       if ( this.activeProperty.value ) {
 
-        // Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
-        var time = Date.now();
-        var elapsedTimeMilliseconds = (this.lastTime === -1) ? (1000.0 / 60.0) : (time - this.lastTime);
-        this.lastTime = time;
+        this.stepOneFrame();
+      }
+    },
 
-        // Convert to seconds
-        var dt = elapsedTimeMilliseconds / 1000.0;
+    // @private - run a single frame including model, view and display updates
+    stepOneFrame: function() {
 
-        // Don't run the simulation on steps back in time (see https://github.com/phetsims/joist/issues/409)
-        if ( dt >= 0 ) {
-          this.stepSimulation( dt );
-        }
+      // Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
+      var time = Date.now();
+      var elapsedTimeMilliseconds = (this.lastTime === -1) ? (1000.0 / 60.0) : (time - this.lastTime);
+      this.lastTime = time;
+
+      // Convert to seconds
+      var dt = elapsedTimeMilliseconds / 1000.0;
+
+      // Don't run the simulation on steps back in time (see https://github.com/phetsims/joist/issues/409)
+      if ( dt >= 0 ) {
+        this.stepSimulation( dt );
       }
     },
 
