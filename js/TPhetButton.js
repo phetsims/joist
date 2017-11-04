@@ -23,7 +23,7 @@ define( function( require ) {
    * @constructor
    */
   function TPhetButton( phetButton, phetioID ) {
-    assertInstanceOf( phetButton, phet.joist.PhetButton );
+    assert && assertInstanceOf( phetButton, phet.joist.PhetButton );
     TObject.call( this, phetButton, phetioID );
   }
 

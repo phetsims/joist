@@ -20,7 +20,7 @@ define( function( require ) {
    * @param {string} phetioID - identifier string
    */
   function TDialog( dialog, phetioID ) {
-    assertInstanceOf( dialog, phet.joist.Dialog );
+    assert && assertInstanceOf( dialog, phet.joist.Dialog );
     TNode.call( this, dialog, phetioID );
   }
 

@@ -33,7 +33,7 @@ define( function( require ) {
    * @constructor
    */
   function TSim( sim, phetioID ) {
-    assertInstanceOf( sim, phet.joist.Sim );
+    assert && assertInstanceOf( sim, phet.joist.Sim );
     TObject.call( this, sim, phetioID );
 
     // Store a reference to the sim so that subsequent calls will be simpler.  PhET-iO only works with a single sim.

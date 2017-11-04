@@ -23,7 +23,7 @@ define( function( require ) {
    * @constructor
    */
   function TScreenButton( button, phetioID ) {
-    assertInstanceOf( button, phet.joist.ScreenButton );
+    assert && assertInstanceOf( button, phet.joist.ScreenButton );
     TNode.call( this, button, phetioID );
   }
 

@@ -23,7 +23,7 @@ define( function( require ) {
    * @constructor
    */
   function TPhetMenu( phetMenu, phetioID ) {
-    assertInstanceOf( phetMenu, phet.joist.PhetMenu );
+    assert && assertInstanceOf( phetMenu, phet.joist.PhetMenu );
     TNode.call( this, phetMenu, phetioID );
   }
 

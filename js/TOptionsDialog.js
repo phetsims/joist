@@ -22,7 +22,7 @@ define( function( require ) {
    * @param {string} phetioID - identifier string
    */
   function TOptionsDialog( dialog, phetioID ) {
-    assertInstanceOf( dialog, phet.joist.OptionsDialog );
+    assert && assertInstanceOf( dialog, phet.joist.OptionsDialog );
     TDialog.call( this, dialog, phetioID );
   }
 
