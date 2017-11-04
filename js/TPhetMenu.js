@@ -23,8 +23,8 @@ define( function( require ) {
    * @constructor
    */
   function TPhetMenu( phetMenu, phetioID ) {
-    TNode.call( this, phetMenu, phetioID );
     assertInstanceOf( phetMenu, phet.joist.PhetMenu );
+    TNode.call( this, phetMenu, phetioID );
   }
 
   phetioInherit( TNode, 'TPhetMenu', TPhetMenu, {}, {
