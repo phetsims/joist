@@ -11,7 +11,7 @@ define( function( require ) {
   var TDialog = require( 'JOIST/TDialog' );
 
   // phet-io modules
-  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
+  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var joist = require( 'JOIST/joist' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
 
