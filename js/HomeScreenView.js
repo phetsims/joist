@@ -23,6 +23,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
 
   // a11y-strings
+  // TODO: factor these out to joistA11yStrings.js, see https://github.com/phetsims/joist/issues/355
   var simScreensString = 'Sim Screens';
   var simScreenString = 'Sim Screen';
   var homeScreenDescriptionPatternString = 'Come explore with {{name}}. It has {{screens}} screens.';
