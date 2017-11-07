@@ -24,8 +24,18 @@ define( function( require ) {
     playAreaString: 'Play Area',
     controlPanelString: 'Control Panel',
 
+    // general for screens
+    simScreensString: 'Sim Screens',
+    simScreenString: 'Sim Screen',
+    screenNumberPattern: 'Screen {{number}}',
+    screenNamePattern: '{{name}} Screen',
+
+    homeString: 'Home',
+    homeScreenString: 'Home Screen',
+    homeScreenDescriptionString: 'Go to Home Screen.',
+
     // navigation bar
-    simResourcesAndToolsString: 'Sim Resources and Tools',
+    simScreensResourcesAndToolsString: 'Sim Screens, Resources, and Tools.',
 
     // PhET menu
     phetString: 'PhET Menu'

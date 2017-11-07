@@ -12,10 +12,16 @@ define( function( require ) {
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
+  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var JoistButton = require( 'JOIST/JoistButton' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+
+  // a11y strings
+  var homeString = JoistA11yStrings.homeString;
+  var homeScreenString = JoistA11yStrings.homeScreenString;
+  var homeScreenDescriptionString = JoistA11yStrings.homeScreenDescriptionString;
 
   /**
    * @param {number} navBarHeight
@@ -28,7 +34,13 @@ define( function( require ) {
 
     options = _.extend( {
       highlightExtensionWidth: 4,
-      listener: null
+      listener: null,
+
+      // a11y,
+      tagName: 'button',
+      accessibleLabel: homeString,
+      parentContainerTagName: 'li',
+      accessibleDescriptionAsHTML: homeScreenDescriptionString
     }, options );
 
     var homeIcon = new FontAwesomeNode( 'home' );
@@ -42,6 +54,9 @@ define( function( require ) {
     var content = new Node( { children: [ background, homeIcon ] } );
 
     JoistButton.call( this, content, navigationBarFillProperty, tandem, options );
+
+    // a11y - add the role description for the HomeButton
+    this.setAccessibleAttribute( 'aria-roledescription', homeScreenString );
 
     Property.multilink( [ this.interactionStateProperty, navigationBarFillProperty ], function( interactionState, navigationBarFill ) {
       if ( navigationBarFill === 'black' ) {

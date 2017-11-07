@@ -16,12 +16,14 @@ define( function( require ) {
   var HighlightNode = require( 'JOIST/HighlightNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
+  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
@@ -29,6 +31,9 @@ define( function( require ) {
 
   // constants
   var HIGHLIGHT_SPACING = 4;
+
+  // a11y strings
+  var simScreenString = JoistA11yStrings.simScreenString;
 
   /**
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
@@ -45,18 +50,31 @@ define( function( require ) {
     assert && assert( screen.name, 'name is required for screen ' + screens.indexOf( screen ) );
     assert && assert( screen.navigationBarIcon, 'navigationBarIcon is required for screen ' + screen.name );
 
+    // The index of the screen that the button is being constructed for.
+    var screenIndex = screens.indexOf( screen );
+
     function clicked() {
-      screenIndexProperty.value = screens.indexOf( screen );
+      screenIndexProperty.value = screenIndex;
     }
 
     options = _.extend( {
       cursor: 'pointer',
-      textDescription: screen.name + ' Screen: Button',
       tandem: Tandem.tandemRequired(),
-      maxButtonWidth: null // {number|null} the maximum width of the button, causes text and/or icon to be scaled down if necessary
+      maxButtonWidth: null, // {number|null} the maximum width of the button, causes text and/or icon to be scaled down if necessary
+
+      // a11y
+      tagName: 'button',
+      parentContainerTagName: 'li',
+      accessibleDescriptionAsHTML: screen.accessibleDescription,
+      accessibleLabel: StringUtils.fillIn( JoistA11yStrings.screenNumberPattern, {
+        number: screenIndex + 1 // convert from index to display number
+      } )
     }, options );
 
     Node.call( this );
+
+    // a11y - set the role description for the button
+    this.setAccessibleAttribute( 'aria-roledescription', simScreenString );
 
     // icon
     var icon = new Node( {

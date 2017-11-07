@@ -25,6 +25,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var HomeButton = require( 'JOIST/HomeButton' );
   var HomeScreenView = require( 'JOIST/HomeScreenView' );
@@ -43,6 +44,10 @@ define( function( require ) {
 
   // strings
   var simTitleWithScreenNamePatternString = require( 'string!JOIST/simTitleWithScreenNamePattern' );
+
+  // a11y strings
+  var simScreensResourcesAndToolsString = JoistA11yStrings.simScreensResourcesAndToolsString;
+  var simScreensString = JoistA11yStrings.simScreensString;
 
   // constants
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
@@ -69,7 +74,15 @@ define( function( require ) {
     // @private
     this.screens = screens;
 
-    Node.call( this );
+    Node.call( this, {
+
+      // a11y
+      tagName: 'div',
+      ariaRole: 'region',
+      labelTagName: 'h2',
+      accessibleLabel: simScreensResourcesAndToolsString,
+      prependLabels: true
+    } );
 
     // @private - The bar's background (resized in layout)
     this.background = new Rectangle( 0, 0, NAVIGATION_BAR_SIZE.width, NAVIGATION_BAR_SIZE.height, {
@@ -114,6 +127,10 @@ define( function( require ) {
       this.barContents.addChild( this.keyboardHelpButton );
     }
 
+    // a11y - tell this node that it is ariaLabelledBy its own accessibleLabel.
+    this.ariaLabelledByNode = this;
+    this.ariaLabelContent = AccessiblePeer.LABEL;
+
     if ( screens.length === 1 ) {
       /* single-screen sim */
 
@@ -127,6 +144,16 @@ define( function( require ) {
       // Start with the assumption that the title can occupy (at most) this percentage of the bar.
       var maxTitleWidth = Math.min( this.titleTextNode.width, 0.20 * HomeScreenView.LAYOUT_BOUNDS.width );
 
+      // a11y - container for the homeButton and all the screen buttons.
+      var buttons = new Node( {
+        tagName: 'nav',
+        useAriaLabel: true,
+        accessibleLabel: simScreensString
+      } );
+      var buttonsOrderedList = new Node( { tagName: 'ol' } );
+      buttons.addChild( buttonsOrderedList );
+      this.barContents.addChild( buttons );
+
       // @private - Create the home button
       this.homeButton = new HomeButton(
         NAVIGATION_BAR_SIZE.height,
@@ -138,7 +165,7 @@ define( function( require ) {
         } );
 
       // Add the home button, but only if it isn't turned off with ?homeScreen=false
-      phet.chipper.queryParameters.homeScreen && this.barContents.addChild( this.homeButton );
+      phet.chipper.queryParameters.homeScreen && buttonsOrderedList.addChild( this.homeButton );
 
       /*
        * Allocate remaining horizontal space equally for screen buttons, assuming they will be centered in the navbar.
@@ -193,7 +220,7 @@ define( function( require ) {
         centerY: this.background.centerY,
         maxWidth: availableTotal // in case we have so many screens that the screen buttons need to be scaled down
       } );
-      this.barContents.addChild( this.screenButtonsContainer );
+      buttonsOrderedList.addChild( this.screenButtonsContainer );
 
       this.accessibleOrder = [ this.screenButtonsContainer, this.homeButton ];
 
@@ -201,7 +228,6 @@ define( function( require ) {
       this.titleTextNode.maxWidth = this.screenButtonsContainer.left - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN -
                                     HOME_BUTTON_RIGHT_MARGIN - this.homeButton.width - HOME_BUTTON_LEFT_MARGIN;
     }
-
 
     // initial layout (that doesn't need to change when we are re-layed out)
     this.titleTextNode.left = TITLE_LEFT_MARGIN;
@@ -214,10 +240,6 @@ define( function( require ) {
     }
 
     this.layout( 1, NAVIGATION_BAR_SIZE.width, NAVIGATION_BAR_SIZE.height );
-
-    // a11y - container tag name and accessible label for all content in the nav bar
-    this.tagName = 'footer';
-    this.ariaLabel = JoistA11yStrings.simResourcesAndToolsString;
 
     // a11y - keyboard help button before phet menu button
     this.accessibleOrder = [ this.keyboardHelpButton, this.phetButton ];
