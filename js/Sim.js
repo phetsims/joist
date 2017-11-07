@@ -21,6 +21,7 @@ define( function( require ) {
   var Display = require( 'SCENERY/display/Display' );
   var DotUtil = require( 'DOT/Util' );// eslint-disable-line
   var Emitter = require( 'AXON/Emitter' );
+  var Heartbeat = require( 'JOIST/Heartbeat' );
   var HomeScreen = require( 'JOIST/HomeScreen' );
   var HomeScreenView = require( 'JOIST/HomeScreenView' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -38,11 +39,11 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
   var Timer = require( 'PHET_CORE/Timer' );
   var TSim = require( 'JOIST/TSim' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var Util = require( 'SCENERY/util/Util' );
-  var Heartbeat = require( 'JOIST/Heartbeat' );
 
   // phet-io modules
   var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
@@ -197,8 +198,9 @@ define( function( require ) {
     // @public - When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.
     // Set to false for when the sim will be paused.  If the sim has playbackModeEnabledProperty set to true, the
     // activeProperty will automatically be set to false so the timing and inputs can be controlled by the playback engine
-    this.activeProperty = new BooleanProperty( !phet.joist.playbackModeEnabledProperty.value, {
-      tandem: simTandem.createTandem( 'activeProperty' )
+    this.activeProperty = new Property( !phet.joist.playbackModeEnabledProperty.value, {
+      tandem: simTandem.createTandem( 'activeProperty' ),
+      phetioValueType: TBoolean
     } );
 
     // @public (read-only) - property that indicates whether the browser tab containing the simulation is currently visible
