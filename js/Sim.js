@@ -268,14 +268,14 @@ define( function( require ) {
       $( 'title' ).html( name );
     }
 
+    // enables recording of Scenery's input events, request animation frames, and dt's so the sim can be played back
     if ( phet.chipper.queryParameters.recordInputEventLog ) {
-      // enables recording of Scenery's input events, request animation frames, and dt's so the sim can be played back
       options.recordInputEventLog = true;
       options.inputEventLogName = phet.chipper.queryParameters.recordInputEventLog;
     }
 
+    // instead of loading like normal, download a previously-recorded event sequence and play it back (unique to the browser and window size)
     if ( phet.chipper.queryParameters.playbackInputEventLog ) {
-      // instead of loading like normal, download a previously-recorded event sequence and play it back (unique to the browser and window size)
       options.playbackInputEventLog = true;
       options.inputEventLogName = phet.chipper.queryParameters.playbackInputEventLog;
     }
