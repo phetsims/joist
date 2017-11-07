@@ -42,6 +42,7 @@ define( function( require ) {
   var TSim = require( 'JOIST/TSim' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var Util = require( 'SCENERY/util/Util' );
+  var Heartbeat = require( 'JOIST/Heartbeat' );
 
   // phet-io modules
   var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
@@ -349,22 +350,7 @@ define( function( require ) {
     self.display.domElement.id = 'sim';
     document.body.appendChild( self.display.domElement );
 
-    // for preventing Safari from going to sleep - added to the self.display.domElement instead of the body to prevent a VoiceOver bug
-    // where the virtual cursor would spontaneously move when the div content changed, see
-    // https://github.com/phetsims/joist/issues/140
-    var heartbeatDiv = this.heartbeatDiv = document.createElement( 'div' );
-    heartbeatDiv.style.opacity = 0;
-
-    // Extra style (also used for accessibility) that makes it take up no visual layout space.
-    // Without this, it could cause some layout issues. See https://github.com/phetsims/gravity-force-lab/issues/39
-    heartbeatDiv.style.position = 'absolute';
-    heartbeatDiv.style.left = '0';
-    heartbeatDiv.style.top = '0';
-    heartbeatDiv.style.width = '0';
-    heartbeatDiv.style.height = '0';
-    heartbeatDiv.style.clip = 'rect(0,0,0,0)';
-    heartbeatDiv.setAttribute( 'aria-hidden', true ); // hide div from screen readers (a11y)
-    self.display.domElement.appendChild( heartbeatDiv );
+    Heartbeat.start( this );
 
     if ( phet.chipper.queryParameters.sceneryLog ) {
       this.display.scenery.enableLogging( phet.chipper.queryParameters.sceneryLog );
@@ -770,11 +756,6 @@ define( function( require ) {
       this.frameCounter++;
 
       phetAllocation && phetAllocation( 'loop' );
-
-      // prevent Safari from going to sleep, see https://github.com/phetsims/joist/issues/140
-      if ( this.frameCounter % 1000 === 0 ) {
-        this.heartbeatDiv.innerHTML = Math.random();
-      }
 
       if ( this.resizePending ) {
         this.resizeToWindow();
