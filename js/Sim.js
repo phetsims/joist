@@ -386,26 +386,6 @@ define( function( require ) {
     self.display.setCanvasNodeBoundsVisible( phet.chipper.queryParameters.showCanvasNodeBounds );
     self.display.setFittedBlockBoundsVisible( phet.chipper.queryParameters.showFittedBlockBounds );
 
-    function sleep( millis ) {
-      var date = new Date();
-      var curDate;
-      do {
-        curDate = new Date();
-      } while ( curDate - date < millis );
-    }
-
-    /*
-     * These are used to make sure our sims still behave properly with an artificially higher load (so we can test what happens
-     * at 30fps, 5fps, etc). There tend to be bugs that only happen on less-powerful devices, and these functions facilitate
-     * testing a sim for robustness, and allowing others to reproduce slow-behavior bugs.
-     */
-    window.phet.joist.makeEverythingSlow = function() {
-      window.setInterval( function() { sleep( 64 ); }, 16 );
-    };
-    window.phet.joist.makeRandomSlowness = function() {
-      window.setInterval( function() { sleep( Math.ceil( 100 + Math.random() * 200 ) ); }, Math.ceil( 100 + Math.random() * 200 ) );
-    };
-
     // @public
     this.screens = screens;
 
