@@ -730,7 +730,7 @@ define( function( require ) {
                   Profiler.start( self );
                 }
 
-                // place the rAF *before* the render() to assure as close to 60fps with the setTimeout fallback.
+                // place the requestAnimationFrom *before* rendering to assure as close to 60fps with the setTimeout fallback.
                 // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
                 // Launch the bound version so it can easily be swapped out for debugging.
                 self.boundRunAnimationLoop();
