@@ -45,7 +45,6 @@ define( function( require ) {
 
   // phet-io modules
   var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
-  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
 
   // constants
   var PROGRESS_BAR_WIDTH = 273;
@@ -189,9 +188,8 @@ define( function( require ) {
     options.rootRenderer = phet.chipper.queryParameters.rootRenderer || options.rootRenderer;
 
     // @public (joist-internal) - True if the home screen is showing
-    this.showHomeScreenProperty = new Property( options.showHomeScreen, {
-      tandem: simTandem.createTandem( 'showHomeScreenProperty' ),
-      phetioValueType: TBoolean
+    this.showHomeScreenProperty = new BooleanProperty( options.showHomeScreen, {
+      tandem: simTandem.createTandem( 'showHomeScreenProperty' )
     } );
 
     // @public (joist-internal) - The selected screen's index
@@ -206,15 +204,13 @@ define( function( require ) {
     //
     // Set to false for when the sim will be paused.  If the sim has playbackModeEnabledProperty set to true, the activeProperty will
     // automatically be set to false so the timing and inputs can be controlled by the playback engine
-    this.activeProperty = new Property( !phet.joist.playbackModeEnabledProperty.value, {
-      tandem: simTandem.createTandem( 'activeProperty' ),
-      phetioValueType: TBoolean
+    this.activeProperty = new BooleanProperty( !phet.joist.playbackModeEnabledProperty.value, {
+      tandem: simTandem.createTandem( 'activeProperty' )
     } );
 
     // @public (read-only) - property that indicates whether the browser tab containing the simulation is currently visible
-    this.browserTabVisibleProperty = new Property( true, {
+    this.browserTabVisibleProperty = new BooleanProperty( true, {
       tandem: simTandem.createTandem( 'browserTabVisibleProperty' ),
-      phetioValueType: TBoolean,
       phetioInstanceDocumentation: 'this Property is read-only, do not attempt to set its value'
     } );
 
