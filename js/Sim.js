@@ -67,9 +67,7 @@ define( function( require ) {
    * @constructor
    */
   function Sim( name, screens, options ) {
-
     var self = this;
-
     window.phetSplashScreenDownloadComplete();
 
     // playbackModeEnabledProperty cannot be changed after Sim construction has begun, hence this listener is added before
@@ -109,7 +107,6 @@ define( function( require ) {
       assert && assert( !QueryStringMachine.containsKey( 'initialScreen' ), 'initialScreen query parameter not supported for single-screen sims' );
       assert && assert( !QueryStringMachine.containsKey( 'screens' ), 'screens query parameter not supported for single-screen sims' );
     }
-
     var initialScreen = phet.chipper.queryParameters.initialScreen;
 
     // The screens to be included, and their order, may be specified via a query parameter.
@@ -132,10 +129,8 @@ define( function( require ) {
         assert && assert( index !== -1, 'screen not found' );
         initialScreen = index + 1;
       }
-
       screens = newScreens;
     }
-
     options = _.extend( {
 
       // whether to show the home screen, or go immediately to the screen indicated by screenIndex
@@ -180,7 +175,7 @@ define( function( require ) {
       rootRenderer: platform.edge ? 'canvas' : 'svg'
     }, options );
 
-    // @private - store this for access from prototype functions, assumes that it won't be changed later
+    // @public - used by PhetButton and maybe elsewhere
     this.options = options;
 
     // override rootRenderer using query parameter, see #221 and #184
@@ -198,11 +193,9 @@ define( function( require ) {
       valueType: 'Integer'
     } );
 
-    // @public
-    // When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.
-    //
-    // Set to false for when the sim will be paused.  If the sim has playbackModeEnabledProperty set to true, the activeProperty will
-    // automatically be set to false so the timing and inputs can be controlled by the playback engine
+    // @public - When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.
+    // Set to false for when the sim will be paused.  If the sim has playbackModeEnabledProperty set to true, the
+    // activeProperty will automatically be set to false so the timing and inputs can be controlled by the playback engine
     this.activeProperty = new BooleanProperty( !phet.joist.playbackModeEnabledProperty.value, {
       tandem: simTandem.createTandem( 'activeProperty' )
     } );
@@ -238,7 +231,6 @@ define( function( require ) {
 
     // @public
     this.lookAndFeel = new LookAndFeel();
-
     assert && assert( window.phet.joist.launchCalled, 'Sim must be launched using SimLauncher, ' +
                                                       'see https://github.com/phetsims/joist/issues/142' );
 
@@ -340,10 +332,8 @@ define( function( require ) {
 
       // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
       allowWebGL: phet.chipper.queryParameters.webgl,
-
       accessibility: options.accessibility,
       isApplication: false,
-
       assumeFullWindow: true // a bit faster if we can assume no coordinate translations are needed for the display.
     } );
 
@@ -483,7 +473,6 @@ define( function( require ) {
         self.rootNode.addChild( screen.view );
       } );
       this.rootNode.addChild( this.navigationBar );
-
       if ( this.homeScreen ) {
 
         // Once both the navbar and homescreen have been added, link the PhET button positions together.
@@ -493,7 +482,6 @@ define( function( require ) {
 
       Property.multilink( [ this.showHomeScreenProperty, this.screenIndexProperty ],
         function( showHomeScreen, screenIndex ) {
-
           if ( self.homeScreen ) {
 
             // You can't set the active property if the screen is visible, so order matters here
@@ -537,15 +525,12 @@ define( function( require ) {
       // @public (joist-internal) Semi-transparent black barrier used to block input events when a dialog (or other popup)
       // is present, and fade out the background.
       this.barrierRectangle = new BarrierRectangle(
-        this.modalNodeStack,
-        {
+        this.modalNodeStack, {
           fill: 'rgba(0,0,0,0.3)',
           pickable: true,
           tandem: this.simTandem.createTandem( 'barrierRectangle' )
         } );
-
       this.topLayer.addChild( this.barrierRectangle );
-
 
       // Fit to the window and render the initial scene
       // Can't synchronously do this in Firefox, see https://github.com/phetsims/vegas/issues/55 and
@@ -584,12 +569,10 @@ define( function( require ) {
       assert && assert( node );
       assert && assert( !!node.hide, 'Missing node.hide() for showPopup' );
       assert && assert( !this.topLayer.hasChild( node ), 'Popup already shown' );
-
       if ( isModal ) {
         this.modalNodeStack.push( node );
       }
       this.topLayer.addChild( node );
-
     },
 
     /*
@@ -601,12 +584,10 @@ define( function( require ) {
     hidePopup: function( node, isModal ) {
       assert && assert( node && this.modalNodeStack.contains( node ) );
       assert && assert( this.topLayer.hasChild( node ), 'Popup was not shown' );
-
       if ( isModal ) {
         this.modalNodeStack.remove( node );
       }
       this.topLayer.removeChild( node );
-
     },
 
     /**
@@ -614,14 +595,12 @@ define( function( require ) {
      */
     resizeToWindow: function() {
       this.resizePending = false;
-
       this.resize( window.innerWidth, window.innerHeight );
     },
 
     // @public (joist-internal, phet-io)
     resize: function( width, height ) {
       var self = this;
-
       var scale = Math.min( width / HomeScreenView.LAYOUT_BOUNDS.width, height / HomeScreenView.LAYOUT_BOUNDS.height );
 
       // 40 px high on iPad Mobile Safari
@@ -629,7 +608,6 @@ define( function( require ) {
       self.navigationBar.layout( scale, width, navBarHeight );
       self.navigationBar.y = height - navBarHeight;
       self.display.setSize( new Dimension2( width, height ) );
-
       var screenHeight = height - self.navigationBar.height;
 
       // Layout each of the screens
@@ -639,10 +617,7 @@ define( function( require ) {
 
       // Resize the layer with all of the dialogs, etc.
       self.topLayer.setScaleMagnitude( scale );
-
       self.homeScreen && self.homeScreen.view.layout( width, height );
-
-      // Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
 
       // Fixes problems where the div would be way off center on iOS7
       if ( platform.mobileSafari ) {
@@ -659,17 +634,17 @@ define( function( require ) {
       // {Bounds2} screenBounds - subtracts off the size of the navbar from the height
       // {number} scale - the overall scaling factor for elements in the view
       this.resizedEmitter.emit3( this.boundsProperty.value, this.screenBoundsProperty.value, this.scaleProperty.value );
+
+      // Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
     },
 
     // @public (joist-internal)
     start: function() {
-
       var self = this;
 
       // In order to animate the loading progress bar, we must schedule work with setTimeout
       // This array of {function} is the work that must be completed to launch the sim.
       var workItems = [];
-
       var screens = this.screens;
 
       // Schedule instantiation of the screens
@@ -707,7 +682,6 @@ define( function( require ) {
               runItem( i + 1 );
             }
             else {
-
               setTimeout( function() {
                 self.finishInit( screens, self.tandem );
 
@@ -756,7 +730,6 @@ define( function( require ) {
           30 / workItems.length
         );
       };
-
       runItem( 0 );
     },
 
@@ -771,7 +744,6 @@ define( function( require ) {
 
     // @private - Bound to this.boundRunAnimationLoop so it can be run in window.requestAnimationFrame
     runAnimationLoop: function() {
-
       if ( !this.destroyed ) {
         window.requestAnimationFrame( this.boundRunAnimationLoop );
       }
@@ -779,7 +751,6 @@ define( function( require ) {
       // Setting the activeProperty to false pauses the sim and also enables optional support for playback back recorded
       // events (if playbackModeEnabledProperty) is true
       if ( this.activeProperty.value ) {
-
         this.stepOneFrame();
       }
     },
@@ -816,7 +787,6 @@ define( function( require ) {
      * @public (phet-io)
      */
     stepSimulation: function( dt ) {
-
       this.frameStartedEmitter.emit();
 
       // increment this before we can have an exception thrown, to see if we are missing frames
@@ -872,9 +842,7 @@ define( function( require ) {
       if ( screen && screen.view.step ) {
         screen.view.step( dt );
       }
-
       this.display.updateDisplay();
-
       this.frameEndedEmitter.emit1( dt );
     }
   } );
