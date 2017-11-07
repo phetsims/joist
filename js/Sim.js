@@ -311,9 +311,7 @@ define( function( require ) {
     }
 
     // Prevents selection cursor issues in Safari, see https://github.com/phetsims/scenery/issues/476
-    document.onselectstart = function() {
-      return false;
-    };
+    document.onselectstart = function() { return false; };
 
     // @public
     this.rootNode = new Node( { renderer: options.rootRenderer } );
@@ -327,6 +325,7 @@ define( function( require ) {
 
     // @private
     this.display = new Display( self.rootNode, {
+
       // prevent overflow that can cause iOS bugginess, see https://github.com/phetsims/phet-io/issues/341
       allowSceneOverflow: false,
 
@@ -347,11 +346,10 @@ define( function( require ) {
       }
     } );
 
-    var simDiv = self.display.domElement;
-    simDiv.id = 'sim';
-    document.body.appendChild( simDiv );
+    self.display.domElement.id = 'sim';
+    document.body.appendChild( self.display.domElement );
 
-    // for preventing Safari from going to sleep - added to the simDiv instead of the body to prevent a VoiceOver bug
+    // for preventing Safari from going to sleep - added to the self.display.domElement instead of the body to prevent a VoiceOver bug
     // where the virtual cursor would spontaneously move when the div content changed, see
     // https://github.com/phetsims/joist/issues/140
     var heartbeatDiv = this.heartbeatDiv = document.createElement( 'div' );
@@ -366,7 +364,7 @@ define( function( require ) {
     heartbeatDiv.style.height = '0';
     heartbeatDiv.style.clip = 'rect(0,0,0,0)';
     heartbeatDiv.setAttribute( 'aria-hidden', true ); // hide div from screen readers (a11y)
-    simDiv.appendChild( heartbeatDiv );
+    self.display.domElement.appendChild( heartbeatDiv );
 
     if ( phet.chipper.queryParameters.sceneryLog ) {
       this.display.scenery.enableLogging( phet.chipper.queryParameters.sceneryLog );
@@ -718,8 +716,7 @@ define( function( require ) {
     // @public (joist-internal)
     destroy: function() {
       this.destroyed = true;
-      var simDiv = this.display.domElement;
-      simDiv.parentNode && simDiv.parentNode.removeChild( simDiv );
+      this.display.domElement.parentNode && this.display.domElement.parentNode.removeChild( this.display.domElement );
     },
 
     // @private - Bound to this.boundRunAnimationLoop so it can be run in window.requestAnimationFrame
