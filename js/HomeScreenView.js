@@ -72,7 +72,7 @@ define( function( require ) {
     // a11y heading and description
     this.addChild( new Node( {
       accessibleLabel: sim.name, // display name
-      tagName: 'h1',
+      tagName: 'h1'
     } ) );
     this.addChild( new Node( {
       tagName: 'p',
