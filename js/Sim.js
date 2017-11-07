@@ -102,7 +102,6 @@ define( function( require ) {
     this.frameStartedEmitter = new Emitter();
 
     // @public Emitter that indicates when a frame ends
-    // is false because we only want this manually wired for phetio event recording.
     this.frameEndedEmitter = new Emitter();
 
     if ( screens.length === 1 ) {
