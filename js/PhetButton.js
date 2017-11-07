@@ -52,6 +52,7 @@ define( function( require ) {
    * @constructor
    */
   function PhetButton( sim, backgroundFillProperty, textFillProperty, tandem ) {
+    var self = this;
 
     var phetMenu = new PhetMenu( sim, tandem.createTandem( 'phetMenu' ), {
       showSaveAndLoad: sim.options.showSaveAndLoad,
@@ -120,6 +121,11 @@ define( function( require ) {
         optionsButton.fill = backgroundIsWhite ? ( outOfDate ? '#0a0' : '#222' ) : ( outOfDate ? '#3F3' : 'white' );
         logoImage.image = backgroundIsWhite ? darkLogoMipmap : brightLogoMipmap;
       } );
+
+    // The sim controls all phetButton instances' pickable attribute to keep it in sync.
+    sim.phetButtonPickableProperty.link( function( pickable ) {
+      self.pickable = pickable;
+    } );
 
     // a11y - add a listener that opens the menu on 'click' and 'reset', and closes it on escape and if the
     // button receives focus again

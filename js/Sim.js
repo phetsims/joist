@@ -235,6 +235,12 @@ define( function( require ) {
     // @public (joist-internal, read-only) - {Screen|null} - The current screen, or null if showing the home screen
     this.currentScreenProperty = new Property( null );
 
+    // @public (joist-internal, read-only, phet-io) - whether the phetButton is pickable. This controls all of the
+    // instances, on the homescreen and nav bar in tandem. see https://github.com/phetsims/joist/issues/453
+    this.phetButtonPickableProperty = new BooleanProperty( true, {
+      tandem: tandem.createTandem( 'phetButtonPickableProperty' )
+    } );
+
     // @public
     this.lookAndFeel = new LookAndFeel();
 
