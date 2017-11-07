@@ -272,10 +272,6 @@ define( function( require ) {
     // @private {boolean} - Whether the window has resized since our last updateDisplay()
     this.resizePending = true;
 
-    // used to store input events and requestAnimationFrame cycles
-    this.inputEventLog = [];                 // @public (joist-internal)
-    this.inputEventBounds = Bounds2.NOTHING; // @public (joist-internal)
-
     // @public - Make our locale available
     this.locale = phet.chipper.locale || 'en';
 
