@@ -27,8 +27,8 @@ define( function( require ) {
     // general for screens
     simScreensString: 'Sim Screens',
     simScreenString: 'Sim Screen',
-    screenNumberPattern: 'Screen {{number}}',
-    screenNamePattern: '{{name}} Screen',
+    screenNumberPatternString: 'Screen {{number}}',
+    screenNamePatternString: '{{name}} Screen',
 
     homeString: 'Home',
     homeScreenString: 'Home Screen',

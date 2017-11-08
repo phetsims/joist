@@ -34,6 +34,7 @@ define( function( require ) {
 
   // a11y strings
   var simScreenString = JoistA11yStrings.simScreenString;
+  var screenNameStringPatternString = JoistA11yStrings.screenNumberPatternString;
 
   /**
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
@@ -66,7 +67,7 @@ define( function( require ) {
       tagName: 'button',
       parentContainerTagName: 'li',
       accessibleDescriptionAsHTML: screen.accessibleDescription,
-      accessibleLabel: StringUtils.fillIn( JoistA11yStrings.screenNumberPattern, {
+      accessibleLabel: StringUtils.fillIn( screenNameStringPatternString, {
         number: screenIndex + 1 // convert from index to display number
       } )
     }, options );
