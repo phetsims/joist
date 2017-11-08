@@ -17,14 +17,19 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
+  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Tandem = require( 'TANDEM/Tandem' );
 
   // phet-io modules
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
+
+  // a11y strings
+  var screenNamePatternString = JoistA11yStrings.screenNamePatternString;
 
   // constants
   var MINIMUM_HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 );
@@ -70,8 +75,9 @@ define( function( require ) {
 
       tandem: Tandem.tandemRequired(),
 
-      // The description that is used on the home screen when interacting with this screen's large/small buttons.
-      accessibleDescription: ''
+      // a11y - The description that is used when interacting with screen icons/buttons in joist.
+      // This is often a full but short sentence with a period at the end of it.
+      accessibleDescription: null
     }, options );
 
     // navigationBarIcon defaults to homeScreenIcon, and will be scaled down
@@ -119,7 +125,18 @@ define( function( require ) {
     } );
 
     // @public (a11y)
-    this.accessibleDescription = options.accessibleDescription;
+    this.accessibleDescription = '';
+    if ( options.accessibleDescription ) {
+      this.accessibleDescription = options.accessibleDescription;
+    }
+    else if ( options.name ) {
+      this.accessibleDescription = StringUtils.fillIn( screenNamePatternString, {
+        name: options.name
+      } );
+    }
+    else {
+      this.accessibleDescription = JoistA11yStrings.simScreenString; // fall back on generic name
+    }
 
     var self = this;
     assert && this.activeProperty.lazyLink( function( isActive ) {
