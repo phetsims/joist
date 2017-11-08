@@ -28,6 +28,7 @@ define( function( require ) {
    * @constructor
    */
   function JoistButton( content, navigationBarFillProperty, tandem, options ) {
+    var self = this;
 
     options = _.extend( {
       cursor: 'pointer', // {string}
@@ -78,6 +79,13 @@ define( function( require ) {
     } );
 
     this.addInputListener( new ButtonListener( this.buttonModel ) );
+
+    // a11y - when the button is clicked with assistive technology, fire
+    this.addAccessibleInputListener( {
+      click: function() {
+        self.buttonModel.fire();
+      }
+    } );
 
     // eliminate interactivity gap between label and button
     this.mouseArea = this.touchArea = Shape.bounds( this.bounds );

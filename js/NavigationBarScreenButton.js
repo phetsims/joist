@@ -49,6 +49,7 @@ define( function( require ) {
    * @constructor
    */
   function NavigationBarScreenButton( navigationBarFillProperty, screenIndexProperty, screens, screen, navBarHeight, options ) {
+    var self = this;
 
     assert && assert( screen.name, 'name is required for screen ' + screens.indexOf( screen ) );
     assert && assert( screen.navigationBarIcon, 'navigationBarIcon is required for screen ' + screen.name );
@@ -94,6 +95,13 @@ define( function( require ) {
       tandem: options.tandem // note the same tandem is passed through so the event stream will show the events as coming from this button
     } );
     this.addInputListener( new ButtonListener( this.buttonModel ) );
+
+    // a11y - when the button is clicked with assistive technology, fire
+    this.addAccessibleInputListener( {
+      click: function() {
+        self.buttonModel.fire();
+      }
+    } );
 
     var text = new Text( screen.name, {
       font: new PhetFont( 10 ),
@@ -174,7 +182,7 @@ define( function( require ) {
 
     // a11y - Pass a shape to the focusHighlight to prevent dilation, then tweak the top up just a hair.
     var highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );
-    this.focusHighlight = Shape.bounds( this.bounds.setMinY( this.bounds.minY - highlightLineWidth/2 ) );
+    this.focusHighlight = Shape.bounds( this.bounds.setMinY( this.bounds.minY - highlightLineWidth / 2 ) );
 
     this.mutate( options );
   }
