@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
@@ -17,6 +18,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Shape = require( 'KITE/Shape' );
 
   // a11y strings
   var homeString = JoistA11yStrings.homeString;
@@ -54,6 +56,11 @@ define( function( require ) {
     var content = new Node( { children: [ background, homeIcon ] } );
 
     JoistButton.call( this, content, navigationBarFillProperty, tandem, options );
+
+    // a11y - Pass a shape to the focusHighlight to prevent dilation, then tweak the bottom up just a hair so it
+    // isn't off the screen.
+    var highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );
+    this.focusHighlight = Shape.bounds( this.bounds.setMaxY( this.bounds.maxY - highlightLineWidth / 2 ) );
 
     // a11y - add the role description for the HomeButton
     this.setAccessibleAttribute( 'aria-roledescription', homeScreenString );

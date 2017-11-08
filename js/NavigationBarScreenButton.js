@@ -13,6 +13,7 @@ define( function( require ) {
   // modules
   var ButtonListener = require( 'SUN/buttons/ButtonListener' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
@@ -23,6 +24,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Shape = require( 'KITE/Shape' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -73,9 +75,6 @@ define( function( require ) {
     }, options );
 
     Node.call( this );
-
-    // a11y - set the role description for the button
-    this.setAccessibleAttribute( 'aria-roledescription', simScreenString );
 
     // icon
     var icon = new Node( {
@@ -169,6 +168,13 @@ define( function( require ) {
       // Text is allowed to go beyond the bounds of the icon, hence we use `this.width` instead of `icon.width`
       text.maxWidth = this.width;
     }
+
+    // a11y - set the role description for the button
+    this.setAccessibleAttribute( 'aria-roledescription', simScreenString );
+
+    // a11y - Pass a shape to the focusHighlight to prevent dilation, then tweak the top up just a hair.
+    var highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );
+    this.focusHighlight = Shape.bounds( this.bounds.setMinY( this.bounds.minY - highlightLineWidth/2 ) );
 
     this.mutate( options );
   }
