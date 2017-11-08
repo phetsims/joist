@@ -222,8 +222,6 @@ define( function( require ) {
       } );
       buttonsOrderedList.addChild( this.screenButtonsContainer );
 
-      this.accessibleOrder = [ this.screenButtonsContainer, this.homeButton ];
-
       // Now determine the actual width constraint for the sim title.
       this.titleTextNode.maxWidth = this.screenButtonsContainer.left - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN -
                                     HOME_BUTTON_RIGHT_MARGIN - this.homeButton.width - HOME_BUTTON_LEFT_MARGIN;
@@ -242,7 +240,7 @@ define( function( require ) {
     this.layout( 1, NAVIGATION_BAR_SIZE.width, NAVIGATION_BAR_SIZE.height );
 
     // a11y - keyboard help button before phet menu button
-    this.accessibleOrder = [ this.keyboardHelpButton, this.phetButton ];
+    this.accessibleOrder = [ buttons, this.keyboardHelpButton, this.phetButton ];
   }
 
   joist.register( 'NavigationBar', NavigationBar );
