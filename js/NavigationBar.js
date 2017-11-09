@@ -194,7 +194,7 @@ define( function( require ) {
           screen,
           NAVIGATION_BAR_SIZE.height, {
             maxButtonWidth: screenButtonWidth,
-            tandem: tandem.createTandem( screen.tandem.tail + 'Button' )
+            tandem: tandem.createTandem( screen.screenTandem.tail + 'Button' )
           } );
       } );
 

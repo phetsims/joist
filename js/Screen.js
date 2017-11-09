@@ -90,7 +90,7 @@ define( function( require ) {
     validateIconSize( options.navigationBarIcon, MINIMUM_NAVBAR_ICON_SIZE, NAVBAR_ICON_ASPECT_RATIO, 'navigationBarIcon' );
 
     // @private (read-only, joist)
-    this.tandem = options.tandem;
+    this.screenTandem = options.tandem;
 
     assert && assert( !options.backgroundColor, 'Please provide backgroundColorProperty instead' );
 
