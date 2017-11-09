@@ -317,13 +317,6 @@ define( function( require ) {
     // @public
     this.rootNode = new Node( { renderer: options.rootRenderer } );
 
-    // When the sim becomes inactive, interrupt any currently active input listeners, see https://github.com/phetsims/scenery/issues/619.
-    this.activeProperty.lazyLink( function( active ) {
-      if ( !active ) {
-        self.rootNode.interruptSubtreeInput();
-      }
-    } );
-
     // @private
     this.display = new Display( self.rootNode, {
 
