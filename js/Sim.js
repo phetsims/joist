@@ -50,6 +50,7 @@ define( function( require ) {
 
   // constants
   var PROGRESS_BAR_WIDTH = 273;
+  var ROOT_TANDEM = Tandem.createRootTandem();
 
   // globals
   phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for replicable playbacks
@@ -78,11 +79,8 @@ define( function( require ) {
       throw new Error( 'playbackModeEnabledProperty cannot be changed after Sim construction has begun' );
     } );
 
-    var tandem = Tandem.createRootTandem();
-    this.tandem = tandem; // @public (phet-io)
-
     // This tandem is used to organize joist specific components. Rather than having Sim.js properties on the root tandem.
-    var simTandem = tandem.createTandem( 'sim' );
+    var simTandem = ROOT_TANDEM.createTandem( 'sim' );
     this.simTandem = simTandem; // @private
 
     // @public Emitter that indicates sim construction completed.  This was added for PhET-iO but can be used by any client.
@@ -93,7 +91,7 @@ define( function( require ) {
     // Many other components use addInstance at the end of their constructor but in this case we must register early
     // to (a) enable the SimIFrameAPI as soon as possible and (b) to enable subsequent component registrations,
     // which require the sim to be registered
-    tandem.addInstance( this, TSim, options );
+    ROOT_TANDEM.addInstance( this, TSim, options );
 
     // @public Emitter that indicates when the sim resized
     this.resizedEmitter = new Emitter();
@@ -229,7 +227,7 @@ define( function( require ) {
     // @public (joist-internal, read-only, phet-io) - whether the phetButton is pickable. This controls all of the
     // instances, on the homescreen and nav bar in tandem. see https://github.com/phetsims/joist/issues/453
     this.phetButtonPickableProperty = new BooleanProperty( true, {
-      tandem: tandem.createTandem( 'phetButtonPickableProperty' )
+      tandem: ROOT_TANDEM.createTandem( 'phetButtonPickableProperty' )
     } );
 
     // @public
@@ -295,7 +293,7 @@ define( function( require ) {
 
     // The simStarted event is guaranteed to be a top-level event, not nested under other events.
     // This phetio event is hard-coded in many places such as th playback wrapper, so should not be changed lightly!
-    this.phetioSimStartedEventId = phetioEvents.start( 'model', this.tandem.id, TSim, 'simStarted', {
+    this.phetioSimStartedEventId = phetioEvents.start( 'model', ROOT_TANDEM.id, TSim, 'simStarted', {
       repoName: packageJSON.name,
       simName: this.name,
       simVersion: this.version,
@@ -377,7 +375,7 @@ define( function( require ) {
 
     // Multi-screen sims get a home screen.
     if ( screens.length > 1 ) {
-      this.homeScreen = new HomeScreen( this, tandem.createTandem( 'homeScreen' ), {
+      this.homeScreen = new HomeScreen( this, ROOT_TANDEM.createTandem( 'homeScreen' ), {
         warningNode: options.homeScreenWarningNode,
         showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame
       } );
@@ -388,7 +386,7 @@ define( function( require ) {
     }
 
     // @public (joist-internal)
-    this.navigationBar = new NavigationBar( this, screens, tandem.createTandem( 'navigationBar' ) );
+    this.navigationBar = new NavigationBar( this, screens, ROOT_TANDEM.createTandem( 'navigationBar' ) );
 
     // @public (joist-internal)
     this.updateBackground = function() {
@@ -649,7 +647,7 @@ define( function( require ) {
             }
             else {
               setTimeout( function() {
-                self.finishInit( screens, self.tandem );
+                self.finishInit( screens );
 
                 // Make sure requestAnimationFrame is defined
                 Util.polyfillRequestAnimationFrame();
