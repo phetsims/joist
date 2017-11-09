@@ -51,4 +51,6 @@ define( function( require ) {
   };
 
   joist.register( 'Heartbeat', Heartbeat );
+
+  return Heartbeat;
 } );
