@@ -12,19 +12,21 @@ define( function( require ) {
 
   // modules
   var joist = require( 'JOIST/joist' );
-  var inherit = require( 'PHET_CORE/inherit' );
 
-  /**
-   * @constructor
-   */
-  function Heartbeat() {
-    assert && assert( 'singleton cannot be instantiated' );
-  }
+  // variables
+  var started = false;
 
-  joist.register( 'Heartbeat', Heartbeat );
+  var Heartbeat = {
 
-  return inherit( Object, Heartbeat, {}, {
+    /**
+     * Initializes the heartbeat div to begin ticking to prevent Safari from going to sleep.
+     * @param {Sim} sim
+     * @public
+     */
     start: function( sim ) {
+      assert && assert( !started, 'Heartbeat can only be started once' );
+      started = true;
+
       var heartbeatDiv = document.createElement( 'div' );
       heartbeatDiv.style.opacity = 0;
 
@@ -46,5 +48,7 @@ define( function( require ) {
         }
       } );
     }
-  } );
+  };
+
+  joist.register( 'Heartbeat', Heartbeat );
 } );
