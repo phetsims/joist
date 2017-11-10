@@ -280,10 +280,10 @@ define( function( require ) {
 
       // For multi-screen sims ...
       if ( this.screens.length !== 1 ) {
-        // screen buttons and home screen button are centered.  These buttons are centered
-        // around the origin in the screenButtonsContainer, so the screenButtonsContainer can
-        // be put at the center of the navbar, shifted by the width of the home button.
-        this.screenButtonsContainer.x = right / 2 + this.homeButton.width / 2;
+
+        // Screen buttons centered.  These buttons are centered around the origin in the screenButtonsContainer, so the
+        // screenButtonsContainer can be put at the center of the navbar.
+        this.screenButtonsContainer.x = right / 2;
 
         // home button to the left of screen buttons
         this.homeButton.right = this.screenButtonsContainer.left - HOME_BUTTON_RIGHT_MARGIN;
