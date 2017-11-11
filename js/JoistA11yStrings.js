@@ -33,6 +33,7 @@ define( function( require ) {
     homeString: 'Home',
     homeScreenString: 'Home Screen',
     homeScreenDescriptionString: 'Go to Home Screen.',
+    homeScreenDescriptionPatternString: 'Come explore with {{name}}. It has {{screens}} screens.',
 
     // navigation bar
     simScreensResourcesAndToolsString: 'Sim Screens, Resources, and Tools.',

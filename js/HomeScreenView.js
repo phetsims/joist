@@ -13,6 +13,7 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
+  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetButton = require( 'JOIST/PhetButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -23,10 +24,10 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
 
   // a11y-strings
-  // TODO: factor these out to joistA11yStrings.js, see https://github.com/phetsims/joist/issues/355
-  var simScreensString = 'Sim Screens';
-  var simScreenString = 'Sim Screen';
-  var homeScreenDescriptionPatternString = 'Come explore with {{name}}. It has {{screens}} screens.';
+  var simScreensString = JoistA11yStrings.simScreensString;
+  var simScreenString = JoistA11yStrings.simScreenString;
+  var homeScreenDescriptionPatternString = JoistA11yStrings.homeScreenDescriptionPatternString;
+  var homeScreenString = JoistA11yStrings.homeScreenString;
 
   // constants
   var LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
@@ -54,7 +55,8 @@ define( function( require ) {
     // some other node that already has svg renderer).
     ScreenView.call( this, {
       layoutBounds: LAYOUT_BOUNDS,
-      tandem: tandem
+      tandem: tandem,
+      accessibleLabel: homeScreenString
     } );
 
     var title = new Text( sim.name, {
