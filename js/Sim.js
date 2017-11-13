@@ -126,7 +126,7 @@ define( function( require ) {
       // remap the selected 1-based index from the original screens list to the filtered screens list.
       if ( initialScreen !== 0 ) {
         var index = _.indexOf( newScreens, screens[ initialScreen - 1 ] );
-        assert && assert( index !== -1, 'screen not found' );
+        assert && assert( index !== -1, 'screen not found: ' + initialScreen );
         initialScreen = index + 1;
       }
       screens = newScreens;
