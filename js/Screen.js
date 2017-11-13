@@ -121,7 +121,7 @@ define( function( require ) {
     this.activeProperty = new Property( false, {
       tandem: options.tandem.createTandem( 'activeProperty' ),
       phetioValueType: TBoolean,
-      phetioInstanceDocumentation: 'this Property is read-only, do not attempt to set its value'
+      phetioReadOnly: true
     } );
 
     // @public (a11y)
