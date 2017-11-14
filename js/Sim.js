@@ -120,7 +120,7 @@ define( function( require ) {
     var homeScreen = phet.chipper.queryParameters.homeScreen;
 
     if ( QueryStringMachine.containsKey( 'initialScreen' ) && initialScreen === 0 && homeScreen === false ) {
-      throw new Error( 'cannot specify screenIndex=0 when home screen is disabled with homeScreen=false' );
+      throw new Error( 'cannot specify initialScreen=0 when home screen is disabled with homeScreen=false' );
     }
 
     // The screens to be included, and their order, may be specified via a query parameter.
