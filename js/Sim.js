@@ -107,7 +107,12 @@ define( function( require ) {
       assert && assert( !QueryStringMachine.containsKey( 'initialScreen' ), 'initialScreen query parameter not supported for single-screen sims' );
       assert && assert( !QueryStringMachine.containsKey( 'screens' ), 'screens query parameter not supported for single-screen sims' );
     }
+
     var initialScreen = phet.chipper.queryParameters.initialScreen;
+    var homeScreen = phet.chipper.queryParameters.homeScreen;
+
+    assert && assert( !( QueryStringMachine.containsKey( 'initialScreen' ) && initialScreen === 0 && homeScreen === false ),
+      'cannot specify screenIndex=0 when home screen is disabled with homeScreen=false' );
 
     // The screens to be included, and their order, may be specified via a query parameter.
     // For documentation, see the schema for phet.chipper.queryParameters.screens in initialize-globals.js.
@@ -134,7 +139,7 @@ define( function( require ) {
     options = _.extend( {
 
       // whether to show the home screen, or go immediately to the screen indicated by screenIndex
-      showHomeScreen: ( screens.length > 1 ) && phet.chipper.queryParameters.homeScreen && (initialScreen === 0),
+      showHomeScreen: ( screens.length > 1 ) && homeScreen && (initialScreen === 0),
 
       // index of the screen that will be selected at startup (the query parameter is 1-based)
       screenIndex: initialScreen === 0 ? 0 : initialScreen - 1,
