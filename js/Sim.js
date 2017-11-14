@@ -103,16 +103,25 @@ define( function( require ) {
     this.frameEndedEmitter = new Emitter();
 
     if ( screens.length === 1 ) {
-      assert && assert( !QueryStringMachine.containsKey( 'homeScreen' ), 'homeScreen query parameter not supported for single-screen sims' );
-      assert && assert( !QueryStringMachine.containsKey( 'initialScreen' ), 'initialScreen query parameter not supported for single-screen sims' );
-      assert && assert( !QueryStringMachine.containsKey( 'screens' ), 'screens query parameter not supported for single-screen sims' );
+
+      // Problems related to query parameters throw errors instead of assertions (so they are not stripped out)
+      if ( QueryStringMachine.containsKey( 'homeScreen' ) ) {
+        throw new Error( 'homeScreen query parameter not supported for single-screen sims' );
+      }
+      if ( QueryStringMachine.containsKey( 'initialScreen' ) ) {
+        throw new Error( 'initialScreen query parameter not supported for single-screen sims' );
+      }
+      if ( QueryStringMachine.containsKey( 'screens' ) ) {
+        throw new Error( 'screens query parameter not supported for single-screen sims' );
+      }
     }
 
     var initialScreen = phet.chipper.queryParameters.initialScreen;
     var homeScreen = phet.chipper.queryParameters.homeScreen;
 
-    assert && assert( !( QueryStringMachine.containsKey( 'initialScreen' ) && initialScreen === 0 && homeScreen === false ),
-      'cannot specify screenIndex=0 when home screen is disabled with homeScreen=false' );
+    if ( QueryStringMachine.containsKey( 'initialScreen' ) && initialScreen === 0 && homeScreen === false ) {
+      throw new Error( 'cannot specify screenIndex=0 when home screen is disabled with homeScreen=false' );
+    }
 
     // The screens to be included, and their order, may be specified via a query parameter.
     // For documentation, see the schema for phet.chipper.queryParameters.screens in initialize-globals.js.
