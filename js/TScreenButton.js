@@ -10,7 +10,7 @@ define( function( require ) {
 
   // modules
   var joist = require( 'JOIST/joist' );
-  var TNode = require( 'SCENERY/nodes/TNode' );
+  var NodeIO = require( 'SCENERY/nodes/NodeIO' );
 
   // phet-io modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
@@ -24,10 +24,10 @@ define( function( require ) {
    */
   function TScreenButton( button, phetioID ) {
     assert && assertInstanceOf( button, phet.joist.ScreenButton );
-    TNode.call( this, button, phetioID );
+    NodeIO.call( this, button, phetioID );
   }
 
-  phetioInherit( TNode, 'TScreenButton', TScreenButton, {}, {
+  phetioInherit( NodeIO, 'TScreenButton', TScreenButton, {}, {
     documentation: 'A pressable button in the simulation, in the home screen',
     events: [ 'fired' ]
   } );

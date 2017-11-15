@@ -11,7 +11,7 @@ define( function( require ) {
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var joist = require( 'JOIST/joist' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  var TNode = require( 'SCENERY/nodes/TNode' );
+  var NodeIO = require( 'SCENERY/nodes/NodeIO' );
 
   /**
    * @constructor
@@ -21,10 +21,10 @@ define( function( require ) {
    */
   function TDialog( dialog, phetioID ) {
     assert && assertInstanceOf( dialog, phet.joist.Dialog );
-    TNode.call( this, dialog, phetioID );
+    NodeIO.call( this, dialog, phetioID );
   }
 
-  phetioInherit( TNode, 'TDialog', TDialog, {}, {
+  phetioInherit( NodeIO, 'TDialog', TDialog, {}, {
     documentation: 'A dialog panel'
   } );
 
