@@ -27,7 +27,7 @@ define( function( require ) {
   var PropertyIO = require( 'AXON/PropertyIO' );
 
   // phet-io modules
-  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
+  var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
 
   // a11y strings
   var screenNamePatternString = JoistA11yStrings.screenNamePatternString;
@@ -121,7 +121,7 @@ define( function( require ) {
     // That is: transitions from false to true before a Screen becomes visible, and from true to false after a Screen becomes invisible.
     this.activeProperty = new Property( false, {
       tandem: options.tandem.createTandem( 'activeProperty' ),
-      phetioType: PropertyIO( TBoolean ),
+      phetioType: PropertyIO( BooleanIO ),
       phetioReadOnly: true
     } );
 

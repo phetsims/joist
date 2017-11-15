@@ -16,7 +16,7 @@ define( function( require ) {
   var phetio = require( 'ifphetio!PHET_IO/phetio' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
   var SimIFrameAPI = require( 'ifphetio!PHET_IO/SimIFrameAPI' );
-  var TFunctionWrapper = require( 'ifphetio!PHET_IO/types/TFunctionWrapper' );
+  var FunctionIO = require( 'ifphetio!PHET_IO/types/FunctionIO' );
   var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
   var TString = require( 'ifphetio!PHET_IO/types/TString' );
   var TVoid = require( 'ifphetio!PHET_IO/types/TVoid' );
@@ -50,7 +50,7 @@ define( function( require ) {
 
     addEventListener: {
       returnType: TVoid,
-      parameterTypes: [ TString, TFunctionWrapper( TVoid, [ TString, TFunctionWrapper( TVoid, [] ) ] ) ],
+      parameterTypes: [ TString, FunctionIO( TVoid, [ TString, FunctionIO( TVoid, [] ) ] ) ],
       implementation: function( eventName, listener ) {
         this.instance.onStatic( eventName, listener );
       },
