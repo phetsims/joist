@@ -41,6 +41,7 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
   var Timer = require( 'PHET_CORE/Timer' );
+  var TProperty = require( 'AXON/TProperty' );
   var TSim = require( 'JOIST/TSim' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var Util = require( 'SCENERY/util/Util' );
@@ -91,7 +92,10 @@ define( function( require ) {
     // Many other components use addInstance at the end of their constructor but in this case we must register early
     // to (a) enable the SimIFrameAPI as soon as possible and (b) to enable subsequent component registrations,
     // which require the sim to be registered
-    ROOT_TANDEM.addInstance( this, TSim, options );
+    options = options || {};
+    assert && assert( options.phetioType === undefined, 'options should not specify phetioType in Sim' );
+    options.phetioType = TSim;
+    ROOT_TANDEM.addInstance( this, options );
 
     // @public Emitter that indicates when the sim resized
     this.resizedEmitter = new Emitter();
@@ -212,7 +216,7 @@ define( function( require ) {
     // activeProperty will automatically be set to false so the timing and inputs can be controlled by the playback engine
     this.activeProperty = new Property( !phet.joist.playbackModeEnabledProperty.value, {
       tandem: simTandem.createTandem( 'activeProperty' ),
-      phetioValueType: TBoolean
+      phetioType: TProperty( TBoolean )
     } );
 
     // @public (read-only) - property that indicates whether the browser tab containing the simulation is currently visible

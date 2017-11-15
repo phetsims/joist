@@ -24,6 +24,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var TProperty = require( 'AXON/TProperty' );
 
   // phet-io modules
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
@@ -120,7 +121,7 @@ define( function( require ) {
     // That is: transitions from false to true before a Screen becomes visible, and from true to false after a Screen becomes invisible.
     this.activeProperty = new Property( false, {
       tandem: options.tandem.createTandem( 'activeProperty' ),
-      phetioValueType: TBoolean,
+      phetioType: TProperty( TBoolean ),
       phetioReadOnly: true
     } );
 

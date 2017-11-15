@@ -49,7 +49,7 @@ define( function( require ) {
 
         // PhET-iO simulations support an initialization phase (before the sim launches)
         if ( phet.phetio ) {
-          new Tandem( 'phetio' ).addInstance( phetio, TPhETIO );
+          new Tandem( 'phetio' ).addInstance( phetio, { phetioType: TPhETIO } );
           SimIFrameAPI.initialize(); // calls back to window.phetLaunchSimulation
         }
 

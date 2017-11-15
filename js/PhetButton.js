@@ -84,6 +84,7 @@ define( function( require ) {
       listener: function() {
         phetMenu.show();
       },
+      phetioType: TPhetButton,
 
       // a11y
       tagName: 'button',
@@ -112,7 +113,7 @@ define( function( require ) {
     // The icon combines the PhET label and the thre horizontal bars in the right relative positions
     var icon = new Node( { children: [ logoImage, optionsButton ] } );
 
-    JoistButton.call( this, icon, backgroundFillProperty, tandem.createSupertypeTandem(), options );
+    JoistButton.call( this, icon, backgroundFillProperty, tandem, options );
 
     Property.multilink( [ backgroundFillProperty, sim.showHomeScreenProperty, UpdateCheck.stateProperty ],
       function( backgroundFill, showHomeScreen, updateState ) {
@@ -140,8 +141,6 @@ define( function( require ) {
 
     // a11y - add an attribute that lets the user know the button opens a menu
     this.setAccessibleAttribute( 'aria-haspopup', true );
-
-    tandem.addInstance( this, TPhetButton );
   }
 
   joist.register( 'PhetButton', PhetButton );
