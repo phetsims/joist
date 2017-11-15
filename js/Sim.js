@@ -41,7 +41,7 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
   var Timer = require( 'PHET_CORE/Timer' );
-  var TProperty = require( 'AXON/TProperty' );
+  var PropertyIO = require( 'AXON/PropertyIO' );
   var TSim = require( 'JOIST/TSim' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var Util = require( 'SCENERY/util/Util' );
@@ -216,7 +216,7 @@ define( function( require ) {
     // activeProperty will automatically be set to false so the timing and inputs can be controlled by the playback engine
     this.activeProperty = new Property( !phet.joist.playbackModeEnabledProperty.value, {
       tandem: simTandem.createTandem( 'activeProperty' ),
-      phetioType: TProperty( TBoolean )
+      phetioType: PropertyIO( TBoolean )
     } );
 
     // @public (read-only) - property that indicates whether the browser tab containing the simulation is currently visible
