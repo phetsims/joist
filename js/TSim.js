@@ -17,9 +17,9 @@ define( function( require ) {
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
   var SimIFrameAPI = require( 'ifphetio!PHET_IO/SimIFrameAPI' );
   var FunctionIO = require( 'ifphetio!PHET_IO/types/FunctionIO' );
-  var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
-  var TString = require( 'ifphetio!PHET_IO/types/TString' );
-  var TVoid = require( 'ifphetio!PHET_IO/types/TVoid' );
+  var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
+  var StringIO = require( 'ifphetio!PHET_IO/types/StringIO' );
+  var VoidIO = require( 'ifphetio!PHET_IO/types/VoidIO' );
 
   // constants
   // The token for the event that occurs when the simulation constructor completes. This is hard-coded in many places
@@ -34,7 +34,7 @@ define( function( require ) {
    */
   function TSim( sim, phetioID ) {
     assert && assertInstanceOf( sim, phet.joist.Sim );
-    TObject.call( this, sim, phetioID );
+    ObjectIO.call( this, sim, phetioID );
 
     // Store a reference to the sim so that subsequent calls will be simpler.  PhET-iO only works with a single sim.
     phetio.sim = sim;
@@ -46,11 +46,11 @@ define( function( require ) {
     } );
   }
 
-  phetioInherit( TObject, 'TSim', TSim, {
+  phetioInherit( ObjectIO, 'TSim', TSim, {
 
     addEventListener: {
-      returnType: TVoid,
-      parameterTypes: [ TString, FunctionIO( TVoid, [ TString, FunctionIO( TVoid, [] ) ] ) ],
+      returnType: VoidIO,
+      parameterTypes: [ StringIO, FunctionIO( VoidIO, [ StringIO, FunctionIO( VoidIO, [] ) ] ) ],
       implementation: function( eventName, listener ) {
         this.instance.onStatic( eventName, listener );
       },
@@ -58,7 +58,7 @@ define( function( require ) {
     },
 
     getScreenshotDataURL: {
-      returnType: TString,
+      returnType: StringIO,
       parameterTypes: [],
       implementation: function() {
         return window.phet.joist.ScreenshotGenerator.generateScreenshot( this.instance );
