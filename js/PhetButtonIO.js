@@ -19,16 +19,16 @@ define( function( require ) {
    * @param phetioID
    * @constructor
    */
-  function TPhetButton( phetButton, phetioID ) {
+  function PhetButtonIO( phetButton, phetioID ) {
     assert && assertInstanceOf( phetButton, phet.joist.PhetButton );
     ObjectIO.call( this, phetButton, phetioID );
   }
 
-  phetioInherit( ObjectIO, 'TPhetButton', TPhetButton, {}, {
+  phetioInherit( ObjectIO, 'PhetButtonIO', PhetButtonIO, {}, {
     documentation: 'A pressable PhET logo in the simulation, it usually opens the PhET menu.'
   } );
 
-  joist.register( 'TPhetButton', TPhetButton );
+  joist.register( 'PhetButtonIO', PhetButtonIO );
 
-  return TPhetButton;
+  return PhetButtonIO;
 } );

@@ -17,23 +17,23 @@ define( function( require ) {
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
 
   /**
-   * Wrapper type for phet/joist's PhetMenu
-   * @param phetMenu
+   * Wrapper type for phet/joist's ScreenButton
+   * @param button
    * @param phetioID
    * @constructor
    */
-  function TPhetMenu( phetMenu, phetioID ) {
-    assert && assertInstanceOf( phetMenu, phet.joist.PhetMenu );
-    NodeIO.call( this, phetMenu, phetioID );
+  function ScreenButtonIO( button, phetioID ) {
+    assert && assertInstanceOf( button, phet.joist.ScreenButton );
+    NodeIO.call( this, button, phetioID );
   }
 
-  phetioInherit( NodeIO, 'TPhetMenu', TPhetMenu, {}, {
-    documentation: 'The PhET Menu in the bottom right of the screen',
-    event: [ 'fired' ]
+  phetioInherit( NodeIO, 'ScreenButtonIO', ScreenButtonIO, {}, {
+    documentation: 'A pressable button in the simulation, in the home screen',
+    events: [ 'fired' ]
   } );
 
-  joist.register( 'TPhetMenu', TPhetMenu );
+  joist.register( 'ScreenButtonIO', ScreenButtonIO );
 
-  return TPhetMenu;
+  return ScreenButtonIO;
 } );
 

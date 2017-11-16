@@ -8,7 +8,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var TDialog = require( 'JOIST/TDialog' );
+  var DialogIO = require( 'JOIST/DialogIO' );
 
   // phet-io modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
@@ -21,16 +21,16 @@ define( function( require ) {
    * @param {Dialog} dialog - instance of OptionsDialog
    * @param {string} phetioID - identifier string
    */
-  function TOptionsDialog( dialog, phetioID ) {
+  function OptionsDialogIO( dialog, phetioID ) {
     assert && assertInstanceOf( dialog, phet.joist.OptionsDialog );
-    TDialog.call( this, dialog, phetioID );
+    DialogIO.call( this, dialog, phetioID );
   }
 
-  phetioInherit( TDialog, 'TOptionsDialog', TOptionsDialog, {}, {
+  phetioInherit( DialogIO, 'OptionsDialogIO', OptionsDialogIO, {}, {
     documentation: 'A dialog panel'
   } );
 
-  joist.register( 'TOptionsDialog', TOptionsDialog );
+  joist.register( 'OptionsDialogIO', OptionsDialogIO );
 
-  return TOptionsDialog;
+  return OptionsDialogIO;
 } );

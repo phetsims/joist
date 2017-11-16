@@ -42,7 +42,7 @@ define( function( require ) {
   var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
   var Timer = require( 'PHET_CORE/Timer' );
   var PropertyIO = require( 'AXON/PropertyIO' );
-  var TSim = require( 'JOIST/TSim' );
+  var SimIO = require( 'JOIST/SimIO' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var Util = require( 'SCENERY/util/Util' );
 
@@ -94,7 +94,7 @@ define( function( require ) {
     // which require the sim to be registered
     options = options || {};
     assert && assert( options.phetioType === undefined, 'options should not specify phetioType in Sim' );
-    options.phetioType = TSim;
+    options.phetioType = SimIO;
     ROOT_TANDEM.addInstance( this, options );
 
     // @public Emitter that indicates when the sim resized
@@ -311,7 +311,7 @@ define( function( require ) {
 
     // The simStarted event is guaranteed to be a top-level event, not nested under other events.
     // This phetio event is hard-coded in many places such as th playback wrapper, so should not be changed lightly!
-    this.phetioSimStartedEventId = phetioEvents.start( 'model', ROOT_TANDEM.id, TSim, 'simStarted', {
+    this.phetioSimStartedEventId = phetioEvents.start( 'model', ROOT_TANDEM.id, SimIO, 'simStarted', {
       repoName: packageJSON.name,
       simName: this.name,
       simVersion: this.version,

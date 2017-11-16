@@ -24,7 +24,7 @@ define( function( require ) {
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var Shape = require( 'KITE/Shape' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TDialog = require( 'JOIST/TDialog' );
+  var DialogIO = require( 'JOIST/DialogIO' );
 
   // strings
   var closeString = JoistA11yStrings.closeString;
@@ -61,7 +61,7 @@ define( function( require ) {
       closeButtonBaseColor: '#d00',
       closeButtonMargin: 5, // {number} how far away should the close button be from the panel border
       tandem: Tandem.tandemOptional(),
-      phetioType: TDialog,
+      phetioType: DialogIO,
 
       // a11y options
       tagName: 'div',

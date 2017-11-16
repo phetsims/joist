@@ -19,16 +19,16 @@ define( function( require ) {
    * @param {Dialog} dialog - instance of Dialog
    * @param {string} phetioID - identifier string
    */
-  function TDialog( dialog, phetioID ) {
+  function DialogIO( dialog, phetioID ) {
     assert && assertInstanceOf( dialog, phet.joist.Dialog );
     NodeIO.call( this, dialog, phetioID );
   }
 
-  phetioInherit( NodeIO, 'TDialog', TDialog, {}, {
+  phetioInherit( NodeIO, 'DialogIO', DialogIO, {}, {
     documentation: 'A dialog panel'
   } );
 
-  joist.register( 'TDialog', TDialog );
+  joist.register( 'DialogIO', DialogIO );
 
-  return TDialog;
+  return DialogIO;
 } );

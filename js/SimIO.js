@@ -32,7 +32,7 @@ define( function( require ) {
    * @param phetioID
    * @constructor
    */
-  function TSim( sim, phetioID ) {
+  function SimIO( sim, phetioID ) {
     assert && assertInstanceOf( sim, phet.joist.Sim );
     ObjectIO.call( this, sim, phetioID );
 
@@ -46,7 +46,7 @@ define( function( require ) {
     } );
   }
 
-  phetioInherit( ObjectIO, 'TSim', TSim, {
+  phetioInherit( ObjectIO, 'SimIO', SimIO, {
 
     addEventListener: {
       returnType: VoidIO,
@@ -73,8 +73,8 @@ define( function( require ) {
   } );
 
 
-  joist.register( 'TSim', TSim );
+  joist.register( 'SimIO', SimIO );
 
-  return TSim;
+  return SimIO;
 } );
 

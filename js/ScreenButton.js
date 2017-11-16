@@ -19,7 +19,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var TScreenButton = require( 'JOIST/TScreenButton' );
+  var ScreenButtonIO = require( 'JOIST/ScreenButtonIO' );
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
@@ -43,7 +43,7 @@ define( function( require ) {
     options = _.extend( {
       opacity: 1,  // The small screen's nodes have an opacity of .5
       tandem: tandem, // To be passed into mutate, but tandem should be a required param in joist
-      phetioType: TScreenButton
+      phetioType: ScreenButtonIO
     }, options );
 
     var screen = sim.screens[ index ];
@@ -111,7 +111,7 @@ define( function( require ) {
                      };
 
     var downListener = function( event ) {
-      var id = phetioEvents.start( 'user', tandem.id, TScreenButton, 'fired' );
+      var id = phetioEvents.start( 'user', tandem.id, ScreenButtonIO, 'fired' );
       buttonDown();
       phetioEvents.end( id );
     };

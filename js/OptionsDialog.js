@@ -15,7 +15,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var TOptionsDialog = require( 'JOIST/TOptionsDialog' );
+  var OptionsDialogIO = require( 'JOIST/OptionsDialogIO' );
 
   // strings
   var optionsTitleString = require( 'string!JOIST/options.title' );
@@ -31,7 +31,7 @@ define( function( require ) {
       modal: true,
       hasCloseButton: true,
       tandem: Tandem.tandemRequired(),
-      phetioType: TOptionsDialog
+      phetioType: OptionsDialogIO
     }, options );
 
     // Can't be in the extend call because it needs the tandem.

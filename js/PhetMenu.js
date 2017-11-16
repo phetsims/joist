@@ -30,7 +30,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var TPhetMenu = require( 'JOIST/TPhetMenu' );
+  var PhetMenuIO = require( 'JOIST/PhetMenuIO' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var UpdateDialog = require( 'JOIST/UpdateDialog' );
 
@@ -94,7 +94,7 @@ define( function( require ) {
       // For sims that have save/load enabled, show menu items for those.
       showSaveAndLoad: false,
 
-      phetioType: TPhetMenu
+      phetioType: PhetMenuIO
     }, options );
 
     options.tandem = tandem;
