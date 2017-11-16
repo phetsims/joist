@@ -195,9 +195,9 @@ define( function( require ) {
           // prevent a particular bug in Windows 7/8.1 Firefox where focus gets trapped in the document
           // when the navigation bar is hidden and there is only one focusable element in the DOM
           // see https://bugzilla.mozilla.org/show_bug.cgi?id=910136
-          var activeElement = Display.focusedNode;
-          var noNextFocusable = AccessibilityUtil.getNextFocusable() === activeElement;
-          var noPreviousFocusable = AccessibilityUtil.getPreviousFocusable() === activeElement;
+          var activeId = Display.focus.trail.getUniqueId();
+          var noNextFocusable = AccessibilityUtil.getNextFocusable().id === activeId;
+          var noPreviousFocusable = AccessibilityUtil.getPreviousFocusable().id === activeId;
 
           if ( noNextFocusable && noPreviousFocusable ) {
             event.preventDefault();
