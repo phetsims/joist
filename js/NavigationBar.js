@@ -47,6 +47,7 @@ define( function( require ) {
 
   // a11y strings
   var simScreensResourcesAndToolsString = JoistA11yStrings.simScreensResourcesAndToolsString;
+  var simResourcesAndToolsString = JoistA11yStrings.simResourcesAndToolsString;
   var simScreensString = JoistA11yStrings.simScreensString;
 
   // constants
@@ -80,7 +81,9 @@ define( function( require ) {
       tagName: 'div',
       ariaRole: 'region',
       labelTagName: 'h2',
-      accessibleLabel: simScreensResourcesAndToolsString,
+
+      // Use a different string, omitting "screens" if single screen sim.
+      accessibleLabel: screens.length === 1 ? simResourcesAndToolsString : simScreensResourcesAndToolsString,
       prependLabels: true
     } );
 

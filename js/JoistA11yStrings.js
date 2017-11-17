@@ -36,6 +36,7 @@ define( function( require ) {
     homeScreenDescriptionPatternString: 'Come explore with {{name}}. It has {{screens}} screens.',
 
     // navigation bar
+    simResourcesAndToolsString: 'Sim Resources and Tools.', // used for single screen sims
     simScreensResourcesAndToolsString: 'Sim Screens, Resources, and Tools.',
 
     // PhET menu
