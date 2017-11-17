@@ -208,7 +208,6 @@ define( function( require ) {
 
     // @private - to be called on dispose()
     this.disposeDialog = function() {
-      options.tandem.removeInstance( this );
       self.sim.resizedEmitter.removeListener( self.updateLayout );
       self.removeAccessibleInputListener( escapeListener );
 
