@@ -12,6 +12,7 @@ define( function( require ) {
   // modules
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Dialog = require( 'JOIST/Dialog' );
+  var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
@@ -80,8 +81,9 @@ define( function( require ) {
       // a11y
       tagName: 'button',
       accessibleLabel: JoistA11yStrings.closeString,
-      focusHighlight: Shape.bounds( closeButtonShape.getBounds().dilated( 10 ) )
     } );
+    var dilationCoefficient = FocusHighlightPath.getDilationCoefficient( this.closeButtonPath );
+    this.closeButtonPath.focusHighlight = Shape.bounds( closeButtonShape.getBounds().dilated( dilationCoefficient ) );
 
     // add a listener to hide the dialog
     var self = this;
