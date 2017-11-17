@@ -18,12 +18,12 @@ define( function( require ) {
   /**
    * @constructor
    * Wrapper type for phet/joist's OptionsDialog
-   * @param {Dialog} dialog - instance of OptionsDialog
+   * @param {Dialog} optionsDialog - instance of OptionsDialog
    * @param {string} phetioID - identifier string
    */
-  function OptionsDialogIO( dialog, phetioID ) {
-    assert && assertInstanceOf( dialog, phet.joist.OptionsDialog );
-    DialogIO.call( this, dialog, phetioID );
+  function OptionsDialogIO( optionsDialog, phetioID ) {
+    assert && assertInstanceOf( optionsDialog, phet.joist.OptionsDialog );
+    DialogIO.call( this, optionsDialog, phetioID );
   }
 
   phetioInherit( DialogIO, 'OptionsDialogIO', OptionsDialogIO, {}, {
