@@ -219,7 +219,7 @@ define( function( require ) {
     this.fuzzMouseAverage = 10;
 
     // @public - Make our locale available
-    this.locale = phet.chipper.locale || phet.chipper.getQueryParameter( 'locale' ) || 'en';
+    this.locale = phet.chipper.locale || 'en';
 
     //Set the HTML page title to the localized title
     //TODO: When a sim is embedded on a page, we shouldn't retitle the page
