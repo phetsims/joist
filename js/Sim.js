@@ -152,7 +152,7 @@ define( function( require ) {
     options = _.extend( {
 
       // whether to show the home screen, or go immediately to the screen indicated by screenIndex
-      showHomeScreen: ( screens.length > 1 ) && homeScreen && (initialScreen === 0),
+      showHomeScreen: (screens.length > 1) && homeScreen && (initialScreen === 0),
 
       // index of the screen that will be selected at startup (the query parameter is 1-based)
       screenIndex: initialScreen === 0 ? 0 : initialScreen - 1,
@@ -214,7 +214,7 @@ define( function( require ) {
     // @public - When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.
     // Set to false for when the sim will be paused.  If the sim has playbackModeEnabledProperty set to true, the
     // activeProperty will automatically be set to false so the timing and inputs can be controlled by the playback engine
-    this.activeProperty = new Property( !phet.joist.playbackModeEnabledProperty.value, {
+    this.activeProperty = new BooleanProperty( !phet.joist.playbackModeEnabledProperty.value, {
       tandem: simTandem.createTandem( 'activeProperty' ),
       phetioType: PropertyIO( BooleanIO )
     } );
@@ -412,7 +412,7 @@ define( function( require ) {
 
     Property.multilink( [ this.showHomeScreenProperty, this.screenIndexProperty ],
       function( showHomeScreen, screenIndex ) {
-        self.currentScreenProperty.value = ( showHomeScreen && self.homeScreen ) ? null : screens[ screenIndex ];
+        self.currentScreenProperty.value = (showHomeScreen && self.homeScreen) ? null : screens[ screenIndex ];
         self.updateBackground();
       } );
 
@@ -475,7 +475,7 @@ define( function( require ) {
           // See https://github.com/phetsims/joist/issues/418.
           for ( var i = 0; i < screens.length; i++ ) {
             var screen = screens[ i ];
-            var visible = ( !showHomeScreen && screenIndex === i );
+            var visible = (!showHomeScreen && screenIndex === i);
             if ( visible ) {
               screen.activeProperty.set( visible );
             }
