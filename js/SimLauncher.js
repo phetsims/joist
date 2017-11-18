@@ -16,7 +16,7 @@ define( function( require ) {
   // phet-io modules
   var phetio = require( 'ifphetio!PHET_IO/phetio' );
   var SimIFrameAPI = require( 'ifphetio!PHET_IO/SimIFrameAPI' );
-  var PhETIOIO = require( 'ifphetio!PHET_IO/types/PhETIOIO' );
+  var PhETIO = require( 'ifphetio!PHET_IO/types/PhETIO' );
 
   var SimLauncher = {
 
@@ -49,7 +49,7 @@ define( function( require ) {
 
         // PhET-iO simulations support an initialization phase (before the sim launches)
         if ( phet.phetio ) {
-          new Tandem( 'phetio' ).addInstance( phetio, { phetioType: PhETIOIO } );
+          new Tandem( 'phetio' ).addInstance( phetio, { phetioType: PhETIO } );
           SimIFrameAPI.initialize(); // calls back to window.phetLaunchSimulation
         }
 
