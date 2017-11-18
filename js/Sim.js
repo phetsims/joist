@@ -693,7 +693,7 @@ define( function( require ) {
                 self.endedSimConstructionEmitter.emit();
 
                 // Sanity check that there is no phetio object in phet brand, see https://github.com/phetsims/phet-io/issues/1229
-                Brand.id === 'phet' && assert && assert( !phet.phetio, 'window.phet.phetio should not be truthy if loading form phet brand' );
+                Brand.id === 'phet' && assert && assert( !phet.phetio, 'window.phet.phetio should not exist for phet brand' );
 
               }, 25 ); // pause for a few milliseconds with the progress bar filled in before going to the home screen
             }
