@@ -51,7 +51,7 @@ define( function( require ) {
 
   // constants
   var PROGRESS_BAR_WIDTH = 273;
-  var ROOT_TANDEM = Tandem.createRootTandem();
+  var ROOT_TANDEM = Tandem.rootTandem;
 
   // globals
   phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for replicable playbacks

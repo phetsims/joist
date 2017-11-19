@@ -63,7 +63,7 @@ define( function( require ) {
       yMargin: HELP_CONTENT_MARGIN,
       titleSpacing: HELP_CONTENT_MARGIN,
       focusOnCloseNode: keyboardHelpButton,
-      tandem: Tandem.tandemRequired()
+      tandem: Tandem.required
     }, options );
 
     // shape and path for a custom close button

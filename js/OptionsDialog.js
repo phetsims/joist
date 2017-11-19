@@ -30,7 +30,7 @@ define( function( require ) {
       titleAlign: 'center',
       modal: true,
       hasCloseButton: true,
-      tandem: Tandem.tandemRequired(),
+      tandem: Tandem.required,
       phetioType: OptionsDialogIO
     }, options );
 

@@ -63,7 +63,7 @@ define( function( require ) {
 
     options = _.extend( {
       cursor: 'pointer',
-      tandem: Tandem.tandemRequired(),
+      tandem: Tandem.required,
       maxButtonWidth: null, // {number|null} the maximum width of the button, causes text and/or icon to be scaled down if necessary
 
       // a11y
