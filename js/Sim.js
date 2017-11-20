@@ -13,6 +13,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
   var BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
   var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
@@ -441,6 +442,9 @@ define( function( require ) {
    * Initialized all features of accessibility that should be enabled for the simulation.
    */
   function initializeAccessibility() {
+
+    // UtteranceQueue depends on AriaHerald so initialize it first.
+    AriaHerald.initialize();
     UtteranceQueue.initialize();
   }
 
