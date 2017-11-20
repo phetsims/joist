@@ -14,6 +14,7 @@ define( function( require ) {
 
   // modules
   var BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
+  var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Brand = require( 'BRAND/Brand' );
@@ -37,14 +38,14 @@ define( function( require ) {
   var platform = require( 'PHET_CORE/platform' );
   var Profiler = require( 'JOIST/Profiler' );
   var Property = require( 'AXON/Property' );
-  var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
-  var Timer = require( 'PHET_CORE/Timer' );
   var PropertyIO = require( 'AXON/PropertyIO' );
+  var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   var SimIO = require( 'JOIST/SimIO' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  var Timer = require( 'PHET_CORE/Timer' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var Util = require( 'SCENERY/util/Util' );
+  var UtteranceQueue = require( 'SCENERY_PHET/accessibility/UtteranceQueue' );
 
   // phet-io modules
   var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
@@ -259,6 +260,9 @@ define( function( require ) {
     // @public ( joist-internal, read-only )
     this.accessible = options.accessibility;
 
+    // Set up accessibility features for the sim.
+    this.accessible && initializeAccessibility();
+
     // @public ( joist-internal, read-only )
     this.keyboardHelpNode = options.keyboardHelpNode;
 
@@ -432,6 +436,13 @@ define( function( require ) {
   }
 
   joist.register( 'Sim', Sim );
+
+  /**
+   * Initialized all features of accessibility that should be enabled for the simulation.
+   */
+  function initializeAccessibility() {
+    UtteranceQueue.initialize();
+  }
 
   return inherit( Object, Sim, {
     finishInit: function( screens ) {
