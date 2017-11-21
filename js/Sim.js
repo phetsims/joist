@@ -265,7 +265,7 @@ define( function( require ) {
     phet.chipper.a11yEnabled = phet.chipper.a11yEnabled || options.accessibility;
 
     // Set up accessibility features for the sim.
-    options.accessibility && initializeAccessibility();
+    phet.chipper.a11yEnabled && initializeAccessibility();
 
     // @public ( joist-internal, read-only )
     this.keyboardHelpNode = options.keyboardHelpNode;
