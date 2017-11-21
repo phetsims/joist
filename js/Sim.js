@@ -351,7 +351,7 @@ define( function( require ) {
 
       // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
       allowWebGL: phet.chipper.queryParameters.webgl,
-      accessibility: options.accessibility,
+      accessibility: phet.chipper.a11yEnabled,
       isApplication: false,
       assumeFullWindow: true // a bit faster if we can assume no coordinate translations are needed for the display.
     } );
