@@ -126,7 +126,7 @@ define( function( require ) {
 
     // only show the keyboard help button if the sim is accessible, there is keyboard help content, and we are
     // not in mobile safari
-    if ( sim.accessible && sim.keyboardHelpNode && !platform.mobileSafari ) {
+    if ( phet.chipper.a11yEnabled && sim.keyboardHelpNode && !platform.mobileSafari ) {
       this.barContents.addChild( this.keyboardHelpButton );
     }
 

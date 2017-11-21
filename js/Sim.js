@@ -95,6 +95,8 @@ define( function( require ) {
     // to (a) enable the SimIFrameAPI as soon as possible and (b) to enable subsequent component registrations,
     // which require the sim to be registered
     options = options || {};
+    assert && assert( options.accessibility !== false,
+      'Only use options.accessibility as a flag. It will not override the accessibility query parameter.' );
     assert && assert( options.phetioType === undefined, 'options should not specify phetioType in Sim' );
     options.phetioType = SimIO;
     ROOT_TANDEM.addInstance( this, options );
@@ -185,8 +187,9 @@ define( function( require ) {
       showSmallHomeScreenIconFrame: false,
 
       // Whether accessibility features are enabled or not.  Use this option to render the Parallel DOM for
-      // keyboard navigation and screen reader based auditory descriptions.
-      accessibility: phet.chipper.queryParameters.accessibility,
+      // keyboard navigation and screen reader based auditory descriptions. The "accessibility" query parameter will
+      // override this flag when true, so only use this to enable.
+      accessibility: false,
 
       // a {Node} placed into the keyboard help dialog that can be opened from the navigation bar
       keyboardHelpNode: null,
@@ -258,11 +261,11 @@ define( function( require ) {
     // @private
     this.destroyed = false;
 
-    // @public ( joist-internal, read-only )
-    this.accessible = options.accessibility;
+    // a11yEnabled can be overwritten by sim options.
+    phet.chipper.a11yEnabled = phet.chipper.a11yEnabled || options.accessibility;
 
     // Set up accessibility features for the sim.
-    this.accessible && initializeAccessibility();
+    options.accessibility && initializeAccessibility();
 
     // @public ( joist-internal, read-only )
     this.keyboardHelpNode = options.keyboardHelpNode;
