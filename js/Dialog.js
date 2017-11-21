@@ -300,7 +300,9 @@ define( function( require ) {
 
       // workaround for a strange Edge bug where this child of the navigation bar remains visible,
       // see https://github.com/phetsims/a11y-research/issues/30
-      this.sim.navigationBar.keyboardHelpButton.accessibleVisible = visible;
+      if ( this.sim.navigationBar.keyboardHelpButton ) {
+        this.sim.navigationBar.keyboardHelpButton.accessibleVisible = visible;
+      }
 
       // clear the aria-live alert content from the DOM
       AriaHerald.clearAll();
