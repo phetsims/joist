@@ -82,10 +82,6 @@ define( function( require ) {
       throw new Error( 'playbackModeEnabledProperty cannot be changed after Sim construction has begun' );
     } );
 
-    // This tandem is used to organize joist specific components. Rather than having Sim.js properties on the root tandem.
-    var simTandem = ROOT_TANDEM.createTandem( 'sim' );
-    this.simTandem = simTandem; // @private
-
     // @public Emitter that indicates sim construction completed.  This was added for PhET-iO but can be used by any client.
     // This does not coincide with the end of the Sim constructor (because Sim has asynchronous steps that finish
     // after the constructor is completed)
@@ -206,12 +202,12 @@ define( function( require ) {
 
     // @public (joist-internal) - True if the home screen is showing
     this.showHomeScreenProperty = new BooleanProperty( options.showHomeScreen, {
-      tandem: simTandem.createTandem( 'showHomeScreenProperty' )
+      tandem: ROOT_TANDEM.createTandem( 'showHomeScreenProperty' )
     } );
 
     // @public (joist-internal) - The selected screen's index
     this.screenIndexProperty = new NumberProperty( options.screenIndex, {
-      tandem: simTandem.createTandem( 'screenIndexProperty' ),
+      tandem: ROOT_TANDEM.createTandem( 'screenIndexProperty' ),
       validValues: _.range( 0, screens.length ),
       valueType: 'Integer'
     } );
@@ -220,13 +216,13 @@ define( function( require ) {
     // Set to false for when the sim will be paused.  If the sim has playbackModeEnabledProperty set to true, the
     // activeProperty will automatically be set to false so the timing and inputs can be controlled by the playback engine
     this.activeProperty = new BooleanProperty( !phet.joist.playbackModeEnabledProperty.value, {
-      tandem: simTandem.createTandem( 'activeProperty' ),
+      tandem: ROOT_TANDEM.createTandem( 'activeProperty' ),
       phetioType: PropertyIO( BooleanIO )
     } );
 
     // @public (read-only) - property that indicates whether the browser tab containing the simulation is currently visible
     this.browserTabVisibleProperty = new BooleanProperty( true, {
-      tandem: simTandem.createTandem( 'browserTabVisibleProperty' ),
+      tandem: ROOT_TANDEM.createTandem( 'browserTabVisibleProperty' ),
       phetioReadOnly: true
     } );
 
@@ -521,7 +517,7 @@ define( function( require ) {
         this.modalNodeStack, {
           fill: 'rgba(0,0,0,0.3)',
           pickable: true,
-          tandem: this.simTandem.createTandem( 'barrierRectangle' )
+          tandem: ROOT_TANDEM.createTandem( 'barrierRectangle' )
         } );
       this.topLayer.addChild( this.barrierRectangle );
 
