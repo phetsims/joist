@@ -10,7 +10,7 @@ define( function( require ) {
 
   // modules
   var joist = require( 'JOIST/joist' );
-  var NodeIO = require( 'SCENERY/nodes/NodeIO' );
+  var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
 
   // phet-io modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
@@ -24,10 +24,11 @@ define( function( require ) {
    */
   function PhetMenuIO( phetMenu, phetioID ) {
     assert && assertInstanceOf( phetMenu, phet.joist.PhetMenu );
-    NodeIO.call( this, phetMenu, phetioID );
+    ObjectIO.call( this, phetMenu, phetioID );
   }
 
-  phetioInherit( NodeIO, 'PhetMenuIO', PhetMenuIO, {}, {
+  // don't inherit from NodeIO so that its visibility can't be changed
+  phetioInherit( ObjectIO, 'PhetMenuIO', PhetMenuIO, {}, {
     documentation: 'The PhET Menu in the bottom right of the screen',
     event: [ 'fired' ]
   } );
