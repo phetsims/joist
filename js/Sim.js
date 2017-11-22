@@ -201,9 +201,14 @@ define( function( require ) {
     options.rootRenderer = phet.chipper.queryParameters.rootRenderer || options.rootRenderer;
 
     // @public (joist-internal) - True if the home screen is showing
-    this.showHomeScreenProperty = new BooleanProperty( options.showHomeScreen, {
-      tandem: ROOT_TANDEM.createTandem( 'showHomeScreenProperty' )
-    } );
+    this.showHomeScreenProperty = new BooleanProperty(
+      options.showHomeScreen,
+
+      // Only instrumented for sims with > 1 screen
+      screens.length > 1 ? {
+        tandem: ROOT_TANDEM.createTandem( 'showHomeScreenProperty' )
+      } : {}
+    );
 
     // @public (joist-internal) - The selected screen's index
     this.screenIndexProperty = new NumberProperty( options.screenIndex, {
