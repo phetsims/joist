@@ -113,7 +113,7 @@ define( function( require ) {
     },
 
     /**
-     * "Out-of-date" state node for the "Check for udpate" dialog.
+     * "Out-of-date" state node for the "Check for update" dialog.
      * @param {UpdateDialog} dialog - the dialog, so that it can be closed with the "No thanks..." button
      * @param {string} ourVersionString
      * @param {string} latestVersionString
