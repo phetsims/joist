@@ -133,6 +133,7 @@ define( function( require ) {
           self.focusActiveElement();
         },
         tandem: options.tandem.createTandem( 'closeButton' ),
+        phetioReadOnly: options.phetioReadOnly, // match the readOnly of the Dialog
 
         // a11y options
         tagName: 'button',

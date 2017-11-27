@@ -186,7 +186,7 @@ define( function( require ) {
           var url = 'http://phet.colorado.edu/files/troubleshooting/' +
                     '?sim=' + encodeURIComponent( sim.name ) +
                     '&version=' + encodeURIComponent( sim.version + ' ' +
-                    ( phet.chipper.buildTimestamp ? phet.chipper.buildTimestamp : '(require.js)' ) ) +
+                    (phet.chipper.buildTimestamp ? phet.chipper.buildTimestamp : '(require.js)') ) +
                     '&url=' + encodeURIComponent( window.location.href ) +
                     '&dependencies=' + encodeURIComponent( JSON.stringify( dependenciesCopy ) );
 
@@ -283,12 +283,15 @@ define( function( require ) {
         callback: function() {
           if ( !aboutDialog ) {
             var phetButton = sim.navigationBar.phetButton;
-            aboutDialog = new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, phetButton);
+            aboutDialog = new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, phetButton,
+              tandem.createTandem( 'aboutDialog' ) );
           }
           aboutDialog.show();
         },
+        tandem: tandem.createTandem( 'aboutMenuItem' ),
         tagName: 'button',
-        focusAfterCallback: true
+        focusAfterCallback: true,
+        phetioReadOnly: true
       }
     ];
 
@@ -307,19 +310,23 @@ define( function( require ) {
     // Create the menu items.
     var items = this.items = _.map( keepItemDescriptors, function( itemDescriptor ) {
 
-      var menuItemOptions = {
-        textFill: itemDescriptor.textFill,
-        checkedProperty: itemDescriptor.checkedProperty,
-        separatorBefore: itemDescriptor.separatorBefore,
-        tagName: itemDescriptor.tagName,
-        tandem: itemDescriptor.tandem,
-        focusAfterCallback: itemDescriptor.focusAfterCallback
-      };
+        var menuItemOptions = {
+          textFill: itemDescriptor.textFill,
+          checkedProperty: itemDescriptor.checkedProperty,
+          separatorBefore: itemDescriptor.separatorBefore,
+          tagName: itemDescriptor.tagName,
+          tandem: itemDescriptor.tandem,
+          focusAfterCallback: itemDescriptor.focusAfterCallback,
+          phetioReadOnly: itemDescriptor.phetioReadOnly
+        };
 
-      // This is needed to support MenuItem as tandemOptional because `{ tandem: undefined}` in options will override default.
-      !itemDescriptor.tandem && delete menuItemOptions.tandem;
+        // delete undefined values so that _.extend options will work correctly
+        menuItemOptions.phetioReadOnly === undefined && delete menuItemOptions.phetioReadOnly;
 
-      return new MenuItem(
+        // This is needed to support MenuItem as tandemOptional because `{ tandem: undefined}` in options will override default.
+        !itemDescriptor.tandem && delete menuItemOptions.tandem;
+
+        return new MenuItem(
           maxTextWidth,
           maxTextHeight,
           options.closeCallback,
@@ -417,7 +424,7 @@ define( function( require ) {
     Display.focusProperty.lazyLink( focusListener );
 
 
-    this.mutate( options);
+    this.mutate( options );
 
     this.disposePhetMenu = function() {
       self.removeAccessibleInputListener( keydownListener );
