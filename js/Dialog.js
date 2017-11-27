@@ -62,6 +62,7 @@ define( function( require ) {
       closeButtonMargin: 5, // {number} how far away should the close button be from the panel border
       tandem: Tandem.optional,
       phetioType: DialogIO,
+      phetioReadOnly: false, // default to false so it can pass it through to the close button
 
       // a11y options
       tagName: 'div',
