@@ -85,6 +85,7 @@ define( function( require ) {
         phetMenu.show();
       },
       phetioType: PhetButtonIO,
+      phetioState: false,
 
       // a11y
       tagName: 'button',

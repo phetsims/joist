@@ -94,7 +94,8 @@ define( function( require ) {
       // For sims that have save/load enabled, show menu items for those.
       showSaveAndLoad: false,
 
-      phetioType: PhetMenuIO
+      phetioType: PhetMenuIO,
+      phetioState: false
     }, options );
 
     options.tandem = tandem;
