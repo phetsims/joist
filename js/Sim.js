@@ -796,6 +796,12 @@ define( function( require ) {
         this.display.fuzzMouseEvents( phet.chipper.queryParameters.fuzzRate );
       }
 
+      // fire or synthesize keyboard input events
+      if ( phet.chipper.queryParameters.fuzzBoard ) {
+        assert && assert( phet.chipper.a11yEnabled, 'fuzzBoard can only run with accessibility enabled.' );
+        this.display.fuzzBoardEvents();
+      }
+
       // If the user is on the home screen, we won't have a Screen that we'll want to step.  This must be done after
       // fuzz mouse, because fuzzing could change the selected screen, see #130
       var screen = this.getSelectedScreen();
