@@ -152,7 +152,7 @@ define( function( require ) {
     options = _.extend( {
 
       // whether to show the home screen, or go immediately to the screen indicated by screenIndex
-      showHomeScreen: (screens.length > 1) && homeScreen && (initialScreen === 0),
+      showHomeScreen: ( screens.length > 1 ) && homeScreen && ( initialScreen === 0 ),
 
       // index of the screen that will be selected at startup (the query parameter is 1-based)
       screenIndex: initialScreen === 0 ? 0 : initialScreen - 1,
@@ -421,7 +421,7 @@ define( function( require ) {
 
     Property.multilink( [ this.showHomeScreenProperty, this.screenIndexProperty ],
       function( showHomeScreen, screenIndex ) {
-        self.currentScreenProperty.value = (showHomeScreen && self.homeScreen) ? null : screens[ screenIndex ];
+        self.currentScreenProperty.value = ( showHomeScreen && self.homeScreen ) ? null : screens[ screenIndex ];
         self.updateBackground();
       } );
 
@@ -494,7 +494,7 @@ define( function( require ) {
           // See https://github.com/phetsims/joist/issues/418.
           for ( var i = 0; i < screens.length; i++ ) {
             var screen = screens[ i ];
-            var visible = (!showHomeScreen && screenIndex === i);
+            var visible = ( !showHomeScreen && screenIndex === i );
             if ( visible ) {
               screen.activeProperty.set( visible );
             }
@@ -670,7 +670,7 @@ define( function( require ) {
             if ( document.getElementById( 'progressBarForeground' ) ) {
 
               // Grow the progress bar foreground to the right based on the progress so far.
-              document.getElementById( 'progressBarForeground' ).setAttribute( 'width', (progress * PROGRESS_BAR_WIDTH) + '' );
+              document.getElementById( 'progressBarForeground' ).setAttribute( 'width', ( progress * PROGRESS_BAR_WIDTH ) + '' );
             }
             if ( i + 1 < workItems.length ) {
               runItem( i + 1 );
@@ -753,7 +753,7 @@ define( function( require ) {
 
       // Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
       var time = Date.now();
-      var elapsedTimeMilliseconds = (this.lastTime === -1) ? (1000.0 / 60.0) : (time - this.lastTime);
+      var elapsedTimeMilliseconds = ( this.lastTime === -1 ) ? ( 1000.0 / 60.0 ) : ( time - this.lastTime );
       this.lastTime = time;
 
       // Convert to seconds
