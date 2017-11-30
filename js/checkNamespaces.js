@@ -19,7 +19,8 @@ define( function( require ) {
 
     // Get a reference to the defined modules. There doesn't seem to be a common way to access this internal
     // information yet in the optimizer (with almond) and with require.js, so we have a fall-back set up.
-    var defined = window.requirejs._defined || window.require.s.contexts._.defined;
+    // Conditionals added due to https://github.com/phetsims/phet-io/issues/1149#issuecomment-345416924
+    var defined = ( window.requirejs && window.requirejs._defined ) || ( window.require && window.require.s.contexts._.defined );
 
     /**
      * This function iterates over all defined AMD modules and reports to a problemHandler any problems.
