@@ -177,7 +177,8 @@ define( function( require ) {
           font: new PhetFont( 14 ),
           maxWidth: MAX_WIDTH,
           tandem: tandem.createTandem( 'link' + (i + 1) ),
-          phetioReadOnly: true // the AboutDialog should not be settable
+          phetioReadOnly: true, // the AboutDialog should not be settable
+          phetioState: false
         } ) );
       }
     }
@@ -198,7 +199,8 @@ define( function( require ) {
       xMargin: 25,
       yMargin: 25,
       tandem: tandem,
-      phetioReadOnly: true // the AboutDialog should not be settable
+      phetioReadOnly: true, // the AboutDialog should not be settable
+      phetioState: false,
     } );
 
     // a11y - set label association so the title is read when focus enters the dialog

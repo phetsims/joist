@@ -135,6 +135,7 @@ define( function( require ) {
         },
         tandem: options.tandem.createTandem( 'closeButton' ),
         phetioReadOnly: options.phetioReadOnly, // match the readOnly of the Dialog
+        phetioState: options.phetioState, // match the state transfer of the Dialog
 
         // a11y options
         tagName: 'button',
