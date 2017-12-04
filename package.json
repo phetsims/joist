@@ -10,6 +10,10 @@
     "grunt": "~1.0.0"
   },
   "phet": {
-    "requirejsNamespace": "JOIST"
+    "requirejsNamespace": "JOIST",
+    "runnable": true,
+    "supportedBrands": [
+      "phet"
+    ]
   }
 }
