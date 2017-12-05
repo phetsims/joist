@@ -13,7 +13,8 @@
     "requirejsNamespace": "JOIST",
     "runnable": true,
     "supportedBrands": [
-      "phet"
+      "phet",
+      "adapted-from-phet"
     ]
   }
 }
