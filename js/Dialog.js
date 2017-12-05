@@ -63,6 +63,7 @@ define( function( require ) {
       tandem: Tandem.optional,
       phetioType: DialogIO,
       phetioReadOnly: false, // default to false so it can pass it through to the close button
+      phetioState: false, // default to false so it can pass it through to the close button
 
       // a11y options
       tagName: 'div',
