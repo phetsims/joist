@@ -179,18 +179,18 @@ define( function( require ) {
        * Computations here reflect the left-to-right layout of the navbar.
        */
       // available width left of center
-      var availableLeft = (HomeScreenView.LAYOUT_BOUNDS.width / 2) - TITLE_LEFT_MARGIN - maxTitleWidth - TITLE_RIGHT_MARGIN -
+      var availableLeft = ( HomeScreenView.LAYOUT_BOUNDS.width / 2 ) - TITLE_LEFT_MARGIN - maxTitleWidth - TITLE_RIGHT_MARGIN -
                           this.homeButton.width - HOME_BUTTON_RIGHT_MARGIN;
 
       // available width right of center
-      var availableRight = (HomeScreenView.LAYOUT_BOUNDS.width / 2) - this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN -
+      var availableRight = ( HomeScreenView.LAYOUT_BOUNDS.width / 2 ) - this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN -
                            keyboardHelpButtonLayoutWidth;
 
       // total available width for the screen buttons when they are centered
       var availableTotal = 2 * Math.min( availableLeft, availableRight );
 
       // width per screen button
-      var screenButtonWidth = (availableTotal - (screens.length - 1) * SCREEN_BUTTON_SPACING) / screens.length;
+      var screenButtonWidth = ( availableTotal - ( screens.length - 1 ) * SCREEN_BUTTON_SPACING) / screens.length;
 
       // Create the screen buttons
       var screenButtons = _.map( screens, function( screen ) {
@@ -216,7 +216,7 @@ define( function( require ) {
       for ( var i = 0; i < screenButtons.length; i++ ) {
 
         // Equally space the centers of the buttons around the origin of their parent (screenButtonsContainer)
-        screenButtons[ i ].centerX = spaceBetweenButtons * (i - (screenButtons.length - 1) / 2);
+        screenButtons[ i ].centerX = spaceBetweenButtons * ( i - ( screenButtons.length - 1 ) / 2 );
       }
 
       // @private - Put all screen buttons under a parent, to simplify layout
