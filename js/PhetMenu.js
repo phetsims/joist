@@ -134,7 +134,7 @@ define( function( require ) {
         text: menuItemPhetWebsiteString,
         present: isPhETBrand,
         callback: function() {
-          if ( !fuzzMouse || !fuzzBoard ) {
+          if ( !fuzzMouse && !fuzzBoard ) {
             // Open locale-specific PhET home page. If there is no website translation for locale, fallback will be handled by server. See joist#97.
             var phetWindow = window.open( 'http://phet.colorado.edu/' + sim.locale, '_blank' );
             phetWindow.focus();
@@ -188,7 +188,7 @@ define( function( require ) {
           var url = 'http://phet.colorado.edu/files/troubleshooting/' +
                     '?sim=' + encodeURIComponent( sim.name ) +
                     '&version=' + encodeURIComponent( sim.version + ' ' +
-                    (phet.chipper.buildTimestamp ? phet.chipper.buildTimestamp : '(require.js)') ) +
+                    ( phet.chipper.buildTimestamp ? phet.chipper.buildTimestamp : '(require.js)' ) ) +
                     '&url=' + encodeURIComponent( window.location.href ) +
                     '&dependencies=' + encodeURIComponent( JSON.stringify( dependenciesCopy ) );
 
