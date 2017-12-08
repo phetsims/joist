@@ -301,6 +301,7 @@ define( function( require ) {
         this.sim.screens[ i ].view.accessibleContentDisplayed = visible;
       }
       this.sim.navigationBar.accessibleContentDisplayed = visible;
+      this.sim.homeScreen && this.sim.homeScreen.view.setAccessibleContentDisplayed( visible );
 
       // workaround for a strange Edge bug where this child of the navigation bar remains visible,
       // see https://github.com/phetsims/a11y-research/issues/30
