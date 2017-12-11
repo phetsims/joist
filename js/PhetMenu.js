@@ -17,8 +17,8 @@ define( function( require ) {
   var Display = require( 'SCENERY/display/Display' );
   var FullScreen = require( 'JOIST/FullScreen' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Input = require( 'SCENERY/input/Input' );
   var joist = require( 'JOIST/joist' );
+  var KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
   var MenuItem = require( 'SUN/MenuItem' );
   var Node = require( 'SCENERY/nodes/Node' );
   var OptionsDialog = require( 'JOIST/OptionsDialog' );
@@ -383,29 +383,29 @@ define( function( require ) {
         var lastItem = self.items[ self.items.length - 1 ];
 
         // this attempts to prevents the scren reader's virtual cursor from also moving with the arrow keys
-        if ( Input.isArrowKey( event.keyCode ) ) {
+        if ( KeyboardUtil.isArrowKey( event.keyCode ) ) {
           event.preventDefault();
         }
 
-        if ( event.keyCode === Input.KEY_DOWN_ARROW ) {
+        if ( event.keyCode === KeyboardUtil.KEY_DOWN_ARROW ) {
 
           // On down arrow, focus next item in the list, or wrap up to the first item if focus is at the end
           var nextFocusable = lastItem.focused ? firstItem : AccessibilityUtil.getNextFocusable();
           nextFocusable.focus();
         }
-        else if ( event.keyCode === Input.KEY_UP_ARROW ) {
+        else if ( event.keyCode === KeyboardUtil.KEY_UP_ARROW ) {
 
           // On up arow, focus previous item in the list, or wrap back to the last item if focus is on first item
           var previousFocusable = firstItem.focused ? lastItem : AccessibilityUtil.getPreviousFocusable();
           previousFocusable.focus();
         }
-        else if ( event.keyCode === Input.KEY_ESCAPE ) {
+        else if ( event.keyCode === KeyboardUtil.KEY_ESCAPE ) {
 
           // On escape, close the menu and focus the PhET button
           options.closeCallback();
           sim.navigationBar.phetButton.focus();
         }
-        else if ( event.keyCode === Input.KEY_TAB ) {
+        else if ( event.keyCode === KeyboardUtil.KEY_TAB ) {
 
           // close the menu whenever the user tabs out of it
           options.closeCallback();

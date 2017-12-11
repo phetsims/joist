@@ -15,9 +15,9 @@ define( function( require ) {
   var Display = require( 'SCENERY/display/Display' );
   var FullScreen = require( 'JOIST/FullScreen' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Input = require( 'SCENERY/input/Input' );
   var joist = require( 'JOIST/joist' );
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
+  var KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Panel = require( 'SUN/Panel' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -189,12 +189,12 @@ define( function( require ) {
     // a11y - close the dialog when pressing "escape"
     var escapeListener = this.addAccessibleInputListener( {
       keydown: function( event ) {
-        if ( event.keyCode === Input.KEY_ESCAPE ) {
+        if ( event.keyCode === KeyboardUtil.KEY_ESCAPE ) {
           event.preventDefault();
           self.hide();
           self.focusActiveElement();
         }
-        else if ( event.keyCode === Input.KEY_TAB && FullScreen.isFullScreen() ) {
+        else if ( event.keyCode === KeyboardUtil.KEY_TAB && FullScreen.isFullScreen() ) {
 
           // prevent a particular bug in Windows 7/8.1 Firefox where focus gets trapped in the document
           // when the navigation bar is hidden and there is only one focusable element in the DOM
