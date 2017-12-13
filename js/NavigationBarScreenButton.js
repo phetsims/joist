@@ -16,6 +16,7 @@ define( function( require ) {
   var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var IOObject = require( 'TANDEM/IOObject' );
   var joist = require( 'JOIST/joist' );
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -75,7 +76,7 @@ define( function( require ) {
       } )
     }, options );
 
-    Node.call( this );
+    Node.call( this, IOObject.getOptions( options ) );
 
     // icon
     var icon = new Node( {

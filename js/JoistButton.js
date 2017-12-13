@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var IOObject = require( 'TANDEM/IOObject' );
   var ButtonListener = require( 'SUN/buttons/ButtonListener' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -63,7 +64,7 @@ define( function( require ) {
     // Highlight against the white background
     var darkenHighlight = createHighlight( 'black' );
 
-    Node.call( this, { children: [ content, brightenHighlight, darkenHighlight ] } );
+    Node.call( this, _.extend( { children: [ content, brightenHighlight, darkenHighlight ] }, IOObject.getOptions( options ) ) );
 
     // Button interactions
     var interactionStateProperty = new PushButtonInteractionStateProperty( this.buttonModel );
@@ -74,8 +75,8 @@ define( function( require ) {
     // Update the highlights based on whether the button is highlighted and whether it is against a light or dark background.
     Property.multilink( [ interactionStateProperty, navigationBarFillProperty ], function( interactionState, navigationBarFill ) {
       var useDarkenHighlight = navigationBarFill !== 'black';
-      brightenHighlight.visible = !useDarkenHighlight && (interactionState === 'over' || interactionState === 'pressed');
-      darkenHighlight.visible = useDarkenHighlight && (interactionState === 'over' || interactionState === 'pressed');
+      brightenHighlight.visible = !useDarkenHighlight && ( interactionState === 'over' || interactionState === 'pressed' );
+      darkenHighlight.visible = useDarkenHighlight && ( interactionState === 'over' || interactionState === 'pressed' );
     } );
 
     this.addInputListener( new ButtonListener( this.buttonModel ) );

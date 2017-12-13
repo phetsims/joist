@@ -17,6 +17,7 @@ define( function( require ) {
   var Display = require( 'SCENERY/display/Display' );
   var FullScreen = require( 'JOIST/FullScreen' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var IOObject = require( 'TANDEM/IOObject' );
   var joist = require( 'JOIST/joist' );
   var KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
   var MenuItem = require( 'SUN/MenuItem' );
@@ -24,13 +25,13 @@ define( function( require ) {
   var OptionsDialog = require( 'JOIST/OptionsDialog' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var PhetMenuIO = require( 'JOIST/PhetMenuIO' );
   var platform = require( 'PHET_CORE/platform' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   var Shape = require( 'KITE/Shape' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var PhetMenuIO = require( 'JOIST/PhetMenuIO' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var UpdateDialog = require( 'JOIST/UpdateDialog' );
 
@@ -102,7 +103,7 @@ define( function( require ) {
     options.tandem = tandem;
 
     var self = this;
-    Node.call( this );
+    Node.call( this, IOObject.getOptions( options ) );
 
     // Dialogs that could be constructed by the menu. The menu will create a dialog the
     // first time the item is selected, and they will be reused after that.  Must

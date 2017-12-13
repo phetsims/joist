@@ -12,14 +12,15 @@ define( function( require ) {
   // modules
   var Frame = require( 'JOIST/Frame' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var IOObject = require( 'TANDEM/IOObject' );
   var joist = require( 'JOIST/joist' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var ScreenButtonIO = require( 'JOIST/ScreenButtonIO' );
   var Shape = require( 'KITE/Shape' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var ScreenButtonIO = require( 'JOIST/ScreenButtonIO' );
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
@@ -88,17 +89,17 @@ define( function( require ) {
     highlightedScreenIndexProperty.link( function( highlightedIndex ) {
       var highlighted = highlightedIndex === index;
       frame.setHighlighted && frame.setHighlighted( highlighted );
-      icon.opacity = (large || highlighted) ? 1 : 0.5;
-      text.fill = (large || highlighted) ? 'white' : 'gray';
+      icon.opacity = ( large || highlighted ) ? 1 : 0.5;
+      text.fill = ( large || highlighted ) ? 'white' : 'gray';
     } );
 
     // The children are needed in the VBox constructor, but the rest of the options should be mutated later.
-    VBox.call( this, {
+    VBox.call( this, _.extend( IOObject.getOptions( options ), {
       children: [
         iconWithFrame,
         text
       ]
-    } );
+    } ) );
 
     // Input listeners after the parent call depending on if the ScreenButton is large or small
     var buttonDown = large ?
