@@ -12,7 +12,6 @@ define( function( require ) {
   // modules
   var Frame = require( 'JOIST/Frame' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var IOObject = require( 'TANDEM/IOObject' );
   var joist = require( 'JOIST/joist' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
@@ -94,12 +93,12 @@ define( function( require ) {
     } );
 
     // The children are needed in the VBox constructor, but the rest of the options should be mutated later.
-    VBox.call( this, _.extend( IOObject.getOptions( options ), {
+    VBox.call( this, {
       children: [
         iconWithFrame,
         text
       ]
-    } ) );
+    } );
 
     // Input listeners after the parent call depending on if the ScreenButton is large or small
     var buttonDown = large ?

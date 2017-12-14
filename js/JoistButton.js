@@ -9,7 +9,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var IOObject = require( 'TANDEM/IOObject' );
   var ButtonListener = require( 'SUN/buttons/ButtonListener' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -64,7 +63,7 @@ define( function( require ) {
     // Highlight against the white background
     var darkenHighlight = createHighlight( 'black' );
 
-    Node.call( this, _.extend( { children: [ content, brightenHighlight, darkenHighlight ] }, IOObject.getOptions( options ) ) );
+    Node.call( this, _.extend( { children: [ content, brightenHighlight, darkenHighlight ] } ) );
 
     // Button interactions
     var interactionStateProperty = new PushButtonInteractionStateProperty( this.buttonModel );

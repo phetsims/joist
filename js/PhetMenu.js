@@ -17,7 +17,6 @@ define( function( require ) {
   var Display = require( 'SCENERY/display/Display' );
   var FullScreen = require( 'JOIST/FullScreen' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var IOObject = require( 'TANDEM/IOObject' );
   var joist = require( 'JOIST/joist' );
   var KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
   var MenuItem = require( 'SUN/MenuItem' );
@@ -103,7 +102,7 @@ define( function( require ) {
     options.tandem = tandem;
 
     var self = this;
-    Node.call( this, IOObject.getOptions( options ) );
+    Node.call( this );
 
     // Dialogs that could be constructed by the menu. The menu will create a dialog the
     // first time the item is selected, and they will be reused after that.  Must
