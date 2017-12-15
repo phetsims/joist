@@ -36,6 +36,7 @@ define( function( require ) {
   var ObservableArray = require( 'AXON/ObservableArray' );
   var packageJSON = require( 'JOIST/packageJSON' );
   var PhetButton = require( 'JOIST/PhetButton' );
+  var PhetioObject = require( 'TANDEM/PhetioObject' );
   var platform = require( 'PHET_CORE/platform' );
   var Profiler = require( 'JOIST/Profiler' );
   var Property = require( 'AXON/Property' );
@@ -95,7 +96,9 @@ define( function( require ) {
       'Only use options.accessibility as a flag. It will not override the accessibility query parameter.' );
     assert && assert( options.phetioType === undefined, 'options should not specify phetioType in Sim' );
     options.phetioType = SimIO;
-    ROOT_TANDEM.addInstance( this, options );
+    options.tandem = ROOT_TANDEM;
+    options.phetioState = false;
+    PhetioObject.call( this, options );
 
     // @public Emitter that indicates when the sim resized
     this.resizedEmitter = new Emitter();
@@ -452,7 +455,7 @@ define( function( require ) {
     UtteranceQueue.initialize();
   }
 
-  return inherit( Object, Sim, {
+  return inherit( PhetioObject, Sim, {
     finishInit: function( screens ) {
       var self = this;
 
