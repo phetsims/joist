@@ -23,9 +23,6 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
-  // phet-io modules
-  var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
-
   // constants
   var LARGE_ICON_HEIGHT = 140;
 
