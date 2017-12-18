@@ -109,11 +109,12 @@ define( function( require ) {
                      function() {
                        sim.screenIndexProperty.value = index;
                      };
+    var self = this;
 
     var downListener = function( event ) {
-      var id = phetioEvents.start( 'user', tandem.id, ScreenButtonIO, 'fired' );
+      var id = self.startEvent( 'user', 'fired' );
       buttonDown();
-      phetioEvents.end( id );
+      self.endEvent( id );
     };
     this.addInputListener( { down: downListener } );
     this.addAccessibleInputListener( { click: function() { large && downListener(); } } );
