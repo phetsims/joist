@@ -49,9 +49,6 @@ define( function( require ) {
   var Util = require( 'SCENERY/util/Util' );
   var UtteranceQueue = require( 'SCENERY_PHET/accessibility/UtteranceQueue' );
 
-  // phet-io modules
-  var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
-
   // constants
   var PROGRESS_BAR_WIDTH = 273;
   var ROOT_TANDEM = Tandem.rootTandem;
