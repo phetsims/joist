@@ -323,7 +323,7 @@ define( function( require ) {
 
     // The simStarted event is guaranteed to be a top-level event, not nested under other events.
     // This phetio event is hard-coded in many places such as th playback wrapper, so should not be changed lightly!
-    this.phetioSimStartedEventId = phetioEvents.start( 'model', ROOT_TANDEM.id, SimIO, 'simStarted', {
+    this.phetioSimStartedEventId = this.startEvent( 'model', 'simStarted', {
       repoName: packageJSON.name,
       simName: this.name,
       simVersion: this.version,
@@ -711,7 +711,7 @@ define( function( require ) {
                 // Signify the end of simulation startup, finish the simStartedEvent.  Used by PhET-iO. This does not
                 // coincide with the end of the Sim constructor (because Sim has asynchronous steps that finish after
                 // the constructor is completed )
-                phetioEvents.end( self.phetioSimStartedEventId );
+                self.endEvent( self.phetioSimStartedEventId );
                 self.endedSimConstructionEmitter.emit();
 
                 // Sanity check that there is no phetio object in phet brand, see https://github.com/phetsims/phet-io/issues/1229
