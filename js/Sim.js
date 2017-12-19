@@ -47,7 +47,7 @@ define( function( require ) {
   var Timer = require( 'PHET_CORE/Timer' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var Util = require( 'SCENERY/util/Util' );
-  var UtteranceQueue = require( 'SCENERY_PHET/accessibility/UtteranceQueue' );
+  var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
   // constants
   var PROGRESS_BAR_WIDTH = 273;
@@ -447,9 +447,9 @@ define( function( require ) {
    */
   function initializeAccessibility() {
 
-    // UtteranceQueue depends on AriaHerald so initialize it first.
+    // utteranceQueue depends on AriaHerald so initialize it first.
     AriaHerald.initialize();
-    UtteranceQueue.initialize();
+    utteranceQueue.initialize();
   }
 
   return inherit( PhetioObject, Sim, {
