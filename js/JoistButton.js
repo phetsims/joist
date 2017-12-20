@@ -38,13 +38,14 @@ define( function( require ) {
       highlightExtensionWidth: 0,
       highlightExtensionHeight: 0,
       highlightCenterOffsetX: 0,
-      highlightCenterOffsetY: 0
+      highlightCenterOffsetY: 0,
+      eventSource: this
     }, options );
 
     options.tandem = tandem;
 
     // @public (phet-io) - Button model
-    this.buttonModel = new PushButtonModel( _.omit( options, 'phetioType', 'tandem' ) );
+    this.buttonModel = new PushButtonModel( options );
 
     // Create both highlights and only make the one visible that corresponds to the color scheme
     var createHighlight = function( fill ) {

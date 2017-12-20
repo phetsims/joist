@@ -25,6 +25,7 @@ define( function( require ) {
   }
 
   phetioInherit( ObjectIO, 'PhetButtonIO', PhetButtonIO, {}, {
+    events: [ 'fired' ],
     documentation: 'A pressable PhET logo in the simulation, it usually opens the PhET menu.'
   } );
 
