@@ -44,7 +44,7 @@ define( function( require ) {
     options.tandem = tandem;
 
     // @public (phet-io) - Button model
-    this.buttonModel = new PushButtonModel( options );
+    this.buttonModel = new PushButtonModel( _.omit( options, 'phetioType', 'tandem' ) );
 
     // Create both highlights and only make the one visible that corresponds to the color scheme
     var createHighlight = function( fill ) {
