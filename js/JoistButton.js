@@ -19,6 +19,7 @@ define( function( require ) {
   var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
   var Shape = require( 'KITE/Shape' );
   var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
+  var JoistButtonIO = require( 'JOIST/JoistButtonIO' );
 
   /**
    * @param {Node} content - the scenery node to render as the content of the button
@@ -39,7 +40,9 @@ define( function( require ) {
       highlightExtensionHeight: 0,
       highlightCenterOffsetX: 0,
       highlightCenterOffsetY: 0,
-      eventSource: this
+      eventSource: this,
+      phetioType: JoistButtonIO,
+      phetioState: false
     }, options );
 
     options.tandem = tandem;

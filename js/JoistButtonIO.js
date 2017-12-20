@@ -10,8 +10,9 @@ define( function( require ) {
   // modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var joist = require( 'JOIST/joist' );
-  var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
+  var NodeIO = require( 'SCENERY/nodes/NodeIO' );
   var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
+  var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
 
   /**
    * Wrapper type for phet/joist's PhetButton class.
@@ -19,17 +20,17 @@ define( function( require ) {
    * @param phetioID
    * @constructor
    */
-  function PhetButtonIO( phetButton, phetioID ) {
-    assert && assertInstanceOf( phetButton, phet.joist.PhetButton );
-    ObjectIO.call( this, phetButton, phetioID );
+  function JoistButtonIO( phetButton, phetioID ) {
+    assert && assertInstanceOf( phetButton, phet.joist.JoistButton );
+    NodeIO.call( this, phetButton, phetioID );
   }
 
-  phetioInherit( ObjectIO, 'PhetButtonIO', PhetButtonIO, {}, {
+  phetioInherit( ObjectIO, 'JoistButtonIO', JoistButtonIO, {}, {
     events: [ 'fired' ],
-    documentation: 'A pressable PhET logo in the simulation, it usually opens the PhET menu.'
+    documentation: 'A button in the joist framework'
   } );
 
-  joist.register( 'PhetButtonIO', PhetButtonIO );
+  joist.register( 'JoistButtonIO', JoistButtonIO );
 
-  return PhetButtonIO;
+  return JoistButtonIO;
 } );

@@ -20,7 +20,6 @@ define( function( require ) {
   var PhetMenu = require( 'JOIST/PhetMenu' );
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
-  var PhetButtonIO = require( 'JOIST/PhetButtonIO' );
   var TransformTracker = require( 'SCENERY/util/TransformTracker' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
 
@@ -84,7 +83,6 @@ define( function( require ) {
       listener: function() {
         phetMenu.show();
       },
-      phetioType: PhetButtonIO,
       phetioState: false,
 
       // a11y
