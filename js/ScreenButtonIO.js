@@ -18,8 +18,8 @@ define( function( require ) {
 
   /**
    * Wrapper type for phet/joist's ScreenButton
-   * @param button
-   * @param phetioID
+   * @param {ScreenButton} button
+   * @param {string} phetioID
    * @constructor
    */
   function ScreenButtonIO( button, phetioID ) {

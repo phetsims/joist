@@ -16,8 +16,8 @@ define( function( require ) {
 
   /**
    * Wrapper type for phet/joist's PhetButton class.
-   * @param phetButton
-   * @param phetioID
+   * @param {JoistButton} phetButton
+   * @param {string} phetioID
    * @constructor
    */
   function JoistButtonIO( phetButton, phetioID ) {

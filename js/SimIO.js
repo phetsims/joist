@@ -28,8 +28,8 @@ define( function( require ) {
 
   /**
    * Wrapper type for phet/joist's Sim class.
-   * @param sim
-   * @param phetioID
+   * @param {Sim} sim
+   * @param {string} phetioID
    * @constructor
    */
   function SimIO( sim, phetioID ) {

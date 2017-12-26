@@ -18,8 +18,8 @@ define( function( require ) {
 
   /**
    * Wrapper type for phet/joist's PhetMenu
-   * @param phetMenu
-   * @param phetioID
+   * @param {PhetMenu} phetMenu
+   * @param {string} phetioID
    * @constructor
    */
   function PhetMenuIO( phetMenu, phetioID ) {
