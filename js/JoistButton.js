@@ -40,7 +40,7 @@ define( function( require ) {
       highlightExtensionHeight: 0,
       highlightCenterOffsetX: 0,
       highlightCenterOffsetY: 0,
-      eventSource: this,
+      phetioEventSource: this,
       phetioType: JoistButtonIO,
       phetioState: false
     }, options );
