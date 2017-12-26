@@ -14,10 +14,10 @@ define( function( require ) {
   var NodeIO = require( 'SCENERY/nodes/NodeIO' );
 
   /**
-   * @constructor
    * Wrapper type for phet/joist's Dialog
    * @param {Dialog} dialog - instance of Dialog
    * @param {string} phetioID - identifier string
+   * @constructor
    */
   function DialogIO( dialog, phetioID ) {
     assert && assertInstanceOf( dialog, phet.joist.Dialog );

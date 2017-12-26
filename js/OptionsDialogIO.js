@@ -16,10 +16,10 @@ define( function( require ) {
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
 
   /**
-   * @constructor
    * Wrapper type for phet/joist's OptionsDialog
    * @param {OptionsDialog} optionsDialog - instance of OptionsDialog
    * @param {string} phetioID - identifier string
+   * @constructor
    */
   function OptionsDialogIO( optionsDialog, phetioID ) {
     assert && assertInstanceOf( optionsDialog, phet.joist.OptionsDialog );
