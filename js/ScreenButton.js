@@ -109,9 +109,9 @@ define( function( require ) {
     var self = this;
 
     var downListener = function( event ) {
-      var id = self.startEvent( 'user', 'fired' );
+      self.startEvent( 'user', 'fired' );
       buttonDown();
-      self.endEvent( id );
+      self.endEvent();
     };
     this.addInputListener( { down: downListener } );
     this.addAccessibleInputListener( { click: function() { large && downListener(); } } );
