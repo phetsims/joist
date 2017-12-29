@@ -17,7 +17,7 @@ define( function( require ) {
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
 
   /**
-   * Wrapper type for phet/joist's PhetMenu
+   * IO type for phet/joist's PhetMenu
    * @param {PhetMenu} phetMenu
    * @param {string} phetioID
    * @constructor

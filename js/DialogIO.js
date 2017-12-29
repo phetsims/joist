@@ -14,7 +14,7 @@ define( function( require ) {
   var NodeIO = require( 'SCENERY/nodes/NodeIO' );
 
   /**
-   * Wrapper type for phet/joist's Dialog
+   * IO type for phet/joist's Dialog
    * @param {Dialog} dialog - instance of Dialog
    * @param {string} phetioID - identifier string
    * @constructor

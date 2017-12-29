@@ -17,7 +17,7 @@ define( function( require ) {
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
 
   /**
-   * Wrapper type for phet/joist's ScreenButton
+   * IO type for phet/joist's ScreenButton
    * @param {NavigationBarScreenButton} button
    * @param {string} phetioID
    * @constructor

@@ -27,7 +27,7 @@ define( function( require ) {
   var SIM_STARTED = 'simStarted';
 
   /**
-   * Wrapper type for phet/joist's Sim class.
+   * IO type for phet/joist's Sim class.
    * @param {Sim} sim
    * @param {string} phetioID
    * @constructor

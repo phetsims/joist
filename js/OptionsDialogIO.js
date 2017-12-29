@@ -16,7 +16,7 @@ define( function( require ) {
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
 
   /**
-   * Wrapper type for phet/joist's OptionsDialog
+   * IO type for phet/joist's OptionsDialog
    * @param {OptionsDialog} optionsDialog - instance of OptionsDialog
    * @param {string} phetioID - identifier string
    * @constructor
