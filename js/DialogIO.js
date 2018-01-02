@@ -1,6 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
+ * IO type for Dialog
  *
  * @author Andrew Adare (PhET Interactive Simulations)
  */
