@@ -35,7 +35,7 @@ define( function( require ) {
    * Constructor.
    * @param {KeyboardHelpButton} keyboardHelpButton
    * @param {Node} helpContent - a node containing the sim specific keyboard help content
-   * @param {object} options
+   * @param {Object} [options]
    * @constructor
    */
   function KeyboardHelpDialog( keyboardHelpButton, helpContent, options ) {
