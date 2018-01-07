@@ -4,7 +4,7 @@
  * A ScreenButton is displayed on the HomeScreen. There are small and large ScreenButtons, that can be toggled through
  * to select the desired sim screen to go to. See HomeScreenView.js for more information.
  *
- * @author - Michael Kauzmann (PhET Interactive Simulations)
+ * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';
