@@ -76,7 +76,6 @@ define( function( require ) {
     sim.resizedEmitter.addListener( onResize );
 
     var options = {
-      textDescription: 'PhET Menu Button',
       highlightExtensionWidth: 6,
       highlightExtensionHeight: 5,
       highlightCenterOffsetY: 4,
