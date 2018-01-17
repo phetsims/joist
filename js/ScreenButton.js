@@ -20,6 +20,7 @@ define( function( require ) {
   var ScreenButtonIO = require( 'JOIST/ScreenButtonIO' );
   var Shape = require( 'KITE/Shape' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var Touch = require( 'SCENERY/input/Touch' );
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
@@ -134,7 +135,7 @@ define( function( require ) {
       // you swipe over to the next thumbnail, that one would grow.
       this.addInputListener( {
         over: function( event ) {
-          if ( event.pointer.isTouch ) {
+          if ( event.pointer instanceof Touch ) {
             sim.screenIndexProperty.value = index;
           }
         }
