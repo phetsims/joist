@@ -325,7 +325,8 @@ define( function( require ) {
       simName: this.name,
       simVersion: this.version,
       url: window.location.href,
-      randomSeed: window.phet.chipper.randomSeed
+      randomSeed: window.phet.chipper.randomSeed,
+      userAgent: window.navigator.userAgent
     } );
 
     var $body = $( 'body' );
