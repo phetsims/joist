@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Bounds2 = require( 'DOT/Bounds2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
@@ -57,11 +58,10 @@ define( function( require ) {
 
     // @private - highlight rectangle is always in the scene graph to make sure the node is positioned properly
     // but only visible when highlighted
-    this.highlightRectangle = new Rectangle( -1.5 / 2, -1.5 / 2, this.frameWidth + 1.5, this.frameHeight + 1.5, {
+    var frameBounds = Bounds2.rect( this.rectangle.x, this.rectangle.y, this.frameWidth, this.frameHeight );
+    this.highlightRectangle = Rectangle.bounds( frameBounds.dilated( 0.75 ), {
       stroke: 'transparent',
-      lineWidth: 4.5,
-      x: this.rectangle.x,
-      y: this.rectangle.y
+      lineWidth: 4.5
     } );
     this.addChild( this.highlightRectangle );
   }
