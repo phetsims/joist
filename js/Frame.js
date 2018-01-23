@@ -54,6 +54,16 @@ define( function( require ) {
 
     // @private
     this.frameHeight = frameHeight;
+
+    // @private - highlight rectangle is always in the scene graph to make sure the node is positioned properly
+    // but only visible when highlighted
+    this.highlightRectangle = new Rectangle( -1.5 / 2, -1.5 / 2, this.frameWidth + 1.5, this.frameHeight + 1.5, {
+      stroke: 'transparent',
+      lineWidth: 4.5,
+      x: this.rectangle.x,
+      y: this.rectangle.y
+    } );
+    this.addChild( this.highlightRectangle );
   }
 
   joist.register( 'Frame', Frame );
@@ -62,15 +72,7 @@ define( function( require ) {
 
     // @public
     setHighlighted: function( highlighted ) {
-      this.rectangle.lineWidth = highlighted ? 4.5 : 3;
-
-      //Make the frame larger when highlighted, but only so that it expands out
-      if ( highlighted ) {
-        this.rectangle.setRect( -1.5 / 2, -1.5 / 2, this.frameWidth + 1.5, this.frameHeight + 1.5 );
-      }
-      else {
-        this.rectangle.setRect( 0, 0, this.frameWidth, this.frameHeight );
-      }
+      this.highlightRectangle.stroke = highlighted ? this.gradient : 'transparent';
     }
   } );
 
