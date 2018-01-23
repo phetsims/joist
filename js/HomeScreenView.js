@@ -49,10 +49,6 @@ define( function( require ) {
       warningNode: null // {Node | null}, to display below the icons as a warning if available
     }, options );
 
-    // Rendering in SVG seems to solve the problem that the home screen consumes 100% disk and crashes, see
-    // https://github.com/phetsims/joist/issues/17.  This also makes it more responsive (and crisper on retina
-    // displays). The renderer must be specified here because the node is added directly to the scene (instead of to
-    // some other node that already has svg renderer).
     ScreenView.call( this, {
       layoutBounds: LAYOUT_BOUNDS,
       tandem: tandem,
@@ -85,12 +81,11 @@ define( function( require ) {
       } )
     } ) );
 
-
     // Keep track of which screen is highlighted so the same screen can remain highlighted even if nodes are replaced
     // (say when one grows larger or smaller).
     var highlightedScreenIndexProperty = new Property( -1 );
 
-    var screenChildren = _.map( sim.screens, function( screen ) {
+    var screenElements = _.map( sim.screens, function( screen ) {
 
       assert && assert( screen.name, 'name is required for screen ' + sim.screens.indexOf( screen ) );
       assert && assert( screen.homeScreenIcon, 'homeScreenIcon is required for screen ' + screen.name );
@@ -109,10 +104,8 @@ define( function( require ) {
         parentContainerTagName: 'li'
       };
 
-
-      var isLarge = true;
       var largeScreenButton = new ScreenButton(
-        isLarge,
+        true,
         sim,
         index,
         highlightedScreenIndexProperty,
@@ -128,9 +121,8 @@ define( function( require ) {
       // large and small buttons are registered as separate instances.  See https://github.com/phetsims/phet-io/issues/99
       var smallTandem = tandem.createTandem( screen.screenTandem.tail + 'SmallButton' );
 
-      isLarge = false;
       var smallScreenButton = new ScreenButton(
-        isLarge,
+        false,
         sim,
         index,
         highlightedScreenIndexProperty,
@@ -141,7 +133,6 @@ define( function( require ) {
             showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame
           }
         ) );
-
 
       smallScreenButton.addInputListener( smallScreenButton.highlightListener );
       largeScreenButton.addInputListener( smallScreenButton.highlightListener );
@@ -193,7 +184,7 @@ define( function( require ) {
       }
 
       // add new layout of icons
-      var icons = _.map( screenChildren, function( screenChild ) {return screenChild.index === screenIndex ? screenChild.large : screenChild.small;} );
+      var icons = _.map( screenElements, function( screenChild ) {return screenChild.index === screenIndex ? screenChild.large : screenChild.small;} );
       hBox = new HBox( { spacing: spacing, children: icons, align: 'top', resize: false } );
       iconsParentNode.addChild( hBox );
 
