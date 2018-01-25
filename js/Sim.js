@@ -437,6 +437,14 @@ define( function( require ) {
       }
     } );
 
+    // If the page is loaded from the back-forward cache, then reload the page to avoid bugginess,
+    // see https://github.com/phetsims/joist/issues/448
+    window.addEventListener( 'pageshow', function( event ) {
+      if ( event.persisted ) {
+        window.location.reload();
+      }
+    } );
+
     // Third party support
     phet.chipper.queryParameters.legendsOfLearning && new LegendsOfLearningSupport( this ).start();
   }
