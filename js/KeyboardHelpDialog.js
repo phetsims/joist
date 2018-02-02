@@ -77,6 +77,7 @@ define( function( require ) {
       lineCap: 'round',
       lineWidth: 2,
       cursor: 'pointer',
+      tandem: options.tandem.createTandem( 'closeButtonPath' ),
 
       // a11y
       tagName: 'button',
