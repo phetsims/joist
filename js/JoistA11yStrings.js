@@ -39,6 +39,9 @@ define( function( require ) {
     simResourcesAndToolsString: 'Sim Resources and Tools', // used for single screen sims
     simScreensResourcesAndToolsString: 'Sim Screens, Resources, and Tools',
 
+    // hint to look at keyboard help dialog
+    checkOutShortcutsString: 'If needed, check out keyboard shortcuts for this sim.',
+
     // PhET menu
     phetString: 'PhET Menu'
   };
