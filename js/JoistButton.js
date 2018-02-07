@@ -40,7 +40,6 @@ define( function( require ) {
       highlightExtensionHeight: 0,
       highlightCenterOffsetX: 0,
       highlightCenterOffsetY: 0,
-      phetioEventSource: this,
       phetioType: JoistButtonIO,
       phetioState: false
     }, options );
@@ -48,7 +47,8 @@ define( function( require ) {
     options.tandem = tandem;
 
     // @public (phet-io) - Button model
-    this.buttonModel = new PushButtonModel( options );
+    assert && assert( !options.phetioEventSource, 'phetioEventSource cannot be passed in' );
+    this.buttonModel = new PushButtonModel( _.extend( { phetioEventSource: this }, options ) );
 
     // Create both highlights and only make the one visible that corresponds to the color scheme
     var createHighlight = function( fill ) {
