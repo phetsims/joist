@@ -86,7 +86,7 @@ define( function( require ) {
     this.endedSimConstructionEmitter = new Emitter();
 
     // Many other components use addInstance at the end of their constructor but in this case we must register early
-    // to (a) enable the SimIFrameAPI as soon as possible and (b) to enable subsequent component registrations,
+    // to (a) enable the phetioCommandProcessor as soon as possible and (b) to enable subsequent component registrations,
     // which require the sim to be registered
     options = options || {};
     assert && assert( options.accessibility !== false,

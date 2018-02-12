@@ -13,7 +13,7 @@ define( function( require ) {
   var Random = require( 'DOT/Random' );
 
   // phet-io modules
-  var SimIFrameAPI = require( 'ifphetio!PHET_IO/SimIFrameAPI' );
+  var phetioCommandProcessor = require( 'ifphetio!PHET_IO/phetioCommandProcessor' );
 
   var SimLauncher = {
 
@@ -46,7 +46,7 @@ define( function( require ) {
 
         // PhET-iO simulations support an initialization phase (before the sim launches)
         if ( phet.phetio ) {
-          SimIFrameAPI.initialize(); // calls back to window.phetLaunchSimulation
+          phetioCommandProcessor.initialize(); // calls back to window.phetLaunchSimulation
         }
 
         if ( phet.chipper.queryParameters.postMessageOnReady ) {

@@ -16,7 +16,7 @@ define( function( require ) {
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var phetio = require( 'ifphetio!PHET_IO/phetio' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  var SimIFrameAPI = require( 'ifphetio!PHET_IO/SimIFrameAPI' );
+  var phetioCommandProcessor = require( 'ifphetio!PHET_IO/phetioCommandProcessor' );
   var FunctionIO = require( 'ifphetio!PHET_IO/types/FunctionIO' );
   var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
   var StringIO = require( 'ifphetio!PHET_IO/types/StringIO' );
@@ -42,7 +42,7 @@ define( function( require ) {
     sim.endedSimConstructionEmitter.addListener( function() {
 
       // TODO: Can these be coalesced?  See https://github.com/phetsims/joist/issues/412
-      SimIFrameAPI.triggerSimInitialized();
+      phetioCommandProcessor.triggerSimInitialized();
       phetio.simulationStarted();
     } );
   }
