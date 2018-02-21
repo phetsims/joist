@@ -214,7 +214,7 @@ define( function( require ) {
     this.screenIndexProperty = new NumberProperty( options.screenIndex, {
       tandem: ROOT_TANDEM.createTandem( 'screenIndexProperty' ),
       validValues: _.range( 0, screens.length ),
-      valueType: 'Integer'
+      numberType: 'Integer'
     } );
 
     // @public - When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.
