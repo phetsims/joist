@@ -34,14 +34,16 @@ define( function( require ) {
     options = _.extend( {
       cursor: 'pointer', // {string}
       listener: null, // {function}
-
       //Customization for the highlight region, see overrides in HomeButton and PhetButton
       highlightExtensionWidth: 0,
       highlightExtensionHeight: 0,
       highlightCenterOffsetX: 0,
       highlightCenterOffsetY: 0,
       phetioType: JoistButtonIO,
-      phetioState: false
+      phetioState: false,
+
+      // a11y
+      a11yEndListener: null // {function} - called at the end of a11yClick in ButtonModel
     }, options );
 
     options.tandem = tandem;
@@ -87,7 +89,7 @@ define( function( require ) {
     // a11y - when the button is clicked with assistive technology, fire
     this.addAccessibleInputListener( {
       click: function() {
-        self.buttonModel.fire();
+        self.buttonModel.a11yClick( options.a11yEndListener );
       }
     } );
 

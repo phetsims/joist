@@ -72,6 +72,8 @@ define( function( require ) {
    */
   function NavigationBar( sim, screens, tandem ) {
 
+    var self = this;
+
     // @private
     this.screens = screens;
 
@@ -168,6 +170,10 @@ define( function( require ) {
         tandem.createTandem( 'homeButton' ), {
           listener: function() {
             sim.showHomeScreenProperty.value = true;
+          },
+          // passed to a11yClick in ButtonModel
+          a11yEndListener: function () {
+            sim.homeScreen.view.highlightedScreenButton.focus();
           }
         } );
 

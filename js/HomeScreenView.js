@@ -175,6 +175,10 @@ define( function( require ) {
     var spacing = ( sim.screens.length <= 3 ) ? 60 : 33;
 
     var hBox = null;
+
+    // @public - for a11y, allow focus to be set when returning to home screen from sim
+    this.highlightedScreenButton = null;
+
     sim.screenIndexProperty.link( function( screenIndex ) {
 
       // remove previous layout of icons
@@ -184,7 +188,14 @@ define( function( require ) {
       }
 
       // add new layout of icons
-      var icons = _.map( screenElements, function( screenChild ) {return screenChild.index === screenIndex ? screenChild.large : screenChild.small;} );
+      var icons = _.map( screenElements, function( screenChild ) {
+
+        // check for the current screen
+        if ( screenChild.index === screenIndex ) {
+          self.highlightedScreenButton = screenChild.large;
+        }
+        return screenChild.index === screenIndex ? screenChild.large : screenChild.small;
+      } );
       hBox = new HBox( { spacing: spacing, children: icons, align: 'top', resize: false } );
       iconsParentNode.addChild( hBox );
 
