@@ -72,8 +72,6 @@ define( function( require ) {
    */
   function NavigationBar( sim, screens, tandem ) {
 
-    var self = this;
-
     // @private
     this.screens = screens;
 
