@@ -66,6 +66,9 @@ define( function( require ) {
       tandem: Tandem.required
     }, options );
 
+    // help content surrounded by a div unless already specified, so that all content is read when dialog opens
+    helpContent.tagName = helpContent.tagName || 'div';
+
     // shape and path for a custom close button
     var closeButtonShape = new Shape();
     closeButtonShape.moveTo( -CLOSE_BUTTON_WIDTH, -CLOSE_BUTTON_WIDTH ).lineTo( CLOSE_BUTTON_WIDTH, CLOSE_BUTTON_WIDTH );
