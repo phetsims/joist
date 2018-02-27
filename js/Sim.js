@@ -15,7 +15,6 @@ define( function( require ) {
   // modules
   var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
   var BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
-  var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Brand = require( 'BRAND/Brand' );
@@ -48,6 +47,9 @@ define( function( require ) {
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var Util = require( 'SCENERY/util/Util' );
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
+  
+  // phet-io modules
+  var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
 
   // constants
   var PROGRESS_BAR_WIDTH = 273;

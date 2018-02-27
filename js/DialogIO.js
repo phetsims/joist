@@ -9,10 +9,12 @@ define( function( require ) {
   'use strict';
 
   // phet-io modules
-  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var joist = require( 'JOIST/joist' );
-  var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
   var NodeIO = require( 'SCENERY/nodes/NodeIO' );
+  
+  // phet-io modules
+  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
+  var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
 
   /**
    * IO type for phet/joist's Dialog
