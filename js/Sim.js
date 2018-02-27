@@ -562,6 +562,12 @@ define( function( require ) {
 
     // @public (joist-internal, phet-io)
     resize: function( width, height ) {
+      assert && assert( width > 0 && height > 0, 'sim should have a nonzero area' );
+
+      // Gracefully support bad dimensions, see https://github.com/phetsims/joist/issues/472
+      if ( width === 0 || height === 0 ) {
+        return;
+      }
       var self = this;
 
       var scale = Math.min( width / HomeScreenView.LAYOUT_BOUNDS.width, height / HomeScreenView.LAYOUT_BOUNDS.height );
