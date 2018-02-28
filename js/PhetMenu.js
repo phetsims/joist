@@ -96,7 +96,8 @@ define( function( require ) {
       showSaveAndLoad: false,
 
       phetioType: PhetMenuIO,
-      phetioState: false
+      phetioState: false,
+      phetioInstanceDocumentation: 'This menu is displayed when the PhET button is pressed'
     }, options );
 
     options.tandem = tandem;
@@ -125,6 +126,7 @@ define( function( require ) {
           optionsDialog.show();
         },
         tandem: tandem.createTandem( 'optionsMenuItem' ),
+        phetioInstanceDocumentation: 'This menu item shows an options dialog',
 
         // a11y
         tagName: 'button',
@@ -264,6 +266,7 @@ define( function( require ) {
           }
         },
         tandem: tandem.createTandem( 'screenshotMenuItem' ),
+        phetioInstanceDocumentation: 'This menu item captures a screenshot from the simulation and saves it to the file system',
         tagName: 'button'
       },
       {
@@ -274,6 +277,7 @@ define( function( require ) {
           FullScreen.toggleFullScreen( sim );
         },
         tandem: tandem.createTandem( 'fullScreenMenuItem' ),
+        phetioInstanceDocumentation: 'This menu item requests full-screen access for the simulation display',
         tagName: 'button'
       },
 
@@ -291,6 +295,7 @@ define( function( require ) {
           aboutDialog.show();
         },
         tandem: tandem.createTandem( 'aboutMenuItem' ),
+        phetioInstanceDocumentation: 'This menu item shows a dialog with information about the simulation',
         tagName: 'button',
         focusAfterCallback: true,
         phetioReadOnly: true
@@ -318,6 +323,7 @@ define( function( require ) {
           separatorBefore: itemDescriptor.separatorBefore,
           tagName: itemDescriptor.tagName,
           tandem: itemDescriptor.tandem,
+          phetioInstanceDocumentation: itemDescriptor.phetioInstanceDocumentation,
           focusAfterCallback: itemDescriptor.focusAfterCallback,
           phetioReadOnly: itemDescriptor.phetioReadOnly
         };
@@ -424,7 +430,6 @@ define( function( require ) {
       }
     };
     Display.focusProperty.lazyLink( focusListener );
-
 
     this.mutate( options );
 
