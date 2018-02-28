@@ -47,7 +47,7 @@ define( function( require ) {
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var Util = require( 'SCENERY/util/Util' );
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
-  
+
   // phet-io modules
   var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
 
@@ -97,6 +97,7 @@ define( function( require ) {
     options.phetioType = SimIO;
     options.tandem = ROOT_TANDEM;
     options.phetioState = false;
+    options.phetioInstanceDocumentation = 'Represents the entire simulation';
     PhetioObject.call( this, options );
 
     // @public Emitter that indicates when the sim resized
@@ -215,6 +216,7 @@ define( function( require ) {
     // @public (joist-internal) - The selected screen's index
     this.screenIndexProperty = new NumberProperty( options.screenIndex, {
       tandem: ROOT_TANDEM.createTandem( 'screenIndexProperty' ),
+      phetioInstanceDocumentation: 'Indicates which screen is selected (0-indexed)',
       validValues: _.range( 0, screens.length ),
       numberType: 'Integer'
     } );
@@ -224,6 +226,7 @@ define( function( require ) {
     // activeProperty will automatically be set to false so the timing and inputs can be controlled by the playback engine
     this.activeProperty = new BooleanProperty( !phet.joist.playbackModeEnabledProperty.value, {
       tandem: ROOT_TANDEM.createTandem( 'activeProperty' ),
+      phetioInstanceDocumentation: 'Indicates whether the entire simulation is running and processing user input',
       phetioType: PropertyIO( BooleanIO )
     } );
 

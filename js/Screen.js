@@ -122,7 +122,8 @@ define( function( require ) {
     this.activeProperty = new Property( false, {
       tandem: options.tandem.createTandem( 'activeProperty' ),
       phetioType: PropertyIO( BooleanIO ),
-      phetioReadOnly: true
+      phetioReadOnly: true,
+      phetioInstanceDocumentation: 'Indicates whether the screen is active.  For single-screen simulations, the screen is always active.'
     } );
 
     // @public (a11y)
