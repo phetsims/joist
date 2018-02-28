@@ -233,6 +233,7 @@ define( function( require ) {
     // @public (read-only) - property that indicates whether the browser tab containing the simulation is currently visible
     this.browserTabVisibleProperty = new BooleanProperty( true, {
       tandem: ROOT_TANDEM.createTandem( 'browserTabVisibleProperty' ),
+      phetioInstanceDocumentation: 'Indicates whether the browser tab containing the simulation is currently visible',
       phetioReadOnly: true
     } );
 
@@ -256,7 +257,9 @@ define( function( require ) {
     // @public (joist-internal, read-only, phet-io) - whether the phetButton is pickable. This controls all of the
     // instances, on the homescreen and nav bar in tandem. see https://github.com/phetsims/joist/issues/453
     this.phetButtonPickableProperty = new BooleanProperty( true, {
-      tandem: ROOT_TANDEM.createTandem( 'phetButtonPickableProperty' )
+      tandem: ROOT_TANDEM.createTandem( 'phetButtonPickableProperty' ),
+      phetioInstanceDocumentation: 'Determines whether the PhET Button in the bottom right of the screen can be pressed, ' +
+                                   'and applies to the PhET Button on the home screen (if any) and navigation bar.'
     } );
 
     // @public

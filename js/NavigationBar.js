@@ -111,7 +111,8 @@ define( function( require ) {
     // Sim title
     this.titleTextNode = new Text( title, {
       font: new PhetFont( 16 ),
-      tandem: tandem.createTandem( 'titleTextNode' )
+      tandem: tandem.createTandem( 'titleTextNode' ),
+      phetioInstanceDocumentation: 'Displays the title of the simulation in the navigation bar (bottom left)'
     } );
     sim.lookAndFeel.navigationBarTextFillProperty.linkAttribute( this.titleTextNode, 'fill' );
     this.barContents.addChild( this.titleTextNode );
@@ -170,7 +171,7 @@ define( function( require ) {
             sim.showHomeScreenProperty.value = true;
           },
           // passed to a11yClick in ButtonModel
-          a11yEndListener: function () {
+          a11yEndListener: function() {
             sim.homeScreen.view.highlightedScreenButton.focus();
           }
         } );
@@ -194,7 +195,7 @@ define( function( require ) {
       var availableTotal = 2 * Math.min( availableLeft, availableRight );
 
       // width per screen button
-      var screenButtonWidth = ( availableTotal - ( screens.length - 1 ) * SCREEN_BUTTON_SPACING) / screens.length;
+      var screenButtonWidth = ( availableTotal - ( screens.length - 1 ) * SCREEN_BUTTON_SPACING ) / screens.length;
 
       // Create the screen buttons
       var screenButtons = _.map( screens, function( screen ) {
