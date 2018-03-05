@@ -11,7 +11,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var ButtonListener = require( 'SUN/buttons/ButtonListener' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
@@ -21,6 +20,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var PressListener = require( 'SCENERY/listeners/PressListener' );
   var Property = require( 'AXON/Property' );
   var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -96,7 +96,13 @@ define( function( require ) {
       listener: clicked,
       phetioEventSource: this
     } );
-    this.addInputListener( new ButtonListener( this.buttonModel ) );
+
+    // Hook up the input listener
+    this.addInputListener( new PressListener( {
+      tandem: options.tandem.createTandem( 'pressListener' ),
+      isPressedProperty: this.buttonModel.downProperty,
+      isOverProperty: this.buttonModel.overProperty
+    } ) );
 
     // a11y - when the button is clicked with assistive technology, fire
     this.addAccessibleInputListener( {

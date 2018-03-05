@@ -9,11 +9,11 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var ButtonListener = require( 'SUN/buttons/ButtonListener' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var PressListener = require( 'SCENERY/listeners/PressListener' );
   var Property = require( 'AXON/Property' );
   var PushButtonInteractionStateProperty = require( 'SUN/buttons/PushButtonInteractionStateProperty' );
   var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
@@ -84,7 +84,12 @@ define( function( require ) {
       darkenHighlight.visible = useDarkenHighlight && ( interactionState === 'over' || interactionState === 'pressed' );
     } );
 
-    this.addInputListener( new ButtonListener( this.buttonModel ) );
+    // Hook up the input listener
+    this.addInputListener( new PressListener( {
+      tandem: tandem.createTandem( 'pressListener' ),
+      isPressedProperty: this.buttonModel.downProperty,
+      isOverProperty: this.buttonModel.overProperty
+    } ) );
 
     // a11y - when the button is clicked with assistive technology, fire
     this.addAccessibleInputListener( {
