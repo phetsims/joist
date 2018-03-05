@@ -159,7 +159,7 @@ define( function( require ) {
     }
 
     // Add credits for specific brands
-    if ( credits && (Brand.id === 'phet' || Brand.id === 'phet-io') ) {
+    if ( credits && ( Brand.id === 'phet' || Brand.id === 'phet-io' ) ) {
       children.push( new VStrut( 15 ) );
       this.creditsNode = new CreditsNode( credits, {
         maxWidth: MAX_WIDTH
@@ -176,7 +176,6 @@ define( function( require ) {
         children.push( new LinkText( link.text, link.url, {
           font: new PhetFont( 14 ),
           maxWidth: MAX_WIDTH,
-          tandem: tandem.createTandem( 'link' + (i + 1) ),
           phetioReadOnly: true, // the AboutDialog should not be settable
           phetioState: false
         } ) );
