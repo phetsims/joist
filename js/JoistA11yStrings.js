@@ -40,7 +40,7 @@ define( function( require ) {
     simScreensResourcesAndToolsString: 'Sim Screens, Resources, and Tools',
 
     // hint to look at keyboard help dialog
-    checkOutShortcutsString: 'If needed, check out keyboard shortcuts for this sim.',
+    checkOutShortcutsString: 'If needed, checkout keyboard shortcuts under Sim Resources.',
 
     // PhET menu
     phetString: 'PhET Menu'
