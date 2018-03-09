@@ -121,7 +121,7 @@ define( function( require ) {
 
         // a11y
         tagName: 'h2',
-        accessibleLabel: Brand.name
+        accessibleLabelAsHTML: Brand.name
       } ) );
     }
 
