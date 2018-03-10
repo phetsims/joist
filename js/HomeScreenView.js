@@ -24,10 +24,10 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
 
   // a11y-strings
-  var simScreensString = JoistA11yStrings.simScreensString;
-  var simScreenString = JoistA11yStrings.simScreenString;
-  var homeScreenDescriptionPatternString = JoistA11yStrings.homeScreenDescriptionPatternString;
-  var homeScreenString = JoistA11yStrings.homeScreenString;
+  var simScreensString = JoistA11yStrings.simScreensString.value;
+  var simScreenString = JoistA11yStrings.simScreenString.value;
+  var homeScreenDescriptionPatternString = JoistA11yStrings.homeScreenDescriptionPatternString.value;
+  var homeScreenString = JoistA11yStrings.homeScreenString.value;
 
   // constants
   var LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );

@@ -16,34 +16,68 @@ define( function( require ) {
   var JoistA11yStrings = {
 
     // dialogs
-    hotKeysAndHelpString: 'Keyboard Shortcuts',
-    closeString: 'Close',
+    hotKeysAndHelpString: {
+      value: 'Keyboard Shortcuts' 
+    },
+    closeString: {
+      value: 'Close' 
+    },
 
     // sections in a simulation
-    sceneSummaryString: 'Scene Summary',
-    playAreaString: 'Play Area',
-    controlPanelString: 'Control Panel',
+    sceneSummaryString: {
+      value: 'Scene Summary' 
+    },
+    playAreaString: {
+      value: 'Play Area' 
+    },
+    controlPanelString: {
+      value: 'Control Panel' 
+    },
 
     // general for screens
-    simScreensString: 'Sim Screens',
-    simScreenString: 'Sim Screen',
-    screenNumberPatternString: 'Screen {{number}}',
-    screenNamePatternString: '{{name}} Screen',
+    simScreensString: {
+      value: 'Sim Screens' 
+    },
+    simScreenString: {
+      value: 'Sim Screen' 
+    },
+    screenNumberPatternString: {
+      value: 'Screen {{number}}' 
+    },
+    screenNamePatternString: {
+      value: '{{name}} Screen' 
+    },
 
-    homeString: 'Home',
-    homeScreenString: 'Home Screen',
-    homeScreenDescriptionString: 'Go to Home Screen.',
-    homeScreenDescriptionPatternString: 'Come explore with {{name}}. It has {{screens}} screens.',
+    homeString: {
+      value: 'Home' 
+    },
+    homeScreenString: {
+      value: 'Home Screen' 
+    },
+    homeScreenDescriptionString: {
+      value: 'Go to Home Screen.' 
+    },
+    homeScreenDescriptionPatternString: {
+      value: 'Come explore with {{name}}. It has {{screens}} screens.' 
+    },
 
     // navigation bar
-    simResourcesAndToolsString: 'Sim Resources', // used for single screen sims
-    simScreensResourcesAndToolsString: 'Sim Screens, Resources, and Tools',
+    simResourcesAndToolsString: {
+      value: 'Sim Resources', // used for single screen sim 
+    },
+    simScreensResourcesAndToolsString: {
+      value: 'Sim Screens, Resources, and Tools' 
+    },
 
     // hint to look at keyboard help dialog
-    checkOutShortcutsString: 'If needed, checkout keyboard shortcuts under Sim Resources.',
+    checkOutShortcutsString: {
+      value: 'If needed, checkout keyboard shortcuts under Sim Resources.' 
+    },
 
     // PhET menu
-    phetString: 'PhET Menu'
+    phetString: {
+      value: 'PhET Menu'
+    },
   };
 
   if ( phet.chipper.queryParameters.stringTest === 'xss' ) {

@@ -31,6 +31,9 @@ define( function( require ) {
   // string
   var keyboardShortcutsTitleString = require( 'string!JOIST/keyboardShortcuts.title' );
 
+  // a11y string
+  var hotKeysAndHelpString = JoistA11yStrings.hotKeysAndHelpString.value;
+
   /**
    * Constructor.
    * @param {KeyboardHelpButton} keyboardHelpButton
@@ -50,7 +53,7 @@ define( function( require ) {
 
       // a11y options
       tagName: 'h1',
-      accessibleLabel: JoistA11yStrings.hotKeysAndHelpString
+      accessibleLabel: hotKeysAndHelpString
     } );
 
     options = _.extend( {

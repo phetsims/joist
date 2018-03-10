@@ -46,9 +46,9 @@ define( function( require ) {
   var simTitleWithScreenNamePatternString = require( 'string!JOIST/simTitleWithScreenNamePattern' );
 
   // a11y strings
-  var simScreensResourcesAndToolsString = JoistA11yStrings.simScreensResourcesAndToolsString;
-  var simResourcesAndToolsString = JoistA11yStrings.simResourcesAndToolsString;
-  var simScreensString = JoistA11yStrings.simScreensString;
+  var simScreensResourcesAndToolsString = JoistA11yStrings.simScreensResourcesAndToolsString.value;
+  var simResourcesAndToolsString = JoistA11yStrings.simResourcesAndToolsString.value;
+  var simScreensString = JoistA11yStrings.simScreensString.value;
 
   // constants
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );

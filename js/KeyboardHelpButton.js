@@ -24,6 +24,9 @@ define( function( require ) {
   var darkIconMipmap = require( 'mipmap!JOIST/keyboard-icon-on-white.png' ); // on a white navbar
   assert && assert( Array.isArray(brightIconMipmap), 'icon must be a mipmap' );
 
+  // a11y strings
+  var hotKeysAndHelpString = JoistA11yStrings.hotKeysAndHelpString.value;
+
   // constants
   var HELP_BUTTON_HEIGHT = 67;
   var HELP_BUTTON_SCALE = 0.32;  // scale applied to the icon
@@ -50,7 +53,7 @@ define( function( require ) {
 
       // a11y options
       tagName: 'button',
-      accessibleLabel: JoistA11yStrings.hotKeysAndHelpString
+      accessibleLabel: hotKeysAndHelpString
     };
 
     var icon = new Image( brightIconMipmap, {

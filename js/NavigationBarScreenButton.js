@@ -36,8 +36,8 @@ define( function( require ) {
   var HIGHLIGHT_SPACING = 4;
 
   // a11y strings
-  var simScreenString = JoistA11yStrings.simScreenString;
-  var screenNameStringPatternString = JoistA11yStrings.screenNumberPatternString;
+  var simScreenString = JoistA11yStrings.simScreenString.value;
+  var screenNameStringPatternString = JoistA11yStrings.screenNumberPatternString.value;
 
   /**
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
