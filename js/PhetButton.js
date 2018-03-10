@@ -40,7 +40,7 @@ define( function( require ) {
   // height of the PhET logo, brand/phet/images/logo.png or brand/adapted-from-phet/images/logo.png
   var PHET_LOGO_HEIGHT = 108;
   var PHET_LOGO_SCALE = 0.28;  // scale applied to the PhET logo
-  assert && assert( brightLogoMipmap instanceof Array, 'logo must be a mipmap' );
+  assert && assert( Array.isArray(brightLogoMipmap), 'logo must be a mipmap' );
   var LOGO_SCALE = PHET_LOGO_SCALE / brightLogoMipmap[ 0 ].height * PHET_LOGO_HEIGHT;
 
   /**

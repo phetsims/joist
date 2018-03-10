@@ -22,7 +22,7 @@ define( function( require ) {
   // images
   var brightIconMipmap = require( 'mipmap!JOIST/keyboard-icon.png' ); // on a black navbar
   var darkIconMipmap = require( 'mipmap!JOIST/keyboard-icon-on-white.png' ); // on a white navbar
-  assert && assert( brightIconMipmap instanceof Array, 'icon must be a mipmap' );
+  assert && assert( Array.isArray(brightIconMipmap), 'icon must be a mipmap' );
 
   // constants
   var HELP_BUTTON_HEIGHT = 67;
