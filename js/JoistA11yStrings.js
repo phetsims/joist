@@ -17,48 +17,47 @@ define( function( require ) {
 
     // dialogs
     hotKeysAndHelpString: {
-      value: 'Keyboard Shortcuts' 
+      value: 'Keyboard Shortcuts'
     },
     closeString: {
-      value: 'Close' 
+      value: 'Close'
     },
 
     // sections in a simulation
     sceneSummaryString: {
-      value: 'Scene Summary' 
+      value: 'Scene Summary'
     },
     playAreaString: {
-      value: 'Play Area' 
+      value: 'Play Area'
     },
     controlPanelString: {
-      value: 'Control Panel' 
+      value: 'Control Panel'
     },
 
     // general for screens
     simScreensString: {
-      value: 'Sim Screens' 
+      value: 'Sim Screens'
     },
     simScreenString: {
-      value: 'Sim Screen' 
+      value: 'Sim Screen'
     },
     screenNumberPatternString: {
-      value: 'Screen {{number}}' 
+      value: 'Screen {{number}}'
     },
     screenNamePatternString: {
-      value: '{{name}} Screen' 
+      value: '{{name}} Screen'
     },
-
     homeString: {
-      value: 'Home' 
+      value: 'Home'
     },
     homeScreenString: {
-      value: 'Home Screen' 
+      value: 'Home Screen'
     },
     homeScreenDescriptionString: {
-      value: 'Go to Home Screen.' 
+      value: 'Go to Home Screen.'
     },
     homeScreenDescriptionPatternString: {
-      value: 'Come explore with {{name}}. It has {{screens}} screens.' 
+      value: 'Come explore with {{name}}. It has {{screens}} screens.'
     },
 
     // navigation bar
@@ -66,12 +65,12 @@ define( function( require ) {
       value: 'Sim Resources', // used for single screen sim 
     },
     simScreensResourcesAndToolsString: {
-      value: 'Sim Screens, Resources, and Tools' 
+      value: 'Sim Screens, Resources, and Tools'
     },
 
     // hint to look at keyboard help dialog
     checkOutShortcutsString: {
-      value: 'If needed, checkout keyboard shortcuts under Sim Resources.' 
+      value: 'If needed, checkout keyboard shortcuts under Sim Resources.'
     },
 
     // PhET menu
@@ -80,7 +79,7 @@ define( function( require ) {
     },
   };
 
-  if ( phet.chipper.queryParameters.stringTest === 'xss' ) {
+  if ( phet.chipper.queryParameters.stringTest === 'xss') {
     for ( var key in JoistA11yStrings ) {
       JoistA11yStrings[ key ] += '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2NkYGD4DwABCQEBtxmN7wAAAABJRU5ErkJggg==" onload="window.location.href=atob(\'aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUXc0dzlXZ1hjUQ==\')" />';
     }
