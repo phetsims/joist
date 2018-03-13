@@ -40,7 +40,6 @@ define( function( require ) {
       highlightCenterOffsetX: 0,
       highlightCenterOffsetY: 0,
       phetioType: JoistButtonIO,
-      phetioState: false,
 
       // a11y
       a11yEndListener: null // {function} - called at the end of a11yClick in ButtonModel

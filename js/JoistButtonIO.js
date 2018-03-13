@@ -14,7 +14,6 @@ define( function( require ) {
 
   // phet-io modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
-  var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
 
   /**
@@ -28,7 +27,7 @@ define( function( require ) {
     NodeIO.call( this, phetButton, phetioID );
   }
 
-  phetioInherit( ObjectIO, 'JoistButtonIO', JoistButtonIO, {}, {
+  phetioInherit( NodeIO, 'JoistButtonIO', JoistButtonIO, {}, {
     events: [ 'fired' ],
     documentation: 'A button in the joist framework'
   } );
