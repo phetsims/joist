@@ -30,6 +30,7 @@ define( function( require ) {
 
   // string
   var keyboardShortcutsTitleString = require( 'string!JOIST/keyboardShortcuts.title' );
+  var closeString = JoistA11yStrings.closeString.value;
 
   // a11y string
   var hotKeysAndHelpString = JoistA11yStrings.hotKeysAndHelpString.value;
@@ -87,7 +88,7 @@ define( function( require ) {
 
       // a11y
       tagName: 'button',
-      accessibleLabel: JoistA11yStrings.closeString,
+      accessibleLabel: closeString,
     } );
     var dilationCoefficient = FocusHighlightPath.getDilationCoefficient( this.closeButtonPath );
     this.closeButtonPath.focusHighlight = Shape.bounds( closeButtonShape.getBounds().dilated( dilationCoefficient ) );
@@ -115,6 +116,10 @@ define( function( require ) {
     this.closeButtonPath.right = helpContent.right + 2 * HELP_CONTENT_MARGIN - CLOSE_BUTTON_MARGIN;
     this.closeButtonPath.top = helpContent.top + CLOSE_BUTTON_MARGIN;
     this.addChild( this.closeButtonPath );
+
+    // a11y - the close button comes first so that the remaining content can easily be read with the screen reader's
+    // virtual cursor
+    this.accessibleOrder = [ this.closeButtonPath, titleText ];
 
     // @private (a11y) - input listener for the close button, must be disposed
     var clickListener = this.closeButtonPath.addAccessibleInputListener( {
