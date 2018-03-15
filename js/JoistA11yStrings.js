@@ -16,10 +16,10 @@ define( function( require ) {
   var JoistA11yStrings = {
 
     // dialogs
-    hotKeysAndHelpString: {
+    hotKeysAndHelp: {
       value: 'Keyboard Shortcuts'
     },
-    closeString: {
+    close: {
       value: 'Close'
     },
 
@@ -27,44 +27,44 @@ define( function( require ) {
     sceneSummary: {
       value: 'Scene Summary'
     },
-    playAreaString: {
+    playArea: {
       value: 'Play Area'
     },
-    controlPanelString: {
+    controlPanel: {
       value: 'Control Panel'
     },
 
     // general for screens
-    simScreensString: {
+    simScreens: {
       value: 'Sim Screens'
     },
-    simScreenString: {
+    simScreen: {
       value: 'Sim Screen'
     },
-    screenNumberPatternString: {
+    screenNumberPattern: {
       value: 'Screen {{number}}'
     },
-    screenNamePatternString: {
+    screenNamePattern: {
       value: '{{name}} Screen'
     },
-    homeString: {
+    home: {
       value: 'Home'
     },
-    homeScreenString: {
+    homeScreen: {
       value: 'Home Screen'
     },
-    homeScreenDescriptionString: {
+    homeScreenDescription: {
       value: 'Go to Home Screen.'
     },
-    homeScreenDescriptionPatternString: {
+    homeScreenDescriptionPattern: {
       value: 'Come explore with {{name}}. It has {{screens}} screens.'
     },
 
     // navigation bar
-    simResourcesAndToolsString: {
+    simResourcesAndTools: {
       value: 'Sim Resources', // used for single screen sim 
     },
-    simScreensResourcesAndToolsString: {
+    simScreensResourcesAndTools: {
       value: 'Sim Screens, Resources, and Tools'
     },
 
@@ -74,7 +74,7 @@ define( function( require ) {
     },
 
     // PhET menu
-    phetString: {
+    phet: {
       value: 'PhET Menu'
     },
   };
