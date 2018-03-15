@@ -24,7 +24,7 @@ define( function( require ) {
     },
 
     // sections in a simulation
-    sceneSummaryString: {
+    sceneSummary: {
       value: 'Scene Summary'
     },
     playAreaString: {
@@ -69,7 +69,7 @@ define( function( require ) {
     },
 
     // hint to look at keyboard help dialog
-    checkOutShortcutsString: {
+    checkOutShortcuts: {
       value: 'If needed, checkout keyboard shortcuts under Sim Resources.'
     },
 
