@@ -30,7 +30,7 @@ define( function( require ) {
   var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
 
   // a11y strings
-  var screenNamePatternString = JoistA11yStrings.screenNamePatternString.value;
+  var screenNamePatternString = JoistA11yStrings.screenNamePattern.value;
 
   // constants
   var MINIMUM_HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 );
@@ -137,7 +137,7 @@ define( function( require ) {
       } );
     }
     else {
-      this.accessibleDescription = JoistA11yStrings.simScreenString; // fall back on generic name
+      this.accessibleDescription = JoistA11yStrings.simScreen.value; // fall back on generic name
     }
 
     var self = this;

@@ -24,7 +24,7 @@ define( function( require ) {
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
 
   // strings
-  var phetString = JoistA11yStrings.phetString.value;
+  var phetString = JoistA11yStrings.phet.value;
 
   // images
   // The logo images are loaded from the brand which is selected via query parameter (during requirejs mode)

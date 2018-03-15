@@ -25,7 +25,7 @@ define( function( require ) {
   assert && assert( Array.isArray( brightIconMipmap ), 'icon must be a mipmap' );
 
   // a11y strings
-  var hotKeysAndHelpString = JoistA11yStrings.hotKeysAndHelpString.value;
+  var hotKeysAndHelpString = JoistA11yStrings.hotKeysAndHelp.value;
 
   // constants
   var HELP_BUTTON_HEIGHT = 67;

@@ -27,7 +27,7 @@ define( function( require ) {
   var DialogIO = require( 'JOIST/DialogIO' );
 
   // strings
-  var closeString = JoistA11yStrings.closeString.value;
+  var closeString = JoistA11yStrings.close.value;
 
   /**
    * @param {Node} content - The content to display inside the dialog (not including the title)

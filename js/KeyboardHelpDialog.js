@@ -30,10 +30,10 @@ define( function( require ) {
 
   // string
   var keyboardShortcutsTitleString = require( 'string!JOIST/keyboardShortcuts.title' );
-  var closeString = JoistA11yStrings.closeString.value;
 
   // a11y string
-  var hotKeysAndHelpString = JoistA11yStrings.hotKeysAndHelpString.value;
+  var closeString = JoistA11yStrings.close.value;
+  var hotKeysAndHelpString = JoistA11yStrings.hotKeysAndHelp.value;
 
   /**
    * Constructor.

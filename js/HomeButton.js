@@ -21,9 +21,9 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
 
   // a11y strings
-  var homeString = JoistA11yStrings.homeString.value;
-  var homeScreenString = JoistA11yStrings.homeScreenString.value;
-  var homeScreenDescriptionString = JoistA11yStrings.homeScreenDescriptionString.value;
+  var homeString = JoistA11yStrings.home.value;
+  var homeScreenString = JoistA11yStrings.homeScreen.value;
+  var homeScreenDescriptionString = JoistA11yStrings.homeScreenDescription.value;
 
   /**
    * @param {number} navBarHeight
