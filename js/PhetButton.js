@@ -23,7 +23,7 @@ define( function( require ) {
   var TransformTracker = require( 'SCENERY/util/TransformTracker' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
 
-  // strings
+  // a11y strings
   var phetString = JoistA11yStrings.phet.value;
 
   // images
