@@ -41,6 +41,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var PropertyIO = require( 'AXON/PropertyIO' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
+  var simInfo = require( 'JOIST/simInfo' );
   var SimIO = require( 'JOIST/SimIO' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Timer = require( 'PHET_CORE/Timer' );
@@ -328,14 +329,11 @@ define( function( require ) {
 
     // The simStarted event is guaranteed to be a top-level event, not nested under other events.
     // This phetio event is hard-coded in many places such as th playback wrapper, so should not be changed lightly!
-    this.phetioSimStartedEventId = this.startEvent( 'model', 'simStarted', {
+    this.phetioSimStartedEventId = this.startEvent( 'model', 'simStarted', _.extend( simInfo, {
       repoName: packageJSON.name,
       simName: this.name,
-      simVersion: this.version,
-      url: window.location.href,
-      randomSeed: window.phet.chipper.randomSeed,
-      userAgent: window.navigator.userAgent
-    } );
+      simVersion: this.version
+    } ) );
 
     var $body = $( 'body' );
 
