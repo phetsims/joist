@@ -98,7 +98,7 @@ define( function( require ) {
     options.phetioType = SimIO;
     options.tandem = ROOT_TANDEM;
     options.phetioState = false;
-    options.phetioInstanceDocumentation = 'Represents the entire simulation';
+    options.phetioInstanceDocumentation = 'Represents the entire simulation.';
     PhetioObject.call( this, options );
 
     // @public Emitter that indicates when the sim resized
@@ -217,7 +217,7 @@ define( function( require ) {
     // @public (joist-internal) - The selected screen's index
     this.screenIndexProperty = new NumberProperty( options.screenIndex, {
       tandem: ROOT_TANDEM.createTandem( 'screenIndexProperty' ),
-      phetioInstanceDocumentation: 'Indicates which screen is selected (0-indexed)',
+      phetioInstanceDocumentation: 'Indicates which screen is selected (0-indexed).',
       validValues: _.range( 0, screens.length ),
       numberType: 'Integer'
     } );
@@ -227,14 +227,14 @@ define( function( require ) {
     // activeProperty will automatically be set to false so the timing and inputs can be controlled by the playback engine
     this.activeProperty = new BooleanProperty( !phet.joist.playbackModeEnabledProperty.value, {
       tandem: ROOT_TANDEM.createTandem( 'activeProperty' ),
-      phetioInstanceDocumentation: 'Indicates whether the entire simulation is running and processing user input',
+      phetioInstanceDocumentation: 'Indicates whether the entire simulation is running and processing user input.',
       phetioType: PropertyIO( BooleanIO )
     } );
 
     // @public (read-only) - property that indicates whether the browser tab containing the simulation is currently visible
     this.browserTabVisibleProperty = new BooleanProperty( true, {
       tandem: ROOT_TANDEM.createTandem( 'browserTabVisibleProperty' ),
-      phetioInstanceDocumentation: 'Indicates whether the browser tab containing the simulation is currently visible',
+      phetioInstanceDocumentation: 'Indicates whether the browser tab containing the simulation is currently visible.',
       phetioReadOnly: true
     } );
 

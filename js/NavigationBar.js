@@ -112,7 +112,7 @@ define( function( require ) {
     this.titleTextNode = new Text( title, {
       font: new PhetFont( 16 ),
       tandem: tandem.createTandem( 'titleTextNode' ),
-      phetioInstanceDocumentation: 'Displays the title of the simulation in the navigation bar (bottom left)'
+      phetioInstanceDocumentation: 'Displays the title of the simulation in the navigation bar (bottom left).'
     } );
     sim.lookAndFeel.navigationBarTextFillProperty.linkAttribute( this.titleTextNode, 'fill' );
     this.barContents.addChild( this.titleTextNode );
