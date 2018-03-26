@@ -24,11 +24,16 @@ define( function( require ) {
     // @public background color for the currently selected screen, which will be set on the Display as its backgroundColor
     this.backgroundColorProperty = new Property( 'black' );
 
-    // @public (joist-internal) - Navigation bar background fill
-    this.navigationBarFillProperty = new DerivedProperty( [ this.backgroundColorProperty ],
+    // @public (joist-internal) {boolean} - True if the navigation bar background is black
+    this.navigationBarDarkProperty = new DerivedProperty( [ this.backgroundColorProperty ],
       function( backgroundColor ) {
-        var screenIsBlack = !!new Color( backgroundColor ).equals( Color.BLACK );
-        return screenIsBlack ? 'white' : 'black';
+        return !!new Color( backgroundColor ).equals( Color.BLACK );
+      } );
+
+    // @public (joist-internal) - Navigation bar background fill
+    this.navigationBarFillProperty = new DerivedProperty( [ this.navigationBarDarkProperty ],
+      function( backgroundDark ) {
+        return backgroundDark ? 'white' : 'black';
       } );
 
     // @public (joist-internal) - Navigation bar text fill

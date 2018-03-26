@@ -17,7 +17,6 @@ define( function( require ) {
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var JoistButton = require( 'JOIST/JoistButton' );
   var KeyboardHelpDialog = require( 'JOIST/KeyboardHelpDialog' );
-  var Property = require( 'AXON/Property' );
 
   // images
   var brightIconMipmap = require( 'mipmap!JOIST/keyboard-icon.png' ); // on a black navbar
@@ -32,6 +31,12 @@ define( function( require ) {
   var HELP_BUTTON_SCALE = 0.32;  // scale applied to the icon
   var BUTTON_SCALE = HELP_BUTTON_SCALE / brightIconMipmap[ 0 ].height * HELP_BUTTON_HEIGHT;
 
+  /**
+   * @constructor
+   * @param {Sim} sim
+   * @param {Property} backgroundFillProperty - background color of sim, linked to color of this button
+   * @param {Tandem} tandem
+   */
   function KeyboardHelpButton( sim, backgroundFillProperty, tandem ) {
     var self = this;
 
@@ -63,11 +68,10 @@ define( function( require ) {
 
     JoistButton.call( this, icon, backgroundFillProperty, tandem, options );
 
-    Property.multilink( [ backgroundFillProperty, sim.showHomeScreenProperty ],
-      function( backgroundFill, showHomeScreen ) {
-        var backgroundIsWhite = backgroundFill !== 'black' && !showHomeScreen;
-        icon.image = backgroundIsWhite ? darkIconMipmap : brightIconMipmap;
-      } );
+    // change the icon so that it is visible when the navigation bar changes from dark to light
+    sim.lookAndFeel.navigationBarDarkProperty.link( function( navigationBarDark ) {
+      icon.image = navigationBarDark ? darkIconMipmap : brightIconMipmap;
+    } );
 
     // a11y - open the dialog on 'spacebar' or 'enter' and focus the 'Close' button immediately
     this.clickListener = this.addAccessibleInputListener( {
