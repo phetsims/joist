@@ -138,7 +138,7 @@ define( function( require ) {
     if ( phet.chipper.a11yEnabled && sim.keyboardHelpNode && !platform.mobileSafari ) {
 
       // @public (joist-internal, read-only) - Pops open a dialog with information about keyboard navigation
-      this.keyboardHelpButton = new KeyboardHelpButton( sim, tandem.createTandem( 'keyboardHelpButton' ) );
+      this.keyboardHelpButton = new KeyboardHelpButton( sim.keyboardHelpNode, sim.lookAndFeel, tandem.createTandem( 'keyboardHelpButton' ) );
       this.barContents.addChild( this.keyboardHelpButton );
       keyboardHelpButtonLayoutWidth = this.keyboardHelpButton.width + KEYBOARD_HELP_BUTTON_LEFT_MARGIN;
     }

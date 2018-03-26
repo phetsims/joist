@@ -32,17 +32,18 @@ define( function( require ) {
   var BUTTON_SCALE = HELP_BUTTON_SCALE / brightIconMipmap[ 0 ].height * HELP_BUTTON_HEIGHT;
 
   /**
-   * @constructor
-   * @param {Sim} sim
+   * @param {Node} keyboardHelpNode - content for the KeyboardHelpDialog
+   * @param {LookAndFeel} simLookAndFeel - state and colors of sim/NavigationBar to set color for icon of this button
    * @param {Tandem} tandem
+   * @constructor
    */
-  function KeyboardHelpButton( sim, tandem ) {
+  function KeyboardHelpButton( keyboardHelpNode, simLookAndFeel, tandem ) {
     var self = this;
 
     var keyboardHelpDialog = null;
     var openDialog = function() {
       if ( !keyboardHelpDialog ) {
-        keyboardHelpDialog = new KeyboardHelpDialog( self, sim.keyboardHelpNode, {
+        keyboardHelpDialog = new KeyboardHelpDialog( self, keyboardHelpNode, {
           tandem: tandem.createTandem( 'keyboardHelpDialog' )
         } );
       }
@@ -65,10 +66,10 @@ define( function( require ) {
       pickable: false
     } );
 
-    JoistButton.call( this, icon, sim.lookAndFeel.navigationBarFillProperty, tandem, options );
+    JoistButton.call( this, icon, simLookAndFeel.navigationBarFillProperty, tandem, options );
 
     // change the icon so that it is visible when the navigation bar changes from dark to light
-    sim.lookAndFeel.navigationBarDarkProperty.link( function( navigationBarDark ) {
+    simLookAndFeel.navigationBarDarkProperty.link( function( navigationBarDark ) {
       icon.image = navigationBarDark ? darkIconMipmap : brightIconMipmap;
     } );
 
