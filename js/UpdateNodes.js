@@ -10,9 +10,9 @@ define( function( require ) {
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var joist = require( 'JOIST/joist' );
-  var LinkText = require( 'JOIST/LinkText' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var RichText = require( 'SCENERY/nodes/RichText' );
   var SpinningIndicatorNode = require( 'SCENERY_PHET/SpinningIndicatorNode' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -104,7 +104,10 @@ define( function( require ) {
         maxWidth: MAX_WIDTH,
         children: [
           new FontAwesomeNode( 'warning_sign', { fill: '#E87600', scale: 0.5 } ), // "safety orange", according to Wikipedia
-          new LinkText( updatesOutOfDateString, UpdateCheck.updateURL, { font: updateTextFont } )
+          new RichText( '<a href="{{url}}">' + updatesOutOfDateString + '</a>', {
+            links: { url: UpdateCheck.updateURL }, // RichText must fill in URL for link
+            font: updateTextFont
+          } )
         ],
 
         // a11y
