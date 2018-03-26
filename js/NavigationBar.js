@@ -89,9 +89,9 @@ define( function( require ) {
 
     // @private - The bar's background (resized in layout)
     this.background = new Rectangle( 0, 0, NAVIGATION_BAR_SIZE.width, NAVIGATION_BAR_SIZE.height, {
-      pickable: true
+      pickable: true,
+      fill: sim.lookAndFeel.navigationBarFillProperty
     } );
-    sim.lookAndFeel.navigationBarFillProperty.linkAttribute( this.background, 'fill' );
     this.addChild( this.background );
 
     // @private - Everything else besides the background in the navigation bar (used for scaling)
@@ -111,10 +111,10 @@ define( function( require ) {
     // Sim title
     this.titleTextNode = new Text( title, {
       font: new PhetFont( 16 ),
+      fill: sim.lookAndFeel.navigationBarTextFillProperty,
       tandem: tandem.createTandem( 'titleTextNode' ),
       phetioInstanceDocumentation: 'Displays the title of the simulation in the navigation bar (bottom left).'
     } );
-    sim.lookAndFeel.navigationBarTextFillProperty.linkAttribute( this.titleTextNode, 'fill' );
     this.barContents.addChild( this.titleTextNode );
 
     // @public (joist-internal) - PhET button. The transform of this is tracked, so we can mirror it over to the
