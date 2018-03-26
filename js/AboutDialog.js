@@ -172,9 +172,8 @@ define( function( require ) {
       children.push( new VStrut( 15 ) );
       for ( var i = 0; i < links.length; i++ ) {
         var link = links[ i ];
-        var markup = '<a href="{{url}}">' + link.text + '</a>';
-        children.push( new RichText( markup, {
-          links: { url: link.url },
+        children.push( new RichText( '<a href="{{url}}">' + link.text + '</a>', {
+          links: { url: link.url }, // RichText must fill in URL for link
           font: new PhetFont( 14 ),
           maxWidth: MAX_WIDTH,
           phetioReadOnly: true, // the AboutDialog should not be settable
