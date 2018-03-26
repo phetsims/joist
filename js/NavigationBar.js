@@ -163,8 +163,7 @@ define( function( require ) {
       // a11y - container for the homeButton and all the screen buttons.
       var buttons = new Node( {
         tagName: 'nav',
-        useAriaLabel: true,
-        accessibleLabel: simScreensString
+        ariaLabel: simScreensString
       } );
       var buttonsOrderedList = new Node( { tagName: 'ol' } );
       buttons.addChild( buttonsOrderedList );

@@ -159,8 +159,7 @@ define( function( require ) {
 
       // a11y
       tagName: 'nav',
-      useAriaLabel: true,
-      accessibleLabel: simScreensString
+      ariaLabel: simScreensString
     } );
 
     // Intermediate node, so that icons are always in the same rendering layer
