@@ -51,6 +51,14 @@ define( function( require ) {
   var simScreensString = JoistA11yStrings.simScreens.value;
 
   // constants
+  // for layout of the NavigationBar, used in the following way:
+  // [
+  //  {TITLE_LEFT_MARGIN}Title{TITLE_RIGHT_MARGIN}
+  //  {HOME_BUTTON_LEFT_MARGIN}HomeButton{HOME_BUTTON_RIGHT_MARGIN} (if visible)
+  //  {ScreenButtons centered} (if visible)
+  //  {KEYBOARD_HELP_BUTTON_LEFT_MARGIN}KeyboardHelpButton (if visible)
+  //  {PHET_BUTTON_LEFT_MARGIN}PhetButton{PHET_BUTTON_RIGHT_MARGIN}
+  // ]
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
   var TITLE_LEFT_MARGIN = 10;
   var TITLE_RIGHT_MARGIN = 25;
@@ -185,11 +193,11 @@ define( function( require ) {
        */
       // available width left of center
       var availableLeft = ( HomeScreenView.LAYOUT_BOUNDS.width / 2 ) - TITLE_LEFT_MARGIN - maxTitleWidth - TITLE_RIGHT_MARGIN -
-                          this.homeButton.width - HOME_BUTTON_RIGHT_MARGIN;
+                          HOME_BUTTON_LEFT_MARGIN - this.homeButton.width - HOME_BUTTON_RIGHT_MARGIN;
 
       // available width right of center
-      var availableRight = ( HomeScreenView.LAYOUT_BOUNDS.width / 2 ) - this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN -
-                           keyboardHelpButtonLayoutWidth;
+      var availableRight = ( HomeScreenView.LAYOUT_BOUNDS.width / 2 ) - PHET_BUTTON_LEFT_MARGIN - this.phetButton.width -
+                           PHET_BUTTON_RIGHT_MARGIN - keyboardHelpButtonLayoutWidth;
 
       // total available width for the screen buttons when they are centered
       var availableTotal = 2 * Math.min( availableLeft, availableRight );
