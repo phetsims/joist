@@ -33,7 +33,7 @@ define( function( require ) {
 
   /**
    * @param {Node} keyboardHelpNode - content for the KeyboardHelpDialog
-   * @param {LookAndFeel} simLookAndFeel - state and colors of sim/NavigationBar to fill the icon for this button
+   * @param {LookAndFeel} simLookAndFeel - state and colors of sim/NavigationBar to set color for icon of this button
    * @param {Tandem} tandem
    */
   function KeyboardHelpButton( keyboardHelpNode, simLookAndFeel, tandem ) {
