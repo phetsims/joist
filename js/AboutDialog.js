@@ -14,7 +14,6 @@ define( function( require ) {
   var Dialog = require( 'JOIST/Dialog' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
-  var LinkText = require( 'JOIST/LinkText' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var Node = require( 'SCENERY/nodes/Node' );
   var packageJSON = require( 'JOIST/packageJSON' );
@@ -173,7 +172,9 @@ define( function( require ) {
       children.push( new VStrut( 15 ) );
       for ( var i = 0; i < links.length; i++ ) {
         var link = links[ i ];
-        children.push( new LinkText( link.text, link.url, {
+        var markup = '<a href="{{url}}">' + link.text + '</a>';
+        children.push( new RichText( markup, {
+          links: { url: link.url },
           font: new PhetFont( 14 ),
           maxWidth: MAX_WIDTH,
           phetioReadOnly: true, // the AboutDialog should not be settable
