@@ -34,10 +34,9 @@ define( function( require ) {
   /**
    * @constructor
    * @param {Sim} sim
-   * @param {Property} backgroundFillProperty - background color of sim, linked to color of this button
    * @param {Tandem} tandem
    */
-  function KeyboardHelpButton( sim, backgroundFillProperty, tandem ) {
+  function KeyboardHelpButton( sim, tandem ) {
     var self = this;
 
     var keyboardHelpDialog = null;
@@ -66,7 +65,7 @@ define( function( require ) {
       pickable: false
     } );
 
-    JoistButton.call( this, icon, backgroundFillProperty, tandem, options );
+    JoistButton.call( this, icon, sim.lookAndFeel.navigationBarFillProperty, tandem, options );
 
     // change the icon so that it is visible when the navigation bar changes from dark to light
     sim.lookAndFeel.navigationBarDarkProperty.link( function( navigationBarDark ) {
