@@ -101,7 +101,7 @@ define( function( require ) {
         tagName: 'button',
         accessibleLabel: screen.name,
         accessibleDescription: screen.accessibleDescription,
-        parentContainerTagName: 'li'
+        containerTagName: 'li'
       };
 
       var largeScreenButton = new ScreenButton(

@@ -42,7 +42,7 @@ define( function( require ) {
       // a11y,
       tagName: 'button',
       accessibleLabel: homeString,
-      parentContainerTagName: 'li',
+      containerTagName: 'li',
       accessibleDescriptionAsHTML: homeScreenDescriptionString
     }, options );
 

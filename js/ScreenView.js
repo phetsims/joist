@@ -38,7 +38,7 @@ define( function( require ) {
       tandem: Tandem.optional,
 
       // a11y options
-      parentContainerTagName: 'article',
+      containerTagName: 'article',
       tagName: 'div',
       labelTagName: 'h1',
       prependLabels: true
