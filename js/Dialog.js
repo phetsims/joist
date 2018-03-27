@@ -11,7 +11,6 @@ define( function( require ) {
 
   // modules
   var AccessibilityUtil = require( 'SCENERY/accessibility/AccessibilityUtil' );
-  var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
   var Display = require( 'SCENERY/display/Display' );
   var FullScreen = require( 'JOIST/FullScreen' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -308,9 +307,6 @@ define( function( require ) {
       if ( this.sim.navigationBar.keyboardHelpButton ) {
         this.sim.navigationBar.keyboardHelpButton.accessibleVisible = visible;
       }
-
-      // clear the aria-live alert content from the DOM
-      AriaHerald.clearAll();
     },
 
     /**
