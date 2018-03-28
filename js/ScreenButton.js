@@ -117,6 +117,14 @@ define( function( require ) {
     this.addInputListener( { down: downListener } );
     this.addAccessibleInputListener( { click: function() { large && downListener(); } } );
     this.addAccessibleInputListener( { focus: function() { !large && downListener(); } } );
+    this.addAccessibleInputListener( {
+      focus: function() {
+        highlightedScreenIndexProperty.value = index;
+      },
+      blur: function() {
+        highlightedScreenIndexProperty.value = -1;
+      }
+    } );
 
     // Set highlight listeners to the small screen button
     if ( !large ) {

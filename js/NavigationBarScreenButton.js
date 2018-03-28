@@ -108,6 +108,12 @@ define( function( require ) {
     this.addAccessibleInputListener( {
       click: function() {
         self.buttonModel.a11yClick();
+      },
+      focus: function() {
+        self.buttonModel.overProperty.value = true;
+      },
+      blur: function() {
+        self.buttonModel.overProperty.value = false;
       }
     } );
 
