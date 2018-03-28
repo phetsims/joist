@@ -227,7 +227,8 @@ define( function( require ) {
     // activeProperty will automatically be set to false so the timing and inputs can be controlled by the playback engine
     this.activeProperty = new BooleanProperty( !phet.joist.playbackModeEnabledProperty.value, {
       tandem: ROOT_TANDEM.createTandem( 'activeProperty' ),
-      phetioInstanceDocumentation: 'Indicates whether the entire simulation is running and processing user input.',
+      phetioInstanceDocumentation: 'Determines whether the entire simulation is running and processing user input. ' +
+                                   'Setting this property to false pauses the simulation, and prevents user interaction.',
       phetioType: PropertyIO( BooleanIO )
     } );
 

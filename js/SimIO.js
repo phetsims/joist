@@ -17,10 +17,8 @@ define( function( require ) {
   var phetio = require( 'ifphetio!PHET_IO/phetio' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
   var phetioCommandProcessor = require( 'ifphetio!PHET_IO/phetioCommandProcessor' );
-  var FunctionIO = require( 'ifphetio!PHET_IO/types/FunctionIO' );
   var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
   var StringIO = require( 'ifphetio!PHET_IO/types/StringIO' );
-  var VoidIO = require( 'ifphetio!PHET_IO/types/VoidIO' );
 
   // constants
   // The token for the event that occurs when the simulation constructor completes. This is hard-coded in many places
@@ -48,15 +46,6 @@ define( function( require ) {
   }
 
   phetioInherit( ObjectIO, 'SimIO', SimIO, {
-
-    addEventListener: {
-      returnType: VoidIO,
-      parameterTypes: [ StringIO, FunctionIO( VoidIO, [ StringIO, FunctionIO( VoidIO, [] ) ] ) ],
-      implementation: function( eventName, listener ) {
-        this.instance.onStatic( eventName, listener );
-      },
-      documentation: 'Add an event listener to the sim instance'
-    },
 
     getScreenshotDataURL: {
       returnType: StringIO,
