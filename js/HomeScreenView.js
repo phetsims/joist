@@ -52,7 +52,7 @@ define( function( require ) {
     ScreenView.call( this, {
       layoutBounds: LAYOUT_BOUNDS,
       tandem: tandem,
-      accessibleLabel: homeScreenString
+      labelContent: homeScreenString
     } );
 
     var title = new Text( sim.name, {

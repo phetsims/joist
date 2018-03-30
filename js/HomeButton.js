@@ -41,7 +41,7 @@ define( function( require ) {
 
       // a11y,
       tagName: 'button',
-      accessibleLabel: homeString,
+      labelContent: homeString,
       containerTagName: 'li',
       accessibleDescriptionAsHTML: homeScreenDescriptionString
     }, options );
