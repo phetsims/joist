@@ -57,7 +57,7 @@ define( function( require ) {
 
         // a11y
         tagName: 'p',
-        accessibleLabel: updatesCheckingString
+        innerContent: updatesCheckingString
       }, options ) );
       checkingNode.step = function( dt ) {
         if ( UpdateCheck.stateProperty === 'checking' ) {
@@ -87,7 +87,7 @@ define( function( require ) {
 
         // a11y
         tagName: 'p',
-        accessibleLabel: updatesUpToDateString
+        innerContent: updatesUpToDateString
       }, options ) );
     },
 
@@ -168,7 +168,7 @@ define( function( require ) {
 
         // a11y
         tagName: 'p',
-        accessibleLabel: updatesOfflineString
+        innerContent: updatesOfflineString
       }, options ) );
     }
   };

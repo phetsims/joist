@@ -72,7 +72,7 @@ define( function( require ) {
       tagName: 'button',
       containerTagName: 'li',
       accessibleDescriptionAsHTML: screen.accessibleDescription,
-      accessibleLabel: StringUtils.fillIn( screenNameStringPatternString, {
+      innerContent: StringUtils.fillIn( screenNameStringPatternString, {
         number: screenIndex + 1 // convert from index to display number
       } )
     }, options );

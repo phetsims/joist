@@ -70,12 +70,12 @@ define( function( require ) {
 
     // a11y heading and description
     this.addChild( new Node( {
-      accessibleLabel: sim.name, // display name
+      innerContent: sim.name, // display name
       tagName: 'h1'
     } ) );
     this.addChild( new Node( {
       tagName: 'p',
-      accessibleLabel: StringUtils.fillIn( homeScreenDescriptionPatternString, {
+      innerContent: StringUtils.fillIn( homeScreenDescriptionPatternString, {
         name: sim.name,
         screens: sim.screens.length
       } )
@@ -99,7 +99,7 @@ define( function( require ) {
 
       var a11yScreenButtonOptions = {
         tagName: 'button',
-        accessibleLabel: screen.name,
+        innerContent: screen.name,
         accessibleDescription: screen.accessibleDescription,
         containerTagName: 'li'
       };

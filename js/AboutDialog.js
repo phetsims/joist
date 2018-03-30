@@ -52,7 +52,7 @@ define( function( require ) {
       font: new PhetFont( 28 ),
       maxWidth: MAX_WIDTH,
       tagName: 'h1',
-      accessibleLabel: name
+      innerContent: name
     } );
     children.push( titleText );
 
@@ -61,14 +61,14 @@ define( function( require ) {
       font: new PhetFont( 20 ),
       maxWidth: MAX_WIDTH,
       tagName: 'p',
-      accessibleLabel: versionString
+      innerContent: versionString
     } ) );
     if ( phet.chipper.buildTimestamp ) {
       children.push( new Text( phet.chipper.buildTimestamp, {
         font: new PhetFont( 13 ),
         maxWidth: MAX_WIDTH,
         tagName: 'p',
-        accessibleLabel: phet.chipper.buildTimestamp
+        innerContent: phet.chipper.buildTimestamp
       } ) );
     }
 
@@ -120,7 +120,7 @@ define( function( require ) {
 
         // a11y
         tagName: 'h2',
-        accessibleLabelAsHTML: Brand.name
+        innerContent: Brand.name
       } ) );
     }
 
@@ -137,7 +137,7 @@ define( function( require ) {
 
         // a11y
         tagName: 'p',
-        accessibleLabel: copyright
+        innerContent: copyright
       } ) );
     }
 
@@ -151,7 +151,7 @@ define( function( require ) {
 
           // a11y
           tagName: 'p',
-          accessibleLabel: Brand.additionalLicenseStatement
+          innerContent: Brand.additionalLicenseStatement
         }
       );
       children.push( this.additionalLicenseStatement );

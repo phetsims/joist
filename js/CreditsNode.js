@@ -57,31 +57,31 @@ define( function( require ) {
 
       // a11y
       tagName: 'h2',
-      accessibleLabel: creditsTitleString
+      innerContent: creditsTitleString
     } ) );
     if ( credits.leadDesign ) {
       var designString =  StringUtils.format( creditsLeadDesignString, '\u202a' + credits.leadDesign + '\u202c' );
-      children.push( new RichText( designString, _.extend( { accessibleLabel: designString }, multiLineTextOptions ) ) );
+      children.push( new RichText( designString, _.extend( { innerContent: designString }, multiLineTextOptions ) ) );
     }
     if ( credits.softwareDevelopment ) {
       var developmentString = StringUtils.format( creditsSoftwareDevelopmentString, '\u202a' + credits.softwareDevelopment + '\u202c' );
-      children.push( new RichText( developmentString, _.extend( { accessibleLabel: developmentString }, multiLineTextOptions ) ) );
+      children.push( new RichText( developmentString, _.extend( { innerContent: developmentString }, multiLineTextOptions ) ) );
     }
     if ( credits.team ) {
       var teamString = StringUtils.format( creditsTeamString, '\u202a' + credits.team + '\u202c' );
-      children.push( new RichText( teamString, _.extend( { accessibleLabel: teamString }, multiLineTextOptions ) ) );
+      children.push( new RichText( teamString, _.extend( { innerContent: teamString }, multiLineTextOptions ) ) );
     }
     if ( credits.contributors ) {
       var contributorsString = StringUtils.format( creditsContributorsString, '\u202a' + credits.contributors + '\u202c' );
-      children.push( new RichText( contributorsString, _.extend( { accessibleLabel: contributorsString }, multiLineTextOptions ) ) );
+      children.push( new RichText( contributorsString, _.extend( { innerContent: contributorsString }, multiLineTextOptions ) ) );
     }
     if ( credits.qualityAssurance ) {
       var qualityAssuranceString = StringUtils.format( creditsQualityAssuranceString, '\u202a' + credits.qualityAssurance + '\u202c' );
-      children.push( new RichText( qualityAssuranceString, _.extend( { accessibleLabel: qualityAssuranceString }, multiLineTextOptions ) ) );
+      children.push( new RichText( qualityAssuranceString, _.extend( { innerContent: qualityAssuranceString }, multiLineTextOptions ) ) );
     }
     if ( credits.graphicArts ) {
       var graphicArtsString = StringUtils.format( creditsGraphicArtsString, '\u202a' + credits.graphicArts + '\u202c' );
-      children.push( new RichText( graphicArtsString, _.extend( { accessibleLabel: graphicArtsString }, multiLineTextOptions ) ) );
+      children.push( new RichText( graphicArtsString, _.extend( { innerContent: graphicArtsString }, multiLineTextOptions ) ) );
     }
 
     //TODO obtain translation credit from strings file, see https://github.com/phetsims/joist/issues/163
@@ -91,7 +91,7 @@ define( function( require ) {
       children.push( new Text( creditsTranslationString, {
         font: titleFont,
         tagName: 'h2',
-        accessibleLabel: creditsTranslationString
+        innerContent: creditsTranslationString
       } ) );
       children.push( new RichText( credits.translation, multiLineTextOptions ) );
     }
@@ -102,11 +102,11 @@ define( function( require ) {
       children.push( new Text( creditsThanksString, {
         font: titleFont,
         tagName: 'h2',
-        accessibleLabel: creditsThanksString
+        innerContent: creditsThanksString
       } ) );
 
       var thanksText = new RichText( credits.thanks, multiLineTextOptions );
-      thanksText.accessibleLabel = credits.thanks;
+      thanksText.innerContent = credits.thanks;
       children.push( thanksText );
     }
 

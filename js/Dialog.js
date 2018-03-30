@@ -139,7 +139,7 @@ define( function( require ) {
 
         // a11y options
         tagName: 'button',
-        accessibleLabel: closeString
+        innerContent: closeString
       } );
       this.addChild( closeButton );
 
