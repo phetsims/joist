@@ -199,7 +199,7 @@ define( function( require ) {
       yMargin: 25,
       tandem: tandem,
       phetioReadOnly: true, // the AboutDialog should not be settable
-      phetioState: false,
+      phetioState: false
     } );
 
     // a11y - set label association so the title is read when focus enters the dialog
