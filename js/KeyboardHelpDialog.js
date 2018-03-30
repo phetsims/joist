@@ -54,7 +54,7 @@ define( function( require ) {
 
       // a11y options
       tagName: 'h1',
-      accessibleLabel: hotKeysAndHelpString
+      innerContent: hotKeysAndHelpString
     } );
 
     options = _.extend( {
@@ -88,7 +88,7 @@ define( function( require ) {
 
       // a11y
       tagName: 'button',
-      accessibleLabel: closeString,
+      innerContent: closeString,
     } );
     var dilationCoefficient = FocusHighlightPath.getDilationCoefficient( this.closeButtonPath );
     this.closeButtonPath.focusHighlight = Shape.bounds( closeButtonShape.getBounds().dilated( dilationCoefficient ) );
