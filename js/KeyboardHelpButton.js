@@ -58,7 +58,7 @@ define( function( require ) {
 
       // a11y options
       tagName: 'button',
-      accessibleLabel: hotKeysAndHelpString
+      innerContent: hotKeysAndHelpString
     };
 
     var icon = new Image( brightIconMipmap, {

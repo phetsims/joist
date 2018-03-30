@@ -87,7 +87,7 @@ define( function( require ) {
 
       // a11y
       tagName: 'button',
-      accessibleLabel: phetString
+      innerContent: phetString
     };
 
     // The PhET Label, which is the PhET logo
