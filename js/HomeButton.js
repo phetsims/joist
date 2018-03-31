@@ -43,7 +43,7 @@ define( function( require ) {
       tagName: 'button',
       labelContent: homeString,
       containerTagName: 'li',
-      accessibleDescriptionAsHTML: homeScreenDescriptionString
+      descriptionContent: homeScreenDescriptionString
     }, options );
 
     var homeIcon = new FontAwesomeNode( 'home' );

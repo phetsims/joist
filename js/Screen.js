@@ -79,7 +79,7 @@ define( function( require ) {
 
       // a11y - The description that is used when interacting with screen icons/buttons in joist.
       // This is often a full but short sentence with a period at the end of it.
-      accessibleDescription: null
+      descriptionContent: null
     }, options );
 
     // navigationBarIcon defaults to homeScreenIcon, and will be scaled down
@@ -128,17 +128,17 @@ define( function( require ) {
     } );
 
     // @public (a11y)
-    this.accessibleDescription = '';
-    if ( options.accessibleDescription ) {
-      this.accessibleDescription = options.accessibleDescription;
+    this.descriptionContent = '';
+    if ( options.descriptionContent ) {
+      this.descriptionContent = options.descriptionContent;
     }
     else if ( options.name ) {
-      this.accessibleDescription = StringUtils.fillIn( screenNamePatternString, {
+      this.descriptionContent = StringUtils.fillIn( screenNamePatternString, {
         name: options.name
       } );
     }
     else {
-      this.accessibleDescription = simScreenString; // fall back on generic name
+      this.descriptionContent = simScreenString; // fall back on generic name
     }
 
     var self = this;

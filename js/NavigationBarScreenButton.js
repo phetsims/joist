@@ -71,7 +71,7 @@ define( function( require ) {
       // a11y
       tagName: 'button',
       containerTagName: 'li',
-      accessibleDescriptionAsHTML: screen.accessibleDescription,
+      descriptionContent: screen.descriptionContent,
       innerContent: StringUtils.fillIn( screenNameStringPatternString, {
         number: screenIndex + 1 // convert from index to display number
       } )

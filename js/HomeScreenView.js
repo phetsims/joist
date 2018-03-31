@@ -100,7 +100,7 @@ define( function( require ) {
       var a11yScreenButtonOptions = {
         tagName: 'button',
         innerContent: screen.name,
-        accessibleDescription: screen.accessibleDescription,
+        descriptionContent: screen.descriptionContent,
         containerTagName: 'li'
       };
 
