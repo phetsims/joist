@@ -143,7 +143,7 @@ define( function( require ) {
       keyboardHelpButtonLayoutWidth = this.keyboardHelpButton.width + KEYBOARD_HELP_BUTTON_LEFT_MARGIN;
     }
 
-    // a11y - tell this node that it is ariaLabelledBy its own accessibleLabel.
+    // a11y - tell this node that it is ariaLabelledBy its own labelContent.
     this.ariaLabelledByNode = this;
     this.ariaLabelContent = AccessiblePeer.LABEL;
 
