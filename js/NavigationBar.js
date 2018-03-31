@@ -145,7 +145,7 @@ define( function( require ) {
 
     // a11y - tell this node that it is ariaLabelledBy its own labelContent.
     this.ariaLabelledByNode = this;
-    this.ariaLabelContent = AccessiblePeer.LABEL;
+    this.ariaLabelContent = AccessiblePeer.LABEL_SIBLING;
 
     if ( screens.length === 1 ) {
       /* single-screen sim */
