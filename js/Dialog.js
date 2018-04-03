@@ -36,6 +36,7 @@ define( function( require ) {
   function Dialog( content, options ) {
 
     var self = this;
+
     options = _.extend( {
 
       // Dialog-specific options
@@ -49,6 +50,11 @@ define( function( require ) {
       // layoutStrategy( dialog, simBounds, screenBounds, scale )
       layoutStrategy: Dialog.DEFAULT_LAYOUT_STRATEGY,
 
+      // close button options
+      closeButtonBaseColor: '#d00',
+      closeButtonMargin: 5, // {number} how far away should the close button be from the panel border
+      closeButtonListener: function() { self.hide(); },
+
       // pass through to Panel options
       cornerRadius: 10, // {number} radius of the dialog's corners
       resize: true, // {boolean} whether to resize if content's size changes
@@ -57,8 +63,6 @@ define( function( require ) {
       backgroundPickable: true,
       xMargin: 20,
       yMargin: 20,
-      closeButtonBaseColor: '#d00',
-      closeButtonMargin: 5, // {number} how far away should the close button be from the panel border
       tandem: Tandem.optional,
       phetioType: DialogIO,
       phetioReadOnly: false, // default to false so it can pass it through to the close button
@@ -127,9 +131,7 @@ define( function( require ) {
         baseColor: options.closeButtonBaseColor,
         xMargin: 5,
         yMargin: 5,
-        listener: function() {
-          self.hide();
-        },
+        listener: options.closeButtonListener,
         accessibleFire: function() {
           self.focusActiveElement();
         },
