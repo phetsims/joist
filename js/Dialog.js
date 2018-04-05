@@ -218,14 +218,14 @@ define( function( require ) {
 
       if ( options.hasCloseButton ) {
         closeButton.dispose();
-      }
 
-      if ( options.resize ) {
-        dialogContent.off( 'bounds', updateClosePosition );
-        if ( options.title ) {
-          options.title.off( 'bounds', updateClosePosition );
-          titleNode.off( 'localBounds', updateTitlePosition );
-          content.off( 'bounds', updateTitlePosition );
+        if ( options.resize ) {
+          dialogContent.off( 'bounds', updateClosePosition );
+          if ( options.title ) {
+            options.title.off( 'bounds', updateClosePosition );
+            titleNode.off( 'localBounds', updateTitlePosition );
+            content.off( 'bounds', updateTitlePosition );
+          }
         }
       }
 
