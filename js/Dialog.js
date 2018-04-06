@@ -55,7 +55,10 @@ define( function( require ) {
       closeButtonMargin: 5, // {number} how far away should the close button be from the panel border
       closeButtonListener: function() { self.hide(); },
 
-      // {function|null} called just before the dialog is hidden, see https://github.com/phetsims/joist/issues/478
+      // {function|null} called after the dialog is shown, see https://github.com/phetsims/joist/issues/478
+      showCallback: null,
+
+      // {function|null} called after the dialog is hidden, see https://github.com/phetsims/joist/issues/478
       hideCallback: null,
 
       // pass through to Panel options
@@ -81,6 +84,7 @@ define( function( require ) {
     this.isModal = options.modal;
 
     // @private
+    this.showCallback = options.showCallback;
     this.hideCallback = options.hideCallback;
 
     // see https://github.com/phetsims/joist/issues/293
@@ -267,6 +271,9 @@ define( function( require ) {
         // In case the window size has changed since the dialog was hidden, we should try layout out again.
         // See https://github.com/phetsims/joist/issues/362
         this.updateLayout();
+
+        // Do this last
+        this.showCallback && this.showCallback();
       }
     },
 
@@ -278,13 +285,14 @@ define( function( require ) {
     hide: function() {
       if ( this.isShowing ) {
 
-        this.hideCallback && this.hideCallback();
-
         window.phet.joist.sim.hidePopup( this, this.isModal );
         this.isShowing = false;
 
         // a11y - when the dialog is hidden, make all ScreenView content visible to assistive technology
         this.setAccessibleViewsVisible( true );
+
+        // Do this last
+        this.hideCallback && this.hideCallback();
       }
     },
 
