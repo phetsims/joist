@@ -55,6 +55,9 @@ define( function( require ) {
       closeButtonMargin: 5, // {number} how far away should the close button be from the panel border
       closeButtonListener: function() { self.hide(); },
 
+      // {function|null} called just before the dialog is hidden, see https://github.com/phetsims/joist/issues/478
+      hideCallback: null,
+
       // pass through to Panel options
       cornerRadius: 10, // {number} radius of the dialog's corners
       resize: true, // {boolean} whether to resize if content's size changes
@@ -76,6 +79,9 @@ define( function( require ) {
 
     // @private (read-only)
     this.isModal = options.modal;
+
+    // @private
+    this.hideCallback = options.hideCallback;
 
     // see https://github.com/phetsims/joist/issues/293
     assert && assert( this.isModal, 'Non-modal dialogs not currently supported' );
@@ -271,6 +277,9 @@ define( function( require ) {
      */
     hide: function() {
       if ( this.isShowing ) {
+
+        this.hideCallback && this.hideCallback();
+
         window.phet.joist.sim.hidePopup( this, this.isModal );
         this.isShowing = false;
 
