@@ -17,11 +17,13 @@ define( function( require ) {
   var JoistButton = require( 'JOIST/JoistButton' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var PhetButtonIO = require( 'JOIST/PhetButtonIO' );
   var PhetMenu = require( 'JOIST/PhetMenu' );
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
   var TransformTracker = require( 'SCENERY/util/TransformTracker' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
+
 
   // a11y strings
   var phetString = JoistA11yStrings.phet.value;
@@ -51,7 +53,6 @@ define( function( require ) {
    * @constructor
    */
   function PhetButton( sim, backgroundFillProperty, textFillProperty, tandem ) {
-    var self = this;
 
     var phetMenu = new PhetMenu( sim, tandem.createTandem( 'phetMenu' ), {
       showSaveAndLoad: sim.options.showSaveAndLoad,
@@ -82,6 +83,7 @@ define( function( require ) {
       listener: function() {
         phetMenu.show();
       },
+      phetioType: PhetButtonIO,
       phetioState: false,
       phetioInstanceDocumentation: 'The button that appears in the bottom of the right of the screen, which shows a menu when pressed.',
 
@@ -121,11 +123,6 @@ define( function( require ) {
         optionsButton.fill = backgroundIsWhite ? ( outOfDate ? '#0a0' : '#222' ) : ( outOfDate ? '#3F3' : 'white' );
         logoImage.image = backgroundIsWhite ? darkLogoMipmap : brightLogoMipmap;
       } );
-
-    // The sim controls all phetButton instances' pickable attribute to keep it in sync.
-    sim.phetButtonPickableProperty.link( function( pickable ) {
-      self.pickable = pickable;
-    } );
 
     // a11y - add a listener that opens the menu on 'click' and 'reset', and closes it on escape and if the
     // button receives focus again

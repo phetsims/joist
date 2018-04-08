@@ -256,14 +256,6 @@ define( function( require ) {
     // @public (joist-internal, read-only) - {Screen|null} - The current screen, or null if showing the home screen
     this.currentScreenProperty = new Property( null );
 
-    // @public (joist-internal, read-only, phet-io) - whether the phetButton is pickable. This controls all of the
-    // instances, on the homescreen and nav bar in tandem. see https://github.com/phetsims/joist/issues/453
-    this.phetButtonPickableProperty = new BooleanProperty( true, {
-      tandem: ROOT_TANDEM.createTandem( 'phetButtonPickableProperty' ),
-      phetioInstanceDocumentation: 'Determines whether the PhET Button in the bottom right of the screen can be pressed, ' +
-                                   'and applies to the PhET Button on the home screen (if any) and navigation bar.'
-    } );
-
     // @public
     this.lookAndFeel = new LookAndFeel();
     assert && assert( window.phet.joist.launchCalled, 'Sim must be launched using SimLauncher, ' +
