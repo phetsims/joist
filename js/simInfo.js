@@ -61,6 +61,8 @@ define( function( require ) {
   if ( ( window.devicePixelRatio || 1 ) / backingStorePixelRatio !== 1 ) { flags.push( 'pixelRatioScaling' ); }
   addIfTruthy( 'flags', flags.join( ', ' ) );
 
+  canvas = null; // dispose only reference
+
   joist.register( 'simInfo', simInfo );
 
   return simInfo;
