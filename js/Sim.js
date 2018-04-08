@@ -330,11 +330,11 @@ define( function( require ) {
 
     // The simStarted event is guaranteed to be a top-level event, not nested under other events.
     // This phetio event is hard-coded in many places such as th playback wrapper, so should not be changed lightly!
-    this.phetioSimStartedEventId = this.startEvent( 'model', 'simStarted', _.extend( simInfo, {
-      repoName: packageJSON.name,
+    this.startEvent( 'model', 'simStarted', _.extend( {
       simName: this.name,
-      simVersion: this.version
-    } ) );
+      simVersion: this.version,
+      repoName: packageJSON.name
+    }, simInfo ) );
 
     var $body = $( 'body' );
 
