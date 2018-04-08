@@ -120,7 +120,7 @@ define( function( require ) {
     // @public {Property.<boolean>} indicates whether the Screen is active. Clients can read this, joist sets it.
     // To prevent potential visual glitches, the value should change only while the screen's view is invisible.
     // That is: transitions from false to true before a Screen becomes visible, and from true to false after a Screen becomes invisible.
-    this.activeProperty = new Property( false, {
+    this.activeProperty = new Property( true, {
       tandem: options.tandem.createTandem( 'activeProperty' ),
       phetioType: PropertyIO( BooleanIO ),
       phetioReadOnly: true,
