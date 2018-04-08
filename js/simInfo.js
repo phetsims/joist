@@ -36,8 +36,10 @@ define( function( require ) {
 
   // from Scenery Util
   addIfTruthy( 'pixelRatio', Util.back );
-  addIfTruthy( 'isWebGLSupported', Util.isWebGLSupported );
   addIfTruthy( 'checkIE11StencilSupport', Util.checkIE11StencilSupport );
+  if ( phet.chipper.queryParameters.webgl ) {
+    addIfTruthy( 'isWebGLSupported', Util.isWebGLSupported );
+  }
 
   var canvas;
   var context;
