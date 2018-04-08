@@ -41,9 +41,10 @@ define( function( require ) {
 
       // a11y,
       tagName: 'button',
-      labelContent: homeString,
+      innerContent: homeString,
       containerTagName: 'li',
-      descriptionContent: homeScreenDescriptionString
+      descriptionContent: homeScreenDescriptionString,
+      appendDescription: true
     }, options );
 
     var homeIcon = new FontAwesomeNode( 'home' );
@@ -60,10 +61,10 @@ define( function( require ) {
 
     // a11y - When you click on the home button in the nav bar, blur() that button when you go to the home screen.
     this.addAccessibleInputListener( {
-      click: function(){
+      click: function() {
         self.blur();
       }
-    });
+    } );
 
     // a11y - Pass a shape to the focusHighlight to prevent dilation, then tweak the bottom up just a hair so it
     // isn't off the screen.

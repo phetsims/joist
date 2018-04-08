@@ -72,6 +72,7 @@ define( function( require ) {
       tagName: 'button',
       containerTagName: 'li',
       descriptionContent: screen.descriptionContent,
+      appendDescription: true,
       innerContent: StringUtils.fillIn( screenNameStringPatternString, {
         number: screenIndex + 1 // convert from index to display number
       } )

@@ -52,6 +52,8 @@ define( function( require ) {
     ScreenView.call( this, {
       layoutBounds: LAYOUT_BOUNDS,
       tandem: tandem,
+
+      // a11y
       labelContent: homeScreenString
     } );
 
@@ -97,10 +99,12 @@ define( function( require ) {
       // large and small buttons are registered as separate instances.  See https://github.com/phetsims/phet-io/issues/99
       var largeTandem = tandem.createTandem( screen.screenTandem.tail + 'LargeButton' );
 
+      // a11y
       var a11yScreenButtonOptions = {
         tagName: 'button',
         innerContent: screen.name,
         descriptionContent: screen.descriptionContent,
+        appendDescription: true,
         containerTagName: 'li'
       };
 
