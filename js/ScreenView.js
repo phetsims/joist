@@ -40,8 +40,7 @@ define( function( require ) {
       // a11y options
       containerTagName: 'article',
       tagName: 'div',
-      labelTagName: 'h1',
-      prependLabels: true
+      labelTagName: 'h1'
     }, options ) );
 
     // The visible bounds of the ScreenView in ScreenView coordinates.  This includes top/bottom or left/right margins

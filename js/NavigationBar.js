@@ -91,8 +91,7 @@ define( function( require ) {
       labelTagName: 'h2',
 
       // Use a different string, omitting "screens" if single screen sim.
-      labelContent: screens.length === 1 ? simResourcesAndToolsString : simScreensResourcesAndToolsString,
-      prependLabels: true
+      labelContent: screens.length === 1 ? simResourcesAndToolsString : simScreensResourcesAndToolsString
     } );
 
     // @private - The bar's background (resized in layout)
