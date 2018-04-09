@@ -62,12 +62,9 @@ define( function( require ) {
       // {Property.<Color|string>} background color of the Screen
       backgroundColorProperty: new Property( 'white' ),
 
-      // {Node} icon shown on the home screen.
+      // {Node|null} icon shown on the home screen. If null, then a default is created.
       // For single-screen sims, there is no home screen and the default is OK.
-      homeScreenIcon: new Rectangle( 0, 0, MINIMUM_HOME_SCREEN_ICON_SIZE.width, MINIMUM_HOME_SCREEN_ICON_SIZE.height, {
-        fill: 'white',
-        stroke: 'black'
-      } ),
+      homeScreenIcon: null,
 
       // {Node|null} icon shown in the navigation bar. If null, then the home screen icon will be used, scaled to fit.
       navigationBarIcon: null,
@@ -81,6 +78,14 @@ define( function( require ) {
       // This is often a full but short sentence with a period at the end of it.
       descriptionContent: null
     }, options );
+
+    // Create a default homeScreenIcon, using the Screen's background color
+    if ( !options.homeScreenIcon ) {
+      options.homeScreenIcon = new Rectangle( 0, 0, MINIMUM_HOME_SCREEN_ICON_SIZE.width, MINIMUM_HOME_SCREEN_ICON_SIZE.height, {
+        fill: options.backgroundColorProperty.value,
+        stroke: 'black'
+      } );
+    }
 
     // navigationBarIcon defaults to homeScreenIcon, and will be scaled down
     if ( !options.navigationBarIcon ) {
