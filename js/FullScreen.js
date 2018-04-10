@@ -1,4 +1,4 @@
-// Copyright 2014-2017, University of Colorado Boulder
+// Copyright 2014-2018, University of Colorado Boulder
 
 /**
  * Utilities for full-screen support
@@ -33,20 +33,23 @@ define( function( require ) {
 
   var FullScreen = {
 
-    // @public (joist-internal)
+    // @public
     isFullScreen: function() {
       return !!document[ fullscreenElementPropertyName ];
     },
 
-    // @public (joist-internal)
+    // @public
     isFullScreenEnabled: function() {
       return document[ fullscreenEnabledPropertyName ] && !platform.safari7;
     },
 
-    // @public (joist-internal)
-    enterFullScreen: function( sim ) {
+    /**
+     * @public
+     * @param {Display} display
+     */
+    enterFullScreen: function( display ) {
       if ( !platform.ie9 && !platform.ie10 ) {
-        sim.display.domElement[ requestFullscreenPropertyName ] && sim.display.domElement[ requestFullscreenPropertyName ]();
+        display.domElement[ requestFullscreenPropertyName ] && display.domElement[ requestFullscreenPropertyName ]();
       }
       else if ( typeof window.ActiveXObject !== 'undefined' ) { // Older IE.
         var wscript = new window.ActiveXObject( 'WScript.Shell' );
@@ -56,18 +59,21 @@ define( function( require ) {
       }
     },
 
-    // @public (joist-internal)
+    // @public
     exitFullScreen: function() {
       document[ exitFullscreenPropertyName ] && document[ exitFullscreenPropertyName ]();
     },
 
-    // @public (joist-internal)
-    toggleFullScreen: function( sim ) {
+    /**
+     * @public
+     * @param {Display} display
+     */
+    toggleFullScreen: function( display ) {
       if ( FullScreen.isFullScreen() ) {
         FullScreen.exitFullScreen();
       }
       else {
-        FullScreen.enterFullScreen( sim );
+        FullScreen.enterFullScreen( display );
       }
     },
 

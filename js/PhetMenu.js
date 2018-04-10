@@ -274,7 +274,7 @@ define( function( require ) {
         present: FullScreen.isFullScreenEnabled() && !isPhetApp && !fuzzMouse && !fuzzBoard,
         checkedProperty: FullScreen.isFullScreenProperty,
         callback: function() {
-          FullScreen.toggleFullScreen( sim );
+          FullScreen.toggleFullScreen( sim.display );
         },
         tandem: tandem.createTandem( 'fullScreenMenuItem' ),
         phetioInstanceDocumentation: 'This menu item requests full-screen access for the simulation display.',
