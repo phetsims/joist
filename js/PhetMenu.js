@@ -15,7 +15,7 @@ define( function( require ) {
   var Brand = require( 'BRAND/Brand' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var Display = require( 'SCENERY/display/Display' );
-  var FullScreen = require( 'JOIST/FullScreen' );
+  var FullScreen = require( 'SCENERY/util/FullScreen' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
   var KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );

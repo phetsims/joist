@@ -12,7 +12,7 @@ define( function( require ) {
   // modules
   var AccessibilityUtil = require( 'SCENERY/accessibility/AccessibilityUtil' );
   var Display = require( 'SCENERY/display/Display' );
-  var FullScreen = require( 'JOIST/FullScreen' );
+  var FullScreen = require( 'SCENERY/util/FullScreen' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
