@@ -15,18 +15,18 @@ define( function( require ) {
   var FullScreen = require( 'SCENERY/util/FullScreen' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
-  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Panel = require( 'SUN/Panel' );
   var Path = require( 'SCENERY/nodes/Path' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var Shape = require( 'KITE/Shape' );
+  var SunA11yStrings = require( 'SUN/SunA11yStrings' );
   var Tandem = require( 'TANDEM/Tandem' );
   var DialogIO = require( 'JOIST/DialogIO' );
 
   // strings
-  var closeString = JoistA11yStrings.close.value;
+  var closeString = SunA11yStrings.close.value;
 
   /**
    * @param {Node} content - The content to display inside the dialog (not including the title)

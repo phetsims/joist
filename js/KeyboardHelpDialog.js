@@ -19,6 +19,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Shape = require( 'KITE/Shape' );
+  var SunA11yStrings = require( 'SUN/SunA11yStrings' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
 
@@ -32,7 +33,7 @@ define( function( require ) {
   var keyboardShortcutsTitleString = require( 'string!JOIST/keyboardShortcuts.title' );
 
   // a11y string
-  var closeString = JoistA11yStrings.close.value;
+  var closeString = SunA11yStrings.close.value;
   var hotKeysAndHelpString = JoistA11yStrings.hotKeysAndHelp.value;
 
   /**

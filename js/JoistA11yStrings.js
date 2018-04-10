@@ -19,9 +19,6 @@ define( function( require ) {
     hotKeysAndHelp: {
       value: 'Keyboard Shortcuts'
     },
-    close: {
-      value: 'Close'
-    },
 
     // sections in a simulation
     sceneSummary: {
@@ -62,7 +59,7 @@ define( function( require ) {
 
     // navigation bar
     simResourcesAndTools: {
-      value: 'Sim Resources', // used for single screen sim 
+      value: 'Sim Resources' // used for single screen sim
     },
     simScreensResourcesAndTools: {
       value: 'Sim Screens, Resources, and Tools'
@@ -76,7 +73,7 @@ define( function( require ) {
     // PhET menu
     phet: {
       value: 'PhET Menu'
-    },
+    }
   };
 
   if ( phet.chipper.queryParameters.stringTest === 'xss') {
