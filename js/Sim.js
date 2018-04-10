@@ -488,12 +488,12 @@ define( function( require ) {
 
             // You can't set the active property if the screen is visible, so order matters here
             if ( showHomeScreen ) {
-              self.homeScreen.activeProperty.set( true );
+              self.homeScreen.screenActiveProperty.set( true );
               self.homeScreen.view.setVisible( true );
             }
             else {
               self.homeScreen.view.setVisible( false );
-              self.homeScreen.activeProperty.set( false );
+              self.homeScreen.screenActiveProperty.set( false );
             }
           }
 
@@ -504,11 +504,11 @@ define( function( require ) {
             var screen = screens[ i ];
             var visible = ( !showHomeScreen && screenIndex === i );
             if ( visible ) {
-              screen.activeProperty.set( visible );
+              screen.screenActiveProperty.set( visible );
             }
             screen.view.setVisible( visible );
             if ( !visible ) {
-              screen.activeProperty.set( visible );
+              screen.screenActiveProperty.set( visible );
             }
           }
 
