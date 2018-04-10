@@ -11,7 +11,7 @@ define( function( require ) {
   // modules
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var CreditsNode = require( 'JOIST/CreditsNode' );
-  var Dialog = require( 'JOIST/Dialog' );
+  var Dialog = require( 'SUN/Dialog' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );

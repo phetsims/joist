@@ -9,7 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var DialogIO = require( 'JOIST/DialogIO' );
+  var DialogIO = require( 'SUN/DialogIO' );
   var joist = require( 'JOIST/joist' );
   
   // phet-io modules

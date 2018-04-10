@@ -9,7 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Dialog = require( 'JOIST/Dialog' );
+  var Dialog = require( 'SUN/Dialog' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
