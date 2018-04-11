@@ -134,7 +134,7 @@ define( function( require ) {
 
     // only show the keyboard help button if the sim is accessible, there is keyboard help content, and we are
     // not in mobile safari
-    if ( phet.chipper.a11yEnabled && sim.keyboardHelpNode && !platform.mobileSafari ) {
+    if ( phet.chipper.accessibility && sim.keyboardHelpNode && !platform.mobileSafari ) {
 
       // @public (joist-internal, read-only) - Pops open a dialog with information about keyboard navigation
       this.keyboardHelpButton = new KeyboardHelpButton( sim.keyboardHelpNode, sim.lookAndFeel, tandem.createTandem( 'keyboardHelpButton' ) );

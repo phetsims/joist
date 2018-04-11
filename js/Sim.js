@@ -264,11 +264,11 @@ define( function( require ) {
     // @private
     this.destroyed = false;
 
-    // a11yEnabled can be overwritten by sim options.
-    phet.chipper.a11yEnabled = phet.chipper.a11yEnabled || options.accessibility;
+    // chipper's accessibility enabled flag overrides the sim option for accessibility.
+    phet.chipper.accessibility = phet.chipper.accessibility || options.accessibility;
 
     // Set up accessibility features for the sim.
-    phet.chipper.a11yEnabled && initializeAccessibility();
+    phet.chipper.accessibility && initializeAccessibility();
 
     // @public ( joist-internal, read-only )
     this.keyboardHelpNode = options.keyboardHelpNode;
@@ -352,7 +352,7 @@ define( function( require ) {
 
       // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
       allowWebGL: phet.chipper.queryParameters.webgl,
-      accessibility: phet.chipper.a11yEnabled,
+      accessibility: phet.chipper.accessibility,
       isApplication: false,
       assumeFullWindow: true // a bit faster if we can assume no coordinate translations are needed for the display.
     } );
@@ -815,7 +815,7 @@ define( function( require ) {
 
       // fire or synthesize keyboard input events
       if ( phet.chipper.queryParameters.fuzzBoard ) {
-        assert && assert( phet.chipper.a11yEnabled, 'fuzzBoard can only run with accessibility enabled.' );
+        assert && assert( phet.chipper.accessibility, 'fuzzBoard can only run with accessibility enabled.' );
         this.display.fuzzBoardEvents();
       }
 
