@@ -10,13 +10,13 @@ define( function( require ) {
 
   // modules
   var joist = require( 'JOIST/joist' );
-  var JoistButtonIO = require( 'JOIST/JoistButtonIO' );
 
   // phet-io modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
   var FunctionIO = require( 'ifphetio!PHET_IO/types/FunctionIO' );
-  var NumberIO = require( 'ifphetio!PHET_IO/types/NumberIO' );
+  var NullableIO = require( 'ifphetio!PHET_IO/types/NullableIO' );
+  var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
   var VoidIO = require( 'ifphetio!PHET_IO/types/VoidIO' );
 
@@ -28,58 +28,46 @@ define( function( require ) {
    */
   function PhetButtonIO( phetButton, phetioID ) {
     assert && assertInstanceOf( phetButton, phet.joist.PhetButton );
-    JoistButtonIO.call( this, phetButton, phetioID );
+    ObjectIO.call( this, phetButton, phetioID );
   }
 
-  // The PhetButtonIO acts as the main phet-io branding/logo in the sim. Override most of NodeIO's api functions so
-  // this logo cannot be covered up, made invisible, or removed by the client, see https://github.com/phetsims/joist/issues/453
-  phetioInherit( JoistButtonIO, 'PhetButtonIO', PhetButtonIO, {
+  // The PhetButtonIO acts as the main phet-io branding/logo in the sim. It doesn't inherit from NodeIO because we don't
+  // all of NodeIO's interactive methods, nor do we want to support maintaining overriding no-ops in this file
+  // see https://github.com/phetsims/scenery/issues/711 for more info.
+  phetioInherit( ObjectIO, 'PhetButtonIO', PhetButtonIO, {
 
-    detach: {
+    setPickable: {
       returnType: VoidIO,
-      parameterTypes: [],
-      implementation: function() {},
-      documentation: 'No op override function for the NodeIO.detach method.'
+      parameterTypes: [ NullableIO( BooleanIO ) ],
+      implementation: function( pickable ) {
+        this.instance.pickable = pickable;
+      },
+      documentation: 'Set whether the node will be pickable (and hence interactive)'
     },
-    isVisible: {
+
+    isPickable: {
       returnType: BooleanIO,
       parameterTypes: [],
-      implementation: function() {},
-      documentation: 'No op override function for the NodeIO.isVisible method.'
+      implementation: function() {
+        return this.instance.pickable;
+      },
+      documentation: 'Gets whether the node is pickable (and hence interactive)'
     },
 
-    setVisible: {
-      returnType: VoidIO,
-      parameterTypes: [ BooleanIO ],
-      implementation: function( bool ) {},
-      documentation: 'No op override function for the NodeIO.setVisible method.'
-    },
-
-    addVisibleListener: {
+    addPickableListener: {
       returnType: VoidIO,
       parameterTypes: [ FunctionIO( VoidIO, [ BooleanIO ] ) ],
-      implementation: function( bool ) {}, // eslint-disable-line
-      documentation: 'No op override function for the NodeIO.addVisibleListener method.'
-    },
-
-    setOpacity: {
-      returnType: VoidIO,
-      parameterTypes: [ NumberIO ],
-      implementation: function( num ) {}, // eslint-disable-line
-      documentation: 'No op override function for the NodeIO.setOpacity method.'
-    },
-
-    setRotation: {
-      returnType: VoidIO,
-      parameterTypes: [ NumberIO ],
-      implementation: function( num ) {}, // eslint-disable-line
-      documentation: 'No op override function for the NodeIO.setRotation method.'
+      implementation: function( callback ) {
+        var inst = this.instance;
+        this.instance.on( 'pickability', function() {
+          callback( inst.isPickable() );
+        } );
+      },
+      documentation: 'Adds a listener for when pickability of the node changes'
     }
-
-
   }, {
     documentation: 'The PhET Button in the bottom right of the screen',
-    event: [ 'fired' ]
+    events: [ 'fired' ]
   } );
 
   joist.register( 'PhetButtonIO', PhetButtonIO );
