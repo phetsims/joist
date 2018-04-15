@@ -42,7 +42,6 @@ define( function( require ) {
   var PropertyIO = require( 'AXON/PropertyIO' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   var simInfo = require( 'JOIST/simInfo' );
-  var SimIO = require( 'JOIST/SimIO' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Timer = require( 'PHET_CORE/Timer' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
@@ -51,6 +50,11 @@ define( function( require ) {
 
   // phet-io modules
   var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
+  var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
+  var phetio = require( 'ifphetio!PHET_IO/phetio' );
+  var phetioCommandProcessor = require( 'ifphetio!PHET_IO/phetioCommandProcessor' );
+  var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
+  var PhETIO = require( 'ifphetio!PHET_IO/types/PhETIO' ); // the IO type
 
   // constants
   var PROGRESS_BAR_WIDTH = 273;
@@ -88,6 +92,7 @@ define( function( require ) {
     // after the constructor is completed)
     this.endedSimConstructionEmitter = new Emitter();
 
+    // (phet-io)
     // Many other components use addInstance at the end of their constructor but in this case we must register early
     // to (a) enable the phetioCommandProcessor as soon as possible and (b) to enable subsequent component registrations,
     // which require the sim to be registered
@@ -95,7 +100,7 @@ define( function( require ) {
     assert && assert( options.accessibility !== false,
       'Only use options.accessibility as a flag. It will not override the accessibility query parameter.' );
     assert && assert( options.phetioType === undefined, 'options should not specify phetioType in Sim' );
-    options.phetioType = SimIO;
+    options.phetioType = ObjectIO;
     options.tandem = ROOT_TANDEM;
     options.phetioState = false;
     options.phetioInstanceDocumentation = 'Represents the entire simulation.';
@@ -320,13 +325,7 @@ define( function( require ) {
       };
     }
 
-    // The simStarted event is guaranteed to be a top-level event, not nested under other events.
-    // This phetio event is hard-coded in many places such as th playback wrapper, so should not be changed lightly!
-    this.startEvent( 'model', 'simStarted', _.extend( {
-      simName: this.name,
-      simVersion: this.version,
-      repoName: packageJSON.name
-    }, simInfo ) );
+    phet.phetio && initializePhetio( this ); // initialize all phet-io
 
     var $body = $( 'body' );
 
@@ -458,6 +457,42 @@ define( function( require ) {
     // utteranceQueue depends on AriaHerald so initialize it first.
     AriaHerald.initialize();
     utteranceQueue.initialize();
+  }
+
+
+  /**
+   * Initialize the core wiring that needs to take place between the phetio engine and the simulation.
+   * @param {Sim} sim
+   */
+  function initializePhetio( sim ) {
+    phetio.sim = sim;
+    sim.endedSimConstructionEmitter.addListener( function() {
+
+      // TODO: Can these be coalesced?  See https://github.com/phetsims/joist/issues/412
+      phetioCommandProcessor.triggerSimInitialized();
+      phetio.simulationStarted();
+    } );
+
+    // This surrogate is because phetioEvents only supports PhET-iO object, see phetioEvents.trigger for the base
+    // surrogate example
+    var surrogatePhetioObject = {
+      tandem: {
+        phetioID: 'phetio'
+      },
+      phetioType: PhETIO
+    };
+
+    // The simStarted event is guaranteed to be a top-level event, not nested under other events.
+    // This phetio event is hard-coded in many places such as th playback wrapper, so should not be changed lightly!
+    sim.simStartedEventMessageIndex = phetioEvents.start( 'model', surrogatePhetioObject, 'simStarted', _.extend( {
+      simName: sim.name,
+      simVersion: sim.version,
+      repoName: packageJSON.name
+    }, simInfo, {
+      wrapperMetadata: window.simStartedMetadata // add after all sim internal data (although order isn't guaranteed.
+    } ) );
+
+    delete window.simStartedMetadata;
   }
 
   return inherit( PhetioObject, Sim, {
@@ -722,7 +757,7 @@ define( function( require ) {
                 // Signify the end of simulation startup, finish the simStartedEvent.  Used by PhET-iO. This does not
                 // coincide with the end of the Sim constructor (because Sim has asynchronous steps that finish after
                 // the constructor is completed )
-                self.endEvent();
+                phetioEvents.end( self.simStartedEventMessageIndex );
                 self.endedSimConstructionEmitter.emit();
 
                 // Sanity check that there is no phetio object in phet brand, see https://github.com/phetsims/phet-io/issues/1229
