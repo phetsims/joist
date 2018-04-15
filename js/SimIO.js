@@ -47,14 +47,7 @@ define( function( require ) {
 
   phetioInherit( ObjectIO, 'SimIO', SimIO, {
 
-    getScreenshotDataURL: {
-      returnType: StringIO,
-      parameterTypes: [],
-      implementation: function() {
-        return window.phet.joist.ScreenshotGenerator.generateScreenshot( this.instance );
-      },
-      documentation: 'Gets a base64 representation of a screenshot of the simulation as a data url'
-    }
+
   }, {
     documentation: 'The type for the simulation instance',
     events: [
