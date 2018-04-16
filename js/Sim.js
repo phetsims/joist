@@ -35,7 +35,6 @@ define( function( require ) {
   var ObservableArray = require( 'AXON/ObservableArray' );
   var packageJSON = require( 'JOIST/packageJSON' );
   var PhetButton = require( 'JOIST/PhetButton' );
-  var PhetioObject = require( 'TANDEM/PhetioObject' );
   var platform = require( 'PHET_CORE/platform' );
   var Profiler = require( 'JOIST/Profiler' );
   var Property = require( 'AXON/Property' );
@@ -91,10 +90,6 @@ define( function( require ) {
     // after the constructor is completed)
     this.endedSimConstructionEmitter = new Emitter();
 
-    // (phet-io)
-    // Many other components use addInstance at the end of their constructor but in this case we must register early
-    // to (a) enable the phetioCommandProcessor as soon as possible and (b) to enable subsequent component registrations,
-    // which require the sim to be registered
     options = options || {};
     assert && assert( options.accessibility !== false,
       'Only use options.accessibility as a flag. It will not override the accessibility query parameter.' );
@@ -488,7 +483,7 @@ define( function( require ) {
     delete window.simStartedMetadata;
   }
 
-  return inherit( PhetioObject, Sim, {
+  return inherit( Object, Sim, {
     finishInit: function( screens ) {
       var self = this;
 
