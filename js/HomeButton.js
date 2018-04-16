@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var ButtonInteractionState = require( 'SUN/buttons/ButtonInteractionState' );
   var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -75,10 +76,10 @@ define( function( require ) {
 
     Property.multilink( [ this.interactionStateProperty, navigationBarFillProperty ], function( interactionState, navigationBarFill ) {
       if ( navigationBarFill === 'black' ) {
-        homeIcon.fill = interactionState === 'pressed' ? 'gray' : 'white';
+        homeIcon.fill = interactionState === ButtonInteractionState.PRESSED ? 'gray' : 'white';
       }
       else {
-        homeIcon.fill = interactionState === 'pressed' ? '#444' : '#222';
+        homeIcon.fill = interactionState === ButtonInteractionState.PRESSED ? '#444' : '#222';
       }
     } );
   }
