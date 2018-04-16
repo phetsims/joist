@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var ButtonInteractionState = require( 'SUN/buttons/ButtonInteractionState' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
@@ -79,8 +80,12 @@ define( function( require ) {
     // Update the highlights based on whether the button is highlighted and whether it is against a light or dark background.
     Property.multilink( [ interactionStateProperty, navigationBarFillProperty ], function( interactionState, navigationBarFill ) {
       var useDarkenHighlight = navigationBarFill !== 'black';
-      brightenHighlight.visible = !useDarkenHighlight && ( interactionState === 'over' || interactionState === 'pressed' );
-      darkenHighlight.visible = useDarkenHighlight && ( interactionState === 'over' || interactionState === 'pressed' );
+      brightenHighlight.visible = !useDarkenHighlight &&
+                                  (interactionState === ButtonInteractionState.OVER ||
+                                   interactionState === ButtonInteractionState.PRESSED);
+      darkenHighlight.visible = useDarkenHighlight &&
+                                (interactionState === ButtonInteractionState.OVER ||
+                                 interactionState === ButtonInteractionState.PRESSED);
     } );
 
     // Hook up the input listener
