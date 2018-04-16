@@ -50,7 +50,6 @@ define( function( require ) {
 
   // phet-io modules
   var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
-  var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
   var phetio = require( 'ifphetio!PHET_IO/phetio' );
   var phetioCommandProcessor = require( 'ifphetio!PHET_IO/phetioCommandProcessor' );
   var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
@@ -99,12 +98,6 @@ define( function( require ) {
     options = options || {};
     assert && assert( options.accessibility !== false,
       'Only use options.accessibility as a flag. It will not override the accessibility query parameter.' );
-    assert && assert( options.phetioType === undefined, 'options should not specify phetioType in Sim' );
-    options.phetioType = ObjectIO;
-    options.tandem = ROOT_TANDEM;
-    options.phetioState = false;
-    options.phetioInstanceDocumentation = 'Represents the entire simulation.';
-    PhetioObject.call( this, options );
 
     // @public Emitter that indicates when the sim resized
     this.resizedEmitter = new Emitter();
