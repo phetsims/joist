@@ -383,7 +383,7 @@ define( function( require ) {
 
     // a11y - add the keydown listener, handling arrow, escape, and tab keys
     // When using the arrow keys, we prevent the virtual cursor from moving in VoiceOver
-    var keydownListener = this.addAccessibleInputListener( {
+    var keydownListener = {
       keydown: function( event ) {
         var firstItem = self.items[ 0 ];
         var lastItem = self.items[ self.items.length - 1 ];
@@ -421,7 +421,8 @@ define( function( require ) {
           sim.navigationBar.phetButton.focus();
         }
       }
-    } );
+    };
+    this.addAccessibleInputListener( keydownListener );
 
     // a11y - if the focus goes to something outside of the PhET menu, close it
     var focusListener = function( focus ) {
