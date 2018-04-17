@@ -58,7 +58,12 @@ define( function( require ) {
 
       // a11y options
       tagName: 'button',
-      innerContent: hotKeysAndHelpString
+      innerContent: hotKeysAndHelpString,
+      a11yEndListener: function() {
+
+        // focus the close button if the dialog is open with a keyboard
+        keyboardHelpDialog.closeButtonPath.focus();
+      }
     };
 
     var icon = new Image( brightIconMipmap, {
@@ -72,14 +77,6 @@ define( function( require ) {
     simLookAndFeel.navigationBarDarkProperty.link( function( navigationBarDark ) {
       icon.image = navigationBarDark ? darkIconMipmap : brightIconMipmap;
     } );
-
-    // a11y - open the dialog on 'spacebar' or 'enter' and focus the 'Close' button immediately
-    this.clickListener = this.addAccessibleInputListener( {
-      click: function() {
-        openDialog();
-        keyboardHelpDialog.closeButtonPath.focus();
-      } }
-    );
   }
 
   joist.register( 'KeyboardHelpButton', KeyboardHelpButton );
@@ -91,7 +88,6 @@ define( function( require ) {
      * @public
      */
     dispose: function() {
-      this.removeAccessibleInputListener( this.clickListener );
       JoistButton.prototype.dispose && JoistButton.prototype.dispose.call( this );
     }
   } );
