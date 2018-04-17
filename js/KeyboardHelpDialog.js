@@ -123,13 +123,13 @@ define( function( require ) {
     this.accessibleOrder = [ this.closeButtonPath, titleText ];
 
     // @private (a11y) - input listener for the close button, must be disposed
-    var clickListener = this.closeButtonPath.addAccessibleInputListener( {
-        click: function() {
-          self.hide();
-          self.focusActiveElement();
-        }
+    var clickListener = {
+      click: function() {
+        self.hide();
+        self.focusActiveElement();
       }
-    );
+    };
+    this.addAccessibleInputListener( clickListener );
 
     // @private - to be called by dispose
     this.disposeKeyboardHelpDialog = function() {
