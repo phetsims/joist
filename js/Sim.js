@@ -341,8 +341,7 @@ define( function( require ) {
       allowWebGL: phet.chipper.queryParameters.webgl,
       accessibility: phet.chipper.accessibility,
       isApplication: false,
-      assumeFullWindow: true, // a bit faster if we can assume no coordinate translations are needed for the display.
-      passiveEvents: false // see https://github.com/phetsims/scenery/issues/770
+      assumeFullWindow: true // a bit faster if we can assume no coordinate translations are needed for the display.
     } );
 
     // When the sim is inactive, make it non-interactive, see https://github.com/phetsims/scenery/issues/414
