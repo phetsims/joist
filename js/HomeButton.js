@@ -34,7 +34,6 @@ define( function( require ) {
    * @constructor
    */
   function HomeButton( navBarHeight, navigationBarFillProperty, tandem, options ) {
-    var self = this;
 
     options = _.extend( {
       highlightExtensionWidth: 4,
@@ -59,13 +58,6 @@ define( function( require ) {
     var content = new Node( { children: [ background, homeIcon ] } );
 
     JoistButton.call( this, content, navigationBarFillProperty, tandem, options );
-
-    // a11y - When you click on the home button in the nav bar, blur() that button when you go to the home screen.
-    this.addAccessibleInputListener( {
-      click: function() {
-        self.blur();
-      }
-    } );
 
     // a11y - Pass a shape to the focusHighlight to prevent dilation, then tweak the bottom up just a hair so it
     // isn't off the screen.
