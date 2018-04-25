@@ -13,7 +13,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
   var KeyboardHelpButton = require( 'JOIST/KeyboardHelpButton' );
-  var Property = require( 'AXON/Property' );
+  var Panel = require( 'SUN/Panel' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Tandem = require( 'TANDEM/Tandem' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -27,14 +27,18 @@ define( function( require ) {
 
     var keyboardHelpDialogContent = new GeneralNavigationHelpContent();
 
-    var backgroundColorProperty = new Property( 'white' );
-
-    var keyboardHelpButton = new KeyboardHelpButton( keyboardHelpDialogContent, backgroundColorProperty, Tandem.optional );
+    var keyboardHelpButton = new KeyboardHelpButton( keyboardHelpDialogContent, phet.joist.sim.lookAndFeel, Tandem.optional );
     keyboardHelpButton.setScaleMagnitude( 2 );
+
+    // Since KeyboardHelpButton adapts its color to the navigation bar,
+    // put the button in a panel that's the same color as the navigation bar
+    var keyboardHelpPanel = new Panel( keyboardHelpButton, {
+      fill: phet.joist.sim.lookAndFeel.navigationBarFillProperty.value
+    } );
 
     this.addChild( new VBox( {
       children: [
-        keyboardHelpButton
+        keyboardHelpPanel
       ],
       spacing: 20,
       center: this.layoutBounds.center
