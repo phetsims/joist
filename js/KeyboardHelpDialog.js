@@ -36,17 +36,14 @@ define( function( require ) {
   var closeString = SunA11yStrings.close.value;
   var hotKeysAndHelpString = JoistA11yStrings.hotKeysAndHelp.value;
 
-  //TODO #487 move keyboardHelpButton to options
   //TODO #487 _.extend call should be at top of constructor
   //TODO #487 assert( !options.* ) for all options that client should not be able to override
   /**
-   * Constructor.
-   * @param {KeyboardHelpButton} keyboardHelpButton
    * @param {Node} helpContent - a node containing the sim specific keyboard help content
    * @param {Object} [options]
    * @constructor
    */
-  function KeyboardHelpDialog( keyboardHelpButton, helpContent, options ) {
+  function KeyboardHelpDialog( helpContent, options ) {
 
     // title
     var titleText = new Text( keyboardShortcutsTitleString, {
@@ -68,7 +65,6 @@ define( function( require ) {
       xMargin: HELP_CONTENT_MARGIN,
       yMargin: HELP_CONTENT_MARGIN,
       titleSpacing: HELP_CONTENT_MARGIN,
-      focusOnCloseNode: keyboardHelpButton,
       tandem: Tandem.required
     }, options );
 

@@ -46,7 +46,8 @@ define( function( require ) {
     var keyboardHelpDialog = null;
     var openDialog = function() {
       if ( !keyboardHelpDialog ) {
-        keyboardHelpDialog = new KeyboardHelpDialog( self, helpContent, {
+        keyboardHelpDialog = new KeyboardHelpDialog( helpContent, {
+          focusOnCloseNode: self,
           tandem: tandem.createTandem( 'keyboardHelpDialog' )
         } );
       }
