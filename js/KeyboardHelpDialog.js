@@ -79,7 +79,7 @@ define( function( require ) {
 
     // @public (joist-internal)
     this.closeButtonPath = new Path( closeButtonShape, {
-      stroke: 'red',
+      stroke: 'red', //TODO #347 to identify the custom close button that needs to be removed
       lineCap: 'round',
       lineWidth: 2,
       cursor: 'pointer',
