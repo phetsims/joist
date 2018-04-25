@@ -61,8 +61,6 @@ define( function( require ) {
     options = _.extend( {
       titleAlign: 'center',
       title: titleText,
-      modal: true,
-      hasCloseButton: false,
       fill: 'rgb( 214, 237, 249 )',
       xMargin: HELP_CONTENT_MARGIN,
       yMargin: HELP_CONTENT_MARGIN,
