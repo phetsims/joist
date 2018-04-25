@@ -48,7 +48,7 @@ define( function( require ) {
       fill: 'rgb( 214, 237, 249 )',
       xMargin: HELP_CONTENT_MARGIN,
       yMargin: HELP_CONTENT_MARGIN,
-      titleSpacing: HELP_CONTENT_MARGIN,
+      titleSpacing: 15,
       tandem: Tandem.required
     }, options );
 
