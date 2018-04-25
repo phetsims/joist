@@ -31,15 +31,7 @@ define( function( require ) {
         function() { return {}; },
         function( model ) { return new DialogsScreenView(); },
         {
-          name: 'Dialogs 1',
-          backgroundColorProperty: new Property( 'white' )
-        }
-      ),
-      new Screen(
-        function() { return {}; },
-        function( model ) { return new DialogsScreenView(); },
-        {
-          name: 'Dialogs 2',
+          name: 'Dialogs',
           backgroundColorProperty: new Property( 'white' )
         }
       )
