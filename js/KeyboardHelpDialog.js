@@ -36,6 +36,9 @@ define( function( require ) {
   var closeString = SunA11yStrings.close.value;
   var hotKeysAndHelpString = JoistA11yStrings.hotKeysAndHelp.value;
 
+  //TODO #487 move keyboardHelpButton to options
+  //TODO #487 _.extend call should be at top of constructor
+  //TODO #487 assert( !options.titleText )
   /**
    * Constructor.
    * @param {KeyboardHelpButton} keyboardHelpButton
@@ -79,7 +82,7 @@ define( function( require ) {
 
     // @public (joist-internal)
     this.closeButtonPath = new Path( closeButtonShape, {
-      stroke: 'red', //TODO #347 to identify the custom close button that needs to be removed
+      stroke: 'red', //TODO #486 to identify the custom close button that needs to be removed
       lineCap: 'round',
       lineWidth: 2,
       cursor: 'pointer',

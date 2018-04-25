@@ -31,6 +31,10 @@ define( function( require ) {
   var HELP_BUTTON_SCALE = 0.32;  // scale applied to the icon
   var BUTTON_SCALE = HELP_BUTTON_SCALE / brightIconMipmap[ 0 ].height * HELP_BUTTON_HEIGHT;
 
+  //TODO #487 move tandem to options
+  //TODO #487 replace simLookAndFeel with navigationBarFillProperty
+  //TODO #487 move options to top of constructor
+  //TODO #487 assert( !options.* ) for all options that client should not be able to override
   /**
    * @param {Node} helpContent - content for the KeyboardHelpDialog
    * @param {LookAndFeel} simLookAndFeel - state and colors of sim/NavigationBar to set color for icon of this button
