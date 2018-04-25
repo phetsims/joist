@@ -36,11 +36,11 @@ define( function( require ) {
   //TODO #487 assert( !options.* ) for all options that client should not be able to override
   /**
    * @param {Node} helpContent - content for the KeyboardHelpDialog
-   * @param {Property.<Color|string>} navigationBarFillProperty - fill color of navigation bar, to set color for icon of this button
+   * @param {LookAndFeel} simLookAndFeel - state and colors of sim/NavigationBar to set color for icon of this button
    * @param {Tandem} tandem
    * @constructor
    */
-  function KeyboardHelpButton( helpContent, navigationBarFillProperty, tandem ) {
+  function KeyboardHelpButton( helpContent, simLookAndFeel, tandem ) {
     var self = this;
 
     var keyboardHelpDialog = null;
@@ -74,11 +74,10 @@ define( function( require ) {
       pickable: false
     } );
 
-    JoistButton.call( this, icon, navigationBarFillProperty, tandem, options );
+    JoistButton.call( this, icon, simLookAndFeel.navigationBarFillProperty, tandem, options );
 
-    //TODO #487 memory leak, unlink required in dispose
     // change the icon so that it is visible when the navigation bar changes from dark to light
-    navigationBarFillProperty.link( function( navigationBarDark ) {
+    simLookAndFeel.navigationBarDarkProperty.link( function( navigationBarDark ) {
       icon.image = navigationBarDark ? darkIconMipmap : brightIconMipmap;
     } );
   }
@@ -90,10 +89,8 @@ define( function( require ) {
     /**
      * To make eligible for garbage collection.
      * @public
-     * @override
      */
     dispose: function() {
-      //TODO #487 why are you overriding this?
       JoistButton.prototype.dispose && JoistButton.prototype.dispose.call( this );
     }
   } );
