@@ -38,7 +38,7 @@ define( function( require ) {
 
   //TODO #487 move keyboardHelpButton to options
   //TODO #487 _.extend call should be at top of constructor
-  //TODO #487 assert( !options.titleText )
+  //TODO #487 assert( !options.* ) for all options that client should not be able to override
   /**
    * Constructor.
    * @param {KeyboardHelpButton} keyboardHelpButton
