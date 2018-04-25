@@ -66,6 +66,7 @@ define( function( require ) {
       innerContent: hotKeysAndHelpString,
       a11yEndListener: function() {
 
+        //TODO #486 uses KeyboardHelpDialog custom close button, and standard Dialog close button is not public!
         // focus the close button if the dialog is open with a keyboard
         keyboardHelpDialog.closeButtonPath.focus();
       }
