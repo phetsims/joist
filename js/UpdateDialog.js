@@ -83,8 +83,6 @@ define( function( require ) {
     } );
 
     Dialog.call( this, content, {
-      modal: true,
-      hasCloseButton: true,
 
       // margins large enough to make space for close button
       xMargin: 30,

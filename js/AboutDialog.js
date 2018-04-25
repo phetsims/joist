@@ -192,8 +192,6 @@ define( function( require ) {
     } );
 
     Dialog.call( this, content, {
-      modal: true,
-      hasCloseButton: true,
       focusOnCloseNode: phetButton,
       xMargin: 25,
       yMargin: 25,
