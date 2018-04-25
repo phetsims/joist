@@ -36,8 +36,6 @@ define( function( require ) {
   var closeString = SunA11yStrings.close.value;
   var hotKeysAndHelpString = JoistA11yStrings.hotKeysAndHelp.value;
 
-  //TODO #487 _.extend call should be at top of constructor
-  //TODO #487 assert( !options.* ) for all options that client should not be able to override
   /**
    * @param {Node} helpContent - a node containing the sim specific keyboard help content
    * @param {Object} [options]
@@ -45,8 +43,18 @@ define( function( require ) {
    */
   function KeyboardHelpDialog( helpContent, options ) {
 
+    options = _.extend( {
+      titleAlign: 'center',
+      fill: 'rgb( 214, 237, 249 )',
+      xMargin: HELP_CONTENT_MARGIN,
+      yMargin: HELP_CONTENT_MARGIN,
+      titleSpacing: HELP_CONTENT_MARGIN,
+      tandem: Tandem.required
+    }, options );
+
     // title
-    var titleText = new Text( keyboardShortcutsTitleString, {
+    assert && assert( !options.title, 'KeyboardHelpDialog sets title' );
+    options.title = new Text( keyboardShortcutsTitleString, {
       font: new PhetFont( {
         weight: 'bold',
         size: 18
@@ -57,16 +65,6 @@ define( function( require ) {
       tagName: 'h1',
       innerContent: hotKeysAndHelpString
     } );
-
-    options = _.extend( {
-      titleAlign: 'center',
-      title: titleText,
-      fill: 'rgb( 214, 237, 249 )',
-      xMargin: HELP_CONTENT_MARGIN,
-      yMargin: HELP_CONTENT_MARGIN,
-      titleSpacing: HELP_CONTENT_MARGIN,
-      tandem: Tandem.required
-    }, options );
 
     // help content surrounded by a div unless already specified, so that all content is read when dialog opens
     helpContent.tagName = helpContent.tagName || 'div';
@@ -117,7 +115,7 @@ define( function( require ) {
 
     // a11y - the close button comes first so that the remaining content can easily be read with the screen reader's
     // virtual cursor
-    this.accessibleOrder = [ this.closeButtonPath, titleText ];
+    this.accessibleOrder = [ this.closeButtonPath, options.title ];
 
     // @private (a11y) - input listener for the close button, must be disposed
     var clickListener = {
