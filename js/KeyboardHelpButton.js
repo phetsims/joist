@@ -32,16 +32,15 @@ define( function( require ) {
   var BUTTON_SCALE = HELP_BUTTON_SCALE / brightIconMipmap[ 0 ].height * HELP_BUTTON_HEIGHT;
 
   //TODO #487 move tandem to options
-  //TODO #487 replace simLookAndFeel with navigationBarFillProperty
   //TODO #487 move options to top of constructor
   //TODO #487 assert( !options.* ) for all options that client should not be able to override
   /**
    * @param {Node} helpContent - content for the KeyboardHelpDialog
-   * @param {LookAndFeel} simLookAndFeel - state and colors of sim/NavigationBar to set color for icon of this button
+   * @param {Property.<Color|string>} navigationBarFillProperty - fill color of navigation bar, to set color for icon of this button
    * @param {Tandem} tandem
    * @constructor
    */
-  function KeyboardHelpButton( helpContent, simLookAndFeel, tandem ) {
+  function KeyboardHelpButton( helpContent, navigationBarFillProperty, tandem ) {
     var self = this;
 
     var keyboardHelpDialog = null;
@@ -75,10 +74,11 @@ define( function( require ) {
       pickable: false
     } );
 
-    JoistButton.call( this, icon, simLookAndFeel.navigationBarFillProperty, tandem, options );
+    JoistButton.call( this, icon, navigationBarFillProperty, tandem, options );
 
+    //TODO #487 memory leak, unlink required in dispose
     // change the icon so that it is visible when the navigation bar changes from dark to light
-    simLookAndFeel.navigationBarDarkProperty.link( function( navigationBarDark ) {
+    navigationBarFillProperty.link( function( navigationBarDark ) {
       icon.image = navigationBarDark ? darkIconMipmap : brightIconMipmap;
     } );
   }
@@ -90,8 +90,10 @@ define( function( require ) {
     /**
      * To make eligible for garbage collection.
      * @public
+     * @override
      */
     dispose: function() {
+      //TODO #487 why are you overriding this?
       JoistButton.prototype.dispose && JoistButton.prototype.dispose.call( this );
     }
   } );
