@@ -79,7 +79,7 @@ define( function( require ) {
 
     // @public (joist-internal)
     this.closeButtonPath = new Path( closeButtonShape, {
-      stroke: 'black',
+      stroke: 'red',
       lineCap: 'round',
       lineWidth: 2,
       cursor: 'pointer',
