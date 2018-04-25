@@ -43,6 +43,7 @@ define( function( require ) {
   function KeyboardHelpButton( helpContent, simLookAndFeel, tandem ) {
     var self = this;
 
+    // reuse one instance of KeyboardHelpDialog
     var keyboardHelpDialog = null;
     var openDialog = function() {
       if ( !keyboardHelpDialog ) {
