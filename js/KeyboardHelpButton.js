@@ -32,18 +32,18 @@ define( function( require ) {
   var BUTTON_SCALE = HELP_BUTTON_SCALE / brightIconMipmap[ 0 ].height * HELP_BUTTON_HEIGHT;
 
   /**
-   * @param {Node} keyboardHelpNode - content for the KeyboardHelpDialog
+   * @param {Node} helpContent - content for the KeyboardHelpDialog
    * @param {LookAndFeel} simLookAndFeel - state and colors of sim/NavigationBar to set color for icon of this button
    * @param {Tandem} tandem
    * @constructor
    */
-  function KeyboardHelpButton( keyboardHelpNode, simLookAndFeel, tandem ) {
+  function KeyboardHelpButton( helpContent, simLookAndFeel, tandem ) {
     var self = this;
 
     var keyboardHelpDialog = null;
     var openDialog = function() {
       if ( !keyboardHelpDialog ) {
-        keyboardHelpDialog = new KeyboardHelpDialog( self, keyboardHelpNode, {
+        keyboardHelpDialog = new KeyboardHelpDialog( self, helpContent, {
           tandem: tandem.createTandem( 'keyboardHelpDialog' )
         } );
       }
