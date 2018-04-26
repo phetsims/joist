@@ -34,6 +34,7 @@ define( function( require ) {
    * @constructor
    */
   function KeyboardHelpDialog( helpContent, options ) {
+    var self = this;
 
     options = _.extend( {
       titleAlign: 'center',
@@ -61,8 +62,6 @@ define( function( require ) {
     // help content surrounded by a div unless already specified, so that all content is read when dialog opens
     helpContent.tagName = helpContent.tagName || 'div';
 
-    // add a listener to hide the dialog
-    var self = this;
     Dialog.call( this, helpContent, options );
 
     // a11y - the close button comes first so that the remaining content

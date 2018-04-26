@@ -31,20 +31,36 @@ define( function( require ) {
   var HELP_BUTTON_SCALE = 0.32;  // scale applied to the icon
   var BUTTON_SCALE = HELP_BUTTON_SCALE / brightIconMipmap[ 0 ].height * HELP_BUTTON_HEIGHT;
 
-  //TODO #487 move tandem to options
-  //TODO #487 move options to top of constructor
-  //TODO #487 assert( !options.* ) for all options that client should not be able to override
   /**
    * @param {Node} helpContent - content for the KeyboardHelpDialog
    * @param {LookAndFeel} simLookAndFeel - state and colors of sim/NavigationBar to set color for icon of this button
    * @param {Tandem} tandem
+   * @param {Object} options
    * @constructor
    */
-  function KeyboardHelpButton( helpContent, simLookAndFeel, tandem ) {
+  function KeyboardHelpButton( helpContent, simLookAndFeel, tandem, options ) {
     var self = this;
 
     // reuse one instance of KeyboardHelpDialog
     var keyboardHelpDialog = null;
+
+    options = _.extend( {
+      highlightExtensionWidth: 5,
+      highlightExtensionHeight: 10,
+      highlightCenterOffsetY: 3,
+
+      // a11y
+      tagName: 'button',
+      innerContent: hotKeysAndHelpString,
+      a11yEndListener: function() {
+
+        // focus the close button if the dialog is open with a keyboard
+        keyboardHelpDialog.focusCloseButton();
+      }
+    }, options );
+
+    assert && assert( !options.listener, 'KeyboardHelpButton set\'s its own listener' );
+
     var openDialog = function() {
       if ( !keyboardHelpDialog ) {
         keyboardHelpDialog = new KeyboardHelpDialog( helpContent, {
@@ -54,22 +70,7 @@ define( function( require ) {
       }
       keyboardHelpDialog.show();
     };
-
-    var options = {
-      highlightExtensionWidth: 5,
-      highlightExtensionHeight: 10,
-      highlightCenterOffsetY: 3,
-      listener: openDialog,
-
-      // a11y options
-      tagName: 'button',
-      innerContent: hotKeysAndHelpString,
-      a11yEndListener: function() {
-
-        // focus the close button if the dialog is open with a keyboard
-        keyboardHelpDialog.focusCloseButton();
-      }
-    };
+    options.listener = openDialog;
 
     var icon = new Image( brightIconMipmap, {
       scale: BUTTON_SCALE,
