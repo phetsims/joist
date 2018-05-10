@@ -739,11 +739,6 @@ define( function( require ) {
                   } ), '*' );
                 }
 
-                // Echo query parameter to console when sim is launched, for interoperation with puppeteer
-                if ( phet.chipper.queryParameters.consoleLogOnLoad ) {
-                  console.log( phet.chipper.queryParameters.consoleLogOnLoad );
-                }
-
                 // After the application is ready to go, remove the splash screen and progress bar
                 window.phetSplashScreen.dispose();
 
