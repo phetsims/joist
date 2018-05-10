@@ -262,9 +262,11 @@ define( function( require ) {
     this.layout( 1, NAVIGATION_BAR_SIZE.width, NAVIGATION_BAR_SIZE.height );
 
     // a11y - keyboard help button before phet menu button, but only if it exists
-    this.accessibleOrder = this.keyboardHelpButton ?
-      [ buttons, this.keyboardHelpButton, this.phetButton ] :
-      [ buttons, this.phetButton ];
+    this.accessibleOrder = [
+      buttons,
+      this.keyboardHelpButton,
+      this.phetButton
+    ].filter( function( node ) { return node !== undefined; } );
   }
 
   joist.register( 'NavigationBar', NavigationBar );
