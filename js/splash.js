@@ -5,7 +5,7 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-(function() {
+( function() {
   'use strict';
 
   // Overall scale factor for the image + progress bar, matched empirically to desired size
@@ -42,8 +42,8 @@
 
     var scale = Math.min( scaleX, scaleY ) * SCALE_FACTOR;
 
-    var translationX = Math.round( (availableWidth - currentWidth * scale) / 2 );
-    var translationY = Math.round( (availableHeight - currentHeight * scale) * POSITION_Y );
+    var translationX = Math.round( ( availableWidth - currentWidth * scale ) / 2 );
+    var translationY = Math.round( ( availableHeight - currentHeight * scale ) * POSITION_Y );
 
     // Position the div using CSS
     var transformString = 'translate(' + translationX + 'px, ' + translationY + 'px) ' + 'scale3d(' + scale + ', ' + scale + ', 1)';
@@ -65,6 +65,9 @@
   // Create the splash image, which is an SVG logo
   var splashImage = document.createElement( 'img' );
   splashImage.style.display = 'block';
+
+  // alt tag required for accessibility purposes, see https://github.com/phetsims/joist/issues/490
+  splashImage.alt = '';
 
   // Closure which binds the values to positionDiv, which can be used as a listener reference.
   var adjustPosition = function() {
@@ -124,7 +127,7 @@
 
   // fade/glow the background of the loading bar
   var phetSplashScreenAnimationInterval = setInterval( function() {
-    progressBarBackground.style[ 'stroke-width' ] = (Math.sin( Date.now() / 1000 * 4 ) * 0.55 + 1).toFixed( 2 );
+    progressBarBackground.style[ 'stroke-width' ] = ( Math.sin( Date.now() / 1000 * 4 ) * 0.55 + 1 ).toFixed( 2 );
   }, 16 );
 
   // After download is complete, stop the animation of the background
@@ -170,4 +173,4 @@
       delete window.phetSplashScreen;
     }
   };
-})();
+} )();
