@@ -50,9 +50,10 @@ define( function( require ) {
   var FONT_SIZE = 18;
   var MAX_ITEM_WIDTH = 400;
 
-  // For disabling features that are incompatible with fuzzMouse
-  var fuzzMouse = phet.chipper.queryParameters.fuzzMouse;
-  var fuzzBoard = phet.chipper.queryParameters.fuzzBoard;
+  // For disabling features that are incompatible with fuzzing
+  var fuzzes = phet.chipper.queryParameters.fuzzMouse ||
+               phet.chipper.queryParameters.fuzzTouch ||
+               phet.chipper.queryParameters.fuzzBoard;
 
   // Creates a comic-book style bubble.
   var createBubble = function( width, height ) {
@@ -136,7 +137,7 @@ define( function( require ) {
         text: menuItemPhetWebsiteString,
         present: isPhETBrand,
         callback: function() {
-          if ( !fuzzMouse && !fuzzBoard ) {
+          if ( !fuzzes ) {
             // Open locale-specific PhET home page. If there is no website translation for locale, fallback will be handled by server. See joist#97.
             var phetWindow = window.open( 'http://phet.colorado.edu/' + sim.locale, '_blank' );
             phetWindow.focus();
@@ -194,7 +195,7 @@ define( function( require ) {
                     '&url=' + encodeURIComponent( window.location.href ) +
                     '&dependencies=' + encodeURIComponent( JSON.stringify( dependenciesCopy ) );
 
-          if ( !fuzzMouse && !fuzzBoard ) {
+          if ( !fuzzes ) {
             var reportWindow = window.open( url, '_blank' );
             reportWindow.focus();
           }
@@ -205,7 +206,7 @@ define( function( require ) {
         text: 'QR code',
         present: phet.chipper.queryParameters.qrCode,
         callback: function() {
-          if ( !fuzzMouse && !fuzzBoard ) {
+          if ( !fuzzes ) {
             var win = window.open( 'http://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent( window.location.href ) + '&size=220x220&margin=0', '_blank' );
             win.focus();
           }
@@ -257,11 +258,11 @@ define( function( require ) {
             // our preferred filename
             var filename = StringUtils.stripEmbeddingMarks( sim.name ) + ' screenshot.png';
 
-            if ( !fuzzMouse && !fuzzBoard ) {
+            if ( !fuzzes ) {
               window.saveAs( blob, filename );
             }
           }
-          else if ( !fuzzMouse && !fuzzBoard ) {
+          else if ( !fuzzes ) {
             window.open( dataURL, '_blank', '' );
           }
         },
@@ -271,7 +272,7 @@ define( function( require ) {
       },
       {
         text: menuItemFullscreenString,
-        present: FullScreen.isFullScreenEnabled() && !isPhetApp && !fuzzMouse && !fuzzBoard,
+        present: FullScreen.isFullScreenEnabled() && !isPhetApp && !fuzzes,
         checkedProperty: FullScreen.isFullScreenProperty,
         callback: function() {
           FullScreen.toggleFullScreen( sim.display );

@@ -26,6 +26,7 @@ define( function( require ) {
   var HomeScreen = require( 'JOIST/HomeScreen' );
   var HomeScreenView = require( 'JOIST/HomeScreenView' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var InputFuzzer = require( 'SCENERY/input/InputFuzzer' );
   var joist = require( 'JOIST/joist' );
   var LegendsOfLearningSupport = require( 'JOIST/thirdPartySupport/LegendsOfLearningSupport' );
   var LookAndFeel = require( 'JOIST/LookAndFeel' );
@@ -300,7 +301,7 @@ define( function( require ) {
     }
 
     // override window.open with a semi-API-compatible function, so fuzzing doesn't open new windows.
-    if ( phet.chipper.queryParameters.fuzzMouse ) {
+    if ( phet.chipper.queryParameters.fuzzMouse || phet.chipper.queryParameters.fuzzTouch || phet.chipper.queryParameters.fuzzBoard ) {
       window.open = function() {
         return {
           focus: function() {},
@@ -340,6 +341,9 @@ define( function( require ) {
       isApplication: false,
       assumeFullWindow: true // a bit faster if we can assume no coordinate translations are needed for the display.
     } );
+
+    // @private {InputFuzzer}
+    this.inputFuzzer = new InputFuzzer( this.display, Math.random() ); // Seeding by default a random value
 
     // When the sim is inactive, make it non-interactive, see https://github.com/phetsims/scenery/issues/414
     this.activeProperty.link( function( active ) {
@@ -797,8 +801,13 @@ define( function( require ) {
       }
 
       // fire or synthesize input events
-      if ( phet.chipper.queryParameters.fuzzMouse ) {
-        this.display.fuzzMouseEvents( phet.chipper.queryParameters.fuzzRate );
+      if ( phet.chipper.queryParameters.fuzzMouse || phet.chipper.queryParameters.fuzzTouch ) {
+        this.inputFuzzer.fuzzEvents(
+          phet.chipper.queryParameters.fuzzRate,
+          phet.chipper.queryParameters.fuzzMouse,
+          phet.chipper.queryParameters.fuzzTouch,
+          phet.chipper.queryParameters.fuzzPointers
+        );
       }
 
       // fire or synthesize keyboard input events
