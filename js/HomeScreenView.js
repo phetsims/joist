@@ -87,12 +87,10 @@ define( function( require ) {
     // (say when one grows larger or smaller).
     var highlightedScreenIndexProperty = new Property( -1 );
 
-    var screenElements = _.map( sim.screens, function( screen ) {
+    var screenElements = _.map( sim.screens, function( screen, index ) {
 
       assert && assert( screen.name, 'name is required for screen ' + sim.screens.indexOf( screen ) );
       assert && assert( screen.homeScreenIcon, 'homeScreenIcon is required for screen ' + screen.name );
-
-      var index = sim.screens.indexOf( screen );
 
       // Even though in the user interface the small and large buttons seem like a single UI component that has grown
       // larger, it would be quite a headache to create a composite button for the purposes of tandem, so instead the
@@ -175,7 +173,13 @@ define( function( require ) {
 
     // Space the icons out more if there are fewer, so they will be spaced nicely.
     // Cannot have only 1 screen because for 1-screen sims there is no home screen.
-    var spacing = ( sim.screens.length <= 3 ) ? 60 : 33;
+    var spacing = 60; ( sim.screens.length <= 3 ) ? 60 : 33;
+    if ( sim.screens.length === 4 ) {
+      spacing = 33;
+    }
+    if ( sim.screens.length >= 5 ) {
+      spacing = 20;
+    }
 
     var hBox = null;
 
@@ -199,12 +203,18 @@ define( function( require ) {
         }
         return screenChild.index === screenIndex ? screenChild.large : screenChild.small;
       } );
-      hBox = new HBox( { spacing: spacing, children: icons, align: 'top', resize: false } );
+      hBox = new HBox( {
+        spacing: spacing,
+        children: icons,
+        align: 'top',
+        resize: false,
+        maxWidth: 650
+      } );
       iconsParentNode.addChild( hBox );
 
       // position the icons
       iconsParentNode.centerX = self.layoutBounds.width / 2;
-      iconsParentNode.top = 170;
+      iconsParentNode.centerY = 272;
     } );
 
     //TODO move these Properties to LookAndFeel, see https://github.com/phetsims/joist/issues/255

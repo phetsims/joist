@@ -48,6 +48,9 @@ define( function( require ) {
 
     // Maps the number of screens to a scale for the small icons. The scale is percentage of LARGE_ICON_HEIGHT.
     var smallIconScale = Util.linear( 2, 4, 0.875, 0.50, sim.screens.length );
+    if ( sim.screens.length >= 5 ) {
+      smallIconScale = 0.4;
+    }
 
     // Use the small icon scale if this is a small screen button
     var height = large ? LARGE_ICON_HEIGHT : smallIconScale * LARGE_ICON_HEIGHT;
