@@ -125,8 +125,8 @@ define( function( require ) {
     // @public {Property.<boolean>} indicates whether the Screen is active. Clients can read this, joist sets it.
     // To prevent potential visual glitches, the value should change only while the screen's view is invisible.
     // That is: transitions from false to true before a Screen becomes visible, and from true to false after a Screen becomes invisible.
-    this.screenActiveProperty = new Property( true, {
-      tandem: options.tandem.createTandem( 'screenActiveProperty' ),
+    this.activeProperty = new Property( true, {
+      tandem: options.tandem.createTandem( 'activeProperty' ),
       phetioType: PropertyIO( BooleanIO ),
       phetioReadOnly: true,
       phetioInstanceDocumentation: 'Indicates whether the screen is active.  For single-screen simulations, the screen is always active.'
@@ -147,10 +147,10 @@ define( function( require ) {
     }
 
     var self = this;
-    assert && this.screenActiveProperty.lazyLink( function() {
-      assert( self._view, 'screenActiveProperty should not change before the Screen view has been initialized' );
+    assert && this.activeProperty.lazyLink( function( isActive ) {
+      assert( self._view, 'isActive should not change before the Screen view has been initialized' );
 
-      // In phet-io mode, the state of a sim can be set without a deterministic order. The screenActiveProperty could be
+      // In phet-io mode, the state of a sim can be set without a deterministic order. The activeProperty could be
       // changed before the view's visibility is set.
       if ( !phet.phetio ) {
         assert( !self._view.isVisible(), 'isActive should not change while the Screen view is visible' );
