@@ -50,7 +50,7 @@ define( function( require ) {
 
     // @public (phet-io) - Button model
     assert && assert( !options.phetioEventSource, 'phetioEventSource cannot be passed in' );
-    this.buttonModel = new PushButtonModel( _.extend( { phetioEventSource: this }, options ) );
+    this.buttonModel = new PushButtonModel( options ); // Note it shares a tandem with this, so the emitter will be instrumented as a child of the button
 
     // Create both highlights and only make the one visible that corresponds to the color scheme
     var createHighlight = function( fill ) {
@@ -81,11 +81,11 @@ define( function( require ) {
     Property.multilink( [ interactionStateProperty, navigationBarFillProperty ], function( interactionState, navigationBarFill ) {
       var useDarkenHighlight = navigationBarFill !== 'black';
       brightenHighlight.visible = !useDarkenHighlight &&
-                                  (interactionState === ButtonInteractionState.OVER ||
-                                   interactionState === ButtonInteractionState.PRESSED);
+                                  ( interactionState === ButtonInteractionState.OVER ||
+                                    interactionState === ButtonInteractionState.PRESSED );
       darkenHighlight.visible = useDarkenHighlight &&
-                                (interactionState === ButtonInteractionState.OVER ||
-                                 interactionState === ButtonInteractionState.PRESSED);
+                                ( interactionState === ButtonInteractionState.OVER ||
+                                  interactionState === ButtonInteractionState.PRESSED );
     } );
 
     // Hook up the input listener
