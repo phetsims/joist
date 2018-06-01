@@ -88,8 +88,6 @@ define( function( require ) {
     this.endedSimConstructionEmitter = new Emitter();
 
     options = options || {};
-    assert && assert( options.accessibility !== false,
-      'Only use options.accessibility as a flag. It will not override the accessibility query parameter.' );
 
     // @public Emitter that indicates when the sim resized
     this.resizedEmitter = new Emitter();
