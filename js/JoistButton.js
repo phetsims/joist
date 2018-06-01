@@ -49,7 +49,7 @@ define( function( require ) {
     options.tandem = tandem;
 
     // @public (phet-io) - Button model
-    this.buttonModel = new PushButtonModel( options ); // Note it shares a tandem with this, so the emitter will be instrumented as a child of the button
+    this.buttonModel = new PushButtonModel( this, options );
 
     // Create both highlights and only make the one visible that corresponds to the color scheme
     var createHighlight = function( fill ) {

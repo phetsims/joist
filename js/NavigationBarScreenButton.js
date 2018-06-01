@@ -93,9 +93,8 @@ define( function( require ) {
     } );
 
     // @public (phet-io) - create the button model, needs to be public so that PhET-iO wrappers can hook up to it if needed
-    this.buttonModel = new PushButtonModel( {
-      listener: clicked,
-      tandem: options.tandem // Note it shares a tandem with this, so the emitter will be instrumented as a child of the button
+    this.buttonModel = new PushButtonModel( this, {
+      listener: clicked
     } );
 
     // Hook up the input listener
