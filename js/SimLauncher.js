@@ -12,7 +12,7 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
   var Random = require( 'DOT/Random' );
 
-  // phet-io modules
+  // ifphetio
   var phetioCommandProcessor = require( 'ifphetio!PHET_IO/phetioCommandProcessor' );
 
   var SimLauncher = {

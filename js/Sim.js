@@ -47,7 +47,7 @@ define( function( require ) {
   var Util = require( 'SCENERY/util/Util' );
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
-  // phet-io modules
+  // ifphetio
   var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
   var phetio = require( 'ifphetio!PHET_IO/phetio' );
 

@@ -11,7 +11,7 @@ define( function( require ) {
   // modules
   var joist = require( 'JOIST/joist' );
 
-  // phet-io modules
+  // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
   var FunctionIO = require( 'ifphetio!PHET_IO/types/FunctionIO' );

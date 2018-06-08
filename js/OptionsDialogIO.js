@@ -11,8 +11,8 @@ define( function( require ) {
   // modules
   var DialogIO = require( 'SUN/DialogIO' );
   var joist = require( 'JOIST/joist' );
-  
-  // phet-io modules
+
+  // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
 
