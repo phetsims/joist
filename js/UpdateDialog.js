@@ -84,10 +84,6 @@ define( function( require ) {
 
     Dialog.call( this, content, {
 
-      // margins large enough to make space for close button
-      xMargin: 30,
-      yMargin: 30,
-
       // a11y
       focusOnCloseNode: phetButton
     } );

@@ -19,7 +19,6 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
 
   // constants
-  var HELP_CONTENT_MARGIN = 20;
   var TITLE_MAX_WIDTH = 500;
 
   // string
@@ -39,8 +38,6 @@ define( function( require ) {
     options = _.extend( {
       titleAlign: 'center',
       fill: 'rgb( 214, 237, 249 )',
-      xMargin: HELP_CONTENT_MARGIN,
-      yMargin: HELP_CONTENT_MARGIN,
       ySpacing: 15,
       tandem: Tandem.required
     }, options );

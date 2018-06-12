@@ -193,8 +193,6 @@ define( function( require ) {
 
     Dialog.call( this, content, {
       focusOnCloseNode: phetButton,
-      xMargin: 25,
-      yMargin: 25,
       tandem: tandem,
       phetioReadOnly: true, // the AboutDialog should not be settable
       phetioState: false
