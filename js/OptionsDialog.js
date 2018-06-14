@@ -28,6 +28,8 @@ define( function( require ) {
   function OptionsDialog( optionsNode, options ) {
     options = _.extend( {
       titleAlign: 'center',
+      bottomMargin: 20,
+      ySpacing: 20,
       tandem: Tandem.required,
       phetioType: OptionsDialogIO
     }, options );
