@@ -195,7 +195,10 @@ define( function( require ) {
       focusOnCloseNode: phetButton,
       tandem: tandem,
       phetioReadOnly: true, // the AboutDialog should not be settable
-      phetioState: false
+      phetioState: false,
+      topMargin: 20,
+      bottomMargin: 20,
+      leftMargin: 20
     } );
 
     // a11y - set label association so the title is read when focus enters the dialog
