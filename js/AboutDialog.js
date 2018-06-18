@@ -63,6 +63,7 @@ define( function( require ) {
       tagName: 'p',
       innerContent: versionString
     } ) );
+
     if ( phet.chipper.buildTimestamp ) {
       children.push( new Text( phet.chipper.buildTimestamp, {
         font: new PhetFont( 13 ),
