@@ -10,15 +10,15 @@ define( function( require ) {
 
   // modules
   var joist = require( 'JOIST/joist' );
+  var Property = require( 'AXON/Property' );
+  var PropertyIO = require( 'AXON/PropertyIO' );
 
   // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
-  var FunctionIO = require( 'ifphetio!PHET_IO/types/FunctionIO' );
   var NullableIO = require( 'ifphetio!PHET_IO/types/NullableIO' );
   var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  var VoidIO = require( 'ifphetio!PHET_IO/types/VoidIO' );
 
   /**
    * IO type for phet/joist's PhetButton
@@ -29,41 +29,31 @@ define( function( require ) {
   function PhetButtonIO( phetButton, phetioID ) {
     assert && assertInstanceOf( phetButton, phet.joist.PhetButton );
     ObjectIO.call( this, phetButton, phetioID );
+
+    // The PhetButtonIO acts as the main phet-io branding/logo in the sim. It doesn't inherit from NodeIO because we don't
+    // all of NodeIO's interactive methods, nor do we want to support maintaining overriding no-ops in this file
+    // see https://github.com/phetsims/scenery/issues/711 for more info.
+    var pickableProperty = new Property( phetButton.pickable, {
+      tandem: phetButton.tandem.createTandem( 'pickableProperty' ),
+      phetioType: PropertyIO( NullableIO( BooleanIO ) ),
+      phetioInstanceDocumentation: 'Set whether the phetButton will be pickable (and hence interactive), see the NodeIO documentation for more details.'
+    } );
+    pickableProperty.link( function( pickable ) { phetButton.pickable = pickable; } );
+    phetButton.on( 'pickability', function() { pickableProperty.value = phetButton.pickable; } );
+
+    // @private
+    this.disposePhetButtonIO = function() {
+      pickableProperty.dispose();
+    };
   }
 
-  // The PhetButtonIO acts as the main phet-io branding/logo in the sim. It doesn't inherit from NodeIO because we don't
-  // all of NodeIO's interactive methods, nor do we want to support maintaining overriding no-ops in this file
-  // see https://github.com/phetsims/scenery/issues/711 for more info.
   phetioInherit( ObjectIO, 'PhetButtonIO', PhetButtonIO, {
 
-    setPickable: {
-      returnType: VoidIO,
-      parameterTypes: [ NullableIO( BooleanIO ) ],
-      implementation: function( pickable ) {
-        this.instance.pickable = pickable;
-      },
-      documentation: 'Set whether the node will be pickable (and hence interactive)'
-    },
-
-    isPickable: {
-      returnType: BooleanIO,
-      parameterTypes: [],
-      implementation: function() {
-        return this.instance.pickable;
-      },
-      documentation: 'Gets whether the node is pickable (and hence interactive)'
-    },
-
-    addPickableListener: {
-      returnType: VoidIO,
-      parameterTypes: [ FunctionIO( VoidIO, [ BooleanIO ] ) ],
-      implementation: function( callback ) {
-        var inst = this.instance;
-        this.instance.on( 'pickability', function() {
-          callback( inst.isPickable() );
-        } );
-      },
-      documentation: 'Adds a listener for when pickability of the node changes'
+    /**
+     * @public - called by PhetioObject when the wrapper is done
+     */
+    dispose: function() {
+      this.disposePhetButtonIO();
     }
   }, {
     documentation: 'The PhET Button in the bottom right of the screen',
