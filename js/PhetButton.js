@@ -83,7 +83,6 @@ define( function( require ) {
         phetMenu.show();
       },
       phetioType: PhetButtonIO,
-      phetioState: false,
       phetioInstanceDocumentation: 'The button that appears in the bottom of the right of the screen, which shows a menu when pressed.',
 
       // a11y

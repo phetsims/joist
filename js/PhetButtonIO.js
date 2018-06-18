@@ -33,7 +33,13 @@ define( function( require ) {
     // The PhetButtonIO acts as the main phet-io branding/logo in the sim. It doesn't inherit from NodeIO because we don't
     // all of NodeIO's interactive methods, nor do we want to support maintaining overriding no-ops in this file
     // see https://github.com/phetsims/scenery/issues/711 for more info.
+    // Note that this code is duplicated with similar code in NodeIO
     var pickableProperty = new Property( phetButton.pickable, {
+
+      // pick the following values from the parent Node
+      phetioReadOnly: phetButton.phetioReadOnly,
+      phetioState: phetButton.phetioState,
+
       tandem: phetButton.tandem.createTandem( 'pickableProperty' ),
       phetioType: PropertyIO( NullableIO( BooleanIO ) ),
       phetioInstanceDocumentation: 'Set whether the phetButton will be pickable (and hence interactive), see the NodeIO documentation for more details.'
@@ -57,7 +63,26 @@ define( function( require ) {
     }
   }, {
     documentation: 'The PhET Button in the bottom right of the screen',
-    events: [ 'fired' ]
+    events: [ 'fired' ],
+
+    /**
+     * See NodeIO.toStateObject
+     * @returns {undefined} - We don't use null because other types want that value in the state, see `NullableIO` for example.
+     * @override
+     */
+    toStateObject: function() {
+      return undefined;
+    },
+
+    /**
+     * See NodeIO.fromStateObject
+     * @param {Node} o
+     * @returns {Object}
+     * @override - to prevent attempted JSON serialization of circular Node
+     */
+    fromStateObject: function( o ) {
+      return o; // Pass through values defined by subclasses, such as AquaRadioButtonIO.enabled
+    }
   } );
 
   joist.register( 'PhetButtonIO', PhetButtonIO );
