@@ -198,7 +198,8 @@ define( function( require ) {
       phetioState: false,
       topMargin: 20,
       bottomMargin: 20,
-      leftMargin: 20
+      leftMargin: 20,
+      rightMargin: 20
     } );
 
     // a11y - set label association so the title is read when focus enters the dialog
