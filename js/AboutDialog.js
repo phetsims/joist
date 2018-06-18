@@ -109,11 +109,11 @@ define( function( require ) {
       } ) );
     }
 
-    children.push( new VStrut( 15 ) );
+    var brandChildren = [];
 
     // Show the brand name, if it exists
     if ( Brand.name ) {
-      children.push( new RichText( Brand.name, {
+      brandChildren.push( new RichText( Brand.name, {
         font: new PhetFont( 16 ),
         supScale: 0.5,
         supYOffset: 2,
@@ -133,7 +133,7 @@ define( function( require ) {
 
       var copyright = StringUtils.fillIn( Brand.copyright, { year: year } );
 
-      children.push( new Text( copyright, {
+      brandChildren.push( new Text( copyright, {
         font: new PhetFont( 12 ), maxWidth: MAX_WIDTH,
 
         // a11y
@@ -155,7 +155,12 @@ define( function( require ) {
           innerContent: Brand.additionalLicenseStatement
         }
       );
-      children.push( this.additionalLicenseStatement );
+      brandChildren.push( this.additionalLicenseStatement );
+    }
+
+    if ( brandChildren.length > 0 ) {
+      children.push( new VStrut( 15 ) );
+      children = children.concat( brandChildren );
     }
 
     // Add credits for specific brands
@@ -197,6 +202,7 @@ define( function( require ) {
       tandem: tandem,
       phetioReadOnly: true, // the AboutDialog should not be settable
       phetioState: false,
+      xSpacing: 20,
       topMargin: 20,
       bottomMargin: 20,
       leftMargin: 20,
