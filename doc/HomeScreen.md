@@ -1,12 +1,12 @@
 ## General Design Considerations
 
-* Here’s the when and why we use {{Home Screen}} in simulation design
+Here’s the when and why we use a Home Screen in simulation design
 * Home Screen View.md
-* Home screen is not very customizable in terms of its presentation.
-* a home screen is needed when the simulation has more than one screen.
-* acts as a landing very briefly introducing the simulation and each of its screens,
-* acts as a navigation page, providing the suggested exploration order visually and non-visually
-* contains a link to the PhET Menu 
+* Home screen is not very customizable in terms of its presentation
+* Needed when the simulation has more than one screen
+* Acts as a landing or welcoming screen, very briefly introducing the simulation and each of its screens
+* Provides navigation to the sims screens in a suggested exploration order
+* Contains a link to the PhET Menu
 
 ## Aesthetic Considerations
 * List out any specific design considerations, e.g., space
@@ -46,11 +46,11 @@ ToDO.
 
 | Role | Attribute | Element | Usage |
 | ---- |-----------| ------- |-------|
-| --- |----------- | `nav` | The `nav` element's native role is `navigation`, so their is not need to assign an explicit role of `navigation`. Role navigation is a `landmark region`, and assitive technologies typically provide short cuts for landmarks. |
-| ------------- |-------------| ol | Parent container for the the list items that contain the screen buttons and descriptions. |
-| ------------- |-------------| li | Parent container for the sreen button and t=its description. |
-| ------------- |aria-describedby="[ID REF of P]"| button | Element containing the screen name. Each button with need an accessible name provided by the button's label, or inner content.|
-| ------------- |-------------| p | Element containing the sim screen's description. Is a sibling to the sim screen button, and child to the list item. Alternatively could use `aria-labelledby="[ID REf of screen button]"`. `aria-labelledby` might provide a more consistant experience than `aria-describedby`.|
+| --- |----------- | `nav` | The `nav` element's native role is `navigation`, so their is not need to assign an explicit role of `navigation`. Role navigation is a `landmark region`, and assistive technologies typically provide short cuts for landmarks. |
+| ------------- |-------------| ol | Parent container for the list items that contain the screen buttons and descriptions. |
+| ------------- |-------------| li | Parent container for the sreen button and its description. |
+| ------------- |aria-describedby="[ID REF of P]"| button | Element containing the screen name. Each button will need an accessible name provided by the button's label (i.e., the button's inner content).|
+| ------------- |-------------| p | Element containing the sim screen's description. Is a sibling to the sim screen button, and child to the list item.
 | ---- |-----------| ------- |-------|
 
 
@@ -58,41 +58,88 @@ ToDO.
 
 #### Build and Atom Example
 ```html
-<h1>Name of Sim</h1> 
-<p>Come explore with Build an Atom. It has three screens.</p>	
-<!-- List screen buttons and their descriptions -->
+
+<h1>Build an Atom</h1> 
+<p>{{Come explore with}} {{Build an Atom}}. It has {{three}} interactive screens.</p>	
+<!-- Screen buttons and their descriptions -->
   <nav aria-label="Sim Screens">
 	<ol>
-  	  <li><button aria-describedby="screen01-description">Atom Screen</button>
-	   	<p id="screen01-description">Explore what makes up an atom.</p></li>
-  	  <li><button aria-describedby="screen02-description">Symbol Screen</button>
-	  	<p id="screen02-description">Investigate atoms and their atomic symbols.</p></li>
-  	  <li><button aria-describedby="screen03-description">Game Screen</button>
-	  	<p id="screen03-description">Test your knowledge of atoms and their atomic symbols.</p></li>
+  	  <li><button aria-describedby="screen01-description">{{Atom}} Screen</button>
+	   	<p id="screen01-description">{{Explore}} {{what makes up an atom}}.</p></li>
+  	  <li><button aria-describedby="screen02-description">{{Symbol}} Screen</button>
+	  	<p id="screen02-description">{{Investigate}} {{atoms and their atomic symbols}}.</p></li>
+  	  <li><button aria-describedby="screen03-description">{{Game}} Screen</button>
+	  	<p id="screen03-description">{{Test your knowledge}} {{of atoms and their atomic symbols}}.</p></li>
   	</ol>
-  </nav>
+  </nav> 
+ <!-- Section for Sim Resources, but no need for Keyboard Shortcuts on Home Screen -->
+ <section>
+	 <h2>Sim Resources</h2>
+ <!-- contains PhET Button and access to PhET Menu -->
+ <section>
+	 
+<article>
+  <h1>Atom Screen, Build an Atom</h1>
+   <!-- Screen specific intro with Screen Parameters -->
+   <p>This is an interactive sim. {{The screen}} changes as you play with it. {{Each screen}} has a Play Area and a Control Area. The Play Area for {{this screen/ the Atom Screen}} {{has a model of an atom called My Atom, three buckets of particles, and three detail panels that track important things about the atom}}. The Control Area has {{radio buttons to switch the Atom model, checkboxes to adjust what inforamtion is shown}}, and a reset button to reset the sim and begin again}}.</p>
+   <!-- Screen Specific Interaction Hint -->
+   <p>Look for particle buckets to play.</p>
+   <!-- Common Keyboard Shortcuts Hint -->
+   <p>If needed, check out keyboard shortcuts under Sim Resources.</p>
+  <h2>Play Area</h2>
+    <!-- Stuff in the Play Area -->
+  <h2>Control Area</h2>
+    <!-- Stuff in the Controls Area -->
+</article>
 
+<article>
+  <h1>Symbol Screen, Build an Atom</h1>
+     <!-- Screen specific intro with Screen Parameters -->
+     <p>The interactive {{Symbol Screen}} changes as you play with it. It has a Play Area and a Control Area. The Play Area has {{DESCRIPTION OF PLAY AREA}}. The Control Area has {{DESCRIPTION OF CONTROL AREA}}, and a reset button to reset the sim and begin again}}.</p>
+     <!-- Screen Specific Interaction Hint -->
+     <p>{{HINT FOR SYMBOL SCREEN}}.</p>
+     <!-- Common Keyboard Shortcuts Hint -->
+     <p>If needed, check out keyboard shortcuts under Sim Resources.</p>
+    <h2>Play Area</h2>
+      <!-- Stuff in the Play Area -->
+    <h2>Control Area</h2>
+      <!-- Stuff in the Control Area -->
+</article>
+
+<article>
+  <h1>Game Screen, Build an Atom</h1>
+     <!-- Screen specific intro with Screen Parameters -->
+     <p>The interactive {{Game Screen}}, there is {{DESCRIPTION OF GAME SCREEN}}.</p>
+     <!-- Screen Specific Interaction Hint -->
+     <p>{{HINT FOR GAME SCREEN}}</p>
+     <!-- Common Keyboard Shortcuts Hint -->
+     <p>If needed, check out keyboard shortcuts under Sim Resources.</p>
+    <h2>Play Area</h2>
+      <!-- Stuff in Play Area if Game Screen has a Play Area? -->
+    <h2>Control Area</h2>
+      <!-- Stuff in Control Area if Game Screen has a Control Area?-->
+</article>
 ```
 
 #### Generic Example
 ```html
 <h1>Name of Sim</h1> 
-<p>Come {{explore with}} {{Name of Simulation}}. It has {{number}} screens.</p>	
+<p>{{ActionPhraseGeneral}} {{NameOfSimulation}}. It has {{NumScreens}} screens.</p>	
 <!-- List screen buttons and their descriptions -->
   <nav aria-label="Sim Screens">
 	<ol>
-  	  <li><button aria-describedby="screen01-description">NAME 1 Screen</button>
-	   	<p id="screen01-description">{{Explore}} {{X}}.</p></li>
-  	  <li><button aria-describedby="screen02-description">NAME 2 Screen</button>
-	  	<p id="screen02-description">{{Investigate}} {{Y}}.</p></li>
-  	  <li><button aria-describedby="screen03-description">NAME 3 Screen</button>
-	  	<p id="screen03-description">{{Test your knowledge of}} {{X}} and {{Y}}.</p></li>
+  	  <li><button aria-describedby="screen01-description">{{ScreenName01}} Screen</button>
+	   	<p id="screen01-description">{{ActionPhrase01}} {{X}}.</p></li>
+  	  <li><button aria-describedby="screen02-description">{{ScreenName02}} Screen</button>
+	  	<p id="screen02-description">{{ActionPhrase02}} {{Y}}.</p></li>
+  	  <li><button aria-describedby="screen03-description">{{ScreenName03}} Screen</button>
+	  	<p id="screen03-description">{{ActionPhrase03}} {{X}} and {{Y}}.</p></li>
   	</ol>
   </nav>
 
 ```
 ### Sample HTML for PhET Menu button
-The PhET Menu button may be located elsewhere and may need be in a seperate MD file. (To be determined.)
+Likely needs a seperate MD file. (PhetButton or PhetMenu ??)
 - ToDo: double check the labeling technique for the menu context, ie., `aria-label="Teacher tools and links"`
 
 ```html
