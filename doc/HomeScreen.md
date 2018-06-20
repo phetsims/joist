@@ -56,7 +56,7 @@ ToDO.
 
 ### Sample HTML for Sim title and Screen buttons
 
-#### Coulomb's Law Example (two screns) 
+#### Coulomb's Law Example (two screens) 
 ```html
 <h1>Coulomb’s Law</h1> 
   <p>{{Come explore with}} {{Coulomb’s Law.}}. It has {{two}} interactive screens.</p>
