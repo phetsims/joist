@@ -138,7 +138,7 @@ ToDO.
 <h1>Build an Atom</h1> 
   <p>{{Come explore with}} {{Build an Atom}}. It has {{three}} interactive screens.</p>	
 
-<!-- Screen buttons and their descriptions -->
+<!-- Sim Screen buttons and their descriptions -->
 <nav aria-lablledby="labelSimScreens">
   <h2 id="labelSimScreens">Sim Screens</h2>
   <ol>
