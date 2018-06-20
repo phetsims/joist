@@ -1,33 +1,37 @@
 ## General Design Considerations
+**Question: Should this file be HomeScreenView.md or * HomeScreen.md**
 
 Here’s the when and why we use a Home Screen in simulation design
-* Home Screen View.md
-* Home screen is not very customizable in terms of its presentation
+
+* Home Screen is not very customizable in terms of its presentation
 * Needed when the simulation has more than one screen
-* Acts as a landing or welcoming screen, very briefly introducing the simulation and each of its screens
-* Provides navigation to the sims screens in a suggested exploration order
+* Acts as a landing screen, providing a very brief welcome and navigational access to each screen
+* Presents the sim screens in a suggested exploration order
+* Each Screen is activated via a button represented by a visual image and visible label, the sim screen's name
 * Contains a link to the PhET Menu
 
 ## Aesthetic Considerations
-* List out any specific design considerations, e.g., space
-* Potentially useful for scaffolding new designers
+* List out any specific design considerations that are potentially useful for scaffolding new designers
+* space
 * order
 * content in screen shots
 
 ## Accessibility Considerations
-* List out any design considerations that impact accessible design, e.g., visibility of content, special keyboard focus highlights, etc.
-* Very brief welcome sentence that indicates the number of screen for the simulation. For example, 
-  * "Come explore with Build an Atom. It has three screens." 
-* Each screen will be access via a button containing the name of the screen. The button context will be provided automatically by the assitive technology. For example, the screen button for Build and Atom would sound like: 
-  * Atom Screen, button
-  * Symbol Screen, button
-  * Game Screen, button
-* Each screen button needs a brief action-orientated sentence to go along with the screen name. You can think of this sentence as having an equivalent purpose as the visually inviting thumbnail. It should encourage interaction and hint out what the student wil do in that screen. The sentence will be read out along with the screen name provided on the button. For example, together the screen buttons and their description could sound like this: 
-  * Atom Screen, button. Explore what makes up an Atom.
-  * Symobol Screen, button. Investigate atoms and their atomic symbols.
-  * Game Screen, button. Test your knowledge of atoms and atomic symbols.
-* The screen buttons function as navigation to the other screens. We can communicate this through the use of the navigation role by using the `nav` element.
-* The sim screens have an optional, but suggested order. We can communicate this by using a ordered list, or `ol` element. The list would contain list items to wrap the screen buttons and their descriptions
+When designing the Home Screen please consider and provide drafts for the following:
+* An action-oriented welcome phrase that indicates the the name of the simulation and the number of screens it has. For example, 
+  * >> Come explore with Coulomb's Law. It has thwo interactive screens. 
+  * >> Come explore with Build an Atom. It has three interactive screens.
+* Each sim screen will be access via a button containing the name of the screen. The button context will be provided automatically by the assistive technology. For example, the sim screen buttons for Coulomb's Law would typically sound like: 
+  * >> Atom Screen, button
+  * >> Symbol Screen, button
+  * >> Game Screen, button
+* Each sim screen button needs a brief action-orientated sentence to go along with the screen name. You can think of this sentence as having an equivalent purpose as the visually inviting thumbnail on the actual button. It should encourage interaction and hint at what the student will do in that screen. The sentence may or may not be read out along with the screen button's. The design intent, however, is that the description text would be read out automatically (Home Screen only) when the sim screen button receives keyboard focus. For example, on teh Home Screen a sim screen button should sound like this: 
+  * >> Atom Screen, button. Explore what makes up an Atom.
+  * >> Symobol Screen, button. Investigate atoms and their atomic symbols.
+  * >> Game Screen, button. Test your knowledge of atoms and atomic symbols.
+* The sim screen buttons function as navigation to the other screens. We communicate this automatically to users of assistive technology by ensuring the parent containing element has the _landmark role of navigation_. We do this in the code by using the html `nav` element.
+* The sim screens have an optional, but suggested order. We can communicate this by using a ordered list, or `ol` element. The list would contain list items to wrap the sim screen buttons and their descriptions.
+* Our sims are not like typical web pages that have a large amount of content and links to other documents. We have, however, found in interviews that users are surprised if they find no headings or no links when they first visit the simualtion. We do indeed use headings to structure the sim screen pages, but there is still an open question if we need H2 headings on the Home Screen. For now, I have included the headings that would also appear on the sim screen pages, "Sim Screens" and "Sim Resources." We see how usres respons to this presentation.
 
 
 ### Gesture Support
@@ -35,29 +39,31 @@ ToDO.
 
 ### Keyboard Support
 | Key        | Function |
-| ------------- |-------------|
-| Enter or Space | When focus is on a button, activates the button, hiding the Home Screen and making visible the selected screen. Focus should be placed at the start of the screen on the h1 of the screen. |
-| Tab | Moves focus to next focusable item, e.g. next button on the home screen.  If last focusable ite, focus automatically goes to browser controls. |
-| Shift Tab | Moves focus to previous focusable item, e.g. previous button on the home screen. If no previous item, focus automatically goes to browser controls.|
-| ------------- |-------------|
+| ------------- | ------------- |
+| Enter or Space | When focus is on a sim screen `button`, activates the screen, hiding the Home Screen and making visible the selected screen. Focus should be placed at the start of the sim screen on the `h1` of the active screen. |
+| Tab | Moves focus to next next sim screen button on the home screen.  If last sim screen button, focus moves to the PhET Menu button, and then automatically to browser controls. |
+| Shift Tab | Moves focus to previous sim screen button on the home screen. If no previous button, focus automatically goes to browser controls.|
+| ------------- | ------------- |
 
 
-### Management of Role, Property, State, and Tabindex Attributes
+### Management of Roles, States, Properties
 
 | Role | Attribute | Element | Usage |
-| ---- |-----------| ------- |-------|
-| --- |----------- | `nav` | The `nav` element's native role is `navigation`, so their is not need to assign an explicit role of `navigation`. Role navigation is a `landmark region`, and assistive technologies typically provide short cuts for landmarks. |
-| ------------- |-------------| ol | Parent container for the list items that contain the screen buttons and descriptions. |
-| ------------- |-------------| li | Parent container for the sreen button and its description. |
-| ------------- |aria-describedby="[ID REF of P]"| button | Element containing the screen name. Each button will need an accessible name provided by the button's label (i.e., the button's inner content).|
-| ------------- |-------------| p | Element containing the sim screen's description. Is a sibling to the sim screen button, and child to the list item.
-| ---- |-----------| ------- |-------|
+| ---- | --------- | ------- | ----- |
+| navigation | `aria-labelledby="[ID REF of h2]"`| `nav` | The `nav` element's native role is `navigation`, so their is not need to assign an explicit role of `navigation`. Role navigation is a `landmark region`, and assistive technologies typically provide short cuts for landmarks. The `nav` element is named by the inner content of the associated `h2` element. |
+| - | `id="ID of h2"` | `h2` | Provides a label for the _navigation region_ and potentially a reassuring heading to users of assistive technology. |
+| - | - | `ol` | Parent container for the list items that contain the sim screen buttons and their associated descriptions. |
+| - | - | `li` | Parent container for the screen button and its associated description. |
+| - | `aria-describedby="[ID REF of p]"`| button | Element containing the screen name. The `button`'s label (i.e., its inner content) is the sim screen's name, and provides the accessible name for the sim screen button.|
+| - | `id="ID of p"` | p | Element containing the sim screen's description. Is a sibling to the sim screen button, and child to the list item. The button's description is associated with its corresponding `button` by the `aria-describedby` attribute on the button and the description's ID REF..
+| ---- | --------- | ------- | ----- |
 
 
-### Sample HTML for Sim title and Screen buttons
+### Sample HTML for Home Screen and Sim Screens
 
 #### Coulomb's Law Example (two screens) 
 ```html
+<!-- Home Screen -->
 <h1>Coulomb’s Law</h1> 
   <p>{{Come explore with}} {{Coulomb’s Law.}}. It has {{two}} interactive screens.</p>
   	
@@ -78,6 +84,7 @@ ToDO.
   <!-- contains PhET Button and access to PhET Menu -->
 <section> 
 
+<!-- Sim Screen 01 -->
 <article>
   <h1>Macro Scale Screen, Coulomb’s Law</h1>
    <!-- Screen specific intro with Screen Parameters -->
@@ -92,6 +99,7 @@ ToDO.
     <!-- Stuff in the Controls Area -->
 </article>
 
+<!-- Sim Screen 02 -->
 <article>
   <h1>Atomic Scale Screen, Coulomb’s Law</h1>
     <!-- Screen specific intro with Screen Parameters -->
@@ -127,6 +135,7 @@ ToDO.
 
 #### Build and Atom Example (three screens)
 ```html
+<!-- Home Screen -->
 <h1>Build an Atom</h1> 
   <p>{{Come explore with}} {{Build an Atom}}. It has {{three}} interactive screens.</p>	
 
@@ -148,7 +157,8 @@ ToDO.
   <h2 id="labelSimResources">Sim Resources</h2>
   <!-- contains PhET Button and access to PhET Menu -->
 <section> 
-	
+
+<!-- Sim Screen 01 -->	
 <article>
   <h1>Atom Screen, Build an Atom</h1>
    <!-- Screen specific intro with Screen Parameters -->
@@ -163,6 +173,7 @@ ToDO.
     <!-- Stuff in the Controls Area -->
 </article> 
 
+<!-- Sim Screen 02 -->
 <article>
   <h1>Symbol Screen, Build an Atom</h1>
      <!-- Screen specific intro with Screen Parameters -->
@@ -177,6 +188,7 @@ ToDO.
       <!-- Stuff in the Control Area -->
 </article>
 
+<!-- Sim Screen 03 -->
 <article>
   <h1>Game Screen, Build an Atom</h1>
      <!-- Screen specific intro with Screen Parameters -->
@@ -211,8 +223,9 @@ ToDO.
 
 #### Generic Example (three screens including a game screen)
 ```html
+<!-- Home Screen -->
 <h1>{{SimName}}</h1> 
-  <p>{{GeneralActionPhrase} {{SimName}}. It has {{NumScreens}} interactive screens.</p>	
+  <p>{{GeneralActionPhrase}} {{SimName}}. It has {{NumScreens}} interactive screens.</p>	
 
 <!-- List screen buttons and their descriptions -->
   <nav aria-lablledby="simScreensLabel">
@@ -233,6 +246,7 @@ ToDO.
   <!-- contains PhET Menu Button only -->
 <section>
 
+<!-- Sim Screen 01 -->
 <article>
   <h1>{{ScreenName01}} Screen, {{SimName}}</h1>
    <!-- Screen specific intro with Screen Parameters -->
@@ -247,6 +261,7 @@ ToDO.
     <!-- Stuff in the Controls Area -->
 </article> 
 
+<!-- Sim Screen 02 -->
 <article>
   <h1>{{ScreenName02}} Screen, {{SimName}}</h1>
      <!-- Screen specific intro with Screen Parameters -->
@@ -261,6 +276,7 @@ ToDO.
       <!-- Stuff in the Control Area -->
 </article>
 
+<!-- Sim Screen 03 -->
 <article>
   <h1>{{GameScreenName}}, {{SimName}}</h1>
      <!-- Screen specific intro with Screen Parameters -->
@@ -291,7 +307,6 @@ ToDO.
   <h2 id="simResourcesLabel">Sim Resources</h2>
   <!-- Mute Sound, Keyboard Shortcuts, PhET Menu  -->
 <section>
-	
 ```
 
 ### Sample HTML for PhET Menu button
