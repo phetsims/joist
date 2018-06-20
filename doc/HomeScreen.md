@@ -56,34 +56,34 @@ ToDO.
 
 ### Sample HTML for Sim title and Screen buttons
 
-#### Build and Atom Example
+#### Coulomb's Law Example (two screns) 
 ```html
-
-<h1>Build an Atom</h1> 
-<p>{{Come explore with}} {{Build an Atom}}. It has {{three}} interactive screens.</p>	
+<h1>Coulomb’s Law</h1> 
+  <p>{{Come explore with}} {{Coulomb’s Law.}}. It has {{two}} interactive screens.</p>
+  	
 <!-- Screen buttons and their descriptions -->
-  <nav aria-label="Sim Screens">
-	<ol>
-  	  <li><button aria-describedby="screen01-description">{{Atom}} Screen</button>
-	   	<p id="screen01-description">{{Explore}} {{what makes up an atom}}.</p></li>
-  	  <li><button aria-describedby="screen02-description">{{Symbol}} Screen</button>
-	  	<p id="screen02-description">{{Investigate}} {{atoms and their atomic symbols}}.</p></li>
-  	  <li><button aria-describedby="screen03-description">{{Game}} Screen</button>
-	  	<p id="screen03-description">{{Test your knowledge}} {{of atoms and their atomic symbols}}.</p></li>
-  	</ol>
-  </nav> 
- <!-- Section for Sim Resources, but no need for Keyboard Shortcuts on Home Screen -->
- <section>
-	 <h2>Sim Resources</h2>
- <!-- contains PhET Button and access to PhET Menu -->
- <section>
-	 
+<nav aria-lablledby="labelSimScreens">
+  <h2 id="labelSimScreens">Sim Screens</h2>
+  <ol>
+    <li><button aria-describedby="descriptionScreen01">{{Macro Scale}} Screen</button>
+		<p id="descriptionScreen01">{{Explore Coulomb’s Law on a macro scale}}.</p></li>
+    <li><button aria-describedby="descriptionScreen02">{{Atomic Scale}} Screen</button>
+		<p id="descriptionScreen02">{{Explore Coulomb’s Law at the atomic scale}}.</p></li>
+  </ol>
+</nav>
+ 
+<!-- Section for Sim Resources, but no need for Keyboard Shortcuts on Home Screen -->
+<section>
+  <h2>Sim Resources</h2>
+  <!-- contains PhET Button and access to PhET Menu -->
+<section> 
+
 <article>
-  <h1>Atom Screen, Build an Atom</h1>
+  <h1>Macro Scale Screen, Coulomb’s Law</h1>
    <!-- Screen specific intro with Screen Parameters -->
-   <p>This is an interactive sim. {{The screen}} changes as you play with it. {{Each screen}} has a Play Area and a Control Area. The Play Area for {{this screen/ the Atom Screen}} {{has a model of an atom called My Atom, three buckets of particles, and three detail panels that track important things about the atom}}. The Control Area has {{radio buttons to switch the Atom model, checkboxes to adjust what inforamtion is shown}}, and a reset button to reset the sim and begin again}}.</p>
+   <p>The interactive {{Macro Scale Screen}} changes as you play with it. It has a Play Area and a Control Area. The Play Area has two charged spheres, Charge 1 (q1) and Charge 2 (q2), currently separated by {{distance}} centimeters. Each charge is held by a small robot. Spheres can be moved closer or further from one another, and the charge of each sphere can be increased or decreased. The Control Area has checkboxes to display forces or change to scientific notation, and a button to reset the sim.</p>
    <!-- Screen Specific Interaction Hint -->
-   <p>Look for particle buckets to play.</p>
+   <p>{{Move spheres or change their charge to begin observations.}}</p>
    <!-- Common Keyboard Shortcuts Hint -->
    <p>If needed, check out keyboard shortcuts under Sim Resources.</p>
   <h2>Play Area</h2>
@@ -93,9 +93,80 @@ ToDO.
 </article>
 
 <article>
+  <h1>Atomic Scale Screen, Coulomb’s Law</h1>
+    <!-- Screen specific intro with Screen Parameters -->
+    <p>The interactive {{Atomic Scale}} Screen changes as you play with it. It has a Play Area and a Control Area. The Play Area has {{two charged particles, charge 1 (q1) and charge 2 (q2), currently separated by {{value}} picometers. Each particle is held by a microscopic robot. Particles can be moved closer or further from one another, and the charge of each particle can be increased or decreased}}. The Control Area has {{checkboxes to display forces or change to scientific notation,}} and a reset button to reset the sim.</p>
+    <!-- Screen Specific Interaction Hint -->
+    <p>{{Move particles or change their charge to begin observations.}}.</p>
+    <!-- Common Keyboard Shortcuts Hint -->
+    <p>If needed, check out keyboard shortcuts under Sim Resources.</p>
+  <h2>Play Area</h2>
+    <!-- Stuff in the Play Area -->
+  <h2>Control Area</h2>
+    <!-- Stuff in the Control Area -->
+</article>
+
+<!-- Navigation landmark section for Sim Screens, that includes all relevant screen buttons -->
+<nav aria-lablledby="labelSimScreens">
+  <h2 id="labelSimScreens">Sim Screens</h2>
+	 <!-- All relevant screen buttons without aria-describedby. -->
+	 <ol>
+       <li><button>{{Macro Scale}} Screen</button>
+   		<p id="descriptionScreen01">{{Explore Coulomb’s Law on a macro scale}}.</p></li>
+       <li><button>{{Atomic Scale}} Screen</button>
+   		<p id="descriptionScreen02">{{Explore Coulomb’s Law at the atomic scale}}.</p></li>
+	 </ol>
+</nav>
+
+<!-- Section for Sim Resources, that includes all relevant buttons -->
+<section aria-labeledby="labelSimResources">
+  <h2 id="labelSimResources">Sim Resources</h2>
+  <!-- Mute Sound, Keyboard Shortcuts, PhET Menu  -->
+<section>
+```
+
+#### Build and Atom Example (three screens)
+```html
+<h1>Build an Atom</h1> 
+  <p>{{Come explore with}} {{Build an Atom}}. It has {{three}} interactive screens.</p>	
+
+<!-- Screen buttons and their descriptions -->
+<nav aria-lablledby="labelSimScreens">
+  <h2 id="labelSimScreens">Sim Screens</h2>
+  <ol>
+    <li><button aria-describedby="descriptionScreen01">{{Atom}} Screen</button>
+  	  <p id="descriptionScreen01">{{Explore what makes up an atom}}.</p></li>
+    <li><button aria-describedby="descriptionScreen02">{{Symbol}} Screen</button>
+  	  <p id="descriptionScreen02">{{Investigate atoms and their atomic symbols}}.</p></li>
+    <li><button aria-describedby="descriptionScreen03">{{Game}} Screen</button>
+  	  <p id="descriptionScreen03">{{Test your knowledge of atoms and their atomic symbols}}.</p></li>
+  </ol>
+</nav> 
+
+<!-- Section for Sim Resources, but no need for Keyboard Shortcuts on Home Screen -->
+<section aria-lablledby="labelSimResources"> 
+  <h2 id="labelSimResources">Sim Resources</h2>
+  <!-- contains PhET Button and access to PhET Menu -->
+<section> 
+	
+<article>
+  <h1>Atom Screen, Build an Atom</h1>
+   <!-- Screen specific intro with Screen Parameters -->
+   <p>The interactive {{Atom Screen}} changes as you play with it. It has a Play Area and a Control Area. The Play Area {{has a model of an atom called My Atom, three buckets of particles, and three detail panels that track important things about the atom}}. The Control Area has {{radio buttons to switch the Atom model, checkboxes to adjust what inforamtion is shown,}} and a reset button to reset the sim.</p>
+   <!-- Screen Specific Interaction Hint -->
+   <p>Look for particle buckets to play.</p>
+   <!-- Common Keyboard Shortcuts Hint -->
+   <p>If needed, check out keyboard shortcuts under Sim Resources.</p>
+  <h2>Play Area</h2>
+    <!-- Stuff in the Play Area -->
+  <h2>Control Area</h2>
+    <!-- Stuff in the Controls Area -->
+</article> 
+
+<article>
   <h1>Symbol Screen, Build an Atom</h1>
      <!-- Screen specific intro with Screen Parameters -->
-     <p>The interactive {{Symbol Screen}} changes as you play with it. It has a Play Area and a Control Area. The Play Area has {{DESCRIPTION OF PLAY AREA}}. The Control Area has {{DESCRIPTION OF CONTROL AREA}}, and a reset button to reset the sim and begin again}}.</p>
+     <p>The interactive {{Symbol Screen}} changes as you play with it. It has a Play Area and a Control Area. The Play Area has {{DESCRIPTION OF PLAY AREA}}. The Control Area has {{DESCRIPTION OF CONTROL AREA,}} and a reset button to reset the sim.</p>
      <!-- Screen Specific Interaction Hint -->
      <p>{{HINT FOR SYMBOL SCREEN}}.</p>
      <!-- Common Keyboard Shortcuts Hint -->
@@ -111,33 +182,118 @@ ToDO.
      <!-- Screen specific intro with Screen Parameters -->
      <p>The interactive {{Game Screen}}, there is {{DESCRIPTION OF GAME SCREEN}}.</p>
      <!-- Screen Specific Interaction Hint -->
-     <p>{{HINT FOR GAME SCREEN}}</p>
+     <p>{{HINT FOR a GAME SCREEN}}</p>
+     <!-- Common Keyboard Shortcuts Hint -->
+     <p>If needed, check out keyboard shortcuts under Sim Resources.</p>
+      <!-- Structure relevant to a Game Screen, not sure about this yet.-->
+</article>
+
+<!-- Navigation landmark section for Sim Screens, that includes all relevant screen buttons -->
+<nav aria-lablledby="labelSimScreens">
+  <h2 id="labelSimScreens">Sim Screens</h2>
+	 <!-- All relevant screen buttons without aria-describedby. -->
+	 <ol>
+	   <li><button>{{Atom}} Screen</button>
+		   <p id="descriptionScreen01">{{Explore what makes up an atom}}.</p></li>
+	   <li><button>{{Symbol}} Screen</button>
+		   <p id="descriptionScreen02">{{Investigate atoms and their atomic symbols}}.</p></li>
+	   <li><button>{{Game}} Screen</button>
+		   <p id="descriptionScreen03">{{Test your knowledge of atoms and their atomic symbols}}.</p></li>
+	 </ol>
+</nav>
+
+<!-- Section for Sim Resources, that includes all relevant buttons -->
+<section aria-labeledby="lableSimRsources">
+  <h2 id="lableSimRsources">Sim Resources</h2>
+  <!-- Mute Sound, Keyboard Shortcuts, PhET Menu  -->
+<section>
+```
+
+#### Generic Example (three screens including a game screen)
+```html
+<h1>{{SimName}}</h1> 
+  <p>{{GeneralActionPhrase} {{SimName}}. It has {{NumScreens}} interactive screens.</p>	
+
+<!-- List screen buttons and their descriptions -->
+  <nav aria-lablledby="simScreensLabel">
+  <h2 id="simScreensLabel">Sim Screens</h2>
+	<ol>
+  	  <li><button aria-describedby="descriptionScreen01">{{ScreenName01}} Screen</button>
+		  <p id="descriptionScreen01">{{ActionPhraseForScreen01}}.</p></li>
+  	  <li><button aria-describedby="descriptionScreen02">{{ScreenName02}} Screen</button>
+		  <p id="descriptionScreen02">{{ActionPhraseForScreen02}}.</p></li>
+  	  <li><button aria-describedby="descriptionScreen03">{{GameScreenName}} Screen</button>
+		  <p id="descriptionScreen03">{{ActionPhraseForGameScreenName}}.</p></li>
+  	</ol>
+  </nav>
+  
+<!-- Section for Sim Resources -->
+<section aria-lablledby="simResourcesLabel">
+  <h2 id="simResourcesLabel">Sim Resources</h2>
+  <!-- contains PhET Menu Button only -->
+<section>
+
+<article>
+  <h1>{{ScreenName01}} Screen, {{SimName}}</h1>
+   <!-- Screen specific intro with Screen Parameters -->
+   <p>The interactive {{ScreenName01}} Screen changes as you play with it. It has a Play Area and a Control Area. The Play Area {{DESCRIPTION OF PLAY AREA FOR SCREEN 01}}. The Control Area has {{DESCRIPTION OF CONTROL AREA FOR SCREEN 01,}} and a reset button to reset the sim.</p>
+   <!-- Screen Specific Interaction Hint -->
+   <p>Look for particle buckets to play.</p>
+   <!-- Common Keyboard Shortcuts Hint -->
+   <p>If needed, check out keyboard shortcuts under Sim Resources.</p>
+  <h2>Play Area</h2>
+    <!-- Stuff in the Play Area -->
+  <h2>Control Area</h2>
+    <!-- Stuff in the Controls Area -->
+</article> 
+
+<article>
+  <h1>{{ScreenName02}} Screen, {{SimName}}</h1>
+     <!-- Screen specific intro with Screen Parameters -->
+     <p>The interactive {{ScreenName02}} Screen changes as you play with it. It has a Play Area and a Control Area. The Play Area has {{DESCRIPTION OF PLAY AREA FOR SCREEN 02}}. The Control Area has {{DESCRIPTION OF CONTROL AREA FOR SCREEN 02,}} and a reset button to reset the sim.</p>
+     <!-- Screen Specific Interaction Hint -->
+     <p>{{HINT FOR SCREEN 02}}.</p>
      <!-- Common Keyboard Shortcuts Hint -->
      <p>If needed, check out keyboard shortcuts under Sim Resources.</p>
     <h2>Play Area</h2>
-      <!-- Stuff in Play Area if Game Screen has a Play Area? -->
+      <!-- Stuff in the Play Area -->
     <h2>Control Area</h2>
-      <!-- Stuff in Control Area if Game Screen has a Control Area?-->
+      <!-- Stuff in the Control Area -->
 </article>
+
+<article>
+  <h1>{{GameScreenName}}, {{SimName}}</h1>
+     <!-- Screen specific intro with Screen Parameters -->
+     <p>On the interactive {{GameScreenName}} Screen, there is {{DESCRIPTION OF GAME SCREEN}}.</p>
+     <!-- Screen Specific Interaction Hint -->
+     <p>{{HINT FOR a GAME SCREEN}}</p>
+     <!-- Common Keyboard Shortcuts Hint -->
+     <p>If needed, check out keyboard shortcuts under Sim Resources.</p>
+      <!-- Structure relevant to a Game Screen, not sure about this yet.-->
+</article>
+
+<!-- Navigation landmark section for Sim Screens, that includes all relevant screen buttons -->
+<nav aria-lablledby="lableSimScreens">
+  <h2 id="labelSimScreens">Sim Screens</h2>
+	 <!-- All relevant screen buttons without aria-describedby. -->
+	 <ol>
+   	  <li><button>{{ScreenName01}} Screen</button>
+ 		  <p id="descriptionScreen01">{{ActionPhraseForScreen01}}.</p></li>
+   	  <li><button>{{ScreenName02}} Screen</button>
+ 		  <p id="descriptionScreen02">{{ActionPhraseForScreen02}}.</p></li>
+   	  <li><button>{{ScreenName03}} Screen</button>
+ 		  <p id="descriptionScreen03">{{ActionPhraseForScreen03}}.</p></li>
+	 </ol>
+</nav>
+
+<!-- Section for Sim Resources, that includes all relevant buttons -->
+<section aria-labeledby="simResourcesLabel">
+  <h2 id="simResourcesLabel">Sim Resources</h2>
+  <!-- Mute Sound, Keyboard Shortcuts, PhET Menu  -->
+<section>
+	
 ```
 
-#### Generic Example
-```html
-<h1>Name of Sim</h1> 
-<p>{{ActionPhraseGeneral}} {{NameOfSimulation}}. It has {{NumScreens}} screens.</p>	
-<!-- List screen buttons and their descriptions -->
-  <nav aria-label="Sim Screens">
-	<ol>
-  	  <li><button aria-describedby="screen01-description">{{ScreenName01}} Screen</button>
-	   	<p id="screen01-description">{{ActionPhrase01}} {{X}}.</p></li>
-  	  <li><button aria-describedby="screen02-description">{{ScreenName02}} Screen</button>
-	  	<p id="screen02-description">{{ActionPhrase02}} {{Y}}.</p></li>
-  	  <li><button aria-describedby="screen03-description">{{ScreenName03}} Screen</button>
-	  	<p id="screen03-description">{{ActionPhrase03}} {{X}} and {{Y}}.</p></li>
-  	</ol>
-  </nav>
-
-```
 ### Sample HTML for PhET Menu button
 Likely needs a seperate MD file. (PhetButton or PhetMenu ??)
 - ToDo: double check the labeling technique for the menu context, ie., `aria-label="Teacher tools and links"`
