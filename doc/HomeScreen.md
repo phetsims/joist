@@ -1,5 +1,5 @@
 ## General Design Considerations
-**Question: Should this file be HomeScreenView.md or * HomeScreen.md**
+**Question: Should this file be HomeScreenView.md or HomeScreen.md**
 
 Here’s the when and why we use a Home Screen in simulation design
 
