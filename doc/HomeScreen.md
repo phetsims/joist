@@ -18,17 +18,17 @@ Here’s the when and why we use a Home Screen in simulation design
 
 ## Accessibility Considerations
 When designing the Home Screen please consider and provide drafts for the following:
-* An action-oriented welcome phrase that indicates the the name of the simulation and the number of screens it has. For example, 
-  * >> Come explore with Coulomb's Law. It has thwo interactive screens. 
-  * >> Come explore with Build an Atom. It has three interactive screens.
+* An action-oriented welcome phrase that indicates the name of the simulation and the number of screens it has. For example, 
+  * > Come explore with Coulomb's Law. It has thwo interactive screens. 
+  * > Come explore with Build an Atom. It has three interactive screens.
 * Each sim screen will be access via a button containing the name of the screen. The button context will be provided automatically by the assistive technology. For example, the sim screen buttons for Coulomb's Law would typically sound like: 
-  * >> Atom Screen, button
-  * >> Symbol Screen, button
-  * >> Game Screen, button
+  * > Atom Screen, button
+  * > Symbol Screen, button
+  * > Game Screen, button
 * Each sim screen button needs a brief action-orientated sentence to go along with the screen name. You can think of this sentence as having an equivalent purpose as the visually inviting thumbnail on the actual button. It should encourage interaction and hint at what the student will do in that screen. The sentence may or may not be read out along with the screen button's. The design intent, however, is that the description text would be read out automatically (Home Screen only) when the sim screen button receives keyboard focus. For example, on teh Home Screen a sim screen button should sound like this: 
-  * >> Atom Screen, button. Explore what makes up an Atom.
-  * >> Symobol Screen, button. Investigate atoms and their atomic symbols.
-  * >> Game Screen, button. Test your knowledge of atoms and atomic symbols.
+  * > Atom Screen, button. Explore what makes up an Atom.
+  * > Symobol Screen, button. Investigate atoms and their atomic symbols.
+  * > Game Screen, button. Test your knowledge of atoms and atomic symbols.
 * The sim screen buttons function as navigation to the other screens. We communicate this automatically to users of assistive technology by ensuring the parent containing element has the _landmark role of navigation_. We do this in the code by using the html `nav` element.
 * The sim screens have an optional, but suggested order. We can communicate this by using a ordered list, or `ol` element. The list would contain list items to wrap the sim screen buttons and their descriptions.
 * Our sims are not like typical web pages that have a large amount of content and links to other documents. We have, however, found in interviews that users are surprised if they find no headings or no links when they first visit the simualtion. We do indeed use headings to structure the sim screen pages, but there is still an open question if we need H2 headings on the Home Screen. For now, I have included the headings that would also appear on the sim screen pages, "Sim Screens" and "Sim Resources." We see how usres respons to this presentation.
