@@ -7,7 +7,7 @@ Here’s the when and why we use a Home Screen in simulation design
 * Needed when the simulation has more than one screen
 * Acts as a landing screen, providing a very brief welcome and navigational access to each screen
 * Presents the sim screens in a suggested exploration order
-* Each Screen is activated via a button represented by a visual image and visible label, the sim screen's name
+* Each screen is activated via a button represented by a visual image and visible label, the sim screen's name
 * Contains a link to the PhET Menu
 
 ## Aesthetic Considerations
