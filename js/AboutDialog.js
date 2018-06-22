@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var CreditsNode = require( 'JOIST/CreditsNode' );
   var Dialog = require( 'SUN/Dialog' );
@@ -210,7 +211,11 @@ define( function( require ) {
     } );
 
     // a11y - set label association so the title is read when focus enters the dialog
-    this.setAriaLabelledByNode( titleText );
+    this.addAriaLabelledbyAssociation( {
+      thisElementName: AccessiblePeer.PRIMARY_SIBLING,
+      otherNode: titleText,
+      otherElementName: AccessiblePeer.PRIMARY_SIBLING
+    } );
 
     // close it on a click
     var closeListener = new ButtonListener( {
