@@ -142,9 +142,12 @@ define( function( require ) {
       keyboardHelpButtonLayoutWidth = this.keyboardHelpButton.width + KEYBOARD_HELP_BUTTON_LEFT_MARGIN;
     }
 
-    // a11y - tell this node that it is ariaLabelledBy its own labelContent.
-    this.ariaLabelledByNode = this;
-    this.ariaLabelContent = AccessiblePeer.LABEL_SIBLING;
+    // a11y - tell this node that it is aria-labelledby its own labelContent.
+    this.addAriaLabelledbyAssociation( {
+      thisElementName: AccessiblePeer.PRIMARY_SIBLING,
+      otherNode: this,
+      otherElementName: AccessiblePeer.LABEL_SIBLING
+    });
 
     if ( screens.length === 1 ) {
       /* single-screen sim */

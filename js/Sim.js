@@ -521,7 +521,8 @@ define( function( require ) {
         this.modalNodeStack, {
           fill: 'rgba(0,0,0,0.3)',
           pickable: true,
-          tandem: ROOT_TANDEM.createTandem( 'barrierRectangle' )
+          tandem: ROOT_TANDEM.createTandem( 'barrierRectangle' ),
+          phetioInstanceDocumentation: 'Semi-transparent barrier used to block input events when a dialog is shown, also fades out the background.'
         } );
       this.topLayer.addChild( this.barrierRectangle );
 
