@@ -31,7 +31,7 @@ ToDo
 
 
 ### Sample HTML for PhET Menu and PhET button
-This HTML smaple combines both the [PhetButton.js](phet/joist/js/PhetButton.js) and [PhetMenu.js](phet/joist/js/PhetMenu.js) interactions.
+This HTML smaple combines both the [PhetButton.js](../js/PhetButton.js) and [PhetMenu.js](../js/PhetMenu.js) interactions.
 ```html
 	    <!-- PhetMenu and PhetButton Wrapper-->
 	    <div class="phetMenuWrapper" aria-label="Teacher tools and links">
