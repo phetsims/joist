@@ -173,7 +173,7 @@ define( function( require ) {
 
     // Space the icons out more if there are fewer, so they will be spaced nicely.
     // Cannot have only 1 screen because for 1-screen sims there is no home screen.
-    var spacing = 60; ( sim.screens.length <= 3 ) ? 60 : 33;
+    var spacing = 60;
     if ( sim.screens.length === 4 ) {
       spacing = 33;
     }
@@ -208,13 +208,13 @@ define( function( require ) {
         children: icons,
         align: 'top',
         resize: false,
-        maxWidth: 650
+        maxWidth: self.layoutBounds.width - 118
       } );
       iconsParentNode.addChild( hBox );
 
       // position the icons
       iconsParentNode.centerX = self.layoutBounds.width / 2;
-      iconsParentNode.centerY = 272;
+      iconsParentNode.centerY = self.layoutBounds.height / 2 + 20;
     } );
 
     //TODO move these Properties to LookAndFeel, see https://github.com/phetsims/joist/issues/255
