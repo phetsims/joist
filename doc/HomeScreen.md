@@ -308,43 +308,6 @@ ToDO.
 <section>
 ```
 
-### Sample HTML for PhET Menu button
-Likely needs a seperate MD file. (PhetButton or PhetMenu ??)
-- ToDo: double check the labeling technique for the menu context, ie., `aria-label="Teacher tools and links"`
-
-```html
-	    <!-- PhET Menu button activates PhET Menu -->
-	    <div class="menu-wrapper" aria-label="Teacher tools and links">
-	      <button
-	            aria-haspopup="true"
-	            aria-controls="phet-menu">PhET Menu</button>
-	      <ul role="menu" id="phet-menu">
-	        <li role="menuitem">
-	          View Options
-	        </li>
-	        <li role="menuitem">
-	          Check for Updates
-	        </li>
-	        <li role="menuitem">
-	          Take Screenshot
-	        </li>
-	        <li role="menuitem">
-	          Full Screen
-	        </li>
-	        <li role="menuitem">
-	          <a href="https://phet.colorado.edu/files/troubleshooting/?BIG-LONG-LINK">Report Problem</a>
-	   	    </li>
-	   	    <li role="menuitem">
-	   	      About this Sim
-	   	    </li>
-	   	    <li role="menuitem">
-	   	      <a href="http://phet.colorado.edu/">PhET Website</a>
-	   	    </li>
-	   	  </ul>
-	  </div><!-- end menu-wrapper -->
-
-```
-
 ### Supporting Accessibility Resources
 * [ARIA Practices 1.1, section 3.5 Button](https://www.w3.org/TR/wai-aria-practices/#button)
 * [ARIA 1.1 aria-haspopup property](https://www.w3.org/TR/wai-aria-1.1/#aria-haspopup)
