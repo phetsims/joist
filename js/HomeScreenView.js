@@ -27,7 +27,6 @@ define( function( require ) {
   var simScreensString = JoistA11yStrings.simScreens.value;
   var simScreenString = JoistA11yStrings.simScreen.value;
   var homeScreenDescriptionPatternString = JoistA11yStrings.homeScreenDescriptionPattern.value;
-  var homeScreenString = JoistA11yStrings.homeScreen.value;
 
   // constants
   var LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
@@ -54,7 +53,11 @@ define( function( require ) {
       tandem: tandem,
 
       // a11y
-      labelContent: homeScreenString
+      labelContent: sim.name,
+      descriptionContent: StringUtils.fillIn( homeScreenDescriptionPatternString, {
+        name: sim.name,
+        screens: sim.screens.length
+      } )
     } );
 
     var title = new Text( sim.name, {
@@ -69,19 +72,6 @@ define( function( require ) {
     this.addChild( title );
     title.scale( Math.min( 1, 0.9 * this.layoutBounds.width / title.width ) );
     title.centerX = this.layoutBounds.centerX;
-
-    // a11y heading and description
-    this.addChild( new Node( {
-      innerContent: sim.name, // display name
-      tagName: 'h1'
-    } ) );
-    this.addChild( new Node( {
-      tagName: 'p',
-      innerContent: StringUtils.fillIn( homeScreenDescriptionPatternString, {
-        name: sim.name,
-        screens: sim.screens.length
-      } )
-    } ) );
 
     // Keep track of which screen is highlighted so the same screen can remain highlighted even if nodes are replaced
     // (say when one grows larger or smaller).
