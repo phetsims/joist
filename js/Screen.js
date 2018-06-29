@@ -279,7 +279,7 @@ define( function( require ) {
 
           // initialize proper pDOM labelling for ScreenView
           this._view.labelContent = StringUtils.fillIn( screenSimPatternString, {
-            screenNamePattern: screenNameWithScreen,
+            screenName: screenNameWithScreen,
             simName: simName
           } );
         }
