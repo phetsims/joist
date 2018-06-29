@@ -61,10 +61,6 @@ define( function( require ) {
 
     Dialog.call( this, helpContent, options );
 
-    // a11y - the close button comes first so that the remaining content
-    // can easily be read with the screen reader's virtual cursor
-    this.accessibleOrder = [ this.closeButton, options.title ];
-
     // @private (a11y) - input listener for the close button, must be disposed
     var clickListener = {
       click: function() {
@@ -92,15 +88,6 @@ define( function( require ) {
     dispose: function() {
       this.disposeKeyboardHelpDialog();
       Dialog.prototype.dispose.call( this );
-    },
-
-    /**
-     * Focus the close button of the Dialog.
-     * @a11y
-     * @public
-     */
-    focusCloseButton: function() {
-      this.closeButton.focus();
     }
   } );
 } );
