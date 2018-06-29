@@ -272,7 +272,7 @@ define( function( require ) {
         }
         else {
 
-          // Like "My Awesome Screen Screen" because "My Awesome Screen" is the name of the screen.
+          // Like "My Awesome Screen" because "My Awesome" is the name of the screen.
           var screenNameWithScreen = StringUtils.fillIn( screenNamePatternString, {
             name: this.name
           } );
