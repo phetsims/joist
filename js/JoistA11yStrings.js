@@ -44,6 +44,9 @@ define( function( require ) {
     screenNamePattern: {
       value: '{{name}} Screen'
     },
+    screenSimPattern: {
+      value: '{{screenNamePattern}}, {{simName}}'
+    },
     home: {
       value: 'Home'
     },

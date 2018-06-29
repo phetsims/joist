@@ -658,7 +658,7 @@ define( function( require ) {
           screen.initializeModel();
         } );
         workItems.push( function() {
-          screen.initializeView();
+          screen.initializeView( self.name );
         } );
       } );
 

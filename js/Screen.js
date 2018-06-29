@@ -20,17 +20,18 @@ define( function( require ) {
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Property = require( 'AXON/Property' );
+  var PropertyIO = require( 'AXON/PropertyIO' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var PropertyIO = require( 'AXON/PropertyIO' );
 
   // ifphetio
   var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
 
   // a11y strings
   var screenNamePatternString = JoistA11yStrings.screenNamePattern.value;
+  var screenSimPatternString = JoistA11yStrings.screenSimPattern.value;
   var simScreenString = JoistA11yStrings.simScreen.value;
 
   // constants
@@ -132,14 +133,15 @@ define( function( require ) {
       phetioInstanceDocumentation: 'Indicates whether the screen is active.  For single-screen simulations, the screen is always active.'
     } );
 
-    // @public (a11y)
+    // @public (a11y) - used to set the ScreenView's descriptionContent. This is a bit of a misnomer because Screen is
+    // not a Node subtype, so this is a value property rather than a setter.
     this.descriptionContent = '';
     if ( options.descriptionContent ) {
       this.descriptionContent = options.descriptionContent;
     }
-    else if ( options.name ) {
+    else if ( this.name ) {
       this.descriptionContent = StringUtils.fillIn( screenNamePatternString, {
-        name: options.name
+        name: this.name
       } );
     }
     else {
@@ -242,8 +244,9 @@ define( function( require ) {
      * Initialize the view.  Clients should use either this or initializeModelAndView
      * Clients may want to use this method to gain more control over the creation process
      * @public (joist-internal)
+     * @param {string} [simName] - The display name of the sim, used for a11y. Not provided for the home screen.
      */
-    initializeView: function() {
+    initializeView: function( simName ) {
       assert && assert( this._view === null, 'there was already a view' );
       this._view = this.createView( this.model );
       this._view.setVisible( false ); // a Screen is invisible until selected
@@ -257,6 +260,22 @@ define( function( require ) {
       // it should just be equal to what you see.
       if ( phet.chipper.queryParameters.showVisibleBounds ) {
         this._view.addChild( devCreateVisibleBoundsNode( this._view ) );
+      }
+
+
+      // If simName is not provided, then we are creating the home screen.
+      if ( simName ) {
+
+        // Like "My Awesome Screen Screen" because "My Awesome Screen" is the name of the screen.
+        var screenNameWithScreen = StringUtils.fillIn( screenNamePatternString, {
+          name: this.name
+        } );
+
+        // initialize proper pDOM labelling for ScreenView
+        this._view.labelContent = StringUtils.fillIn( screenSimPatternString, {
+          screenNamePattern: screenNameWithScreen,
+          simName: simName
+        } );
       }
     },
 
