@@ -266,16 +266,23 @@ define( function( require ) {
       // If simName is not provided, then we are creating the home screen.
       if ( simName ) {
 
-        // Like "My Awesome Screen Screen" because "My Awesome Screen" is the name of the screen.
-        var screenNameWithScreen = StringUtils.fillIn( screenNamePatternString, {
-          name: this.name
-        } );
+        // Single screen sims don't have screen names.
+        if ( !this.name ) {
+          this._view.labelContent = simName;
+        }
+        else {
 
-        // initialize proper pDOM labelling for ScreenView
-        this._view.labelContent = StringUtils.fillIn( screenSimPatternString, {
-          screenNamePattern: screenNameWithScreen,
-          simName: simName
-        } );
+          // Like "My Awesome Screen Screen" because "My Awesome Screen" is the name of the screen.
+          var screenNameWithScreen = StringUtils.fillIn( screenNamePatternString, {
+            name: this.name
+          } );
+
+          // initialize proper pDOM labelling for ScreenView
+          this._view.labelContent = StringUtils.fillIn( screenSimPatternString, {
+            screenNamePattern: screenNameWithScreen,
+            simName: simName
+          } );
+        }
       }
     },
 
