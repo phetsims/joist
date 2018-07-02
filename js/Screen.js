@@ -149,7 +149,7 @@ define( function( require ) {
     }
 
     var self = this;
-    assert && this.activeProperty.lazyLink( function( isActive ) {
+    assert && this.activeProperty.lazyLink( function() {
       assert( self._view, 'isActive should not change before the Screen view has been initialized' );
 
       // In phet-io mode, the state of a sim can be set without a deterministic order. The activeProperty could be
@@ -245,8 +245,9 @@ define( function( require ) {
      * Clients may want to use this method to gain more control over the creation process
      * @public (joist-internal)
      * @param {string} [simName] - The display name of the sim, used for a11y. Not provided for the home screen.
+     * @param {number} [numberOfScreens] - the number of screens in the whole sim.
      */
-    initializeView: function( simName ) {
+    initializeView: function( simName, numberOfScreens ) {
       assert && assert( this._view === null, 'there was already a view' );
       this._view = this.createView( this.model );
       this._view.setVisible( false ); // a Screen is invisible until selected
@@ -263,11 +264,13 @@ define( function( require ) {
       }
 
 
-      // If simName is not provided, then we are creating the home screen.
+      // Set the accessible label for the screen. If simName is not provided, then we are creating the home screen.
       if ( simName ) {
 
-        // Single screen sims don't have screen names.
-        if ( !this.name ) {
+        // Single screen sims don't need screen names, instead just show the title of the sim.
+        // Using total screens for sim breaks modularity a bit, but it also is needed as that parameter changes the
+        // labelling of this screen, see https://github.com/phetsims/joist/issues/496
+        if ( numberOfScreens === 1 ) {
           this._view.labelContent = simName;
         }
         else {
