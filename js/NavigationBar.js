@@ -27,12 +27,14 @@ define( function( require ) {
   // modules
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var Dimension2 = require( 'DOT/Dimension2' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
   var HomeButton = require( 'JOIST/HomeButton' );
   var HomeScreenView = require( 'JOIST/HomeScreenView' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var KeyboardHelpButton = require( 'JOIST/KeyboardHelpButton' );
+  var NavigationBarSoundToggleButton = require( 'JOIST/NavigationBarSoundToggleButton' );
   var NavigationBarScreenButton = require( 'JOIST/NavigationBarScreenButton' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetButton = require( 'JOIST/PhetButton' );
@@ -56,7 +58,7 @@ define( function( require ) {
   //  {TITLE_LEFT_MARGIN}Title{TITLE_RIGHT_MARGIN}
   //  {HOME_BUTTON_LEFT_MARGIN}HomeButton{HOME_BUTTON_RIGHT_MARGIN} (if visible)
   //  {ScreenButtons centered} (if visible)
-  //  {KEYBOARD_HELP_BUTTON_LEFT_MARGIN}KeyboardHelpButton (if visible)
+  //  {A11Y_BUTTONS_LEFT_MARGIN}KeyboardHelpButton (if visible)
   //  {PHET_BUTTON_LEFT_MARGIN}PhetButton{PHET_BUTTON_RIGHT_MARGIN}
   // ]
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
@@ -65,7 +67,7 @@ define( function( require ) {
   var PHET_BUTTON_LEFT_MARGIN = 13;
   var PHET_BUTTON_RIGHT_MARGIN = PhetButton.HORIZONTAL_INSET; // same position as PhetButton on home screen
   var PHET_BUTTON_BOTTOM_MARGIN = PhetButton.VERTICAL_INSET; // same position as PhetButton on home screen
-  var KEYBOARD_HELP_BUTTON_LEFT_MARGIN = 50;
+  var A11Y_BUTTONS_LEFT_MARGIN = 50;
   var HOME_BUTTON_LEFT_MARGIN = 5;
   var HOME_BUTTON_RIGHT_MARGIN = HOME_BUTTON_LEFT_MARGIN;
   var SCREEN_BUTTON_SPACING = 0;
@@ -129,17 +131,40 @@ define( function( require ) {
     this.phetButton = new PhetButton( sim, sim.lookAndFeel.navigationBarFillProperty, sim.lookAndFeel.navigationBarTextFillProperty, tandem.createTandem( 'phetButton' ) );
     this.barContents.addChild( this.phetButton );
 
-    // used to provide layout based on the keyboardHelpButton even when not created.
-    var keyboardHelpButtonLayoutWidth = 0;
+    // list of optional buttons added for a11y
+    var a11yButtons = [];
 
     // only show the keyboard help button if the sim is accessible, there is keyboard help content, and we are
     // not in mobile safari
     if ( phet.chipper.accessibility && sim.keyboardHelpNode && !platform.mobileSafari ) {
 
       // @public (joist-internal, read-only) - Pops open a dialog with information about keyboard navigation
-      this.keyboardHelpButton = new KeyboardHelpButton( sim.keyboardHelpNode, sim.lookAndFeel, tandem.createTandem( 'keyboardHelpButton' ) );
-      this.barContents.addChild( this.keyboardHelpButton );
-      keyboardHelpButtonLayoutWidth = this.keyboardHelpButton.width + KEYBOARD_HELP_BUTTON_LEFT_MARGIN;
+      this.keyboardHelpButton = new KeyboardHelpButton(
+        sim.keyboardHelpNode,
+        sim.lookAndFeel,
+        tandem.createTandem( 'keyboardHelpButton' )
+      );
+      a11yButtons.push( this.keyboardHelpButton );
+    }
+
+    // only put the sound on/off button on the nav bar if the sound library is enabled
+    if ( phet.chipper.tambo ) {
+      var soundOnOffButton = new NavigationBarSoundToggleButton(
+        sim.soundEnabledProperty,
+        sim.lookAndFeel,
+        tandem.createTandem( 'soundOnOffButton' )
+      );
+      a11yButtons.push( soundOnOffButton );
+    }
+
+    // Create the a11y button container regardless of whether there are any because it's needed for layout.
+    this.a11yButtonsHBox = new HBox( {
+      children: a11yButtons,
+      align: 'center',
+      spacing: 5
+    } );
+    if ( a11yButtons.length > 0 ) {
+      this.barContents.addChild( this.a11yButtonsHBox );
     }
 
     // a11y - tell this node that it is aria-labelledby its own labelContent.
@@ -147,14 +172,15 @@ define( function( require ) {
       thisElementName: AccessiblePeer.PRIMARY_SIBLING,
       otherNode: this,
       otherElementName: AccessiblePeer.LABEL_SIBLING
-    });
+    } );
 
     if ( screens.length === 1 ) {
       /* single-screen sim */
 
       // title can occupy all space to the left of the PhET button
       this.titleTextNode.maxWidth = HomeScreenView.LAYOUT_BOUNDS.width - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN -
-                                    this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN - keyboardHelpButtonLayoutWidth;
+                                    A11Y_BUTTONS_LEFT_MARGIN - this.a11yButtonsHBox.width - PHET_BUTTON_LEFT_MARGIN -
+                                    this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN;
     }
     else {
       /* multi-screen sim */
@@ -197,8 +223,9 @@ define( function( require ) {
                           HOME_BUTTON_LEFT_MARGIN - this.homeButton.width - HOME_BUTTON_RIGHT_MARGIN;
 
       // available width right of center
-      var availableRight = ( HomeScreenView.LAYOUT_BOUNDS.width / 2 ) - PHET_BUTTON_LEFT_MARGIN - this.phetButton.width -
-                           PHET_BUTTON_RIGHT_MARGIN - keyboardHelpButtonLayoutWidth;
+      var availableRight = ( HomeScreenView.LAYOUT_BOUNDS.width / 2 ) - A11Y_BUTTONS_LEFT_MARGIN -
+                           this.a11yButtonsHBox.width - PHET_BUTTON_LEFT_MARGIN - this.phetButton.width -
+                           PHET_BUTTON_RIGHT_MARGIN;
 
       // total available width for the screen buttons when they are centered
       var availableTotal = 2 * Math.min( availableLeft, availableRight );
@@ -253,9 +280,9 @@ define( function( require ) {
     this.titleTextNode.centerY = NAVIGATION_BAR_SIZE.height / 2;
     this.phetButton.bottom = NAVIGATION_BAR_SIZE.height - PHET_BUTTON_BOTTOM_MARGIN;
 
-    // only if the keyboardHelpButton exists
-    if ( this.keyboardHelpButton ) {
-      this.keyboardHelpButton.centerY = this.phetButton.centerY;
+    // only if some a11y buttons exist
+    if ( this.a11yButtonsHBox.getChildrenCount() > 0 ) {
+      this.a11yButtonsHBox.centerY = this.phetButton.centerY;
     }
     if ( this.screens.length !== 1 ) {
       this.screenButtonsContainer.centerY = NAVIGATION_BAR_SIZE.height / 2;
@@ -306,8 +333,8 @@ define( function( require ) {
       // horizontal positioning
       this.phetButton.right = right - PHET_BUTTON_RIGHT_MARGIN;
 
-      if ( this.keyboardHelpButton ) {
-        this.keyboardHelpButton.right = this.phetButton.left - PHET_BUTTON_LEFT_MARGIN;
+      if ( this.a11yButtonsHBox.getChildrenCount() > 0 ) {
+        this.a11yButtonsHBox.right = this.phetButton.left - PHET_BUTTON_LEFT_MARGIN;
       }
 
       // For multi-screen sims ...
