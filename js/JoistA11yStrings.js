@@ -67,6 +67,9 @@ define( function( require ) {
     simScreensResourcesAndTools: {
       value: 'Sim Screens, Resources, and Tools'
     },
+    soundOnOffButton: {
+      value: 'Sound on off button'
+    },
 
     // hint to look at keyboard help dialog
     checkOutShortcuts: {
