@@ -1,7 +1,8 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * The button that is on the nav bar when sound is present in a sim and is used to enable or disable all sound.
+ * a button for controlling whether sound is enabled or disabled for the sim and that is designed to work on the PhET
+ * navigation bar
  *
  * @author John Blanco
  */
@@ -25,12 +26,13 @@ define( function( require ) {
 
   // constants
   var NODE_HEIGHT = 20; // empirically determined
-  var X_WIDTH = NODE_HEIGHT * 0.8; // empirically determined
+  var X_WIDTH = NODE_HEIGHT * 0.7; // empirically determined
 
   /**
    * @param {BooleanProperty} soundEnabledProperty
+   * @param {LookAndFeel} simLookAndFeel
    * @param {Tandem} tandem
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function NavigationBarSoundToggleButton( soundEnabledProperty, simLookAndFeel, tandem, options ) {
@@ -59,7 +61,8 @@ define( function( require ) {
       new Shape().moveTo( 0, 0 ).lineTo( X_WIDTH, X_WIDTH ).moveTo( 0, X_WIDTH ).lineTo( X_WIDTH, 0 ),
       {
         stroke: 'black',
-        lineWidth: 4,
+        lineWidth: 2.5,
+        lineCap: 'round',
         right: soundOnNode.width, // position the 'x' so that both icons have the same width, see scenery-phet#329
         centerY: soundOffNode.centerY
       }
@@ -80,8 +83,11 @@ define( function( require ) {
     // change the icon so that it is visible when the navigation bar changes from dark to light
     simLookAndFeel.navigationBarDarkProperty.link( function( navigationBarDark ) {
       var baseColor = navigationBarDark ? 'black' : 'white';
+      var backgroundColor = navigationBarDark ? 'white' : 'black';
       soundOnNode.fill = baseColor;
+      soundOnNode.stroke = backgroundColor;
       soundOffIcon.fill = baseColor;
+      soundOffIcon.stroke = backgroundColor;
       soundOffX.stroke = baseColor;
     } );
   }
