@@ -145,7 +145,7 @@ define( function( require ) {
       return { screen: screen, small: smallScreenButton, large: largeScreenButton, index: index };
     } );
 
-    // a11y this is needed to create the right pDOM structure, the phet menu shouldn't be a child of this 'nav', so
+    // a11y this is needed to create the right PDOM structure, the phet menu shouldn't be a child of this 'nav', so
     // the HomeScreenView can't be the 'nav' tag.
     var navIconsNode = new Node( {
 
