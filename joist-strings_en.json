@@ -42,6 +42,9 @@
   "menuItem.getUpdate": {
     "value": "Check for Updates\u2026"
   },
+  "menuItem.enhancedSound": {
+    "value": "Enhanced Sound"
+  },
   "title.settings": {
     "value": "Settings"
   },
