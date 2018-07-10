@@ -281,7 +281,7 @@ define( function( require ) {
 
     // Initialize the sound library if enabled.
     if ( phet.chipper.tambo ) {
-      assert( options.soundManager, 'must supply sound manager if sonificaiton is enabled' );
+      assert && assert( options.soundManager, 'must supply sound manager if sonificaiton is enabled' );
       options.soundManager.initialize( this.browserTabVisibleProperty );
       this.soundEnabledProperty = options.soundManager.enabledProperty;
 
