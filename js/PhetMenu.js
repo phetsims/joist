@@ -36,6 +36,7 @@ define( function( require ) {
 
   // strings
   var menuItemAboutString = require( 'string!JOIST/menuItem.about' );
+  var menuItemEnhancedSoundString = require( 'string!JOIST/menuItem.enhancedSound' );
   var menuItemFullscreenString = require( 'string!JOIST/menuItem.fullscreen' );
   var menuItemGetUpdateString = require( 'string!JOIST/menuItem.getUpdate' );
   var menuItemMailInputEventsLogString = require( 'string!JOIST/menuItem.mailInputEventsLog' );
@@ -270,6 +271,8 @@ define( function( require ) {
         phetioInstanceDocumentation: 'This menu item captures a screenshot from the simulation and saves it to the file system.',
         tagName: 'button'
       },
+
+      // "Full Screen" menu item
       {
         text: menuItemFullscreenString,
         present: FullScreen.isFullScreenEnabled() && !isPhetApp && !fuzzes,
@@ -279,6 +282,19 @@ define( function( require ) {
         },
         tandem: tandem.createTandem( 'fullScreenMenuItem' ),
         phetioInstanceDocumentation: 'This menu item requests full-screen access for the simulation display.',
+        tagName: 'button'
+      },
+
+      // "Enhanced Sound" menu item
+      {
+        text: menuItemEnhancedSoundString,
+        present: phet.chipper.supportsEnhancedSound,
+        checkedProperty: sim.enhancedSoundEnabledProperty,
+        callback: function() {
+          sim.soundManager.enhancedSoundEnabledProperty.set( !sim.soundManager.enhancedSoundEnabledProperty.get() );
+        },
+        tandem: tandem.createTandem( 'enhancedSoundMenuItem' ),
+        phetioInstanceDocumentation: 'This menu item toggles between basic and enhanced sound modes.',
         tagName: 'button'
       },
 

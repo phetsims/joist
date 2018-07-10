@@ -194,7 +194,7 @@ define( function( require ) {
 
       // Used in conjunction with the 'sonification' flag, indicates whether sounds that are beyond the 'basic' level
       // are present in the sound design.
-      hasEnhancedSounds: false,
+      supportsEnhancedSound: false,
 
       // the default renderer for the rootNode, see #221, #184 and https://github.com/phetsims/molarity/issues/24
       rootRenderer: platform.edge ? 'canvas' : 'svg'
@@ -277,13 +277,16 @@ define( function( require ) {
 
     // Set/update global flag values for sonification.  Sonification can be turned on by sim flags or a query param.
     phet.chipper.sonification = phet.chipper.tambo || options.tambo;
-    phet.chipper.hasEnhancedSounds = phet.chipper.hasEnhancedSounds || options.hasEnhancedSounds;
+    phet.chipper.supportsEnhancedSound = phet.chipper.supportsEnhancedSound || options.supportsEnhancedSound;
 
     // Initialize the sound library if enabled.
     if ( phet.chipper.tambo ) {
       assert( options.soundManager, 'must supply sound manager if sonificaiton is enabled' );
       options.soundManager.initialize( this.browserTabVisibleProperty );
       this.soundEnabledProperty = options.soundManager.enabledProperty;
+
+      // @public (read-only) {soundManager}
+      this.soundManager = options.soundManager;
     }
     else if ( options.soundManager ) {
 
@@ -292,6 +295,12 @@ define( function( require ) {
       // the sound manager is initialized in such a way that it will never produce sound.
       options.soundManager.initialize( new BooleanProperty( false ) );
     }
+
+    // @public {BooleanProperty} - a property that controls whether enhanced sound is enabled, must exist even if
+    // the sound library isn't present because it is needed in the menu (PhetMenu)
+    this.enhancedSoundEnabledProperty = options.soundManager ?
+                                        options.soundManager.enhancedSoundEnabledProperty :
+                                        new BooleanProperty( false );
 
     assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
     window.phet.joist.sim = this;
