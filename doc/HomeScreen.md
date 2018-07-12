@@ -85,9 +85,9 @@ ToDO.
 
 <!-- Sim Screen 01 -->
 <article>
-  <h1>Macro Scale Screen, Coulomb’s Law</h1>
+  <h1>{{Macro Scale}} Screen, Coulomb’s Law</h1>
    <!-- Screen specific intro with Screen Parameters -->
-   <p>The interactive {{Macro Scale Screen}} changes as you play with it. It has a Play Area and a Control Area. The Play Area has two charged spheres, Charge 1 (q1) and Charge 2 (q2), currently separated by {{distance}} centimeters. Each charge is held by a small robot. Spheres can be moved closer or further from one another, and the charge of each sphere can be increased or decreased. The Control Area has checkboxes to display forces or change to scientific notation, and a button to reset the sim.</p>
+   <p>The interactive {{Macro Scale}} Screen changes as you play with it. It has a Play Area and a Control Area. The Play Area has two charged spheres, Charge 1 (q1) and Charge 2 (q2), currently separated by {{distance}} centimeters. Each charge is held by a small robot. Spheres can be moved closer or further from one another, and the charge of each sphere can be increased or decreased. The Control Area has checkboxes to display forces or change to scientific notation, and a button to reset the sim.</p>
    <!-- Screen Specific Interaction Hint -->
    <p>{{Move spheres or change their charge to begin observations.}}</p>
    <!-- Common Keyboard Shortcuts Hint -->
@@ -161,7 +161,7 @@ ToDO.
 <article>
   <h1>Atom Screen, Build an Atom</h1>
    <!-- Screen specific intro with Screen Parameters -->
-   <p>The interactive {{Atom Screen}} changes as you play with it. It has a Play Area and a Control Area. The Play Area {{has a model of an atom called My Atom, three buckets of particles, and three detail panels that track important things about the atom}}. The Control Area has {{radio buttons to switch the Atom model, checkboxes to adjust what inforamtion is shown,}} and a reset button to reset the sim.</p>
+   <p>The interactive {{Atom}} Screen changes as you play with it. It has a Play Area and a Control Area. The Play Area {{has a model of an atom called My Atom, three buckets of particles, and three detail panels that track important things about the atom}}. The Control Area has {{radio buttons to switch the Atom model, checkboxes to adjust what inforamtion is shown,}} and a reset button to reset the sim.</p>
    <!-- Screen Specific Interaction Hint -->
    <p>Look for particle buckets to play.</p>
    <!-- Common Keyboard Shortcuts Hint -->
@@ -176,7 +176,7 @@ ToDO.
 <article>
   <h1>Symbol Screen, Build an Atom</h1>
      <!-- Screen specific intro with Screen Parameters -->
-     <p>The interactive {{Symbol Screen}} changes as you play with it. It has a Play Area and a Control Area. The Play Area has {{DESCRIPTION OF PLAY AREA}}. The Control Area has {{DESCRIPTION OF CONTROL AREA,}} and a reset button to reset the sim.</p>
+     <p>The interactive {{Symbol}} Screen changes as you play with it. It has a Play Area and a Control Area. The Play Area has {{DESCRIPTION OF PLAY AREA}}. The Control Area has {{DESCRIPTION OF CONTROL AREA,}} and a reset button to reset the sim.</p>
      <!-- Screen Specific Interaction Hint -->
      <p>{{HINT FOR SYMBOL SCREEN}}.</p>
      <!-- Common Keyboard Shortcuts Hint -->
@@ -191,7 +191,7 @@ ToDO.
 <article>
   <h1>Game Screen, Build an Atom</h1>
      <!-- Screen specific intro with Screen Parameters -->
-     <p>The interactive {{Game Screen}}, there is {{DESCRIPTION OF GAME SCREEN}}.</p>
+     <p>The interactive {{Game}} Screen, there is {{DESCRIPTION OF GAME SCREEN}}.</p>
      <!-- Screen Specific Interaction Hint -->
      <p>{{HINT FOR a GAME SCREEN}}</p>
      <!-- Common Keyboard Shortcuts Hint -->
@@ -251,7 +251,7 @@ ToDO.
    <!-- Screen specific intro with Screen Parameters -->
    <p>The interactive {{ScreenName01}} Screen changes as you play with it. It has a Play Area and a Control Area. The Play Area {{DESCRIPTION OF PLAY AREA FOR SCREEN 01}}. The Control Area has {{DESCRIPTION OF CONTROL AREA FOR SCREEN 01,}} and a reset button to reset the sim.</p>
    <!-- Screen Specific Interaction Hint -->
-   <p>Look for particle buckets to play.</p>
+   <p>{{HINT FOR SCREEN 01}}</p>
    <!-- Common Keyboard Shortcuts Hint -->
    <p>If needed, check out keyboard shortcuts under Sim Resources.</p>
   <h2>Play Area</h2>
