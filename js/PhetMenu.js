@@ -272,19 +272,6 @@ define( function( require ) {
         tagName: 'button'
       },
 
-      // "Full Screen" menu item
-      {
-        text: menuItemFullscreenString,
-        present: FullScreen.isFullScreenEnabled() && !isPhetApp && !fuzzes,
-        checkedProperty: FullScreen.isFullScreenProperty,
-        callback: function() {
-          FullScreen.toggleFullScreen( sim.display );
-        },
-        tandem: tandem.createTandem( 'fullScreenMenuItem' ),
-        phetioInstanceDocumentation: 'This menu item requests full-screen access for the simulation display.',
-        tagName: 'button'
-      },
-
       // "Enhanced Sound" menu item
       {
         text: menuItemEnhancedSoundString,
@@ -295,6 +282,19 @@ define( function( require ) {
         },
         tandem: tandem.createTandem( 'enhancedSoundMenuItem' ),
         phetioInstanceDocumentation: 'This menu item toggles between basic and enhanced sound modes.',
+        tagName: 'button'
+      },
+
+      // "Full Screen" menu item
+      {
+        text: menuItemFullscreenString,
+        present: FullScreen.isFullScreenEnabled() && !isPhetApp && !fuzzes,
+        checkedProperty: FullScreen.isFullScreenProperty,
+        callback: function() {
+          FullScreen.toggleFullScreen( sim.display );
+        },
+        tandem: tandem.createTandem( 'fullScreenMenuItem' ),
+        phetioInstanceDocumentation: 'This menu item requests full-screen access for the simulation display.',
         tagName: 'button'
       },
 
