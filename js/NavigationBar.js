@@ -134,6 +134,16 @@ define( function( require ) {
     // list of optional buttons added for a11y
     var a11yButtons = [];
 
+    // only put the sound on/off button on the nav bar if the sound library is enabled
+    if ( phet.chipper.tambo ) {
+      var soundOnOffButton = new NavigationBarSoundToggleButton(
+        sim.soundEnabledProperty,
+        sim.lookAndFeel,
+        tandem.createTandem( 'soundOnOffButton' )
+      );
+      a11yButtons.push( soundOnOffButton );
+    }
+
     // only show the keyboard help button if the sim is accessible, there is keyboard help content, and we are
     // not in mobile safari
     if ( phet.chipper.accessibility && sim.keyboardHelpNode && !platform.mobileSafari ) {
@@ -145,16 +155,6 @@ define( function( require ) {
         tandem.createTandem( 'keyboardHelpButton' )
       );
       a11yButtons.push( this.keyboardHelpButton );
-    }
-
-    // only put the sound on/off button on the nav bar if the sound library is enabled
-    if ( phet.chipper.tambo ) {
-      var soundOnOffButton = new NavigationBarSoundToggleButton(
-        sim.soundEnabledProperty,
-        sim.lookAndFeel,
-        tandem.createTandem( 'soundOnOffButton' )
-      );
-      a11yButtons.push( soundOnOffButton );
     }
 
     // Create the a11y button container regardless of whether there are any because it's needed for layout.
