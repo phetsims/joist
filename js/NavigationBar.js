@@ -137,7 +137,7 @@ define( function( require ) {
     // only put the sound on/off button on the nav bar if the sound library is enabled
     if ( phet.chipper.tambo ) {
       var soundOnOffButton = new NavigationBarSoundToggleButton(
-        sim.soundEnabledProperty,
+        sim.soundManager.enabledProperty,
         sim.lookAndFeel,
         tandem.createTandem( 'soundOnOffButton' )
       );

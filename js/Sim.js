@@ -41,6 +41,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var PropertyIO = require( 'AXON/PropertyIO' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
+  var soundManager = require( 'TAMBO/soundManager' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Timer = require( 'PHET_CORE/Timer' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
@@ -182,18 +183,12 @@ define( function( require ) {
       // a {Node} placed into the keyboard help dialog that can be opened from the navigation bar
       keyboardHelpNode: null,
 
-      // Whether sonification is supported.  If true, the sound manager will be initialized and set up to support
-      // the generation of sounds by the simulation.
-      sonification: false,
+      // Whether the tambo sound library should be initialized and enabled.  When set to true, this will also cause an
+      // icon to be added to the navigation bar to control sound on/off.
+      tambo: false,
 
-      // Used in conjunction with the 'sonification' flag, this is the object that controls and managers the sounds
-      // that are produced by the sim.  Eventually we may want to include the sound manager oincluded here in Sim.js
-      // (via a require statement), but this current approach allows us to avoid the additional size and init time in
-      // sims that are not yet sonified.  See https://github.com/phetsims/tambo/issues/18.
-      soundManager: null,
-
-      // Used in conjunction with the 'sonification' flag, indicates whether sounds that are beyond the 'basic' level
-      // are present in the sound design.
+      // Used in conjunction with the 'tambo' flag, indicates whether sounds that are beyond the 'basic' level are
+      // present in the sound design.
       supportsEnhancedSound: false,
 
       // the default renderer for the rootNode, see #221, #184 and https://github.com/phetsims/molarity/issues/24
@@ -275,31 +270,23 @@ define( function( require ) {
     // @public ( joist-internal, read-only )
     this.keyboardHelpNode = options.keyboardHelpNode;
 
-    // Set/update global flag values for sonification.  Sonification can be turned on by sim flags or a query param.
-    phet.chipper.sonification = phet.chipper.tambo || options.tambo;
+    // Set/update global flag values that enable and configure the sound library.  These can be controlled through sim
+    // flags or query params.
+    phet.chipper.tambo = phet.chipper.tambo || options.tambo;
     phet.chipper.supportsEnhancedSound = phet.chipper.supportsEnhancedSound || options.supportsEnhancedSound;
 
     // Initialize the sound library if enabled.
     if ( phet.chipper.tambo ) {
-      assert && assert( options.soundManager, 'must supply sound manager if sonificaiton is enabled' );
-      options.soundManager.initialize( this.browserTabVisibleProperty );
-      this.soundEnabledProperty = options.soundManager.enabledProperty;
+      soundManager.initialize( this.browserTabVisibleProperty );
 
       // @public (read-only) {soundManager}
-      this.soundManager = options.soundManager;
-    }
-    else if ( options.soundManager ) {
-
-      // A sound manager has been provided, but sonification is not enabled.  This is indeed a supported situation,
-      // and it will come up while we are adding sonification to a sim but not ready to go live with it.  In this case,
-      // the sound manager is initialized in such a way that it will never produce sound.
-      options.soundManager.initialize( new BooleanProperty( false ) );
+      this.soundManager = soundManager;
     }
 
     // @public {BooleanProperty} - a property that controls whether enhanced sound is enabled, must exist even if
-    // the sound library isn't present because it is needed in the menu (PhetMenu)
-    this.enhancedSoundEnabledProperty = options.soundManager ?
-                                        options.soundManager.enhancedSoundEnabledProperty :
+    // the sound library isn't present because it is needed by the menu (PhetMenu)
+    this.enhancedSoundEnabledProperty = this.soundManager ?
+                                        this.soundManager.enhancedSoundEnabledProperty :
                                         new BooleanProperty( false );
 
     assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
