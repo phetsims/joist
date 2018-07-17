@@ -94,15 +94,6 @@ define( function( require ) {
 
   joist.register( 'NavigationBarSoundToggleButton', NavigationBarSoundToggleButton );
 
-  return inherit( JoistButton, NavigationBarSoundToggleButton, {
-
-    /**
-     * To make eligible for garbage collection.
-     * @public
-     */
-    dispose: function() {
-      JoistButton.prototype.dispose && JoistButton.prototype.dispose.call( this );
-    }
-  } );
+  return inherit( JoistButton, NavigationBarSoundToggleButton );
 
 } );
