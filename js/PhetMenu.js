@@ -276,6 +276,9 @@ define( function( require ) {
       {
         text: menuItemEnhancedSoundString,
         present: phet.chipper.supportsEnhancedSound,
+
+        // REVIEW: It is odd that one property reference is used for checkedProperty, and a different one is used for
+        // REVIEW: the callback
         checkedProperty: sim.enhancedSoundEnabledProperty,
         callback: function() {
           sim.soundManager.enhancedSoundEnabledProperty.set( !sim.soundManager.enhancedSoundEnabledProperty.get() );
