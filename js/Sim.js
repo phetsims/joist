@@ -272,6 +272,8 @@ define( function( require ) {
 
     // Set/update global flag values that enable and configure the sound library.  These can be controlled through sim
     // flags or query params.
+
+    // REVIEW: It seems awkward for these to be globals.  Can they be converted to non-globals that are passed where appropriate?
     phet.chipper.tambo = phet.chipper.tambo || options.tambo;
     phet.chipper.supportsEnhancedSound = phet.chipper.supportsEnhancedSound || options.supportsEnhancedSound;
 
@@ -285,6 +287,10 @@ define( function( require ) {
 
     // @public {BooleanProperty} - a property that controls whether enhanced sound is enabled, must exist even if
     // the sound library isn't present because it is needed by the menu (PhetMenu)
+    // REVIEW: This is odd to use one Property or the other here
+    // REVIEW: if tambo is not enabled, what about creating a mock "soundManager"?
+    // REVIEW: Also, did we discuss the possibility of always having a soundManager, but just skipping the
+    // REVIEW: initialize call when tambo is false?  It looks like most of the work is done in the initialize call now.
     this.enhancedSoundEnabledProperty = this.soundManager ?
                                         this.soundManager.enhancedSoundEnabledProperty :
                                         new BooleanProperty( false );

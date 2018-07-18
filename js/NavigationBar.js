@@ -1,4 +1,4 @@
-// Copyright 2013-2017, University of Colorado Boulder
+// Copyright 2013-2018, University of Colorado Boulder
 
 /**
  * The navigation bar at the bottom of the screen.
@@ -58,7 +58,7 @@ define( function( require ) {
   //  {TITLE_LEFT_MARGIN}Title{TITLE_RIGHT_MARGIN}
   //  {HOME_BUTTON_LEFT_MARGIN}HomeButton{HOME_BUTTON_RIGHT_MARGIN} (if visible)
   //  {ScreenButtons centered} (if visible)
-  //  {A11Y_BUTTONS_LEFT_MARGIN}KeyboardHelpButton (if visible)
+  //  {A11Y_BUTTONS_LEFT_MARGIN}KeyboardHelpButton (if visible) //REVIEW: Should this be changed from KeyboardHelpButton to A11yButtons?
   //  {PHET_BUTTON_LEFT_MARGIN}PhetButton{PHET_BUTTON_RIGHT_MARGIN}
   // ]
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
@@ -137,6 +137,8 @@ define( function( require ) {
     // only put the sound on/off button on the nav bar if the sound library is enabled
     if ( phet.chipper.tambo ) {
       var soundOnOffButton = new NavigationBarSoundToggleButton(
+        // REVIEW: I saw code in another file that provided another BooleanProperty if the soundManager wasn't defined
+        // REVIEW: How does that relate to this code?
         sim.soundManager.enabledProperty,
         sim.lookAndFeel,
         tandem.createTandem( 'soundOnOffButton' )
@@ -149,6 +151,7 @@ define( function( require ) {
     if ( phet.chipper.accessibility && sim.keyboardHelpNode && !platform.mobileSafari ) {
 
       // @public (joist-internal, read-only) - Pops open a dialog with information about keyboard navigation
+      // REVIEW: Why is this a property and not a local var?  It seems like it can be a local var
       this.keyboardHelpButton = new KeyboardHelpButton(
         sim.keyboardHelpNode,
         sim.lookAndFeel,
@@ -158,8 +161,12 @@ define( function( require ) {
     }
 
     // Create the a11y button container regardless of whether there are any because it's needed for layout.
+    // REVIEW: Did you consider doing the layout manually, without an HBox?  May be a bit cleaner?  I'm not sure
     this.a11yButtonsHBox = new HBox( {
       children: a11yButtons,
+
+      // REVIEW: I thought there was a problem in vertically centering the icons because they didn't match vertically
+      // REVIEW: Is this no longer a problem, or addressed elsewhere?
       align: 'center',
       spacing: 9
     } );
@@ -275,13 +282,15 @@ define( function( require ) {
                                     HOME_BUTTON_RIGHT_MARGIN - this.homeButton.width - HOME_BUTTON_LEFT_MARGIN;
     }
 
-    // initial layout (that doesn't need to change when we are re-layed out)
+    // initial layout (that doesn't need to change when we are re-laid out)
     this.titleTextNode.left = TITLE_LEFT_MARGIN;
     this.titleTextNode.centerY = NAVIGATION_BAR_SIZE.height / 2;
     this.phetButton.bottom = NAVIGATION_BAR_SIZE.height - PHET_BUTTON_BOTTOM_MARGIN;
 
     // only if some a11y buttons exist
     if ( this.a11yButtonsHBox.getChildrenCount() > 0 ) {
+
+      // REVIEW: I recall discussion about the centering being "off", is that accounted for elsewhere?
       this.a11yButtonsHBox.centerY = this.phetButton.centerY;
     }
     if ( this.screens.length !== 1 ) {
