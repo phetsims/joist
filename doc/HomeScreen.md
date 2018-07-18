@@ -45,7 +45,6 @@ ToDO.
 | Shift Tab | Moves focus to previous sim screen button on the home screen. If no previous button, focus automatically goes to browser controls.|
 
 
-
 ### Management of Roles, States, Properties
 
 | Role | Attribute | Element | Usage |
