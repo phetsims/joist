@@ -60,7 +60,7 @@ define( function( require ) {
     options = _.extend( {
       highlightExtensionWidth: 5,
       highlightExtensionHeight: 10,
-      highlightCenterOffsetY: 3,
+      highlightCenterOffsetY: 0,
       listener: function() {
         soundEnabledProperty.set( !soundEnabledProperty.get() );
       },
