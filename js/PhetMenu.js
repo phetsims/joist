@@ -279,7 +279,7 @@ define( function( require ) {
 
         // REVIEW: It is odd that one property reference is used for checkedProperty, and a different one is used for
         // REVIEW: the callback
-        checkedProperty: sim.enhancedSoundEnabledProperty,
+        checkedProperty: sim.soundManager.enhancedSoundEnabledProperty,
         callback: function() {
           sim.soundManager.enhancedSoundEnabledProperty.set( !sim.soundManager.enhancedSoundEnabledProperty.get() );
         },
