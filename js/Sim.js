@@ -277,23 +277,13 @@ define( function( require ) {
     phet.chipper.tambo = phet.chipper.tambo || options.tambo;
     phet.chipper.supportsEnhancedSound = phet.chipper.supportsEnhancedSound || options.supportsEnhancedSound;
 
+    // @public (read-only) {soundManager}
+    this.soundManager = soundManager;
+
     // Initialize the sound library if enabled.
     if ( phet.chipper.tambo ) {
       soundManager.initialize( this.browserTabVisibleProperty );
-
-      // @public (read-only) {soundManager}
-      this.soundManager = soundManager;
     }
-
-    // @public {BooleanProperty} - a property that controls whether enhanced sound is enabled, must exist even if
-    // the sound library isn't present because it is needed by the menu (PhetMenu)
-    // REVIEW: This is odd to use one Property or the other here
-    // REVIEW: if tambo is not enabled, what about creating a mock "soundManager"?
-    // REVIEW: Also, did we discuss the possibility of always having a soundManager, but just skipping the
-    // REVIEW: initialize call when tambo is false?  It looks like most of the work is done in the initialize call now.
-    this.enhancedSoundEnabledProperty = this.soundManager ?
-                                        this.soundManager.enhancedSoundEnabledProperty :
-                                        new BooleanProperty( false );
 
     assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
     window.phet.joist.sim = this;
