@@ -267,21 +267,20 @@ define( function( require ) {
     // Set up accessibility features for the sim.
     phet.chipper.accessibility && initializeAccessibility();
 
-    // @public ( joist-internal, read-only )
+    // @public (joist-internal, read-only)
     this.keyboardHelpNode = options.keyboardHelpNode;
 
     // Set/update global flag values that enable and configure the sound library.  These can be controlled through sim
     // flags or query params.
 
-    // REVIEW: It seems awkward for these to be globals.  Can they be converted to non-globals that are passed where appropriate?
-    phet.chipper.tambo = phet.chipper.tambo || options.tambo;
-    phet.chipper.supportsEnhancedSound = phet.chipper.supportsEnhancedSound || options.supportsEnhancedSound;
+    // @public (joist-internal, read-only) {boolean} - true if the simulation uses the tambo sound library
+    this.supportsSound = phet.chipper.queryParameters.tambo || options.tambo;
 
-    // @public (read-only) {soundManager}
-    this.soundManager = soundManager;
+    // @public (joist-internal, read-only) {boolean} - true if the simulation supports enhanced sound
+    this.supportsEnhancedSound = phet.chipper.queryParameters.supportsEnhancedSound || options.supportsEnhancedSound;
 
     // Initialize the sound library if enabled.
-    if ( phet.chipper.tambo ) {
+    if ( this.supportsSound ) {
       soundManager.initialize( this.browserTabVisibleProperty );
     }
 

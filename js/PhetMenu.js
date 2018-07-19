@@ -29,6 +29,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   var Shape = require( 'KITE/Shape' );
+  var soundManager = require( 'TAMBO/soundManager' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
@@ -275,13 +276,10 @@ define( function( require ) {
       // "Enhanced Sound" menu item
       {
         text: menuItemEnhancedSoundString,
-        present: phet.chipper.supportsEnhancedSound,
-
-        // REVIEW: It is odd that one property reference is used for checkedProperty, and a different one is used for
-        // REVIEW: the callback
-        checkedProperty: sim.soundManager.enhancedSoundEnabledProperty,
+        present: sim.supportsEnhancedSound,
+        checkedProperty: soundManager.enhancedSoundEnabledProperty,
         callback: function() {
-          sim.soundManager.enhancedSoundEnabledProperty.set( !sim.soundManager.enhancedSoundEnabledProperty.get() );
+          soundManager.enhancedSoundEnabledProperty.set( !soundManager.enhancedSoundEnabledProperty.get() );
         },
         tandem: tandem.createTandem( 'enhancedSoundMenuItem' ),
         phetioInstanceDocumentation: 'This menu item toggles between basic and enhanced sound modes.',
