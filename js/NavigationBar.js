@@ -64,7 +64,7 @@ define( function( require ) {
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
   var TITLE_LEFT_MARGIN = 10;
   var TITLE_RIGHT_MARGIN = 25;
-  var PHET_BUTTON_LEFT_MARGIN = 9;
+  var PHET_BUTTON_LEFT_MARGIN = 6;
   var PHET_BUTTON_RIGHT_MARGIN = PhetButton.HORIZONTAL_INSET; // same position as PhetButton on home screen
   var PHET_BUTTON_BOTTOM_MARGIN = PhetButton.VERTICAL_INSET; // same position as PhetButton on home screen
   var A11Y_BUTTONS_LEFT_MARGIN = 50;
@@ -168,7 +168,7 @@ define( function( require ) {
       // REVIEW: I thought there was a problem in vertically centering the icons because they didn't match vertically
       // REVIEW: Is this no longer a problem, or addressed elsewhere?
       align: 'center',
-      spacing: 9
+      spacing: 6
     } );
     if ( a11yButtons.length > 0 ) {
       this.barContents.addChild( this.a11yButtonsHBox );

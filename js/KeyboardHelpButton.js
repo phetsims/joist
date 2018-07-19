@@ -28,7 +28,7 @@ define( function( require ) {
 
   // constants
   var HELP_BUTTON_HEIGHT = 67;
-  var HELP_BUTTON_SCALE = 0.32;  // scale applied to the icon
+  var HELP_BUTTON_SCALE = 0.30;  // scale applied to the icon
   var BUTTON_SCALE = HELP_BUTTON_SCALE / brightIconMipmap[ 0 ].height * HELP_BUTTON_HEIGHT;
 
   /**
@@ -47,7 +47,7 @@ define( function( require ) {
     options = _.extend( {
       highlightExtensionWidth: 5,
       highlightExtensionHeight: 10,
-      highlightCenterOffsetY: 3,
+      highlightCenterOffsetY: 2,
 
       // a11y
       tagName: 'button',
