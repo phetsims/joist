@@ -47,6 +47,10 @@ define( function( require ) {
     options = _.extend( {
       highlightExtensionWidth: 5,
       highlightExtensionHeight: 10,
+
+      // The keyboard button is not vertically symmetric, due to the cable on the top.
+      // This offset adjusts the body of the keyboard to be in the center, so it
+      // will align with the speaker button and the PhET logo
       highlightCenterOffsetY: 2,
 
       // a11y

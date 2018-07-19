@@ -287,7 +287,7 @@ define( function( require ) {
     // only if some a11y buttons exist
     if ( this.a11yButtonsHBox.getChildrenCount() > 0 ) {
 
-      // REVIEW: I recall discussion about the centering being "off", is that accounted for elsewhere?
+      // The icon is vertically adjusted in KeyboardHelpButton, so that the centers can be aligned here
       this.a11yButtonsHBox.centerY = this.phetButton.centerY;
     }
     if ( this.screens.length !== 1 ) {
