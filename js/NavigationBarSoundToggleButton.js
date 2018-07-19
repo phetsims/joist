@@ -91,7 +91,6 @@ define( function( require ) {
         stroke: 'black',
         lineWidth: 1.5,
         lineJoin: 'round',
-        fill: 'black',
         centerY: soundOffNode.centerY,
         left: 0
       }
@@ -146,7 +145,6 @@ define( function( require ) {
     simLookAndFeel.navigationBarDarkProperty.link( function( navigationBarDark ) {
       var baseColor = navigationBarDark ? 'black' : 'white';
       speakerNode.stroke = baseColor;
-      speakerNode.fill = baseColor;
       soundOffX.stroke = baseColor;
       soundOnCurves.stroke = baseColor;
     } );
