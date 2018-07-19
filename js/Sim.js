@@ -279,6 +279,11 @@ define( function( require ) {
     // @public (joist-internal, read-only) {boolean} - true if the simulation supports enhanced sound
     this.supportsEnhancedSound = phet.chipper.queryParameters.supportsEnhancedSound || options.supportsEnhancedSound;
 
+    // the sim must support sound before it can support enhanced sound
+    if ( this.supportsEnhancedSound ) {
+      assert && assert( this.supportsSound, 'can\'t support enhance sound if basic sound is not enabled' );
+    }
+
     // Initialize the sound library if enabled.
     if ( this.supportsSound ) {
       soundManager.initialize( this.browserTabVisibleProperty );
