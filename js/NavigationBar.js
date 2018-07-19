@@ -58,8 +58,7 @@ define( function( require ) {
   //  {TITLE_LEFT_MARGIN}Title{TITLE_RIGHT_MARGIN}
   //  {HOME_BUTTON_LEFT_MARGIN}HomeButton{HOME_BUTTON_RIGHT_MARGIN} (if visible)
   //  {ScreenButtons centered} (if visible)
-  //  {A11Y_BUTTONS_LEFT_MARGIN}KeyboardHelpButton (if visible) //REVIEW: Should this be changed from KeyboardHelpButton to A11yButtons?
-  //  {PHET_BUTTON_LEFT_MARGIN}PhetButton{PHET_BUTTON_RIGHT_MARGIN}
+  //  a11yButtonsHBox (if present){PHET_BUTTON_LEFT_MARGIN}PhetButton{PHET_BUTTON_RIGHT_MARGIN}
   // ]
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
   var TITLE_LEFT_MARGIN = 10;
@@ -67,7 +66,6 @@ define( function( require ) {
   var PHET_BUTTON_LEFT_MARGIN = 6;
   var PHET_BUTTON_RIGHT_MARGIN = PhetButton.HORIZONTAL_INSET; // same position as PhetButton on home screen
   var PHET_BUTTON_BOTTOM_MARGIN = PhetButton.VERTICAL_INSET; // same position as PhetButton on home screen
-  var A11Y_BUTTONS_LEFT_MARGIN = 50;
   var HOME_BUTTON_LEFT_MARGIN = 5;
   var HOME_BUTTON_RIGHT_MARGIN = HOME_BUTTON_LEFT_MARGIN;
   var SCREEN_BUTTON_SPACING = 0;
@@ -161,12 +159,8 @@ define( function( require ) {
     }
 
     // Create the a11y button container regardless of whether there are any because it's needed for layout.
-    // REVIEW: Did you consider doing the layout manually, without an HBox?  May be a bit cleaner?  I'm not sure
     this.a11yButtonsHBox = new HBox( {
       children: a11yButtons,
-
-      // REVIEW: I thought there was a problem in vertically centering the icons because they didn't match vertically
-      // REVIEW: Is this no longer a problem, or addressed elsewhere?
       align: 'center',
       spacing: 6
     } );
@@ -186,7 +180,7 @@ define( function( require ) {
 
       // title can occupy all space to the left of the PhET button
       this.titleTextNode.maxWidth = HomeScreenView.LAYOUT_BOUNDS.width - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN -
-                                    A11Y_BUTTONS_LEFT_MARGIN - this.a11yButtonsHBox.width - PHET_BUTTON_LEFT_MARGIN -
+                                    PHET_BUTTON_LEFT_MARGIN - this.a11yButtonsHBox.width - PHET_BUTTON_LEFT_MARGIN -
                                     this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN;
     }
     else {
@@ -230,7 +224,7 @@ define( function( require ) {
                           HOME_BUTTON_LEFT_MARGIN - this.homeButton.width - HOME_BUTTON_RIGHT_MARGIN;
 
       // available width right of center
-      var availableRight = ( HomeScreenView.LAYOUT_BOUNDS.width / 2 ) - A11Y_BUTTONS_LEFT_MARGIN -
+      var availableRight = ( HomeScreenView.LAYOUT_BOUNDS.width / 2 ) - PHET_BUTTON_LEFT_MARGIN -
                            this.a11yButtonsHBox.width - PHET_BUTTON_LEFT_MARGIN - this.phetButton.width -
                            PHET_BUTTON_RIGHT_MARGIN;
 
