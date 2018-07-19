@@ -41,6 +41,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var platform = require( 'PHET_CORE/platform' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var soundManager = require( 'TAMBO/soundManager' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
 
@@ -126,18 +127,21 @@ define( function( require ) {
 
     // @public (joist-internal) - PhET button. The transform of this is tracked, so we can mirror it over to the
     // homescreen's button. See https://github.com/phetsims/joist/issues/304.
-    this.phetButton = new PhetButton( sim, sim.lookAndFeel.navigationBarFillProperty, sim.lookAndFeel.navigationBarTextFillProperty, tandem.createTandem( 'phetButton' ) );
+    this.phetButton = new PhetButton(
+      sim,
+      sim.lookAndFeel.navigationBarFillProperty,
+      sim.lookAndFeel.navigationBarTextFillProperty,
+      tandem.createTandem( 'phetButton' )
+    );
     this.barContents.addChild( this.phetButton );
 
     // list of optional buttons added for a11y
     var a11yButtons = [];
 
     // only put the sound on/off button on the nav bar if the sound library is enabled
-    if ( phet.chipper.tambo ) {
+    if ( sim.supportsSound ) {
       var soundOnOffButton = new NavigationBarSoundToggleButton(
-        // REVIEW: I saw code in another file that provided another BooleanProperty if the soundManager wasn't defined
-        // REVIEW: How does that relate to this code?
-        sim.soundManager.enabledProperty,
+        soundManager.enabledProperty,
         sim.lookAndFeel,
         tandem.createTandem( 'soundOnOffButton' )
       );
@@ -149,7 +153,6 @@ define( function( require ) {
     if ( phet.chipper.accessibility && sim.keyboardHelpNode && !platform.mobileSafari ) {
 
       // @public (joist-internal, read-only) - Pops open a dialog with information about keyboard navigation
-      // REVIEW: Why is this a property and not a local var?  It seems like it can be a local var
       this.keyboardHelpButton = new KeyboardHelpButton(
         sim.keyboardHelpNode,
         sim.lookAndFeel,
