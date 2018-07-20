@@ -300,6 +300,7 @@ define( function( require ) {
     // a11y - keyboard help button before phet menu button, but only if it exists
     this.accessibleOrder = [
       buttons,
+      soundOnOffButton,
       this.keyboardHelpButton,
       this.phetButton
     ].filter( function( node ) { return node !== undefined; } );
