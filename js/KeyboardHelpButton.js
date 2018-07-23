@@ -33,12 +33,12 @@ define( function( require ) {
 
   /**
    * @param {Node} helpContent - content for the KeyboardHelpDialog
-   * @param {LookAndFeel} simLookAndFeel - state and colors of sim/NavigationBar to set color for icon of this button
+   * @param {Property.<Color|string>} backgroundColorProperty
    * @param {Tandem} tandem
    * @param {Object} options
    * @constructor
    */
-  function KeyboardHelpButton( helpContent, simLookAndFeel, tandem, options ) {
+  function KeyboardHelpButton( helpContent, backgroundColorProperty, tandem, options ) {
     var self = this;
 
     // reuse one instance of KeyboardHelpDialog
@@ -81,11 +81,11 @@ define( function( require ) {
       pickable: false
     } );
 
-    JoistButton.call( this, icon, simLookAndFeel.navigationBarFillProperty, tandem, options );
+    JoistButton.call( this, icon, backgroundColorProperty, tandem, options );
 
-    // change the icon so that it is visible when the navigation bar changes from dark to light
-    simLookAndFeel.navigationBarDarkProperty.link( function( navigationBarDark ) {
-      icon.image = navigationBarDark ? darkIconMipmap : brightIconMipmap;
+    // change the icon so that it is visible when the background changes from dark to light
+    backgroundColorProperty.link( function( backgroundColor ) {
+      icon.image = backgroundColor === 'black' ? brightIconMipmap : darkIconMipmap;
     } );
   }
 

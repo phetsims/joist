@@ -50,12 +50,12 @@ define( function( require ) {
 
   /**
    * @param {BooleanProperty} soundEnabledProperty
-   * @param {LookAndFeel} simLookAndFeel
+   * @param {Property.<Color|string>} backgroundColorProperty
    * @param {Tandem} tandem
    * @param {Object} [options]
    * @constructor
    */
-  function NavigationBarSoundToggleButton( soundEnabledProperty, simLookAndFeel, tandem, options ) {
+  function NavigationBarSoundToggleButton( soundEnabledProperty, backgroundColorProperty, tandem, options ) {
 
     options = _.extend( {
       highlightExtensionWidth: 5,
@@ -139,11 +139,11 @@ define( function( require ) {
       { maxHeight: NODE_HEIGHT }
     );
 
-    JoistButton.call( this, toggleNode, simLookAndFeel.navigationBarFillProperty, tandem, options );
+    JoistButton.call( this, toggleNode, backgroundColorProperty, tandem, options );
 
-    // change the icon so that it is visible when the navigation bar changes from dark to light
-    simLookAndFeel.navigationBarDarkProperty.link( function( navigationBarDark ) {
-      var baseColor = navigationBarDark ? 'black' : 'white';
+    // change the icon so that it is visible when the background changes from dark to light
+    backgroundColorProperty.link( function( backgroundColor ) {
+      var baseColor = backgroundColor === 'black' ? 'white' : 'black';
       speakerNode.stroke = baseColor;
       soundOffX.stroke = baseColor;
       soundOnCurves.stroke = baseColor;

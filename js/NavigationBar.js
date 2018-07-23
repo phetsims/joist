@@ -26,22 +26,18 @@ define( function( require ) {
 
   // modules
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  var A11yButtonsHBox = require( 'JOIST/A11yButtonsHBox' );
   var Dimension2 = require( 'DOT/Dimension2' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
   var HomeButton = require( 'JOIST/HomeButton' );
   var HomeScreenView = require( 'JOIST/HomeScreenView' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
-  var KeyboardHelpButton = require( 'JOIST/KeyboardHelpButton' );
-  var NavigationBarSoundToggleButton = require( 'JOIST/NavigationBarSoundToggleButton' );
   var NavigationBarScreenButton = require( 'JOIST/NavigationBarScreenButton' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetButton = require( 'JOIST/PhetButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var platform = require( 'PHET_CORE/platform' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var soundManager = require( 'TAMBO/soundManager' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
 
@@ -64,7 +60,7 @@ define( function( require ) {
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
   var TITLE_LEFT_MARGIN = 10;
   var TITLE_RIGHT_MARGIN = 25;
-  var PHET_BUTTON_LEFT_MARGIN = 6;
+  var PHET_BUTTON_LEFT_MARGIN = PhetButton.LEFT_MARGIN; // same margin as PhetButton on home screen
   var PHET_BUTTON_RIGHT_MARGIN = PhetButton.HORIZONTAL_INSET; // same position as PhetButton on home screen
   var PHET_BUTTON_BOTTOM_MARGIN = PhetButton.VERTICAL_INSET; // same position as PhetButton on home screen
   var HOME_BUTTON_LEFT_MARGIN = 5;
@@ -135,41 +131,14 @@ define( function( require ) {
     );
     this.barContents.addChild( this.phetButton );
 
-    // list of optional buttons added for a11y
-    var a11yButtons = [];
-
-    // only put the sound on/off button on the nav bar if the sound library is enabled
-    if ( sim.supportsSound ) {
-      var soundOnOffButton = new NavigationBarSoundToggleButton(
-        soundManager.enabledProperty,
-        sim.lookAndFeel,
-        tandem.createTandem( 'soundOnOffButton' )
-      );
-      a11yButtons.push( soundOnOffButton );
-    }
-
-    // only show the keyboard help button if the sim is accessible, there is keyboard help content, and we are
-    // not in mobile safari
-    if ( phet.chipper.accessibility && sim.keyboardHelpNode && !platform.mobileSafari ) {
-
-      // @public (joist-internal, read-only) - Pops open a dialog with information about keyboard navigation
-      this.keyboardHelpButton = new KeyboardHelpButton(
-        sim.keyboardHelpNode,
-        sim.lookAndFeel,
-        tandem.createTandem( 'keyboardHelpButton' )
-      );
-      a11yButtons.push( this.keyboardHelpButton );
-    }
-
-    // Create the a11y button container regardless of whether there are any because it's needed for layout.
-    this.a11yButtonsHBox = new HBox( {
-      children: a11yButtons,
-      align: 'center',
-      spacing: 6
-    } );
-    if ( a11yButtons.length > 0 ) {
-      this.barContents.addChild( this.a11yButtonsHBox );
-    }
+    // @public (joist-internal) - a11y HBox. The transform of this is tracked, so we can mirror it over to the
+    // homescreen's a11y HBox. Copied from PhET button above, see https://github.com/phetsims/joist/issues/304.
+    this.a11yButtonsHBox = new A11yButtonsHBox(
+      sim,
+      sim.lookAndFeel.navigationBarFillProperty,
+      tandem.createTandem( 'a11yButtonsHBox' )
+    );
+    this.barContents.addChild( this.a11yButtonsHBox );
 
     // a11y - tell this node that it is aria-labelledby its own labelContent.
     this.addAriaLabelledbyAssociation( {

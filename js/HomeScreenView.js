@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var A11yButtonsHBox = require( 'JOIST/A11yButtonsHBox' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -213,8 +214,17 @@ define( function( require ) {
 
     // @public (joist-internal) - This PhET button is public since our creator (Sim.js) is responsible for positioning
     // this button. See https://github.com/phetsims/joist/issues/304.
-    this.phetButton = new PhetButton( sim, homeScreenFillProperty, homeScreenTextFillProperty, tandem.createTandem( 'phetButton' ) );
+    this.phetButton = new PhetButton(
+      sim,
+      homeScreenFillProperty,
+      homeScreenTextFillProperty,
+      tandem.createTandem( 'phetButton' ) );
     this.addChild( this.phetButton );
+
+    // @public (joist-internal) - This a11y HBox is public since our creator (Sim.js) is responsible for positioning
+    // this HBox. Copied from PhET button above, see https://github.com/phetsims/joist/issues/304.
+    this.a11yButtonsHBox = new A11yButtonsHBox( sim, homeScreenFillProperty, tandem.createTandem( 'a11yButtonsHBox' ) );
+    this.addChild( this.a11yButtonsHBox );
 
     if ( options.warningNode ) {
       var warningNode = options.warningNode;
