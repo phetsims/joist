@@ -212,6 +212,11 @@ define( function( require ) {
     var homeScreenFillProperty = new Property( 'black' );
     var homeScreenTextFillProperty = new Property( 'white' );
 
+    // @public (joist-internal) - This a11y HBox is public since our creator (Sim.js) is responsible for positioning
+    // this HBox. Copied from PhET button below, see https://github.com/phetsims/joist/issues/304.
+    this.a11yButtonsHBox = new A11yButtonsHBox( sim, homeScreenFillProperty, tandem.createTandem( 'a11yButtonsHBox' ) );
+    this.addChild( this.a11yButtonsHBox );
+
     // @public (joist-internal) - This PhET button is public since our creator (Sim.js) is responsible for positioning
     // this button. See https://github.com/phetsims/joist/issues/304.
     this.phetButton = new PhetButton(
@@ -220,11 +225,6 @@ define( function( require ) {
       homeScreenTextFillProperty,
       tandem.createTandem( 'phetButton' ) );
     this.addChild( this.phetButton );
-
-    // @public (joist-internal) - This a11y HBox is public since our creator (Sim.js) is responsible for positioning
-    // this HBox. Copied from PhET button above, see https://github.com/phetsims/joist/issues/304.
-    this.a11yButtonsHBox = new A11yButtonsHBox( sim, homeScreenFillProperty, tandem.createTandem( 'a11yButtonsHBox' ) );
-    this.addChild( this.a11yButtonsHBox );
 
     if ( options.warningNode ) {
       var warningNode = options.warningNode;
