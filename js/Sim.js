@@ -14,6 +14,7 @@ define( function( require ) {
 
   // modules
   var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
+  var A11yButtonsHBox = require( 'JOIST/A11yButtonsHBox' );
   var BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Bounds2 = require( 'DOT/Bounds2' );
@@ -496,9 +497,10 @@ define( function( require ) {
       this.rootNode.addChild( this.navigationBar );
       if ( this.homeScreen ) {
 
-        // Once both the navbar and homescreen have been added, link the PhET button positions together.
+        // Once both the navbar and homescreen have been added, link the PhET button and a11y HBox positions together.
         // See https://github.com/phetsims/joist/issues/304.
         PhetButton.linkPhetButtonTransform( this.homeScreen, this.navigationBar, this.rootNode );
+        A11yButtonsHBox.linkA11yButtonsHBoxTransform( this.homeScreen, this.navigationBar, this.rootNode );
       }
 
       Property.multilink( [ this.showHomeScreenProperty, this.screenIndexProperty ],
