@@ -130,6 +130,7 @@ define( function( require ) {
         },
         tandem: tandem.createTandem( 'optionsMenuItem' ),
         phetioInstanceDocumentation: 'This menu item shows an options dialog.',
+        phetioState: false,
 
         // a11y
         tagName: 'button',
@@ -270,6 +271,7 @@ define( function( require ) {
         },
         tandem: tandem.createTandem( 'screenshotMenuItem' ),
         phetioInstanceDocumentation: 'This menu item captures a screenshot from the simulation and saves it to the file system.',
+        phetioState: false,
         tagName: 'button'
       },
 
@@ -283,6 +285,7 @@ define( function( require ) {
         },
         tandem: tandem.createTandem( 'enhancedSoundMenuItem' ),
         phetioInstanceDocumentation: 'This menu item toggles between basic and enhanced sound modes.',
+        phetioState: false,
         tagName: 'button'
       },
 
@@ -296,6 +299,9 @@ define( function( require ) {
         },
         tandem: tandem.createTandem( 'fullScreenMenuItem' ),
         phetioInstanceDocumentation: 'This menu item requests full-screen access for the simulation display.',
+        phetioState: false,
+
+        // a11y
         tagName: 'button'
       },
 
@@ -316,7 +322,8 @@ define( function( require ) {
         phetioInstanceDocumentation: 'This menu item shows a dialog with information about the simulation.',
         tagName: 'button',
         focusAfterCallback: true,
-        phetioReadOnly: true
+        phetioReadOnly: true,
+        phetioState: false
       }
     ];
 
@@ -343,11 +350,13 @@ define( function( require ) {
           tandem: itemDescriptor.tandem,
           phetioInstanceDocumentation: itemDescriptor.phetioInstanceDocumentation,
           focusAfterCallback: itemDescriptor.focusAfterCallback,
-          phetioReadOnly: itemDescriptor.phetioReadOnly
+          phetioReadOnly: itemDescriptor.phetioReadOnly,
+          phetioState: itemDescriptor.phetioState
         };
 
         // delete undefined values so that _.extend options will work correctly
         menuItemOptions.phetioReadOnly === undefined && delete menuItemOptions.phetioReadOnly;
+      menuItemOptions.phetioState === undefined && delete menuItemOptions.phetioState;
 
         // This is needed to support MenuItem as tandemOptional because `{ tandem: undefined}` in options will override default.
         !itemDescriptor.tandem && delete menuItemOptions.tandem;
