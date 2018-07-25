@@ -177,12 +177,15 @@ define( function( require ) {
     var links = Brand.getLinks( packageJSON.name, locale );
     if ( links && links.length > 0 ) {
       children.push( new VStrut( 15 ) );
+
+      var linksGroupTandem = tandem.createGroupTandem( 'link' );
       for ( var i = 0; i < links.length; i++ ) {
         var link = links[ i ];
         children.push( new RichText( '<a href="{{url}}">' + link.text + '</a>', {
           links: { url: link.url }, // RichText must fill in URL for link
           font: new PhetFont( 14 ),
           maxWidth: MAX_WIDTH,
+          tandem: linksGroupTandem.createNextTandem(),
           phetioReadOnly: true, // the AboutDialog should not be settable
           phetioState: false
         } ) );
