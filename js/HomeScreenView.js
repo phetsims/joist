@@ -214,7 +214,7 @@ define( function( require ) {
 
       // position the icons
       iconsParentNode.centerX = self.layoutBounds.width / 2;
-      iconsParentNode.centerY = 272;
+      iconsParentNode.top = self.layoutBounds.height / 3;
     } );
 
     //TODO move these Properties to LookAndFeel, see https://github.com/phetsims/joist/issues/255
