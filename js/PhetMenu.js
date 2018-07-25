@@ -356,7 +356,7 @@ define( function( require ) {
 
         // delete undefined values so that _.extend options will work correctly
         menuItemOptions.phetioReadOnly === undefined && delete menuItemOptions.phetioReadOnly;
-      menuItemOptions.phetioState === undefined && delete menuItemOptions.phetioState;
+        menuItemOptions.phetioState === undefined && delete menuItemOptions.phetioState;
 
         // This is needed to support MenuItem as tandemOptional because `{ tandem: undefined}` in options will override default.
         !itemDescriptor.tandem && delete menuItemOptions.tandem;
