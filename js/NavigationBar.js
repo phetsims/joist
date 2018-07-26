@@ -96,14 +96,13 @@ define( function( require ) {
     } );
 
     // @private
-    this.showHomeScreen = showHomeScreenProperty;
-    this.navigationBarFill = new Property( 'black' );
-    this.navigationBarTextFill = new Property( 'white' );
+    this.navigationBarFillProperty = new Property( 'black' );
+    this.navigationBarTextFillProperty = new Property( 'white' );
 
     // @private - The bar's background (resized in layout)
     this.background = new Rectangle( 0, 0, NAVIGATION_BAR_SIZE.width, NAVIGATION_BAR_SIZE.height, {
       pickable: true,
-      fill: this.navigationBarFill
+      fill: this.navigationBarFillProperty
     } );
     this.addChild( this.background );
 
@@ -135,8 +134,8 @@ define( function( require ) {
     // homescreen's button. See https://github.com/phetsims/joist/issues/304.
     this.phetButton = new PhetButton(
       sim,
-      this.navigationBarFill,
-      this.navigationBarTextFill,
+      this.navigationBarFillProperty,
+      this.navigationBarTextFillProperty,
       tandem.createTandem( 'phetButton' )
     );
     this.barContents.addChild( this.phetButton );
@@ -145,7 +144,7 @@ define( function( require ) {
     // homescreen's a11y HBox. Copied from PhET button above, see https://github.com/phetsims/joist/issues/304.
     this.a11yButtonsHBox = new A11yButtonsHBox(
       sim,
-      this.navigationBarFill,
+      this.navigationBarFillProperty,
       tandem.createTandem( 'a11yButtonsHBox' )
     );
     this.barContents.addChild( this.a11yButtonsHBox );
@@ -286,24 +285,15 @@ define( function( require ) {
 
     // update the state of whether the home screen is showing or not
     showHomeScreenProperty.link( function( showHomeScreen ) {
-      self.showHomeScreen = showHomeScreen;
       self.titleTextNode.setVisible( !showHomeScreen );
+      self.background.visible = !showHomeScreen;
+
       if ( buttons ) {
         buttons.setVisible( !showHomeScreen );
       }
-
-      // if the background of the sim doesn't change after the home screen, then the nav bar still needs to be updated
-      self.navigationBarFill.value = self.showHomeScreen ? 'black' : sim.lookAndFeel.navigationBarFillProperty.value;
-      self.navigationBarTextFill.value = self.showHomeScreen ? 'white' : sim.lookAndFeel.navigationBarTextFillProperty.value;
     } );
-
-    sim.lookAndFeel.navigationBarFillProperty.link( function( navigationBarFill ) {
-      self.navigationBarFill.value = self.showHomeScreen ? 'black' : navigationBarFill;
-    } );
-
-    sim.lookAndFeel.navigationBarTextFillProperty.link( function( navigationBarTextFill ) {
-      self.navigationBarTextFill.value = self.showHomeScreen ? 'white' : navigationBarTextFill;
-    } );
+    sim.lookAndFeel.navigationBarFillProperty.linkAttribute( this.navigationBarFillProperty, 'value' );
+    sim.lookAndFeel.navigationBarTextFillProperty.linkAttribute( this.navigationBarTextFillProperty, 'value' );
   }
 
   joist.register( 'NavigationBar', NavigationBar );
