@@ -523,8 +523,6 @@ define( function( require ) {
               screen.activeProperty.set( visible );
             }
           }
-
-          self.navigationBar.setVisible( true );
           self.updateBackground();
         } );
 
