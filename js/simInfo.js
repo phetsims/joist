@@ -14,31 +14,28 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
   var Util = require( 'SCENERY/util/Util' );
 
-  var simInfo = {};
+  var info = {};
 
   function addInfo( key, value ) {
-    simInfo[ key ] = value;
-  }
-
-  function addIfTruthy( key, value ) {
-    if ( value ) {
-      addInfo( key, value );
+    if ( value === undefined ) {
+      value = '{{undefined}}';
     }
+    info[ key ] = value;
   }
 
   // globals
-  addIfTruthy( 'url', window.location.href );
-  addIfTruthy( 'randomSeed', window.phet.chipper.randomSeed );
-  addIfTruthy( 'userAgent', window.navigator.userAgent );
-  addIfTruthy( 'language', window.navigator.language );
-  addIfTruthy( 'window', window.innerWidth + 'x' + window.innerHeight );
-  addIfTruthy( 'referrer', document.referrer );
+  addInfo( 'url', window.location.href );
+  addInfo( 'randomSeed', window.phet.chipper.randomSeed );
+  addInfo( 'userAgent', window.navigator.userAgent );
+  addInfo( 'language', window.navigator.language );
+  addInfo( 'window', window.innerWidth + 'x' + window.innerHeight );
+  addInfo( 'referrer', document.referrer );
 
   // from Scenery Util
-  addIfTruthy( 'pixelRatio', Util.back );
-  addIfTruthy( 'checkIE11StencilSupport', Util.checkIE11StencilSupport );
+  addInfo( 'pixelRatio', Util.back );
+  addInfo( 'checkIE11StencilSupport', Util.checkIE11StencilSupport );
   if ( phet.chipper.queryParameters.webgl ) {
-    addIfTruthy( 'isWebGLSupported', Util.isWebGLSupported );
+    addInfo( 'isWebGLSupported', Util.isWebGLSupported );
   }
 
   var canvas;
@@ -61,9 +58,21 @@ define( function( require ) {
   if ( window.navigator.msPointerEnabled ) { flags.push( 'msPointerEnabled' ); }
   if ( !window.navigator.onLine ) { flags.push( 'offline' ); }
   if ( ( window.devicePixelRatio || 1 ) / backingStorePixelRatio !== 1 ) { flags.push( 'pixelRatioScaling' ); }
-  addIfTruthy( 'flags', flags.join( ', ' ) );
+  addInfo( 'flags', flags.join( ', ' ) );
 
   canvas = null; // dispose only reference
+
+  var simInfo = {
+    getInfo: function( sim, packageJSON ) {
+
+      if ( !info.simName ) {
+        addInfo( 'simName', sim.name );
+        addInfo( 'simVersion', sim.version );
+        addInfo( 'repoName', packageJSON.name );
+      }
+      return info;
+    }
+  };
 
   joist.register( 'simInfo', simInfo );
 
