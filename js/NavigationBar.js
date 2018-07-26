@@ -37,6 +37,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetButton = require( 'JOIST/PhetButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -60,9 +61,9 @@ define( function( require ) {
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
   var TITLE_LEFT_MARGIN = 10;
   var TITLE_RIGHT_MARGIN = 25;
-  var PHET_BUTTON_LEFT_MARGIN = PhetButton.LEFT_MARGIN; // same margin as PhetButton on home screen
-  var PHET_BUTTON_RIGHT_MARGIN = PhetButton.HORIZONTAL_INSET; // same position as PhetButton on home screen
-  var PHET_BUTTON_BOTTOM_MARGIN = PhetButton.VERTICAL_INSET; // same position as PhetButton on home screen
+  var PHET_BUTTON_LEFT_MARGIN = 6;
+  var PHET_BUTTON_RIGHT_MARGIN = 10;
+  var PHET_BUTTON_BOTTOM_MARGIN = 0;
   var HOME_BUTTON_LEFT_MARGIN = 5;
   var HOME_BUTTON_RIGHT_MARGIN = HOME_BUTTON_LEFT_MARGIN;
   var SCREEN_BUTTON_SPACING = 0;
@@ -72,10 +73,13 @@ define( function( require ) {
    * Creates a nav bar.
    * @param {Sim} sim
    * @param {Screen[]} screens
+   * @param {BooleanProperty} showHomeScreenProperty
    * @param {Tandem} tandem
    * @constructor
    */
-  function NavigationBar( sim, screens, tandem ) {
+  function NavigationBar( sim, screens, showHomeScreenProperty, tandem ) {
+
+    var self = this;
 
     // @private
     this.screens = screens;
@@ -91,10 +95,15 @@ define( function( require ) {
       labelContent: screens.length === 1 ? simResourcesAndToolsString : simScreensResourcesAndToolsString
     } );
 
+    // @private
+    this.showHomeScreen = showHomeScreenProperty;
+    this.navigationBarFill = new Property( 'black' );
+    this.navigationBarTextFill = new Property( 'white' );
+
     // @private - The bar's background (resized in layout)
     this.background = new Rectangle( 0, 0, NAVIGATION_BAR_SIZE.width, NAVIGATION_BAR_SIZE.height, {
       pickable: true,
-      fill: sim.lookAndFeel.navigationBarFillProperty
+      fill: this.navigationBarFill
     } );
     this.addChild( this.background );
 
@@ -119,14 +128,15 @@ define( function( require ) {
       tandem: tandem.createTandem( 'titleTextNode' ),
       phetioInstanceDocumentation: 'Displays the title of the simulation in the navigation bar (bottom left).'
     } );
+    this.titleTextNode.setVisible( false );
     this.barContents.addChild( this.titleTextNode );
 
     // @public (joist-internal) - PhET button. The transform of this is tracked, so we can mirror it over to the
     // homescreen's button. See https://github.com/phetsims/joist/issues/304.
     this.phetButton = new PhetButton(
       sim,
-      sim.lookAndFeel.navigationBarFillProperty,
-      sim.lookAndFeel.navigationBarTextFillProperty,
+      this.navigationBarFill,
+      this.navigationBarTextFill,
       tandem.createTandem( 'phetButton' )
     );
     this.barContents.addChild( this.phetButton );
@@ -135,7 +145,7 @@ define( function( require ) {
     // homescreen's a11y HBox. Copied from PhET button above, see https://github.com/phetsims/joist/issues/304.
     this.a11yButtonsHBox = new A11yButtonsHBox(
       sim,
-      sim.lookAndFeel.navigationBarFillProperty,
+      this.navigationBarFill,
       tandem.createTandem( 'a11yButtonsHBox' )
     );
     this.barContents.addChild( this.a11yButtonsHBox );
@@ -168,6 +178,7 @@ define( function( require ) {
       } );
       var buttonsOrderedList = new Node( { tagName: 'ol' } );
       buttons.addChild( buttonsOrderedList );
+      buttons.setVisible( false );
       this.barContents.addChild( buttons );
 
       // @private - Create the home button
@@ -272,6 +283,27 @@ define( function( require ) {
       this.a11yButtonsHBox,
       this.phetButton
     ].filter( function( node ) { return node !== undefined; } );
+
+    // update the state of whether the home screen is showing or not
+    showHomeScreenProperty.link( function( showHomeScreen ) {
+      self.showHomeScreen = showHomeScreen;
+      self.titleTextNode.setVisible( !showHomeScreen );
+      if ( buttons ) {
+        buttons.setVisible( !showHomeScreen );
+      }
+
+      // if the background of the sim doesn't change after the home screen, then the nav bar still needs to be updated
+      self.navigationBarFill.value = self.showHomeScreen ? 'black' : sim.lookAndFeel.navigationBarFillProperty.value;
+      self.navigationBarTextFill.value = self.showHomeScreen ? 'white' : sim.lookAndFeel.navigationBarTextFillProperty.value;
+    } );
+
+    sim.lookAndFeel.navigationBarFillProperty.link( function( navigationBarFill ) {
+      self.navigationBarFill.value = self.showHomeScreen ? 'black' : navigationBarFill;
+    } );
+
+    sim.lookAndFeel.navigationBarTextFillProperty.link( function( navigationBarTextFill ) {
+      self.navigationBarTextFill.value = self.showHomeScreen ? 'white' : navigationBarTextFill;
+    } );
   }
 
   joist.register( 'NavigationBar', NavigationBar );
