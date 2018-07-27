@@ -78,6 +78,7 @@ define( function( require ) {
    * @constructor
    */
   function NavigationBar( sim, screens, showHomeScreenProperty, tandem ) {
+    var self = this;
 
     // @private
     this.screens = screens;
@@ -292,6 +293,14 @@ define( function( require ) {
       this.a11yButtonsHBox,
       this.phetButton
     ].filter( function( node ) { return node !== undefined; } );
+
+    showHomeScreenProperty.link( function( showHomeScreen ) {
+      self.showHomeScreen = showHomeScreen;
+      self.titleTextNode.setVisible( !showHomeScreen );
+      if ( buttons ) {
+        buttons.setVisible( !showHomeScreen );
+      }
+    } );
   }
 
   joist.register( 'NavigationBar', NavigationBar );
