@@ -295,7 +295,6 @@ define( function( require ) {
     ].filter( function( node ) { return node !== undefined; } );
 
     showHomeScreenProperty.link( function( showHomeScreen ) {
-      self.showHomeScreen = showHomeScreen;
       self.titleTextNode.setVisible( !showHomeScreen );
       if ( buttons ) {
         buttons.setVisible( !showHomeScreen );
