@@ -46,11 +46,10 @@ define( function( require ) {
   /**
    * @param {Sim} sim
    * @param {Property.<Color|string>} backgroundFillProperty
-   * @param {Property.<Color|string>} textFillProperty
    * @param {Tandem} tandem
    * @constructor
    */
-  function PhetButton( sim, backgroundFillProperty, textFillProperty, tandem ) {
+  function PhetButton( sim, backgroundFillProperty, tandem ) {
 
     var phetMenu = new PhetMenu( sim, tandem.createTandem( 'phetMenu' ), {
       showSaveAndLoad: sim.options.showSaveAndLoad,

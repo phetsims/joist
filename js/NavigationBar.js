@@ -37,7 +37,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetButton = require( 'JOIST/PhetButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Property = require( 'AXON/Property' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -79,8 +79,6 @@ define( function( require ) {
    */
   function NavigationBar( sim, screens, showHomeScreenProperty, tandem ) {
 
-    var self = this;
-
     // @private
     this.screens = screens;
 
@@ -96,8 +94,21 @@ define( function( require ) {
     } );
 
     // @private
-    this.navigationBarFillProperty = new Property( 'black' );
-    this.navigationBarTextFillProperty = new Property( 'white' );
+    this.navigationBarFillProperty = new DerivedProperty(
+      [
+        showHomeScreenProperty,
+        sim.lookAndFeel.navigationBarFillProperty
+      ],
+      function( showHomeScreen, simNavigationBarFill ) {
+        var fill;
+        if ( showHomeScreen ) {
+          fill = 'black';
+        }
+        else {
+          fill = simNavigationBarFill;
+        }
+        return fill;
+      } );
 
     // @private - The bar's background (resized in layout)
     this.background = new Rectangle( 0, 0, NAVIGATION_BAR_SIZE.width, NAVIGATION_BAR_SIZE.height, {
@@ -135,7 +146,6 @@ define( function( require ) {
     this.phetButton = new PhetButton(
       sim,
       this.navigationBarFillProperty,
-      this.navigationBarTextFillProperty,
       tandem.createTandem( 'phetButton' )
     );
     this.barContents.addChild( this.phetButton );
@@ -282,18 +292,6 @@ define( function( require ) {
       this.a11yButtonsHBox,
       this.phetButton
     ].filter( function( node ) { return node !== undefined; } );
-
-    // update the state of whether the home screen is showing or not
-    showHomeScreenProperty.link( function( showHomeScreen ) {
-      self.titleTextNode.setVisible( !showHomeScreen );
-      self.background.visible = !showHomeScreen;
-
-      if ( buttons ) {
-        buttons.setVisible( !showHomeScreen );
-      }
-    } );
-    sim.lookAndFeel.navigationBarFillProperty.linkAttribute( this.navigationBarFillProperty, 'value' );
-    sim.lookAndFeel.navigationBarTextFillProperty.linkAttribute( this.navigationBarTextFillProperty, 'value' );
   }
 
   joist.register( 'NavigationBar', NavigationBar );
