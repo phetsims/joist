@@ -113,9 +113,9 @@ define( function( require ) {
     var self = this;
 
     var downListener = function( event ) {
-      self.startEvent( 'user', 'fired' );
+      self.phetioStartEvent( 'user', 'fired' );
       buttonDown();
-      self.endEvent();
+      self.phetioEndEvent();
     };
     this.addInputListener( { down: downListener } );
     this.addAccessibleInputListener( { click: function() { large && downListener(); } } );
