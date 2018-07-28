@@ -95,21 +95,12 @@ define( function( require ) {
     } );
 
     // @private
-    this.navigationBarFillProperty = new DerivedProperty(
-      [
-        showHomeScreenProperty,
-        sim.lookAndFeel.navigationBarFillProperty
-      ],
-      function( showHomeScreen, simNavigationBarFill ) {
-        var fill;
-        if ( showHomeScreen ) {
-          fill = 'black';
-        }
-        else {
-          fill = simNavigationBarFill;
-        }
-        return fill;
-      } );
+    this.navigationBarFillProperty = new DerivedProperty( [
+      showHomeScreenProperty,
+      sim.lookAndFeel.navigationBarFillProperty
+    ], function( showHomeScreen, simNavigationBarFill ) {
+      return showHomeScreen ? 'black' : simNavigationBarFill;
+    } );
 
     // @private - The bar's background (resized in layout)
     this.background = new Rectangle( 0, 0, NAVIGATION_BAR_SIZE.width, NAVIGATION_BAR_SIZE.height, {
