@@ -11,21 +11,27 @@ define( function( require ) {
 
   // modules
   var Dialog = require( 'SUN/Dialog' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
+  var HelpContent = require( 'SCENERY_PHET/keyboard/help/HelpContent' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var TabKeyNode = require( 'SCENERY_PHET/keyboard/TabKeyNode' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
 
   // constants
   var TITLE_MAX_WIDTH = 500;
 
   // string
   var keyboardShortcutsTitleString = require( 'string!JOIST/keyboardShortcuts.title' );
+  var keyboardShortcutsToGetStartedString = require( 'string!JOIST/keyboardShortcuts.toGetStarted' );
 
   // a11y string
   var hotKeysAndHelpString = JoistA11yStrings.hotKeysAndHelp.value;
+  var tabToGetStartedString = JoistA11yStrings.tabToGetStarted.value;
 
   /**
    * @param {Node} helpContent - a node containing the sim specific keyboard help content
@@ -44,7 +50,7 @@ define( function( require ) {
 
     // title
     assert && assert( !options.title, 'KeyboardHelpDialog sets title' );
-    options.title = new Text( keyboardShortcutsTitleString, {
+    var shortcutsTitleText = new Text( keyboardShortcutsTitleString, {
       font: new PhetFont( {
         weight: 'bold',
         size: 18
@@ -55,6 +61,26 @@ define( function( require ) {
       tagName: 'h1',
       innerContent: hotKeysAndHelpString
     } );
+
+    // a line to say "tab to get started" below the "Keyboard Shortcuts" 'title'
+    var tabHintText = new Text( keyboardShortcutsToGetStartedString, { font: HelpContent.DEFAULT_LABEL_FONT } );
+    var tabHintLine = HelpContent.labelWithIcon( tabHintText, new TabKeyNode(), tabToGetStartedString, {
+      iconOptions: {
+        tagName: 'p' // because there is only one, and the default is an li tag
+      }
+    } );
+
+    // stack the two items with a bit of spacing
+    options.title = new VBox( {
+        children: [
+          shortcutsTitleText,
+
+          // labelWithIcon is meant to be passed to HelpContent, so we have to hack a bit here
+          new HBox( { children: [ tabHintLine.icon, tabHintLine.label ], spacing: 4 } )
+        ],
+        spacing: 5
+      }
+    );
 
     // help content surrounded by a div unless already specified, so that all content is read when dialog opens
     helpContent.tagName = helpContent.tagName || 'div';
