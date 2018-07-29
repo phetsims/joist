@@ -12,9 +12,14 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
+  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
   var Tandem = require( 'TANDEM/Tandem' );
+
+  // a11y strings
+  var sceneSummaryMultiScreenIntroString = JoistA11yStrings.sceneSummaryMultiScreenIntro.value;
+  var sceneSummarySingleScreenIntroPatternString = JoistA11yStrings.sceneSummarySingleScreenIntroPattern.value;
 
   /*
    * Default width and height for iPad2, iPad3, iPad4 running Safari with default tabs and decorations
@@ -28,7 +33,9 @@ define( function( require ) {
   function ScreenView( options ) {
 
     options = _.extend( {
-      layoutBounds: DEFAULT_LAYOUT_BOUNDS.copy()
+      layoutBounds: DEFAULT_LAYOUT_BOUNDS.copy(),
+      multiscreen: false, // a11y to use the default multiscreen intro or single screen intro
+      includePDOMSummary: false // TEMP options. to opt in rather than fix every sim structure right now, https://github.com/phetsims/joist/issues/509
     }, options );
     this.layoutBounds = options.layoutBounds;
 
@@ -48,6 +55,20 @@ define( function( require ) {
     // Initialize to defaults, then update as soon as layout() is called, which is before the ScreenView is displayed
     // @public (read-only)
     this.visibleBoundsProperty = new Property( options.layoutBounds );
+
+    // a11y - opt in by option so that this doesn't effect every sim's PDOM right now.
+    if ( options.includePDOMSummary ) {
+
+      // a11y - different default string depending on if there are multiple screens
+      // TODO: how do we know the name of the simulation to fill in, https://github.com/phetsims/joist/issues/509
+      // TODO: how do we know if it is multiscreen, https://github.com/phetsims/joist/issues/509
+      // TODO: we probably want this sceneOverview to be it's own type so that it doesn't muck up ScreenView.js, https://github.com/phetsims/joist/issues/509
+      // @public - to have children added to for the PDOM
+      var introString = options.multiscreen ? sceneSummaryMultiScreenIntroString : sceneSummarySingleScreenIntroPatternString;
+      var openingSummaryNode = new Node( { tagName: 'p', innerContent: introString } );
+      this.sceneOverview = new Node( { children: [ openingSummaryNode ] } );
+      this.addChild( this.sceneOverview );
+    }
   }
 
   joist.register( 'ScreenView', ScreenView );
@@ -85,12 +106,12 @@ define( function( require ) {
 
         //center vertically
         if ( scale === width / this.layoutBounds.width ) {
-          dy = (height / scale - this.layoutBounds.height) / 2;
+          dy = ( height / scale - this.layoutBounds.height ) / 2;
         }
 
         //center horizontally
         else if ( scale === height / this.layoutBounds.height ) {
-          dx = (width / scale - this.layoutBounds.width) / 2;
+          dx = ( width / scale - this.layoutBounds.width ) / 2;
         }
 
         this.translate( dx, dy );
@@ -114,4 +135,5 @@ define( function( require ) {
       DEFAULT_LAYOUT_BOUNDS: DEFAULT_LAYOUT_BOUNDS
     }
   );
-} );
+} )
+;

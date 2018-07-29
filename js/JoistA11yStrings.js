@@ -79,6 +79,20 @@ define( function( require ) {
       value: 'If needed, checkout keyboard shortcuts under Sim Resources.'
     },
 
+
+    // scene summary intro for a multiscreen sim (not sim specific),
+    // extra space at end for string concat with rest of the scene summary
+    sceneSummaryMultiScreenIntro: {
+      value: 'This is an interactive sim. It changes as you play with it. Each screen has a Play Area and Control Panel. '
+    },
+
+    // scene summary intro for a single screen sim (not sim specific),
+    // extra space at end for string concat with rest of the scene summary
+    sceneSummarySingleScreenIntroPattern: {
+      value: '{{Sim}} is an interactive sim. It changes as you play with it.'
+    },
+
+
     // PhET menu
     phet: {
       value: 'PhET Menu'
