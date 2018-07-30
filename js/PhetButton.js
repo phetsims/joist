@@ -21,6 +21,7 @@ define( function( require ) {
   var PhetMenu = require( 'JOIST/PhetMenu' );
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
+  var TransformTracker = require( 'SCENERY/util/TransformTracker' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
 
   // a11y strings
@@ -50,6 +51,8 @@ define( function( require ) {
    * @constructor
    */
   function PhetButton( sim, backgroundFillProperty, tandem ) {
+  function PhetButton( sim, backgroundFillProperty, textFillProperty, tandem ) {
+    var self = this;
 
     var phetMenu = new PhetMenu( sim, tandem.createTandem( 'phetMenu' ), {
       showSaveAndLoad: sim.options.showSaveAndLoad,
@@ -81,7 +84,7 @@ define( function( require ) {
         phetMenu.show();
       },
       phetioType: PhetButtonIO,
-      phetioInstanceDocumentation: 'The button that appears in the bottom of the right of the screen, which shows a menu when pressed.',
+      phetioInstanceDocumentation: 'The button that appears in the bottom of the right of the screen, which shows a menu when pressed',
 
       // a11y
       tagName: 'button',
@@ -112,6 +115,7 @@ define( function( require ) {
 
     JoistButton.call( this, icon, backgroundFillProperty, tandem, options );
 
+    // No need to unlink, as the PhetButton exists for the lifetime of the sim
     Property.multilink( [ backgroundFillProperty, sim.showHomeScreenProperty, UpdateCheck.stateProperty ],
       function( backgroundFill, showHomeScreen, updateState ) {
         var backgroundIsWhite = backgroundFill !== 'black' && !showHomeScreen;
@@ -119,6 +123,12 @@ define( function( require ) {
         optionsButton.fill = backgroundIsWhite ? ( outOfDate ? '#0a0' : '#222' ) : ( outOfDate ? '#3F3' : 'white' );
         logoImage.image = backgroundIsWhite ? darkLogoMipmap : brightLogoMipmap;
       } );
+
+    // added for phet-io, when toggling pickability, hide the option dots to prevent the queueing
+    // no need to be removed because the PhetButton exists for the lifetime of the sim.
+    this.on( 'pickability', function() {
+      optionsButton.visible = self.pickable !== false; // null should still have visible kabab dots
+    } );
 
     // a11y - add a listener that opens the menu on 'click' and 'reset', and closes it on escape and if the
     // button receives focus again

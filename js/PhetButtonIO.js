@@ -10,7 +10,7 @@ define( function( require ) {
 
   // modules
   var joist = require( 'JOIST/joist' );
-  var Property = require( 'AXON/Property' );
+  var NodeProperty = require( 'SCENERY/util/NodeProperty' );
   var PropertyIO = require( 'AXON/PropertyIO' );
 
   // ifphetio
@@ -34,7 +34,7 @@ define( function( require ) {
     // all of NodeIO's interactive methods, nor do we want to support maintaining overriding no-ops in this file
     // see https://github.com/phetsims/scenery/issues/711 for more info.
     // Note that this code is duplicated with similar code in NodeIO
-    var pickableProperty = new Property( phetButton.pickable, {
+    var pickableProperty = new NodeProperty( phetButton, 'pickability', 'pickable', {
 
       // pick the following values from the parent Node
       phetioReadOnly: phetButton.phetioReadOnly,
@@ -42,10 +42,8 @@ define( function( require ) {
 
       tandem: phetButton.tandem.createTandem( 'pickableProperty' ),
       phetioType: PropertyIO( NullableIO( BooleanIO ) ),
-      phetioInstanceDocumentation: 'Set whether the phetButton will be pickable (and hence interactive), see the NodeIO documentation for more details.'
+      phetioInstanceDocumentation: 'Set whether the phetButton will be pickable (and hence interactive), see the NodeIO documentation for more details'
     } );
-    pickableProperty.link( function( pickable ) { phetButton.pickable = pickable; } );
-    phetButton.on( 'pickability', function() { pickableProperty.value = phetButton.pickable; } );
 
     // @private
     this.disposePhetButtonIO = function() {

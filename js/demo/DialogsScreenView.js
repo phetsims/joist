@@ -27,7 +27,11 @@ define( function( require ) {
 
     var keyboardHelpDialogContent = new GeneralNavigationHelpContent();
 
-    var keyboardHelpButton = new KeyboardHelpButton( keyboardHelpDialogContent, phet.joist.sim.lookAndFeel, Tandem.optional );
+    var keyboardHelpButton = new KeyboardHelpButton(
+      keyboardHelpDialogContent,
+      phet.joist.sim.lookAndFeel.backgroundColorProperty,
+      Tandem.optional
+    );
     keyboardHelpButton.setScaleMagnitude( 2 );
 
     // Since KeyboardHelpButton adapts its color to the navigation bar,

@@ -124,6 +124,9 @@
   "keyboardShortcuts.title": {
     "value": "Keyboard Shortcuts"
   },
+  "keyboardShortcuts.toGetStarted": {
+    "value": "to get started"
+  },
   "simTitleWithScreenNamePattern": {
     "value": "{{simName}} \u2014 {{screenName}}"
   }

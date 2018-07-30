@@ -213,7 +213,7 @@ define( function( require ) {
     // @public (joist-internal) - The selected screen's index
     this.screenIndexProperty = new NumberProperty( options.screenIndex, {
       tandem: ROOT_TANDEM.createTandem( 'screenIndexProperty' ),
-      phetioInstanceDocumentation: 'Indicates which screen is selected (0-indexed).',
+      phetioInstanceDocumentation: 'Indicates which screen is selected (0-indexed)',
       validValues: _.range( 0, screens.length ),
       numberType: 'Integer'
     } );
@@ -231,7 +231,7 @@ define( function( require ) {
     // @public (read-only) - property that indicates whether the browser tab containing the simulation is currently visible
     this.browserTabVisibleProperty = new BooleanProperty( true, {
       tandem: ROOT_TANDEM.createTandem( 'browserTabVisibleProperty' ),
-      phetioInstanceDocumentation: 'Indicates whether the browser tab containing the simulation is currently visible.',
+      phetioInstanceDocumentation: 'Indicates whether the browser tab containing the simulation is currently visible',
       phetioReadOnly: true
     } );
 
@@ -541,7 +541,7 @@ define( function( require ) {
           fill: 'rgba(0,0,0,0.3)',
           pickable: true,
           tandem: ROOT_TANDEM.createTandem( 'barrierRectangle' ),
-          phetioInstanceDocumentation: 'Semi-transparent barrier used to block input events when a dialog is shown, also fades out the background.'
+          phetioInstanceDocumentation: 'Semi-transparent barrier used to block input events when a dialog is shown, also fades out the background'
         } );
       this.topLayer.addChild( this.barrierRectangle );
 
