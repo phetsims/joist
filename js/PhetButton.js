@@ -21,7 +21,6 @@ define( function( require ) {
   var PhetMenu = require( 'JOIST/PhetMenu' );
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
-  var TransformTracker = require( 'SCENERY/util/TransformTracker' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
 
   // a11y strings
@@ -51,7 +50,6 @@ define( function( require ) {
    * @constructor
    */
   function PhetButton( sim, backgroundFillProperty, tandem ) {
-  function PhetButton( sim, backgroundFillProperty, textFillProperty, tandem ) {
     var self = this;
 
     var phetMenu = new PhetMenu( sim, tandem.createTandem( 'phetMenu' ), {
