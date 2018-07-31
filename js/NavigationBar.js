@@ -20,6 +20,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';
@@ -29,6 +30,7 @@ define( function( require ) {
   var A11yButtonsHBox = require( 'JOIST/A11yButtonsHBox' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var HomeButton = require( 'JOIST/HomeButton' );
+  var HomeScreen = require( 'JOIST/HomeScreen' );
   var HomeScreenView = require( 'JOIST/HomeScreenView' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
@@ -69,6 +71,7 @@ define( function( require ) {
   var SCREEN_BUTTON_SPACING = 0;
   var MINIMUM_SCREEN_BUTTON_WIDTH = 60; // Make sure each button is at least a minimum width so they don't get too close together, see #279
 
+
   /**
    * Creates a nav bar.
    * @param {Sim} sim
@@ -94,12 +97,12 @@ define( function( require ) {
       labelContent: screens.length === 1 ? simResourcesAndToolsString : simScreensResourcesAndToolsString
     } );
 
-    // @private
+    // @private - The nav bar fill and determining fill for elements on the nav bar (if it's black, the elements are white)
     this.navigationBarFillProperty = new DerivedProperty( [
       showHomeScreenProperty,
       sim.lookAndFeel.navigationBarFillProperty
     ], function( showHomeScreen, simNavigationBarFill ) {
-      return showHomeScreen ? 'black' : simNavigationBarFill;
+      return showHomeScreen ? HomeScreen.BACKGROUND_COLOR : simNavigationBarFill;
     } );
 
     // @private - The bar's background (resized in layout)
@@ -133,8 +136,7 @@ define( function( require ) {
     this.titleTextNode.setVisible( false );
     this.barContents.addChild( this.titleTextNode );
 
-    // @public (joist-internal) - PhET button. The transform of this is tracked, so we can mirror it over to the
-    // homescreen's button. See https://github.com/phetsims/joist/issues/304.
+    // @private - PhET button, fill determined by state of navigationBarFillProperty
     this.phetButton = new PhetButton(
       sim,
       this.navigationBarFillProperty,
@@ -142,8 +144,7 @@ define( function( require ) {
     );
     this.barContents.addChild( this.phetButton );
 
-    // @public (joist-internal) - a11y HBox. The transform of this is tracked, so we can mirror it over to the
-    // homescreen's a11y HBox. Copied from PhET button above, see https://github.com/phetsims/joist/issues/304.
+    // @private - a11y HBox, button fills determined by state of navigationBarFillProperty
     this.a11yButtonsHBox = new A11yButtonsHBox(
       sim,
       this.navigationBarFillProperty,
@@ -151,7 +152,7 @@ define( function( require ) {
     );
     this.barContents.addChild( this.a11yButtonsHBox );
 
-    // a11y - tell this node that it is aria-labelledby its own labelContent.
+    // a11y - tell this node that it is aria-labelled by its own labelContent.
     this.addAriaLabelledbyAssociation( {
       thisElementName: AccessiblePeer.PRIMARY_SIBLING,
       otherNode: this,
@@ -285,6 +286,7 @@ define( function( require ) {
       this.phetButton
     ].filter( function( node ) { return node !== undefined; } );
 
+    // only show the home button and screen buttons on the nav bar when a screen is showing, not the home screen
     showHomeScreenProperty.link( function( showHomeScreen ) {
       self.titleTextNode.setVisible( !showHomeScreen );
       if ( buttons ) {
