@@ -14,6 +14,7 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
+  var ScreenSummaryNode = require( 'SCENERY_PHET/accessibility/nodes/ScreenSummaryNode' );
   var Tandem = require( 'TANDEM/Tandem' );
 
   /*
@@ -29,7 +30,10 @@ define( function( require ) {
 
     options = _.extend( {
       layoutBounds: DEFAULT_LAYOUT_BOUNDS.copy(),
-      includeScreenOverviewNode: false // TEMP option. to opt in rather than fix every sim structure right now, https://github.com/phetsims/joist/issues/509
+
+      // a11y - TEMP option. to opt in rather than fix every sim structure right now, https://github.com/phetsims/joist/issues/509
+      // This option is a placeholder right now as we convert old nodes to use this new screen summary structure,
+      addScreenSummaryNode: false
     }, options );
     this.layoutBounds = options.layoutBounds;
 
@@ -50,15 +54,18 @@ define( function( require ) {
     // @public (read-only)
     this.visibleBoundsProperty = new Property( options.layoutBounds );
 
-    // a11y - {boolean} opt in by option so that this doesn't effect every sim's PDOM right now.
-    // @public (joist-internal read-only)
-    this.includeScreenOverviewNode = options.includeScreenOverviewNode;
-
     // a11y - {Node|null}
-    // set in Screen.initializeView. This node is used to add an overview to the PDOM directly below the H1 (sim/screen name)
+    //  This node is used to add an overview to the PDOM directly below the H1 (sim/screen name)
     // only set to type {Node} if `includeScreenOverviewNode` is true.
+    // NOTE: DO NOT SET accessibleOrder ON THIS NODE
     // @public (read-only) - you can add children to it
-    this.screenOverviewA11yNode = null;
+    this.screenSummaryNode = null;
+
+    if ( options.addScreenSummaryNode ) {
+
+      this.screenSummaryNode = new ScreenSummaryNode();
+      this.addChild( this.screenSummaryNode );
+    }
   }
 
   joist.register( 'ScreenView', ScreenView );

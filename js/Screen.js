@@ -23,6 +23,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var PropertyIO = require( 'AXON/PropertyIO' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var ScreenSummaryNode = require( 'SCENERY_PHET/accessibility/nodes/ScreenSummaryNode' );
   var Shape = require( 'KITE/Shape' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Tandem = require( 'TANDEM/Tandem' );
@@ -34,9 +35,6 @@ define( function( require ) {
   var screenNamePatternString = JoistA11yStrings.screenNamePattern.value;
   var screenSimPatternString = JoistA11yStrings.screenSimPattern.value;
   var simScreenString = JoistA11yStrings.simScreen.value;
-  var sceneSummaryMultiScreenIntroString = JoistA11yStrings.sceneSummaryMultiScreenIntro.value;
-  var screenSummarySingleScreenIntroPatternString = JoistA11yStrings.screenSummarySingleScreenIntroPattern.value;
-  var screenSummaryKeyboardShortcutsHintString = JoistA11yStrings.screenSummaryKeyboardShortcutsHint.value;
 
   // constants
   var MINIMUM_HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 );
@@ -291,33 +289,11 @@ define( function( require ) {
           } );
         }
 
-        // opt in to adding this node
-        if ( this._view.includeScreenOverviewNode ) {
+        if ( this._view.screenSummaryNode ) {
+          assert && assert( this._view.screenSummaryNode instanceof ScreenSummaryNode, 'type different from expected, was it overwritten?' );
 
-          // TODO: we probably want this screenOverviewA11yNode to be it's own type so that it doesn't muck up initializeView, https://github.com/phetsims/joist/issues/509
-          // a11y - different default string depending on if there are multiple screens
-          // @public - to have children added to for the PDOM
-          var introString = numberOfScreens > 1 ? sceneSummaryMultiScreenIntroString : StringUtils.fillIn( screenSummarySingleScreenIntroPatternString, {
-            sim: simName
-          } );
-          var openingSummaryNode = new Node( { tagName: 'p', innerContent: introString } );
-          var keyboardShortcutsHint = new Node( {
-            tagName: 'p',
-            innerContent: screenSummaryKeyboardShortcutsHintString
-          } );
-
-          // create the overview node and add it to the scene graph
-          this._view.screenOverviewA11yNode = new Node( { children: [ openingSummaryNode, keyboardShortcutsHint ] } );
-          this._view.addChild( this._view.screenOverviewA11yNode );
-
-          // set the accessibleOrder so that the generic opening summary is first, and the keyboard shortcuts hint is last.
-          this._view.screenOverviewA11yNode.accessibleOrder = [ openingSummaryNode, null, keyboardShortcutsHint ];
-
-          // Generate the rest of the screen overview dynamically now that we know that simName and number screen.
-          this._view.addToScreenOverview && this._view.addToScreenOverview();
-
-          // by default make the summary first in the accessibleOrder, can be changed in the subType view.
-          this._view.accessibleOrder = [ this._view.screenOverviewA11yNode, null ];
+          // if there is a screenSummaryNode, then set its intro string now
+          this._view.screenSummaryNode.setIntroString( simName, numberOfScreens );
         }
       }
     },
