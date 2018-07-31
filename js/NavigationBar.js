@@ -70,7 +70,7 @@ define( function( require ) {
   var HOME_BUTTON_RIGHT_MARGIN = HOME_BUTTON_LEFT_MARGIN;
   var SCREEN_BUTTON_SPACING = 0;
   var MINIMUM_SCREEN_BUTTON_WIDTH = 60; // Make sure each button is at least a minimum width so they don't get too close together, see #279
-  
+
   /**
    * Creates a nav bar.
    * @param {Sim} sim
@@ -101,6 +101,10 @@ define( function( require ) {
       showHomeScreenProperty,
       sim.lookAndFeel.navigationBarFillProperty
     ], function( showHomeScreen, simNavigationBarFill ) {
+
+      // If the homescreen is showing, the navigation bar should blend into it.  This is done by making it the same color.
+      // It cannot be made transparent here, because other code relies on the value of navigationBarFillProperty being
+      // 'black' to make the icons show up as white, even when the navigation bar is hidden on the home screen.
       return showHomeScreen ? HomeScreen.BACKGROUND_COLOR : simNavigationBarFill;
     } );
 
