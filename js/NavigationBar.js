@@ -70,8 +70,7 @@ define( function( require ) {
   var HOME_BUTTON_RIGHT_MARGIN = HOME_BUTTON_LEFT_MARGIN;
   var SCREEN_BUTTON_SPACING = 0;
   var MINIMUM_SCREEN_BUTTON_WIDTH = 60; // Make sure each button is at least a minimum width so they don't get too close together, see #279
-
-
+  
   /**
    * Creates a nav bar.
    * @param {Sim} sim
