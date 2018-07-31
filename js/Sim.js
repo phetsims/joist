@@ -14,7 +14,6 @@ define( function( require ) {
 
   // modules
   var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
-  var A11yButtonsHBox = require( 'JOIST/A11yButtonsHBox' );
   var BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Bounds2 = require( 'DOT/Bounds2' );
@@ -36,7 +35,6 @@ define( function( require ) {
   var NumberProperty = require( 'AXON/NumberProperty' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var packageJSON = require( 'JOIST/packageJSON' );
-  var PhetButton = require( 'JOIST/PhetButton' );
   var platform = require( 'PHET_CORE/platform' );
   var Profiler = require( 'JOIST/Profiler' );
   var Property = require( 'AXON/Property' );
@@ -421,7 +419,7 @@ define( function( require ) {
     }
 
     // @public (joist-internal)
-    this.navigationBar = new NavigationBar( this, screens, ROOT_TANDEM.createTandem( 'navigationBar' ) );
+    this.navigationBar = new NavigationBar( this, screens, this.showHomeScreenProperty, ROOT_TANDEM.createTandem( 'navigationBar' ) );
 
     // @public (joist-internal)
     this.updateBackground = function() {
@@ -495,13 +493,6 @@ define( function( require ) {
         self.rootNode.addChild( screen.view );
       } );
       this.rootNode.addChild( this.navigationBar );
-      if ( this.homeScreen ) {
-
-        // Once both the navbar and homescreen have been added, link the PhET button and a11y HBox positions together.
-        // See https://github.com/phetsims/joist/issues/304.
-        PhetButton.linkPhetButtonTransform( this.homeScreen, this.navigationBar, this.rootNode );
-        A11yButtonsHBox.linkA11yButtonsHBoxTransform( this.homeScreen, this.navigationBar, this.rootNode );
-      }
 
       Property.multilink( [ this.showHomeScreenProperty, this.screenIndexProperty ],
         function( showHomeScreen, screenIndex ) {
@@ -532,8 +523,6 @@ define( function( require ) {
               screen.activeProperty.set( visible );
             }
           }
-
-          self.navigationBar.setVisible( !showHomeScreen );
           self.updateBackground();
         } );
 

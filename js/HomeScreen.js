@@ -15,6 +15,9 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var Screen = require( 'JOIST/Screen' );
 
+  // constants
+  var BACKGROUND_COLOR = 'black';
+
   /**
    *
    * @constructor
@@ -24,7 +27,7 @@ define( function( require ) {
     options = _.extend( {
 
       //TODO get this color from LookAndFeel, see https://github.com/phetsims/joist/issues/255
-      backgroundColorProperty: new Property( 'black' )
+      backgroundColorProperty: new Property( BACKGROUND_COLOR )
     }, options );
 
     assert && assert( !options.tandem, 'tandem is a required constructor parameter, not an option' );
@@ -49,5 +52,9 @@ define( function( require ) {
 
   joist.register( 'HomeScreen', HomeScreen );
 
-  return inherit( Screen, HomeScreen );
+  return inherit( Screen, HomeScreen, {}, {
+
+    // @public
+    BACKGROUND_COLOR: BACKGROUND_COLOR
+  } );
 } );

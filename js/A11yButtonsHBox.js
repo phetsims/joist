@@ -16,7 +16,6 @@ define( function( require ) {
   var NavigationBarSoundToggleButton = require( 'JOIST/NavigationBarSoundToggleButton' );
   var platform = require( 'PHET_CORE/platform' );
   var soundManager = require( 'TAMBO/soundManager' );
-  var TransformTracker = require( 'SCENERY/util/TransformTracker' );
 
   /**
    * @param {Sim} sim
@@ -63,40 +62,5 @@ define( function( require ) {
 
   joist.register( 'A11yButtonsHBox', A11yButtonsHBox );
 
-  return inherit( HBox, A11yButtonsHBox, {}, {
-
-    /**
-     * Ensures that the home-screen's a11y HBox will have the same global transform as the navbar's a11y HBox.
-     * Listens to both sides (the navbar a11y HBox, and the home-screen's a11y HBox's parent) so that when either
-     * changes, the transforms are synchronized by changing the home-screen's button position.
-     * This method was copied from PhetButton.js, see https://github.com/phetsims/joist/issues/304.
-     * @public (joist-internal)
-     *
-     * @param {HomeScreenView} homeScreen - The home screen view, where we will position the a11y HBox.
-     * @param {NavigationBar} navigationBar - The main navigation bar
-     * @param {Node} rootNode - The root of the Display's node tree
-     */
-    linkA11yButtonsHBoxTransform: function( homeScreen, navigationBar, rootNode ) {
-      var homeScreenHBox = homeScreen.view.a11yButtonsHBox;
-
-      var navBarHBoxTracker = new TransformTracker( navigationBar.a11yButtonsHBox.getUniqueTrailTo( rootNode ), {
-        isStatic: true // our listener won't change any listeners - TODO: replace with emitter? see https://github.com/phetsims/scenery/issues/594
-      } );
-      var homeScreenTracker = new TransformTracker( homeScreenHBox.getParent().getUniqueTrailTo( rootNode ), {
-        isStatic: true // our listener won't change any listeners - TODO: replace with emitter? see https://github.com/phetsims/scenery/issues/594
-      } );
-
-      function transformA11yButtonsHBox() {
-        // Ensure transform equality: navBarHBox(global) = homeScreen(global) * homeScreenHBox(self)
-        homeScreenHBox.matrix = homeScreenTracker.matrix.inverted().timesMatrix( navBarHBoxTracker.matrix );
-      }
-
-      // hook up listeners
-      navBarHBoxTracker.addListener( transformA11yButtonsHBox );
-      homeScreenTracker.addListener( transformA11yButtonsHBox );
-
-      // synchronize immediately, in case there are no more transform changes before display
-      transformA11yButtonsHBox();
-    }
-  } );
+  return inherit( HBox, A11yButtonsHBox );
 } );
