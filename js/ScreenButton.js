@@ -41,7 +41,8 @@ define( function( require ) {
     options = _.extend( {
       opacity: 1,  // The small screen's nodes have an opacity of .5
       tandem: tandem, // To be passed into mutate, but tandem should be a required param in joist
-      phetioType: ScreenButtonIO
+      phetioType: ScreenButtonIO,
+      phetioEventType: 'user'
     }, options );
 
     var screen = sim.screens[ index ];
@@ -113,7 +114,7 @@ define( function( require ) {
     var self = this;
 
     var downListener = function( event ) {
-      self.phetioStartEvent( 'user', 'fired' );
+      self.phetioStartEvent( 'fired' );
       buttonDown();
       self.phetioEndEvent();
     };
