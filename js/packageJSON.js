@@ -16,8 +16,6 @@ define( function( require ) {
 
   var packageJSON = JSON.parse( packageString );
 
-  packageJSON.version = window.getVersionForBrand( phet.chipper.brand, packageJSON.version );
-
   joist.register( 'packageJSON', packageJSON );
 
   return packageJSON;
