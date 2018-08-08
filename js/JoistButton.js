@@ -92,7 +92,8 @@ define( function( require ) {
     this.addInputListener( new PressListener( {
       tandem: tandem.createTandem( 'pressListener' ),
       isPressedProperty: this.buttonModel.downProperty,
-      isOverProperty: this.buttonModel.overProperty
+      isOverProperty: this.buttonModel.overProperty,
+      phetioInstanceDocumentation: 'Indicates when the button has been pressed or released'
     } ) );
 
     // a11y - when the button is clicked with assistive technology, fire
