@@ -91,15 +91,6 @@ define( function( require ) {
 
   joist.register( 'KeyboardHelpButton', KeyboardHelpButton );
 
-  return inherit( JoistButton, KeyboardHelpButton, {
-
-    /**
-     * To make eligible for garbage collection.
-     * @public
-     */
-    dispose: function() {
-      JoistButton.prototype.dispose && JoistButton.prototype.dispose.call( this );
-    }
-  } );
+  return inherit( JoistButton, KeyboardHelpButton );
 
 } );
