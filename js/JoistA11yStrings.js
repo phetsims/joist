@@ -23,10 +23,6 @@ define( function( require ) {
       value: 'Tab to get started'
     },
 
-    // sections in a simulation
-    sceneSummary: {
-      value: 'Scene Summary'
-    },
     playArea: {
       value: 'Play Area'
     },
