@@ -104,7 +104,11 @@ define( function( require ) {
 
       phetioType: PhetMenuIO,
       phetioState: false,
-      phetioInstanceDocumentation: 'This menu is displayed when the PhET button is pressed.'
+      phetioInstanceDocumentation: 'This menu is displayed when the PhET button is pressed.',
+
+      // a11y, tagname and role for content in the menu
+      tagName: 'ul',
+      ariaRole: 'menu'
     }, options );
 
     options.tandem = tandem;
