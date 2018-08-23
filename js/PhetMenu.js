@@ -98,10 +98,6 @@ define( function( require ) {
       // For sims that have save/load enabled, show menu items for those.
       showSaveAndLoad: false,
 
-      // a11y, tagname and role for content in the menu
-      tagName: 'ul',
-      ariaRole: 'menu',
-
       phetioType: PhetMenuIO,
       phetioState: false,
       phetioInstanceDocumentation: 'This menu is displayed when the PhET button is pressed.',
