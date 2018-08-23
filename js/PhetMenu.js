@@ -98,6 +98,10 @@ define( function( require ) {
       // For sims that have save/load enabled, show menu items for those.
       showSaveAndLoad: false,
 
+      // a11y, tagname and role for content in the menu
+      tagName: 'ul',
+      ariaRole: 'menu',
+
       phetioType: PhetMenuIO,
       phetioState: false,
       phetioInstanceDocumentation: 'This menu is displayed when the PhET button is pressed.'
@@ -403,10 +407,6 @@ define( function( require ) {
 
     // @private (PhetButton.js) - whether the PhetMenu is showing
     this.isShowing = false;
-
-    // a11y, tagname and role for content in the menu
-    this.tagName = 'ul';
-    this.ariaRole = 'menu';
 
     // a11y - add the keydown listener, handling arrow, escape, and tab keys
     // When using the arrow keys, we prevent the virtual cursor from moving in VoiceOver

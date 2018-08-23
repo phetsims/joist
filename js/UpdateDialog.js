@@ -30,16 +30,19 @@ define( function( require ) {
     var positionOptions = { centerX: 0, centerY: 0, big: true };
     var checkingNode = UpdateNodes.createCheckingNode( positionOptions );
     var upToDateNode = UpdateNodes.createUpToDateNode( positionOptions );
-    var outOfDateNode = new Node();
+
+    var outOfDateNode = new Node( {
+
+      // a11y - dialog content contained in parent div so ARIA roles can be applied to all children
+      tagName: 'div'
+    } );
+
     var offlineNode = UpdateNodes.createOfflineNode( positionOptions );
 
     function updateOutOfDateNode() {
       // fallback size placeholder for version
       var latestVersionString = UpdateCheck.latestVersion ? UpdateCheck.latestVersion.toString() : 'x.x.xx';
       var ourVersionString = UpdateCheck.ourVersion.toString();
-
-      // a11y - dialog content contained in parent div so ARIA roles can be applied to all children
-      outOfDateNode.tagName = 'div';
 
       outOfDateNode.children = [
         UpdateNodes.createOutOfDateDialogNode( self, ourVersionString, latestVersionString, positionOptions )
@@ -61,7 +64,7 @@ define( function( require ) {
       upToDateNode.visible = state === 'up-to-date';
       outOfDateNode.visible = state === 'out-of-date';
       offlineNode.visible = state === 'offline';
-      
+
       // a11y - update visibility of update nodes for screen readers by adding/removing content from the DOM, 
       // necessary because screen readers will read hidden content in a Dialog
       checkingNode.accessibleContentDisplayed = checkingNode.visible;
