@@ -27,6 +27,7 @@ define( function( require ) {
   var creditsLeadDesignString = require( 'string!JOIST/credits.leadDesign' );
   var creditsQualityAssuranceString = require( 'string!JOIST/credits.qualityAssurance' );
   var creditsSoftwareDevelopmentString = require( 'string!JOIST/credits.softwareDevelopment' );
+  var creditsSoundDesignString = require( 'string!JOIST/credits.soundDesign' );
   var creditsTeamString = require( 'string!JOIST/credits.team' );
   var creditsThanksString = require( 'string!JOIST/credits.thanks' );
   var creditsTitleString = require( 'string!JOIST/credits.title' );
@@ -82,6 +83,10 @@ define( function( require ) {
     if ( credits.graphicArts ) {
       var graphicArtsString = StringUtils.format( creditsGraphicArtsString, '\u202a' + credits.graphicArts + '\u202c' );
       children.push( new RichText( graphicArtsString, _.extend( { innerContent: graphicArtsString }, multiLineTextOptions ) ) );
+    }
+    if ( credits.soundDesign ) {
+      var soundDesignString = StringUtils.format( creditsSoundDesignString, '\u202a' + credits.soundDesign + '\u202c' );
+      children.push( new RichText( soundDesignString, _.extend( { innerContent: soundDesignString }, multiLineTextOptions ) ) );
     }
 
     //TODO obtain translation credit from strings file, see https://github.com/phetsims/joist/issues/163

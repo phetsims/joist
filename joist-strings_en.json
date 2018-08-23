@@ -75,6 +75,9 @@
   "credits.graphicArts": {
     "value": "Graphic Arts: {0}"
   },
+  "credits.soundDesign": {
+    "value": "Sound Design: {0}"
+  },
   "credits.translation": {
     "value": "Translation"
   },
