@@ -273,15 +273,12 @@ define( function( require ) {
     // flags or query params.
 
     // @public (joist-internal, read-only) {boolean} - true if the simulation uses the tambo sound library
-    this.supportsSound = phet.chipper.queryParameters.tambo || options.tambo;
+    this.supportsSound = ( phet.chipper.queryParameters.tambo || options.tambo ) && !platform.ie;
 
-    // @public (joist-internal, read-only) {boolean} - true if the simulation supports enhanced sound
-    this.supportsEnhancedSound = phet.chipper.queryParameters.supportsEnhancedSound || options.supportsEnhancedSound;
-
-    // the sim must support sound before it can support enhanced sound
-    if ( this.supportsEnhancedSound ) {
-      assert && assert( this.supportsSound, 'can\'t support enhance sound if basic sound is not enabled' );
-    }
+    // @public (joist-internal, read-only) {boolean} - true if the simulation supports enhanced sound, cannot support
+    // enhanced without supporting sound in general
+    this.supportsEnhancedSound = this.supportsSound &&
+                                 ( phet.chipper.queryParameters.supportsEnhancedSound || options.supportsEnhancedSound );
 
     // Initialize the sound library if enabled.
     if ( this.supportsSound ) {
