@@ -42,7 +42,7 @@ define( function( require ) {
       phetioType: JoistButtonIO,
 
       // a11y
-      a11yEndListener: null // {function} - called at the end of a11yClick in ButtonModel
+      a11yEndListener: null // {function} - called at the end of an accessible DOM click by the listener
     }, options );
 
     options.tandem = tandem;
