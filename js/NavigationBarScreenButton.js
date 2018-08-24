@@ -106,7 +106,7 @@ define( function( require ) {
       isPressedProperty: this.buttonModel.downProperty,
       isOverProperty: this.buttonModel.overProperty
     } );
-    this.addInputListener( pressListener.a11yListener );
+    this.addInputListener( pressListener );
     this.addAccessibleInputListener( pressListener.a11yListener );
 
     var text = new Text( screen.name, {
