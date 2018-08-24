@@ -30,7 +30,6 @@ define( function( require ) {
    * @constructor
    */
   function JoistButton( content, navigationBarFillProperty, tandem, options ) {
-    var self = this;
 
     options = _.extend( {
       cursor: 'pointer', // {string}
@@ -89,25 +88,16 @@ define( function( require ) {
     } );
 
     // Hook up the input listener
-    this.addInputListener( new PressListener( {
+    var pressListener = new PressListener( {
       tandem: tandem.createTandem( 'pressListener' ),
       isPressedProperty: this.buttonModel.downProperty,
       isOverProperty: this.buttonModel.overProperty,
       phetioInstanceDocumentation: 'Indicates when the button has been pressed or released'
-    } ) );
-
-    // a11y - when the button is clicked with assistive technology, fire
-    this.addAccessibleInputListener( {
-      click: function() {
-        self.buttonModel.a11yClick( options.a11yEndListener );
-      },
-      focus: function() {
-        self.buttonModel.overProperty.value = true;
-      },
-      blur: function() {
-        self.buttonModel.a11yBlur();
-      }
     } );
+    this.addInputListener( pressListener );
+
+    // TODO: Add a11yEndListener back into this, see https://github.com/phetsims/scenery/issues/831
+    this.addAccessibleInputListener( pressListener.a11yListener );
 
     // eliminate interactivity gap between label and button
     this.mouseArea = this.touchArea = Shape.bounds( this.bounds );

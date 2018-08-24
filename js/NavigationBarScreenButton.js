@@ -50,7 +50,6 @@ define( function( require ) {
    * @constructor
    */
   function NavigationBarScreenButton( navigationBarFillProperty, screenIndexProperty, screens, screen, navBarHeight, options ) {
-    var self = this;
 
     assert && assert( screen.name, 'name is required for screen ' + screens.indexOf( screen ) );
     assert && assert( screen.navigationBarIcon, 'navigationBarIcon is required for screen ' + screen.name );
@@ -101,25 +100,14 @@ define( function( require ) {
     } );
 
     // Hook up the input listener
-    this.addInputListener( new PressListener( {
+    var pressListener = new PressListener( {
       tandem: options.tandem.createTandem( 'pressListener' ),
       phetioInstanceDocumentation: 'Indicates when the screen button has been pressed or released',
       isPressedProperty: this.buttonModel.downProperty,
       isOverProperty: this.buttonModel.overProperty
-    } ) );
-
-    // a11y - when the button is clicked with assistive technology, fire
-    this.addAccessibleInputListener( {
-      click: function() {
-        self.buttonModel.a11yClick();
-      },
-      focus: function() {
-        self.buttonModel.overProperty.value = true;
-      },
-      blur: function() {
-        self.buttonModel.a11yBlur();
-      }
     } );
+    this.addInputListener( pressListener.a11yListener );
+    this.addAccessibleInputListener( pressListener.a11yListener );
 
     var text = new Text( screen.name, {
       font: new PhetFont( 10 ),
