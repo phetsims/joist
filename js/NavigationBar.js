@@ -194,7 +194,6 @@ define( function( require ) {
           listener: function() {
             sim.showHomeScreenProperty.value = true;
           },
-          // passed to a11yClick in ButtonModel
           a11yEndListener: function() {
             sim.homeScreen.view.highlightedScreenButton.focus();
           }
