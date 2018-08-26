@@ -806,8 +806,6 @@ define( function( require ) {
       // increment this before we can have an exception thrown, to see if we are missing frames
       this.frameCounter++;
 
-      phetAllocation && phetAllocation( 'loop' );
-
       // Apply any scaling effects here before it is used.
       dt *= phet.chipper.queryParameters.speed;
 
