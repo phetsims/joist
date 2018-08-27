@@ -184,7 +184,7 @@ define( function( require ) {
 
       // Whether the tambo sound library should be initialized and enabled.  When set to true, this will also cause an
       // icon to be added to the navigation bar to control sound on/off.
-      tambo: false,
+      supportsSound: false,
 
       // Used in conjunction with the 'tambo' flag, indicates whether sounds that are beyond the 'basic' level are
       // present in the sound design.
@@ -273,7 +273,7 @@ define( function( require ) {
     // flags or query params.
 
     // @public (joist-internal, read-only) {boolean} - true if the simulation uses the tambo sound library
-    this.supportsSound = ( phet.chipper.queryParameters.tambo || options.tambo ) && !platform.ie;
+    this.supportsSound = ( phet.chipper.queryParameters.supportsSound || options.supportsSound ) && !platform.ie;
 
     // @public (joist-internal, read-only) {boolean} - true if the simulation supports enhanced sound, cannot support
     // enhanced without supporting sound in general
