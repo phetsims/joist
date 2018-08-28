@@ -92,7 +92,8 @@ define( function( require ) {
       tandem: tandem.createTandem( 'pressListener' ),
       isPressedProperty: this.buttonModel.downProperty,
       isOverProperty: this.buttonModel.overProperty,
-      phetioInstanceDocumentation: 'Indicates when the button has been pressed or released'
+      phetioInstanceDocumentation: 'Indicates when the button has been pressed or released',
+      a11yEndListener: options.a11yEndListener // the PressListener with handle the a11y clicking as well
     } );
     this.addInputListener( pressListener );
 
