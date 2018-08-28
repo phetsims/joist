@@ -42,7 +42,7 @@ define( function( require ) {
       phetioType: JoistButtonIO,
 
       // a11y
-      a11yEndListener: null // {function} - called at the end of an accessible DOM click by the listener
+      onAccessibleClick: null // {function} - called at the end of an accessible DOM click by the listener
     }, options );
 
     options.tandem = tandem;
@@ -93,11 +93,10 @@ define( function( require ) {
       isPressedProperty: this.buttonModel.downProperty,
       isOverProperty: this.buttonModel.overProperty,
       phetioInstanceDocumentation: 'Indicates when the button has been pressed or released',
-      a11yEndListener: options.a11yEndListener // the PressListener with handle the a11y clicking as well
+      onAccessibleClick: options.onAccessibleClick // the PressListener with handle the a11y clicking as well
     } );
     this.addInputListener( pressListener );
 
-    // TODO: Add a11yEndListener back into this, see https://github.com/phetsims/scenery/issues/831
     this.addAccessibleInputListener( pressListener.a11yListener );
 
     // eliminate interactivity gap between label and button

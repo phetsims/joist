@@ -56,7 +56,7 @@ define( function( require ) {
       // a11y
       tagName: 'button',
       innerContent: hotKeysAndHelpString,
-      a11yEndListener: function() {
+      onAccessibleClick: function() {
 
         // focus the close button if the dialog is open with a keyboard
         keyboardHelpDialog.focusCloseButton();
