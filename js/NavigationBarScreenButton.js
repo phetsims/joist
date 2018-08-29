@@ -101,7 +101,7 @@ define( function( require ) {
 
     // Hook up the input listener
     var pressListener = new PressListener( {
-      tandem: options.tandem,
+      tandem: options.tandem.createTandem( 'pressListener' ),
       phetioInstanceDocumentation: 'Indicates when the screen button has been pressed or released',
       isPressedProperty: this.buttonModel.downProperty,
       isOverProperty: this.buttonModel.overProperty

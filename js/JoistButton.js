@@ -89,7 +89,7 @@ define( function( require ) {
 
     // Hook up the input listener
     var pressListener = new PressListener( {
-      tandem: tandem,
+      tandem: tandem.createTandem( 'pressListener' ),
       isPressedProperty: this.buttonModel.downProperty,
       isOverProperty: this.buttonModel.overProperty,
       phetioInstanceDocumentation: 'Indicates when the button has been pressed or released',
