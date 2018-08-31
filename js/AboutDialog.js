@@ -242,6 +242,7 @@ define( function( require ) {
     /**
      * Show the dialog
      * @public
+     * @override
      */
     show: function() {
       if ( UpdateCheck.areUpdatesChecked ) {
@@ -265,6 +266,7 @@ define( function( require ) {
     /**
      * Remove listeners that should only be called when the dialog is shown.
      * @public
+     * @override
      */
     hide: function() {
       if ( this.isShowing ) {
@@ -284,6 +286,7 @@ define( function( require ) {
     /**
      * Make eligible for garbage collection.
      * @public
+     * @override
      */
     dispose: function() {
       this.disposeAboutDialog();
