@@ -295,6 +295,7 @@ define( function( require ) {
           this._view.screenSummaryNode.setIntroString( simName, numberOfScreens );
         }
       }
+      assert && this._view.accessibleAudit();
     },
 
     // Initialize both the model and view
