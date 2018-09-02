@@ -254,7 +254,7 @@ define( function( require ) {
         }
 
         // Hook up our spinner listener when we're shown
-        Timer.addStepListener( this.updateStepListener );
+        Timer.addListener( this.updateStepListener );
 
         // Hook up our visibility listener
         UpdateCheck.stateProperty.link( this.updateVisibilityListener );
@@ -278,7 +278,7 @@ define( function( require ) {
           UpdateCheck.stateProperty.unlink( this.updateVisibilityListener );
 
           // Disconnect our spinner listener when we're hidden
-          Timer.removeStepListener( this.updateStepListener );
+          Timer.removeListener( this.updateStepListener );
         }
       }
     },

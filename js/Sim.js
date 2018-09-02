@@ -843,7 +843,7 @@ define( function( require ) {
       phet.joist.elapsedTime = phet.joist.elapsedTime + dt * 1000;
 
       // Timer step before model/view steps, see https://github.com/phetsims/joist/issues/401
-      Timer.step( dt );
+      Timer.emit1( dt );
 
       // If the DT is 0, we will skip the model step (see https://github.com/phetsims/joist/issues/171)
       if ( screen && screen.model.step && dt ) {
