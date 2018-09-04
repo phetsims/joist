@@ -22,7 +22,7 @@ define( function( require ) {
   var RichText = require( 'SCENERY/nodes/RichText' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var Timer = require( 'PHET_CORE/Timer' );
+  var timer = require( 'PHET_CORE/timer' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var UpdateNodes = require( 'JOIST/UpdateNodes' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -254,7 +254,7 @@ define( function( require ) {
         }
 
         // Hook up our spinner listener when we're shown
-        Timer.addListener( this.updateStepListener );
+        timer.addListener( this.updateStepListener );
 
         // Hook up our visibility listener
         UpdateCheck.stateProperty.link( this.updateVisibilityListener );
@@ -278,7 +278,7 @@ define( function( require ) {
           UpdateCheck.stateProperty.unlink( this.updateVisibilityListener );
 
           // Disconnect our spinner listener when we're hidden
-          Timer.removeListener( this.updateStepListener );
+          timer.removeListener( this.updateStepListener );
         }
       }
     },

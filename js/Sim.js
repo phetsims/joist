@@ -42,7 +42,7 @@ define( function( require ) {
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   var soundManager = require( 'TAMBO/soundManager' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var Timer = require( 'PHET_CORE/Timer' );
+  var timer = require( 'PHET_CORE/timer' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var Util = require( 'SCENERY/util/Util' );
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
@@ -842,8 +842,8 @@ define( function( require ) {
       // Store the elapsed time in milliseconds for usage by Tween clients
       phet.joist.elapsedTime = phet.joist.elapsedTime + dt * 1000;
 
-      // Timer step before model/view steps, see https://github.com/phetsims/joist/issues/401
-      Timer.emit1( dt );
+      // timer step before model/view steps, see https://github.com/phetsims/joist/issues/401
+      timer.emit1( dt );
 
       // If the DT is 0, we will skip the model step (see https://github.com/phetsims/joist/issues/171)
       if ( screen && screen.model.step && dt ) {
