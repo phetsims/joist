@@ -11,7 +11,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  // var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
