@@ -132,5 +132,8 @@
   },
   "simTitleWithScreenNamePattern": {
     "value": "{{simName}} \u2014 {{screenName}}"
+  },
+  "projectorMode": {
+    "value": "Projector Mode"
   }
 }
