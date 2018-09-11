@@ -11,7 +11,6 @@ define( require => {
   // modules
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Checkbox = require( 'SUN/Checkbox' );
-  const inherit = require( 'PHET_CORE/inherit' );
   const joist = require( 'JOIST/joist' );
   const OptionsDialog = require( 'JOIST/OptionsDialog' );
   const Text = require( 'SCENERY/nodes/Text' );
@@ -23,47 +22,48 @@ define( require => {
    * @param {Object} [options]
    * @constructor
    */
-  function ProjectorModeCheckbox( options ) {
+  class ProjectorModeCheckbox extends Checkbox {
 
-    const self = this;
+    constructor( options ) {
 
-    options = _.extend( {
+      options = _.extend( {
 
-      font: OptionsDialog.DEFAULT_FONT,
-      maxTextWidth: 350, // empirically determined, works reasonably well for long strings
+        font: OptionsDialog.DEFAULT_FONT,
+        maxTextWidth: 350, // empirically determined, works reasonably well for long strings
 
-      // property that can be used for setting the projector mode, created below if not supplied
-      projectorModeEnabledProperty: null
-    } );
+        // property that can be used for setting the projector mode, created below if not supplied
+        projectorModeEnabledProperty: null
+      }, options );
 
-    // @private {boolean} - does this instance own projectorModeEnabledProperty?
-    this.ownsProjectorModeEnabledProperty = !options.projectorModeEnabledProperty;
+      // Does this instance own projectorModeEnabledProperty?
+      const ownsProjectorModeEnabledProperty = !options.projectorModeEnabledProperty;
 
-    // @public {BooleanProperty} - projector mode state, create one if not provided
-    this.projectorModeEnabledProperty = options.projectorModeEnabledProperty ||
-                                        new BooleanProperty( phet.chipper.queryParameters.colorProfile === 'projector' );
+      // @public {BooleanProperty} - projector mode state, create one if not provided
+      const projectorModeEnabledProperty = options.projectorModeEnabledProperty ||
+                                           new BooleanProperty( phet.chipper.queryParameters.colorProfile === 'projector' );
 
-    const label = new Text( projectorModeString, {
-      font: options.font,
-      maxWidth: options.maxTextWidth
-    } );
-    Checkbox.call( this, label, this.projectorModeEnabledProperty, options );
+      const label = new Text( projectorModeString, {
+        font: options.font,
+        maxWidth: options.maxTextWidth
+      } );
+      super( label, projectorModeEnabledProperty, options );
 
-    // @private - dispose function
-    this.disposeProjectorModeCheckbox = function() {
-      if ( self.ownsProjectorModeEnabledProperty ) {
-        self.projectorModeEnabledProperty.dispose();
-      }
-    };
+      // @public {BooleanProperty} - make the projector mode enabled property available to clients
+      this.projectorModeEnabledProperty = projectorModeEnabledProperty;
+
+      // @private - dispose function
+      this.disposeProjectorModeCheckbox = function() {
+        if ( ownsProjectorModeEnabledProperty ) {
+          projectorModeEnabledProperty.dispose();
+        }
+      };
+    }
+
+    dispose() {
+      this.disposeProjectorModeCheckbox();
+      super.dispose();
+    }
   }
 
-  joist.register( 'ProjectorModeCheckbox', ProjectorModeCheckbox );
-
-  return inherit( Checkbox, ProjectorModeCheckbox, {
-
-    dispose: function() {
-      this.disposeProjectorModeCheckbox();
-      Checkbox.prototype.dispose.call( this );
-    }
-  } );
+  return joist.register( 'ProjectorModeCheckbox', ProjectorModeCheckbox );
 } );
