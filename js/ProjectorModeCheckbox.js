@@ -9,15 +9,15 @@ define( require => {
   'use strict';
 
   // modules
-  var BooleanProperty = require( 'AXON/BooleanProperty' );
-  var Checkbox = require( 'SUN/Checkbox' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var joist = require( 'JOIST/joist' );
-  var OptionsDialog = require( 'JOIST/OptionsDialog' );
-  var Text = require( 'SCENERY/nodes/Text' );
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const Checkbox = require( 'SUN/Checkbox' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const joist = require( 'JOIST/joist' );
+  const OptionsDialog = require( 'JOIST/OptionsDialog' );
+  const Text = require( 'SCENERY/nodes/Text' );
 
   // strings
-  var projectorModeString = require( 'string!JOIST/projectorMode' );
+  const projectorModeString = require( 'string!JOIST/projectorMode' );
 
   /**
    * @param {Object} [options]
@@ -25,7 +25,7 @@ define( require => {
    */
   function ProjectorModeCheckbox( options ) {
 
-    var self = this;
+    const self = this;
 
     options = _.extend( {
 
@@ -36,14 +36,14 @@ define( require => {
       projectorModeEnabledProperty: null
     } );
 
-    // @private {boolean} does this instance own projectorModeEnabledProperty?
+    // @private {boolean} - does this instance own projectorModeEnabledProperty?
     this.ownsProjectorModeEnabledProperty = !options.projectorModeEnabledProperty;
 
     // @public {BooleanProperty} - projector mode state, create one if not provided
     this.projectorModeEnabledProperty = options.projectorModeEnabledProperty ||
                                         new BooleanProperty( phet.chipper.queryParameters.colorProfile === 'projector' );
 
-    var label = new Text( projectorModeString, {
+    const label = new Text( projectorModeString, {
       font: options.font,
       maxWidth: options.maxTextWidth
     } );
