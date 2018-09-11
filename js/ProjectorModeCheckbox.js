@@ -19,9 +19,6 @@ define( require => {
   // strings
   var projectorModeString = require( 'string!JOIST/projectorMode' );
 
-  // constants
-  var MAX_CHECKBOX_TEXT_WIDTH = 350;
-
   /**
    * @param {Object} [options]
    * @constructor
@@ -31,6 +28,9 @@ define( require => {
     var self = this;
 
     options = _.extend( {
+
+      font: OptionsDialog.DEFAULT_FONT,
+      maxTextWidth: 350, // empirically determined, works reasonably well for long strings
 
       // property that can be used for setting the projector mode, created below if not supplied
       projectorModeEnabledProperty: null
@@ -44,8 +44,8 @@ define( require => {
                                         new BooleanProperty( phet.chipper.queryParameters.colorProfile === 'projector' );
 
     var label = new Text( projectorModeString, {
-      font: OptionsDialog.DEFAULT_FONT,
-      maxWidth: MAX_CHECKBOX_TEXT_WIDTH
+      font: options.font,
+      maxWidth: options.maxTextWidth
     } );
     Checkbox.call( this, label, this.projectorModeEnabledProperty, options );
 
