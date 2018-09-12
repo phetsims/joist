@@ -61,7 +61,6 @@ define( function( require ) {
     }
   }, {
     documentation: 'The PhET Button in the bottom right of the screen',
-    events: [ 'fired' ],
 
     /**
      * See NodeIO.toStateObject

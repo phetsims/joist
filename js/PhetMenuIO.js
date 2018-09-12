@@ -30,8 +30,7 @@ define( function( require ) {
 
   // don't inherit from NodeIO so that its visibility can't be changed
   phetioInherit( ObjectIO, 'PhetMenuIO', PhetMenuIO, {}, {
-    documentation: 'The PhET Menu in the bottom right of the screen',
-    event: [ 'fired' ]
+    documentation: 'The PhET Menu in the bottom right of the screen'
   } );
 
   joist.register( 'PhetMenuIO', PhetMenuIO );
