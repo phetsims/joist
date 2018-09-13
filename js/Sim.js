@@ -191,7 +191,11 @@ define( function( require ) {
       supportsEnhancedSound: false,
 
       // the default renderer for the rootNode, see #221, #184 and https://github.com/phetsims/molarity/issues/24
-      rootRenderer: platform.edge ? 'canvas' : 'svg'
+      rootRenderer: platform.edge ? 'canvas' : 'svg',
+
+      // {boolean} - Whether to allow WebGL 2x scaling when antialiasing is detected. If running out of memory on
+      // things like iPad 2s (e.g. https://github.com/phetsims/scenery/issues/859), this can be turned to false to help.
+      allowBackingScaleAntialiasing: true
     }, options );
 
     // @public - used by PhetButton and maybe elsewhere
@@ -361,7 +365,8 @@ define( function( require ) {
       allowWebGL: phet.chipper.queryParameters.webgl,
       accessibility: phet.chipper.accessibility,
       isApplication: false,
-      assumeFullWindow: true // a bit faster if we can assume no coordinate translations are needed for the display.
+      assumeFullWindow: true, // a bit faster if we can assume no coordinate translations are needed for the display.
+      allowBackingScaleAntialiasing: options.allowBackingScaleAntialiasing
     } );
 
     // @private {InputFuzzer}
