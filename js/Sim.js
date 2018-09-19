@@ -186,7 +186,7 @@ define( function( require ) {
       // icon to be added to the navigation bar to control sound on/off.
       supportsSound: false,
 
-      // Used in conjunction with the 'tambo' flag, indicates whether sounds that are beyond the 'basic' level are
+      // Used in conjunction with the 'tambo' flag, indicates whether sounds that are beyond the 'BASIC' level are
       // present in the sound design.
       supportsEnhancedSound: false,
 
