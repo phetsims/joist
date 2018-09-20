@@ -395,7 +395,9 @@ define( function( require ) {
       this.display.scenery.switchLogToString();
     }
 
-    this.display.initializeEvents( ROOT_TANDEM.createTandem( 'controller' ) ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
+    this.display.initializeEvents( {
+      tandem: ROOT_TANDEM.createTandem( 'controller' ).createTandem( 'input' )
+    } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
     window.phet.joist.rootNode = this.rootNode; // make the scene available for debugging
     window.phet.joist.display = this.display; // make the display available for debugging
 
