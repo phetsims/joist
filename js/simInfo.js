@@ -32,7 +32,6 @@ define( function( require ) {
   addInfo( 'referrer', document.referrer );
 
   // from Scenery Util
-  addInfo( 'pixelRatio', Util.back );
   addInfo( 'checkIE11StencilSupport', Util.checkIE11StencilSupport );
   if ( phet.chipper.queryParameters.webgl ) {
     addInfo( 'isWebGLSupported', Util.isWebGLSupported );
@@ -45,13 +44,11 @@ define( function( require ) {
   try {
     canvas = document.createElement( 'canvas' );
     context = canvas.getContext( '2d' );
-    backingStorePixelRatio = context.webkitBackingStorePixelRatio ||
-                             context.mozBackingStorePixelRatio ||
-                             context.msBackingStorePixelRatio ||
-                             context.oBackingStorePixelRatio ||
-                             context.backingStorePixelRatio || 1;
+    backingStorePixelRatio = Util.backingStorePixelRatio( context );
   }
   catch( e ) {} // eslint-disable-line
+
+  addInfo( 'pixelRatio', ( window.devicePixelRatio || 1 ) + '/' + backingStorePixelRatio );
 
   var flags = [];
   if ( window.navigator.pointerEnabled ) { flags.push( 'pointerEnabled' ); }
@@ -70,6 +67,10 @@ define( function( require ) {
         addInfo( 'simVersion', sim.version );
         addInfo( 'repoName', packageJSON.name );
       }
+
+      // (phet-io) if there is metadata from the wrapper
+      addInfo( 'wrapperMetadata', window.simStartedMetadata );
+
       return info;
     }
   };
