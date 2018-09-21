@@ -21,10 +21,13 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var ToggleNode = require( 'SUN/ToggleNode' );
+  var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
   var Vector2 = require( 'DOT/Vector2' );
 
   // a11y strings
   var soundOnOffString = JoistA11yStrings.soundOnOffButton.value;
+  var simSoundOnString = JoistA11yStrings.simSoundOnString.value;
+  var simSoundOffString = JoistA11yStrings.simSoundOffString.value;
 
   // constants for node background
   var NODE_HEIGHT = 22.0;
@@ -56,6 +59,7 @@ define( function( require ) {
    * @constructor
    */
   function NavigationBarSoundToggleButton( soundEnabledProperty, backgroundColorProperty, tandem, options ) {
+    var self = this;
 
     options = _.extend( {
       highlightExtensionWidth: 5,
@@ -140,6 +144,17 @@ define( function( require ) {
     );
 
     JoistButton.call( this, toggleNode, backgroundColorProperty, tandem, options );
+
+    // accessible attribute lets user know when the toggle is pressed, linked lazily so that an alert isn't triggered
+    // on construction and must be unlinked in dispose
+    var pressedListener = function( value ) {
+      self.setAccessibleAttribute( 'aria-pressed', !value );
+
+      var alertString = value ? simSoundOnString : simSoundOffString;
+      utteranceQueue.addToBack( alertString );
+    };
+    soundEnabledProperty.lazyLink( pressedListener );
+    this.setAccessibleAttribute( 'aria-pressed', !soundEnabledProperty.get() );
 
     // change the icon so that it is visible when the background changes from dark to light
     backgroundColorProperty.link( function( backgroundColor ) {
