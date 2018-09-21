@@ -14,7 +14,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var PressListener = require( 'SCENERY/listeners/PressListener' );
   var Property = require( 'AXON/Property' );
   var PushButtonInteractionStateProperty = require( 'SUN/buttons/PushButtonInteractionStateProperty' );
   var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
@@ -86,15 +85,11 @@ define( function( require ) {
     } );
 
     // Hook up the input listener
-    var pressListener = new PressListener( {
+    var pressListener = this.buttonModel.createListener( {
       tandem: tandem.createTandem( 'pressListener' ),
-      isPressedProperty: this.buttonModel.downProperty,
-      isOverProperty: this.buttonModel.overProperty,
-      phetioInstanceDocumentation: 'Indicates when the button has been pressed or released',
       onAccessibleClick: options.onAccessibleClick // the PressListener with handle the a11y clicking as well
     } );
     this.addInputListener( pressListener );
-
     this.addAccessibleInputListener( pressListener.a11yListener );
 
     // eliminate interactivity gap between label and button

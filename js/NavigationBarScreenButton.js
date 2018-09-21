@@ -20,7 +20,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var PressListener = require( 'SCENERY/listeners/PressListener' );
   var Property = require( 'AXON/Property' );
   var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -100,12 +99,11 @@ define( function( require ) {
     } );
 
     // Hook up the input listener
-    var pressListener = new PressListener( {
+    var pressListener = this.buttonModel.createListener( {
       tandem: options.tandem.createTandem( 'pressListener' ),
-      phetioInstanceDocumentation: 'Indicates when the screen button has been pressed or released',
-      isPressedProperty: this.buttonModel.downProperty,
-      isOverProperty: this.buttonModel.overProperty
+      phetioInstanceDocumentation: 'Indicates when the screen button has been pressed or released'
     } );
+
     this.addInputListener( pressListener );
     this.addAccessibleInputListener( pressListener.a11yListener );
 
@@ -144,10 +142,10 @@ define( function( require ) {
     // manage interaction feedback
     Property.multilink( [
       selectedProperty,
-      this.buttonModel.downProperty,
+      this.buttonModel.looksPressedProperty,
       this.buttonModel.overProperty,
       navigationBarFillProperty
-    ], function update( selected, down, over, navigationBarFill ) {
+    ], function update( selected, looksPressed, over, navigationBarFill ) {
 
       var useDarkenHighlights = ( navigationBarFill !== 'black' );
 
@@ -156,9 +154,9 @@ define( function( require ) {
       var unselectedTextColor = useDarkenHighlights ? 'gray' : 'white';
 
       text.fill = selected ? selectedTextColor : unselectedTextColor;
-      box.opacity = selected ? 1.0 : ( down ? 0.65 : 0.5 );
-      brightenHighlight.visible = !useDarkenHighlights && ( over || down );
-      darkenHighlight.visible = useDarkenHighlights && ( over || down );
+      box.opacity = selected ? 1.0 : ( looksPressed ? 0.65 : 0.5 );
+      brightenHighlight.visible = !useDarkenHighlights && ( over || looksPressed );
+      darkenHighlight.visible = useDarkenHighlights && ( over || looksPressed );
     } );
 
     // Constrain text and icon width, if necessary
