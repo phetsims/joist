@@ -69,7 +69,9 @@ define( function( require ) {
       }
 
       // (phet-io) if there is metadata from the wrapper
-      addInfo( 'wrapperMetadata', window.simStartedMetadata );
+      if ( phet && phet.phetio ) {
+        addInfo( 'wrapperMetadata', phet.phetio.simStartedMetadata );
+      }
 
       return info;
     }
