@@ -16,7 +16,7 @@ define( function( require ) {
 
   var info = {};
 
-  function addInfo( key, value ) {
+  function putInfo( key, value ) {
     if ( value === undefined ) {
       value = '{{undefined}}';
     }
@@ -24,17 +24,17 @@ define( function( require ) {
   }
 
   // globals
-  addInfo( 'url', window.location.href );
-  addInfo( 'randomSeed', window.phet.chipper.randomSeed );
-  addInfo( 'userAgent', window.navigator.userAgent );
-  addInfo( 'language', window.navigator.language );
-  addInfo( 'window', window.innerWidth + 'x' + window.innerHeight );
-  addInfo( 'referrer', document.referrer );
+  putInfo( 'url', window.location.href );
+  putInfo( 'randomSeed', window.phet.chipper.randomSeed );
+  putInfo( 'userAgent', window.navigator.userAgent );
+  putInfo( 'language', window.navigator.language );
+  putInfo( 'window', window.innerWidth + 'x' + window.innerHeight );
+  putInfo( 'referrer', document.referrer );
 
   // from Scenery Util
-  addInfo( 'checkIE11StencilSupport', Util.checkIE11StencilSupport );
+  putInfo( 'checkIE11StencilSupport', Util.checkIE11StencilSupport );
   if ( phet.chipper.queryParameters.webgl ) {
-    addInfo( 'isWebGLSupported', Util.isWebGLSupported );
+    putInfo( 'isWebGLSupported', Util.isWebGLSupported );
   }
 
   var canvas;
@@ -48,14 +48,14 @@ define( function( require ) {
   }
   catch( e ) {} // eslint-disable-line
 
-  addInfo( 'pixelRatio', ( window.devicePixelRatio || 1 ) + '/' + backingStorePixelRatio );
+  putInfo( 'pixelRatio', ( window.devicePixelRatio || 1 ) + '/' + backingStorePixelRatio );
 
   var flags = [];
   if ( window.navigator.pointerEnabled ) { flags.push( 'pointerEnabled' ); }
   if ( window.navigator.msPointerEnabled ) { flags.push( 'msPointerEnabled' ); }
   if ( !window.navigator.onLine ) { flags.push( 'offline' ); }
   if ( ( window.devicePixelRatio || 1 ) / backingStorePixelRatio !== 1 ) { flags.push( 'pixelRatioScaling' ); }
-  addInfo( 'flags', flags.join( ', ' ) );
+  putInfo( 'flags', flags.join( ', ' ) );
 
   canvas = null; // dispose only reference
 
@@ -63,14 +63,14 @@ define( function( require ) {
     getInfo: function( sim, packageJSON ) {
 
       if ( !info.simName ) {
-        addInfo( 'simName', sim.name );
-        addInfo( 'simVersion', sim.version );
-        addInfo( 'repoName', packageJSON.name );
+        putInfo( 'simName', sim.name );
+        putInfo( 'simVersion', sim.version );
+        putInfo( 'repoName', packageJSON.name );
       }
 
       // (phet-io) if there is metadata from the wrapper
-      if ( phet && phet.phetio ) {
-        addInfo( 'wrapperMetadata', phet.phetio.simStartedMetadata );
+      if ( phet.phetio ) {
+        putInfo( 'wrapperMetadata', phet.phetio.simStartedMetadata );
       }
 
       return info;
