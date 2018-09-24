@@ -276,8 +276,11 @@ define( function( require ) {
     // Set/update global flag values that enable and configure the sound library.  These can be controlled through sim
     // flags or query params.
 
-    // @public (joist-internal, read-only) {boolean} - true if the simulation uses the tambo sound library
-    this.supportsSound = ( phet.chipper.queryParameters.supportsSound || options.supportsSound ) && !platform.ie;
+    // @public (joist-internal, read-only) {boolean} - true if the simulation supports sound and sound is enabled
+    this.supportsSound = ( phet.chipper.queryParameters.supportsSound || options.supportsSound ) &&
+                         ( phet.chipper.queryParameters.sound === 'enabled' ||
+                           phet.chipper.queryParameters.sound === 'muted' ) &&
+                         !platform.ie;
 
     // @public (joist-internal, read-only) {boolean} - true if the simulation supports enhanced sound, cannot support
     // enhanced without supporting sound in general
