@@ -8,6 +8,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  const Tandem = require( 'TANDEM/Tandem' );
   var checkNamespaces = require( 'JOIST/checkNamespaces' );
   var joist = require( 'JOIST/joist' );
   var Random = require( 'DOT/Random' );
@@ -38,6 +39,7 @@ define( function( require ) {
         window.phetLaunchSimulation = function() {
 
           // After listeners have been attached, we can send the buffered events to all the listeners.
+          Tandem.launch();
           phetioEvents.launch && phetioEvents.launch();
 
           // Provide a global Random that is easy to use and seedable from phet-io for playback
