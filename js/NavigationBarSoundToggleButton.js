@@ -39,6 +39,7 @@ define( function( require ) {
   var SPEAKER_BACK_WIDTH = SPEAKER_WIDTH * 0.46;
   var SPEAKER_BACK_HEIGHT = SPEAKER_HEIGHT * 0.35;
   var SPEAKER_BACK_Y_SPACE = ( SPEAKER_HEIGHT - SPEAKER_BACK_HEIGHT ) / 2.0; // space between top of speaker back and top of cone
+  var CORNER_RADIUS = 1.0;
 
   // constant for drawing sound off X
   var X_WIDTH = SPEAKER_HEIGHT * 0.52;
@@ -85,9 +86,11 @@ define( function( require ) {
       new Shape()
         .moveTo( SPEAKER_WIDTH, 0 )
         .lineTo( SPEAKER_BACK_WIDTH, SPEAKER_BACK_Y_SPACE )
-        .lineTo( 0, SPEAKER_BACK_Y_SPACE )
-        .lineToRelative( 0, SPEAKER_BACK_HEIGHT )
-        .lineToRelative( SPEAKER_BACK_WIDTH, 0 )
+        .lineTo( CORNER_RADIUS, SPEAKER_BACK_Y_SPACE )
+        .arc( CORNER_RADIUS, SPEAKER_BACK_Y_SPACE + CORNER_RADIUS, CORNER_RADIUS, Math.PI * 1.5, Math.PI, true )
+        .lineToRelative( 0, SPEAKER_BACK_HEIGHT - ( 2 * CORNER_RADIUS ) )
+        .arc( CORNER_RADIUS, SPEAKER_BACK_Y_SPACE + SPEAKER_BACK_HEIGHT - CORNER_RADIUS, CORNER_RADIUS, Math.PI, Math.PI * 0.5, true )
+        .lineToRelative( SPEAKER_BACK_WIDTH - CORNER_RADIUS, 0 )
         .lineTo( SPEAKER_WIDTH, SPEAKER_HEIGHT )
         .lineTo( SPEAKER_WIDTH, 0 )
         .close(),
