@@ -289,7 +289,7 @@ define( function( require ) {
 
     // Initialize the sound library if enabled.
     if ( this.supportsSound ) {
-      soundManager.initialize( this.browserTabVisibleProperty );
+      soundManager.initialize( this.browserTabVisibleProperty, this.activeProperty );
     }
 
     assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
