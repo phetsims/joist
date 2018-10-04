@@ -194,7 +194,7 @@ define( function( require ) {
           listener: function() {
             sim.showHomeScreenProperty.value = true;
           },
-          onAccessibleClick: function() {
+          accessibleClick: function() {
             sim.homeScreen.view.highlightedScreenButton.focus();
           }
         } );
