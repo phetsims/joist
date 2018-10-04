@@ -39,7 +39,7 @@ define( function( require ) {
       highlightCenterOffsetY: 0,
 
       // a11y
-      onAccessibleClick: null // {function} - called at the end of an accessible DOM click by the listener
+      accessibleClick: _.noop // {function} - called at the end of an accessible DOM click by the listener
     }, options );
 
     options.tandem = tandem;
@@ -87,7 +87,7 @@ define( function( require ) {
     // Hook up the input listener
     var pressListener = this.buttonModel.createListener( {
       tandem: tandem.createTandem( 'pressListener' ),
-      onAccessibleClick: options.onAccessibleClick // the PressListener with handle the a11y clicking as well
+      accessibleClick: options.accessibleClick // the PressListener with handle the a11y clicking as well
     } );
     this.addInputListener( pressListener );
     this.addAccessibleInputListener( pressListener.a11yListener );
