@@ -217,7 +217,7 @@ define( function( require ) {
     // @public (joist-internal) - The selected screen's index
     this.screenIndexProperty = new NumberProperty( options.screenIndex, {
       tandem: ROOT_TANDEM.createTandem( 'screenIndexProperty' ),
-      phetioInstanceDocumentation: 'Indicates which screen is selected (0-indexed)',
+      phetioDocumentation: 'Indicates which screen is selected (0-indexed)',
       validValues: _.range( 0, screens.length ),
       numberType: 'Integer'
     } );
@@ -227,15 +227,15 @@ define( function( require ) {
     // activeProperty will automatically be set to false so the timing and inputs can be controlled by the playback engine
     this.activeProperty = new BooleanProperty( !phet.joist.playbackModeEnabledProperty.value, {
       tandem: ROOT_TANDEM.createTandem( 'activeProperty' ),
-      phetioInstanceDocumentation: 'Determines whether the entire simulation is running and processing user input. ' +
-                                   'Setting this property to false pauses the simulation, and prevents user interaction.',
+      phetioDocumentation: 'Determines whether the entire simulation is running and processing user input. ' +
+                           'Setting this property to false pauses the simulation, and prevents user interaction.',
       phetioType: PropertyIO( BooleanIO )
     } );
 
     // @public (read-only) - property that indicates whether the browser tab containing the simulation is currently visible
     this.browserTabVisibleProperty = new BooleanProperty( true, {
       tandem: ROOT_TANDEM.createTandem( 'browserTabVisibleProperty' ),
-      phetioInstanceDocumentation: 'Indicates whether the browser tab containing the simulation is currently visible',
+      phetioDocumentation: 'Indicates whether the browser tab containing the simulation is currently visible',
       phetioReadOnly: true
     } );
 
@@ -548,7 +548,7 @@ define( function( require ) {
           fill: 'rgba(0,0,0,0.3)',
           pickable: true,
           tandem: ROOT_TANDEM.createTandem( 'barrierRectangle' ),
-          phetioInstanceDocumentation: 'Semi-transparent barrier used to block input events when a dialog is shown, also fades out the background'
+          phetioDocumentation: 'Semi-transparent barrier used to block input events when a dialog is shown, also fades out the background'
         } );
       this.topLayer.addChild( this.barrierRectangle );
 

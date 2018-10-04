@@ -100,7 +100,7 @@ define( function( require ) {
 
       phetioType: PhetMenuIO,
       phetioState: false,
-      phetioInstanceDocumentation: 'This menu is displayed when the PhET button is pressed.',
+      phetioDocumentation: 'This menu is displayed when the PhET button is pressed.',
 
       // a11y, tagname and role for content in the menu
       tagName: 'ul',
@@ -133,7 +133,7 @@ define( function( require ) {
           optionsDialog.show();
         },
         tandem: tandem.createTandem( 'optionsMenuItem' ),
-        phetioInstanceDocumentation: 'This menu item shows an options dialog.',
+        phetioDocumentation: 'This menu item shows an options dialog.',
         phetioState: false,
 
         // a11y
@@ -274,7 +274,7 @@ define( function( require ) {
           }
         },
         tandem: tandem.createTandem( 'screenshotMenuItem' ),
-        phetioInstanceDocumentation: 'This menu item captures a screenshot from the simulation and saves it to the file system.',
+        phetioDocumentation: 'This menu item captures a screenshot from the simulation and saves it to the file system.',
         phetioState: false,
         tagName: 'button'
       },
@@ -288,7 +288,7 @@ define( function( require ) {
           soundManager.enhancedSoundEnabledProperty.set( !soundManager.enhancedSoundEnabledProperty.get() );
         },
         tandem: tandem.createTandem( 'enhancedSoundMenuItem' ),
-        phetioInstanceDocumentation: 'This menu item toggles between basic and enhanced sound modes.',
+        phetioDocumentation: 'This menu item toggles between basic and enhanced sound modes.',
         phetioState: false,
         tagName: 'button'
       },
@@ -302,7 +302,7 @@ define( function( require ) {
           FullScreen.toggleFullScreen( sim.display );
         },
         tandem: tandem.createTandem( 'fullScreenMenuItem' ),
-        phetioInstanceDocumentation: 'This menu item requests full-screen access for the simulation display.',
+        phetioDocumentation: 'This menu item requests full-screen access for the simulation display.',
         phetioState: false,
 
         // a11y
@@ -323,7 +323,7 @@ define( function( require ) {
           aboutDialog.show();
         },
         tandem: tandem.createTandem( 'aboutMenuItem' ),
-        phetioInstanceDocumentation: 'This menu item shows a dialog with information about the simulation.',
+        phetioDocumentation: 'This menu item shows a dialog with information about the simulation.',
         tagName: 'button',
         focusAfterCallback: true,
         phetioReadOnly: true,
@@ -352,7 +352,7 @@ define( function( require ) {
           separatorBefore: itemDescriptor.separatorBefore,
           tagName: itemDescriptor.tagName,
           tandem: itemDescriptor.tandem,
-          phetioInstanceDocumentation: itemDescriptor.phetioInstanceDocumentation,
+          phetioDocumentation: itemDescriptor.phetioDocumentation,
           focusAfterCallback: itemDescriptor.focusAfterCallback,
           phetioReadOnly: itemDescriptor.phetioReadOnly,
           phetioState: itemDescriptor.phetioState

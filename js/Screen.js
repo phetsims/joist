@@ -131,7 +131,7 @@ define( function( require ) {
       tandem: options.tandem.createTandem( 'activeProperty' ),
       phetioType: PropertyIO( BooleanIO ),
       phetioReadOnly: true,
-      phetioInstanceDocumentation: 'Indicates whether the screen is active.  For single-screen simulations, the screen is always active.'
+      phetioDocumentation: 'Indicates whether the screen is active.  For single-screen simulations, the screen is always active.'
     } );
 
     // @public (a11y) - used to set the ScreenView's descriptionContent. This is a bit of a misnomer because Screen is
