@@ -36,16 +36,13 @@ define( function( require ) {
       highlightExtensionWidth: 0,
       highlightExtensionHeight: 0,
       highlightCenterOffsetX: 0,
-      highlightCenterOffsetY: 0,
-
-      // a11y
-      accessibleClick: _.noop // {function} - called at the end of an accessible DOM click by the listener
+      highlightCenterOffsetY: 0
     }, options );
 
     options.tandem = tandem;
 
-    // @public (phet-io) - Button model
-    // Note it shares a tandem with this, so the emitter will be instrumented as a child of the button
+    // @public (phet-io|a11y) - Button model
+    // Note it shares a tandem with "this", so the emitter will be instrumented as a child of the button
     this.buttonModel = new PushButtonModel( options );
 
     // Create both highlights and only make the one visible that corresponds to the color scheme
@@ -86,8 +83,7 @@ define( function( require ) {
 
     // Hook up the input listener
     var pressListener = this.buttonModel.createListener( {
-      tandem: tandem.createTandem( 'pressListener' ),
-      accessibleClick: options.accessibleClick // the PressListener with handle the a11y clicking as well
+      tandem: tandem.createTandem( 'pressListener' )
     } );
     this.addInputListener( pressListener );
     this.addAccessibleInputListener( pressListener.a11yListener );

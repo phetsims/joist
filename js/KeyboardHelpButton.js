@@ -55,12 +55,7 @@ define( function( require ) {
 
       // a11y
       tagName: 'button',
-      innerContent: hotKeysAndHelpString,
-      accessibleClick: function() {
-
-        // focus the close button if the dialog is open with a keyboard
-        keyboardHelpDialog.focusCloseButton();
-      }
+      innerContent: hotKeysAndHelpString
     }, options );
 
     assert && assert( !options.listener, 'KeyboardHelpButton set\'s its own listener' );
@@ -73,6 +68,13 @@ define( function( require ) {
         } );
       }
       keyboardHelpDialog.show();
+
+      // if listener was fired because of accessibility
+      if ( self.buttonModel.isA11yClicking() ) {
+
+        // focus the close button if the dialog is open with a keyboard
+        keyboardHelpDialog.focusCloseButton();
+      }
     };
     options.listener = openDialog;
 

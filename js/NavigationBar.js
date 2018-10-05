@@ -193,9 +193,11 @@ define( function( require ) {
         tandem.createTandem( 'homeButton' ), {
           listener: function() {
             sim.showHomeScreenProperty.value = true;
-          },
-          accessibleClick: function() {
-            sim.homeScreen.view.highlightedScreenButton.focus();
+
+            // only if fired from a11y
+            if ( self.homeButton.buttonModel.isA11yClicking() ) {
+              sim.homeScreen.view.focusHighlightedScreenButton();
+            }
           }
         } );
 

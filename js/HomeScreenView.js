@@ -172,7 +172,7 @@ define( function( require ) {
 
     var hBox = null;
 
-    // @public - for a11y, allow focus to be set when returning to home screen from sim
+    // @private - for a11y, allow focus to be set when returning to home screen from sim
     this.highlightedScreenButton = null;
 
     sim.screenIndexProperty.link( function( screenIndex ) {
@@ -217,7 +217,16 @@ define( function( require ) {
 
   joist.register( 'HomeScreenView', HomeScreenView );
 
-  return inherit( ScreenView, HomeScreenView, {},
+  return inherit( ScreenView, HomeScreenView, {
+
+      /**
+       * For a11y, highlight the currently selected screen button
+       * @public
+       */
+      focusHighlightedScreenButton: function() {
+        this.highlightedScreenButton.focus();
+      }
+    },
     // @public - statics
     {
       TITLE_FONT_FAMILY: TITLE_FONT_FAMILY,
