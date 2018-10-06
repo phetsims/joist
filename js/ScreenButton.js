@@ -11,13 +11,13 @@ define( function( require ) {
 
   // modules
   var Frame = require( 'JOIST/Frame' );
+  var FireListener = require( 'SCENERY/listeners/FireListener' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var ScreenButtonIO = require( 'JOIST/ScreenButtonIO' );
   var Shape = require( 'KITE/Shape' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Touch = require( 'SCENERY/input/Touch' );
@@ -41,8 +41,8 @@ define( function( require ) {
     options = _.extend( {
       opacity: 1,  // The small screen's nodes have an opacity of .5
       tandem: tandem, // To be passed into mutate, but tandem should be a required param in joist
-      phetioType: ScreenButtonIO,
-      phetioEventType: 'user'
+      phetioEventType: 'user',
+      phetioDocumentation: 'A pressable button in the simulation, in the home screen'
     }, options );
 
     var screen = sim.screens[ index ];
@@ -111,16 +111,15 @@ define( function( require ) {
                      function() {
                        sim.screenIndexProperty.value = index;
                      };
-    var self = this;
 
-    var downListener = function( event ) {
-      self.phetioStartEvent( 'fired' );
-      buttonDown();
-      self.phetioEndEvent();
-    };
-    this.addInputListener( { down: downListener } );
-    this.addAccessibleInputListener( { click: function() { large && downListener(); } } );
-    this.addAccessibleInputListener( { focus: function() { !large && downListener(); } } );
+    var fireListener = new FireListener( {
+      fireOnDown: true, // to match prior behavior, but I'm not sure why we have this exceptional behavior
+      fire: buttonDown,
+      tandem: options.tandem
+    } );
+    this.addInputListener( fireListener );
+    this.addAccessibleInputListener( { click: function() { large && fireListener.fire(); } } );
+    this.addAccessibleInputListener( { focus: function() { !large && fireListener.fire(); } } );
     this.addAccessibleInputListener( {
       focus: function() {
         highlightedScreenIndexProperty.value = index;
