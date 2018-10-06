@@ -26,7 +26,6 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var NavigationBarScreenButtonIO = require( 'JOIST/NavigationBarScreenButtonIO' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -63,7 +62,6 @@ define( function( require ) {
     options = _.extend( {
       cursor: 'pointer',
       tandem: Tandem.required,
-      phetioType: NavigationBarScreenButtonIO,
       maxButtonWidth: null, // {number|null} the maximum width of the button, causes text and/or icon to be scaled down if necessary
 
       // a11y
