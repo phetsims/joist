@@ -102,8 +102,13 @@ define( function( require ) {
     // @public Emitter that indicates when a frame starts
     this.frameStartedEmitter = new Emitter();
 
-    // @public Emitter that indicates when a frame ends
-    this.frameEndedEmitter = new Emitter();
+    // @public Emitter that indicates when a frame ends.  Only emit events if phetioEmitInputEvents is turned on
+    // so we don't spam the data stream unnecessarily
+    this.frameEndedEmitter = new Emitter( phet.phetio && phet.phetio.queryParameters.phetioEmitInputEvents ? {
+      tandem: ROOT_TANDEM.createTandem( 'frameEndedEmitter' ),
+      phetioType: EmitterIO( [ NumberIO ] ),
+      phetioHighFrequency: true
+    } : {} );
 
     if ( screens.length === 1 ) {
 
