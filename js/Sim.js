@@ -17,11 +17,13 @@ define( function( require ) {
   var BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var Bounds2IO = require( 'DOT/Bounds2IO' );
   var Brand = require( 'BRAND/Brand' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var Display = require( 'SCENERY/display/Display' );
   var DotUtil = require( 'DOT/Util' );// eslint-disable-line
   var Emitter = require( 'AXON/Emitter' );
+  var EmitterIO = require( 'AXON/EmitterIO' );
   var Heartbeat = require( 'JOIST/Heartbeat' );
   var HomeScreen = require( 'JOIST/HomeScreen' );
   var HomeScreenView = require( 'JOIST/HomeScreenView' );
@@ -49,6 +51,7 @@ define( function( require ) {
 
   // ifphetio
   var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
+  var NumberIO = require( 'ifphetio!PHET_IO/types/NumberIO' );
   var phetio = require( 'ifphetio!PHET_IO/phetio' );
 
   // constants
@@ -90,7 +93,11 @@ define( function( require ) {
     options = options || {};
 
     // @public Emitter that indicates when the sim resized
-    this.resizedEmitter = new Emitter();
+    this.resizedEmitter = new Emitter( {
+      tandem: ROOT_TANDEM.createTandem( 'resizedEmitter' ),
+      phetioType: EmitterIO( [ Bounds2IO, Bounds2IO, NumberIO ] ),
+      phetioDocumentation: 'Emits when the sim is resized'
+    } );
 
     // @public Emitter that indicates when a frame starts
     this.frameStartedEmitter = new Emitter();
