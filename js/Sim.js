@@ -95,7 +95,11 @@ define( function( require ) {
     // @public Emitter that indicates when the sim resized
     this.resizedEmitter = new Emitter( {
       tandem: ROOT_TANDEM.createTandem( 'resizedEmitter' ),
-      phetioType: EmitterIO( [ Bounds2IO, Bounds2IO, NumberIO ] ),
+      phetioType: EmitterIO( [
+        { name: 'bounds', type: Bounds2IO },
+        { name: 'screenBounds', type: Bounds2IO },
+        { name: 'scale', type: NumberIO }
+      ] ),
       phetioDocumentation: 'Emits when the sim is resized'
     } );
 
@@ -104,11 +108,11 @@ define( function( require ) {
 
     // @public Emitter that indicates when a frame ends.  Only emit events if phetioEmitInputEvents is turned on
     // so we don't spam the data stream unnecessarily
-    this.frameEndedEmitter = new Emitter( phet.phetio && phet.phetio.queryParameters.phetioEmitInputEvents ? {
+    this.frameEndedEmitter = new Emitter( {
       tandem: ROOT_TANDEM.createTandem( 'frameEndedEmitter' ),
-      phetioType: EmitterIO( [ NumberIO ] ),
+      phetioType: EmitterIO( [ { name: 'dt', type: NumberIO } ] ),
       phetioHighFrequency: true
-    } : {} );
+    } );
 
     if ( screens.length === 1 ) {
 
@@ -671,7 +675,7 @@ define( function( require ) {
       // {Bounds2} bounds - the size of the window.innerWidth and window.innerHeight, which depends on the scale
       // {Bounds2} screenBounds - subtracts off the size of the navbar from the height
       // {number} scale - the overall scaling factor for elements in the view
-      this.resizedEmitter.emit3( this.boundsProperty.value, this.screenBoundsProperty.value, this.scaleProperty.value );
+      this.resizedEmitter.emit( this.boundsProperty.value, this.screenBoundsProperty.value, this.scaleProperty.value );
 
       // Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
     },
@@ -886,7 +890,7 @@ define( function( require ) {
         screen.view.step( dt );
       }
       this.display.updateDisplay();
-      this.frameEndedEmitter.emit1( dt );
+      this.frameEndedEmitter.emit( dt );
     }
   } );
 } );
