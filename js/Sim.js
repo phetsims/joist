@@ -94,6 +94,7 @@ define( function( require ) {
 
     // @public Emitter that indicates when the sim resized
     this.resizedEmitter = new Emitter( {
+      valueTypes: [ Bounds2, Bounds2, 'number' ],
       tandem: ROOT_TANDEM.createTandem( 'resizedEmitter' ),
       phetioType: EmitterIO( [
         { name: 'bounds', type: Bounds2IO },
@@ -109,6 +110,7 @@ define( function( require ) {
     // @public Emitter that indicates when a frame ends.  Only emit events if phetioEmitInputEvents is turned on
     // so we don't spam the data stream unnecessarily
     this.frameEndedEmitter = new Emitter( {
+      valueTypes: [ 'number' ],
       tandem: ROOT_TANDEM.createTandem( 'frameEndedEmitter' ),
       phetioType: EmitterIO( [ { name: 'dt', type: NumberIO } ] ),
       phetioHighFrequency: true
