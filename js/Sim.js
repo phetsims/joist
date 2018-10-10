@@ -107,8 +107,7 @@ define( function( require ) {
     // @public Emitter that indicates when a frame starts
     this.frameStartedEmitter = new Emitter();
 
-    // @public Emitter that indicates when a frame ends.  Only emit events if phetioEmitInputEvents is turned on
-    // so we don't spam the data stream unnecessarily
+    // @public Emitter that indicates when a frame ends.
     this.frameEndedEmitter = new Emitter( {
       valueTypes: [ 'number' ],
       tandem: ROOT_TANDEM.createTandem( 'frameEndedEmitter' ),
