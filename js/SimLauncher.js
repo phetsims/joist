@@ -15,7 +15,7 @@ define( function( require ) {
 
   // ifphetio
   var phetioCommandProcessor = require( 'ifphetio!PHET_IO/phetioCommandProcessor' );
-  var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
+  var dataStream = require( 'ifphetio!PHET_IO/dataStream' );
 
   var SimLauncher = {
 
@@ -40,7 +40,7 @@ define( function( require ) {
 
           // After listeners have been attached, we can send the buffered events to all the listeners.
           Tandem.launch();
-          phetioEvents.launch && phetioEvents.launch();
+          dataStream.launch && dataStream.launch();
 
           // Provide a global Random that is easy to use and seedable from phet-io for playback
           // phet-io configuration happens after SimLauncher.launch is called and before phetLaunchSimulation is called
