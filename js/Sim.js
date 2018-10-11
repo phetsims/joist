@@ -113,7 +113,7 @@ define( function( require ) {
       tandem: ROOT_TANDEM.createTandem( 'frameEndedEmitter' ),
       phetioType: EmitterIO( [ { name: 'dt', type: NumberIO } ] ),
       phetioHighFrequency: true,
-      phetioInputEvent: true
+      phetioPlayback: true
     } );
 
     if ( screens.length === 1 ) {
