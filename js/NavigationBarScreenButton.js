@@ -94,7 +94,7 @@ define( function( require ) {
     // Note that this buttonModel will always be phetioReadOnly false despite the parent value
     this.buttonModel = new PushButtonModel( {
       listener: clicked,
-      tandem: options.tandem
+      tandem: options.tandem.createTandem( 'buttonModel' )
     } );
 
     // Hook up the input listener

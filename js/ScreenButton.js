@@ -115,7 +115,7 @@ define( function( require ) {
     var fireListener = new FireListener( {
       fireOnDown: true, // to match prior behavior, but I'm not sure why we have this exceptional behavior
       fire: buttonDown,
-      tandem: options.tandem
+      tandem: options.tandem.createTandem( 'inputListener' )
     } );
     this.addInputListener( fireListener );
     this.addAccessibleInputListener( { click: function() { large && fireListener.fire(); } } );
