@@ -17,7 +17,6 @@ define( function( require ) {
   var BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var Bounds2IO = require( 'DOT/Bounds2IO' );
   var Brand = require( 'BRAND/Brand' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var Display = require( 'SCENERY/display/Display' );
@@ -92,16 +91,52 @@ define( function( require ) {
 
     options = options || {};
 
-    // @public Emitter that indicates when the sim resized
+    // @public Emitter that indicates when the sim resized.  This Emitter is implemented so it can be automatically played back.
     this.resizedEmitter = new Emitter( {
-      valueTypes: [ Bounds2, Bounds2, 'number' ],
+      valueTypes: [ 'number', 'number' ],
       tandem: ROOT_TANDEM.createTandem( 'resizedEmitter' ),
       phetioType: EmitterIO( [
-        { name: 'bounds', type: Bounds2IO },
-        { name: 'screenBounds', type: Bounds2IO },
-        { name: 'scale', type: NumberIO }
+        { name: 'width', type: NumberIO },
+        { name: 'height', type: NumberIO }
       ] ),
-      phetioDocumentation: 'Emits when the sim is resized'
+      phetioPlayback: true,
+      phetioDocumentation: 'Emits when the sim is resized',
+      listener: ( width, height ) => {
+        assert && assert( width > 0 && height > 0, 'sim should have a nonzero area' );
+
+        // Gracefully support bad dimensions, see https://github.com/phetsims/joist/issues/472
+        if ( width === 0 || height === 0 ) {
+          return;
+        }
+        var self = this;
+        var scale = Math.min( width / HomeScreenView.LAYOUT_BOUNDS.width, height / HomeScreenView.LAYOUT_BOUNDS.height );
+
+        // 40 px high on iPad Mobile Safari
+        var navBarHeight = scale * NavigationBar.NAVIGATION_BAR_SIZE.height;
+        self.navigationBar.layout( scale, width, navBarHeight );
+        self.navigationBar.y = height - navBarHeight;
+        self.display.setSize( new Dimension2( width, height ) );
+        var screenHeight = height - self.navigationBar.height;
+
+        // Layout each of the screens
+        _.each( self.screens, function( m ) {
+          m.view.layout( width, screenHeight );
+        } );
+
+        // Resize the layer with all of the dialogs, etc.
+        self.topLayer.setScaleMagnitude( scale );
+        self.homeScreen && self.homeScreen.view.layout( width, height );
+
+        // Fixes problems where the div would be way off center on iOS7
+        if ( platform.mobileSafari ) {
+          window.scrollTo( 0, 0 );
+        }
+
+        // update our scale and bounds properties after other changes (so listeners can be fired after screens are resized)
+        this.scaleProperty.value = scale;
+        this.boundsProperty.value = new Bounds2( 0, 0, width, height );
+        this.screenBoundsProperty.value = new Bounds2( 0, 0, width, screenHeight );
+      }
     } );
 
     // @public Emitter that indicates when a frame starts
@@ -114,6 +149,82 @@ define( function( require ) {
       phetioType: EmitterIO( [ { name: 'dt', type: NumberIO } ] ),
       phetioHighFrequency: true,
       phetioPlayback: true
+    } );
+
+    // @private {Emitter} Emitter that steps the simulation, This Emitter is implemented so it can be automatically
+    // played back.
+    this.stepSimulationEmitter = new Emitter( {
+      valueTypes: [ 'number' ],
+      tandem: ROOT_TANDEM.createTandem( 'stepSimulationEmitter' ),
+      phetioType: EmitterIO( [ { name: 'dt', type: NumberIO } ] ),
+      phetioHighFrequency: true,
+      phetioPlayback: true,
+      listener: dt => {
+        this.frameStartedEmitter.emit();
+
+        // increment this before we can have an exception thrown, to see if we are missing frames
+        this.frameCounter++;
+
+        // Apply any scaling effects here before it is used.
+        dt *= phet.chipper.queryParameters.speed;
+
+        if ( this.resizePending ) {
+          this.resizeToWindow();
+        }
+
+        // fire or synthesize input events
+        if ( phet.chipper.queryParameters.fuzzMouse || phet.chipper.queryParameters.fuzzTouch ) {
+          this.inputFuzzer.fuzzEvents(
+            phet.chipper.queryParameters.fuzzRate,
+            phet.chipper.queryParameters.fuzzMouse,
+            phet.chipper.queryParameters.fuzzTouch,
+            phet.chipper.queryParameters.fuzzPointers
+          );
+        }
+
+        // fire or synthesize keyboard input events
+        if ( phet.chipper.queryParameters.fuzzBoard ) {
+          assert && assert( phet.chipper.accessibility, 'fuzzBoard can only run with accessibility enabled.' );
+          this.display.fuzzBoardEvents();
+        }
+
+        // If the user is on the home screen, we won't have a Screen that we'll want to step.  This must be done after
+        // fuzz mouse, because fuzzing could change the selected screen, see #130
+        var screen = this.getSelectedScreen();
+
+        // cap dt based on the current screen, see https://github.com/phetsims/joist/issues/130
+        if ( screen && screen.maxDT ) {
+          dt = Math.min( dt, screen.maxDT );
+        }
+
+        // TODO: we are /1000 just to *1000?  Seems wasteful and like opportunity for error. See https://github.com/phetsims/joist/issues/387
+        // Store the elapsed time in milliseconds for usage by Tween clients
+        phet.joist.elapsedTime = phet.joist.elapsedTime + dt * 1000;
+
+        // timer step before model/view steps, see https://github.com/phetsims/joist/issues/401
+        timer.emit1( dt );
+
+        // If the DT is 0, we will skip the model step (see https://github.com/phetsims/joist/issues/171)
+        if ( screen && screen.model.step && dt ) {
+          screen.model.step( dt );
+        }
+
+        // If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
+        // Update the tweens after the model is updated but before the view step.
+        // See https://github.com/phetsims/joist/issues/401.
+        //TODO https://github.com/phetsims/joist/issues/404 run TWEENs for the selected screen only
+        if ( window.TWEEN ) {
+          window.TWEEN.update( phet.joist.elapsedTime );
+        }
+
+        // View step is the last thing before updateDisplay(), so we can do paint updates there.
+        // See https://github.com/phetsims/joist/issues/401.
+        if ( screen && screen.view.step ) {
+          screen.view.step( dt );
+        }
+        this.display.updateDisplay();
+        this.frameEndedEmitter.emit( dt );
+      }
     } );
 
     if ( screens.length === 1 ) {
@@ -638,48 +749,7 @@ define( function( require ) {
 
     // @public (joist-internal, phet-io)
     resize: function( width, height ) {
-      assert && assert( width > 0 && height > 0, 'sim should have a nonzero area' );
-
-      // Gracefully support bad dimensions, see https://github.com/phetsims/joist/issues/472
-      if ( width === 0 || height === 0 ) {
-        return;
-      }
-      var self = this;
-      var scale = Math.min( width / HomeScreenView.LAYOUT_BOUNDS.width, height / HomeScreenView.LAYOUT_BOUNDS.height );
-
-      // 40 px high on iPad Mobile Safari
-      var navBarHeight = scale * NavigationBar.NAVIGATION_BAR_SIZE.height;
-      self.navigationBar.layout( scale, width, navBarHeight );
-      self.navigationBar.y = height - navBarHeight;
-      self.display.setSize( new Dimension2( width, height ) );
-      var screenHeight = height - self.navigationBar.height;
-
-      // Layout each of the screens
-      _.each( self.screens, function( m ) {
-        m.view.layout( width, screenHeight );
-      } );
-
-      // Resize the layer with all of the dialogs, etc.
-      self.topLayer.setScaleMagnitude( scale );
-      self.homeScreen && self.homeScreen.view.layout( width, height );
-
-      // Fixes problems where the div would be way off center on iOS7
-      if ( platform.mobileSafari ) {
-        window.scrollTo( 0, 0 );
-      }
-
-      // update our scale and bounds properties after other changes (so listeners can be fired after screens are resized)
-      this.scaleProperty.value = scale;
-      this.boundsProperty.value = new Bounds2( 0, 0, width, height );
-      this.screenBoundsProperty.value = new Bounds2( 0, 0, width, screenHeight );
-
-      // Signify that the sim has been resized.
-      // {Bounds2} bounds - the size of the window.innerWidth and window.innerHeight, which depends on the scale
-      // {Bounds2} screenBounds - subtracts off the size of the navbar from the height
-      // {number} scale - the overall scaling factor for elements in the view
-      this.resizedEmitter.emit( this.boundsProperty.value, this.screenBoundsProperty.value, this.scaleProperty.value );
-
-      // Startup can give spurious resizes (seen on ipad), so defer to the animation loop for painting
+      this.resizedEmitter.emit( width, height );
     },
 
     // @public (joist-internal)
@@ -829,70 +899,7 @@ define( function( require ) {
      * @public (phet-io)
      */
     stepSimulation: function( dt ) {
-      this.frameStartedEmitter.emit();
-
-      // increment this before we can have an exception thrown, to see if we are missing frames
-      this.frameCounter++;
-
-      // Apply any scaling effects here before it is used.
-      dt *= phet.chipper.queryParameters.speed;
-
-      if ( this.resizePending ) {
-        this.resizeToWindow();
-      }
-
-      // fire or synthesize input events
-      if ( phet.chipper.queryParameters.fuzzMouse || phet.chipper.queryParameters.fuzzTouch ) {
-        this.inputFuzzer.fuzzEvents(
-          phet.chipper.queryParameters.fuzzRate,
-          phet.chipper.queryParameters.fuzzMouse,
-          phet.chipper.queryParameters.fuzzTouch,
-          phet.chipper.queryParameters.fuzzPointers
-        );
-      }
-
-      // fire or synthesize keyboard input events
-      if ( phet.chipper.queryParameters.fuzzBoard ) {
-        assert && assert( phet.chipper.accessibility, 'fuzzBoard can only run with accessibility enabled.' );
-        this.display.fuzzBoardEvents();
-      }
-
-      // If the user is on the home screen, we won't have a Screen that we'll want to step.  This must be done after
-      // fuzz mouse, because fuzzing could change the selected screen, see #130
-      var screen = this.getSelectedScreen();
-
-      // cap dt based on the current screen, see https://github.com/phetsims/joist/issues/130
-      if ( screen && screen.maxDT ) {
-        dt = Math.min( dt, screen.maxDT );
-      }
-
-      // TODO: we are /1000 just to *1000?  Seems wasteful and like opportunity for error. See https://github.com/phetsims/joist/issues/387
-      // Store the elapsed time in milliseconds for usage by Tween clients
-      phet.joist.elapsedTime = phet.joist.elapsedTime + dt * 1000;
-
-      // timer step before model/view steps, see https://github.com/phetsims/joist/issues/401
-      timer.emit1( dt );
-
-      // If the DT is 0, we will skip the model step (see https://github.com/phetsims/joist/issues/171)
-      if ( screen && screen.model.step && dt ) {
-        screen.model.step( dt );
-      }
-
-      // If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
-      // Update the tweens after the model is updated but before the view step.
-      // See https://github.com/phetsims/joist/issues/401.
-      //TODO https://github.com/phetsims/joist/issues/404 run TWEENs for the selected screen only
-      if ( window.TWEEN ) {
-        window.TWEEN.update( phet.joist.elapsedTime );
-      }
-
-      // View step is the last thing before updateDisplay(), so we can do paint updates there.
-      // See https://github.com/phetsims/joist/issues/401.
-      if ( screen && screen.view.step ) {
-        screen.view.step( dt );
-      }
-      this.display.updateDisplay();
-      this.frameEndedEmitter.emit( dt );
+      this.stepSimulationEmitter.emit( dt );
     }
   } );
 } );

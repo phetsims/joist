@@ -61,11 +61,13 @@ define( function( require ) {
 
     /**
      * Sim.js handles scaling the popup menu.  This code sets the position of the popup menu.
-     * @param {Bounds2} bounds - the size of the window.innerWidth and window.innerHeight, which depends on the scale
-     * @param {Bounds2} screenBounds - subtracts off the size of the navbar from the height
-     * @param {number} scale - the overall scaling factor for elements in the view
+     * @param {number} width
+     * @param {number} height
      */
-    function onResize( bounds, screenBounds, scale ) {
+    function onResize( width, height ) {
+      var bounds = sim.boundsProperty.value;
+      var screenBounds = sim.screenBoundsProperty.value;
+      var scale = sim.scaleProperty.value;
       phetMenu.right = bounds.right / scale - 2 / scale;
       var navBarHeight = bounds.height - screenBounds.height;
       phetMenu.bottom = screenBounds.bottom / scale + navBarHeight / 2 / scale;
