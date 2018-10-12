@@ -29,6 +29,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var InputFuzzer = require( 'SCENERY/input/InputFuzzer' );
   var joist = require( 'JOIST/joist' );
+  var KeyboardFuzzer = require( 'SCENERY/accessibility/KeyboardFuzzer' );
   var LegendsOfLearningSupport = require( 'JOIST/thirdPartySupport/LegendsOfLearningSupport' );
   var LookAndFeel = require( 'JOIST/LookAndFeel' );
   var NavigationBar = require( 'JOIST/NavigationBar' );
@@ -185,7 +186,7 @@ define( function( require ) {
         // fire or synthesize keyboard input events
         if ( phet.chipper.queryParameters.fuzzBoard ) {
           assert && assert( phet.chipper.accessibility, 'fuzzBoard can only run with accessibility enabled.' );
-          this.display.fuzzBoardEvents();
+          this.keyboardFuzzer.fuzzBoardEvents();
         }
 
         // If the user is on the home screen, we won't have a Screen that we'll want to step.  This must be done after
@@ -503,6 +504,9 @@ define( function( require ) {
 
     // @private {InputFuzzer}
     this.inputFuzzer = new InputFuzzer( this.display, Math.random() ); // Seeding by default a random value
+
+    // @private {KeyboardFuzzer}
+    this.keyboardFuzzer = new KeyboardFuzzer( this.display, Math.random() ); // Seeding by default a random value
 
     // When the sim is inactive, make it non-interactive, see https://github.com/phetsims/scenery/issues/414
     this.activeProperty.link( function( active ) {
