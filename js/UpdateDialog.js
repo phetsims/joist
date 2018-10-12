@@ -113,7 +113,7 @@ define( function( require ) {
      * @public (joist-internal)
      */
     show: function() {
-      if ( UpdateCheck.areUpdatesChecked ) {
+      if ( UpdateCheck.areUpdatesChecked && !this.isShowing ) {
         UpdateCheck.resetTimeout();
 
         // Fire off a new update check if we were marked as offline or unchecked before, and we handle updates.
