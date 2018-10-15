@@ -173,15 +173,19 @@ define( function( require ) {
           this.resizeToWindow();
         }
 
-        // fire or synthesize input events
-        if ( phet.chipper.queryParameters.fuzzMouse || phet.chipper.queryParameters.fuzzTouch ) {
-          this.inputFuzzer.fuzzEvents(
-            phet.chipper.queryParameters.fuzzRate,
-            phet.chipper.queryParameters.fuzzMouse,
-            phet.chipper.queryParameters.fuzzTouch,
-            phet.chipper.queryParameters.fuzzPointers
-          );
-        }
+      // If fuzz parameter is used then fuzzTouch and fuzzMouse events should be fired
+      var fuzzTouch = phet.chipper.queryParameters.fuzzTouch || phet.chipper.queryParameters.fuzz;
+      var fuzzMouse = phet.chipper.queryParameters.fuzzMouse || phet.chipper.queryParameters.fuzz;
+
+      // fire or synthesize input events
+      if ( fuzzMouse || fuzzTouch ) {
+        this.inputFuzzer.fuzzEvents(
+          phet.chipper.queryParameters.fuzzRate,
+          fuzzMouse,
+          fuzzTouch,
+          phet.chipper.queryParameters.fuzzPointers
+        );
+      }
 
         // fire or synthesize keyboard input events
         if ( phet.chipper.queryParameters.fuzzBoard ) {
@@ -460,7 +464,7 @@ define( function( require ) {
     }
 
     // override window.open with a semi-API-compatible function, so fuzzing doesn't open new windows.
-    if ( phet.chipper.queryParameters.fuzzMouse || phet.chipper.queryParameters.fuzzTouch || phet.chipper.queryParameters.fuzzBoard ) {
+    if ( phet.chipper.queryParameters.fuzz || phet.chipper.queryParameters.fuzzMouse || phet.chipper.queryParameters.fuzzTouch || phet.chipper.queryParameters.fuzzBoard ) {
       window.open = function() {
         return {
           focus: function() {},

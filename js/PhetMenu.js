@@ -53,7 +53,8 @@ define( function( require ) {
   var MAX_ITEM_WIDTH = 400;
 
   // For disabling features that are incompatible with fuzzing
-  var fuzzes = phet.chipper.queryParameters.fuzzMouse ||
+  var fuzzes = phet.chipper.queryParameters.fuzz ||
+               phet.chipper.queryParameters.fuzzMouse ||
                phet.chipper.queryParameters.fuzzTouch ||
                phet.chipper.queryParameters.fuzzBoard;
 
