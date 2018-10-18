@@ -28,7 +28,7 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
 
   // ifphetio
-  var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
+  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
 
   // a11y strings
   var screenNamePatternString = JoistA11yStrings.screenNamePattern.value;

@@ -50,8 +50,8 @@ define( function( require ) {
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
   // ifphetio
-  var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
-  var NumberIO = require( 'ifphetio!PHET_IO/types/NumberIO' );
+  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
+  var NumberIO = require( 'TANDEM/types/NumberIO' );
   var phetio = require( 'ifphetio!PHET_IO/phetio' );
 
   // constants
