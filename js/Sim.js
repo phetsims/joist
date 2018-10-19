@@ -64,7 +64,7 @@ define( function( require ) {
   // When the simulation is going to be used to play back a recorded session, the simulation must be put into a special
   // mode in which it will only update the model + view based on the playback clock events rather than the system clock.
   // This must be set before the simulation is launched in order to ensure that no errant stepSimulation steps are called
-  // before the playback events begin.  This value is overridden for playback by PhETIO.
+  // before the playback events begin.  This value is overridden for playback by PhetioEngineIO.
   // @public (phet-io)
   phet.joist.playbackModeEnabledProperty = new BooleanProperty( phet.chipper.queryParameters.playbackMode );
 
