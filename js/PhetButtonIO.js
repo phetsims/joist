@@ -9,15 +9,15 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
   var joist = require( 'JOIST/joist' );
   var NodeProperty = require( 'SCENERY/util/NodeProperty' );
+  var NullableIO = require( 'TANDEM/types/NullableIO' );
+  var ObjectIO = require( 'TANDEM/types/ObjectIO' );
   var PropertyIO = require( 'AXON/PropertyIO' );
 
   // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
-  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
-  var NullableIO = require( 'TANDEM/types/NullableIO' );
-  var ObjectIO = require( 'TANDEM/types/ObjectIO' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
 
   /**

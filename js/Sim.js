@@ -15,6 +15,7 @@ define( function( require ) {
   // modules
   var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
   var BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
+  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Brand = require( 'BRAND/Brand' );
@@ -34,6 +35,7 @@ define( function( require ) {
   var LookAndFeel = require( 'JOIST/LookAndFeel' );
   var NavigationBar = require( 'JOIST/NavigationBar' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var NumberIO = require( 'TANDEM/types/NumberIO' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var packageJSON = require( 'JOIST/packageJSON' );
@@ -50,8 +52,6 @@ define( function( require ) {
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
   // ifphetio
-  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
-  var NumberIO = require( 'TANDEM/types/NumberIO' );
   var phetio = require( 'ifphetio!PHET_IO/phetio' );
 
   // constants
