@@ -13,7 +13,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var AriaHerald = require( 'SCENERY_PHET/accessibility/AriaHerald' );
+  var ariaHerald = require( 'SCENERY_PHET/accessibility/ariaHerald' );
   var BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
   var BooleanIO = require( 'TANDEM/types/BooleanIO' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
@@ -612,8 +612,8 @@ define( function( require ) {
    */
   function initializeAccessibility() {
 
-    // utteranceQueue depends on AriaHerald so initialize it first.
-    AriaHerald.initialize();
+    // utteranceQueue depends on ariaHerald so initialize it first.
+    ariaHerald.initialize();
     utteranceQueue.initialize();
   }
 
