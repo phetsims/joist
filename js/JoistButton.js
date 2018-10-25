@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   var ButtonInteractionState = require( 'SUN/buttons/ButtonInteractionState' );
+  var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
   var HighlightNode = require( 'JOIST/HighlightNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
@@ -18,7 +19,6 @@ define( function( require ) {
   var PushButtonInteractionStateProperty = require( 'SUN/buttons/PushButtonInteractionStateProperty' );
   var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
   var Shape = require( 'KITE/Shape' );
-  var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
 
   /**
    * @param {Node} content - the scenery node to render as the content of the button

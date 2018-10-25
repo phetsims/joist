@@ -26,8 +26,9 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var A11yButtonsHBox = require( 'JOIST/A11yButtonsHBox' );
+  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var HomeButton = require( 'JOIST/HomeButton' );
   var HomeScreen = require( 'JOIST/HomeScreen' );
@@ -39,7 +40,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetButton = require( 'JOIST/PhetButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );

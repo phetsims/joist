@@ -14,8 +14,8 @@ define( function( require ) {
   var NodeProperty = require( 'SCENERY/util/NodeProperty' );
   var NullableIO = require( 'TANDEM/types/NullableIO' );
   var ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  var PropertyIO = require( 'AXON/PropertyIO' );
   var phetioInherit = require( 'TANDEM/phetioInherit' );
+  var PropertyIO = require( 'AXON/PropertyIO' );
 
   // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );

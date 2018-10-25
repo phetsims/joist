@@ -14,8 +14,8 @@ define( function( require ) {
   var Random = require( 'DOT/Random' );
 
   // ifphetio
-  var phetioCommandProcessor = require( 'ifphetio!PHET_IO/phetioCommandProcessor' );
   var dataStream = require( 'ifphetio!PHET_IO/dataStream' );
+  var phetioCommandProcessor = require( 'ifphetio!PHET_IO/phetioCommandProcessor' );
 
   var SimLauncher = {
 

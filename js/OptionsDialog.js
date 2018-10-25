@@ -12,10 +12,10 @@ define( function( require ) {
   var Dialog = require( 'SUN/Dialog' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
+  var OptionsDialogIO = require( 'JOIST/OptionsDialogIO' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var OptionsDialogIO = require( 'JOIST/OptionsDialogIO' );
 
   // strings
   var optionsTitleString = require( 'string!JOIST/options.title' );

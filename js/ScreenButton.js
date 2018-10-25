@@ -10,8 +10,8 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Frame = require( 'JOIST/Frame' );
   var FireListener = require( 'SCENERY/listeners/FireListener' );
+  var Frame = require( 'JOIST/Frame' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
   var Node = require( 'SCENERY/nodes/Node' );
