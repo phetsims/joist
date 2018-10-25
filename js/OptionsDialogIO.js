@@ -11,10 +11,10 @@ define( function( require ) {
   // modules
   var DialogIO = require( 'SUN/DialogIO' );
   var joist = require( 'JOIST/joist' );
+  var phetioInherit = require( 'TANDEM/phetioInherit' );
 
   // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
-  var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
 
   /**
    * IO type for phet/joist's OptionsDialog
