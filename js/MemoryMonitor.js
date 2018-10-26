@@ -46,7 +46,7 @@ define( require => {
      * @public
      */
     measure() {
-      if ( !widow.performance || !window.performance.memory || !window.performance.memory.usedJSHeapSize ) {
+      if ( !window.performance || !window.performance.memory || !window.performance.memory.usedJSHeapSize ) {
         return;
       }
       
