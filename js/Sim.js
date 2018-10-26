@@ -33,6 +33,7 @@ define( function( require ) {
   var KeyboardFuzzer = require( 'SCENERY/accessibility/KeyboardFuzzer' );
   var LegendsOfLearningSupport = require( 'JOIST/thirdPartySupport/LegendsOfLearningSupport' );
   var LookAndFeel = require( 'JOIST/LookAndFeel' );
+  var MemoryMonitor = require( 'JOIST/MemoryMonitor' );
   var NavigationBar = require( 'JOIST/NavigationBar' );
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberIO = require( 'TANDEM/types/NumberIO' );
@@ -170,19 +171,19 @@ define( function( require ) {
           this.resizeToWindow();
         }
 
-      // If fuzz parameter is used then fuzzTouch and fuzzMouse events should be fired
-      var fuzzTouch = phet.chipper.queryParameters.fuzzTouch || phet.chipper.queryParameters.fuzz;
-      var fuzzMouse = phet.chipper.queryParameters.fuzzMouse || phet.chipper.queryParameters.fuzz;
+        // If fuzz parameter is used then fuzzTouch and fuzzMouse events should be fired
+        var fuzzTouch = phet.chipper.queryParameters.fuzzTouch || phet.chipper.queryParameters.fuzz;
+        var fuzzMouse = phet.chipper.queryParameters.fuzzMouse || phet.chipper.queryParameters.fuzz;
 
-      // fire or synthesize input events
-      if ( fuzzMouse || fuzzTouch ) {
-        this.inputFuzzer.fuzzEvents(
-          phet.chipper.queryParameters.fuzzRate,
-          fuzzMouse,
-          fuzzTouch,
-          phet.chipper.queryParameters.fuzzPointers
-        );
-      }
+        // fire or synthesize input events
+        if ( fuzzMouse || fuzzTouch ) {
+          this.inputFuzzer.fuzzEvents(
+            phet.chipper.queryParameters.fuzzRate,
+            fuzzMouse,
+            fuzzTouch,
+            phet.chipper.queryParameters.fuzzPointers
+          );
+        }
 
         // fire or synthesize keyboard input events
         if ( phet.chipper.queryParameters.fuzzBoard ) {
@@ -226,6 +227,10 @@ define( function( require ) {
         }
         this.display.updateDisplay();
         this.frameEndedEmitter.emit( dt );
+
+        if ( phet.chipper.queryParameters.memoryLimit ) {
+          this.memoryMonitor.measure();
+        }
       }
     } );
 
@@ -394,6 +399,9 @@ define( function( require ) {
 
     // @private
     this.destroyed = false;
+
+    // @public {MemoryMonitor}
+    this.memoryMonitor = new MemoryMonitor();
 
     // chipper's accessibility enabled flag overrides the sim option for accessibility.
     phet.chipper.accessibility = phet.chipper.accessibility || options.accessibility;
