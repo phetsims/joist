@@ -46,6 +46,10 @@ define( require => {
      * @public
      */
     measure() {
+      if ( !widow.performance || !window.performance.memory || !window.performance.memory.usedJSHeapSize ) {
+        return;
+      }
+      
       const currentMemory = window.performance.memory.usedJSHeapSize;
       this.lastMemory = currentMemory;
       const averageMemory = this.runningAverage.updateRunningAverage( currentMemory );
