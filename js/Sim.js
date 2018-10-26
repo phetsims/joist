@@ -94,7 +94,6 @@ define( function( require ) {
 
     // @public Emitter that indicates when the sim resized.  This Emitter is implemented so it can be automatically played back.
     this.resizedEmitter = new Emitter( {
-      valueTypes: [ 'number', 'number' ],
       tandem: ROOT_TANDEM.createTandem( 'resizedEmitter' ),
       phetioType: EmitterIO( [
         { name: 'width', type: NumberIO },
@@ -145,7 +144,6 @@ define( function( require ) {
 
     // @public Emitter that indicates when a frame ends.
     this.frameEndedEmitter = new Emitter( {
-      valueTypes: [ 'number' ],
       tandem: ROOT_TANDEM.createTandem( 'frameEndedEmitter' ),
       phetioType: EmitterIO( [ { name: 'dt', type: NumberIO } ] ),
       phetioHighFrequency: true,
@@ -155,7 +153,6 @@ define( function( require ) {
     // @private {Emitter} Emitter that steps the simulation, This Emitter is implemented so it can be automatically
     // played back.
     this.stepSimulationEmitter = new Emitter( {
-      valueTypes: [ 'number' ],
       tandem: ROOT_TANDEM.createTandem( 'stepSimulationEmitter' ),
       phetioType: EmitterIO( [ { name: 'dt', type: NumberIO } ] ),
       phetioHighFrequency: true,
