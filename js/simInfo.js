@@ -7,14 +7,15 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var joist = require( 'JOIST/joist' );
-  var Util = require( 'SCENERY/util/Util' );
+  const joist = require( 'JOIST/joist' );
+  const Util = require( 'SCENERY/util/Util' );
 
-  var info = {};
+  // constants
+  const info = {};
 
   function putInfo( key, value ) {
     if ( value === undefined ) {
@@ -37,9 +38,9 @@ define( function( require ) {
     putInfo( 'isWebGLSupported', Util.isWebGLSupported );
   }
 
-  var canvas;
-  var context;
-  var backingStorePixelRatio;
+  let canvas;
+  let context;
+  let backingStorePixelRatio;
 
   try {
     canvas = document.createElement( 'canvas' );
@@ -50,7 +51,7 @@ define( function( require ) {
 
   putInfo( 'pixelRatio', ( window.devicePixelRatio || 1 ) + '/' + backingStorePixelRatio );
 
-  var flags = [];
+  const flags = [];
   if ( window.navigator.pointerEnabled ) { flags.push( 'pointerEnabled' ); }
   if ( window.navigator.msPointerEnabled ) { flags.push( 'msPointerEnabled' ); }
   if ( !window.navigator.onLine ) { flags.push( 'offline' ); }
@@ -59,8 +60,8 @@ define( function( require ) {
 
   canvas = null; // dispose only reference
 
-  var simInfo = {
-    getInfo: function( sim, packageJSON ) {
+  const simInfo = {
+    getInfo( sim, packageJSON ) {
 
       if ( !info.simName ) {
         putInfo( 'simName', sim.name );
@@ -77,7 +78,5 @@ define( function( require ) {
     }
   };
 
-  joist.register( 'simInfo', simInfo );
-
-  return simInfo;
+  return joist.register( 'simInfo', simInfo );
 } );
