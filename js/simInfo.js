@@ -14,6 +14,10 @@ define( require => {
   const joist = require( 'JOIST/joist' );
   const Util = require( 'SCENERY/util/Util' );
 
+  // ifphetio
+  const dataStream = require( 'ifphetio!PHET_IO/dataStream' );
+  const phetioCommandProcessor = require( 'ifphetio!PHET_IO/phetioCommandProcessor' );
+
   // constants
   const info = {};
 
@@ -72,6 +76,8 @@ define( require => {
       // (phet-io) if there is metadata from the wrapper
       if ( phet.phetio ) {
         putInfo( 'wrapperMetadata', phet.phetio.simStartedMetadata );
+        putInfo( 'dataStreamVersion', dataStream.VERSION );
+        putInfo( 'phetioCommandProcessorVersion', phetioCommandProcessor.VERSION );
       }
 
       return info;
