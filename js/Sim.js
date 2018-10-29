@@ -144,12 +144,7 @@ define( function( require ) {
     this.frameStartedEmitter = new Emitter();
 
     // @public Emitter that indicates when a frame ends.
-    this.frameEndedEmitter = new Emitter( {
-      tandem: ROOT_TANDEM.createTandem( 'frameEndedEmitter' ),
-      phetioType: EmitterIO( [ { name: 'dt', type: NumberIO } ] ),
-      phetioHighFrequency: true,
-      phetioPlayback: true
-    } );
+    this.frameEndedEmitter = new Emitter();
 
     // @private {Emitter} Emitter that steps the simulation, This Emitter is implemented so it can be automatically
     // played back.
@@ -226,7 +221,7 @@ define( function( require ) {
           screen.view.step( dt );
         }
         this.display.updateDisplay();
-        this.frameEndedEmitter.emit( dt );
+        this.frameEndedEmitter.emit();
 
         if ( phet.chipper.queryParameters.memoryLimit ) {
           this.memoryMonitor.measure();
