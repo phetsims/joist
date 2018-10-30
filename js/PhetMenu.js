@@ -349,7 +349,7 @@ define( function( require ) {
       },
       {
         text: fullScreenString,
-        present: FullScreen.isFullScreenEnabled() && !isPhetApp,
+        present: FullScreen.isFullScreenEnabled() && !isPhetApp && !platform.mobileSafari,
         checkedProperty: FullScreen.isFullScreenProperty,
         callback: function() {
           FullScreen.toggleFullScreen( sim );
