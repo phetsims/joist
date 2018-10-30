@@ -266,7 +266,7 @@ define( function( require ) {
       },
       {
         text: menuItemFullscreenString,
-        present: FullScreen.isFullScreenEnabled() && !isPhetApp && !fuzzMouse,
+        present: FullScreen.isFullScreenEnabled() && !isPhetApp && !fuzzMouse && !platform.mobileSafari,
         checkedProperty: FullScreen.isFullScreenProperty,
         callback: function() {
           FullScreen.toggleFullScreen( sim );
