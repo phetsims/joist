@@ -15,7 +15,6 @@ define( function( require ) {
   // modules
   var ariaHerald = require( 'SCENERY_PHET/accessibility/ariaHerald' );
   var BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
-  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Brand = require( 'BRAND/Brand' );
@@ -43,7 +42,6 @@ define( function( require ) {
   var platform = require( 'PHET_CORE/platform' );
   var Profiler = require( 'JOIST/Profiler' );
   var Property = require( 'AXON/Property' );
-  var PropertyIO = require( 'AXON/PropertyIO' );
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   var soundManager = require( 'TAMBO/soundManager' );
   var Tandem = require( 'TANDEM/Tandem' );
