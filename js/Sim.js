@@ -359,8 +359,7 @@ define( function( require ) {
     this.activeProperty = new BooleanProperty( !phet.joist.playbackModeEnabledProperty.value, {
       tandem: ROOT_TANDEM.createTandem( 'activeProperty' ),
       phetioDocumentation: 'Determines whether the entire simulation is running and processing user input. ' +
-                           'Setting this property to false pauses the simulation, and prevents user interaction.',
-      phetioType: PropertyIO( BooleanIO )
+                           'Setting this property to false pauses the simulation, and prevents user interaction.'
     } );
 
     // @public (read-only) - property that indicates whether the browser tab containing the simulation is currently visible
