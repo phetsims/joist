@@ -51,7 +51,7 @@ define( function( require ) {
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
   // ifphetio
-  var phetio = require( 'ifphetio!PHET_IO/phetio' );
+  var phetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' );
 
   // constants
   var PROGRESS_BAR_WIDTH = 273;
@@ -471,7 +471,7 @@ define( function( require ) {
     }
 
     // Set up PhET-iO, must be done after phet.joist.sim is assigned
-    phet.phetio && phetio.initializeSim();
+    phet.phetio && phetioEngine.initializeSim();
 
     var $body = $( 'body' );
 
