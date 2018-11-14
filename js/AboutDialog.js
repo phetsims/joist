@@ -33,6 +33,10 @@ define( function( require ) {
   // Maximum width of elements in the dialog
   var MAX_WIDTH = 550;
 
+  // distance from the top of the about dialog to the dev bounds
+  // same as the distance from the bottom of the about dialog to the top of the navigation bar.
+  var EXTERNAL_MARGIN = 12;
+
   /**
    * @param {string} name - The name of the simulation
    * @param {string} version - The version of the simulation
@@ -209,7 +213,19 @@ define( function( require ) {
       topMargin: 20,
       bottomMargin: 20,
       leftMargin: 20,
-      rightMargin: 20
+      rightMargin: 20,
+
+      // This value was determined empirically and is suitable independent of the ScreenView.layoutBounds.  Scale the
+      // entire AboutDialog as a robust solution in case parts outside of the content resize in future versions. Note
+      // the layer containing the AboutDialog is already scaled based on the aspect ratio of the window. At a scale of
+      // 1.0, the amount of vertical space is 504 and the amount of space above the navigation bar is 464 because the
+      // navigation bar takes 40px at that scale.  Please see Sim.resizedEmitter for more details.
+      maxHeight: 464 - EXTERNAL_MARGIN * 2,
+
+      // Center in the screenBounds (doesn't include the navigation bar)
+      layoutStrategy: function( dialog, simBounds, screenBounds, scale ) {
+        dialog.center = screenBounds.center.times( 1.0 / scale );
+      }
     } );
 
     // a11y - set label association so the title is read when focus enters the dialog
