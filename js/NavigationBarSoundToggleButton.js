@@ -137,12 +137,11 @@ define( function( require ) {
     );
     soundOnNode.addChild( soundOnCurves );
 
-    var toggleNode = new ToggleNode(
+    var toggleNode = new ToggleNode( soundEnabledProperty,
       [
         { value: true, node: soundOnNode },
         { value: false, node: soundOffNode }
       ],
-      soundEnabledProperty,
       { maxHeight: NODE_HEIGHT }
     );
 
