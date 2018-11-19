@@ -64,7 +64,7 @@ define( function( require ) {
       scale: height / screen.homeScreenIcon.height
     } );
 
-    // Frame for large
+    // Frame for small (unselected) home screen icons
     var frame = large ? new Frame( icon ) : new Rectangle( 0, 0, icon.width, icon.height, {
       stroke: options.showSmallHomeScreenIconFrame ? '#dddddd' : null,
       lineWidth: 0.7
