@@ -36,14 +36,14 @@ define( function( require ) {
 
       function doneLoadingImages() {
 
-        window.phetLaunchSimulation = function() {
+        window.phet.joist.launchSimulation = function() {
 
           // After listeners have been attached, we can send the buffered events to all the listeners.
           Tandem.launch();
           dataStream.launch && dataStream.launch();
 
           // Provide a global Random that is easy to use and seedable from phet-io for playback
-          // phet-io configuration happens after SimLauncher.launch is called and before phetLaunchSimulation is called
+          // phet-io configuration happens after SimLauncher.launch is called and before phet.joist.launchSimulation is called
           phet.joist.random = new Random( { staticSeed: true } );
 
           // Instantiate the sim and show it.
@@ -52,7 +52,7 @@ define( function( require ) {
 
         // PhET-iO simulations support an initialization phase (before the sim launches)
         if ( phet.phetio ) {
-          phetioCommandProcessor.initialize(); // calls back to window.phetLaunchSimulation
+          phetioCommandProcessor.initialize(); // calls back to window.phet.joist.launchSimulation
         }
 
         if ( phet.chipper.queryParameters.postMessageOnReady ) {
@@ -68,7 +68,7 @@ define( function( require ) {
           // Wait for phet-io to finish adding listeners. It will direct the launch from there.
         }
         else {
-          window.phetLaunchSimulation();
+          window.phet.joist.launchSimulation();
         }
       }
 
