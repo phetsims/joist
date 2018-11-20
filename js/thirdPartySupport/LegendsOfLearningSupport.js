@@ -40,7 +40,7 @@ define( function( require ) {
 
       // Send init message when sim has started up so that Legends of Learning can remove their splash screen
       this.sim.endedSimConstructionEmitter.addListener( function() {
-        ( window.parent !== window.top ) && window.parent.postMessage( { message: 'init' }, '*' );
+        ( window.parent !== window ) && window.parent.postMessage( { message: 'init' }, '*' );
       } );
     }
   } );
