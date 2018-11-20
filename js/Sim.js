@@ -504,10 +504,10 @@ define( function( require ) {
     } );
 
     // @private {InputFuzzer}
-    this.inputFuzzer = new InputFuzzer( this.display, Math.random() ); // Seeding by default a random value
+    this.inputFuzzer = new InputFuzzer( this.display, phet.chipper.queryParameters.randomSeed ); // Seeding by default a random value
 
     // @private {KeyboardFuzzer}
-    this.keyboardFuzzer = new KeyboardFuzzer( this.display, Math.random() ); // Seeding by default a random value
+    this.keyboardFuzzer = new KeyboardFuzzer( this.display, phet.chipper.queryParameters.randomSeed ); // Seeding by default a random value
 
     // When the sim is inactive, make it non-interactive, see https://github.com/phetsims/scenery/issues/414
     this.activeProperty.link( function( active ) {
