@@ -55,7 +55,6 @@ define( function( require ) {
 
   // constants
   var PROGRESS_BAR_WIDTH = 273;
-  var ROOT_TANDEM = Tandem.rootTandem;
 
   // globals
   phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for replicable playbacks
@@ -93,7 +92,7 @@ define( function( require ) {
 
     // @public Emitter that indicates when the sim resized.  This Emitter is implemented so it can be automatically played back.
     this.resizedEmitter = new Emitter( {
-      tandem: ROOT_TANDEM.createTandem( 'resizedEmitter' ),
+      tandem: Tandem.generalTandem.createTandem( 'resizedEmitter' ),
       phetioType: EmitterIO( [
         { name: 'width', type: NumberIO },
         { name: 'height', type: NumberIO }
@@ -147,7 +146,7 @@ define( function( require ) {
     // @private {Emitter} Emitter that steps the simulation, This Emitter is implemented so it can be automatically
     // played back.
     this.stepSimulationEmitter = new Emitter( {
-      tandem: ROOT_TANDEM.createTandem( 'stepSimulationEmitter' ),
+      tandem: Tandem.generalTandem.createTandem( 'stepSimulationEmitter' ),
       phetioType: EmitterIO( [ { name: 'dt', type: NumberIO } ] ),
       phetioHighFrequency: true,
       phetioPlayback: true,
@@ -339,13 +338,13 @@ define( function( require ) {
 
       // Only instrumented for sims with > 1 screen
       screens.length > 1 ? {
-        tandem: ROOT_TANDEM.createTandem( 'showHomeScreenProperty' )
+        tandem: Tandem.generalTandem.createTandem( 'showHomeScreenProperty' )
       } : {}
     );
 
     // @public (joist-internal) - The selected screen's index
     this.screenIndexProperty = new NumberProperty( options.screenIndex, {
-      tandem: ROOT_TANDEM.createTandem( 'screenIndexProperty' ),
+      tandem: Tandem.generalTandem.createTandem( 'screenIndexProperty' ),
       phetioDocumentation: 'Indicates which screen is selected (0-indexed)',
       validValues: _.range( 0, screens.length ),
       numberType: 'Integer'
@@ -355,14 +354,14 @@ define( function( require ) {
     // Set to false for when the sim will be paused.  If the sim has playbackModeEnabledProperty set to true, the
     // activeProperty will automatically be set to false so the timing and inputs can be controlled by the playback engine
     this.activeProperty = new BooleanProperty( !phet.joist.playbackModeEnabledProperty.value, {
-      tandem: ROOT_TANDEM.createTandem( 'activeProperty' ),
+      tandem: Tandem.generalTandem.createTandem( 'activeProperty' ),
       phetioDocumentation: 'Determines whether the entire simulation is running and processing user input. ' +
                            'Setting this property to false pauses the simulation, and prevents user interaction.'
     } );
 
     // @public (read-only) - property that indicates whether the browser tab containing the simulation is currently visible
     this.browserTabVisibleProperty = new BooleanProperty( true, {
-      tandem: ROOT_TANDEM.createTandem( 'browserTabVisibleProperty' ),
+      tandem: Tandem.generalTandem.createTandem( 'browserTabVisibleProperty' ),
       phetioDocumentation: 'Indicates whether the browser tab containing the simulation is currently visible',
       phetioReadOnly: true
     } );
@@ -533,7 +532,7 @@ define( function( require ) {
     }
 
     this.display.initializeEvents( {
-      tandem: ROOT_TANDEM.createTandem( 'controller' ).createTandem( 'input' )
+      tandem: Tandem.generalTandem.createTandem( 'controller' ).createTandem( 'input' )
     } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
     window.phet.joist.rootNode = this.rootNode; // make the scene available for debugging
     window.phet.joist.display = this.display; // make the display available for debugging
@@ -549,7 +548,7 @@ define( function( require ) {
 
     // Multi-screen sims get a home screen.
     if ( screens.length > 1 ) {
-      this.homeScreen = new HomeScreen( this, ROOT_TANDEM.createTandem( 'homeScreen' ), {
+      this.homeScreen = new HomeScreen( this, Tandem.rootTandem.createTandem( 'homeScreen' ), {
         warningNode: options.homeScreenWarningNode,
         showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame
       } );
@@ -560,7 +559,7 @@ define( function( require ) {
     }
 
     // @public (joist-internal)
-    this.navigationBar = new NavigationBar( this, screens, this.showHomeScreenProperty, ROOT_TANDEM.createTandem( 'navigationBar' ) );
+    this.navigationBar = new NavigationBar( this, screens, this.showHomeScreenProperty, Tandem.rootTandem.createTandem( 'navigationBar' ) );
 
     // @public (joist-internal)
     this.updateBackground = function() {
@@ -681,7 +680,7 @@ define( function( require ) {
         this.modalNodeStack, {
           fill: 'rgba(0,0,0,0.3)',
           pickable: true,
-          tandem: ROOT_TANDEM.createTandem( 'barrierRectangle' ),
+          tandem: Tandem.generalTandem.createTandem( 'barrierRectangle' ),
           phetioDocumentation: 'Semi-transparent barrier used to block input events when a dialog is shown, also fades out the background'
         } );
       this.topLayer.addChild( this.barrierRectangle );
