@@ -345,6 +345,7 @@ define( function( require ) {
     // @public (joist-internal) - The selected screen's index
     this.screenIndexProperty = new NumberProperty( options.screenIndex, {
       tandem: Tandem.generalTandem.createTandem( 'screenIndexProperty' ),
+      phetioFeatured: true,
       phetioDocumentation: 'Indicates which screen is selected (0-indexed)',
       validValues: _.range( 0, screens.length ),
       numberType: 'Integer'
@@ -355,6 +356,7 @@ define( function( require ) {
     // activeProperty will automatically be set to false so the timing and inputs can be controlled by the playback engine
     this.activeProperty = new BooleanProperty( !phet.joist.playbackModeEnabledProperty.value, {
       tandem: Tandem.generalTandem.createTandem( 'activeProperty' ),
+      phetioFeatured: true,
       phetioDocumentation: 'Determines whether the entire simulation is running and processing user input. ' +
                            'Setting this property to false pauses the simulation, and prevents user interaction.'
     } );
