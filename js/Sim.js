@@ -338,7 +338,8 @@ define( function( require ) {
 
       // Only instrumented for sims with > 1 screen
       screens.length > 1 ? {
-        tandem: Tandem.generalTandem.createTandem( 'showHomeScreenProperty' )
+        tandem: Tandem.generalTandem.createTandem( 'showHomeScreenProperty' ),
+        phetioFeatured: true
       } : {}
     );
 
