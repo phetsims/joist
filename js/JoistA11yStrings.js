@@ -20,7 +20,7 @@ define( function( require ) {
       value: 'Keyboard Shortcuts'
     },
     tabToGetStarted: {
-      value: 'Tab to get started'
+      value: 'Tab to get started.'
     },
 
     playArea: {
