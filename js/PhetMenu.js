@@ -353,7 +353,7 @@ define( function( require ) {
           separatorBefore: itemDescriptor.separatorBefore,
           tagName: itemDescriptor.tagName,
           tandem: itemDescriptor.tandem,
-          phetioDocumentation: itemDescriptor.phetioDocumentation,
+          phetioDocumentation: itemDescriptor.phetioDocumentation || null,
           focusAfterCallback: itemDescriptor.focusAfterCallback,
           phetioReadOnly: itemDescriptor.phetioReadOnly,
           phetioState: itemDescriptor.phetioState
