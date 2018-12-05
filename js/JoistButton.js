@@ -86,7 +86,6 @@ define( function( require ) {
       tandem: tandem.createTandem( 'pressListener' )
     } );
     this.addInputListener( pressListener );
-    this.addInputListener( pressListener.a11yListener );
 
     // eliminate interactivity gap between label and button
     this.mouseArea = this.touchArea = Shape.bounds( this.bounds );
