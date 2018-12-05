@@ -413,33 +413,35 @@ define( function( require ) {
     // When using the arrow keys, we prevent the virtual cursor from moving in VoiceOver
     var keydownListener = {
       keydown: function( event ) {
+        var domEvent = event.domEvent;
+
         var firstItem = self.items[ 0 ];
         var lastItem = self.items[ self.items.length - 1 ];
 
         // this attempts to prevents the scren reader's virtual cursor from also moving with the arrow keys
-        if ( KeyboardUtil.isArrowKey( event.keyCode ) ) {
-          event.preventDefault();
+        if ( KeyboardUtil.isArrowKey( domEvent.keyCode ) ) {
+          domEvent.preventDefault();
         }
 
-        if ( event.keyCode === KeyboardUtil.KEY_DOWN_ARROW ) {
+        if ( domEvent.keyCode === KeyboardUtil.KEY_DOWN_ARROW ) {
 
           // On down arrow, focus next item in the list, or wrap up to the first item if focus is at the end
           var nextFocusable = lastItem.focused ? firstItem : AccessibilityUtil.getNextFocusable();
           nextFocusable.focus();
         }
-        else if ( event.keyCode === KeyboardUtil.KEY_UP_ARROW ) {
+        else if ( domEvent.keyCode === KeyboardUtil.KEY_UP_ARROW ) {
 
           // On up arow, focus previous item in the list, or wrap back to the last item if focus is on first item
           var previousFocusable = firstItem.focused ? lastItem : AccessibilityUtil.getPreviousFocusable();
           previousFocusable.focus();
         }
-        else if ( event.keyCode === KeyboardUtil.KEY_ESCAPE ) {
+        else if ( domEvent.keyCode === KeyboardUtil.KEY_ESCAPE ) {
 
           // On escape, close the menu and focus the PhET button
           options.closeCallback();
           sim.navigationBar.phetButton.focus();
         }
-        else if ( event.keyCode === KeyboardUtil.KEY_TAB ) {
+        else if ( domEvent.keyCode === KeyboardUtil.KEY_TAB ) {
 
           // close the menu whenever the user tabs out of it
           options.closeCallback();
