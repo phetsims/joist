@@ -94,11 +94,11 @@ define( function( require ) {
         self.focusActiveElement();
       }
     };
-    this.addAccessibleInputListener( clickListener );
+    this.addInputListener( clickListener );
 
     // @private - to be called by dispose
     this.disposeKeyboardHelpDialog = function() {
-      self.removeAccessibleInputListener( clickListener );
+      self.removeInputListener( clickListener );
     };
   }
 

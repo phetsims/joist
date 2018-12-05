@@ -118,7 +118,7 @@ define( function( require ) {
       tandem: options.tandem.createTandem( 'inputListener' )
     } );
     this.addInputListener( fireListener );
-    this.addAccessibleInputListener( { click: function() { large && fireListener.fire(); } } );
+    this.addInputListener( { click: function() { large && fireListener.fire(); } } );
     this.addInputListener( { focus: function() { !large && fireListener.fire(); } } );
     this.addInputListener( {
       focus: function() {

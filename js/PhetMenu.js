@@ -450,7 +450,7 @@ define( function( require ) {
         }
       }
     };
-    this.addAccessibleInputListener( keydownListener );
+    this.addInputListener( keydownListener );
 
     // a11y - if the focus goes to something outside of the PhET menu, close it
     var focusListener = function( focus ) {
@@ -463,7 +463,7 @@ define( function( require ) {
     this.mutate( options );
 
     this.disposePhetMenu = function() {
-      self.removeAccessibleInputListener( keydownListener );
+      self.removeInputListener( keydownListener );
       Display.focusProperty.unlink( focusListener );
     };
   }

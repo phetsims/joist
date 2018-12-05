@@ -134,7 +134,7 @@ define( function( require ) {
         largeScreenButton.visible && largeScreenButton.focus();
       };
       smallScreenButton.addInputListener( { focus: toggleListener } );
-      largeScreenButton.addAccessibleInputListener( { click: toggleListener } );
+      largeScreenButton.addInputListener( { click: toggleListener } );
       // largeScreenButton.mouseArea = largeScreenButton.touchArea = Shape.bounds( largeScreenButton.bounds ); // cover the gap in the vbox
 
       // a11y - add the right aria attributes to the buttons

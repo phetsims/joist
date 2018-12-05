@@ -104,7 +104,7 @@ define( function( require ) {
     } );
 
     this.addInputListener( pressListener );
-    this.addAccessibleInputListener( pressListener.a11yListener );
+    this.addInputListener( pressListener.a11yListener );
 
     var text = new Text( screen.name, {
       font: new PhetFont( 10 ),

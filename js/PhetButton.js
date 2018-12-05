@@ -132,7 +132,7 @@ define( function( require ) {
 
     // a11y - add a listener that opens the menu on 'click' and 'reset', and closes it on escape and if the
     // button receives focus again
-    this.addAccessibleInputListener( {
+    this.addInputListener( {
       click: function() {
 
         // open and set focus on the first item
