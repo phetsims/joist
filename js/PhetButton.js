@@ -97,6 +97,8 @@ define( function( require ) {
       pickable: false
     } );
 
+    // The "kebab" menu icon, 3 dots stacked vertically
+    // See https://ux.stackexchange.com/questions/115468/what-the-difference-between-the-2-menu-icons-3-dots-kebab-and-3-lines-hambur
     var optionsShape = new Shape();
     var optionsCircleRadius = 2.5;
     for ( var i = 0; i < 3; i++ ) {
