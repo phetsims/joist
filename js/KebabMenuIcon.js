@@ -26,8 +26,7 @@ define( require => {
 
       const shape = new Shape();
       for ( let i = 0; i < 3; i++ ) {
-        const circleOffset = i * 3.5 * CIRCLE_RADIUS;
-        shape.arc( 0, circleOffset, CIRCLE_RADIUS, 0, 2 * Math.PI, false );
+        shape.circle( 0, i * 3.5 * CIRCLE_RADIUS, CIRCLE_RADIUS );
       }
 
       super( shape, options );
