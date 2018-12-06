@@ -15,12 +15,11 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var JoistButton = require( 'JOIST/JoistButton' );
+  var KebabMenuIcon = require( 'JOIST/KebabMenuIcon' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
   var PhetButtonIO = require( 'JOIST/PhetButtonIO' );
   var PhetMenu = require( 'JOIST/PhetMenu' );
   var Property = require( 'AXON/Property' );
-  var Shape = require( 'KITE/Shape' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
 
   // a11y strings
@@ -91,29 +90,21 @@ define( function( require ) {
       innerContent: phetString
     };
 
-    // The PhET Label, which is the PhET logo
+    // PhET logo
     var logoImage = new Image( brightLogoMipmap, {
       scale: LOGO_SCALE,
       pickable: false
     } );
 
-    // The "kebab" menu icon, 3 dots stacked vertically
-    // See https://ux.stackexchange.com/questions/115468/what-the-difference-between-the-2-menu-icons-3-dots-kebab-and-3-lines-hambur
-    var optionsShape = new Shape();
-    var optionsCircleRadius = 2.5;
-    for ( var i = 0; i < 3; i++ ) {
-      var circleOffset = i * 3.5 * optionsCircleRadius;
-      optionsShape.arc( 0, circleOffset, optionsCircleRadius, 0, 2 * Math.PI, false );
-    }
-
-    var optionsButton = new Path( optionsShape, {
+    // The menu icon, to the right of the logo
+    var menuIcon = new KebabMenuIcon( {
       left: logoImage.width + 8,
       bottom: logoImage.bottom,
       pickable: false
     } );
 
-    // The icon combines the PhET label and the thre horizontal bars in the right relative positions
-    var icon = new Node( { children: [ logoImage, optionsButton ] } );
+    // The icon combines the PhET logo and the menu icon
+    var icon = new Node( { children: [ logoImage, menuIcon ] } );
 
     JoistButton.call( this, icon, backgroundFillProperty, tandem, options );
 
@@ -122,14 +113,14 @@ define( function( require ) {
       function( backgroundFill, showHomeScreen, updateState ) {
         var backgroundIsWhite = backgroundFill !== 'black' && !showHomeScreen;
         var outOfDate = updateState === 'out-of-date';
-        optionsButton.fill = backgroundIsWhite ? ( outOfDate ? '#0a0' : '#222' ) : ( outOfDate ? '#3F3' : 'white' );
+        menuIcon.fill = backgroundIsWhite ? ( outOfDate ? '#0a0' : '#222' ) : ( outOfDate ? '#3F3' : 'white' );
         logoImage.image = backgroundIsWhite ? darkLogoMipmap : brightLogoMipmap;
       } );
 
     // added for phet-io, when toggling pickability, hide the option dots to prevent the queueing
     // no need to be removed because the PhetButton exists for the lifetime of the sim.
     this.on( 'pickability', function() {
-      optionsButton.visible = self.pickable !== false; // null should still have visible kabab dots
+      menuIcon.visible = self.pickable !== false; // null should still have visible kabab dots
     } );
 
     // a11y - add a listener that opens the menu on 'click' and 'reset', and closes it on escape and if the
