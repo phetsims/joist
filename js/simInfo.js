@@ -37,7 +37,7 @@ define( require => {
   putInfo( 'referrer', document.referrer );
 
   // from Scenery Util
-  putInfo( 'checkIE11StencilSupport', Util.checkIE11StencilSupport );
+  putInfo( 'checkIE11StencilSupport', Util.checkIE11StencilSupport() );
   if ( phet.chipper.queryParameters.webgl ) {
     putInfo( 'isWebGLSupported', Util.isWebGLSupported );
   }
