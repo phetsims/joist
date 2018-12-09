@@ -1,9 +1,9 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * The "kebab" menu icon, 3 dots stacked vertically that look like a shish kebob.
+ * The "kebab" menu icon, 3 dots stacked vertically that look like a shish kebab.
  * See https://github.com/phetsims/joist/issues/544
- * 
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( require => {
@@ -14,7 +14,7 @@ define( require => {
   const Path = require( 'SCENERY/nodes/Path' );
   const Shape = require( 'KITE/Shape' );
 
-  // const
+  // constants
   const CIRCLE_RADIUS = 2.5;
 
   class KebabMenuIcon extends Path {
