@@ -505,11 +505,14 @@ define( function( require ) {
       allowBackingScaleAntialiasing: options.allowBackingScaleAntialiasing
     } );
 
+    // Seeding by default a random value for reproducable fuzzes if desired
+    var fuzzerSeed = phet.chipper.queryParameters.randomSeed * Math.PI;
+
     // @private {InputFuzzer}
-    this.inputFuzzer = new InputFuzzer( this.display, phet.chipper.queryParameters.randomSeed ); // Seeding by default a random value
+    this.inputFuzzer = new InputFuzzer( this.display, fuzzerSeed );
 
     // @private {KeyboardFuzzer}
-    this.keyboardFuzzer = new KeyboardFuzzer( this.display, phet.chipper.queryParameters.randomSeed ); // Seeding by default a random value
+    this.keyboardFuzzer = new KeyboardFuzzer( this.display, fuzzerSeed );
 
     // When the sim is inactive, make it non-interactive, see https://github.com/phetsims/scenery/issues/414
     this.activeProperty.link( function( active ) {
