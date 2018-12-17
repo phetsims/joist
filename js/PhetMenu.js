@@ -479,7 +479,7 @@ define( function( require ) {
       if ( !this.isShowing ) {
 
         // make sure that any previously focused elements no longer have focus
-        Display.focusProperty.set( null );
+        Display.focus = false;
 
         window.phet.joist.sim.showPopup( this, true );
         this.isShowing = true;
