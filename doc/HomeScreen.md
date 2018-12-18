@@ -94,7 +94,7 @@ ToDO.
   <h2>Play Area</h2>
     <!-- Stuff in the Play Area -->
   <h2>Control Area</h2>
-    <!-- Stuff in the Controls Area -->
+    <!-- Stuff in the Control Area -->
 </article>
 
 <!-- Sim Screen 02 -->
@@ -168,7 +168,7 @@ ToDO.
   <h2>Play Area</h2>
     <!-- Stuff in the Play Area -->
   <h2>Control Area</h2>
-    <!-- Stuff in the Controls Area -->
+    <!-- Stuff in the Control Area -->
 </article> 
 
 <!-- Sim Screen 02 -->
@@ -256,7 +256,7 @@ ToDO.
   <h2>Play Area</h2>
     <!-- Stuff in the Play Area -->
   <h2>Control Area</h2>
-    <!-- Stuff in the Controls Area -->
+    <!-- Stuff in the Control Area -->
 </article> 
 
 <!-- Sim Screen 02 -->
