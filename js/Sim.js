@@ -217,7 +217,7 @@ define( function( require ) {
         if ( screen && screen.view.step ) {
           screen.view.step( dt );
         }
-        this.display.updateDisplay();
+        this.display.updateDisplay( dt );
         this.frameEndedEmitter.emit();
 
         if ( phet.chipper.queryParameters.memoryLimit ) {
