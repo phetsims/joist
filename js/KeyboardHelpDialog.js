@@ -41,11 +41,20 @@ define( function( require ) {
   function KeyboardHelpDialog( helpContent, options ) {
     var self = this;
 
+    // get the screen width for the screenView that is currently being displayed, then we can set the maxWidth accordingly.
+    var screenWidth = phet.joist.sim && phet.joist.sim.currentScreenProperty &&
+                      phet.joist.sim.currentScreenProperty.get() &&
+                      phet.joist.sim.currentScreenProperty.get().view &&
+                      phet.joist.sim.currentScreenProperty.get().view.layoutBounds.width || 1000;
+
     options = _.extend( {
       titleAlign: 'center',
       fill: 'rgb( 214, 237, 249 )',
       ySpacing: 15,
-      tandem: Tandem.required
+      tandem: Tandem.required,
+
+      // empirically determined to have some margin relative to max width
+      maxWidth: .73 * screenWidth
     }, options );
 
     // title
