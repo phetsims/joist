@@ -21,6 +21,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var ToggleNode = require( 'SUN/ToggleNode' );
+  var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -153,7 +154,20 @@ define( function( require ) {
       self.setAccessibleAttribute( 'aria-pressed', !value );
 
       var alertString = value ? simSoundOnString : simSoundOffString;
-      utteranceQueue.addToBack( alertString );
+      utteranceQueue.addToBack( new Utterance( {
+        alert: alertString,
+
+        // only one sound toggle alert should be in the queue at a time so the user doesn't get spammed with alerts
+        // if the button is pressed rapidly
+        uniqueGroupId: 'soundToggleAlert',
+
+        // Wait this long in ms before announcing the alert so that old utterances with the same uniqueGroupId
+        // are removed before they can be anounced. This way only a single utterance for the sound toggle is
+        // announced even if "enter" is held down to click the button every few milliseconds.
+        // TODO: This is a general problem for buttons, see https://github.com/phetsims/sun/issues/424, when that
+        // issue is resolved, this line can be removed
+        delayTime: 500
+      } ) );
     };
     soundEnabledProperty.lazyLink( pressedListener );
     this.setAccessibleAttribute( 'aria-pressed', !soundEnabledProperty.get() );
