@@ -186,22 +186,12 @@ define( function( require ) {
         text: menuItemReportAProblemString,
         present: isPhETBrand && !isPhetApp,
         callback: function() {
-          // Create a smaller version of our dependencies to send, due to the URL length issues.
-          // See https://github.com/phetsims/joist/issues/249.
-          var dependenciesCopy = phet.chipper.dependencies ? JSON.parse( JSON.stringify( phet.chipper.dependencies ) ) : {};
-          delete dependenciesCopy.comment;
-          for ( var key in dependenciesCopy ) {
-            if ( dependenciesCopy[ key ].sha ) {
-              dependenciesCopy[ key ].sha = dependenciesCopy[ key ].sha.substring( 0, 8 );
-            }
-          }
-
           var url = 'http://phet.colorado.edu/files/troubleshooting/' +
                     '?sim=' + encodeURIComponent( sim.name ) +
                     '&version=' + encodeURIComponent( sim.version + ' ' +
                     ( phet.chipper.buildTimestamp ? phet.chipper.buildTimestamp : '(require.js)' ) ) +
                     '&url=' + encodeURIComponent( window.location.href ) +
-                    '&dependencies=' + encodeURIComponent( JSON.stringify( dependenciesCopy ) );
+                    '&dependencies=' + encodeURIComponent( JSON.stringify( {} ) );
 
           if ( !fuzzes ) {
             var reportWindow = window.open( url, '_blank' );
