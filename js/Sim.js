@@ -93,6 +93,9 @@ define( function( require ) {
     // @public Emitter that indicates when the sim resized.  This Emitter is implemented so it can be automatically played back.
     this.resizedEmitter = new Emitter( {
       tandem: Tandem.generalTandem.createTandem( 'resizedEmitter' ),
+
+      // TODO: use of both of these is redundant, and should get fixed with https://github.com/phetsims/axon/issues/194
+      argumentTypes: [ { valueType: 'number' }, { valueType: 'number' } ],
       phetioType: EmitterIO( [
         { name: 'width', type: NumberIO },
         { name: 'height', type: NumberIO }
@@ -147,6 +150,9 @@ define( function( require ) {
     // played back.
     this.stepSimulationEmitter = new Emitter( {
       tandem: Tandem.generalTandem.createTandem( 'stepSimulationEmitter' ),
+
+      // TODO: use of both of these is redundant, and should get fixed with https://github.com/phetsims/axon/issues/194
+      argumentTypes: [ { valueType: 'number' } ],
       phetioType: EmitterIO( [ { name: 'dt', type: NumberIO } ] ),
       phetioHighFrequency: true,
       phetioPlayback: true,
