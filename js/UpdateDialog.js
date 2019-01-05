@@ -9,7 +9,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Dialog = require( 'SUN/Dialog' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
@@ -90,17 +89,6 @@ define( function( require ) {
       // a11y
       focusOnCloseNode: phetButton
     } );
-
-    // close it on a click
-    var buttonListener = new ButtonListener( {
-      fire: self.hide.bind( self )
-    } );
-    this.addInputListener( buttonListener );
-
-    // @private - to be called by dispose()
-    this.disposeUpdateDialog = function() {
-      self.removeInputListener( buttonListener );
-    };
   }
 
   joist.register( 'UpdateDialog', UpdateDialog );
@@ -148,15 +136,6 @@ define( function( require ) {
           timer.removeListener( this.updateStepListener );
         }
       }
-    },
-
-    /**
-     * Dispose the UpdateDialog so that it is eligible for garbage collection.
-     * @public
-     */
-    dispose: function() {
-      this.disposeUpdateDialog();
-      Dialog.prototype.dispose.call( this );
     }
   } );
 } );

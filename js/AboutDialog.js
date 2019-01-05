@@ -10,7 +10,6 @@ define( function( require ) {
 
   // modules
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
-  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var CreditsNode = require( 'JOIST/CreditsNode' );
   var Dialog = require( 'SUN/Dialog' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -48,8 +47,6 @@ define( function( require ) {
    * @constructor
    */
   function AboutDialog( name, version, credits, Brand, locale, phetButton, tandem ) {
-    var self = this;
-
     var children = [];
 
     var titleText = new Text( name, {
@@ -235,16 +232,8 @@ define( function( require ) {
       otherElementName: AccessiblePeer.PRIMARY_SIBLING
     } );
 
-    // close it on a click
-    var closeListener = new ButtonListener( {
-      fire: self.hide.bind( self )
-    } );
-    this.addInputListener( closeListener );
-
     // @private - to be called in dispose
     this.disposeAboutDialog = function() {
-      this.removeInputListener( closeListener );
-
       this.creditsNode && this.creditsNode.dispose();
       this.additionalLicenseStatement && this.additionalLicenseStatement.dispose();
     };
