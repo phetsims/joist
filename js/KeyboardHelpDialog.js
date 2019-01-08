@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var Dialog = require( 'SUN/Dialog' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HelpContent = require( 'SCENERY_PHET/keyboard/help/HelpContent' );
@@ -88,9 +89,19 @@ define( function( require ) {
           // labelWithIcon is meant to be passed to HelpContent, so we have to hack a bit here
           new HBox( { children: [ tabHintLine.icon, tabHintLine.label ], spacing: 4 } )
         ],
-        spacing: 5
+        spacing: 5,
+
+        // a11y
+        tagName: 'div'
       }
     );
+
+    // (a11y) Make sure that the title passed to the Dialog has an accessible name.
+    options.title.addAriaLabelledbyAssociation( {
+      thisElementName: AccessiblePeer.PRIMARY_SIBLING,
+      otherNode: shortcutsTitleText,
+      otherElementName: AccessiblePeer.PRIMARY_SIBLING
+    } );
 
     // help content surrounded by a div unless already specified, so that all content is read when dialog opens
     helpContent.tagName = helpContent.tagName || 'div';
