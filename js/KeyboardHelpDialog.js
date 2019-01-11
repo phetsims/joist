@@ -40,7 +40,6 @@ define( function( require ) {
    * @constructor
    */
   function KeyboardHelpDialog( helpContent, options ) {
-    var self = this;
 
     options = _.extend( {
       titleAlign: 'center',
@@ -107,34 +106,9 @@ define( function( require ) {
     helpContent.tagName = helpContent.tagName || 'div';
 
     Dialog.call( this, helpContent, options );
-
-    // @private (a11y) - input listener for the close button, must be disposed
-    var clickListener = {
-      click: function() {
-        self.hide();
-        self.focusActiveElement();
-      }
-    };
-    this.addInputListener( clickListener );
-
-    // @private - to be called by dispose
-    this.disposeKeyboardHelpDialog = function() {
-      self.removeInputListener( clickListener );
-    };
   }
 
   joist.register( 'KeyboardHelpDialog', KeyboardHelpDialog );
 
-  return inherit( Dialog, KeyboardHelpDialog, {
-
-    /**
-     * So the Dialog is eligible for garbage collection.
-     * @public
-     * @override
-     */
-    dispose: function() {
-      this.disposeKeyboardHelpDialog();
-      Dialog.prototype.dispose.call( this );
-    }
-  } );
+  return inherit( Dialog, KeyboardHelpDialog );
 } );
