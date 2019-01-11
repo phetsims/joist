@@ -916,6 +916,23 @@ define( function( require ) {
      */
     stepSimulation: function( dt ) {
       this.stepSimulationEmitter.emit( dt );
+    },
+
+    /**
+     * Hide or show all accessible content related to the sim ScreenViews, and navigation bar. This content will
+     * remain visible, but not be tab navigable or readable with a screen reader. This is generally useful when
+     * displaying a pop up or modal dialog.
+     *
+     * @param {boolean} visible
+     * @private
+     */
+    setAccessibleViewsVisible( visible ) {
+      for ( let i = 0; i < this.screens.length; i++ ) {
+        this.screens[ i ].view.accessibleVisible = visible;
+      }
+
+      this.navigationBar.accessibleVisible = visible;
+      this.homeScreen && this.homeScreen.view.setAccessibleVisible( visible );
     }
   } );
 } );
