@@ -84,6 +84,13 @@ define( function( require ) {
       tandem: options.tandem.createTandem( 'icon' )
     } );
 
+    // frame around the icon
+    var iconFrame = new Rectangle( 0, 0, icon.width, icon.height );
+
+    var iconParent = new Node( {
+      children: [ icon, iconFrame ]
+    } );
+
     // Is this button's screen selected?
     var selectedProperty = new DerivedProperty( [ screenIndexProperty ], function( screenIndex ) {
       return screenIndex === screens.indexOf( screen );
@@ -111,7 +118,7 @@ define( function( require ) {
     } );
 
     var box = new VBox( {
-      children: [ icon, text ],
+      children: [ iconParent, text ],
       pickable: false,
       spacing: Math.max( 0, 12 - text.height ), // see https://github.com/phetsims/joist/issues/143
       usesOpacity: true, // hint, since we change its opacity
@@ -155,6 +162,16 @@ define( function( require ) {
       box.opacity = selected ? 1.0 : ( looksPressed ? 0.65 : 0.5 );
       brightenHighlight.visible = !useDarkenHighlights && ( over || looksPressed );
       darkenHighlight.visible = useDarkenHighlights && ( over || looksPressed );
+
+      // Put a frame around the screen icon, depending on the navigation bar background color.
+      var iconFrameStroke = null;
+      if ( screen.showScreenIconFrameForNavigationBarFill === 'black' && navigationBarFill === 'black' ) {
+        iconFrameStroke = '#dddddd'; // gray frame on a black navbar
+      }
+      else if ( screen.showScreenIconFrameForNavigationBarFill === 'white' && navigationBarFill === 'white' ) {
+        iconFrameStroke = 'black'; // black frame on a white navbar
+      }
+      iconFrame.stroke = iconFrameStroke;
     } );
 
     // Constrain text and icon width, if necessary

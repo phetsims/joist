@@ -72,6 +72,10 @@ define( function( require ) {
       // {Node|null} icon shown in the navigation bar. If null, then the home screen icon will be used, scaled to fit.
       navigationBarIcon: null,
 
+      // {string|null} show a frame around the screen icon when the navbar's background fill is this color
+      // 'black', 'white', or null (no frame)
+      showScreenIconFrameForNavigationBarFill: null,
+
       // dt cap in seconds, see https://github.com/phetsims/joist/issues/130
       maxDT: 0.5,
 
@@ -81,6 +85,9 @@ define( function( require ) {
       // This is often a full but short sentence with a period at the end of it.
       descriptionContent: null
     }, options );
+
+    assert && assert( [ 'black', 'white', null ].includes( options.showScreenIconFrameForNavigationBarFill ),
+      'invalid showScreenIconFrameForNavigationBarFill: ' + options.showScreenIconFrameForNavigationBarFill );
 
     // Create a default homeScreenIcon, using the Screen's background color
     if ( !options.homeScreenIcon ) {
@@ -112,6 +119,7 @@ define( function( require ) {
     this.homeScreenIcon = options.homeScreenIcon;
     this.navigationBarIcon = options.navigationBarIcon;
     this.showUnselectedHomeScreenIconFrame = options.showUnselectedHomeScreenIconFrame;
+    this.showScreenIconFrameForNavigationBarFill = options.showScreenIconFrameForNavigationBarFill;
 
     // @public (read-only, joist)
     this.maxDT = options.maxDT;
