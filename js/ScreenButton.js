@@ -39,6 +39,7 @@ define( function( require ) {
   function ScreenButton( large, sim, index, highlightedScreenIndexProperty, tandem, options ) {
 
     options = _.extend( {
+      showUnselectedHomeScreenIconFrame: false, // put a frame around unselected home screen icons
       opacity: 1,  // The small screen's nodes have an opacity of .5
       tandem: tandem, // To be passed into mutate, but tandem should be a required param in joist
       phetioEventType: 'user',
@@ -66,7 +67,7 @@ define( function( require ) {
 
     // Frame for small (unselected) home screen icons
     var frame = large ? new Frame( icon ) : new Rectangle( 0, 0, icon.width, icon.height, {
-      stroke: options.showSmallHomeScreenIconFrame ? '#dddddd' : null,
+      stroke: options.showUnselectedHomeScreenIconFrame ? '#dddddd' : null,
       lineWidth: 0.7
     } );
 

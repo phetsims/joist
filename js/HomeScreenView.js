@@ -43,7 +43,6 @@ define( function( require ) {
     var self = this;
 
     options = _.extend( {
-      showSmallHomeScreenIconFrame: false,
       warningNode: null // {Node | null}, to display below the icons as a warning if available
     }, options );
 
@@ -119,11 +118,10 @@ define( function( require ) {
         highlightedScreenIndexProperty,
         smallTandem,
         _.extend( a11yScreenButtonOptions, {
-            spacing: 3,
-            cursor: 'pointer',
-            showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame
-          }
-        ) );
+          spacing: 3,
+          cursor: 'pointer',
+          showUnselectedHomeScreenIconFrame: screen.showUnselectedHomeScreenIconFrame
+        } ) );
 
       smallScreenButton.addInputListener( smallScreenButton.highlightListener );
       largeScreenButton.addInputListener( smallScreenButton.highlightListener );

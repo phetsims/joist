@@ -304,10 +304,6 @@ define( function( require ) {
       // so don't rely on it.
       showSaveAndLoad: false,
 
-      // If true, there will be a border shown around the home screen icons.  Use this option if the home screen icons
-      // have the same color as the background, as in Color Vision.
-      showSmallHomeScreenIconFrame: false,
-
       // Whether accessibility features are enabled or not.  Use this option to render the Parallel DOM for
       // keyboard navigation and screen reader based auditory descriptions. The "accessibility" query parameter will
       // override this flag when true, so only use this to enable.
@@ -561,8 +557,7 @@ define( function( require ) {
     // Multi-screen sims get a home screen.
     if ( screens.length > 1 ) {
       this.homeScreen = new HomeScreen( this, Tandem.rootTandem.createTandem( 'homeScreen' ), {
-        warningNode: options.homeScreenWarningNode,
-        showSmallHomeScreenIconFrame: options.showSmallHomeScreenIconFrame
+        warningNode: options.homeScreenWarningNode
       } );
       this.homeScreen.initializeModelAndView();
     }

@@ -41,7 +41,6 @@ define( function( require ) {
       // createView
       function() {
         return new HomeScreenView( sim, tandem.createTandem( 'view' ), _.pick( options, [
-          'showSmallHomeScreenIconFrame',
           'warningNode'
         ] ) );
       },

@@ -66,6 +66,9 @@ define( function( require ) {
       // For single-screen sims, there is no home screen and the default is OK.
       homeScreenIcon: null,
 
+      // {boolean} whether to draw a frame around the small icons on home screen
+      showUnselectedHomeScreenIconFrame: false,
+
       // {Node|null} icon shown in the navigation bar. If null, then the home screen icon will be used, scaled to fit.
       navigationBarIcon: null,
 
@@ -108,6 +111,7 @@ define( function( require ) {
     this.name = options.name;
     this.homeScreenIcon = options.homeScreenIcon;
     this.navigationBarIcon = options.navigationBarIcon;
+    this.showUnselectedHomeScreenIconFrame = options.showUnselectedHomeScreenIconFrame;
 
     // @public (read-only, joist)
     this.maxDT = options.maxDT;
