@@ -45,17 +45,7 @@ define( function( require ) {
       titleAlign: 'center',
       fill: 'rgb( 214, 237, 249 )',
       ySpacing: 15,
-      tandem: Tandem.required,
-
-      // the width of the KeyboardHelpDialog is constrained to the simulation bounds
-      layoutStrategy: function( dialog, simBounds, screenBounds, scale ) {
-
-        // empirically determined to have some margin relative to max width
-        dialog.maxWidth = ( simBounds.width / scale ) * 0.90;
-
-        // this is the default layout strategy in Dialog
-        dialog.center = simBounds.center.times( 1.0 / scale );
-      }
+      tandem: Tandem.required
     }, options );
 
     // title
