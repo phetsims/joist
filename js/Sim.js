@@ -321,7 +321,7 @@ define( function( require ) {
       supportsEnhancedSound: false,
 
       // the default renderer for the rootNode, see #221, #184 and https://github.com/phetsims/molarity/issues/24
-      rootRenderer: platform.edge ? 'canvas' : 'svg',
+      rootRenderer: 'svg',
 
       // {boolean} - Whether to allow WebGL 2x scaling when antialiasing is detected. If running out of memory on
       // things like iPad 2s (e.g. https://github.com/phetsims/scenery/issues/859), this can be turned to false to help.
