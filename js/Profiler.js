@@ -33,6 +33,8 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
+  var Util = require( 'DOT/Util' );
+
 
   // constants
   var FIELD_SEPARATOR = ' \u2014 '; // em dash, a long horizontal dash
@@ -81,11 +83,11 @@ define( function( require ) {
         }
 
         // FPS
-        var averageFPS = Math.round( 1000 / (totalTime / this.allTimes.length) );
+        var averageFPS = Util.roundSymmetric( 1000 / (totalTime / this.allTimes.length) );
         var text = '' + averageFPS + ' FPS';
 
         // ms/frame
-        var averageFrameTime = Math.round( totalTime / this.allTimes.length );
+        var averageFrameTime = Util.roundSymmetric( totalTime / this.allTimes.length );
         text = text + FIELD_SEPARATOR + averageFrameTime + 'ms/frame';
 
         // histogram

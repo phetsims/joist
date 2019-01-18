@@ -1,4 +1,5 @@
 // Copyright 2016-2018, University of Colorado Boulder
+/* eslint-disable bad-sim-text */
 
 /**
  * Shows the splash screen and loading progress bar.
@@ -42,6 +43,7 @@
 
     var scale = Math.min( scaleX, scaleY ) * SCALE_FACTOR;
 
+    // use Math.round because this is a preload
     var translationX = Math.round( ( availableWidth - currentWidth * scale ) / 2 );
     var translationY = Math.round( ( availableHeight - currentHeight * scale ) * POSITION_Y );
 
@@ -127,6 +129,8 @@
 
   // fade/glow the background of the loading bar
   var phetSplashScreenAnimationInterval = setInterval( function() {
+
+    // use browser toFixed because this is a preload
     progressBarBackground.style[ 'stroke-width' ] = ( Math.sin( Date.now() / 1000 * 4 ) * 0.55 + 1 ).toFixed( 2 );
   }, 16 );
 
