@@ -249,7 +249,7 @@ define( function( require ) {
      * @override
      */
     show: function() {
-      if ( UpdateCheck.areUpdatesChecked && !this.isShowing ) {
+      if ( UpdateCheck.areUpdatesChecked && !this.isShowingProperty.value ) {
         UpdateCheck.resetTimeout();
 
         // Fire off a new update check if we were marked as offline or unchecked before, and we handle updates.
@@ -273,7 +273,7 @@ define( function( require ) {
      * @override
      */
     hide: function() {
-      if ( this.isShowing ) {
+      if ( this.isShowingProperty.value ) {
         Dialog.prototype.hide.call( this );
 
         if ( UpdateCheck.areUpdatesChecked ) {
