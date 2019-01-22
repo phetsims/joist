@@ -5,10 +5,6 @@
   "done": {
     "value": "Done"
   },
-  "PhetButton.name": {
-    "value": "PhET Menu Button",
-    "visible": false
-  },
   "menuItem.options": {
     "value": "Options\u2026"
   },
@@ -119,10 +115,6 @@
   },
   "thirdParty.credits.link": {
     "value": "Third-party Credits"
-  },
-  "HomeButton.name": {
-    "value": "Home",
-    "visible": false
   },
   "keyboardShortcuts.title": {
     "value": "Keyboard Shortcuts"
