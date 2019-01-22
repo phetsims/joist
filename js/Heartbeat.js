@@ -44,7 +44,7 @@ define( function( require ) {
       // prevent Safari from going to sleep, see https://github.com/phetsims/joist/issues/140
       sim.frameStartedEmitter.addListener( function() {
         if ( sim.frameCounter % 1000 === 0 ) {
-          heartbeatDiv.innerHTML = Math.random();
+          heartbeatDiv.innerHTML = phet.joist.random.nextDouble();
         }
       } );
     }
