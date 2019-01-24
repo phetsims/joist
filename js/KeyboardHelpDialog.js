@@ -63,11 +63,7 @@ define( function( require ) {
     } );
 
     // a line to say "tab to get started" below the "Keyboard Shortcuts" 'title'
-    var tabHintText = new Text( keyboardShortcutsToGetStartedString, {
-      font: HelpContent.DEFAULT_LABEL_FONT,
-      maxWidth: HelpContent.DEFAULT_TEXT_MAX_WIDTH
-    } );
-    var tabHintLine = HelpContent.labelWithIcon( tabHintText, new TabKeyNode(), tabToGetStartedString, {
+    var tabHintLine = HelpContent.labelWithIcon( keyboardShortcutsToGetStartedString, new TabKeyNode(), tabToGetStartedString, {
       iconOptions: {
         tagName: 'p' // because there is only one, and the default is an li tag
       }
