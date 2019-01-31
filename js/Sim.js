@@ -83,9 +83,9 @@ define( function( require ) {
       throw new Error( 'playbackModeEnabledProperty cannot be changed after Sim construction has begun' );
     } );
 
-    // @public Emitter that indicates sim construction completed.  This was added for PhET-iO but can be used by any client.
-    // This does not coincide with the end of the Sim constructor (because Sim has asynchronous steps that finish
-    // after the constructor is completed)
+    // @public Emitter that indicates sim construction completed, and that all screen models and views have been created.
+    // This was added for PhET-iO but can be used by any client. This does not coincide with the end of the Sim
+    // constructor (because Sim has asynchronous steps that finish after the constructor is completed)
     this.endedSimConstructionEmitter = new Emitter();
 
     options = options || {};
