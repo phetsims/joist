@@ -821,10 +821,23 @@ define( function( require ) {
                   Profiler.start( self );
                 }
 
+                // Notify listeners that all models and views have been constructed, and the Sim is ready to be shown.
+                // Used by PhET-iO. This does not coincide with the end of the Sim constructor (because Sim has
+                // asynchronous steps that finish after the constructor is completed )
+                self.endedSimConstructionEmitter.emit();
+
                 // place the requestAnimationFrame *before* rendering to assure as close to 60fps with the setTimeout fallback.
                 // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
                 // Launch the bound version so it can easily be swapped out for debugging.
+                // Schedules animation updates and runs the first step()
                 self.boundRunAnimationLoop();
+
+                // After the application is ready to go, remove the splash screen and progress bar.  Note the splash
+                // screen is removed after one step(), so the rendering is ready to go when the progress bar is hidden.
+                window.phetSplashScreen.dispose();
+
+                // Sanity check that there is no phetio object in phet brand, see https://github.com/phetsims/phet-io/issues/1229
+                Brand.id === 'phet' && assert && assert( !phet.phetio, 'window.phet.phetio should not exist for phet brand' );
 
                 // Communicate sim load (successfully) to joist/tests/test-sims.html
                 if ( phet.chipper.queryParameters.postMessageOnLoad ) {
@@ -833,18 +846,6 @@ define( function( require ) {
                     url: window.location.href
                   } ), '*' );
                 }
-
-                // After the application is ready to go, remove the splash screen and progress bar
-                window.phetSplashScreen.dispose();
-
-                // Signify the end of simulation startup, finish the simStartedEvent.  Used by PhET-iO. This does not
-                // coincide with the end of the Sim constructor (because Sim has asynchronous steps that finish after
-                // the constructor is completed )
-                self.endedSimConstructionEmitter.emit();
-
-                // Sanity check that there is no phetio object in phet brand, see https://github.com/phetsims/phet-io/issues/1229
-                Brand.id === 'phet' && assert && assert( !phet.phetio, 'window.phet.phetio should not exist for phet brand' );
-
               }, 25 ); // pause for a few milliseconds with the progress bar filled in before going to the home screen
             }
           },
