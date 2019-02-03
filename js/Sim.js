@@ -224,12 +224,13 @@ define( function( require ) {
           screen.view.step( dt );
         }
         this.display.updateDisplay( dt );
-        this.frameEndedEmitter.emit();
 
         if ( phet.chipper.queryParameters.memoryLimit ) {
           this.memoryMonitor.measure();
         }
-      }
+      },
+
+      after: () => this.frameEndedEmitter.emit()
     } );
 
     if ( screens.length === 1 ) {
