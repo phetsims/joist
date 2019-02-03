@@ -102,7 +102,7 @@ define( function( require ) {
       ] ),
       phetioPlayback: true,
       phetioDocumentation: 'Emits when the sim is resized',
-      listener: ( width, height ) => {
+      before: ( width, height ) => {
         assert && assert( width > 0 && height > 0, 'sim should have a nonzero area' );
 
         // Gracefully support bad dimensions, see https://github.com/phetsims/joist/issues/472
@@ -156,7 +156,7 @@ define( function( require ) {
       phetioType: EmitterIO( [ { name: 'dt', type: NumberIO } ] ),
       phetioHighFrequency: true,
       phetioPlayback: true,
-      listener: dt => {
+      before: dt => {
         this.frameStartedEmitter.emit();
 
         // increment this before we can have an exception thrown, to see if we are missing frames
