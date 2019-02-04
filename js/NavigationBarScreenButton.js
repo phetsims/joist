@@ -166,7 +166,7 @@ define( function( require ) {
       // Put a frame around the screen icon, depending on the navigation bar background color.
       var iconFrameStroke = null;
       if ( screen.showScreenIconFrameForNavigationBarFill === 'black' && navigationBarFill === 'black' ) {
-        iconFrameStroke = '#dddddd'; // gray frame on a black navbar
+        iconFrameStroke = PhetColorScheme.SCREEN_ICON_FRAME;
       }
       else if ( screen.showScreenIconFrameForNavigationBarFill === 'white' && navigationBarFill === 'white' ) {
         iconFrameStroke = 'black'; // black frame on a white navbar

@@ -68,7 +68,7 @@ define( function( require ) {
 
     // Frame for small (unselected) home screen icons
     var frame = large ? new Frame( icon ) : new Rectangle( 0, 0, icon.width, icon.height, {
-      stroke: options.showUnselectedHomeScreenIconFrame ? '#dddddd' : null,
+      stroke: options.showUnselectedHomeScreenIconFrame ? PhetColorScheme.SCREEN_ICON_FRAME : null,
       lineWidth: 0.7
     } );
 
