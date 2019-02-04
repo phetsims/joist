@@ -140,14 +140,17 @@ define( function( require ) {
       }
     } );
 
-    // @public Emitter that indicates when a frame starts
+    // @public Emitter that indicates when a frame starts.  Listen to this Emitter if you have an action that must be
+    // performed before the step begins.
     this.frameStartedEmitter = new Emitter();
 
-    // @public Emitter that indicates when a frame ends.
+    // @public Emitter that indicates when a frame ends.  Listen to this Emitter if you have an action that must be
+    // performed after the step completes.
     this.frameEndedEmitter = new Emitter();
 
     // @public {Emitter} Emitter that steps the simulation. This Emitter is implemented so it can be automatically
-    // played back for PhET-iO record/playback.
+    // played back for PhET-iO record/playback.  Listen to this Emitter if you have an action that happens during the
+    // simulation step.
     this.stepSimulationEmitter = new Emitter( {
       tandem: Tandem.generalTandem.createTandem( 'stepSimulationEmitter' ),
 
