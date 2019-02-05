@@ -20,7 +20,7 @@ define( function( require ) {
   var RichText = require( 'SCENERY/nodes/RichText' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var timer = require( 'PHET_CORE/timer' );
+  var timer = require( 'AXON/timer' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var UpdateNodes = require( 'JOIST/UpdateNodes' );
   var VBox = require( 'SCENERY/nodes/VBox' );

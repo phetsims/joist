@@ -45,7 +45,7 @@ define( function( require ) {
   var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   var soundManager = require( 'TAMBO/soundManager' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var timer = require( 'PHET_CORE/timer' );
+  var timer = require( 'AXON/timer' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var Util = require( 'SCENERY/util/Util' );
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
