@@ -140,6 +140,10 @@ define( function( require ) {
       }
     } );
 
+    // Sim screens normally update by implementing model.step(dt) or view.step(dt).  When that is impossible or
+    // relatively awkward, it is possible to listen for a callback when a frame begins, when a frame is being processed
+    // or after the frame is complete.  See https://github.com/phetsims/joist/issues/534
+
     // @public Emitter that indicates when a frame starts.  Listen to this Emitter if you have an action that must be
     // performed before the step begins.
     this.frameStartedEmitter = new Emitter();
