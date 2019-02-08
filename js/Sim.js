@@ -235,9 +235,7 @@ define( function( require ) {
         if ( phet.chipper.queryParameters.memoryLimit ) {
           this.memoryMonitor.measure();
         }
-      },
-
-      after: () => this.frameEndedEmitter.emit()
+      }
     } );
 
     if ( screens.length === 1 ) {
@@ -920,6 +918,7 @@ define( function( require ) {
      */
     stepSimulation: function( dt ) {
       this.stepSimulationEmitter.emit( dt );
+      this.frameEndedEmitter.emit();
     },
 
     /**
