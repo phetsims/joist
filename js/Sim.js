@@ -230,7 +230,7 @@ define( function( require ) {
         if ( screen && screen.view.step ) {
           screen.view.step( dt );
         }
-        this.display.updateDisplay( dt );
+        this.display.updateDisplay();
 
         if ( phet.chipper.queryParameters.memoryLimit ) {
           this.memoryMonitor.measure();
