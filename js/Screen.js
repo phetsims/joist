@@ -14,14 +14,13 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Property = require( 'AXON/Property' );
-  var PropertyIO = require( 'AXON/PropertyIO' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ScreenSummaryNode = require( 'SCENERY_PHET/accessibility/nodes/ScreenSummaryNode' );
   var Shape = require( 'KITE/Shape' );
@@ -137,9 +136,8 @@ define( function( require ) {
     // @public {Property.<boolean>} indicates whether the Screen is active. Clients can read this, joist sets it.
     // To prevent potential visual glitches, the value should change only while the screen's view is invisible.
     // That is: transitions from false to true before a Screen becomes visible, and from true to false after a Screen becomes invisible.
-    this.activeProperty = new Property( true, {
+    this.activeProperty = new BooleanProperty( true, {
       tandem: options.tandem.createTandem( 'activeProperty' ),
-      phetioType: PropertyIO( BooleanIO ),
       phetioReadOnly: true,
       phetioDocumentation: 'Indicates whether the screen is active.  For single-screen simulations, the screen is always active.'
     } );
