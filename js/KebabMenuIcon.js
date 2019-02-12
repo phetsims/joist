@@ -26,7 +26,7 @@ define( require => {
 
       const shape = new Shape();
       for ( let i = 0; i < 3; i++ ) {
-        shape.circle( 0, i * 3.5 * CIRCLE_RADIUS, CIRCLE_RADIUS ); // args are: x, y, radius
+        shape.circle( 0, i * 3.543 * CIRCLE_RADIUS, CIRCLE_RADIUS ); // args are: x, y, radius
       }
 
       super( shape, options );
