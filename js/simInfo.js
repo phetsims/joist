@@ -81,8 +81,8 @@ define( require => {
         putInfo( 'screens', sim.screens.map( screen => {
           const screenObject = {
 
-            // likely null for single screen sims
-            name: screen.name
+            // likely null for single screen sims, so use the sim name as a default
+            name: screen.name || sim.name
           };
           if ( PHET_IO_ENABLED ) {
             screenObject.phetioID = screen.screenTandem.phetioID;
