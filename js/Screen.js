@@ -105,7 +105,7 @@ define( function( require ) {
     validateIconSize( options.homeScreenIcon, MINIMUM_HOME_SCREEN_ICON_SIZE, HOME_SCREEN_ICON_ASPECT_RATIO, 'homeScreenIcon' );
     validateIconSize( options.navigationBarIcon, MINIMUM_NAVBAR_ICON_SIZE, NAVBAR_ICON_ASPECT_RATIO, 'navigationBarIcon' );
 
-    // @private (read-only, joist)
+    // @public (read-only, joist)
     this.screenTandem = options.tandem;
 
     assert && assert( !options.backgroundColor, 'Please provide backgroundColorProperty instead' );

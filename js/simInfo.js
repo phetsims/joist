@@ -19,6 +19,7 @@ define( require => {
   const phetioCommandProcessor = require( 'ifphetio!PHET_IO/phetioCommandProcessor' );
 
   // constants
+  const PHET_IO_ENABLED = !!( window.phet && window.phet.phetio );
   const info = {};
 
   function putInfo( key, value ) {
@@ -65,19 +66,31 @@ define( require => {
   canvas = null; // dispose only reference
 
   const simInfo = {
-    getInfo( sim, packageJSON ) {
+    get( sim, packageJSON ) {
 
+      // no need to add this again if the method has already been called
       if ( !info.simName ) {
         putInfo( 'simName', sim.name );
         putInfo( 'simVersion', sim.version );
         putInfo( 'repoName', packageJSON.name );
-      }
+        putInfo( 'screens', sim.screens.map( screen => {
+          const screenObject = {
 
-      // (phet-io) if there is metadata from the wrapper
-      if ( phet.phetio ) {
-        putInfo( 'wrapperMetadata', phet.phetio.simStartedMetadata );
-        putInfo( 'dataStreamVersion', dataStream.VERSION );
-        putInfo( 'phetioCommandProcessorVersion', phetioCommandProcessor.VERSION );
+            // likely null for single screen sims
+            name: screen.name
+          };
+          if ( PHET_IO_ENABLED ) {
+            screenObject.phetioID = screen.screenTandem.phetioID;
+          }
+          return screenObject;
+        } ) );
+
+        // (phet-io) if there is metadata from the wrapper
+        if ( PHET_IO_ENABLED ) {
+          putInfo( 'wrapperMetadata', phet.phetio.simStartedMetadata );
+          putInfo( 'dataStreamVersion', dataStream.VERSION );
+          putInfo( 'phetioCommandProcessorVersion', phetioCommandProcessor.VERSION );
+        }
       }
 
       return info;

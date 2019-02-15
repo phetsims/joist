@@ -480,9 +480,6 @@ define( function( require ) {
       };
     }
 
-    // Set up PhET-iO, must be done after phet.joist.sim is assigned
-    phet.phetio && phetioEngine.initializeSim();
-
     var $body = $( 'body' );
 
     // prevent scrollbars
@@ -584,6 +581,9 @@ define( function( require ) {
     this.lookAndFeel.backgroundColorProperty.link( function( backgroundColor ) {
       self.display.backgroundColor = backgroundColor;
     } );
+
+    // Set up PhET-iO, must be done after phet.joist.sim is assigned
+    phet.phetio && phetioEngine.initializeSim();
 
     Property.multilink( [ this.showHomeScreenProperty, this.screenIndexProperty ],
       function( showHomeScreen, screenIndex ) {
