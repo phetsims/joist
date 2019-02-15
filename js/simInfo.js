@@ -66,6 +66,11 @@ define( require => {
   canvas = null; // dispose only reference
 
   const simInfo = {
+
+    /**
+     * @param {Sim} sim
+     * @param {Object} packageJSON
+     */
     get( sim, packageJSON ) {
 
       // no need to add this again if the method has already been called
