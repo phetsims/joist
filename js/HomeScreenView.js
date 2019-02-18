@@ -1,4 +1,4 @@
-// Copyright 2013-2018, University of Colorado Boulder
+// Copyright 2013-2019, University of Colorado Boulder
 
 /**
  * Shows the home screen for a multi-screen simulation, which lets the user see all of the screens and select one.
