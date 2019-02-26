@@ -14,9 +14,6 @@ define( function( require ) {
   var ObjectIO = require( 'TANDEM/types/ObjectIO' );
   var phetioInherit = require( 'TANDEM/phetioInherit' );
 
-  // ifphetio
-  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
-
   /**
    * IO type for phet/joist's PhetMenu
    * @param {PhetMenu} phetMenu
@@ -24,13 +21,13 @@ define( function( require ) {
    * @constructor
    */
   function PhetMenuIO( phetMenu, phetioID ) {
-    assert && assertInstanceOf( phetMenu, phet.joist.PhetMenu );
     ObjectIO.call( this, phetMenu, phetioID );
   }
 
   // don't inherit from NodeIO so that its visibility can't be changed
   phetioInherit( ObjectIO, 'PhetMenuIO', PhetMenuIO, {}, {
-    documentation: 'The PhET Menu in the bottom right of the screen'
+    documentation: 'The PhET Menu in the bottom right of the screen',
+    validator: { isValidValue: v => v instanceof phet.joist.PhetMenu }
   } );
 
   joist.register( 'PhetMenuIO', PhetMenuIO );

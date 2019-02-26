@@ -13,9 +13,6 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
   var phetioInherit = require( 'TANDEM/phetioInherit' );
 
-  // ifphetio
-  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
-
   /**
    * IO type for phet/joist's OptionsDialog
    * @param {OptionsDialog} optionsDialog - instance of OptionsDialog
@@ -23,12 +20,12 @@ define( function( require ) {
    * @constructor
    */
   function OptionsDialogIO( optionsDialog, phetioID ) {
-    assert && assertInstanceOf( optionsDialog, phet.joist.OptionsDialog );
     DialogIO.call( this, optionsDialog, phetioID );
   }
 
   phetioInherit( DialogIO, 'OptionsDialogIO', OptionsDialogIO, {}, {
-    documentation: 'A dialog panel'
+    documentation: 'A dialog panel',
+    validator: { isValidValue: v => v instanceof phet.joist.OptionsDialog }
   } );
 
   joist.register( 'OptionsDialogIO', OptionsDialogIO );

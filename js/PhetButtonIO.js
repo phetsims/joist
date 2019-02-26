@@ -17,9 +17,6 @@ define( function( require ) {
   var phetioInherit = require( 'TANDEM/phetioInherit' );
   var PropertyIO = require( 'AXON/PropertyIO' );
 
-  // ifphetio
-  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
-
   /**
    * IO type for phet/joist's PhetButton
    * @param {PhetButton} phetButton
@@ -27,7 +24,6 @@ define( function( require ) {
    * @constructor
    */
   function PhetButtonIO( phetButton, phetioID ) {
-    assert && assertInstanceOf( phetButton, phet.joist.PhetButton );
     ObjectIO.call( this, phetButton, phetioID );
 
     // The PhetButtonIO acts as the main phet-io branding/logo in the sim. It doesn't inherit from NodeIO because we don't
@@ -61,6 +57,7 @@ define( function( require ) {
     }
   }, {
     documentation: 'The PhET Button in the bottom right of the screen',
+    validator: { isValidValue: v => v instanceof phet.joist.PhetButton },
 
     /**
      * See NodeIO.toStateObject
@@ -83,6 +80,10 @@ define( function( require ) {
   } );
 
   joist.register( 'PhetButtonIO', PhetButtonIO );
+
+  class X {}
+
+  X.hello = 'true';
 
   return PhetButtonIO;
 } );
