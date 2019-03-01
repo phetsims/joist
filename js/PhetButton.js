@@ -99,13 +99,13 @@ define( function( require ) {
     var optionsShape = new Shape();
     var optionsCircleRadius = 2.5;
     for ( var i = 0; i < 3; i++ ) {
-      var circleOffset = i * 3.5 * optionsCircleRadius;
+      var circleOffset = i * 3.543 * optionsCircleRadius;
       optionsShape.arc( 0, circleOffset, optionsCircleRadius, 0, 2 * Math.PI, false );
     }
 
     var optionsButton = new Path( optionsShape, {
       left: logoImage.width + 8,
-      bottom: logoImage.bottom,
+      bottom: logoImage.bottom - 0.5,
       pickable: false
     } );
 
