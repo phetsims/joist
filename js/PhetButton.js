@@ -98,7 +98,7 @@ define( function( require ) {
     var optionsButton = new FontAwesomeNode( 'reorder', {
       scale: 0.6,
       left: logoImage.width + 10,
-      bottom: logoImage.bottom - 1.5,
+      bottom: logoImage.bottom - 2,
       pickable: false
     } );
 
