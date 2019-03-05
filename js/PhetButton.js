@@ -99,7 +99,7 @@ define( function( require ) {
     // The menu icon, to the right of the logo
     var menuIcon = new KebabMenuIcon( {
       left: logoImage.width + 8,
-      bottom: logoImage.bottom,
+      bottom: logoImage.bottom - 0.5,
       pickable: false
     } );
 
