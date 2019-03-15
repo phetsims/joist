@@ -79,7 +79,7 @@ define( function( require ) {
       function isImageOK( img ) {
 
         // During the onload event, IE correctly identifies any images that
-        // weren’t downloaded as not complete. Others should too. Gecko-based
+        // weren't downloaded as not complete. Others should too. Gecko-based
         // browsers act like NS4 in that they report this incorrectly.
         if ( !img.complete ) {
           return false;
