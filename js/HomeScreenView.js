@@ -64,7 +64,7 @@ define( function( require ) {
         family: TITLE_FONT_FAMILY
       } ),
       fill: 'white',
-      y: 110,
+      y: 130,
       tandem: tandem.createTandem( 'title' )
     } );
     this.addChild( title );
@@ -201,7 +201,7 @@ define( function( require ) {
 
       // position the icons
       iconsParentNode.centerX = self.layoutBounds.width / 2;
-      iconsParentNode.top = self.layoutBounds.height / 3;
+      iconsParentNode.top = self.layoutBounds.height / 3 + 20;
     } );
 
     if ( options.warningNode ) {
@@ -209,7 +209,7 @@ define( function( require ) {
 
       this.addChild( warningNode );
       warningNode.centerX = this.layoutBounds.centerX;
-      warningNode.bottom = this.layoutBounds.maxY - 20;
+      warningNode.bottom = this.layoutBounds.maxY - 2;
     }
   }
 
