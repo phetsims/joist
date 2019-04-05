@@ -13,7 +13,7 @@ define( function( require ) {
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   var Dialog = require( 'SUN/Dialog' );
   var HBox = require( 'SCENERY/nodes/HBox' );
-  var HelpContent = require( 'SCENERY_PHET/keyboard/help/HelpContent' );
+  var KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
@@ -63,7 +63,7 @@ define( function( require ) {
     } );
 
     // a line to say "tab to get started" below the "Keyboard Shortcuts" 'title'
-    var tabHintLine = HelpContent.labelWithIcon( keyboardShortcutsToGetStartedString, new TabKeyNode(), tabToGetStartedString, {
+    var tabHintLine = KeyboardHelpSection.labelWithIcon( keyboardShortcutsToGetStartedString, new TabKeyNode(), tabToGetStartedString, {
       iconOptions: {
         tagName: 'p' // because there is only one, and the default is an li tag
       }
@@ -74,7 +74,7 @@ define( function( require ) {
         children: [
           shortcutsTitleText,
 
-          // labelWithIcon is meant to be passed to HelpContent, so we have to hack a bit here
+          // labelWithIcon is meant to be passed to KeyboardHelpSection, so we have to hack a bit here
           new HBox( { children: [ tabHintLine.icon, tabHintLine.label ], spacing: 4 } )
         ],
         spacing: 5,
