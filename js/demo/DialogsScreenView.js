@@ -9,7 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var GeneralNavigationHelpContent = require( 'SCENERY_PHET/keyboard/help/GeneralNavigationHelpContent' );
+  var GeneralKeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/GeneralKeyboardHelpSection' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
   var KeyboardHelpButton = require( 'JOIST/KeyboardHelpButton' );
@@ -25,7 +25,7 @@ define( function( require ) {
 
     ScreenView.call( this );
 
-    var keyboardHelpDialogContent = new GeneralNavigationHelpContent();
+    var keyboardHelpDialogContent = new GeneralKeyboardHelpSection();
 
     var keyboardHelpButton = new KeyboardHelpButton(
       keyboardHelpDialogContent,
