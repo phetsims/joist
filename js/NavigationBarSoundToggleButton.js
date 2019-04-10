@@ -150,24 +150,12 @@ define( function( require ) {
 
     // accessible attribute lets user know when the toggle is pressed, linked lazily so that an alert isn't triggered
     // on construction and must be unlinked in dispose
+    var soundUtterance = new Utterance();
     var pressedListener = function( value ) {
       self.setAccessibleAttribute( 'aria-pressed', !value );
 
-      var alertString = value ? simSoundOnString : simSoundOffString;
-      utteranceQueue.addToBack( new Utterance( {
-        alert: alertString,
-
-        // only one sound toggle alert should be in the queue at a time so the user doesn't get spammed with alerts
-        // if the button is pressed rapidly
-        uniqueGroupId: 'soundToggleAlert',
-
-        // Wait this long in ms before announcing the alert so that old utterances with the same uniqueGroupId
-        // are removed before they can be anounced. This way only a single utterance for the sound toggle is
-        // announced even if "enter" is held down to click the button every few milliseconds.
-        // TODO: This is a general problem for buttons, see https://github.com/phetsims/sun/issues/424, when that
-        // issue is resolved, this line can be removed
-        delayTime: 500
-      } ) );
+      soundUtterance.alert = value ? simSoundOnString : simSoundOffString;
+      utteranceQueue.addToBack( soundUtterance );
     };
     soundEnabledProperty.lazyLink( pressedListener );
     this.setAccessibleAttribute( 'aria-pressed', !soundEnabledProperty.get() );
