@@ -14,6 +14,7 @@ define( function( require ) {
 
   // modules
   var Action = require( 'AXON/Action' );
+  var ActionIO = require( 'AXON/ActionIO' );
   var ariaHerald = require( 'SCENERY_PHET/accessibility/ariaHerald' );
   var BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
@@ -23,7 +24,6 @@ define( function( require ) {
   var Display = require( 'SCENERY/display/Display' );
   var DotUtil = require( 'DOT/Util' );// eslint-disable-line
   var Emitter = require( 'AXON/Emitter' );
-  var EmitterIO = require( 'AXON/EmitterIO' );
   var Heartbeat = require( 'JOIST/Heartbeat' );
   var HomeScreen = require( 'JOIST/HomeScreen' );
   var HomeScreenView = require( 'JOIST/HomeScreenView' );
@@ -129,7 +129,7 @@ define( function( require ) {
       this.screenBoundsProperty.value = new Bounds2( 0, 0, width, screenHeight );
     }, {
       tandem: Tandem.generalTandem.createTandem( 'resizedEmitter' ),
-      phetioType: EmitterIO( [
+      phetioType: ActionIO( [
         { name: 'width', type: NumberIO },
         { name: 'height', type: NumberIO }
       ] ),
@@ -227,7 +227,7 @@ define( function( require ) {
     }, {
       tandem: Tandem.generalTandem.createTandem( 'stepSimulationEmitter' ),
 
-      phetioType: EmitterIO( [ { name: 'dt', type: NumberIO } ] ),
+      phetioType: ActionIO( [ { name: 'dt', type: NumberIO } ] ),
       phetioHighFrequency: true,
       phetioPlayback: true
     } );
