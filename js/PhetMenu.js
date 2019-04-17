@@ -278,7 +278,8 @@ define( function( require ) {
         callback: function() {
           soundManager.enhancedSoundEnabledProperty.set( !soundManager.enhancedSoundEnabledProperty.get() );
         },
-        tandem: tandem.createTandem( 'enhancedSoundMenuItem' ),
+        // TODO: This is a temporary uninstrumentation, see https://github.com/phetsims/phet-io/issues/1443
+        // tandem: tandem.createTandem( 'enhancedSoundMenuItem' ),
         phetioDocumentation: 'This menu item toggles between basic and enhanced sound modes.',
         phetioState: false,
         tagName: 'button'
@@ -292,7 +293,8 @@ define( function( require ) {
         callback: function() {
           FullScreen.toggleFullScreen( sim.display );
         },
-        tandem: tandem.createTandem( 'fullScreenMenuItem' ),
+        // TODO: This is a temporary uninstrumentation, see https://github.com/phetsims/phet-io/issues/1443
+        // tandem: tandem.createTandem( 'fullScreenMenuItem' ),
         phetioDocumentation: 'This menu item requests full-screen access for the simulation display.',
         phetioState: false,
 
