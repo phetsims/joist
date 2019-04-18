@@ -38,15 +38,17 @@ define( function( require ) {
     if ( !options.title ) {
       options.title = new Text( optionsTitleString, {
         font: new PhetFont( 30 ),
-        maxWidth: 400,
-        tandem: options.tandem.createTandem( 'title' )
+        maxWidth: 400
+
+        // TODO: Support instrumented element that is dynamic/lazily created, see https://github.com/phetsims/phet-io/issues/1443
+        // tandem: options.tandem.createTandem( 'title' )
       } );
     }
 
     Dialog.call( this, optionsNode, options );
 
     // @private - to be called by dispose
-    this.disposeOptionsDialog = function(){
+    this.disposeOptionsDialog = function() {
       options.title && options.title.dispose();
     };
   }
