@@ -40,7 +40,7 @@ define( function( require ) {
         font: new PhetFont( 30 ),
         maxWidth: 400
 
-        // TODO: Support instrumented element that is dynamic/lazily created, see https://github.com/phetsims/phet-io/issues/1443
+        // TODO: Support instrumented element that is dynamic/lazily created, see https://github.com/phetsims/phet-io/issues/1454
         // tandem: options.tandem.createTandem( 'title' )
       } );
     }

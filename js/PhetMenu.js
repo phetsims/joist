@@ -278,7 +278,7 @@ define( function( require ) {
         callback: function() {
           soundManager.enhancedSoundEnabledProperty.set( !soundManager.enhancedSoundEnabledProperty.get() );
         },
-        // TODO: Support instrumented element that is dynamic/lazily created, see https://github.com/phetsims/phet-io/issues/1443
+        // TODO: Support instrumented element that is dynamic/lazily created, see https://github.com/phetsims/phet-io/issues/1454
         // tandem: tandem.createTandem( 'enhancedSoundMenuItem' ),
         phetioDocumentation: 'This menu item toggles between basic and enhanced sound modes.',
         phetioState: false,
@@ -293,7 +293,7 @@ define( function( require ) {
         callback: function() {
           FullScreen.toggleFullScreen( sim.display );
         },
-        // TODO: Support instrumented element that is dynamic/lazily created, see https://github.com/phetsims/phet-io/issues/1443
+        // TODO: Support instrumented element that is dynamic/lazily created, see https://github.com/phetsims/phet-io/issues/1454
         // tandem: tandem.createTandem( 'fullScreenMenuItem' ),
         phetioDocumentation: 'This menu item requests full-screen access for the simulation display.',
         phetioState: false,
