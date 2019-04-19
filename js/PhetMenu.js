@@ -320,7 +320,9 @@ define( function( require ) {
         tagName: 'button',
         focusAfterCallback: true,
         phetioReadOnly: true,
-        phetioState: false
+        phetioComponentOptions: {
+          phetioState: false
+        }
       }
     ];
 

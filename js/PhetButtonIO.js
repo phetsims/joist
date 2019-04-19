@@ -34,7 +34,6 @@ define( function( require ) {
 
       // pick the following values from the parent Node
       phetioReadOnly: phetButton.phetioReadOnly,
-      phetioState: phetButton.phetioState,
 
       tandem: phetButton.tandem.createTandem( 'pickableProperty' ),
       phetioType: PropertyIO( NullableIO( BooleanIO ) ),
