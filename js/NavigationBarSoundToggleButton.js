@@ -12,6 +12,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var ActivationUtterance = require( 'SCENERY_PHET/accessibility/ActivationUtterance' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
@@ -21,7 +22,6 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var ToggleNode = require( 'SUN/ToggleNode' );
-  var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -150,7 +150,7 @@ define( function( require ) {
 
     // accessible attribute lets user know when the toggle is pressed, linked lazily so that an alert isn't triggered
     // on construction and must be unlinked in dispose
-    var soundUtterance = new Utterance();
+    var soundUtterance = new ActivationUtterance();
     var pressedListener = function( value ) {
       self.setAccessibleAttribute( 'aria-pressed', !value );
 
