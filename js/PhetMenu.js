@@ -84,11 +84,12 @@ define( function( require ) {
 
   /**
    * @param {Sim} sim
+   * @param {PhetButton} phetButton - passed directly since sim.navigationBar hasn't yet been assigned
    * @param {Tandem} tandem
    * @param {Object} [options]
    * @constructor
    */
-  function PhetMenu( sim, tandem, options ) {
+  function PhetMenu( sim, phetButton, tandem, options ) {
 
     // Only show certain features for PhET Sims, such as links to our website
     var isPhETBrand = Brand.id === 'phet';
@@ -221,7 +222,6 @@ define( function( require ) {
         } ),
         callback: function() {
           if ( !updateDialog ) {
-            var phetButton = sim.navigationBar.phetButton;
             updateDialog = new UpdateDialog( phetButton );
           }
           updateDialog.show();
@@ -309,7 +309,6 @@ define( function( require ) {
         separatorBefore: isPhETBrand,
         callback: function() {
           if ( !aboutDialog ) {
-            var phetButton = sim.navigationBar.phetButton;
             aboutDialog = new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, phetButton,
               tandem.createTandem( 'aboutDialog' ) );
           }
@@ -433,7 +432,7 @@ define( function( require ) {
 
           // On escape, close the menu and focus the PhET button
           options.closeCallback();
-          sim.navigationBar.phetButton.focus();
+          phetButton.focus();
         }
         else if ( domEvent.keyCode === KeyboardUtil.KEY_TAB ) {
 
@@ -442,7 +441,7 @@ define( function( require ) {
 
           // send focus back to the phet button - the browser should then focus the next/previous focusable
           // element with default 'tab' behavior
-          sim.navigationBar.phetButton.focus();
+          phetButton.focus();
         }
       }
     };

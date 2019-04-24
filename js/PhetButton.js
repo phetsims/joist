@@ -51,7 +51,7 @@ define( function( require ) {
   function PhetButton( sim, backgroundFillProperty, tandem ) {
     var self = this;
 
-    var phetMenu = new PhetMenu( sim, tandem.createTandem( 'phetMenu' ), {
+    var phetMenu = new PhetMenu( sim, this, tandem.createTandem( 'phetMenu' ), {
       showSaveAndLoad: sim.options.showSaveAndLoad,
       closeCallback: function() {
         phetMenu.hide();
