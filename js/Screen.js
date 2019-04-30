@@ -85,7 +85,7 @@ define( function( require ) {
       descriptionContent: null
     }, options );
 
-    assert && assert( [ 'black', 'white', null ].includes( options.showScreenIconFrameForNavigationBarFill ),
+    assert && assert( _.includes( [ 'black', 'white', null ], options.showScreenIconFrameForNavigationBarFill ),
       'invalid showScreenIconFrameForNavigationBarFill: ' + options.showScreenIconFrameForNavigationBarFill );
 
     // Create a default homeScreenIcon, using the Screen's background color
