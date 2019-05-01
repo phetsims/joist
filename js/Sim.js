@@ -92,7 +92,7 @@ define( function( require ) {
     options = options || {};
 
     // @public Emitter that indicates when the sim resized.  This Emitter is implemented so it can be automatically played back.
-    this.resizedEmitter = new Action( ( width, height ) => {
+    this.resizedAction = new Action( ( width, height ) => {
       assert && assert( width > 0 && height > 0, 'sim should have a nonzero area' );
 
       // Gracefully support bad dimensions, see https://github.com/phetsims/joist/issues/472
@@ -128,7 +128,7 @@ define( function( require ) {
       this.boundsProperty.value = new Bounds2( 0, 0, width, height );
       this.screenBoundsProperty.value = new Bounds2( 0, 0, width, screenHeight );
     }, {
-      tandem: Tandem.generalTandem.createTandem( 'resizedEmitter' ),
+      tandem: Tandem.generalTandem.createTandem( 'resizedAction' ),
       phetioType: ActionIO( [
         { name: 'width', type: NumberIO },
         { name: 'height', type: NumberIO }
@@ -152,7 +152,7 @@ define( function( require ) {
     // @public {Emitter} Emitter that steps the simulation. This Emitter is implemented so it can be automatically
     // played back for PhET-iO record/playback.  Listen to this Emitter if you have an action that happens during the
     // simulation step.
-    this.stepSimulationEmitter = new Action( dt => {
+    this.stepSimulationAction = new Action( dt => {
       this.frameStartedEmitter.emit();
 
       // increment this before we can have an exception thrown, to see if we are missing frames
@@ -225,7 +225,7 @@ define( function( require ) {
         this.memoryMonitor.measure();
       }
     }, {
-      tandem: Tandem.generalTandem.createTandem( 'stepSimulationEmitter' ),
+      tandem: Tandem.generalTandem.createTandem( 'stepSimulationAction' ),
 
       phetioType: ActionIO( [ { name: 'dt', type: NumberIO } ] ),
       phetioHighFrequency: true,
@@ -760,7 +760,7 @@ define( function( require ) {
 
     // @public (joist-internal, phet-io)
     resize: function( width, height ) {
-      this.resizedEmitter.emit( width, height );
+      this.resizedAction.execute( width, height );
     },
 
     // @public (joist-internal)
@@ -911,7 +911,7 @@ define( function( require ) {
      * @public (phet-io)
      */
     stepSimulation: function( dt ) {
-      this.stepSimulationEmitter.emit( dt );
+      this.stepSimulationAction.execute( dt );
       this.frameEndedEmitter.emit();
     },
 
