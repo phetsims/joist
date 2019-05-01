@@ -45,7 +45,10 @@ define( function( require ) {
       titleAlign: 'center',
       fill: 'rgb( 214, 237, 249 )',
       ySpacing: 15,
-      tandem: Tandem.required
+      tandem: Tandem.required,
+
+      // Because of the special titleNode, we set the aria-labelledby attribute manually; see below.
+      addAriaLabelledByFromTitle: false
     }, options );
 
     // title
@@ -84,17 +87,17 @@ define( function( require ) {
       }
     );
 
-    // (a11y) Make sure that the title passed to the Dialog has an accessible name.
-    options.title.addAriaLabelledbyAssociation( {
-      thisElementName: AccessiblePeer.PRIMARY_SIBLING,
-      otherNode: shortcutsTitleText,
-      otherElementName: AccessiblePeer.PRIMARY_SIBLING
-    } );
-
     // help content surrounded by a div unless already specified, so that all content is read when dialog opens
     helpContent.tagName = helpContent.tagName || 'div';
 
     Dialog.call( this, helpContent, options );
+
+    // (a11y) Make sure that the title passed to the Dialog has an accessible name.
+    this.addAriaLabelledbyAssociation( {
+      thisElementName: AccessiblePeer.PRIMARY_SIBLING,
+      otherNode: shortcutsTitleText,
+      otherElementName: AccessiblePeer.PRIMARY_SIBLING
+    } );
   }
 
   joist.register( 'KeyboardHelpDialog', KeyboardHelpDialog );
