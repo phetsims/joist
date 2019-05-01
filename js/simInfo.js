@@ -89,6 +89,8 @@ define( require => {
           }
           return screenObject;
         } ) );
+        putInfo( 'showHomeScreenPropertyValue', sim.showHomeScreenProperty.value );
+        putInfo( 'screenIndexPropertyValue', sim.screenIndexProperty.value );
 
         // (phet-io) if there is metadata from the wrapper
         if ( PHET_IO_ENABLED ) {
