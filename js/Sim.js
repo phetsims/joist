@@ -91,7 +91,7 @@ define( function( require ) {
 
     options = options || {};
 
-    // @public Emitter that indicates when the sim resized.  This Emitter is implemented so it can be automatically played back.
+    // @public Action that indicates when the sim resized.  This Action is implemented so it can be automatically played back.
     this.resizedAction = new Action( ( width, height ) => {
       assert && assert( width > 0 && height > 0, 'sim should have a nonzero area' );
 
@@ -134,7 +134,7 @@ define( function( require ) {
         { name: 'height', type: NumberIO }
       ] ),
       phetioPlayback: true,
-      phetioDocumentation: 'Emits when the sim is resized'
+      phetioDocumentation: 'Executes when the sim is resized'
     } );
 
     // Sim screens normally update by implementing model.step(dt) or view.step(dt).  When that is impossible or
@@ -149,8 +149,8 @@ define( function( require ) {
     // performed after the step completes.
     this.frameEndedEmitter = new Emitter();
 
-    // @public {Emitter} Emitter that steps the simulation. This Emitter is implemented so it can be automatically
-    // played back for PhET-iO record/playback.  Listen to this Emitter if you have an action that happens during the
+    // @public {Action} Action that steps the simulation. This Action is implemented so it can be automatically
+    // played back for PhET-iO record/playback.  Listen to this Action if you have an action that happens during the
     // simulation step.
     this.stepSimulationAction = new Action( dt => {
       this.frameStartedEmitter.emit();
