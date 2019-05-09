@@ -187,7 +187,8 @@ define( function( require ) {
           maxWidth: MAX_WIDTH,
           tandem: linksGroupTandem.createNextTandem(),
           phetioReadOnly: true, // the AboutDialog should not be settable
-          phetioState: false
+          phetioState: false,
+          phetioComponentOptions: { phetioState: false }
         } ) );
       }
     }
