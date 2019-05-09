@@ -15,6 +15,7 @@ define( function( require ) {
   // modules
   var Action = require( 'AXON/Action' );
   var ActionIO = require( 'AXON/ActionIO' );
+  var ActivityMonitor = require( 'JOIST/ActivityMonitor' );
   var ariaHerald = require( 'SCENERY_PHET/accessibility/ariaHerald' );
   var BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
@@ -578,6 +579,10 @@ define( function( require ) {
 
     // Set up PhET-iO, must be done after phet.joist.sim is assigned
     phet.phetio && phetioEngine.initializeSim();
+
+    this.activityMonitor = new ActivityMonitor( this.screens, this.screenIndexProperty, this.showHomeScreenProperty,
+      Tandem.rootTandem.createTandem( 'activityMonitor' )
+    );
 
     Property.multilink( [ this.showHomeScreenProperty, this.screenIndexProperty ],
       function( showHomeScreen, screenIndex ) {
