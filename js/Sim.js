@@ -90,7 +90,19 @@ define( function( require ) {
     // constructor (because Sim has asynchronous steps that finish after the constructor is completed)
     this.endedSimConstructionEmitter = new Emitter();
 
-    options = options || {};
+    options = _.extend( {
+
+      // Sims that do not use WebGL trigger a ~ 0.5 second pause shortly after the sim starts up, so sims must opt in to
+      // webgl support, see https://github.com/phetsims/scenery/issues/621
+      webgl: false
+    }, options );
+
+    // Supplied query parameters override options (but default values for non-supplied query parameters do not).
+    if ( QueryStringMachine.containsKey( 'webgl' ) ) {
+      options.webgl = phet.chipper.queryParameters.webgl;
+    }
+
+    Util.setWebGLEnabled( options.webgl );
 
     // @public Action that indicates when the sim resized.  This Action is implemented so it can be automatically played back.
     this.resizedAction = new Action( ( width, height ) => {
