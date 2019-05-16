@@ -57,6 +57,7 @@ define( function( require ) {
 
   // constants
   var PROGRESS_BAR_WIDTH = 273;
+  const PHET_IO_ENABLED = !!( window.phet && window.phet.phetio );
 
   // globals
   phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for replicable playbacks
@@ -592,9 +593,9 @@ define( function( require ) {
     // Set up PhET-iO, must be done after phet.joist.sim is assigned
     phet.phetio && phetioEngine.initializeSim();
 
-    this.activityMonitor = new ActivityMonitor( this.screens, this.screenIndexProperty, this.showHomeScreenProperty,
-      Tandem.rootTandem.createTandem( 'activityMonitor' )
-    );
+    if ( PHET_IO_ENABLED ) {
+      this.activityMonitor = new ActivityMonitor( this.screens );
+    }
 
     Property.multilink( [ this.showHomeScreenProperty, this.screenIndexProperty ],
       function( showHomeScreen, screenIndex ) {
