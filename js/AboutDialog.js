@@ -217,7 +217,7 @@ define( function( require ) {
       // entire AboutDialog as a robust solution in case parts outside of the content resize in future versions. Note
       // the layer containing the AboutDialog is already scaled based on the aspect ratio of the window. At a scale of
       // 1.0, the amount of vertical space is 504 and the amount of space above the navigation bar is 464 because the
-      // navigation bar takes 40px at that scale.  Please see Sim.resizedAction for more details.
+      // navigation bar takes 40px at that scale.  Please see Sim.resizeAction for more details.
       maxHeight: 464 - EXTERNAL_MARGIN * 2,
 
       // Center in the screenBounds (doesn't include the navigation bar)

@@ -105,8 +105,8 @@ define( function( require ) {
 
     Util.setWebGLEnabled( options.webgl );
 
-    // @public Action that indicates when the sim resized.  This Action is implemented so it can be automatically played back.
-    this.resizedAction = new Action( ( width, height ) => {
+    // @public - Action that indicates when the sim resized.  This Action is implemented so it can be automatically played back.
+    this.resizeAction = new Action( ( width, height ) => {
       assert && assert( width > 0 && height > 0, 'sim should have a nonzero area' );
 
       // Gracefully support bad dimensions, see https://github.com/phetsims/joist/issues/472
@@ -142,7 +142,7 @@ define( function( require ) {
       this.boundsProperty.value = new Bounds2( 0, 0, width, height );
       this.screenBoundsProperty.value = new Bounds2( 0, 0, width, screenHeight );
     }, {
-      tandem: Tandem.generalTandem.createTandem( 'resizedAction' ),
+      tandem: Tandem.generalTandem.createTandem( 'resizeAction' ),
       phetioType: ActionIO( [
         { name: 'width', type: NumberIO },
         { name: 'height', type: NumberIO }
@@ -778,7 +778,7 @@ define( function( require ) {
 
     // @public (joist-internal, phet-io)
     resize: function( width, height ) {
-      this.resizedAction.execute( width, height );
+      this.resizeAction.execute( width, height );
     },
 
     // @public (joist-internal)
