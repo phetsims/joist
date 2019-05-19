@@ -594,7 +594,7 @@ define( function( require ) {
     phet.phetio && phetioEngine.initializeSim();
 
     if ( PHET_IO_ENABLED ) {
-      this.activityMonitor = new ActivityMonitor( this.screens );
+      this.activityMonitor = new ActivityMonitor( this );
     }
 
     Property.multilink( [ this.showHomeScreenProperty, this.screenIndexProperty ],

@@ -23,6 +23,7 @@ define( require => {
 
   // modules
   const joist = require( 'JOIST/joist' );
+  const Property = require( 'AXON/Property' );
   const Util = require( 'DOT/Util' );
 
   // ifphetio
@@ -31,32 +32,67 @@ define( require => {
   class ActivityMonitor {
 
     /**
-     * @param {Screen[]} screens
+     * @param {Sim} sim
      */
-    constructor( screens ) {
+    constructor( sim ) {
+      const screens = sim.screens;
 
       // TODO: handle data for each screen, https://github.com/phetsims/joist/issues/553
-      this.screensInfo = {
+      this.engagementMetrics = {
         sim: {
           startOfData: null, // the timestamp of the first time the sim is active with
           currentTimeStamp: null, // current time of the sim
           totalSecondsOfSimRun: 0, // number of seconds since startOfData
           totalSecondsActive: 0 // number of seconds in which "activity" occurred, see above doc "NOTE" for more.
-        }
+        },
+        screens: []
       };
+      screens.forEach( screen => {
+        this.engagementMetrics.screens.push( {
+          tandemName: screen.screenTandem.tail,
+          timeStampOfFirstUse: null,
+          timeStampOfLastUse: null,
+          totalSecondsOfScreenRun: 0,
+          totalSecondsActive: 0
+        } );
+      } );
 
       assert && assert( dataStream, 'cannot add dataStream listener because dataStream is not defined' );
 
       // Set to true once the sim has had its first active event, false until then. This is used to set startOfData
       let firstActive = false;
 
-
       // {null|number} - keep track of when the second of activity began, null if the second isn't currently active
       let activeSecondStartTime = null;
+
+      // Initial values for sim properties, updated in the event listener callback
+      let isHomeScreenShowing = sim.showHomeScreenProperty.value;
+      let currentScreenIndex = sim.screenIndexProperty.value;
+
       dataStream.addAllEventListener( ( event, rootEvent ) => {
 
+        const updateScreenStartTime = () => {
+          if ( !isHomeScreenShowing ) {
+            const screenElement = this.engagementMetrics.screens[ currentScreenIndex ];
+            screenElement.timeStampOfFirstUse = screenElement.timeStampOfFirstUse || event.time;
+          }
+        };
+
+        // Read values for screen changes through data stream so everything is ordered and synchronized
+        if ( event.phetioID === sim.showHomeScreenProperty.tandem.phetioID &&
+             event.name === Property.CHANGED_EVENT_NAME ) {
+          isHomeScreenShowing = event.data.newValue;
+          updateScreenStartTime();
+        }
+
+        if ( event.phetioID === sim.screenIndexProperty.tandem.phetioID &&
+             event.name === Property.CHANGED_EVENT_NAME ) {
+          currentScreenIndex = event.data.newValue;
+          updateScreenStartTime();
+        }
+
         if ( activeSecondStartTime !== null && event.time - activeSecondStartTime > 1000 ) {
-          this.screensInfo.sim.totalSecondsActive += 1;
+          this.engagementMetrics.sim.totalSecondsActive += 1;
           activeSecondStartTime = null;
         }
         if ( this.isActiveEvent( event ) ) {
@@ -64,7 +100,7 @@ define( require => {
           // First active event
           if ( !firstActive ) {
             firstActive = true;
-            this.screensInfo.sim.startOfData = event.time;
+            this.engagementMetrics.sim.startOfData = event.time;
           }
           // Set the start time if not currently in an active second, otherwise don't override the initial start
           if ( activeSecondStartTime === null ) {
@@ -72,10 +108,10 @@ define( require => {
           }
         }
 
-        this.screensInfo.sim.currentTimeStamp = event.time;
-        const startTime = this.screensInfo.sim.startOfData || event.time;
+        this.engagementMetrics.sim.currentTimeStamp = event.time;
+        const startTime = this.engagementMetrics.sim.startOfData || event.time;
         const msDifference = event.time - startTime;
-        this.screensInfo.sim.totalSecondsOfSimRun = Util.toFixedNumber( msDifference / 1000, 0 );
+        this.engagementMetrics.sim.totalSecondsOfSimRun = Util.toFixedNumber( msDifference / 1000, 0 );
       } );
     }
 
@@ -102,7 +138,7 @@ define( require => {
      * @returns {Object}
      */
     getActivity() {
-      return this.screensInfo;
+      return this.engagementMetrics;
     }
   }
 
