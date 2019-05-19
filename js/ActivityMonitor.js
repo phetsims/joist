@@ -91,8 +91,16 @@ define( require => {
           updateScreenStartTime();
         }
 
+        const currentScreenEntry = this.engagementMetrics.screens[ currentScreenIndex ];
         if ( activeSecondStartTime !== null && event.time - activeSecondStartTime > 1000 ) {
+
+          // Increment the total sim time
           this.engagementMetrics.sim.totalSecondsActive += 1;
+
+          // Increment the time on the current screen (if home screen not showing)
+          if ( !isHomeScreenShowing ) {
+            currentScreenEntry.totalSecondsActive += 1;
+          }
           activeSecondStartTime = null;
         }
         if ( this.isActiveEvent( event ) ) {
@@ -112,6 +120,11 @@ define( require => {
         const startTime = this.engagementMetrics.sim.startOfData || event.time;
         const msDifference = event.time - startTime;
         this.engagementMetrics.sim.totalSecondsOfSimRun = Util.toFixedNumber( msDifference / 1000, 0 );
+
+
+        if ( !isHomeScreenShowing && event.phetioID === sim.stepSimulationAction.tandem.phetioID ) {
+          currentScreenEntry.totalSecondsOfScreenRun += event.data.dt;
+        }
       } );
     }
 
