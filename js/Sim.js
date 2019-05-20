@@ -559,6 +559,7 @@ define( function( require ) {
     // Pass through query parameters to scenery for showing supplemental information
     self.display.setPointerDisplayVisible( phet.chipper.queryParameters.showPointers );
     self.display.setPointerAreaDisplayVisible( phet.chipper.queryParameters.showPointerAreas );
+    self.display.setHitAreaDisplayVisible( phet.chipper.queryParameters.showHitAreas );
     self.display.setCanvasNodeBoundsVisible( phet.chipper.queryParameters.showCanvasNodeBounds );
     self.display.setFittedBlockBoundsVisible( phet.chipper.queryParameters.showFittedBlockBounds );
 
