@@ -15,7 +15,7 @@ define( function( require ) {
   // modules
   var Action = require( 'AXON/Action' );
   var ActionIO = require( 'AXON/ActionIO' );
-  var ActivityMonitor = require( 'JOIST/ActivityMonitor' );
+  var EngagementMetrics = require( 'JOIST/EngagementMetrics' );
   var ariaHerald = require( 'SCENERY_PHET/accessibility/ariaHerald' );
   var BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
@@ -595,7 +595,7 @@ define( function( require ) {
     phet.phetio && phetioEngine.initializeSim();
 
     if ( PHET_IO_ENABLED ) {
-      this.activityMonitor = new ActivityMonitor( this );
+      this.activityMonitor = new EngagementMetrics( this );
     }
 
     Property.multilink( [ this.showHomeScreenProperty, this.screenIndexProperty ],
