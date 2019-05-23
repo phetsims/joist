@@ -43,10 +43,9 @@ define( function( require ) {
    * @param {Brand} Brand
    * @param {string} locale - The locale string
    * @param {Node} phetButton - The PhET button in the navigation bar, receives focus when this dialog is closed
-   * @param {Tandem} tandem
    * @constructor
    */
-  function AboutDialog( name, version, credits, Brand, locale, phetButton, tandem ) {
+  function AboutDialog( name, version, credits, Brand, locale, phetButton ) {
     var children = [];
 
     var titleText = new Text( name, {
@@ -178,17 +177,12 @@ define( function( require ) {
     if ( links && links.length > 0 ) {
       children.push( new VStrut( 15 ) );
 
-      var linksGroupTandem = tandem.createGroupTandem( 'link' );
       for ( var i = 0; i < links.length; i++ ) {
         var link = links[ i ];
         children.push( new RichText( '<a href="{{url}}">' + link.text + '</a>', {
           links: { url: link.url }, // RichText must fill in URL for link
           font: new PhetFont( 14 ),
-          maxWidth: MAX_WIDTH,
-          tandem: linksGroupTandem.createNextTandem(),
-          phetioReadOnly: true, // the AboutDialog should not be settable
-          phetioState: false,
-          phetioComponentOptions: { phetioState: false }
+          maxWidth: MAX_WIDTH
         } ) );
       }
     }
@@ -204,9 +198,6 @@ define( function( require ) {
 
     Dialog.call( this, content, {
       focusOnCloseNode: phetButton,
-      tandem: tandem,
-      phetioReadOnly: true, // the AboutDialog should not be settable
-      phetioState: false,
       xSpacing: 20,
       topMargin: 20,
       bottomMargin: 20,

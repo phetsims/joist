@@ -267,6 +267,9 @@ define( function( require ) {
         tandem: tandem.createTandem( 'screenshotMenuItem' ),
         phetioDocumentation: 'This menu item captures a screenshot from the simulation and saves it to the file system.',
         phetioState: false,
+        phetioComponentOptions: {
+          phetioState: false
+        },
         tagName: 'button'
       },
 
@@ -293,10 +296,12 @@ define( function( require ) {
         callback: function() {
           FullScreen.toggleFullScreen( sim.display );
         },
-        // TODO: Support instrumented element that is dynamic/lazily created, see https://github.com/phetsims/phet-io/issues/1454
-        // tandem: tandem.createTandem( 'fullScreenMenuItem' ),
+        tandem: tandem.createTandem( 'fullScreenMenuItem' ),
         phetioDocumentation: 'This menu item requests full-screen access for the simulation display.',
         phetioState: false,
+        phetioComponentOptions: {
+          phetioState: false
+        },
 
         // a11y
         tagName: 'button'
@@ -309,8 +314,7 @@ define( function( require ) {
         separatorBefore: isPhETBrand,
         callback: function() {
           if ( !aboutDialog ) {
-            aboutDialog = new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, phetButton,
-              tandem.createTandem( 'aboutDialog' ) );
+            aboutDialog = new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, phetButton );
           }
           aboutDialog.show();
         },
@@ -399,7 +403,7 @@ define( function( require ) {
     content.left = X_MARGIN;
     content.top = Y_MARGIN;
 
-    // @private (PhetButton.js) - whether the PhetMenu is showing
+    // @private - whether the PhetMenu is showing
     this.isShowing = false;
 
     // a11y - add the keydown listener, handling arrow, escape, and tab keys
