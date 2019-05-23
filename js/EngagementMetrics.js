@@ -1,18 +1,12 @@
 // Copyright 2019, University of Colorado Boulder
 
 /**
- * Monitors the activity as it relates to time spent on each screen of a sim. Mainly this is to provide this information
+ * Monitors the engagement as it relates to time spent on each screen of a sim. Mainly this is to provide this information
  * to a PhET-iO wrapper frame.
  *
  * The main output of this file is powered by the data stream. As a result the finest granularity of this data is based on
  * the most frequent events that are emitting. As of this writing, when emitting high frequency events, that is every
- * frame on the "stepSimulation" event. Note that if not emitting high frequency events, this Type's live activity
- * (how often the data is updated) won't be nearly as accurate.
- *
- * NOTE: for engagedTime, this is not based on an interval running every second, but instead based on the data
- * stream events. As a result this metric will count "one second of activity" in the following way. An active second
- * begins when an "active event" (see EngagementMetrics.isActiveEvent) is emitted to the data stream. Then the next
- * second of time will be counted as "active" and other active events within that time will not change the output.
+ * frame on the "stepSimulation" event. Note that this Type requires high frequency events to be emitted.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  * @author Chris Klusendorf (PhET Interactive Simulations)
@@ -37,36 +31,26 @@ define( require => {
     constructor( sim ) {
       assert && assert( dataStream, 'cannot add dataStream listener because dataStream is not defined' );
 
-
       // @private
-      this.screens = [];
-      this.homeScreen = null;
+      this.screens = []; // {ScreenData[]}
+      this.homeScreen = null; // {ScreenData|null}
 
-      // TODO: get rid of sim data, to be computed based on screens, https://github.com/phetsims/joist/issues/553
-      this.sim = {
-        startTimestamp: null, // the timestamp of the first received step
-        currentTimestamp: null, // current time of the sim
-        firstEngagementTimestamp: null, // the timestamp of the first time the sim is active with
+      this.startTimestamp = null; // number, the timestamp of the start of the sim.
 
-        // TODO: counted even when not in the active browser tab, perhaps we need to use browserTabVisibleProperty, https://github.com/phetsims/joist/issues/553
-        elapsedTime: 0, // number of seconds since startTimestamp
-
-        // TODO: not supported yet, https://github.com/phetsims/joist/issues/553
-        engagedTime: 0 // number of seconds in which "activity" occurred, see above doc "NOTE" for more.
-      };
+      // Initial values for sim properties, updated in the dataStream listener callback
+      let isHomeScreenShowing = sim.showHomeScreenProperty.value;
+      let currentScreenIndex = sim.screenIndexProperty.value;
+      let currentScreenEntry = isHomeScreenShowing ? this.homeScreen : this.screens[ currentScreenIndex ];
 
       sim.screens.forEach( screen => {
         this.screens.push( new ScreenData( screen.screenTandem.tail ) );
       } );
-      if ( sim.screens.length > 1 ) {
+
+      // ?homeScreen=false will still create a HomeScreen instance, but give no way to interface with it.
+      if ( phet.chipper.queryParameters.homeScreen && sim.screens.length > 1 ) {
         assert && assert( sim.homeScreen, 'home screen should exist' );
         this.homeScreen = new ScreenData( sim.homeScreen.screenTandem.tail );
       }
-
-      // Initial values for sim properties, updated in the event listener callback
-      let isHomeScreenShowing = sim.showHomeScreenProperty.value;
-      let currentScreenIndex = sim.screenIndexProperty.value;
-      let currentScreenEntry = isHomeScreenShowing ? this.homeScreen : this.screens[ currentScreenIndex ];
 
       const updateCurrentScreenEntry = event => {
         currentScreenEntry = isHomeScreenShowing ? this.homeScreen : this.screens[ currentScreenIndex ];
@@ -79,35 +63,32 @@ define( require => {
       dataStream.addAllEventListener( event => {
 
         // initial condition
-        if ( this.sim.startTimestamp === null ) {
-          this.sim.startTimestamp = event.time;
+        if ( this.startTimestamp === null ) {
+          this.startTimestamp = event.time;
           updateCurrentScreenEntry( event );
         }
 
+        // screenIndex changed
         if ( event.phetioID === sim.screenIndexProperty.tandem.phetioID &&
              event.name === Property.CHANGED_EVENT_NAME ) {
           currentScreenIndex = event.data.newValue;
           updateCurrentScreenEntry( event );
         }
 
-        // Read values for screen changes through data stream so everything is ordered and synchronized
+        // the home screen showing toggled
         if ( event.phetioID === sim.showHomeScreenProperty.tandem.phetioID &&
              event.name === Property.CHANGED_EVENT_NAME ) {
           isHomeScreenShowing = event.data.newValue;
           updateCurrentScreenEntry( event );
         }
 
-        if ( this.isEngagedEvent( event ) ) {
-          currentScreenEntry.temporalCounter.onEvent( event.time - this.sim.startTimestamp );
-
-          // First active event
-          this.sim.firstEngagementTimestamp = this.sim.firstEngagementTimestamp || event.time;
-        }
+        // Handle the case if the event signifies engagement with the simulation.
+        this.isEngagedEvent( event ) && currentScreenEntry.onEngagedEvent( event, this.startTimestamp );
 
         if ( event.phetioID === sim.stepSimulationAction.tandem.phetioID ) {
-          const currentTime = event.time;
-          this.sim.currentTimestamp = currentTime;
-          this.sim.elapsedTime = currentTime - this.sim.startTimestamp;
+
+          // TODO: counted even when not in the active browser tab, perhaps we need to use browserTabVisibleProperty, https://github.com/phetsims/joist/issues/553
+          // TODO: or just be adding up dt values instead of trying to use event.time, which is just from Date.now(), https://github.com/phetsims/joist/issues/553
           currentScreenEntry.lastTimestamp = event.time;
           currentScreenEntry.totalTime += Math.floor( event.data.dt * 1000 );
         }
@@ -115,36 +96,57 @@ define( require => {
     }
 
     /**
-     * Returns true if the event signifies that the student is "active." The current definition is just pointer down
+     * Returns true if the event signifies that the student is "engaged." The current definition is just pointer down
      * events.
      * @private
-     * @param {Object} event - an event from the data stream
+     * @param {Object} event - an event from the PhET-iO data stream
      * @returns {boolean}
      */
     isEngagedEvent( event ) {
-      let isActiveEvent = false;
+      let engaged = false;
       [ 'mouseDownAction', 'touchDownAction', 'keydownAction', 'penDownAction' ].forEach( eventName => {
         if ( phetio.PhetioIDUtils.getComponentName( event.phetioID ) === eventName ) {
-          isActiveEvent = true;
+          engaged = true;
         }
       } );
-      return isActiveEvent;
+      return engaged;
     }
 
     /**
-     * get the current activity data of the simulation.
+     * get the current engagement data of the simulation.
      * @public
      * @returns {Object}
      */
-    getActivity() {
+    getEngagementMetrics() {
+      let screens = this.screens;
+      if ( this.homeScreen ) {
+        screens = screens.concat( [ this.homeScreen ] );
+      }
       return {
-        sim: this.sim,
-        screens: this.screens.map( screen => screen.getData() ),
-        homeScreen: this.homeScreen.getData()
+        sim: {
+
+          // the timestamp of the first received model step
+          startTimestamp: this.startTimestamp,
+
+          // number of seconds since startTimestamp
+          elapsedTime: _.sum( screens.map( screen => screen.totalTime ) ),
+
+          // number of seconds in which "engagement" occurred
+          engagedTime: _.sum( screens.map( screen => screen.engagedTime ) ),
+
+          // the timestamp of the first time the sim is engaged with
+          firstEngagementTimestamp: _.min( screens.map( screen => screen.firstEngagementTimestamp ) ),
+
+          // current time of the sim
+          currentTimestamp: _.max( screens.map( screen => screen.lastTimestamp ) )
+        },
+        homeScreen: this.homeScreen && this.homeScreen.getData(), // show even if null
+        screens: this.screens.map( screen => screen.getData() )
       };
     }
   }
 
+  // private class to keep track of data for each screen.
   class ScreenData {
 
     /**
@@ -157,13 +159,35 @@ define( require => {
       this.firstTimestamp = null;
       this.lastTimestamp = null;
       this.totalTime = 0;
+      this.firstEngagedTimestamp = null;
 
       // @public (read-only)
       this.temporalCounter = new TemporalCounter( 1000 );
-      // TODO: add a `firstEngagedTimestamp`, see https://github.com/phetsims/joist/issues/553
     }
 
     /**
+     * Getter to keep things a bit more modular
+     * @returns {number} - the ms of engagement for the sim
+     */
+    get engagedTime() {
+      return this.temporalCounter.counts * 1000;
+    }
+
+    /**
+     * @public
+     * @param {Object} event
+     * @param {number} simStartTimestamp - of start of the simulation
+     */
+    onEngagedEvent( event, simStartTimestamp ) {
+
+      this.temporalCounter.onEvent( event.time - simStartTimestamp );
+
+      // case for first engaged event
+      this.firstEngagementTimestamp = this.firstEngagementTimestamp || event.time;
+    }
+
+    /**
+     * Public facing info, mainer getter for this POJSO.
      * @public
      * @returns {Object}
      */
@@ -171,9 +195,9 @@ define( require => {
       return {
         name: this.name,
         totalTime: this.totalTime,
+        engagedTime: this.engagedTime,
         firstTimestamp: this.firstTimestamp,
-        lastTimestamp: this.lastTimestamp,
-        engagedTime: this.temporalCounter.counts * 1000
+        lastTimestamp: this.lastTimestamp
       };
     }
   }

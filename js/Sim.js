@@ -566,7 +566,9 @@ define( function( require ) {
     // @public
     this.screens = screens;
 
-    // Multi-screen sims get a home screen.
+    // Multi-screen sims get a home screen. Note: the home screen is created even when
+    // phet.chipper.queryParameters.homeScreen is false. That query parameter only affects the ability to view
+    // the home screen. See NavigationBar for phet.chipper.queryParameters.homeScreen usage.
     if ( screens.length > 1 ) {
       this.homeScreen = new HomeScreen( this, Tandem.rootTandem.createTandem( 'homeScreen' ), {
         warningNode: options.homeScreenWarningNode
@@ -595,7 +597,7 @@ define( function( require ) {
     phet.phetio && phetioEngine.initializeSim();
 
     if ( PHET_IO_ENABLED ) {
-      this.activityMonitor = new EngagementMetrics( this );
+      this.engagementMetrics = new EngagementMetrics( this );
     }
 
     Property.multilink( [ this.showHomeScreenProperty, this.screenIndexProperty ],
