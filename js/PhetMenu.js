@@ -296,7 +296,8 @@ define( function( require ) {
         callback: function() {
           FullScreen.toggleFullScreen( sim.display );
         },
-        tandem: tandem.createTandem( 'fullScreenMenuItem' ),
+        // TODO: Support instrumented element that is dynamic/lazily created, see https://github.com/phetsims/phet-io/issues/1454
+        // tandem: tandem.createTandem( 'fullScreenMenuItem' ),
         phetioDocumentation: 'This menu item requests full-screen access for the simulation display.',
         phetioState: false,
         phetioComponentOptions: {
