@@ -15,7 +15,6 @@ define( function( require ) {
   // modules
   var Action = require( 'AXON/Action' );
   var ActionIO = require( 'AXON/ActionIO' );
-  var EngagementMetrics = require( 'JOIST/EngagementMetrics' );
   var ariaHerald = require( 'SCENERY_PHET/accessibility/ariaHerald' );
   var BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
@@ -57,7 +56,9 @@ define( function( require ) {
 
   // constants
   var PROGRESS_BAR_WIDTH = 273;
-  const PHET_IO_ENABLED = !!( window.phet && window.phet.phetio );
+
+  // commented out because https://github.com/phetsims/joist/issues/553 is deferred for after GQIO-oneone
+  // const PHET_IO_ENABLED = !!( window.phet && window.phet.phetio );
 
   // globals
   phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for replicable playbacks
@@ -596,9 +597,10 @@ define( function( require ) {
     // Set up PhET-iO, must be done after phet.joist.sim is assigned
     phet.phetio && phetioEngine.initializeSim();
 
-    if ( PHET_IO_ENABLED ) {
-      this.engagementMetrics = new EngagementMetrics( this );
-    }
+    // commented out because https://github.com/phetsims/joist/issues/553 is deferred for after GQIO-oneone
+    // if ( PHET_IO_ENABLED ) {
+    //   this.engagementMetrics = new EngagementMetrics( this );
+    // }
 
     Property.multilink( [ this.showHomeScreenProperty, this.screenIndexProperty ],
       function( showHomeScreen, screenIndex ) {
