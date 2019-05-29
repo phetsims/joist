@@ -268,7 +268,10 @@ define( function( require ) {
         phetioDocumentation: 'This menu item captures a screenshot from the simulation and saves it to the file system.',
         phetioState: false,
         phetioComponentOptions: {
-          phetioState: false
+          phetioState: false,
+          visibleProperty: {
+            phetioFeatured: true
+          }
         },
         tagName: 'button'
       },
@@ -301,7 +304,10 @@ define( function( require ) {
         phetioDocumentation: 'This menu item requests full-screen access for the simulation display.',
         phetioState: false,
         phetioComponentOptions: {
-          phetioState: false
+          phetioState: false,
+          visibleProperty: {
+            phetioFeatured: true
+          }
         },
 
         // a11y
@@ -323,9 +329,14 @@ define( function( require ) {
         phetioDocumentation: 'This menu item shows a dialog with information about the simulation.',
         tagName: 'button',
         focusAfterCallback: true,
-        phetioReadOnly: true,
         phetioComponentOptions: {
-          phetioState: false
+          phetioState: false,
+          visibleProperty: {
+            phetioFeatured: true
+          },
+          pickableProperty: {
+            phetioFeatured: true
+          }
         }
       }
     ];
@@ -350,10 +361,11 @@ define( function( require ) {
           checkedProperty: itemDescriptor.checkedProperty,
           separatorBefore: itemDescriptor.separatorBefore,
           tagName: itemDescriptor.tagName,
+          focusAfterCallback: itemDescriptor.focusAfterCallback,
           tandem: itemDescriptor.tandem,
           phetioDocumentation: itemDescriptor.phetioDocumentation || '',
-          focusAfterCallback: itemDescriptor.focusAfterCallback,
           phetioReadOnly: itemDescriptor.phetioReadOnly,
+          phetioComponentOptions: itemDescriptor.phetioComponentOptions || {},
           phetioState: itemDescriptor.phetioState
         };
 
