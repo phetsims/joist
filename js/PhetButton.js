@@ -112,10 +112,13 @@ define( function( require ) {
         logoImage.image = backgroundIsWhite ? darkLogoMipmap : brightLogoMipmap;
       } );
 
-    // added for phet-io, when toggling pickability, hide the option dots to prevent the queueing
+    // added for phet-io, when toggling pickability and enabled, hide the option dots to prevent the queueing
     // no need to be removed because the PhetButton exists for the lifetime of the sim.
     this.on( 'pickability', function() {
       menuIcon.visible = self.pickable !== false; // null should still have visible kabab dots
+    } );
+    this.buttonModel.enabledProperty.link( ( enabled ) => {
+      menuIcon.visible = enabled;
     } );
 
     // a11y - add a listener that opens the menu on 'click' and 'reset', and closes it on escape and if the
