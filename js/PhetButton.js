@@ -49,7 +49,6 @@ define( function( require ) {
    * @constructor
    */
   function PhetButton( sim, backgroundFillProperty, tandem ) {
-    var self = this;
 
     var phetMenu = new PhetMenu( sim, this, tandem.createTandem( 'phetMenu' ), {
       showSaveAndLoad: sim.options.showSaveAndLoad,
@@ -112,11 +111,8 @@ define( function( require ) {
         logoImage.image = backgroundIsWhite ? darkLogoMipmap : brightLogoMipmap;
       } );
 
-    // added for phet-io, when toggling pickability and enabled, hide the option dots to prevent the queueing
-    // no need to be removed because the PhetButton exists for the lifetime of the sim.
-    this.on( 'pickability', function() {
-      menuIcon.visible = self.pickable !== false; // null should still have visible kabab dots
-    } );
+    // added for phet-io, when toggling enabled, hide the option dots to prevent the cueing.
+    // No need to be removed because the PhetButton exists for the lifetime of the sim.
     this.buttonModel.enabledProperty.link( ( enabled ) => {
       menuIcon.visible = enabled;
     } );
