@@ -96,7 +96,7 @@ define( require => {
         if ( PHET_IO_ENABLED ) {
           putInfo( 'wrapperMetadata', phet.phetio.simStartedMetadata );
           putInfo( 'dataStreamVersion', dataStream.VERSION );
-          putInfo( 'phetioCommandProcessorProtocol', phetioCommandProcessor.PROTOCOL );
+          putInfo( 'phetioCommandProcessorProtocol', phetioCommandProcessor.PHET_IO_PROTOCOL );
         }
       }
 
