@@ -43,13 +43,13 @@ define( require => {
       let currentScreenEntry = isHomeScreenShowing ? this.homeScreen : this.screens[ currentScreenIndex ];
 
       sim.screens.forEach( screen => {
-        this.screens.push( new ScreenData( screen.screenTandem.tail ) );
+        this.screens.push( new ScreenData( screen.screenTandem.name ) );
       } );
 
       // ?homeScreen=false will still create a HomeScreen instance, but give no way to interface with it.
       if ( phet.chipper.queryParameters.homeScreen && sim.screens.length > 1 ) {
         assert && assert( sim.homeScreen, 'home screen should exist' );
-        this.homeScreen = new ScreenData( sim.homeScreen.screenTandem.tail );
+        this.homeScreen = new ScreenData( sim.homeScreen.screenTandem.name );
       }
 
       const updateCurrentScreenEntry = event => {

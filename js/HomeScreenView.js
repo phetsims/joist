@@ -83,7 +83,7 @@ define( function( require ) {
       // Even though in the user interface the small and large buttons seem like a single UI component that has grown
       // larger, it would be quite a headache to create a composite button for the purposes of tandem, so instead the
       // large and small buttons are registered as separate instances.  See https://github.com/phetsims/phet-io/issues/99
-      var largeTandem = tandem.createTandem( screen.screenTandem.tail + 'LargeButton' );
+      var largeTandem = tandem.createTandem( screen.screenTandem.name + 'LargeButton' );
 
       // a11y
       var a11yScreenButtonOptions = {
@@ -109,7 +109,7 @@ define( function( require ) {
       // Even though in the user interface the small and large buttons seem like a single UI component that has grown
       // larger, it would be quite a headache to create a composite button for the purposes of tandem, so instead the
       // large and small buttons are registered as separate instances.  See https://github.com/phetsims/phet-io/issues/99
-      var smallTandem = tandem.createTandem( screen.screenTandem.tail + 'SmallButton' );
+      var smallTandem = tandem.createTandem( screen.screenTandem.name + 'SmallButton' );
 
       var smallScreenButton = new ScreenButton(
         false,
