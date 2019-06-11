@@ -2,7 +2,7 @@
 
 /**
  * IO type for PhetButton, to interface with phet-io api.  The PhetButtonIO acts as the main phet-io branding/logo in
- * the sim. It doesn't inherit from NodeIO because we don't all of NodeIO's interactive methods, nor do we want to
+ * the sim. It doesn't inherit from NodeIO because we neither need all of NodeIO's API methods, nor do we want to
  * support maintaining overriding no-ops in this file see https://github.com/phetsims/scenery/issues/711 for more info.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
