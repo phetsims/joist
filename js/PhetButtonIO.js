@@ -1,7 +1,9 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * IO type for PhetButton, to interface with phet-io api.
+ * IO type for PhetButton, to interface with phet-io api.  The PhetButtonIO acts as the main phet-io branding/logo in
+ * the sim. It doesn't inherit from NodeIO because we don't all of NodeIO's interactive methods, nor do we want to
+ * support maintaining overriding no-ops in this file see https://github.com/phetsims/scenery/issues/711 for more info.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
@@ -26,10 +28,8 @@ define( function( require ) {
   function PhetButtonIO( phetButton, phetioID ) {
     ObjectIO.call( this, phetButton, phetioID );
 
-    // The PhetButtonIO acts as the main phet-io branding/logo in the sim. It doesn't inherit from NodeIO because we don't
-    // all of NodeIO's interactive methods, nor do we want to support maintaining overriding no-ops in this file
-    // see https://github.com/phetsims/scenery/issues/711 for more info.
-    // Note that this code is duplicated with similar code in NodeIO
+    // This code is similar to code in NodeIO, but it is not customizable through phetioComponentOptions because all
+    // instances have the same level of instrumentation.
     var pickableProperty = new NodeProperty( phetButton, 'pickability', 'pickable', {
 
       // pick the following values from the parent Node
