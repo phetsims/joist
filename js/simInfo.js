@@ -94,7 +94,7 @@ define( require => {
 
         // (phet-io) if there is metadata from the wrapper
         if ( PHET_IO_ENABLED ) {
-          putInfo( 'wrapperMetadata', phet.phetio.simStartedMetadata );
+          putInfo( 'wrapperMetadata', window.phet.phetio.simStartedMetadata );
           putInfo( 'dataStreamVersion', dataStream.VERSION );
           putInfo( 'phetioCommandProcessorProtocol', phetioCommandProcessor.PHET_IO_PROTOCOL );
         }
