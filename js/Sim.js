@@ -56,7 +56,6 @@ define( function( require ) {
 
   // constants
   var PROGRESS_BAR_WIDTH = 273;
-  const PHET_IO_ENABLED = !!( window.phet && window.phet.phetio );
 
   // globals
   phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for replicable playbacks
@@ -593,7 +592,7 @@ define( function( require ) {
     } );
 
     // Set up PhET-iO, must be done after phet.joist.sim is assigned
-    PHET_IO_ENABLED && phetioEngine.initializeSim();
+    Tandem.PHET_IO_ENABLED && phetioEngine.initializeSim();
 
     // commented out because https://github.com/phetsims/joist/issues/553 is deferred for after GQIO-oneone
     // if ( PHET_IO_ENABLED ) {

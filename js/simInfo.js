@@ -13,13 +13,13 @@ define( require => {
   // modules
   const joist = require( 'JOIST/joist' );
   const Util = require( 'SCENERY/util/Util' );
+  const Tandem = require( 'TANDEM/Tandem' );
 
   // ifphetio
   const dataStream = require( 'ifphetio!PHET_IO/dataStream' );
   const phetioCommandProcessor = require( 'ifphetio!PHET_IO/phetioCommandProcessor' );
 
   // constants
-  const PHET_IO_ENABLED = !!( window.phet && window.phet.phetio );
   const info = {};
 
   function putInfo( key, value ) {
@@ -84,7 +84,7 @@ define( require => {
             // likely null for single screen sims, so use the sim name as a default
             name: screen.name || sim.name
           };
-          if ( PHET_IO_ENABLED ) {
+          if ( Tandem.PHET_IO_ENABLED ) {
             screenObject.phetioID = screen.screenTandem.phetioID;
           }
           return screenObject;
@@ -93,7 +93,7 @@ define( require => {
         putInfo( 'screenIndexPropertyValue', sim.screenIndexProperty.value );
 
         // (phet-io) if there is metadata from the wrapper
-        if ( PHET_IO_ENABLED ) {
+        if ( Tandem.PHET_IO_ENABLED ) {
           putInfo( 'wrapperMetadata', window.phet.phetio.simStartedMetadata );
           putInfo( 'dataStreamVersion', dataStream.VERSION );
           putInfo( 'phetioCommandProcessorProtocol', phetioCommandProcessor.PHET_IO_PROTOCOL );
