@@ -81,6 +81,10 @@ define( function( require ) {
                                   interactionState === ButtonInteractionState.PRESSED );
     } );
 
+    // Keep the cursor in sync with if the button is enabled.
+    // JoistButtons exist for the lifetime of the sim, and don't need to be disposed
+    this.buttonModel.enabledProperty.link( enabled => { this.cursor = enabled ? 'pointer' : null; } );
+
     // Hook up the input listener
     var pressListener = this.buttonModel.createListener( {
       tandem: tandem.createTandem( 'pressListener' )

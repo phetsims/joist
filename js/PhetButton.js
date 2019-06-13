@@ -78,7 +78,9 @@ define( function( require ) {
       },
       phetioType: PhetButtonIO,
       phetioDocumentation: 'The button that appears at the right side of the navigation bar, which shows a menu when pressed',
-
+      enabledPropertyOptions: {
+        phetioFeatured: true
+      },
       // a11y
       tagName: 'button',
       innerContent: phetString
@@ -111,11 +113,9 @@ define( function( require ) {
         logoImage.image = backgroundIsWhite ? darkLogoMipmap : brightLogoMipmap;
       } );
 
-    // added for phet-io, when toggling enabled, hide the option dots to prevent the cueing.
+    // Added for phet-io, when toggling enabled, hide the option dots to prevent the cueing.
     // No need to be removed because the PhetButton exists for the lifetime of the sim.
-    this.buttonModel.enabledProperty.link( ( enabled ) => {
-      menuIcon.visible = enabled;
-    } );
+    this.buttonModel.enabledProperty.link( enabled => { menuIcon.visible = enabled; } );
 
     // a11y - add a listener that opens the menu on 'click' and 'reset', and closes it on escape and if the
     // button receives focus again
