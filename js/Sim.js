@@ -578,7 +578,7 @@ define( function( require ) {
     }
 
     // @public (joist-internal)
-    this.navigationBar = new NavigationBar( this, screens, this.showHomeScreenProperty, Tandem.rootTandem.createTandem( 'navigationBar' ) );
+    this.navigationBar = new NavigationBar( this, screens, this.showHomeScreenProperty, Tandem.generalTandem.createTandem( 'navigationBar' ) );
 
     // @public (joist-internal)
     this.updateBackground = function() {
