@@ -860,7 +860,7 @@ define( function( require ) {
 
                 // Communicate sim load (successfully) to joist/tests/test-sims.html
                 if ( phet.chipper.queryParameters.postMessageOnLoad ) {
-                  ( window.parent !== window ) && window.parent.postMessage( JSON.stringify( {
+                  window.parent && window.parent.postMessage( JSON.stringify( {
                     type: 'load',
                     url: window.location.href
                   } ), '*' );

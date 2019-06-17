@@ -56,7 +56,7 @@ define( function( require ) {
         }
 
         if ( phet.chipper.queryParameters.postMessageOnReady ) {
-          ( window.parent !== window ) && window.parent.postMessage( JSON.stringify( {
+          window.parent && window.parent.postMessage( JSON.stringify( {
             type: 'ready',
             url: window.location.href
           } ), '*' );
