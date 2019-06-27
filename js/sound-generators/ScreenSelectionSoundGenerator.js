@@ -27,16 +27,9 @@ define( function( require ) {
       super( [ homeSelectedSound, screenSelectedSound ] );
 
       currentScreenProperty.lazyLink( currentScreen => {
-        if ( currentScreen === null ) {
 
-          // home screen sound
-          this.play( 0 );
-        }
-        else {
-
-          // non-home screen selection sound
-          this.play( 1 );
-        }
+        // play one sound for the home screen, another for all other screens
+        this.playByIndex( currentScreen === null ? 0 : 1 );
       } );
     }
   }
