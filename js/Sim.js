@@ -911,7 +911,7 @@ define( function( require ) {
       var dt = elapsedTimeMilliseconds / 1000.0;
 
       // Don't run the simulation on steps back in time (see https://github.com/phetsims/joist/issues/409)
-      if ( dt >= 0 ) {
+      if ( dt > 0 ) {
         this.stepSimulation( dt );
       }
     },
