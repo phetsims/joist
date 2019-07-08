@@ -14,7 +14,7 @@ define( require => {
 
   // sounds
   const screenSelectedSound = require( 'sound!TAMBO/screen-selection.mp3' );
-  const homeSelectedSound = require( 'sound!TAMBO/screen-selection-home-v2.mp3' );
+  const homeSelectedSound = require( 'sound!TAMBO/screen-selection-home-v3.mp3' );
 
   class ScreenSelectionSoundGenerator extends MultiClip {
 
