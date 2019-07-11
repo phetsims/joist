@@ -1,4 +1,4 @@
-// Copyright 2018, University of Colorado Boulder
+// Copyright 2018-2019, University of Colorado Boulder
 
 /**
  * IO type for PhetButton, to interface with phet-io api.  The PhetButtonIO acts as the main phet-io branding/logo in
