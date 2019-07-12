@@ -193,7 +193,7 @@ define( function( require ) {
 
       // fire or synthesize keyboard input events
       if ( phet.chipper.queryParameters.fuzzBoard ) {
-        assert && assert( phet.chipper.accessibility, 'fuzzBoard can only run with accessibility enabled.' );
+        assert && assert( this.accessibility, 'fuzzBoard can only run with accessibility enabled.' );
         this.keyboardFuzzer.fuzzBoardEvents();
       }
 
@@ -411,11 +411,11 @@ define( function( require ) {
     // @public {MemoryMonitor}
     this.memoryMonitor = new MemoryMonitor();
 
-    // chipper's accessibility enabled flag overrides the sim option for accessibility.
-    phet.chipper.accessibility = phet.chipper.accessibility || options.accessibility;
+    // @public (read-only) {boolean} - if true the simulation supports accessibility features
+    this.accessibility = phet.chipper.queryParameters.accessibility || phet.chipper.queryParameters.a11y || options.accessibility;
 
     // Set up accessibility features for the sim.
-    phet.chipper.accessibility && initializeAccessibility();
+    this.accessibility && initializeAccessibility();
 
     // @public (joist-internal, read-only)
     this.keyboardHelpNode = options.keyboardHelpNode;
@@ -510,7 +510,7 @@ define( function( require ) {
 
       // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
       allowWebGL: phet.chipper.queryParameters.webgl,
-      accessibility: phet.chipper.accessibility,
+      accessibility: this.accessibility,
       isApplication: false,
       assumeFullWindow: true, // a bit faster if we can assume no coordinate translations are needed for the display.
       allowBackingScaleAntialiasing: options.allowBackingScaleAntialiasing
