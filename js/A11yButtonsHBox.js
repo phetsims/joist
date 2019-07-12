@@ -49,7 +49,7 @@ define( function( require ) {
     // only show the keyboard help button if the sim is accessible, there is keyboard help content, and we are
     // not in mobile safari
     // TODO: We shouldn't have different APIs for different platforms, see https://github.com/phetsims/phet-io/issues/1443
-    if ( phet.chipper.accessibility && sim.keyboardHelpNode && !platform.mobileSafari ) {
+    if ( sim.accessibility && sim.keyboardHelpNode && !platform.mobileSafari ) {
 
       // @public (joist-internal, read-only) - Pops open a dialog with information about keyboard navigation
       this.keyboardHelpButton = new KeyboardHelpButton(
