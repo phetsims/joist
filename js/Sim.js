@@ -236,6 +236,7 @@ define( function( require ) {
       if ( phet.chipper.queryParameters.memoryLimit ) {
         this.memoryMonitor.measure();
       }
+      this.frameEndedEmitter.emit();
     }, {
       tandem: Tandem.generalTandem.createTandem( 'stepSimulationAction' ),
 
@@ -932,7 +933,6 @@ define( function( require ) {
      */
     stepSimulation: function( dt ) {
       this.stepSimulationAction.execute( dt );
-      this.frameEndedEmitter.emit();
     },
 
     /**
