@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var EventType = require( 'TANDEM/EventType' );
   var FireListener = require( 'SCENERY/listeners/FireListener' );
   var Frame = require( 'JOIST/Frame' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -17,7 +18,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var PhetioObject = require( 'TANDEM/PhetioObject' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -43,7 +43,7 @@ define( function( require ) {
       showUnselectedHomeScreenIconFrame: false, // put a frame around unselected home screen icons
       opacity: 1,  // The small screen's nodes have an opacity of .5
       tandem: tandem, // To be passed into mutate, but tandem should be a required param in joist
-      phetioEventType: PhetioObject.EventType.USER,
+      phetioEventType: EventType.USER,
       phetioDocumentation: 'A pressable button in the simulation, in the home screen'
     }, options );
 
