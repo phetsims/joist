@@ -31,6 +31,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var soundManager = require( 'TAMBO/soundManager' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var UpdateDialog = require( 'JOIST/UpdateDialog' );
@@ -131,7 +132,10 @@ define( function( require ) {
         callback: function() {
           if ( !optionsDialog ) {
             optionsDialog = new OptionsDialog( sim.options.createOptionsDialogContent, {
-              tandem: tandem.createTandem( 'optionsDialog' )
+
+              // TODO: Support instrumented element that is dynamic/lazily created, see https://github.com/phetsims/phet-io/issues/1454
+              // tandem: tandem.createTandem( 'optionsDialog' )
+              tandem: Tandem.optional
             } );
           }
           optionsDialog.show();

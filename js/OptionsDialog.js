@@ -42,15 +42,11 @@ define( function( require ) {
     assert && assert( !options.title, 'OptionsDialog sets title' );
     options.title = new Text( optionsTitleString, {
       font: new PhetFont( 30 ),
-      maxWidth: 400 // determined empirically
-
-      // TODO: Support instrumented element that is dynamic/lazily created, see https://github.com/phetsims/phet-io/issues/1454
-      // tandem: options.tandem.createTandem( 'title' )
+      maxWidth: 400, // determined empirically
+      tandem: options.tandem.createTandem( 'title' )
     } );
 
-    // TODO: Support instrumented element that is dynamic/lazily created, see https://github.com/phetsims/phet-io/issues/1454
-    // const content = createContent( options.tandem.createTandem( 'content' ) );
-    const content = createContent( Tandem.optional );
+    const content = createContent( options.tandem.createTandem( 'content' ) );
 
     Dialog.call( this, content, options );
   }
