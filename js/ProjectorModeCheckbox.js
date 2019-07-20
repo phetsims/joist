@@ -1,9 +1,11 @@
 // Copyright 2018-2019, University of Colorado Boulder
 
 /**
- * a checkbox that can be used to turn projector mode on and off
+ * ProjectorModeCheckbox is a checkbox used to switch between 'default' and 'projector' color profiles.
+ * It is most commonly used in the Options dialog, accessed from the PhET menu in some sims.
  *
  * @author John Blanco
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 define( require => {
   'use strict';
@@ -11,6 +13,7 @@ define( require => {
   // modules
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Checkbox = require( 'SUN/Checkbox' );
+  const ColorProfile = require( 'SCENERY_PHET/ColorProfile' );
   const joist = require( 'JOIST/joist' );
   const OptionsDialog = require( 'JOIST/OptionsDialog' );
   const Tandem = require( 'TANDEM/Tandem' );
@@ -20,56 +23,63 @@ define( require => {
   const projectorModeString = require( 'string!JOIST/projectorMode' );
 
   /**
+   * @param {ColorProfile} colorProfile
    * @param {Object} [options]
-   * @constructor
    */
   class ProjectorModeCheckbox extends Checkbox {
 
-    constructor( options ) {
+    constructor( colorProfile, options ) {
+
+      assert && assert( colorProfile instanceof ColorProfile, `invalid colorProfile: ${colorProfile}` );
 
       options = _.extend( {
+
+        // {string} name of the color profile to use when not in projector mode
+        defaultColorProfileName: ColorProfile.DEFAULT_COLOR_PROFILE_NAME,
 
         font: OptionsDialog.DEFAULT_FONT,
         maxTextWidth: 350, // empirically determined, works reasonably well for long strings
-
-        // property that can be used for setting the projector mode, created below if not supplied
-        projectorModeEnabledProperty: null,
-
         tandem: Tandem.required
       }, options );
 
-      // Does this instance own projectorModeEnabledProperty?
-      const ownsProjectorModeEnabledProperty = !options.projectorModeEnabledProperty;
+      // verify that colorProfile has the required profiles
+      assert && assert( colorProfile.hasProfile( ColorProfile.PROJECTOR_COLOR_PROFILE_NAME ),
+        `colorProfile must have a profile named ${ColorProfile.PROJECTOR_COLOR_PROFILE_NAME}` );
+      assert && assert( colorProfile.hasProfile( options.defaultColorProfileName ),
+        `colorProfile must have a profile named ${options.defaultColorProfileName}` );
 
-      // superclass option that the client cannot set
-      assert && assert( options.phetioLinkProperty === undefined, 'ProjectorModeCheckbox sets phetioLinkProperty' );
-      options = _.extend( {
-        phetioLinkProperty: !ownsProjectorModeEnabledProperty
-      }, options );
-
-      // @public {BooleanProperty} - projector mode state, create one if not provided
-      const projectorModeEnabledProperty = options.projectorModeEnabledProperty ||
-                                           new BooleanProperty( phet.chipper.queryParameters.colorProfile === 'projector', {
-                                             tandem: options.tandem.createTandem( 'projectorModeEnabledProperty' )
-                                           } );
-
-      const label = new Text( projectorModeString, {
+      const labelNode = new Text( projectorModeString, {
         font: options.font,
         maxWidth: options.maxTextWidth
       } );
-      super( label, projectorModeEnabledProperty, options );
 
-      // @public {BooleanProperty} - make the projector mode enabled property available to clients
-      this.projectorModeEnabledProperty = projectorModeEnabledProperty;
+      // Internal adapter Property, to map between the string value needed by colorProfile.profileNameProperty
+      // and the boolean value needed by superclass Checkbox.
+      const projectorModeEnabledProperty = new BooleanProperty( colorProfile.profileNameProperty.value === ColorProfile.PROJECTOR_COLOR_PROFILE_NAME, {
+        tandem: options.tandem.createTandem( 'projectorModeEnabledProperty' )
+      } );
+      projectorModeEnabledProperty.link( isProjectorMode => {
+        colorProfile.profileNameProperty.value =
+          ( isProjectorMode ? ColorProfile.PROJECTOR_COLOR_PROFILE_NAME : options.defaultColorProfileName );
+      } );
+
+      const profileNameListener = profileName => {
+        projectorModeEnabledProperty.value = ( profileName === 'projector' );
+      };
+      colorProfile.profileNameProperty.link( profileNameListener );
+
+      super( labelNode, projectorModeEnabledProperty, options );
 
       // @private - dispose function
       this.disposeProjectorModeCheckbox = function() {
-        if ( ownsProjectorModeEnabledProperty ) {
-          projectorModeEnabledProperty.dispose();
-        }
+        colorProfile.profileNameProperty.unlink( profileNameListener );
       };
     }
 
+    /**
+     * @public
+     * @override
+     */
     dispose() {
       this.disposeProjectorModeCheckbox();
       super.dispose();
