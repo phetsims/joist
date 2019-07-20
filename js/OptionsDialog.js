@@ -4,6 +4,7 @@
  * Shows an Options dialog that consists of sim-global options.
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {
   'use strict';
@@ -21,51 +22,42 @@ define( function( require ) {
   var optionsTitleString = require( 'string!JOIST/options.title' );
 
   /**
-   * @param {Node} optionsNode
+   * @param {function(tandem:Tandem):Node} createContent - creates the dialog's content
    * @param {Object} [options]
    * @constructor
    */
-  function OptionsDialog( optionsNode, options ) {
+  function OptionsDialog( createContent, options ) {
+
     options = _.extend( {
+
       titleAlign: 'center',
       bottomMargin: 20,
       ySpacing: 20,
+
+      // phet-io
       tandem: Tandem.required,
       phetioType: OptionsDialogIO
     }, options );
 
-    // Can't be in the extend call because it needs the tandem.
-    if ( !options.title ) {
-      options.title = new Text( optionsTitleString, {
-        font: new PhetFont( 30 ),
-        maxWidth: 400
+    assert && assert( !options.title, 'OptionsDialog sets title' );
+    options.title = new Text( optionsTitleString, {
+      font: new PhetFont( 30 ),
+      maxWidth: 400 // determined empirically
 
-        // TODO: Support instrumented element that is dynamic/lazily created, see https://github.com/phetsims/phet-io/issues/1454
-        // tandem: options.tandem.createTandem( 'title' )
-      } );
-    }
+      // TODO: Support instrumented element that is dynamic/lazily created, see https://github.com/phetsims/phet-io/issues/1454
+      // tandem: options.tandem.createTandem( 'title' )
+    } );
 
-    Dialog.call( this, optionsNode, options );
+    // TODO: Support instrumented element that is dynamic/lazily created, see https://github.com/phetsims/phet-io/issues/1454
+    // const content = createContent( options.tandem.createTandem( 'content' ) );
+    const content = createContent( Tandem.optional );
 
-    // @private - to be called by dispose
-    this.disposeOptionsDialog = function() {
-      options.title && options.title.dispose();
-    };
+    Dialog.call( this, content, options );
   }
 
   joist.register( 'OptionsDialog', OptionsDialog );
 
-  return inherit( Dialog, OptionsDialog, {
-
-    /**
-     * Make the options dialog eligible for garbage collection.
-     * @public
-     */
-    dispose: function() {
-      this.disposeOptionsDialog();
-      Dialog.prototype.dispose.call( this );
-    }
-  }, {
+  return inherit( Dialog, OptionsDialog, {}, {
     DEFAULT_FONT: new PhetFont( 15 ),
     DEFAULT_SPACING: 10
   } );

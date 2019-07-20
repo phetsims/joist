@@ -127,10 +127,12 @@ define( function( require ) {
     var itemDescriptors = [
       {
         text: menuItemOptionsString,
-        present: !!sim.options.optionsNode,
+        present: !!sim.options.createOptionsDialogContent,
         callback: function() {
           if ( !optionsDialog ) {
-            optionsDialog = new OptionsDialog( sim.options.optionsNode, { tandem: tandem.createTandem( 'optionsDialog' ) } );
+            optionsDialog = new OptionsDialog( sim.options.createOptionsDialogContent, {
+              tandem: tandem.createTandem( 'optionsDialog' )
+            } );
           }
           optionsDialog.show();
         },

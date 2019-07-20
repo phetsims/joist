@@ -299,8 +299,8 @@ define( function( require ) {
       // credits, see AboutDialog for format
       credits: {},
 
-      // a {Node} placed into the Options dialog (if available)
-      optionsNode: null,
+      // {null|function(tandem:Tandem):Node} creates the content for the Options dialog
+      createOptionsDialogContent: null,
 
       // a {Node} placed onto the home screen (if available)
       homeScreenWarningNode: null,
