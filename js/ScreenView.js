@@ -31,10 +31,6 @@ define( function( require ) {
     options = _.extend( {
       layoutBounds: DEFAULT_LAYOUT_BOUNDS.copy(),
 
-      // a11y - TEMP option. to opt in rather than fix every sim structure right now, https://github.com/phetsims/joist/issues/509
-      // This option is a placeholder right now as we convert old nodes to use this new screen summary structure,
-      addScreenSummaryNode: false, // @deprecated
-
       // {Node|null} - the Node with screen summary content to be added to the ScreenSummaryNode, and into PDOM above
       //               the Play Area. This Node is added as a child to the ScreenSummaryNode
       screenSummaryContent: null
@@ -69,7 +65,7 @@ define( function( require ) {
     this._screenSummaryContent = null;
 
     // at the Node from options in the same way that can be done at any time
-    options.screenSummaryContent && this.setScreenSummaryNodeContent( options.screenSummaryContent );
+    options.screenSummaryContent && this.setScreenSummaryContent( options.screenSummaryContent );
   }
 
   joist.register( 'ScreenView', ScreenView );
@@ -135,7 +131,7 @@ define( function( require ) {
        * @param {Node} node
        * @public
        */
-      setScreenSummaryNodeContent: function( node ) {
+      setScreenSummaryContent: function( node ) {
         assert && assert( node instanceof Node );
         assert && assert( node !== this._screenSummaryContent, 'this is already the screen summary node content' );
 
