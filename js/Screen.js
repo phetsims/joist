@@ -22,7 +22,6 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var ScreenSummaryNode = require( 'SCENERY_PHET/accessibility/nodes/ScreenSummaryNode' );
   var Shape = require( 'KITE/Shape' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Tandem = require( 'TANDEM/Tandem' );
@@ -296,12 +295,8 @@ define( function( require ) {
           } );
         }
 
-        if ( this._view.screenSummaryNode ) {
-          assert && assert( this._view.screenSummaryNode instanceof ScreenSummaryNode, 'type different from expected, was it overwritten?' );
-
-          // if there is a screenSummaryNode, then set its intro string now
-          this._view.screenSummaryNode.setIntroString( simName, numberOfScreens );
-        }
+        // if there is a screenSummaryNode, then set its intro string now
+        this._view.setScreenSummaryIntroString( simName, numberOfScreens );
       }
       assert && this._view.accessibleAudit();
     },

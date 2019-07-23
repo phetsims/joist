@@ -33,7 +33,11 @@ define( function( require ) {
 
       // a11y - TEMP option. to opt in rather than fix every sim structure right now, https://github.com/phetsims/joist/issues/509
       // This option is a placeholder right now as we convert old nodes to use this new screen summary structure,
-      addScreenSummaryNode: false
+      addScreenSummaryNode: false, // @deprecated
+
+      // {Node|null} - the Node with screen summary content to be added to the ScreenSummaryNode, and into PDOM above
+      //               the Play Area. This Node is added as a child to the ScreenSummaryNode
+      screenSummaryContent: null
     }, options );
     this.layoutBounds = options.layoutBounds;
 
@@ -54,18 +58,18 @@ define( function( require ) {
     // @public (read-only)
     this.visibleBoundsProperty = new Property( options.layoutBounds );
 
-    // a11y - {Node|null}
-    //  This node is used to add an overview to the PDOM directly below the H1 (sim/screen name)
-    // only set to type {Node} if `includeScreenOverviewNode` is true.
-    // NOTE: DO NOT SET accessibleOrder ON THIS NODE
-    // @public (read-only) - you can add children to it
-    this.screenSummaryNode = null;
+    // @private
+    // a11y - this Node is suffixed "container" because it is added to with sim specific screen summary content, often
+    // called {Sim}ScreenSummaryNode. This container has the intro "{sim} is an interactive sim, it changes as you . . ."
+    this._screenSummaryNode = new ScreenSummaryNode();
+    this.addChild( this._screenSummaryNode );
 
-    if ( options.addScreenSummaryNode ) {
+    // @private {Node|null} - keep track of the content added to the summary Node, so that if it is set more than once,
+    // the previous one can be removed.
+    this._screenSummaryContent = null;
 
-      this.screenSummaryNode = new ScreenSummaryNode();
-      this.addChild( this.screenSummaryNode );
-    }
+    // at the Node from options in the same way that can be done at any time
+    options.screenSummaryContent && this.setScreenSummaryNodeContent( options.screenSummaryContent );
   }
 
   joist.register( 'ScreenView', ScreenView );
@@ -123,6 +127,32 @@ define( function( require ) {
       dispose: function() {
         Node.prototype.dispose.call( this );
         this.disposeScreenView();
+      },
+
+      /**
+       * Set the screen summary Node for the PDOM of this Screen View. Prefer passing in a screen summary Node via
+       * constructor options, but this method can be used directly when necessary.
+       * @param {Node} node
+       * @public
+       */
+      setScreenSummaryNodeContent: function( node ) {
+        assert && assert( node instanceof Node );
+        assert && assert( node !== this._screenSummaryContent, 'this is already the screen summary node content' );
+
+        this._screenSummaryContent && this._screenSummaryNode.removeChild( this._screenSummaryContent );
+
+        this._screenSummaryContent = node;
+        this._screenSummaryNode.addChild( node );
+      },
+
+      /**
+       * Set the screen summary Node intro string
+       * @param {string} simName
+       * @param {number} numberOfScreens
+       * @public (joist-internal)
+       */
+      setScreenSummaryIntroString: function( simName, numberOfScreens ) {
+        this._screenSummaryNode.setIntroString( simName, numberOfScreens );
       }
     },
 
