@@ -10,9 +10,11 @@ define( function( require ) {
 
   // modules
   var Bounds2 = require( 'DOT/Bounds2' );
+  var ControlAreaNode = require( 'SCENERY_PHET/accessibility/nodes/ControlAreaNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var PlayAreaNode = require( 'SCENERY_PHET/accessibility/nodes/PlayAreaNode' );
   var Property = require( 'AXON/Property' );
   var ScreenSummaryNode = require( 'SCENERY_PHET/accessibility/nodes/ScreenSummaryNode' );
   var Tandem = require( 'TANDEM/Tandem' );
@@ -66,6 +68,12 @@ define( function( require ) {
 
     // at the Node from options in the same way that can be done at any time
     options.screenSummaryContent && this.setScreenSummaryContent( options.screenSummaryContent );
+
+    // @public (read-only) - add children and set accessible order to these to organize and structure the PDOM.
+    this.playAreaNode = new PlayAreaNode();
+    this.addChild( this.playAreaNode );
+    this.controlAreaNode = new ControlAreaNode();
+    this.addChild( this.controlAreaNode );
   }
 
   joist.register( 'ScreenView', ScreenView );
@@ -149,7 +157,9 @@ define( function( require ) {
        */
       setScreenSummaryIntroString: function( simName, numberOfScreens ) {
         this._screenSummaryNode.setIntroString( simName, numberOfScreens );
-      }
+      },
+
+      set accessibleOrder( order ) { throw new Error( 'should not need to set accessible order on the screen view' ); }
     },
 
     //statics
