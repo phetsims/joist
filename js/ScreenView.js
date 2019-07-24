@@ -1,7 +1,18 @@
 // Copyright 2013-2018, University of Colorado Boulder
 
 /**
- * The view portion of a Screen, specifies the layout strategy.
+ * The view portion of a Screen, specifies the layout strategy for the visual view.
+ *
+ * For the PDOM view, this type creates  the three organizing elements associated with each screen:
+ * - The `ScreenSummaryNode` is introductary description that outlines the screen and sets the scene for the user.
+ * - The `PlayAreaNode` holds content that is considered the main interaction and pedigogy to be learned from the screen.
+ * - The `ControlAreaNode` houses controls and other content that is secondary to the main interaction. Ideally the user
+ *       would encounter this after exploring the PlayAreaNode.
+ * The screenSummaryNode instance is not available on the ScreenView, instead content can be added to it via a constructor
+ * option or `ScreenView.setScreenSummaryContent`. This is because some accessible descriptions in the screen summary
+ * are the same throughout all simulations. The playAreaNode and controlAreaNode instances are public, read-only Nodes
+ * that are meant to have their accessibleOrder and children set to achieve the proper PDOM structure. Do not set
+ * `accessibleOrder` directly on the ScreenView, as ScreenView set's its own accessibleOrder
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
