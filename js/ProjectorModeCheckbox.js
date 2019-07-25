@@ -22,12 +22,12 @@ define( require => {
   // strings
   const projectorModeString = require( 'string!JOIST/projectorMode' );
 
-  /**
-   * @param {ColorProfile} colorProfile
-   * @param {Object} [options]
-   */
   class ProjectorModeCheckbox extends Checkbox {
 
+    /**
+     * @param {ColorProfile} colorProfile
+     * @param {Object} [options]
+     */
     constructor( colorProfile, options ) {
 
       assert && assert( colorProfile instanceof ColorProfile, `invalid colorProfile: ${colorProfile}` );
