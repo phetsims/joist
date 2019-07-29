@@ -211,10 +211,7 @@ define( function( require ) {
       // navigation bar takes 40px at that scale.  Please see Sim.resizeAction for more details.
       maxHeight: 464 - EXTERNAL_MARGIN * 2,
 
-      // Center in the screenBounds (doesn't include the navigation bar)
-      layoutStrategy: function( dialog, simBounds, screenBounds, scale ) {
-        dialog.center = screenBounds.center.times( 1.0 / scale );
-      }
+      layoutStrategy: Dialog.layoutStrategyCenteredInScreen
     } );
 
     // a11y - set label association so the title is read when focus enters the dialog

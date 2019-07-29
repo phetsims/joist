@@ -48,7 +48,9 @@ define( function( require ) {
       tandem: Tandem.required,
 
       // Because of the special titleNode, we set the aria-labelledby attribute manually; see below.
-      addAriaLabelledByFromTitle: false
+      addAriaLabelledByFromTitle: false,
+
+      layoutStrategy: Dialog.layoutStrategyCenteredInScreen
     }, options );
 
     // title
