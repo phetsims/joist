@@ -14,7 +14,6 @@ define( function( require ) {
 
   // modules
   var Action = require( 'AXON/Action' );
-  var ActionIO = require( 'AXON/ActionIO' );
   var ariaHerald = require( 'SCENERY_PHET/accessibility/ariaHerald' );
   var BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
@@ -141,10 +140,10 @@ define( function( require ) {
       this.screenBoundsProperty.value = new Bounds2( 0, 0, width, screenHeight );
     }, {
       tandem: Tandem.generalTandem.createTandem( 'resizeAction' ),
-      phetioType: ActionIO( [
-        { name: 'width', type: NumberIO },
-        { name: 'height', type: NumberIO }
-      ] ),
+      parameters: [
+        { name: 'width', phetioType: NumberIO },
+        { name: 'height', phetioType: NumberIO }
+      ],
       phetioPlayback: true,
       phetioDocumentation: 'Executes when the sim is resized'
     } );
@@ -239,8 +238,7 @@ define( function( require ) {
       this.frameEndedEmitter.emit();
     }, {
       tandem: Tandem.generalTandem.createTandem( 'stepSimulationAction' ),
-
-      phetioType: ActionIO( [ { name: 'dt', type: NumberIO } ] ),
+      parameters: [ { name: 'dt', phetioType: NumberIO } ],
       phetioHighFrequency: true,
       phetioPlayback: true
     } );
