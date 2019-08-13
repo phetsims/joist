@@ -79,10 +79,5 @@ define( function( require ) {
 
   joist.register( 'PhetButtonIO', PhetButtonIO );
 
-  class X {}
-
-  X.hello = 'true';
-
   return PhetButtonIO;
 } );
-
