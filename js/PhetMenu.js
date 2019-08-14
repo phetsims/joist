@@ -21,6 +21,7 @@ define( function( require ) {
   var KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
   var MenuItem = require( 'SUN/MenuItem' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var openPopup = require( 'PHET_CORE/openPopup' );
   var OptionsDialog = require( 'JOIST/OptionsDialog' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -154,8 +155,7 @@ define( function( require ) {
         callback: function() {
           if ( !fuzzes ) {
             // Open locale-specific PhET home page. If there is no website translation for locale, fallback will be handled by server. See joist#97.
-            var phetWindow = window.open( 'http://phet.colorado.edu/' + sim.locale, '_blank' );
-            phetWindow.focus();
+            openPopup( 'http://phet.colorado.edu/' + sim.locale );
           }
         },
 
@@ -201,8 +201,7 @@ define( function( require ) {
                     '&dependencies=' + encodeURIComponent( JSON.stringify( {} ) );
 
           if ( !fuzzes ) {
-            var reportWindow = window.open( url, '_blank' );
-            reportWindow.focus();
+            openPopup( url );
           }
         },
         tagName: 'button'
@@ -212,8 +211,7 @@ define( function( require ) {
         present: phet.chipper.queryParameters.qrCode,
         callback: function() {
           if ( !fuzzes ) {
-            var win = window.open( 'http://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent( window.location.href ) + '&size=220x220&margin=0', '_blank' );
-            win.focus();
+            openPopup( 'http://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent( window.location.href ) + '&size=220x220&margin=0' );
           }
         },
 
@@ -267,7 +265,7 @@ define( function( require ) {
             }
           }
           else if ( !fuzzes ) {
-            window.open( dataURL, '_blank', '' );
+            openPopup( dataURL );
           }
         },
         tandem: tandem.createTandem( 'screenshotMenuItem' ),

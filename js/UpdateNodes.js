@@ -10,6 +10,7 @@ define( function( require ) {
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var joist = require( 'JOIST/joist' );
+  var openPopup = require( 'PHET_CORE/openPopup' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RichText = require( 'SCENERY/nodes/RichText' );
@@ -139,8 +140,7 @@ define( function( require ) {
           ] } ),
           new HBox( { spacing: 25, children: [
             new TextPushButton( updatesGetUpdateString, { baseColor: '#6f6', font: updateTextFont, listener: function() {
-              var newWindow = window.open( UpdateCheck.updateURL, '_blank' ); // open in a new window/tab
-              newWindow.focus();
+              openPopup( UpdateCheck.updateURL ); // open in a new window/tab
             } } ),
             new TextPushButton( updatesNoThanksString, { baseColor: '#ddd', font: updateTextFont, listener: function() {
               dialog.hide();
