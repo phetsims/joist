@@ -230,7 +230,7 @@ define( function( require ) {
         callback: function() {
           // Open locale-specific PhET home page. If there is no website translation for locale, fallback will be handled by server. See joist#97.
           var phetWindow = window.open( 'http://phet.colorado.edu/' + sim.locale, '_blank' );
-          phetWindow.focus();
+          phetWindow && phetWindow.focus();
         }
       },
       {
@@ -294,7 +294,7 @@ define( function( require ) {
                     '&url=' + encodeURIComponent( window.location.href ) +
                     '&dependencies=' + encodeURIComponent( JSON.stringify( dependenciesCopy ) );
           var reportWindow = window.open( url, '_blank' );
-          reportWindow.focus();
+          reportWindow && reportWindow.focus();
         },
         tandem: options.tandem && options.tandem.createTandem( 'reportAProblemButton' )
       },
@@ -303,7 +303,7 @@ define( function( require ) {
         present: phet.chipper.getQueryParameter( 'qrCode' ),
         callback: function() {
           var win = window.open( 'http://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent( window.location.href ) + '&size=220x220&margin=0', '_blank' );
-          win.focus();
+          win && win.focus();
         },
         tandem: options.tandem && options.tandem.createTandem( 'qrCode' )
       },
