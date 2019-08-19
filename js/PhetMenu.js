@@ -143,7 +143,7 @@ define( function( require ) {
           if ( !fuzzes ) {
             // Open locale-specific PhET home page. If there is no website translation for locale, fallback will be handled by server. See joist#97.
             var phetWindow = window.open( 'http://phet.colorado.edu/' + sim.locale, '_blank' );
-            phetWindow.focus();
+            phetWindow && phetWindow.focus();
           }
         },
 
@@ -200,7 +200,7 @@ define( function( require ) {
 
           if ( !fuzzes ) {
             var reportWindow = window.open( url, '_blank' );
-            reportWindow.focus();
+            reportWindow && reportWindow.focus();
           }
         },
         tagName: 'button'
@@ -211,7 +211,7 @@ define( function( require ) {
         callback: function() {
           if ( !fuzzes ) {
             var win = window.open( 'http://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent( window.location.href ) + '&size=220x220&margin=0', '_blank' );
-            win.focus();
+            win && win.focus();
           }
         },
 
