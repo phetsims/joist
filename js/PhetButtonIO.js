@@ -16,55 +16,44 @@ define( function( require ) {
   var NodeProperty = require( 'SCENERY/util/NodeProperty' );
   var NullableIO = require( 'TANDEM/types/NullableIO' );
   var ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  var phetioInherit = require( 'TANDEM/phetioInherit' );
   var PropertyIO = require( 'AXON/PropertyIO' );
 
-  /**
-   * IO type for phet/joist's PhetButton
-   * @param {PhetButton} phetButton
-   * @param {string} phetioID
-   * @constructor
-   */
-  function PhetButtonIO( phetButton, phetioID ) {
-    ObjectIO.call( this, phetButton, phetioID );
+  class PhetButtonIO extends ObjectIO {
+    constructor( phetButton, phetioID ) {
+      super( phetButton, phetioID );
 
-    // This code is similar to code in NodeIO, but it is not customizable through phetioComponentOptions because all
-    // instances have the same level of instrumentation.
-    var pickableProperty = new NodeProperty( phetButton, 'pickability', 'pickable', {
+      // This code is similar to code in NodeIO, but it is not customizable through phetioComponentOptions because all
+      // instances have the same level of instrumentation.
+      var pickableProperty = new NodeProperty( phetButton, 'pickability', 'pickable', {
 
-      // pick the following values from the parent Node
-      phetioReadOnly: phetButton.phetioReadOnly,
-      tandem: phetButton.tandem.createTandem( 'pickableProperty' ),
-      phetioType: PropertyIO( NullableIO( BooleanIO ) ),
-      phetioDocumentation: 'Set whether the phetButton will be pickable (and hence interactive), see the NodeIO documentation for more details'
-    } );
+        // pick the following values from the parent Node
+        phetioReadOnly: phetButton.phetioReadOnly,
+        tandem: phetButton.tandem.createTandem( 'pickableProperty' ),
+        phetioType: PropertyIO( NullableIO( BooleanIO ) ),
+        phetioDocumentation: 'Set whether the phetButton will be pickable (and hence interactive), see the NodeIO documentation for more details'
+      } );
 
-    // @private
-    this.disposePhetButtonIO = function() {
-      pickableProperty.dispose();
-    };
-  }
-
-  phetioInherit( ObjectIO, 'PhetButtonIO', PhetButtonIO, {
+      // @private
+      this.disposePhetButtonIO = function() {
+        pickableProperty.dispose();
+      };
+    }
 
     /**
      * @public - called by PhetioObject when the wrapper is done
      */
-    dispose: function() {
+    dispose() {
       this.disposePhetButtonIO();
     }
-  }, {
-    documentation: 'The PhET Button in the bottom right of the screen',
-    validator: { isValidValue: v => v instanceof phet.joist.PhetButton },
 
     /**
      * See NodeIO.toStateObject
      * @returns {undefined} - We don't use null because other types want that value in the state, see `NullableIO` for example.
      * @override
      */
-    toStateObject: function() {
+    static toStateObject() {
       return undefined;
-    },
+    }
 
     /**
      * See NodeIO.fromStateObject
@@ -72,12 +61,15 @@ define( function( require ) {
      * @returns {Object}
      * @override - to prevent attempted JSON serialization of circular Node
      */
-    fromStateObject: function( o ) {
+    static fromStateObject( o ) {
       return o; // Pass through values defined by subclasses
     }
-  } );
+  }
 
-  joist.register( 'PhetButtonIO', PhetButtonIO );
+  PhetButtonIO.documentation = 'The PhET Button in the bottom right of the screen';
+  PhetButtonIO.validator = { isValidValue: v => v instanceof phet.joist.PhetButton };
+  PhetButtonIO.typeName = 'PhetButtonIO';
+  ObjectIO.validateSubtype( PhetButtonIO );
 
-  return PhetButtonIO;
+  return joist.register( 'PhetButtonIO', PhetButtonIO );
 } );
