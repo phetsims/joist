@@ -466,13 +466,17 @@ define( function( require ) {
       // Fit to the window and render the initial scene
       // Can't synchronously do this in Firefox, see https://github.com/phetsims/vegas/issues/55 and
       // https://bugzilla.mozilla.org/show_bug.cgi?id=840412.
-      $( window ).resize( function() {
+      var resizeListener = function() {
         // Don't resize on window size changes if we are playing back input events.
         // See https://github.com/phetsims/joist/issues/37
         if ( !phet.joist.playbackMode ) {
           self.resizePending = true;
         }
-      } );
+      };
+      $( window ).resize( resizeListener );
+      window.addEventListener( 'resize', resizeListener );
+      window.addEventListener( 'orientationchange', resizeListener );
+      window.visualViewport && window.visualViewport.addEventListener( 'resize', resizeListener );
       this.resizeToWindow();
 
       // Kick off checking for updates, if that is enabled
