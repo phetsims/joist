@@ -493,6 +493,8 @@ define( function( require ) {
 
     // Fit to the window and render the initial scene
     $( window ).resize( function() { self.resizeToWindow(); } );
+    window.addEventListener( 'orientationchange', function() { self.resizeToWindow(); } );
+    window.visualViewport && window.visualViewport.addEventListener( 'resize', function() { self.resizeToWindow(); } );
     this.resizeToWindow();
 
     // Kick off checking for updates, if that is enabled
