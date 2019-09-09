@@ -478,6 +478,8 @@ define( function( require ) {
 
     // Fit to the window and render the initial scene
     $( window ).resize( function() { sim.resizeToWindow(); } );
+    window.addEventListener( 'orientationchange', function() { sim.resizeToWindow(); } );
+    window.visualViewport && window.visualViewport.addEventListener( 'resize', function() { sim.resizeToWindow(); } );
     this.resizeToWindow();
 
     // Kick off checking for updates, if that is enabled
