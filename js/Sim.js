@@ -388,15 +388,17 @@ define( function( require ) {
     }, false );
 
     // @public (joist-internal, read-only) - how the home screen and navbar are scaled
-    this.scaleProperty = new Property( 1 );
+    this.scaleProperty = new NumberProperty( 1 );
 
-    // @public (joist-internal, read-only) - global bounds for the entire simulation
+    // @public (joist-internal, read-only) {Property.<Bounds2>|null} - global bounds for the entire simulation. null
+    //                                                                 before first resize
     this.boundsProperty = new Property( null );
 
-    // @public (joist-internal, read-only) - global bounds for the screen-specific part (excludes the navigation bar)
+    // @public (joist-internal, read-only) {Property.<Bounds2>|null} - global bounds for the screen-specific part
+    //                                                            (excludes the navigation bar), null before first resize
     this.screenBoundsProperty = new Property( null );
 
-    // @public (joist-internal, read-only) - {Screen|null} - The current screen, or null if showing the home screen
+    // @public (joist-internal, read-only) {Screen|null} - The current screen, or null if showing the home screen
     this.currentScreenProperty = new Property( null );
 
     // @public

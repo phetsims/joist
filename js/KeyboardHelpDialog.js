@@ -50,8 +50,7 @@ define( function( require ) {
       // Because of the special titleNode, we set the aria-labelledby attribute manually; see below.
       addAriaLabelledByFromTitle: false,
 
-      maxHeight: 440, // TODO: copied from AboutDialog, see https://github.com/phetsims/gravity-force-lab/issues/144
-      layoutStrategy: Dialog.layoutStrategyCenteredInScreen
+      maxHeight: 440 // TODO: copied from AboutDialog, see https://github.com/phetsims/gravity-force-lab/issues/144
     }, options );
 
     // title

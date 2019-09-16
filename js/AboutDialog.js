@@ -209,9 +209,7 @@ define( function( require ) {
       // the layer containing the AboutDialog is already scaled based on the aspect ratio of the window. At a scale of
       // 1.0, the amount of vertical space is 504 and the amount of space above the navigation bar is 464 because the
       // navigation bar takes 40px at that scale.  Please see Sim.resizeAction for more details.
-      maxHeight: 464 - EXTERNAL_MARGIN * 2,
-
-      layoutStrategy: Dialog.layoutStrategyCenteredInScreen
+      maxHeight: 464 - EXTERNAL_MARGIN * 2
     } );
 
     // a11y - set label association so the title is read when focus enters the dialog
