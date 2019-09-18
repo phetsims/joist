@@ -455,8 +455,6 @@ define( function( require ) {
     // through when tappi becomes a sim lib.
     this.vibrationManager = options.vibrationManager;
     if ( this.vibrationManager ) {
-
-      console.log( 'initializeing' );
       this.vibrationManager.initialize( this.browserTabVisibleProperty, this.activeProperty );
     }
 
