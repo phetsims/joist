@@ -225,6 +225,11 @@ define( function( require ) {
         window.TWEEN.update( phet.joist.elapsedTime );
       }
 
+      // if provided, update the vibrationManager which tracks time sequences of on/off vibration
+      if ( this.vibrationManager ) {
+        this.vibrationManager.step( dt );
+      }
+
       // View step is the last thing before updateDisplay(), so we can do paint updates there.
       // See https://github.com/phetsims/joist/issues/401.
       if ( screen && screen.view.step ) {
@@ -334,6 +339,11 @@ define( function( require ) {
       // the default renderer for the rootNode, see #221, #184 and https://github.com/phetsims/molarity/issues/24
       rootRenderer: 'svg',
 
+      // {vibrationManager|null} - Responsible for managing vibration feedback for a sim. Experimental, and
+      // not used frequently. The vibrationManager instance is passed through options so that tappi doesn't have to
+      // become a dependency for all sims yet. If this gets more use, this will likely change.
+      vibrationManager: null,
+
       // {boolean} - Whether to allow WebGL 2x scaling when antialiasing is detected. If running out of memory on
       // things like iPad 2s (e.g. https://github.com/phetsims/scenery/issues/859), this can be turned to false to help.
       allowBackingScaleAntialiasing: true
@@ -438,6 +448,16 @@ define( function( require ) {
     // Initialize the sound library if enabled.
     if ( this.supportsSound ) {
       soundManager.initialize( this.browserTabVisibleProperty, this.activeProperty );
+    }
+
+    // @private {null|VibrationManager} - The singleton instance of VibrationManager. Experimental and not frequently
+    // used. If used more generally, reference will no longer be needed as joist will have access to vibrationManager
+    // through when tappi becomes a sim lib.
+    this.vibrationManager = options.vibrationManager;
+    if ( this.vibrationManager ) {
+
+      console.log( 'initializeing' );
+      this.vibrationManager.initialize( this.browserTabVisibleProperty, this.activeProperty );
     }
 
     assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
