@@ -9,11 +9,11 @@
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var joist = require( 'JOIST/joist' );
+  const joist = require( 'JOIST/joist' );
 
   var checkNamespaces = function() {
 

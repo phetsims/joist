@@ -7,28 +7,28 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
-  var HighlightNode = require( 'JOIST/HighlightNode' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var joist = require( 'JOIST/joist' );
-  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Property = require( 'AXON/Property' );
-  var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Shape = require( 'KITE/Shape' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var Util = require( 'DOT/Util' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
+  const DerivedProperty = require( 'AXON/DerivedProperty' );
+  const FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
+  const HighlightNode = require( 'JOIST/HighlightNode' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const joist = require( 'JOIST/joist' );
+  const JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Property = require( 'AXON/Property' );
+  const PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const Shape = require( 'KITE/Shape' );
+  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const Util = require( 'DOT/Util' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
 
   // constants
   var HIGHLIGHT_SPACING = 4;

@@ -9,49 +9,49 @@
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Action = require( 'AXON/Action' );
-  var ariaHerald = require( 'SCENERY_PHET/accessibility/ariaHerald' );
-  var BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
-  var BooleanProperty = require( 'AXON/BooleanProperty' );
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var Brand = require( 'BRAND/Brand' );
-  var Dimension2 = require( 'DOT/Dimension2' );
-  var Display = require( 'SCENERY/display/Display' );
-  var DotUtil = require( 'DOT/Util' );// eslint-disable-line
-  var Emitter = require( 'AXON/Emitter' );
-  var Heartbeat = require( 'JOIST/Heartbeat' );
-  var HomeScreen = require( 'JOIST/HomeScreen' );
-  var HomeScreenView = require( 'JOIST/HomeScreenView' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var InputFuzzer = require( 'SCENERY/input/InputFuzzer' );
-  var joist = require( 'JOIST/joist' );
-  var KeyboardFuzzer = require( 'SCENERY/accessibility/KeyboardFuzzer' );
-  var LegendsOfLearningSupport = require( 'JOIST/thirdPartySupport/LegendsOfLearningSupport' );
-  var LookAndFeel = require( 'JOIST/LookAndFeel' );
-  var MemoryMonitor = require( 'JOIST/MemoryMonitor' );
-  var NavigationBar = require( 'JOIST/NavigationBar' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var NumberIO = require( 'TANDEM/types/NumberIO' );
-  var NumberProperty = require( 'AXON/NumberProperty' );
-  var ObservableArray = require( 'AXON/ObservableArray' );
-  var packageJSON = require( 'JOIST/packageJSON' );
-  var platform = require( 'PHET_CORE/platform' );
-  var Profiler = require( 'JOIST/Profiler' );
-  var Property = require( 'AXON/Property' );
-  var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
-  var soundManager = require( 'TAMBO/soundManager' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var timer = require( 'AXON/timer' );
-  var UpdateCheck = require( 'JOIST/UpdateCheck' );
-  var Util = require( 'SCENERY/util/Util' );
-  var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
+  const Action = require( 'AXON/Action' );
+  const ariaHerald = require( 'SCENERY_PHET/accessibility/ariaHerald' );
+  const BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const Bounds2 = require( 'DOT/Bounds2' );
+  const Brand = require( 'BRAND/Brand' );
+  const Dimension2 = require( 'DOT/Dimension2' );
+  const Display = require( 'SCENERY/display/Display' );
+  const DotUtil = require( 'DOT/Util' );// eslint-disable-line
+  const Emitter = require( 'AXON/Emitter' );
+  const Heartbeat = require( 'JOIST/Heartbeat' );
+  const HomeScreen = require( 'JOIST/HomeScreen' );
+  const HomeScreenView = require( 'JOIST/HomeScreenView' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InputFuzzer = require( 'SCENERY/input/InputFuzzer' );
+  const joist = require( 'JOIST/joist' );
+  const KeyboardFuzzer = require( 'SCENERY/accessibility/KeyboardFuzzer' );
+  const LegendsOfLearningSupport = require( 'JOIST/thirdPartySupport/LegendsOfLearningSupport' );
+  const LookAndFeel = require( 'JOIST/LookAndFeel' );
+  const MemoryMonitor = require( 'JOIST/MemoryMonitor' );
+  const NavigationBar = require( 'JOIST/NavigationBar' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const NumberIO = require( 'TANDEM/types/NumberIO' );
+  const NumberProperty = require( 'AXON/NumberProperty' );
+  const ObservableArray = require( 'AXON/ObservableArray' );
+  const packageJSON = require( 'JOIST/packageJSON' );
+  const platform = require( 'PHET_CORE/platform' );
+  const Profiler = require( 'JOIST/Profiler' );
+  const Property = require( 'AXON/Property' );
+  const ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
+  const soundManager = require( 'TAMBO/soundManager' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const timer = require( 'AXON/timer' );
+  const UpdateCheck = require( 'JOIST/UpdateCheck' );
+  const Util = require( 'SCENERY/util/Util' );
+  const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
   // ifphetio
-  var phetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' );
+  const phetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' );
 
   // constants
   var PROGRESS_BAR_WIDTH = 273;

@@ -5,18 +5,18 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var GeneralKeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/GeneralKeyboardHelpSection' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var joist = require( 'JOIST/joist' );
-  var KeyboardHelpButton = require( 'JOIST/KeyboardHelpButton' );
-  var Panel = require( 'SUN/Panel' );
-  var ScreenView = require( 'JOIST/ScreenView' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
+  const GeneralKeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/GeneralKeyboardHelpSection' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const joist = require( 'JOIST/joist' );
+  const KeyboardHelpButton = require( 'JOIST/KeyboardHelpButton' );
+  const Panel = require( 'SUN/Panel' );
+  const ScreenView = require( 'JOIST/ScreenView' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
 
   /**
    * @constructor

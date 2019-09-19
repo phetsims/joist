@@ -5,20 +5,20 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var ButtonInteractionState = require( 'SUN/buttons/ButtonInteractionState' );
-  var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
-  var HighlightNode = require( 'JOIST/HighlightNode' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var joist = require( 'JOIST/joist' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Property = require( 'AXON/Property' );
-  var PushButtonInteractionStateProperty = require( 'SUN/buttons/PushButtonInteractionStateProperty' );
-  var PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
-  var Shape = require( 'KITE/Shape' );
+  const ButtonInteractionState = require( 'SUN/buttons/ButtonInteractionState' );
+  const FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
+  const HighlightNode = require( 'JOIST/HighlightNode' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const joist = require( 'JOIST/joist' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Property = require( 'AXON/Property' );
+  const PushButtonInteractionStateProperty = require( 'SUN/buttons/PushButtonInteractionStateProperty' );
+  const PushButtonModel = require( 'SUN/buttons/PushButtonModel' );
+  const Shape = require( 'KITE/Shape' );
 
   /**
    * @param {Node} content - the scenery node to render as the content of the button

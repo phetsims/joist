@@ -27,13 +27,13 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var joist = require( 'JOIST/joist' );
-  var Util = require( 'DOT/Util' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const joist = require( 'JOIST/joist' );
+  const Util = require( 'DOT/Util' );
 
 
   // constants

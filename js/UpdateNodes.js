@@ -3,34 +3,34 @@
 /**
  * UI parts for update-related dialogs
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var joist = require( 'JOIST/joist' );
-  var openPopup = require( 'PHET_CORE/openPopup' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var RichText = require( 'SCENERY/nodes/RichText' );
-  var SpinningIndicatorNode = require( 'SCENERY_PHET/SpinningIndicatorNode' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var TextPushButton = require( 'SUN/buttons/TextPushButton' );
-  var UpdateCheck = require( 'JOIST/UpdateCheck' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
-  var VStrut = require( 'SCENERY/nodes/VStrut' );
+  const FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
+  const HBox = require( 'SCENERY/nodes/HBox' );
+  const joist = require( 'JOIST/joist' );
+  const openPopup = require( 'PHET_CORE/openPopup' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const RichText = require( 'SCENERY/nodes/RichText' );
+  const SpinningIndicatorNode = require( 'SCENERY_PHET/SpinningIndicatorNode' );
+  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const TextPushButton = require( 'SUN/buttons/TextPushButton' );
+  const UpdateCheck = require( 'JOIST/UpdateCheck' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
+  const VStrut = require( 'SCENERY/nodes/VStrut' );
 
   // strings
-  var updatesCheckingString = require( 'string!JOIST/updates.checking' );
-  var updatesGetUpdateString = require( 'string!JOIST/updates.getUpdate' );
-  var updatesNewVersionAvailableString = require( 'string!JOIST/updates.newVersionAvailable' );
-  var updatesNoThanksString = require( 'string!JOIST/updates.noThanks' );
-  var updatesOfflineString = require( 'string!JOIST/updates.offline' );
-  var updatesOutOfDateString = require( 'string!JOIST/updates.outOfDate' );
-  var updatesUpToDateString = require( 'string!JOIST/updates.upToDate' );
-  var updatesYourCurrentVersionString = require( 'string!JOIST/updates.yourCurrentVersion' );
+  const updatesCheckingString = require( 'string!JOIST/updates.checking' );
+  const updatesGetUpdateString = require( 'string!JOIST/updates.getUpdate' );
+  const updatesNewVersionAvailableString = require( 'string!JOIST/updates.newVersionAvailable' );
+  const updatesNoThanksString = require( 'string!JOIST/updates.noThanks' );
+  const updatesOfflineString = require( 'string!JOIST/updates.offline' );
+  const updatesOutOfDateString = require( 'string!JOIST/updates.outOfDate' );
+  const updatesUpToDateString = require( 'string!JOIST/updates.upToDate' );
+  const updatesYourCurrentVersionString = require( 'string!JOIST/updates.yourCurrentVersion' );
 
   var updateTextFont = new PhetFont( 14 );
 

@@ -8,16 +8,16 @@
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Brand = require( 'BRAND/Brand' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var joist = require( 'JOIST/joist' );
-  var packageJSON = require( 'JOIST/packageJSON' ); // parse name/version out of the package.json
-  var Property = require( 'AXON/Property' );
-  var SimVersion = require( 'JOIST/SimVersion' );
+  const Brand = require( 'BRAND/Brand' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const joist = require( 'JOIST/joist' );
+  const packageJSON = require( 'JOIST/packageJSON' ); // parse name/version out of the package.json
+  const Property = require( 'AXON/Property' );
+  const SimVersion = require( 'JOIST/SimVersion' );
 
   var simName = packageJSON.name;
   var simVersion = SimVersion.parse( packageJSON.version, phet.chipper.buildTimestamp );

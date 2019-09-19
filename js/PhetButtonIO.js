@@ -7,16 +7,16 @@
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
-  var joist = require( 'JOIST/joist' );
-  var NodeProperty = require( 'SCENERY/util/NodeProperty' );
-  var NullableIO = require( 'TANDEM/types/NullableIO' );
-  var ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  var PropertyIO = require( 'AXON/PropertyIO' );
+  const BooleanIO = require( 'TANDEM/types/BooleanIO' );
+  const joist = require( 'JOIST/joist' );
+  const NodeProperty = require( 'SCENERY/util/NodeProperty' );
+  const NullableIO = require( 'TANDEM/types/NullableIO' );
+  const ObjectIO = require( 'TANDEM/types/ObjectIO' );
+  const PropertyIO = require( 'AXON/PropertyIO' );
 
   class PhetButtonIO extends ObjectIO {
     constructor( phetButton, phetioID ) {

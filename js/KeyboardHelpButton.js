@@ -7,20 +7,20 @@
  * @author Jesse Greenberg
  */
 
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Image = require( 'SCENERY/nodes/Image' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var joist = require( 'JOIST/joist' );
-  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
-  var JoistButton = require( 'JOIST/JoistButton' );
-  var KeyboardHelpDialog = require( 'JOIST/KeyboardHelpDialog' );
+  const Image = require( 'SCENERY/nodes/Image' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const joist = require( 'JOIST/joist' );
+  const JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
+  const JoistButton = require( 'JOIST/JoistButton' );
+  const KeyboardHelpDialog = require( 'JOIST/KeyboardHelpDialog' );
 
   // images
-  var brightIconMipmap = require( 'mipmap!JOIST/keyboard-icon.png' ); // on a black navbar
-  var darkIconMipmap = require( 'mipmap!JOIST/keyboard-icon-on-white.png' ); // on a white navbar
+  const brightIconMipmap = require( 'mipmap!JOIST/keyboard-icon.png' ); // on a black navbar
+  const darkIconMipmap = require( 'mipmap!JOIST/keyboard-icon-on-white.png' ); // on a white navbar
   assert && assert( Array.isArray( brightIconMipmap ), 'icon must be a mipmap' );
 
   // a11y strings

@@ -7,11 +7,11 @@
  * @author Jonathan Olson (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var joist = require( 'JOIST/joist' );
+  const joist = require( 'JOIST/joist' );
 
   // variables
   var started = false;

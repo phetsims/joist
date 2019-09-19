@@ -16,19 +16,19 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var ControlAreaNode = require( 'SCENERY_PHET/accessibility/nodes/ControlAreaNode' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var joist = require( 'JOIST/joist' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var PlayAreaNode = require( 'SCENERY_PHET/accessibility/nodes/PlayAreaNode' );
-  var Property = require( 'AXON/Property' );
-  var ScreenSummaryNode = require( 'SCENERY_PHET/accessibility/nodes/ScreenSummaryNode' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  const Bounds2 = require( 'DOT/Bounds2' );
+  const ControlAreaNode = require( 'SCENERY_PHET/accessibility/nodes/ControlAreaNode' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const joist = require( 'JOIST/joist' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const PlayAreaNode = require( 'SCENERY_PHET/accessibility/nodes/PlayAreaNode' );
+  const Property = require( 'AXON/Property' );
+  const ScreenSummaryNode = require( 'SCENERY_PHET/accessibility/nodes/ScreenSummaryNode' );
+  const Tandem = require( 'TANDEM/Tandem' );
 
   /*
    * Default width and height for iPad2, iPad3, iPad4 running Safari with default tabs and decorations

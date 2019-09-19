@@ -6,49 +6,49 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var AboutDialog = require( 'JOIST/AboutDialog' );
-  var AccessibilityUtil = require( 'SCENERY/accessibility/AccessibilityUtil' );
-  var Brand = require( 'BRAND/Brand' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var Display = require( 'SCENERY/display/Display' );
-  var FullScreen = require( 'SCENERY/util/FullScreen' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var joist = require( 'JOIST/joist' );
-  var KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
-  var MenuItem = require( 'SUN/MenuItem' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var openPopup = require( 'PHET_CORE/openPopup' );
-  var OptionsDialog = require( 'JOIST/OptionsDialog' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var PhetMenuIO = require( 'JOIST/PhetMenuIO' );
-  var platform = require( 'PHET_CORE/platform' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
-  var Shape = require( 'KITE/Shape' );
-  var soundManager = require( 'TAMBO/soundManager' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var UpdateCheck = require( 'JOIST/UpdateCheck' );
-  var UpdateDialog = require( 'JOIST/UpdateDialog' );
+  const AboutDialog = require( 'JOIST/AboutDialog' );
+  const AccessibilityUtil = require( 'SCENERY/accessibility/AccessibilityUtil' );
+  const Brand = require( 'BRAND/Brand' );
+  const DerivedProperty = require( 'AXON/DerivedProperty' );
+  const Display = require( 'SCENERY/display/Display' );
+  const FullScreen = require( 'SCENERY/util/FullScreen' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const joist = require( 'JOIST/joist' );
+  const KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
+  const MenuItem = require( 'SUN/MenuItem' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const openPopup = require( 'PHET_CORE/openPopup' );
+  const OptionsDialog = require( 'JOIST/OptionsDialog' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const PhetMenuIO = require( 'JOIST/PhetMenuIO' );
+  const platform = require( 'PHET_CORE/platform' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
+  const Shape = require( 'KITE/Shape' );
+  const soundManager = require( 'TAMBO/soundManager' );
+  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const UpdateCheck = require( 'JOIST/UpdateCheck' );
+  const UpdateDialog = require( 'JOIST/UpdateDialog' );
 
   // strings
-  var menuItemAboutString = require( 'string!JOIST/menuItem.about' );
-  var menuItemEnhancedSoundString = require( 'string!JOIST/menuItem.enhancedSound' );
-  var menuItemFullscreenString = require( 'string!JOIST/menuItem.fullscreen' );
-  var menuItemGetUpdateString = require( 'string!JOIST/menuItem.getUpdate' );
-  var menuItemMailInputEventsLogString = require( 'string!JOIST/menuItem.mailInputEventsLog' );
-  var menuItemOptionsString = require( 'string!JOIST/menuItem.options' );
-  var menuItemOutputInputEventsLogString = require( 'string!JOIST/menuItem.outputInputEventsLog' );
-  var menuItemPhetWebsiteString = require( 'string!JOIST/menuItem.phetWebsite' );
-  var menuItemReportAProblemString = require( 'string!JOIST/menuItem.reportAProblem' );
-  var menuItemScreenshotString = require( 'string!JOIST/menuItem.screenshot' );
-  var menuItemSubmitInputEventsLogString = require( 'string!JOIST/menuItem.submitInputEventsLog' );
+  const menuItemAboutString = require( 'string!JOIST/menuItem.about' );
+  const menuItemEnhancedSoundString = require( 'string!JOIST/menuItem.enhancedSound' );
+  const menuItemFullscreenString = require( 'string!JOIST/menuItem.fullscreen' );
+  const menuItemGetUpdateString = require( 'string!JOIST/menuItem.getUpdate' );
+  const menuItemMailInputEventsLogString = require( 'string!JOIST/menuItem.mailInputEventsLog' );
+  const menuItemOptionsString = require( 'string!JOIST/menuItem.options' );
+  const menuItemOutputInputEventsLogString = require( 'string!JOIST/menuItem.outputInputEventsLog' );
+  const menuItemPhetWebsiteString = require( 'string!JOIST/menuItem.phetWebsite' );
+  const menuItemReportAProblemString = require( 'string!JOIST/menuItem.reportAProblem' );
+  const menuItemScreenshotString = require( 'string!JOIST/menuItem.screenshot' );
+  const menuItemSubmitInputEventsLogString = require( 'string!JOIST/menuItem.submitInputEventsLog' );
 
   // constants
   var FONT_SIZE = 18;

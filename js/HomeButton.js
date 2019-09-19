@@ -5,21 +5,21 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var ButtonInteractionState = require( 'SUN/buttons/ButtonInteractionState' );
-  var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
-  var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var joist = require( 'JOIST/joist' );
-  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
-  var JoistButton = require( 'JOIST/JoistButton' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Property = require( 'AXON/Property' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Shape = require( 'KITE/Shape' );
+  const ButtonInteractionState = require( 'SUN/buttons/ButtonInteractionState' );
+  const FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
+  const FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const joist = require( 'JOIST/joist' );
+  const JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
+  const JoistButton = require( 'JOIST/JoistButton' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Property = require( 'AXON/Property' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const Shape = require( 'KITE/Shape' );
 
   // a11y strings
   var homeString = JoistA11yStrings.home.value;

@@ -6,29 +6,29 @@
  *
  * @author Jesse Greenberg
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
-  var Dialog = require( 'SUN/Dialog' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var joist = require( 'JOIST/joist' );
-  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var TabKeyNode = require( 'SCENERY_PHET/keyboard/TabKeyNode' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
+  const AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  const Dialog = require( 'SUN/Dialog' );
+  const HBox = require( 'SCENERY/nodes/HBox' );
+  const KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const joist = require( 'JOIST/joist' );
+  const JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const TabKeyNode = require( 'SCENERY_PHET/keyboard/TabKeyNode' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
 
   // constants
   var TITLE_MAX_WIDTH = 500;
 
   // string
-  var keyboardShortcutsTitleString = require( 'string!JOIST/keyboardShortcuts.title' );
-  var keyboardShortcutsToGetStartedString = require( 'string!JOIST/keyboardShortcuts.toGetStarted' );
+  const keyboardShortcutsTitleString = require( 'string!JOIST/keyboardShortcuts.title' );
+  const keyboardShortcutsToGetStartedString = require( 'string!JOIST/keyboardShortcuts.toGetStarted' );
 
   // a11y string
   var hotKeysAndHelpString = JoistA11yStrings.hotKeysAndHelp.value;

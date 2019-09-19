@@ -8,22 +8,22 @@
  * @author Chris Klusendorf
  */
 
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var ActivationUtterance = require( 'SCENERY_PHET/accessibility/ActivationUtterance' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var joist = require( 'JOIST/joist' );
-  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
-  var JoistButton = require( 'JOIST/JoistButton' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Shape = require( 'KITE/Shape' );
-  var ToggleNode = require( 'SUN/ToggleNode' );
-  var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
-  var Vector2 = require( 'DOT/Vector2' );
+  const ActivationUtterance = require( 'SCENERY_PHET/accessibility/ActivationUtterance' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const joist = require( 'JOIST/joist' );
+  const JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
+  const JoistButton = require( 'JOIST/JoistButton' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const Shape = require( 'KITE/Shape' );
+  const ToggleNode = require( 'SUN/ToggleNode' );
+  const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
+  const Vector2 = require( 'DOT/Vector2' );
 
   // a11y strings
   var soundOnOffString = JoistA11yStrings.soundOnOffButton.value;

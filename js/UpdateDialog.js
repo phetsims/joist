@@ -5,17 +5,17 @@
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Dialog = require( 'SUN/Dialog' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var joist = require( 'JOIST/joist' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var timer = require( 'AXON/timer' );
-  var UpdateCheck = require( 'JOIST/UpdateCheck' );
-  var UpdateNodes = require( 'JOIST/UpdateNodes' );
+  const Dialog = require( 'SUN/Dialog' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const joist = require( 'JOIST/joist' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const timer = require( 'AXON/timer' );
+  const UpdateCheck = require( 'JOIST/UpdateCheck' );
+  const UpdateNodes = require( 'JOIST/UpdateNodes' );
 
   /**
    * @param {PhETButton} phetButton - PhET button in the navigation bar, receives focus when this dialog is closed

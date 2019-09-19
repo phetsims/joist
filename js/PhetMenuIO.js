@@ -6,12 +6,12 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var joist = require( 'JOIST/joist' );
-  var ObjectIO = require( 'TANDEM/types/ObjectIO' );
+  const joist = require( 'JOIST/joist' );
+  const ObjectIO = require( 'TANDEM/types/ObjectIO' );
 
   class PhetMenuIO extends ObjectIO {}
 

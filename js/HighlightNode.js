@@ -6,16 +6,16 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Color = require( 'SCENERY/util/Color' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var joist = require( 'JOIST/joist' );
-  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const Color = require( 'SCENERY/util/Color' );
+  const HBox = require( 'SCENERY/nodes/HBox' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const joist = require( 'JOIST/joist' );
+  const LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   /**
    * @param {number} width

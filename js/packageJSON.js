@@ -5,14 +5,14 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var joist = require( 'JOIST/joist' );
+  const joist = require( 'JOIST/joist' );
 
   // strings
-  var packageString = require( 'text!REPOSITORY/package.json' );
+  const packageString = require( 'text!REPOSITORY/package.json' );
 
   var packageJSON = JSON.parse( packageString );
 

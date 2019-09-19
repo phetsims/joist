@@ -7,30 +7,30 @@
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var joist = require( 'JOIST/joist' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var RichText = require( 'SCENERY/nodes/RichText' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
-  var VStrut = require( 'SCENERY/nodes/VStrut' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const joist = require( 'JOIST/joist' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const RichText = require( 'SCENERY/nodes/RichText' );
+  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
+  const VStrut = require( 'SCENERY/nodes/VStrut' );
 
   // strings
-  var creditsContributorsString = require( 'string!JOIST/credits.contributors' );
-  var creditsGraphicArtsString = require( 'string!JOIST/credits.graphicArts' );
-  var creditsLeadDesignString = require( 'string!JOIST/credits.leadDesign' );
-  var creditsQualityAssuranceString = require( 'string!JOIST/credits.qualityAssurance' );
-  var creditsSoftwareDevelopmentString = require( 'string!JOIST/credits.softwareDevelopment' );
-  var creditsSoundDesignString = require( 'string!JOIST/credits.soundDesign' );
-  var creditsTeamString = require( 'string!JOIST/credits.team' );
-  var creditsThanksString = require( 'string!JOIST/credits.thanks' );
-  var creditsTitleString = require( 'string!JOIST/credits.title' );
-  var creditsTranslationString = require( 'string!JOIST/credits.translation' );
+  const creditsContributorsString = require( 'string!JOIST/credits.contributors' );
+  const creditsGraphicArtsString = require( 'string!JOIST/credits.graphicArts' );
+  const creditsLeadDesignString = require( 'string!JOIST/credits.leadDesign' );
+  const creditsQualityAssuranceString = require( 'string!JOIST/credits.qualityAssurance' );
+  const creditsSoftwareDevelopmentString = require( 'string!JOIST/credits.softwareDevelopment' );
+  const creditsSoundDesignString = require( 'string!JOIST/credits.soundDesign' );
+  const creditsTeamString = require( 'string!JOIST/credits.team' );
+  const creditsThanksString = require( 'string!JOIST/credits.thanks' );
+  const creditsTitleString = require( 'string!JOIST/credits.title' );
+  const creditsTranslationString = require( 'string!JOIST/credits.translation' );
 
   /**
    * Creates node that displays the credits.

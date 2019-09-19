@@ -6,11 +6,11 @@
  * 
  * @author Jesse Greenberg
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
-  var joist = require( 'JOIST/joist' );
-  var LegendsOfLearningSupport = require( 'JOIST/thirdPartySupport/LegendsOfLearningSupport' );
+  const joist = require( 'JOIST/joist' );
+  const LegendsOfLearningSupport = require( 'JOIST/thirdPartySupport/LegendsOfLearningSupport' );
 
   var ThirdPartySupport = {
     legendsOfLearning: LegendsOfLearningSupport

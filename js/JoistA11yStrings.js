@@ -8,10 +8,10 @@
  *
  * @author Jesse Greenberg
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
-  var joist = require( 'JOIST/joist' );
+  const joist = require( 'JOIST/joist' );
 
   var JoistA11yStrings = {
 

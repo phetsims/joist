@@ -5,15 +5,15 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Color = require( 'SCENERY/util/Color' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var joist = require( 'JOIST/joist' );
-  var Property = require( 'AXON/Property' );
+  const Color = require( 'SCENERY/util/Color' );
+  const DerivedProperty = require( 'AXON/DerivedProperty' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const joist = require( 'JOIST/joist' );
+  const Property = require( 'AXON/Property' );
 
   /**
    *

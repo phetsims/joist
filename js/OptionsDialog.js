@@ -6,19 +6,19 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Dialog = require( 'SUN/Dialog' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var joist = require( 'JOIST/joist' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var Text = require( 'SCENERY/nodes/Text' );
+  const Dialog = require( 'SUN/Dialog' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const joist = require( 'JOIST/joist' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const Text = require( 'SCENERY/nodes/Text' );
 
   // strings
-  var optionsTitleString = require( 'string!JOIST/options.title' );
+  const optionsTitleString = require( 'string!JOIST/options.title' );
 
   /**
    * @param {function(tandem:Tandem):Node} createContent - creates the dialog's content

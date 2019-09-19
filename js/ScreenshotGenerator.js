@@ -6,13 +6,13 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var CanvasContextWrapper = require( 'SCENERY/util/CanvasContextWrapper' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var joist = require( 'JOIST/joist' );
+  const CanvasContextWrapper = require( 'SCENERY/util/CanvasContextWrapper' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const joist = require( 'JOIST/joist' );
 
   /**
    *

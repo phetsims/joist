@@ -22,30 +22,30 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var A11yButtonsHBox = require( 'JOIST/A11yButtonsHBox' );
-  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var Dimension2 = require( 'DOT/Dimension2' );
-  var HomeButton = require( 'JOIST/HomeButton' );
-  var HomeScreen = require( 'JOIST/HomeScreen' );
-  var HomeScreenView = require( 'JOIST/HomeScreenView' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var joist = require( 'JOIST/joist' );
-  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
-  var NavigationBarScreenButton = require( 'JOIST/NavigationBarScreenButton' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var PhetButton = require( 'JOIST/PhetButton' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var Text = require( 'SCENERY/nodes/Text' );
+  const A11yButtonsHBox = require( 'JOIST/A11yButtonsHBox' );
+  const AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  const DerivedProperty = require( 'AXON/DerivedProperty' );
+  const Dimension2 = require( 'DOT/Dimension2' );
+  const HomeButton = require( 'JOIST/HomeButton' );
+  const HomeScreen = require( 'JOIST/HomeScreen' );
+  const HomeScreenView = require( 'JOIST/HomeScreenView' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const joist = require( 'JOIST/joist' );
+  const JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
+  const NavigationBarScreenButton = require( 'JOIST/NavigationBarScreenButton' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const PhetButton = require( 'JOIST/PhetButton' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const Text = require( 'SCENERY/nodes/Text' );
 
   // strings
-  var simTitleWithScreenNamePatternString = require( 'string!JOIST/simTitleWithScreenNamePattern' );
+  const simTitleWithScreenNamePatternString = require( 'string!JOIST/simTitleWithScreenNamePattern' );
 
   // a11y strings
   var simScreensResourcesAndToolsString = JoistA11yStrings.simScreensResourcesAndTools.value;

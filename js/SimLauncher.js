@@ -4,18 +4,18 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
   const Tandem = require( 'TANDEM/Tandem' );
-  var checkNamespaces = require( 'JOIST/checkNamespaces' );
-  var joist = require( 'JOIST/joist' );
-  var Random = require( 'DOT/Random' );
+  const checkNamespaces = require( 'JOIST/checkNamespaces' );
+  const joist = require( 'JOIST/joist' );
+  const Random = require( 'DOT/Random' );
 
   // ifphetio
-  var dataStream = require( 'ifphetio!PHET_IO/dataStream' );
-  var phetioCommandProcessor = require( 'ifphetio!PHET_IO/phetioCommandProcessor' );
+  const dataStream = require( 'ifphetio!PHET_IO/dataStream' );
+  const phetioCommandProcessor = require( 'ifphetio!PHET_IO/phetioCommandProcessor' );
 
   var SimLauncher = {
 

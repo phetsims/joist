@@ -5,18 +5,18 @@
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var joist = require( 'JOIST/joist' );
-  var KeyboardHelpButton = require( 'JOIST/KeyboardHelpButton' );
-  var NavigationBarSoundToggleButton = require( 'JOIST/NavigationBarSoundToggleButton' );
-  var platform = require( 'PHET_CORE/platform' );
-  var soundManager = require( 'TAMBO/soundManager' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  const HBox = require( 'SCENERY/nodes/HBox' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const joist = require( 'JOIST/joist' );
+  const KeyboardHelpButton = require( 'JOIST/KeyboardHelpButton' );
+  const NavigationBarSoundToggleButton = require( 'JOIST/NavigationBarSoundToggleButton' );
+  const platform = require( 'PHET_CORE/platform' );
+  const soundManager = require( 'TAMBO/soundManager' );
+  const Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Sim} sim

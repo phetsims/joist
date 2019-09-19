@@ -6,21 +6,21 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Image = require( 'SCENERY/nodes/Image' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var joist = require( 'JOIST/joist' );
-  var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
-  var JoistButton = require( 'JOIST/JoistButton' );
-  var KebabMenuIcon = require( 'JOIST/KebabMenuIcon' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var PhetButtonIO = require( 'JOIST/PhetButtonIO' );
-  var PhetMenu = require( 'JOIST/PhetMenu' );
-  var Property = require( 'AXON/Property' );
-  var UpdateCheck = require( 'JOIST/UpdateCheck' );
+  const Image = require( 'SCENERY/nodes/Image' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const joist = require( 'JOIST/joist' );
+  const JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
+  const JoistButton = require( 'JOIST/JoistButton' );
+  const KebabMenuIcon = require( 'JOIST/KebabMenuIcon' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const PhetButtonIO = require( 'JOIST/PhetButtonIO' );
+  const PhetMenu = require( 'JOIST/PhetMenu' );
+  const Property = require( 'AXON/Property' );
+  const UpdateCheck = require( 'JOIST/UpdateCheck' );
 
   // a11y strings
   var phetString = JoistA11yStrings.phet.value;
@@ -29,8 +29,8 @@ define( function( require ) {
   // The logo images are loaded from the brand which is selected via query parameter (during requirejs mode)
   // or a grunt option (during the build), please see initialize-globals.js window.phet.chipper.brand for more
   // details
-  var brightLogoMipmap = require( 'mipmap!BRAND/logo.png' ); // on a black navbar
-  var darkLogoMipmap = require( 'mipmap!BRAND/logo-on-white.png' ); // on a white navbar
+  const brightLogoMipmap = require( 'mipmap!BRAND/logo.png' ); // on a black navbar
+  const darkLogoMipmap = require( 'mipmap!BRAND/logo-on-white.png' ); // on a white navbar
 
   // Accommodate logos of any height by scaling them down proportionately.
   // The primary logo is 108px high and we have been scaling it at 0.28 to make it look good even on higher resolution

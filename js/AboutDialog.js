@@ -5,29 +5,29 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
-  var CreditsNode = require( 'JOIST/CreditsNode' );
-  var Dialog = require( 'SUN/Dialog' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var joist = require( 'JOIST/joist' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var packageJSON = require( 'JOIST/packageJSON' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var RichText = require( 'SCENERY/nodes/RichText' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var timer = require( 'AXON/timer' );
-  var UpdateCheck = require( 'JOIST/UpdateCheck' );
-  var UpdateNodes = require( 'JOIST/UpdateNodes' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
-  var VStrut = require( 'SCENERY/nodes/VStrut' );
+  const AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  const CreditsNode = require( 'JOIST/CreditsNode' );
+  const Dialog = require( 'SUN/Dialog' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const joist = require( 'JOIST/joist' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const packageJSON = require( 'JOIST/packageJSON' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const RichText = require( 'SCENERY/nodes/RichText' );
+  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const timer = require( 'AXON/timer' );
+  const UpdateCheck = require( 'JOIST/UpdateCheck' );
+  const UpdateNodes = require( 'JOIST/UpdateNodes' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
+  const VStrut = require( 'SCENERY/nodes/VStrut' );
 
   // strings
-  var versionPatternString = require( 'string!JOIST/versionPattern' );
+  const versionPatternString = require( 'string!JOIST/versionPattern' );
 
   // Maximum width of elements in the dialog
   var MAX_WIDTH = 550;

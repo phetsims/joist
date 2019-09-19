@@ -6,24 +6,24 @@
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var EventType = require( 'TANDEM/EventType' );
-  var FireListener = require( 'SCENERY/listeners/FireListener' );
-  var Frame = require( 'JOIST/Frame' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var joist = require( 'JOIST/joist' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Shape = require( 'KITE/Shape' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var Touch = require( 'SCENERY/input/Touch' );
-  var Util = require( 'DOT/Util' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
+  const EventType = require( 'TANDEM/EventType' );
+  const FireListener = require( 'SCENERY/listeners/FireListener' );
+  const Frame = require( 'JOIST/Frame' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const joist = require( 'JOIST/joist' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const Shape = require( 'KITE/Shape' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const Touch = require( 'SCENERY/input/Touch' );
+  const Util = require( 'DOT/Util' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
 
   // constants
   var LARGE_ICON_HEIGHT = 140;
