@@ -27,16 +27,16 @@ define( require => {
   const Tandem = require( 'TANDEM/Tandem' );
 
   // a11y strings
-  var screenNamePatternString = JoistA11yStrings.screenNamePattern.value;
-  var screenSimPatternString = JoistA11yStrings.screenSimPattern.value;
-  var simScreenString = JoistA11yStrings.simScreen.value;
+  const screenNamePatternString = JoistA11yStrings.screenNamePattern.value;
+  const screenSimPatternString = JoistA11yStrings.screenSimPattern.value;
+  const simScreenString = JoistA11yStrings.simScreen.value;
 
   // constants
-  var MINIMUM_HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 );
-  var MINIMUM_NAVBAR_ICON_SIZE = new Dimension2( 147, 100 );
-  var NAVBAR_ICON_ASPECT_RATIO = MINIMUM_NAVBAR_ICON_SIZE.width / MINIMUM_NAVBAR_ICON_SIZE.height;
-  var HOME_SCREEN_ICON_ASPECT_RATIO = MINIMUM_HOME_SCREEN_ICON_SIZE.width / MINIMUM_HOME_SCREEN_ICON_SIZE.height;
-  var ICON_ASPECT_RATIO_TOLERANCE = 5E-3; // how close to the ideal aspect ratio an icon must be
+  const MINIMUM_HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 );
+  const MINIMUM_NAVBAR_ICON_SIZE = new Dimension2( 147, 100 );
+  const NAVBAR_ICON_ASPECT_RATIO = MINIMUM_NAVBAR_ICON_SIZE.width / MINIMUM_NAVBAR_ICON_SIZE.height;
+  const HOME_SCREEN_ICON_ASPECT_RATIO = MINIMUM_HOME_SCREEN_ICON_SIZE.width / MINIMUM_HOME_SCREEN_ICON_SIZE.height;
+  const ICON_ASPECT_RATIO_TOLERANCE = 5E-3; // how close to the ideal aspect ratio an icon must be
 
   // Home screen and navigation bar icons must have the same aspect ratio, see https://github.com/phetsims/joist/issues/76
   assert && assert( Math.abs( HOME_SCREEN_ICON_ASPECT_RATIO - HOME_SCREEN_ICON_ASPECT_RATIO ) < ICON_ASPECT_RATIO_TOLERANCE,
@@ -156,7 +156,7 @@ define( require => {
       this.descriptionContent = simScreenString; // fall back on generic name
     }
 
-    var self = this;
+    const self = this;
     assert && this.activeProperty.lazyLink( function() {
       assert( self._view, 'isActive should not change before the Screen view has been initialized' );
 
@@ -182,7 +182,7 @@ define( require => {
     assert && assert( icon.height >= minimumSize.height, name + ' is too small: ' + icon.height );
 
     // Validate home screen aspect ratio
-    var actualAspectRatio = icon.width / icon.height;
+    const actualAspectRatio = icon.width / icon.height;
     assert && assert(
       Math.abs( aspectRatio - actualAspectRatio ) < ICON_ASPECT_RATIO_TOLERANCE,
       name + ' has invalid aspect ratio: ' + actualAspectRatio
@@ -194,7 +194,7 @@ define( require => {
    * @param {Bounds2} layoutBounds
    * @returns {Node}
    */
-  var devCreateLayoutBoundsNode = function( layoutBounds ) {
+  const devCreateLayoutBoundsNode = function( layoutBounds ) {
     return new Path( Shape.bounds( layoutBounds ), {
       stroke: 'red',
       lineWidth: 3,
@@ -207,8 +207,8 @@ define( require => {
    * @param {ScreenView} screenView
    * @returns {Node}
    */
-  var devCreateVisibleBoundsNode = function( screenView ) {
-    var path = new Path( Shape.bounds( screenView.visibleBoundsProperty.value ), {
+  const devCreateVisibleBoundsNode = function( screenView ) {
+    const path = new Path( Shape.bounds( screenView.visibleBoundsProperty.value ), {
       stroke: 'blue',
       lineWidth: 6,
       pickable: false
@@ -284,7 +284,7 @@ define( require => {
         else {
 
           // Like "My Awesome Screen" because "My Awesome" is the name of the screen.
-          var screenNameWithScreen = StringUtils.fillIn( screenNamePatternString, {
+          const screenNameWithScreen = StringUtils.fillIn( screenNamePatternString, {
             name: this.name
           } );
 

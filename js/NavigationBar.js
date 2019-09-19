@@ -48,9 +48,9 @@ define( require => {
   const simTitleWithScreenNamePatternString = require( 'string!JOIST/simTitleWithScreenNamePattern' );
 
   // a11y strings
-  var simScreensResourcesAndToolsString = JoistA11yStrings.simScreensResourcesAndTools.value;
-  var simResourcesAndToolsString = JoistA11yStrings.simResourcesAndTools.value;
-  var simScreensString = JoistA11yStrings.simScreens.value;
+  const simScreensResourcesAndToolsString = JoistA11yStrings.simScreensResourcesAndTools.value;
+  const simResourcesAndToolsString = JoistA11yStrings.simResourcesAndTools.value;
+  const simScreensString = JoistA11yStrings.simScreens.value;
 
   // constants
   // for layout of the NavigationBar, used in the following way:
@@ -60,16 +60,16 @@ define( require => {
   //  {ScreenButtons centered} (if visible)
   //  a11yButtonsHBox (if present){PHET_BUTTON_LEFT_MARGIN}PhetButton{PHET_BUTTON_RIGHT_MARGIN}
   // ]
-  var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
-  var TITLE_LEFT_MARGIN = 10;
-  var TITLE_RIGHT_MARGIN = 25;
-  var PHET_BUTTON_LEFT_MARGIN = 6;
-  var PHET_BUTTON_RIGHT_MARGIN = 10;
-  var PHET_BUTTON_BOTTOM_MARGIN = 0;
-  var HOME_BUTTON_LEFT_MARGIN = 5;
-  var HOME_BUTTON_RIGHT_MARGIN = HOME_BUTTON_LEFT_MARGIN;
-  var SCREEN_BUTTON_SPACING = 0;
-  var MINIMUM_SCREEN_BUTTON_WIDTH = 60; // Make sure each button is at least a minimum width so they don't get too close together, see #279
+  const NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
+  const TITLE_LEFT_MARGIN = 10;
+  const TITLE_RIGHT_MARGIN = 25;
+  const PHET_BUTTON_LEFT_MARGIN = 6;
+  const PHET_BUTTON_RIGHT_MARGIN = 10;
+  const PHET_BUTTON_BOTTOM_MARGIN = 0;
+  const HOME_BUTTON_LEFT_MARGIN = 5;
+  const HOME_BUTTON_RIGHT_MARGIN = HOME_BUTTON_LEFT_MARGIN;
+  const SCREEN_BUTTON_SPACING = 0;
+  const MINIMUM_SCREEN_BUTTON_WIDTH = 60; // Make sure each button is at least a minimum width so they don't get too close together, see #279
 
   /**
    * Creates a nav bar.
@@ -80,7 +80,7 @@ define( require => {
    * @constructor
    */
   function NavigationBar( sim, screens, showHomeScreenProperty, tandem ) {
-    var self = this;
+    const self = this;
 
     // @private
     this.screens = screens;
@@ -119,7 +119,7 @@ define( require => {
     this.barContents = new Node();
     this.addChild( this.barContents );
 
-    var title = sim.name;
+    let title = sim.name;
 
     // If the 'screens' query parameter only selects 1 screen, than update the nav bar title to include that screen name.
     if ( phet.chipper.queryParameters.screens && phet.chipper.queryParameters.screens.length === 1 && screens[ 0 ].name ) {
@@ -174,14 +174,14 @@ define( require => {
       /* multi-screen sim */
 
       // Start with the assumption that the title can occupy (at most) this percentage of the bar.
-      var maxTitleWidth = Math.min( this.titleTextNode.width, 0.20 * HomeScreenView.LAYOUT_BOUNDS.width );
+      const maxTitleWidth = Math.min( this.titleTextNode.width, 0.20 * HomeScreenView.LAYOUT_BOUNDS.width );
 
       // a11y - container for the homeButton and all the screen buttons.
       var buttons = new Node( {
         tagName: 'nav',
         ariaLabel: simScreensString
       } );
-      var buttonsOrderedList = new Node( { tagName: 'ol' } );
+      const buttonsOrderedList = new Node( { tagName: 'ol' } );
       buttons.addChild( buttonsOrderedList );
       buttons.setVisible( false );
       this.barContents.addChild( buttons );
@@ -209,22 +209,22 @@ define( require => {
        * Computations here reflect the left-to-right layout of the navbar.
        */
       // available width left of center
-      var availableLeft = ( HomeScreenView.LAYOUT_BOUNDS.width / 2 ) - TITLE_LEFT_MARGIN - maxTitleWidth - TITLE_RIGHT_MARGIN -
+      const availableLeft = ( HomeScreenView.LAYOUT_BOUNDS.width / 2 ) - TITLE_LEFT_MARGIN - maxTitleWidth - TITLE_RIGHT_MARGIN -
                           HOME_BUTTON_LEFT_MARGIN - this.homeButton.width - HOME_BUTTON_RIGHT_MARGIN;
 
       // available width right of center
-      var availableRight = ( HomeScreenView.LAYOUT_BOUNDS.width / 2 ) - PHET_BUTTON_LEFT_MARGIN -
+      const availableRight = ( HomeScreenView.LAYOUT_BOUNDS.width / 2 ) - PHET_BUTTON_LEFT_MARGIN -
                            this.a11yButtonsHBox.width - PHET_BUTTON_LEFT_MARGIN - this.phetButton.width -
                            PHET_BUTTON_RIGHT_MARGIN;
 
       // total available width for the screen buttons when they are centered
-      var availableTotal = 2 * Math.min( availableLeft, availableRight );
+      const availableTotal = 2 * Math.min( availableLeft, availableRight );
 
       // width per screen button
-      var screenButtonWidth = ( availableTotal - ( screens.length - 1 ) * SCREEN_BUTTON_SPACING ) / screens.length;
+      const screenButtonWidth = ( availableTotal - ( screens.length - 1 ) * SCREEN_BUTTON_SPACING ) / screens.length;
 
       // Create the screen buttons
-      var screenButtons = _.map( screens, function( screen ) {
+      const screenButtons = _.map( screens, function( screen ) {
         return new NavigationBarScreenButton(
           sim.lookAndFeel.navigationBarFillProperty,
           sim.screenIndexProperty,
@@ -238,13 +238,13 @@ define( require => {
 
       // Layout out screen buttons horizontally, with equal distance between their centers
       // Make sure each button is at least a minimum size, so they don't get too close together, see #279
-      var maxScreenButtonWidth = Math.max( MINIMUM_SCREEN_BUTTON_WIDTH, _.maxBy( screenButtons, function( button ) {
+      const maxScreenButtonWidth = Math.max( MINIMUM_SCREEN_BUTTON_WIDTH, _.maxBy( screenButtons, function( button ) {
         return button.width;
       } ).width );
 
       // Compute the distance between *centers* of each button
-      var spaceBetweenButtons = maxScreenButtonWidth + SCREEN_BUTTON_SPACING;
-      for ( var i = 0; i < screenButtons.length; i++ ) {
+      const spaceBetweenButtons = maxScreenButtonWidth + SCREEN_BUTTON_SPACING;
+      for ( let i = 0; i < screenButtons.length; i++ ) {
 
         // Equally space the centers of the buttons around the origin of their parent (screenButtonsContainer)
         screenButtons[ i ].centerX = spaceBetweenButtons * ( i - ( screenButtons.length - 1 ) / 2 );
@@ -320,7 +320,7 @@ define( require => {
       this.barContents.setScaleMagnitude( scale );
 
       // determine our local-coordinate 'right' side of the screen, so we can expand if necessary
-      var right;
+      let right;
       if ( NAVIGATION_BAR_SIZE.width * scale < width ) {
         // expanded
         right = width / scale;

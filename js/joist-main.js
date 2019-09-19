@@ -18,7 +18,7 @@ define( require => {
   // strings
   const joistTitleString = require( 'string!JOIST/joist.title' );
 
-  var simOptions = {
+  const simOptions = {
     credits: {
       leadDesign: 'PhET'
     }
@@ -26,7 +26,7 @@ define( require => {
 
   SimLauncher.launch( function() {
 
-    var screens = [
+    const screens = [
       new Screen(
         function() { return {}; },
         function( model ) { return new DialogsScreenView(); },

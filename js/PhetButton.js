@@ -23,7 +23,7 @@ define( require => {
   const UpdateCheck = require( 'JOIST/UpdateCheck' );
 
   // a11y strings
-  var phetString = JoistA11yStrings.phet.value;
+  const phetString = JoistA11yStrings.phet.value;
 
   // images
   // The logo images are loaded from the brand which is selected via query parameter (during requirejs mode)
@@ -37,10 +37,10 @@ define( require => {
   // displays.  The following math scales up the logo to 108px high so the rest of the layout code will work smoothly
   // Scale to the same height as the PhET logo, so that layout code works correctly.
   // height of the PhET logo, brand/phet/images/logo.png or brand/adapted-from-phet/images/logo.png
-  var PHET_LOGO_HEIGHT = 108;
-  var PHET_LOGO_SCALE = 0.28;  // scale applied to the PhET logo
+  const PHET_LOGO_HEIGHT = 108;
+  const PHET_LOGO_SCALE = 0.28;  // scale applied to the PhET logo
   assert && assert( Array.isArray( brightLogoMipmap ), 'logo must be a mipmap' );
-  var LOGO_SCALE = PHET_LOGO_SCALE / brightLogoMipmap[ 0 ].height * PHET_LOGO_HEIGHT;
+  const LOGO_SCALE = PHET_LOGO_SCALE / brightLogoMipmap[ 0 ].height * PHET_LOGO_HEIGHT;
 
   /**
    * @param {Sim} sim
@@ -69,7 +69,7 @@ define( require => {
         }
       } );
 
-    var options = {
+    const options = {
       highlightExtensionWidth: 6,
       highlightExtensionHeight: 5,
       highlightCenterOffsetY: 4,
@@ -87,28 +87,28 @@ define( require => {
     };
 
     // PhET logo
-    var logoImage = new Image( brightLogoMipmap, {
+    const logoImage = new Image( brightLogoMipmap, {
       scale: LOGO_SCALE,
       pickable: false
     } );
 
     // The menu icon, to the right of the logo
-    var menuIcon = new KebabMenuIcon( {
+    const menuIcon = new KebabMenuIcon( {
       left: logoImage.width + 8,
       bottom: logoImage.bottom - 0.5,
       pickable: false
     } );
 
     // The icon combines the PhET logo and the menu icon
-    var icon = new Node( { children: [ logoImage, menuIcon ] } );
+    const icon = new Node( { children: [ logoImage, menuIcon ] } );
 
     JoistButton.call( this, icon, backgroundFillProperty, tandem, options );
 
     // No need to unlink, as the PhetButton exists for the lifetime of the sim
     Property.multilink( [ backgroundFillProperty, sim.showHomeScreenProperty, UpdateCheck.stateProperty ],
       function( backgroundFill, showHomeScreen, updateState ) {
-        var backgroundIsWhite = backgroundFill !== 'black' && !showHomeScreen;
-        var outOfDate = updateState === 'out-of-date';
+        const backgroundIsWhite = backgroundFill !== 'black' && !showHomeScreen;
+        const outOfDate = updateState === 'out-of-date';
         menuIcon.fill = backgroundIsWhite ? ( outOfDate ? '#0a0' : '#222' ) : ( outOfDate ? '#3F3' : 'white' );
         logoImage.image = backgroundIsWhite ? darkLogoMipmap : brightLogoMipmap;
       } );

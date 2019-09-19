@@ -35,7 +35,7 @@ define( require => {
     assert && assert( options.maxIconWidthProportion > 0 && options.maxIconWidthProportion <= 1 );
     assert && assert( options.maxIconHeightProportion > 0 && options.maxIconHeightProportion <= 1 );
 
-    var background = new Rectangle( 0, 0, options.size.width, options.size.height, {
+    const background = new Rectangle( 0, 0, options.size.width, options.size.height, {
       fill: options.fill,
       stroke: options.stroke
     } );

@@ -32,12 +32,12 @@ define( require => {
   const updatesUpToDateString = require( 'string!JOIST/updates.upToDate' );
   const updatesYourCurrentVersionString = require( 'string!JOIST/updates.yourCurrentVersion' );
 
-  var updateTextFont = new PhetFont( 14 );
+  const updateTextFont = new PhetFont( 14 );
 
   // Maximum width of the resulting update items
-  var MAX_WIDTH = 550;
+  const MAX_WIDTH = 550;
 
-  var UpdateNodes = {
+  const UpdateNodes = {
 
     /**
      * "Checking" state node. With two size options (if options.big == true, it will be bigger)
@@ -47,8 +47,8 @@ define( require => {
      * @public (joist-internal)
      */
     createCheckingNode: function( options ) {
-      var spinningIndicatorNode = new SpinningIndicatorNode( { indicatorSize: options.big ? 24 : 18 } );
-      var checkingNode = new HBox( _.extend( {
+      const spinningIndicatorNode = new SpinningIndicatorNode( { indicatorSize: options.big ? 24 : 18 } );
+      const checkingNode = new HBox( _.extend( {
         spacing: options.big ? 10 : 8,
         maxWidth: MAX_WIDTH,
         children: [

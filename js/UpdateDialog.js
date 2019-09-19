@@ -24,24 +24,24 @@ define( require => {
     assert && assert( UpdateCheck.areUpdatesChecked,
       'Updates need to be checked for UpdateDialog to be created' );
 
-    var self = this;
+    const self = this;
 
-    var positionOptions = { centerX: 0, centerY: 0, big: true };
-    var checkingNode = UpdateNodes.createCheckingNode( positionOptions );
-    var upToDateNode = UpdateNodes.createUpToDateNode( positionOptions );
+    const positionOptions = { centerX: 0, centerY: 0, big: true };
+    const checkingNode = UpdateNodes.createCheckingNode( positionOptions );
+    const upToDateNode = UpdateNodes.createUpToDateNode( positionOptions );
 
-    var outOfDateNode = new Node( {
+    const outOfDateNode = new Node( {
 
       // a11y - dialog content contained in parent div so ARIA roles can be applied to all children
       tagName: 'div'
     } );
 
-    var offlineNode = UpdateNodes.createOfflineNode( positionOptions );
+    const offlineNode = UpdateNodes.createOfflineNode( positionOptions );
 
     function updateOutOfDateNode() {
       // fallback size placeholder for version
-      var latestVersionString = UpdateCheck.latestVersion ? UpdateCheck.latestVersion.toString() : 'x.x.xx';
-      var ourVersionString = UpdateCheck.ourVersion.toString();
+      const latestVersionString = UpdateCheck.latestVersion ? UpdateCheck.latestVersion.toString() : 'x.x.xx';
+      const ourVersionString = UpdateCheck.ourVersion.toString();
 
       outOfDateNode.children = [
         UpdateNodes.createOutOfDateDialogNode( self, ourVersionString, latestVersionString, positionOptions )
@@ -72,7 +72,7 @@ define( require => {
       offlineNode.accessibleContentDisplayed = offlineNode.visible;
     };
 
-    var content = new Node( {
+    const content = new Node( {
       children: [
         checkingNode,
         upToDateNode,

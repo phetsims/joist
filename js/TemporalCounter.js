@@ -41,7 +41,7 @@ define( require => {
 
       assert && assert( Util.isInteger( time ), 'time must be an integer' );
 
-      var currentBinIndex = Math.floor( time / this.binSize );
+      const currentBinIndex = Math.floor( time / this.binSize );
 
       if ( currentBinIndex !== this.lastBinIndex ) {
 

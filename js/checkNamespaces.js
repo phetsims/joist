@@ -15,20 +15,20 @@ define( require => {
   // modules
   const joist = require( 'JOIST/joist' );
 
-  var checkNamespaces = function() {
+  const checkNamespaces = function() {
 
     // Get a reference to the defined modules. There doesn't seem to be a common way to access this internal
     // information yet in the optimizer (with almond) and with require.js, so we have a fall-back set up.
     // Conditionals added due to https://github.com/phetsims/phet-io/issues/1149#issuecomment-345416924
-    var defined = ( window.requirejs && window.requirejs._defined ) || ( window.require && window.require.s.contexts._.defined );
+    const defined = ( window.requirejs && window.requirejs._defined ) || ( window.require && window.require.s.contexts._.defined );
 
     /**
      * This function iterates over all defined AMD modules and reports to a problemHandler any problems.
      * @param {function} problemHandler, a function that is called when an error occurs, with an {string} argument that
      * describes the problem
      */
-    var visit = function( problemHandler ) {
-      for ( var moduleName in defined ) {
+    const visit = function( problemHandler ) {
+      for ( const moduleName in defined ) {
         // Skip strings, images, or anything imported with a plugin. Could be added later if needed
         if ( moduleName.indexOf( '!' ) >= 0 ) {
           continue;
@@ -44,12 +44,12 @@ define( require => {
           continue;
         }
 
-        var prefix = moduleName.slice( 0, moduleName.indexOf( '/' ) ); // e.g. 'SCENERY_PHET'
-        var name = moduleName.slice( moduleName.lastIndexOf( '/' ) + 1 ); // e.g. 'ArrowButton'
+        const prefix = moduleName.slice( 0, moduleName.indexOf( '/' ) ); // e.g. 'SCENERY_PHET'
+        const name = moduleName.slice( moduleName.lastIndexOf( '/' ) + 1 ); // e.g. 'ArrowButton'
 
         // Convert to camel-case, e.g. 'SCENERY_PHET' to 'sceneryPhet'
-        var prefixTokens = prefix.toLowerCase().split( '_' );
-        var namespace = [ prefixTokens[ 0 ] ].concat( prefixTokens.slice( 1 ).map( function( token ) {
+        const prefixTokens = prefix.toLowerCase().split( '_' );
+        const namespace = [ prefixTokens[ 0 ] ].concat( prefixTokens.slice( 1 ).map( function( token ) {
           return token.charAt( 0 ).toUpperCase() + token.slice( 1 );
         } ) ).join( '' );
 
@@ -58,7 +58,7 @@ define( require => {
           continue;
         }
 
-        var namespacedObject = phet[ namespace ] && phet[ namespace ][ name ];
+        const namespacedObject = phet[ namespace ] && phet[ namespace ][ name ];
 
         if ( !namespacedObject ) {
           problemHandler( 'not namespaced: ' + namespace + '.' + name );

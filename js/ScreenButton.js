@@ -26,7 +26,7 @@ define( require => {
   const VBox = require( 'SCENERY/nodes/VBox' );
 
   // constants
-  var LARGE_ICON_HEIGHT = 140;
+  const LARGE_ICON_HEIGHT = 140;
 
   /**
    * @param {boolean} large - whether or not this is a large or small screenButton
@@ -47,39 +47,39 @@ define( require => {
       phetioDocumentation: 'A pressable button in the simulation, in the home screen'
     }, options );
 
-    var screen = sim.screens[ index ];
+    const screen = sim.screens[ index ];
 
     // Maps the number of screens to a scale for the small icons. The scale is percentage of LARGE_ICON_HEIGHT.
-    var smallIconScale = Util.linear( 2, 4, 0.875, 0.50, sim.screens.length );
+    let smallIconScale = Util.linear( 2, 4, 0.875, 0.50, sim.screens.length );
     if ( sim.screens.length >= 5 ) {
       smallIconScale = 0.4;
     }
 
     // Use the small icon scale if this is a small screen button
-    var height = large ? LARGE_ICON_HEIGHT : smallIconScale * LARGE_ICON_HEIGHT;
+    const height = large ? LARGE_ICON_HEIGHT : smallIconScale * LARGE_ICON_HEIGHT;
 
     // Wrap in a Node because we're scaling, and the same icon will be used for small and large icon, and may be used by
     // the navigation bar.
-    var icon = new Node( {
+    const icon = new Node( {
       opacity: options.opacity,
       children: [ screen.homeScreenIcon ],
       scale: height / screen.homeScreenIcon.height
     } );
 
     // Frame for small (unselected) home screen icons
-    var frame = large ? new Frame( icon ) : new Rectangle( 0, 0, icon.width, icon.height, {
+    const frame = large ? new Frame( icon ) : new Rectangle( 0, 0, icon.width, icon.height, {
       stroke: options.showUnselectedHomeScreenIconFrame ? PhetColorScheme.SCREEN_ICON_FRAME : null,
       lineWidth: 0.7
     } );
 
     // Create the icon with the frame inside
-    var iconWithFrame = new Node( {
+    const iconWithFrame = new Node( {
       opacity: options.opacity,
       children: [ frame, icon ]
     } );
 
     // Text for the screen button
-    var text = new Text( screen.name, {
+    const text = new Text( screen.name, {
       font: new PhetFont( large ? 42 : 18 ),
       fill: large ? PhetColorScheme.BUTTON_YELLOW : 'gray',
       tandem: tandem.createTandem( 'text' )
@@ -90,7 +90,7 @@ define( require => {
 
     // Only link if a large button
     highlightedScreenIndexProperty.link( function( highlightedIndex ) {
-      var highlighted = highlightedIndex === index;
+      const highlighted = highlightedIndex === index;
       frame.setHighlighted && frame.setHighlighted( highlighted );
       icon.opacity = ( large || highlighted ) ? 1 : 0.5;
       text.fill = ( large || highlighted ) ? 'white' : 'gray';
@@ -105,7 +105,7 @@ define( require => {
     } );
 
     // Input listeners after the parent call depending on if the ScreenButton is large or small
-    var buttonDown = large ?
+    const buttonDown = large ?
                      function() {
                        sim.showHomeScreenProperty.value = false;
                        highlightedScreenIndexProperty.value = -1;
@@ -114,7 +114,7 @@ define( require => {
                        sim.screenIndexProperty.value = index;
                      };
 
-    var fireListener = new FireListener( {
+    const fireListener = new FireListener( {
       fireOnDown: true, // to match prior behavior, but I'm not sure why we have this exceptional behavior
       fire: buttonDown,
       tandem: options.tandem.createTandem( 'inputListener' )

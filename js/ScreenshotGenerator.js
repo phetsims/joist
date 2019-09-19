@@ -38,18 +38,18 @@ define( require => {
       mimeType = mimeType || 'image/png';
 
       // set up our Canvas with the correct background color
-      var canvas = document.createElement( 'canvas' );
+      const canvas = document.createElement( 'canvas' );
       canvas.width = sim.display.width;
       canvas.height = sim.display.height;
-      var context = canvas.getContext( '2d' );
+      const context = canvas.getContext( '2d' );
       context.fillStyle = sim.display.domElement.style.backgroundColor;
       context.fillRect( 0, 0, canvas.width, canvas.height );
-      var wrapper = new CanvasContextWrapper( canvas, context );
+      const wrapper = new CanvasContextWrapper( canvas, context );
 
       sim.rootNode.renderToCanvasSubtree( wrapper );
 
       // get the data URL in PNG format
-      var dataURL = canvas.toDataURL( mimeType );
+      const dataURL = canvas.toDataURL( mimeType );
 
       return dataURL;
     }

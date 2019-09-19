@@ -24,12 +24,12 @@ define( require => {
   assert && assert( Array.isArray( brightIconMipmap ), 'icon must be a mipmap' );
 
   // a11y strings
-  var hotKeysAndHelpString = JoistA11yStrings.hotKeysAndHelp.value;
+  const hotKeysAndHelpString = JoistA11yStrings.hotKeysAndHelp.value;
 
   // constants
-  var HELP_BUTTON_HEIGHT = 67;
-  var HELP_BUTTON_SCALE = 0.30;  // scale applied to the icon
-  var BUTTON_SCALE = HELP_BUTTON_SCALE / brightIconMipmap[ 0 ].height * HELP_BUTTON_HEIGHT;
+  const HELP_BUTTON_HEIGHT = 67;
+  const HELP_BUTTON_SCALE = 0.30;  // scale applied to the icon
+  const BUTTON_SCALE = HELP_BUTTON_SCALE / brightIconMipmap[ 0 ].height * HELP_BUTTON_HEIGHT;
 
   /**
    * @param {Node} helpContent - content for the KeyboardHelpDialog
@@ -39,10 +39,10 @@ define( require => {
    * @constructor
    */
   function KeyboardHelpButton( helpContent, backgroundColorProperty, tandem, options ) {
-    var self = this;
+    const self = this;
 
     // reuse one instance of KeyboardHelpDialog
-    var keyboardHelpDialog = null;
+    let keyboardHelpDialog = null;
 
     options = _.extend( {
       highlightExtensionWidth: 5,
@@ -60,7 +60,7 @@ define( require => {
 
     assert && assert( !options.listener, 'KeyboardHelpButton set\'s its own listener' );
 
-    var openDialog = function() {
+    const openDialog = function() {
       if ( !keyboardHelpDialog ) {
         keyboardHelpDialog = new KeyboardHelpDialog( helpContent, {
           focusOnCloseNode: self,
@@ -78,7 +78,7 @@ define( require => {
     };
     options.listener = openDialog;
 
-    var icon = new Image( brightIconMipmap, {
+    const icon = new Image( brightIconMipmap, {
       scale: BUTTON_SCALE,
       pickable: false
     } );

@@ -17,7 +17,7 @@ define( require => {
   const dataStream = require( 'ifphetio!PHET_IO/dataStream' );
   const phetioCommandProcessor = require( 'ifphetio!PHET_IO/phetioCommandProcessor' );
 
-  var SimLauncher = {
+  const SimLauncher = {
 
     /**
      * Launch the Sim by preloading the images and calling the callback.
@@ -32,7 +32,7 @@ define( require => {
       window.phet.joist.launchCalled = true;
 
       // image elements to remove once we are fully loaded
-      var elementsToRemove = [];
+      const elementsToRemove = [];
 
       function doneLoadingImages() {
 
@@ -73,7 +73,7 @@ define( require => {
       }
 
       // if image dimensions exist, immediately fire the "all images loaded" event
-      var loaded = 0;
+      let loaded = 0;
 
       // Taken from http://stackoverflow.com/questions/1977871/check-if-an-image-is-loaded-no-errors-in-javascript
       function isImageOK( img ) {
@@ -99,8 +99,8 @@ define( require => {
       //For the images that were written to base64 format using requirejs, make sure they are loaded.
       //img.src = base64 is asynchronous on IE10 and OSX/Safari, so we have to make sure they loaded before returning.
       if ( window.phetImages ) {
-        for ( var i = 0; i < window.phetImages.length; i++ ) {
-          var phetImage = window.phetImages[ i ];
+        for ( let i = 0; i < window.phetImages.length; i++ ) {
+          const phetImage = window.phetImages[ i ];
 
           // For built versions that use phet-io, the simulation may have already loaded all of the images, so
           // check them here before scheduling them for load.

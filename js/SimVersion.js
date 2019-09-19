@@ -80,7 +80,7 @@ define( require => {
      * @public
      */
     parse: function( versionString, buildTimestamp ) {
-      var matches = versionString.match( /(\d+)\.(\d+)\.(\d+)(-(.+))?/ );
+      const matches = versionString.match( /(\d+)\.(\d+)\.(\d+)(-(.+))?/ );
 
       if ( !matches ) {
         throw new Error( 'could not parse version: ' + versionString );

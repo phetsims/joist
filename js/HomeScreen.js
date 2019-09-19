@@ -16,7 +16,7 @@ define( require => {
   const Screen = require( 'JOIST/Screen' );
 
   // constants
-  var BACKGROUND_COLOR = 'black';
+  const BACKGROUND_COLOR = 'black';
 
   /**
    *

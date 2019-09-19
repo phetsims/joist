@@ -25,9 +25,9 @@ define( require => {
 
     ScreenView.call( this );
 
-    var keyboardHelpDialogContent = new GeneralKeyboardHelpSection();
+    const keyboardHelpDialogContent = new GeneralKeyboardHelpSection();
 
-    var keyboardHelpButton = new KeyboardHelpButton(
+    const keyboardHelpButton = new KeyboardHelpButton(
       keyboardHelpDialogContent,
       phet.joist.sim.lookAndFeel.backgroundColorProperty,
       Tandem.optional
@@ -36,7 +36,7 @@ define( require => {
 
     // Since KeyboardHelpButton adapts its color to the navigation bar,
     // put the button in a panel that's the same color as the navigation bar
-    var keyboardHelpPanel = new Panel( keyboardHelpButton, {
+    const keyboardHelpPanel = new Panel( keyboardHelpButton, {
       fill: phet.joist.sim.lookAndFeel.navigationBarFillProperty.value
     } );
 

@@ -46,7 +46,7 @@ define( require => {
     this.buttonModel = new PushButtonModel( options );
 
     // Create both highlights and only make the one visible that corresponds to the color scheme
-    var createHighlight = function( fill ) {
+    const createHighlight = function( fill ) {
 
       return new HighlightNode( content.width + options.highlightExtensionWidth, content.height + options.highlightExtensionHeight, {
         centerX: content.centerX + options.highlightCenterOffsetX,
@@ -57,22 +57,22 @@ define( require => {
     };
 
     // Highlight against the black background
-    var brightenHighlight = createHighlight( 'white' );
+    const brightenHighlight = createHighlight( 'white' );
 
     // Highlight against the white background
-    var darkenHighlight = createHighlight( 'black' );
+    const darkenHighlight = createHighlight( 'black' );
 
     Node.call( this, _.extend( { children: [ content, brightenHighlight, darkenHighlight ] } ) );
 
     // Button interactions
-    var interactionStateProperty = new PushButtonInteractionStateProperty( this.buttonModel );
+    const interactionStateProperty = new PushButtonInteractionStateProperty( this.buttonModel );
 
     // @protected
     this.interactionStateProperty = interactionStateProperty;
 
     // Update the highlights based on whether the button is highlighted and whether it is against a light or dark background.
     Property.multilink( [ interactionStateProperty, navigationBarFillProperty ], function( interactionState, navigationBarFill ) {
-      var useDarkenHighlight = navigationBarFill !== 'black';
+      const useDarkenHighlight = navigationBarFill !== 'black';
       brightenHighlight.visible = !useDarkenHighlight &&
                                   ( interactionState === ButtonInteractionState.OVER ||
                                     interactionState === ButtonInteractionState.PRESSED );
@@ -86,7 +86,7 @@ define( require => {
     this.buttonModel.enabledProperty.link( enabled => { this.cursor = enabled ? 'pointer' : null; } );
 
     // Hook up the input listener
-    var pressListener = this.buttonModel.createListener( {
+    const pressListener = this.buttonModel.createListener( {
       tandem: tandem.createTandem( 'pressListener' )
     } );
     this.addInputListener( pressListener );
@@ -97,7 +97,7 @@ define( require => {
     this.mutate( options );
 
     // shift the focus highlight for the joist button so that the bottom is always on screen
-    var highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );
+    const highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );
     this.focusHighlight = Shape.bounds( this.bounds.shiftedY( -highlightLineWidth ) );
   }
 

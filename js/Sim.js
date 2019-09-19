@@ -54,7 +54,7 @@ define( require => {
   const phetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' );
 
   // constants
-  var PROGRESS_BAR_WIDTH = 273;
+  const PROGRESS_BAR_WIDTH = 273;
 
   // globals
   phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for replicable playbacks
@@ -74,7 +74,7 @@ define( require => {
    * @constructor
    */
   function Sim( name, screens, options ) {
-    var self = this;
+    const self = this;
     window.phetSplashScreenDownloadComplete();
 
     // playbackModeEnabledProperty cannot be changed after Sim construction has begun, hence this listener is added before
@@ -110,15 +110,15 @@ define( require => {
       if ( width === 0 || height === 0 ) {
         return;
       }
-      var self = this;
-      var scale = Math.min( width / HomeScreenView.LAYOUT_BOUNDS.width, height / HomeScreenView.LAYOUT_BOUNDS.height );
+      const self = this;
+      const scale = Math.min( width / HomeScreenView.LAYOUT_BOUNDS.width, height / HomeScreenView.LAYOUT_BOUNDS.height );
 
       // 40 px high on iPad Mobile Safari
-      var navBarHeight = scale * NavigationBar.NAVIGATION_BAR_SIZE.height;
+      const navBarHeight = scale * NavigationBar.NAVIGATION_BAR_SIZE.height;
       self.navigationBar.layout( scale, width, navBarHeight );
       self.navigationBar.y = height - navBarHeight;
       self.display.setSize( new Dimension2( width, height ) );
-      var screenHeight = height - self.navigationBar.height;
+      const screenHeight = height - self.navigationBar.height;
 
       // Layout each of the screens
       _.each( self.screens, function( m ) {
@@ -177,8 +177,8 @@ define( require => {
       }
 
       // If fuzz parameter is used then fuzzTouch and fuzzMouse events should be fired
-      var fuzzTouch = phet.chipper.queryParameters.fuzzTouch || phet.chipper.queryParameters.fuzz;
-      var fuzzMouse = phet.chipper.queryParameters.fuzzMouse || phet.chipper.queryParameters.fuzz;
+      const fuzzTouch = phet.chipper.queryParameters.fuzzTouch || phet.chipper.queryParameters.fuzz;
+      const fuzzMouse = phet.chipper.queryParameters.fuzzMouse || phet.chipper.queryParameters.fuzz;
 
       // fire or synthesize input events
       if ( fuzzMouse || fuzzTouch ) {
@@ -198,7 +198,7 @@ define( require => {
 
       // If the user is on the home screen, we won't have a Screen that we'll want to step.  This must be done after
       // fuzz mouse, because fuzzing could change the selected screen, see #130
-      var screen = this.getSelectedScreen();
+      const screen = this.getSelectedScreen();
 
       // cap dt based on the current screen, see https://github.com/phetsims/joist/issues/130
       if ( screen && screen.maxDT ) {
@@ -262,8 +262,8 @@ define( require => {
       }
     }
 
-    var initialScreen = phet.chipper.queryParameters.initialScreen;
-    var homeScreen = phet.chipper.queryParameters.homeScreen;
+    let initialScreen = phet.chipper.queryParameters.initialScreen;
+    const homeScreen = phet.chipper.queryParameters.homeScreen;
 
     if ( QueryStringMachine.containsKey( 'initialScreen' ) && initialScreen === 0 && homeScreen === false ) {
       throw new Error( 'cannot specify initialScreen=0 when home screen is disabled with homeScreen=false' );
@@ -273,9 +273,9 @@ define( require => {
     // For documentation, see the schema for phet.chipper.queryParameters.screens in initialize-globals.js.
     // Do this before setting options.showHomeScreen, since no home screen should be shown if we have 1 screen.
     if ( QueryStringMachine.containsKey( 'screens' ) ) {
-      var newScreens = [];
+      const newScreens = [];
       phet.chipper.queryParameters.screens.forEach( function( userIndex ) {
-        var screenIndex = userIndex - 1; // screens query parameter is 1-based
+        const screenIndex = userIndex - 1; // screens query parameter is 1-based
         if ( screenIndex < 0 || screenIndex > screens.length - 1 ) {
           throw new Error( 'invalid screen index: ' + userIndex );
         }
@@ -285,7 +285,7 @@ define( require => {
       // If the user specified an initial screen other than the homescreen and specified a subset of screens
       // remap the selected 1-based index from the original screens list to the filtered screens list.
       if ( initialScreen !== 0 ) {
-        var index = _.indexOf( newScreens, screens[ initialScreen - 1 ] );
+        const index = _.indexOf( newScreens, screens[ initialScreen - 1 ] );
         assert && assert( index !== -1, 'screen not found: ' + initialScreen );
         initialScreen = index + 1;
       }
@@ -505,7 +505,7 @@ define( require => {
       };
     }
 
-    var $body = $( 'body' );
+    const $body = $( 'body' );
 
     // prevent scrollbars
     $body.css( 'padding', '0' ).css( 'margin', '0' ).css( 'overflow', 'hidden' );
@@ -536,7 +536,7 @@ define( require => {
     } );
 
     // Seeding by default a random value for reproducable fuzzes if desired
-    var fuzzerSeed = phet.chipper.queryParameters.randomSeed * Math.PI;
+    const fuzzerSeed = phet.chipper.queryParameters.randomSeed * Math.PI;
 
     // @private {InputFuzzer}
     this.inputFuzzer = new InputFuzzer( this.display, fuzzerSeed );
@@ -666,7 +666,7 @@ define( require => {
      * @private
      */
     finishInit: function( screens ) {
-      var self = this;
+      const self = this;
 
       // ModuleIndex should always be defined.  On startup screenIndex=1 to highlight the 1st screen.
       // When moving from a screen to the homescreen, the previous screen should be highlighted
@@ -698,9 +698,9 @@ define( require => {
           // Make the selected screen visible and active, other screens invisible and inactive.
           // screen.isActiveProperty should change only while the screen is invisible.
           // See https://github.com/phetsims/joist/issues/418.
-          for ( var i = 0; i < screens.length; i++ ) {
-            var screen = screens[ i ];
-            var visible = ( !showHomeScreen && screenIndex === i );
+          for ( let i = 0; i < screens.length; i++ ) {
+            const screen = screens[ i ];
+            const visible = ( !showHomeScreen && screenIndex === i );
             if ( visible ) {
               screen.activeProperty.set( visible );
             }
@@ -734,7 +734,7 @@ define( require => {
       // Fit to the window and render the initial scene
       // Can't synchronously do this in Firefox, see https://github.com/phetsims/vegas/issues/55 and
       // https://bugzilla.mozilla.org/show_bug.cgi?id=840412.
-      var resizeListener = function() {
+      const resizeListener = function() {
         // Don't resize on window size changes if we are playing back input events.
         // See https://github.com/phetsims/joist/issues/37
         if ( !phet.joist.playbackModeEnabledProperty.value ) {
@@ -807,12 +807,12 @@ define( require => {
 
     // @public (joist-internal)
     start: function() {
-      var self = this;
+      const self = this;
 
       // In order to animate the loading progress bar, we must schedule work with setTimeout
       // This array of {function} is the work that must be completed to launch the sim.
-      var workItems = [];
-      var screens = this.screens;
+      const workItems = [];
+      const screens = this.screens;
 
       // Schedule instantiation of the screens
       screens.forEach( function initializeScreen( screen ) {
@@ -836,7 +836,7 @@ define( require => {
             workItems[ i ]();
             // Move the progress ahead by one so we show the full progress bar for a moment before the sim starts up
 
-            var progress = DotUtil.linear( 0, workItems.length - 1, 0.25, 1.0, i );
+            const progress = DotUtil.linear( 0, workItems.length - 1, 0.25, 1.0, i );
 
             // Support iOS Reading Mode, which saves a DOM snapshot after the progressBarForeground has already been
             // removed from the document, see https://github.com/phetsims/joist/issues/389
@@ -925,12 +925,12 @@ define( require => {
     stepOneFrame: function() {
 
       // Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
-      var time = Date.now();
-      var elapsedTimeMilliseconds = ( this.lastTime === -1 ) ? ( 1000.0 / 60.0 ) : ( time - this.lastTime );
+      const time = Date.now();
+      const elapsedTimeMilliseconds = ( this.lastTime === -1 ) ? ( 1000.0 / 60.0 ) : ( time - this.lastTime );
       this.lastTime = time;
 
       // Convert to seconds
-      var dt = elapsedTimeMilliseconds / 1000.0;
+      const dt = elapsedTimeMilliseconds / 1000.0;
 
       // Don't run the simulation on steps back in time (see https://github.com/phetsims/joist/issues/409)
       if ( dt > 0 ) {

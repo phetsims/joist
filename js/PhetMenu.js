@@ -51,32 +51,32 @@ define( require => {
   const menuItemSubmitInputEventsLogString = require( 'string!JOIST/menuItem.submitInputEventsLog' );
 
   // constants
-  var FONT_SIZE = 18;
-  var MAX_ITEM_WIDTH = 400;
+  const FONT_SIZE = 18;
+  const MAX_ITEM_WIDTH = 400;
 
   // For disabling features that are incompatible with fuzzing
-  var fuzzes = phet.chipper.queryParameters.fuzz ||
+  const fuzzes = phet.chipper.queryParameters.fuzz ||
                phet.chipper.queryParameters.fuzzMouse ||
                phet.chipper.queryParameters.fuzzTouch ||
                phet.chipper.queryParameters.fuzzBoard;
 
   // Creates a comic-book style bubble.
-  var createBubble = function( width, height ) {
+  const createBubble = function( width, height ) {
 
-    var rectangle = new Rectangle( 0, 0, width, height, 8, 8, { fill: 'white', lineWidth: 1, stroke: 'black' } );
+    const rectangle = new Rectangle( 0, 0, width, height, 8, 8, { fill: 'white', lineWidth: 1, stroke: 'black' } );
 
-    var tail = new Shape();
+    const tail = new Shape();
     tail.moveTo( width - 20, height - 2 );
     tail.lineToRelative( 0, 20 );
     tail.lineToRelative( -20, -20 );
     tail.close();
 
-    var tailOutline = new Shape();
+    const tailOutline = new Shape();
     tailOutline.moveTo( width - 20, height );
     tailOutline.lineToRelative( 0, 20 - 2 );
     tailOutline.lineToRelative( -18, -18 );
 
-    var bubble = new Node();
+    const bubble = new Node();
     bubble.addChild( rectangle );
     bubble.addChild( new Path( tail, { fill: 'white' } ) );
     bubble.addChild( new Path( tailOutline, { stroke: 'black', lineWidth: 1 } ) );
@@ -94,8 +94,8 @@ define( require => {
   function PhetMenu( sim, phetButton, tandem, options ) {
 
     // Only show certain features for PhET Sims, such as links to our website
-    var isPhETBrand = Brand.id === 'phet';
-    var isPhetApp = Brand.isPhetApp;
+    const isPhETBrand = Brand.id === 'phet';
+    const isPhetApp = Brand.isPhetApp;
 
     options = _.extend( {
 
@@ -113,20 +113,20 @@ define( require => {
 
     options.tandem = tandem;
 
-    var self = this;
+    const self = this;
     Node.call( this );
 
     // Dialogs that could be constructed by the menu. The menu will create a dialog the
     // first time the item is selected, and they will be reused after that.  Must
     // be created lazily because Dialog requires Sim to have bounds during construction
-    var aboutDialog = null;
-    var optionsDialog = null;
-    var updateDialog = null;
+    let aboutDialog = null;
+    let optionsDialog = null;
+    let updateDialog = null;
 
     /*
      * Description of the items in the menu. See Menu Item for a list of properties for each itemDescriptor
      */
-    var itemDescriptors = [
+    const itemDescriptors = [
       {
         text: menuItemOptionsString,
         present: !!sim.options.createOptionsDialogContent,
@@ -193,7 +193,7 @@ define( require => {
         text: menuItemReportAProblemString,
         present: isPhETBrand && !isPhetApp,
         callback: function() {
-          var url = 'http://phet.colorado.edu/files/troubleshooting/' +
+          const url = 'http://phet.colorado.edu/files/troubleshooting/' +
                     '?sim=' + encodeURIComponent( sim.name ) +
                     '&version=' + encodeURIComponent( sim.version + ' ' +
                     ( phet.chipper.buildTimestamp ? phet.chipper.buildTimestamp : '(require.js)' ) ) +
@@ -241,24 +241,24 @@ define( require => {
         text: menuItemScreenshotString,
         present: !platform.ie9 && !isPhetApp, // Not supported by IE9, see https://github.com/phetsims/joist/issues/212
         callback: function() {
-          var dataURL = ScreenshotGenerator.generateScreenshot( sim );
+          const dataURL = ScreenshotGenerator.generateScreenshot( sim );
 
           // if we have FileSaver support
           if ( window.Blob && !!new window.Blob() ) {
             // construct a blob out of it
-            var requiredPrefix = 'data:image/png;base64,';
+            const requiredPrefix = 'data:image/png;base64,';
             assert && assert( dataURL.slice( 0, requiredPrefix.length ) === requiredPrefix );
-            var dataBase64 = dataURL.slice( requiredPrefix.length );
-            var byteChars = window.atob( dataBase64 );
-            var byteArray = new window.Uint8Array( byteChars.length );
-            for ( var i = 0; i < byteArray.length; i++ ) {
+            const dataBase64 = dataURL.slice( requiredPrefix.length );
+            const byteChars = window.atob( dataBase64 );
+            const byteArray = new window.Uint8Array( byteChars.length );
+            for ( let i = 0; i < byteArray.length; i++ ) {
               byteArray[ i ] = byteChars.charCodeAt( i ); // need check to make sure this cast doesn't give problems?
             }
 
-            var blob = new window.Blob( [ byteArray ], { type: 'image/png' } );
+            const blob = new window.Blob( [ byteArray ], { type: 'image/png' } );
 
             // our preferred filename
-            var filename = StringUtils.stripEmbeddingMarks( sim.name ) + ' screenshot.png';
+            const filename = StringUtils.stripEmbeddingMarks( sim.name ) + ' screenshot.png';
 
             if ( !fuzzes ) {
               window.saveAs( blob, filename );
@@ -347,20 +347,20 @@ define( require => {
 
     // Menu items have uniform size, so compute the max text dimensions.  These are only used for sizing and thus don't
     // need to be tandemized.
-    var keepItemDescriptors = _.filter( itemDescriptors, function( itemDescriptor ) {return itemDescriptor.present;} );
-    var textNodes = _.map( keepItemDescriptors, function( item ) {
+    const keepItemDescriptors = _.filter( itemDescriptors, function( itemDescriptor ) {return itemDescriptor.present;} );
+    const textNodes = _.map( keepItemDescriptors, function( item ) {
       return new Text( item.text, {
         font: new PhetFont( FONT_SIZE ),
         maxWidth: MAX_ITEM_WIDTH
       } );
     } );
-    var maxTextWidth = _.maxBy( textNodes, function( node ) {return node.width;} ).width;
-    var maxTextHeight = _.maxBy( textNodes, function( node ) {return node.height;} ).height;
+    const maxTextWidth = _.maxBy( textNodes, function( node ) {return node.width;} ).width;
+    const maxTextHeight = _.maxBy( textNodes, function( node ) {return node.height;} ).height;
 
     // Create the menu items.
-    var items = this.items = _.map( keepItemDescriptors, function( itemDescriptor ) {
+    const items = this.items = _.map( keepItemDescriptors, function( itemDescriptor ) {
 
-        var menuItemOptions = {
+        const menuItemOptions = {
           textFill: itemDescriptor.textFill,
           checkedProperty: itemDescriptor.checkedProperty,
           separatorBefore: itemDescriptor.separatorBefore,
@@ -391,12 +391,12 @@ define( require => {
       }
     );
 
-    var separatorWidth = _.maxBy( items, function( item ) {return item.width;} ).width;
-    var itemHeight = _.maxBy( items, function( item ) {return item.height;} ).height;
-    var content = new Node();
-    var y = 0;
-    var ySpacing = 2;
-    var separator;
+    const separatorWidth = _.maxBy( items, function( item ) {return item.width;} ).width;
+    const itemHeight = _.maxBy( items, function( item ) {return item.height;} ).height;
+    const content = new Node();
+    let y = 0;
+    const ySpacing = 2;
+    let separator;
     _.each( items, function( item ) {
       // Don't add a separator for the first item
       if ( item.separatorBefore && items[ 0 ] !== item ) {
@@ -411,9 +411,9 @@ define( require => {
     } );
 
     // Create a comic-book-style bubble.
-    var X_MARGIN = 5;
-    var Y_MARGIN = 5;
-    var bubble = createBubble( content.width + X_MARGIN + X_MARGIN, content.height + Y_MARGIN + Y_MARGIN );
+    const X_MARGIN = 5;
+    const Y_MARGIN = 5;
+    const bubble = createBubble( content.width + X_MARGIN + X_MARGIN, content.height + Y_MARGIN + Y_MARGIN );
 
     this.addChild( bubble );
     this.addChild( content );
@@ -425,12 +425,12 @@ define( require => {
 
     // a11y - add the keydown listener, handling arrow, escape, and tab keys
     // When using the arrow keys, we prevent the virtual cursor from moving in VoiceOver
-    var keydownListener = {
+    const keydownListener = {
       keydown: function( event ) {
-        var domEvent = event.domEvent;
+        const domEvent = event.domEvent;
 
-        var firstItem = self.items[ 0 ];
-        var lastItem = self.items[ self.items.length - 1 ];
+        const firstItem = self.items[ 0 ];
+        const lastItem = self.items[ self.items.length - 1 ];
 
         // this attempts to prevents the scren reader's virtual cursor from also moving with the arrow keys
         if ( KeyboardUtil.isArrowKey( domEvent.keyCode ) ) {
@@ -440,13 +440,13 @@ define( require => {
         if ( domEvent.keyCode === KeyboardUtil.KEY_DOWN_ARROW ) {
 
           // On down arrow, focus next item in the list, or wrap up to the first item if focus is at the end
-          var nextFocusable = lastItem.focused ? firstItem : AccessibilityUtil.getNextFocusable();
+          const nextFocusable = lastItem.focused ? firstItem : AccessibilityUtil.getNextFocusable();
           nextFocusable.focus();
         }
         else if ( domEvent.keyCode === KeyboardUtil.KEY_UP_ARROW ) {
 
           // On up arow, focus previous item in the list, or wrap back to the last item if focus is on first item
-          var previousFocusable = firstItem.focused ? lastItem : AccessibilityUtil.getPreviousFocusable();
+          const previousFocusable = firstItem.focused ? lastItem : AccessibilityUtil.getPreviousFocusable();
           previousFocusable.focus();
         }
         else if ( domEvent.keyCode === KeyboardUtil.KEY_ESCAPE ) {
@@ -469,7 +469,7 @@ define( require => {
     this.addInputListener( keydownListener );
 
     // a11y - if the focus goes to something outside of the PhET menu, close it
-    var focusListener = function( focus ) {
+    const focusListener = function( focus ) {
       if ( focus && !_.includes( focus.trail.nodes, self ) ) {
         self.hide();
       }

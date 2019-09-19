@@ -37,7 +37,7 @@ define( require => {
    * As of this writing, this is the resolution being used by PhET's sim designers for their mockups.
    * For more information see https://github.com/phetsims/joist/issues/126
    */
-  var DEFAULT_LAYOUT_BOUNDS = new Bounds2( 0, 0, 1024, 618 );
+  const DEFAULT_LAYOUT_BOUNDS = new Bounds2( 0, 0, 1024, 618 );
 
   function ScreenView( options ) {
 
@@ -114,11 +114,11 @@ define( require => {
       layout: function( width, height ) {
         this.resetTransform();
 
-        var scale = this.getLayoutScale( width, height );
+        const scale = this.getLayoutScale( width, height );
         this.setScaleMagnitude( scale );
 
-        var dx = 0;
-        var dy = 0;
+        let dx = 0;
+        let dy = 0;
 
         //center vertically
         if ( scale === width / this.layoutBounds.width ) {

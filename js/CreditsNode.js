@@ -46,10 +46,10 @@ define( require => {
       maxWidth: 550
     }, options );
 
-    var titleFont = new PhetFont( { size: 14, weight: 'bold' } );
-    var font = new PhetFont( 12 );
-    var multiLineTextOptions = { font: font, align: 'left', lineWrap: options.maxWidth, tagName: 'p' };
-    var children = [];
+    const titleFont = new PhetFont( { size: 14, weight: 'bold' } );
+    const font = new PhetFont( 12 );
+    const multiLineTextOptions = { font: font, align: 'left', lineWrap: options.maxWidth, tagName: 'p' };
+    const children = [];
 
     // Credits
     children.push( new Text( creditsTitleString, {
@@ -62,43 +62,43 @@ define( require => {
 
     // Primary lead designer should be listed first, followed by contributing designers in alphabetical order.
     if ( credits.leadDesign ) {
-      var designString =  StringUtils.format( creditsLeadDesignString, '\u202a' + credits.leadDesign + '\u202c' );
+      const designString =  StringUtils.format( creditsLeadDesignString, '\u202a' + credits.leadDesign + '\u202c' );
       children.push( new RichText( designString, _.extend( { innerContent: designString }, multiLineTextOptions ) ) );
     }
 
     // Primary developer should be listed first, followed by contributing developers in alphabetical order.
     if ( credits.softwareDevelopment ) {
-      var developmentString = StringUtils.format( creditsSoftwareDevelopmentString, '\u202a' + credits.softwareDevelopment + '\u202c' );
+      const developmentString = StringUtils.format( creditsSoftwareDevelopmentString, '\u202a' + credits.softwareDevelopment + '\u202c' );
       children.push( new RichText( developmentString, _.extend( { innerContent: developmentString }, multiLineTextOptions ) ) );
     }
 
     // In alphabetical order
     if ( credits.team ) {
-      var teamString = StringUtils.format( creditsTeamString, '\u202a' + credits.team + '\u202c' );
+      const teamString = StringUtils.format( creditsTeamString, '\u202a' + credits.team + '\u202c' );
       children.push( new RichText( teamString, _.extend( { innerContent: teamString }, multiLineTextOptions ) ) );
     }
 
     // In alphabetical order
     if ( credits.contributors ) {
-      var contributorsString = StringUtils.format( creditsContributorsString, '\u202a' + credits.contributors + '\u202c' );
+      const contributorsString = StringUtils.format( creditsContributorsString, '\u202a' + credits.contributors + '\u202c' );
       children.push( new RichText( contributorsString, _.extend( { innerContent: contributorsString }, multiLineTextOptions ) ) );
     }
 
     // In alphabetical order
     if ( credits.qualityAssurance ) {
-      var qualityAssuranceString = StringUtils.format( creditsQualityAssuranceString, '\u202a' + credits.qualityAssurance + '\u202c' );
+      const qualityAssuranceString = StringUtils.format( creditsQualityAssuranceString, '\u202a' + credits.qualityAssurance + '\u202c' );
       children.push( new RichText( qualityAssuranceString, _.extend( { innerContent: qualityAssuranceString }, multiLineTextOptions ) ) );
     }
 
     // In alphabetical order
     if ( credits.graphicArts ) {
-      var graphicArtsString = StringUtils.format( creditsGraphicArtsString, '\u202a' + credits.graphicArts + '\u202c' );
+      const graphicArtsString = StringUtils.format( creditsGraphicArtsString, '\u202a' + credits.graphicArts + '\u202c' );
       children.push( new RichText( graphicArtsString, _.extend( { innerContent: graphicArtsString }, multiLineTextOptions ) ) );
     }
 
     // In alphabetical order
     if ( credits.soundDesign ) {
-      var soundDesignString = StringUtils.format( creditsSoundDesignString, '\u202a' + credits.soundDesign + '\u202c' );
+      const soundDesignString = StringUtils.format( creditsSoundDesignString, '\u202a' + credits.soundDesign + '\u202c' );
       children.push( new RichText( soundDesignString, _.extend( { innerContent: soundDesignString }, multiLineTextOptions ) ) );
     }
 
@@ -123,7 +123,7 @@ define( require => {
         innerContent: creditsThanksString
       } ) );
 
-      var thanksText = new RichText( credits.thanks, multiLineTextOptions );
+      const thanksText = new RichText( credits.thanks, multiLineTextOptions );
       thanksText.innerContent = credits.thanks;
       children.push( thanksText );
     }

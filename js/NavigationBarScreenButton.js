@@ -31,11 +31,11 @@ define( require => {
   const VBox = require( 'SCENERY/nodes/VBox' );
 
   // constants
-  var HIGHLIGHT_SPACING = 4;
+  const HIGHLIGHT_SPACING = 4;
 
   // a11y strings
-  var simScreenString = JoistA11yStrings.simScreen.value;
-  var screenNameStringPatternString = JoistA11yStrings.screenNumberPattern.value;
+  const simScreenString = JoistA11yStrings.simScreen.value;
+  const screenNameStringPatternString = JoistA11yStrings.screenNumberPattern.value;
 
   /**
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
@@ -53,7 +53,7 @@ define( require => {
     assert && assert( screen.navigationBarIcon, 'navigationBarIcon is required for screen ' + screen.name );
 
     // The index of the screen that the button is being constructed for.
-    var screenIndex = screens.indexOf( screen );
+    const screenIndex = screens.indexOf( screen );
 
     function clicked() {
       screenIndexProperty.value = screenIndex;
@@ -78,21 +78,21 @@ define( require => {
     Node.call( this );
 
     // icon
-    var icon = new Node( {
+    const icon = new Node( {
       children: [ screen.navigationBarIcon ], // wrap in case this icon is used in multiple place (eg, home screen and navbar)
       maxHeight: 0.625 * navBarHeight,
       tandem: options.tandem.createTandem( 'icon' )
     } );
 
     // frame around the icon
-    var iconFrame = new Rectangle( 0, 0, icon.width, icon.height );
+    const iconFrame = new Rectangle( 0, 0, icon.width, icon.height );
 
-    var iconParent = new Node( {
+    const iconParent = new Node( {
       children: [ icon, iconFrame ]
     } );
 
     // Is this button's screen selected?
-    var selectedProperty = new DerivedProperty( [ screenIndexProperty ], function( screenIndex ) {
+    const selectedProperty = new DerivedProperty( [ screenIndexProperty ], function( screenIndex ) {
       return screenIndex === screens.indexOf( screen );
     } );
 
@@ -105,19 +105,19 @@ define( require => {
     } );
 
     // Hook up the input listener
-    var pressListener = this.buttonModel.createListener( {
+    const pressListener = this.buttonModel.createListener( {
       tandem: options.tandem.createTandem( 'pressListener' ),
       phetioDocumentation: 'Indicates when the screen button has been pressed or released'
     } );
 
     this.addInputListener( pressListener );
 
-    var text = new Text( screen.name, {
+    const text = new Text( screen.name, {
       font: new PhetFont( 10 ),
       tandem: options.tandem.createTandem( 'text' )
     } );
 
-    var box = new VBox( {
+    const box = new VBox( {
       children: [ iconParent, text ],
       pickable: false,
       spacing: Math.max( 0, 12 - text.height ), // see https://github.com/phetsims/joist/issues/143
@@ -126,15 +126,15 @@ define( require => {
     } );
 
     // add a transparent overlay for input handling and to size touchArea/mouseArea
-    var overlay = new Rectangle( 0, 0, box.width, box.height, { center: box.center } );
+    const overlay = new Rectangle( 0, 0, box.width, box.height, { center: box.center } );
 
     // highlights
-    var highlightWidth = overlay.width + ( 2 * HIGHLIGHT_SPACING );
-    var brightenHighlight = new HighlightNode( highlightWidth, overlay.height, {
+    const highlightWidth = overlay.width + ( 2 * HIGHLIGHT_SPACING );
+    const brightenHighlight = new HighlightNode( highlightWidth, overlay.height, {
       center: box.center,
       fill: 'white'
     } );
-    var darkenHighlight = new HighlightNode( highlightWidth, overlay.height, {
+    const darkenHighlight = new HighlightNode( highlightWidth, overlay.height, {
       center: box.center,
       fill: 'black'
     } );
@@ -152,11 +152,11 @@ define( require => {
       navigationBarFillProperty
     ], function update( selected, looksPressed, over, navigationBarFill ) {
 
-      var useDarkenHighlights = ( navigationBarFill !== 'black' );
+      const useDarkenHighlights = ( navigationBarFill !== 'black' );
 
       // Color match yellow with the PhET Logo
-      var selectedTextColor = useDarkenHighlights ? 'black' : PhetColorScheme.BUTTON_YELLOW;
-      var unselectedTextColor = useDarkenHighlights ? 'gray' : 'white';
+      const selectedTextColor = useDarkenHighlights ? 'black' : PhetColorScheme.BUTTON_YELLOW;
+      const unselectedTextColor = useDarkenHighlights ? 'gray' : 'white';
 
       text.fill = selected ? selectedTextColor : unselectedTextColor;
       box.opacity = selected ? 1.0 : ( looksPressed ? 0.65 : 0.5 );
@@ -164,7 +164,7 @@ define( require => {
       darkenHighlight.visible = useDarkenHighlights && ( over || looksPressed );
 
       // Put a frame around the screen icon, depending on the navigation bar background color.
-      var iconFrameStroke = null;
+      let iconFrameStroke = null;
       if ( screen.showScreenIconFrameForNavigationBarFill === 'black' && navigationBarFill === 'black' ) {
         iconFrameStroke = PhetColorScheme.SCREEN_ICON_FRAME;
       }
@@ -200,7 +200,7 @@ define( require => {
     this.setAccessibleAttribute( 'aria-roledescription', simScreenString );
 
     // a11y - Pass a shape to the focusHighlight to prevent dilation, then tweak the top up just a hair.
-    var highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );
+    const highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );
     this.focusHighlight = Shape.bounds( this.bounds.setMinY( this.bounds.minY - highlightLineWidth / 2 ) );
 
     this.mutate( options );

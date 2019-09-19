@@ -24,7 +24,7 @@ define( require => {
 
       // This code is similar to code in NodeIO, but it is not customizable through phetioComponentOptions because all
       // instances have the same level of instrumentation.
-      var pickableProperty = new NodeProperty( phetButton, 'pickability', 'pickable', {
+      const pickableProperty = new NodeProperty( phetButton, 'pickability', 'pickable', {
 
         // pick the following values from the parent Node
         phetioReadOnly: phetButton.phetioReadOnly,

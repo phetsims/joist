@@ -19,9 +19,9 @@ define( require => {
   const Property = require( 'AXON/Property' );
   const SimVersion = require( 'JOIST/SimVersion' );
 
-  var simName = packageJSON.name;
-  var simVersion = SimVersion.parse( packageJSON.version, phet.chipper.buildTimestamp );
-  var requestProtocolString = ( 'https:' === document.location.protocol ? 'https:' : 'http:' );
+  const simName = packageJSON.name;
+  const simVersion = SimVersion.parse( packageJSON.version, phet.chipper.buildTimestamp );
+  const requestProtocolString = ( 'https:' === document.location.protocol ? 'https:' : 'http:' );
 
   // NOTE: singleton type!
   function UpdateCheck() {
@@ -90,7 +90,7 @@ define( require => {
      * @public - Kicks off the version checking request (if able), resulting in state changes.
      */
     check: function() {
-      var self = this;
+      const self = this;
 
       if ( !this.areUpdatesChecked || ( self.stateProperty.value !== 'unchecked' && self.stateProperty.value !== 'offline' ) ) {
         return;
@@ -102,7 +102,7 @@ define( require => {
         return;
       }
 
-      var req = new XMLHttpRequest();
+      const req = new XMLHttpRequest();
 
       if ( 'withCredentials' in req ) {
         // we'll be able to send the proper type of request, so we mark ourself as checking
@@ -114,7 +114,7 @@ define( require => {
           self.clearTimeout();
 
           try {
-            var data = JSON.parse( req.responseText );
+            const data = JSON.parse( req.responseText );
 
             if ( data.error ) {
               console.log( 'Update check failure: ' + data.error );
@@ -156,7 +156,7 @@ define( require => {
     }
   } );
 
-  var singleton = new UpdateCheck();
+  const singleton = new UpdateCheck();
   joist.register( 'UpdateCheck', singleton );
   return singleton;
 } );

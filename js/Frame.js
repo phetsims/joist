@@ -32,8 +32,8 @@ define( require => {
 
     Node.call( this );
 
-    var frameWidth = content.width + 2 * options.xMargin1;
-    var frameHeight = content.height + 2 * options.yMargin1;
+    const frameWidth = content.width + 2 * options.xMargin1;
+    const frameHeight = content.height + 2 * options.yMargin1;
 
     // @private
     this.gradient = new LinearGradient( 0, 0, frameWidth, 0 ).addColorStop( 0, '#fbff41' ).addColorStop( 118 / 800.0, '#fef98b' ).addColorStop( 372 / 800.0, '#feff40' ).addColorStop( 616 / 800, '#fffccd' ).addColorStop( 1, '#fbff41' );
@@ -58,7 +58,7 @@ define( require => {
 
     // @private - highlight rectangle is always in the scene graph to make sure the node is positioned properly
     // but only visible when highlighted
-    var frameBounds = Bounds2.rect( this.rectangle.x, this.rectangle.y, this.frameWidth, this.frameHeight );
+    const frameBounds = Bounds2.rect( this.rectangle.x, this.rectangle.y, this.frameWidth, this.frameHeight );
     this.highlightRectangle = Rectangle.bounds( frameBounds.dilated( 0.75 ), {
       stroke: 'transparent',
       lineWidth: 4.5

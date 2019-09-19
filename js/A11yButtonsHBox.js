@@ -32,12 +32,12 @@ define( require => {
     }, options );
 
     // list of optional buttons added for a11y
-    var a11yButtons = [];
+    const a11yButtons = [];
 
     // only put the sound on/off button on the nav bar if the sound library is enabled
     // TODO: Support instrumented element that is dynamic/lazily created, see https://github.com/phetsims/phet-io/issues/1454
     if ( sim.supportsSound ) {
-      var soundOnOffButton = new NavigationBarSoundToggleButton(
+      const soundOnOffButton = new NavigationBarSoundToggleButton(
         soundManager.enabledProperty,
         backgroundColorProperty,
         Tandem.optional

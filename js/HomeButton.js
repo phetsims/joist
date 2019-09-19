@@ -22,9 +22,9 @@ define( require => {
   const Shape = require( 'KITE/Shape' );
 
   // a11y strings
-  var homeString = JoistA11yStrings.home.value;
-  var homeScreenString = JoistA11yStrings.homeScreen.value;
-  var homeScreenDescriptionString = JoistA11yStrings.homeScreenDescription.value;
+  const homeString = JoistA11yStrings.home.value;
+  const homeScreenString = JoistA11yStrings.homeScreen.value;
+  const homeScreenDescriptionString = JoistA11yStrings.homeScreenDescription.value;
 
   /**
    * @param {number} navBarHeight
@@ -47,21 +47,21 @@ define( require => {
       appendDescription: true
     }, options );
 
-    var homeIcon = new FontAwesomeNode( 'home' );
+    const homeIcon = new FontAwesomeNode( 'home' );
     // scale so that the icon is slightly taller than screen button icons, value determined empirically, see joist#127
     homeIcon.setScaleMagnitude( 0.48 * navBarHeight / homeIcon.height );
 
     // transparent background, size determined empirically so that highlight is the same size as highlight on screen buttons
-    var background = new Rectangle( 0, 0, homeIcon.width + 12, navBarHeight );
+    const background = new Rectangle( 0, 0, homeIcon.width + 12, navBarHeight );
     homeIcon.center = background.center;
 
-    var content = new Node( { children: [ background, homeIcon ] } );
+    const content = new Node( { children: [ background, homeIcon ] } );
 
     JoistButton.call( this, content, navigationBarFillProperty, tandem, options );
 
     // a11y - Pass a shape to the focusHighlight to prevent dilation, then tweak the bottom up just a hair so it
     // isn't off the screen.
-    var highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );
+    const highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );
     this.focusHighlight = Shape.bounds( this.bounds.setMaxY( this.bounds.maxY - highlightLineWidth / 2 ) );
 
     // a11y - add the role description for the HomeButton

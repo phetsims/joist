@@ -24,15 +24,15 @@ define( require => {
   const VBox = require( 'SCENERY/nodes/VBox' );
 
   // constants
-  var TITLE_MAX_WIDTH = 500;
+  const TITLE_MAX_WIDTH = 500;
 
   // string
   const keyboardShortcutsTitleString = require( 'string!JOIST/keyboardShortcuts.title' );
   const keyboardShortcutsToGetStartedString = require( 'string!JOIST/keyboardShortcuts.toGetStarted' );
 
   // a11y string
-  var hotKeysAndHelpString = JoistA11yStrings.hotKeysAndHelp.value;
-  var tabToGetStartedString = JoistA11yStrings.tabToGetStarted.value;
+  const hotKeysAndHelpString = JoistA11yStrings.hotKeysAndHelp.value;
+  const tabToGetStartedString = JoistA11yStrings.tabToGetStarted.value;
 
   /**
    * @param {Node} helpContent - a node containing the sim specific keyboard help content
@@ -55,7 +55,7 @@ define( require => {
 
     // title
     assert && assert( !options.title, 'KeyboardHelpDialog sets title' );
-    var shortcutsTitleText = new Text( keyboardShortcutsTitleString, {
+    const shortcutsTitleText = new Text( keyboardShortcutsTitleString, {
       font: new PhetFont( {
         weight: 'bold',
         size: 18
@@ -68,7 +68,7 @@ define( require => {
     } );
 
     // a line to say "tab to get started" below the "Keyboard Shortcuts" 'title'
-    var tabHintLine = KeyboardHelpSection.labelWithIcon( keyboardShortcutsToGetStartedString, new TabKeyNode(), tabToGetStartedString, {
+    const tabHintLine = KeyboardHelpSection.labelWithIcon( keyboardShortcutsToGetStartedString, new TabKeyNode(), tabToGetStartedString, {
       iconOptions: {
         tagName: 'p' // because there is only one, and the default is an li tag
       }

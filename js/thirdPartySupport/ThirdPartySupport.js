@@ -12,7 +12,7 @@ define( require => {
   const joist = require( 'JOIST/joist' );
   const LegendsOfLearningSupport = require( 'JOIST/thirdPartySupport/LegendsOfLearningSupport' );
 
-  var ThirdPartySupport = {
+  const ThirdPartySupport = {
     legendsOfLearning: LegendsOfLearningSupport
   };
 

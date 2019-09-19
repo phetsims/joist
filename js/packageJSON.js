@@ -14,7 +14,7 @@ define( require => {
   // strings
   const packageString = require( 'text!REPOSITORY/package.json' );
 
-  var packageJSON = JSON.parse( packageString );
+  const packageJSON = JSON.parse( packageString );
 
   joist.register( 'packageJSON', packageJSON );
 

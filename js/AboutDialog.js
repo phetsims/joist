@@ -30,11 +30,11 @@ define( require => {
   const versionPatternString = require( 'string!JOIST/versionPattern' );
 
   // Maximum width of elements in the dialog
-  var MAX_WIDTH = 550;
+  const MAX_WIDTH = 550;
 
   // distance from the top of the about dialog to the dev bounds
   // same as the distance from the bottom of the about dialog to the top of the navigation bar.
-  var EXTERNAL_MARGIN = 12;
+  const EXTERNAL_MARGIN = 12;
 
   /**
    * @param {string} name - The name of the simulation
@@ -46,9 +46,9 @@ define( require => {
    * @constructor
    */
   function AboutDialog( name, version, credits, Brand, locale, phetButton ) {
-    var children = [];
+    let children = [];
 
-    var titleText = new Text( name, {
+    const titleText = new Text( name, {
       font: new PhetFont( 28 ),
       maxWidth: MAX_WIDTH,
       tagName: 'h1',
@@ -56,7 +56,7 @@ define( require => {
     } );
     children.push( titleText );
 
-    var versionString = StringUtils.format( versionPatternString, version );
+    const versionString = StringUtils.format( versionPatternString, version );
     children.push( new Text( versionString, {
       font: new PhetFont( 20 ),
       maxWidth: MAX_WIDTH,
@@ -74,11 +74,11 @@ define( require => {
     }
 
     if ( UpdateCheck.areUpdatesChecked ) {
-      var positionOptions = { left: 0, top: 0 };
-      var checkingNode = UpdateNodes.createCheckingNode( positionOptions );
-      var upToDateNode = UpdateNodes.createUpToDateNode( positionOptions );
-      var outOfDateNode = UpdateNodes.createOutOfDateAboutNode( positionOptions );
-      var offlineNode = UpdateNodes.createOfflineNode( positionOptions );
+      const positionOptions = { left: 0, top: 0 };
+      const checkingNode = UpdateNodes.createCheckingNode( positionOptions );
+      const upToDateNode = UpdateNodes.createUpToDateNode( positionOptions );
+      const outOfDateNode = UpdateNodes.createOutOfDateAboutNode( positionOptions );
+      const offlineNode = UpdateNodes.createOfflineNode( positionOptions );
 
       // @private - Listener that should be called every frame where we are shown, with {number} dt as a single parameter.
       this.updateStepListener = checkingNode.stepListener;
@@ -109,7 +109,7 @@ define( require => {
       } ) );
     }
 
-    var brandChildren = [];
+    const brandChildren = [];
 
     // Show the brand name, if it exists
     if ( Brand.name ) {
@@ -127,11 +127,11 @@ define( require => {
 
     // Show the brand copyright statement, if it exists
     if ( Brand.copyright ) {
-      var year = phet.chipper.buildTimestamp ? // defined for built versions
+      const year = phet.chipper.buildTimestamp ? // defined for built versions
                  phet.chipper.buildTimestamp.split( '-' )[ 0 ] : // e.g. "2017-04-20 19:04:59 UTC" -> "2017"
                  new Date().getFullYear(); // in requirejs mode
 
-      var copyright = StringUtils.fillIn( Brand.copyright, { year: year } );
+      const copyright = StringUtils.fillIn( Brand.copyright, { year: year } );
 
       brandChildren.push( new Text( copyright, {
         font: new PhetFont( 12 ), maxWidth: MAX_WIDTH,
@@ -173,12 +173,12 @@ define( require => {
     }
 
     // Show any links identified in the brand
-    var links = Brand.getLinks( packageJSON.name, locale );
+    const links = Brand.getLinks( packageJSON.name, locale );
     if ( links && links.length > 0 ) {
       children.push( new VStrut( 15 ) );
 
-      for ( var i = 0; i < links.length; i++ ) {
-        var link = links[ i ];
+      for ( let i = 0; i < links.length; i++ ) {
+        const link = links[ i ];
         children.push( new RichText( '<a href="{{url}}">' + link.text + '</a>', {
           links: { url: link.url }, // RichText must fill in URL for link
           font: new PhetFont( 14 ),
@@ -187,7 +187,7 @@ define( require => {
       }
     }
 
-    var content = new VBox( {
+    const content = new VBox( {
       align: 'left',
       spacing: 5,
       children: children,

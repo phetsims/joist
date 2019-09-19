@@ -31,17 +31,17 @@ define( require => {
       pickable: false
     }, options );
 
-    var innerColor = options.fill;
-    var outerColor = Color.toColor( innerColor ).withAlpha( 0 ); // transparent
+    const innerColor = options.fill;
+    const outerColor = Color.toColor( innerColor ).withAlpha( 0 ); // transparent
 
-    var barOptions = {
+    const barOptions = {
       fill: new LinearGradient( 0, 0, 0, height )
         .addColorStop( 0, outerColor )
         .addColorStop( 0.5, innerColor )
         .addColorStop( 1, outerColor )
     };
-    var leftBar = new Rectangle( 0, 0, options.highlightWidth, height, barOptions );
-    var rightBar = new Rectangle( 0, 0, options.highlightWidth, height, barOptions );
+    const leftBar = new Rectangle( 0, 0, options.highlightWidth, height, barOptions );
+    const rightBar = new Rectangle( 0, 0, options.highlightWidth, height, barOptions );
 
     options.children = [ leftBar, rightBar ];
     options.spacing = width;

@@ -26,32 +26,32 @@ define( require => {
   const Vector2 = require( 'DOT/Vector2' );
 
   // a11y strings
-  var soundOnOffString = JoistA11yStrings.soundOnOffButton.value;
-  var simSoundOnString = JoistA11yStrings.simSoundOnString.value;
-  var simSoundOffString = JoistA11yStrings.simSoundOffString.value;
+  const soundOnOffString = JoistA11yStrings.soundOnOffButton.value;
+  const simSoundOnString = JoistA11yStrings.simSoundOnString.value;
+  const simSoundOffString = JoistA11yStrings.simSoundOffString.value;
 
   // constants for node background
-  var NODE_HEIGHT = 22.0;
-  var NODE_WIDTH = NODE_HEIGHT * 1.13;
+  const NODE_HEIGHT = 22.0;
+  const NODE_WIDTH = NODE_HEIGHT * 1.13;
 
   // constants for drawing speaker
-  var SPEAKER_HEIGHT = NODE_HEIGHT * 0.77;
-  var SPEAKER_WIDTH = SPEAKER_HEIGHT * 0.58;
-  var SPEAKER_BACK_WIDTH = SPEAKER_WIDTH * 0.46;
-  var SPEAKER_BACK_HEIGHT = SPEAKER_HEIGHT * 0.35;
-  var SPEAKER_BACK_Y_SPACE = ( SPEAKER_HEIGHT - SPEAKER_BACK_HEIGHT ) / 2.0; // space between top of speaker back and top of cone
-  var CORNER_RADIUS = 1.0;
+  const SPEAKER_HEIGHT = NODE_HEIGHT * 0.77;
+  const SPEAKER_WIDTH = SPEAKER_HEIGHT * 0.58;
+  const SPEAKER_BACK_WIDTH = SPEAKER_WIDTH * 0.46;
+  const SPEAKER_BACK_HEIGHT = SPEAKER_HEIGHT * 0.35;
+  const SPEAKER_BACK_Y_SPACE = ( SPEAKER_HEIGHT - SPEAKER_BACK_HEIGHT ) / 2.0; // space between top of speaker back and top of cone
+  const CORNER_RADIUS = 1.0;
 
   // constant for drawing sound off X
-  var X_WIDTH = SPEAKER_HEIGHT * 0.52;
+  const X_WIDTH = SPEAKER_HEIGHT * 0.52;
 
   // constants for drawing sound on curves
-  var MAX_CURVE_RADIUS = SPEAKER_HEIGHT * 0.63;
-  var RADIUS_STEPPER = SPEAKER_HEIGHT * 0.23;
-  var MED_CURVE_RADIUS = MAX_CURVE_RADIUS - RADIUS_STEPPER;
-  var MIN_CURVE_RADIUS = MED_CURVE_RADIUS - RADIUS_STEPPER;
-  var CURVE_ANGLE = Math.PI / 2.7;
-  var NEG_CURVE_ANGLE = CURVE_ANGLE * -1.0;
+  const MAX_CURVE_RADIUS = SPEAKER_HEIGHT * 0.63;
+  const RADIUS_STEPPER = SPEAKER_HEIGHT * 0.23;
+  const MED_CURVE_RADIUS = MAX_CURVE_RADIUS - RADIUS_STEPPER;
+  const MIN_CURVE_RADIUS = MED_CURVE_RADIUS - RADIUS_STEPPER;
+  const CURVE_ANGLE = Math.PI / 2.7;
+  const NEG_CURVE_ANGLE = CURVE_ANGLE * -1.0;
 
   /**
    * @param {BooleanProperty} soundEnabledProperty
@@ -61,7 +61,7 @@ define( require => {
    * @constructor
    */
   function NavigationBarSoundToggleButton( soundEnabledProperty, backgroundColorProperty, tandem, options ) {
-    var self = this;
+    const self = this;
 
     options = _.extend( {
       highlightExtensionWidth: 5,
@@ -76,14 +76,14 @@ define( require => {
       innerContent: soundOnOffString
     }, options );
 
-    var soundOnNode = new Node();
-    var soundOffNode = new Node();
-    var backgroundNode = new Rectangle( 0, 0, NODE_WIDTH, NODE_HEIGHT, { fill: 'transparent' } );
+    const soundOnNode = new Node();
+    const soundOffNode = new Node();
+    const backgroundNode = new Rectangle( 0, 0, NODE_WIDTH, NODE_HEIGHT, { fill: 'transparent' } );
     soundOnNode.addChild( backgroundNode );
     soundOffNode.addChild( backgroundNode );
 
     // create speaker for both sound on and sound off
-    var speakerNode = new Path(
+    const speakerNode = new Path(
       new Shape()
         .moveTo( SPEAKER_WIDTH, 0 )
         .lineTo( SPEAKER_BACK_WIDTH, SPEAKER_BACK_Y_SPACE )
@@ -108,7 +108,7 @@ define( require => {
     soundOffNode.addChild( speakerNode );
 
     // create X for sound off
-    var soundOffX = new Path(
+    const soundOffX = new Path(
       new Shape().moveTo( 0, 0 ).lineTo( X_WIDTH, X_WIDTH ).moveTo( 0, X_WIDTH ).lineTo( X_WIDTH, 0 ),
       {
         stroke: 'black',
@@ -121,7 +121,7 @@ define( require => {
     soundOffNode.addChild( soundOffX );
 
     // create curved lines for sound on
-    var soundOnCurves = new Path(
+    const soundOnCurves = new Path(
       new Shape()
         .arc( 0, 0, MAX_CURVE_RADIUS, CURVE_ANGLE, NEG_CURVE_ANGLE, true )
         .moveToPoint( new Vector2( MED_CURVE_RADIUS, 0 ).rotated( CURVE_ANGLE ) )
@@ -138,7 +138,7 @@ define( require => {
     );
     soundOnNode.addChild( soundOnCurves );
 
-    var toggleNode = new ToggleNode( soundEnabledProperty,
+    const toggleNode = new ToggleNode( soundEnabledProperty,
       [
         { value: true, node: soundOnNode },
         { value: false, node: soundOffNode }
@@ -150,8 +150,8 @@ define( require => {
 
     // accessible attribute lets user know when the toggle is pressed, linked lazily so that an alert isn't triggered
     // on construction and must be unlinked in dispose
-    var soundUtterance = new ActivationUtterance();
-    var pressedListener = function( value ) {
+    const soundUtterance = new ActivationUtterance();
+    const pressedListener = function( value ) {
       self.setAccessibleAttribute( 'aria-pressed', !value );
 
       soundUtterance.alert = value ? simSoundOnString : simSoundOffString;
@@ -162,7 +162,7 @@ define( require => {
 
     // change the icon so that it is visible when the background changes from dark to light
     backgroundColorProperty.link( function( backgroundColor ) {
-      var baseColor = backgroundColor === 'black' ? 'white' : 'black';
+      const baseColor = backgroundColor === 'black' ? 'white' : 'black';
       speakerNode.stroke = baseColor;
       soundOffX.stroke = baseColor;
       soundOnCurves.stroke = baseColor;

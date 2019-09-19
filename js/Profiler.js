@@ -37,8 +37,8 @@ define( require => {
 
 
   // constants
-  var FIELD_SEPARATOR = ' \u2014 '; // em dash, a long horizontal dash
-  var HISTOGRAM_LENGTH = 30;
+  const FIELD_SEPARATOR = ' \u2014 '; // em dash, a long horizontal dash
+  const HISTOGRAM_LENGTH = 30;
 
   /**
    * Construct a Profiler
@@ -54,7 +54,7 @@ define( require => {
     this.previousFrameStartTime = 0; // {number} start time of the previous frame
 
     // initialize histogram
-    for ( var i = 0; i < HISTOGRAM_LENGTH; i++ ) {
+    for ( let i = 0; i < HISTOGRAM_LENGTH; i++ ) {
       this.histogram.push( 0 );
     }
 
@@ -77,17 +77,17 @@ define( require => {
       // update the display every 60 frames
       if ( this.allTimes.length > 0 && this.allTimes.length % 60 === 0 ) {
 
-        var totalTime = 0;
+        let totalTime = 0;
         for ( var i = 0; i < this.allTimes.length; i++ ) {
           totalTime += this.allTimes[ i ];
         }
 
         // FPS
-        var averageFPS = Util.roundSymmetric( 1000 / (totalTime / this.allTimes.length) );
-        var text = '' + averageFPS + ' FPS';
+        const averageFPS = Util.roundSymmetric( 1000 / (totalTime / this.allTimes.length) );
+        let text = '' + averageFPS + ' FPS';
 
         // ms/frame
-        var averageFrameTime = Util.roundSymmetric( totalTime / this.allTimes.length );
+        const averageFrameTime = Util.roundSymmetric( totalTime / this.allTimes.length );
         text = text + FIELD_SEPARATOR + averageFrameTime + 'ms/frame';
 
         // histogram
@@ -112,7 +112,7 @@ define( require => {
 
       // record data for the current frame, skip first frame because we can't compute its dt
       if ( this.previousFrameStartTime ) {
-        var dt = this.frameStartTime - this.previousFrameStartTime;
+        const dt = this.frameStartTime - this.previousFrameStartTime;
         this.allTimes.push( dt );
         if ( dt < HISTOGRAM_LENGTH ) {
           this.histogram[ dt ]++; // increment the histogram cell for the corresponding time
@@ -128,7 +128,7 @@ define( require => {
 
     // @public
     start: function( sim ) {
-      var profiler = new Profiler();
+      const profiler = new Profiler();
       sim.frameStartedEmitter.addListener( function() {
         profiler.frameStarted();
       } );

@@ -14,9 +14,9 @@ define( require => {
   const joist = require( 'JOIST/joist' );
 
   // variables
-  var started = false;
+  let started = false;
 
-  var Heartbeat = {
+  const Heartbeat = {
 
     /**
      * Initializes the heartbeat div to begin ticking to prevent Safari from going to sleep.
@@ -27,7 +27,7 @@ define( require => {
       assert && assert( !started, 'Heartbeat can only be started once' );
       started = true;
 
-      var heartbeatDiv = document.createElement( 'div' );
+      const heartbeatDiv = document.createElement( 'div' );
       heartbeatDiv.style.opacity = 0;
 
       // Extra style (also used for accessibility) that makes it take up no visual layout space.
