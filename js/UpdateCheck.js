@@ -17,7 +17,7 @@ define( require => {
   const joist = require( 'JOIST/joist' );
   const packageJSON = require( 'JOIST/packageJSON' ); // parse name/version out of the package.json
   const Property = require( 'AXON/Property' );
-  const SimVersion = require( 'JOIST/SimVersion' );
+  const SimVersion = phet.preloads.chipper.SimVersion; // use preload from chipper (auto-copied from perennial)
 
   const simName = packageJSON.name;
   const simVersion = SimVersion.parse( packageJSON.version, phet.chipper.buildTimestamp );
