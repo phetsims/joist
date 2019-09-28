@@ -34,4 +34,4 @@ define( require => {
   }
 
   return joist.register( 'KebabMenuIcon', KebabMenuIcon );
-} ); 
+} );
