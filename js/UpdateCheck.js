@@ -37,8 +37,8 @@ define( require => {
       ]
     } );
 
-    // @public (joist-internal) {SimVersion} will be filled in by check() if applicable
-    this.latestVersionProperty = new Property( null );
+    // @public (read-only joist-internal) {SimVersion} will be filled in by check() if applicable
+    this.latestVersion = null;
 
     this.ourVersion = simVersion; // @public (joist-internal) {SimVersion} version of the sim that is running
 
