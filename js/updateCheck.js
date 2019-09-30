@@ -13,10 +13,11 @@ define( require => {
 
   // modules
   const Brand = require( 'BRAND/Brand' );
+  const EnumerationProperty = require( 'AXON/EnumerationProperty' );
   const joist = require( 'JOIST/joist' );
   const packageJSON = require( 'JOIST/packageJSON' ); // parse name/version out of the package.json
-  const Property = require( 'AXON/Property' );
   const SimVersion = phet.preloads.chipper.SimVersion; // use preload from chipper (auto-copied from perennial)
+  const UpdateState = require( 'JOIST/UpdateState' );
 
   // constants
   const simName = packageJSON.name;
@@ -27,16 +28,8 @@ define( require => {
   class UpdateCheck {
     constructor() {
 
-      // @public (read-only joist-internal) {Property.<string>}
-      this.stateProperty = new Property( 'unchecked', {
-        validValues: [
-          'up-to-date',  // Simulation version is equal to or greater than the currently published version.
-          'out-of-date', // Simulation version is less than currently published version (or equal but has a suffix)
-          'checking',    // Request to server sent out, has not processed reply yet.
-          'offline',     // Last attempt to check failed, most likely offline
-          'unchecked'    // No attempt as been made to check the version against the latest online.
-        ]
-      } );
+      // @public (read-only joist-internal) {Property.<UpdateState>}
+      this.stateProperty = new EnumerationProperty( UpdateState, UpdateState.UNCHECKED );
 
       // @public (read-only joist-internal) {SimVersion|null} will be filled in by check() if applicable
       this.latestVersion = null;
@@ -56,7 +49,7 @@ define( require => {
                        '&version=' + encodeURIComponent( simVersion.toString() ) +
                        '&buildTimestamp=' + encodeURIComponent( '' + phet.chipper.buildTimestamp );
 
-      // @private {number} - Valid only if `state === 'checking'`, the timeout ID of our timeout listener
+      // @private {number} - Valid only if `state === UpdateState.CHECKING`, the timeout ID of our timeout listener
       this.timeoutId = -1;
     }
 
@@ -72,7 +65,7 @@ define( require => {
 
     // @public - If we are checking, it resets our timeout timer to TIMEOUT_MILLISECONDS
     resetTimeout() {
-      if ( this.stateProperty.value === 'checking' ) {
+      if ( this.stateProperty.value === UpdateState.CHECKING ) {
         this.clearTimeout();
         this.setTimeout();
       }
@@ -80,7 +73,7 @@ define( require => {
 
     // @private - What happens when we actually time out.
     timeout() {
-      this.stateProperty.value = 'offline';
+      this.stateProperty.value = UpdateState.OFFLINE;
     }
 
     /**
@@ -89,13 +82,13 @@ define( require => {
     check() {
       const self = this;
 
-      if ( !this.areUpdatesChecked || ( self.stateProperty.value !== 'unchecked' && self.stateProperty.value !== 'offline' ) ) {
+      if ( !this.areUpdatesChecked || ( self.stateProperty.value !== UpdateState.UNCHECKED && self.stateProperty.value !== UpdateState.OFFLINE ) ) {
         return;
       }
 
       // If our sim's version indicates it hasn't been published, don't attempt to send a request for now
       if ( this.ourVersion.isSimNotPublished ) {
-        self.stateProperty.value = 'up-to-date';
+        self.stateProperty.value = UpdateState.UP_TO_DATE;
         return;
       }
 
@@ -103,7 +96,7 @@ define( require => {
 
       if ( 'withCredentials' in req ) {
         // we'll be able to send the proper type of request, so we mark ourself as checking
-        self.stateProperty.value = 'checking';
+        self.stateProperty.value = UpdateState.CHECKING;
 
         self.setTimeout();
 
@@ -115,7 +108,7 @@ define( require => {
 
             if ( data.error ) {
               console.log( 'Update check failure: ' + data.error );
-              self.stateProperty.value = 'offline';
+              self.stateProperty.value = UpdateState.OFFLINE;
             }
             else {
               if ( self.updateURL ) {
@@ -123,23 +116,28 @@ define( require => {
               }
               self.latestVersion = SimVersion.parse( data.latestVersion, data.buildTimestamp );
 
-              if ( data.state === 'out-of-date' || data.state === 'up-to-date' ) {
-                self.stateProperty.value = data.state;
+              // these `state` strings come from the website service, and should be kept in sync with
+              // website\src\java\edu\colorado\phet\website\services\CheckHTMLUpdates.java
+              if ( data.state === 'out-of-date' ) {
+                self.stateProperty.value = UpdateState.OUT_OF_DATE;
+              }
+              else if ( data.state === 'up-to-date' ) {
+                self.stateProperty.value = UpdateState.UP_TO_DATE;
               }
               else {
                 console.log( 'Failed to get proper state: ' + data.state );
-                self.stateProperty.value = 'offline';
+                self.stateProperty.value = UpdateState.OFFLINE;
               }
             }
           }
           catch( e ) {
-            self.stateProperty.value = 'offline';
+            self.stateProperty.value = UpdateState.OFFLINE;
           }
         };
         req.onerror = function() {
           self.clearTimeout();
 
-          self.stateProperty.value = 'offline';
+          self.stateProperty.value = UpdateState.OFFLINE;
         };
         req.open( 'post', requestProtocolString + '//phet.colorado.edu/services/check-html-updates', true ); // enable CORS
         req.send( JSON.stringify( {

@@ -19,6 +19,7 @@ define( require => {
   const Text = require( 'SCENERY/nodes/Text' );
   const TextPushButton = require( 'SUN/buttons/TextPushButton' );
   const updateCheck = require( 'JOIST/updateCheck' );
+  const UpdateState = require( 'JOIST/UpdateState' );
   const VBox = require( 'SCENERY/nodes/VBox' );
   const VStrut = require( 'SCENERY/nodes/VStrut' );
 
@@ -61,7 +62,7 @@ define( require => {
         innerContent: updatesCheckingString
       }, options ) );
       checkingNode.step = function( dt ) {
-        if ( updateCheck.stateProperty === 'checking' ) {
+        if ( updateCheck.stateProperty.value === UpdateState.CHECKING ) {
           spinningIndicatorNode.step( dt );
         }
       };

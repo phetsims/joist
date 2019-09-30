@@ -23,6 +23,7 @@ define( require => {
   const timer = require( 'AXON/timer' );
   const updateCheck = require( 'JOIST/updateCheck' );
   const UpdateNodes = require( 'JOIST/UpdateNodes' );
+  const UpdateState = require( 'JOIST/UpdateState' );
   const VBox = require( 'SCENERY/nodes/VBox' );
   const VStrut = require( 'SCENERY/nodes/VStrut' );
 
@@ -83,12 +84,12 @@ define( require => {
       // @private - Listener that should be called every frame where we are shown, with {number} dt as a single parameter.
       this.updateStepListener = checkingNode.stepListener;
 
-      // @private - Listener that should be called whenever our update state changes (while we are displayed)
+      // @private {function(UpdateState)} - Listener that should be called whenever our update state changes (while we are displayed)
       this.updateVisibilityListener = function( state ) {
-        checkingNode.visible = state === 'checking';
-        upToDateNode.visible = state === 'up-to-date';
-        outOfDateNode.visible = state === 'out-of-date';
-        offlineNode.visible = state === 'offline';
+        checkingNode.visible = state === UpdateState.CHECKING;
+        upToDateNode.visible = state === UpdateState.UP_TO_DATE;
+        outOfDateNode.visible = state === UpdateState.OUT_OF_DATE;
+        offlineNode.visible = state === UpdateState.OFFLINE;
 
         // a11y - make update content visible/invisible for screen readers by explicitly removing content
         // from the DOM, necessary because AT will ready hidden content in a Dialog.
@@ -128,8 +129,8 @@ define( require => {
     // Show the brand copyright statement, if it exists
     if ( Brand.copyright ) {
       const year = phet.chipper.buildTimestamp ? // defined for built versions
-                 phet.chipper.buildTimestamp.split( '-' )[ 0 ] : // e.g. "2017-04-20 19:04:59 UTC" -> "2017"
-                 new Date().getFullYear(); // in requirejs mode
+                   phet.chipper.buildTimestamp.split( '-' )[ 0 ] : // e.g. "2017-04-20 19:04:59 UTC" -> "2017"
+                   new Date().getFullYear(); // in requirejs mode
 
       const copyright = StringUtils.fillIn( Brand.copyright, { year: year } );
 
@@ -240,7 +241,7 @@ define( require => {
         updateCheck.resetTimeout();
 
         // Fire off a new update check if we were marked as offline or unchecked before, and we handle updates.
-        if ( updateCheck.stateProperty.value === 'offline' || updateCheck.stateProperty.value === 'unchecked' ) {
+        if ( updateCheck.stateProperty.value === UpdateState.OFFLINE || updateCheck.stateProperty.value === UpdateState.UNCHECKED ) {
           updateCheck.check();
         }
 

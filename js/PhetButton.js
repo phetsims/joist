@@ -21,6 +21,7 @@ define( require => {
   const PhetMenu = require( 'JOIST/PhetMenu' );
   const Property = require( 'AXON/Property' );
   const updateCheck = require( 'JOIST/updateCheck' );
+  const UpdateState = require( 'JOIST/UpdateState' );
 
   // a11y strings
   const phetString = JoistA11yStrings.phet.value;
@@ -108,7 +109,7 @@ define( require => {
     Property.multilink( [ backgroundFillProperty, sim.showHomeScreenProperty, updateCheck.stateProperty ],
       function( backgroundFill, showHomeScreen, updateState ) {
         const backgroundIsWhite = backgroundFill !== 'black' && !showHomeScreen;
-        const outOfDate = updateState === 'out-of-date';
+        const outOfDate = updateState === UpdateState.OUT_OF_DATE;
         menuIcon.fill = backgroundIsWhite ? ( outOfDate ? '#0a0' : '#222' ) : ( outOfDate ? '#3F3' : 'white' );
         logoImage.image = backgroundIsWhite ? darkLogoMipmap : brightLogoMipmap;
       } );

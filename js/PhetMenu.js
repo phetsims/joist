@@ -36,6 +36,7 @@ define( require => {
   const Text = require( 'SCENERY/nodes/Text' );
   const updateCheck = require( 'JOIST/updateCheck' );
   const UpdateDialog = require( 'JOIST/UpdateDialog' );
+  const UpdateState = require( 'JOIST/UpdateState' );
 
   // strings
   const menuItemAboutString = require( 'string!JOIST/menuItem.about' );
@@ -222,7 +223,7 @@ define( require => {
         text: menuItemGetUpdateString,
         present: updateCheck.areUpdatesChecked,
         textFill: new DerivedProperty( [ updateCheck.stateProperty ], function( state ) {
-          return state === 'out-of-date' ? '#0a0' : '#000';
+          return state === UpdateState.OUT_OF_DATE ? '#0a0' : '#000';
         } ),
         callback: function() {
           if ( !updateDialog ) {

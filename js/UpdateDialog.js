@@ -16,9 +16,10 @@ define( require => {
   const timer = require( 'AXON/timer' );
   const updateCheck = require( 'JOIST/updateCheck' );
   const UpdateNodes = require( 'JOIST/UpdateNodes' );
+  const UpdateState = require( 'JOIST/UpdateState' );
 
   /**
-   * @param {PhETButton} phetButton - PhET button in the navigation bar, receives focus when this dialog is closed
+   * @param {PhetButton} phetButton - PhET button in the navigation bar, receives focus when this dialog is closed
    */
   function UpdateDialog( phetButton ) {
     assert && assert( updateCheck.areUpdatesChecked,
@@ -55,14 +56,14 @@ define( require => {
 
     // Listener that should be called whenever our update state changes (while we are displayed)
     this.updateVisibilityListener = function( state ) {
-      if ( state === 'out-of-date' ) {
+      if ( state === UpdateState.OUT_OF_DATE ) {
         updateOutOfDateNode();
       }
 
-      checkingNode.visible = state === 'checking';
-      upToDateNode.visible = state === 'up-to-date';
-      outOfDateNode.visible = state === 'out-of-date';
-      offlineNode.visible = state === 'offline';
+      checkingNode.visible = state === UpdateState.CHECKING;
+      upToDateNode.visible = state === UpdateState.UP_TO_DATE;
+      outOfDateNode.visible = state === UpdateState.OUT_OF_DATE;
+      offlineNode.visible = state === UpdateState.OFFLINE;
 
       // a11y - update visibility of update nodes for screen readers by adding/removing content from the DOM, 
       // necessary because screen readers will read hidden content in a Dialog
@@ -105,7 +106,7 @@ define( require => {
         updateCheck.resetTimeout();
 
         // Fire off a new update check if we were marked as offline or unchecked before, and we handle updates.
-        if ( updateCheck.stateProperty.value === 'offline' || updateCheck.stateProperty === 'unchecked' ) {
+        if ( updateCheck.stateProperty.value === UpdateState.OFFLINE || updateCheck.stateProperty.value === UpdateState.UNCHECKED ) {
           updateCheck.check();
         }
 
