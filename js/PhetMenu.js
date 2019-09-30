@@ -34,7 +34,7 @@ define( require => {
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Tandem = require( 'TANDEM/Tandem' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const UpdateCheck = require( 'JOIST/UpdateCheck' );
+  const updateCheck = require( 'JOIST/updateCheck' );
   const UpdateDialog = require( 'JOIST/UpdateDialog' );
 
   // strings
@@ -220,8 +220,8 @@ define( require => {
       },
       {
         text: menuItemGetUpdateString,
-        present: UpdateCheck.areUpdatesChecked,
-        textFill: new DerivedProperty( [ UpdateCheck.stateProperty ], function( state ) {
+        present: updateCheck.areUpdatesChecked,
+        textFill: new DerivedProperty( [ updateCheck.stateProperty ], function( state ) {
           return state === 'out-of-date' ? '#0a0' : '#000';
         } ),
         callback: function() {

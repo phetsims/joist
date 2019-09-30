@@ -18,7 +18,7 @@ define( require => {
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Text = require( 'SCENERY/nodes/Text' );
   const TextPushButton = require( 'SUN/buttons/TextPushButton' );
-  const UpdateCheck = require( 'JOIST/UpdateCheck' );
+  const updateCheck = require( 'JOIST/updateCheck' );
   const VBox = require( 'SCENERY/nodes/VBox' );
   const VStrut = require( 'SCENERY/nodes/VStrut' );
 
@@ -61,7 +61,7 @@ define( require => {
         innerContent: updatesCheckingString
       }, options ) );
       checkingNode.step = function( dt ) {
-        if ( UpdateCheck.stateProperty === 'checking' ) {
+        if ( updateCheck.stateProperty === 'checking' ) {
           spinningIndicatorNode.step( dt );
         }
       };
@@ -106,7 +106,7 @@ define( require => {
         children: [
           new FontAwesomeNode( 'warning_sign', { fill: '#E87600', scale: 0.5 } ), // "safety orange", according to Wikipedia
           new RichText( '<a href="{{url}}">' + updatesOutOfDateString + '</a>', {
-            links: { url: UpdateCheck.updateURL }, // RichText must fill in URL for link
+            links: { url: updateCheck.updateURL }, // RichText must fill in URL for link
             font: updateTextFont
           } )
         ],
@@ -140,7 +140,7 @@ define( require => {
           ] } ),
           new HBox( { spacing: 25, children: [
             new TextPushButton( updatesGetUpdateString, { baseColor: '#6f6', font: updateTextFont, listener: function() {
-              openPopup( UpdateCheck.updateURL ); // open in a new window/tab
+              openPopup( updateCheck.updateURL ); // open in a new window/tab
             } } ),
             new TextPushButton( updatesNoThanksString, { baseColor: '#ddd', font: updateTextFont, listener: function() {
               dialog.hide();

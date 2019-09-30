@@ -21,7 +21,7 @@ define( require => {
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Text = require( 'SCENERY/nodes/Text' );
   const timer = require( 'AXON/timer' );
-  const UpdateCheck = require( 'JOIST/UpdateCheck' );
+  const updateCheck = require( 'JOIST/updateCheck' );
   const UpdateNodes = require( 'JOIST/UpdateNodes' );
   const VBox = require( 'SCENERY/nodes/VBox' );
   const VStrut = require( 'SCENERY/nodes/VStrut' );
@@ -73,7 +73,7 @@ define( require => {
       } ) );
     }
 
-    if ( UpdateCheck.areUpdatesChecked ) {
+    if ( updateCheck.areUpdatesChecked ) {
       const positionOptions = { left: 0, top: 0 };
       const checkingNode = UpdateNodes.createCheckingNode( positionOptions );
       const upToDateNode = UpdateNodes.createUpToDateNode( positionOptions );
@@ -236,19 +236,19 @@ define( require => {
      * @override
      */
     show: function() {
-      if ( UpdateCheck.areUpdatesChecked && !this.isShowingProperty.value ) {
-        UpdateCheck.resetTimeout();
+      if ( updateCheck.areUpdatesChecked && !this.isShowingProperty.value ) {
+        updateCheck.resetTimeout();
 
         // Fire off a new update check if we were marked as offline or unchecked before, and we handle updates.
-        if ( UpdateCheck.stateProperty.value === 'offline' || UpdateCheck.stateProperty.value === 'unchecked' ) {
-          UpdateCheck.check();
+        if ( updateCheck.stateProperty.value === 'offline' || updateCheck.stateProperty.value === 'unchecked' ) {
+          updateCheck.check();
         }
 
         // Hook up our spinner listener when we're shown
         timer.addListener( this.updateStepListener );
 
         // Hook up our visibility listener
-        UpdateCheck.stateProperty.link( this.updateVisibilityListener );
+        updateCheck.stateProperty.link( this.updateVisibilityListener );
       }
 
       Dialog.prototype.show.call( this );
@@ -263,10 +263,10 @@ define( require => {
       if ( this.isShowingProperty.value ) {
         Dialog.prototype.hide.call( this );
 
-        if ( UpdateCheck.areUpdatesChecked ) {
+        if ( updateCheck.areUpdatesChecked ) {
 
           // Disconnect our visibility listener
-          UpdateCheck.stateProperty.unlink( this.updateVisibilityListener );
+          updateCheck.stateProperty.unlink( this.updateVisibilityListener );
 
           // Disconnect our spinner listener when we're hidden
           timer.removeListener( this.updateStepListener );

@@ -46,7 +46,7 @@ define( require => {
   const soundManager = require( 'TAMBO/soundManager' );
   const Tandem = require( 'TANDEM/Tandem' );
   const timer = require( 'AXON/timer' );
-  const UpdateCheck = require( 'JOIST/UpdateCheck' );
+  const updateCheck = require( 'JOIST/updateCheck' );
   const Util = require( 'SCENERY/util/Util' );
   const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
@@ -748,7 +748,7 @@ define( require => {
       this.resizeToWindow();
 
       // Kick off checking for updates, if that is enabled
-      UpdateCheck.check();
+      updateCheck.check();
 
       // @public (joist-internal) - Keep track of the previous time for computing dt, and initially signify that time
       // hasn't been recorded yet.

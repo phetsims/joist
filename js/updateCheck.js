@@ -13,83 +13,80 @@ define( require => {
 
   // modules
   const Brand = require( 'BRAND/Brand' );
-  const inherit = require( 'PHET_CORE/inherit' );
   const joist = require( 'JOIST/joist' );
   const packageJSON = require( 'JOIST/packageJSON' ); // parse name/version out of the package.json
   const Property = require( 'AXON/Property' );
   const SimVersion = phet.preloads.chipper.SimVersion; // use preload from chipper (auto-copied from perennial)
 
+  // constants
   const simName = packageJSON.name;
   const simVersion = SimVersion.parse( packageJSON.version, phet.chipper.buildTimestamp );
   const requestProtocolString = ( 'https:' === document.location.protocol ? 'https:' : 'http:' );
+  const TIMEOUT_MILLISECONDS = 15000; // How many ms before we time out (set to 'offline')
 
-  // NOTE: singleton type!
-  function UpdateCheck() {
+  class UpdateCheck {
+    constructor() {
 
-    // @public (joist-internal)
-    this.stateProperty = new Property( 'unchecked', {
-      validValues: [
-        'up-to-date',  // Simulation version is equal to or greater than the currently published version.
-        'out-of-date', // Simulation version is less than currently published version (or equal but has a suffix)
-        'checking',    // Request to server sent out, has not processed reply yet.
-        'offline',     // Last attempt to check failed, most likely offline
-        'unchecked'    // No attempt as been made to check the version against the latest online.
-      ]
-    } );
+      // @public (read-only joist-internal) {Property.<string>}
+      this.stateProperty = new Property( 'unchecked', {
+        validValues: [
+          'up-to-date',  // Simulation version is equal to or greater than the currently published version.
+          'out-of-date', // Simulation version is less than currently published version (or equal but has a suffix)
+          'checking',    // Request to server sent out, has not processed reply yet.
+          'offline',     // Last attempt to check failed, most likely offline
+          'unchecked'    // No attempt as been made to check the version against the latest online.
+        ]
+      } );
 
-    // @public (read-only joist-internal) {SimVersion|null} will be filled in by check() if applicable
-    this.latestVersion = null;
+      // @public (read-only joist-internal) {SimVersion|null} will be filled in by check() if applicable
+      this.latestVersion = null;
 
-    this.ourVersion = simVersion; // @public (joist-internal) {SimVersion} version of the sim that is running
+      this.ourVersion = simVersion; // @public (joist-internal) {SimVersion} version of the sim that is running
 
-    this.timeoutCallback = this.timeout.bind( this ); // @public (joist-internal)
-  }
+      // @private
+      this.timeoutCallback = this.timeout.bind( this );
 
-  inherit( Object, UpdateCheck, {
+      // @public - Whether we actually allow checking for updates, or showing any update-related UIs.
+      // If it's not PhET-branded OR if it is phet-io or in the phet-app, do not check for updates
+      this.areUpdatesChecked = Brand.id === 'phet' && !Brand.isPhetApp;
 
-    // @public - Whether we actually allow checking for updates, or showing any update-related UIs.
-    // If it's not PhET-branded OR if it is phet-io or in the phet-app, do not check for updates
-    areUpdatesChecked: Brand.id === 'phet' && !Brand.isPhetApp,
+      // @public - The URL to be used for "New version available" clicks
+      this.updateURL = 'http://phet.colorado.edu/html-sim-update' +
+                       '?simulation=' + encodeURIComponent( simName ) +
+                       '&version=' + encodeURIComponent( simVersion.toString() ) +
+                       '&buildTimestamp=' + encodeURIComponent( '' + phet.chipper.buildTimestamp );
 
-    // @public - The URL to be used for "New version available" clicks
-    updateURL: 'http://phet.colorado.edu/html-sim-update' +
-               '?simulation=' + encodeURIComponent( simName ) +
-               '&version=' + encodeURIComponent( simVersion.toString() ) +
-               '&buildTimestamp=' + encodeURIComponent( '' + phet.chipper.buildTimestamp ),
-
-    // @private - Valid only if state === 'checking', the timeout ID of our timeout listener
-    timeoutId: -1,
-
-    // @private - How many ms before we time out (set to 'offline')
-    timeoutMilliseconds: 15000,
+      // @private {number} - Valid only if `state === 'checking'`, the timeout ID of our timeout listener
+      this.timeoutId = -1;
+    }
 
     // @private - Clears our timeout listener.
-    clearTimeout: function() {
+    clearTimeout() {
       window.clearTimeout( this.timeoutId );
-    },
+    }
 
     // @private - Sets our timeout listener.
-    setTimeout: function() {
-      this.timeoutId = window.setTimeout( this.timeoutCallback, this.timeoutMilliseconds );
-    },
+    setTimeout() {
+      this.timeoutId = window.setTimeout( this.timeoutCallback, TIMEOUT_MILLISECONDS );
+    }
 
-    // @public - If we are checking, it resets our timeout timer to timeoutMilliseconds
-    resetTimeout: function() {
+    // @public - If we are checking, it resets our timeout timer to TIMEOUT_MILLISECONDS
+    resetTimeout() {
       if ( this.stateProperty.value === 'checking' ) {
         this.clearTimeout();
         this.setTimeout();
       }
-    },
+    }
 
     // @private - What happens when we actually time out.
-    timeout: function() {
+    timeout() {
       this.stateProperty.value = 'offline';
-    },
+    }
 
     /**
      * @public - Kicks off the version checking request (if able), resulting in state changes.
      */
-    check: function() {
+    check() {
       const self = this;
 
       if ( !this.areUpdatesChecked || ( self.stateProperty.value !== 'unchecked' && self.stateProperty.value !== 'offline' ) ) {
@@ -154,9 +151,7 @@ define( require => {
         } ) );
       }
     }
-  } );
+  }
 
-  const singleton = new UpdateCheck();
-  joist.register( 'UpdateCheck', singleton );
-  return singleton;
+  return joist.register( 'updateCheck', new UpdateCheck() );
 } );

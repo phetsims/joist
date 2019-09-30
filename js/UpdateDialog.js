@@ -14,14 +14,14 @@ define( require => {
   const joist = require( 'JOIST/joist' );
   const Node = require( 'SCENERY/nodes/Node' );
   const timer = require( 'AXON/timer' );
-  const UpdateCheck = require( 'JOIST/UpdateCheck' );
+  const updateCheck = require( 'JOIST/updateCheck' );
   const UpdateNodes = require( 'JOIST/UpdateNodes' );
 
   /**
    * @param {PhETButton} phetButton - PhET button in the navigation bar, receives focus when this dialog is closed
    */
   function UpdateDialog( phetButton ) {
-    assert && assert( UpdateCheck.areUpdatesChecked,
+    assert && assert( updateCheck.areUpdatesChecked,
       'Updates need to be checked for UpdateDialog to be created' );
 
     const self = this;
@@ -40,8 +40,8 @@ define( require => {
 
     function updateOutOfDateNode() {
       // fallback size placeholder for version
-      const latestVersionString = UpdateCheck.latestVersion ? UpdateCheck.latestVersion.toString() : 'x.x.xx';
-      const ourVersionString = UpdateCheck.ourVersion.toString();
+      const latestVersionString = updateCheck.latestVersion ? updateCheck.latestVersion.toString() : 'x.x.xx';
+      const ourVersionString = updateCheck.ourVersion.toString();
 
       outOfDateNode.children = [
         UpdateNodes.createOutOfDateDialogNode( self, ourVersionString, latestVersionString, positionOptions )
@@ -101,19 +101,19 @@ define( require => {
      * @public (joist-internal)
      */
     show: function() {
-      if ( UpdateCheck.areUpdatesChecked && !this.isShowingProperty.value ) {
-        UpdateCheck.resetTimeout();
+      if ( updateCheck.areUpdatesChecked && !this.isShowingProperty.value ) {
+        updateCheck.resetTimeout();
 
         // Fire off a new update check if we were marked as offline or unchecked before, and we handle updates.
-        if ( UpdateCheck.stateProperty.value === 'offline' || UpdateCheck.stateProperty === 'unchecked' ) {
-          UpdateCheck.check();
+        if ( updateCheck.stateProperty.value === 'offline' || updateCheck.stateProperty === 'unchecked' ) {
+          updateCheck.check();
         }
 
         // Hook up our spinner listener when we're shown
         timer.addListener( this.updateStepListener );
 
         // Hook up our visibility listener
-        UpdateCheck.stateProperty.link( this.updateVisibilityListener );
+        updateCheck.stateProperty.link( this.updateVisibilityListener );
       }
 
       Dialog.prototype.show.call( this );
@@ -127,10 +127,10 @@ define( require => {
       if ( this.isShowingProperty.value ) {
         Dialog.prototype.hide.call( this );
 
-        if ( UpdateCheck.areUpdatesChecked ) {
+        if ( updateCheck.areUpdatesChecked ) {
 
           // Disconnect our visibility listener
-          UpdateCheck.stateProperty.unlink( this.updateVisibilityListener );
+          updateCheck.stateProperty.unlink( this.updateVisibilityListener );
 
           // Disconnect our spinner listener when we're hidden
           timer.removeListener( this.updateStepListener );

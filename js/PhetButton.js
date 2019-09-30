@@ -20,7 +20,7 @@ define( require => {
   const PhetButtonIO = require( 'JOIST/PhetButtonIO' );
   const PhetMenu = require( 'JOIST/PhetMenu' );
   const Property = require( 'AXON/Property' );
-  const UpdateCheck = require( 'JOIST/UpdateCheck' );
+  const updateCheck = require( 'JOIST/updateCheck' );
 
   // a11y strings
   const phetString = JoistA11yStrings.phet.value;
@@ -105,7 +105,7 @@ define( require => {
     JoistButton.call( this, icon, backgroundFillProperty, tandem, options );
 
     // No need to unlink, as the PhetButton exists for the lifetime of the sim
-    Property.multilink( [ backgroundFillProperty, sim.showHomeScreenProperty, UpdateCheck.stateProperty ],
+    Property.multilink( [ backgroundFillProperty, sim.showHomeScreenProperty, updateCheck.stateProperty ],
       function( backgroundFill, showHomeScreen, updateState ) {
         const backgroundIsWhite = backgroundFill !== 'black' && !showHomeScreen;
         const outOfDate = updateState === 'out-of-date';
