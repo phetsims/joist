@@ -48,6 +48,8 @@ define( require => {
       //               the Play Area. This Node is added as a child to the ScreenSummaryNode
       screenSummaryContent: null
     }, options );
+
+    // @public (read-only)
     this.layoutBounds = options.layoutBounds;
 
     Node.call( this, _.extend( {
