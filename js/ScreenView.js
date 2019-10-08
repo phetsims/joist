@@ -42,28 +42,33 @@ define( require => {
   function ScreenView( options ) {
 
     options = _.extend( {
+
+      // {Bounds2} the bounds that are safe to draw in on all supported platforms
       layoutBounds: DEFAULT_LAYOUT_BOUNDS.copy(),
 
-      // {Node|null} - the Node with screen summary content to be added to the ScreenSummaryNode, and into PDOM above
-      //               the Play Area. This Node is added as a child to the ScreenSummaryNode
-      screenSummaryContent: null
-    }, options );
-
-    assert && assert( options.layoutBounds instanceof Bounds2 );
-
-    // @public (read-only) {Bounds2} - the bounds the confine the layout of the view.
-    this.layoutBounds = options.layoutBounds;
-
-    Node.call( this, _.extend( {
+      // Node options
       layerSplit: true, // so we're not in the same layer as the navbar, etc.
       excludeInvisible: true, // so we don't keep invisible screens in the SVG tree
+
+      // phet-io options
       tandem: Tandem.optional,
 
       // a11y options
       containerTagName: 'article',
       tagName: 'div',
-      labelTagName: 'h1'
-    }, options ) );
+      labelTagName: 'h1',
+
+      // {Node|null} the Node with screen summary content to be added to the ScreenSummaryNode, and into PDOM above
+      // the Play Area. This Node is added as a child to the ScreenSummaryNode.
+      screenSummaryContent: null
+
+    }, options );
+
+    // @public (read-only) {Bounds2} - the bounds the confine the layout of the view.
+    assert && assert( options.layoutBounds instanceof Bounds2, 'invalid layoutBounds' );
+    this.layoutBounds = options.layoutBounds;
+
+    Node.call( this, options );
 
     // The visible bounds of the ScreenView in ScreenView coordinates.  This includes top/bottom or left/right margins
     // depending on the aspect ratio of the screen.
