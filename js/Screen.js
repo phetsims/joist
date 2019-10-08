@@ -203,7 +203,7 @@ define( require => {
   };
 
   /**
-   * For showing ScreenView layoutBounds with 'showVisibleBounds' query parameter.
+   * For showing ScreenView visible bounds with 'showVisibleBounds' query parameter.
    * @param {ScreenView} screenView
    * @returns {Node}
    */
