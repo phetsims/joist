@@ -48,9 +48,7 @@ define( require => {
       tandem: Tandem.required,
 
       // Because of the special titleNode, we set the aria-labelledby attribute manually; see below.
-      addAriaLabelledByFromTitle: false,
-
-      maxHeight: 440 // TODO: copied from AboutDialog, see https://github.com/phetsims/gravity-force-lab/issues/144
+      addAriaLabelledByFromTitle: false
     }, options );
 
     // title

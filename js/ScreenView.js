@@ -49,7 +49,9 @@ define( require => {
       screenSummaryContent: null
     }, options );
 
-    // @public (read-only)
+    assert && assert( options.layoutBounds instanceof Bounds2 );
+
+    // @public (read-only) {Bounds2} - the bounds the confine the layout of the view.
     this.layoutBounds = options.layoutBounds;
 
     Node.call( this, _.extend( {

@@ -397,7 +397,9 @@ define( require => {
       self.browserTabVisibleProperty.set( document.visibilityState === 'visible' );
     }, false );
 
-    // @public (joist-internal, read-only) - how the home screen and navbar are scaled
+    // @public (joist-internal, read-only) - How the home screen and navbar are scaled. This scale is based on the
+    // HomeScreen's layout bounds to support a consistently sized nav bar and menu. If this scale was based on the
+    // layout bounds of the current screen, there could be differences in the nav bar across screens.
     this.scaleProperty = new NumberProperty( 1 );
 
     // @public (joist-internal, read-only) {Property.<Bounds2>|null} - global bounds for the entire simulation. null
