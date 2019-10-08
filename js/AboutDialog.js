@@ -33,10 +33,6 @@ define( require => {
   // Maximum width of elements in the dialog
   const MAX_WIDTH = 550;
 
-  // distance from the top of the about dialog to the dev bounds
-  // same as the distance from the bottom of the about dialog to the top of the navigation bar.
-  const EXTERNAL_MARGIN = 12;
-
   /**
    * @param {string} name - The name of the simulation
    * @param {string} version - The version of the simulation
