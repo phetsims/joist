@@ -15,6 +15,7 @@ define( require => {
   const Frame = require( 'JOIST/Frame' );
   const inherit = require( 'PHET_CORE/inherit' );
   const joist = require( 'JOIST/joist' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -39,7 +40,7 @@ define( require => {
    */
   function ScreenButton( large, sim, index, highlightedScreenIndexProperty, tandem, options ) {
 
-    options = _.extend( {
+    options = merge( {
       showUnselectedHomeScreenIconFrame: false, // put a frame around unselected home screen icons
       opacity: 1,  // The small screen's nodes have an opacity of .5
       tandem: tandem, // To be passed into mutate, but tandem should be a required param in joist

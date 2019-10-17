@@ -15,6 +15,7 @@ define( require => {
   const Checkbox = require( 'SUN/Checkbox' );
   const ColorProfile = require( 'SCENERY_PHET/ColorProfile' );
   const joist = require( 'JOIST/joist' );
+  const merge = require( 'PHET_CORE/merge' );
   const OptionsDialog = require( 'JOIST/OptionsDialog' );
   const Tandem = require( 'TANDEM/Tandem' );
   const Text = require( 'SCENERY/nodes/Text' );
@@ -32,7 +33,7 @@ define( require => {
 
       assert && assert( colorProfile instanceof ColorProfile, `invalid colorProfile: ${colorProfile}` );
 
-      options = _.extend( {
+      options = merge( {
 
         // {string} name of the color profile to use when not in projector mode
         defaultColorProfileName: ColorProfile.DEFAULT_COLOR_PROFILE_NAME,

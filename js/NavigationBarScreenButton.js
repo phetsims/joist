@@ -17,6 +17,7 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const joist = require( 'JOIST/joist' );
   const JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -59,7 +60,7 @@ define( require => {
       screenIndexProperty.value = screenIndex;
     }
 
-    options = _.extend( {
+    options = merge( {
       cursor: 'pointer',
       tandem: Tandem.required,
       phetioDocumentation: 'Button in the navigation bar that selects the \'' + screen.screenTandem.name + '\' screen',

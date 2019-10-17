@@ -13,6 +13,7 @@ define( require => {
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
   const joist = require( 'JOIST/joist' );
+  const merge = require( 'PHET_CORE/merge' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const RichText = require( 'SCENERY/nodes/RichText' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
@@ -40,7 +41,7 @@ define( require => {
    */
   function CreditsNode( credits, options ) {
 
-    options = _.extend( {
+    options = merge( {
       align: 'left',
       spacing: 1,
       maxWidth: 550
@@ -63,43 +64,43 @@ define( require => {
     // Primary lead designer should be listed first, followed by contributing designers in alphabetical order.
     if ( credits.leadDesign ) {
       const designString =  StringUtils.format( creditsLeadDesignString, '\u202a' + credits.leadDesign + '\u202c' );
-      children.push( new RichText( designString, _.extend( { innerContent: designString }, multiLineTextOptions ) ) );
+      children.push( new RichText( designString, merge( { innerContent: designString }, multiLineTextOptions ) ) );
     }
 
     // Primary developer should be listed first, followed by contributing developers in alphabetical order.
     if ( credits.softwareDevelopment ) {
       const developmentString = StringUtils.format( creditsSoftwareDevelopmentString, '\u202a' + credits.softwareDevelopment + '\u202c' );
-      children.push( new RichText( developmentString, _.extend( { innerContent: developmentString }, multiLineTextOptions ) ) );
+      children.push( new RichText( developmentString, merge( { innerContent: developmentString }, multiLineTextOptions ) ) );
     }
 
     // In alphabetical order
     if ( credits.team ) {
       const teamString = StringUtils.format( creditsTeamString, '\u202a' + credits.team + '\u202c' );
-      children.push( new RichText( teamString, _.extend( { innerContent: teamString }, multiLineTextOptions ) ) );
+      children.push( new RichText( teamString, merge( { innerContent: teamString }, multiLineTextOptions ) ) );
     }
 
     // In alphabetical order
     if ( credits.contributors ) {
       const contributorsString = StringUtils.format( creditsContributorsString, '\u202a' + credits.contributors + '\u202c' );
-      children.push( new RichText( contributorsString, _.extend( { innerContent: contributorsString }, multiLineTextOptions ) ) );
+      children.push( new RichText( contributorsString, merge( { innerContent: contributorsString }, multiLineTextOptions ) ) );
     }
 
     // In alphabetical order
     if ( credits.qualityAssurance ) {
       const qualityAssuranceString = StringUtils.format( creditsQualityAssuranceString, '\u202a' + credits.qualityAssurance + '\u202c' );
-      children.push( new RichText( qualityAssuranceString, _.extend( { innerContent: qualityAssuranceString }, multiLineTextOptions ) ) );
+      children.push( new RichText( qualityAssuranceString, merge( { innerContent: qualityAssuranceString }, multiLineTextOptions ) ) );
     }
 
     // In alphabetical order
     if ( credits.graphicArts ) {
       const graphicArtsString = StringUtils.format( creditsGraphicArtsString, '\u202a' + credits.graphicArts + '\u202c' );
-      children.push( new RichText( graphicArtsString, _.extend( { innerContent: graphicArtsString }, multiLineTextOptions ) ) );
+      children.push( new RichText( graphicArtsString, merge( { innerContent: graphicArtsString }, multiLineTextOptions ) ) );
     }
 
     // In alphabetical order
     if ( credits.soundDesign ) {
       const soundDesignString = StringUtils.format( creditsSoundDesignString, '\u202a' + credits.soundDesign + '\u202c' );
-      children.push( new RichText( soundDesignString, _.extend( { innerContent: soundDesignString }, multiLineTextOptions ) ) );
+      children.push( new RichText( soundDesignString, merge( { innerContent: soundDesignString }, multiLineTextOptions ) ) );
     }
 
     //TODO obtain translation credit from strings file, see https://github.com/phetsims/joist/issues/163

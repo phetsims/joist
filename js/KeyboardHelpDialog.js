@@ -13,10 +13,11 @@ define( require => {
   const AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   const Dialog = require( 'SUN/Dialog' );
   const HBox = require( 'SCENERY/nodes/HBox' );
-  const KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
   const inherit = require( 'PHET_CORE/inherit' );
   const joist = require( 'JOIST/joist' );
   const JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
+  const KeyboardHelpSection = require( 'SCENERY_PHET/keyboard/help/KeyboardHelpSection' );
+  const merge = require( 'PHET_CORE/merge' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const TabKeyNode = require( 'SCENERY_PHET/keyboard/TabKeyNode' );
   const Tandem = require( 'TANDEM/Tandem' );
@@ -41,7 +42,7 @@ define( require => {
    */
   function KeyboardHelpDialog( helpContent, options ) {
 
-    options = _.extend( {
+    options = merge( {
       titleAlign: 'center',
       fill: 'rgb( 214, 237, 249 )',
       ySpacing: 15,

@@ -17,6 +17,7 @@ define( require => {
   const JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   const JoistButton = require( 'JOIST/JoistButton' );
   const KeyboardHelpDialog = require( 'JOIST/KeyboardHelpDialog' );
+  const merge = require( 'PHET_CORE/merge' );
 
   // images
   const brightIconMipmap = require( 'mipmap!JOIST/keyboard-icon.png' ); // on a black navbar
@@ -44,7 +45,7 @@ define( require => {
     // reuse one instance of KeyboardHelpDialog
     let keyboardHelpDialog = null;
 
-    options = _.extend( {
+    options = merge( {
       highlightExtensionWidth: 5,
       highlightExtensionHeight: 10,
 

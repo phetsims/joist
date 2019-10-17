@@ -10,6 +10,7 @@ define( require => {
   const FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const joist = require( 'JOIST/joist' );
+  const merge = require( 'PHET_CORE/merge' );
   const openPopup = require( 'PHET_CORE/openPopup' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -49,7 +50,7 @@ define( require => {
      */
     createCheckingNode: function( options ) {
       const spinningIndicatorNode = new SpinningIndicatorNode( { indicatorSize: options.big ? 24 : 18 } );
-      const checkingNode = new HBox( _.extend( {
+      const checkingNode = new HBox( merge( {
         spacing: options.big ? 10 : 8,
         maxWidth: MAX_WIDTH,
         children: [
@@ -77,7 +78,7 @@ define( require => {
      * @public (joist-internal)
      */
     createUpToDateNode: function( options ) {
-      return new HBox( _.extend( {
+      return new HBox( merge( {
         spacing: 8,
         maxWidth: MAX_WIDTH,
         children: [
@@ -100,7 +101,7 @@ define( require => {
      * @public (joist-internal)
      */
     createOutOfDateAboutNode: function( options ) {
-      return new HBox( _.extend( {
+      return new HBox( merge( {
         spacing: 8,
         cursor: 'pointer',
         maxWidth: MAX_WIDTH,
@@ -127,7 +128,7 @@ define( require => {
      * @public (joist-internal)
      */
     createOutOfDateDialogNode: function( dialog, ourVersionString, latestVersionString, options ) {
-      return new VBox( _.extend( {
+      return new VBox( merge( {
         spacing: 15,
         maxWidth: MAX_WIDTH,
         children: [
@@ -159,7 +160,7 @@ define( require => {
      * @public (joist-internal)
      */
     createOfflineNode: function( options ) {
-      return new HBox( _.extend( {
+      return new HBox( merge( {
         spacing: 0,
         maxWidth: MAX_WIDTH,
         children: [

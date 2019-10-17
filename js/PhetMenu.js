@@ -20,6 +20,7 @@ define( require => {
   const joist = require( 'JOIST/joist' );
   const KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
   const MenuItem = require( 'SUN/MenuItem' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const openPopup = require( 'PHET_CORE/openPopup' );
   const OptionsDialog = require( 'JOIST/OptionsDialog' );
@@ -98,7 +99,7 @@ define( require => {
     const isPhETBrand = Brand.id === 'phet';
     const isPhetApp = Brand.isPhetApp;
 
-    options = _.extend( {
+    options = merge( {
 
       // For sims that have save/load enabled, show menu items for those.
       showSaveAndLoad: false,

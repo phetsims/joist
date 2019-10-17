@@ -13,6 +13,7 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const joist = require( 'JOIST/joist' );
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
@@ -24,7 +25,7 @@ define( require => {
   function Frame( content, options ) {
 
     // default options
-    options = _.extend( {
+    options = merge( {
       xMargin1: 6,
       yMargin1: 6,
       cornerRadius: 0 // radius of the rounded corners on the background

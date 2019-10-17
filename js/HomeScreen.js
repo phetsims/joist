@@ -12,6 +12,7 @@ define( require => {
   const HomeScreenView = require( 'JOIST/HomeScreenView' );
   const inherit = require( 'PHET_CORE/inherit' );
   const joist = require( 'JOIST/joist' );
+  const merge = require( 'PHET_CORE/merge' );
   const Property = require( 'AXON/Property' );
   const Screen = require( 'JOIST/Screen' );
 
@@ -24,7 +25,7 @@ define( require => {
    */
   function HomeScreen( sim, tandem, options ) {
 
-    options = _.extend( {
+    options = merge( {
 
       //TODO get this color from LookAndFeel, see https://github.com/phetsims/joist/issues/255
       backgroundColorProperty: new Property( BACKGROUND_COLOR )

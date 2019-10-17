@@ -13,6 +13,7 @@ define( require => {
   const Dialog = require( 'SUN/Dialog' );
   const inherit = require( 'PHET_CORE/inherit' );
   const joist = require( 'JOIST/joist' );
+  const merge = require( 'PHET_CORE/merge' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Tandem = require( 'TANDEM/Tandem' );
   const Text = require( 'SCENERY/nodes/Text' );
@@ -27,7 +28,7 @@ define( require => {
    */
   function OptionsDialog( createContent, options ) {
 
-    options = _.extend( {
+    options = merge( {
 
       titleAlign: 'center',
       bottomMargin: 20,

@@ -13,6 +13,7 @@ define( require => {
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
   const joist = require( 'JOIST/joist' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const Screen = require( 'JOIST/Screen' );
@@ -24,7 +25,7 @@ define( require => {
    */
   function ScreenIcon( iconNode, options ) {
 
-    options = _.extend( {
+    options = merge( {
       size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE, // {Dimension2} size of the background
       maxIconWidthProportion: 0.85, // max proportion of the background width occupied by iconNode, (0,1]
       maxIconHeightProportion: 0.85, // max proportion of the background height occupied by iconNode, (0,1]

@@ -19,6 +19,7 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const joist = require( 'JOIST/joist' );
   const JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
+  const merge = require( 'PHET_CORE/merge' );
   const Path = require( 'SCENERY/nodes/Path' );
   const Property = require( 'AXON/Property' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -50,7 +51,7 @@ define( require => {
    */
   function Screen( createModel, createView, options ) {
 
-    options = _.extend( {
+    options = merge( {
 
       // {string|null} name of the sim, as displayed to the user.
       // For single-screen sims, there is no home screen or navigation bar, and null is OK.

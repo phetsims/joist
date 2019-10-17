@@ -14,6 +14,7 @@ define( require => {
   const HighlightNode = require( 'JOIST/HighlightNode' );
   const inherit = require( 'PHET_CORE/inherit' );
   const joist = require( 'JOIST/joist' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Property = require( 'AXON/Property' );
   const PushButtonInteractionStateProperty = require( 'SUN/buttons/PushButtonInteractionStateProperty' );
@@ -29,7 +30,7 @@ define( require => {
    */
   function JoistButton( content, navigationBarFillProperty, tandem, options ) {
 
-    options = _.extend( {
+    options = merge( {
       cursor: 'pointer', // {string}
       listener: null, // {function}
       //Customization for the highlight region, see overrides in HomeButton and PhetButton
@@ -62,7 +63,7 @@ define( require => {
     // Highlight against the white background
     const darkenHighlight = createHighlight( 'black' );
 
-    Node.call( this, _.extend( { children: [ content, brightenHighlight, darkenHighlight ] } ) );
+    Node.call( this, { children: [ content, brightenHighlight, darkenHighlight ] } );
 
     // Button interactions
     const interactionStateProperty = new PushButtonInteractionStateProperty( this.buttonModel );

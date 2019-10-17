@@ -15,6 +15,7 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const joist = require( 'JOIST/joist' );
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  const merge = require( 'PHET_CORE/merge' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   /**
@@ -25,7 +26,7 @@ define( require => {
    */
   function HighlightNode( width, height, options ) {
 
-    options = _.extend( {
+    options = merge( {
       fill: 'white',
       highlightWidth: 1,
       pickable: false

@@ -14,6 +14,7 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const joist = require( 'JOIST/joist' );
   const JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Property = require( 'AXON/Property' );
@@ -42,7 +43,7 @@ define( require => {
   function HomeScreenView( sim, tandem, options ) {
     const self = this;
 
-    options = _.extend( {
+    options = merge( {
       warningNode: null // {Node | null}, to display below the icons as a warning if available
     }, options );
 
@@ -100,7 +101,7 @@ define( require => {
         index,
         highlightedScreenIndexProperty,
         largeTandem,
-        _.extend( a11yScreenButtonOptions, {
+        merge( a11yScreenButtonOptions, {
           // Don't 40 the VBox or it will shift down when the border becomes thicker
           resize: false,
           cursor: 'pointer'
@@ -117,7 +118,7 @@ define( require => {
         index,
         highlightedScreenIndexProperty,
         smallTandem,
-        _.extend( a11yScreenButtonOptions, {
+        merge( a11yScreenButtonOptions, {
           spacing: 3,
           cursor: 'pointer',
           showUnselectedHomeScreenIconFrame: screen.showUnselectedHomeScreenIconFrame

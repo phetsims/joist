@@ -13,6 +13,7 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const joist = require( 'JOIST/joist' );
   const KeyboardHelpButton = require( 'JOIST/KeyboardHelpButton' );
+  const merge = require( 'PHET_CORE/merge' );
   const NavigationBarSoundToggleButton = require( 'JOIST/NavigationBarSoundToggleButton' );
   const platform = require( 'PHET_CORE/platform' );
   const soundManager = require( 'TAMBO/soundManager' );
@@ -26,7 +27,7 @@ define( require => {
    * @constructor
    */
   function A11yButtonsHBox( sim, backgroundColorProperty, tandem, options ) {
-    options = _.extend( {
+    options = merge( {
       align: 'center',
       spacing: 6
     }, options );

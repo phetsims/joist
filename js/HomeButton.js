@@ -16,6 +16,7 @@ define( require => {
   const joist = require( 'JOIST/joist' );
   const JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   const JoistButton = require( 'JOIST/JoistButton' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Property = require( 'AXON/Property' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -35,7 +36,7 @@ define( require => {
    */
   function HomeButton( navBarHeight, navigationBarFillProperty, tandem, options ) {
 
-    options = _.extend( {
+    options = merge( {
       highlightExtensionWidth: 4,
       listener: null,
 

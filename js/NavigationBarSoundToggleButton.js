@@ -17,6 +17,7 @@ define( require => {
   const joist = require( 'JOIST/joist' );
   const JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   const JoistButton = require( 'JOIST/JoistButton' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -63,7 +64,7 @@ define( require => {
   function NavigationBarSoundToggleButton( soundEnabledProperty, backgroundColorProperty, tandem, options ) {
     const self = this;
 
-    options = _.extend( {
+    options = merge( {
       highlightExtensionWidth: 5,
       highlightExtensionHeight: 10,
       highlightCenterOffsetY: 0,

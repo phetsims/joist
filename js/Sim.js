@@ -33,6 +33,7 @@ define( require => {
   const LegendsOfLearningSupport = require( 'JOIST/thirdPartySupport/LegendsOfLearningSupport' );
   const LookAndFeel = require( 'JOIST/LookAndFeel' );
   const MemoryMonitor = require( 'JOIST/MemoryMonitor' );
+  const merge = require( 'PHET_CORE/merge' );
   const NavigationBar = require( 'JOIST/NavigationBar' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberIO = require( 'TANDEM/types/NumberIO' );
@@ -88,7 +89,7 @@ define( require => {
     // constructor (because Sim has asynchronous steps that finish after the constructor is completed)
     this.endedSimConstructionEmitter = new Emitter();
 
-    options = _.extend( {
+    options = merge( {
 
       // Sims that do not use WebGL trigger a ~ 0.5 second pause shortly after the sim starts up, so sims must opt in to
       // webgl support, see https://github.com/phetsims/scenery/issues/621
@@ -291,7 +292,7 @@ define( require => {
       }
       screens = newScreens;
     }
-    options = _.extend( {
+    options = merge( {
 
       // whether to show the home screen, or go immediately to the screen indicated by screenIndex
       showHomeScreen: ( screens.length > 1 ) && homeScreen && ( initialScreen === 0 ),

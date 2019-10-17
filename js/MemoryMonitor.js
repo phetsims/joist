@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const joist = require( 'JOIST/joist' );
+  const merge = require( 'PHET_CORE/merge' );
   const RunningAverage = require( 'DOT/RunningAverage' );
 
   // constants
@@ -23,7 +24,7 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( options ) {
-      options = _.extend( {
+      options = merge( {
         // {number} - Quantity of measurements in the running average
         windowSize: 2000,
 
