@@ -375,7 +375,7 @@ define( require => {
           phetioState: itemDescriptor.phetioState
         };
 
-        // delete undefined values so that _.extend options will work correctly
+        // delete undefined values so that merge options will work correctly
         menuItemOptions.phetioReadOnly === undefined && delete menuItemOptions.phetioReadOnly;
         menuItemOptions.phetioState === undefined && delete menuItemOptions.phetioState;
 
