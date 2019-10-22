@@ -14,7 +14,7 @@ define( require => {
 
   // modules
   const Action = require( 'AXON/Action' );
-  const ariaHerald = require( 'SCENERY_PHET/accessibility/ariaHerald' );
+  const ariaHerald = require( 'UTTERANCE_QUEUE/ariaHerald' );
   const BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Bounds2 = require( 'DOT/Bounds2' );
@@ -50,7 +50,7 @@ define( require => {
   const timer = require( 'AXON/timer' );
   const updateCheck = require( 'JOIST/updateCheck' );
   const Util = require( 'SCENERY/util/Util' );
-  const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
+  const utteranceQueue = require( 'UTTERANCE_QUEUE/utteranceQueue' );
 
   // ifphetio
   const phetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' );

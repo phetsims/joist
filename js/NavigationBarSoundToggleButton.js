@@ -12,7 +12,7 @@ define( require => {
   'use strict';
 
   // modules
-  const ActivationUtterance = require( 'SCENERY_PHET/accessibility/ActivationUtterance' );
+  const ActivationUtterance = require( 'UTTERANCE_QUEUE/ActivationUtterance' );
   const inherit = require( 'PHET_CORE/inherit' );
   const joist = require( 'JOIST/joist' );
   const JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
@@ -23,7 +23,7 @@ define( require => {
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const Shape = require( 'KITE/Shape' );
   const ToggleNode = require( 'SUN/ToggleNode' );
-  const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
+  const utteranceQueue = require( 'UTTERANCE_QUEUE/utteranceQueue' );
   const Vector2 = require( 'DOT/Vector2' );
 
   // a11y strings
