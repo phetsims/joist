@@ -23,6 +23,7 @@ define( require => {
   const Display = require( 'SCENERY/display/Display' );
   const DotUtil = require( 'DOT/Util' );// eslint-disable-line
   const Emitter = require( 'AXON/Emitter' );
+  const Features = require( 'SCENERY/util/Features' );
   const Heartbeat = require( 'JOIST/Heartbeat' );
   const HomeScreen = require( 'JOIST/HomeScreen' );
   const HomeScreenView = require( 'JOIST/HomeScreenView' );
@@ -516,6 +517,13 @@ define( require => {
 
     // prevent scrollbars
     $body.css( 'padding', '0' ).css( 'margin', '0' ).css( 'overflow', 'hidden' );
+
+    // set `user-select: none` on the aria-live container to prevent iOS text selection issue, see
+    // https://github.com/phetsims/scenery/issues/1006
+    const ariaLiveContainer = document.getElementById( 'aria-live-elements' );
+    if ( ariaLiveContainer ) {
+      ariaLiveContainer.style[ Features.userSelect ] = 'none';
+    }
 
     // check to see if the sim div already exists in the DOM under the body. This is the case for https://github.com/phetsims/scenery/issues/174 (iOS offline reading list)
     if ( document.getElementById( 'sim' ) && document.getElementById( 'sim' ).parentNode === document.body ) {
