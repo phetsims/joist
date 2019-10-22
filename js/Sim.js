@@ -56,6 +56,7 @@ define( require => {
 
   // constants
   const PROGRESS_BAR_WIDTH = 273;
+  const SUPPORTS_TOUCH_A11Y = platform.android || platform.mobileSafari;
 
   // globals
   phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for replicable playbacks
@@ -427,6 +428,9 @@ define( require => {
 
     // @public (read-only) {boolean} - if true the simulation supports accessibility features
     this.isAccessible = phet.chipper.queryParameters.accessibility || phet.chipper.queryParameters.a11y || options.accessibility;
+
+    // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
+    this.supportsTouchA11y = this.isAccessible && SUPPORTS_TOUCH_A11Y;
 
     // Set up accessibility features for the sim.
     this.isAccessible && initializeAccessibility();
