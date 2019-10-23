@@ -14,6 +14,7 @@ define( require => {
   const AccessibilityUtil = require( 'SCENERY/accessibility/AccessibilityUtil' );
   const Brand = require( 'BRAND/Brand' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
+  const DialogIO = require( 'SUN/DialogIO' );
   const Display = require( 'SCENERY/display/Display' );
   const FullScreen = require( 'SCENERY/util/FullScreen' );
   const inherit = require( 'PHET_CORE/inherit' );
@@ -31,7 +32,6 @@ define( require => {
   const PhetMenuIO = require( 'JOIST/PhetMenuIO' );
   const platform = require( 'PHET_CORE/platform' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  const ReferenceIO = require( 'TANDEM/types/ReferenceIO' );
   const ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   const Shape = require( 'KITE/Shape' );
   const soundManager = require( 'TAMBO/soundManager' );
@@ -125,7 +125,7 @@ define( require => {
       return new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, phetButton, tandem );
     }, [], {
       tandem: tandem.createTandem( 'aboutDialogCapsule' ),
-      phetioType: PhetioCapsuleIO( ReferenceIO )
+      phetioType: PhetioCapsuleIO( DialogIO )
     } );
 
     // Dialogs that could be constructed by the menu. The menu will create a dialog the
