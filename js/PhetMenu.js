@@ -36,7 +36,6 @@ define( require => {
   const Shape = require( 'KITE/Shape' );
   const soundManager = require( 'TAMBO/soundManager' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  const Tandem = require( 'TANDEM/Tandem' );
   const Text = require( 'SCENERY/nodes/Text' );
   const updateCheck = require( 'JOIST/updateCheck' );
   const UpdateDialog = require( 'JOIST/UpdateDialog' );
@@ -127,6 +126,14 @@ define( require => {
       tandem: tandem.createTandem( 'aboutDialogCapsule' ),
       phetioType: PhetioCapsuleIO( DialogIO )
     } );
+    const optionsDialogCapsule = new PhetioCapsule( 'optionsDialog', tandem => {
+      return new OptionsDialog( sim.options.createOptionsDialogContent, {
+        tandem: tandem
+      } );
+    }, [], {
+      tandem: tandem.createTandem( 'optionsDialogCapsule' ),
+      phetioType: PhetioCapsuleIO( DialogIO )
+    } );
 
     // Dialogs that could be constructed by the menu. The menu will create a dialog the
     // first time the item is selected, and they will be reused after that.  Must
@@ -144,12 +151,7 @@ define( require => {
         present: !!sim.options.createOptionsDialogContent,
         callback: function() {
           if ( !optionsDialog ) {
-            optionsDialog = new OptionsDialog( sim.options.createOptionsDialogContent, {
-
-              // TODO: Support instrumented element that is dynamic/lazily created, see https://github.com/phetsims/phet-io/issues/1454
-              // tandem: tandem.createTandem( 'optionsDialog' )
-              tandem: Tandem.optional
-            } );
+            optionsDialog = optionsDialogCapsule.create();
           }
           optionsDialog.show();
         },
