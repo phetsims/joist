@@ -47,6 +47,7 @@ define( require => {
       fill: 'rgb( 214, 237, 249 )',
       ySpacing: 15,
       tandem: Tandem.required,
+      phetioDynamicElement: true,
 
       // Because of the special titleNode, we set the aria-labelledby attribute manually; see below.
       addAriaLabelledByFromTitle: false

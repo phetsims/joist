@@ -11,6 +11,7 @@ define( require => {
   'use strict';
 
   // modules
+  const DialogIO = require( 'SUN/DialogIO' );
   const Image = require( 'SCENERY/nodes/Image' );
   const inherit = require( 'PHET_CORE/inherit' );
   const joist = require( 'JOIST/joist' );
@@ -18,6 +19,8 @@ define( require => {
   const JoistButton = require( 'JOIST/JoistButton' );
   const KeyboardHelpDialog = require( 'JOIST/KeyboardHelpDialog' );
   const merge = require( 'PHET_CORE/merge' );
+  const PhetioCapsule = require( 'TANDEM/PhetioCapsule' );
+  const PhetioCapsuleIO = require( 'TANDEM/PhetioCapsuleIO' );
 
   // images
   const brightIconMipmap = require( 'mipmap!JOIST/keyboard-icon.png' ); // on a black navbar
@@ -61,12 +64,19 @@ define( require => {
 
     assert && assert( !options.listener, 'KeyboardHelpButton set\'s its own listener' );
 
+    const keyboardHelpDialogCapsule = new PhetioCapsule( 'keyboardHelpDialog', tandem => {
+      return new KeyboardHelpDialog( helpContent, {
+        focusOnCloseNode: self,
+        tandem: tandem
+      } );
+    }, [], {
+      tandem: tandem.createTandem( 'keyboardHelpDialogCapsule' ),
+      phetioType: PhetioCapsuleIO( DialogIO )
+    } );
+
     const openDialog = function() {
       if ( !keyboardHelpDialog ) {
-        keyboardHelpDialog = new KeyboardHelpDialog( helpContent, {
-          focusOnCloseNode: self,
-          tandem: tandem.createTandem( 'keyboardHelpDialog' )
-        } );
+        keyboardHelpDialog = keyboardHelpDialogCapsule.create();
       }
       keyboardHelpDialog.show();
 

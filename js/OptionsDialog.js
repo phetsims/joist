@@ -35,7 +35,8 @@ define( require => {
       ySpacing: 20,
 
       // phet-io
-      tandem: Tandem.required
+      tandem: Tandem.required,
+      phetioDynamicElement: true
     }, options );
 
     assert && assert( !options.title, 'OptionsDialog sets title' );

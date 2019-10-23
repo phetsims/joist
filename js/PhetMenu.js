@@ -126,14 +126,19 @@ define( require => {
       tandem: tandem.createTandem( 'aboutDialogCapsule' ),
       phetioType: PhetioCapsuleIO( DialogIO )
     } );
-    const optionsDialogCapsule = new PhetioCapsule( 'optionsDialog', tandem => {
-      return new OptionsDialog( sim.options.createOptionsDialogContent, {
-        tandem: tandem
+
+    // only create the capsule if there is options dialog content
+    let optionsDialogCapsule = null;
+    if ( sim.options.createOptionsDialogContent ) {
+      optionsDialogCapsule = new PhetioCapsule( 'optionsDialog', tandem => {
+        return new OptionsDialog( sim.options.createOptionsDialogContent, {
+          tandem: tandem
+        } );
+      }, [], {
+        tandem: tandem.createTandem( 'optionsDialogCapsule' ),
+        phetioType: PhetioCapsuleIO( DialogIO )
       } );
-    }, [], {
-      tandem: tandem.createTandem( 'optionsDialogCapsule' ),
-      phetioType: PhetioCapsuleIO( DialogIO )
-    } );
+    }
 
     // Dialogs that could be constructed by the menu. The menu will create a dialog the
     // first time the item is selected, and they will be reused after that.  Must
