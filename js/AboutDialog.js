@@ -40,9 +40,10 @@ define( require => {
    * @param {Brand} Brand
    * @param {string} locale - The locale string
    * @param {Node} phetButton - The PhET button in the navigation bar, receives focus when this dialog is closed
+   * @param {Tandem} tandem
    * @constructor
    */
-  function AboutDialog( name, version, credits, Brand, locale, phetButton ) {
+  function AboutDialog( name, version, credits, Brand, locale, phetButton, tandem ) {
     let children = [];
 
     const titleText = new Text( name, {
@@ -176,6 +177,8 @@ define( require => {
 
       for ( let i = 0; i < links.length; i++ ) {
         const link = links[ i ];
+
+        // TODO: instrument links as PhetioGroups to support keyboard nav on PhET-iO, https://github.com/phetsims/phet-io/issues/1454
         children.push( new RichText( '<a href="{{url}}">' + link.text + '</a>', {
           links: { url: link.url }, // RichText must fill in URL for link
           font: new PhetFont( 14 ),
@@ -199,7 +202,11 @@ define( require => {
       topMargin: 20,
       bottomMargin: 20,
       leftMargin: 20,
-      rightMargin: 20
+      rightMargin: 20,
+      tandem: tandem,
+      phetioReadOnly: true, // the AboutDialog should not be settable
+      phetioState: false,
+      phetioDynamicElement: true
     } );
 
     // a11y - set label association so the title is read when focus enters the dialog

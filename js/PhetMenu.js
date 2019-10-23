@@ -26,9 +26,12 @@ define( require => {
   const OptionsDialog = require( 'JOIST/OptionsDialog' );
   const Path = require( 'SCENERY/nodes/Path' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const PhetioCapsule = require( 'TANDEM/PhetioCapsule' );
+  const PhetioCapsuleIO = require( 'TANDEM/PhetioCapsuleIO' );
   const PhetMenuIO = require( 'JOIST/PhetMenuIO' );
   const platform = require( 'PHET_CORE/platform' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const ReferenceIO = require( 'TANDEM/types/ReferenceIO' );
   const ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   const Shape = require( 'KITE/Shape' );
   const soundManager = require( 'TAMBO/soundManager' );
@@ -58,9 +61,9 @@ define( require => {
 
   // For disabling features that are incompatible with fuzzing
   const fuzzes = phet.chipper.queryParameters.fuzz ||
-               phet.chipper.queryParameters.fuzzMouse ||
-               phet.chipper.queryParameters.fuzzTouch ||
-               phet.chipper.queryParameters.fuzzBoard;
+                 phet.chipper.queryParameters.fuzzMouse ||
+                 phet.chipper.queryParameters.fuzzTouch ||
+                 phet.chipper.queryParameters.fuzzBoard;
 
   // Creates a comic-book style bubble.
   const createBubble = function( width, height ) {
@@ -117,6 +120,13 @@ define( require => {
 
     const self = this;
     Node.call( this );
+
+    const aboutDialogCapsule = new PhetioCapsule( 'aboutDialog', tandem => {
+      return new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, phetButton, tandem );
+    }, [], {
+      tandem: tandem.createTandem( 'aboutDialogCapsule' ),
+      phetioType: PhetioCapsuleIO( ReferenceIO )
+    } );
 
     // Dialogs that could be constructed by the menu. The menu will create a dialog the
     // first time the item is selected, and they will be reused after that.  Must
@@ -196,11 +206,11 @@ define( require => {
         present: isPhETBrand && !isPhetApp,
         callback: function() {
           const url = 'http://phet.colorado.edu/files/troubleshooting/' +
-                    '?sim=' + encodeURIComponent( sim.name ) +
-                    '&version=' + encodeURIComponent( sim.version + ' ' +
-                    ( phet.chipper.buildTimestamp ? phet.chipper.buildTimestamp : '(require.js)' ) ) +
-                    '&url=' + encodeURIComponent( window.location.href ) +
-                    '&dependencies=' + encodeURIComponent( JSON.stringify( {} ) );
+                      '?sim=' + encodeURIComponent( sim.name ) +
+                      '&version=' + encodeURIComponent( sim.version + ' ' +
+                      ( phet.chipper.buildTimestamp ? phet.chipper.buildTimestamp : '(require.js)' ) ) +
+                      '&url=' + encodeURIComponent( window.location.href ) +
+                      '&dependencies=' + encodeURIComponent( JSON.stringify( {} ) );
 
           if ( !fuzzes ) {
             openPopup( url );
@@ -327,7 +337,7 @@ define( require => {
         separatorBefore: isPhETBrand,
         callback: function() {
           if ( !aboutDialog ) {
-            aboutDialog = new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, phetButton );
+            aboutDialog = aboutDialogCapsule.create();
           }
           aboutDialog.show();
         },
