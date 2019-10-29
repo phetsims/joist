@@ -108,7 +108,7 @@ define( require => {
        */
       setChildren( children ) {
 
-        [ this._screenSummaryContent, this.playAreaNode, this.controlAreaNode ].forEach( pdomNode => {
+        [ this._screenSummaryContent, this.playAreaNode, this.controlAreaNode ].filter( _.identity ).forEach( pdomNode => {
           if ( children.indexOf( pdomNode ) < 0 ) {
             children.push( pdomNode );
           }
