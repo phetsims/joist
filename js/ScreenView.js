@@ -102,6 +102,21 @@ define( require => {
   return inherit( Node, ScreenView, {
 
       /**
+       * Make sure that PDOM specific Nodes don't get lost when setting children
+       * @override
+       * @param {Node[]} children
+       */
+      setChildren( children ) {
+
+        [ this._screenSummaryContent, this.playAreaNode, this.controlAreaNode ].forEach( pdomNode => {
+          if ( children.indexOf( pdomNode ) < 0 ) {
+            children.push( pdomNode );
+          }
+        } );
+        Node.prototype.setChildren.call( this, children );
+      },
+
+      /**
        * Get the scale to use for laying out the sim components and the navigation bar, so its size will track
        * with the sim size
        * @param {number} width
