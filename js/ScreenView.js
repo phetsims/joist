@@ -81,7 +81,6 @@ define( require => {
     // a11y - this Node is suffixed "container" because it is added to with sim specific screen summary content, often
     // called {Sim}ScreenSummaryNode. This container has the intro "{sim} is an interactive sim, it changes as you . . ."
     this._screenSummaryNode = new ScreenSummaryNode();
-    this.addChild( this._screenSummaryNode );
 
     // @private {Node|null} - keep track of the content added to the summary Node, so that if it is set more than once,
     // the previous one can be removed.
@@ -91,15 +90,36 @@ define( require => {
     options.screenSummaryContent && this.setScreenSummaryContent( options.screenSummaryContent );
 
     // @public (read-only) - add children and set accessible order to these to organize and structure the PDOM.
-    this.playAreaNode = new PlayAreaNode();
-    this.addChild( this.playAreaNode );
+    this.pdomPlayAreaNode = new PlayAreaNode();
     this.controlAreaNode = new ControlAreaNode();
-    this.addChild( this.controlAreaNode );
+
+    // @private
+    this.pdomParent = new Node( {
+      children: [
+        this._screenSummaryNode,
+        this.pdomPlayAreaNode,
+        this.controlAreaNode
+      ]
+    } );
+    this.addChild( this.pdomParent );
   }
 
   joist.register( 'ScreenView', ScreenView );
 
   return inherit( Node, ScreenView, {
+
+      /**
+       * Override to make sure that setting children doesn't blow away Nodes set by ScreenView.
+       * @override
+       * @param {Node[]} children
+       */
+      setChildren( children ) {
+        Node.prototype.setChildren.call( this, children );
+        if ( !this.hasChild( this.pdomParent ) ) {
+          this.addChild( this.pdomParent );
+          this.pdomParent.moveToBack();
+        }
+      },
 
       /**
        * Get the scale to use for laying out the sim components and the navigation bar, so its size will track
