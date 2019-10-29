@@ -77,28 +77,28 @@ define( require => {
     // @public (read-only)
     this.visibleBoundsProperty = new Property( options.layoutBounds );
 
+    // @public (read-only) - add children and set accessible order to these to organize and structure the PDOM.
+    this.pdomPlayAreaNode = new PlayAreaNode();
+    this.pdomControlAreaNode = new ControlAreaNode();
+
     // @private
     // a11y - this Node is suffixed "container" because it is added to with sim specific screen summary content, often
     // called {Sim}ScreenSummaryNode. This container has the intro "{sim} is an interactive sim, it changes as you . . ."
-    this._screenSummaryNode = new ScreenSummaryNode();
+    this.pdomScreenSummaryNode = new ScreenSummaryNode();
 
     // @private {Node|null} - keep track of the content added to the summary Node, so that if it is set more than once,
     // the previous one can be removed.
-    this._screenSummaryContent = null;
+    this.screenSummaryContent = null;
 
     // at the Node from options in the same way that can be done at any time
     options.screenSummaryContent && this.setScreenSummaryContent( options.screenSummaryContent );
 
-    // @public (read-only) - add children and set accessible order to these to organize and structure the PDOM.
-    this.pdomPlayAreaNode = new PlayAreaNode();
-    this.controlAreaNode = new ControlAreaNode();
-
     // @private
     this.pdomParent = new Node( {
       children: [
-        this._screenSummaryNode,
+        this.pdomScreenSummaryNode,
         this.pdomPlayAreaNode,
-        this.controlAreaNode
+        this.pdomControlAreaNode
       ]
     } );
     this.addChild( this.pdomParent );
@@ -182,12 +182,12 @@ define( require => {
        */
       setScreenSummaryContent: function( node ) {
         assert && assert( node instanceof Node );
-        assert && assert( node !== this._screenSummaryContent, 'this is already the screen summary node content' );
+        assert && assert( node !== this.screenSummaryContent, 'this is already the screen summary node content' );
 
-        this._screenSummaryContent && this._screenSummaryNode.removeChild( this._screenSummaryContent );
+        this.screenSummaryContent && this.pdomScreenSummaryNode.removeChild( this.screenSummaryContent );
 
-        this._screenSummaryContent = node;
-        this._screenSummaryNode.addChild( node );
+        this.screenSummaryContent = node;
+        this.pdomScreenSummaryNode.addChild( node );
       },
 
       /**
@@ -197,7 +197,7 @@ define( require => {
        * @public (joist-internal)
        */
       setScreenSummaryIntroString: function( simName, numberOfScreens ) {
-        this._screenSummaryNode.setIntroString( simName, numberOfScreens );
+        this.pdomScreenSummaryNode.setIntroString( simName, numberOfScreens );
       },
 
       set accessibleOrder( order ) { throw new Error( 'should not need to set accessible order on the screen view' ); }
