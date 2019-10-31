@@ -1,5 +1,4 @@
 // Copyright 2016-2019, University of Colorado Boulder
-/* eslint-disable bad-sim-text */
 
 /**
  * Shows the splash screen and loading progress bar.
@@ -44,8 +43,8 @@
     const scale = Math.min( scaleX, scaleY ) * SCALE_FACTOR;
 
     // use Math.round because this is a preload
-    const translationX = Math.round( ( availableWidth - currentWidth * scale ) / 2 );
-    const translationY = Math.round( ( availableHeight - currentHeight * scale ) * POSITION_Y );
+    const translationX = Math.round( ( availableWidth - currentWidth * scale ) / 2 ); // eslint-disable-line bad-sim-text
+    const translationY = Math.round( ( availableHeight - currentHeight * scale ) * POSITION_Y ); // eslint-disable-line bad-sim-text
 
     // Position the div using CSS
     const transformString = 'translate(' + translationX + 'px, ' + translationY + 'px) ' + 'scale3d(' + scale + ', ' + scale + ', 1)';
