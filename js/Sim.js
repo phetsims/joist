@@ -431,7 +431,7 @@ define( require => {
     this.isAccessible = phet.chipper.queryParameters.accessibility || phet.chipper.queryParameters.a11y || options.accessibility;
 
     // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
-    this.supportsTouchA11y = this.isAccessible && SUPPORTS_TOUCH_A11Y;
+    this.supportsGestureA11y = this.isAccessible && SUPPORTS_TOUCH_A11Y;
 
     // Set up accessibility features for the sim.
     this.isAccessible && initializeAccessibility();
