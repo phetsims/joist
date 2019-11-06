@@ -152,7 +152,7 @@ define( require => {
       {
         text: menuItemOptionsString,
         present: !!sim.options.createOptionsDialogContent,
-        callback: () => optionsDialogCapsule.getInstance.show(),
+        callback: () => optionsDialogCapsule.getInstance().show(),
         tandem: tandem.createTandem( 'optionsMenuItem' ),
         phetioDocumentation: 'This menu item shows an options dialog.',
         phetioState: false,
