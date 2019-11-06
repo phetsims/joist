@@ -14,7 +14,6 @@ define( require => {
 
   // modules
   const Action = require( 'AXON/Action' );
-  const ariaHerald = require( 'UTTERANCE_QUEUE/ariaHerald' );
   const BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Bounds2 = require( 'DOT/Bounds2' );
@@ -50,7 +49,7 @@ define( require => {
   const timer = require( 'AXON/timer' );
   const updateCheck = require( 'JOIST/updateCheck' );
   const Util = require( 'SCENERY/util/Util' );
-  const utteranceQueue = require( 'UTTERANCE_QUEUE/utteranceQueue' );
+
 
   // ifphetio
   const phetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' );
@@ -433,9 +432,6 @@ define( require => {
     // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
     this.supportsGestureA11y = this.isAccessible && SUPPORTS_TOUCH_A11Y;
 
-    // Set up accessibility features for the sim.
-    this.isAccessible && initializeAccessibility();
-
     // @public (joist-internal, read-only)
     this.keyboardHelpNode = options.keyboardHelpNode;
 
@@ -663,16 +659,6 @@ define( require => {
   }
 
   joist.register( 'Sim', Sim );
-
-  /**
-   * Initialized all features of accessibility that should be enabled for the simulation.
-   */
-  function initializeAccessibility() {
-
-    // utteranceQueue depends on ariaHerald so initialize it first.
-    ariaHerald.initialize();
-    utteranceQueue.initialize();
-  }
 
   return inherit( Object, Sim, {
 
