@@ -23,8 +23,7 @@ define( require => {
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const Shape = require( 'KITE/Shape' );
   const ToggleNode = require( 'SUN/ToggleNode' );
-  const utteranceQueue = require( 'UTTERANCE_QUEUE/utteranceQueue' );
-  const Vector2 = require( 'DOT/Vector2' );
+const Vector2 = require( 'DOT/Vector2' );
 
   // a11y strings
   const soundOnOffString = JoistA11yStrings.soundOnOffButton.value;
@@ -156,7 +155,7 @@ define( require => {
       self.setAccessibleAttribute( 'aria-pressed', !value );
 
       soundUtterance.alert = value ? simSoundOnString : simSoundOffString;
-      utteranceQueue.addToBack( soundUtterance );
+      phet.joist.sim.display.utteranceQueue.addToBack( soundUtterance );
     };
     soundEnabledProperty.lazyLink( pressedListener );
     this.setAccessibleAttribute( 'aria-pressed', !soundEnabledProperty.get() );
