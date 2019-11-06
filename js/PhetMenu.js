@@ -143,8 +143,6 @@ define( require => {
     // Dialogs that could be constructed by the menu. The menu will create a dialog the
     // first time the item is selected, and they will be reused after that.  Must
     // be created lazily because Dialog requires Sim to have bounds during construction
-    let aboutDialog = null;
-    let optionsDialog = null;
     let updateDialog = null;
 
     /*
@@ -154,12 +152,7 @@ define( require => {
       {
         text: menuItemOptionsString,
         present: !!sim.options.createOptionsDialogContent,
-        callback: function() {
-          if ( !optionsDialog ) {
-            optionsDialog = optionsDialogCapsule.create();
-          }
-          optionsDialog.show();
-        },
+        callback: () => optionsDialogCapsule.getInstance.show(),
         tandem: tandem.createTandem( 'optionsMenuItem' ),
         phetioDocumentation: 'This menu item shows an options dialog.',
         phetioState: false,
@@ -342,12 +335,7 @@ define( require => {
         text: menuItemAboutString,
         present: true,
         separatorBefore: isPhETBrand,
-        callback: function() {
-          if ( !aboutDialog ) {
-            aboutDialog = aboutDialogCapsule.create();
-          }
-          aboutDialog.show();
-        },
+        callback: () => aboutDialogCapsule.getInstance().show(),
         tandem: tandem.createTandem( 'aboutMenuItem' ),
         phetioDocumentation: 'This menu item shows a dialog with information about the simulation.',
         tagName: 'button',

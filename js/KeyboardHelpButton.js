@@ -43,10 +43,6 @@ define( require => {
    * @constructor
    */
   function KeyboardHelpButton( helpContent, backgroundColorProperty, tandem, options ) {
-    const self = this;
-
-    // reuse one instance of KeyboardHelpDialog
-    let keyboardHelpDialog = null;
 
     options = merge( {
       highlightExtensionWidth: 5,
@@ -66,7 +62,7 @@ define( require => {
 
     const keyboardHelpDialogCapsule = new PhetioCapsule( 'keyboardHelpDialog', tandem => {
       return new KeyboardHelpDialog( helpContent, {
-        focusOnCloseNode: self,
+        focusOnCloseNode: this,
         tandem: tandem
       } );
     }, [], {
@@ -74,20 +70,17 @@ define( require => {
       phetioType: PhetioCapsuleIO( DialogIO )
     } );
 
-    const openDialog = function() {
-      if ( !keyboardHelpDialog ) {
-        keyboardHelpDialog = keyboardHelpDialogCapsule.create();
-      }
+    options.listener = () => {
+      const keyboardHelpDialog = keyboardHelpDialogCapsule.getInstance();
       keyboardHelpDialog.show();
 
       // if listener was fired because of accessibility
-      if ( self.buttonModel.isA11yClicking() ) {
+      if ( this.buttonModel.isA11yClicking() ) {
 
         // focus the close button if the dialog is open with a keyboard
         keyboardHelpDialog.focusCloseButton();
       }
     };
-    options.listener = openDialog;
 
     const icon = new Image( brightIconMipmap, {
       scale: BUTTON_SCALE,
@@ -105,5 +98,4 @@ define( require => {
   joist.register( 'KeyboardHelpButton', KeyboardHelpButton );
 
   return inherit( JoistButton, KeyboardHelpButton );
-
 } );
