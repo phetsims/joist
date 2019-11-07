@@ -365,8 +365,7 @@ define( require => {
     const maxTextHeight = _.maxBy( textNodes, function( node ) {return node.height;} ).height;
 
     // Create the menu items.
-    const items = this.items = _.map( keepItemDescriptors, function( itemDescriptor ) {
-
+    const items = _.map( keepItemDescriptors, function( itemDescriptor ) {
         const menuItemOptions = {
           textFill: itemDescriptor.textFill,
           checkedProperty: itemDescriptor.checkedProperty,
@@ -397,6 +396,7 @@ define( require => {
         );
       }
     );
+    this.items = items;
 
     const separatorWidth = _.maxBy( items, function( item ) {return item.width;} ).width;
     const itemHeight = _.maxBy( items, function( item ) {return item.height;} ).height;
