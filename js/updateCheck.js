@@ -59,8 +59,8 @@ define( require => {
     }
 
     // @private - Sets our timeout listener.
-    setTimeout() {
-      this.timeoutId = window.setTimeout( this.timeoutCallback, TIMEOUT_MILLISECONDS );
+    setTimeout() { // eslint-disable-line bad-sim-text
+      this.timeoutId = window.setTimeout( this.timeoutCallback, TIMEOUT_MILLISECONDS ); // eslint-disable-line bad-sim-text
     }
 
     // @public - If we are checking, it resets our timeout timer to TIMEOUT_MILLISECONDS

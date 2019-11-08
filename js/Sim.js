@@ -832,7 +832,7 @@ define( require => {
 
       // loop to run startup items asynchronously so the DOM can be updated to show animation on the progress bar
       var runItem = function( i ) {
-        setTimeout(
+        setTimeout( // eslint-disable-line bad-sim-text
           function() {
             workItems[ i ]();
             // Move the progress ahead by one so we show the full progress bar for a moment before the sim starts up
@@ -850,7 +850,7 @@ define( require => {
               runItem( i + 1 );
             }
             else {
-              setTimeout( function() {
+              setTimeout( function() { // eslint-disable-line bad-sim-text
                 self.finishInit( screens );
 
                 // Make sure requestAnimationFrame is defined
