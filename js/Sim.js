@@ -56,7 +56,7 @@ define( require => {
 
   // constants
   const PROGRESS_BAR_WIDTH = 273;
-  const SUPPORTS_TOUCH_A11Y = platform.android || platform.mobileSafari;
+  const SUPPORTS_GESTURE_A11Y = platform.android || platform.mobileSafari;
 
   // globals
   phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for replicable playbacks
@@ -430,7 +430,7 @@ define( require => {
     this.isAccessible = phet.chipper.queryParameters.accessibility || phet.chipper.queryParameters.a11y || options.accessibility;
 
     // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
-    this.supportsGestureA11y = this.isAccessible && SUPPORTS_TOUCH_A11Y;
+    this.supportsGestureA11y = this.isAccessible && SUPPORTS_GESTURE_A11Y;
 
     // @public (joist-internal, read-only)
     this.keyboardHelpNode = options.keyboardHelpNode;
