@@ -27,8 +27,8 @@ define( require => {
   const OptionsDialog = require( 'JOIST/OptionsDialog' );
   const Path = require( 'SCENERY/nodes/Path' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  const PhetioCapsule = require( 'TANDEM/PhetioCapsule' );
-  const PhetioCapsuleIO = require( 'TANDEM/PhetioCapsuleIO' );
+  const PhetioSingleton = require( 'TANDEM/PhetioSingleton' );
+  const PhetioSingletonIO = require( 'TANDEM/PhetioSingletonIO' );
   const PhetMenuIO = require( 'JOIST/PhetMenuIO' );
   const platform = require( 'PHET_CORE/platform' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -120,23 +120,23 @@ define( require => {
     const self = this;
     Node.call( this );
 
-    const aboutDialogCapsule = new PhetioCapsule( 'aboutDialog', tandem => {
+    const aboutDialogSingleton = new PhetioSingleton( 'aboutDialog', tandem => {
       return new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, phetButton, tandem );
     }, [], {
-      tandem: tandem.createTandem( 'aboutDialogCapsule' ),
-      phetioType: PhetioCapsuleIO( DialogIO )
+      tandem: tandem.createTandem( 'aboutDialogSingleton' ),
+      phetioType: PhetioSingletonIO( DialogIO )
     } );
 
-    // only create the capsule if there is options dialog content
-    let optionsDialogCapsule = null;
+    // only create the singleton if there is options dialog content
+    let optionsDialogSingleton = null;
     if ( sim.options.createOptionsDialogContent ) {
-      optionsDialogCapsule = new PhetioCapsule( 'optionsDialog', tandem => {
+      optionsDialogSingleton = new PhetioSingleton( 'optionsDialog', tandem => {
         return new OptionsDialog( sim.options.createOptionsDialogContent, {
           tandem: tandem
         } );
       }, [], {
-        tandem: tandem.createTandem( 'optionsDialogCapsule' ),
-        phetioType: PhetioCapsuleIO( DialogIO )
+        tandem: tandem.createTandem( 'optionsDialogSingleton' ),
+        phetioType: PhetioSingletonIO( DialogIO )
       } );
     }
 
@@ -152,7 +152,7 @@ define( require => {
       {
         text: menuItemOptionsString,
         present: !!sim.options.createOptionsDialogContent,
-        callback: () => optionsDialogCapsule.getInstance().show(),
+        callback: () => optionsDialogSingleton.getInstance().show(),
         tandem: tandem.createTandem( 'optionsMenuItem' ),
         phetioDocumentation: 'This menu item shows an options dialog.',
         phetioState: false,
@@ -335,7 +335,7 @@ define( require => {
         text: menuItemAboutString,
         present: true,
         separatorBefore: isPhETBrand,
-        callback: () => aboutDialogCapsule.getInstance().show(),
+        callback: () => aboutDialogSingleton.getInstance().show(),
         tandem: tandem.createTandem( 'aboutMenuItem' ),
         phetioDocumentation: 'This menu item shows a dialog with information about the simulation.',
         tagName: 'button',
