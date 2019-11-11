@@ -63,7 +63,7 @@ define( require => {
 
     // Primary lead designer should be listed first, followed by contributing designers in alphabetical order.
     if ( credits.leadDesign ) {
-      const designString =  StringUtils.format( creditsLeadDesignString, '\u202a' + credits.leadDesign + '\u202c' );
+      const designString = StringUtils.format( creditsLeadDesignString, '\u202a' + credits.leadDesign + '\u202c' );
       children.push( new RichText( designString, merge( { innerContent: designString }, multiLineTextOptions ) ) );
     }
 

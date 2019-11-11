@@ -107,13 +107,13 @@ define( require => {
 
     // Input listeners after the parent call depending on if the ScreenButton is large or small
     const buttonDown = large ?
-                     function() {
-                       sim.showHomeScreenProperty.value = false;
-                       highlightedScreenIndexProperty.value = -1;
-                     } :
-                     function() {
-                       sim.screenIndexProperty.value = index;
-                     };
+                       function() {
+                         sim.showHomeScreenProperty.value = false;
+                         highlightedScreenIndexProperty.value = -1;
+                       } :
+                       function() {
+                         sim.screenIndexProperty.value = index;
+                       };
 
     const fireListener = new FireListener( {
       fireOnDown: true, // to match prior behavior, but I'm not sure why we have this exceptional behavior

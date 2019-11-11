@@ -3,7 +3,7 @@
 /**
  * Enumeration of third parties that PhET supports.  Each third party has its own type that sets up listeners for
  * communication between third party frames and the simulation.
- * 
+ *
  * @author Jesse Greenberg
  */
 define( require => {

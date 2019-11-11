@@ -77,7 +77,7 @@ define( require => {
     soundOnOffButton: {
       value: 'Mute Sound'
     },
-    
+
     // hint to look at keyboard help dialog
     checkOutShortcuts: {
       value: 'If needed, checkout keyboard shortcuts under Sim Resources.'

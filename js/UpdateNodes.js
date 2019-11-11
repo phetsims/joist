@@ -55,7 +55,10 @@ define( require => {
         maxWidth: MAX_WIDTH,
         children: [
           spinningIndicatorNode,
-          new Text( updatesCheckingString, { font: new PhetFont( options.big ? 16 : 14 ), fontWeight: options.big ? 'bold' : 'normal' } )
+          new Text( updatesCheckingString, {
+            font: new PhetFont( options.big ? 16 : 14 ),
+            fontWeight: options.big ? 'bold' : 'normal'
+          } )
         ],
 
         // a11y
@@ -82,10 +85,15 @@ define( require => {
         spacing: 8,
         maxWidth: MAX_WIDTH,
         children: [
-          new Rectangle( 0, 0, 20, 20, 5, 5, { fill: '#5c3', scale: options.big ? 1.2 : 1, children: [
-            new FontAwesomeNode( 'check', { fill: '#fff', scale: 0.38, centerX: 10, centerY: 10 } )
-          ] } ),
-          new Text( updatesUpToDateString, { font: new PhetFont( options.big ? 16 : 14 ), fontWeight: options.big ? 'bold' : 'normal' } )
+          new Rectangle( 0, 0, 20, 20, 5, 5, {
+            fill: '#5c3', scale: options.big ? 1.2 : 1, children: [
+              new FontAwesomeNode( 'check', { fill: '#fff', scale: 0.38, centerX: 10, centerY: 10 } )
+            ]
+          } ),
+          new Text( updatesUpToDateString, {
+            font: new PhetFont( options.big ? 16 : 14 ),
+            fontWeight: options.big ? 'bold' : 'normal'
+          } )
         ],
 
         // a11y
@@ -132,23 +140,31 @@ define( require => {
         spacing: 15,
         maxWidth: MAX_WIDTH,
         children: [
-          new VBox( { spacing: 5, align: 'left', children: [
-            new Text( StringUtils.format( updatesNewVersionAvailableString, latestVersionString ), {
-              font: new PhetFont( 16 ), fontWeight: 'bold'
-            } ),
-            new Text( StringUtils.format( updatesYourCurrentVersionString, ourVersionString ), {
-              font: updateTextFont
-            } )
-          ] } ),
-          new HBox( { spacing: 25, children: [
-            new TextPushButton( updatesGetUpdateString, { baseColor: '#6f6', font: updateTextFont, listener: function() {
-              openPopup( updateCheck.updateURL ); // open in a new window/tab
-            } } ),
-            new TextPushButton( updatesNoThanksString, { baseColor: '#ddd', font: updateTextFont, listener: function() {
-              dialog.hide();
-              // Closing the dialog is handled by the Dialog listener itself, no need to add code to close it here.
-            } } )
-          ] } )
+          new VBox( {
+            spacing: 5, align: 'left', children: [
+              new Text( StringUtils.format( updatesNewVersionAvailableString, latestVersionString ), {
+                font: new PhetFont( 16 ), fontWeight: 'bold'
+              } ),
+              new Text( StringUtils.format( updatesYourCurrentVersionString, ourVersionString ), {
+                font: updateTextFont
+              } )
+            ]
+          } ),
+          new HBox( {
+            spacing: 25, children: [
+              new TextPushButton( updatesGetUpdateString, {
+                baseColor: '#6f6', font: updateTextFont, listener: function() {
+                  openPopup( updateCheck.updateURL ); // open in a new window/tab
+                }
+              } ),
+              new TextPushButton( updatesNoThanksString, {
+                baseColor: '#ddd', font: updateTextFont, listener: function() {
+                  dialog.hide();
+                  // Closing the dialog is handled by the Dialog listener itself, no need to add code to close it here.
+                }
+              } )
+            ]
+          } )
         ]
       }, options ) );
     },
@@ -165,7 +181,10 @@ define( require => {
         maxWidth: MAX_WIDTH,
         children: [
           new VStrut( 20 ), // spacer to match layout of other nodes
-          new Text( updatesOfflineString, { font: new PhetFont( options.big ? 16 : 14 ), fontWeight: options.big ? 'bold' : 'normal' } )
+          new Text( updatesOfflineString, {
+            font: new PhetFont( options.big ? 16 : 14 ),
+            fontWeight: options.big ? 'bold' : 'normal'
+          } )
         ],
 
         // a11y

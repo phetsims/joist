@@ -83,7 +83,7 @@ define( require => {
         }
 
         // FPS
-        const averageFPS = Util.roundSymmetric( 1000 / (totalTime / this.allTimes.length) );
+        const averageFPS = Util.roundSymmetric( 1000 / ( totalTime / this.allTimes.length ) );
         let text = '' + averageFPS + ' FPS';
 
         // ms/frame

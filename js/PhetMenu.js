@@ -120,7 +120,7 @@ define( require => {
     const self = this;
     Node.call( this );
 
-    const aboutDialogSingleton = new PhetioSingleton(  tandem => {
+    const aboutDialogSingleton = new PhetioSingleton( tandem => {
       return new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, phetButton, tandem );
     }, [], {
       tandem: tandem.createTandem( 'aboutDialogSingleton' ),
@@ -130,7 +130,7 @@ define( require => {
     // only create the singleton if there is options dialog content
     let optionsDialogSingleton = null;
     if ( sim.options.createOptionsDialogContent ) {
-      optionsDialogSingleton = new PhetioSingleton(  tandem => {
+      optionsDialogSingleton = new PhetioSingleton( tandem => {
         return new OptionsDialog( sim.options.createOptionsDialogContent, {
           tandem: tandem
         } );

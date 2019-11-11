@@ -210,12 +210,12 @@ define( require => {
        */
       // available width left of center
       const availableLeft = ( HomeScreenView.LAYOUT_BOUNDS.width / 2 ) - TITLE_LEFT_MARGIN - maxTitleWidth - TITLE_RIGHT_MARGIN -
-                          HOME_BUTTON_LEFT_MARGIN - this.homeButton.width - HOME_BUTTON_RIGHT_MARGIN;
+                            HOME_BUTTON_LEFT_MARGIN - this.homeButton.width - HOME_BUTTON_RIGHT_MARGIN;
 
       // available width right of center
       const availableRight = ( HomeScreenView.LAYOUT_BOUNDS.width / 2 ) - PHET_BUTTON_LEFT_MARGIN -
-                           this.a11yButtonsHBox.width - PHET_BUTTON_LEFT_MARGIN - this.phetButton.width -
-                           PHET_BUTTON_RIGHT_MARGIN;
+                             this.a11yButtonsHBox.width - PHET_BUTTON_LEFT_MARGIN - this.phetButton.width -
+                             PHET_BUTTON_RIGHT_MARGIN;
 
       // total available width for the screen buttons when they are centered
       const availableTotal = 2 * Math.min( availableLeft, availableRight );

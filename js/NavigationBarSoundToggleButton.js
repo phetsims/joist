@@ -23,7 +23,7 @@ define( require => {
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const Shape = require( 'KITE/Shape' );
   const ToggleNode = require( 'SUN/ToggleNode' );
-const Vector2 = require( 'DOT/Vector2' );
+  const Vector2 = require( 'DOT/Vector2' );
 
   // a11y strings
   const soundOnOffString = JoistA11yStrings.soundOnOffButton.value;
