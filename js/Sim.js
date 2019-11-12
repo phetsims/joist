@@ -330,14 +330,6 @@ define( require => {
       // a {Node} placed into the keyboard help dialog that can be opened from the navigation bar
       keyboardHelpNode: null,
 
-      // Whether the tambo sound library should be initialized and enabled.  When set to true, this will also cause an
-      // icon to be added to the navigation bar to control sound on/off.
-      supportsSound: false,
-
-      // Used in conjunction with the 'tambo' flag, indicates whether sounds that are beyond the 'BASIC' level are
-      // present in the sound design.
-      supportsEnhancedSound: false,
-
       // the default renderer for the rootNode, see #221, #184 and https://github.com/phetsims/molarity/issues/24
       rootRenderer: 'svg',
 
@@ -439,7 +431,7 @@ define( require => {
     // flags or query params.
 
     // @public (joist-internal, read-only) {boolean} - true if the simulation supports sound and sound is enabled
-    this.supportsSound = ( phet.chipper.queryParameters.supportsSound || options.supportsSound ) &&
+    this.supportsSound = ( packageJSON.phet.supportsSound || phet.chipper.queryParameters.supportsSound ) &&
                          ( phet.chipper.queryParameters.sound === 'enabled' ||
                            phet.chipper.queryParameters.sound === 'muted' ) &&
                          !platform.ie;
@@ -447,7 +439,8 @@ define( require => {
     // @public (joist-internal, read-only) {boolean} - true if the simulation supports enhanced sound, cannot support
     // enhanced without supporting sound in general
     this.supportsEnhancedSound = this.supportsSound &&
-                                 ( phet.chipper.queryParameters.supportsEnhancedSound || options.supportsEnhancedSound );
+                                 ( packageJSON.phet.supportsEnhancedSound ||
+                                   phet.chipper.queryParameters.supportsEnhancedSound );
 
     // Initialize the sound library if enabled.
     if ( this.supportsSound ) {
