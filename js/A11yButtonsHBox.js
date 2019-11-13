@@ -36,7 +36,7 @@ define( require => {
     const a11yButtons = [];
 
     // only put the sound on/off button on the nav bar if the sound library is enabled
-    // TODO: Support instrumented element that is dynamic/lazily created, see https://github.com/phetsims/phet-io/issues/1454
+    // TODO: How to handle API differences between platforms/hardware/outside logic? See https://github.com/phetsims/phet-io/issues/1457
     if ( sim.supportsSound ) {
       const soundOnOffButton = new NavigationBarSoundToggleButton(
         soundManager.enabledProperty,
@@ -49,7 +49,7 @@ define( require => {
 
     // only show the keyboard help button if the sim is accessible, there is keyboard help content, and we are
     // not in mobile safari
-    // TODO: We shouldn't have different APIs for different platforms, see https://github.com/phetsims/phet-io/issues/1443
+    // TODO: How to handle API differences between platforms/hardware/outside logic? See https://github.com/phetsims/phet-io/issues/1457
     if ( sim.isAccessible && sim.keyboardHelpNode && !platform.mobileSafari ) {
 
       // @public (joist-internal, read-only) - Pops open a dialog with information about keyboard navigation
