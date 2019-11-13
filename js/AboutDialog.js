@@ -178,11 +178,11 @@ define( require => {
       for ( let i = 0; i < links.length; i++ ) {
         const link = links[ i ];
 
-        // TODO: instrument links as PhetioGroups to support keyboard nav on PhET-iO, https://github.com/phetsims/phet-io/issues/1454
         children.push( new RichText( '<a href="{{url}}">' + link.text + '</a>', {
           links: { url: link.url }, // RichText must fill in URL for link
           font: new PhetFont( 14 ),
-          maxWidth: MAX_WIDTH
+          maxWidth: MAX_WIDTH,
+          tandem: tandem.createTandem( link.tandemName )
         } ) );
       }
     }
