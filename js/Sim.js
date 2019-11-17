@@ -43,6 +43,7 @@ define( require => {
   const platform = require( 'PHET_CORE/platform' );
   const Profiler = require( 'JOIST/Profiler' );
   const Property = require( 'AXON/Property' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   const soundManager = require( 'TAMBO/soundManager' );
   const Tandem = require( 'TANDEM/Tandem' );
@@ -140,6 +141,9 @@ define( require => {
       this.scaleProperty.value = scale;
       this.boundsProperty.value = new Bounds2( 0, 0, width, height );
       this.screenBoundsProperty.value = new Bounds2( 0, 0, width, screenHeight );
+
+      // updated bounds for the PanZoomListener
+      this.simulationRoot.setRect( 0, 0, width, height );
     }, {
       tandem: Tandem.generalTandem.createTandem( 'resizeAction' ),
       parameters: [
@@ -522,8 +526,13 @@ define( require => {
     // Prevents selection cursor issues in Safari, see https://github.com/phetsims/scenery/issues/476
     document.onselectstart = function() { return false; };
 
-    // @public
+    // @public - root node for the Display
     this.rootNode = new Node( { renderer: options.rootRenderer } );
+
+    // root for the simulation and the target for MultiListener to support magnification since the display rootNode
+    // cannot be transformed - the rectangle is resized to fill the screen to capture all input
+    this.simulationRoot = new Rectangle( 0, 0, 0, 0 );
+    this.rootNode.addChild( this.simulationRoot );
 
     // @private
     this.display = new Display( self.rootNode, {
@@ -666,13 +675,13 @@ define( require => {
       // When moving from a screen to the homescreen, the previous screen should be highlighted
 
       if ( this.homeScreen ) {
-        this.rootNode.addChild( this.homeScreen.view );
+        this.simulationRoot.addChild( this.homeScreen.view );
       }
       _.each( screens, function( screen ) {
         screen.view.layerSplit = true;
-        self.rootNode.addChild( screen.view );
+        self.simulationRoot.addChild( screen.view );
       } );
-      this.rootNode.addChild( this.navigationBar );
+      this.simulationRoot.addChild( this.navigationBar );
 
       Property.multilink( [ this.showHomeScreenProperty, this.screenIndexProperty ],
         function( showHomeScreen, screenIndex ) {
@@ -708,7 +717,7 @@ define( require => {
 
       // layer for popups, dialogs, and their backgrounds and barriers
       this.topLayer = new Node();
-      this.rootNode.addChild( this.topLayer );
+      this.simulationRoot.addChild( this.topLayer );
 
       // @private list of nodes that are "modal" and hence block input with the barrierRectangle.  Used by modal dialogs
       // and the PhetMenu
