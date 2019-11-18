@@ -14,6 +14,7 @@ define( require => {
 
   // modules
   const Action = require( 'AXON/Action' );
+  const AnimatedPanZoomListener = require( 'SCENERY/listeners/AnimatedPanZoomListener' );
   const BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Bounds2 = require( 'DOT/Bounds2' );
@@ -144,6 +145,10 @@ define( require => {
 
       // updated bounds for the PanZoomListener
       this.simulationRoot.setRect( 0, 0, width, height );
+      if ( this.panZoomListener ) {
+        this.panZoomListener.setTargetBounds( this.boundsProperty.value );
+        this.panZoomListener.setPanBounds( this.boundsProperty.value );
+      }
     }, {
       tandem: Tandem.generalTandem.createTandem( 'resizeAction' ),
       parameters: [
@@ -229,6 +234,10 @@ define( require => {
       //TODO https://github.com/phetsims/joist/issues/404 run TWEENs for the selected screen only
       if ( window.TWEEN ) {
         window.TWEEN.update( phet.joist.elapsedTime );
+      }
+
+      if ( this.panZoomListener ) {
+        this.panZoomListener.step( dt );
       }
 
       // if provided, update the vibrationManager which tracks time sequences of on/off vibration
@@ -611,6 +620,13 @@ define( require => {
 
     // @public (joist-internal)
     this.navigationBar = new NavigationBar( this, screens, this.showHomeScreenProperty, Tandem.generalTandem.createTandem( 'navigationBar' ) );
+
+    // @private {AnimatedPanZoomListener|null} - magnification support, null unless requested by query param
+    this.panZoomListener = null;
+    if ( phet.chipper.queryParameters.zoom ) {
+      this.panZoomListener = new AnimatedPanZoomListener( this.simulationRoot );
+      this.simulationRoot.addInputListener( this.panZoomListener );
+    }
 
     // @public (joist-internal)
     this.updateBackground = function() {
