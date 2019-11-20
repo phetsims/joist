@@ -23,7 +23,6 @@ define( require => {
   const Display = require( 'SCENERY/display/Display' );
   const DotUtil = require( 'DOT/Util' );// eslint-disable-line
   const Emitter = require( 'AXON/Emitter' );
-  const Features = require( 'SCENERY/util/Features' );
   const Heartbeat = require( 'JOIST/Heartbeat' );
   const HomeScreen = require( 'JOIST/HomeScreen' );
   const HomeScreenView = require( 'JOIST/HomeScreenView' );
