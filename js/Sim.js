@@ -982,6 +982,14 @@ define( require => {
 
       this.navigationBar.accessibleVisible = visible;
       this.homeScreen && this.homeScreen.view.setAccessibleVisible( visible );
+    },
+
+    /**
+     * Get the single utteranceQueue instance to be used by the PhET sim to make aria-live alerts.
+     * @public
+     */
+    get utteranceQueue(){
+      return this.display.utteranceQueue;
     }
   } );
 } );
