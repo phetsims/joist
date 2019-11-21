@@ -19,8 +19,8 @@ define( require => {
   const JoistButton = require( 'JOIST/JoistButton' );
   const KeyboardHelpDialog = require( 'JOIST/KeyboardHelpDialog' );
   const merge = require( 'PHET_CORE/merge' );
-  const PhetioSingleton = require( 'TANDEM/PhetioSingleton' );
-  const PhetioSingletonIO = require( 'TANDEM/PhetioSingletonIO' );
+  const PhetioCapsule = require( 'TANDEM/PhetioCapsule' );
+  const PhetioCapsuleIO = require( 'TANDEM/PhetioCapsuleIO' );
 
   // images
   const brightIconMipmap = require( 'mipmap!JOIST/keyboard-icon.png' ); // on a black navbar
@@ -60,14 +60,14 @@ define( require => {
 
     assert && assert( !options.listener, 'KeyboardHelpButton set\'s its own listener' );
 
-    const keyboardHelpDialogSingleton = new PhetioSingleton( tandem => {
+    const keyboardHelpDialogSingleton = new PhetioCapsule( tandem => {
       return new KeyboardHelpDialog( helpContent, {
         focusOnCloseNode: this,
         tandem: tandem
       } );
     }, [], {
       tandem: tandem.createTandem( 'keyboardHelpDialogSingleton' ),
-      phetioType: PhetioSingletonIO( DialogIO )
+      phetioType: PhetioCapsuleIO( DialogIO )
     } );
 
     options.listener = () => {

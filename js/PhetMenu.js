@@ -27,8 +27,8 @@ define( require => {
   const OptionsDialog = require( 'JOIST/OptionsDialog' );
   const Path = require( 'SCENERY/nodes/Path' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  const PhetioSingleton = require( 'TANDEM/PhetioSingleton' );
-  const PhetioSingletonIO = require( 'TANDEM/PhetioSingletonIO' );
+  const PhetioCapsule = require( 'TANDEM/PhetioCapsule' );
+  const PhetioCapsuleIO = require( 'TANDEM/PhetioCapsuleIO' );
   const PhetMenuIO = require( 'JOIST/PhetMenuIO' );
   const platform = require( 'PHET_CORE/platform' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -120,23 +120,23 @@ define( require => {
     const self = this;
     Node.call( this );
 
-    const aboutDialogSingleton = new PhetioSingleton( tandem => {
+    const aboutDialogSingleton = new PhetioCapsule( tandem => {
       return new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, phetButton, tandem );
     }, [], {
       tandem: tandem.createTandem( 'aboutDialogSingleton' ),
-      phetioType: PhetioSingletonIO( DialogIO )
+      phetioType: PhetioCapsuleIO( DialogIO )
     } );
 
     // only create the singleton if there is options dialog content
     let optionsDialogSingleton = null;
     if ( sim.options.createOptionsDialogContent ) {
-      optionsDialogSingleton = new PhetioSingleton( tandem => {
+      optionsDialogSingleton = new PhetioCapsule( tandem => {
         return new OptionsDialog( sim.options.createOptionsDialogContent, {
           tandem: tandem
         } );
       }, [], {
         tandem: tandem.createTandem( 'optionsDialogSingleton' ),
-        phetioType: PhetioSingletonIO( DialogIO )
+        phetioType: PhetioCapsuleIO( DialogIO )
       } );
     }
 
