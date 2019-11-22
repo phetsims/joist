@@ -60,18 +60,18 @@ define( require => {
 
     assert && assert( !options.listener, 'KeyboardHelpButton set\'s its own listener' );
 
-    const keyboardHelpDialogSingleton = new PhetioCapsule( tandem => {
+    const keyboardHelpDialogCapsule = new PhetioCapsule( tandem => {
       return new KeyboardHelpDialog( helpContent, {
         focusOnCloseNode: this,
         tandem: tandem
       } );
     }, [], {
-      tandem: tandem.createTandem( 'keyboardHelpDialogSingleton' ),
+      tandem: tandem.createTandem( 'keyboardHelpDialogCapsule' ),
       phetioType: PhetioCapsuleIO( DialogIO )
     } );
 
     options.listener = () => {
-      const keyboardHelpDialog = keyboardHelpDialogSingleton.getInstance();
+      const keyboardHelpDialog = keyboardHelpDialogCapsule.getInstance();
       keyboardHelpDialog.show();
 
       // if listener was fired because of accessibility

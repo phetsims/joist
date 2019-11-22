@@ -120,22 +120,22 @@ define( require => {
     const self = this;
     Node.call( this );
 
-    const aboutDialogSingleton = new PhetioCapsule( tandem => {
+    const aboutDialogCapsule = new PhetioCapsule( tandem => {
       return new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, phetButton, tandem );
     }, [], {
-      tandem: tandem.createTandem( 'aboutDialogSingleton' ),
+      tandem: tandem.createTandem( 'aboutDialogCapsule' ),
       phetioType: PhetioCapsuleIO( DialogIO )
     } );
 
     // only create the singleton if there is options dialog content
-    let optionsDialogSingleton = null;
+    let optionsDialogCapsule = null;
     if ( sim.options.createOptionsDialogContent ) {
-      optionsDialogSingleton = new PhetioCapsule( tandem => {
+      optionsDialogCapsule = new PhetioCapsule( tandem => {
         return new OptionsDialog( sim.options.createOptionsDialogContent, {
           tandem: tandem
         } );
       }, [], {
-        tandem: tandem.createTandem( 'optionsDialogSingleton' ),
+        tandem: tandem.createTandem( 'optionsDialogCapsule' ),
         phetioType: PhetioCapsuleIO( DialogIO )
       } );
     }
@@ -152,7 +152,7 @@ define( require => {
       {
         text: menuItemOptionsString,
         present: !!sim.options.createOptionsDialogContent,
-        callback: () => optionsDialogSingleton.getInstance().show(),
+        callback: () => optionsDialogCapsule.getInstance().show(),
         tandem: tandem.createTandem( 'optionsMenuItem' ),
         phetioDocumentation: 'This menu item shows an options dialog.',
         phetioState: false,
@@ -335,7 +335,7 @@ define( require => {
         text: menuItemAboutString,
         present: true,
         separatorBefore: isPhETBrand,
-        callback: () => aboutDialogSingleton.getInstance().show(),
+        callback: () => aboutDialogCapsule.getInstance().show(),
         tandem: tandem.createTandem( 'aboutMenuItem' ),
         phetioDocumentation: 'This menu item shows a dialog with information about the simulation.',
         tagName: 'button',
