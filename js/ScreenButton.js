@@ -121,8 +121,8 @@ define( require => {
       tandem: options.tandem.createTandem( 'inputListener' )
     } );
     this.addInputListener( fireListener );
-    this.addInputListener( { click: function() { large && fireListener.fire(); } } );
-    this.addInputListener( { focus: function() { !large && fireListener.fire(); } } );
+    this.addInputListener( { click: function() { large && fireListener.fire( null ); } } );
+    this.addInputListener( { focus: function() { !large && fireListener.fire( null ); } } );
     this.addInputListener( {
       focus: function() {
         highlightedScreenIndexProperty.value = index;
