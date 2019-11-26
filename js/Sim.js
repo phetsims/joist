@@ -220,6 +220,7 @@ define( require => {
       phet.joist.elapsedTime = phet.joist.elapsedTime + dt * 1000;
 
       // timer step before model/view steps, see https://github.com/phetsims/joist/issues/401
+      // Note that this is vital to support Interactive Descriptions and the utterance queue.
       timer.emit( dt );
 
       // If the DT is 0, we will skip the model step (see https://github.com/phetsims/joist/issues/171)
