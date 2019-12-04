@@ -23,7 +23,7 @@ define( require => {
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Text = require( 'SCENERY/nodes/Text' );
 
-  // a11y-strings
+  // a11y strings
   const simScreensString = JoistA11yStrings.simScreens.value;
   const simScreenString = JoistA11yStrings.simScreen.value;
   const homeScreenDescriptionPatternString = JoistA11yStrings.homeScreenDescriptionPattern.value;
