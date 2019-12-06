@@ -13,7 +13,7 @@ define( require => {
   const Enumeration = require( 'PHET_CORE/Enumeration' );
   const joist = require( 'JOIST/joist' );
 
-  return joist.register( 'UpdateState', new Enumeration( [
+  return joist.register( 'UpdateState', Enumeration.byKeys( [
     'UP_TO_DATE',  // Simulation version is equal to or greater than the currently published version.
     'OUT_OF_DATE', // Simulation version is less than currently published version (or equal but has a suffix)
     'CHECKING',    // Request to server sent out, has not processed reply yet.
