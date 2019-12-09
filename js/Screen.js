@@ -105,6 +105,10 @@ define( require => {
     validateIconSize( options.homeScreenIcon, MINIMUM_HOME_SCREEN_ICON_SIZE, HOME_SCREEN_ICON_ASPECT_RATIO, 'homeScreenIcon' );
     validateIconSize( options.navigationBarIcon, MINIMUM_NAVBAR_ICON_SIZE, NAVBAR_ICON_ASPECT_RATIO, 'navigationBarIcon' );
 
+    if ( assert && options.tandem.supplied ) {
+      assert && assert( _.endsWith( options.tandem.phetioID, 'Screen' ), 'Screen tandems should end with Screen suffix' );
+    }
+
     // @public (read-only, joist)
     this.screenTandem = options.tandem;
 
