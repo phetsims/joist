@@ -158,8 +158,7 @@ define( require => {
         phetioState: false,
 
         // a11y
-        tagName: 'button',
-        focusAfterCallback: true
+        tagName: 'button'
       },
       {
         text: menuItemPhetWebsiteString,
@@ -244,8 +243,7 @@ define( require => {
         },
 
         // a11y
-        tagName: 'button',
-        focusAfterCallback: true
+        tagName: 'button'
       },
 
       // "Screenshot" Menu item
@@ -289,7 +287,10 @@ define( require => {
             phetioFeatured: true
           }
         },
-        tagName: 'button'
+        tagName: 'button',
+        handleFocusCallback: event => {
+          phetButton.focus();
+        }
       },
 
       // "Enhanced Sound" menu item
@@ -304,7 +305,10 @@ define( require => {
         // tandem: tandem.createTandem( 'enhancedSoundMenuItem' ),
         phetioDocumentation: 'This menu item toggles between basic and enhanced sound modes.',
         phetioState: false,
-        tagName: 'button'
+        tagName: 'button',
+        handleFocusCallback: event => {
+          phetButton.focus();
+        }
       },
 
       // "Full Screen" menu item
@@ -327,7 +331,10 @@ define( require => {
         },
 
         // a11y
-        tagName: 'button'
+        tagName: 'button',
+        handleFocusCallback: event => {
+          phetButton.focus();
+        }
       },
 
       // About dialog button
@@ -339,7 +346,6 @@ define( require => {
         tandem: tandem.createTandem( 'aboutMenuItem' ),
         phetioDocumentation: 'This menu item shows a dialog with information about the simulation.',
         tagName: 'button',
-        focusAfterCallback: true,
         phetioComponentOptions: {
           phetioState: false,
           visibleProperty: {
@@ -371,7 +377,7 @@ define( require => {
           checkedProperty: itemDescriptor.checkedProperty,
           separatorBefore: itemDescriptor.separatorBefore,
           tagName: itemDescriptor.tagName,
-          focusAfterCallback: itemDescriptor.focusAfterCallback,
+          handleFocusCallback: itemDescriptor.handleFocusCallback,
           tandem: itemDescriptor.tandem,
           phetioDocumentation: itemDescriptor.phetioDocumentation || '',
           phetioReadOnly: itemDescriptor.phetioReadOnly,
@@ -382,6 +388,7 @@ define( require => {
         // delete undefined values so that merge options will work correctly
         menuItemOptions.phetioReadOnly === undefined && delete menuItemOptions.phetioReadOnly;
         menuItemOptions.phetioState === undefined && delete menuItemOptions.phetioState;
+        menuItemOptions.handleFocusCallback === undefined && delete menuItemOptions.handleFocusCallback;
 
         // This is needed to support MenuItem as tandemOptional because `{ tandem: undefined}` in options will override default.
         !itemDescriptor.tandem && delete menuItemOptions.tandem;
