@@ -102,7 +102,10 @@ define( require => {
     // Note that this buttonModel will always be phetioReadOnly false despite the parent value
     this.buttonModel = new PushButtonModel( {
       listener: clicked,
-      tandem: options.tandem
+      tandem: options.tandem,
+
+      // Navigation bar screen buttons by default do not have a featured enabledProperty.
+      enabledPropertyOptions: { phetioFeatured: false }
     } );
 
     // Hook up the input listener
