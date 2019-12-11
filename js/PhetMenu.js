@@ -154,6 +154,11 @@ define( require => {
         present: !!sim.options.createOptionsDialogContent,
         callback: () => optionsDialogCapsule.getInstance().show(),
         tandem: tandem.createTandem( 'optionsMenuItem' ),
+        phetioComponentOptions: {
+          visibleProperty: {
+            phetioFeatured: true
+          }
+        },
         phetioDocumentation: 'This menu item shows an options dialog.',
         phetioState: false,
 
@@ -349,9 +354,6 @@ define( require => {
         phetioComponentOptions: {
           phetioState: false,
           visibleProperty: {
-            phetioFeatured: true
-          },
-          pickableProperty: {
             phetioFeatured: true
           }
         }
