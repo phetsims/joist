@@ -369,7 +369,9 @@ define( require => {
       // Only instrumented for sims with > 1 screen
       screens.length > 1 ? {
         tandem: Tandem.generalTandem.createTandem( 'showHomeScreenProperty' ),
-        phetioFeatured: true
+        phetioFeatured: true,
+        phetioDocumentation: 'Whether or not home screen is displayed. This is independent of the "current sim screen" ' +
+                             'stored in the "screenIndexProperty."'
       } : {}
     );
 
@@ -377,7 +379,8 @@ define( require => {
     this.screenIndexProperty = new NumberProperty( options.screenIndex, {
       tandem: Tandem.generalTandem.createTandem( 'screenIndexProperty' ),
       phetioFeatured: true,
-      phetioDocumentation: 'Indicates which screen is selected (0-indexed)',
+      phetioDocumentation: 'Indicates which sim screen is selected (0-indexed). Note that the home screen does not ' +
+                           'have an index. To control the home screen see "showHomeScreenProperty".',
       validValues: _.range( 0, screens.length ),
       numberType: 'Integer'
     } );
