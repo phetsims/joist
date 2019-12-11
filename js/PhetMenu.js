@@ -58,6 +58,9 @@ define( require => {
   const FONT_SIZE = 18;
   const MAX_ITEM_WIDTH = 400;
 
+  // the supported keys allowed in each itemDescriptor for a MenuItem
+  const allowedItemDescriptorKeys = [ 'text', 'callback', 'present', 'options' ];
+
   // For disabling features that are incompatible with fuzzing
   const fuzzes = phet.chipper.queryParameters.fuzz ||
                  phet.chipper.queryParameters.fuzzMouse ||
@@ -153,16 +156,18 @@ define( require => {
         text: menuItemOptionsString,
         present: !!sim.options.createOptionsDialogContent,
         callback: () => optionsDialogCapsule.getInstance().show(),
-        tandem: tandem.createTandem( 'optionsMenuItem' ),
-        phetioComponentOptions: {
-          visibleProperty: {
-            phetioFeatured: true
-          }
-        },
-        phetioDocumentation: 'This menu item shows an options dialog.',
+        options: {
+          tandem: tandem.createTandem( 'optionsMenuItem' ),
+          phetioComponentOptions: {
+            visibleProperty: {
+              phetioFeatured: true
+            }
+          },
+          phetioDocumentation: 'This menu item shows an options dialog.',
 
-        // a11y
-        tagName: 'button'
+          // a11y
+          tagName: 'button'
+        }
       },
       {
         text: menuItemPhetWebsiteString,
@@ -173,9 +178,11 @@ define( require => {
             openPopup( 'http://phet.colorado.edu/' + sim.locale );
           }
         },
+        options: {
 
-        // a11y
-        tagName: 'button'
+          // a11y
+          tagName: 'button'
+        }
       },
       {
         text: menuItemOutputInputEventsLogString,
@@ -184,7 +191,7 @@ define( require => {
           // prints the recorded input event log to the console
           console.log( sim.getRecordedInputEventLogString() );
         },
-        tagName: 'button'
+        options: { tagName: 'button' }
       },
       {
         text: menuItemSubmitInputEventsLogString,
@@ -193,7 +200,7 @@ define( require => {
           // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
           sim.submitEventLog();
         },
-        tagName: 'button'
+        options: { tagName: 'button' }
       },
       {
         text: menuItemMailInputEventsLogString,
@@ -202,7 +209,7 @@ define( require => {
           // mailto: link including the body to email
           sim.mailEventLog();
         },
-        tagName: 'button'
+        options: { tagName: 'button' }
       },
       {
         text: menuItemReportAProblemString,
@@ -219,7 +226,7 @@ define( require => {
             openPopup( url );
           }
         },
-        tagName: 'button'
+        options: { tagName: 'button' }
       },
       {
         text: 'QR code',
@@ -230,24 +237,23 @@ define( require => {
           }
         },
 
-        // a11y
-        tagName: 'button'
+        options: { tagName: 'button' }
       },
       {
         text: menuItemGetUpdateString,
         present: updateCheck.areUpdatesChecked,
-        textFill: new DerivedProperty( [ updateCheck.stateProperty ], function( state ) {
-          return state === UpdateState.OUT_OF_DATE ? '#0a0' : '#000';
-        } ),
         callback: function() {
           if ( !updateDialog ) {
             updateDialog = new UpdateDialog( phetButton );
           }
           updateDialog.show();
         },
-
-        // a11y
-        tagName: 'button'
+        options: {
+          textFill: new DerivedProperty( [ updateCheck.stateProperty ], function( state ) {
+            return state === UpdateState.OUT_OF_DATE ? '#0a0' : '#000';
+          } ),
+          tagName: 'button'
+        }
       },
 
       // "Screenshot" Menu item
@@ -282,16 +288,18 @@ define( require => {
             openPopup( dataURL );
           }
         },
-        tandem: tandem.createTandem( 'screenshotMenuItem' ),
-        phetioDocumentation: 'This menu item captures a screenshot from the simulation and saves it to the file system.',
-        phetioComponentOptions: {
-          visibleProperty: {
-            phetioFeatured: true
+        options: {
+          tandem: tandem.createTandem( 'screenshotMenuItem' ),
+          phetioDocumentation: 'This menu item captures a screenshot from the simulation and saves it to the file system.',
+          phetioComponentOptions: {
+            visibleProperty: {
+              phetioFeatured: true
+            }
+          },
+          tagName: 'button',
+          handleFocusCallback: () => {
+            phetButton.focus();
           }
-        },
-        tagName: 'button',
-        handleFocusCallback: event => {
-          phetButton.focus();
         }
       },
 
@@ -299,16 +307,18 @@ define( require => {
       {
         text: menuItemEnhancedSoundString,
         present: sim.supportsEnhancedSound,
-        checkedProperty: soundManager.enhancedSoundEnabledProperty,
         callback: function() {
           soundManager.enhancedSoundEnabledProperty.set( !soundManager.enhancedSoundEnabledProperty.get() );
         },
-        // TODO: How to handle API differences between platforms/hardware/outside logic? See https://github.com/phetsims/phet-io/issues/1457
-        // tandem: tandem.createTandem( 'enhancedSoundMenuItem' ),
-        phetioDocumentation: 'This menu item toggles between basic and enhanced sound modes.',
-        tagName: 'button',
-        handleFocusCallback: event => {
-          phetButton.focus();
+        options: {
+          checkedProperty: soundManager.enhancedSoundEnabledProperty,
+          // TODO: How to handle API differences between platforms/hardware/outside logic? See https://github.com/phetsims/phet-io/issues/1457
+          // tandem: tandem.createTandem( 'enhancedSoundMenuItem' ),
+          phetioDocumentation: 'This menu item toggles between basic and enhanced sound modes.',
+          tagName: 'button',
+          handleFocusCallback: () => {
+            phetButton.focus();
+          }
         }
       },
 
@@ -316,23 +326,25 @@ define( require => {
       {
         text: menuItemFullscreenString,
         present: FullScreen.isFullScreenEnabled() && !isPhetApp && !fuzzes && !platform.mobileSafari,
-        checkedProperty: FullScreen.isFullScreenProperty,
         callback: function() {
           FullScreen.toggleFullScreen( sim.display );
         },
-        // TODO: How to handle API differences between platforms/hardware/outside logic? See https://github.com/phetsims/phet-io/issues/1457
-        // tandem: tandem.createTandem( 'fullScreenMenuItem' ),
-        phetioDocumentation: 'This menu item requests full-screen access for the simulation display.',
-        phetioComponentOptions: {
-          visibleProperty: {
-            phetioFeatured: true
-          }
-        },
+        options: {
+          checkedProperty: FullScreen.isFullScreenProperty,
+          // TODO: How to handle API differences between platforms/hardware/outside logic? See https://github.com/phetsims/phet-io/issues/1457
+          // tandem: tandem.createTandem( 'fullScreenMenuItem' ),
+          phetioDocumentation: 'This menu item requests full-screen access for the simulation display.',
+          phetioComponentOptions: {
+            visibleProperty: {
+              phetioFeatured: true
+            }
+          },
 
-        // a11y
-        tagName: 'button',
-        handleFocusCallback: event => {
-          phetButton.focus();
+          // a11y
+          tagName: 'button',
+          handleFocusCallback: () => {
+            phetButton.focus();
+          }
         }
       },
 
@@ -340,22 +352,33 @@ define( require => {
       {
         text: menuItemAboutString,
         present: true,
-        separatorBefore: isPhETBrand,
         callback: () => aboutDialogCapsule.getInstance().show(),
-        tandem: tandem.createTandem( 'aboutMenuItem' ),
-        phetioDocumentation: 'This menu item shows a dialog with information about the simulation.',
-        tagName: 'button',
-        phetioComponentOptions: {
-          visibleProperty: {
-            phetioFeatured: true
+        options: {
+          separatorBefore: isPhETBrand,
+          tandem: tandem.createTandem( 'aboutMenuItem' ),
+          phetioDocumentation: 'This menu item shows a dialog with information about the simulation.',
+          tagName: 'button',
+          phetioComponentOptions: {
+            visibleProperty: {
+              phetioFeatured: true
+            }
           }
         }
       }
     ];
 
+    const keepItemDescriptors = _.filter( itemDescriptors, itemDescriptor => {
+      if ( assert ) {
+        const descriptorKeys = Object.keys( itemDescriptor );
+        assert && assert( descriptorKeys.length === _.intersection( descriptorKeys, allowedItemDescriptorKeys ).length,
+          `unexpected key provided in itemDescriptor; one of: ${descriptorKeys}` );
+      }
+      return itemDescriptor.present;
+    } );
+
+
     // Menu items have uniform size, so compute the max text dimensions.  These are only used for sizing and thus don't
-    // need to be tandemized.
-    const keepItemDescriptors = _.filter( itemDescriptors, function( itemDescriptor ) {return itemDescriptor.present;} );
+    // need to be PhET-iO instrumented.
     const textNodes = _.map( keepItemDescriptors, function( item ) {
       return new Text( item.text, {
         font: new PhetFont( FONT_SIZE ),
@@ -367,32 +390,13 @@ define( require => {
 
     // Create the menu items.
     const items = _.map( keepItemDescriptors, function( itemDescriptor ) {
-        const menuItemOptions = {
-          textFill: itemDescriptor.textFill,
-          checkedProperty: itemDescriptor.checkedProperty,
-          separatorBefore: itemDescriptor.separatorBefore,
-          tagName: itemDescriptor.tagName,
-          handleFocusCallback: itemDescriptor.handleFocusCallback,
-          tandem: itemDescriptor.tandem,
-          phetioDocumentation: itemDescriptor.phetioDocumentation || '',
-          phetioReadOnly: itemDescriptor.phetioReadOnly,
-          phetioComponentOptions: itemDescriptor.phetioComponentOptions || {}
-        };
-
-        // delete undefined values so that merge options will work correctly
-        menuItemOptions.phetioReadOnly === undefined && delete menuItemOptions.phetioReadOnly;
-        menuItemOptions.handleFocusCallback === undefined && delete menuItemOptions.handleFocusCallback;
-
-        // This is needed to support MenuItem as tandemOptional because `{ tandem: undefined}` in options will override default.
-        !itemDescriptor.tandem && delete menuItemOptions.tandem;
-
         return new MenuItem(
           maxTextWidth,
           maxTextHeight,
           options.closeCallback,
           itemDescriptor.text,
           itemDescriptor.callback,
-          menuItemOptions
+          itemDescriptor.options
         );
       }
     );
