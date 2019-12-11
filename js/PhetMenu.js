@@ -163,10 +163,7 @@ define( require => {
               phetioFeatured: true
             }
           },
-          phetioDocumentation: 'This menu item shows an options dialog.',
-
-          // a11y
-          tagName: 'button'
+          phetioDocumentation: 'This menu item shows an options dialog.'
         }
       },
       {
@@ -177,11 +174,6 @@ define( require => {
             // Open locale-specific PhET home page. If there is no website translation for locale, fallback will be handled by server. See joist#97.
             openPopup( 'http://phet.colorado.edu/' + sim.locale );
           }
-        },
-        options: {
-
-          // a11y
-          tagName: 'button'
         }
       },
       {
@@ -190,8 +182,7 @@ define( require => {
         callback: function() {
           // prints the recorded input event log to the console
           console.log( sim.getRecordedInputEventLogString() );
-        },
-        options: { tagName: 'button' }
+        }
       },
       {
         text: menuItemSubmitInputEventsLogString,
@@ -199,8 +190,7 @@ define( require => {
         callback: function() {
           // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
           sim.submitEventLog();
-        },
-        options: { tagName: 'button' }
+        }
       },
       {
         text: menuItemMailInputEventsLogString,
@@ -208,8 +198,7 @@ define( require => {
         callback: function() {
           // mailto: link including the body to email
           sim.mailEventLog();
-        },
-        options: { tagName: 'button' }
+        }
       },
       {
         text: menuItemReportAProblemString,
@@ -225,8 +214,7 @@ define( require => {
           if ( !fuzzes ) {
             openPopup( url );
           }
-        },
-        options: { tagName: 'button' }
+        }
       },
       {
         text: 'QR code',
@@ -235,9 +223,7 @@ define( require => {
           if ( !fuzzes ) {
             openPopup( 'http://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent( window.location.href ) + '&size=220x220&margin=0' );
           }
-        },
-
-        options: { tagName: 'button' }
+        }
       },
       {
         text: menuItemGetUpdateString,
@@ -251,8 +237,7 @@ define( require => {
         options: {
           textFill: new DerivedProperty( [ updateCheck.stateProperty ], function( state ) {
             return state === UpdateState.OUT_OF_DATE ? '#0a0' : '#000';
-          } ),
-          tagName: 'button'
+          } )
         }
       },
 
@@ -296,7 +281,8 @@ define( require => {
               phetioFeatured: true
             }
           },
-          tagName: 'button',
+
+          // a11y
           handleFocusCallback: () => {
             phetButton.focus();
           }
@@ -315,7 +301,8 @@ define( require => {
           // TODO: How to handle API differences between platforms/hardware/outside logic? See https://github.com/phetsims/phet-io/issues/1457
           // tandem: tandem.createTandem( 'enhancedSoundMenuItem' ),
           phetioDocumentation: 'This menu item toggles between basic and enhanced sound modes.',
-          tagName: 'button',
+
+          // a11y
           handleFocusCallback: () => {
             phetButton.focus();
           }
@@ -341,7 +328,6 @@ define( require => {
           },
 
           // a11y
-          tagName: 'button',
           handleFocusCallback: () => {
             phetButton.focus();
           }
@@ -355,9 +341,10 @@ define( require => {
         callback: () => aboutDialogCapsule.getInstance().show(),
         options: {
           separatorBefore: isPhETBrand,
+
+          // phet-io
           tandem: tandem.createTandem( 'aboutMenuItem' ),
           phetioDocumentation: 'This menu item shows a dialog with information about the simulation.',
-          tagName: 'button',
           phetioComponentOptions: {
             visibleProperty: {
               phetioFeatured: true
