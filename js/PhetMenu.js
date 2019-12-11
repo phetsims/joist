@@ -160,7 +160,6 @@ define( require => {
           }
         },
         phetioDocumentation: 'This menu item shows an options dialog.',
-        phetioState: false,
 
         // a11y
         tagName: 'button'
@@ -285,9 +284,7 @@ define( require => {
         },
         tandem: tandem.createTandem( 'screenshotMenuItem' ),
         phetioDocumentation: 'This menu item captures a screenshot from the simulation and saves it to the file system.',
-        phetioState: false,
         phetioComponentOptions: {
-          phetioState: false,
           visibleProperty: {
             phetioFeatured: true
           }
@@ -309,7 +306,6 @@ define( require => {
         // TODO: How to handle API differences between platforms/hardware/outside logic? See https://github.com/phetsims/phet-io/issues/1457
         // tandem: tandem.createTandem( 'enhancedSoundMenuItem' ),
         phetioDocumentation: 'This menu item toggles between basic and enhanced sound modes.',
-        phetioState: false,
         tagName: 'button',
         handleFocusCallback: event => {
           phetButton.focus();
@@ -327,9 +323,7 @@ define( require => {
         // TODO: How to handle API differences between platforms/hardware/outside logic? See https://github.com/phetsims/phet-io/issues/1457
         // tandem: tandem.createTandem( 'fullScreenMenuItem' ),
         phetioDocumentation: 'This menu item requests full-screen access for the simulation display.',
-        phetioState: false,
         phetioComponentOptions: {
-          phetioState: false,
           visibleProperty: {
             phetioFeatured: true
           }
@@ -352,7 +346,6 @@ define( require => {
         phetioDocumentation: 'This menu item shows a dialog with information about the simulation.',
         tagName: 'button',
         phetioComponentOptions: {
-          phetioState: false,
           visibleProperty: {
             phetioFeatured: true
           }
@@ -383,13 +376,11 @@ define( require => {
           tandem: itemDescriptor.tandem,
           phetioDocumentation: itemDescriptor.phetioDocumentation || '',
           phetioReadOnly: itemDescriptor.phetioReadOnly,
-          phetioComponentOptions: itemDescriptor.phetioComponentOptions || {},
-          phetioState: itemDescriptor.phetioState
+          phetioComponentOptions: itemDescriptor.phetioComponentOptions || {}
         };
 
         // delete undefined values so that merge options will work correctly
         menuItemOptions.phetioReadOnly === undefined && delete menuItemOptions.phetioReadOnly;
-        menuItemOptions.phetioState === undefined && delete menuItemOptions.phetioState;
         menuItemOptions.handleFocusCallback === undefined && delete menuItemOptions.handleFocusCallback;
 
         // This is needed to support MenuItem as tandemOptional because `{ tandem: undefined}` in options will override default.
