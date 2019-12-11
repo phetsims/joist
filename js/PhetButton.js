@@ -70,23 +70,6 @@ define( require => {
         }
       } );
 
-    const options = {
-      highlightExtensionWidth: 6,
-      highlightExtensionHeight: 5,
-      highlightCenterOffsetY: 4,
-      listener: function() {
-        phetMenu.show();
-      },
-      phetioType: PhetButtonIO,
-      phetioDocumentation: 'The button that appears at the right side of the navigation bar, which shows a menu when pressed',
-      enabledPropertyOptions: {
-        phetioFeatured: true
-      },
-      // a11y
-      tagName: 'button',
-      innerContent: phetString
-    };
-
     // PhET logo
     const logoImage = new Image( brightLogoMipmap, {
       scale: LOGO_SCALE,
@@ -103,7 +86,25 @@ define( require => {
     // The icon combines the PhET logo and the menu icon
     const icon = new Node( { children: [ logoImage, menuIcon ] } );
 
-    JoistButton.call( this, icon, backgroundFillProperty, tandem, options );
+    JoistButton.call( this, icon, backgroundFillProperty, tandem, {
+      highlightExtensionWidth: 6,
+      highlightExtensionHeight: 5,
+      highlightCenterOffsetY: 4,
+      listener: function() {
+        phetMenu.show();
+      },
+      phetioType: PhetButtonIO,
+      phetioDocumentation: 'The button that appears at the right side of the navigation bar, which shows a menu when pressed',
+
+      // This is the primary way to disable learners from accessing the phet menu in PhET-iO, so feature it.
+      enabledPropertyOptions: {
+        phetioFeatured: true
+      },
+
+      // a11y
+      tagName: 'button',
+      innerContent: phetString
+    } );
 
     // No need to unlink, as the PhetButton exists for the lifetime of the sim
     Property.multilink( [ backgroundFillProperty, sim.showHomeScreenProperty, updateCheck.stateProperty ],

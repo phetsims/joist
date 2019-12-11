@@ -37,7 +37,10 @@ define( require => {
       highlightExtensionWidth: 0,
       highlightExtensionHeight: 0,
       highlightCenterOffsetX: 0,
-      highlightCenterOffsetY: 0
+      highlightCenterOffsetY: 0,
+
+      // JoistButtons by default do not have a featured enabledProperty
+      enabledPropertyOptions: { phetioFeatured: false }
     }, options );
 
     options.tandem = tandem;
