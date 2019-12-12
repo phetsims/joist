@@ -149,7 +149,7 @@ define( require => {
         this.panZoomListener.setPanBounds( this.boundsProperty.value );
       }
     }, {
-      tandem: Tandem.generalTandem.createTandem( 'resizeAction' ),
+      tandem: Tandem.GENERAL.createTandem( 'resizeAction' ),
       parameters: [
         { name: 'width', phetioType: NumberIO },
         { name: 'height', phetioType: NumberIO }
@@ -257,7 +257,7 @@ define( require => {
       }
       this.frameEndedEmitter.emit();
     }, {
-      tandem: Tandem.generalTandem.createTandem( 'stepSimulationAction' ),
+      tandem: Tandem.GENERAL.createTandem( 'stepSimulationAction' ),
       parameters: [ { name: 'dt', phetioType: NumberIO } ],
       phetioHighFrequency: true,
       phetioPlayback: true
@@ -368,7 +368,7 @@ define( require => {
 
       // Only instrumented for sims with > 1 screen
       screens.length > 1 ? {
-        tandem: Tandem.generalTandem.createTandem( 'showHomeScreenProperty' ),
+        tandem: Tandem.GENERAL.createTandem( 'showHomeScreenProperty' ),
         phetioFeatured: true,
         phetioDocumentation: 'Whether or not home screen is displayed. This is independent of the "current sim screen" ' +
                              'stored in the "screenIndexProperty."'
@@ -377,7 +377,7 @@ define( require => {
 
     // @public (joist-internal) - The selected screen's index
     this.screenIndexProperty = new NumberProperty( options.screenIndex, {
-      tandem: Tandem.generalTandem.createTandem( 'screenIndexProperty' ),
+      tandem: Tandem.GENERAL.createTandem( 'screenIndexProperty' ),
       phetioFeatured: true,
       phetioDocumentation: 'Indicates which sim screen is selected (0-indexed). Note that the home screen does not ' +
                            'have an index. To control the home screen see "showHomeScreenProperty".',
@@ -389,7 +389,7 @@ define( require => {
     // Set to false for when the sim will be paused.  If the sim has playbackModeEnabledProperty set to true, the
     // activeProperty will automatically be set to false so the timing and inputs can be controlled by the playback engine
     this.activeProperty = new BooleanProperty( !phet.joist.playbackModeEnabledProperty.value, {
-      tandem: Tandem.generalTandem.createTandem( 'activeProperty' ),
+      tandem: Tandem.GENERAL.createTandem( 'activeProperty' ),
       phetioFeatured: true,
       phetioDocumentation: 'Determines whether the entire simulation is running and processing user input. ' +
                            'Setting this property to false pauses the simulation, and prevents user interaction.'
@@ -397,7 +397,7 @@ define( require => {
 
     // @public (read-only) - property that indicates whether the browser tab containing the simulation is currently visible
     this.browserTabVisibleProperty = new BooleanProperty( true, {
-      tandem: Tandem.generalTandem.createTandem( 'browserTabVisibleProperty' ),
+      tandem: Tandem.GENERAL.createTandem( 'browserTabVisibleProperty' ),
       phetioDocumentation: 'Indicates whether the browser tab containing the simulation is currently visible',
       phetioReadOnly: true
     } );
@@ -586,7 +586,7 @@ define( require => {
     }
 
     this.display.initializeEvents( {
-      tandem: Tandem.generalTandem.createTandem( 'controller' ).createTandem( 'input' )
+      tandem: Tandem.GENERAL.createTandem( 'controller' ).createTandem( 'input' )
     } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
     window.phet.joist.rootNode = this.rootNode; // make the scene available for debugging
     window.phet.joist.display = this.display; // make the display available for debugging
@@ -605,7 +605,7 @@ define( require => {
     // phet.chipper.queryParameters.homeScreen is false. That query parameter only affects the ability to view
     // the home screen. See NavigationBar for phet.chipper.queryParameters.homeScreen usage.
     if ( screens.length > 1 ) {
-      this.homeScreen = new HomeScreen( this, Tandem.rootTandem.createTandem( 'homeScreen' ), {
+      this.homeScreen = new HomeScreen( this, Tandem.ROOT.createTandem( 'homeScreen' ), {
         warningNode: options.homeScreenWarningNode
       } );
       this.homeScreen.initializeModelAndView();
@@ -615,7 +615,7 @@ define( require => {
     }
 
     // @public (joist-internal)
-    this.navigationBar = new NavigationBar( this, screens, this.showHomeScreenProperty, Tandem.generalTandem.createTandem( 'navigationBar' ) );
+    this.navigationBar = new NavigationBar( this, screens, this.showHomeScreenProperty, Tandem.GENERAL.createTandem( 'navigationBar' ) );
 
     // @private {AnimatedPanZoomListener|null} - magnification support, null unless requested by query param
     this.panZoomListener = null;
@@ -741,7 +741,7 @@ define( require => {
         this.modalNodeStack, {
           fill: 'rgba(0,0,0,0.3)',
           pickable: true,
-          tandem: Tandem.generalTandem.createTandem( 'barrierRectangle' ),
+          tandem: Tandem.GENERAL.createTandem( 'barrierRectangle' ),
           phetioDocumentation: 'Semi-transparent barrier used to block input events when a dialog is shown, also fades out the background'
         } );
       this.topLayer.addChild( this.barrierRectangle );

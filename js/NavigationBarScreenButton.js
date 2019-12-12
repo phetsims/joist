@@ -62,7 +62,7 @@ define( require => {
 
     options = merge( {
       cursor: 'pointer',
-      tandem: Tandem.required,
+      tandem: Tandem.REQUIRED,
       phetioDocumentation: 'Button in the navigation bar that selects the \'' + screen.screenTandem.name + '\' screen',
       maxButtonWidth: null, // {number|null} the maximum width of the button, causes text and/or icon to be scaled down if necessary
 

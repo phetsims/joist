@@ -35,7 +35,7 @@ define( require => {
       ySpacing: 20,
 
       // phet-io
-      tandem: Tandem.required,
+      tandem: Tandem.REQUIRED,
       phetioDynamicElement: true
     }, options );
 

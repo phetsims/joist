@@ -30,7 +30,7 @@ define( require => {
     const keyboardHelpButton = new KeyboardHelpButton(
       keyboardHelpDialogContent,
       phet.joist.sim.lookAndFeel.backgroundColorProperty,
-      Tandem.optional
+      Tandem.OPTIONAL
     );
     keyboardHelpButton.setScaleMagnitude( 2 );
 

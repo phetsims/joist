@@ -52,7 +52,7 @@ define( require => {
       excludeInvisible: true, // so we don't keep invisible screens in the SVG tree
 
       // phet-io options
-      tandem: Tandem.optional,
+      tandem: Tandem.OPTIONAL,
 
       // a11y options
       containerTagName: 'article',

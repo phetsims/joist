@@ -78,7 +78,7 @@ define( require => {
       // dt cap in seconds, see https://github.com/phetsims/joist/issues/130
       maxDT: 0.5,
 
-      tandem: Tandem.required,
+      tandem: Tandem.REQUIRED,
 
       // a11y - The description that is used when interacting with screen icons/buttons in joist.
       // This is often a full but short sentence with a period at the end of it.

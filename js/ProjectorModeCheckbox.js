@@ -40,7 +40,7 @@ define( require => {
 
         font: OptionsDialog.DEFAULT_FONT,
         maxTextWidth: 350, // empirically determined, works reasonably well for long strings
-        tandem: Tandem.required
+        tandem: Tandem.REQUIRED
       }, options );
 
       // verify that colorProfile has the required profiles

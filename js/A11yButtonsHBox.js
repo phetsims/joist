@@ -41,7 +41,7 @@ define( require => {
       const soundOnOffButton = new NavigationBarSoundToggleButton(
         soundManager.enabledProperty,
         backgroundColorProperty,
-        Tandem.optional
+        Tandem.OPTIONAL
         // tandem.createTandem( 'soundOnOffButton' )
       );
       a11yButtons.push( soundOnOffButton );
