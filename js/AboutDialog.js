@@ -173,18 +173,29 @@ define( require => {
     // Show any links identified in the brand
     const links = Brand.getLinks( packageJSON.name, locale );
     if ( links && links.length > 0 ) {
-      children.push( new VStrut( 15 ) );
+
+      const linksChildren = [];
+      linksChildren.push( new VStrut( 15 ) );
 
       for ( let i = 0; i < links.length; i++ ) {
         const link = links[ i ];
 
-        children.push( new RichText( '<a href="{{url}}">' + link.text + '</a>', {
+        // If links are allowed, use hyperlinks.  Otherwise just output the URL.  This doesn't need to be internationalized.
+        const text = phet.chipper.queryParameters.allowLinks ? '<a href="{{url}}">' + link.text + '</a>' : link.text + ': ' + link.url;
+        linksChildren.push( new RichText( text, {
           links: { url: link.url }, // RichText must fill in URL for link
           font: new PhetFont( 14 ),
-          maxWidth: MAX_WIDTH,
           tandem: tandem.createTandem( link.tandemName )
         } ) );
       }
+
+      // Show the links in a separate VBox so they will have the same MAX_WIDTH and hence the same font size.
+      const linksParent = new VBox( {
+        spacing: 5,
+        align: 'left',
+        children: linksChildren, maxWidth: MAX_WIDTH
+      } );
+      children.push( linksParent );
     }
 
     const content = new VBox( {
