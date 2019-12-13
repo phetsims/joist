@@ -60,7 +60,7 @@ define( require => {
 
     assert && assert( !options.listener, 'KeyboardHelpButton set\'s its own listener' );
 
-    const keyboardHelpDialogCapsule = new PhetioCapsule( 'keyboardHelpDialog', tandem => {
+    const keyboardHelpDialogCapsule = new PhetioCapsule( tandem => {
       return new KeyboardHelpDialog( helpContent, {
         focusOnCloseNode: this,
         tandem: tandem
