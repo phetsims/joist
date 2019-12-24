@@ -209,5 +209,4 @@ define( require => {
       DEFAULT_LAYOUT_BOUNDS: DEFAULT_LAYOUT_BOUNDS
     }
   );
-} )
-;
+} );
