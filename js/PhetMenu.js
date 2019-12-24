@@ -106,9 +106,6 @@ define( require => {
 
     options = merge( {
 
-      // For sims that have save/load enabled, show menu items for those.
-      showSaveAndLoad: false,
-
       phetioType: PhetMenuIO,
       phetioState: false,
       phetioDocumentation: 'This menu is displayed when the PhET button is pressed.',

@@ -329,12 +329,6 @@ define( require => {
       // when playing back a recorded scenery input event log, use the specified filename.  Please see getEventLogName for more
       inputEventLogName: undefined,
 
-      // TODO https://github.com/phetsims/energy-skate-park-basics/issues/370
-      // this function is currently (9-5-2014) specific to Energy Skate Park: Basics, which shows Save/Load buttons in
-      // the PhET menu.  This interface is not very finalized and will probably be changed for future versions,
-      // so don't rely on it.
-      showSaveAndLoad: false,
-
       // Whether accessibility features are enabled or not.  Use this option to render the Parallel DOM for
       // keyboard navigation and screen reader based auditory descriptions. The "accessibility" query parameter will
       // override this flag when true, so only use this to enable.
