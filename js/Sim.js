@@ -992,7 +992,7 @@ define( require => {
      * Get the single utteranceQueue instance to be used by the PhET sim to make aria-live alerts.
      * @public
      */
-    get utteranceQueue(){
+    get utteranceQueue() {
       return this.display.utteranceQueue;
     }
   } );
