@@ -12,7 +12,7 @@ define( require => {
 
   // modules
   const joist = require( 'JOIST/joist' );
-  const Util = require( 'SCENERY/util/Util' );
+  const Utils = require( 'SCENERY/util/Utils' );
   const Tandem = require( 'TANDEM/Tandem' );
 
   // ifphetio
@@ -37,10 +37,10 @@ define( require => {
   putInfo( 'window', window.innerWidth + 'x' + window.innerHeight );
   putInfo( 'referrer', document.referrer );
 
-  // from Scenery Util
-  putInfo( 'checkIE11StencilSupport', Util.checkIE11StencilSupport() );
+  // from Scenery Utils
+  putInfo( 'checkIE11StencilSupport', Utils.checkIE11StencilSupport() );
   if ( phet.chipper.queryParameters.webgl ) {
-    putInfo( 'isWebGLSupported', Util.isWebGLSupported );
+    putInfo( 'isWebGLSupported', Utils.isWebGLSupported );
   }
 
   let canvas;
@@ -50,7 +50,7 @@ define( require => {
   try {
     canvas = document.createElement( 'canvas' );
     context = canvas.getContext( '2d' );
-    backingStorePixelRatio = Util.backingStorePixelRatio( context );
+    backingStorePixelRatio = Utils.backingStorePixelRatio( context );
   }
   catch( e ) {} // eslint-disable-line
 

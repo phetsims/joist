@@ -33,7 +33,7 @@ define( require => {
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
   const joist = require( 'JOIST/joist' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
 
   // constants
@@ -83,11 +83,11 @@ define( require => {
         }
 
         // FPS
-        const averageFPS = Util.roundSymmetric( 1000 / ( totalTime / this.allTimes.length ) );
+        const averageFPS = Utils.roundSymmetric( 1000 / ( totalTime / this.allTimes.length ) );
         let text = '' + averageFPS + ' FPS';
 
         // ms/frame
-        const averageFrameTime = Util.roundSymmetric( totalTime / this.allTimes.length );
+        const averageFrameTime = Utils.roundSymmetric( totalTime / this.allTimes.length );
         text = text + FIELD_SEPARATOR + averageFrameTime + 'ms/frame';
 
         // histogram

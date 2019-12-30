@@ -21,7 +21,7 @@ define( require => {
   const Brand = require( 'BRAND/Brand' );
   const Dimension2 = require( 'DOT/Dimension2' );
   const Display = require( 'SCENERY/display/Display' );
-  const DotUtil = require( 'DOT/Util' );// eslint-disable-line
+  const DotUtil = require( 'DOT/Utils' );// eslint-disable-line
   const Emitter = require( 'AXON/Emitter' );
   const Heartbeat = require( 'JOIST/Heartbeat' );
   const HomeScreen = require( 'JOIST/HomeScreen' );
@@ -49,7 +49,7 @@ define( require => {
   const Tandem = require( 'TANDEM/Tandem' );
   const timer = require( 'AXON/timer' );
   const updateCheck = require( 'JOIST/updateCheck' );
-  const Util = require( 'SCENERY/util/Util' );
+  const Utils = require( 'SCENERY/util/Utils' );
 
 
   // ifphetio
@@ -103,7 +103,7 @@ define( require => {
       options.webgl = phet.chipper.queryParameters.webgl;
     }
 
-    Util.setWebGLEnabled( options.webgl );
+    Utils.setWebGLEnabled( options.webgl );
 
     // @public - Action that indicates when the sim resized.  This Action is implemented so it can be automatically played back.
     this.resizeAction = new Action( ( width, height ) => {
@@ -862,7 +862,7 @@ define( require => {
                 self.finishInit( screens );
 
                 // Make sure requestAnimationFrame is defined
-                Util.polyfillRequestAnimationFrame();
+                Utils.polyfillRequestAnimationFrame();
 
                 // Option for profiling
                 // if true, prints screen initialization time (total, model, view) to the console and displays

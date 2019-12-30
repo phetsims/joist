@@ -23,7 +23,7 @@ define( require => {
   const Shape = require( 'KITE/Shape' );
   const Text = require( 'SCENERY/nodes/Text' );
   const Touch = require( 'SCENERY/input/Touch' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const VBox = require( 'SCENERY/nodes/VBox' );
 
   // constants
@@ -51,7 +51,7 @@ define( require => {
     const screen = sim.screens[ index ];
 
     // Maps the number of screens to a scale for the small icons. The scale is percentage of LARGE_ICON_HEIGHT.
-    let smallIconScale = Util.linear( 2, 4, 0.875, 0.50, sim.screens.length );
+    let smallIconScale = Utils.linear( 2, 4, 0.875, 0.50, sim.screens.length );
     if ( sim.screens.length >= 5 ) {
       smallIconScale = 0.4;
     }

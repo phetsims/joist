@@ -14,7 +14,7 @@ define( require => {
 
   // modules
   const joist = require( 'JOIST/joist' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   class TemporalCounter {
 
@@ -39,7 +39,7 @@ define( require => {
     onEvent( time ) {
       assert && this.previousTime && assert( time >= this.previousTime, 'time must increase each event' );
 
-      assert && assert( Util.isInteger( time ), 'time must be an integer' );
+      assert && assert( Utils.isInteger( time ), 'time must be an integer' );
 
       const currentBinIndex = Math.floor( time / this.binSize );
 
