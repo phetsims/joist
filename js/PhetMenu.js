@@ -11,7 +11,7 @@ define( require => {
 
   // modules
   const AboutDialog = require( 'JOIST/AboutDialog' );
-  const AccessibilityUtil = require( 'SCENERY/accessibility/AccessibilityUtil' );
+  const AccessibilityUtils = require( 'SCENERY/accessibility/AccessibilityUtils' );
   const Brand = require( 'BRAND/Brand' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const DialogIO = require( 'SUN/DialogIO' );
@@ -435,13 +435,13 @@ define( require => {
         if ( domEvent.keyCode === KeyboardUtils.KEY_DOWN_ARROW ) {
 
           // On down arrow, focus next item in the list, or wrap up to the first item if focus is at the end
-          const nextFocusable = lastItem.focused ? firstItem : AccessibilityUtil.getNextFocusable();
+          const nextFocusable = lastItem.focused ? firstItem : AccessibilityUtils.getNextFocusable();
           nextFocusable.focus();
         }
         else if ( domEvent.keyCode === KeyboardUtils.KEY_UP_ARROW ) {
 
           // On up arow, focus previous item in the list, or wrap back to the last item if focus is on first item
-          const previousFocusable = firstItem.focused ? lastItem : AccessibilityUtil.getPreviousFocusable();
+          const previousFocusable = firstItem.focused ? lastItem : AccessibilityUtils.getPreviousFocusable();
           previousFocusable.focus();
         }
         else if ( domEvent.keyCode === KeyboardUtils.KEY_ESCAPE ) {
