@@ -21,7 +21,7 @@ define( require => {
   const Brand = require( 'BRAND/Brand' );
   const Dimension2 = require( 'DOT/Dimension2' );
   const Display = require( 'SCENERY/display/Display' );
-  const DotUtil = require( 'DOT/Utils' );// eslint-disable-line
+  const DotUtils = require( 'DOT/Utils' );// eslint-disable-line
   const Emitter = require( 'AXON/Emitter' );
   const Heartbeat = require( 'JOIST/Heartbeat' );
   const HomeScreen = require( 'JOIST/HomeScreen' );
@@ -845,7 +845,7 @@ define( require => {
             workItems[ i ]();
             // Move the progress ahead by one so we show the full progress bar for a moment before the sim starts up
 
-            const progress = DotUtil.linear( 0, workItems.length - 1, 0.25, 1.0, i );
+            const progress = DotUtils.linear( 0, workItems.length - 1, 0.25, 1.0, i );
 
             // Support iOS Reading Mode, which saves a DOM snapshot after the progressBarForeground has already been
             // removed from the document, see https://github.com/phetsims/joist/issues/389
