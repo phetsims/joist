@@ -19,7 +19,7 @@ define( require => {
   const FullScreen = require( 'SCENERY/util/FullScreen' );
   const inherit = require( 'PHET_CORE/inherit' );
   const joist = require( 'JOIST/joist' );
-  const KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
+  const KeyboardUtils = require( 'SCENERY/accessibility/KeyboardUtils' );
   const MenuItem = require( 'SUN/MenuItem' );
   const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
@@ -428,29 +428,29 @@ define( require => {
         const lastItem = self.items[ self.items.length - 1 ];
 
         // this attempts to prevents the scren reader's virtual cursor from also moving with the arrow keys
-        if ( KeyboardUtil.isArrowKey( domEvent.keyCode ) ) {
+        if ( KeyboardUtils.isArrowKey( domEvent.keyCode ) ) {
           domEvent.preventDefault();
         }
 
-        if ( domEvent.keyCode === KeyboardUtil.KEY_DOWN_ARROW ) {
+        if ( domEvent.keyCode === KeyboardUtils.KEY_DOWN_ARROW ) {
 
           // On down arrow, focus next item in the list, or wrap up to the first item if focus is at the end
           const nextFocusable = lastItem.focused ? firstItem : AccessibilityUtil.getNextFocusable();
           nextFocusable.focus();
         }
-        else if ( domEvent.keyCode === KeyboardUtil.KEY_UP_ARROW ) {
+        else if ( domEvent.keyCode === KeyboardUtils.KEY_UP_ARROW ) {
 
           // On up arow, focus previous item in the list, or wrap back to the last item if focus is on first item
           const previousFocusable = firstItem.focused ? lastItem : AccessibilityUtil.getPreviousFocusable();
           previousFocusable.focus();
         }
-        else if ( domEvent.keyCode === KeyboardUtil.KEY_ESCAPE ) {
+        else if ( domEvent.keyCode === KeyboardUtils.KEY_ESCAPE ) {
 
           // On escape, close the menu and focus the PhET button
           options.closeCallback();
           phetButton.focus();
         }
-        else if ( domEvent.keyCode === KeyboardUtil.KEY_TAB ) {
+        else if ( domEvent.keyCode === KeyboardUtils.KEY_TAB ) {
 
           // close the menu whenever the user tabs out of it
           options.closeCallback();
