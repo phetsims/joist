@@ -203,7 +203,7 @@ define( require => {
       spacing: 5,
       children: children,
 
-      // a11y
+      // a11y - accessible container for all AboutDialog content
       tagName: 'div'
     } );
 
