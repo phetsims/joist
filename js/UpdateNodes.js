@@ -109,16 +109,19 @@ define( require => {
      * @public (joist-internal)
      */
     createOutOfDateAboutNode: function( options ) {
+      const text = phet.chipper.queryParameters.allowLinks ? '<a href="{{url}}">' + updatesOutOfDateString + '</a>' : updatesOutOfDateString;
+      const links = phet.chipper.queryParameters.allowLinks ? { url: updateCheck.updateURL } : {};
+      const linkNode = new RichText( text, {
+        links: links, // RichText must fill in URL for link
+        font: updateTextFont
+      } );
       return new HBox( merge( {
         spacing: 8,
-        cursor: 'pointer',
+        cursor: phet.chipper.queryParameters.allowLinks ? 'pointer' : null,
         maxWidth: MAX_WIDTH,
         children: [
           new FontAwesomeNode( 'warning_sign', { fill: '#E87600', scale: 0.5 } ), // "safety orange", according to Wikipedia
-          new RichText( '<a href="{{url}}">' + updatesOutOfDateString + '</a>', {
-            links: { url: updateCheck.updateURL }, // RichText must fill in URL for link
-            font: updateTextFont
-          } )
+          linkNode
         ],
 
         // a11y
