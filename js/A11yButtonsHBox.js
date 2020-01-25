@@ -51,8 +51,8 @@ define( require => {
     // If the sim has accessibility support in its API, then create the button. This is support consistent API for PhET-iO
     if ( sim.supportsAccessibility && sim.keyboardHelpNode ) {
 
-      // @public (joist-internal, read-only) - Pops open a dialog with information about keyboard navigation
-      this.keyboardHelpButton = new KeyboardHelpButton(
+      // Pops open a dialog with information about keyboard navigation
+      const keyboardHelpButton = new KeyboardHelpButton(
         sim.keyboardHelpNode,
         backgroundColorProperty,
         tandem.createTandem( 'keyboardHelpButton' )
@@ -61,7 +61,7 @@ define( require => {
       // only show the keyboard help button if the sim is accessible, there is keyboard help content, and we are
       // not in mobile safari
       if ( sim.isAccessible && !platform.mobileSafari ) {
-        a11yButtons.push( this.keyboardHelpButton );
+        a11yButtons.push( keyboardHelpButton );
       }
     }
 
