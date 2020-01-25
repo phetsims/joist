@@ -35,7 +35,7 @@ define( require => {
     const a11yButtons = [];
 
     // If the sim has sound support in its API, then create the button. This is support consistent API for PhET-iO
-    if ( sim.simSupportsSoundViaPackage ) {
+    if ( sim.soundPartOfAPI ) {
       const soundOnOffButton = new NavigationBarSoundToggleButton(
         soundManager.enabledProperty,
         backgroundColorProperty,
@@ -49,7 +49,7 @@ define( require => {
     }
 
     // If the sim has accessibility support in its API, then create the button. This is support consistent API for PhET-iO
-    if ( sim.supportsAccessibility && sim.keyboardHelpNode ) {
+    if ( sim.accessibilityPartOfTheAPI && sim.keyboardHelpNode ) {
 
       // Pops open a dialog with information about keyboard navigation
       const keyboardHelpButton = new KeyboardHelpButton(

@@ -434,7 +434,7 @@ define( require => {
     // @public (joist-internal, read-only) {boolean} - used to specify if the sim is set up to support accessibility,
     // even if this specific runtime turns it on/off via a query parameter. Most of the time this should not be used;
     // instead see Sim.isAccessible. This is to support a consistent API for PhET-iO, see https://github.com/phetsims/phet-io/issues/1457
-    this.supportsAccessibility = options.accessibility;
+    this.accessibilityPartOfTheAPI = options.accessibility;
 
     // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
     this.supportsGestureA11y = this.isAccessible && SUPPORTS_GESTURE_A11Y;
@@ -454,7 +454,7 @@ define( require => {
     // @public (joist-internal, read-only) {boolean} - used to specify if the sim is set up to support sound, even if
     // this specific runtime turns it off via a query parameter. Most of the time this should not be used; instead see
     // Sim.supportsSound. This is to support a consistent API for PhET-iO, see https://github.com/phetsims/joist/issues/573
-    this.simSupportsSoundViaPackage = packageJSON.phet.supportsSound;
+    this.soundPartOfAPI = packageJSON.phet.supportsSound;
 
     // @public (joist-internal, read-only) {boolean} - true if the simulation supports enhanced sound, cannot support
     // enhanced without supporting sound in general
