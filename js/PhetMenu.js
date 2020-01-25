@@ -295,9 +295,9 @@ define( require => {
         },
         options: {
           checkedProperty: soundManager.enhancedSoundEnabledProperty,
-          // TODO: How to handle API differences between platforms/hardware/outside logic? See https://github.com/phetsims/phet-io/issues/1457
-          // tandem: tandem.createTandem( 'enhancedSoundMenuItem' ),
-          phetioDocumentation: 'This menu item toggles between basic and enhanced sound modes.',
+          tandem: tandem.createTandem( 'enhancedSoundMenuItem' ),
+          phetioDocumentation: 'This menu item toggles between basic and enhanced sound modes. This will only be ' +
+                               'displayed if the simulation supports enhanced sounds.',
 
           // a11y
           handleFocusCallback: () => {
@@ -315,8 +315,7 @@ define( require => {
         },
         options: {
           checkedProperty: FullScreen.isFullScreenProperty,
-          // TODO: How to handle API differences between platforms/hardware/outside logic? See https://github.com/phetsims/phet-io/issues/1457
-          // tandem: tandem.createTandem( 'fullScreenMenuItem' ),
+          tandem: tandem.createTandem( 'fullScreenMenuItem' ),
           phetioDocumentation: 'This menu item requests full-screen access for the simulation display.',
           phetioComponentOptions: {
             visibleProperty: {
@@ -357,14 +356,16 @@ define( require => {
         assert && assert( descriptorKeys.length === _.intersection( descriptorKeys, allowedItemDescriptorKeys ).length,
           `unexpected key provided in itemDescriptor; one of: ${descriptorKeys}` );
       }
-      return itemDescriptor.present;
+
+      // If there is a tandem, then we need to create the MenuItem to have a consisitent API.
+      return itemDescriptor.present || ( itemDescriptor.options && itemDescriptor.options.tandem );
     } );
 
 
     // Menu items have uniform size, so compute the max text dimensions.  These are only used for sizing and thus don't
     // need to be PhET-iO instrumented.
     const textNodes = _.map( keepItemDescriptors, function( item ) {
-      return new Text( item.text, {
+      return new Text( item.present ? item.text : ' ', { // don't count items that will just be ignored.
         font: new PhetFont( FONT_SIZE ),
         maxWidth: MAX_ITEM_WIDTH
       } );
@@ -373,19 +374,23 @@ define( require => {
     const maxTextHeight = _.maxBy( textNodes, function( node ) {return node.height;} ).height;
 
     // Create the menu items.
-    const items = _.map( keepItemDescriptors, function( itemDescriptor ) {
+    const unfilteredItems = _.map( keepItemDescriptors, function( itemDescriptor ) {
         return new MenuItem(
           maxTextWidth,
           maxTextHeight,
           options.closeCallback,
           itemDescriptor.text,
           itemDescriptor.callback,
+          itemDescriptor.present,
           itemDescriptor.options
         );
       }
     );
-    this.items = items;
+    const items = _.filter( unfilteredItems, item => item.present );
 
+    // Some items that aren't present were created just to maintain a consistent PhET-iO API across all runtimes, we
+    // can ignore those now.
+    this.items = items;
     const separatorWidth = _.maxBy( items, function( item ) {return item.width;} ).width;
     const itemHeight = _.maxBy( items, function( item ) {return item.height;} ).height;
     const content = new Node();
