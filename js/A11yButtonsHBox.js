@@ -17,7 +17,6 @@ define( require => {
   const NavigationBarSoundToggleButton = require( 'JOIST/NavigationBarSoundToggleButton' );
   const platform = require( 'PHET_CORE/platform' );
   const soundManager = require( 'TAMBO/soundManager' );
-  const Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Sim} sim
@@ -35,22 +34,22 @@ define( require => {
     // list of optional buttons added for a11y
     const a11yButtons = [];
 
-    // only put the sound on/off button on the nav bar if the sound library is enabled
-    // TODO: How to handle API differences between platforms/hardware/outside logic? See https://github.com/phetsims/phet-io/issues/1457
-    if ( sim.supportsSound ) {
+    // If the sim has sound support in its API, then create the button. This is support consistent API for PhET-iO
+    if ( sim.simSupportsSoundViaPackage ) {
       const soundOnOffButton = new NavigationBarSoundToggleButton(
         soundManager.enabledProperty,
         backgroundColorProperty,
-        Tandem.OPTIONAL
-        // tandem.createTandem( 'soundOnOffButton' )
+        tandem.createTandem( 'soundOnOffButton' )
       );
-      a11yButtons.push( soundOnOffButton );
+
+      // only put the sound on/off button on the nav bar if the sound library is enabled
+      if ( sim.supportsSound ) {
+        a11yButtons.push( soundOnOffButton );
+      }
     }
 
-    // only show the keyboard help button if the sim is accessible, there is keyboard help content, and we are
-    // not in mobile safari
-    // TODO: How to handle API differences between platforms/hardware/outside logic? See https://github.com/phetsims/phet-io/issues/1457
-    if ( sim.isAccessible && sim.keyboardHelpNode && !platform.mobileSafari ) {
+    // If the sim has accessibility support in its API, then create the button. This is support consistent API for PhET-iO
+    if ( sim.supportsAccessibility && sim.keyboardHelpNode ) {
 
       // @public (joist-internal, read-only) - Pops open a dialog with information about keyboard navigation
       this.keyboardHelpButton = new KeyboardHelpButton(
@@ -58,7 +57,12 @@ define( require => {
         backgroundColorProperty,
         tandem.createTandem( 'keyboardHelpButton' )
       );
-      a11yButtons.push( this.keyboardHelpButton );
+
+      // only show the keyboard help button if the sim is accessible, there is keyboard help content, and we are
+      // not in mobile safari
+      if ( sim.isAccessible && !platform.mobileSafari ) {
+        a11yButtons.push( this.keyboardHelpButton );
+      }
     }
 
     options.children = a11yButtons;

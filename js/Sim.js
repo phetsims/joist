@@ -334,7 +334,7 @@ define( require => {
       // override this flag when true, so only use this to enable.
       accessibility: false,
 
-      // a {Node} placed into the keyboard help dialog that can be opened from the navigation bar
+      // a {Node|null} placed into the keyboard help dialog that can be opened from the navigation bar
       keyboardHelpNode: null,
 
       // the default renderer for the rootNode, see #221, #184 and https://github.com/phetsims/molarity/issues/24
@@ -431,6 +431,11 @@ define( require => {
     // @public (read-only) {boolean} - if true the simulation supports accessibility features
     this.isAccessible = phet.chipper.queryParameters.accessibility || phet.chipper.queryParameters.a11y || options.accessibility;
 
+    // @public (joist-internal, read-only) {boolean} - used to specify if the sim is set up to support accessibility,
+    // even if this specific runtime turns it on/off via a query parameter. Most of the time this should not be used;
+    // instead see Sim.isAccessible. This is to support a consistent API for PhET-iO, see https://github.com/phetsims/phet-io/issues/1457
+    this.supportsAccessibility = options.accessibility;
+
     // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
     this.supportsGestureA11y = this.isAccessible && SUPPORTS_GESTURE_A11Y;
 
@@ -445,6 +450,11 @@ define( require => {
                          ( phet.chipper.queryParameters.sound === 'enabled' ||
                            phet.chipper.queryParameters.sound === 'muted' ) &&
                          !platform.ie;
+
+    // @public (joist-internal, read-only) {boolean} - used to specify if the sim is set up to support sound, even if
+    // this specific runtime turns it off via a query parameter. Most of the time this should not be used; instead see
+    // Sim.supportsSound. This is to support a consistent API for PhET-iO, see https://github.com/phetsims/joist/issues/573
+    this.simSupportsSoundViaPackage = packageJSON.phet.supportsSound;
 
     // @public (joist-internal, read-only) {boolean} - true if the simulation supports enhanced sound, cannot support
     // enhanced without supporting sound in general
