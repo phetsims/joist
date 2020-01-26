@@ -465,10 +465,12 @@ define( require => {
     // Initialize the sound library if enabled.
     if ( this.supportsSound ) {
       soundManager.initialize( this.browserTabVisibleProperty, this.activeProperty );
-      soundManager.addSoundGenerator( new ScreenSelectionSoundGenerator( this.currentScreenProperty, this.screenIndexProperty, {
-          initialOutputLevel: 0.5
-        }
-      ) );
+      if ( screens.length > 1 ) {
+        soundManager.addSoundGenerator( new ScreenSelectionSoundGenerator( this.currentScreenProperty, this.screenIndexProperty, {
+            initialOutputLevel: 0.5
+          }
+        ) );
+      }
     }
 
     // @private {null|VibrationManager} - The singleton instance of VibrationManager. Experimental and not frequently
