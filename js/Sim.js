@@ -44,13 +44,13 @@ define( require => {
   const Profiler = require( 'JOIST/Profiler' );
   const Property = require( 'AXON/Property' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const ScreenSelectionSoundGenerator = require( 'TAMBO/sound-generators/ScreenSelectionSoundGenerator' );
   const ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   const soundManager = require( 'TAMBO/soundManager' );
   const Tandem = require( 'TANDEM/Tandem' );
   const timer = require( 'AXON/timer' );
   const updateCheck = require( 'JOIST/updateCheck' );
   const Utils = require( 'SCENERY/util/Utils' );
-
 
   // ifphetio
   const phetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' );
@@ -465,6 +465,10 @@ define( require => {
     // Initialize the sound library if enabled.
     if ( this.supportsSound ) {
       soundManager.initialize( this.browserTabVisibleProperty, this.activeProperty );
+      soundManager.addSoundGenerator( new ScreenSelectionSoundGenerator( this.currentScreenProperty, this.screenIndexProperty, {
+          initialOutputLevel: 0.5
+        }
+      ) );
     }
 
     // @private {null|VibrationManager} - The singleton instance of VibrationManager. Experimental and not frequently
