@@ -148,6 +148,11 @@ define( require => {
 
     JoistButton.call( this, toggleNode, backgroundColorProperty, tandem, options );
 
+    // must be after the button is instrumented
+    this.addLinkedElement( soundEnabledProperty, {
+      tandem: tandem.createTandem( 'property' )
+    } );
+
     // accessible attribute lets user know when the toggle is pressed, linked lazily so that an alert isn't triggered
     // on construction and must be unlinked in dispose
     const soundUtterance = new ActivationUtterance();
