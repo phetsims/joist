@@ -134,7 +134,8 @@ define( require => {
       font: new PhetFont( 16 ),
       fill: sim.lookAndFeel.navigationBarTextFillProperty,
       tandem: tandem.createTandem( 'titleTextNode' ),
-      phetioDocumentation: 'Displays the title of the simulation in the navigation bar (bottom left)'
+      phetioDocumentation: 'Displays the title of the simulation in the navigation bar (bottom left)',
+      phetioFeatured: true
     } );
     this.titleTextNode.setVisible( false );
     this.barContents.addChild( this.titleTextNode );

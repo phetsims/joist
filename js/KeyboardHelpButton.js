@@ -21,6 +21,7 @@ define( require => {
   const merge = require( 'PHET_CORE/merge' );
   const PhetioCapsule = require( 'TANDEM/PhetioCapsule' );
   const PhetioCapsuleIO = require( 'TANDEM/PhetioCapsuleIO' );
+  const PhetioObject = require( 'TANDEM/PhetioObject' );
 
   // images
   const brightIconMipmap = require( 'mipmap!JOIST/keyboard-icon.png' ); // on a black navbar
@@ -59,6 +60,8 @@ define( require => {
     }, options );
 
     assert && assert( !options.listener, 'KeyboardHelpButton set\'s its own listener' );
+
+    PhetioObject.mergePhetioComponentOptions( { visibleProperty: { phetioFeatured: true } }, options );
 
     const keyboardHelpDialogCapsule = new PhetioCapsule( tandem => {
       return new KeyboardHelpDialog( helpContent, {

@@ -20,6 +20,7 @@ define( require => {
   const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
+  const PhetioObject = require( 'TANDEM/PhetioObject' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const Shape = require( 'KITE/Shape' );
   const ToggleNode = require( 'SUN/ToggleNode' );
@@ -75,6 +76,8 @@ define( require => {
       tagName: 'button',
       innerContent: soundOnOffString
     }, options );
+
+    PhetioObject.mergePhetioComponentOptions( { visibleProperty: { phetioFeatured: true } }, options );
 
     const soundOnNode = new Node();
     const soundOffNode = new Node();
