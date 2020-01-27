@@ -182,10 +182,13 @@ define( require => {
 
         // If links are allowed, use hyperlinks.  Otherwise just output the URL.  This doesn't need to be internationalized.
         const text = phet.chipper.queryParameters.allowLinks ? '<a href="{{url}}">' + link.text + '</a>' : link.text + ': ' + link.url;
+
+        // This is PhET-iO instrumented because it is a keyboard navigation focusable element.
         linksChildren.push( new RichText( text, {
           links: { url: link.url }, // RichText must fill in URL for link
           font: new PhetFont( 14 ),
-          tandem: tandem.createTandem( link.tandemName )
+          tandem: tandem.createTandem( link.tandemName ),
+          phetioReadOnly: true
         } ) );
       }
 
