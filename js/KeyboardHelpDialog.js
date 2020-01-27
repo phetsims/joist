@@ -47,6 +47,8 @@ define( require => {
       fill: 'rgb( 214, 237, 249 )',
       ySpacing: 15,
       tandem: Tandem.REQUIRED,
+
+      phetioReadOnly: true, // the KeyboardHelpDialog should not be settable
       phetioDynamicElement: true,
 
       // Because of the special titleNode, we set the aria-labelledby attribute manually; see below.
