@@ -43,6 +43,7 @@ define( require => {
   const platform = require( 'PHET_CORE/platform' );
   const Profiler = require( 'JOIST/Profiler' );
   const Property = require( 'AXON/Property' );
+  const QueryParametersWarningDialog = require( 'JOIST/QueryParametersWarningDialog' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const ScreenSelectionSoundGenerator = require( 'TAMBO/sound-generators/ScreenSelectionSoundGenerator' );
   const ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
@@ -782,6 +783,17 @@ define( require => {
       // @public (joist-internal)
       // Bind the animation loop so it can be called from requestAnimationFrame with the right this.
       this.boundRunAnimationLoop = this.runAnimationLoop.bind( this );
+
+      // show any query parameter warnings in a dialog
+      if ( QueryStringMachine.warnings.length ) {
+        const warningDialog = new QueryParametersWarningDialog( QueryStringMachine.warnings, {
+          closeButtonListener: () => {
+            this.hidePopup( warningDialog, true );
+            warningDialog.dispose();
+          }
+        } );
+        this.showPopup( warningDialog, true );
+      }
     },
 
     /*

@@ -127,5 +127,14 @@
   },
   "projectorMode": {
     "value": "Projector Mode"
+  },
+  "queryParametersWarningDialog.invalidQueryParameters": {
+    "value": "Invalid Query Parameters"
+  },
+  "queryParametersWarningDialog.oneOrMoreQueryParameters": {
+    "value": "One or more query parameters have invalid values:"
+  },
+  "queryParametersWarningDialog.theSimulationWillStart": {
+    "value": "The simulation will start with default values for those<br>query parameters."
   }
 }
