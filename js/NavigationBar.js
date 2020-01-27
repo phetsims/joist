@@ -152,7 +152,7 @@ define( require => {
     this.a11yButtonsHBox = new A11yButtonsHBox(
       sim,
       this.navigationBarFillProperty,
-      tandem.createTandem( 'a11yButtonsHBox' )
+      tandem // no need for a container here. If there is a conflict, then it will error loudly.
     );
     this.barContents.addChild( this.a11yButtonsHBox );
 
