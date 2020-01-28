@@ -1,4 +1,4 @@
-// Copyright 2018-2019, University of Colorado Boulder
+// Copyright 2018-2020, University of Colorado Boulder
 
 /**
  * a button for controlling whether sound is enabled or disabled for the sim and that is designed to work on the PhET
