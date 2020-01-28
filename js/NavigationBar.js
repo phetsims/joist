@@ -135,7 +135,9 @@ define( require => {
       fill: sim.lookAndFeel.navigationBarTextFillProperty,
       tandem: tandem.createTandem( 'titleTextNode' ),
       phetioDocumentation: 'Displays the title of the simulation in the navigation bar (bottom left)',
-      phetioFeatured: true
+      phetioComponentOptions: {
+        visibleProperty: { phetioFeatured: true }
+      }
     } );
     this.titleTextNode.setVisible( false );
     this.barContents.addChild( this.titleTextNode );
