@@ -35,7 +35,7 @@ define( require => {
   const ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   const Shape = require( 'KITE/Shape' );
   const soundManager = require( 'TAMBO/soundManager' );
-  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const stripEmbeddingMarks = require( 'PHET_CORE/stripEmbeddingMarks' );
   const Text = require( 'SCENERY/nodes/Text' );
   const updateCheck = require( 'JOIST/updateCheck' );
   const UpdateDialog = require( 'JOIST/UpdateDialog' );
@@ -260,7 +260,7 @@ define( require => {
             const blob = new window.Blob( [ byteArray ], { type: 'image/png' } );
 
             // our preferred filename
-            const filename = StringUtils.stripEmbeddingMarks( sim.name ) + ' screenshot.png';
+            const filename = stripEmbeddingMarks( sim.name ) + ' screenshot.png';
 
             if ( !fuzzes ) {
               window.saveAs( blob, filename );
