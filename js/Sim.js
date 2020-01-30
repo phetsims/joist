@@ -288,6 +288,7 @@ define( require => {
     // The screens to be included, and their order, may be specified via a query parameter.
     // For documentation, see the schema for phet.chipper.queryParameters.screens in initialize-globals.js.
     // Do this before setting options.showHomeScreen, since no home screen should be shown if we have 1 screen.
+    // TODO: Use QueryStringMachine to validate instead, see https://github.com/phetsims/joist/issues/599
     if ( QueryStringMachine.containsKey( 'screens' ) ) {
       const newScreens = [];
       phet.chipper.queryParameters.screens.forEach( function( userIndex ) {
