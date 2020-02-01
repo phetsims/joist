@@ -66,11 +66,17 @@ define( require => {
       } ),
       fill: 'white',
       y: 130,
+      maxWidth: this.layoutBounds.width - 10, // To support PhET-iO Clients setting this
       tandem: tandem.createTandem( 'title' )
     } );
+
+    // Have this before adding the child to support the startup layout.
+    title.on( 'bounds', () => {
+      title.centerX = this.layoutBounds.centerX;
+    } );
+
     this.addChild( title );
     title.scale( Math.min( 1, 0.9 * this.layoutBounds.width / title.width ) );
-    title.centerX = this.layoutBounds.centerX;
 
     // Keep track of which screen is highlighted so the same screen can remain highlighted even if nodes are replaced
     // (say when one grows larger or smaller).
