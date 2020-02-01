@@ -90,12 +90,13 @@ define( require => {
     text.maxWidth = iconWithFrame.width;
 
     // Only link if a large button
-    highlightedScreenIndexProperty.link( function( highlightedIndex ) {
+    const highlightListener = function( highlightedIndex ) {
       const highlighted = highlightedIndex === index;
       frame.setHighlighted && frame.setHighlighted( highlighted );
       icon.opacity = ( large || highlighted ) ? 1 : 0.5;
       text.fill = ( large || highlighted ) ? 'white' : 'gray';
-    } );
+    };
+    highlightedScreenIndexProperty.link( highlightListener );
 
     // The children are needed in the VBox constructor, but the rest of the options should be mutated later.
     VBox.call( this, {
@@ -159,7 +160,7 @@ define( require => {
     this.mouseArea = this.touchArea = Shape.bounds( this.bounds ); // cover the gap in the vbox
 
     this.disposeScreenButton = function() {
-      highlightedScreenIndexProperty.unlink();
+      highlightedScreenIndexProperty.unlink( highlightListener );
     };
 
     this.mutate( options );
