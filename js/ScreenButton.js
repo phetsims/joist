@@ -1,4 +1,4 @@
-// Copyright 2017-2019, University of Colorado Boulder
+// Copyright 2017-2020, University of Colorado Boulder
 
 /**
  * A ScreenButton is displayed on the HomeScreen. There are small and large ScreenButtons, that can be toggled through
