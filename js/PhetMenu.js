@@ -357,7 +357,7 @@ define( require => {
           `unexpected key provided in itemDescriptor; one of: ${descriptorKeys}` );
       }
 
-      // If there is a tandem, then we need to create the MenuItem to have a consisitent API.
+      // If there is a tandem, then we need to create the MenuItem to have a consistent API.
       return itemDescriptor.present || ( itemDescriptor.options && itemDescriptor.options.tandem );
     } );
 
