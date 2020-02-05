@@ -40,7 +40,7 @@ define( require => {
    * @param {Node} helpContent - content for the KeyboardHelpDialog
    * @param {Property.<Color|string>} backgroundColorProperty
    * @param {Tandem} tandem
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function KeyboardHelpButton( helpContent, backgroundColorProperty, tandem, options ) {
