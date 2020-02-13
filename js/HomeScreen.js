@@ -21,7 +21,9 @@ define( require => {
   const BACKGROUND_COLOR = 'black';
 
   /**
-   *
+   * {Sim} sim
+   * {Tandem} tandem
+   * (options} [options]
    * @constructor
    */
   function HomeScreen( sim, tandem, options ) {
