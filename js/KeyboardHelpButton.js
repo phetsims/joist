@@ -24,9 +24,8 @@ define( require => {
   const PhetioObject = require( 'TANDEM/PhetioObject' );
 
   // images
-  const brightIconMipmap = require( 'mipmap!JOIST/keyboard-icon.png' ); // on a black navbar
-  const darkIconMipmap = require( 'mipmap!JOIST/keyboard-icon-on-white.png' ); // on a white navbar
-  assert && assert( Array.isArray( brightIconMipmap ), 'icon must be a mipmap' );
+  const brightIconImage = require( 'image!JOIST/keyboard-icon.png' ); // on a black navbar
+  const darkIconImage = require( 'image!JOIST/keyboard-icon-on-white.png' ); // on a white navbar
 
   // a11y strings
   const hotKeysAndHelpString = JoistA11yStrings.hotKeysAndHelp.value;
@@ -34,7 +33,7 @@ define( require => {
   // constants
   const HELP_BUTTON_HEIGHT = 67;
   const HELP_BUTTON_SCALE = 0.30;  // scale applied to the icon
-  const BUTTON_SCALE = HELP_BUTTON_SCALE / brightIconMipmap[ 0 ].height * HELP_BUTTON_HEIGHT;
+  const BUTTON_SCALE = HELP_BUTTON_SCALE / brightIconImage.height * HELP_BUTTON_HEIGHT;
 
   /**
    * @param {Node} helpContent - content for the KeyboardHelpDialog
@@ -85,7 +84,7 @@ define( require => {
       }
     };
 
-    const icon = new Image( brightIconMipmap, {
+    const icon = new Image( brightIconImage, {
       scale: BUTTON_SCALE,
       pickable: false
     } );
@@ -94,7 +93,7 @@ define( require => {
 
     // change the icon so that it is visible when the background changes from dark to light
     backgroundColorProperty.link( function( backgroundColor ) {
-      icon.image = backgroundColor === 'black' ? brightIconMipmap : darkIconMipmap;
+      icon.image = backgroundColor === 'black' ? brightIconImage : darkIconImage;
     } );
   }
 

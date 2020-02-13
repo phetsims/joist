@@ -30,8 +30,8 @@ define( require => {
   // The logo images are loaded from the brand which is selected via query parameter (during requirejs mode)
   // or a grunt option (during the build), please see initialize-globals.js window.phet.chipper.brand for more
   // details
-  const brightLogoMipmap = require( 'mipmap!BRAND/logo.png' ); // on a black navbar
-  const darkLogoMipmap = require( 'mipmap!BRAND/logo-on-white.png' ); // on a white navbar
+  const brightLogoImage = require( 'image!BRAND/logo.png' ); // on a black navbar
+  const darkLogoImage = require( 'image!BRAND/logo-on-white.png' ); // on a white navbar
 
   // Accommodate logos of any height by scaling them down proportionately.
   // The primary logo is 108px high and we have been scaling it at 0.28 to make it look good even on higher resolution
@@ -40,8 +40,7 @@ define( require => {
   // height of the PhET logo, brand/phet/images/logo.png or brand/adapted-from-phet/images/logo.png
   const PHET_LOGO_HEIGHT = 108;
   const PHET_LOGO_SCALE = 0.28;  // scale applied to the PhET logo
-  assert && assert( Array.isArray( brightLogoMipmap ), 'logo must be a mipmap' );
-  const LOGO_SCALE = PHET_LOGO_SCALE / brightLogoMipmap[ 0 ].height * PHET_LOGO_HEIGHT;
+  const LOGO_SCALE = PHET_LOGO_SCALE / brightLogoImage.height * PHET_LOGO_HEIGHT;
 
   /**
    * @param {Sim} sim
@@ -70,7 +69,7 @@ define( require => {
       } );
 
     // PhET logo
-    const logoImage = new Image( brightLogoMipmap, {
+    const logoImage = new Image( brightLogoImage, {
       scale: LOGO_SCALE,
       pickable: false
     } );
@@ -112,7 +111,7 @@ define( require => {
         const backgroundIsWhite = backgroundFill !== 'black' && !showHomeScreen;
         const outOfDate = updateState === UpdateState.OUT_OF_DATE;
         menuIcon.fill = backgroundIsWhite ? ( outOfDate ? '#0a0' : '#222' ) : ( outOfDate ? '#3F3' : 'white' );
-        logoImage.image = backgroundIsWhite ? darkLogoMipmap : brightLogoMipmap;
+        logoImage.image = backgroundIsWhite ? darkLogoImage : brightLogoImage;
       } );
 
     // Added for phet-io, when toggling enabled, hide the option dots to prevent the cueing.
