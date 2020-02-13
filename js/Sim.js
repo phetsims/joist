@@ -768,13 +768,6 @@ define( require => {
         } );
         this.showPopup( warningDialog, true );
       }
-
-      if ( this.supportsSound && screens.length > 1 ) {
-        soundManager.addSoundGenerator( new ScreenSelectionSoundGenerator( this.screenProperty, this.homeScreen, {
-            initialOutputLevel: 0.5
-          }
-        ) );
-      }
     },
 
     /*
@@ -844,6 +837,17 @@ define( require => {
         workItems.push( function() {
           screen.initializeView( self.name, self.screens.length );
         } );
+      } );
+
+      // This sound generator needs the home screen's model initialized, and needs a timeout afterwards to make sure that
+      // the sound urls can load (thus before the final workItem).
+      this.supportsSound && workItems.push( () => {
+        if ( this.screens.length > 1 ) {
+          soundManager.addSoundGenerator( new ScreenSelectionSoundGenerator( this.screenProperty, this.homeScreen, {
+              initialOutputLevel: 0.5
+            }
+          ) );
+        }
       } );
 
       // loop to run startup items asynchronously so the DOM can be updated to show animation on the progress bar
