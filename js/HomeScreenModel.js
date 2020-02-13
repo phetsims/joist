@@ -20,7 +20,6 @@ define( require => {
 
     /**
      * @param {Sim} sim
-     * @param {Screen[]} simScreens
      * @param {Tandem} tandem
      */
     constructor( sim, tandem ) {
