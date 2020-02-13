@@ -43,8 +43,10 @@ define( require => {
   const platform = require( 'PHET_CORE/platform' );
   const Profiler = require( 'JOIST/Profiler' );
   const Property = require( 'AXON/Property' );
+  const PropertyIO = require( 'AXON/PropertyIO' );
   const QueryParametersWarningDialog = require( 'JOIST/QueryParametersWarningDialog' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const ScreenIO = require( 'JOIST/ScreenIO' );
   const ScreenSelectionSoundGenerator = require( 'TAMBO/sound-generators/ScreenSelectionSoundGenerator' );
   const ScreenshotGenerator = require( 'JOIST/ScreenshotGenerator' );
   const soundManager = require( 'TAMBO/soundManager' );
@@ -73,13 +75,67 @@ define( require => {
   /**
    * Main Sim constructor
    * @param {string} name - the name of the simulation, to be displayed in the navbar and homescreen
-   * @param {Screen[]} screens - the screens for the sim
+   * @param {Screen[]} allSimScreens - the possible screens for the sim in order of declaration (does not include the home screen)
    * @param {Object} [options] - see below for options
    * @constructor
    */
-  function Sim( name, screens, options ) {
+  function Sim( name, allSimScreens, options ) {
     const self = this;
     window.phetSplashScreenDownloadComplete();
+
+    assert && assert( allSimScreens.length >= 1, 'at least one screen is required' );
+
+    options = merge( {
+
+      // credits, see AboutDialog for format
+      credits: {},
+
+      // {null|function(tandem:Tandem):Node} creates the content for the Options dialog
+      createOptionsDialogContent: null,
+
+      // a {Node} placed onto the home screen (if available)
+      homeScreenWarningNode: null,
+
+      // if true, records the scenery input events and sends them to a server that can store them
+      recordInputEventLog: false,
+
+      // when playing back a recorded scenery input event log, use the specified filename.  Please see getEventLogName for more
+      inputEventLogName: undefined,
+
+      // Whether accessibility features are enabled or not.  Use this option to render the Parallel DOM for
+      // keyboard navigation and screen reader based auditory descriptions. The "accessibility" query parameter will
+      // override this flag when true, so only use this to enable.
+      accessibility: false,
+
+      // a {Node|null} placed into the keyboard help dialog that can be opened from the navigation bar
+      keyboardHelpNode: null,
+
+      // the default renderer for the rootNode, see #221, #184 and https://github.com/phetsims/molarity/issues/24
+      rootRenderer: 'svg',
+
+      // {vibrationManager|null} - Responsible for managing vibration feedback for a sim. Experimental, and
+      // not used frequently. The vibrationManager instance is passed through options so that tappi doesn't have to
+      // become a dependency for all sims yet. If this gets more use, this will likely change.
+      vibrationManager: null,
+
+      // Sims that do not use WebGL trigger a ~ 0.5 second pause shortly after the sim starts up, so sims must opt in to
+      // webgl support, see https://github.com/phetsims/scenery/issues/621
+      webgl: false,
+
+      // {boolean} - Whether to allow WebGL 2x scaling when antialiasing is detected. If running out of memory on
+      // things like iPad 2s (e.g. https://github.com/phetsims/scenery/issues/859), this can be turned to false to help.
+      allowBackingScaleAntialiasing: true
+
+    }, options );
+
+    // @public - used by PhetButton and maybe elsewhere
+    this.options = options;
+
+    // override rootRenderer using query parameter, see #221 and #184
+    options.rootRenderer = phet.chipper.queryParameters.rootRenderer || options.rootRenderer;
+
+    // @public (joist-internal)
+    this.name = name;
 
     // playbackModeEnabledProperty cannot be changed after Sim construction has begun, hence this listener is added before
     // anything else is done, see https://github.com/phetsims/phet-io/issues/1146
@@ -91,13 +147,6 @@ define( require => {
     // This was added for PhET-iO but can be used by any client. This does not coincide with the end of the Sim
     // constructor (because Sim has asynchronous steps that finish after the constructor is completed)
     this.endedSimConstructionEmitter = new Emitter();
-
-    options = merge( {
-
-      // Sims that do not use WebGL trigger a ~ 0.5 second pause shortly after the sim starts up, so sims must opt in to
-      // webgl support, see https://github.com/phetsims/scenery/issues/621
-      webgl: false
-    }, options );
 
     // Supplied query parameters override options (but default values for non-supplied query parameters do not).
     if ( QueryStringMachine.containsKey( 'webgl' ) ) {
@@ -209,10 +258,10 @@ define( require => {
 
       // If the user is on the home screen, we won't have a Screen that we'll want to step.  This must be done after
       // fuzz mouse, because fuzzing could change the selected screen, see #130
-      const screen = this.getSelectedScreen();
+      const screen = this.screenProperty.value;
 
       // cap dt based on the current screen, see https://github.com/phetsims/joist/issues/130
-      if ( screen && screen.maxDT ) {
+      if ( screen.maxDT ) {
         dt = Math.min( dt, screen.maxDT );
       }
 
@@ -225,7 +274,7 @@ define( require => {
       timer.emit( dt );
 
       // If the DT is 0, we will skip the model step (see https://github.com/phetsims/joist/issues/171)
-      if ( screen && screen.model.step && dt ) {
+      if ( screen.model.step && dt ) {
         screen.model.step( dt );
       }
 
@@ -248,7 +297,7 @@ define( require => {
 
       // View step is the last thing before updateDisplay(), so we can do paint updates there.
       // See https://github.com/phetsims/joist/issues/401.
-      if ( screen && screen.view.step ) {
+      if ( screen.view.step ) {
         screen.view.step( dt );
       }
       this.display.updateDisplay();
@@ -264,7 +313,7 @@ define( require => {
       phetioPlayback: true
     } );
 
-    if ( screens.length === 1 ) {
+    if ( allSimScreens.length === 1 ) {
 
       // Problems related to query parameters throw errors instead of assertions (so they are not stripped out)
       if ( QueryStringMachine.containsKey( 'homeScreen' ) ) {
@@ -278,107 +327,86 @@ define( require => {
       }
     }
 
-    let initialScreen = phet.chipper.queryParameters.initialScreen;
-    const homeScreen = phet.chipper.queryParameters.homeScreen;
+    const initialScreenIndex = phet.chipper.queryParameters.initialScreen;
+    const homeScreenQueryParameter = phet.chipper.queryParameters.homeScreen;
 
-    if ( QueryStringMachine.containsKey( 'initialScreen' ) && initialScreen === 0 && homeScreen === false ) {
-      throw new Error( 'cannot specify initialScreen=0 when home screen is disabled with homeScreen=false' );
-    }
+    // the sim screens for this runtime, accounting for specifying a subset with `?screens`
+    let selectedSimScreens = null;
 
     // The screens to be included, and their order, may be specified via a query parameter.
     // For documentation, see the schema for phet.chipper.queryParameters.screens in initialize-globals.js.
-    // Do this before setting options.showHomeScreen, since no home screen should be shown if we have 1 screen.
     // TODO: Use QueryStringMachine to validate instead, see https://github.com/phetsims/joist/issues/599
     if ( QueryStringMachine.containsKey( 'screens' ) ) {
-      const newScreens = [];
+      selectedSimScreens = [];
       phet.chipper.queryParameters.screens.forEach( function( userIndex ) {
         const screenIndex = userIndex - 1; // screens query parameter is 1-based
-        if ( screenIndex < 0 || screenIndex > screens.length - 1 ) {
+        if ( screenIndex < 0 || screenIndex > allSimScreens.length - 1 ) {
           throw new Error( 'invalid screen index: ' + userIndex );
         }
-        newScreens.push( screens[ screenIndex ] );
+        selectedSimScreens.push( allSimScreens[ screenIndex ] );
       } );
-
-      // If the user specified an initial screen other than the homescreen and specified a subset of screens
-      // remap the selected 1-based index from the original screens list to the filtered screens list.
-      if ( initialScreen !== 0 ) {
-        const index = _.indexOf( newScreens, screens[ initialScreen - 1 ] );
-        assert && assert( index !== -1, 'screen not found: ' + initialScreen );
-        initialScreen = index + 1;
-      }
-      screens = newScreens;
     }
-    options = merge( {
+    else {
+      selectedSimScreens = allSimScreens;
+    }
 
-      // whether to show the home screen, or go immediately to the screen indicated by screenIndex
-      showHomeScreen: ( screens.length > 1 ) && homeScreen && ( initialScreen === 0 ),
+    // If the user specified an initial screen other than the homescreen and specified a subset of screens
+    // remap the selected 1-based index from the original screens list to the filtered screens list.
+    if ( QueryStringMachine.containsKey( 'initialScreen' ) && initialScreenIndex === 0 ) {
 
-      // index of the screen that will be selected at startup (the query parameter is 1-based)
-      screenIndex: initialScreen === 0 ? 0 : initialScreen - 1,
+      if ( homeScreenQueryParameter === false ) {
+        // TODO: Use QueryStringMachine to validate instead, see https://github.com/phetsims/joist/issues/599
+        throw new Error( 'cannot specify initialScreen=0 when home screen is disabled with homeScreen=false' );
+      }
+      if ( selectedSimScreens.length === 1 ) {
+        throw new Error( 'cannot specify initialScreen=0 when one screen is specified with screens=n' );
+      }
+    }
 
-      // credits, see AboutDialog for format
-      credits: {},
+    // @public - the ordered list of screens that appear in this runtime of the sim
+    this.simScreens = selectedSimScreens;
+    const screens = selectedSimScreens.slice();
 
-      // {null|function(tandem:Tandem):Node} creates the content for the Options dialog
-      createOptionsDialogContent: null,
+    // If a sim has multiple screens and the query parameter homeScreen=false is not provided, add a HomeScreen
+    if ( selectedSimScreens.length > 1 && homeScreenQueryParameter ) {
+      this.homeScreen = new HomeScreen( this, Tandem.ROOT.createTandem( 'homeScreen' ), {
+        warningNode: options.homeScreenWarningNode
+      } );
+      screens.unshift( this.homeScreen );
+    }
+    else {
+      this.homeScreen = null;
+    }
 
-      // a {Node} placed onto the home screen (if available)
-      homeScreenWarningNode: null,
+    // @public - all screens that appear in the runtime of this sim, with the HomeScreen first if it was created
+    this.screens = screens;
 
-      // if true, records the scenery input events and sends them to a server that can store them
-      recordInputEventLog: false,
+    // The first screen for the sim, can be the HomeScreen if applicable
+    let initialScreen = null;
+    if ( this.homeScreen && initialScreenIndex === 0 ) {
+      // If the home screen is supplied, then it is at index 0, so use the query parameter value directly (because the
+      // query parameter is 1-based). If `?initialScreen` is 0 then there is no offset to apply.
+      initialScreen = this.homeScreen;
+    }
+    else if ( initialScreenIndex === 0 ) {
+      initialScreen = allSimScreens[ initialScreenIndex ];
+    }
+    else {
+      // If the home screen is not supplied, then the first sim screen is at index 0, so subtract 1 from the query parameter.
+      initialScreen = allSimScreens[ initialScreenIndex - 1 ];
+    }
 
-      // when playing back a recorded scenery input event log, use the specified filename.  Please see getEventLogName for more
-      inputEventLogName: undefined,
+    if ( screens.indexOf( initialScreen ) === -1 ) {
+      throw new Error( 'screen not found: ' + initialScreenIndex );
+    }
 
-      // Whether accessibility features are enabled or not.  Use this option to render the Parallel DOM for
-      // keyboard navigation and screen reader based auditory descriptions. The "accessibility" query parameter will
-      // override this flag when true, so only use this to enable.
-      accessibility: false,
-
-      // a {Node|null} placed into the keyboard help dialog that can be opened from the navigation bar
-      keyboardHelpNode: null,
-
-      // the default renderer for the rootNode, see #221, #184 and https://github.com/phetsims/molarity/issues/24
-      rootRenderer: 'svg',
-
-      // {vibrationManager|null} - Responsible for managing vibration feedback for a sim. Experimental, and
-      // not used frequently. The vibrationManager instance is passed through options so that tappi doesn't have to
-      // become a dependency for all sims yet. If this gets more use, this will likely change.
-      vibrationManager: null,
-
-      // {boolean} - Whether to allow WebGL 2x scaling when antialiasing is detected. If running out of memory on
-      // things like iPad 2s (e.g. https://github.com/phetsims/scenery/issues/859), this can be turned to false to help.
-      allowBackingScaleAntialiasing: true
-    }, options );
-
-    // @public - used by PhetButton and maybe elsewhere
-    this.options = options;
-
-    // override rootRenderer using query parameter, see #221 and #184
-    options.rootRenderer = phet.chipper.queryParameters.rootRenderer || options.rootRenderer;
-
-    // @public (joist-internal) - True if the home screen is showing
-    this.showHomeScreenProperty = new BooleanProperty(
-      options.showHomeScreen,
-
-      // Only instrumented for sims with > 1 screen
-      screens.length > 1 ? {
-        tandem: Tandem.GENERAL.createTandem( 'showHomeScreenProperty' ),
-        phetioFeatured: true,
-        phetioDocumentation: 'Whether or not home screen is displayed. This is independent of the "current sim screen" ' +
-                             'stored in the "screenIndexProperty."'
-      } : {}
-    );
-
-    // @public (joist-internal) - The selected screen's index
-    this.screenIndexProperty = new NumberProperty( options.screenIndex, {
-      tandem: Tandem.GENERAL.createTandem( 'screenIndexProperty' ),
+    // @public - Specifies the selected Screen
+    this.screenProperty = new Property( initialScreen, {
+      tandem: Tandem.GENERAL.createTandem( 'screenProperty' ),
       phetioFeatured: true,
-      phetioDocumentation: 'Indicates which sim screen is selected (0-indexed). Note that the home screen does not ' +
-                           'have an index. To control the home screen see "showHomeScreenProperty".',
-      validValues: _.range( 0, screens.length ),
-      numberType: 'Integer'
+      phetioDocumentation: 'Which sim screen is selected, including the home screen',
+      validValues: screens,
+      phetioType: PropertyIO( ScreenIO )
     } );
 
     // @public - When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.
@@ -415,9 +443,6 @@ define( require => {
     // @public (joist-internal, read-only) {Property.<Bounds2>|null} - global bounds for the screen-specific part
     //                                                            (excludes the navigation bar), null before first resize
     this.screenBoundsProperty = new Property( null );
-
-    // @public (joist-internal, read-only) {Screen|null} - The current screen, or null if showing the home screen
-    this.currentScreenProperty = new Property( null );
 
     // @public
     this.lookAndFeel = new LookAndFeel();
@@ -467,12 +492,6 @@ define( require => {
     // Initialize the sound library if enabled.
     if ( this.supportsSound ) {
       soundManager.initialize( this.browserTabVisibleProperty, this.activeProperty );
-      if ( screens.length > 1 ) {
-        soundManager.addSoundGenerator( new ScreenSelectionSoundGenerator( this.currentScreenProperty, this.screenIndexProperty, {
-            initialOutputLevel: 0.5
-          }
-        ) );
-      }
     }
 
     // @private {null|VibrationManager} - The singleton instance of VibrationManager. Experimental and not frequently
@@ -489,7 +508,6 @@ define( require => {
     // Make ScreenshotGenerator available globally so it can be used in preload files such as PhET-iO.
     window.phet.joist.ScreenshotGenerator = ScreenshotGenerator;
 
-    this.name = name;                   // @public (joist-internal)
     this.version = packageJSON.version; // @public (joist-internal)
     this.credits = options.credits;     // @public (joist-internal)
 
@@ -610,24 +628,10 @@ define( require => {
     self.display.setCanvasNodeBoundsVisible( phet.chipper.queryParameters.showCanvasNodeBounds );
     self.display.setFittedBlockBoundsVisible( phet.chipper.queryParameters.showFittedBlockBounds );
 
-    // @public
-    this.screens = screens;
-
-    // Multi-screen sims get a home screen. Note: the home screen is created even when
-    // phet.chipper.queryParameters.homeScreen is false. That query parameter only affects the ability to view
-    // the home screen. See NavigationBar for phet.chipper.queryParameters.homeScreen usage.
-    if ( screens.length > 1 ) {
-      this.homeScreen = new HomeScreen( this, Tandem.ROOT.createTandem( 'homeScreen' ), {
-        warningNode: options.homeScreenWarningNode
-      } );
-      this.homeScreen.initializeModelAndView();
-    }
-    else {
-      this.homeScreen = null;
-    }
+    const isMultiScreenSimDisplayingSingleScreen = this.simScreens.length === 1 && allSimScreens.length !== this.simScreens.length;
 
     // @public (joist-internal)
-    this.navigationBar = new NavigationBar( this, screens, this.showHomeScreenProperty, Tandem.GENERAL.createTandem( 'navigationBar' ) );
+    this.navigationBar = new NavigationBar( this, isMultiScreenSimDisplayingSingleScreen, Tandem.GENERAL.createTandem( 'navigationBar' ) );
 
     // @private {AnimatedPanZoomListener|null} - magnification support, null unless requested by query param
     this.panZoomListener = null;
@@ -637,10 +641,8 @@ define( require => {
     }
 
     // @public (joist-internal)
-    this.updateBackground = function() {
-      self.lookAndFeel.backgroundColorProperty.value = self.currentScreenProperty.value ?
-                                                       self.currentScreenProperty.value.backgroundColorProperty.value :
-                                                       self.homeScreen.backgroundColorProperty.value;
+    this.updateBackground = () => {
+      this.lookAndFeel.backgroundColorProperty.value = this.screenProperty.value.backgroundColorProperty.value;
     };
 
     this.lookAndFeel.backgroundColorProperty.link( function( backgroundColor ) {
@@ -655,22 +657,11 @@ define( require => {
     //   this.engagementMetrics = new EngagementMetrics( this );
     // }
 
-    Property.multilink( [ this.showHomeScreenProperty, this.screenIndexProperty ],
-      function( showHomeScreen, screenIndex ) {
-        self.currentScreenProperty.value = ( showHomeScreen && self.homeScreen ) ? null : screens[ screenIndex ];
-        self.updateBackground();
-      } );
+    this.screenProperty.link( () => this.updateBackground() );
 
     // When the user switches screens, interrupt the input on the previous screen.
     // See https://github.com/phetsims/scenery/issues/218
-    this.currentScreenProperty.lazyLink( function( newScreen, oldScreen ) {
-      if ( oldScreen === null ) {
-        self.homeScreen.view.interruptSubtreeInput();
-      }
-      else {
-        oldScreen.view.interruptSubtreeInput();
-      }
-    } );
+    this.screenProperty.lazyLink( ( newScreen, oldScreen ) => oldScreen.view.interruptSubtreeInput() );
 
     // If the page is loaded from the back-forward cache, then reload the page to avoid bugginess,
     // see https://github.com/phetsims/joist/issues/448
@@ -698,46 +689,28 @@ define( require => {
       // ModuleIndex should always be defined.  On startup screenIndex=1 to highlight the 1st screen.
       // When moving from a screen to the homescreen, the previous screen should be highlighted
 
-      if ( this.homeScreen ) {
-        this.simulationRoot.addChild( this.homeScreen.view );
-      }
       _.each( screens, function( screen ) {
         screen.view.layerSplit = true;
         self.simulationRoot.addChild( screen.view );
       } );
       this.simulationRoot.addChild( this.navigationBar );
 
-      Property.multilink( [ this.showHomeScreenProperty, this.screenIndexProperty ],
-        function( showHomeScreen, screenIndex ) {
-          if ( self.homeScreen ) {
-
-            // You can't set the active property if the screen is visible, so order matters here
-            if ( showHomeScreen ) {
-              self.homeScreen.activeProperty.set( true );
-              self.homeScreen.view.setVisible( true );
-            }
-            else {
-              self.homeScreen.view.setVisible( false );
-              self.homeScreen.activeProperty.set( false );
-            }
-          }
+      this.screenProperty.link( currentScreen => {
+        screens.forEach( screen => {
+          const visible = screen === currentScreen;
 
           // Make the selected screen visible and active, other screens invisible and inactive.
-          // screen.isActiveProperty should change only while the screen is invisible.
-          // See https://github.com/phetsims/joist/issues/418.
-          for ( let i = 0; i < screens.length; i++ ) {
-            const screen = screens[ i ];
-            const visible = ( !showHomeScreen && screenIndex === i );
-            if ( visible ) {
-              screen.activeProperty.set( visible );
-            }
-            screen.view.setVisible( visible );
-            if ( !visible ) {
-              screen.activeProperty.set( visible );
-            }
+          // screen.isActiveProperty should change only while the screen is invisible, https://github.com/phetsims/joist/issues/418
+          if ( visible ) {
+            screen.activeProperty.set( visible );
           }
-          self.updateBackground();
+          screen.view.setVisible( visible );
+          if ( !visible ) {
+            screen.activeProperty.set( visible );
+          }
         } );
+        this.updateBackground();
+      } );
 
       // layer for popups, dialogs, and their backgrounds and barriers
       this.topLayer = new Node();
@@ -795,6 +768,13 @@ define( require => {
         } );
         this.showPopup( warningDialog, true );
       }
+
+      if ( this.supportsSound && screens.length > 1 ) {
+        soundManager.addSoundGenerator( new ScreenSelectionSoundGenerator( this.screenProperty, this.homeScreen, {
+            initialOutputLevel: 0.5
+          }
+        ) );
+      }
     },
 
     /*
@@ -850,10 +830,9 @@ define( require => {
       // In order to animate the loading progress bar, we must schedule work with setTimeout
       // This array of {function} is the work that must be completed to launch the sim.
       const workItems = [];
-      const screens = this.screens;
 
       // Schedule instantiation of the screens
-      screens.forEach( function initializeScreen( screen ) {
+      this.screens.forEach( function initializeScreen( screen ) {
         workItems.push( function() {
 
           // Screens may share the same instance of backgroundProperty, see joist#441
@@ -863,7 +842,7 @@ define( require => {
           screen.initializeModel();
         } );
         workItems.push( function() {
-          screen.initializeView( self.name, screens.length );
+          screen.initializeView( self.name, self.screens.length );
         } );
       } );
 
@@ -888,7 +867,7 @@ define( require => {
             }
             else {
               setTimeout( function() { // eslint-disable-line bad-sim-text
-                self.finishInit( screens );
+                self.finishInit( self.screens );
 
                 // Make sure requestAnimationFrame is defined
                 Utils.polyfillRequestAnimationFrame();
@@ -974,15 +953,6 @@ define( require => {
       if ( dt > 0 ) {
         this.stepSimulation( dt );
       }
-    },
-
-    /**
-     * Returns the selected screen, or null if the home screen is showing.
-     * @returns {Screen|null}
-     * @private
-     */
-    getSelectedScreen: function() {
-      return this.showHomeScreenProperty.value ? null : this.screens[ this.screenIndexProperty.value ];
     },
 
     /**

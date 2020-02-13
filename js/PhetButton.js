@@ -106,8 +106,9 @@ define( require => {
     } );
 
     // No need to unlink, as the PhetButton exists for the lifetime of the sim
-    Property.multilink( [ backgroundFillProperty, sim.showHomeScreenProperty, updateCheck.stateProperty ],
-      function( backgroundFill, showHomeScreen, updateState ) {
+    Property.multilink( [ backgroundFillProperty, sim.screenProperty, updateCheck.stateProperty ],
+      function( backgroundFill, screen, updateState ) {
+        const showHomeScreen = screen === sim.homeScreen;
         const backgroundIsWhite = backgroundFill !== 'black' && !showHomeScreen;
         const outOfDate = updateState === UpdateState.OUT_OF_DATE;
         menuIcon.fill = backgroundIsWhite ? ( outOfDate ? '#0a0' : '#222' ) : ( outOfDate ? '#3F3' : 'white' );

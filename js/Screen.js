@@ -21,8 +21,10 @@ define( require => {
   const JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   const merge = require( 'PHET_CORE/merge' );
   const Path = require( 'SCENERY/nodes/Path' );
+  const PhetioObject = require( 'TANDEM/PhetioObject' );
   const Property = require( 'AXON/Property' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const ScreenIO = require( 'JOIST/ScreenIO' );
   const Shape = require( 'KITE/Shape' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Tandem = require( 'TANDEM/Tandem' );
@@ -79,6 +81,8 @@ define( require => {
       maxDT: 0.5,
 
       tandem: Tandem.REQUIRED,
+      phetioType: ScreenIO,
+      phetioState: false,
 
       // a11y - The description that is used when interacting with screen icons/buttons in joist.
       // This is often a full but short sentence with a period at the end of it.
@@ -87,6 +91,8 @@ define( require => {
 
     assert && assert( _.includes( [ 'black', 'white', null ], options.showScreenIconFrameForNavigationBarFill ),
       'invalid showScreenIconFrameForNavigationBarFill: ' + options.showScreenIconFrameForNavigationBarFill );
+
+    PhetioObject.call( this, options );
 
     // Create a default homeScreenIcon, using the Screen's background color
     if ( !options.homeScreenIcon ) {
@@ -108,9 +114,6 @@ define( require => {
     if ( assert && options.tandem.supplied ) {
       assert && assert( _.endsWith( options.tandem.phetioID, 'Screen' ), 'Screen tandems should end with Screen suffix' );
     }
-
-    // @public (read-only, joist)
-    this.screenTandem = options.tandem;
 
     assert && assert( !options.backgroundColor, 'Please provide backgroundColorProperty instead' );
 
@@ -225,7 +228,7 @@ define( require => {
     return path;
   };
 
-  return inherit( Object, Screen, {
+  return inherit( PhetioObject, Screen, {
 
     // @public
     reset: function() {
@@ -245,8 +248,7 @@ define( require => {
     },
 
     /**
-     * Initialize the model.  Clients should use either this or initializeModelAndView
-     * Clients may want to use this method to gain more control over the creation process
+     * Initialize the model.
      * @public (joist-internal)
      */
     initializeModel: function() {
@@ -255,8 +257,7 @@ define( require => {
     },
 
     /**
-     * Initialize the view.  Clients should use either this or initializeModelAndView
-     * Clients may want to use this method to gain more control over the creation process
+     * Initialize the view.
      * @public (joist-internal)
      * @param {string} [simName] - The display name of the sim, used for a11y. Not provided for the home screen.
      * @param {number} [numberOfScreens] - the number of screens in the whole sim.
@@ -276,7 +277,6 @@ define( require => {
       if ( phet.chipper.queryParameters.showVisibleBounds ) {
         this._view.addChild( devCreateVisibleBoundsNode( this._view ) );
       }
-
 
       // Set the accessible label for the screen. If simName is not provided, then we are creating the home screen.
       if ( simName ) {
@@ -305,12 +305,6 @@ define( require => {
         this._view.setScreenSummaryIntroString( simName, numberOfScreens );
       }
       assert && this._view.accessibleAudit();
-    },
-
-    // Initialize both the model and view
-    initializeModelAndView: function() {
-      this.initializeModel();
-      this.initializeView();
     }
   }, {
 

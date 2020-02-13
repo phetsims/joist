@@ -6,7 +6,6 @@
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
-
 define( require => {
   'use strict';
 
@@ -85,15 +84,14 @@ define( require => {
             name: screen.name || sim.name
           };
           if ( Tandem.PHET_IO_ENABLED ) {
-            screenObject.phetioID = screen.screenTandem.phetioID;
+            screenObject.phetioID = screen.tandem.phetioID;
           }
           return screenObject;
         } ) );
-        putInfo( 'showHomeScreenPropertyValue', sim.showHomeScreenProperty.value );
-        putInfo( 'screenIndexPropertyValue', sim.screenIndexProperty.value );
 
         // (phet-io) if there is metadata from the wrapper
         if ( Tandem.PHET_IO_ENABLED ) {
+          putInfo( 'screenPropertyValue', sim.screenProperty.value.tandem.phetioID );
           putInfo( 'wrapperMetadata', window.phet.phetio.simStartedMetadata );
           putInfo( 'dataStreamVersion', dataStream.VERSION );
           putInfo( 'phetioCommandProcessorProtocol', phetioCommandProcessor.PHET_IO_PROTOCOL );

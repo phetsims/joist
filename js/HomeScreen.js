@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const HomeScreenModel = require( 'JOIST/HomeScreenModel' );
   const HomeScreenView = require( 'JOIST/HomeScreenView' );
   const inherit = require( 'PHET_CORE/inherit' );
   const joist = require( 'JOIST/joist' );
@@ -37,14 +38,12 @@ define( require => {
     Screen.call( this,
 
       // createModel
-      function() { return {}; },
+      () => new HomeScreenModel( sim, tandem.createTandem( 'model' ) ),
 
       // createView
-      function() {
-        return new HomeScreenView( sim, tandem.createTandem( 'view' ), _.pick( options, [
-          'warningNode'
-        ] ) );
-      },
+      model => new HomeScreenView( sim.name, model, tandem.createTandem( 'view' ), _.pick( options, [
+        'warningNode'
+      ] ) ),
 
       options
     );

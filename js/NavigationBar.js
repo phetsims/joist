@@ -74,16 +74,15 @@ define( require => {
   /**
    * Creates a nav bar.
    * @param {Sim} sim
-   * @param {Screen[]} screens
-   * @param {BooleanProperty} showHomeScreenProperty
+   * @param {boolean} isMultiScreenSimDisplayingSingleScreen - true if only one screen is provided for the sim but the
+   *                                                           sim supports multiple screens
    * @param {Tandem} tandem
    * @constructor
    */
-  function NavigationBar( sim, screens, showHomeScreenProperty, tandem ) {
-    const self = this;
+  function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
 
     // @private
-    this.screens = screens;
+    this.simScreens = sim.simScreens;
 
     Node.call( this, {
 
@@ -93,14 +92,16 @@ define( require => {
       labelTagName: 'h2',
 
       // Use a different string, omitting "screens" if single screen sim.
-      labelContent: screens.length === 1 ? simResourcesAndToolsString : simScreensResourcesAndToolsString
+      labelContent: this.simScreens.length === 1 ? simResourcesAndToolsString : simScreensResourcesAndToolsString
     } );
 
     // @private - The nav bar fill and determining fill for elements on the nav bar (if it's black, the elements are white)
     this.navigationBarFillProperty = new DerivedProperty( [
-      showHomeScreenProperty,
+      sim.screenProperty,
       sim.lookAndFeel.navigationBarFillProperty
-    ], function( showHomeScreen, simNavigationBarFill ) {
+    ], ( screen, simNavigationBarFill ) => {
+
+      const showHomeScreen = screen === sim.homeScreen;
 
       // If the homescreen is showing, the navigation bar should blend into it.  This is done by making it the same color.
       // It cannot be made transparent here, because other code relies on the value of navigationBarFillProperty being
@@ -122,10 +123,10 @@ define( require => {
     let title = sim.name;
 
     // If the 'screens' query parameter only selects 1 screen, than update the nav bar title to include that screen name.
-    if ( phet.chipper.queryParameters.screens && phet.chipper.queryParameters.screens.length === 1 && screens[ 0 ].name ) {
+    if ( isMultiScreenSimDisplayingSingleScreen && this.simScreens[ 0 ].name ) {
       title = StringUtils.fillIn( simTitleWithScreenNamePatternString, {
         simName: sim.name,
-        screenName: screens[ 0 ].name
+        screenName: this.simScreens[ 0 ].name
       } );
     }
 
@@ -165,7 +166,7 @@ define( require => {
       otherElementName: AccessiblePeer.LABEL_SIBLING
     } );
 
-    if ( screens.length === 1 ) {
+    if ( this.simScreens.length === 1 ) {
       /* single-screen sim */
 
       // title can occupy all space to the left of the PhET button
@@ -194,18 +195,18 @@ define( require => {
         NAVIGATION_BAR_SIZE.height,
         sim.lookAndFeel.navigationBarFillProperty,
         tandem.createTandem( 'homeButton' ), {
-          listener: function() {
-            sim.showHomeScreenProperty.value = true;
+          listener: () => {
+            sim.screenProperty.value = sim.homeScreen;
 
             // only if fired from a11y
-            if ( self.homeButton.buttonModel.isA11yClicking() ) {
+            if ( this.homeButton.buttonModel.isA11yClicking() ) {
               sim.homeScreen.view.focusHighlightedScreenButton();
             }
           }
         } );
 
-      // Add the home button, but only if it isn't turned off with ?homeScreen=false
-      phet.chipper.queryParameters.homeScreen && buttonsOrderedList.addChild( this.homeButton );
+      // Add the home button, but only if the homeScreen exists
+      sim.homeScreen && buttonsOrderedList.addChild( this.homeButton );
 
       /*
        * Allocate remaining horizontal space equally for screen buttons, assuming they will be centered in the navbar.
@@ -224,24 +225,24 @@ define( require => {
       const availableTotal = 2 * Math.min( availableLeft, availableRight );
 
       // width per screen button
-      const screenButtonWidth = ( availableTotal - ( screens.length - 1 ) * SCREEN_BUTTON_SPACING ) / screens.length;
+      const screenButtonWidth = ( availableTotal - ( this.simScreens.length - 1 ) * SCREEN_BUTTON_SPACING ) / this.simScreens.length;
 
       // Create the screen buttons
-      const screenButtons = _.map( screens, function( screen ) {
+      const screenButtons = _.map( this.simScreens, screen => {
         return new NavigationBarScreenButton(
           sim.lookAndFeel.navigationBarFillProperty,
-          sim.screenIndexProperty,
-          sim.screens,
+          sim.screenProperty,
+          this.simScreens,
           screen,
           NAVIGATION_BAR_SIZE.height, {
             maxButtonWidth: screenButtonWidth,
-            tandem: tandem.createTandem( screen.screenTandem.name + 'Button' )
+            tandem: tandem.createTandem( screen.tandem.name + 'Button' )
           } );
       } );
 
       // Layout out screen buttons horizontally, with equal distance between their centers
       // Make sure each button is at least a minimum size, so they don't get too close together, see #279
-      const maxScreenButtonWidth = Math.max( MINIMUM_SCREEN_BUTTON_WIDTH, _.maxBy( screenButtons, function( button ) {
+      const maxScreenButtonWidth = Math.max( MINIMUM_SCREEN_BUTTON_WIDTH, _.maxBy( screenButtons, button => {
         return button.width;
       } ).width );
 
@@ -279,7 +280,7 @@ define( require => {
       // The icon is vertically adjusted in KeyboardHelpButton, so that the centers can be aligned here
       this.a11yButtonsHBox.centerY = this.phetButton.centerY;
     }
-    if ( this.screens.length !== 1 ) {
+    if ( this.simScreens.length !== 1 ) {
       this.screenButtonsContainer.centerY = NAVIGATION_BAR_SIZE.height / 2;
       this.homeButton.centerY = NAVIGATION_BAR_SIZE.height / 2;
     }
@@ -291,11 +292,12 @@ define( require => {
       buttons,
       this.a11yButtonsHBox,
       this.phetButton
-    ].filter( function( node ) { return node !== undefined; } );
+    ].filter( node => node !== undefined );
 
     // only show the home button and screen buttons on the nav bar when a screen is showing, not the home screen
-    showHomeScreenProperty.link( function( showHomeScreen ) {
-      self.titleTextNode.setVisible( !showHomeScreen );
+    sim.screenProperty.link( screen => {
+      const showHomeScreen = screen === sim.homeScreen;
+      this.titleTextNode.setVisible( !showHomeScreen );
       if ( buttons ) {
         buttons.setVisible( !showHomeScreen );
       }
@@ -341,7 +343,7 @@ define( require => {
       }
 
       // For multi-screen sims ...
-      if ( this.screens.length !== 1 ) {
+      if ( this.simScreens.length !== 1 ) {
 
         // Screen buttons centered.  These buttons are centered around the origin in the screenButtonsContainer, so the
         // screenButtonsContainer can be put at the center of the navbar.

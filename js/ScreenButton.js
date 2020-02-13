@@ -21,6 +21,7 @@ define( require => {
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const Shape = require( 'KITE/Shape' );
+  const Tandem = require( 'TANDEM/Tandem' );
   const Text = require( 'SCENERY/nodes/Text' );
   const Touch = require( 'SCENERY/input/Touch' );
   const Utils = require( 'DOT/Utils' );
@@ -31,28 +32,27 @@ define( require => {
 
   /**
    * @param {boolean} large - whether or not this is a large or small screenButton
-   * @param {Sim} sim
-   * @param {number} index - index of this screen so we can get the screen, sorta backwards
+   * @param {Screen} screen
+   * @param {HomeScreenModel} model
    * @param {Property} highlightedScreenIndexProperty
-   * @param {Tandem} tandem
    * @param {Object} [options]
    * @constructor
    */
-  function ScreenButton( large, sim, index, highlightedScreenIndexProperty, tandem, options ) {
+  function ScreenButton( large, screen, model, highlightedScreenIndexProperty, options ) {
 
     options = merge( {
       showUnselectedHomeScreenIconFrame: false, // put a frame around unselected home screen icons
       opacity: 1,  // The small screen's nodes have an opacity of .5
-      tandem: tandem, // To be passed into mutate, but tandem should be a required param in joist
+      tandem: Tandem.REQUIRED, // To be passed into mutate, but tandem should be a required param in joist
       phetioEventType: EventType.USER,
       phetioDocumentation: 'A pressable button in the simulation, in the home screen'
     }, options );
 
-    const screen = sim.screens[ index ];
+    const index = model.simScreens.indexOf( screen );
 
     // Maps the number of screens to a scale for the small icons. The scale is percentage of LARGE_ICON_HEIGHT.
-    let smallIconScale = Utils.linear( 2, 4, 0.875, 0.50, sim.screens.length );
-    if ( sim.screens.length >= 5 ) {
+    let smallIconScale = Utils.linear( 2, 4, 0.875, 0.50, model.simScreens.length );
+    if ( model.simScreens.length >= 5 ) {
       smallIconScale = 0.4;
     }
 
@@ -83,7 +83,7 @@ define( require => {
     const text = new Text( screen.name, {
       font: new PhetFont( large ? 42 : 18 ),
       fill: large ? PhetColorScheme.BUTTON_YELLOW : 'gray',
-      tandem: tandem.createTandem( 'text' )
+      tandem: options.tandem.createTandem( 'text' )
     } );
 
     // Shrink the text if it goes beyond the edge of the image
@@ -107,13 +107,12 @@ define( require => {
     } );
 
     // Input listeners after the parent call depending on if the ScreenButton is large or small
-    const buttonDown = large ?
-                       function() {
-                         sim.showHomeScreenProperty.value = false;
-                         highlightedScreenIndexProperty.value = -1;
-                       } :
-                       function() {
-                         sim.screenIndexProperty.value = index;
+    const buttonDown = large ? () => {
+                               model.screenProperty.value = screen;
+                               highlightedScreenIndexProperty.value = -1;
+                             } :
+                       () => {
+                         model.selectedScreenProperty.value = screen;
                        };
 
     const fireListener = new FireListener( {
@@ -151,7 +150,7 @@ define( require => {
       this.addInputListener( {
         over: function( event ) {
           if ( event.pointer instanceof Touch ) {
-            sim.screenIndexProperty.value = index;
+            model.selectedScreenProperty.value = screen;
           }
         }
       } );

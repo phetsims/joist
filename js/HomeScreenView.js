@@ -35,12 +35,14 @@ define( require => {
   const TITLE_FONT_FAMILY = 'Century Gothic, Futura';
 
   /**
-   * @param {Sim} sim
+   * @param {string} simName - the internationalized text for the sim name
+   * @param {HomeScreenModel} model
    * @param {Tandem} tandem
    * @param {Object} [options]
    * @constructor
    */
-  function HomeScreenView( sim, tandem, options ) {
+  function HomeScreenView( simName, model, tandem, options ) {
+    assert && assert( simName, 'simName is required: ' + simName );
     const self = this;
 
     options = merge( {
@@ -52,14 +54,14 @@ define( require => {
       tandem: tandem,
 
       // a11y
-      labelContent: sim.name,
+      labelContent: simName,
       descriptionContent: StringUtils.fillIn( homeScreenDescriptionPatternString, {
-        name: sim.name,
-        screens: sim.screens.length
+        name: simName,
+        screens: model.simScreens.length
       } )
     } );
 
-    const title = new Text( sim.name, {
+    const title = new Text( simName, {
       font: new PhetFont( {
         size: 52,
         family: TITLE_FONT_FAMILY
@@ -80,17 +82,18 @@ define( require => {
 
     // Keep track of which screen is highlighted so the same screen can remain highlighted even if nodes are replaced
     // (say when one grows larger or smaller).
+    // TODO: This will be eliminated when we combine the buttons, see https://github.com/phetsims/joist/issues/601
     const highlightedScreenIndexProperty = new Property( -1 );
 
-    const screenElements = _.map( sim.screens, function( screen, index ) {
+    const screenElements = _.map( model.simScreens, function( screen, index ) {
 
-      assert && assert( screen.name, 'name is required for screen ' + sim.screens.indexOf( screen ) );
+      assert && assert( screen.name, 'name is required for screen ' + model.simScreens.indexOf( screen ) );
       assert && assert( screen.homeScreenIcon, 'homeScreenIcon is required for screen ' + screen.name );
 
       // Even though in the user interface the small and large buttons seem like a single UI component that has grown
       // larger, it would be quite a headache to create a composite button for the purposes of tandem, so instead the
       // large and small buttons are registered as separate instances.  See https://github.com/phetsims/phet-io/issues/99
-      const largeTandem = tandem.createTandem( screen.screenTandem.name + 'LargeButton' );
+      const largeTandem = tandem.createTandem( screen.tandem.name + 'LargeButton' );
 
       // a11y
       const a11yScreenButtonOptions = {
@@ -103,31 +106,32 @@ define( require => {
 
       const largeScreenButton = new ScreenButton(
         true,
-        sim,
-        index,
+        screen,
+        model,
         highlightedScreenIndexProperty,
-        largeTandem,
         merge( a11yScreenButtonOptions, {
-          // Don't 40 the VBox or it will shift down when the border becomes thicker
+
+          // Don't resize the VBox or it will shift down when the border becomes thicker
           resize: false,
-          cursor: 'pointer'
+          cursor: 'pointer',
+          tandem: largeTandem
         } ) );
 
       // Even though in the user interface the small and large buttons seem like a single UI component that has grown
       // larger, it would be quite a headache to create a composite button for the purposes of tandem, so instead the
       // large and small buttons are registered as separate instances.  See https://github.com/phetsims/phet-io/issues/99
-      const smallTandem = tandem.createTandem( screen.screenTandem.name + 'SmallButton' );
+      const smallTandem = tandem.createTandem( screen.tandem.name + 'SmallButton' );
 
       const smallScreenButton = new ScreenButton(
         false,
-        sim,
-        index,
+        screen,
+        model,
         highlightedScreenIndexProperty,
-        smallTandem,
         merge( a11yScreenButtonOptions, {
           spacing: 3,
           cursor: 'pointer',
-          showUnselectedHomeScreenIconFrame: screen.showUnselectedHomeScreenIconFrame
+          showUnselectedHomeScreenIconFrame: screen.showUnselectedHomeScreenIconFrame,
+          tandem: smallTandem
         } ) );
 
       smallScreenButton.addInputListener( smallScreenButton.highlightListener );
@@ -168,10 +172,10 @@ define( require => {
     // Space the icons out more if there are fewer, so they will be spaced nicely.
     // Cannot have only 1 screen because for 1-screen sims there is no home screen.
     let spacing = 60;
-    if ( sim.screens.length === 4 ) {
+    if ( model.simScreens.length === 4 ) {
       spacing = 33;
     }
-    if ( sim.screens.length >= 5 ) {
+    if ( model.simScreens.length >= 5 ) {
       spacing = 20;
     }
 
@@ -180,7 +184,7 @@ define( require => {
     // @private - for a11y, allow focus to be set when returning to home screen from sim
     this.highlightedScreenButton = null;
 
-    sim.screenIndexProperty.link( function( screenIndex ) {
+    model.selectedScreenProperty.link( selectedScreen => {
 
       // remove previous layout of icons
       if ( hBox ) {
@@ -189,13 +193,13 @@ define( require => {
       }
 
       // add new layout of icons
-      const icons = _.map( screenElements, function( screenChild ) {
+      const icons = _.map( screenElements, screenElement => {
 
         // check for the current screen
-        if ( screenChild.index === screenIndex ) {
-          self.highlightedScreenButton = screenChild.large;
+        if ( screenElement.screen === selectedScreen ) {
+          self.highlightedScreenButton = screenElement.large;
         }
-        return screenChild.index === screenIndex ? screenChild.large : screenChild.small;
+        return screenElement.screen === selectedScreen ? screenElement.large : screenElement.small;
       } );
       hBox = new HBox( {
         spacing: spacing,

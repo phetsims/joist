@@ -41,29 +41,26 @@ define( require => {
   /**
    * Create a nav bar.  Layout assumes all of the screen widths are the same.
    * @param {Property.<string>} navigationBarFillProperty - the color of the navbar, as a string.
-   * @param {Property.<number>} screenIndexProperty
-   * @param {Array.<Screen>} screens - all of the available sim content screens (excluding the home screen)
+   * @param {Property<Screen>} screenProperty
+   * @param {Screen[]} simScreens - doesn't include the HomeScreen
    * @param {Screen} screen
    * @param {number} navBarHeight
    * @param {Object} [options]
    * @constructor
    */
-  function NavigationBarScreenButton( navigationBarFillProperty, screenIndexProperty, screens, screen, navBarHeight, options ) {
+  function NavigationBarScreenButton( navigationBarFillProperty, screenProperty, simScreens, screen, navBarHeight, options ) {
 
-    assert && assert( screen.name, 'name is required for screen ' + screens.indexOf( screen ) );
+    assert && assert( screen.name, 'name is required for screen ' + simScreens.indexOf( screen ) );
     assert && assert( screen.navigationBarIcon, 'navigationBarIcon is required for screen ' + screen.name );
 
-    // The index of the screen that the button is being constructed for.
-    const screenIndex = screens.indexOf( screen );
-
     function clicked() {
-      screenIndexProperty.value = screenIndex;
+      screenProperty.value = screen;
     }
 
     options = merge( {
       cursor: 'pointer',
       tandem: Tandem.REQUIRED,
-      phetioDocumentation: 'Button in the navigation bar that selects the \'' + screen.screenTandem.name + '\' screen',
+      phetioDocumentation: 'Button in the navigation bar that selects the \'' + screen.tandem.name + '\' screen',
       maxButtonWidth: null, // {number|null} the maximum width of the button, causes text and/or icon to be scaled down if necessary
 
       // a11y
@@ -72,7 +69,7 @@ define( require => {
       descriptionContent: screen.descriptionContent,
       appendDescription: true,
       innerContent: StringUtils.fillIn( screenNameStringPatternString, {
-        number: screenIndex + 1 // convert from index to display number
+        number: simScreens.indexOf( screen ) + 1 // convert from index to display number
       } )
     }, options );
 
@@ -93,8 +90,8 @@ define( require => {
     } );
 
     // Is this button's screen selected?
-    const selectedProperty = new DerivedProperty( [ screenIndexProperty ], function( screenIndex ) {
-      return screenIndex === screens.indexOf( screen );
+    const selectedProperty = new DerivedProperty( [ screenProperty ], currentScreen => {
+      return currentScreen === screen;
     } );
 
     // @public (phet-io) - create the button model, needs to be public so that PhET-iO wrappers can hook up to it if needed
