@@ -1,4 +1,4 @@
-// Copyright 2015-2019, University of Colorado Boulder
+// Copyright 2015-2020, University of Colorado Boulder
 
 /**
  * Screen for the home screen, which shows icons for selecting the sim content screens.
@@ -21,7 +21,9 @@ define( require => {
   const BACKGROUND_COLOR = 'black';
 
   /**
-   *
+   * {Sim} sim
+   * {Tandem} tandem
+   * (options} [options]
    * @constructor
    */
   function HomeScreen( sim, tandem, options ) {
