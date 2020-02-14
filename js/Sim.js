@@ -650,7 +650,7 @@ define( require => {
     } );
 
     // Set up PhET-iO, must be done after phet.joist.sim is assigned
-    Tandem.PHET_IO_ENABLED && phetioEngine.initialize();
+    Tandem.PHET_IO_ENABLED && phetioEngine.onSimConstructionStarted( this );
 
     // commented out because https://github.com/phetsims/joist/issues/553 is deferred for after GQIO-oneone
     // if ( PHET_IO_ENABLED ) {

@@ -8,14 +8,12 @@ define( require => {
   'use strict';
 
   // modules
-  const Tandem = require( 'TANDEM/Tandem' );
   const checkNamespaces = require( 'JOIST/checkNamespaces' );
   const joist = require( 'JOIST/joist' );
   const Random = require( 'DOT/Random' );
 
   // ifphetio
-  const dataStream = require( 'ifphetio!PHET_IO/dataStream' );
-  const phetioCommandProcessor = require( 'ifphetio!PHET_IO/phetioCommandProcessor' );
+  const phetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' );
 
   const SimLauncher = {
 
@@ -38,9 +36,11 @@ define( require => {
 
         window.phet.joist.launchSimulation = function() {
 
-          // After listeners have been attached, we can send the buffered events to all the listeners.
-          Tandem.launch();
-          dataStream.launch && dataStream.launch();
+          // once launchSimulation has been called, the wrapper is ready to receive messages because any listeners it
+          // wants have been set up by now.
+          if ( phet.phetio ) {
+            phetioEngine.onCrossFrameListenersReady();
+          }
 
           // Provide a global Random that is easy to use and seedable from phet-io for playback
           // phet-io configuration happens after SimLauncher.launch is called and before phet.joist.launchSimulation is called
@@ -52,7 +52,7 @@ define( require => {
 
         // PhET-iO simulations support an initialization phase (before the sim launches)
         if ( phet.phetio ) {
-          phetioCommandProcessor.initialize(); // calls back to window.phet.joist.launchSimulation
+          phetioEngine.initialize(); // calls back to window.phet.joist.launchSimulation
         }
 
         if ( phet.chipper.queryParameters.postMessageOnReady ) {
