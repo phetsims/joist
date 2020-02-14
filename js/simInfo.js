@@ -14,10 +14,6 @@ define( require => {
   const Utils = require( 'SCENERY/util/Utils' );
   const Tandem = require( 'TANDEM/Tandem' );
 
-  // ifphetio
-  const dataStream = require( 'ifphetio!PHET_IO/dataStream' );
-  const phetioCommandProcessor = require( 'ifphetio!PHET_IO/phetioCommandProcessor' );
-
   // constants
   const info = {};
 
@@ -92,9 +88,9 @@ define( require => {
         // (phet-io) if there is metadata from the wrapper
         if ( Tandem.PHET_IO_ENABLED ) {
           putInfo( 'screenPropertyValue', sim.screenProperty.value.tandem.phetioID );
-          putInfo( 'wrapperMetadata', window.phet.phetio.simStartedMetadata );
-          putInfo( 'dataStreamVersion', dataStream.VERSION );
-          putInfo( 'phetioCommandProcessorProtocol', phetioCommandProcessor.PHET_IO_PROTOCOL );
+          putInfo( 'wrapperMetadata', phet.phetio.simStartedMetadata );
+          putInfo( 'dataStreamVersion', phet.phetIo.dataStream.VERSION );
+          putInfo( 'phetioCommandProcessorProtocol', phet.phetIo.phetioCommandProcessor.PHET_IO_PROTOCOL );
         }
       }
 

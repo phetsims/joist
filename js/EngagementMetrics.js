@@ -20,15 +20,13 @@ define( require => {
   const Property = require( 'AXON/Property' );
   const TemporalCounter = require( 'JOIST/TemporalCounter' );
 
-  // ifphetio
-  const dataStream = require( 'ifphetio!PHET_IO/dataStream' );
-
   class EngagementMetrics {
 
     /**
      * @param {Sim} sim
      */
     constructor( sim ) {
+      const dataStream = phet && phet.phetIo && phet.phetIo.dataStream;
       assert && assert( dataStream, 'cannot add dataStream listener because dataStream is not defined' );
 
       // @private
