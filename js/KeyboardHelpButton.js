@@ -33,7 +33,6 @@ define( require => {
   // constants
   const HELP_BUTTON_HEIGHT = 67;
   const HELP_BUTTON_SCALE = 0.30;  // scale applied to the icon
-  const BUTTON_SCALE = HELP_BUTTON_SCALE / brightIconImage.height * HELP_BUTTON_HEIGHT;
 
   /**
    * @param {Node} helpContent - content for the KeyboardHelpDialog
@@ -85,7 +84,7 @@ define( require => {
     };
 
     const icon = new Image( brightIconImage, {
-      scale: BUTTON_SCALE,
+      scale: HELP_BUTTON_SCALE / brightIconImage.height * HELP_BUTTON_HEIGHT,
       pickable: false
     } );
 
