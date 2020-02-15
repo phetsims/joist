@@ -13,10 +13,16 @@ define( require => {
   const joist = require( 'JOIST/joist' );
   const Property = require( 'AXON/Property' );
   const Random = require( 'DOT/Random' );
+  const Brand = require( 'BRAND/Brand' ); // ES6-MIGRATE-DELETE // eslint-disable-line
 
   // intermediates for holding dynamically loaded modules.
-  // {Property<null|PhetioEngine>}
-  const phetioEngineProperty = new Property( null );
+  const phetioEngineProperty = new Property( null ); // {Property<null|PhetioEngine>}
+  const brandProperty = new Property( null ); // {Property<null|Brand>}
+  brandProperty.value = Brand; // ES6-MIGRATE-DELETE
+  // ES6-MIGRATE-ADD import( /* webpackMode: "eager" */ `../../brand/${phet.chipper.brand}/js/Brand.js`).then( module => {
+  // ES6-MIGRATE-ADD  brandProperty.value = module.default;
+  // ES6-MIGRATE-ADD } );
+
   // ES6-MIGRATE-DELETE
   // ifphetio // ES6-MIGRATE-DELETE
   const requirejsPhetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' ); // ES6-MIGRATE-DELETE
@@ -52,7 +58,10 @@ define( require => {
 
       const proceedIfReady = () => {
 
-        if ( waitingForImagesProperty.value || ( phet.chipper.brand === 'phet-io' && phetioEngineProperty.value === null ) ) {
+        if ( waitingForImagesProperty.value ||
+             brandProperty.value === null ||
+             ( phet.chipper.brand === 'phet-io' && phetioEngineProperty.value === null )
+        ) {
           return;
         }
         window.phet.joist.launchSimulation = function() {
@@ -95,6 +104,7 @@ define( require => {
 
       phetioEngineProperty.link( proceedIfReady );
       waitingForImagesProperty.link( proceedIfReady );
+      brandProperty.link( proceedIfReady );
 
       // if image dimensions exist, immediately fire the "all images loaded" event
       let loaded = 0;
