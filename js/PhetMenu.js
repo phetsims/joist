@@ -12,7 +12,6 @@ define( require => {
   // modules
   const AboutDialog = require( 'JOIST/AboutDialog' );
   const AccessibilityUtils = require( 'SCENERY/accessibility/AccessibilityUtils' );
-  const Brand = require( 'BRAND/Brand' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const DialogIO = require( 'SUN/DialogIO' );
   const Display = require( 'SCENERY/display/Display' );
@@ -101,8 +100,8 @@ define( require => {
   function PhetMenu( sim, phetButton, tandem, options ) {
 
     // Only show certain features for PhET Sims, such as links to our website
-    const isPhETBrand = Brand.id === 'phet';
-    const isApp = window.phet.chipper.isApp;
+    const isPhETBrand = phet.chipper.brand === 'phet';
+    const isApp = phet.chipper.isApp;
 
     options = merge( {
 
@@ -121,7 +120,7 @@ define( require => {
     Node.call( this );
 
     const aboutDialogCapsule = new PhetioCapsule( tandem => {
-      return new AboutDialog( sim.name, sim.version, sim.credits, Brand, sim.locale, phetButton, tandem );
+      return new AboutDialog( sim.name, sim.version, sim.credits, sim.locale, phetButton, tandem );
     }, [], {
       tandem: tandem.createTandem( 'aboutDialogCapsule' ),
       phetioType: PhetioCapsuleIO( DialogIO )

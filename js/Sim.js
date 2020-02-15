@@ -18,7 +18,6 @@ define( require => {
   const BarrierRectangle = require( 'SCENERY_PHET/BarrierRectangle' );
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Bounds2 = require( 'DOT/Bounds2' );
-  const Brand = require( 'BRAND/Brand' );
   const Dimension2 = require( 'DOT/Dimension2' );
   const Display = require( 'SCENERY/display/Display' );
   const DotUtils = require( 'DOT/Utils' );// eslint-disable-line
@@ -896,7 +895,7 @@ define( require => {
                 window.phetSplashScreen.dispose();
 
                 // Sanity check that there is no phetio object in phet brand, see https://github.com/phetsims/phet-io/issues/1229
-                Brand.id === 'phet' && assert && assert( !phet.phetio, 'window.phet.phetio should not exist for phet brand' );
+                phet.chipper.brand === 'phet' && assert && assert( !phet.phetio, 'window.phet.phetio should not exist for phet brand' );
 
                 // Communicate sim load (successfully) to joist/tests/test-sims.html
                 if ( phet.chipper.queryParameters.postMessageOnLoad ) {

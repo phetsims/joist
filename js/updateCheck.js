@@ -12,7 +12,6 @@ define( require => {
   'use strict';
 
   // modules
-  const Brand = require( 'BRAND/Brand' );
   const EnumerationProperty = require( 'AXON/EnumerationProperty' );
   const joist = require( 'JOIST/joist' );
   const packageJSON = require( 'JOIST/packageJSON' ); // parse name/version out of the package.json
@@ -41,7 +40,7 @@ define( require => {
 
       // @public - Whether we actually allow checking for updates, or showing any update-related UIs.
       // If it's not PhET-branded OR if it is phet-io or in the phet-app, do not check for updates
-      this.areUpdatesChecked = Brand.id === 'phet' && !window.phet.chipper.isApp;
+      this.areUpdatesChecked = phet.chipper.brand === 'phet' && !phet.chipper.isApp;
 
       // @public - The URL to be used for "New version available" clicks
       this.updateURL = 'http://phet.colorado.edu/html-sim-update' +

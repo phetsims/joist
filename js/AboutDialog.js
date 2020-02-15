@@ -37,13 +37,17 @@ define( require => {
    * @param {string} name - The name of the simulation
    * @param {string} version - The version of the simulation
    * @param {string} credits - The credits for the simulation, or falsy to show no credits
-   * @param {Brand} Brand
    * @param {string} locale - The locale string
    * @param {Node} phetButton - The PhET button in the navigation bar, receives focus when this dialog is closed
    * @param {Tandem} tandem
    * @constructor
    */
-  function AboutDialog( name, version, credits, Brand, locale, phetButton, tandem ) {
+  function AboutDialog( name, version, credits, locale, phetButton, tandem ) {
+
+    // Dynamic modules are loaded in SimLauncher and accessed through their namespace
+    const Brand = phet.brand.Brand;
+    assert && assert( Brand, 'Brand should exist by now' );
+
     let children = [];
 
     const titleText = new Text( name, {
