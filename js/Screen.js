@@ -83,6 +83,7 @@ define( require => {
       tandem: Tandem.REQUIRED,
       phetioType: ScreenIO,
       phetioState: false,
+      phetioFeatured: true,
 
       // a11y - The description that is used when interacting with screen icons/buttons in joist.
       // This is often a full but short sentence with a period at the end of it.
