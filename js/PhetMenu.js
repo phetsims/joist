@@ -102,7 +102,7 @@ define( require => {
 
     // Only show certain features for PhET Sims, such as links to our website
     const isPhETBrand = Brand.id === 'phet';
-    const isPhetApp = Brand.isPhetApp;
+    const isApp = window.phet.chipper.isApp;
 
     options = merge( {
 
@@ -199,7 +199,7 @@ define( require => {
       },
       {
         text: menuItemReportAProblemString,
-        present: isPhETBrand && !isPhetApp,
+        present: isPhETBrand && !isApp,
         callback: function() {
           const url = 'http://phet.colorado.edu/files/troubleshooting/' +
                       '?sim=' + encodeURIComponent( sim.name ) +
@@ -241,7 +241,7 @@ define( require => {
       // "Screenshot" Menu item
       {
         text: menuItemScreenshotString,
-        present: !platform.ie9 && !isPhetApp, // Not supported by IE9, see https://github.com/phetsims/joist/issues/212
+        present: !platform.ie9 && !isApp, // Not supported by IE9, see https://github.com/phetsims/joist/issues/212
         callback: function() {
           const dataURL = ScreenshotGenerator.generateScreenshot( sim );
 
@@ -309,7 +309,7 @@ define( require => {
       // "Full Screen" menu item
       {
         text: menuItemFullscreenString,
-        present: FullScreen.isFullScreenEnabled() && !isPhetApp && !fuzzes && !platform.mobileSafari,
+        present: FullScreen.isFullScreenEnabled() && !isApp && !fuzzes && !platform.mobileSafari,
         callback: function() {
           FullScreen.toggleFullScreen( sim.display );
         },
