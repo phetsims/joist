@@ -8,12 +8,30 @@ define( require => {
   'use strict';
 
   // modules
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
   const checkNamespaces = require( 'JOIST/checkNamespaces' );
   const joist = require( 'JOIST/joist' );
+  const Property = require( 'AXON/Property' );
   const Random = require( 'DOT/Random' );
 
-  // ifphetio
-  const phetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' );
+  // intermediates for holding dynamically loaded modules.
+  // {Property<null|PhetioEngine>}
+  const phetioEngineProperty = new Property( null );
+  // ES6-MIGRATE-DELETE
+  // ifphetio // ES6-MIGRATE-DELETE
+  const requirejsPhetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' ); // ES6-MIGRATE-DELETE
+
+  if ( phet.chipper.brand === 'phet-io' ) {
+
+    // ES6-MIGRATE-ADD import( /* webpackMode: "eager" */ '../../phet-io/js/phetioEngine.js').then( module => {
+    // ES6-MIGRATE-ADD  phetioEngineProperty.value = module.default;
+    // ES6-MIGRATE-ADD } );
+
+    phetioEngineProperty.value = requirejsPhetioEngine; // ES6-MIGRATE-DELETE
+  }
+
+  // Signify whether we are waiting for images to complete loading before moving to the next phase of the launch sequence
+  const waitingForImagesProperty = new BooleanProperty( true );
 
   const SimLauncher = {
 
@@ -32,14 +50,17 @@ define( require => {
       // image elements to remove once we are fully loaded
       const elementsToRemove = [];
 
-      function doneLoadingImages() {
+      const proceedIfReady = () => {
 
+        if ( waitingForImagesProperty.value || ( phet.chipper.brand === 'phet-io' && phetioEngineProperty.value === null ) ) {
+          return;
+        }
         window.phet.joist.launchSimulation = function() {
 
           // once launchSimulation has been called, the wrapper is ready to receive messages because any listeners it
           // wants have been set up by now.
           if ( phet.phetio ) {
-            phetioEngine.onCrossFrameListenersReady();
+            phetioEngineProperty.value.onCrossFrameListenersReady();
           }
 
           // Provide a global Random that is easy to use and seedable from phet-io for playback
@@ -52,7 +73,7 @@ define( require => {
 
         // PhET-iO simulations support an initialization phase (before the sim launches)
         if ( phet.phetio ) {
-          phetioEngine.initialize(); // calls back to window.phet.joist.launchSimulation
+          phetioEngineProperty.value.initialize(); // calls back to window.phet.joist.launchSimulation
         }
 
         if ( phet.chipper.queryParameters.postMessageOnReady ) {
@@ -70,7 +91,10 @@ define( require => {
         else {
           window.phet.joist.launchSimulation();
         }
-      }
+      };
+
+      phetioEngineProperty.link( proceedIfReady );
+      waitingForImagesProperty.link( proceedIfReady );
 
       // if image dimensions exist, immediately fire the "all images loaded" event
       let loaded = 0;
@@ -107,14 +131,14 @@ define( require => {
           if ( isImageOK( phetImage ) ) {
             loaded++;
             if ( loaded === window.phetImages.length ) {
-              doneLoadingImages();
+              waitingForImagesProperty.value = false;
             }
           }
           else {
             phetImage.onload = function() {
               loaded++;
               if ( loaded === window.phetImages.length ) {
-                doneLoadingImages();
+                waitingForImagesProperty.value = false;
               }
             };
           }
@@ -122,7 +146,7 @@ define( require => {
         }
       }
       else {
-        doneLoadingImages();
+        waitingForImagesProperty.value = false;
       }
 
       $( window ).load( function() {
