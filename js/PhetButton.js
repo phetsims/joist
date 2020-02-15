@@ -35,7 +35,7 @@ define( require => {
 
   // Accommodate logos of any height by scaling them down proportionately.
   // The primary logo is 108px high and we have been scaling it at 0.28 to make it look good even on higher resolution
-  // displays.  The following math scales up the logo to 108px high so the rest of the layout code will work smoothly
+  // displays.  The logo will be scaled up to 108px high so the rest of the layout code will work smoothly
   // Scale to the same height as the PhET logo, so that layout code works correctly.
   // height of the PhET logo, brand/phet/images/logo.png or brand/adapted-from-phet/images/logo.png
   const PHET_LOGO_HEIGHT = 108;
