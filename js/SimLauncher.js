@@ -53,9 +53,6 @@ define( require => {
       //Signify that the SimLauncher was called, see https://github.com/phetsims/joist/issues/142
       window.phet.joist.launchCalled = true;
 
-      // image elements to remove once we are fully loaded
-      const elementsToRemove = [];
-
       const proceedIfReady = () => {
 
         if ( waitingForImagesProperty.value ||
@@ -152,25 +149,11 @@ define( require => {
               }
             };
           }
-
         }
       }
       else {
         waitingForImagesProperty.value = false;
       }
-
-      $( window ).load( function() {
-        // if images were not loaded immediately, signal the "all images loaded" event
-
-        // we wait for here to remove the images from the DOM, otherwise IE9/10 treat the images as completely blank!
-        _.each( elementsToRemove, function( element ) {
-
-          //TODO: Why is this null sometimes?  see https://github.com/phetsims/joist/issues/388
-          if ( element.parentNode ) {
-            element.parentNode.removeChild( element );
-          }
-        } );
-      } );
 
       // Check namespaces if assertions are enabled, see https://github.com/phetsims/joist/issues/307.
       assert && checkNamespaces();
