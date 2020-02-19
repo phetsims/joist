@@ -137,7 +137,8 @@ define( require => {
       tandem: tandem.createTandem( 'titleTextNode' ),
       phetioDocumentation: 'Displays the title of the simulation in the navigation bar (bottom left)',
       phetioComponentOptions: {
-        visibleProperty: { phetioFeatured: true }
+        visibleProperty: { phetioFeatured: true },
+        textProperty: { phetioFeatured: true }
       }
     } );
     this.titleTextNode.setVisible( false );
