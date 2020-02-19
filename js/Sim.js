@@ -201,7 +201,7 @@ define( require => {
         { name: 'height', phetioType: NumberIO }
       ],
       phetioPlayback: true,
-      phetioDocumentation: 'Executes when the sim is resized'
+      phetioDocumentation: 'Executes when the sim is resized.'
     } );
 
     // Sim screens normally update by implementing model.step(dt) or view.step(dt).  When that is impossible or
@@ -306,7 +306,8 @@ define( require => {
       tandem: Tandem.GENERAL.createTandem( 'stepSimulationAction' ),
       parameters: [ { name: 'dt', phetioType: NumberIO } ],
       phetioHighFrequency: true,
-      phetioPlayback: true
+      phetioPlayback: true,
+      phetioDocumentation: 'A function that steps time forward.'
     } );
 
     if ( allSimScreens.length === 1 ) {
@@ -419,7 +420,8 @@ define( require => {
     this.browserTabVisibleProperty = new BooleanProperty( true, {
       tandem: Tandem.GENERAL.createTandem( 'browserTabVisibleProperty' ),
       phetioDocumentation: 'Indicates whether the browser tab containing the simulation is currently visible',
-      phetioReadOnly: true
+      phetioReadOnly: true,
+      phetioFeatured: true
     } );
 
     // set the state of the property that indicates if the browser tab is visible
