@@ -365,7 +365,7 @@ define( require => {
 
     // If a sim has multiple screens and the query parameter homeScreen=false is not provided, add a HomeScreen
     if ( selectedSimScreens.length > 1 && homeScreenQueryParameter ) {
-      this.homeScreen = new HomeScreen( this, Tandem.ROOT.createTandem( 'homeScreen' ), {
+      this.homeScreen = new HomeScreen( this.name, () => this.screenProperty, this.simScreens, Tandem.ROOT.createTandem( 'homeScreen' ), {
         warningNode: options.homeScreenWarningNode
       } );
       screens.unshift( this.homeScreen );

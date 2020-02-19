@@ -19,29 +19,28 @@ define( require => {
   class HomeScreenModel {
 
     /**
-     * @param {Sim} sim
+     * @param {Property.<Screen>} screenProperty
+     * @param {Screen[]} simScreens
      * @param {Tandem} tandem
      */
-    constructor( sim, tandem ) {
-
-      assert && assert( sim.screenProperty, 'sim.screenProperty must exist during construction' );
+    constructor( screenProperty, simScreens, tandem ) {
 
       // @public {Screen[]} - screens in the simulations that are not the HomeScreen
-      this.simScreens = sim.simScreens;
+      this.simScreens = simScreens;
 
       // @public {Property<Screen>}
-      this.screenProperty = sim.screenProperty;
+      this.screenProperty = screenProperty;
 
       // @public {Property<Screen>}
-      this.selectedScreenProperty = new Property( sim.simScreens[ 0 ], {
-        validValues: sim.simScreens,
+      this.selectedScreenProperty = new Property( simScreens[ 0 ], {
+        validValues: simScreens,
         phetioType: PropertyIO( ReferenceIO ),
         tandem: tandem.createTandem( 'selectedScreenProperty' )
       } );
 
       // the correct screen icon is selected when returning to the home screen
       this.screenProperty.link( screen => {
-        if ( _.includes( sim.simScreens, screen ) ) {
+        if ( _.includes( simScreens, screen ) ) {
           this.selectedScreenProperty.value = screen;
         }
       } );

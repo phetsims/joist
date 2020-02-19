@@ -21,12 +21,16 @@ define( require => {
   const BACKGROUND_COLOR = 'black';
 
   /**
-   * {Sim} sim
+   * {string} simName
+   * {function():Property.<Screen>} getScreenProperty - at the time of construction, the Sim.screenProperty is not yet
+   *                                                  - assigned (because it may itself include the HomeScreen), so we
+   *                                                  - must use a function to lazily get it after it is assigned
+   * {Screen[]} simScreens
    * {Tandem} tandem
    * (options} [options]
    * @constructor
    */
-  function HomeScreen( sim, tandem, options ) {
+  function HomeScreen( simName, getScreenProperty, simScreens, tandem, options ) {
 
     options = merge( {
 
@@ -40,10 +44,10 @@ define( require => {
     Screen.call( this,
 
       // createModel
-      () => new HomeScreenModel( sim, tandem.createTandem( 'model' ) ),
+      () => new HomeScreenModel( getScreenProperty(), simScreens, tandem.createTandem( 'model' ) ),
 
       // createView
-      model => new HomeScreenView( sim.name, model, tandem.createTandem( 'view' ), _.pick( options, [
+      model => new HomeScreenView( simName, model, tandem.createTandem( 'view' ), _.pick( options, [
         'warningNode'
       ] ) ),
 
