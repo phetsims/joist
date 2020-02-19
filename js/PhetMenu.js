@@ -297,6 +297,11 @@ define( require => {
           tandem: tandem.createTandem( 'enhancedSoundMenuItem' ),
           phetioDocumentation: 'This menu item toggles between basic and enhanced sound modes. This will only be ' +
                                'displayed if the simulation supports enhanced sounds.',
+          phetioComponentOptions: {
+            visibleProperty: {
+              phetioFeatured: true
+            }
+          },
 
           // a11y
           handleFocusCallback: () => {
