@@ -201,7 +201,7 @@ define( require => {
         { name: 'height', phetioType: NumberIO }
       ],
       phetioPlayback: true,
-      phetioDocumentation: 'Executes when the sim is resized.'
+      phetioDocumentation: 'Executes when the sim is resized. Values are in CSS pixels.'
     } );
 
     // Sim screens normally update by implementing model.step(dt) or view.step(dt).  When that is impossible or
@@ -304,7 +304,11 @@ define( require => {
       this.frameEndedEmitter.emit();
     }, {
       tandem: Tandem.GENERAL.createTandem( 'stepSimulationAction' ),
-      parameters: [ { name: 'dt', phetioType: NumberIO } ],
+      parameters: [ {
+        name: 'dt',
+        phetioType: NumberIO,
+        phetioDocumentation: 'The amount of time stepped in each call, in seconds.'
+      } ],
       phetioHighFrequency: true,
       phetioPlayback: true,
       phetioDocumentation: 'A function that steps time forward.'
