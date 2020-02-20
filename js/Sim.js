@@ -406,7 +406,7 @@ define( require => {
       initialScreen = this.homeScreen;
     }
     else if ( initialScreenIndex === 0 ) {
-      initialScreen = allSimScreens[ initialScreenIndex ];
+      initialScreen = selectedSimScreens[ initialScreenIndex ];
     }
     else {
       // If the home screen is not supplied, then the first sim screen is at index 0, so subtract 1 from the query parameter.
