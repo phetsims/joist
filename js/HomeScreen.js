@@ -21,10 +21,13 @@ define( require => {
   const BACKGROUND_COLOR = 'black';
 
   /**
+   * REVIEW: Are we avoiding @param here? https://github.com/phetsims/joist/issues/602
    * {string} simName
    * {function():Property.<Screen>} getScreenProperty - at the time of construction, the Sim.screenProperty is not yet
    *                                                  - assigned (because it may itself include the HomeScreen), so we
    *                                                  - must use a function to lazily get it after it is assigned
+   * REVIEW: What is the downside of creating the screenProperty before creating the HomeScreen? This seems like a lot
+   * REVIEW: of work to avoid that. See https://github.com/phetsims/joist/issues/602
    * {Screen[]} simScreens
    * {Tandem} tandem
    * (options} [options]

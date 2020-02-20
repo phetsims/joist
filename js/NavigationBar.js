@@ -229,6 +229,7 @@ define( require => {
       const screenButtonWidth = ( availableTotal - ( this.simScreens.length - 1 ) * SCREEN_BUTTON_SPACING ) / this.simScreens.length;
 
       // Create the screen buttons
+      //REVIEW: We can use array.map() instead of using lodash _.map, see https://github.com/phetsims/joist/issues/602
       const screenButtons = _.map( this.simScreens, screen => {
         return new NavigationBarScreenButton(
           sim.lookAndFeel.navigationBarFillProperty,

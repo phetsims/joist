@@ -33,8 +33,8 @@ define( require => {
   /**
    * @param {boolean} large - whether or not this is a large or small screenButton
    * @param {Screen} screen
-   * @param {HomeScreenModel} model
-   * @param {Property} highlightedScreenIndexProperty
+   * @param {HomeScreenModel} model REVIEW: `model` threw me, since it's a model specifically for the homeScreen. https://github.com/phetsims/joist/issues/602
+   * @param {Property} highlightedScreenIndexProperty REVIEW: Why is this still based on screen index? https://github.com/phetsims/joist/issues/602
    * @param {Object} [options]
    * @constructor
    */

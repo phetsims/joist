@@ -320,9 +320,15 @@ define( require => {
       if ( QueryStringMachine.containsKey( 'homeScreen' ) ) {
         throw new Error( 'homeScreen query parameter not supported for single-screen sims' );
       }
+      //REVIEW: Why is initialScreen not allowed on single-screen sims? Does this mean that for anything that iterates
+      //REVIEW: over sims and tries to go to the 1st screen, we'll need to record whether they have just one and omit
+      //REVIEW: the query parameter for no other reason than it would error out due to this assertion?
+      //REVIEW: See https://github.com/phetsims/joist/issues/602
       if ( QueryStringMachine.containsKey( 'initialScreen' ) ) {
         throw new Error( 'initialScreen query parameter not supported for single-screen sims' );
       }
+      //REVIEW: Similar issue to initialScreen, since screens=1 presumably would work ok?
+      //REVIEW: https://github.com/phetsims/joist/issues/602
       if ( QueryStringMachine.containsKey( 'screens' ) ) {
         throw new Error( 'screens query parameter not supported for single-screen sims' );
       }
@@ -332,13 +338,17 @@ define( require => {
     const homeScreenQueryParameter = phet.chipper.queryParameters.homeScreen;
 
     // the sim screens for this runtime, accounting for specifying a subset with `?screens`
+    //REVIEW: can we just have `let selectedSimScreens`? See https://github.com/phetsims/joist/issues/602
     let selectedSimScreens = null;
 
     // The screens to be included, and their order, may be specified via a query parameter.
     // For documentation, see the schema for phet.chipper.queryParameters.screens in initialize-globals.js.
     // TODO: Use QueryStringMachine to validate instead, see https://github.com/phetsims/joist/issues/599
     if ( QueryStringMachine.containsKey( 'screens' ) ) {
+      //REVIEW: Shouldn't we just see if the result is the default value of `null`, instead of checking if it was
+      //REVIEW: provided? See https://github.com/phetsims/joist/issues/602
       selectedSimScreens = [];
+      //REVIEW: selectedSimScreens = *.screens.map( ... ) would be clearer, https://github.com/phetsims/joist/issues/602
       phet.chipper.queryParameters.screens.forEach( function( userIndex ) {
         const screenIndex = userIndex - 1; // screens query parameter is 1-based
         if ( screenIndex < 0 || screenIndex > allSimScreens.length - 1 ) {
@@ -354,6 +364,10 @@ define( require => {
     // If the user specified an initial screen other than the homescreen and specified a subset of screens
     // remap the selected 1-based index from the original screens list to the filtered screens list.
     if ( QueryStringMachine.containsKey( 'initialScreen' ) && initialScreenIndex === 0 ) {
+      //REVIEW: Why is the containsKey needed? Seems like the default is zero, which is checked by the second condition.
+      //REVIEW: https://github.com/phetsims/joist/issues/602. Also, the `initialScreenIndex === 0` check seems to be
+      //REVIEW: the opposite of the documentation ("initial screen other than the homescreen"). It appears the doc
+      //REVIEW: is incorrect in this case?
 
       if ( homeScreenQueryParameter === false ) {
         // TODO: Use QueryStringMachine to validate instead, see https://github.com/phetsims/joist/issues/599
@@ -364,12 +378,13 @@ define( require => {
       }
     }
 
-    // @public - the ordered list of screens that appear in this runtime of the sim
+    // @public {Array.<Screen>} - the ordered list of screens that appear in this runtime of the sim
     this.simScreens = selectedSimScreens;
     const screens = selectedSimScreens.slice();
 
     // If a sim has multiple screens and the query parameter homeScreen=false is not provided, add a HomeScreen
     if ( selectedSimScreens.length > 1 && homeScreenQueryParameter ) {
+      //REVIEW: Visibility docs? https://github.com/phetsims/joist/issues/602
       this.homeScreen = new HomeScreen( this.name, () => this.screenProperty, this.simScreens, Tandem.ROOT.createTandem( 'homeScreen' ), {
         warningNode: options.homeScreenWarningNode
       } );
@@ -379,7 +394,8 @@ define( require => {
       this.homeScreen = null;
     }
 
-    // @public - all screens that appear in the runtime of this sim, with the HomeScreen first if it was created
+    // @public {Array.<Screen>} - all screens that appear in the runtime of this sim, with the HomeScreen first if it
+    // was created
     this.screens = screens;
 
     // The first screen for the sim, can be the HomeScreen if applicable
@@ -401,7 +417,7 @@ define( require => {
       throw new Error( 'screen not found: ' + initialScreenIndex );
     }
 
-    // @public - Specifies the selected Screen
+    // @public {Property.<Screen>} - Specifies the selected Screen
     this.screenProperty = new Property( initialScreen, {
       tandem: Tandem.GENERAL.createTandem( 'screenProperty' ),
       phetioFeatured: true,

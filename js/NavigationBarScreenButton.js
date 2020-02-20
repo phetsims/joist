@@ -69,6 +69,7 @@ define( require => {
       descriptionContent: screen.descriptionContent,
       appendDescription: true,
       innerContent: StringUtils.fillIn( screenNameStringPatternString, {
+        //REVIEW: Just pass in the index? https://github.com/phetsims/joist/issues/602
         number: simScreens.indexOf( screen ) + 1 // convert from index to display number
       } )
     }, options );
