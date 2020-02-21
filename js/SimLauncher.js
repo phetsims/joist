@@ -134,8 +134,12 @@ define( require => {
         const value = _.every( window.phetImages, isImageLoaded );
         allImagesLoadedProperty.value = value;
 
-        if ( value ) {
+        // We may receive image.onload callbacks even after we have identified that all images are loaded, because when
+        // one image is loaded, we check all as a batch.  So we need to gracefully handle the case where an image onload
+        // is called even after the simulation has launched.
+        if ( value && window.phetImages ) {
 
+          // Make sure the listenedImages didn't deviate from the phetImages, but only if we haven't launched yet
           assert && assert( listenedImages.length === window.phetImages.length, 'Images added or removed' );
           for ( let i = 0; i < listenedImages.length; i++ ) {
             assert && assert( listenedImages[ i ] === window.phetImages[ i ], 'Image mismatch' );
