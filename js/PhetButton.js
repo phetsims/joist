@@ -26,13 +26,6 @@ define( require => {
   // a11y strings
   const phetString = JoistA11yStrings.phet.value;
 
-  // images
-  // The logo images are loaded from the brand which is selected via query parameter (during requirejs mode)
-  // or a grunt option (during the build), please see initialize-globals.js window.phet.chipper.brand for more
-  // details
-  const brightLogoImage = require( 'image!BRAND/logo.png' ); // on a black navbar
-  const darkLogoImage = require( 'image!BRAND/logo-on-white.png' ); // on a white navbar
-
   // Accommodate logos of any height by scaling them down proportionately.
   // The primary logo is 108px high and we have been scaling it at 0.28 to make it look good even on higher resolution
   // displays.  The logo will be scaled up to 108px high so the rest of the layout code will work smoothly
@@ -49,7 +42,17 @@ define( require => {
    */
   function PhetButton( sim, backgroundFillProperty, tandem ) {
 
-    var phetMenu = new PhetMenu( sim, this, tandem.createTandem( 'phetMenu' ), {
+    // Dynamic modules are loaded in SimLauncher and accessed through their namespace
+    const Brand = phet.brand.Brand;
+    assert && assert( Brand, 'Brand should exist by now' );
+
+    // The logo images are loaded from the brand which is selected via query parameter (during requirejs mode)
+    // or a grunt option (during the build), please see initialize-globals.js window.phet.chipper.brand for more
+    // details
+    const logoOnBlackBackground = Brand.logoOnBlackBackground;
+    const logoOnWhiteBackground = Brand.logoOnWhiteBackground;
+
+    const phetMenu = new PhetMenu( sim, this, tandem.createTandem( 'phetMenu' ), {
       closeCallback: function() {
         phetMenu.hide();
       }
@@ -68,8 +71,8 @@ define( require => {
       } );
 
     // PhET logo
-    const logoImage = new Image( brightLogoImage, {
-      scale: PHET_LOGO_SCALE / brightLogoImage.height * PHET_LOGO_HEIGHT,
+    const logoImage = new Image( logoOnBlackBackground, {
+      scale: PHET_LOGO_SCALE / logoOnBlackBackground.height * PHET_LOGO_HEIGHT,
       pickable: false
     } );
 
@@ -110,7 +113,7 @@ define( require => {
         const backgroundIsWhite = backgroundFill !== 'black' && !showHomeScreen;
         const outOfDate = updateState === UpdateState.OUT_OF_DATE;
         menuIcon.fill = backgroundIsWhite ? ( outOfDate ? '#0a0' : '#222' ) : ( outOfDate ? '#3F3' : 'white' );
-        logoImage.image = backgroundIsWhite ? darkLogoImage : brightLogoImage;
+        logoImage.image = backgroundIsWhite ? logoOnWhiteBackground : logoOnBlackBackground;
       } );
 
     // Added for phet-io, when toggling enabled, hide the option dots to prevent the cueing.
