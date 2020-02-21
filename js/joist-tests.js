@@ -12,6 +12,7 @@ define( require => {
 
   // modules
   require( 'JOIST/TemporalCounterTests' );
+  require( 'JOIST/ScreenSelectorTests' );
 
   // Since our tests are loaded asynchronously, we must direct QUnit to begin the tests
   QUnit.start();
