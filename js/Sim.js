@@ -551,7 +551,7 @@ define( require => {
     document.body.appendChild( self.display.domElement );
 
     // for now interactive descriptions are only in english
-    // NOTE: When translatable this will need to update with language
+    // NOTE: When translatable this will need to update with language, change to phet.chipper.local
     self.display.accessibleDOMElement.lang = 'en';
 
     Heartbeat.start( this );
