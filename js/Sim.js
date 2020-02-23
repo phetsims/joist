@@ -550,6 +550,10 @@ define( require => {
     self.display.domElement.id = 'sim';
     document.body.appendChild( self.display.domElement );
 
+    // for now interactive descriptions are only in english
+    // NOTE: When translatable this will need to update with language
+    self.display.accessibleDOMElement.lang = 'en';
+
     Heartbeat.start( this );
 
     if ( phet.chipper.queryParameters.sceneryLog ) {
