@@ -110,7 +110,7 @@ define( require => {
       // the default renderer for the rootNode, see #221, #184 and https://github.com/phetsims/molarity/issues/24
       rootRenderer: 'svg',
 
-      // {vibrationManager|null} - Responsible for managing vibration feedback for a sim. Experimental, and
+      // {VibrationManager|null} - Responsible for managing vibration feedback for a sim. Experimental, and
       // not used frequently. The vibrationManager instance is passed through options so that tappi doesn't have to
       // become a dependency for all sims yet. If this gets more use, this will likely change.
       vibrationManager: null,
