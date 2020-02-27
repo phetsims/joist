@@ -7,13 +7,9 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  require( 'JOIST/TemporalCounterTests' );
-  require( 'JOIST/ScreenSelectorTests' );
+import './ScreenSelectorTests.js';
+import './TemporalCounterTests.js';
 
-  // Since our tests are loaded asynchronously, we must direct QUnit to begin the tests
-  QUnit.start();
-} );
+// Since our tests are loaded asynchronously, we must direct QUnit to begin the tests
+QUnit.start();

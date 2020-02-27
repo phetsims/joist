@@ -6,20 +6,17 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const joist = require( 'JOIST/joist' );
-  const ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  const ReferenceIO = require( 'TANDEM/types/ReferenceIO' );
+import ObjectIO from '../../tandem/js/types/ObjectIO.js';
+import ReferenceIO from '../../tandem/js/types/ReferenceIO.js';
+import joist from './joist.js';
 
-  class ScreenIO extends ReferenceIO {}
+class ScreenIO extends ReferenceIO {}
 
-  ScreenIO.documentation = 'Section of a simulation which has its own model and view.';
-  ScreenIO.validator = { isValidValue: v => v instanceof phet.joist.Screen };
-  ScreenIO.typeName = 'ScreenIO';
-  ObjectIO.validateSubtype( ScreenIO );
+ScreenIO.documentation = 'Section of a simulation which has its own model and view.';
+ScreenIO.validator = { isValidValue: v => v instanceof phet.joist.Screen };
+ScreenIO.typeName = 'ScreenIO';
+ObjectIO.validateSubtype( ScreenIO );
 
-  return joist.register( 'ScreenIO', ScreenIO );
-} );
+joist.register( 'ScreenIO', ScreenIO );
+export default ScreenIO;

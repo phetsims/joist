@@ -6,32 +6,29 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const joist = require( 'JOIST/joist' );
-  const Path = require( 'SCENERY/nodes/Path' );
-  const Shape = require( 'KITE/Shape' );
+import Shape from '../../kite/js/Shape.js';
+import Path from '../../scenery/js/nodes/Path.js';
+import joist from './joist.js';
 
-  // constants
-  const CIRCLE_RADIUS = 2.5;
+// constants
+const CIRCLE_RADIUS = 2.5;
 
-  class KebabMenuIcon extends Path {
+class KebabMenuIcon extends Path {
 
-    /**
-     * @param {Object} [options]
-     */
-    constructor( options ) {
+  /**
+   * @param {Object} [options]
+   */
+  constructor( options ) {
 
-      const shape = new Shape();
-      for ( let i = 0; i < 3; i++ ) {
-        shape.circle( 0, i * 3.543 * CIRCLE_RADIUS, CIRCLE_RADIUS ); // args are: x, y, radius
-      }
-
-      super( shape, options );
+    const shape = new Shape();
+    for ( let i = 0; i < 3; i++ ) {
+      shape.circle( 0, i * 3.543 * CIRCLE_RADIUS, CIRCLE_RADIUS ); // args are: x, y, radius
     }
-  }
 
-  return joist.register( 'KebabMenuIcon', KebabMenuIcon );
-} );
+    super( shape, options );
+  }
+}
+
+joist.register( 'KebabMenuIcon', KebabMenuIcon );
+export default KebabMenuIcon;

@@ -5,18 +5,14 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const joist = require( 'JOIST/joist' );
+import joist from './joist.js';
 
-  // strings
-  const packageString = require( 'text!REPOSITORY/package.json' );
+// strings
+const packageString = JSON.stringify( ( window.phet && phet.chipper ) ? phet.chipper.packageObject : { name: 'placeholder' } );
 
-  const packageJSON = JSON.parse( packageString );
+const packageJSON = JSON.parse( packageString );
 
-  joist.register( 'packageJSON', packageJSON );
+joist.register( 'packageJSON', packageJSON );
 
-  return packageJSON;
-} );
+export default packageJSON;

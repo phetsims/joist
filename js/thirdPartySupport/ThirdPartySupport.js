@@ -6,20 +6,17 @@
  *
  * @author Jesse Greenberg
  */
-define( require => {
-  'use strict';
 
-  const joist = require( 'JOIST/joist' );
-  const LegendsOfLearningSupport = require( 'JOIST/thirdPartySupport/LegendsOfLearningSupport' );
+import joist from '../joist.js';
+import LegendsOfLearningSupport from './LegendsOfLearningSupport.js';
 
-  const ThirdPartySupport = {
-    legendsOfLearning: LegendsOfLearningSupport
-  };
+const ThirdPartySupport = {
+  legendsOfLearning: LegendsOfLearningSupport
+};
 
-  // verify that enum is immutable, without the runtime penalty in production code
-  if ( assert ) { Object.freeze( ThirdPartySupport ); }
+// verify that enum is immutable, without the runtime penalty in production code
+if ( assert ) { Object.freeze( ThirdPartySupport ); }
 
-  joist.register( 'ThirdPartySupport', ThirdPartySupport );
+joist.register( 'ThirdPartySupport', ThirdPartySupport );
 
-  return ThirdPartySupport;
-} );
+export default ThirdPartySupport;

@@ -5,38 +5,34 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const DialogsScreenView = require( 'JOIST/demo/DialogsScreenView' );
-  const Property = require( 'AXON/Property' );
-  const Screen = require( 'JOIST/Screen' );
-  const Sim = require( 'JOIST/Sim' );
-  const SimLauncher = require( 'JOIST/SimLauncher' );
+import Property from '../../axon/js/Property.js';
+import DialogsScreenView from './demo/DialogsScreenView.js';
+import joistStrings from './joist-strings.js';
+import Screen from './Screen.js';
+import Sim from './Sim.js';
+import SimLauncher from './SimLauncher.js';
 
-  // strings
-  const joistTitleString = require( 'string!JOIST/joist.title' );
+const joistTitleString = joistStrings.joist.title;
 
-  const simOptions = {
-    credits: {
-      leadDesign: 'PhET'
-    }
-  };
+const simOptions = {
+  credits: {
+    leadDesign: 'PhET'
+  }
+};
 
-  SimLauncher.launch( function() {
+SimLauncher.launch( function() {
 
-    const screens = [
-      new Screen(
-        function() { return {}; },
-        function( model ) { return new DialogsScreenView(); },
-        {
-          name: 'Dialogs',
-          backgroundColorProperty: new Property( 'white' )
-        }
-      )
-    ];
+  const screens = [
+    new Screen(
+      function() { return {}; },
+      function( model ) { return new DialogsScreenView(); },
+      {
+        name: 'Dialogs',
+        backgroundColorProperty: new Property( 'white' )
+      }
+    )
+  ];
 
-    new Sim( joistTitleString, screens, simOptions ).start();
-  } );
+  new Sim( joistTitleString, screens, simOptions ).start();
 } );

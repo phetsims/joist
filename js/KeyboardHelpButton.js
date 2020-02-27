@@ -7,96 +7,90 @@
  * @author Jesse Greenberg
  */
 
-define( require => {
-  'use strict';
+import inherit from '../../phet-core/js/inherit.js';
+import merge from '../../phet-core/js/merge.js';
+import Image from '../../scenery/js/nodes/Image.js';
+import DialogIO from '../../sun/js/DialogIO.js';
+import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
+import PhetioCapsuleIO from '../../tandem/js/PhetioCapsuleIO.js';
+import PhetioObject from '../../tandem/js/PhetioObject.js';
+import darkIconImage from '../images/keyboard-icon-on-white_png.js'; // on a white navbar
+import brightIconImage from '../images/keyboard-icon_png.js'; // on a black navbar
+import joist from './joist.js';
+import JoistA11yStrings from './JoistA11yStrings.js';
+import JoistButton from './JoistButton.js';
+import KeyboardHelpDialog from './KeyboardHelpDialog.js';
 
-  // modules
-  const DialogIO = require( 'SUN/DialogIO' );
-  const Image = require( 'SCENERY/nodes/Image' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const joist = require( 'JOIST/joist' );
-  const JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
-  const JoistButton = require( 'JOIST/JoistButton' );
-  const KeyboardHelpDialog = require( 'JOIST/KeyboardHelpDialog' );
-  const merge = require( 'PHET_CORE/merge' );
-  const PhetioCapsule = require( 'TANDEM/PhetioCapsule' );
-  const PhetioCapsuleIO = require( 'TANDEM/PhetioCapsuleIO' );
-  const PhetioObject = require( 'TANDEM/PhetioObject' );
+// a11y strings
+const hotKeysAndHelpString = JoistA11yStrings.hotKeysAndHelp.value;
 
-  // images
-  const brightIconImage = require( 'image!JOIST/keyboard-icon.png' ); // on a black navbar
-  const darkIconImage = require( 'image!JOIST/keyboard-icon-on-white.png' ); // on a white navbar
+// constants
+const HELP_BUTTON_HEIGHT = 67;
+const HELP_BUTTON_SCALE = 0.30;  // scale applied to the icon
 
-  // a11y strings
-  const hotKeysAndHelpString = JoistA11yStrings.hotKeysAndHelp.value;
+/**
+ * @param {Node} helpContent - content for the KeyboardHelpDialog
+ * @param {Property.<Color|string>} backgroundColorProperty
+ * @param {Tandem} tandem
+ * @param {Object} [options]
+ * @constructor
+ */
+function KeyboardHelpButton( helpContent, backgroundColorProperty, tandem, options ) {
 
-  // constants
-  const HELP_BUTTON_HEIGHT = 67;
-  const HELP_BUTTON_SCALE = 0.30;  // scale applied to the icon
+  options = merge( {
+    highlightExtensionWidth: 5,
+    highlightExtensionHeight: 10,
 
-  /**
-   * @param {Node} helpContent - content for the KeyboardHelpDialog
-   * @param {Property.<Color|string>} backgroundColorProperty
-   * @param {Tandem} tandem
-   * @param {Object} [options]
-   * @constructor
-   */
-  function KeyboardHelpButton( helpContent, backgroundColorProperty, tandem, options ) {
+    // The keyboard button is not vertically symmetric, due to the cable on the top.
+    // This offset adjusts the body of the keyboard to be in the center, so it
+    // will align with the speaker button and the PhET logo
+    highlightCenterOffsetY: 2,
 
-    options = merge( {
-      highlightExtensionWidth: 5,
-      highlightExtensionHeight: 10,
+    // a11y
+    tagName: 'button',
+    innerContent: hotKeysAndHelpString
+  }, options );
 
-      // The keyboard button is not vertically symmetric, due to the cable on the top.
-      // This offset adjusts the body of the keyboard to be in the center, so it
-      // will align with the speaker button and the PhET logo
-      highlightCenterOffsetY: 2,
+  assert && assert( !options.listener, 'KeyboardHelpButton set\'s its own listener' );
 
-      // a11y
-      tagName: 'button',
-      innerContent: hotKeysAndHelpString
-    }, options );
+  PhetioObject.mergePhetioComponentOptions( { visibleProperty: { phetioFeatured: true } }, options );
 
-    assert && assert( !options.listener, 'KeyboardHelpButton set\'s its own listener' );
-
-    PhetioObject.mergePhetioComponentOptions( { visibleProperty: { phetioFeatured: true } }, options );
-
-    const keyboardHelpDialogCapsule = new PhetioCapsule( tandem => {
-      return new KeyboardHelpDialog( helpContent, {
-        focusOnCloseNode: this,
-        tandem: tandem
-      } );
-    }, [], {
-      tandem: tandem.createTandem( 'keyboardHelpDialogCapsule' ),
-      phetioType: PhetioCapsuleIO( DialogIO )
+  const keyboardHelpDialogCapsule = new PhetioCapsule( tandem => {
+    return new KeyboardHelpDialog( helpContent, {
+      focusOnCloseNode: this,
+      tandem: tandem
     } );
+  }, [], {
+    tandem: tandem.createTandem( 'keyboardHelpDialogCapsule' ),
+    phetioType: PhetioCapsuleIO( DialogIO )
+  } );
 
-    options.listener = () => {
-      const keyboardHelpDialog = keyboardHelpDialogCapsule.getInstance();
-      keyboardHelpDialog.show();
+  options.listener = () => {
+    const keyboardHelpDialog = keyboardHelpDialogCapsule.getInstance();
+    keyboardHelpDialog.show();
 
-      // if listener was fired because of accessibility
-      if ( this.buttonModel.isA11yClicking() ) {
+    // if listener was fired because of accessibility
+    if ( this.buttonModel.isA11yClicking() ) {
 
-        // focus the close button if the dialog is open with a keyboard
-        keyboardHelpDialog.focusCloseButton();
-      }
-    };
+      // focus the close button if the dialog is open with a keyboard
+      keyboardHelpDialog.focusCloseButton();
+    }
+  };
 
-    const icon = new Image( brightIconImage, {
-      scale: HELP_BUTTON_SCALE / brightIconImage.height * HELP_BUTTON_HEIGHT,
-      pickable: false
-    } );
+  const icon = new Image( brightIconImage, {
+    scale: HELP_BUTTON_SCALE / brightIconImage.height * HELP_BUTTON_HEIGHT,
+    pickable: false
+  } );
 
-    JoistButton.call( this, icon, backgroundColorProperty, tandem, options );
+  JoistButton.call( this, icon, backgroundColorProperty, tandem, options );
 
-    // change the icon so that it is visible when the background changes from dark to light
-    backgroundColorProperty.link( function( backgroundColor ) {
-      icon.image = backgroundColor === 'black' ? brightIconImage : darkIconImage;
-    } );
-  }
+  // change the icon so that it is visible when the background changes from dark to light
+  backgroundColorProperty.link( function( backgroundColor ) {
+    icon.image = backgroundColor === 'black' ? brightIconImage : darkIconImage;
+  } );
+}
 
-  joist.register( 'KeyboardHelpButton', KeyboardHelpButton );
+joist.register( 'KeyboardHelpButton', KeyboardHelpButton );
 
-  return inherit( JoistButton, KeyboardHelpButton );
-} );
+inherit( JoistButton, KeyboardHelpButton );
+export default KeyboardHelpButton;

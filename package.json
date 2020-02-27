@@ -22,7 +22,7 @@
     "extends": "../chipper/eslint/sim_eslintrc.js",
     "parser": "../chipper/node_modules/babel-eslint",
     "parserOptions": {
-      "sourceType": "script",
+      "sourceType": "module",
       "allowImportExportEverywhere": true
     }
   }

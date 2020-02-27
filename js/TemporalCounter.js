@@ -9,49 +9,46 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const joist = require( 'JOIST/joist' );
-  const Utils = require( 'DOT/Utils' );
+import Utils from '../../dot/js/Utils.js';
+import joist from './joist.js';
 
-  class TemporalCounter {
+class TemporalCounter {
 
-    /**
-     * @param {number} binSize - in ms
-     */
-    constructor( binSize ) {
+  /**
+   * @param {number} binSize - in ms
+   */
+  constructor( binSize ) {
 
-      // @private
-      this.previousTime = null;
-      this.binSize = binSize;
-      this.lastBinIndex = null;
+    // @private
+    this.previousTime = null;
+    this.binSize = binSize;
+    this.lastBinIndex = null;
 
-      // @public
-      this.counts = 0;
-    }
-
-    /**
-     * @public
-     * @param {number} time - relative elapsed time
-     */
-    onEvent( time ) {
-      assert && this.previousTime && assert( time >= this.previousTime, 'time must increase each event' );
-
-      assert && assert( Utils.isInteger( time ), 'time must be an integer' );
-
-      const currentBinIndex = Math.floor( time / this.binSize );
-
-      if ( currentBinIndex !== this.lastBinIndex ) {
-
-        // Increment the time on the current screen (if home screen not showing)
-        this.counts++;
-        this.lastBinIndex = currentBinIndex;
-      }
-      this.previousTime = time;
-    }
+    // @public
+    this.counts = 0;
   }
 
-  return joist.register( 'TemporalCounter', TemporalCounter );
-} );
+  /**
+   * @public
+   * @param {number} time - relative elapsed time
+   */
+  onEvent( time ) {
+    assert && this.previousTime && assert( time >= this.previousTime, 'time must increase each event' );
+
+    assert && assert( Utils.isInteger( time ), 'time must be an integer' );
+
+    const currentBinIndex = Math.floor( time / this.binSize );
+
+    if ( currentBinIndex !== this.lastBinIndex ) {
+
+      // Increment the time on the current screen (if home screen not showing)
+      this.counts++;
+      this.lastBinIndex = currentBinIndex;
+    }
+    this.previousTime = time;
+  }
+}
+
+joist.register( 'TemporalCounter', TemporalCounter );
+export default TemporalCounter;
