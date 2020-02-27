@@ -12,7 +12,6 @@ define( require => {
   const AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
   const CreditsNode = require( 'JOIST/CreditsNode' );
   const Dialog = require( 'SUN/Dialog' );
-  const getLinks = require( 'BRAND/../../js/getLinks' );
   const inherit = require( 'PHET_CORE/inherit' );
   const joist = require( 'JOIST/joist' );
   const Node = require( 'SCENERY/nodes/Node' );
@@ -176,7 +175,7 @@ define( require => {
     }
 
     // Show any links identified in the brand
-    const links = Brand.getLinks( packageJSON.name, locale, getLinks );
+    const links = Brand.getLinks( packageJSON.name, locale );
     if ( links && links.length > 0 ) {
 
       const linksChildren = [];
