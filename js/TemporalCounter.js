@@ -1,4 +1,4 @@
-// Copyright 2019, University of Colorado Boulder
+// Copyright 2019-2020, University of Colorado Boulder
 
 /**
  * Used by EngagementMetrics to keep track of the seconds in which activity occurs. For example, with a binSize of 1000,

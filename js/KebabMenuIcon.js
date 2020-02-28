@@ -1,4 +1,4 @@
-// Copyright 2018-2019, University of Colorado Boulder
+// Copyright 2018-2020, University of Colorado Boulder
 
 /**
  * The "kebab" menu icon, 3 dots stacked vertically that look like a shish kebab.
