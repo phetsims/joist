@@ -6,7 +6,6 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import Property from '../../axon/js/Property.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
@@ -15,9 +14,9 @@ import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Text from '../../scenery/js/nodes/Text.js';
+import HomeScreenButton from './HomeScreenButton.js';
 import joist from './joist.js';
 import JoistA11yStrings from './JoistA11yStrings.js';
-import ScreenButton from './ScreenButton.js';
 import ScreenView from './ScreenView.js';
 
 // a11y strings
@@ -77,77 +76,37 @@ function HomeScreenView( simName, model, tandem, options ) {
   this.addChild( title );
   title.scale( Math.min( 1, 0.9 * this.layoutBounds.width / title.width ) );
 
-  // Keep track of which screen is highlighted so the same screen can remain highlighted even if nodes are replaced
-  // (say when one grows larger or smaller).
-  // TODO: This will be eliminated when we combine the buttons, see https://github.com/phetsims/joist/issues/601
-  const highlightedScreenIndexProperty = new Property( -1 );
+  const buttonGroupTandem = tandem.createTandem( 'buttonGroup' );
 
   const screenElements = _.map( model.simScreens, function( screen, index ) {
 
     assert && assert( screen.name, 'name is required for screen ' + model.simScreens.indexOf( screen ) );
     assert && assert( screen.homeScreenIcon, 'homeScreenIcon is required for screen ' + screen.name );
 
-    // Even though in the user interface the small and large buttons seem like a single UI component that has grown
-    // larger, it would be quite a headache to create a composite button for the purposes of tandem, so instead the
-    // large and small buttons are registered as separate instances.  See https://github.com/phetsims/phet-io/issues/99
-    const largeTandem = tandem.createTandem( screen.tandem.name + 'LargeButton' );
-
-    // a11y
-    const a11yScreenButtonOptions = {
-      tagName: 'button',
-      innerContent: screen.name,
-      descriptionContent: screen.descriptionContent,
-      appendDescription: true,
-      containerTagName: 'li'
-    };
-
-    const largeScreenButton = new ScreenButton(
-      true,
+    const homeScreenButton = new HomeScreenButton(
       screen,
-      model,
-      highlightedScreenIndexProperty,
-      merge( a11yScreenButtonOptions, {
-
-        // Don't resize the VBox or it will shift down when the border becomes thicker
-        resize: false,
-        cursor: 'pointer',
-        tandem: largeTandem
-      } ) );
-
-    // Even though in the user interface the small and large buttons seem like a single UI component that has grown
-    // larger, it would be quite a headache to create a composite button for the purposes of tandem, so instead the
-    // large and small buttons are registered as separate instances.  See https://github.com/phetsims/phet-io/issues/99
-    const smallTandem = tandem.createTandem( screen.tandem.name + 'SmallButton' );
-
-    const smallScreenButton = new ScreenButton(
-      false,
-      screen,
-      model,
-      highlightedScreenIndexProperty,
-      merge( a11yScreenButtonOptions, {
-        spacing: 3,
-        cursor: 'pointer',
+      model, {
         showUnselectedHomeScreenIconFrame: screen.showUnselectedHomeScreenIconFrame,
-        tandem: smallTandem
-      } ) );
 
-    smallScreenButton.addInputListener( smallScreenButton.highlightListener );
-    largeScreenButton.addInputListener( smallScreenButton.highlightListener );
+        // a11y
+        innerContent: screen.name,
+        descriptionContent: screen.descriptionContent,
+
+        // phet-io
+        tandem: buttonGroupTandem.createTandem( screen.tandem.name + 'Button' )
+      } );
 
     // a11y support for click listeners on the screen buttons
     const toggleListener = function() {
-      smallScreenButton.visible && smallScreenButton.focus();
-      largeScreenButton.visible && largeScreenButton.focus();
+      homeScreenButton.visible && homeScreenButton.focus();
     };
-    smallScreenButton.addInputListener( { focus: toggleListener } );
-    largeScreenButton.addInputListener( { click: toggleListener } );
-    // largeScreenButton.mouseArea = largeScreenButton.touchArea = Shape.bounds( largeScreenButton.bounds ); // cover the gap in the vbox
+    homeScreenButton.addInputListener( { focus: toggleListener } );
+    homeScreenButton.addInputListener( { click: toggleListener } );
 
     // a11y - add the right aria attributes to the buttons
-    smallScreenButton.setAccessibleAttribute( 'aria-roledescription', simScreenString );
-    largeScreenButton.setAccessibleAttribute( 'aria-roledescription', simScreenString );
+    homeScreenButton.setAccessibleAttribute( 'aria-roledescription', simScreenString );
 
-    return { screen: screen, small: smallScreenButton, large: largeScreenButton, index: index };
+    return { screen: screen, button: homeScreenButton };
   } );
 
   // a11y this is needed to create the right PDOM structure, the phet menu shouldn't be a child of this 'nav', so
@@ -194,9 +153,9 @@ function HomeScreenView( simName, model, tandem, options ) {
 
       // check for the current screen
       if ( screenElement.screen === selectedScreen ) {
-        self.highlightedScreenButton = screenElement.large;
+        self.highlightedScreenButton = screenElement.button;
       }
-      return screenElement.screen === selectedScreen ? screenElement.large : screenElement.small;
+      return screenElement.button;
     } );
     hBox = new HBox( {
       spacing: spacing,
