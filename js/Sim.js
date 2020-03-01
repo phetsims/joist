@@ -193,7 +193,7 @@ function Sim( name, allSimScreens, options ) {
       this.panZoomListener.setPanBounds( this.boundsProperty.value );
     }
   }, {
-    tandem: Tandem.GENERAL.createTandem( 'resizeAction' ),
+    tandem: Tandem.GENERAL_MODEL.createTandem( 'resizeAction' ),
     parameters: [
       { name: 'width', phetioType: NumberIO },
       { name: 'height', phetioType: NumberIO }
@@ -301,7 +301,7 @@ function Sim( name, allSimScreens, options ) {
     }
     this.frameEndedEmitter.emit();
   }, {
-    tandem: Tandem.GENERAL.createTandem( 'stepSimulationAction' ),
+    tandem: Tandem.GENERAL_MODEL.createTandem( 'stepSimulationAction' ),
     parameters: [ {
       name: 'dt',
       phetioType: NumberIO,
@@ -343,7 +343,7 @@ function Sim( name, allSimScreens, options ) {
 
   // @public {Property.<Screen>} - Specifies the selected Screen
   this.screenProperty = new Property( screenData.initialScreen, {
-    tandem: Tandem.GENERAL.createTandem( 'screenProperty' ),
+    tandem: Tandem.GENERAL_MODEL.createTandem( 'screenProperty' ),
     phetioFeatured: true,
     phetioDocumentation: 'Which sim screen is selected, including the home screen',
     validValues: this.screens,
@@ -354,7 +354,7 @@ function Sim( name, allSimScreens, options ) {
   // Set to false for when the sim will be paused.  If the sim has playbackModeEnabledProperty set to true, the
   // activeProperty will automatically be set to false so the timing and inputs can be controlled by the playback engine
   this.activeProperty = new BooleanProperty( !phet.joist.playbackModeEnabledProperty.value, {
-    tandem: Tandem.GENERAL.createTandem( 'activeProperty' ),
+    tandem: Tandem.GENERAL_MODEL.createTandem( 'activeProperty' ),
     phetioFeatured: true,
     phetioDocumentation: 'Determines whether the entire simulation is running and processing user input. ' +
                          'Setting this property to false pauses the simulation, and prevents user interaction.'
@@ -362,7 +362,7 @@ function Sim( name, allSimScreens, options ) {
 
   // @public (read-only) - property that indicates whether the browser tab containing the simulation is currently visible
   this.browserTabVisibleProperty = new BooleanProperty( true, {
-    tandem: Tandem.GENERAL.createTandem( 'browserTabVisibleProperty' ),
+    tandem: Tandem.GENERAL_MODEL.createTandem( 'browserTabVisibleProperty' ),
     phetioDocumentation: 'Indicates whether the browser tab containing the simulation is currently visible',
     phetioReadOnly: true,
     phetioFeatured: true
@@ -579,7 +579,7 @@ function Sim( name, allSimScreens, options ) {
   const isMultiScreenSimDisplayingSingleScreen = this.simScreens.length === 1 && allSimScreens.length !== this.simScreens.length;
 
   // @public (joist-internal)
-  this.navigationBar = new NavigationBar( this, isMultiScreenSimDisplayingSingleScreen, Tandem.GENERAL.createTandem( 'navigationBar' ) );
+  this.navigationBar = new NavigationBar( this, isMultiScreenSimDisplayingSingleScreen, Tandem.GENERAL_VIEW.createTandem( 'navigationBar' ) );
 
   // @private {AnimatedPanZoomListener|null} - magnification support, null unless requested by query param
   this.panZoomListener = null;
@@ -674,7 +674,7 @@ export default inherit( Object, Sim, {
       this.modalNodeStack, {
         fill: 'rgba(0,0,0,0.3)',
         pickable: true,
-        tandem: Tandem.GENERAL.createTandem( 'barrierRectangle' ),
+        tandem: Tandem.GENERAL_VIEW.createTandem( 'barrierRectangle' ),
         phetioDocumentation: 'Semi-transparent barrier used to block input events when a dialog is shown, also fades out the background'
       } );
     this.topLayer.addChild( this.barrierRectangle );
