@@ -7,7 +7,7 @@
   <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1"/>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="phet-sim-level" content="development">
-  
+
   <title>joist</title>
 </head>
 
@@ -19,28 +19,55 @@
 
   window.phet = window.phet || {};
   window.phet.chipper = window.phet.chipper || {};
-  window.phet.chipper.packageObject = {
-    "name": "joist",
-    "version": "0.0.0",
-    "license": "MIT",
-    "repository": { "type": "git", "url": "https://github.com/phetsims/joist.git" },
-    "devDependencies": { "grunt": "~1.0.0" },
-    "phet": {
-      "requirejsNamespace": "JOIST",
-      "runnable": true,
-      "generatedUnitTests": true,
-      "supportedBrands": [ "phet", "adapted-from-phet" ]
-    },
-    "eslintConfig": {
-      "extends": "../chipper/eslint/sim_eslintrc.js",
-      "parser": "../chipper/node_modules/babel-eslint",
-      "parserOptions": { "sourceType": "module", "allowImportExportEverywhere": true }
-    }
-  };
-  window.phet.chipper.stringRepos = [ { "repo": "joist", "requirejsNamespace": "JOIST" }, {
-    "repo": "scenery-phet",
-    "requirejsNamespace": "SCENERY_PHET"
-  }, { "repo": "sun", "requirejsNamespace": "SUN" }, { "repo": "tambo", "requirejsNamespace": "TAMBO" } ];
+  window.phet.chipper.packageObject =
+    {
+      "name": "joist",
+      "version": "0.0.0",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/phetsims/joist.git"
+      },
+      "devDependencies": {
+        "grunt": "~1.0.0"
+      },
+      "phet": {
+        "requirejsNamespace": "JOIST",
+        "runnable": true,
+        "generatedUnitTests": true,
+        "supportedBrands": [
+          "phet",
+          "adapted-from-phet"
+        ]
+      },
+      "eslintConfig": {
+        "extends": "../chipper/eslint/sim_eslintrc.js",
+        "parser": "../chipper/node_modules/babel-eslint",
+        "parserOptions": {
+          "sourceType": "module",
+          "allowImportExportEverywhere": true
+        }
+      }
+    };
+  window.phet.chipper.stringRepos =
+    [
+      {
+        "repo": "joist",
+        "requirejsNamespace": "JOIST"
+      },
+      {
+        "repo": "scenery-phet",
+        "requirejsNamespace": "SCENERY_PHET"
+      },
+      {
+        "repo": "sun",
+        "requirejsNamespace": "SUN"
+      },
+      {
+        "repo": "tambo",
+        "requirejsNamespace": "TAMBO"
+      }
+    ];
 
   // Identify the brand (assume generated brand if not provided with query parameters)
   const brandMatch = location.search.match( /brand=([^&]+)/ );
