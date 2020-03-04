@@ -20,7 +20,7 @@ import PropertyIO from '../../axon/js/PropertyIO.js';
 import timer from '../../axon/js/timer.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
-import DotUtils from '../../dot/js/Utils.js'; // eslint-disable-line
+import DotUtils from '../../dot/js/Utils.js';
 import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import platform from '../../phet-core/js/platform.js';
@@ -47,8 +47,8 @@ import packageJSON from './packageJSON.js';
 import Profiler from './Profiler.js';
 import QueryParametersWarningDialog from './QueryParametersWarningDialog.js';
 import ScreenIO from './ScreenIO.js';
-import ScreenSelector from './ScreenSelector.js';
 import ScreenshotGenerator from './ScreenshotGenerator.js';
+import selectScreens from './selectScreens.js';
 import LegendsOfLearningSupport from './thirdPartySupport/LegendsOfLearningSupport.js';
 import updateCheck from './updateCheck.js';
 
@@ -316,7 +316,7 @@ function Sim( name, allSimScreens, options ) {
   const initialScreenIndex = phet.chipper.queryParameters.initialScreen;
   const screensQueryParameter = phet.chipper.queryParameters.screens;
 
-  const screenData = ScreenSelector.select(
+  const screenData = selectScreens(
     allSimScreens,
     homeScreenQueryParameter,
     QueryStringMachine.containsKey( 'homeScreen' ),

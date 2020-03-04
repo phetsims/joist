@@ -8,7 +8,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import './ScreenSelectorTests.js';
+import './selectScreensTests.js';
 import './TemporalCounterTests.js';
 
 // Since our tests are loaded asynchronously, we must direct QUnit to begin the tests

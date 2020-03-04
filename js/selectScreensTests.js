@@ -8,7 +8,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import ScreenSelector from './ScreenSelector.js';
+import selectScreens from './selectScreens.js';
 
 const getQueryParameterValues = queryString => {
 
@@ -59,7 +59,7 @@ const formatMessage = ( key, expectedResult, result, description ) =>
  */
 const getDescription = ( queryString, allSimScreens ) => `${queryString} ${JSON.stringify( allSimScreens )}`;
 
-QUnit.test( 'ScreenSelector tests', async assert => {
+QUnit.test( 'selectScreens tests', async assert => {
 
   /**
    * Tests a valid combination of allSimScreens and screens-related query parameters, where the expectedResult should
@@ -67,12 +67,12 @@ QUnit.test( 'ScreenSelector tests', async assert => {
    *
    * @param {string} queryString
    * @param {Object[]} allSimScreens
-   * @param {Object} expectedResult, see ScreenSelector @returns for doc
+   * @param {Object} expectedResult, see selectScreens @returns for doc
    */
   const testValidScreenSelector = ( queryString, allSimScreens, expectedResult ) => {
     const queryParameterValues = getQueryParameterValues( queryString );
 
-    const result = ScreenSelector.select(
+    const result = selectScreens(
       allSimScreens,
       queryParameterValues.homeScreen,
       QueryStringMachine.containsKeyForString( 'homeScreen', queryString ),
@@ -86,7 +86,7 @@ QUnit.test( 'ScreenSelector tests', async assert => {
 
     const description = getDescription( queryString, allSimScreens );
 
-    // test the four return values from ScreenSelector
+    // test the four return values from selectScreens
     assert.ok( result.homeScreen === expectedResult.homeScreen,
       formatMessage( 'homeScreen', expectedResult, result, description ) );
     assert.ok( result.initialScreen === expectedResult.initialScreen,
@@ -98,8 +98,8 @@ QUnit.test( 'ScreenSelector tests', async assert => {
   };
 
   /**
-   * Tests an invalid combination of allSimScreens and screens-related query parameters, where ScreenSelector.select
-   * should throw an error
+   * Tests an invalid combination of allSimScreens and screens-related query parameters, where selectScreens should
+   * throw an error
    *
    * @param {string} queryString
    * @param {Object[]} allSimScreens
@@ -109,7 +109,7 @@ QUnit.test( 'ScreenSelector tests', async assert => {
     const description = getDescription( queryString, allSimScreens );
 
     window.assert && assert.throws( () => {
-      ScreenSelector.select(
+      selectScreens(
         allSimScreens,
         queryParameterValues.homeScreen,
         QueryStringMachine.containsKeyForString( 'homeScreen', queryString ),
