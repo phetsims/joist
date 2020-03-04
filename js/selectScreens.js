@@ -36,7 +36,13 @@ const selectScreens = ( allSimScreens,
     if ( homeScreenQueryParameterProvided ) {
       throw new Error( 'homeScreen query parameter not supported for single-screen sims' );
     }
-
+    //REVIEW: Why is initialScreen not allowed on single-screen sims? Does this mean that for anything that iterates
+    //REVIEW: over sims and tries to go to the 1st screen, we'll need to record whether they have just one and omit
+    //REVIEW: the query parameter for no other reason than it would error out due to this assertion?
+    //REVIEW: See https://github.com/phetsims/joist/issues/602
+    if ( initialScreenQueryParameterProvided ) {
+      throw new Error( 'initialScreen query parameter not supported for single-screen sims' );
+    }
     //REVIEW: Similar issue to initialScreen, since screens=1 presumably would work ok?
     //REVIEW: https://github.com/phetsims/joist/issues/602
     if ( screensQueryParameterProvided ) {
