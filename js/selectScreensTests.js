@@ -137,6 +137,12 @@ QUnit.test( 'selectScreens tests', async assert => {
     selectedSimScreens: [ a ],
     screens: [ a ]
   } );
+  testValidScreenSelector( '?initialScreen=1', [ a ], {
+    homeScreen: null,
+    initialScreen: a,
+    selectedSimScreens: [ a ],
+    screens: [ a ]
+  } );
   testValidScreenSelector( '?screens=2', [ a, b ], {
     homeScreen: null,
     initialScreen: b,
@@ -229,7 +235,7 @@ QUnit.test( 'selectScreens tests', async assert => {
 
   // single screen
   testInvalidScreenSelector( '?initialScreen=0', [ a ] );
-  testInvalidScreenSelector( '?initialScreen=1', [ a ] );
+  testInvalidScreenSelector( '?initialScreen=2', [ a ] );
   testInvalidScreenSelector( '?homeScreen=true', [ a ] );
   testInvalidScreenSelector( '?homeScreen=false', [ a ] );
   testInvalidScreenSelector( '?screens=0', [ a ] );
