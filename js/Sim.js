@@ -12,6 +12,7 @@
 
 import Action from '../../axon/js/Action.js';
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Emitter from '../../axon/js/Emitter.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
 import ObservableArray from '../../axon/js/ObservableArray.js';
@@ -599,6 +600,14 @@ function Sim( name, allSimScreens, options ) {
 
   // Set up PhET-iO, must be done after phet.joist.sim is assigned
   Tandem.PHET_IO_ENABLED && phet.phetIo.phetioEngine.onSimConstructionStarted( this );
+
+  // @public (read-only) {Property.<boolean>} - if PhET-iO is currently setting the state of the simulation.
+  // See PhetioStateEngine for details.
+  this.isSettingPhetioStateProperty = Tandem.PHET_IO_ENABLED ?
+                                      new DerivedProperty(
+                                        [ phet.phetIo.phetioEngine.phetioStateEngine.isSettingStateProperty ],
+                                        _.identity ) :
+                                      new BooleanProperty( false );
 
   // commented out because https://github.com/phetsims/joist/issues/553 is deferred for after GQIO-oneone
   // if ( PHET_IO_ENABLED ) {
