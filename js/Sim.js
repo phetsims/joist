@@ -419,7 +419,7 @@ function Sim( name, allSimScreens, options ) {
   Tandem.PHET_IO_ENABLED && phet.phetIo.phetioEngine.onSimConstructionStarted( this );
 
   // @public (read-only) {Property.<boolean>} - if PhET-iO is currently setting the state of the simulation.
-  // See PhetioStateEngine for details.
+  // See PhetioStateEngine for details. This must be declared before soundManager.initialized is called.
   this.isSettingPhetioStateProperty = Tandem.PHET_IO_ENABLED ?
                                       new DerivedProperty(
                                         [ phet.phetIo.phetioEngine.phetioStateEngine.isSettingStateProperty ],
@@ -453,7 +453,7 @@ function Sim( name, allSimScreens, options ) {
 
   // Initialize the sound library if enabled.
   if ( this.supportsSound ) {
-    soundManager.initialize( this.browserTabVisibleProperty, this.activeProperty, this.isSettingPhetioStateProperty );
+    soundManager.initialize( this.browserTabVisibleProperty, this.activeProperty );
   }
 
   // @private {null|VibrationManager} - The singleton instance of VibrationManager. Experimental and not frequently
