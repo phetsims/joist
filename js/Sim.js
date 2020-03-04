@@ -412,6 +412,25 @@ function Sim( name, allSimScreens, options ) {
   // @public (joist-internal, read-only)
   this.keyboardHelpNode = options.keyboardHelpNode;
 
+  assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
+  window.phet.joist.sim = this;
+
+  // Set up PhET-iO, must be done after phet.joist.sim is assigned
+  Tandem.PHET_IO_ENABLED && phet.phetIo.phetioEngine.onSimConstructionStarted( this );
+
+  // @public (read-only) {Property.<boolean>} - if PhET-iO is currently setting the state of the simulation.
+  // See PhetioStateEngine for details.
+  this.isSettingPhetioStateProperty = Tandem.PHET_IO_ENABLED ?
+                                      new DerivedProperty(
+                                        [ phet.phetIo.phetioEngine.phetioStateEngine.isSettingStateProperty ],
+                                        _.identity ) :
+                                      new BooleanProperty( false );
+
+  // commented out because https://github.com/phetsims/joist/issues/553 is deferred for after GQIO-oneone
+  // if ( PHET_IO_ENABLED ) {
+  //   this.engagementMetrics = new EngagementMetrics( this );
+  // }
+
   // Set/update global flag values that enable and configure the sound library.  These can be controlled through sim
   // flags or query params.
 
@@ -434,7 +453,7 @@ function Sim( name, allSimScreens, options ) {
 
   // Initialize the sound library if enabled.
   if ( this.supportsSound ) {
-    soundManager.initialize( this.browserTabVisibleProperty, this.activeProperty );
+    soundManager.initialize( this.browserTabVisibleProperty, this.activeProperty, this.isSettingPhetioStateProperty );
   }
 
   // @private {null|VibrationManager} - The singleton instance of VibrationManager. Experimental and not frequently
@@ -444,9 +463,6 @@ function Sim( name, allSimScreens, options ) {
   if ( this.vibrationManager ) {
     this.vibrationManager.initialize( this.browserTabVisibleProperty, this.activeProperty );
   }
-
-  assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
-  window.phet.joist.sim = this;
 
   // Make ScreenshotGenerator available globally so it can be used in preload files such as PhET-iO.
   window.phet.joist.ScreenshotGenerator = ScreenshotGenerator;
@@ -597,22 +613,6 @@ function Sim( name, allSimScreens, options ) {
   this.lookAndFeel.backgroundColorProperty.link( function( backgroundColor ) {
     self.display.backgroundColor = backgroundColor;
   } );
-
-  // Set up PhET-iO, must be done after phet.joist.sim is assigned
-  Tandem.PHET_IO_ENABLED && phet.phetIo.phetioEngine.onSimConstructionStarted( this );
-
-  // @public (read-only) {Property.<boolean>} - if PhET-iO is currently setting the state of the simulation.
-  // See PhetioStateEngine for details.
-  this.isSettingPhetioStateProperty = Tandem.PHET_IO_ENABLED ?
-                                      new DerivedProperty(
-                                        [ phet.phetIo.phetioEngine.phetioStateEngine.isSettingStateProperty ],
-                                        _.identity ) :
-                                      new BooleanProperty( false );
-
-  // commented out because https://github.com/phetsims/joist/issues/553 is deferred for after GQIO-oneone
-  // if ( PHET_IO_ENABLED ) {
-  //   this.engagementMetrics = new EngagementMetrics( this );
-  // }
 
   this.screenProperty.link( () => this.updateBackground() );
 
