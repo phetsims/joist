@@ -3,6 +3,7 @@
 /**
  * A HomeScreenButton is displayed on the HomeScreen for choosing a screen. The button can be in a selected or
  * unselected state - it's large with a yellow frame in its selected state, and small in its unselected state.
+ * Selecting the button when in its "selected" state will result in that screen being chosen.
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  * @author Chris Klusendorf (PhET Interactive Simulations)
