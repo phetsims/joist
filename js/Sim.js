@@ -19,6 +19,7 @@ define( require => {
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Bounds2 = require( 'DOT/Bounds2' );
   const Brand = require( 'BRAND/Brand' );
+  const DerivedProperty = require( 'AXON/DerivedProperty' );
   const Dimension2 = require( 'DOT/Dimension2' );
   const Display = require( 'SCENERY/display/Display' );
   const DotUtils = require( 'DOT/Utils' );// eslint-disable-line
@@ -380,6 +381,9 @@ define( require => {
       numberType: 'Integer'
     } );
 
+    // @public
+    this.screens = screens;
+
     // @public - When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.
     // Set to false for when the sim will be paused.  If the sim has playbackModeEnabledProperty set to true, the
     // activeProperty will automatically be set to false so the timing and inputs can be controlled by the playback engine
@@ -443,6 +447,26 @@ define( require => {
     // @public (joist-internal, read-only)
     this.keyboardHelpNode = options.keyboardHelpNode;
 
+    assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
+    window.phet.joist.sim = this;
+
+    // Set up PhET-iO, must be done after phet.joist.sim is assigned
+    Tandem.PHET_IO_ENABLED && phetioEngine.initialize();
+
+    // @public (read-only) {Property.<boolean>} - if PhET-iO is currently setting the state of the simulation.
+    // See PhetioStateEngine for details. This must be declared before soundManager.initialized is called.
+    this.isSettingPhetioStateProperty = Tandem.PHET_IO_ENABLED ?
+                                        new DerivedProperty(
+                                          [ phet.phetIo.phetioEngine.phetioStateEngine.isSettingStateProperty ],
+                                          _.identity ) :
+                                        new BooleanProperty( false );
+
+
+    // commented out because https://github.com/phetsims/joist/issues/553 is deferred for after GQIO-oneone
+    // if ( PHET_IO_ENABLED ) {
+    //   this.engagementMetrics = new EngagementMetrics( this );
+    // }
+
     // Set/update global flag values that enable and configure the sound library.  These can be controlled through sim
     // flags or query params.
 
@@ -481,9 +505,6 @@ define( require => {
     if ( this.vibrationManager ) {
       this.vibrationManager.initialize( this.browserTabVisibleProperty, this.activeProperty );
     }
-
-    assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
-    window.phet.joist.sim = this;
 
     // Make ScreenshotGenerator available globally so it can be used in preload files such as PhET-iO.
     window.phet.joist.ScreenshotGenerator = ScreenshotGenerator;
@@ -609,9 +630,6 @@ define( require => {
     self.display.setCanvasNodeBoundsVisible( phet.chipper.queryParameters.showCanvasNodeBounds );
     self.display.setFittedBlockBoundsVisible( phet.chipper.queryParameters.showFittedBlockBounds );
 
-    // @public
-    this.screens = screens;
-
     // Multi-screen sims get a home screen. Note: the home screen is created even when
     // phet.chipper.queryParameters.homeScreen is false. That query parameter only affects the ability to view
     // the home screen. See NavigationBar for phet.chipper.queryParameters.homeScreen usage.
@@ -645,14 +663,6 @@ define( require => {
     this.lookAndFeel.backgroundColorProperty.link( function( backgroundColor ) {
       self.display.backgroundColor = backgroundColor;
     } );
-
-    // Set up PhET-iO, must be done after phet.joist.sim is assigned
-    Tandem.PHET_IO_ENABLED && phetioEngine.initialize();
-
-    // commented out because https://github.com/phetsims/joist/issues/553 is deferred for after GQIO-oneone
-    // if ( PHET_IO_ENABLED ) {
-    //   this.engagementMetrics = new EngagementMetrics( this );
-    // }
 
     Property.multilink( [ this.showHomeScreenProperty, this.screenIndexProperty ],
       function( showHomeScreen, screenIndex ) {
