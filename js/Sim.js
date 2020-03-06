@@ -200,7 +200,7 @@ function Sim( name, allSimScreens, options ) {
       { name: 'height', phetioType: NumberIO }
     ],
     phetioPlayback: true,
-    phetioDocumentation: 'Executes when the sim is resized. Values are in CSS pixels.'
+    phetioDocumentation: 'Executes when the sim is resized. Values are the sim dimensions in CSS pixels.'
   } );
 
   // Sim screens normally update by implementing model.step(dt) or view.step(dt).  When that is impossible or
