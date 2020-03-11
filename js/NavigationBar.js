@@ -226,8 +226,7 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
     const screenButtonWidth = ( availableTotal - ( this.simScreens.length - 1 ) * SCREEN_BUTTON_SPACING ) / this.simScreens.length;
 
     // Create the screen buttons
-    //REVIEW: We can use array.map() instead of using lodash _.map, see https://github.com/phetsims/joist/issues/602
-    const screenButtons = _.map( this.simScreens, screen => {
+    const screenButtons = this.simScreens.map( screen => {
       return new NavigationBarScreenButton(
         sim.lookAndFeel.navigationBarFillProperty,
         sim.screenProperty,
