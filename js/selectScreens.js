@@ -59,14 +59,12 @@ const selectScreens = ( allSimScreens,
   if ( screensQueryParameterProvided ) {
     //REVIEW: Shouldn't we just see if the result is the default value of `null`, instead of checking if it was
     //REVIEW: provided? See https://github.com/phetsims/joist/issues/614
-    selectedSimScreens = [];
-    //REVIEW: selectedSimScreens = *.screens.map( ... ) would be clearer, https://github.com/phetsims/joist/issues/602
-    screensQueryParameter.forEach( function( userIndex ) {
+    selectedSimScreens = screensQueryParameter.map( userIndex => {
       const screenIndex = userIndex - 1; // screens query parameter is 1-based
       if ( screenIndex < 0 || screenIndex > allSimScreens.length - 1 ) {
         throw new Error( 'invalid screen index: ' + userIndex );
       }
-      selectedSimScreens.push( allSimScreens[ screenIndex ] );
+      return allSimScreens[ screenIndex ];
     } );
   }
   else {
