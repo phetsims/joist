@@ -226,7 +226,7 @@ const devCreateVisibleBoundsNode = function( screenView ) {
   return path;
 };
 
-export default inherit( PhetioObject, Screen, {
+inherit( PhetioObject, Screen, {
 
   // @public
   reset: function() {
@@ -313,3 +313,5 @@ export default inherit( PhetioObject, Screen, {
   // @public
   MINIMUM_NAVBAR_ICON_SIZE: MINIMUM_NAVBAR_ICON_SIZE
 } );
+
+export default Screen;
