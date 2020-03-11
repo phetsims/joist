@@ -94,7 +94,6 @@ const selectScreens = ( allSimScreens,
 
   // If a sim has multiple screens and the query parameter homeScreen=false is not provided, add a HomeScreen
   if ( selectedSimScreens.length > 1 && homeScreenQueryParameter ) {
-    //REVIEW: Visibility docs? https://github.com/phetsims/joist/issues/602
     homeScreen = createHomeScreen( selectedSimScreens );
     screens.unshift( homeScreen );
   }
