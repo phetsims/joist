@@ -71,21 +71,19 @@ const selectScreens = ( allSimScreens,
     selectedSimScreens = allSimScreens;
   }
 
-  // If the user specified an initial screen other than the homescreen and specified a subset of screens
-  // remap the selected 1-based index from the original screens list to the filtered screens list.
-  if ( initialScreenQueryParameterProvided && initialScreenIndex === 0 ) {
-    //REVIEW: Why is the containsKey needed? Seems like the default is zero, which is checked by the second condition.
-    //REVIEW: https://github.com/phetsims/joist/issues/602. Also, the `initialScreenIndex === 0` check seems to be
-    //REVIEW: the opposite of the documentation ("initial screen other than the homescreen"). It appears the doc
-    //REVIEW: is incorrect in this case?
+  // Specifying ?homeScreen=false creates a simulation with no homescreen, and hence is incompatible with ?initialScreen=0,
+  // which specifies to show the home screen. Note that the default value of initialScreen:0 is ignored when there is
+  // no home screen.
+  if ( initialScreenQueryParameterProvided && initialScreenIndex === 0 && homeScreenQueryParameter === false ) {
+    // TODO: Use QueryStringMachine to validate instead, see https://github.com/phetsims/joist/issues/599
+    throw new Error( 'cannot specify initialScreen=0 when home screen is disabled with homeScreen=false' );
+  }
 
-    if ( homeScreenQueryParameter === false ) {
-      // TODO: Use QueryStringMachine to validate instead, see https://github.com/phetsims/joist/issues/599
-      throw new Error( 'cannot specify initialScreen=0 when home screen is disabled with homeScreen=false' );
-    }
-    if ( selectedSimScreens.length === 1 ) {
-      throw new Error( 'cannot specify initialScreen=0 when one screen is specified with screens=n' );
-    }
+  // For a single screen simulation (whether the simulation only declares one screen, or whether the user has specified
+  // a single screen via ?screens), there is no home screen, and hence ?initialScreen=0 which requests to show the homescreen
+  // on startup should fail.
+  if ( initialScreenQueryParameterProvided && initialScreenIndex === 0 && selectedSimScreens.length === 1 ) {
+    throw new Error( 'cannot specify initialScreen=0 when one screen is specified with screens=n' );
   }
 
   const screens = selectedSimScreens.slice();
@@ -99,16 +97,20 @@ const selectScreens = ( allSimScreens,
   }
 
   // The first screen for the sim, can be the HomeScreen if applicable
-  let initialScreen = null;
+  let initialScreen;
   if ( homeScreen && initialScreenIndex === 0 ) {
+
     // If the home screen is supplied, then it is at index 0, so use the query parameter value directly (because the
     // query parameter is 1-based). If `?initialScreen` is 0 then there is no offset to apply.
     initialScreen = homeScreen;
   }
   else if ( initialScreenIndex === 0 ) {
-    initialScreen = selectedSimScreens[ initialScreenIndex ];
+
+    // There is no home screen and the initialScreen query parameter was not supplied, so we select the first sim screen.
+    initialScreen = selectedSimScreens[ 0 ];
   }
   else {
+
     // If the home screen is not supplied, then the first sim screen is at index 0, so subtract 1 from the query parameter.
     initialScreen = allSimScreens[ initialScreenIndex - 1 ];
   }
