@@ -51,8 +51,7 @@ const selectScreens = ( allSimScreens,
   }
 
   // the sim screens for this runtime, accounting for specifying a subset with `?screens`
-  //REVIEW: can we just have `let selectedSimScreens`? See https://github.com/phetsims/joist/issues/602
-  let selectedSimScreens = null;
+  let selectedSimScreens;
 
   // The screens to be included, and their order, may be specified via a query parameter.
   // For documentation, see the schema for phet.chipper.queryParameters.screens in initialize-globals.js.
