@@ -58,7 +58,7 @@ const selectScreens = ( allSimScreens,
   // TODO: Use QueryStringMachine to validate instead, see https://github.com/phetsims/joist/issues/599
   if ( screensQueryParameterProvided ) {
     //REVIEW: Shouldn't we just see if the result is the default value of `null`, instead of checking if it was
-    //REVIEW: provided? See https://github.com/phetsims/joist/issues/602
+    //REVIEW: provided? See https://github.com/phetsims/joist/issues/614
     selectedSimScreens = [];
     //REVIEW: selectedSimScreens = *.screens.map( ... ) would be clearer, https://github.com/phetsims/joist/issues/602
     screensQueryParameter.forEach( function( userIndex ) {
