@@ -1,7 +1,5 @@
 // Copyright 2020, University of Colorado Boulder
 
-// import {QUERY_PARAMETERS_SCHEMA} from '../../chipper/js/initialize-globals.js';
-
 /**
  * QUnit tests for ScreenSelector
  *
