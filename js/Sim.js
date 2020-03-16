@@ -800,10 +800,10 @@ export default inherit( Object, Sim, {
     // the sound urls can load (thus before the final workItem).
     this.supportsSound && workItems.push( () => {
       if ( this.screens.length > 1 ) {
-        soundManager.addSoundGenerator( new ScreenSelectionSoundGenerator( this.screenProperty, this.homeScreen, {
-            initialOutputLevel: 0.5
-          }
-        ) );
+        soundManager.addSoundGenerator(
+          new ScreenSelectionSoundGenerator( this.screenProperty, this.homeScreen, { initialOutputLevel: 0.5 } ),
+          { categoryName: 'user-interface' }
+        );
       }
     } );
 
