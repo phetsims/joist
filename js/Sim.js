@@ -97,11 +97,6 @@ function Sim( name, allSimScreens, options ) {
     // when playing back a recorded scenery input event log, use the specified filename.  Please see getEventLogName for more
     inputEventLogName: undefined,
 
-    // Whether accessibility features are enabled or not.  Use this option to render the Parallel DOM for
-    // keyboard navigation and screen reader based auditory descriptions. The "accessibility" query parameter will
-    // override this flag when true, so only use this to enable.
-    accessibility: false,
-
     // a {Node|null} placed into the keyboard help dialog that can be opened from the navigation bar
     keyboardHelpNode: null,
 
@@ -399,12 +394,14 @@ function Sim( name, allSimScreens, options ) {
   this.memoryMonitor = new MemoryMonitor();
 
   // @public (read-only) {boolean} - if true the simulation supports accessibility features
-  this.isAccessible = phet.chipper.queryParameters.accessibility || phet.chipper.queryParameters.a11y || options.accessibility;
+  this.isAccessible = phet.chipper.queryParameters.accessibility ||
+                      phet.chipper.queryParameters.a11y ||
+                      packageJSON.phet.supportsInteractiveDescriptions;
 
   // @public (joist-internal, read-only) {boolean} - used to specify if the sim is set up to support accessibility,
   // even if this specific runtime turns it on/off via a query parameter. Most of the time this should not be used;
   // instead see Sim.isAccessible. This is to support a consistent API for PhET-iO, see https://github.com/phetsims/phet-io/issues/1457
-  this.accessibilityPartOfTheAPI = options.accessibility;
+  this.accessibilityPartOfTheAPI = packageJSON.phet.supportsInteractiveDescriptions;
 
   // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
   this.supportsGestureA11y = this.isAccessible && SUPPORTS_GESTURE_A11Y;
