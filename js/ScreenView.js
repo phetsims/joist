@@ -25,6 +25,7 @@ import ControlAreaNode from '../../scenery-phet/js/accessibility/nodes/ControlAr
 import PlayAreaNode from '../../scenery-phet/js/accessibility/nodes/PlayAreaNode.js';
 import ScreenSummaryNode from '../../scenery-phet/js/accessibility/nodes/ScreenSummaryNode.js';
 import Node from '../../scenery/js/nodes/Node.js';
+import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
 
@@ -65,6 +66,8 @@ function ScreenView( options ) {
   // @public (read-only) {Bounds2} - the bounds the confine the layout of the view.
   assert && assert( options.layoutBounds instanceof Bounds2, 'invalid layoutBounds' );
   this.layoutBounds = options.layoutBounds;
+
+  PhetioObject.mergePhetioComponentOptions( { visibleProperty: { phetioState: false } }, options );
 
   Node.call( this, options );
 
