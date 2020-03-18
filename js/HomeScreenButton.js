@@ -95,8 +95,7 @@ class HomeScreenButton extends VBox {
       tandem: options.tandem.createTandem( 'text' )
     } );
 
-    // The children are needed in the VBox constructor, but the rest of the options should be mutated later.
-    super( { children: [ iconWithFrame, text ] } );
+    super( merge( { children: [ iconWithFrame, text ] }, options ) );
 
     // sets the opacity of the icon and fill of the text
     const setOpacityAndFill = () => {
@@ -163,8 +162,6 @@ class HomeScreenButton extends VBox {
     this.on( 'bounds', () => {
       this.mouseArea = this.touchArea = this.localBounds; // cover the gap in the VBox between the frame and text
     } );
-
-    this.mutate( options );
   }
 }
 
