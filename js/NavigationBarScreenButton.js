@@ -39,15 +39,15 @@ const screenNameStringPatternString = JoistA11yStrings.screenNumberPattern.value
  * Create a nav bar.  Layout assumes all of the screen widths are the same.
  * @param {Property.<string>} navigationBarFillProperty - the color of the navbar, as a string.
  * @param {Property<Screen>} screenProperty
- * @param {Screen[]} simScreens - doesn't include the HomeScreen
  * @param {Screen} screen
+ * @param {number} simScreenIndex - the index (within sim screens only) of the screen corresponding to this button
  * @param {number} navBarHeight
  * @param {Object} [options]
  * @constructor
  */
-function NavigationBarScreenButton( navigationBarFillProperty, screenProperty, simScreens, screen, navBarHeight, options ) {
+function NavigationBarScreenButton( navigationBarFillProperty, screenProperty, screen, simScreenIndex, navBarHeight, options ) {
 
-  assert && assert( screen.name, 'name is required for screen ' + simScreens.indexOf( screen ) );
+  assert && assert( screen.name, 'name is required for screen ' + simScreenIndex );
   assert && assert( screen.navigationBarIcon, 'navigationBarIcon is required for screen ' + screen.name );
 
   function clicked() {
@@ -66,8 +66,7 @@ function NavigationBarScreenButton( navigationBarFillProperty, screenProperty, s
     descriptionContent: screen.descriptionContent,
     appendDescription: true,
     innerContent: StringUtils.fillIn( screenNameStringPatternString, {
-      //REVIEW: Just pass in the index? https://github.com/phetsims/joist/issues/612
-      number: simScreens.indexOf( screen ) + 1 // convert from index to display number
+      number: simScreenIndex + 1 // convert from index to display number
     } )
   }, options );
 

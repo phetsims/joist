@@ -230,8 +230,8 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
       return new NavigationBarScreenButton(
         sim.lookAndFeel.navigationBarFillProperty,
         sim.screenProperty,
-        this.simScreens,
         screen,
+        this.simScreens.indexOf( screen ),
         NAVIGATION_BAR_SIZE.height, {
           maxButtonWidth: screenButtonWidth,
           tandem: tandem.createTandem( screen.tandem.name + 'Button' )
