@@ -12,6 +12,7 @@
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Utils from '../../dot/js/Utils.js';
+import Shape from '../../kite/js/Shape.js';
 import merge from '../../phet-core/js/merge.js';
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
@@ -160,7 +161,7 @@ class HomeScreenButton extends VBox {
     } );
 
     this.on( 'bounds', () => {
-      this.mouseArea = this.touchArea = this.localBounds; // cover the gap in the VBox between the frame and text
+      this.mouseArea = this.touchArea = Shape.bounds( this.localBounds ); // cover the gap in the VBox between the frame and text
     } );
   }
 }
