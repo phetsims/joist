@@ -242,7 +242,7 @@ function Sim( name, allSimScreens, options ) {
 
     // fire or synthesize keyboard input events
     if ( phet.chipper.queryParameters.fuzzBoard ) {
-      assert && assert( this.isAccessible, 'fuzzBoard can only run with accessibility enabled.' );
+      assert && assert( this.supportsInteractiveDescriptions, 'fuzzBoard can only run with interactive descriptions enabled.' );
       this.keyboardFuzzer.fuzzBoardEvents();
     }
 
@@ -393,18 +393,18 @@ function Sim( name, allSimScreens, options ) {
   // @public {MemoryMonitor}
   this.memoryMonitor = new MemoryMonitor();
 
-  // @public (read-only) {boolean} - if true the simulation supports accessibility features
-  this.isAccessible = phet.chipper.queryParameters.accessibility ||
+  // @public (read-only) {boolean} - if true, the simulation supports the interactive descriptions accessibility feature
+  this.supportsInteractiveDescriptions = phet.chipper.queryParameters.accessibility ||
                       phet.chipper.queryParameters.a11y ||
                       packageJSON.phet.supportsInteractiveDescriptions;
 
   // @public (joist-internal, read-only) {boolean} - used to specify if the sim is set up to support accessibility,
   // even if this specific runtime turns it on/off via a query parameter. Most of the time this should not be used;
-  // instead see Sim.isAccessible. This is to support a consistent API for PhET-iO, see https://github.com/phetsims/phet-io/issues/1457
+  // instead see Sim.supportsInteractiveDescriptions. This is to support a consistent API for PhET-iO, see https://github.com/phetsims/phet-io/issues/1457
   this.accessibilityPartOfTheAPI = packageJSON.phet.supportsInteractiveDescriptions;
 
   // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
-  this.supportsGestureA11y = this.isAccessible && SUPPORTS_GESTURE_A11Y;
+  this.supportsGestureA11y = this.supportsInteractiveDescriptions && SUPPORTS_GESTURE_A11Y;
 
   // @public (joist-internal, read-only)
   this.keyboardHelpNode = options.keyboardHelpNode;
@@ -533,7 +533,7 @@ function Sim( name, allSimScreens, options ) {
 
     // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
     allowWebGL: phet.chipper.queryParameters.webgl,
-    accessibility: this.isAccessible,
+    accessibility: this.supportsInteractiveDescriptions,
     isApplication: false,
     assumeFullWindow: true, // a bit faster if we can assume no coordinate translations are needed for the display.
     allowBackingScaleAntialiasing: options.allowBackingScaleAntialiasing
@@ -563,7 +563,7 @@ function Sim( name, allSimScreens, options ) {
 
   // for now interactive descriptions are only in english
   // NOTE: When translatable this will need to update with language, change to phet.chipper.local
-  if ( this.isAccessible ) {
+  if ( this.supportsInteractiveDescriptions ) {
     self.display.accessibleDOMElement.lang = 'en';
   }
 
