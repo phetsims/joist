@@ -394,9 +394,8 @@ function Sim( name, allSimScreens, options ) {
   this.memoryMonitor = new MemoryMonitor();
 
   // @public (read-only) {boolean} - if true, the simulation supports the interactive descriptions accessibility feature
-  this.supportsInteractiveDescriptions = phet.chipper.queryParameters.accessibility ||
-                      phet.chipper.queryParameters.a11y ||
-                      packageJSON.phet.supportsInteractiveDescriptions;
+  this.supportsInteractiveDescriptions = phet.chipper.queryParameters.supportsDescriptions ||
+                                         packageJSON.phet.supportsInteractiveDescriptions;
 
   // @public (joist-internal, read-only) {boolean} - used to specify if the sim is set up to support accessibility,
   // even if this specific runtime turns it on/off via a query parameter. Most of the time this should not be used;
