@@ -55,7 +55,7 @@ import updateCheck from './updateCheck.js';
 
 // constants
 const PROGRESS_BAR_WIDTH = 273;
-const SUPPORTS_GESTURE_A11Y = platform.android || platform.mobileSafari;
+const SUPPORTS_GESTURE_DESCRIPTION = platform.android || platform.mobileSafari;
 
 // globals
 phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for replicable playbacks
@@ -404,7 +404,7 @@ function Sim( name, allSimScreens, options ) {
   this.accessibilityPartOfTheAPI = packageJSON.phet.supportsInteractiveDescriptions;
 
   // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
-  this.supportsGestureA11y = this.supportsInteractiveDescriptions && SUPPORTS_GESTURE_A11Y;
+  this.supportsGestureDescription = this.supportsInteractiveDescriptions && SUPPORTS_GESTURE_DESCRIPTION;
 
   // @public (joist-internal, read-only)
   this.keyboardHelpNode = options.keyboardHelpNode;
