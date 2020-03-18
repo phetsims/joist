@@ -141,8 +141,8 @@ class HomeScreenButton extends VBox {
       tandem: options.tandem.createTandem( 'inputListener' )
     } );
     this.addInputListener( fireListener );
-    this.addInputListener( { click: () => { fireListener.fire( null ); } } );
-    this.addInputListener( { focus: () => { !isSelectedProperty.value && fireListener.fire( null ); } } );
+    this.addInputListener( { click: event => { fireListener.fire( event ); } } );
+    this.addInputListener( { focus: event => { !isSelectedProperty.value && fireListener.fire( event ); } } );
     this.addInputListener( {
       focus: () => isHighlightedProperty.set( true ),
       blur: () => isHighlightedProperty.set( false ),
