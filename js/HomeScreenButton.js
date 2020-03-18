@@ -26,6 +26,10 @@ import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import Frame from './Frame.js';
 import joist from './joist.js';
+import JoistA11yStrings from './JoistA11yStrings.js';
+
+// a11y strings
+const simScreenString = JoistA11yStrings.simScreen.value;
 
 // constants
 const LARGE_ICON_HEIGHT = 140;
@@ -159,6 +163,16 @@ class HomeScreenButton extends VBox {
         }
       }
     } );
+
+    // a11y support for click listeners on the screen buttons
+    const toggleListener = () => {
+      this.focus();
+    };
+    this.addInputListener( { focus: toggleListener } );
+    this.addInputListener( { click: toggleListener } );
+
+    // a11y - add the right aria attributes to the buttons
+    this.setAccessibleAttribute( 'aria-roledescription', simScreenString );
 
     this.on( 'bounds', () => {
       this.mouseArea = this.touchArea = Shape.bounds( this.localBounds ); // cover the gap in the VBox between the frame and text

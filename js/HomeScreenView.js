@@ -21,7 +21,6 @@ import ScreenView from './ScreenView.js';
 
 // a11y strings
 const simScreensString = JoistA11yStrings.simScreens.value;
-const simScreenString = JoistA11yStrings.simScreen.value;
 const homeScreenDescriptionPatternString = JoistA11yStrings.homeScreenDescriptionPattern.value;
 
 // constants
@@ -95,16 +94,6 @@ function HomeScreenView( simName, model, tandem, options ) {
         // phet-io
         tandem: buttonGroupTandem.createTandem( screen.tandem.name + 'Button' )
       } );
-
-    // a11y support for click listeners on the screen buttons
-    const toggleListener = function() {
-      homeScreenButton.visible && homeScreenButton.focus();
-    };
-    homeScreenButton.addInputListener( { focus: toggleListener } );
-    homeScreenButton.addInputListener( { click: toggleListener } );
-
-    // a11y - add the right aria attributes to the buttons
-    homeScreenButton.setAccessibleAttribute( 'aria-roledescription', simScreenString );
 
     return { screen: screen, button: homeScreenButton };
   } );
