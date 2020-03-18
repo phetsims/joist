@@ -174,8 +174,11 @@ class HomeScreenButton extends VBox {
     // a11y - add the right aria attributes to the buttons
     this.setAccessibleAttribute( 'aria-roledescription', simScreenString );
 
+    // set the mouseArea and touchArea to be the whole local bounds of this node, because if it just relies on the
+    // bounds of the icon and text, then there is a gap in between them. Since the button can change size, this
+    // assignment needs to happen anytime the bounds change.
     this.on( 'bounds', () => {
-      this.mouseArea = this.touchArea = Shape.bounds( this.localBounds ); // cover the gap in the VBox between the frame and text
+      this.mouseArea = this.touchArea = Shape.bounds( this.localBounds );
     } );
   }
 }
