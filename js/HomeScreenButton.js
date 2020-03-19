@@ -92,15 +92,33 @@ class HomeScreenButton extends VBox {
     } );
     const largeFrame = new Frame( largeIcon );
 
+    // create one node for the each of large and small frame + icon pairs
+    const smallNode = new Node( { children: [ smallFrame, smallIcon ] } );
+    const largeNode = new Node( { children: [ largeFrame, largeIcon ] } );
+
     // container for the icon and frame, children updated when isSelectedProperty changes
-    const iconWithFrame = new Node();
+    const nodeContainer = new Node();
 
     // text for the button
     const text = new Text( screen.name, {
       tandem: options.tandem.createTandem( 'text' )
     } );
 
-    super( merge( { children: [ iconWithFrame, text ] }, options ) );
+    super( merge( { children: [ nodeContainer, text ] }, options ) );
+
+    // create large and small settings
+    const settings = {
+      small: {
+        node: [ smallNode ],
+        font: new PhetFont( 18 ),
+        spacing: 3
+      },
+      large: {
+        node: [ largeNode ],
+        font: new PhetFont( 42 ),
+        spacing: 0
+      }
+    };
 
     // sets the opacity of the icon and fill of the text
     const setOpacityAndFill = () => {
@@ -112,11 +130,14 @@ class HomeScreenButton extends VBox {
 
     // update pieces that change when the button is selected or unselected
     isSelectedProperty.link( isSelected => {
-      iconWithFrame.children = isSelected ? [ largeFrame, largeIcon ] : [ smallFrame, smallIcon ];
-      text.font = new PhetFont( isSelected ? 42 : 18 );
-      text.maxWidth = iconWithFrame.width;
+      const data = isSelected ? settings.large : settings.small;
+
+      // apply settings for the current size
+      nodeContainer.children = data.node;
+      text.font = data.font;
+      text.maxWidth = nodeContainer.width;
       setOpacityAndFill();
-      isSelected ? this.setSpacing( 0 ) : this.setSpacing( 3 ); // empirically determined to match
+      this.setSpacing( data.spacing );
 
       // update the VBox layout after changing the size of its children
       this.updateLayout();
