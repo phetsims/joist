@@ -129,6 +129,7 @@ QUnit.test( 'selectScreens tests', async assert => {
 
   //// correct QP usage ////
 
+  // multi-screen
   testValidScreenSelector( '?screens=1', [ a, b ], {
     homeScreen: null,
     initialScreen: a,
@@ -214,9 +215,29 @@ QUnit.test( 'selectScreens tests', async assert => {
     screens: [ b ]
   } );
 
+  // single-screen
+  testValidScreenSelector( '?screens=1', [ a ], {
+    homeScreen: null,
+    initialScreen: a,
+    selectedSimScreens: [ a ],
+    screens: [ a ]
+  } );
+  testValidScreenSelector( '?initialScreen=1', [ a ], {
+    homeScreen: null,
+    initialScreen: a,
+    selectedSimScreens: [ a ],
+    screens: [ a ]
+  } );
+  testValidScreenSelector( '?homeScreen=false', [ a ], {
+    homeScreen: null,
+    initialScreen: a,
+    selectedSimScreens: [ a ],
+    screens: [ a ]
+  } );
+
   //// incorrect QP usage ////
 
-  // multi screen
+  // multi-screen
   testInvalidScreenSelector( '?screens=0', [ a, b ] );
   testInvalidScreenSelector( '?screens=3', [ a, b ] );
   testInvalidScreenSelector( '?initialScreen=0&homeScreen=true&screens=1', [ a, b ] );
@@ -225,11 +246,10 @@ QUnit.test( 'selectScreens tests', async assert => {
   testInvalidScreenSelector( '?initialScreen=0&homeScreen=false&screens=1', [ a, b ] );
   testInvalidScreenSelector( '?initialScreen=2&homeScreen=false&screens=1', [ a, b ] );
 
-  // single screen
+  // single-screen
   testInvalidScreenSelector( '?initialScreen=0', [ a ] );
-  testInvalidScreenSelector( '?initialScreen=1', [ a ] );
+  testInvalidScreenSelector( '?initialScreen=2', [ a ] );
   testInvalidScreenSelector( '?homeScreen=true', [ a ] );
-  testInvalidScreenSelector( '?homeScreen=false', [ a ] );
   testInvalidScreenSelector( '?screens=0', [ a ] );
-  testInvalidScreenSelector( '?screens=1', [ a ] );
+  testInvalidScreenSelector( '?screens=2', [ a ] );
 } );
