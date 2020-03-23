@@ -5,7 +5,7 @@
  *
  * For the PDOM view, this type creates  the three organizing elements associated with each screen:
  * - The `ScreenSummaryNode` is introductory description that outlines the screen and sets the scene for the user.
- * - The `PlayAreaNode` holds content that is considered the main interaction and pedigogy to be learned from the screen.
+ * - The `PlayAreaNode` holds content that is considered the main interaction and pedagogy to be learned from the screen.
  * - The `ControlAreaNode` houses controls and other content that is secondary to the main interaction. Ideally the user
  *       would encounter this after exploring the PlayAreaNode.
  * The screenSummaryNode instance is not available on the ScreenView, instead content can be added to it via a constructor
