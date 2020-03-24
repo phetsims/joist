@@ -49,9 +49,9 @@ function HomeScreenView( simName, model, tandem, options ) {
     layoutBounds: LAYOUT_BOUNDS,
     tandem: tandem,
 
-    // Remove the play and control area Nodes from the HomeScreen
-    includePlayAreaNode: false,
-    includeControlAreaNode: false,
+    // Remove the "normal" PDOM structure Nodes like the screen summary, play area, and control area Nodes from the
+    // HomeScreen. The HomeScreen handles its own description.
+    includePDOMNodes: false,
 
     // a11y
     labelContent: simName,

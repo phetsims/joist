@@ -61,11 +61,8 @@ function ScreenView( options ) {
     // the Play Area. This Node is added as a child to the ScreenSummaryNode.
     screenSummaryContent: null,
 
-    // {boolean} whether or not to include a play area Node to the PDOM
-    includePlayAreaNode: true,
-
-    // {boolean} whether or not to include a control area Node to the PDOM
-    includeControlAreaNode: true
+    // {boolean} whether or not to add the screen summay, play area, and control area Nodes to the PDOM
+    includePDOMNodes: true
   }, options );
 
   // @public (read-only) {Bounds2} - the bounds the confine the layout of the view.
@@ -98,13 +95,13 @@ function ScreenView( options ) {
   // at the Node from options in the same way that can be done at any time
   options.screenSummaryContent && this.setScreenSummaryContent( options.screenSummaryContent );
 
-  const pdomChildren = [ this.pdomScreenSummaryNode ];
-  options.includePlayAreaNode && pdomChildren.push( this.pdomPlayAreaNode );
-  options.includeControlAreaNode && pdomChildren.push( this.pdomControlAreaNode );
-
   // @private
   this.pdomParent = new Node( {
-    children: pdomChildren
+    children: options.includePDOMNodes ? [
+      this.pdomScreenSummaryNode,
+      this.pdomPlayAreaNode,
+      this.pdomControlAreaNode
+    ] : []
   } );
   this.addChild( this.pdomParent );
 }
@@ -187,7 +184,7 @@ export default inherit( Node, ScreenView, {
      */
     setScreenSummaryContent: function( node ) {
       assert && assert( node instanceof Node );
-      assert && assert( node !== this.screenSummaryContent, 'this is already the screen summary node content' );
+      assert && assert( node !== this.screenSummaryContent, 'this is already the screen summary Node content' );
 
       this.screenSummaryContent && this.pdomScreenSummaryNode.removeChild( this.screenSummaryContent );
 
