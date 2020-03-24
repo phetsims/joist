@@ -17,12 +17,12 @@ import PhetioObject from '../../tandem/js/PhetioObject.js';
 import darkIconImage from '../images/keyboard-icon-on-white_png.js'; // on a white navbar
 import brightIconImage from '../images/keyboard-icon_png.js'; // on a black navbar
 import joist from './joist.js';
-import JoistA11yStrings from './JoistA11yStrings.js';
+import joistStrings from './joist-strings.js';
 import JoistButton from './JoistButton.js';
 import KeyboardHelpDialog from './KeyboardHelpDialog.js';
 
 // a11y strings
-const hotKeysAndHelpString = JoistA11yStrings.hotKeysAndHelp.value;
+const hotKeysAndHelpString = joistStrings.a11y.hotKeysAndHelp;
 
 // constants
 const HELP_BUTTON_HEIGHT = 67;

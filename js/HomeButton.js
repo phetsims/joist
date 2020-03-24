@@ -16,13 +16,13 @@ import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';
 import FontAwesomeNode from '../../sun/js/FontAwesomeNode.js';
 import joist from './joist.js';
-import JoistA11yStrings from './JoistA11yStrings.js';
+import joistStrings from './joist-strings.js';
 import JoistButton from './JoistButton.js';
 
-// a11y strings
-const homeString = JoistA11yStrings.home.value;
-const homeScreenString = JoistA11yStrings.homeScreen.value;
-const homeScreenDescriptionString = JoistA11yStrings.homeScreenDescription.value;
+// constants
+const homeString = joistStrings.a11y.home;
+const homeScreenString = joistStrings.a11y.homeScreen;
+const homeScreenDescriptionString = joistStrings.a11y.homeScreenDescription;
 
 /**
  * @param {number} navBarHeight

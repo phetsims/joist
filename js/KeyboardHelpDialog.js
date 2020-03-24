@@ -18,9 +18,8 @@ import Text from '../../scenery/js/nodes/Text.js';
 import VBox from '../../scenery/js/nodes/VBox.js';
 import Dialog from '../../sun/js/Dialog.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import joistStrings from './joist-strings.js';
 import joist from './joist.js';
-import JoistA11yStrings from './JoistA11yStrings.js';
+import joistStrings from './joist-strings.js';
 
 // constants
 const TITLE_MAX_WIDTH = 500;
@@ -30,8 +29,8 @@ const keyboardShortcutsTitleString = joistStrings.keyboardShortcuts.title;
 const keyboardShortcutsToGetStartedString = joistStrings.keyboardShortcuts.toGetStarted;
 
 // a11y string
-const hotKeysAndHelpString = JoistA11yStrings.hotKeysAndHelp.value;
-const tabToGetStartedString = JoistA11yStrings.tabToGetStarted.value;
+const hotKeysAndHelpString = joistStrings.a11y.hotKeysAndHelp;
+const tabToGetStartedString = joistStrings.a11y.tabToGetStarted;
 
 /**
  * @param {Node} helpContent - a node containing the sim specific keyboard help content

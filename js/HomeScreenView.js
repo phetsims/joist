@@ -16,12 +16,12 @@ import Node from '../../scenery/js/nodes/Node.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import HomeScreenButton from './HomeScreenButton.js';
 import joist from './joist.js';
-import JoistA11yStrings from './JoistA11yStrings.js';
+import joistStrings from './joist-strings.js';
 import ScreenView from './ScreenView.js';
 
 // a11y strings
-const simScreensString = JoistA11yStrings.simScreens.value;
-const homeScreenDescriptionPatternString = JoistA11yStrings.homeScreenDescriptionPattern.value;
+const simScreensString = joistStrings.a11y.simScreens;
+const homeScreenDescriptionPatternString = joistStrings.a11y.homeScreenDescriptionPattern;
 
 // constants
 const LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );

@@ -26,14 +26,14 @@ import PushButtonModel from '../../sun/js/buttons/PushButtonModel.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import HighlightNode from './HighlightNode.js';
 import joist from './joist.js';
-import JoistA11yStrings from './JoistA11yStrings.js';
+import joistStrings from './joist-strings.js';
 
 // constants
 const HIGHLIGHT_SPACING = 4;
 
 // a11y strings
-const simScreenString = JoistA11yStrings.simScreen.value;
-const screenNameStringPatternString = JoistA11yStrings.screenNumberPattern.value;
+const simScreenString = joistStrings.a11y.simScreen;
+const screenNameStringPatternString = joistStrings.a11y.screenNumberPattern;
 
 /**
  * Create a nav bar.  Layout assumes all of the screen widths are the same.

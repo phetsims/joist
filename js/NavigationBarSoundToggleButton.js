@@ -19,13 +19,13 @@ import ToggleNode from '../../sun/js/ToggleNode.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import ActivationUtterance from '../../utterance-queue/js/ActivationUtterance.js';
 import joist from './joist.js';
-import JoistA11yStrings from './JoistA11yStrings.js';
+import joistStrings from './joist-strings.js';
 import JoistButton from './JoistButton.js';
 
 // a11y strings
-const soundOnOffString = JoistA11yStrings.soundOnOffButton.value;
-const simSoundOnString = JoistA11yStrings.simSoundOnString.value;
-const simSoundOffString = JoistA11yStrings.simSoundOffString.value;
+const soundOnOffString = joistStrings.a11y.soundOnOffButton;
+const simSoundOnString = joistStrings.a11y.simSoundOnString;
+const simSoundOffString = joistStrings.a11y.simSoundOffString;
 
 // constants for node background
 const NODE_HEIGHT = 22.0;

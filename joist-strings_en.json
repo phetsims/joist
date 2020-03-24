@@ -136,5 +136,78 @@
   },
   "queryParametersWarningDialog.theSimulationWillStart": {
     "value": "The simulation will start with default values for those<br>query parameters."
+  },
+  "a11y": {
+    "hotKeysAndHelp": {
+      "value": "Keyboard Shortcuts"
+    },
+    "tabToGetStarted": {
+      "value": "Tab to get started."
+    },
+
+    "playArea": {
+      "value": "Play Area"
+    },
+    "controlArea": {
+      "value": "Control Area"
+    },
+
+    
+    "simScreens": {
+      "value": "Sim Screens"
+    },
+    "simScreen": {
+      "value": "Sim Screen"
+    },
+    "screenNumberPattern": {
+      "value": "Screen {{number}}"
+    },
+    "screenNamePattern": {
+      "value": "{{name}} Screen"
+    },
+    "screenSimPattern": {
+      "value": "{{screenName}}, {{simName}}"
+    },
+    "home": {
+      "value": "Home"
+    },
+    "homeScreen": {
+      "value": "Home Screen"
+    },
+    "homeScreenDescription": {
+      "value": "Go to Home Screen."
+    },
+    "homeScreenDescriptionPattern": {
+      "value": "Come explore with {{name}}. It has {{screens}} screens."
+    },
+
+    
+    "simResourcesAndTools": {
+      "value": "Sim Resources" 
+    },
+    "simScreensResourcesAndTools": {
+      "value": "Sim Screens, Resources, and Tools"
+    },
+
+    
+    "simSoundOnString": {
+      "value": "Sim sound on."
+    },
+    "simSoundOffString": {
+      "value": "Sim sound off."
+    },
+    "soundOnOffButton": {
+      "value": "Mute Sound"
+    },
+
+    
+    "checkOutShortcuts": {
+      "value": "If needed, checkout keyboard shortcuts under Sim Resources."
+    },
+
+    
+    "phet": {
+      "value": "PhET Menu"
+    }
   }
 }

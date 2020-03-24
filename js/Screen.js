@@ -23,13 +23,13 @@ import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
-import JoistA11yStrings from './JoistA11yStrings.js';
+import joistStrings from './joist-strings.js';
 import ScreenIO from './ScreenIO.js';
 
 // a11y strings
-const screenNamePatternString = JoistA11yStrings.screenNamePattern.value;
-const screenSimPatternString = JoistA11yStrings.screenSimPattern.value;
-const simScreenString = JoistA11yStrings.simScreen.value;
+const screenNamePatternString = joistStrings.a11y.screenNamePattern;
+const screenSimPatternString = joistStrings.a11y.screenSimPattern;
+const simScreenString = joistStrings.a11y.simScreen;
 
 // constants
 const MINIMUM_HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 );

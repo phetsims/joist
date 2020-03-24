@@ -26,12 +26,11 @@ import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import Frame from './Frame.js';
 import joist from './joist.js';
-import JoistA11yStrings from './JoistA11yStrings.js';
+import joistStrings from './joist-strings.js';
 
-// a11y strings
-const simScreenString = JoistA11yStrings.simScreen.value;
 
 // constants
+const simScreenString = joistStrings.a11y.simScreen;
 const LARGE_ICON_HEIGHT = 140;
 
 class HomeScreenButton extends VBox {

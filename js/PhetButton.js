@@ -12,7 +12,7 @@ import inherit from '../../phet-core/js/inherit.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import joist from './joist.js';
-import JoistA11yStrings from './JoistA11yStrings.js';
+import joistStrings from './joist-strings.js';
 import JoistButton from './JoistButton.js';
 import KebabMenuIcon from './KebabMenuIcon.js';
 import PhetButtonIO from './PhetButtonIO.js';
@@ -21,7 +21,7 @@ import updateCheck from './updateCheck.js';
 import UpdateState from './UpdateState.js';
 
 // a11y strings
-const phetString = JoistA11yStrings.phet.value;
+const phetString = joistStrings.a11y.phet;
 
 // Accommodate logos of any height by scaling them down proportionately.
 // The primary logo is 108px high and we have been scaling it at 0.28 to make it look good even on higher resolution

@@ -38,16 +38,15 @@ import HomeScreen from './HomeScreen.js';
 import HomeScreenView from './HomeScreenView.js';
 import joistStrings from './joist-strings.js';
 import joist from './joist.js';
-import JoistA11yStrings from './JoistA11yStrings.js';
 import NavigationBarScreenButton from './NavigationBarScreenButton.js';
 import PhetButton from './PhetButton.js';
 
 const simTitleWithScreenNamePatternString = joistStrings.simTitleWithScreenNamePattern;
 
 // a11y strings
-const simScreensResourcesAndToolsString = JoistA11yStrings.simScreensResourcesAndTools.value;
-const simResourcesAndToolsString = JoistA11yStrings.simResourcesAndTools.value;
-const simScreensString = JoistA11yStrings.simScreens.value;
+const simScreensResourcesAndToolsString = joistStrings.a11y.simScreensResourcesAndTools;
+const simResourcesAndToolsString = joistStrings.a11y.simResourcesAndTools;
+const simScreensString = joistStrings.a11y.simScreens;
 
 // constants
 // for layout of the NavigationBar, used in the following way:
