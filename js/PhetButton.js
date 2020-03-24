@@ -20,9 +20,6 @@ import PhetMenu from './PhetMenu.js';
 import updateCheck from './updateCheck.js';
 import UpdateState from './UpdateState.js';
 
-// a11y strings
-const phetString = joistStrings.a11y.phet;
-
 // Accommodate logos of any height by scaling them down proportionately.
 // The primary logo is 108px high and we have been scaling it at 0.28 to make it look good even on higher resolution
 // displays.  The logo will be scaled up to 108px high so the rest of the layout code will work smoothly
@@ -100,7 +97,7 @@ function PhetButton( sim, backgroundFillProperty, tandem ) {
 
     // a11y
     tagName: 'button',
-    innerContent: phetString
+    innerContent: joistStrings.a11y.phetMenu
   } );
 
   // No need to unlink, as the PhetButton exists for the lifetime of the sim

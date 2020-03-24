@@ -29,8 +29,8 @@ const keyboardShortcutsTitleString = joistStrings.keyboardShortcuts.title;
 const keyboardShortcutsToGetStartedString = joistStrings.keyboardShortcuts.toGetStarted;
 
 // a11y string
-const hotKeysAndHelpString = joistStrings.a11y.hotKeysAndHelp;
-const tabToGetStartedString = joistStrings.a11y.tabToGetStarted;
+const hotKeysAndHelpString = joistStrings.a11y.keyboardHelp.hotKeysAndHelp;
+const tabToGetStartedString = joistStrings.a11y.keyboardHelp.tabToGetStarted;
 
 /**
  * @param {Node} helpContent - a node containing the sim specific keyboard help content

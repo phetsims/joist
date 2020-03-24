@@ -23,9 +23,9 @@ import joistStrings from './joist-strings.js';
 import JoistButton from './JoistButton.js';
 
 // a11y strings
-const soundOnOffString = joistStrings.a11y.soundOnOffButton;
-const simSoundOnString = joistStrings.a11y.simSoundOnString;
-const simSoundOffString = joistStrings.a11y.simSoundOffString;
+const soundOnOffString = joistStrings.a11y.sound.soundOnOffButton;
+const simSoundOnString = joistStrings.a11y.sound.simSoundOnString;
+const simSoundOffString = joistStrings.a11y.sound.simSoundOffString;
 
 // constants for node background
 const NODE_HEIGHT = 22.0;
