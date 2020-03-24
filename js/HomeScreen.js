@@ -10,10 +10,12 @@ import Property from '../../axon/js/Property.js';
 import merge from '../../phet-core/js/merge.js';
 import HomeScreenModel from './HomeScreenModel.js';
 import HomeScreenView from './HomeScreenView.js';
+import joistStrings from './joist-strings.js';
 import joist from './joist.js';
 import Screen from './Screen.js';
 
 // constants
+const homeString = joistStrings.a11y.home;
 const BACKGROUND_COLOR = 'black';
 
 class HomeScreen extends Screen {
@@ -34,7 +36,9 @@ class HomeScreen extends Screen {
     options = merge( {
 
       //TODO get this color from LookAndFeel, see https://github.com/phetsims/joist/issues/255
-      backgroundColorProperty: new Property( BACKGROUND_COLOR )
+      backgroundColorProperty: new Property( BACKGROUND_COLOR ),
+
+      name: homeString
     }, options );
 
     assert && assert( !options.tandem, 'tandem is a required constructor parameter, not an option' );
