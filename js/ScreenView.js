@@ -59,8 +59,13 @@ function ScreenView( options ) {
 
     // {Node|null} the Node with screen summary content to be added to the ScreenSummaryNode, and into PDOM above
     // the Play Area. This Node is added as a child to the ScreenSummaryNode.
-    screenSummaryContent: null
+    screenSummaryContent: null,
 
+    // {boolean} whether or not to include a play area Node to the PDOM
+    includePlayAreaNode: true,
+
+    // {boolean} whether or not to include a control area Node to the PDOM
+    includeControlAreaNode: true
   }, options );
 
   // @public (read-only) {Bounds2} - the bounds the confine the layout of the view.
@@ -93,13 +98,13 @@ function ScreenView( options ) {
   // at the Node from options in the same way that can be done at any time
   options.screenSummaryContent && this.setScreenSummaryContent( options.screenSummaryContent );
 
+  const pdomChildren = [ this.pdomScreenSummaryNode ];
+  options.includePlayAreaNode && pdomChildren.push( this.pdomPlayAreaNode );
+  options.includeControlAreaNode && pdomChildren.push( this.pdomControlAreaNode );
+
   // @private
   this.pdomParent = new Node( {
-    children: [
-      this.pdomScreenSummaryNode,
-      this.pdomPlayAreaNode,
-      this.pdomControlAreaNode
-    ]
+    children: pdomChildren
   } );
   this.addChild( this.pdomParent );
 }

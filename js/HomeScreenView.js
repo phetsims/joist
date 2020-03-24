@@ -49,6 +49,10 @@ function HomeScreenView( simName, model, tandem, options ) {
     layoutBounds: LAYOUT_BOUNDS,
     tandem: tandem,
 
+    // Remove the play and control area Nodes from the HomeScreen
+    includePlayAreaNode: false,
+    includeControlAreaNode: false,
+
     // a11y
     labelContent: simName,
     descriptionContent: StringUtils.fillIn( homeScreenDescriptionPatternString, {
