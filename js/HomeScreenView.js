@@ -6,6 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import AccessiblePeer from '../../scenery/js/accessibility/AccessiblePeer.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
@@ -103,8 +104,16 @@ function HomeScreenView( simName, model, tandem, options ) {
   const navIconsNode = new Node( {
 
     // a11y
-    tagName: 'nav',
-    ariaLabel: simScreensString
+    tagName: 'div',
+    containerTagName: 'nav',
+    labelTagName: 'h2',
+    labelContent: simScreensString
+  } );
+
+  navIconsNode.addAriaLabelledbyAssociation( {
+    thisElementName: AccessiblePeer.PRIMARY_SIBLING,
+    otherNode: navIconsNode,
+    otherElementName: AccessiblePeer.LABEL_SIBLING
   } );
 
   // Intermediate node, so that icons are always in the same rendering layer
