@@ -16,6 +16,7 @@ import Shape from '../../kite/js/Shape.js';
 import merge from '../../phet-core/js/merge.js';
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
+import AccessiblePeer from '../../scenery/js/accessibility/AccessiblePeer.js';
 import Touch from '../../scenery/js/input/Touch.js';
 import FireListener from '../../scenery/js/listeners/FireListener.js';
 import Node from '../../scenery/js/nodes/Node.js';
@@ -42,6 +43,7 @@ class HomeScreenButton extends VBox {
    * @constructor
    */
   constructor( screen, homeScreenModel, options ) {
+
     options = merge( {
       cursor: 'pointer',
       resize: false, // don't resize the VBox or it will shift down when the border becomes thicker
@@ -104,6 +106,12 @@ class HomeScreenButton extends VBox {
     } );
 
     super( merge( { children: [ nodeContainer, text ] }, options ) );
+
+    this.addAriaDescribedbyAssociation( {
+      otherNode: this,
+      otherElementName: AccessiblePeer.DESCRIPTION_SIBLING,
+      thisElementName: AccessiblePeer.PRIMARY_SIBLING
+    } );
 
     // create large and small settings
     const settings = {
