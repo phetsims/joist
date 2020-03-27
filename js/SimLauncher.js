@@ -6,6 +6,7 @@
  */
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
+import NumberProperty from '../../axon/js/NumberProperty.js';
 import Property from '../../axon/js/Property.js';
 import Random from '../../dot/js/Random.js';
 import checkNamespaces from './checkNamespaces.js';
@@ -49,6 +50,9 @@ function isImageLoaded( img ) {
 // Signify whether we are waiting for images to complete loading before moving to the next phase of the launch sequence
 const allImagesLoadedProperty = new BooleanProperty( false );
 
+// How many locks are waiting to be resolved before we can move to the next phase of the launch sequence
+const pendingLockQuantity = new NumberProperty( 0 );
+
 const SimLauncher = {
 
   /**
@@ -70,6 +74,7 @@ const SimLauncher = {
       }
 
       if ( !allImagesLoadedProperty.value ||
+           pendingLockQuantity.value > 0 ||
            brandProperty.value === null ||
            ( phet.chipper.brand === 'phet-io' && phetioEngineProperty.value === null )
       ) {
@@ -116,6 +121,7 @@ const SimLauncher = {
 
     phetioEngineProperty.link( proceedIfReady );
     allImagesLoadedProperty.link( proceedIfReady );
+    pendingLockQuantity.lazyLink( proceedIfReady );
 
     // On startup, and when an image is loaded, see if all images are ready to go
     const updateImageStatuses = () => {
@@ -162,6 +168,20 @@ const SimLauncher = {
 
     // Check namespaces if assertions are enabled, see https://github.com/phetsims/joist/issues/307.
     assert && checkNamespaces();
+  },
+
+  /**
+   * Creates a lock, which returns a callback that needs to be run before the launch sequence will continue to the
+   * next phase.
+   * @public
+   *
+   * @returns {function}
+   */
+  createLock() {
+    pendingLockQuantity.value++;
+    return () => {
+      pendingLockQuantity.value--;
+    };
   }
 };
 
