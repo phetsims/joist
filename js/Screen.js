@@ -177,7 +177,7 @@ function Screen( createModel, createView, options ) {
 
     // In phet-io mode, the state of a sim can be set without a deterministic order. The activeProperty could be
     // changed before the view's visibility is set.
-    if ( !phet.phetio ) {
+    if ( !Tandem.PHET_IO_ENABLED ) {
       assert( !self._view.isVisible(), 'isActive should not change while the Screen view is visible' );
     }
   } );

@@ -9,6 +9,7 @@ import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
 import Property from '../../axon/js/Property.js';
 import Random from '../../dot/js/Random.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import checkNamespaces from './checkNamespaces.js';
 import joist from './joist.js';
 
@@ -84,7 +85,7 @@ const SimLauncher = {
 
         // once launchSimulation has been called, the wrapper is ready to receive messages because any listeners it
         // wants have been set up by now.
-        if ( phet.phetio ) {
+        if ( Tandem.PHET_IO_ENABLED ) {
           phetioEngineProperty.value.onCrossFrameListenersReady();
         }
 
@@ -97,7 +98,7 @@ const SimLauncher = {
       };
 
       // PhET-iO simulations support an initialization phase (before the sim launches)
-      if ( phet.phetio ) {
+      if ( Tandem.PHET_IO_ENABLED ) {
         phetioEngineProperty.value.initialize(); // calls back to window.phet.joist.launchSimulation
       }
 
@@ -108,7 +109,7 @@ const SimLauncher = {
         } ), '*' );
       }
 
-      if ( ( phet.phetio && !phet.phetio.queryParameters.phetioStandalone ) ||
+      if ( ( Tandem.PHET_IO_ENABLED && !phet.phetio.queryParameters.phetioStandalone ) ||
            phet.chipper.queryParameters.playbackMode ) {
 
         // Wait for phet-io to finish adding listeners. It will direct the launch from there.

@@ -852,7 +852,7 @@ export default inherit( Object, Sim, {
               window.phetSplashScreen.dispose();
 
               // Sanity check that there is no phetio object in phet brand, see https://github.com/phetsims/phet-io/issues/1229
-              phet.chipper.brand === 'phet' && assert && assert( !phet.phetio, 'window.phet.phetio should not exist for phet brand' );
+              phet.chipper.brand === 'phet' && assert && assert( !Tandem.PHET_IO_ENABLED, 'window.phet.phetio should not exist for phet brand' );
 
               // Communicate sim load (successfully) to joist/tests/test-sims.html
               if ( phet.chipper.queryParameters.postMessageOnLoad ) {
