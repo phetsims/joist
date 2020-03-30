@@ -74,7 +74,7 @@ const simInfo = {
         const screenObject = {
 
           // likely null for single screen sims, so use the sim name as a default
-          name: screen.name || sim.name
+          name: screen.nameProperty.value || sim.name
         };
         if ( Tandem.PHET_IO_ENABLED ) {
           screenObject.phetioID = screen.tandem.phetioID;

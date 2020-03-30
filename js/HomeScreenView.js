@@ -84,8 +84,8 @@ function HomeScreenView( simName, model, tandem, options ) {
 
   const screenElements = _.map( model.simScreens, function( screen, index ) {
 
-    assert && assert( screen.name, 'name is required for screen ' + model.simScreens.indexOf( screen ) );
-    assert && assert( screen.homeScreenIcon, 'homeScreenIcon is required for screen ' + screen.name );
+    assert && assert( screen.nameProperty.value, 'name is required for screen ' + model.simScreens.indexOf( screen ) );
+    assert && assert( screen.homeScreenIcon, 'homeScreenIcon is required for screen ' + screen.nameProperty.value );
 
     const homeScreenButton = new HomeScreenButton(
       screen,
@@ -93,7 +93,7 @@ function HomeScreenView( simName, model, tandem, options ) {
         showUnselectedHomeScreenIconFrame: screen.showUnselectedHomeScreenIconFrame,
 
         // a11y
-        innerContent: screen.name,
+        innerContent: screen.nameProperty.value, // TODO: Does this need to be updated somewhere now that screen.name is a Property? see https://github.com/phetsims/joist/issues/597
         descriptionContent: screen.descriptionContent,
 
         // phet-io

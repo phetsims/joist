@@ -26,8 +26,8 @@ import VBox from '../../scenery/js/nodes/VBox.js';
 import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import Frame from './Frame.js';
-import joist from './joist.js';
 import joistStrings from './joist-strings.js';
+import joist from './joist.js';
 
 
 // constants
@@ -101,8 +101,9 @@ class HomeScreenButton extends VBox {
     const nodeContainer = new Node();
 
     // text for the button
-    const text = new Text( screen.name, {
-      tandem: options.tandem.createTandem( 'text' )
+    const text = new Text( screen.nameProperty.value, {
+      tandem: options.tandem.createTandem( 'text' ),
+      phetioComponentOptions: { textProperty: { phetioReadOnly: true } } // text is updated via screen.nameProperty
     } );
 
     super( merge( { children: [ nodeContainer, text ] }, options ) );
@@ -154,6 +155,12 @@ class HomeScreenButton extends VBox {
     isHighlightedProperty.link( isHighlighted => {
       largeFrame.setHighlighted( isHighlighted );
       setOpacityAndFill();
+    } );
+
+    // update the text when the screen name changes
+    screen.nameProperty.link( name => {
+      text.text = name;
+      this.updateLayout();
     } );
 
     // if the button is already selected, then set the sim's screen to be its corresponding screen. otherwise,

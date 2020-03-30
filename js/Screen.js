@@ -13,6 +13,7 @@
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import Property from '../../axon/js/Property.js';
+import PropertyIO from '../../axon/js/PropertyIO.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Shape from '../../kite/js/Shape.js';
 import inherit from '../../phet-core/js/inherit.js';
@@ -22,6 +23,8 @@ import Path from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import NullableIO from '../../tandem/js/types/NullableIO.js';
+import StringIO from '../../tandem/js/types/StringIO.js';
 import joist from './joist.js';
 import joistStrings from './joist-strings.js';
 import ScreenIO from './ScreenIO.js';
@@ -118,8 +121,13 @@ function Screen( createModel, createView, options ) {
   // @public
   this.backgroundColorProperty = options.backgroundColorProperty;
 
+  // @public (read-only) {Property<String|null>}
+  this.nameProperty = new Property( options.name, {
+    phetioType: PropertyIO( NullableIO( StringIO ) ),
+    tandem: options.tandem.createTandem( 'nameProperty' )
+  } );
+
   // @public (read-only)
-  this.name = options.name;
   this.homeScreenIcon = options.homeScreenIcon;
   this.navigationBarIcon = options.navigationBarIcon;
   this.showUnselectedHomeScreenIconFrame = options.showUnselectedHomeScreenIconFrame;

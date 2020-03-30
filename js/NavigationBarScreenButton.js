@@ -47,8 +47,8 @@ const screenNameStringPatternString = joistStrings.a11y.screenNumberPattern;
  */
 function NavigationBarScreenButton( navigationBarFillProperty, screenProperty, screen, simScreenIndex, navBarHeight, options ) {
 
-  assert && assert( screen.name, 'name is required for screen ' + simScreenIndex );
-  assert && assert( screen.navigationBarIcon, 'navigationBarIcon is required for screen ' + screen.name );
+  assert && assert( screen.nameProperty.value, 'name is required for screen ' + simScreenIndex );
+  assert && assert( screen.navigationBarIcon, 'navigationBarIcon is required for screen ' + screen.nameProperty.value );
 
   function clicked() {
     screenProperty.value = screen;
@@ -110,9 +110,15 @@ function NavigationBarScreenButton( navigationBarFillProperty, screenProperty, s
 
   this.addInputListener( pressListener );
 
-  const text = new Text( screen.name, {
+  const text = new Text( screen.nameProperty.value, {
     font: new PhetFont( 10 ),
-    tandem: options.tandem.createTandem( 'text' )
+    tandem: options.tandem.createTandem( 'text' ),
+    phetioComponentOptions: { textProperty: { phetioReadOnly: true } } // text is updated via screen.nameProperty
+  } );
+
+  // update the text when the screen name changes
+  screen.nameProperty.link( name => {
+    text.text = name;
   } );
 
   const box = new VBox( {
