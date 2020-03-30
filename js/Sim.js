@@ -133,10 +133,13 @@ function Sim( name, allSimScreens, options ) {
     throw new Error( 'playbackModeEnabledProperty cannot be changed after Sim construction has begun' );
   } );
 
-  // @public Emitter that indicates sim construction completed, and that all screen models and views have been created.
+  // @public {Property} that indicates sim construction completed, and that all screen models and views have been created.
   // This was added for PhET-iO but can be used by any client. This does not coincide with the end of the Sim
   // constructor (because Sim has asynchronous steps that finish after the constructor is completed)
-  this.endedSimConstructionEmitter = new Emitter();
+  this.isConstructionCompleteProperty = new Property( false );
+  assert && this.isConstructionCompleteProperty.lazyLink( isConstructionComplete => {
+    assert && assert( isConstructionComplete, 'Sim construction should never uncomplete' );
+  } );
 
   // Supplied query parameters override options (but default values for non-supplied query parameters do not).
   if ( QueryStringMachine.containsKey( 'webgl' ) ) {
@@ -839,7 +842,7 @@ export default inherit( Object, Sim, {
               // Notify listeners that all models and views have been constructed, and the Sim is ready to be shown.
               // Used by PhET-iO. This does not coincide with the end of the Sim constructor (because Sim has
               // asynchronous steps that finish after the constructor is completed )
-              self.endedSimConstructionEmitter.emit();
+              self.isConstructionCompleteProperty.value = true;
 
               // place the requestAnimationFrame *before* rendering to assure as close to 60fps with the setTimeout fallback.
               // http://paulirish.com/2011/requestanimationframe-for-smart-animating/

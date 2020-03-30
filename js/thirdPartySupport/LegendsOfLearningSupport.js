@@ -36,8 +36,8 @@ export default inherit( Object, LegendsOfLearningSupport, {
   start: function() {
 
     // Send init message when sim has started up so that Legends of Learning can remove their splash screen
-    this.sim.endedSimConstructionEmitter.addListener( function() {
-      ( window.parent !== window ) && window.parent.postMessage( { message: 'init' }, '*' );
+    this.sim.isConstructionCompleteProperty.link( isConstructionComplete => {
+      isConstructionComplete && ( window.parent !== window ) && window.parent.postMessage( { message: 'init' }, '*' );
     } );
   }
 } );
