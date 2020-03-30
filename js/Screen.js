@@ -162,9 +162,9 @@ function Screen( createModel, createView, options ) {
   if ( options.descriptionContent ) {
     this.descriptionContent = options.descriptionContent;
   }
-  else if ( this.name ) {
+  else if ( this.nameProperty.value ) {
     this.descriptionContent = StringUtils.fillIn( screenNamePatternString, {
-      name: this.name
+      name: this.nameProperty.value
     } );
   }
   else {
@@ -297,7 +297,7 @@ inherit( PhetioObject, Screen, {
 
         // Like "My Awesome Screen" because "My Awesome" is the name of the screen.
         const screenNameWithScreen = StringUtils.fillIn( screenNamePatternString, {
-          name: this.name
+          name: this.nameProperty.value
         } );
 
         // initialize proper PDOM labelling for ScreenView
