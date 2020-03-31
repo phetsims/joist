@@ -17,7 +17,7 @@ import PhetioObject from '../../tandem/js/PhetioObject.js';
 import darkIconImage from '../images/keyboard-icon-on-white_png.js'; // on a white navbar
 import brightIconImage from '../images/keyboard-icon_png.js'; // on a black navbar
 import joist from './joist.js';
-import joistStrings from './joist-strings.js';
+import joistStrings from './joistStrings.js';
 import JoistButton from './JoistButton.js';
 import KeyboardHelpDialog from './KeyboardHelpDialog.js';
 

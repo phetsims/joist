@@ -19,7 +19,7 @@ import ToggleNode from '../../sun/js/ToggleNode.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import ActivationUtterance from '../../utterance-queue/js/ActivationUtterance.js';
 import joist from './joist.js';
-import joistStrings from './joist-strings.js';
+import joistStrings from './joistStrings.js';
 import JoistButton from './JoistButton.js';
 
 // a11y strings

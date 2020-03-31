@@ -16,7 +16,7 @@ import RichText from '../../scenery/js/nodes/RichText.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import VBox from '../../scenery/js/nodes/VBox.js';
 import VStrut from '../../scenery/js/nodes/VStrut.js';
-import joistStrings from './joist-strings.js';
+import joistStrings from './joistStrings.js';
 import joist from './joist.js';
 
 const creditsContributorsString = joistStrings.credits.contributors;

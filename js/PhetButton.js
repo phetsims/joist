@@ -12,7 +12,7 @@ import inherit from '../../phet-core/js/inherit.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import joist from './joist.js';
-import joistStrings from './joist-strings.js';
+import joistStrings from './joistStrings.js';
 import JoistButton from './JoistButton.js';
 import KebabMenuIcon from './KebabMenuIcon.js';
 import PhetButtonIO from './PhetButtonIO.js';

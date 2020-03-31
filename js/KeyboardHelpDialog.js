@@ -19,7 +19,7 @@ import VBox from '../../scenery/js/nodes/VBox.js';
 import Dialog from '../../sun/js/Dialog.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
-import joistStrings from './joist-strings.js';
+import joistStrings from './joistStrings.js';
 
 // constants
 const TITLE_MAX_WIDTH = 500;

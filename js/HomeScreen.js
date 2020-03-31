@@ -10,7 +10,7 @@ import Property from '../../axon/js/Property.js';
 import merge from '../../phet-core/js/merge.js';
 import HomeScreenModel from './HomeScreenModel.js';
 import HomeScreenView from './HomeScreenView.js';
-import joistStrings from './joist-strings.js';
+import joistStrings from './joistStrings.js';
 import joist from './joist.js';
 import Screen from './Screen.js';
 

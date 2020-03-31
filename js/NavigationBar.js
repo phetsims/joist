@@ -36,7 +36,7 @@ import A11yButtonsHBox from './A11yButtonsHBox.js';
 import HomeButton from './HomeButton.js';
 import HomeScreen from './HomeScreen.js';
 import HomeScreenView from './HomeScreenView.js';
-import joistStrings from './joist-strings.js';
+import joistStrings from './joistStrings.js';
 import joist from './joist.js';
 import NavigationBarScreenButton from './NavigationBarScreenButton.js';
 import PhetButton from './PhetButton.js';

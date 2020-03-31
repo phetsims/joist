@@ -26,7 +26,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import NullableIO from '../../tandem/js/types/NullableIO.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
 import joist from './joist.js';
-import joistStrings from './joist-strings.js';
+import joistStrings from './joistStrings.js';
 import ScreenIO from './ScreenIO.js';
 
 // a11y strings

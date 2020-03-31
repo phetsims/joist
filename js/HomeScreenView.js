@@ -17,7 +17,7 @@ import Node from '../../scenery/js/nodes/Node.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import HomeScreenButton from './HomeScreenButton.js';
 import joist from './joist.js';
-import joistStrings from './joist-strings.js';
+import joistStrings from './joistStrings.js';
 import ScreenView from './ScreenView.js';
 
 // a11y strings

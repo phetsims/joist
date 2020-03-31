@@ -16,7 +16,7 @@ import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';
 import FontAwesomeNode from '../../sun/js/FontAwesomeNode.js';
 import joist from './joist.js';
-import joistStrings from './joist-strings.js';
+import joistStrings from './joistStrings.js';
 import JoistButton from './JoistButton.js';
 
 // constants

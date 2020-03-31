@@ -14,7 +14,7 @@ import ColorProfile from '../../scenery-phet/js/ColorProfile.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import Checkbox from '../../sun/js/Checkbox.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import joistStrings from './joist-strings.js';
+import joistStrings from './joistStrings.js';
 import joist from './joist.js';
 import OptionsDialog from './OptionsDialog.js';
 

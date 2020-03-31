@@ -26,7 +26,7 @@ import VBox from '../../scenery/js/nodes/VBox.js';
 import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import Frame from './Frame.js';
-import joistStrings from './joist-strings.js';
+import joistStrings from './joistStrings.js';
 import joist from './joist.js';
 
 

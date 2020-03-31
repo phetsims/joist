@@ -8,7 +8,7 @@
 
 import Property from '../../axon/js/Property.js';
 import DialogsScreenView from './demo/DialogsScreenView.js';
-import joistStrings from './joist-strings.js';
+import joistStrings from './joistStrings.js';
 import Screen from './Screen.js';
 import Sim from './Sim.js';
 import SimLauncher from './SimLauncher.js';

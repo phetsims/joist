@@ -26,7 +26,7 @@ import PushButtonModel from '../../sun/js/buttons/PushButtonModel.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import HighlightNode from './HighlightNode.js';
 import joist from './joist.js';
-import joistStrings from './joist-strings.js';
+import joistStrings from './joistStrings.js';
 
 // constants
 const HIGHLIGHT_SPACING = 4;

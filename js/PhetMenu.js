@@ -29,7 +29,7 @@ import soundManager from '../../tambo/js/soundManager.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
 import PhetioCapsuleIO from '../../tandem/js/PhetioCapsuleIO.js';
 import AboutDialog from './AboutDialog.js';
-import joistStrings from './joist-strings.js';
+import joistStrings from './joistStrings.js';
 import joist from './joist.js';
 import OptionsDialog from './OptionsDialog.js';
 import PhetMenuIO from './PhetMenuIO.js';

@@ -18,7 +18,7 @@ import VBox from '../../scenery/js/nodes/VBox.js';
 import VStrut from '../../scenery/js/nodes/VStrut.js';
 import Dialog from '../../sun/js/Dialog.js';
 import CreditsNode from './CreditsNode.js';
-import joistStrings from './joist-strings.js';
+import joistStrings from './joistStrings.js';
 import joist from './joist.js';
 import packageJSON from './packageJSON.js';
 import updateCheck from './updateCheck.js';

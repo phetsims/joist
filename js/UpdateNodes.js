@@ -17,7 +17,7 @@ import VBox from '../../scenery/js/nodes/VBox.js';
 import VStrut from '../../scenery/js/nodes/VStrut.js';
 import TextPushButton from '../../sun/js/buttons/TextPushButton.js';
 import FontAwesomeNode from '../../sun/js/FontAwesomeNode.js';
-import joistStrings from './joist-strings.js';
+import joistStrings from './joistStrings.js';
 import joist from './joist.js';
 import updateCheck from './updateCheck.js';
 import UpdateState from './UpdateState.js';
