@@ -185,14 +185,16 @@
     "simScreensResourcesAndTools": {
       "value": "Sim Screens, Resources, and Tools"
     },
-    "sound": {
-      "simSoundOnString": {
-        "value": "Sim sound on."
+    "soundToggle": {
+      "alert": {
+        "simSoundOn": {
+          "value": "Sim sound on."
+        },
+        "simSoundOff": {
+          "value": "Sim sound off."
+        }
       },
-      "simSoundOffString": {
-        "value": "Sim sound off."
-      },
-      "soundOnOffButton": {
+      "label": {
         "value": "Mute Sound"
       }
     },

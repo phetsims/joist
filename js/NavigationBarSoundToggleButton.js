@@ -23,9 +23,9 @@ import joistStrings from './joistStrings.js';
 import JoistButton from './JoistButton.js';
 
 // a11y strings
-const soundOnOffString = joistStrings.a11y.sound.soundOnOffButton;
-const simSoundOnString = joistStrings.a11y.sound.simSoundOnString;
-const simSoundOffString = joistStrings.a11y.sound.simSoundOffString;
+const buttonLabelString = joistStrings.a11y.soundToggle.label;
+const simSoundOnString = joistStrings.a11y.soundToggle.alert.simSoundOn;
+const simSoundOffString = joistStrings.a11y.soundToggle.alert.simSoundOff;
 
 // constants for node background
 const NODE_HEIGHT = 22.0;
@@ -70,7 +70,7 @@ function NavigationBarSoundToggleButton( soundEnabledProperty, backgroundColorPr
 
     // a11y
     tagName: 'button',
-    innerContent: soundOnOffString
+    innerContent: buttonLabelString
   }, options );
 
   PhetioObject.mergePhetioComponentOptions( { visibleProperty: { phetioFeatured: true } }, options );
