@@ -86,8 +86,8 @@ const simInfo = {
       if ( Tandem.PHET_IO_ENABLED ) {
         putInfo( 'screenPropertyValue', sim.screenProperty.value.tandem.phetioID );
         putInfo( 'wrapperMetadata', phet.preloads.phetio.simStartedMetadata );
-        putInfo( 'dataStreamVersion', phet.phetIo.dataStream.VERSION );
-        putInfo( 'phetioCommandProcessorProtocol', phet.phetIo.phetioCommandProcessor.PHET_IO_PROTOCOL );
+        putInfo( 'dataStreamVersion', phet.phetio.dataStream.VERSION );
+        putInfo( 'phetioCommandProcessorProtocol', phet.phetio.phetioCommandProcessor.PHET_IO_PROTOCOL );
       }
     }
 

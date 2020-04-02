@@ -23,7 +23,7 @@ class EngagementMetrics {
    * @param {Sim} sim
    */
   constructor( sim ) {
-    const dataStream = phet && phet.phetIo && phet.phetIo.dataStream;
+    const dataStream = phet && phet.phetio && phet.phetio.dataStream;
     assert && assert( dataStream, 'cannot add dataStream listener because dataStream is not defined' );
 
     // @private
@@ -100,7 +100,7 @@ class EngagementMetrics {
   isEngagedEvent( event ) {
     let engaged = false;
     [ 'mouseDownAction', 'touchDownAction', 'keydownAction', 'penDownAction' ].forEach( eventName => {
-      if ( phetio.PhetioIDUtils.getComponentName( event.phetioID ) === eventName ) {
+      if ( window.phetio.PhetioIDUtils.getComponentName( event.phetioID ) === eventName ) {
         engaged = true;
       }
     } );

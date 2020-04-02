@@ -415,13 +415,13 @@ function Sim( name, allSimScreens, options ) {
   window.phet.joist.sim = this;
 
   // Set up PhET-iO, must be done after phet.joist.sim is assigned
-  Tandem.PHET_IO_ENABLED && phet.phetIo.phetioEngine.onSimConstructionStarted( this );
+  Tandem.PHET_IO_ENABLED && phet.phetio.phetioEngine.onSimConstructionStarted( this );
 
   // @public (read-only) {Property.<boolean>} - if PhET-iO is currently setting the state of the simulation.
   // See PhetioStateEngine for details. This must be declared before soundManager.initialized is called.
   this.isSettingPhetioStateProperty = Tandem.PHET_IO_ENABLED ?
                                       new DerivedProperty(
-                                        [ phet.phetIo.phetioEngine.phetioStateEngine.isSettingStateProperty ],
+                                        [ phet.phetio.phetioEngine.phetioStateEngine.isSettingStateProperty ],
                                         _.identity ) :
                                       new BooleanProperty( false );
 
@@ -855,7 +855,7 @@ export default inherit( Object, Sim, {
               window.phetSplashScreen.dispose();
 
               // Sanity check that there is no phetio object in phet brand, see https://github.com/phetsims/phet-io/issues/1229
-              phet.chipper.brand === 'phet' && assert && assert( !Tandem.PHET_IO_ENABLED, 'window.phet.phetio should not exist for phet brand' );
+              phet.chipper.brand === 'phet' && assert && assert( !Tandem.PHET_IO_ENABLED, 'window.phet.preloads.phetio should not exist for phet brand' );
 
               // Communicate sim load (successfully) to joist/tests/test-sims.html
               if ( phet.chipper.queryParameters.postMessageOnLoad ) {
