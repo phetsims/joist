@@ -109,7 +109,7 @@ const SimLauncher = {
         } ), '*' );
       }
 
-      if ( ( Tandem.PHET_IO_ENABLED && !phet.phetio.preload.queryParameters.phetioStandalone ) ||
+      if ( ( Tandem.PHET_IO_ENABLED && !phet.preloads.phetio.queryParameters.phetioStandalone ) ||
            phet.chipper.queryParameters.playbackMode ) {
 
         // Wait for phet-io to finish adding listeners. It will direct the launch from there.

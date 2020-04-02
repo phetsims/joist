@@ -85,7 +85,7 @@ const simInfo = {
       // (phet-io) if there is metadata from the wrapper
       if ( Tandem.PHET_IO_ENABLED ) {
         putInfo( 'screenPropertyValue', sim.screenProperty.value.tandem.phetioID );
-        putInfo( 'wrapperMetadata', phet.phetio.preload.simStartedMetadata );
+        putInfo( 'wrapperMetadata', phet.preloads.phetio.simStartedMetadata );
         putInfo( 'dataStreamVersion', phet.phetIo.dataStream.VERSION );
         putInfo( 'phetioCommandProcessorProtocol', phet.phetIo.phetioCommandProcessor.PHET_IO_PROTOCOL );
       }
