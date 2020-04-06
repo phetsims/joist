@@ -6,7 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import AccessiblePeer from '../../scenery/js/accessibility/AccessiblePeer.js';
+import AccessiblePeer from '../../scenery/js/accessibility/pdom/AccessiblePeer.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';

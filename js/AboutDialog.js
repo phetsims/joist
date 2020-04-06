@@ -10,7 +10,7 @@ import timer from '../../axon/js/timer.js';
 import inherit from '../../phet-core/js/inherit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import AccessiblePeer from '../../scenery/js/accessibility/AccessiblePeer.js';
+import AccessiblePeer from '../../scenery/js/accessibility/pdom/AccessiblePeer.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import RichText from '../../scenery/js/nodes/RichText.js';
 import Text from '../../scenery/js/nodes/Text.js';

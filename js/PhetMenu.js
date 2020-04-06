@@ -15,7 +15,7 @@ import openPopup from '../../phet-core/js/openPopup.js';
 import platform from '../../phet-core/js/platform.js';
 import stripEmbeddingMarks from '../../phet-core/js/stripEmbeddingMarks.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import AccessibilityUtils from '../../scenery/js/accessibility/AccessibilityUtils.js';
+import AccessibilityUtils from '../../scenery/js/accessibility/pdom/AccessibilityUtils.js';
 import KeyboardUtils from '../../scenery/js/accessibility/KeyboardUtils.js';
 import Display from '../../scenery/js/display/Display.js';
 import Node from '../../scenery/js/nodes/Node.js';
