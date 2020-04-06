@@ -124,7 +124,11 @@ function Screen( createModel, createView, options ) {
   // @public (read-only) {Property<String|null>}
   this.nameProperty = new Property( options.name, {
     phetioType: PropertyIO( NullableIO( StringIO ) ),
-    tandem: options.tandem.createTandem( 'nameProperty' )
+    tandem: options.tandem.createTandem( 'nameProperty' ),
+    phetioFeatured: true,
+    phetioDocumentation: 'The name of the screen. Changing this value will update the screen name for the screen\'s ' +
+                         'corresponding button on the navigation bar and home screen, if they exist. May be null for ' +
+                         'single-screen simulations.'
   } );
 
   // @public (read-only)
