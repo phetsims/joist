@@ -119,10 +119,10 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
   let title = sim.name;
 
   // If the 'screens' query parameter only selects 1 screen, than update the nav bar title to include that screen name.
-  if ( isMultiScreenSimDisplayingSingleScreen && this.simScreens[ 0 ].name ) {
+  if ( isMultiScreenSimDisplayingSingleScreen && this.simScreens[ 0 ].nameProperty.value ) {
     title = StringUtils.fillIn( simTitleWithScreenNamePatternString, {
       simName: sim.name,
-      screenName: this.simScreens[ 0 ].name
+      screenName: this.simScreens[ 0 ].nameProperty.value
     } );
   }
 
