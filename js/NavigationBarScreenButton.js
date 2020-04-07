@@ -31,7 +31,6 @@ import joistStrings from './joistStrings.js';
 // constants
 const HIGHLIGHT_SPACING = 4;
 
-// a11y strings
 const simScreenString = joistStrings.a11y.simScreen;
 const screenNameStringPatternString = joistStrings.a11y.screenNumberPattern;
 

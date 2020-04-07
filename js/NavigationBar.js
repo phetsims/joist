@@ -43,7 +43,6 @@ import PhetButton from './PhetButton.js';
 
 const simTitleWithScreenNamePatternString = joistStrings.simTitleWithScreenNamePattern;
 
-// a11y strings
 const simScreensResourcesAndToolsString = joistStrings.a11y.simScreensResourcesAndTools;
 const simResourcesAndToolsString = joistStrings.a11y.simResourcesAndTools;
 const simScreensString = joistStrings.a11y.simScreens;

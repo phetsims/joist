@@ -20,7 +20,6 @@ import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import ScreenView from './ScreenView.js';
 
-// a11y strings
 const simScreensString = joistStrings.a11y.simScreens;
 const homeScreenDescriptionPatternString = joistStrings.a11y.homeScreenDescriptionPattern;
 

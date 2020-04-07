@@ -29,7 +29,6 @@ import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import ScreenIO from './ScreenIO.js';
 
-// a11y strings
 const screenNamePatternString = joistStrings.a11y.screenNamePattern;
 const screenSimPatternString = joistStrings.a11y.screenSimPattern;
 const simScreenString = joistStrings.a11y.simScreen;
