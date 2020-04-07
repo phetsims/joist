@@ -30,7 +30,7 @@ function UpdateDialog( phetButton ) {
 
   const outOfDateNode = new Node( {
 
-    // a11y - dialog content contained in parent div so ARIA roles can be applied to all children
+    // pdom - dialog content contained in parent div so ARIA roles can be applied to all children
     tagName: 'div'
   } );
 
@@ -62,7 +62,7 @@ function UpdateDialog( phetButton ) {
     outOfDateNode.visible = state === UpdateState.OUT_OF_DATE;
     offlineNode.visible = state === UpdateState.OFFLINE;
 
-    // a11y - update visibility of update nodes for screen readers by adding/removing content from the DOM, 
+    // pdom - update visibility of update nodes for screen readers by adding/removing content from the DOM,
     // necessary because screen readers will read hidden content in a Dialog
     checkingNode.accessibleContentDisplayed = checkingNode.visible;
     upToDateNode.accessibleContentDisplayed = upToDateNode.visible;
@@ -78,13 +78,13 @@ function UpdateDialog( phetButton ) {
       offlineNode
     ],
 
-    // a11y
+    // pdom
     tagName: 'div'
   } );
 
   Dialog.call( this, content, {
 
-    // a11y
+    // pdom
     focusOnCloseNode: phetButton
   } );
 }

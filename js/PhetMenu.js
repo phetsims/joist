@@ -15,7 +15,7 @@ import openPopup from '../../phet-core/js/openPopup.js';
 import platform from '../../phet-core/js/platform.js';
 import stripEmbeddingMarks from '../../phet-core/js/stripEmbeddingMarks.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import AccessibilityUtils from '../../scenery/js/accessibility/AccessibilityUtils.js';
+import PDOMUtils from '../../scenery/js/accessibility/pdom/PDOMUtils.js';
 import KeyboardUtils from '../../scenery/js/accessibility/KeyboardUtils.js';
 import Display from '../../scenery/js/display/Display.js';
 import Node from '../../scenery/js/nodes/Node.js';
@@ -106,7 +106,7 @@ function PhetMenu( sim, phetButton, tandem, options ) {
     phetioState: false,
     phetioDocumentation: 'This menu is displayed when the PhET button is pressed.',
 
-    // a11y, tagname and role for content in the menu
+    // pdom, tagname and role for content in the menu
     tagName: 'ul',
     ariaRole: 'menu'
   }, options );
@@ -275,7 +275,7 @@ function PhetMenu( sim, phetButton, tandem, options ) {
           }
         },
 
-        // a11y
+        // pdom
         handleFocusCallback: () => {
           phetButton.focus();
         }
@@ -300,7 +300,7 @@ function PhetMenu( sim, phetButton, tandem, options ) {
           }
         },
 
-        // a11y
+        // pdom
         handleFocusCallback: () => {
           phetButton.focus();
         }
@@ -324,7 +324,7 @@ function PhetMenu( sim, phetButton, tandem, options ) {
           }
         },
 
-        // a11y
+        // pdom
         handleFocusCallback: () => {
           phetButton.focus();
         }
@@ -424,7 +424,7 @@ function PhetMenu( sim, phetButton, tandem, options ) {
   // @private - whether the PhetMenu is showing
   this.isShowing = false;
 
-  // a11y - add the keydown listener, handling arrow, escape, and tab keys
+  // pdom - add the keydown listener, handling arrow, escape, and tab keys
   // When using the arrow keys, we prevent the virtual cursor from moving in VoiceOver
   const keydownListener = {
     keydown: function( event ) {
@@ -441,13 +441,13 @@ function PhetMenu( sim, phetButton, tandem, options ) {
       if ( domEvent.keyCode === KeyboardUtils.KEY_DOWN_ARROW ) {
 
         // On down arrow, focus next item in the list, or wrap up to the first item if focus is at the end
-        const nextFocusable = lastItem.focused ? firstItem : AccessibilityUtils.getNextFocusable();
+        const nextFocusable = lastItem.focused ? firstItem : PDOMUtils.getNextFocusable();
         nextFocusable.focus();
       }
       else if ( domEvent.keyCode === KeyboardUtils.KEY_UP_ARROW ) {
 
         // On up arow, focus previous item in the list, or wrap back to the last item if focus is on first item
-        const previousFocusable = firstItem.focused ? lastItem : AccessibilityUtils.getPreviousFocusable();
+        const previousFocusable = firstItem.focused ? lastItem : PDOMUtils.getPreviousFocusable();
         previousFocusable.focus();
       }
       else if ( domEvent.keyCode === KeyboardUtils.KEY_ESCAPE ) {
@@ -469,7 +469,7 @@ function PhetMenu( sim, phetButton, tandem, options ) {
   };
   this.addInputListener( keydownListener );
 
-  // a11y - if the focus goes to something outside of the PhET menu, close it
+  // pdom - if the focus goes to something outside of the PhET menu, close it
   const focusListener = function( focus ) {
     if ( focus && !_.includes( focus.trail.nodes, self ) ) {
       self.hide();

@@ -37,7 +37,7 @@ function HomeButton( navBarHeight, navigationBarFillProperty, tandem, options ) 
     highlightExtensionWidth: 4,
     listener: null,
 
-    // a11y,
+    // pdom,
     tagName: 'button',
     innerContent: homeString,
     containerTagName: 'li',
@@ -57,12 +57,12 @@ function HomeButton( navBarHeight, navigationBarFillProperty, tandem, options ) 
 
   JoistButton.call( this, content, navigationBarFillProperty, tandem, options );
 
-  // a11y - Pass a shape to the focusHighlight to prevent dilation, then tweak the bottom up just a hair so it
+  // pdom - Pass a shape to the focusHighlight to prevent dilation, then tweak the bottom up just a hair so it
   // isn't off the screen.
   const highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );
   this.focusHighlight = Shape.bounds( this.bounds.setMaxY( this.bounds.maxY - highlightLineWidth / 2 ) );
 
-  // a11y - add the role description for the HomeButton
+  // pdom - add the role description for the HomeButton
   this.setAccessibleAttribute( 'aria-roledescription', homeScreenString );
 
   Property.multilink( [ this.interactionStateProperty, navigationBarFillProperty ], function( interactionState, navigationBarFill ) {

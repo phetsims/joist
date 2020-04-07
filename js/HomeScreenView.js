@@ -6,7 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import AccessiblePeer from '../../scenery/js/accessibility/AccessiblePeer.js';
+import PDOMPeer from '../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
@@ -20,7 +20,6 @@ import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import ScreenView from './ScreenView.js';
 
-// a11y strings
 const simScreensString = joistStrings.a11y.simScreens;
 const homeScreenDescriptionPatternString = joistStrings.a11y.homeScreenDescriptionPattern;
 
@@ -53,7 +52,7 @@ function HomeScreenView( simName, model, tandem, options ) {
     // HomeScreen. The HomeScreen handles its own description.
     includePDOMNodes: false,
 
-    // a11y
+    // pdom
     labelContent: simName,
     descriptionContent: StringUtils.fillIn( homeScreenDescriptionPatternString, {
       name: simName,
@@ -92,7 +91,7 @@ function HomeScreenView( simName, model, tandem, options ) {
       model, {
         showUnselectedHomeScreenIconFrame: screen.showUnselectedHomeScreenIconFrame,
 
-        // a11y
+        // pdom
         innerContent: screen.nameProperty.value, // TODO: Does this need to be updated somewhere now that screen.name is a Property? see https://github.com/phetsims/joist/issues/597
         descriptionContent: screen.descriptionContent,
 
@@ -103,11 +102,11 @@ function HomeScreenView( simName, model, tandem, options ) {
     return { screen: screen, button: homeScreenButton };
   } );
 
-  // a11y this is needed to create the right PDOM structure, the phet menu shouldn't be a child of this 'nav', so
+  // pdom this is needed to create the right PDOM structure, the phet menu shouldn't be a child of this 'nav', so
   // the HomeScreenView can't be the 'nav' tag.
   const navIconsNode = new Node( {
 
-    // a11y
+    // pdom
     tagName: 'div',
     containerTagName: 'nav',
     labelTagName: 'h2',
@@ -115,9 +114,9 @@ function HomeScreenView( simName, model, tandem, options ) {
   } );
 
   navIconsNode.addAriaLabelledbyAssociation( {
-    thisElementName: AccessiblePeer.PRIMARY_SIBLING,
+    thisElementName: PDOMPeer.PRIMARY_SIBLING,
     otherNode: navIconsNode,
-    otherElementName: AccessiblePeer.LABEL_SIBLING
+    otherElementName: PDOMPeer.LABEL_SIBLING
   } );
 
   // Intermediate node, so that icons are always in the same rendering layer

@@ -22,7 +22,6 @@ import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import JoistButton from './JoistButton.js';
 
-// a11y strings
 const buttonLabelString = joistStrings.a11y.soundToggle.label;
 const simSoundOnString = joistStrings.a11y.soundToggle.alert.simSoundOn;
 const simSoundOffString = joistStrings.a11y.soundToggle.alert.simSoundOff;
@@ -68,7 +67,7 @@ function NavigationBarSoundToggleButton( soundEnabledProperty, backgroundColorPr
       soundEnabledProperty.set( !soundEnabledProperty.get() );
     },
 
-    // a11y
+    // pdom
     tagName: 'button',
     innerContent: buttonLabelString
   }, options );

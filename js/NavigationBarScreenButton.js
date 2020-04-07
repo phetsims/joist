@@ -31,7 +31,6 @@ import joistStrings from './joistStrings.js';
 // constants
 const HIGHLIGHT_SPACING = 4;
 
-// a11y strings
 const simScreenString = joistStrings.a11y.simScreen;
 const screenNameStringPatternString = joistStrings.a11y.screenNumberPattern;
 
@@ -60,7 +59,7 @@ function NavigationBarScreenButton( navigationBarFillProperty, screenProperty, s
     phetioDocumentation: 'Button in the navigation bar that selects the \'' + screen.tandem.name + '\' screen',
     maxButtonWidth: null, // {number|null} the maximum width of the button, causes text and/or icon to be scaled down if necessary
 
-    // a11y
+    // pdom
     tagName: 'button',
     containerTagName: 'li',
     descriptionContent: screen.descriptionContent,
@@ -200,10 +199,10 @@ function NavigationBarScreenButton( navigationBarFillProperty, screenProperty, s
     text.maxWidth = this.width;
   }
 
-  // a11y - set the role description for the button
+  // pdom - set the role description for the button
   this.setAccessibleAttribute( 'aria-roledescription', simScreenString );
 
-  // a11y - Pass a shape to the focusHighlight to prevent dilation, then tweak the top up just a hair.
+  // pdom - Pass a shape to the focusHighlight to prevent dilation, then tweak the top up just a hair.
   const highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );
   this.focusHighlight = Shape.bounds( this.bounds.setMinY( this.bounds.minY - highlightLineWidth / 2 ) );
 

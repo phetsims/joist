@@ -95,7 +95,7 @@ function PhetButton( sim, backgroundFillProperty, tandem ) {
       phetioFeatured: true
     },
 
-    // a11y
+    // pdom
     tagName: 'button',
     innerContent: joistStrings.a11y.phetMenu
   } );
@@ -114,7 +114,7 @@ function PhetButton( sim, backgroundFillProperty, tandem ) {
   // No need to be removed because the PhetButton exists for the lifetime of the sim.
   this.buttonModel.enabledProperty.link( enabled => { menuIcon.visible = enabled; } );
 
-  // a11y - add a listener that opens the menu on 'click' and 'reset', and closes it on escape and if the
+  // pdom - add a listener that opens the menu on 'click' and 'reset', and closes it on escape and if the
   // button receives focus again
   this.addInputListener( {
     click: function() {
@@ -125,7 +125,7 @@ function PhetButton( sim, backgroundFillProperty, tandem ) {
     }
   } );
 
-  // a11y - add an attribute that lets the user know the button opens a menu
+  // pdom - add an attribute that lets the user know the button opens a menu
   this.setAccessibleAttribute( 'aria-haspopup', true );
 }
 

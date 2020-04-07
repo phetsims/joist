@@ -10,7 +10,7 @@ import timer from '../../axon/js/timer.js';
 import inherit from '../../phet-core/js/inherit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import AccessiblePeer from '../../scenery/js/accessibility/AccessiblePeer.js';
+import PDOMPeer from '../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import RichText from '../../scenery/js/nodes/RichText.js';
 import Text from '../../scenery/js/nodes/Text.js';
@@ -89,7 +89,7 @@ function AboutDialog( name, version, credits, locale, phetButton, tandem ) {
       outOfDateNode.visible = state === UpdateState.OUT_OF_DATE;
       offlineNode.visible = state === UpdateState.OFFLINE;
 
-      // a11y - make update content visible/invisible for screen readers by explicitly removing content
+      // pdom - make update content visible/invisible for screen readers by explicitly removing content
       // from the DOM, necessary because AT will ready hidden content in a Dialog.
       checkingNode.accessibleContentDisplayed = checkingNode.visible;
       upToDateNode.accessibleContentDisplayed = upToDateNode.visible;
@@ -118,7 +118,7 @@ function AboutDialog( name, version, credits, locale, phetButton, tandem ) {
       supYOffset: 2,
       maxWidth: MAX_WIDTH,
 
-      // a11y
+      // pdom
       tagName: 'h2',
       innerContent: Brand.name
     } ) );
@@ -135,7 +135,7 @@ function AboutDialog( name, version, credits, locale, phetButton, tandem ) {
     brandChildren.push( new Text( copyright, {
       font: new PhetFont( 12 ), maxWidth: MAX_WIDTH,
 
-      // a11y
+      // pdom
       tagName: 'p',
       innerContent: copyright
     } ) );
@@ -149,7 +149,7 @@ function AboutDialog( name, version, credits, locale, phetButton, tandem ) {
         align: 'left',
         maxWidth: MAX_WIDTH,
 
-        // a11y
+        // pdom
         tagName: 'p',
         innerContent: Brand.additionalLicenseStatement
       }
@@ -207,7 +207,7 @@ function AboutDialog( name, version, credits, locale, phetButton, tandem ) {
     spacing: 5,
     children: children,
 
-    // a11y - accessible container for all AboutDialog content
+    // pdom - accessible container for all AboutDialog content
     tagName: 'div'
   } );
 
@@ -224,11 +224,11 @@ function AboutDialog( name, version, credits, locale, phetButton, tandem ) {
     phetioDynamicElement: true
   } );
 
-  // a11y - set label association so the title is read when focus enters the dialog
+  // pdom - set label association so the title is read when focus enters the dialog
   this.addAriaLabelledbyAssociation( {
-    thisElementName: AccessiblePeer.PRIMARY_SIBLING,
+    thisElementName: PDOMPeer.PRIMARY_SIBLING,
     otherNode: titleText,
-    otherElementName: AccessiblePeer.PRIMARY_SIBLING
+    otherElementName: PDOMPeer.PRIMARY_SIBLING
   } );
 
   // @private - to be called in dispose

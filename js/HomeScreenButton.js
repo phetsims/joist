@@ -16,7 +16,7 @@ import Shape from '../../kite/js/Shape.js';
 import merge from '../../phet-core/js/merge.js';
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import AccessiblePeer from '../../scenery/js/accessibility/AccessiblePeer.js';
+import PDOMPeer from '../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import Touch from '../../scenery/js/input/Touch.js';
 import FireListener from '../../scenery/js/listeners/FireListener.js';
 import Node from '../../scenery/js/nodes/Node.js';
@@ -49,7 +49,7 @@ class HomeScreenButton extends VBox {
       resize: false, // don't resize the VBox or it will shift down when the border becomes thicker
       showUnselectedHomeScreenIconFrame: false, // put a frame around unselected home screen icons
 
-      // a11y
+      // pdom
       tagName: 'button',
       appendDescription: true,
       containerTagName: 'li',
@@ -110,8 +110,8 @@ class HomeScreenButton extends VBox {
 
     this.addAriaDescribedbyAssociation( {
       otherNode: this,
-      otherElementName: AccessiblePeer.DESCRIPTION_SIBLING,
-      thisElementName: AccessiblePeer.PRIMARY_SIBLING
+      otherElementName: PDOMPeer.DESCRIPTION_SIBLING,
+      thisElementName: PDOMPeer.PRIMARY_SIBLING
     } );
 
     // create large and small settings
@@ -199,14 +199,14 @@ class HomeScreenButton extends VBox {
       }
     } );
 
-    // a11y support for click listeners on the screen buttons
+    // pdom support for click listeners on the screen buttons
     const toggleListener = () => {
       this.focus();
     };
     this.addInputListener( { focus: toggleListener } );
     this.addInputListener( { click: toggleListener } );
 
-    // a11y - add the right aria attributes to the buttons
+    // pdom - add the right aria attributes to the buttons
     this.setAccessibleAttribute( 'aria-roledescription', simScreenString );
 
     // set the mouseArea and touchArea to be the whole local bounds of this node, because if it just relies on the

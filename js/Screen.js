@@ -29,7 +29,6 @@ import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import ScreenIO from './ScreenIO.js';
 
-// a11y strings
 const screenNamePatternString = joistStrings.a11y.screenNamePattern;
 const screenSimPatternString = joistStrings.a11y.screenSimPattern;
 const simScreenString = joistStrings.a11y.simScreen;
@@ -85,7 +84,7 @@ function Screen( createModel, createView, options ) {
     phetioState: false,
     phetioFeatured: true,
 
-    // a11y - The description that is used when interacting with screen icons/buttons in joist.
+    // pdom - The description that is used when interacting with screen icons/buttons in joist.
     // This is often a full but short sentence with a period at the end of it.
     descriptionContent: null
   }, options );

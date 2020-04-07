@@ -58,7 +58,7 @@ const UpdateNodes = {
         } )
       ],
 
-      // a11y
+      // pdom
       tagName: 'p',
       innerContent: updatesCheckingString
     }, options ) );
@@ -93,7 +93,7 @@ const UpdateNodes = {
         } )
       ],
 
-      // a11y
+      // pdom
       tagName: 'p',
       innerContent: updatesUpToDateString
     }, options ) );
@@ -121,7 +121,7 @@ const UpdateNodes = {
         linkNode
       ],
 
-      // a11y
+      // pdom
       tagName: 'div'
     }, options ) );
   },
@@ -187,7 +187,7 @@ const UpdateNodes = {
         } )
       ],
 
-      // a11y
+      // pdom
       tagName: 'p',
       innerContent: updatesOfflineString
     }, options ) );
