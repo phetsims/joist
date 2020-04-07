@@ -16,7 +16,7 @@ import Shape from '../../kite/js/Shape.js';
 import merge from '../../phet-core/js/merge.js';
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import AccessiblePeer from '../../scenery/js/accessibility/pdom/AccessiblePeer.js';
+import PDOMPeer from '../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import Touch from '../../scenery/js/input/Touch.js';
 import FireListener from '../../scenery/js/listeners/FireListener.js';
 import Node from '../../scenery/js/nodes/Node.js';
@@ -110,8 +110,8 @@ class HomeScreenButton extends VBox {
 
     this.addAriaDescribedbyAssociation( {
       otherNode: this,
-      otherElementName: AccessiblePeer.DESCRIPTION_SIBLING,
-      thisElementName: AccessiblePeer.PRIMARY_SIBLING
+      otherElementName: PDOMPeer.DESCRIPTION_SIBLING,
+      thisElementName: PDOMPeer.PRIMARY_SIBLING
     } );
 
     // create large and small settings

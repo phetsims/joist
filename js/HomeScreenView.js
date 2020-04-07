@@ -6,7 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import AccessiblePeer from '../../scenery/js/accessibility/pdom/AccessiblePeer.js';
+import PDOMPeer from '../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
@@ -115,9 +115,9 @@ function HomeScreenView( simName, model, tandem, options ) {
   } );
 
   navIconsNode.addAriaLabelledbyAssociation( {
-    thisElementName: AccessiblePeer.PRIMARY_SIBLING,
+    thisElementName: PDOMPeer.PRIMARY_SIBLING,
     otherNode: navIconsNode,
-    otherElementName: AccessiblePeer.LABEL_SIBLING
+    otherElementName: PDOMPeer.LABEL_SIBLING
   } );
 
   // Intermediate node, so that icons are always in the same rendering layer

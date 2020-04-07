@@ -10,7 +10,7 @@ import timer from '../../axon/js/timer.js';
 import inherit from '../../phet-core/js/inherit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import AccessiblePeer from '../../scenery/js/accessibility/pdom/AccessiblePeer.js';
+import PDOMPeer from '../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import RichText from '../../scenery/js/nodes/RichText.js';
 import Text from '../../scenery/js/nodes/Text.js';
@@ -226,9 +226,9 @@ function AboutDialog( name, version, credits, locale, phetButton, tandem ) {
 
   // a11y - set label association so the title is read when focus enters the dialog
   this.addAriaLabelledbyAssociation( {
-    thisElementName: AccessiblePeer.PRIMARY_SIBLING,
+    thisElementName: PDOMPeer.PRIMARY_SIBLING,
     otherNode: titleText,
-    otherElementName: AccessiblePeer.PRIMARY_SIBLING
+    otherElementName: PDOMPeer.PRIMARY_SIBLING
   } );
 
   // @private - to be called in dispose

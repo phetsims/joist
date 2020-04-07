@@ -15,7 +15,7 @@ import openPopup from '../../phet-core/js/openPopup.js';
 import platform from '../../phet-core/js/platform.js';
 import stripEmbeddingMarks from '../../phet-core/js/stripEmbeddingMarks.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import AccessibilityUtils from '../../scenery/js/accessibility/pdom/AccessibilityUtils.js';
+import PDOMUtils from '../../scenery/js/accessibility/pdom/PDOMUtils.js';
 import KeyboardUtils from '../../scenery/js/accessibility/KeyboardUtils.js';
 import Display from '../../scenery/js/display/Display.js';
 import Node from '../../scenery/js/nodes/Node.js';
@@ -441,13 +441,13 @@ function PhetMenu( sim, phetButton, tandem, options ) {
       if ( domEvent.keyCode === KeyboardUtils.KEY_DOWN_ARROW ) {
 
         // On down arrow, focus next item in the list, or wrap up to the first item if focus is at the end
-        const nextFocusable = lastItem.focused ? firstItem : AccessibilityUtils.getNextFocusable();
+        const nextFocusable = lastItem.focused ? firstItem : PDOMUtils.getNextFocusable();
         nextFocusable.focus();
       }
       else if ( domEvent.keyCode === KeyboardUtils.KEY_UP_ARROW ) {
 
         // On up arow, focus previous item in the list, or wrap back to the last item if focus is on first item
-        const previousFocusable = firstItem.focused ? lastItem : AccessibilityUtils.getPreviousFocusable();
+        const previousFocusable = firstItem.focused ? lastItem : PDOMUtils.getPreviousFocusable();
         previousFocusable.focus();
       }
       else if ( domEvent.keyCode === KeyboardUtils.KEY_ESCAPE ) {
