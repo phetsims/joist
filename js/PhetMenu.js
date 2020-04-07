@@ -106,7 +106,7 @@ function PhetMenu( sim, phetButton, tandem, options ) {
     phetioState: false,
     phetioDocumentation: 'This menu is displayed when the PhET button is pressed.',
 
-    // a11y, tagname and role for content in the menu
+    // pdom, tagname and role for content in the menu
     tagName: 'ul',
     ariaRole: 'menu'
   }, options );
@@ -275,7 +275,7 @@ function PhetMenu( sim, phetButton, tandem, options ) {
           }
         },
 
-        // a11y
+        // pdom
         handleFocusCallback: () => {
           phetButton.focus();
         }
@@ -300,7 +300,7 @@ function PhetMenu( sim, phetButton, tandem, options ) {
           }
         },
 
-        // a11y
+        // pdom
         handleFocusCallback: () => {
           phetButton.focus();
         }
@@ -324,7 +324,7 @@ function PhetMenu( sim, phetButton, tandem, options ) {
           }
         },
 
-        // a11y
+        // pdom
         handleFocusCallback: () => {
           phetButton.focus();
         }
@@ -424,7 +424,7 @@ function PhetMenu( sim, phetButton, tandem, options ) {
   // @private - whether the PhetMenu is showing
   this.isShowing = false;
 
-  // a11y - add the keydown listener, handling arrow, escape, and tab keys
+  // pdom - add the keydown listener, handling arrow, escape, and tab keys
   // When using the arrow keys, we prevent the virtual cursor from moving in VoiceOver
   const keydownListener = {
     keydown: function( event ) {
@@ -469,7 +469,7 @@ function PhetMenu( sim, phetButton, tandem, options ) {
   };
   this.addInputListener( keydownListener );
 
-  // a11y - if the focus goes to something outside of the PhET menu, close it
+  // pdom - if the focus goes to something outside of the PhET menu, close it
   const focusListener = function( focus ) {
     if ( focus && !_.includes( focus.trail.nodes, self ) ) {
       self.hide();

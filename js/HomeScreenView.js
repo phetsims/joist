@@ -52,7 +52,7 @@ function HomeScreenView( simName, model, tandem, options ) {
     // HomeScreen. The HomeScreen handles its own description.
     includePDOMNodes: false,
 
-    // a11y
+    // pdom
     labelContent: simName,
     descriptionContent: StringUtils.fillIn( homeScreenDescriptionPatternString, {
       name: simName,
@@ -91,7 +91,7 @@ function HomeScreenView( simName, model, tandem, options ) {
       model, {
         showUnselectedHomeScreenIconFrame: screen.showUnselectedHomeScreenIconFrame,
 
-        // a11y
+        // pdom
         innerContent: screen.nameProperty.value, // TODO: Does this need to be updated somewhere now that screen.name is a Property? see https://github.com/phetsims/joist/issues/597
         descriptionContent: screen.descriptionContent,
 
@@ -102,11 +102,11 @@ function HomeScreenView( simName, model, tandem, options ) {
     return { screen: screen, button: homeScreenButton };
   } );
 
-  // a11y this is needed to create the right PDOM structure, the phet menu shouldn't be a child of this 'nav', so
+  // pdom this is needed to create the right PDOM structure, the phet menu shouldn't be a child of this 'nav', so
   // the HomeScreenView can't be the 'nav' tag.
   const navIconsNode = new Node( {
 
-    // a11y
+    // pdom
     tagName: 'div',
     containerTagName: 'nav',
     labelTagName: 'h2',

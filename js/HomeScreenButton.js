@@ -49,7 +49,7 @@ class HomeScreenButton extends VBox {
       resize: false, // don't resize the VBox or it will shift down when the border becomes thicker
       showUnselectedHomeScreenIconFrame: false, // put a frame around unselected home screen icons
 
-      // a11y
+      // pdom
       tagName: 'button',
       appendDescription: true,
       containerTagName: 'li',
@@ -199,14 +199,14 @@ class HomeScreenButton extends VBox {
       }
     } );
 
-    // a11y support for click listeners on the screen buttons
+    // pdom support for click listeners on the screen buttons
     const toggleListener = () => {
       this.focus();
     };
     this.addInputListener( { focus: toggleListener } );
     this.addInputListener( { click: toggleListener } );
 
-    // a11y - add the right aria attributes to the buttons
+    // pdom - add the right aria attributes to the buttons
     this.setAccessibleAttribute( 'aria-roledescription', simScreenString );
 
     // set the mouseArea and touchArea to be the whole local bounds of this node, because if it just relies on the

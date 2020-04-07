@@ -28,7 +28,7 @@ const TITLE_MAX_WIDTH = 500;
 const keyboardShortcutsTitleString = joistStrings.keyboardShortcuts.title;
 const keyboardShortcutsToGetStartedString = joistStrings.keyboardShortcuts.toGetStarted;
 
-// a11y string
+// pdom
 const hotKeysAndHelpString = joistStrings.a11y.keyboardHelp.hotKeysAndHelp;
 const tabToGetStartedString = joistStrings.a11y.keyboardHelp.tabToGetStarted;
 
@@ -61,7 +61,7 @@ function KeyboardHelpDialog( helpContent, options ) {
     } ),
     maxWidth: TITLE_MAX_WIDTH,
 
-    // a11y options
+    // pdom options
     tagName: 'h1',
     innerContent: hotKeysAndHelpString
   } );
@@ -83,7 +83,7 @@ function KeyboardHelpDialog( helpContent, options ) {
       ],
       spacing: 5,
 
-      // a11y
+      // pdom
       tagName: 'div'
     }
   );

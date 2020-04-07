@@ -52,7 +52,7 @@ function ScreenView( options ) {
     // phet-io options
     tandem: Tandem.OPTIONAL,
 
-    // a11y options
+    // pdom options
     containerTagName: 'article',
     tagName: 'div',
     labelTagName: 'h1',
@@ -84,7 +84,7 @@ function ScreenView( options ) {
   this.pdomControlAreaNode = new ControlAreaNode();
 
   // @private
-  // a11y - this Node is suffixed "container" because it is added to with sim specific screen summary content, often
+  // pdom - this Node is suffixed "container" because it is added to with sim specific screen summary content, often
   // called {Sim}ScreenSummaryNode. This container has the intro "{sim} is an interactive sim, it changes as you . . ."
   this.pdomScreenSummaryNode = new ScreenSummaryNode();
 

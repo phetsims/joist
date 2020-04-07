@@ -44,7 +44,7 @@ function KeyboardHelpButton( helpContent, backgroundColorProperty, tandem, optio
     // will align with the speaker button and the PhET logo
     highlightCenterOffsetY: 2,
 
-    // a11y
+    // pdom
     tagName: 'button',
     innerContent: hotKeysAndHelpString
   }, options );

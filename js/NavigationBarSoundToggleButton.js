@@ -67,7 +67,7 @@ function NavigationBarSoundToggleButton( soundEnabledProperty, backgroundColorPr
       soundEnabledProperty.set( !soundEnabledProperty.get() );
     },
 
-    // a11y
+    // pdom
     tagName: 'button',
     innerContent: buttonLabelString
   }, options );

@@ -81,7 +81,7 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
 
   Node.call( this, {
 
-    // a11y
+    // pdom
     tagName: 'div',
     ariaRole: 'region',
     labelTagName: 'h2',
@@ -155,7 +155,7 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
   );
   this.barContents.addChild( this.a11yButtonsHBox );
 
-  // a11y - tell this node that it is aria-labelled by its own labelContent.
+  // pdom - tell this node that it is aria-labelled by its own labelContent.
   this.addAriaLabelledbyAssociation( {
     thisElementName: PDOMPeer.PRIMARY_SIBLING,
     otherNode: this,
@@ -176,7 +176,7 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
     // Start with the assumption that the title can occupy (at most) this percentage of the bar.
     const maxTitleWidth = Math.min( this.titleTextNode.width, 0.20 * HomeScreenView.LAYOUT_BOUNDS.width );
 
-    // a11y - container for the homeButton and all the screen buttons.
+    // pdom - container for the homeButton and all the screen buttons.
     var buttons = new Node( {
       tagName: 'nav',
       ariaLabel: simScreensString
@@ -283,7 +283,7 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
 
   this.layout( 1, NAVIGATION_BAR_SIZE.width, NAVIGATION_BAR_SIZE.height );
 
-  // a11y - keyboard help button before phet menu button, but only if it exists
+  // pdom - keyboard help button before phet menu button, but only if it exists
   this.accessibleOrder = [
     buttons,
     this.a11yButtonsHBox,
