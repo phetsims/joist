@@ -26,8 +26,8 @@ import VBox from '../../scenery/js/nodes/VBox.js';
 import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import Frame from './Frame.js';
-import joistStrings from './joistStrings.js';
 import joist from './joist.js';
+import joistStrings from './joistStrings.js';
 
 
 // constants
@@ -163,10 +163,13 @@ class HomeScreenButton extends VBox {
       this.updateLayout();
     } );
 
-    // if the button is already selected, then set the sim's screen to be its corresponding screen. otherwise,
-    // make the button selected
+    let buttonWasAlreadySelected = false;
+
+    // If the button is already selected, then set the sim's screen to be its corresponding screen. The one exception to
+    // this is due to the desired behavior of selecting on touchover, in which case we need to guard on touchdown since
+    // we don't want to double fire for touchover and touchdown. Otherwise, make the button selected.
     const buttonDown = () => {
-      if ( isSelectedProperty.value ) {
+      if ( isSelectedProperty.value && ( !( fireListener.pointer instanceof Touch ) || buttonWasAlreadySelected ) ) {
         homeScreenModel.screenProperty.value = screen;
       }
       else {
@@ -192,10 +195,9 @@ class HomeScreenButton extends VBox {
     // If you touch an unselected button, it become selected. If then without lifting your finger you swipe over to the
     // next button, that one becomes selected instead.
     this.addInputListener( {
-      over: event => {
-        if ( event.pointer instanceof Touch ) {
-          homeScreenModel.selectedScreenProperty.value = screen;
-        }
+      touchover: event => {
+        buttonWasAlreadySelected = homeScreenModel.selectedScreenProperty.value === screen;
+        homeScreenModel.selectedScreenProperty.value = screen;
       }
     } );
 
