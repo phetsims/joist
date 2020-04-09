@@ -72,7 +72,7 @@ function HomeScreenView( simName, model, tandem, options ) {
   } );
 
   // Have this before adding the child to support the startup layout.
-  title.on( 'bounds', () => {
+  title.boundsProperty.lazyLink( () => {
     title.centerX = this.layoutBounds.centerX;
   } );
 

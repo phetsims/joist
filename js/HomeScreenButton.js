@@ -215,7 +215,7 @@ class HomeScreenButton extends VBox {
     // set the mouseArea and touchArea to be the whole local bounds of this node, because if it just relies on the
     // bounds of the icon and text, then there is a gap in between them. Since the button can change size, this
     // assignment needs to happen anytime the bounds change.
-    this.on( 'bounds', () => {
+    this.boundsProperty.lazyLink( () => {
       this.mouseArea = this.touchArea = Shape.bounds( this.localBounds );
     } );
   }
