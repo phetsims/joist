@@ -165,9 +165,10 @@ class HomeScreenButton extends VBox {
 
     let buttonWasAlreadySelected = false;
 
-    // If the button is already selected, then set the sim's screen to be its corresponding screen. The one exception to
-    // this is due to the desired behavior of selecting on touchover, in which case we need to guard on touchdown since
-    // we don't want to double fire for touchover and touchdown. Otherwise, make the button selected.
+    // If the button is already selected, then set the sim's screen to be its corresponding screen. Otherwise, make the
+    // button selected. The one exception to the former sentence is due to the desired behavior of selecting on
+    // touchover, in which case we need to guard on touchdown since we don't want to double fire for touchover and
+    // touchdown, see https://github.com/phetsims/joist/issues/624
     const buttonDown = () => {
       if ( isSelectedProperty.value && ( !( fireListener.pointer instanceof Touch ) || buttonWasAlreadySelected ) ) {
         homeScreenModel.screenProperty.value = screen;
