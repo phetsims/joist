@@ -27,7 +27,6 @@ import NullableIO from '../../tandem/js/types/NullableIO.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
-import ScreenIcon from './ScreenIcon.js';
 import ScreenIO from './ScreenIO.js';
 
 const screenNamePatternString = joistStrings.a11y.screenNamePattern;
@@ -89,9 +88,6 @@ function Screen( createModel, createView, options ) {
     // This is often a full but short sentence with a period at the end of it.
     descriptionContent: null
   }, options );
-
-  assert && assert( !options.homeScreenIcon || options.homeScreenIcon instanceof ScreenIcon, 'invalid homeScreenIcon' );
-  assert && assert( !options.navigationBarIcon || options.navigationBarIcon instanceof ScreenIcon, 'invalid navigationBarIcon' );
 
   assert && assert( _.includes( [ 'black', 'white', null ], options.showScreenIconFrameForNavigationBarFill ),
     'invalid showScreenIconFrameForNavigationBarFill: ' + options.showScreenIconFrameForNavigationBarFill );
