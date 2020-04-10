@@ -340,11 +340,11 @@ function Sim( name, allSimScreens, options ) {
   // it was created
   this.screens = screenData.screens;
 
-  // @public {Property.<Screen>} - Specifies the selected Screen
+  // @public {Property.<Screen>}
   this.screenProperty = new Property( screenData.initialScreen, {
     tandem: Tandem.GENERAL_MODEL.createTandem( 'screenProperty' ),
     phetioFeatured: true,
-    phetioDocumentation: 'Which sim screen is selected, including the home screen',
+    phetioDocumentation: 'Determines which screen is selected in the simulation',
     validValues: this.screens,
     phetioType: PropertyIO( ScreenIO )
   } );
