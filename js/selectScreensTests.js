@@ -10,7 +10,7 @@ import selectScreens from './selectScreens.js';
 
 const getQueryParameterValues = queryString => {
 
-  // TODO: Get schema from initialize-globals.js instead of duplicating here, see https://github.com/phetsims/joist/issues/603
+  // TODO: Get schema from initialize-globals.js instead of duplicating here, see https://github.com/phetsims/chipper/issues/936
   return QueryStringMachine.getAllForString( {
 
     homeScreen: {
