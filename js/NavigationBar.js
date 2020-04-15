@@ -129,7 +129,7 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
   this.titleTextNode = new Text( title, {
     font: new PhetFont( 16 ),
     fill: sim.lookAndFeel.navigationBarTextFillProperty,
-    tandem: tandem.createTandem( 'titleTextNode' ),
+    tandem: tandem.createTandem( 'titleText' ),
     phetioDocumentation: 'Displays the title of the simulation in the navigation bar (bottom left)',
     phetioComponentOptions: {
       visibleProperty: { phetioFeatured: true },

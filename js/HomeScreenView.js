@@ -68,7 +68,7 @@ function HomeScreenView( simName, model, tandem, options ) {
     fill: 'white',
     y: 130,
     maxWidth: this.layoutBounds.width - 10, // To support PhET-iO Clients setting this
-    tandem: tandem.createTandem( 'title' )
+    tandem: tandem.createTandem( 'titleText' )
   } );
 
   // Have this before adding the child to support the startup layout.
