@@ -38,7 +38,8 @@ class HomeScreen extends Screen {
       //TODO get this color from LookAndFeel, see https://github.com/phetsims/joist/issues/255
       backgroundColorProperty: new Property( BACKGROUND_COLOR ),
 
-      name: homeString
+      name: homeString,
+      instrumentNameProperty: false // requested by designers, see https://github.com/phetsims/joist/issues/627
     }, options );
 
     assert && assert( !options.tandem, 'tandem is a required constructor parameter, not an option' );
