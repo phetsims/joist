@@ -6,6 +6,9 @@ import joist from './joist.js';
  * Given an array of all possible screens that a sim can have, select and order them according to the relevant query
  * parameters. This also will create a homeScreen if needed, and specify the initialScreen for startup.
  *
+ * Parameters suffixed with "Provided" will be true if the that query parameter was actually in the URL, as opposed to
+ * the value of the query parameter being the default.
+ *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  * @author Michael Kauzmann (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
