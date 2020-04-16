@@ -126,7 +126,7 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
   }
 
   // Sim title
-  this.titleTextNode = new Text( title, {
+  this.titleText = new Text( title, {
     font: new PhetFont( 16 ),
     fill: sim.lookAndFeel.navigationBarTextFillProperty,
     tandem: tandem.createTandem( 'titleText' ),
@@ -136,8 +136,8 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
       textProperty: { phetioFeatured: true }
     }
   } );
-  this.titleTextNode.setVisible( false );
-  this.barContents.addChild( this.titleTextNode );
+  this.titleText.setVisible( false );
+  this.barContents.addChild( this.titleText );
 
   // @private - PhET button, fill determined by state of navigationBarFillProperty
   this.phetButton = new PhetButton(
@@ -166,7 +166,7 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
     /* single-screen sim */
 
     // title can occupy all space to the left of the PhET button
-    this.titleTextNode.maxWidth = HomeScreenView.LAYOUT_BOUNDS.width - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN -
+    this.titleText.maxWidth = HomeScreenView.LAYOUT_BOUNDS.width - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN -
                                   PHET_BUTTON_LEFT_MARGIN - this.a11yButtonsHBox.width - PHET_BUTTON_LEFT_MARGIN -
                                   this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN;
   }
@@ -174,7 +174,7 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
     /* multi-screen sim */
 
     // Start with the assumption that the title can occupy (at most) this percentage of the bar.
-    const maxTitleWidth = Math.min( this.titleTextNode.width, 0.20 * HomeScreenView.LAYOUT_BOUNDS.width );
+    const maxTitleWidth = Math.min( this.titleText.width, 0.20 * HomeScreenView.LAYOUT_BOUNDS.width );
 
     // pdom - container for the homeButton and all the screen buttons.
     var buttons = new Node( {
@@ -261,13 +261,13 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
     buttonsOrderedList.addChild( this.screenButtonsContainer );
 
     // Now determine the actual width constraint for the sim title.
-    this.titleTextNode.maxWidth = this.screenButtonsContainer.left - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN -
+    this.titleText.maxWidth = this.screenButtonsContainer.left - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN -
                                   HOME_BUTTON_RIGHT_MARGIN - this.homeButton.width - HOME_BUTTON_LEFT_MARGIN;
   }
 
   // initial layout (that doesn't need to change when we are re-laid out)
-  this.titleTextNode.left = TITLE_LEFT_MARGIN;
-  this.titleTextNode.centerY = NAVIGATION_BAR_SIZE.height / 2;
+  this.titleText.left = TITLE_LEFT_MARGIN;
+  this.titleText.centerY = NAVIGATION_BAR_SIZE.height / 2;
   this.phetButton.bottom = NAVIGATION_BAR_SIZE.height - PHET_BUTTON_BOTTOM_MARGIN;
 
   // only if some a11y buttons exist
@@ -293,7 +293,7 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
   // only show the home button and screen buttons on the nav bar when a screen is showing, not the home screen
   sim.screenProperty.link( screen => {
     const showHomeScreen = screen === sim.homeScreen;
-    this.titleTextNode.setVisible( !showHomeScreen );
+    this.titleText.setVisible( !showHomeScreen );
     if ( buttons ) {
       buttons.setVisible( !showHomeScreen );
     }
@@ -349,7 +349,7 @@ export default inherit( Node, NavigationBar, {
       this.homeButton.right = this.screenButtonsContainer.left - HOME_BUTTON_RIGHT_MARGIN;
 
       // max width relative to position of home button
-      this.titleTextNode.maxWidth = this.homeButton.left - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN;
+      this.titleText.maxWidth = this.homeButton.left - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN;
     }
   }
 }, {

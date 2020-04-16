@@ -60,7 +60,7 @@ function HomeScreenView( simName, model, tandem, options ) {
     } )
   } );
 
-  const title = new Text( simName, {
+  const titleText = new Text( simName, {
     font: new PhetFont( {
       size: 52,
       family: TITLE_FONT_FAMILY
@@ -72,12 +72,12 @@ function HomeScreenView( simName, model, tandem, options ) {
   } );
 
   // Have this before adding the child to support the startup layout.
-  title.boundsProperty.link( () => {
-    title.centerX = this.layoutBounds.centerX;
+  titleText.boundsProperty.link( () => {
+    titleText.centerX = this.layoutBounds.centerX;
   } );
 
-  this.addChild( title );
-  title.scale( Math.min( 1, 0.9 * this.layoutBounds.width / title.width ) );
+  this.addChild( titleText );
+  titleText.scale( Math.min( 1, 0.9 * this.layoutBounds.width / titleText.width ) );
 
   const buttonGroupTandem = tandem.createTandem( 'buttonGroup' );
 
