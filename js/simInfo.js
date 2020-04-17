@@ -67,14 +67,14 @@ const simInfo = {
 
     // no need to add this again if the method has already been called
     if ( !info.simName ) {
-      putInfo( 'simName', sim.name );
+      putInfo( 'simName', sim.simNameProperty.value );
       putInfo( 'simVersion', sim.version );
       putInfo( 'repoName', packageJSON.name );
       putInfo( 'screens', sim.screens.map( screen => {
         const screenObject = {
 
           // likely null for single screen sims, so use the sim name as a default
-          name: screen.nameProperty.value || sim.name
+          name: screen.nameProperty.value || sim.simNameProperty.value
         };
         if ( Tandem.PHET_IO_ENABLED ) {
           screenObject.phetioID = screen.tandem.phetioID;

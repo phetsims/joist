@@ -24,6 +24,7 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import Property from '../../axon/js/Property.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import inherit from '../../phet-core/js/inherit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
@@ -36,8 +37,8 @@ import A11yButtonsHBox from './A11yButtonsHBox.js';
 import HomeButton from './HomeButton.js';
 import HomeScreen from './HomeScreen.js';
 import HomeScreenView from './HomeScreenView.js';
-import joistStrings from './joistStrings.js';
 import joist from './joist.js';
+import joistStrings from './joistStrings.js';
 import NavigationBarScreenButton from './NavigationBarScreenButton.js';
 import PhetButton from './PhetButton.js';
 
@@ -115,17 +116,8 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
   this.barContents = new Node();
   this.addChild( this.barContents );
 
-  let title = sim.name;
+  let title = sim.simNameProperty.value;
 
-  // If the 'screens' query parameter only selects 1 screen, than update the nav bar title to include that screen name.
-  if ( isMultiScreenSimDisplayingSingleScreen && this.simScreens[ 0 ].nameProperty.value ) {
-    title = StringUtils.fillIn( simTitleWithScreenNamePatternString, {
-      simName: sim.name,
-      screenName: this.simScreens[ 0 ].nameProperty.value
-    } );
-  }
-
-  // Sim title
   this.titleText = new Text( title, {
     font: new PhetFont( 16 ),
     fill: sim.lookAndFeel.navigationBarTextFillProperty,
@@ -133,11 +125,32 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
     phetioDocumentation: 'Displays the title of the simulation in the navigation bar (bottom left)',
     phetioComponentOptions: {
       visibleProperty: { phetioFeatured: true },
-      textProperty: { phetioFeatured: true }
+      textProperty: { phetioReadOnly: true }
     }
   } );
   this.titleText.setVisible( false );
   this.barContents.addChild( this.titleText );
+
+  // update the titleText based on values of the sim name and screen name
+  Property.multilink( [ sim.simNameProperty, this.simScreens[ 0 ].nameProperty ],
+    ( simName, screenName ) => {
+
+      if ( isMultiScreenSimDisplayingSingleScreen && simName && screenName ) {
+        // If the 'screens' query parameter selects only 1 screen, than update the nav bar title to include that screen name.
+        title = StringUtils.fillIn( simTitleWithScreenNamePatternString, {
+          simName: simName,
+          screenName: screenName
+        } );
+      }
+      else if ( isMultiScreenSimDisplayingSingleScreen && screenName ) {
+        title = screenName;
+      }
+      else {
+        title = simName;
+      }
+
+      this.titleText.setText( title );
+    } );
 
   // @private - PhET button, fill determined by state of navigationBarFillProperty
   this.phetButton = new PhetButton(
@@ -167,8 +180,8 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
 
     // title can occupy all space to the left of the PhET button
     this.titleText.maxWidth = HomeScreenView.LAYOUT_BOUNDS.width - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN -
-                                  PHET_BUTTON_LEFT_MARGIN - this.a11yButtonsHBox.width - PHET_BUTTON_LEFT_MARGIN -
-                                  this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN;
+                              PHET_BUTTON_LEFT_MARGIN - this.a11yButtonsHBox.width - PHET_BUTTON_LEFT_MARGIN -
+                              this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN;
   }
   else {
     /* multi-screen sim */
@@ -262,7 +275,7 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
 
     // Now determine the actual width constraint for the sim title.
     this.titleText.maxWidth = this.screenButtonsContainer.left - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN -
-                                  HOME_BUTTON_RIGHT_MARGIN - this.homeButton.width - HOME_BUTTON_LEFT_MARGIN;
+                              HOME_BUTTON_RIGHT_MARGIN - this.homeButton.width - HOME_BUTTON_LEFT_MARGIN;
   }
 
   // initial layout (that doesn't need to change when we are re-laid out)

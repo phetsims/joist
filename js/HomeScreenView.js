@@ -6,12 +6,12 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import PDOMPeer from '../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
+import PDOMPeer from '../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Text from '../../scenery/js/nodes/Text.js';
@@ -30,14 +30,14 @@ const LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
 const TITLE_FONT_FAMILY = 'Century Gothic, Futura';
 
 /**
- * @param {string} simName - the internationalized text for the sim name
+ * @param {Property.<string>} simNameProperty - the internationalized text for the sim name
  * @param {HomeScreenModel} model
  * @param {Tandem} tandem
  * @param {Object} [options]
  * @constructor
  */
-function HomeScreenView( simName, model, tandem, options ) {
-  assert && assert( simName, 'simName is required: ' + simName );
+function HomeScreenView( simNameProperty, model, tandem, options ) {
+  assert && assert( simNameProperty.value, 'simName is required: ' + simNameProperty.value );
   const self = this;
 
   options = merge( {
@@ -53,14 +53,14 @@ function HomeScreenView( simName, model, tandem, options ) {
     includePDOMNodes: false,
 
     // pdom
-    labelContent: simName,
+    labelContent: simNameProperty.value,
     descriptionContent: StringUtils.fillIn( homeScreenDescriptionPatternString, {
-      name: simName,
+      name: simNameProperty.value,
       screens: model.simScreens.length
     } )
   } );
 
-  const titleText = new Text( simName, {
+  const titleText = new Text( simNameProperty.value, {
     font: new PhetFont( {
       size: 52,
       family: TITLE_FONT_FAMILY
@@ -68,7 +68,15 @@ function HomeScreenView( simName, model, tandem, options ) {
     fill: 'white',
     y: 130,
     maxWidth: this.layoutBounds.width - 10, // To support PhET-iO Clients setting this
-    tandem: tandem.createTandem( 'titleText' )
+    tandem: tandem.createTandem( 'titleText' ),
+    phetioComponentOptions: {
+      textProperty: { phetioReadOnly: true }
+    }
+  } );
+
+  // update the titleText when the sim name changes
+  simNameProperty.link( simTitle => {
+    titleText.setText( simTitle );
   } );
 
   // Have this before adding the child to support the startup layout.

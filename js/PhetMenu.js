@@ -117,7 +117,7 @@ function PhetMenu( sim, phetButton, tandem, options ) {
   Node.call( this );
 
   const aboutDialogCapsule = new PhetioCapsule( tandem => {
-    return new AboutDialog( sim.name, sim.version, sim.credits, sim.locale, phetButton, tandem );
+    return new AboutDialog( sim.simNameProperty.value, sim.version, sim.credits, sim.locale, phetButton, tandem );
   }, [], {
     tandem: tandem.createTandem( 'aboutDialogCapsule' ),
     phetioType: PhetioCapsuleIO( DialogIO )
@@ -198,7 +198,7 @@ function PhetMenu( sim, phetButton, tandem, options ) {
       present: isPhETBrand && !isApp,
       callback: function() {
         const url = 'http://phet.colorado.edu/files/troubleshooting/' +
-                    '?sim=' + encodeURIComponent( sim.name ) +
+                    '?sim=' + encodeURIComponent( sim.simNameProperty.value ) +
                     '&version=' + encodeURIComponent( sim.version + ' ' +
                     ( phet.chipper.buildTimestamp ? phet.chipper.buildTimestamp : '(require.js)' ) ) +
                     '&url=' + encodeURIComponent( window.location.href ) +
@@ -256,7 +256,7 @@ function PhetMenu( sim, phetButton, tandem, options ) {
           const blob = new window.Blob( [ byteArray ], { type: 'image/png' } );
 
           // our preferred filename
-          const filename = stripEmbeddingMarks( sim.name ) + ' screenshot.png';
+          const filename = stripEmbeddingMarks( sim.simNameProperty.value ) + ' screenshot.png';
 
           if ( !fuzzes ) {
             window.saveAs( blob, filename );

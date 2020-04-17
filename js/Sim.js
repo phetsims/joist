@@ -18,6 +18,7 @@ import NumberProperty from '../../axon/js/NumberProperty.js';
 import ObservableArray from '../../axon/js/ObservableArray.js';
 import Property from '../../axon/js/Property.js';
 import PropertyIO from '../../axon/js/PropertyIO.js';
+import StringProperty from '../../axon/js/StringProperty.js';
 import timer from '../../axon/js/timer.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
@@ -124,8 +125,13 @@ function Sim( name, allSimScreens, options ) {
   // override rootRenderer using query parameter, see #221 and #184
   options.rootRenderer = phet.chipper.queryParameters.rootRenderer || options.rootRenderer;
 
-  // @public (joist-internal)
-  this.name = name;
+  // @public {Property.<string>} (joist-internal)
+  this.simNameProperty = new StringProperty( name, {
+    tandem: Tandem.GENERAL_VIEW.createTandem( 'simNameProperty' ),
+    phetioFeatured: true,
+    phetioDocumentation: 'The name of the sim. Changing this value will update the title text on the navigation bar ' +
+                         'and the title text on the home screen, if it exists.'
+  } );
 
   // playbackModeEnabledProperty cannot be changed after Sim construction has begun, hence this listener is added before
   // anything else is done, see https://github.com/phetsims/phet-io/issues/1146
@@ -324,7 +330,7 @@ function Sim( name, allSimScreens, options ) {
     screensQueryParameter,
     QueryStringMachine.containsKey( 'screens' ),
     selectedSimScreens => {
-      return new HomeScreen( this.name, () => this.screenProperty, selectedSimScreens, Tandem.ROOT.createTandem( 'homeScreen' ), {
+      return new HomeScreen( this.simNameProperty, () => this.screenProperty, selectedSimScreens, Tandem.ROOT.createTandem( 'homeScreen' ), {
         warningNode: options.homeScreenWarningNode
       } );
     }
@@ -791,7 +797,7 @@ export default inherit( Object, Sim, {
         screen.initializeModel();
       } );
       workItems.push( function() {
-        screen.initializeView( self.name, self.screens.length );
+        screen.initializeView( self.simNameProperty.value, self.screens.length );
       } );
     } );
 

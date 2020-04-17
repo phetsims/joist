@@ -21,7 +21,7 @@ const BACKGROUND_COLOR = 'black';
 class HomeScreen extends Screen {
 
   /**
-   * @param {string} simName
+   * @param {Property.<string>} simNameProperty
    * @param {function():Property.<Screen>} getScreenProperty - at the time of construction, the Sim.screenProperty is
    *                                                         - not yet assigned (because it may itself include the
    *                                                         - HomeScreen), so we must use a function to lazily get it
@@ -31,7 +31,7 @@ class HomeScreen extends Screen {
    * @param {Object} [options]
    * @constructor
    */
-  constructor( simName, getScreenProperty, simScreens, tandem, options ) {
+  constructor( simNameProperty, getScreenProperty, simScreens, tandem, options ) {
 
     options = merge( {
 
@@ -47,7 +47,7 @@ class HomeScreen extends Screen {
 
     super(
       () => new HomeScreenModel( getScreenProperty(), simScreens, tandem.createTandem( 'model' ) ),
-      model => new HomeScreenView( simName, model, tandem.createTandem( 'view' ), _.pick( options, [
+      model => new HomeScreenView( simNameProperty, model, tandem.createTandem( 'view' ), _.pick( options, [
         'warningNode'
       ] ) ),
       options
