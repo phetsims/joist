@@ -11,14 +11,15 @@ import Property from '../../axon/js/Property.js';
 import inherit from '../../phet-core/js/inherit.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import Node from '../../scenery/js/nodes/Node.js';
-import joist from './joist.js';
-import joistStrings from './joistStrings.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import JoistButton from './JoistButton.js';
 import KebabMenuIcon from './KebabMenuIcon.js';
 import PhetButtonIO from './PhetButtonIO.js';
 import PhetMenu from './PhetMenu.js';
-import updateCheck from './updateCheck.js';
 import UpdateState from './UpdateState.js';
+import joist from './joist.js';
+import joistStrings from './joistStrings.js';
+import updateCheck from './updateCheck.js';
 
 // Accommodate logos of any height by scaling them down proportionately.
 // The primary logo is 108px high and we have been scaling it at 0.28 to make it look good even on higher resolution
@@ -93,6 +94,12 @@ function PhetButton( sim, backgroundFillProperty, tandem ) {
     // This is the primary way to disable learners from accessing the phet menu in PhET-iO, so feature it.
     enabledPropertyOptions: {
       phetioFeatured: true
+    },
+
+    visiblePropertyOptions: {
+      // TODO: Shouldn't it be read-only instead of uninstrumented? See https://github.com/phetsims/scenery/issues/1046
+      tandem: Tandem.OPT_OUT,
+      phetioReadOnly: true
     },
 
     // pdom

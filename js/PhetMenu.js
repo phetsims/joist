@@ -15,8 +15,8 @@ import openPopup from '../../phet-core/js/openPopup.js';
 import platform from '../../phet-core/js/platform.js';
 import stripEmbeddingMarks from '../../phet-core/js/stripEmbeddingMarks.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import PDOMUtils from '../../scenery/js/accessibility/pdom/PDOMUtils.js';
 import KeyboardUtils from '../../scenery/js/accessibility/KeyboardUtils.js';
+import PDOMUtils from '../../scenery/js/accessibility/pdom/PDOMUtils.js';
 import Display from '../../scenery/js/display/Display.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
@@ -28,15 +28,16 @@ import MenuItem from '../../sun/js/MenuItem.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
 import PhetioCapsuleIO from '../../tandem/js/PhetioCapsuleIO.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import AboutDialog from './AboutDialog.js';
-import joistStrings from './joistStrings.js';
-import joist from './joist.js';
 import OptionsDialog from './OptionsDialog.js';
 import PhetMenuIO from './PhetMenuIO.js';
 import ScreenshotGenerator from './ScreenshotGenerator.js';
-import updateCheck from './updateCheck.js';
 import UpdateDialog from './UpdateDialog.js';
 import UpdateState from './UpdateState.js';
+import joist from './joist.js';
+import joistStrings from './joistStrings.js';
+import updateCheck from './updateCheck.js';
 
 const menuItemAboutString = joistStrings.menuItem.about;
 const menuItemEnhancedSoundString = joistStrings.menuItem.enhancedSound;
@@ -105,6 +106,12 @@ function PhetMenu( sim, phetButton, tandem, options ) {
     phetioType: PhetMenuIO,
     phetioState: false,
     phetioDocumentation: 'This menu is displayed when the PhET button is pressed.',
+
+    visiblePropertyOptions: {
+      // TODO: Shouldn't it be read-only instead of uninstrumented? See https://github.com/phetsims/scenery/issues/1046
+      tandem: Tandem.OPT_OUT,
+      phetioReadOnly: true
+    },
 
     // pdom, tagname and role for content in the menu
     tagName: 'ul',
