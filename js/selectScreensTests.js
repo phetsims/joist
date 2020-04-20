@@ -8,6 +8,12 @@
 
 import selectScreens from './selectScreens.js';
 
+// test screen constants
+const a = 'a';
+const b = 'b';
+const c = 'c';
+const hs = 'hs';
+
 const getQueryParameterValues = queryString => {
 
   // TODO: Get schema from initialize-globals.js instead of duplicating here, see https://github.com/phetsims/chipper/issues/936
@@ -57,7 +63,7 @@ const formatMessage = ( key, expectedResult, result, description ) =>
  */
 const getDescription = ( queryString, allSimScreens ) => `${queryString} ${JSON.stringify( allSimScreens )}`;
 
-QUnit.test( 'selectScreens tests', async assert => {
+QUnit.test( 'valid selectScreens', async assert => {
 
   /**
    * Tests a valid combination of allSimScreens and screens-related query parameters, where the expectedResult should
@@ -94,40 +100,6 @@ QUnit.test( 'selectScreens tests', async assert => {
     assert.ok( _.isEqual( result.screens, expectedResult.screens ),
       formatMessage( 'screens', expectedResult, result, description ) );
   };
-
-  /**
-   * Tests an invalid combination of allSimScreens and screens-related query parameters, where selectScreens should
-   * throw an error
-   *
-   * @param {string} queryString
-   * @param {Object[]} allSimScreens
-   */
-  const testInvalidScreenSelector = ( queryString, allSimScreens ) => {
-    const queryParameterValues = getQueryParameterValues( queryString );
-    const description = getDescription( queryString, allSimScreens );
-
-    window.assert && assert.throws( () => {
-      selectScreens(
-        allSimScreens,
-        queryParameterValues.homeScreen,
-        QueryStringMachine.containsKeyForString( 'homeScreen', queryString ),
-        queryParameterValues.initialScreen,
-        QueryStringMachine.containsKeyForString( 'initialScreen', queryString ),
-        queryParameterValues.screens,
-        QueryStringMachine.containsKeyForString( 'screens', queryString ),
-        simScreens => hs,
-        queryString
-      );
-    }, `expected error for testInvalidScreenSelector test ${description}` );
-  };
-
-  // test screen constants
-  const a = 'a';
-  const b = 'b';
-  const c = 'c';
-  const hs = 'hs';
-
-  //// correct QP usage ////
 
   // multi-screen
   testValidScreenSelector( '?screens=1', [ a, b ], {
@@ -234,8 +206,35 @@ QUnit.test( 'selectScreens tests', async assert => {
     selectedSimScreens: [ a ],
     screens: [ a ]
   } );
+} );
 
-  //// incorrect QP usage ////
+QUnit.test( 'invalid selectScreens', async assert => {
+
+  /**
+   * Tests an invalid combination of allSimScreens and screens-related query parameters, where selectScreens should
+   * throw an error
+   *
+   * @param {string} queryString
+   * @param {Object[]} allSimScreens
+   */
+  const testInvalidScreenSelector = ( queryString, allSimScreens ) => {
+    const queryParameterValues = getQueryParameterValues( queryString );
+    const description = getDescription( queryString, allSimScreens );
+
+    window.assert && assert.throws( () => {
+      selectScreens(
+        allSimScreens,
+        queryParameterValues.homeScreen,
+        QueryStringMachine.containsKeyForString( 'homeScreen', queryString ),
+        queryParameterValues.initialScreen,
+        QueryStringMachine.containsKeyForString( 'initialScreen', queryString ),
+        queryParameterValues.screens,
+        QueryStringMachine.containsKeyForString( 'screens', queryString ),
+        simScreens => hs,
+        queryString
+      );
+    }, `expected error for testInvalidScreenSelector test ${description}` );
+  };
 
   // multi-screen
   testInvalidScreenSelector( '?screens=0', [ a, b ] );
