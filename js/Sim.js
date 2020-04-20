@@ -330,7 +330,7 @@ function Sim( name, allSimScreens, options ) {
     screensQueryParameter,
     QueryStringMachine.containsKey( 'screens' ),
     selectedSimScreens => {
-      return new HomeScreen( this.simNameProperty, () => this.screenProperty, selectedSimScreens, Tandem.ROOT.createTandem( 'homeScreen' ), {
+      return new HomeScreen( this.simNameProperty, () => this.screenProperty, selectedSimScreens, Tandem.ROOT.createTandem( window.phetio.PhetioIDUtils.HOME_SCREEN_COMPONENT_NAME ), {
         warningNode: options.homeScreenWarningNode
       } );
     }
