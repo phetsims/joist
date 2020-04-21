@@ -13,7 +13,7 @@ import joist from './joist.js';
  * @author Michael Kauzmann (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
  *
- * @param {Object[]} allSimScreens - all of the screens declared by the sim
+ * @param {Screen[]} allSimScreens - all of the screens declared by the sim, duck-typed for tests
  * @param {boolean} homeScreenQueryParameter - from phet.chipper.queryParameters.homeScreen
  * @param {boolean} homeScreenQueryParameterProvided
  * @param {number} initialScreenIndex - from phet.chipper.queryParameters.initialScreen
@@ -21,7 +21,7 @@ import joist from './joist.js';
  * @param {number[]} screensQueryParameter - from phet.chipper.queryParameters.screens
  * @param {boolean} screensQueryParameterProvided
  * @param {function( selectedSimScreens ):HomeScreen} createHomeScreen
- * @returns {{homeScreen:Object, initialScreen:Object, selectedSimScreens:Object[], screens:Object[]}}
+ * @returns {{homeScreen:HomeScreen|null, initialScreen:Screen, selectedSimScreens:Screen[], screens:Screen[]}} - duck-typed for tests
  * @throws Error if incompatible data is provided
  */
 const selectScreens = ( allSimScreens,
