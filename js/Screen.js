@@ -128,7 +128,7 @@ function Screen( createModel, createView, options ) {
   // even if it has a name, see https://github.com/phetsims/joist/issues/627 and https://github.com/phetsims/joist/issues/629.
   const instrumentNameProperty = options.instrumentNameProperty && options.name;
 
-  // @public (read-only) {Property<String|null>}
+  // @public (read-only) {Property<String|null>} - may be null for single-screen simulations
   this.nameProperty = new Property( options.name, {
     phetioType: PropertyIO( NullableIO( StringIO ) ),
     tandem: instrumentNameProperty ? options.tandem.createTandem( 'nameProperty' ) : Tandem.OPT_OUT,

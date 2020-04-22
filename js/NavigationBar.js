@@ -136,7 +136,8 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
     ( simName, screenName ) => {
 
       if ( isMultiScreenSimDisplayingSingleScreen && simName && screenName ) {
-        // If the 'screens' query parameter selects only 1 screen, than update the nav bar title to include that screen name.
+        // If the 'screens' query parameter selects only 1 screen and both the sim and screen name are not the empty
+        // string, then update the nav bar title to include a hyphen and the screen name after the sim name.
         title = StringUtils.fillIn( simTitleWithScreenNamePatternString, {
           simName: simName,
           screenName: screenName
