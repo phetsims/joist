@@ -100,12 +100,15 @@ function HomeScreenView( simNameProperty, model, tandem, options ) {
         showUnselectedHomeScreenIconFrame: screen.showUnselectedHomeScreenIconFrame,
 
         // pdom
-        innerContent: screen.nameProperty.value, // TODO: Does this need to be updated somewhere now that screen.name is a Property? see https://github.com/phetsims/joist/issues/597
+        innerContent: screen.nameProperty.value,
         descriptionContent: screen.descriptionContent,
 
         // phet-io
         tandem: buttonGroupTandem.createTandem( screen.tandem.name + 'Button' )
       } );
+    screen.nameProperty.link( screenName => {
+      homeScreenButton.innerContent = screenName;
+    } );
 
     return { screen: screen, button: homeScreenButton };
   } );
