@@ -16,7 +16,7 @@ import Shape from '../../kite/js/Shape.js';
 import merge from '../../phet-core/js/merge.js';
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import AccessiblePeer from '../../scenery/js/accessibility/AccessiblePeer.js';
+import PDOMPeer from '../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import Touch from '../../scenery/js/input/Touch.js';
 import FireListener from '../../scenery/js/listeners/FireListener.js';
 import Node from '../../scenery/js/nodes/Node.js';
@@ -26,8 +26,8 @@ import VBox from '../../scenery/js/nodes/VBox.js';
 import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import Frame from './Frame.js';
-import joistStrings from './joistStrings.js';
 import joist from './joist.js';
+import joistStrings from './joistStrings.js';
 
 
 // constants
@@ -49,7 +49,7 @@ class HomeScreenButton extends VBox {
       resize: false, // don't resize the VBox or it will shift down when the border becomes thicker
       showUnselectedHomeScreenIconFrame: false, // put a frame around unselected home screen icons
 
-      // a11y
+      // pdom
       tagName: 'button',
       appendDescription: true,
       containerTagName: 'li',
@@ -110,8 +110,8 @@ class HomeScreenButton extends VBox {
 
     this.addAriaDescribedbyAssociation( {
       otherNode: this,
-      otherElementName: AccessiblePeer.DESCRIPTION_SIBLING,
-      thisElementName: AccessiblePeer.PRIMARY_SIBLING
+      otherElementName: PDOMPeer.DESCRIPTION_SIBLING,
+      thisElementName: PDOMPeer.PRIMARY_SIBLING
     } );
 
     // create large and small settings
@@ -163,10 +163,14 @@ class HomeScreenButton extends VBox {
       this.updateLayout();
     } );
 
-    // if the button is already selected, then set the sim's screen to be its corresponding screen. otherwise,
-    // make the button selected
+    let buttonWasAlreadySelected = false;
+
+    // If the button is already selected, then set the sim's screen to be its corresponding screen. Otherwise, make the
+    // button selected. The one exception to the former sentence is due to the desired behavior of selecting on
+    // touchover, in which case we need to guard on touchdown since we don't want to double fire for touchover and
+    // touchdown, see https://github.com/phetsims/joist/issues/624
     const buttonDown = () => {
-      if ( isSelectedProperty.value ) {
+      if ( isSelectedProperty.value && ( !( fireListener.pointer instanceof Touch ) || buttonWasAlreadySelected ) ) {
         homeScreenModel.screenProperty.value = screen;
       }
       else {
@@ -192,27 +196,26 @@ class HomeScreenButton extends VBox {
     // If you touch an unselected button, it become selected. If then without lifting your finger you swipe over to the
     // next button, that one becomes selected instead.
     this.addInputListener( {
-      over: event => {
-        if ( event.pointer instanceof Touch ) {
-          homeScreenModel.selectedScreenProperty.value = screen;
-        }
+      touchover: event => {
+        buttonWasAlreadySelected = homeScreenModel.selectedScreenProperty.value === screen;
+        homeScreenModel.selectedScreenProperty.value = screen;
       }
     } );
 
-    // a11y support for click listeners on the screen buttons
+    // pdom support for click listeners on the screen buttons
     const toggleListener = () => {
       this.focus();
     };
     this.addInputListener( { focus: toggleListener } );
     this.addInputListener( { click: toggleListener } );
 
-    // a11y - add the right aria attributes to the buttons
+    // pdom - add the right aria attributes to the buttons
     this.setAccessibleAttribute( 'aria-roledescription', simScreenString );
 
     // set the mouseArea and touchArea to be the whole local bounds of this node, because if it just relies on the
     // bounds of the icon and text, then there is a gap in between them. Since the button can change size, this
     // assignment needs to happen anytime the bounds change.
-    this.on( 'bounds', () => {
+    this.boundsProperty.lazyLink( () => {
       this.mouseArea = this.touchArea = Shape.bounds( this.localBounds );
     } );
   }

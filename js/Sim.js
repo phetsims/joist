@@ -18,6 +18,7 @@ import NumberProperty from '../../axon/js/NumberProperty.js';
 import ObservableArray from '../../axon/js/ObservableArray.js';
 import Property from '../../axon/js/Property.js';
 import PropertyIO from '../../axon/js/PropertyIO.js';
+import StringProperty from '../../axon/js/StringProperty.js';
 import timer from '../../axon/js/timer.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
@@ -124,8 +125,13 @@ function Sim( name, allSimScreens, options ) {
   // override rootRenderer using query parameter, see #221 and #184
   options.rootRenderer = phet.chipper.queryParameters.rootRenderer || options.rootRenderer;
 
-  // @public (joist-internal)
-  this.name = name;
+  // @public {Property.<string>} (joist-internal)
+  this.simNameProperty = new StringProperty( name, {
+    tandem: Tandem.GENERAL_VIEW.createTandem( 'simNameProperty' ),
+    phetioFeatured: true,
+    phetioDocumentation: 'The name of the sim. Changing this value will update the title text on the navigation bar ' +
+                         'and the title text on the home screen, if it exists.'
+  } );
 
   // playbackModeEnabledProperty cannot be changed after Sim construction has begun, hence this listener is added before
   // anything else is done, see https://github.com/phetsims/phet-io/issues/1146
@@ -324,7 +330,7 @@ function Sim( name, allSimScreens, options ) {
     screensQueryParameter,
     QueryStringMachine.containsKey( 'screens' ),
     selectedSimScreens => {
-      return new HomeScreen( this.name, () => this.screenProperty, selectedSimScreens, Tandem.ROOT.createTandem( 'homeScreen' ), {
+      return new HomeScreen( this.simNameProperty, () => this.screenProperty, selectedSimScreens, Tandem.ROOT.createTandem( window.phetio.PhetioIDUtils.HOME_SCREEN_COMPONENT_NAME ), {
         warningNode: options.homeScreenWarningNode
       } );
     }
@@ -340,11 +346,11 @@ function Sim( name, allSimScreens, options ) {
   // it was created
   this.screens = screenData.screens;
 
-  // @public {Property.<Screen>} - Specifies the selected Screen
+  // @public {Property.<Screen>}
   this.screenProperty = new Property( screenData.initialScreen, {
     tandem: Tandem.GENERAL_MODEL.createTandem( 'screenProperty' ),
     phetioFeatured: true,
-    phetioDocumentation: 'Which sim screen is selected, including the home screen',
+    phetioDocumentation: 'Determines which screen is selected in the simulation',
     validValues: this.screens,
     phetioType: PropertyIO( ScreenIO )
   } );
@@ -415,13 +421,13 @@ function Sim( name, allSimScreens, options ) {
   window.phet.joist.sim = this;
 
   // Set up PhET-iO, must be done after phet.joist.sim is assigned
-  Tandem.PHET_IO_ENABLED && phet.phetIo.phetioEngine.onSimConstructionStarted( this );
+  Tandem.PHET_IO_ENABLED && phet.phetio.phetioEngine.onSimConstructionStarted( this );
 
   // @public (read-only) {Property.<boolean>} - if PhET-iO is currently setting the state of the simulation.
   // See PhetioStateEngine for details. This must be declared before soundManager.initialized is called.
   this.isSettingPhetioStateProperty = Tandem.PHET_IO_ENABLED ?
                                       new DerivedProperty(
-                                        [ phet.phetIo.phetioEngine.phetioStateEngine.isSettingStateProperty ],
+                                        [ phet.phetio.phetioEngine.phetioStateEngine.isSettingStateProperty ],
                                         _.identity ) :
                                       new BooleanProperty( false );
 
@@ -791,7 +797,7 @@ export default inherit( Object, Sim, {
         screen.initializeModel();
       } );
       workItems.push( function() {
-        screen.initializeView( self.name, self.screens.length );
+        screen.initializeView( self.simNameProperty.value, self.screens.length );
       } );
     } );
 
@@ -855,7 +861,7 @@ export default inherit( Object, Sim, {
               window.phetSplashScreen.dispose();
 
               // Sanity check that there is no phetio object in phet brand, see https://github.com/phetsims/phet-io/issues/1229
-              phet.chipper.brand === 'phet' && assert && assert( !Tandem.PHET_IO_ENABLED, 'window.phet.phetio should not exist for phet brand' );
+              phet.chipper.brand === 'phet' && assert && assert( !Tandem.PHET_IO_ENABLED, 'window.phet.preloads.phetio should not exist for phet brand' );
 
               // Communicate sim load (successfully) to joist/tests/test-sims.html
               if ( phet.chipper.queryParameters.postMessageOnLoad ) {

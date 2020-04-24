@@ -53,7 +53,7 @@ function CreditsNode( credits, options ) {
   children.push( new Text( creditsTitleString, {
     font: titleFont,
 
-    // a11y
+    // pdom
     tagName: 'h2',
     innerContent: creditsTitleString
   } ) );

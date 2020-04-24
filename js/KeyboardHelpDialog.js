@@ -12,7 +12,7 @@ import merge from '../../phet-core/js/merge.js';
 import KeyboardHelpSection from '../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import TabKeyNode from '../../scenery-phet/js/keyboard/TabKeyNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import AccessiblePeer from '../../scenery/js/accessibility/AccessiblePeer.js';
+import PDOMPeer from '../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import VBox from '../../scenery/js/nodes/VBox.js';
@@ -28,7 +28,7 @@ const TITLE_MAX_WIDTH = 500;
 const keyboardShortcutsTitleString = joistStrings.keyboardShortcuts.title;
 const keyboardShortcutsToGetStartedString = joistStrings.keyboardShortcuts.toGetStarted;
 
-// a11y string
+// pdom
 const hotKeysAndHelpString = joistStrings.a11y.keyboardHelp.hotKeysAndHelp;
 const tabToGetStartedString = joistStrings.a11y.keyboardHelp.tabToGetStarted;
 
@@ -61,7 +61,7 @@ function KeyboardHelpDialog( helpContent, options ) {
     } ),
     maxWidth: TITLE_MAX_WIDTH,
 
-    // a11y options
+    // pdom options
     tagName: 'h1',
     innerContent: hotKeysAndHelpString
   } );
@@ -83,7 +83,7 @@ function KeyboardHelpDialog( helpContent, options ) {
       ],
       spacing: 5,
 
-      // a11y
+      // pdom
       tagName: 'div'
     }
   );
@@ -95,9 +95,9 @@ function KeyboardHelpDialog( helpContent, options ) {
 
   // (a11y) Make sure that the title passed to the Dialog has an accessible name.
   this.addAriaLabelledbyAssociation( {
-    thisElementName: AccessiblePeer.PRIMARY_SIBLING,
+    thisElementName: PDOMPeer.PRIMARY_SIBLING,
     otherNode: shortcutsTitleText,
-    otherElementName: AccessiblePeer.PRIMARY_SIBLING
+    otherElementName: PDOMPeer.PRIMARY_SIBLING
   } );
 }
 

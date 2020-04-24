@@ -6,12 +6,12 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import AccessiblePeer from '../../scenery/js/accessibility/AccessiblePeer.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
+import PDOMPeer from '../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Text from '../../scenery/js/nodes/Text.js';
@@ -20,7 +20,6 @@ import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import ScreenView from './ScreenView.js';
 
-// a11y strings
 const simScreensString = joistStrings.a11y.simScreens;
 const homeScreenDescriptionPatternString = joistStrings.a11y.homeScreenDescriptionPattern;
 
@@ -31,14 +30,14 @@ const LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
 const TITLE_FONT_FAMILY = 'Century Gothic, Futura';
 
 /**
- * @param {string} simName - the internationalized text for the sim name
+ * @param {Property.<string>} simNameProperty - the internationalized text for the sim name
  * @param {HomeScreenModel} model
  * @param {Tandem} tandem
  * @param {Object} [options]
  * @constructor
  */
-function HomeScreenView( simName, model, tandem, options ) {
-  assert && assert( simName, 'simName is required: ' + simName );
+function HomeScreenView( simNameProperty, model, tandem, options ) {
+  assert && assert( simNameProperty.value, 'simName is required: ' + simNameProperty.value );
   const self = this;
 
   options = merge( {
@@ -53,15 +52,15 @@ function HomeScreenView( simName, model, tandem, options ) {
     // HomeScreen. The HomeScreen handles its own description.
     includePDOMNodes: false,
 
-    // a11y
-    labelContent: simName,
+    // pdom
+    labelContent: simNameProperty.value,
     descriptionContent: StringUtils.fillIn( homeScreenDescriptionPatternString, {
-      name: simName,
+      name: simNameProperty.value,
       screens: model.simScreens.length
     } )
   } );
 
-  const title = new Text( simName, {
+  const titleText = new Text( simNameProperty.value, {
     font: new PhetFont( {
       size: 52,
       family: TITLE_FONT_FAMILY
@@ -69,16 +68,24 @@ function HomeScreenView( simName, model, tandem, options ) {
     fill: 'white',
     y: 130,
     maxWidth: this.layoutBounds.width - 10, // To support PhET-iO Clients setting this
-    tandem: tandem.createTandem( 'title' )
+    tandem: tandem.createTandem( 'titleText' ),
+    phetioComponentOptions: {
+      textProperty: { phetioReadOnly: true }
+    }
+  } );
+
+  // update the titleText when the sim name changes
+  simNameProperty.link( simTitle => {
+    titleText.setText( simTitle );
   } );
 
   // Have this before adding the child to support the startup layout.
-  title.on( 'bounds', () => {
-    title.centerX = this.layoutBounds.centerX;
+  titleText.boundsProperty.link( () => {
+    titleText.centerX = this.layoutBounds.centerX;
   } );
 
-  this.addChild( title );
-  title.scale( Math.min( 1, 0.9 * this.layoutBounds.width / title.width ) );
+  this.addChild( titleText );
+  titleText.scale( Math.min( 1, 0.9 * this.layoutBounds.width / titleText.width ) );
 
   const buttonGroupTandem = tandem.createTandem( 'buttonGroup' );
 
@@ -92,22 +99,25 @@ function HomeScreenView( simName, model, tandem, options ) {
       model, {
         showUnselectedHomeScreenIconFrame: screen.showUnselectedHomeScreenIconFrame,
 
-        // a11y
-        innerContent: screen.nameProperty.value, // TODO: Does this need to be updated somewhere now that screen.name is a Property? see https://github.com/phetsims/joist/issues/597
+        // pdom
+        innerContent: screen.nameProperty.value,
         descriptionContent: screen.descriptionContent,
 
         // phet-io
         tandem: buttonGroupTandem.createTandem( screen.tandem.name + 'Button' )
       } );
+    screen.nameProperty.link( screenName => {
+      homeScreenButton.innerContent = screenName;
+    } );
 
     return { screen: screen, button: homeScreenButton };
   } );
 
-  // a11y this is needed to create the right PDOM structure, the phet menu shouldn't be a child of this 'nav', so
+  // pdom this is needed to create the right PDOM structure, the phet menu shouldn't be a child of this 'nav', so
   // the HomeScreenView can't be the 'nav' tag.
   const navIconsNode = new Node( {
 
-    // a11y
+    // pdom
     tagName: 'div',
     containerTagName: 'nav',
     labelTagName: 'h2',
@@ -115,9 +125,9 @@ function HomeScreenView( simName, model, tandem, options ) {
   } );
 
   navIconsNode.addAriaLabelledbyAssociation( {
-    thisElementName: AccessiblePeer.PRIMARY_SIBLING,
+    thisElementName: PDOMPeer.PRIMARY_SIBLING,
     otherNode: navIconsNode,
-    otherElementName: AccessiblePeer.LABEL_SIBLING
+    otherElementName: PDOMPeer.LABEL_SIBLING
   } );
 
   // Intermediate node, so that icons are always in the same rendering layer

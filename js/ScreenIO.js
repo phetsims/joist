@@ -11,7 +11,7 @@ import ObjectIO from '../../tandem/js/types/ObjectIO.js';
 import ReferenceIO from '../../tandem/js/types/ReferenceIO.js';
 import joist from './joist.js';
 
-class ScreenIO extends ReferenceIO {}
+class ScreenIO extends ReferenceIO( ObjectIO ) {}
 
 ScreenIO.documentation = 'Section of a simulation which has its own model and view.';
 ScreenIO.validator = { isValidValue: v => v instanceof phet.joist.Screen };

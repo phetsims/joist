@@ -29,7 +29,6 @@ import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import ScreenIO from './ScreenIO.js';
 
-// a11y strings
 const screenNamePatternString = joistStrings.a11y.screenNamePattern;
 const screenSimPatternString = joistStrings.a11y.screenSimPattern;
 const simScreenString = joistStrings.a11y.simScreen;
@@ -60,6 +59,9 @@ function Screen( createModel, createView, options ) {
     // For multi-screen sims, this must be provided.
     name: null,
 
+    // {boolean} whether nameProperty should be instrumented. see usage for explanation of its necessity.
+    instrumentNameProperty: true,
+
     // {Property.<Color|string>} background color of the Screen
     backgroundColorProperty: new Property( 'white' ),
 
@@ -85,7 +87,7 @@ function Screen( createModel, createView, options ) {
     phetioState: false,
     phetioFeatured: true,
 
-    // a11y - The description that is used when interacting with screen icons/buttons in joist.
+    // pdom - The description that is used when interacting with screen icons/buttons in joist.
     // This is often a full but short sentence with a period at the end of it.
     descriptionContent: null
   }, options );
@@ -121,10 +123,18 @@ function Screen( createModel, createView, options ) {
   // @public
   this.backgroundColorProperty = options.backgroundColorProperty;
 
-  // @public (read-only) {Property<String|null>}
+  // Don't instrument this.nameProperty if options.instrumentNameProperty is false or if options.name is not provided.
+  // This additional option is needed because designers requested the ability to not instrument a screen's nameProperty
+  // even if it has a name, see https://github.com/phetsims/joist/issues/627 and https://github.com/phetsims/joist/issues/629.
+  const instrumentNameProperty = options.instrumentNameProperty && options.name;
+
+  // @public (read-only) {Property<String|null>} - may be null for single-screen simulations
   this.nameProperty = new Property( options.name, {
     phetioType: PropertyIO( NullableIO( StringIO ) ),
-    tandem: options.tandem.createTandem( 'nameProperty' )
+    tandem: instrumentNameProperty ? options.tandem.createTandem( 'nameProperty' ) : Tandem.OPT_OUT,
+    phetioFeatured: true,
+    phetioDocumentation: 'The name of the screen. Changing this value will update the screen name for the screen\'s ' +
+                         'corresponding button on the navigation bar and home screen, if they exist.'
   } );
 
   // @public (read-only)

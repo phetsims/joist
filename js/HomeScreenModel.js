@@ -10,8 +10,8 @@
 
 import Property from '../../axon/js/Property.js';
 import PropertyIO from '../../axon/js/PropertyIO.js';
-import ReferenceIO from '../../tandem/js/types/ReferenceIO.js';
 import joist from './joist.js';
+import ScreenIO from './ScreenIO.js';
 
 class HomeScreenModel {
 
@@ -31,7 +31,7 @@ class HomeScreenModel {
     // @public {Property<Screen>}
     this.selectedScreenProperty = new Property( simScreens[ 0 ], {
       validValues: simScreens,
-      phetioType: PropertyIO( ReferenceIO ),
+      phetioType: PropertyIO( ScreenIO ),
       tandem: tandem.createTandem( 'selectedScreenProperty' )
     } );
 

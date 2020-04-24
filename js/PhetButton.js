@@ -11,14 +11,15 @@ import Property from '../../axon/js/Property.js';
 import inherit from '../../phet-core/js/inherit.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import Node from '../../scenery/js/nodes/Node.js';
-import joist from './joist.js';
-import joistStrings from './joistStrings.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import JoistButton from './JoistButton.js';
 import KebabMenuIcon from './KebabMenuIcon.js';
 import PhetButtonIO from './PhetButtonIO.js';
 import PhetMenu from './PhetMenu.js';
-import updateCheck from './updateCheck.js';
 import UpdateState from './UpdateState.js';
+import joist from './joist.js';
+import joistStrings from './joistStrings.js';
+import updateCheck from './updateCheck.js';
 
 // Accommodate logos of any height by scaling them down proportionately.
 // The primary logo is 108px high and we have been scaling it at 0.28 to make it look good even on higher resolution
@@ -95,7 +96,13 @@ function PhetButton( sim, backgroundFillProperty, tandem ) {
       phetioFeatured: true
     },
 
-    // a11y
+    visiblePropertyOptions: {
+      // TODO: Shouldn't it be read-only instead of uninstrumented? See https://github.com/phetsims/scenery/issues/1046
+      tandem: Tandem.OPT_OUT,
+      phetioReadOnly: true
+    },
+
+    // pdom
     tagName: 'button',
     innerContent: joistStrings.a11y.phetMenu
   } );
@@ -114,7 +121,7 @@ function PhetButton( sim, backgroundFillProperty, tandem ) {
   // No need to be removed because the PhetButton exists for the lifetime of the sim.
   this.buttonModel.enabledProperty.link( enabled => { menuIcon.visible = enabled; } );
 
-  // a11y - add a listener that opens the menu on 'click' and 'reset', and closes it on escape and if the
+  // pdom - add a listener that opens the menu on 'click' and 'reset', and closes it on escape and if the
   // button receives focus again
   this.addInputListener( {
     click: function() {
@@ -125,7 +132,7 @@ function PhetButton( sim, backgroundFillProperty, tandem ) {
     }
   } );
 
-  // a11y - add an attribute that lets the user know the button opens a menu
+  // pdom - add an attribute that lets the user know the button opens a menu
   this.setAccessibleAttribute( 'aria-haspopup', true );
 }
 

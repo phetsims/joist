@@ -67,14 +67,14 @@ const simInfo = {
 
     // no need to add this again if the method has already been called
     if ( !info.simName ) {
-      putInfo( 'simName', sim.name );
+      putInfo( 'simName', sim.simNameProperty.value );
       putInfo( 'simVersion', sim.version );
       putInfo( 'repoName', packageJSON.name );
       putInfo( 'screens', sim.screens.map( screen => {
         const screenObject = {
 
           // likely null for single screen sims, so use the sim name as a default
-          name: screen.nameProperty.value || sim.name
+          name: screen.nameProperty.value || sim.simNameProperty.value
         };
         if ( Tandem.PHET_IO_ENABLED ) {
           screenObject.phetioID = screen.tandem.phetioID;
@@ -85,9 +85,9 @@ const simInfo = {
       // (phet-io) if there is metadata from the wrapper
       if ( Tandem.PHET_IO_ENABLED ) {
         putInfo( 'screenPropertyValue', sim.screenProperty.value.tandem.phetioID );
-        putInfo( 'wrapperMetadata', phet.phetio.simStartedMetadata );
-        putInfo( 'dataStreamVersion', phet.phetIo.dataStream.VERSION );
-        putInfo( 'phetioCommandProcessorProtocol', phet.phetIo.phetioCommandProcessor.PHET_IO_PROTOCOL );
+        putInfo( 'wrapperMetadata', phet.preloads.phetio.simStartedMetadata );
+        putInfo( 'dataStreamVersion', phet.phetio.dataStream.VERSION );
+        putInfo( 'phetioCommandProcessorProtocol', phet.phetio.phetioCommandProcessor.PHET_IO_PROTOCOL );
       }
     }
 
