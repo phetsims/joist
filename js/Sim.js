@@ -864,6 +864,11 @@ export default inherit( Object, Sim, {
               phet.chipper.brand === 'phet' && assert && assert( !Tandem.PHET_IO_ENABLED, 'window.phet.preloads.phetio should not exist for phet brand' );
 
               // Communicate sim load (successfully) to joist/tests/test-sims.html
+              if ( phet.chipper.queryParameters.continuousTest ) {
+                phet.chipper.reportContinuousTestResult( {
+                  type: 'continuous-test-load'
+                } );
+              }
               if ( phet.chipper.queryParameters.postMessageOnLoad ) {
                 window.parent && window.parent.postMessage( JSON.stringify( {
                   type: 'load',
