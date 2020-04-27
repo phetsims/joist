@@ -127,7 +127,7 @@ function Sim( name, allSimScreens, options ) {
 
   // @public {Property.<string>} (joist-internal)
   this.simNameProperty = new StringProperty( name, {
-    tandem: Tandem.GENERAL_VIEW.createTandem( 'simNameProperty' ),
+    tandem: Tandem.GENERAL_MODEL.createTandem( 'simNameProperty' ),
     phetioFeatured: true,
     phetioDocumentation: 'The name of the sim. Changing this value will update the title text on the navigation bar ' +
                          'and the title text on the home screen, if it exists.'
