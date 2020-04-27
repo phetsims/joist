@@ -53,7 +53,7 @@ const getQueryParameterValues = queryString => {
  * @returns {string}
  */
 const formatMessage = ( key, expectedResult, result, description ) =>
-  `expected ${key}: ${expectedResult[ key ]}, actual ${key}: ${result[ key ]} for testValidScreenSelector test ${description}`;
+  `expected ${key}: ${expectedResult[ key ]}, actual ${key}: ${result[ key ]} for valid selectScreens test ${description}`;
 
 /**
  * Format the query string + all sim screens to uniquely identify the test.
@@ -233,7 +233,7 @@ QUnit.test( 'invalid selectScreens', async assert => {
         simScreens => hs,
         queryString
       );
-    }, `expected error for testInvalidScreenSelector test ${description}` );
+    }, `expected error for invalid selectScreens test ${description}` );
   };
 
   // multi-screen
