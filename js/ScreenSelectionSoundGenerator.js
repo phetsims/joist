@@ -1,23 +1,20 @@
 // Copyright 2020, University of Colorado Boulder
 
+import Enumeration from '../../phet-core/js/Enumeration.js';
+import MultiClip from '../../tambo/js/sound-generators/MultiClip.js';
+import homeSelectedSound from '../sounds/screen-selection-home-v3_mp3.js';
+import screenSelectedSound from '../sounds/screen-selection_mp3.js';
+import iconSelectedSound from '../sounds/switching-screen-selector-icons-003_mp3.js';
+import joist from './joist.js';
+
+// constants
+const SoundType = Enumeration.byKeys( [ 'ICON_SELECTED', 'HOME_SCREEN', 'OTHER_SCREEN' ] );
+
 /**
  * ScreenSelectionSoundGenerator generates sounds when the user switches between screens and screen icons.
  *
  * @author John Blanco (PhET Interactive Simulations)
  */
-
-import Enumeration from '../../../phet-core/js/Enumeration.js';
-import homeSelectedSound from '../../sounds/screen-selection-home-v3_mp3.js';
-import screenSelectedSound from '../../sounds/screen-selection_mp3.js';
-import iconSelectedSound from '../../sounds/switching-screen-selector-icons-003_mp3.js';
-import tambo from '../tambo.js';
-import MultiClip from './MultiClip.js';
-
-// sounds
-
-// constants
-const SoundType = Enumeration.byKeys( [ 'ICON_SELECTED', 'HOME_SCREEN', 'OTHER_SCREEN' ] );
-
 class ScreenSelectionSoundGenerator extends MultiClip {
 
   /**
@@ -55,5 +52,5 @@ class ScreenSelectionSoundGenerator extends MultiClip {
   }
 }
 
-tambo.register( 'ScreenSelectionSoundGenerator', ScreenSelectionSoundGenerator );
+joist.register( 'ScreenSelectionSoundGenerator', ScreenSelectionSoundGenerator );
 export default ScreenSelectionSoundGenerator;

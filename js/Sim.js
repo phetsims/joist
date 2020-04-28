@@ -34,7 +34,7 @@ import AnimatedPanZoomListener from '../../scenery/js/listeners/AnimatedPanZoomL
 import Node from '../../scenery/js/nodes/Node.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import Utils from '../../scenery/js/util/Utils.js';
-import ScreenSelectionSoundGenerator from '../../tambo/js/sound-generators/ScreenSelectionSoundGenerator.js';
+import ScreenSelectionSoundGenerator from './ScreenSelectionSoundGenerator.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
