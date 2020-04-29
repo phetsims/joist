@@ -210,6 +210,8 @@ QUnit.test( 'valid selectScreens', async assert => {
 
 QUnit.test( 'invalid selectScreens', async assert => {
 
+  assert.ok( true, 'At least one assert must run, even if not running with ?ea' );
+
   /**
    * Tests an invalid combination of allSimScreens and screens-related query parameters, where selectScreens should
    * throw an error
