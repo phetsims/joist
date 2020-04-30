@@ -19,7 +19,7 @@ class ScreenSelectionSoundGenerator extends MultiClip {
 
   /**
    * @param {Property.<Screen>} screenProperty - indicates which sim screen is visible
-   * @param {HomeScreen|null} homeScreen - null if the HomeScreen was not created
+   * @param {HomeScreen|null} homeScreen - the home screen, null if the HomeScreen was not created
    * @param {Object} [options]
    */
   constructor( screenProperty, homeScreen, options ) {
