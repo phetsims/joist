@@ -140,9 +140,11 @@ function CreditsNode( credits, options ) {
 
 joist.register( 'CreditsNode', CreditsNode );
 
-export default inherit( VBox, CreditsNode, {
+inherit( VBox, CreditsNode, {
   dispose: function() {
     this.disposeCreditsNode();
     VBox.prototype.dispose.call( this );
   }
 } );
+
+export default CreditsNode;

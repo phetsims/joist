@@ -42,10 +42,12 @@ function LookAndFeel() {
 
 joist.register( 'LookAndFeel', LookAndFeel );
 
-export default inherit( Object, LookAndFeel, {
+inherit( Object, LookAndFeel, {
 
   // @public
   reset: function() {
     this.backgroundColorProperty.reset();
   }
 } );
+
+export default LookAndFeel;

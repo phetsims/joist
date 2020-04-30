@@ -108,7 +108,7 @@ function ScreenView( options ) {
 
 joist.register( 'ScreenView', ScreenView );
 
-export default inherit( Node, ScreenView, {
+inherit( Node, ScreenView, {
 
     /**
      * Override to make sure that setting children doesn't blow away Nodes set by ScreenView.
@@ -211,3 +211,5 @@ export default inherit( Node, ScreenView, {
     DEFAULT_LAYOUT_BOUNDS: DEFAULT_LAYOUT_BOUNDS
   }
 );
+
+export default ScreenView;

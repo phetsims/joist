@@ -60,7 +60,7 @@ function Profiler() {
 
 joist.register( 'Profiler', Profiler );
 
-export default inherit( Object, Profiler, {
+inherit( Object, Profiler, {
 
   // @private
   frameStarted: function() {
@@ -133,3 +133,5 @@ export default inherit( Object, Profiler, {
     } );
   }
 } );
+
+export default Profiler;

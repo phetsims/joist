@@ -639,7 +639,7 @@ function Sim( name, allSimScreens, options ) {
 
 joist.register( 'Sim', Sim );
 
-export default inherit( Object, Sim, {
+inherit( Object, Sim, {
 
   /**
    * @param screens
@@ -960,3 +960,5 @@ export default inherit( Object, Sim, {
     return this.display.utteranceQueue;
   }
 } );
+
+export default Sim;

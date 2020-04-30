@@ -316,7 +316,7 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
 
 joist.register( 'NavigationBar', NavigationBar );
 
-export default inherit( Node, NavigationBar, {
+inherit( Node, NavigationBar, {
 
   /**
    * Called when the navigation bar layout needs to be updated, typically when the browser window is resized.
@@ -371,3 +371,5 @@ export default inherit( Node, NavigationBar, {
   // @public
   NAVIGATION_BAR_SIZE: NAVIGATION_BAR_SIZE
 } );
+
+export default NavigationBar;

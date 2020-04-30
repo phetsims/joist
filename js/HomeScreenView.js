@@ -194,7 +194,7 @@ function HomeScreenView( simNameProperty, model, tandem, options ) {
 
 joist.register( 'HomeScreenView', HomeScreenView );
 
-export default inherit( ScreenView, HomeScreenView, {
+inherit( ScreenView, HomeScreenView, {
 
     /**
      * For a11y, highlight the currently selected screen button
@@ -210,3 +210,5 @@ export default inherit( ScreenView, HomeScreenView, {
     LAYOUT_BOUNDS: LAYOUT_BOUNDS
   }
 );
+
+export default HomeScreenView;

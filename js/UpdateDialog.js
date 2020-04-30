@@ -91,7 +91,7 @@ function UpdateDialog( phetButton ) {
 
 joist.register( 'UpdateDialog', UpdateDialog );
 
-export default inherit( Dialog, UpdateDialog, {
+inherit( Dialog, UpdateDialog, {
 
   /**
    * Show the UpdateDialog, registering listeners that should only be called while
@@ -136,3 +136,5 @@ export default inherit( Dialog, UpdateDialog, {
     }
   }
 } );
+
+export default UpdateDialog;

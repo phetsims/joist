@@ -32,7 +32,7 @@ function LegendsOfLearningSupport( sim ) {
 
 joist.register( 'LegendsOfLearningSupport', LegendsOfLearningSupport );
 
-export default inherit( Object, LegendsOfLearningSupport, {
+inherit( Object, LegendsOfLearningSupport, {
   start: function() {
 
     // Send init message when sim has started up so that Legends of Learning can remove their splash screen
@@ -41,3 +41,5 @@ export default inherit( Object, LegendsOfLearningSupport, {
     } );
   }
 } );
+
+export default LegendsOfLearningSupport;

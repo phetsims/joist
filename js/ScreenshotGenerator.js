@@ -20,7 +20,7 @@ function ScreenshotGenerator() {
 
 joist.register( 'ScreenshotGenerator', ScreenshotGenerator );
 
-export default inherit( Object, ScreenshotGenerator, {}, {
+inherit( Object, ScreenshotGenerator, {}, {
 
   /**
    * Given a sim, generate a screenshot as a data url
@@ -51,3 +51,5 @@ export default inherit( Object, ScreenshotGenerator, {}, {
     return dataURL;
   }
 } );
+
+export default ScreenshotGenerator;

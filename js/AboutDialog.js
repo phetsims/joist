@@ -240,7 +240,7 @@ function AboutDialog( name, version, credits, locale, phetButton, tandem ) {
 
 joist.register( 'AboutDialog', AboutDialog );
 
-export default inherit( Dialog, AboutDialog, {
+inherit( Dialog, AboutDialog, {
 
   /**
    * Show the dialog
@@ -296,3 +296,5 @@ export default inherit( Dialog, AboutDialog, {
     Dialog.prototype.dispose.call( this );
   }
 } );
+
+export default AboutDialog;
