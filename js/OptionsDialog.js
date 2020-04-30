@@ -50,7 +50,9 @@ function OptionsDialog( createContent, options ) {
 
 joist.register( 'OptionsDialog', OptionsDialog );
 
-export default inherit( Dialog, OptionsDialog, {}, {
+inherit( Dialog, OptionsDialog, {}, {
   DEFAULT_FONT: new PhetFont( 15 ),
   DEFAULT_SPACING: 10
 } );
+
+export default OptionsDialog;
