@@ -64,7 +64,7 @@ function KeyboardHelpButton( helpContent, backgroundColorProperty, tandem, optio
   } );
 
   options.listener = () => {
-    const keyboardHelpDialog = keyboardHelpDialogCapsule.getInstance();
+    const keyboardHelpDialog = keyboardHelpDialogCapsule.getElement();
     keyboardHelpDialog.show();
 
     // if listener was fired because of accessibility

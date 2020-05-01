@@ -155,7 +155,7 @@ function PhetMenu( sim, phetButton, tandem, options ) {
     {
       text: menuItemOptionsString,
       present: !!sim.options.createOptionsDialogContent,
-      callback: () => optionsDialogCapsule.getInstance().show(),
+      callback: () => optionsDialogCapsule.getElement().show(),
       options: {
         tandem: tandem.createTandem( 'optionsMenuItem' ),
         phetioComponentOptions: {
@@ -342,7 +342,7 @@ function PhetMenu( sim, phetButton, tandem, options ) {
     {
       text: menuItemAboutString,
       present: true,
-      callback: () => aboutDialogCapsule.getInstance().show(),
+      callback: () => aboutDialogCapsule.getElement().show(),
       options: {
         separatorBefore: isPhETBrand,
 
