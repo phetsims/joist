@@ -65,7 +65,7 @@ const SimLauncher = {
 
     assert && assert( !this.launchComplete, 'cannot proceed if already launched' );
 
-    if ( this.pendingLocks.length === 0 ) {
+    if ( this.pendingLocks.length === 0 && this.callback ) {
 
       this.launchBegan = true;
 
