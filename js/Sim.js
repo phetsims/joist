@@ -34,7 +34,6 @@ import AnimatedPanZoomListener from '../../scenery/js/listeners/AnimatedPanZoomL
 import Node from '../../scenery/js/nodes/Node.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import Utils from '../../scenery/js/util/Utils.js';
-import ScreenSelectionSoundGenerator from './ScreenSelectionSoundGenerator.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
@@ -49,6 +48,7 @@ import packageJSON from './packageJSON.js';
 import Profiler from './Profiler.js';
 import QueryParametersWarningDialog from './QueryParametersWarningDialog.js';
 import ScreenIO from './ScreenIO.js';
+import ScreenSelectionSoundGenerator from './ScreenSelectionSoundGenerator.js';
 import ScreenshotGenerator from './ScreenshotGenerator.js';
 import selectScreens from './selectScreens.js';
 import LegendsOfLearningSupport from './thirdPartySupport/LegendsOfLearningSupport.js';
@@ -219,6 +219,9 @@ function Sim( name, allSimScreens, options ) {
   // performed after the step completes.
   this.frameEndedEmitter = new Emitter();
 
+  // @private callbacks to be performed at the start of the next frame
+  this.nextFrameCallbacks = [];
+
   // @public {Action} Action that steps the simulation. This Action is implemented so it can be automatically
   // played back for PhET-iO record/playback.  Listen to this Action if you have an action that happens during the
   // simulation step.
@@ -233,6 +236,11 @@ function Sim( name, allSimScreens, options ) {
 
     if ( this.resizePending ) {
       this.resizeToWindow();
+    }
+
+    if ( this.nextFrameCallbacks.length > 0 ) {
+      this.nextFrameCallbacks.forEach( callback => callback() );
+      this.nextFrameCallbacks.length = 0;
     }
 
     // If fuzz parameter is used then fuzzTouch and fuzzMouse events should be fired
@@ -958,6 +966,14 @@ inherit( Object, Sim, {
    */
   get utteranceQueue() {
     return this.display.utteranceQueue;
+  },
+
+  /**
+   * Schedules a callback to be performed at the start of the next frame.
+   * @param {function} callback - no args, no return value
+   */
+  runOnNextFrame( callback ) {
+    this.nextFrameCallbacks.push( callback );
   }
 } );
 
