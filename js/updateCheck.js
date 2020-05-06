@@ -148,4 +148,6 @@ class UpdateCheck {
   }
 }
 
-export default joist.register( 'updateCheck', new UpdateCheck() );
+const updateCheck = new UpdateCheck();
+joist.register( 'updateCheck', updateCheck );
+export default updateCheck;
