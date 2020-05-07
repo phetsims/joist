@@ -14,14 +14,14 @@ import joist from './joist.js';
 // See below for dynamic imports, which must be locked.
 let phetioEngine = null; // {null|PhetioEngine}
 
-// Dynamic imports must be started after SimLauncher is ready to process locks
-const initializeDynamicImports = () => {
+// Dynamic imports must be started after simLauncher is ready to process locks, hence the closure.
+const initializeDynamicImports = simLauncher => {
 
-  const unlockBrand = SimLauncher.createLock( { name: 'brand' } );
+  const unlockBrand = simLauncher.createLock( { name: 'brand' } );
   import( /* webpackMode: "eager" */ `../../brand/${phet.chipper.brand}/js/Brand.js`).then( module => unlockBrand() );
 
   if ( Tandem.PHET_IO_ENABLED ) {
-    const unlockPhetioEngine = SimLauncher.createLock( { name: 'phetioEngine' } );
+    const unlockPhetioEngine = simLauncher.createLock( { name: 'phetioEngine' } );
     import( /* webpackMode: "eager" */ '../../phet-io/js/phetioEngine.js').then( module => {
       phetioEngine = module.default;
       unlockPhetioEngine();
@@ -29,19 +29,21 @@ const initializeDynamicImports = () => {
   }
 };
 
-const SimLauncher = {
+class SimLauncher {
+  constructor() {
 
-  // @private - Locks waiting to be resolved before we can move to the next phase of the launch sequence
-  pendingLocks: [],
+    // @private - Locks waiting to be resolved before we can move to the next phase of the launch sequence
+    this.pendingLocks = [];
 
-  // @private - Marked as true when there are no more locks and we try to proceed.  Helps protect against new locks being created after they should be.
-  launchBegan: false,
+    // @private - Marked as true when there are no more locks and we try to proceed.  Helps protect against new locks being created after they should be.
+    this.launchBegan = false;
 
-  // @private - Marked as true when SimLauncher has finished its work cycle and control is given over to the simulation to finish initialization.
-  launchComplete: false,
+    // @private - Marked as true when simLauncher has finished its work cycle and control is given over to the simulation to finish initialization.
+    this.launchComplete = false;
 
-  // @private - {function} The callback which should be invoked on launch.
-  callback: null,
+    // @private - {function} The callback which should be invoked on launch.
+    this.callback = null;
+  }
 
   /**
    * Launch the Sim by preloading the images and calling the callback.
@@ -49,19 +51,22 @@ const SimLauncher = {
    * @param callback the callback function which should create and start the sim, given that the images are loaded
    * @public - to be called by main()s everywhere
    */
-  launch: function( callback ) {
+  launch( callback ) {
     assert && assert( !window.phet.launchCalled, 'Tried to launch twice' );
 
     this.callback = callback;
 
-    //Signify that the SimLauncher was called, see https://github.com/phetsims/joist/issues/142
+    // Signify that the simLauncher was called, see https://github.com/phetsims/joist/issues/142
     window.phet.joist.launchCalled = true;
 
     // Check namespaces if assertions are enabled, see https://github.com/phetsims/joist/issues/307.
     assert && checkNamespaces();
-  },
+  }
 
-  proceedIfReady: function() {
+  /**
+   * @private
+   */
+  proceedIfReady() {
 
     assert && assert( !this.launchComplete, 'cannot proceed if already launched' );
 
@@ -78,7 +83,7 @@ const SimLauncher = {
         }
 
         // Provide a global Random that is easy to use and seedable from phet-io for playback
-        // phet-io configuration happens after SimLauncher.launch is called and before phet.joist.launchSimulation is called
+        // phet-io configuration happens after simLauncher.launch is called and before phet.joist.launchSimulation is called
         phet.joist.random = new Random( { staticSeed: true } );
 
         // Instantiate the sim and show it.
@@ -107,7 +112,7 @@ const SimLauncher = {
         window.phet.joist.launchSimulation();
       }
     }
-  },
+  }
 
   /**
    * Creates a lock, which returns a callback that needs to be run before the launch sequence will continue to the
@@ -125,11 +130,13 @@ const SimLauncher = {
       this.proceedIfReady();
     };
   }
-};
+}
 
-// Dynamic imports must be started after SimLauncher is ready to process locks
-initializeDynamicImports();
+const simLauncher = new SimLauncher();
 
-joist.register( 'SimLauncher', SimLauncher );
+// Dynamic imports must be started after simLauncher is ready to process locks
+initializeDynamicImports( simLauncher );
 
-export default SimLauncher;
+joist.register( 'simLauncher', simLauncher );
+
+export default simLauncher;

@@ -37,7 +37,7 @@ const PHET_LOGO_SCALE = 0.28;  // scale applied to the PhET logo
  */
 function PhetButton( sim, backgroundFillProperty, tandem ) {
 
-  // Dynamic modules are loaded in SimLauncher and accessed through their namespace
+  // Dynamic modules are loaded in simLauncher and accessed through their namespace
   const Brand = phet.brand.Brand;
   assert && assert( Brand, 'Brand should exist by now' );
 

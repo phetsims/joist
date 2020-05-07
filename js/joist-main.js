@@ -11,7 +11,7 @@ import DialogsScreenView from './demo/DialogsScreenView.js';
 import joistStrings from './joistStrings.js';
 import Screen from './Screen.js';
 import Sim from './Sim.js';
-import SimLauncher from './SimLauncher.js';
+import simLauncher from './simLauncher.js';
 
 const joistTitleString = joistStrings.joist.title;
 
@@ -21,7 +21,7 @@ const simOptions = {
   }
 };
 
-SimLauncher.launch( function() {
+simLauncher.launch( function() {
 
   const screens = [
     new Screen(

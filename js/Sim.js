@@ -401,7 +401,7 @@ function Sim( name, allSimScreens, options ) {
 
   // @public
   this.lookAndFeel = new LookAndFeel();
-  assert && assert( window.phet.joist.launchCalled, 'Sim must be launched using SimLauncher, ' +
+  assert && assert( window.phet.joist.launchCalled, 'Sim must be launched using simLauncher, ' +
                                                     'see https://github.com/phetsims/joist/issues/142' );
 
   // @private

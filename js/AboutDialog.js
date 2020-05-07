@@ -41,7 +41,7 @@ const MAX_WIDTH = 550;
  */
 function AboutDialog( name, version, credits, locale, phetButton, tandem ) {
 
-  // Dynamic modules are loaded in SimLauncher and accessed through their namespace
+  // Dynamic modules are loaded in simLauncher and accessed through their namespace
   const Brand = phet.brand.Brand;
   assert && assert( Brand, 'Brand should exist by now' );
 
