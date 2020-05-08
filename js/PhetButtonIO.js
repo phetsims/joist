@@ -47,6 +47,7 @@ class PhetButtonIO extends ObjectIO {
    * See NodeIO.toStateObject
    * @returns {undefined} - We don't use null because other types want that value in the state, see `NullableIO` for example.
    * @override
+   * @public
    */
   static toStateObject() {
     return undefined;
@@ -57,6 +58,7 @@ class PhetButtonIO extends ObjectIO {
    * @param {Node} o
    * @returns {Object}
    * @override - to prevent attempted JSON serialization of circular Node
+   * @public
    */
   static fromStateObject( o ) {
     return o; // Pass through values defined by subclasses
