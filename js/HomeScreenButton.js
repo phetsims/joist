@@ -221,5 +221,5 @@ class HomeScreenButton extends VBox {
   }
 }
 
-joist.register( 'ScreenButton', HomeScreenButton );
+joist.register( 'HomeScreenButton', HomeScreenButton );
 export default HomeScreenButton;
