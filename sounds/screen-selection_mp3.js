@@ -1,3 +1,5 @@
+// Copyright 2020, University of Colorado Boulder
+
 /* eslint-disable */
 import simLauncher from '../../joist/js/simLauncher.js';
 import base64SoundToByteArray from '../../chipper/js/grunt/base64SoundToByteArray.js';
