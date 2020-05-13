@@ -25,14 +25,14 @@ class ScreenSelectionSoundGenerator extends MultiClip {
   constructor( screenProperty, homeScreen, options ) {
 
     // create the map of screen index values to sounds
-    const valuesToSoundInfoMap = new Map();
+    const valuesToSoundsMap = new Map();
 
     // can't use initialization constructor since it's not supported in IE
-    valuesToSoundInfoMap.set( SoundType.ICON_SELECTED, iconSelectedSound );
-    valuesToSoundInfoMap.set( SoundType.HOME_SCREEN, homeSelectedSound );
-    valuesToSoundInfoMap.set( SoundType.OTHER_SCREEN, screenSelectedSound );
+    valuesToSoundsMap.set( SoundType.ICON_SELECTED, iconSelectedSound );
+    valuesToSoundsMap.set( SoundType.HOME_SCREEN, homeSelectedSound );
+    valuesToSoundsMap.set( SoundType.OTHER_SCREEN, screenSelectedSound );
 
-    super( valuesToSoundInfoMap, options );
+    super( valuesToSoundsMap, options );
 
     // play the sound when the user selects a different icon on the home screen
     homeScreen && homeScreen.model.selectedScreenProperty.lazyLink( () => {
