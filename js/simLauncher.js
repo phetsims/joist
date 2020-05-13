@@ -8,7 +8,6 @@
 import Random from '../../dot/js/Random.js';
 import arrayRemove from '../../phet-core/js/arrayRemove.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import checkNamespaces from './checkNamespaces.js';
 import joist from './joist.js';
 
 // See below for dynamic imports, which must be locked.
@@ -58,9 +57,6 @@ class SimLauncher {
 
     // Signify that the simLauncher was called, see https://github.com/phetsims/joist/issues/142
     window.phet.joist.launchCalled = true;
-
-    // Check namespaces if assertions are enabled, see https://github.com/phetsims/joist/issues/307.
-    assert && checkNamespaces();
   }
 
   /**
