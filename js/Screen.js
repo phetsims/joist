@@ -28,6 +28,7 @@ import StringIO from '../../tandem/js/types/StringIO.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import ScreenIO from './ScreenIO.js';
+import ScreenIcon from './ScreenIcon.js';
 
 const screenNamePatternString = joistStrings.a11y.screenNamePattern;
 const screenSimPatternString = joistStrings.a11y.screenSimPattern;
@@ -51,6 +52,9 @@ assert && assert( Math.abs( HOME_SCREEN_ICON_ASPECT_RATIO - HOME_SCREEN_ICON_ASP
  * @constructor
  */
 function Screen( createModel, createView, options ) {
+
+  assert && assert( !options.homeScreenIcon || options.homeScreenIcon instanceof ScreenIcon, 'invalid homeScreenIcon' );
+  assert && assert( !options.navigationBarIcon || options.navigationBarIcon instanceof ScreenIcon, 'invalid navigationBarIcon' );
 
   options = merge( {
 
