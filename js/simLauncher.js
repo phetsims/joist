@@ -31,24 +31,28 @@ const initializeDynamicImports = simLauncher => {
 class SimLauncher {
   constructor() {
 
-    // @private - Locks waiting to be resolved before we can move to the next phase of the launch sequence
+    // @private {Array.<*>} - Locks waiting to be resolved before we can move to the next phase of the launch sequence.
+    // Lock objects can be arbitrary objects.
     this.pendingLocks = [];
 
-    // @private - Marked as true when there are no more locks and we try to proceed.  Helps protect against new locks being created after they should be.
+    // @private {boolean} - Marked as true when there are no more locks and we try to proceed.  Helps protect against
+    // new locks being created after they should be.
     this.launchBegan = false;
 
-    // @private - Marked as true when simLauncher has finished its work cycle and control is given over to the simulation to finish initialization.
+    // @private {boolean} - Marked as true when simLauncher has finished its work cycle and control is given over to the
+    // simulation to finish initialization.
     this.launchComplete = false;
 
-    // @private - {function} The callback which should be invoked on launch.
+    // @private {function} - The callback which should be invoked on launch.
     this.callback = null;
   }
 
   /**
    * Launch the Sim by preloading the images and calling the callback.
-   *
-   * @param callback the callback function which should create and start the sim, given that the images are loaded
    * @public - to be called by main()s everywhere
+   *
+   * @param {function} callback - the callback function which should create and start the sim, given that the images
+   *                              are loaded
    */
   launch( callback ) {
     assert && assert( !window.phet.launchCalled, 'Tried to launch twice' );
@@ -60,6 +64,7 @@ class SimLauncher {
   }
 
   /**
+   * Attempts to proceed to the next phase if possible (otherwise it's a no-op).
    * @private
    */
   proceedIfReady() {
@@ -115,6 +120,7 @@ class SimLauncher {
    * next phase.
    * @public
    *
+   * @param {*} object
    * @returns {function}
    */
   createLock( object ) {
