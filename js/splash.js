@@ -79,7 +79,7 @@
   // Without this, the loading bar appears long before the splash image
   splashImage.onload = function() {
 
-    // Center before showing so it appears at the correct location.
+    // Center before showing so it appears at the correct position.
     adjustPosition();
 
     window.addEventListener( 'resize', adjustPosition );
