@@ -732,11 +732,11 @@ inherit( Object, Sim, {
     if ( QueryStringMachine.warnings.length ) {
       const warningDialog = new QueryParametersWarningDialog( QueryStringMachine.warnings, {
         closeButtonListener: () => {
-          this.hidePopup( warningDialog, true );
+          warningDialog.hide();
           warningDialog.dispose();
         }
       } );
-      this.showPopup( warningDialog, true );
+      warningDialog.show();
     }
   },
 
