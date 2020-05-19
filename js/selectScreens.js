@@ -41,21 +41,30 @@ const selectScreens = ( allSimScreens,
     }
   }
 
-  // the sim screens for this runtime, accounting for specifying a subset with `?screens`
-  let selectedSimScreens;
+  // the ordered list of sim screens for this runtime
+  let selectedSimScreens = [];
 
-  // The screens to be included, and their order, may be specified via a query parameter.
-  // For documentation, see the schema for phet.chipper.queryParameters.screens in initialize-globals.js.
-  // TODO: Use QueryStringMachine to validate instead, see https://github.com/phetsims/joist/issues/599
-  if ( screensQueryParameterProvided ) {
-    //REVIEW: Shouldn't we just see if the result is the default value of `null`, instead of checking if it was
-    //REVIEW: provided? See https://github.com/phetsims/joist/issues/614
-    selectedSimScreens = screensQueryParameter.map( userIndex => {
+  // If a subset of screens was specified with the `screens` query parameter, add them to selectedSimScreens. Otherwise,
+  // use all of the available sim screens as the default. Note that if the value of `screens` did not pass validation
+  // in QueryStringMachine, it will be reverted to its default value of `null`, so it also needs to be checked for
+  // truthiness before attempting to use it. For `screens` documentation, see the schema at
+  // phet.chipper.queryParameters.screens in initialize-globals.js.
+  if ( screensQueryParameterProvided && screensQueryParameter ) {
+    screensQueryParameter.forEach( userIndex => {
       const screenIndex = userIndex - 1; // screens query parameter is 1-based
-      if ( screenIndex < 0 || screenIndex > allSimScreens.length - 1 ) {
-        throw new Error( 'invalid screen index: ' + userIndex );
+
+      // add screen to selectedSimScreens if it's a valid index, otherwise error and revert to defaults
+      if ( screenIndex >= 0 && screenIndex < allSimScreens.length ) {
+        selectedSimScreens.push( allSimScreens[ screenIndex ] );
       }
-      return allSimScreens[ screenIndex ];
+      else {
+        const errorMessage = `invalid screen index: ${userIndex}`;
+        assert && assert( false, errorMessage );
+
+        // fail gracefully when running without ?ea and set selectedSimScreens to default values, see https://github.com/phetsims/joist/issues/599
+        QueryStringMachine.addWarning( 'screens', userIndex, null, errorMessage );
+        selectedSimScreens = allSimScreens;
+      }
     } );
   }
   else {
