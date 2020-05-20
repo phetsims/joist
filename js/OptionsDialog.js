@@ -33,6 +33,7 @@ function OptionsDialog( createContent, options ) {
 
     // phet-io
     tandem: Tandem.REQUIRED,
+    phetioState: false, // cannot recreate the `createContent` function consistently, or dispose it
     phetioDynamicElement: true
   }, options );
 
