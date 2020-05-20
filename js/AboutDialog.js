@@ -222,7 +222,7 @@ function AboutDialog( name, version, credits, locale, phetButton, tandem ) {
     rightMargin: 20,
     tandem: tandem,
     phetioReadOnly: true, // the AboutDialog should not be settable
-    phetioState: false,
+    phetioState: true,
     phetioDynamicElement: true
   } );
 
