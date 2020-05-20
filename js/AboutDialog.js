@@ -171,11 +171,13 @@ function AboutDialog( name, version, credits, locale, phetButton, tandem ) {
     children.push( this.creditsNode );
   }
 
+  // must be in this scope for disposal
+  const linksChildren = [];
+
   // Show any links identified in the brand
   const links = Brand.getLinks( packageJSON.name, locale );
   if ( links && links.length > 0 ) {
 
-    const linksChildren = [];
     linksChildren.push( new VStrut( 15 ) );
 
     for ( let i = 0; i < links.length; i++ ) {
@@ -235,6 +237,7 @@ function AboutDialog( name, version, credits, locale, phetButton, tandem ) {
   this.disposeAboutDialog = function() {
     this.creditsNode && this.creditsNode.dispose();
     this.additionalLicenseStatement && this.additionalLicenseStatement.dispose();
+    linksChildren.forEach( child => child.dispose && child.dispose() );
   };
 }
 
