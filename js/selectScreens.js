@@ -59,11 +59,13 @@ const selectScreens = ( allSimScreens,
       }
       else {
         const errorMessage = `invalid screen index: ${userIndex}`;
-        assert && assert( false, errorMessage );
 
         // fail gracefully when running without ?ea and set selectedSimScreens to default values, see https://github.com/phetsims/joist/issues/599
         QueryStringMachine.addWarning( 'screens', userIndex, null, errorMessage );
         selectedSimScreens = allSimScreens;
+
+        // To support expected failures in selectScreensTests.js unit tests
+        assert && assert( false, errorMessage );
       }
     } );
   }
