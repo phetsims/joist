@@ -813,7 +813,7 @@ inherit( Object, Sim, {
     } );
 
     // loop to run startup items asynchronously so the DOM can be updated to show animation on the progress bar
-    var runItem = function( i ) {
+    const runItem = function( i ) {
       setTimeout( // eslint-disable-line bad-sim-text
         function() {
           workItems[ i ]();
