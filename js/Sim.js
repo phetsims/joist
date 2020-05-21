@@ -856,6 +856,18 @@ inherit( Object, Sim, {
               // Schedules animation updates and runs the first step()
               self.boundRunAnimationLoop();
 
+              // If the sim is in playback mode, then run a single frame. This makes sure that anything kicked to the next
+              // frame with timer.runOnNextFrame during startup can clear out before begininning playback.
+              if ( phet.joist.playbackModeEnabledProperty.value ) {
+                if ( Tandem.PHET_IO_ENABLED ) {
+                  phet.phetio.dataStream.pushNonPlaybackable();
+                }
+                self.stepOneFrame();
+                if ( Tandem.PHET_IO_ENABLED ) {
+                  phet.phetio.dataStream.popNonPlaybackable();
+                }
+              }
+
               // After the application is ready to go, remove the splash screen and progress bar.  Note the splash
               // screen is removed after one step(), so the rendering is ready to go when the progress bar is hidden.
               window.phetSplashScreen.dispose();
