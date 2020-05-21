@@ -33,12 +33,14 @@ const selectScreens = ( allSimScreens,
                         screensQueryParameterProvided,
                         createHomeScreen ) => {
 
-  if ( allSimScreens.length === 1 ) {
+  if ( allSimScreens.length === 1 && homeScreenQueryParameterProvided && homeScreenQueryParameter ) {
+    const errorMessage = 'cannot specify homeScreen=true for single-screen sims';
 
-    // Problems related to query parameters throw errors instead of assertions (so they are not stripped out)
-    if ( homeScreenQueryParameterProvided && homeScreenQueryParameter ) {
-      throw new Error( 'cannot specify homeScreen=true for single-screen sims' );
-    }
+    // handle gracefully when running without ?ea
+    QueryStringMachine.addWarning( 'homeScreen', homeScreenQueryParameter, null, errorMessage );
+
+    // to support expected failures in selectScreensTests.js unit tests
+    assert && assert( false, errorMessage );
   }
 
   // the ordered list of sim screens for this runtime
@@ -60,11 +62,11 @@ const selectScreens = ( allSimScreens,
       else {
         const errorMessage = `invalid screen index: ${userIndex}`;
 
-        // fail gracefully when running without ?ea and set selectedSimScreens to default values, see https://github.com/phetsims/joist/issues/599
+        // handle gracefully when running without ?ea and set selectedSimScreens to default values, see https://github.com/phetsims/joist/issues/599
         QueryStringMachine.addWarning( 'screens', userIndex, null, errorMessage );
         selectedSimScreens = allSimScreens;
 
-        // To support expected failures in selectScreensTests.js unit tests
+        // to support expected failures in selectScreensTests.js unit tests
         assert && assert( false, errorMessage );
       }
     } );
@@ -73,19 +75,31 @@ const selectScreens = ( allSimScreens,
     selectedSimScreens = allSimScreens;
   }
 
-  // Specifying ?homeScreen=false creates a simulation with no homescreen, and hence is incompatible with ?initialScreen=0,
-  // which specifies to show the home screen. Note that the default value of initialScreen:0 is ignored when there is
-  // no home screen.
+  // Specifying ?homeScreen=false creates a simulation with no HomeScreen, and hence is incompatible with
+  // ?initialScreen=0, which specifies to show the home screen. Note that the default value of initialScreen:0 is
+  // ignored when there is no HomeScreen.
   if ( initialScreenQueryParameterProvided && initialScreenIndex === 0 && homeScreenQueryParameter === false ) {
-    // TODO: Use QueryStringMachine to validate instead, see https://github.com/phetsims/joist/issues/599
-    throw new Error( 'cannot specify initialScreen=0 when home screen is disabled with homeScreen=false' );
+    const errorMessage = 'cannot specify initialScreen=0 when home screen is disabled with homeScreen=false';
+
+    // handle gracefully when running without ?ea
+    QueryStringMachine.addWarning( 'initialScreen', initialScreenIndex, null, errorMessage );
+    QueryStringMachine.addWarning( 'homeScreen', homeScreenQueryParameter, null, errorMessage );
+
+    // to support expected failures in selectScreensTests.js unit tests
+    assert && assert( false, errorMessage );
   }
 
   // For a single screen simulation (whether the simulation only declares one screen, or whether the user has specified
-  // a single screen via ?screens), there is no home screen, and hence ?initialScreen=0 which requests to show the homescreen
-  // on startup should fail.
+  // a single screen via ?screens), there is no HomeScreen, and hence ?initialScreen=0 which requests to show the
+  // HomeScreen on startup should fail.
   if ( initialScreenQueryParameterProvided && initialScreenIndex === 0 && selectedSimScreens.length === 1 ) {
-    throw new Error( 'cannot specify initialScreen=0 when one screen is specified with screens=n' );
+    const errorMessage = 'cannot specify initialScreen=0 for single-screen sims or when only one screen is loaded with screens=n';
+
+    // handle gracefully when running without ?ea
+    QueryStringMachine.addWarning( 'initialScreen', initialScreenIndex, null, errorMessage );
+
+    // to support expected failures in selectScreensTests.js unit tests
+    assert && assert( false, errorMessage );
   }
 
   const screens = selectedSimScreens.slice();
