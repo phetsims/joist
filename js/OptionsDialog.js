@@ -33,7 +33,6 @@ function OptionsDialog( createContent, options ) {
 
     // phet-io
     tandem: Tandem.REQUIRED,
-    phetioState: false, // cannot recreate the `createContent` function consistently, or dispose it
     phetioDynamicElement: true
   }, options );
 
@@ -47,11 +46,27 @@ function OptionsDialog( createContent, options ) {
   const content = createContent( options.tandem.createTandem( 'content' ) );
 
   Dialog.call( this, content, options );
+
+  // @private
+  this.disposeOptionsDialog = () => {
+    content.dispose();
+    options.title.dispose();
+  };
 }
 
 joist.register( 'OptionsDialog', OptionsDialog );
 
-inherit( Dialog, OptionsDialog, {}, {
+inherit( Dialog, OptionsDialog, {
+
+  /**
+   * @public
+   * @override
+   */
+  dispose: function() {
+    this.disposeOptionsDialog();
+    Dialog.prototype.dispose.call( this );
+  }
+}, {
   DEFAULT_FONT: new PhetFont( 15 ),
   DEFAULT_SPACING: 10
 } );
