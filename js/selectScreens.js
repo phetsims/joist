@@ -37,7 +37,7 @@ const selectScreens = ( allSimScreens,
     const errorMessage = 'cannot specify homeScreen=true for single-screen sims';
 
     // handle gracefully when running without ?ea
-    QueryStringMachine.addWarning( 'homeScreen', homeScreenQueryParameter, null, errorMessage );
+    QueryStringMachine.addWarning( 'homeScreen', homeScreenQueryParameter, errorMessage );
 
     // to support expected failures in selectScreensTests.js unit tests
     assert && assert( false, errorMessage );
@@ -63,7 +63,7 @@ const selectScreens = ( allSimScreens,
         const errorMessage = `invalid screen index: ${userIndex}`;
 
         // handle gracefully when running without ?ea and set selectedSimScreens to default values, see https://github.com/phetsims/joist/issues/599
-        QueryStringMachine.addWarning( 'screens', userIndex, null, errorMessage );
+        QueryStringMachine.addWarning( 'screens', userIndex, errorMessage );
         selectedSimScreens = allSimScreens;
 
         // to support expected failures in selectScreensTests.js unit tests
@@ -82,8 +82,8 @@ const selectScreens = ( allSimScreens,
     const errorMessage = 'cannot specify initialScreen=0 when home screen is disabled with homeScreen=false';
 
     // handle gracefully when running without ?ea
-    QueryStringMachine.addWarning( 'initialScreen', initialScreenIndex, null, errorMessage );
-    QueryStringMachine.addWarning( 'homeScreen', homeScreenQueryParameter, null, errorMessage );
+    QueryStringMachine.addWarning( 'initialScreen', initialScreenIndex, errorMessage );
+    QueryStringMachine.addWarning( 'homeScreen', homeScreenQueryParameter, errorMessage );
 
     // to support expected failures in selectScreensTests.js unit tests
     assert && assert( false, errorMessage );
@@ -96,7 +96,7 @@ const selectScreens = ( allSimScreens,
     const errorMessage = 'cannot specify initialScreen=0 for single-screen sims or when only one screen is loaded with screens=n';
 
     // handle gracefully when running without ?ea
-    QueryStringMachine.addWarning( 'initialScreen', initialScreenIndex, null, errorMessage );
+    QueryStringMachine.addWarning( 'initialScreen', initialScreenIndex, errorMessage );
 
     // to support expected failures in selectScreensTests.js unit tests
     assert && assert( false, errorMessage );
