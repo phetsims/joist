@@ -857,15 +857,13 @@ inherit( Object, Sim, {
               self.boundRunAnimationLoop();
 
               // If the sim is in playback mode, then run a single frame. This makes sure that anything kicked to the next
-              // frame with timer.runOnNextFrame during startup can clear out before begininning playback.
+              // frame with timer.runOnNextFrame during startup can clear out before beginning playback.
               if ( phet.joist.playbackModeEnabledProperty.value ) {
-                if ( Tandem.PHET_IO_ENABLED ) {
-                  phet.phetio.dataStream.pushNonPlaybackable();
-                }
+
+                // Mark this as a "root" event so that events caused by this don't duplicate in the playback
+                Tandem.PHET_IO_ENABLED && phet.phetio.dataStream.pushNonPlaybackable();
                 self.stepOneFrame();
-                if ( Tandem.PHET_IO_ENABLED ) {
-                  phet.phetio.dataStream.popNonPlaybackable();
-                }
+                Tandem.PHET_IO_ENABLED && phet.phetio.dataStream.popNonPlaybackable();
               }
 
               // After the application is ready to go, remove the splash screen and progress bar.  Note the splash
