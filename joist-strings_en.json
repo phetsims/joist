@@ -132,10 +132,10 @@
     "value": "Invalid Query Parameters"
   },
   "queryParametersWarningDialog.oneOrMoreQueryParameters": {
-    "value": "One or more query parameters have invalid values:"
+    "value": "One or more of these query parameters have<br>invalid values:"
   },
   "queryParametersWarningDialog.theSimulationWillStart": {
-    "value": "The simulation will start with default values for those<br>query parameters."
+    "value": "The simulation will start with default values for<br>those query parameters."
   },
   "a11y": {
     "keyboardHelp": {
