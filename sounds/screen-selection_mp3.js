@@ -1,5 +1,3 @@
-// Copyright 2020, University of Colorado Boulder
-
 /* eslint-disable */
 import simLauncher from '../../joist/js/simLauncher.js';
 import base64SoundToByteArray from '../../tambo/js/base64SoundToByteArray.js';
@@ -11,14 +9,12 @@ const soundByteArray = base64SoundToByteArray( phetAudioContext, soundURI );
 const unlock = simLauncher.createLock( soundURI );
 const wrappedAudioBuffer = new WrappedAudioBuffer();
 const onDecodeSuccess = decodedAudio => {
-  wrappedAudioBuffer.audioBuffer = decodedAudio;
-  wrappedAudioBuffer.loadedProperty.set( true );
+  wrappedAudioBuffer.audioBufferProperty.set( decodedAudio );
   unlock();
 };
 const onDecodeError = decodeError => {
   console.warn( 'decode of audio data failed, using stubbed sound, error: ' + decodeError );
-  wrappedAudioBuffer.audioBuffer = phetAudioContext.createBuffer( 1, 0, phetAudioContext.sampleRate );
-  wrappedAudioBuffer.loadedProperty.set( true );
+  wrappedAudioBuffer.audioBufferProperty.set( phetAudioContext.createBuffer( 1, 0, phetAudioContext.sampleRate ) );
   unlock();
 };
 phetAudioContext.decodeAudioData( soundByteArray.buffer, onDecodeSuccess, onDecodeError );
