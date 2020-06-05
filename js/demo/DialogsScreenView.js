@@ -27,7 +27,7 @@ function DialogsScreenView() {
   const keyboardHelpButton = new KeyboardHelpButton(
     keyboardHelpDialogContent,
     phet.joist.sim.lookAndFeel.backgroundColorProperty,
-    Tandem.OPTIONAL
+    Tandem.GENERAL.createTandem( 'keyboardHelpButton' )
   );
   keyboardHelpButton.setScaleMagnitude( 2 );
 
