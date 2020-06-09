@@ -11,7 +11,6 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import Property from '../../axon/js/Property.js';
 import PropertyIO from '../../axon/js/PropertyIO.js';
@@ -92,9 +91,6 @@ function Screen( createModel, createView, options ) {
     // This is often a full but short sentence with a period at the end of it.
     descriptionContent: null
   }, options );
-
-  assert && assert( !options.homeScreenIcon || options.homeScreenIcon instanceof ScreenIcon, 'invalid homeScreenIcon' );
-  assert && assert( !options.navigationBarIcon || options.navigationBarIcon instanceof ScreenIcon, 'invalid navigationBarIcon' );
 
   assert && assert( _.includes( [ 'black', 'white', null ], options.showScreenIconFrameForNavigationBarFill ),
     'invalid showScreenIconFrameForNavigationBarFill: ' + options.showScreenIconFrameForNavigationBarFill );
