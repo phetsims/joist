@@ -11,11 +11,11 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import Property from '../../axon/js/Property.js';
 import PropertyIO from '../../axon/js/PropertyIO.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
+import ScreenIcon from '../../joist/js/ScreenIcon.js';
 import Shape from '../../kite/js/Shape.js';
 import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
