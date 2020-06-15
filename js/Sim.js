@@ -194,6 +194,7 @@ function Sim( name, allSimScreens, options ) {
     // updated bounds for the PanZoomListener
     this.simulationRoot.setRect( 0, 0, width, height );
     if ( this.panZoomListener ) {
+      this.panZoomListener.setTargetScale( scale );
       this.panZoomListener.setTargetBounds( this.boundsProperty.value );
       this.panZoomListener.setPanBounds( this.boundsProperty.value );
     }
