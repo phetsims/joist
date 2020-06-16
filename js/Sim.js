@@ -48,7 +48,6 @@ import packageJSON from './packageJSON.js';
 import Profiler from './Profiler.js';
 import QueryParametersWarningDialog from './QueryParametersWarningDialog.js';
 import ScreenIO from './ScreenIO.js';
-import ScreenSelectionSoundGenerator from './ScreenSelectionSoundGenerator.js';
 import ScreenshotGenerator from './ScreenshotGenerator.js';
 import selectScreens from './selectScreens.js';
 import LegendsOfLearningSupport from './thirdPartySupport/LegendsOfLearningSupport.js';
@@ -800,17 +799,6 @@ inherit( Object, Sim, {
       workItems.push( function() {
         screen.initializeView( self.simNameProperty.value, self.screens.length );
       } );
-    } );
-
-    // Add sound generation for screen selection.  This sound generator needs the home screen's model initialized, so it
-    // needs to be placed on the workItems list rather than done immediately.
-    this.supportsSound && workItems.push( () => {
-      if ( this.screens.length > 1 ) {
-        soundManager.addSoundGenerator(
-          new ScreenSelectionSoundGenerator( this.screenProperty, this.homeScreen, { initialOutputLevel: 0.5 } ),
-          { categoryName: 'user-interface' }
-        );
-      }
     } );
 
     // loop to run startup items asynchronously so the DOM can be updated to show animation on the progress bar

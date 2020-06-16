@@ -15,9 +15,11 @@ import PDOMPeer from '../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Text from '../../scenery/js/nodes/Text.js';
+import soundManager from '../../tambo/js/soundManager.js';
 import HomeScreenButton from './HomeScreenButton.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
+import ScreenSelectionSoundGenerator from './ScreenSelectionSoundGenerator.js';
 import ScreenView from './ScreenView.js';
 
 const simScreensString = joistStrings.a11y.simScreens;
@@ -182,6 +184,13 @@ function HomeScreenView( simNameProperty, model, tandem, options ) {
     iconsParentNode.centerX = self.layoutBounds.width / 2;
     iconsParentNode.top = self.layoutBounds.height / 3 + 20;
   } );
+
+  // Add sound generation for screen selection.  This generates sound for all changes between screens, not just for the
+  // home screen.
+  soundManager.addSoundGenerator(
+    new ScreenSelectionSoundGenerator( model, { initialOutputLevel: 0.5 } ),
+    { categoryName: 'user-interface' }
+  );
 
   if ( options.warningNode ) {
     const warningNode = options.warningNode;
