@@ -802,8 +802,8 @@ inherit( Object, Sim, {
       } );
     } );
 
-    // This sound generator needs the home screen's model initialized, and needs a timeout afterwards to make sure that
-    // the sound urls can load (thus before the final workItem).
+    // Add sound generation for screen selection.  This sound generator needs the home screen's model initialized, so it
+    // needs to be placed on the workItems list rather than done immediately.
     this.supportsSound && workItems.push( () => {
       if ( this.screens.length > 1 ) {
         soundManager.addSoundGenerator(
