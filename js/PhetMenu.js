@@ -207,7 +207,7 @@ function PhetMenu( sim, phetButton, tandem, options ) {
         const url = 'http://phet.colorado.edu/files/troubleshooting/' +
                     '?sim=' + encodeURIComponent( sim.simNameProperty.value ) +
                     '&version=' + encodeURIComponent( sim.version + ' ' +
-                    ( phet.chipper.buildTimestamp ? phet.chipper.buildTimestamp : '(require.js)' ) ) +
+                    ( phet.chipper.buildTimestamp ? phet.chipper.buildTimestamp : '(unbuilt)' ) ) +
                     '&url=' + encodeURIComponent( window.location.href ) +
                     '&dependencies=' + encodeURIComponent( JSON.stringify( {} ) );
 

@@ -41,7 +41,7 @@ function PhetButton( sim, backgroundFillProperty, tandem ) {
   const Brand = phet.brand.Brand;
   assert && assert( Brand, 'Brand should exist by now' );
 
-  // The logo images are loaded from the brand which is selected via query parameter (during requirejs mode)
+  // The logo images are loaded from the brand which is selected via query parameter (during unbuilt mode)
   // or a grunt option (during the build), please see initialize-globals.js window.phet.chipper.brand for more
   // details
   const logoOnBlackBackground = Brand.logoOnBlackBackground;

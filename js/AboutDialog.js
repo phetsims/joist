@@ -128,7 +128,7 @@ function AboutDialog( name, version, credits, locale, phetButton, tandem ) {
   if ( Brand.copyright ) {
     const year = phet.chipper.buildTimestamp ? // defined for built versions
                  phet.chipper.buildTimestamp.split( '-' )[ 0 ] : // e.g. "2017-04-20 19:04:59 UTC" -> "2017"
-                 new Date().getFullYear(); // in requirejs mode
+                 new Date().getFullYear(); // in unbuilt mode
 
     const copyright = StringUtils.fillIn( Brand.copyright, { year: year } );
 
