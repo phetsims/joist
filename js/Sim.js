@@ -190,11 +190,20 @@ function Sim( name, allSimScreens, options ) {
     this.boundsProperty.value = new Bounds2( 0, 0, width, height );
     this.screenBoundsProperty.value = new Bounds2( 0, 0, width, screenHeight );
 
-    // updated bounds for the PanZoomListener
-    this.simulationRoot.setRect( 0, 0, width, height );
     if ( this.panZoomListener ) {
+
+      // fills the window, so that the PanZoomListener can receive input anywhere in bounds
+      this.simulationRoot.setRect( 0, 0, width, height );
+
+      // set the scale describing the target Node, since scale from window resize is applied to each ScreenView,
+      // (children of the PanZoomListener targetNode)
       this.panZoomListener.setTargetScale( scale );
+
+      // set the bounds which accurately describe the panZoomListener targetNode, since it would otherwise be
+      // innacurate with the very large BarrierRectangle
       this.panZoomListener.setTargetBounds( this.boundsProperty.value );
+
+      // constrain the simulation pan bounds so that it cannot be moved off screen
       this.panZoomListener.setPanBounds( this.boundsProperty.value );
     }
   }, {
@@ -286,6 +295,8 @@ function Sim( name, allSimScreens, options ) {
     }
 
     if ( this.panZoomListener ) {
+
+      // animate the PanZoomListener, for smooth panning/scaling
       this.panZoomListener.step( dt );
     }
 
@@ -410,6 +421,11 @@ function Sim( name, allSimScreens, options ) {
   // even if this specific runtime turns it on/off via a query parameter. Most of the time this should not be used;
   // instead see Sim.supportsInteractiveDescriptions. This is to support a consistent API for PhET-iO, see https://github.com/phetsims/phet-io/issues/1457
   this.accessibilityPartOfTheAPI = packageJSON.phet.supportsInteractiveDescriptions;
+
+  // @public (joist-internal, read-only) {boolean} - if true, the simulation supports the zoom/pan feature - query
+  // parameter will override the package.json entry (even if false)
+  this.supportsZoom = phet.chipper.queryParameters.supportsZoom === null ? packageJSON.phet.supportsZoom :
+                      phet.chipper.queryParameters.supportsZoom === 'true';
 
   // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
   this.supportsGestureDescription = this.supportsInteractiveDescriptions && SUPPORTS_GESTURE_DESCRIPTION;
@@ -603,9 +619,9 @@ function Sim( name, allSimScreens, options ) {
   // @public (joist-internal)
   this.navigationBar = new NavigationBar( this, isMultiScreenSimDisplayingSingleScreen, Tandem.GENERAL_VIEW.createTandem( 'navigationBar' ) );
 
-  // @private {AnimatedPanZoomListener|null} - magnification support, null unless requested by query param
+  // @private {AnimatedPanZoomListener|null} - magnification support, null unless specifically enabled
   this.panZoomListener = null;
-  if ( phet.chipper.queryParameters.zoom ) {
+  if ( this.supportsZoom ) {
     this.panZoomListener = new AnimatedPanZoomListener( this.simulationRoot );
     this.simulationRoot.addInputListener( this.panZoomListener );
   }
