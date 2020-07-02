@@ -115,17 +115,19 @@ function NavigationBarScreenButton( navigationBarFillProperty, screenProperty, s
     phetioComponentOptions: { textProperty: { phetioReadOnly: true } } // text is updated via screen.nameProperty
   } );
 
-  // update the text when the screen name changes
-  screen.nameProperty.link( name => {
-    text.text = name;
-  } );
-
+  // spacing set by Property link below
   const box = new VBox( {
     children: [ iconParent, text ],
     pickable: false,
-    spacing: Math.max( 0, 12 - text.height ), // see https://github.com/phetsims/joist/issues/143
     usesOpacity: true, // hint, since we change its opacity
     maxHeight: navBarHeight
+  } );
+
+  // update the text when the screen name changes
+  screen.nameProperty.link( name => {
+    text.text = name;
+    box.spacing = Math.max( 0, 12 - text.height ); // see https://github.com/phetsims/joist/issues/143
+    box.layout();
   } );
 
   // add a transparent overlay for input handling and to size touchArea/mouseArea
