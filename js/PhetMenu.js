@@ -472,6 +472,8 @@ function PhetMenu( sim, phetButton, tandem, options ) {
         // element with default 'tab' behavior
         phetButton.focus();
       }
+
+      event.pointer.reserveForKeyboardDrag();
     }
   };
   this.addInputListener( keydownListener );
