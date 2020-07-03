@@ -137,6 +137,15 @@
   "queryParametersWarningDialog.theSimulationWillStart": {
     "value": "The simulation will start with default values for<br>those query parameters."
   },
+  "ieWarningPage.platformWarning": {
+    "value": "Platform Warning"
+  },
+  "ieWarningPage.ieIsNotSupported": {
+    "value": "Internet Explorer is not supported."
+  },
+  "ieWarningPage.useDifferentBrowser": {
+    "value": "Please use a different browser to run this simulation."
+  },
   "a11y": {
     "keyboardHelp": {
       "hotKeysAndHelp": {

@@ -41,6 +41,7 @@ import Heartbeat from './Heartbeat.js';
 import HomeScreen from './HomeScreen.js';
 import HomeScreenView from './HomeScreenView.js';
 import joist from './joist.js';
+import joistStrings from './joistStrings.js';
 import LookAndFeel from './LookAndFeel.js';
 import MemoryMonitor from './MemoryMonitor.js';
 import NavigationBar from './NavigationBar.js';
@@ -56,6 +57,11 @@ import updateCheck from './updateCheck.js';
 // constants
 const PROGRESS_BAR_WIDTH = 273;
 const SUPPORTS_GESTURE_DESCRIPTION = platform.android || platform.mobileSafari;
+
+// strings needed for the IE warning dialog
+joistStrings.ieWarningPage.platformWarning;
+joistStrings.ieWarningPage.ieIsNotSupported;
+joistStrings.ieWarningPage.useDifferentBrowser;
 
 // globals
 phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for replicable playbacks
