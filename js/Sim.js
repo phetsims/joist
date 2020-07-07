@@ -779,7 +779,7 @@ inherit( Object, Sim, {
    * @public
    */
   hidePopup: function( node, isModal ) {
-    assert && assert( node && this.modalNodeStack.contains( node ) );
+    assert && assert( node && this.modalNodeStack.includes( node ) );
     assert && assert( this.topLayer.hasChild( node ), 'Popup was not shown' );
     if ( isModal ) {
       this.modalNodeStack.remove( node );
