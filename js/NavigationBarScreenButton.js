@@ -30,6 +30,7 @@ import joistStrings from './joistStrings.js';
 
 // constants
 const HIGHLIGHT_SPACING = 4;
+const getHighlightWidth = overlay => overlay.width + ( 2 * HIGHLIGHT_SPACING );
 
 const simScreenString = joistStrings.a11y.simScreen;
 const screenNameStringPatternString = joistStrings.a11y.screenNumberPattern;
@@ -123,18 +124,11 @@ function NavigationBarScreenButton( navigationBarFillProperty, screenProperty, s
     maxHeight: navBarHeight
   } );
 
-  // update the text when the screen name changes
-  screen.nameProperty.link( name => {
-    text.text = name;
-    box.spacing = Math.max( 0, 12 - text.height ); // see https://github.com/phetsims/joist/issues/143
-    box.layout();
-  } );
-
   // add a transparent overlay for input handling and to size touchArea/mouseArea
   const overlay = new Rectangle( 0, 0, box.width, box.height, { center: box.center } );
 
   // highlights
-  const highlightWidth = overlay.width + ( 2 * HIGHLIGHT_SPACING );
+  const highlightWidth = getHighlightWidth( overlay );
   const brightenHighlight = new HighlightNode( highlightWidth, overlay.height, {
     center: box.center,
     fill: 'white'
@@ -179,18 +173,25 @@ function NavigationBarScreenButton( navigationBarFillProperty, screenProperty, s
     iconFrame.stroke = iconFrameStroke;
   } );
 
-  // Constrain text and icon width, if necessary
-  if ( options.maxButtonWidth && ( this.width > options.maxButtonWidth ) ) {
-
-    text.maxWidth = icon.maxWidth = options.maxButtonWidth - ( this.width - box.width );
+  // adjust the layout of the overlay and the highlights
+  const layout = () => {
 
     // adjust the overlay
     overlay.setRect( 0, 0, box.width, overlay.height );
     overlay.center = box.center;
 
     // adjust the highlights
-    brightenHighlight.spacing = darkenHighlight.spacing = overlay.width + ( 2 * HIGHLIGHT_SPACING );
+    brightenHighlight.spacing = darkenHighlight.spacing = getHighlightWidth( overlay );
     brightenHighlight.center = darkenHighlight.center = box.center;
+  };
+
+  // Constrain text and icon width, if necessary
+  if ( options.maxButtonWidth && ( this.width > options.maxButtonWidth ) ) {
+
+    text.maxWidth = icon.maxWidth = options.maxButtonWidth - ( this.width - box.width );
+
+    // update layout from the maxWidth change
+    layout();
 
     assert && assert( Utils.toFixed( this.width, 0 ) === Utils.toFixed( options.maxButtonWidth, 0 ) );
   }
@@ -200,6 +201,15 @@ function NavigationBarScreenButton( navigationBarFillProperty, screenProperty, s
     // Text is allowed to go beyond the bounds of the icon, hence we use `this.width` instead of `icon.width`
     text.maxWidth = this.width;
   }
+
+  // update the text when the screen name changes
+  screen.nameProperty.link( name => {
+    text.text = name;
+    box.spacing = Math.max( 0, 12 - text.height ); // see https://github.com/phetsims/joist/issues/143
+
+    // update layout from the text change
+    layout();
+  } );
 
   // pdom - set the role description for the button
   this.setAccessibleAttribute( 'aria-roledescription', simScreenString );

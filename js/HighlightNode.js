@@ -16,7 +16,7 @@ import LinearGradient from '../../scenery/js/util/LinearGradient.js';
 import joist from './joist.js';
 
 /**
- * @param {number} width
+ * @param {number} width - can be mutated with the `spacing` property.
  * @param {number} height
  * @param {Object} [options]
  * @constructor
