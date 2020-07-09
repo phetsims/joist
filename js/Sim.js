@@ -564,7 +564,6 @@ function Sim( name, allSimScreens, options ) {
     // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
     allowWebGL: phet.chipper.queryParameters.webgl,
     accessibility: this.supportsInteractiveDescriptions,
-    isApplication: false,
     assumeFullWindow: true, // a bit faster if we can assume no coordinate translations are needed for the display.
     allowBackingScaleAntialiasing: options.allowBackingScaleAntialiasing
   } );
