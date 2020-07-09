@@ -81,8 +81,8 @@ function HomeScreenView( simNameProperty, model, tandem, options ) {
     titleText.setText( simTitle );
   } );
 
-  // Have this before adding the child to support the startup layout.
-  titleText.boundsProperty.link( () => {
+  // Have this before adding the child to support the startup layout. Use `localBoundsProperty` to avoid an infinite loop.
+  titleText.localBoundsProperty.link( () => {
     titleText.centerX = this.layoutBounds.centerX;
   } );
 
