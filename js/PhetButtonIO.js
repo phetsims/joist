@@ -55,13 +55,13 @@ class PhetButtonIO extends ObjectIO {
 
   /**
    * See NodeIO.fromStateObject
-   * @param {Node} o
+   * @param {Node} stateObject
    * @returns {Object}
    * @override - to prevent attempted JSON serialization of circular Node
    * @public
    */
-  static fromStateObject( o ) {
-    return o; // Pass through values defined by subclasses
+  static fromStateObject( stateObject ) {
+    return stateObject; // Pass through values defined by subclasses
   }
 }
 
