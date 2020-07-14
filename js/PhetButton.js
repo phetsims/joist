@@ -11,6 +11,7 @@ import Property from '../../axon/js/Property.js';
 import inherit from '../../phet-core/js/inherit.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import Node from '../../scenery/js/nodes/Node.js';
+import pushButtonSoundPlayer from '../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import JoistButton from './JoistButton.js';
 import KebabMenuIcon from './KebabMenuIcon.js';
@@ -87,6 +88,7 @@ function PhetButton( sim, backgroundFillProperty, tandem ) {
     highlightCenterOffsetY: 4,
     listener: function() {
       phetMenu.show();
+      pushButtonSoundPlayer.play();
     },
     phetioType: PhetButtonIO,
     phetioDocumentation: 'The button that appears at the right side of the navigation bar, which shows a menu when pressed',
@@ -129,6 +131,9 @@ function PhetButton( sim, backgroundFillProperty, tandem ) {
       // open and set focus on the first item
       phetMenu.show();
       phetMenu.items[ 0 ].focus();
+
+      // sound generation
+      pushButtonSoundPlayer.play();
     }
   } );
 
