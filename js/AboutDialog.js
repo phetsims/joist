@@ -7,7 +7,6 @@
  */
 
 import timer from '../../axon/js/timer.js';
-import inherit from '../../phet-core/js/inherit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import PDOMPeer from '../../scenery/js/accessibility/pdom/PDOMPeer.js';
@@ -32,230 +31,240 @@ const versionPatternString = joistStrings.versionPattern;
 // Maximum width of elements in the dialog
 const MAX_WIDTH = 550;
 
-/**
- * @param {string} name - The name of the simulation
- * @param {string} version - The version of the simulation
- * @param {string} credits - The credits for the simulation, or falsy to show no credits
- * @param {string} locale - The locale string
- * @param {Node} phetButton - The PhET button in the navigation bar, receives focus when this dialog is closed
- * @param {Tandem} tandem
- * @constructor
- */
-function AboutDialog( name, version, credits, locale, phetButton, tandem ) {
+class AboutDialog extends Dialog {
 
-  // Dynamic modules are loaded in simLauncher and accessed through their namespace
-  const Brand = phet.brand.Brand;
-  assert && assert( Brand, 'Brand should exist by now' );
+  /**
+   * @param {string} name - The name of the simulation
+   * @param {string} version - The version of the simulation
+   * @param {string} credits - The credits for the simulation, or falsy to show no credits
+   * @param {string} locale - The locale string
+   * @param {Node} phetButton - The PhET button in the navigation bar, receives focus when this dialog is closed
+   * @param {Tandem} tandem
+   */
+  constructor( name, version, credits, locale, phetButton, tandem ) {
 
-  let children = [];
+    // Dynamic modules are loaded in simLauncher and accessed through their namespace
+    const Brand = phet.brand.Brand;
+    assert && assert( Brand, 'Brand should exist by now' );
 
-  const titleText = new Text( name, {
-    font: new PhetFont( 28 ),
-    maxWidth: MAX_WIDTH,
-    tagName: 'h1',
-    innerContent: name
-  } );
-  children.push( titleText );
+    let children = [];
 
-  const versionString = StringUtils.format( versionPatternString, version );
-  children.push( new Text( versionString, {
-    font: new PhetFont( 20 ),
-    maxWidth: MAX_WIDTH,
-    tagName: 'p',
-    innerContent: versionString
-  } ) );
-
-  if ( phet.chipper.buildTimestamp ) {
-    children.push( new Text( phet.chipper.buildTimestamp, {
-      font: new PhetFont( 13 ),
+    const titleText = new Text( name, {
+      font: new PhetFont( 28 ),
       maxWidth: MAX_WIDTH,
-      tagName: 'p',
-      innerContent: phet.chipper.buildTimestamp
-    } ) );
-  }
-
-  if ( updateCheck.areUpdatesChecked ) {
-    const positionOptions = { left: 0, top: 0 };
-    const checkingNode = UpdateNodes.createCheckingNode( positionOptions );
-    const upToDateNode = UpdateNodes.createUpToDateNode( positionOptions );
-    const outOfDateNode = UpdateNodes.createOutOfDateAboutNode( positionOptions );
-    const offlineNode = UpdateNodes.createOfflineNode( positionOptions );
-
-    // @private - Listener that should be called every frame where we are shown, with {number} dt as a single parameter.
-    this.updateStepListener = checkingNode.stepListener;
-
-    // @private {function(UpdateState)} - Listener that should be called whenever our update state changes (while we are displayed)
-    this.updateVisibilityListener = function( state ) {
-      checkingNode.visible = state === UpdateState.CHECKING;
-      upToDateNode.visible = state === UpdateState.UP_TO_DATE;
-      outOfDateNode.visible = state === UpdateState.OUT_OF_DATE;
-      offlineNode.visible = state === UpdateState.OFFLINE;
-
-      // pdom - make update content visible/invisible for screen readers by explicitly removing content
-      // from the DOM, necessary because AT will ready hidden content in a Dialog.
-      checkingNode.accessibleContentDisplayed = checkingNode.visible;
-      upToDateNode.accessibleContentDisplayed = upToDateNode.visible;
-      outOfDateNode.accessibleContentDisplayed = outOfDateNode.visible;
-      offlineNode.accessibleContentDisplayed = offlineNode.visible;
-    };
-
-    children.push( new Node( {
-      children: [
-        checkingNode,
-        upToDateNode,
-        outOfDateNode,
-        offlineNode
-      ],
-      maxWidth: MAX_WIDTH
-    } ) );
-  }
-
-  const brandChildren = [];
-
-  // Show the brand name, if it exists
-  if ( Brand.name ) {
-    brandChildren.push( new RichText( Brand.name, {
-      font: new PhetFont( 16 ),
-      supScale: 0.5,
-      supYOffset: 2,
-      maxWidth: MAX_WIDTH,
-
-      // pdom
-      tagName: 'h2',
-      innerContent: Brand.name
-    } ) );
-  }
-
-  // Show the brand copyright statement, if it exists
-  if ( Brand.copyright ) {
-    const year = phet.chipper.buildTimestamp ? // defined for built versions
-                 phet.chipper.buildTimestamp.split( '-' )[ 0 ] : // e.g. "2017-04-20 19:04:59 UTC" -> "2017"
-                 new Date().getFullYear(); // in unbuilt mode
-
-    const copyright = StringUtils.fillIn( Brand.copyright, { year: year } );
-
-    brandChildren.push( new Text( copyright, {
-      font: new PhetFont( 12 ), maxWidth: MAX_WIDTH,
-
-      // pdom
-      tagName: 'p',
-      innerContent: copyright
-    } ) );
-  }
-
-  // Optional additionalLicenseStatement, used in phet-io
-  if ( Brand.additionalLicenseStatement ) {
-    this.additionalLicenseStatement = new RichText( Brand.additionalLicenseStatement, {
-        font: new PhetFont( 10 ),
-        fill: 'gray',
-        align: 'left',
-        maxWidth: MAX_WIDTH,
-
-        // pdom
-        tagName: 'p',
-        innerContent: Brand.additionalLicenseStatement
-      }
-    );
-    brandChildren.push( this.additionalLicenseStatement );
-  }
-
-  if ( brandChildren.length > 0 ) {
-    children.push( new VStrut( 15 ) );
-    children = children.concat( brandChildren );
-  }
-
-  // Add credits for specific brands
-  if ( credits && ( Brand.id === 'phet' || Brand.id === 'phet-io' ) ) {
-    children.push( new VStrut( 15 ) );
-    this.creditsNode = new CreditsNode( credits, {
-      maxWidth: MAX_WIDTH
+      tagName: 'h1',
+      innerContent: name
     } );
-    children.push( this.creditsNode );
-  }
+    children.push( titleText );
 
-  // must be in this scope for disposal
-  const linksChildren = [];
+    const versionString = StringUtils.format( versionPatternString, version );
+    children.push( new Text( versionString, {
+      font: new PhetFont( 20 ),
+      maxWidth: MAX_WIDTH,
+      tagName: 'p',
+      innerContent: versionString
+    } ) );
 
-  // Show any links identified in the brand
-  const links = Brand.getLinks( packageJSON.name, locale );
-  if ( links && links.length > 0 ) {
-
-    linksChildren.push( new VStrut( 15 ) );
-
-    for ( let i = 0; i < links.length; i++ ) {
-      const link = links[ i ];
-
-      // If links are allowed, use hyperlinks.  Otherwise just output the URL.  This doesn't need to be internationalized.
-      const text = phet.chipper.queryParameters.allowLinks ? '<a href="{{url}}">' + link.text + '</a>' : link.text + ': ' + link.url;
-
-      // This is PhET-iO instrumented because it is a keyboard navigation focusable element.
-      linksChildren.push( new RichText( text, {
-        links: { url: link.url }, // RichText must fill in URL for link
-        font: new PhetFont( 14 ),
-        tandem: tandem.createTandem( link.tandemName ),
-        phetioReadOnly: true
+    if ( phet.chipper.buildTimestamp ) {
+      children.push( new Text( phet.chipper.buildTimestamp, {
+        font: new PhetFont( 13 ),
+        maxWidth: MAX_WIDTH,
+        tagName: 'p',
+        innerContent: phet.chipper.buildTimestamp
       } ) );
     }
 
-    // Show the links in a separate VBox so they will have the same MAX_WIDTH and hence the same font size.
-    const linksParent = new VBox( {
-      spacing: 5,
+    let updateStepListener = null;
+    let updateVisibilityListener = null;
+
+    if ( updateCheck.areUpdatesChecked ) {
+      const positionOptions = { left: 0, top: 0 };
+      const checkingNode = UpdateNodes.createCheckingNode( positionOptions );
+      const upToDateNode = UpdateNodes.createUpToDateNode( positionOptions );
+      const outOfDateNode = UpdateNodes.createOutOfDateAboutNode( positionOptions );
+      const offlineNode = UpdateNodes.createOfflineNode( positionOptions );
+
+      // @private - Listener that should be called every frame where we are shown, with {number} dt as a single parameter.
+      updateStepListener = checkingNode.stepListener;
+
+      // @private {function(UpdateState)} - Listener that should be called whenever our update state changes (while we are displayed)
+      updateVisibilityListener = state => {
+        checkingNode.visible = state === UpdateState.CHECKING;
+        upToDateNode.visible = state === UpdateState.UP_TO_DATE;
+        outOfDateNode.visible = state === UpdateState.OUT_OF_DATE;
+        offlineNode.visible = state === UpdateState.OFFLINE;
+
+        // pdom - make update content visible/invisible for screen readers by explicitly removing content
+        // from the DOM, necessary because AT will ready hidden content in a Dialog.
+        checkingNode.accessibleContentDisplayed = checkingNode.visible;
+        upToDateNode.accessibleContentDisplayed = upToDateNode.visible;
+        outOfDateNode.accessibleContentDisplayed = outOfDateNode.visible;
+        offlineNode.accessibleContentDisplayed = offlineNode.visible;
+      };
+
+      children.push( new Node( {
+        children: [
+          checkingNode,
+          upToDateNode,
+          outOfDateNode,
+          offlineNode
+        ],
+        maxWidth: MAX_WIDTH
+      } ) );
+    }
+
+    const brandChildren = [];
+
+    // Show the brand name, if it exists
+    if ( Brand.name ) {
+      brandChildren.push( new RichText( Brand.name, {
+        font: new PhetFont( 16 ),
+        supScale: 0.5,
+        supYOffset: 2,
+        maxWidth: MAX_WIDTH,
+
+        // pdom
+        tagName: 'h2',
+        innerContent: Brand.name
+      } ) );
+    }
+
+    // Show the brand copyright statement, if it exists
+    if ( Brand.copyright ) {
+      const year = phet.chipper.buildTimestamp ? // defined for built versions
+                   phet.chipper.buildTimestamp.split( '-' )[ 0 ] : // e.g. "2017-04-20 19:04:59 UTC" -> "2017"
+                   new Date().getFullYear(); // in unbuilt mode
+
+      const copyright = StringUtils.fillIn( Brand.copyright, { year: year } );
+
+      brandChildren.push( new Text( copyright, {
+        font: new PhetFont( 12 ), maxWidth: MAX_WIDTH,
+
+        // pdom
+        tagName: 'p',
+        innerContent: copyright
+      } ) );
+    }
+
+    let additionalLicenseStatement = null;
+
+    // Optional additionalLicenseStatement, used in phet-io
+    if ( Brand.additionalLicenseStatement ) {
+      additionalLicenseStatement = new RichText( Brand.additionalLicenseStatement, {
+          font: new PhetFont( 10 ),
+          fill: 'gray',
+          align: 'left',
+          maxWidth: MAX_WIDTH,
+
+          // pdom
+          tagName: 'p',
+          innerContent: Brand.additionalLicenseStatement
+        }
+      );
+      brandChildren.push( additionalLicenseStatement );
+    }
+
+    if ( brandChildren.length > 0 ) {
+      children.push( new VStrut( 15 ) );
+      children = children.concat( brandChildren );
+    }
+
+    let creditsNode = null;
+
+    // Add credits for specific brands
+    if ( credits && ( Brand.id === 'phet' || Brand.id === 'phet-io' ) ) {
+      children.push( new VStrut( 15 ) );
+      creditsNode = new CreditsNode( credits, {
+        maxWidth: MAX_WIDTH
+      } );
+      children.push( creditsNode );
+    }
+
+    // must be in this scope for disposal
+    const linksChildren = [];
+
+    // Show any links identified in the brand
+    const links = Brand.getLinks( packageJSON.name, locale );
+    if ( links && links.length > 0 ) {
+
+      linksChildren.push( new VStrut( 15 ) );
+
+      for ( let i = 0; i < links.length; i++ ) {
+        const link = links[ i ];
+
+        // If links are allowed, use hyperlinks.  Otherwise just output the URL.  This doesn't need to be internationalized.
+        const text = phet.chipper.queryParameters.allowLinks ? '<a href="{{url}}">' + link.text + '</a>' : link.text + ': ' + link.url;
+
+        // This is PhET-iO instrumented because it is a keyboard navigation focusable element.
+        linksChildren.push( new RichText( text, {
+          links: { url: link.url }, // RichText must fill in URL for link
+          font: new PhetFont( 14 ),
+          tandem: tandem.createTandem( link.tandemName ),
+          phetioReadOnly: true
+        } ) );
+      }
+
+      // Show the links in a separate VBox so they will have the same MAX_WIDTH and hence the same font size.
+      const linksParent = new VBox( {
+        spacing: 5,
+        align: 'left',
+        children: linksChildren, maxWidth: MAX_WIDTH
+      } );
+      children.push( linksParent );
+    }
+
+    const content = new VBox( {
       align: 'left',
-      children: linksChildren, maxWidth: MAX_WIDTH
+      spacing: 5,
+      children: children,
+
+      // pdom - accessible container for all AboutDialog content
+      tagName: 'div'
     } );
-    children.push( linksParent );
+
+    super( content, {
+      focusOnCloseNode: phetButton,
+      xSpacing: 20,
+      topMargin: 20,
+      bottomMargin: 20,
+      leftMargin: 20,
+      rightMargin: 20,
+      tandem: tandem,
+      phetioReadOnly: true, // the AboutDialog should not be settable
+      phetioState: true,
+      phetioDynamicElement: true,
+
+      //TODO workaround for https://github.com/phetsims/joist/issues/586 and https://github.com/phetsims/joist/issues/639
+      scale: HomeScreenView.LAYOUT_BOUNDS.width / ScreenView.DEFAULT_LAYOUT_BOUNDS.width
+    } );
+
+    // @private
+    this.updateStepListener = updateStepListener;
+
+    // @private
+    this.updateVisibilityListener = updateVisibilityListener;
+
+    // pdom - set label association so the title is read when focus enters the dialog
+    this.addAriaLabelledbyAssociation( {
+      thisElementName: PDOMPeer.PRIMARY_SIBLING,
+      otherNode: titleText,
+      otherElementName: PDOMPeer.PRIMARY_SIBLING
+    } );
+
+    // @private - to be called in dispose
+    this.disposeAboutDialog = () => {
+      creditsNode && creditsNode.dispose();
+      additionalLicenseStatement && additionalLicenseStatement.dispose();
+      linksChildren.forEach( child => child.dispose && child.dispose() );
+    };
   }
-
-  const content = new VBox( {
-    align: 'left',
-    spacing: 5,
-    children: children,
-
-    // pdom - accessible container for all AboutDialog content
-    tagName: 'div'
-  } );
-
-  Dialog.call( this, content, {
-    focusOnCloseNode: phetButton,
-    xSpacing: 20,
-    topMargin: 20,
-    bottomMargin: 20,
-    leftMargin: 20,
-    rightMargin: 20,
-    tandem: tandem,
-    phetioReadOnly: true, // the AboutDialog should not be settable
-    phetioState: true,
-    phetioDynamicElement: true,
-
-    //TODO workaround for https://github.com/phetsims/joist/issues/586 and https://github.com/phetsims/joist/issues/639
-    scale: HomeScreenView.LAYOUT_BOUNDS.width / ScreenView.DEFAULT_LAYOUT_BOUNDS.width
-  } );
-
-  // pdom - set label association so the title is read when focus enters the dialog
-  this.addAriaLabelledbyAssociation( {
-    thisElementName: PDOMPeer.PRIMARY_SIBLING,
-    otherNode: titleText,
-    otherElementName: PDOMPeer.PRIMARY_SIBLING
-  } );
-
-  // @private - to be called in dispose
-  this.disposeAboutDialog = function() {
-    this.creditsNode && this.creditsNode.dispose();
-    this.additionalLicenseStatement && this.additionalLicenseStatement.dispose();
-    linksChildren.forEach( child => child.dispose && child.dispose() );
-  };
-}
-
-joist.register( 'AboutDialog', AboutDialog );
-
-inherit( Dialog, AboutDialog, {
 
   /**
    * Show the dialog
    * @public
    * @override
    */
-  show: function() {
+  show() {
     if ( updateCheck.areUpdatesChecked && !this.isShowingProperty.value ) {
       updateCheck.resetTimeout();
 
@@ -271,17 +280,17 @@ inherit( Dialog, AboutDialog, {
       updateCheck.stateProperty.link( this.updateVisibilityListener );
     }
 
-    Dialog.prototype.show.call( this );
-  },
+    super.show();
+  }
 
   /**
    * Remove listeners that should only be called when the dialog is shown.
    * @public
    * @override
    */
-  hide: function() {
+  hide() {
     if ( this.isShowingProperty.value ) {
-      Dialog.prototype.hide.call( this );
+      super.hide();
 
       if ( updateCheck.areUpdatesChecked ) {
 
@@ -292,17 +301,19 @@ inherit( Dialog, AboutDialog, {
         timer.removeListener( this.updateStepListener );
       }
     }
-  },
+  }
 
   /**
    * Make eligible for garbage collection.
    * @public
    * @override
    */
-  dispose: function() {
+  dispose() {
     this.disposeAboutDialog();
-    Dialog.prototype.dispose.call( this );
+    super.dispose();
   }
-} );
+}
+
+joist.register( 'AboutDialog', AboutDialog );
 
 export default AboutDialog;
