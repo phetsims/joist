@@ -178,13 +178,10 @@ function Sim( name, allSimScreens, options ) {
     const screenHeight = height - self.navigationBar.height;
 
     // Layout each of the screens
-    _.each( self.screens, function( m ) {
-      m.view.layout( width, screenHeight );
-    } );
+    _.each( self.screens, m => m.view.layout( width, screenHeight ) );
 
     // Resize the layer with all of the dialogs, etc.
     self.topLayer.setScaleMagnitude( scale );
-    self.homeScreen && self.homeScreen.view.layout( width, screenHeight );
 
     // Fixes problems where the div would be way off center on iOS7
     if ( platform.mobileSafari ) {
