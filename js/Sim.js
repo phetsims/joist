@@ -206,7 +206,7 @@ function Sim( name, allSimScreens, options ) {
       this.panZoomListener.setTargetScale( scale );
 
       // set the bounds which accurately describe the panZoomListener targetNode, since it would otherwise be
-      // innacurate with the very large BarrierRectangle
+      // inaccurate with the very large BarrierRectangle
       this.panZoomListener.setTargetBounds( this.boundsProperty.value );
 
       // constrain the simulation pan bounds so that it cannot be moved off screen
