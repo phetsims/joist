@@ -128,8 +128,14 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
       textProperty: { phetioReadOnly: true }
     }
   } );
-  this.titleText.setVisible( false );
-  this.barContents.addChild( this.titleText );
+
+  // Container node so that the visibility of the Navigation Bar title text can be controlled
+  // independently by PhET-iO and whether the user is on the homescreen.
+  const titleContainerNode = new Node( {
+    visible: false,
+    children: [ this.titleText ]
+  } );
+  this.barContents.addChild( titleContainerNode );
 
   // update the titleText based on values of the sim name and screen name
   Property.multilink( [ sim.simNameProperty, this.simScreens[ 0 ].nameProperty ],
@@ -307,7 +313,7 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
   // only show the home button and screen buttons on the nav bar when a screen is showing, not the home screen
   sim.screenProperty.link( screen => {
     const showHomeScreen = screen === sim.homeScreen;
-    this.titleText.setVisible( !showHomeScreen );
+    titleContainerNode.visible = !showHomeScreen;
     if ( buttons ) {
       buttons.setVisible( !showHomeScreen );
     }
