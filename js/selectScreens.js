@@ -58,7 +58,6 @@ const selectScreens = ( allSimScreens,
       const userIndex = screensQueryParameter[ i ];
       const screenIndex = userIndex - 1; // screens query parameter uses 1-based indices, so convert to 0-based index
 
-      // add screen to selectedSimScreens if it's a valid index, otherwise error and revert to defaults
       if ( screenIndex >= 0 && screenIndex < allSimScreens.length ) {
 
         // index is valid, add screen
