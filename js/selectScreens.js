@@ -52,6 +52,8 @@ const selectScreens = ( allSimScreens,
   // truthiness before attempting to use it. For `screens` documentation, see the schema at
   // phet.chipper.queryParameters.screens in initialize-globals.js.
   if ( screensQueryParameterProvided && screensQueryParameter ) {
+
+    let allScreensValid = true;
     screensQueryParameter.forEach( userIndex => {
       const screenIndex = userIndex - 1; // screens query parameter is 1-based
 
@@ -64,12 +66,16 @@ const selectScreens = ( allSimScreens,
 
         // handle gracefully when running without ?ea and set selectedSimScreens to default values, see https://github.com/phetsims/joist/issues/599
         QueryStringMachine.addWarning( 'screens', userIndex, errorMessage );
-        selectedSimScreens = allSimScreens;
 
         // to support expected failures in selectScreensTests.js unit tests
         assert && assert( false, errorMessage );
+        allScreensValid = false;
       }
     } );
+
+    if ( !allScreensValid ) {
+      selectedSimScreens = allSimScreens;
+    }
   }
   else {
     selectedSimScreens = allSimScreens;
