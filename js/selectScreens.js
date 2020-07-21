@@ -53,28 +53,27 @@ const selectScreens = ( allSimScreens,
   // phet.chipper.queryParameters.screens in initialize-globals.js.
   if ( screensQueryParameterProvided && screensQueryParameter ) {
 
-    let allScreensValid = true;
-    screensQueryParameter.forEach( userIndex => {
-      const screenIndex = userIndex - 1; // screens query parameter is 1-based
+    for ( let i = 0; i < screensQueryParameter.length; i++ ) {
+
+      const userIndex = screensQueryParameter[ i ];
+      const screenIndex = userIndex - 1; // screens query parameter uses 1-based indices, so convert to 0-based index
 
       // add screen to selectedSimScreens if it's a valid index, otherwise error and revert to defaults
       if ( screenIndex >= 0 && screenIndex < allSimScreens.length ) {
+
+        // index is valid, add screen
         selectedSimScreens.push( allSimScreens[ screenIndex ] );
       }
       else {
-        const errorMessage = `invalid screen index: ${userIndex}`;
 
-        // handle gracefully when running without ?ea and set selectedSimScreens to default values, see https://github.com/phetsims/joist/issues/599
-        QueryStringMachine.addWarning( 'screens', userIndex, errorMessage );
-
-        // to support expected failures in selectScreensTests.js unit tests
+        // index is invalid, handle gracefully when running without ?ea and set selectedSimScreens to default values,
+        // see https://github.com/phetsims/joist/issues/599
+        const errorMessage = `invalid value in screens query parameter: ${userIndex}`;
+        QueryStringMachine.addWarning( 'screens', screensQueryParameter, errorMessage );
         assert && assert( false, errorMessage );
-        allScreensValid = false;
+        selectedSimScreens = allSimScreens;
+        break;
       }
-    } );
-
-    if ( !allScreensValid ) {
-      selectedSimScreens = allSimScreens;
     }
   }
   else {
