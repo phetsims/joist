@@ -188,6 +188,7 @@ QUnit.test( 'valid selectScreens', async assert => {
   } );
 
   // single-screen
+  // Like ph-scale-basics_en.html?screens=1
   testValidScreenSelector( '?screens=1', [ a ], {
     homeScreen: null,
     initialScreen: a,
@@ -247,10 +248,19 @@ QUnit.test( 'invalid selectScreens', async assert => {
   testInvalidScreenSelector( '?initialScreen=0&homeScreen=false&screens=1', [ a, b ] );
   testInvalidScreenSelector( '?initialScreen=2&homeScreen=false&screens=1', [ a, b ] );
 
+  // Like ph-scale_en.html?screens=1,4
+  testInvalidScreenSelector( '?screens=1,4', [ a, b, c ] );
+
   // single-screen
   testInvalidScreenSelector( '?initialScreen=0', [ a ] );
   testInvalidScreenSelector( '?initialScreen=2', [ a ] );
   testInvalidScreenSelector( '?homeScreen=true', [ a ] );
   testInvalidScreenSelector( '?screens=0', [ a ] );
   testInvalidScreenSelector( '?screens=2', [ a ] );
+
+  testInvalidScreenSelector( '?screens=2', [ a ] );
+
+  // These contain errors, display warning dialog, and revert to default.
+  // like ph-scale-basics_en.html?screens=2,1
+  testInvalidScreenSelector( '?screens=2,1', [ a ] );
 } );
