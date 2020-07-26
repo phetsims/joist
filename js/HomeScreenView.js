@@ -87,7 +87,6 @@ function HomeScreenView( simNameProperty, model, tandem, options ) {
   } );
 
   this.addChild( titleText );
-  titleText.scale( Math.min( 1, 0.9 * this.layoutBounds.width / titleText.width ) );
 
   const buttonGroupTandem = tandem.createTandem( 'buttonGroup' );
 
