@@ -167,21 +167,20 @@ function Sim( name, allSimScreens, options ) {
     if ( width === 0 || height === 0 ) {
       return;
     }
-    const self = this;
     const scale = Math.min( width / HomeScreenView.LAYOUT_BOUNDS.width, height / HomeScreenView.LAYOUT_BOUNDS.height );
 
     // 40 px high on iPad Mobile Safari
     const navBarHeight = scale * NavigationBar.NAVIGATION_BAR_SIZE.height;
-    self.navigationBar.layout( scale, width, navBarHeight );
-    self.navigationBar.y = height - navBarHeight;
-    self.display.setSize( new Dimension2( width, height ) );
-    const screenHeight = height - self.navigationBar.height;
+    this.navigationBar.layout( scale, width, navBarHeight );
+    this.navigationBar.y = height - navBarHeight;
+    this.display.setSize( new Dimension2( width, height ) );
+    const screenHeight = height - this.navigationBar.height;
 
     // Layout each of the screens
-    _.each( self.screens, m => m.view.layout( width, screenHeight ) );
+    _.each( this.screens, m => m.view.layout( width, screenHeight ) );
 
     // Resize the layer with all of the dialogs, etc.
-    self.topLayer.setScaleMagnitude( scale );
+    this.topLayer.setScaleMagnitude( scale );
 
     // Fixes problems where the div would be way off center on iOS7
     if ( platform.mobileSafari ) {
