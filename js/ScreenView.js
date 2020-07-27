@@ -19,6 +19,7 @@
 
 import Property from '../../axon/js/Property.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
+import Matrix3 from '../../dot/js/Matrix3.js';
 import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import ControlAreaNode from '../../scenery-phet/js/accessibility/nodes/ControlAreaNode.js';
@@ -132,7 +133,7 @@ inherit( Node, ScreenView, {
      * @public (joist-internal)
      */
     getLayoutScale: function( width, height ) {
-      return Math.min( width / this.layoutBounds.width, height / this.layoutBounds.height );
+      return ScreenView.getLayoutScale( this.layoutBounds, width, height );
     },
 
     /**
@@ -144,27 +145,8 @@ inherit( Node, ScreenView, {
      * @public (joist-internal)
      */
     layout: function( width, height ) {
-      this.resetTransform();
-
-      const scale = this.getLayoutScale( width, height );
-      this.setScaleMagnitude( scale );
-
-      let dx = 0;
-      let dy = 0;
-
-      //center vertically
-      if ( scale === width / this.layoutBounds.width ) {
-        dy = ( height / scale - this.layoutBounds.height ) / 2;
-      }
-
-      //center horizontally
-      else if ( scale === height / this.layoutBounds.height ) {
-        dx = ( width / scale - this.layoutBounds.width ) / 2;
-      }
-
-      this.translate( dx, dy );
-
-      this.visibleBoundsProperty.set( new Bounds2( -dx, -dy, width / scale - dx, height / scale - dy ) );
+      this.matrix = ScreenView.getLayoutMatrix( this.layoutBounds, width, height );
+      this.visibleBoundsProperty.value = this.parentToLocalBounds( new Bounds2( 0, 0, width, height ) );
     },
 
     /**
@@ -208,7 +190,50 @@ inherit( Node, ScreenView, {
   //statics
   {
     // @public
-    DEFAULT_LAYOUT_BOUNDS: DEFAULT_LAYOUT_BOUNDS
+    DEFAULT_LAYOUT_BOUNDS: DEFAULT_LAYOUT_BOUNDS,
+
+    /**
+     * Get the scale to use for laying out the sim components and the navigation bar, so its size will track
+     * with the sim size
+     * @public
+     *
+     * @param {Bounds2} layoutBounds
+     * @param {number} width
+     * @param {number} height
+     * @returns {number}
+     */
+    getLayoutScale: function( layoutBounds, width, height ) {
+      return Math.min( width / layoutBounds.width, height / layoutBounds.height );
+    },
+
+    /**
+     * @public
+     *
+     * @param {Bounds2} layoutBounds
+     * @param {number} width
+     * @param {number} height
+     * @returns {Matrix3}
+     */
+    getLayoutMatrix( layoutBounds, width, height ) {
+      const scale = ScreenView.getLayoutScale( layoutBounds, width, height );
+
+      let dx = 0;
+      let dy = 0;
+
+      if ( scale === width / layoutBounds.width ) {
+        // center vertically
+        dy = ( height / scale - layoutBounds.height ) / 2;
+      }
+      else if ( scale === height / layoutBounds.height ) {
+        // center horizontally
+        dx = ( width / scale - layoutBounds.width ) / 2;
+      }
+
+      return Matrix3.affine(
+        scale, 0, dx,
+        0, scale, dy
+      );
+    }
   }
 );
 
