@@ -229,9 +229,10 @@ inherit( Node, ScreenView, {
         dx = ( width / scale - layoutBounds.width ) / 2;
       }
 
-      return Matrix3.affine(
-        scale, 0, dx,
-        0, scale, dy
+      return Matrix3.rowMajor(
+        scale, 0, dx * scale,
+        0, scale, dy * scale,
+        0, 0, 1
       );
     }
   }
