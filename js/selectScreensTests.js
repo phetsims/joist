@@ -242,6 +242,7 @@ QUnit.test( 'invalid selectScreens', async assert => {
   // multi-screen
   testInvalidScreenSelector( '?screens=0', [ a, b ] );
   testInvalidScreenSelector( '?screens=3', [ a, b ] );
+  testInvalidScreenSelector( '?screens=', [ a, b ] );
   testInvalidScreenSelector( '?initialScreen=0&homeScreen=true&screens=1', [ a, b ] );
   testInvalidScreenSelector( '?initialScreen=0&homeScreen=false&screens=0', [ a, b ] );
   testInvalidScreenSelector( '?initialScreen=0&homeScreen=false&screens=2,1', [ a, b ] );
