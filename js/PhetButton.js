@@ -60,9 +60,9 @@ function PhetButton( sim, backgroundFillProperty, tandem ) {
   Property.multilink( [ sim.boundsProperty, sim.screenBoundsProperty, sim.scaleProperty ],
     ( bounds, screenBounds, scale ) => {
       if ( bounds && screenBounds && scale ) {
-        phetMenu.right = bounds.right / scale - 2 / scale;
+        phetMenu.right = bounds.right - 2;
         const navBarHeight = bounds.height - screenBounds.height;
-        phetMenu.bottom = screenBounds.bottom / scale + navBarHeight / 2 / scale;
+        phetMenu.bottom = screenBounds.bottom + navBarHeight / 2;
       }
     } );
 

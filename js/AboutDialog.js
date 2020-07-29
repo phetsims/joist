@@ -17,11 +17,9 @@ import VBox from '../../scenery/js/nodes/VBox.js';
 import VStrut from '../../scenery/js/nodes/VStrut.js';
 import Dialog from '../../sun/js/Dialog.js';
 import CreditsNode from './CreditsNode.js';
-import HomeScreenView from './HomeScreenView.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import packageJSON from './packageJSON.js';
-import ScreenView from './ScreenView.js';
 import updateCheck from './updateCheck.js';
 import UpdateNodes from './UpdateNodes.js';
 import UpdateState from './UpdateState.js';
@@ -232,10 +230,7 @@ class AboutDialog extends Dialog {
       tandem: tandem,
       phetioReadOnly: true, // the AboutDialog should not be settable
       phetioState: true,
-      phetioDynamicElement: true,
-
-      //TODO workaround for https://github.com/phetsims/joist/issues/586 and https://github.com/phetsims/joist/issues/639
-      scale: HomeScreenView.LAYOUT_BOUNDS.width / ScreenView.DEFAULT_LAYOUT_BOUNDS.width
+      phetioDynamicElement: true
     } );
 
     // @private

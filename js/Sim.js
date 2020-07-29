@@ -178,9 +178,7 @@ function Sim( name, allSimScreens, options ) {
 
     // Layout each of the screens
     _.each( this.screens, m => m.view.layout( width, screenHeight ) );
-
-    // Resize the layer with all of the dialogs, etc.
-    this.topLayer.setScaleMagnitude( scale );
+    this.topLayer.children.forEach( child => child.layout && child.layout( width, screenHeight ) );
 
     // Fixes problems where the div would be way off center on iOS7
     if ( platform.mobileSafari ) {
@@ -763,6 +761,9 @@ inherit( Object, Sim, {
     assert && assert( !this.topLayer.hasChild( node ), 'Popup already shown' );
     if ( isModal ) {
       this.modalNodeStack.push( node );
+    }
+    if ( node.layout ) {
+      node.layout( this.screenBoundsProperty.value.width, this.screenBoundsProperty.value.height );
     }
     this.topLayer.addChild( node );
   },
