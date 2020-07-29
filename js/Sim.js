@@ -622,7 +622,7 @@ function Sim( name, allSimScreens, options ) {
   this.panZoomListener = null;
   if ( this.supportsZoom ) {
     this.panZoomListener = new AnimatedPanZoomListener( this.simulationRoot );
-    this.simulationRoot.addInputListener( this.panZoomListener );
+    this.display.addInputListener( this.panZoomListener );
   }
 
   // @public (joist-internal)
