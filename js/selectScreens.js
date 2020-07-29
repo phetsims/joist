@@ -52,7 +52,7 @@ const selectScreens = ( allSimScreens,
   // truthiness before attempting to use it. For `screens` documentation, see the schema at
   // phet.chipper.queryParameters.screens in initialize-globals.js.
   if ( screensQueryParameterProvided && screensQueryParameter ) {
-    assert && assert( screensQueryParameter.length > 0, 'Screens query parameter should have at least one value' );
+  assert && assert( screensQueryParameter.length > 0, 'Screens query parameter should have at least one value' );
 
     for ( let i = 0; i < screensQueryParameter.length; i++ ) {
 
