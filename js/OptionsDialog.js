@@ -13,8 +13,8 @@ import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import Dialog from '../../sun/js/Dialog.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import joistStrings from './joistStrings.js';
 import joist from './joist.js';
+import joistStrings from './joistStrings.js';
 
 const optionsTitleString = joistStrings.options.title;
 
@@ -28,8 +28,8 @@ function OptionsDialog( createContent, options ) {
   options = merge( {
 
     titleAlign: 'center',
-    bottomMargin: 20,
-    ySpacing: 20,
+    bottomMargin: 26,
+    ySpacing: 26,
 
     // phet-io
     tandem: Tandem.REQUIRED,
@@ -67,8 +67,8 @@ inherit( Dialog, OptionsDialog, {
     Dialog.prototype.dispose.call( this );
   }
 }, {
-  DEFAULT_FONT: new PhetFont( 15 ),
-  DEFAULT_SPACING: 10
+  DEFAULT_FONT: new PhetFont( 20 ),
+  DEFAULT_SPACING: 14
 } );
 
 export default OptionsDialog;
