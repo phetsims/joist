@@ -75,6 +75,7 @@ class AboutDialog extends Dialog {
     let updateStepListener = null;
     let updateVisibilityListener = null;
 
+    // brand=phet versions that are not running in the phet-app will should update status
     if ( updateCheck.areUpdatesChecked ) {
 
       const positionOptions = { left: 0, top: 0 };
