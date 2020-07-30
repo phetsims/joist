@@ -12,6 +12,7 @@
  */
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Property from '../../axon/js/Property.js';
 import PropertyIO from '../../axon/js/PropertyIO.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
@@ -147,6 +148,13 @@ function Screen( createModel, createView, options ) {
   this.navigationBarIcon = options.navigationBarIcon;
   this.showUnselectedHomeScreenIconFrame = options.showUnselectedHomeScreenIconFrame;
   this.showScreenIconFrameForNavigationBarFill = options.showScreenIconFrameForNavigationBarFill;
+
+  // @public (read-only) {Property<String|null>} - may be null for single-screen simulations
+  this.pdomDisplayNameProperty = new DerivedProperty( [ this.nameProperty ], name => {
+    return name === null ? null : StringUtils.fillIn( screenNamePatternString, {
+      name: name
+    } );
+  } );
 
   // @public (read-only, joist)
   this.maxDT = options.maxDT;
@@ -299,10 +307,8 @@ inherit( PhetioObject, Screen, {
       this._view.addChild( devCreateVisibleBoundsNode( this._view ) );
     }
 
-    // Set the accessible label for the screen. If simName is not provided, then we are creating the home screen.
-    if ( simName ) {
-
-      let screenNameWithScreen = '';
+    // Set the accessible label for the screen.
+    simName && this.pdomDisplayNameProperty.link( name => {
 
       // Single screen sims don't need screen names, instead just show the title of the sim.
       // Using total screens for sim breaks modularity a bit, but it also is needed as that parameter changes the
@@ -312,21 +318,17 @@ inherit( PhetioObject, Screen, {
       }
       else {
 
-        // Like "My Awesome Screen" because "My Awesome" is the name of the screen.
-        screenNameWithScreen = StringUtils.fillIn( screenNamePatternString, {
-          name: this.nameProperty.value
-        } );
-
         // initialize proper PDOM labelling for ScreenView
         this._view.labelContent = StringUtils.fillIn( screenSimPatternString, {
-          screenName: screenNameWithScreen,
+          screenName: name,
           simName: simName
         } );
       }
 
       // if there is a screenSummaryNode, then set its intro string now
-      this._view.setScreenSummaryIntroString( simName, screenNameWithScreen, numberOfScreens > 1 );
-    }
+      this._view.setScreenSummaryIntroString( simName, name, numberOfScreens > 1 );
+    } );
+
     assert && this._view.accessibleAudit();
   }
 }, {

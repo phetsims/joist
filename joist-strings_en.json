@@ -167,9 +167,6 @@
     "simScreen": {
       "value": "Sim Screen"
     },
-    "screenNumberPattern": {
-      "value": "Screen {{number}}"
-    },
     "screenNamePattern": {
       "value": "{{name}} Screen"
     },
@@ -178,9 +175,6 @@
     },
     "home": {
       "value": "Home"
-    },
-    "homeScreen": {
-      "value": "Home Screen"
     },
     "homeScreenDescription": {
       "value": "Go to Home Screen."

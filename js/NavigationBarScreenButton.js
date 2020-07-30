@@ -14,7 +14,6 @@ import Utils from '../../dot/js/Utils.js';
 import Shape from '../../kite/js/Shape.js';
 import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
-import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import FocusHighlightPath from '../../scenery/js/accessibility/FocusHighlightPath.js';
@@ -33,7 +32,6 @@ const HIGHLIGHT_SPACING = 4;
 const getHighlightWidth = overlay => overlay.width + ( 2 * HIGHLIGHT_SPACING );
 
 const simScreenString = joistStrings.a11y.simScreen;
-const screenNameStringPatternString = joistStrings.a11y.screenNumberPattern;
 
 /**
  * Create a nav bar.  Layout assumes all of the screen widths are the same.
@@ -64,13 +62,16 @@ function NavigationBarScreenButton( navigationBarFillProperty, screenProperty, s
     tagName: 'button',
     containerTagName: 'li',
     descriptionContent: screen.descriptionContent,
-    appendDescription: true,
-    innerContent: StringUtils.fillIn( screenNameStringPatternString, {
-      number: simScreenIndex + 1 // convert from index to display number
-    } )
+    appendDescription: true
   }, options );
 
+  assert && assert( !options.innerContent, 'NavigationBarScreenButton sets its own innerContent' );
+
   Node.call( this );
+
+  screen.pdomDisplayNameProperty.link( name => {
+    this.innerContent = name;
+  } );
 
   // icon
   const icon = new Node( {

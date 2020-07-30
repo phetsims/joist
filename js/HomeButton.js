@@ -16,22 +16,21 @@ import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';
 import FontAwesomeNode from '../../sun/js/FontAwesomeNode.js';
 import joist from './joist.js';
-import joistStrings from './joistStrings.js';
 import JoistButton from './JoistButton.js';
+import joistStrings from './joistStrings.js';
 
 // constants
-const homeString = joistStrings.a11y.home;
-const homeScreenString = joistStrings.a11y.homeScreen;
 const homeScreenDescriptionString = joistStrings.a11y.homeScreenDescription;
 
 /**
  * @param {number} navBarHeight
  * @param {Property.<string>} navigationBarFillProperty - the color of the navbar, as a string.
  * @param {Tandem} tandem
+ * @param {Property.<string|null>} pdomDisplayNameProperty - for the HomeScreen, for description
  * @param {Object} [options]
  * @constructor
  */
-function HomeButton( navBarHeight, navigationBarFillProperty, tandem, options ) {
+function HomeButton( navBarHeight, navigationBarFillProperty, pdomDisplayNameProperty, tandem, options ) {
 
   options = merge( {
     highlightExtensionWidth: 4,
@@ -39,11 +38,12 @@ function HomeButton( navBarHeight, navigationBarFillProperty, tandem, options ) 
 
     // pdom,
     tagName: 'button',
-    innerContent: homeString,
     containerTagName: 'li',
     descriptionContent: homeScreenDescriptionString,
     appendDescription: true
   }, options );
+
+  assert && assert( !options.innerContent, 'HomeButton sets its own innerContent' );
 
   const homeIcon = new FontAwesomeNode( 'home' );
   // scale so that the icon is slightly taller than screen button icons, value determined empirically, see joist#127
@@ -62,9 +62,6 @@ function HomeButton( navBarHeight, navigationBarFillProperty, tandem, options ) 
   const highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );
   this.focusHighlight = Shape.bounds( this.bounds.setMaxY( this.bounds.maxY - highlightLineWidth / 2 ) );
 
-  // pdom - add the role description for the HomeButton
-  this.setAccessibleAttribute( 'aria-roledescription', homeScreenString );
-
   Property.multilink( [ this.interactionStateProperty, navigationBarFillProperty ], function( interactionState, navigationBarFill ) {
     if ( navigationBarFill === 'black' ) {
       homeIcon.fill = interactionState === ButtonInteractionState.PRESSED ? 'gray' : 'white';
@@ -72,6 +69,13 @@ function HomeButton( navBarHeight, navigationBarFillProperty, tandem, options ) 
     else {
       homeIcon.fill = interactionState === ButtonInteractionState.PRESSED ? '#444' : '#222';
     }
+  } );
+
+  pdomDisplayNameProperty.link( name => {
+    this.innerContent = name;
+
+    // pdom - add the role description for the HomeButton
+    this.setAccessibleAttribute( 'aria-roledescription', name );
   } );
 }
 
