@@ -302,6 +302,8 @@ inherit( PhetioObject, Screen, {
     // Set the accessible label for the screen. If simName is not provided, then we are creating the home screen.
     if ( simName ) {
 
+      let screenNameWithScreen = '';
+
       // Single screen sims don't need screen names, instead just show the title of the sim.
       // Using total screens for sim breaks modularity a bit, but it also is needed as that parameter changes the
       // labelling of this screen, see https://github.com/phetsims/joist/issues/496
@@ -311,7 +313,7 @@ inherit( PhetioObject, Screen, {
       else {
 
         // Like "My Awesome Screen" because "My Awesome" is the name of the screen.
-        const screenNameWithScreen = StringUtils.fillIn( screenNamePatternString, {
+        screenNameWithScreen = StringUtils.fillIn( screenNamePatternString, {
           name: this.nameProperty.value
         } );
 
@@ -323,7 +325,7 @@ inherit( PhetioObject, Screen, {
       }
 
       // if there is a screenSummaryNode, then set its intro string now
-      this._view.setScreenSummaryIntroString( simName, numberOfScreens );
+      this._view.setScreenSummaryIntroString( simName, screenNameWithScreen, numberOfScreens > 1 );
     }
     assert && this._view.accessibleAudit();
   }

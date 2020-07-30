@@ -177,11 +177,12 @@ inherit( Node, ScreenView, {
     /**
      * Set the screen summary Node intro string
      * @param {string} simName
-     * @param {number} numberOfScreens
+     * @param {string} screenName
+     * @param {boolean} isMultiScreen
      * @public (joist-internal)
      */
-    setScreenSummaryIntroString: function( simName, numberOfScreens ) {
-      this.pdomScreenSummaryNode.setIntroString( simName, numberOfScreens );
+    setScreenSummaryIntroString: function( simName, screenName, isMultiScreen ) {
+      this.pdomScreenSummaryNode.setIntroString( simName, screenName, isMultiScreen );
     },
 
     set accessibleOrder( order ) { throw new Error( 'should not need to set accessible order on the screen view' ); }
