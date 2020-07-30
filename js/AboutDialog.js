@@ -1,7 +1,7 @@
 // Copyright 2013-2020, University of Colorado Boulder
 
 /**
- * Shows the About dialog.
+ * AboutDialog displays information about the simulation -- its title, version number, credits, etc.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -24,10 +24,9 @@ import updateCheck from './updateCheck.js';
 import UpdateNodes from './UpdateNodes.js';
 import UpdateState from './UpdateState.js';
 
-const versionPatternString = joistStrings.versionPattern;
-
-// Maximum width of elements in the dialog
-const MAX_WIDTH = 550;
+// constants
+const MAX_WIDTH = 700; // Maximum width of elements in the dialog
+const NOMINAL_FONT_SIZE = 16; // Change this to make everything larger or smaller
 
 class AboutDialog extends Dialog {
 
@@ -48,24 +47,25 @@ class AboutDialog extends Dialog {
     let children = [];
 
     const titleText = new Text( name, {
-      font: new PhetFont( 28 ),
+      font: new PhetFont( 2 * NOMINAL_FONT_SIZE ),
       maxWidth: MAX_WIDTH,
       tagName: 'h1',
       innerContent: name
     } );
     children.push( titleText );
 
-    const versionString = StringUtils.format( versionPatternString, version );
+    const versionString = StringUtils.format( joistStrings.versionPattern, version );
     children.push( new Text( versionString, {
-      font: new PhetFont( 20 ),
+      font: new PhetFont( NOMINAL_FONT_SIZE ),
       maxWidth: MAX_WIDTH,
       tagName: 'p',
       innerContent: versionString
     } ) );
 
+    // Built versions will have a build timestamp
     if ( phet.chipper.buildTimestamp ) {
       children.push( new Text( phet.chipper.buildTimestamp, {
-        font: new PhetFont( 13 ),
+        font: new PhetFont( 0.65 * NOMINAL_FONT_SIZE ),
         maxWidth: MAX_WIDTH,
         tagName: 'p',
         innerContent: phet.chipper.buildTimestamp
@@ -76,6 +76,7 @@ class AboutDialog extends Dialog {
     let updateVisibilityListener = null;
 
     if ( updateCheck.areUpdatesChecked ) {
+
       const positionOptions = { left: 0, top: 0 };
       const checkingNode = UpdateNodes.createCheckingNode( positionOptions );
       const upToDateNode = UpdateNodes.createUpToDateNode( positionOptions );
@@ -116,9 +117,9 @@ class AboutDialog extends Dialog {
     // Show the brand name, if it exists
     if ( Brand.name ) {
       brandChildren.push( new RichText( Brand.name, {
-        font: new PhetFont( 16 ),
+        font: new PhetFont( NOMINAL_FONT_SIZE ),
         supScale: 0.5,
-        supYOffset: 2,
+        supYOffset: 3,
         maxWidth: MAX_WIDTH,
 
         // pdom
@@ -136,7 +137,8 @@ class AboutDialog extends Dialog {
       const copyright = StringUtils.fillIn( Brand.copyright, { year: year } );
 
       brandChildren.push( new Text( copyright, {
-        font: new PhetFont( 12 ), maxWidth: MAX_WIDTH,
+        font: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
+        maxWidth: MAX_WIDTH,
 
         // pdom
         tagName: 'p',
@@ -149,7 +151,7 @@ class AboutDialog extends Dialog {
     // Optional additionalLicenseStatement, used in phet-io
     if ( Brand.additionalLicenseStatement ) {
       additionalLicenseStatement = new RichText( Brand.additionalLicenseStatement, {
-          font: new PhetFont( 10 ),
+          font: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
           fill: 'gray',
           align: 'left',
           maxWidth: MAX_WIDTH,
@@ -173,6 +175,8 @@ class AboutDialog extends Dialog {
     if ( credits && ( Brand.id === 'phet' || Brand.id === 'phet-io' ) ) {
       children.push( new VStrut( 15 ) );
       creditsNode = new CreditsNode( credits, {
+        titleFont: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } ),
+        textFont: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
         maxWidth: MAX_WIDTH
       } );
       children.push( creditsNode );
@@ -196,7 +200,7 @@ class AboutDialog extends Dialog {
         // This is PhET-iO instrumented because it is a keyboard navigation focusable element.
         linksChildren.push( new RichText( text, {
           links: { url: link.url }, // RichText must fill in URL for link
-          font: new PhetFont( 14 ),
+          font: new PhetFont( NOMINAL_FONT_SIZE ),
           tandem: tandem.createTandem( link.tandemName ),
           phetioReadOnly: true
         } ) );
@@ -204,7 +208,7 @@ class AboutDialog extends Dialog {
 
       // Show the links in a separate VBox so they will have the same MAX_WIDTH and hence the same font size.
       const linksParent = new VBox( {
-        spacing: 5,
+        spacing: 6,
         align: 'left',
         children: linksChildren, maxWidth: MAX_WIDTH
       } );
@@ -213,7 +217,7 @@ class AboutDialog extends Dialog {
 
     const content = new VBox( {
       align: 'left',
-      spacing: 5,
+      spacing: 6,
       children: children,
 
       // pdom - accessible container for all AboutDialog content
@@ -222,11 +226,11 @@ class AboutDialog extends Dialog {
 
     super( content, {
       focusOnCloseNode: phetButton,
-      xSpacing: 20,
-      topMargin: 20,
-      bottomMargin: 20,
-      leftMargin: 20,
-      rightMargin: 20,
+      xSpacing: 26,
+      topMargin: 26,
+      bottomMargin: 26,
+      leftMargin: 26,
+      rightMargin: 26,
       tandem: tandem,
       phetioReadOnly: true, // the AboutDialog should not be settable
       phetioState: true,
