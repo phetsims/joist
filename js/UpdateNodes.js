@@ -17,8 +17,8 @@ import VBox from '../../scenery/js/nodes/VBox.js';
 import VStrut from '../../scenery/js/nodes/VStrut.js';
 import TextPushButton from '../../sun/js/buttons/TextPushButton.js';
 import FontAwesomeNode from '../../sun/js/FontAwesomeNode.js';
-import joistStrings from './joistStrings.js';
 import joist from './joist.js';
+import joistStrings from './joistStrings.js';
 import updateCheck from './updateCheck.js';
 import UpdateState from './UpdateState.js';
 
@@ -39,21 +39,27 @@ const MAX_WIDTH = 550;
 const UpdateNodes = {
 
   /**
-   * "Checking" state node. With two size options (if options.big == true, it will be bigger)
+   * "Checking" state node.
    *
    * @param {Object} [options] - passed to the Node
    * @returns {Node} the Checking node, with step( dt ) and stepListener (bound to the node itself)
    * @public (joist-internal)
    */
   createCheckingNode: function( options ) {
-    const spinningIndicatorNode = new SpinningIndicatorNode( { indicatorSize: options.big ? 24 : 18 } );
+
+    options = merge( {
+      big: false // two size options -- if options.big == true, it will be bigger
+    }, options );
+
+    const spinningIndicatorNode = new SpinningIndicatorNode( { indicatorSize: options.big ? 30 : 18 } );
+
     const checkingNode = new HBox( merge( {
-      spacing: options.big ? 10 : 8,
+      spacing: options.big ? 14 : 8,
       maxWidth: MAX_WIDTH,
       children: [
         spinningIndicatorNode,
         new Text( updatesCheckingString, {
-          font: new PhetFont( options.big ? 16 : 14 ),
+          font: new PhetFont( options.big ? 20 : 14 ),
           fontWeight: options.big ? 'bold' : 'normal'
         } )
       ],
@@ -62,12 +68,14 @@ const UpdateNodes = {
       tagName: 'p',
       innerContent: updatesCheckingString
     }, options ) );
+
     checkingNode.step = function( dt ) {
       if ( updateCheck.stateProperty.value === UpdateState.CHECKING ) {
         spinningIndicatorNode.step( dt );
       }
     };
     checkingNode.stepListener = checkingNode.step.bind( checkingNode );
+
     return checkingNode;
   },
 
@@ -78,6 +86,11 @@ const UpdateNodes = {
    * @public (joist-internal)
    */
   createUpToDateNode: function( options ) {
+
+    options = merge( {
+      big: false // two size options -- if options.big == true, it will be bigger
+    }, options );
+
     return new HBox( merge( {
       spacing: 8,
       maxWidth: MAX_WIDTH,
