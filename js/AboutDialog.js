@@ -25,7 +25,7 @@ import UpdateNodes from './UpdateNodes.js';
 import UpdateState from './UpdateState.js';
 
 // constants
-const MAX_WIDTH = 700; // Maximum width of elements in the dialog
+const MAX_WIDTH = 550; // Maximum width of elements in the dialog
 const NOMINAL_FONT_SIZE = 16; // Change this to make everything larger or smaller
 
 class AboutDialog extends Dialog {
