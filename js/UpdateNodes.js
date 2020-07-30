@@ -31,10 +31,9 @@ const updatesOutOfDateString = joistStrings.updates.outOfDate;
 const updatesUpToDateString = joistStrings.updates.upToDate;
 const updatesYourCurrentVersionString = joistStrings.updates.yourCurrentVersion;
 
-const updateTextFont = new PhetFont( 14 );
-
-// Maximum width of the resulting update items
-const MAX_WIDTH = 550;
+// constants
+const UPDATE_TEXT_FONT = new PhetFont( 14 );
+const MAX_WIDTH = 550; // Maximum width of the resulting update items
 
 const UpdateNodes = {
 
@@ -83,7 +82,9 @@ const UpdateNodes = {
       maxWidth: MAX_WIDTH,
       children: [
         new Rectangle( 0, 0, 20, 20, 5, 5, {
-          fill: '#5c3', scale: options.big ? 1.2 : 1, children: [
+          fill: '#5c3',
+          scale: options.big ? 1.2 : 1,
+          children: [
             new FontAwesomeNode( 'check', { fill: '#fff', scale: 0.38, centerX: 10, centerY: 10 } )
           ]
         } ),
@@ -110,7 +111,7 @@ const UpdateNodes = {
     const links = phet.chipper.queryParameters.allowLinks ? { url: updateCheck.updateURL } : {};
     const linkNode = new RichText( text, {
       links: links, // RichText must fill in URL for link
-      font: updateTextFont
+      font: UPDATE_TEXT_FONT
     } );
     return new HBox( merge( {
       spacing: 8,
@@ -146,19 +147,19 @@ const UpdateNodes = {
               font: new PhetFont( 16 ), fontWeight: 'bold'
             } ),
             new Text( StringUtils.format( updatesYourCurrentVersionString, ourVersionString ), {
-              font: updateTextFont
+              font: UPDATE_TEXT_FONT
             } )
           ]
         } ),
         new HBox( {
           spacing: 25, children: [
             new TextPushButton( updatesGetUpdateString, {
-              baseColor: '#6f6', font: updateTextFont, listener: function() {
+              baseColor: '#6f6', font: UPDATE_TEXT_FONT, listener: function() {
                 openPopup( updateCheck.updateURL ); // open in a new window/tab
               }
             } ),
             new TextPushButton( updatesNoThanksString, {
-              baseColor: '#ddd', font: updateTextFont, listener: function() {
+              baseColor: '#ddd', font: UPDATE_TEXT_FONT, listener: function() {
                 dialog.hide();
                 // Closing the dialog is handled by the Dialog listener itself, no need to add code to close it here.
               }
