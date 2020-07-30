@@ -151,7 +151,7 @@ class AboutDialog extends Dialog {
     // Optional additionalLicenseStatement, used in phet-io
     if ( Brand.additionalLicenseStatement ) {
       additionalLicenseStatement = new RichText( Brand.additionalLicenseStatement, {
-          font: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
+          font: new PhetFont( 0.65 * NOMINAL_FONT_SIZE ),
           fill: 'gray',
           align: 'left',
           maxWidth: MAX_WIDTH,
