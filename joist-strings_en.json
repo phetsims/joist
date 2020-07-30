@@ -182,11 +182,8 @@
     "homeScreenDescriptionPattern": {
       "value": "Come explore with {{name}}. It has {{screens}} screens."
     },
-    "simResourcesAndTools": {
+    "simResources": {
       "value": "Sim Resources"
-    },
-    "simScreensResourcesAndTools": {
-      "value": "Sim Screens, Resources, and Tools"
     },
     "soundToggle": {
       "alert": {

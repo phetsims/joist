@@ -42,12 +42,6 @@ import joistStrings from './joistStrings.js';
 import NavigationBarScreenButton from './NavigationBarScreenButton.js';
 import PhetButton from './PhetButton.js';
 
-const simTitleWithScreenNamePatternString = joistStrings.simTitleWithScreenNamePattern;
-
-const simScreensResourcesAndToolsString = joistStrings.a11y.simScreensResourcesAndTools;
-const simResourcesAndToolsString = joistStrings.a11y.simResourcesAndTools;
-const simScreensString = joistStrings.a11y.simScreens;
-
 // constants
 // for layout of the NavigationBar, used in the following way:
 // [
@@ -80,16 +74,7 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
   // @private
   this.simScreens = sim.simScreens;
 
-  Node.call( this, {
-
-    // pdom
-    tagName: 'div',
-    ariaRole: 'region',
-    labelTagName: 'h2',
-
-    // Use a different string, omitting "screens" if single screen sim.
-    labelContent: this.simScreens.length === 1 ? simResourcesAndToolsString : simScreensResourcesAndToolsString
-  } );
+  Node.call( this );
 
   // @private - The nav bar fill and determining fill for elements on the nav bar (if it's black, the elements are white)
   this.navigationBarFillProperty = new DerivedProperty( [
@@ -142,9 +127,10 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
     ( simName, screenName ) => {
 
       if ( isMultiScreenSimDisplayingSingleScreen && simName && screenName ) {
+
         // If the 'screens' query parameter selects only 1 screen and both the sim and screen name are not the empty
         // string, then update the nav bar title to include a hyphen and the screen name after the sim name.
-        title = StringUtils.fillIn( simTitleWithScreenNamePatternString, {
+        title = StringUtils.fillIn( joistStrings.simTitleWithScreenNamePattern, {
           simName: simName,
           screenName: screenName
         } );
@@ -199,10 +185,11 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
     // pdom - container for the homeButton and all the screen buttons.
     var buttons = new Node( {
       tagName: 'nav',
-      ariaLabel: simScreensString
+      labelTagName: 'h2',
+      labelContent: joistStrings.a11y.simScreens
     } );
-    const buttonsOrderedList = new Node( { tagName: 'ol' } );
-    buttons.addChild( buttonsOrderedList );
+    const screenButtonsOrderedList = new Node( { tagName: 'ol' } );
+    buttons.addChild( screenButtonsOrderedList );
     buttons.setVisible( false );
     this.barContents.addChild( buttons );
 
@@ -223,7 +210,7 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
       } );
 
     // Add the home button, but only if the homeScreen exists
-    sim.homeScreen && buttonsOrderedList.addChild( this.homeButton );
+    sim.homeScreen && screenButtonsOrderedList.addChild( this.homeButton );
 
     /*
      * Allocate remaining horizontal space equally for screen buttons, assuming they will be centered in the navbar.
@@ -279,7 +266,7 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
       centerY: this.background.centerY,
       maxWidth: availableTotal // in case we have so many screens that the screen buttons need to be scaled down
     } );
-    buttonsOrderedList.addChild( this.screenButtonsContainer );
+    screenButtonsOrderedList.addChild( this.screenButtonsContainer );
 
     // Now determine the actual width constraint for the sim title.
     this.titleText.maxWidth = this.screenButtonsContainer.left - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN -
@@ -304,12 +291,25 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
 
   this.layout( 1, NAVIGATION_BAR_SIZE.width, NAVIGATION_BAR_SIZE.height );
 
-  // pdom - keyboard help button before phet menu button, but only if it exists
-  this.accessibleOrder = [
-    buttons,
-    this.a11yButtonsHBox,
-    this.phetButton
-  ].filter( node => node !== undefined );
+  const simResourcesContainer = new Node( {
+    accessibleOrder: [
+      this.a11yButtonsHBox,
+      this.phetButton
+    ].filter( node => node !== undefined ),
+
+    // pdom
+    tagName: 'div',
+    containerTagName: 'section',
+    labelTagName: 'h2',
+    labelContent: joistStrings.a11y.simResources
+  } );
+
+  simResourcesContainer.ariaLabelledbyAssociations = [ {
+    thisElementName: PDOMPeer.CONTAINER_PARENT,
+    otherElementName: PDOMPeer.LABEL_SIBLING,
+    otherNode: simResourcesContainer
+  } ];
+  this.addChild( simResourcesContainer );
 
   // only show the home button and screen buttons on the nav bar when a screen is showing, not the home screen
   sim.screenProperty.link( screen => {
