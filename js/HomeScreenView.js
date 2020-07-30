@@ -101,13 +101,12 @@ function HomeScreenView( simNameProperty, model, tandem, options ) {
         showUnselectedHomeScreenIconFrame: screen.showUnselectedHomeScreenIconFrame,
 
         // pdom
-        innerContent: screen.nameProperty.value,
         descriptionContent: screen.descriptionContent,
 
         // phet-io
         tandem: buttonGroupTandem.createTandem( screen.tandem.name + 'Button' )
       } );
-    screen.nameProperty.link( screenName => {
+    screen.pdomDisplayNameProperty.link( screenName => {
       homeScreenButton.innerContent = screenName;
     } );
 
