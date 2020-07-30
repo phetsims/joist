@@ -184,12 +184,17 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
 
     // pdom - container for the homeButton and all the screen buttons.
     var buttons = new Node( {
-      tagName: 'nav',
+      tagName: 'ol',
+      containerTagName: 'nav',
       labelTagName: 'h2',
       labelContent: joistStrings.a11y.simScreens
     } );
-    const screenButtonsOrderedList = new Node( { tagName: 'ol' } );
-    buttons.addChild( screenButtonsOrderedList );
+
+    buttons.ariaLabelledbyAssociations = [ {
+      thisElementName: PDOMPeer.CONTAINER_PARENT,
+      otherElementName: PDOMPeer.LABEL_SIBLING,
+      otherNode: buttons
+    } ];
     buttons.setVisible( false );
     this.barContents.addChild( buttons );
 
@@ -210,7 +215,7 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
       } );
 
     // Add the home button, but only if the homeScreen exists
-    sim.homeScreen && screenButtonsOrderedList.addChild( this.homeButton );
+    sim.homeScreen && buttons.addChild( this.homeButton );
 
     /*
      * Allocate remaining horizontal space equally for screen buttons, assuming they will be centered in the navbar.
@@ -266,7 +271,7 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
       centerY: this.background.centerY,
       maxWidth: availableTotal // in case we have so many screens that the screen buttons need to be scaled down
     } );
-    screenButtonsOrderedList.addChild( this.screenButtonsContainer );
+    buttons.addChild( this.screenButtonsContainer );
 
     // Now determine the actual width constraint for the sim title.
     this.titleText.maxWidth = this.screenButtonsContainer.left - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN -
@@ -292,16 +297,16 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
   this.layout( 1, NAVIGATION_BAR_SIZE.width, NAVIGATION_BAR_SIZE.height );
 
   const simResourcesContainer = new Node( {
-    accessibleOrder: [
-      this.a11yButtonsHBox,
-      this.phetButton
-    ].filter( node => node !== undefined ),
 
     // pdom
     tagName: 'div',
     containerTagName: 'section',
     labelTagName: 'h2',
-    labelContent: joistStrings.a11y.simResources
+    labelContent: joistStrings.a11y.simResources,
+    accessibleOrder: [
+      this.a11yButtonsHBox,
+      this.phetButton
+    ].filter( node => node !== undefined )
   } );
 
   simResourcesContainer.ariaLabelledbyAssociations = [ {
