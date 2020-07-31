@@ -27,11 +27,9 @@ import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import Frame from './Frame.js';
 import joist from './joist.js';
-import joistStrings from './joistStrings.js';
 
 
 // constants
-const simScreenString = joistStrings.a11y.simScreen;
 const LARGE_ICON_HEIGHT = 140;
 
 class HomeScreenButton extends VBox {
@@ -208,9 +206,6 @@ class HomeScreenButton extends VBox {
     };
     this.addInputListener( { focus: toggleListener } );
     this.addInputListener( { click: toggleListener } );
-
-    // pdom - add the right aria attributes to the buttons
-    this.setAccessibleAttribute( 'aria-roledescription', simScreenString );
 
     // set the mouseArea and touchArea to be the whole local bounds of this node, because if it just relies on the
     // bounds of the icon and text, then there is a gap in between them. Since the button can change size, this

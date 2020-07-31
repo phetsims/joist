@@ -73,9 +73,6 @@ function HomeButton( navBarHeight, navigationBarFillProperty, pdomDisplayNamePro
 
   pdomDisplayNameProperty.link( name => {
     this.innerContent = name;
-
-    // pdom - add the role description for the HomeButton
-    this.setAccessibleAttribute( 'aria-roledescription', name );
   } );
 }
 

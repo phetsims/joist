@@ -25,13 +25,10 @@ import PushButtonModel from '../../sun/js/buttons/PushButtonModel.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import HighlightNode from './HighlightNode.js';
 import joist from './joist.js';
-import joistStrings from './joistStrings.js';
 
 // constants
 const HIGHLIGHT_SPACING = 4;
 const getHighlightWidth = overlay => overlay.width + ( 2 * HIGHLIGHT_SPACING );
-
-const simScreenString = joistStrings.a11y.simScreen;
 
 /**
  * Create a nav bar.  Layout assumes all of the screen widths are the same.
@@ -211,9 +208,6 @@ function NavigationBarScreenButton( navigationBarFillProperty, screenProperty, s
     // update layout from the text change
     layout();
   } );
-
-  // pdom - set the role description for the button
-  this.setAccessibleAttribute( 'aria-roledescription', simScreenString );
 
   // pdom - Pass a shape to the focusHighlight to prevent dilation, then tweak the top up just a hair.
   const highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );
