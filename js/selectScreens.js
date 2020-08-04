@@ -52,7 +52,7 @@ const selectScreens = ( allSimScreens,
   // truthiness before attempting to use it. For `screens` documentation, see the schema at
   // phet.chipper.queryParameters.screens in initialize-globals.js.
   if ( screensQueryParameterProvided && screensQueryParameter ) {
-  assert && assert( screensQueryParameter.length > 0, 'Screens query parameter should have at least one value' );
+    assert && assert( screensQueryParameter.length > 0, 'Screens query parameter should have at least one value' );
 
     for ( let i = 0; i < screensQueryParameter.length; i++ ) {
 
@@ -140,11 +140,15 @@ const selectScreens = ( allSimScreens,
     throw new Error( 'screen not found: ' + initialScreenIndex );
   }
 
+  // {boolean} indicates whether all possible screens have been created (order-independent)
+  const allScreensCreated = _.isEqual( new Set( allSimScreens ), new Set( selectedSimScreens ) ) &&
+                            ( allSimScreens.length > 1 ? !!homeScreen : true );
   return {
     homeScreen: homeScreen,
     initialScreen: initialScreen,
     selectedSimScreens: selectedSimScreens,
-    screens: screens
+    screens: screens,
+    allScreensCreated: allScreensCreated
   };
 };
 

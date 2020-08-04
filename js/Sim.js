@@ -357,6 +357,9 @@ function Sim( name, allSimScreens, options ) {
   // it was created
   this.screens = screenData.screens;
 
+  // @public (read-only) - true if all possible screens are present (order-independent)
+  this.allScreensCreated = screenData.allScreensCreated;
+
   // @public {Property.<Screen>}
   this.screenProperty = new Property( screenData.initialScreen, {
     tandem: Tandem.GENERAL_MODEL.createTandem( 'screenProperty' ),
