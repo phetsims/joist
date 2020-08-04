@@ -99,6 +99,9 @@ QUnit.test( 'valid selectScreens', async assert => {
       formatMessage( 'selectedSimScreens', expectedResult, result, description ) );
     assert.ok( _.isEqual( result.screens, expectedResult.screens ),
       formatMessage( 'screens', expectedResult, result, description ) );
+
+    assert.ok( _.isEqual( result.allScreensCreated, expectedResult.allScreensCreated ),
+      formatMessage( 'allScreensCreated', expectedResult, result, description ) );
   };
 
   // multi-screen
@@ -106,85 +109,99 @@ QUnit.test( 'valid selectScreens', async assert => {
     homeScreen: null,
     initialScreen: a,
     selectedSimScreens: [ a ],
-    screens: [ a ]
+    screens: [ a ],
+    allScreensCreated: false
   } );
   testValidScreenSelector( '?screens=2', [ a, b ], {
     homeScreen: null,
     initialScreen: b,
     selectedSimScreens: [ b ],
-    screens: [ b ]
+    screens: [ b ],
+    allScreensCreated: false
   } );
   testValidScreenSelector( '?screens=1,2', [ a, b ], {
     homeScreen: hs,
     initialScreen: hs,
     selectedSimScreens: [ a, b ],
-    screens: [ hs, a, b ]
+    screens: [ hs, a, b ],
+    allScreensCreated: true
   } );
   testValidScreenSelector( '?screens=2,1', [ a, b ], {
     homeScreen: hs,
     initialScreen: hs,
     selectedSimScreens: [ b, a ],
-    screens: [ hs, b, a ]
+    screens: [ hs, b, a ],
+    allScreensCreated: true
   } );
   testValidScreenSelector( '?homeScreen=false', [ a, b ], {
     homeScreen: null,
     initialScreen: a,
     selectedSimScreens: [ a, b ],
-    screens: [ a, b ]
+    screens: [ a, b ],
+    allScreensCreated: false
   } );
   testValidScreenSelector( '?screens=2,1', [ a, b, c ], {
     homeScreen: hs,
     initialScreen: hs,
     selectedSimScreens: [ b, a ],
-    screens: [ hs, b, a ]
+    screens: [ hs, b, a ],
+    allScreensCreated: false
   } );
   testValidScreenSelector( '?screens=3,1', [ a, b, c ], {
     homeScreen: hs,
     initialScreen: hs,
     selectedSimScreens: [ c, a ],
-    screens: [ hs, c, a ]
+    screens: [ hs, c, a ],
+    allScreensCreated: false
   } );
   testValidScreenSelector( '?screens=2,3', [ a, b, c ], {
     homeScreen: hs,
     initialScreen: hs,
     selectedSimScreens: [ b, c ],
-    screens: [ hs, b, c ]
+    screens: [ hs, b, c ],
+    allScreensCreated: false
   } );
   testValidScreenSelector( '?initialScreen=1&homeScreen=false&screens=2,1', [ a, b ], {
     homeScreen: null,
     initialScreen: a,
     selectedSimScreens: [ b, a ],
-    screens: [ b, a ]
+    screens: [ b, a ],
+    allScreensCreated: false
   } );
   testValidScreenSelector( '?initialScreen=0&homeScreen=true&screens=2,1', [ a, b ], {
     homeScreen: hs,
     initialScreen: hs,
     selectedSimScreens: [ b, a ],
-    screens: [ hs, b, a ]
+    screens: [ hs, b, a ],
+    allScreensCreated: true
   } );
   testValidScreenSelector( '?initialScreen=1&homeScreen=true&screens=2,1', [ a, b ], {
     homeScreen: hs,
     initialScreen: a,
     selectedSimScreens: [ b, a ],
-    screens: [ hs, b, a ]
+    screens: [ hs, b, a ],
+    allScreensCreated: true
   } );
   testValidScreenSelector( '?initialScreen=2&homeScreen=true&screens=1,2', [ a, b ], {
     homeScreen: hs,
     initialScreen: b,
     selectedSimScreens: [ a, b ],
-    screens: [ hs, a, b ]
+    screens: [ hs, a, b ],
+    allScreensCreated: true
   } );
   testValidScreenSelector( '?initialScreen=1&homeScreen=false&screens=1', [ a, b ], {
     homeScreen: null,
     initialScreen: a,
     selectedSimScreens: [ a ],
-    screens: [ a ]
+    screens: [ a ],
+    allScreensCreated: false
   } );
   testValidScreenSelector( '?initialScreen=2&homeScreen=false&screens=2', [ a, b ], {
     homeScreen: null,
     initialScreen: b,
     selectedSimScreens: [ b ],
-    screens: [ b ]
+    screens: [ b ],
+    allScreensCreated: false
   } );
 
   // single-screen
@@ -193,19 +210,22 @@ QUnit.test( 'valid selectScreens', async assert => {
     homeScreen: null,
     initialScreen: a,
     selectedSimScreens: [ a ],
-    screens: [ a ]
+    screens: [ a ],
+    allScreensCreated: true
   } );
   testValidScreenSelector( '?initialScreen=1', [ a ], {
     homeScreen: null,
     initialScreen: a,
     selectedSimScreens: [ a ],
-    screens: [ a ]
+    screens: [ a ],
+    allScreensCreated: true
   } );
   testValidScreenSelector( '?homeScreen=false', [ a ], {
     homeScreen: null,
     initialScreen: a,
     selectedSimScreens: [ a ],
-    screens: [ a ]
+    screens: [ a ],
+    allScreensCreated: true
   } );
 } );
 
