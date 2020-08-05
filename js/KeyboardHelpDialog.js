@@ -22,7 +22,7 @@ import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 
 // constants
-const TITLE_MAX_WIDTH = 500;
+const TITLE_MAX_WIDTH = 670;
 
 // string
 const keyboardShortcutsTitleString = joistStrings.keyboardShortcuts.title;
@@ -57,7 +57,7 @@ function KeyboardHelpDialog( helpContent, options ) {
   const shortcutsTitleText = new Text( keyboardShortcutsTitleString, {
     font: new PhetFont( {
       weight: 'bold',
-      size: 18
+      size: 24
     } ),
     maxWidth: TITLE_MAX_WIDTH,
 
