@@ -53,6 +53,7 @@ import ScreenshotGenerator from './ScreenshotGenerator.js';
 import selectScreens from './selectScreens.js';
 import LegendsOfLearningSupport from './thirdPartySupport/LegendsOfLearningSupport.js';
 import updateCheck from './updateCheck.js';
+import '../../sherpa/lib/game-up-camera-1.0.0.js';
 
 // constants
 const PROGRESS_BAR_WIDTH = 273;
