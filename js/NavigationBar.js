@@ -25,6 +25,7 @@
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Property from '../../axon/js/Property.js';
+import StringProperty from '../../axon/js/StringProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import inherit from '../../phet-core/js/inherit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
@@ -202,7 +203,7 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
     this.homeButton = new HomeButton(
       NAVIGATION_BAR_SIZE.height,
       sim.lookAndFeel.navigationBarFillProperty,
-      sim.homeScreen.pdomDisplayNameProperty,
+      sim.homeScreen ? sim.homeScreen.pdomDisplayNameProperty : new StringProperty( 'NO HOME SCREEN' ),
       tandem.createTandem( 'homeButton' ), {
         listener: () => {
           sim.screenProperty.value = sim.homeScreen;
