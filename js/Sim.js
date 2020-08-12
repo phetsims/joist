@@ -33,27 +33,28 @@ import InputFuzzer from '../../scenery/js/input/InputFuzzer.js';
 import AnimatedPanZoomListener from '../../scenery/js/listeners/AnimatedPanZoomListener.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
+import scenery from '../../scenery/js/scenery.js';
 import Utils from '../../scenery/js/util/Utils.js';
+import '../../sherpa/lib/game-up-camera-1.0.0.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
 import Heartbeat from './Heartbeat.js';
 import HomeScreen from './HomeScreen.js';
 import HomeScreenView from './HomeScreenView.js';
-import joist from './joist.js';
-import joistStrings from './joistStrings.js';
 import LookAndFeel from './LookAndFeel.js';
 import MemoryMonitor from './MemoryMonitor.js';
 import NavigationBar from './NavigationBar.js';
-import packageJSON from './packageJSON.js';
 import Profiler from './Profiler.js';
 import QueryParametersWarningDialog from './QueryParametersWarningDialog.js';
 import ScreenIO from './ScreenIO.js';
 import ScreenshotGenerator from './ScreenshotGenerator.js';
+import joist from './joist.js';
+import joistStrings from './joistStrings.js';
+import packageJSON from './packageJSON.js';
 import selectScreens from './selectScreens.js';
 import LegendsOfLearningSupport from './thirdPartySupport/LegendsOfLearningSupport.js';
 import updateCheck from './updateCheck.js';
-import '../../sherpa/lib/game-up-camera-1.0.0.js';
 
 // constants
 const PROGRESS_BAR_WIDTH = 273;
@@ -597,11 +598,11 @@ function Sim( name, allSimScreens, options ) {
   Heartbeat.start( this );
 
   if ( phet.chipper.queryParameters.sceneryLog ) {
-    this.display.scenery.enableLogging( phet.chipper.queryParameters.sceneryLog );
+    scenery.enableLogging( phet.chipper.queryParameters.sceneryLog );
   }
 
   if ( phet.chipper.queryParameters.sceneryStringLog ) {
-    this.display.scenery.switchLogToString();
+    scenery.switchLogToString();
   }
 
   this.display.initializeEvents( {
