@@ -215,6 +215,14 @@ function Sim( name, allSimScreens, options ) {
       { name: 'height', phetioType: NumberIO }
     ],
     phetioPlayback: true,
+    phetioEventMetadata: {
+
+      // resizeAction needs to always be playbackable because it acts independently of any other playback event.
+      // Because of its unique nature, it should be a "top-level" `playback: true` event so that it is never marked as
+      // `playback: false`. There are cases where it is nested under another `playback: true` event, like when the
+      // wrapper launches the simulation, that cannot be avoided. For this reason, we use this override.
+      alwaysPlaybackableOverride: true
+    },
     phetioDocumentation: 'Executes when the sim is resized. Values are the sim dimensions in CSS pixels.'
   } );
 
@@ -873,9 +881,7 @@ inherit( Object, Sim, {
               if ( phet.joist.playbackModeEnabledProperty.value ) {
 
                 // Mark this as a "root" event so that events caused by this don't duplicate in the playback
-                Tandem.PHET_IO_ENABLED && phet.phetio.dataStream.pushNonPlaybackable();
                 self.stepOneFrame();
-                Tandem.PHET_IO_ENABLED && phet.phetio.dataStream.popNonPlaybackable();
               }
 
               // After the application is ready to go, remove the splash screen and progress bar.  Note the splash
