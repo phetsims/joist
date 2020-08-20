@@ -14,8 +14,8 @@ import ColorProfile from '../../scenery-phet/js/ColorProfile.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import Checkbox from '../../sun/js/Checkbox.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import joistStrings from './joistStrings.js';
 import joist from './joist.js';
+import joistStrings from './joistStrings.js';
 import OptionsDialog from './OptionsDialog.js';
 
 const projectorModeString = joistStrings.projectorMode;
@@ -37,7 +37,10 @@ class ProjectorModeCheckbox extends Checkbox {
 
       font: OptionsDialog.DEFAULT_FONT,
       maxTextWidth: 350, // empirically determined, works reasonably well for long strings
-      tandem: Tandem.REQUIRED
+      tandem: Tandem.REQUIRED,
+
+      // phet-io
+      phetioLinkProperty: false // we will create the `property` tandem here in the subtype
     }, options );
 
     // verify that colorProfile has the required profiles
@@ -54,7 +57,7 @@ class ProjectorModeCheckbox extends Checkbox {
     // Internal adapter Property, to map between the string value needed by colorProfile.profileNameProperty
     // and the boolean value needed by superclass Checkbox.
     const projectorModeEnabledProperty = new BooleanProperty( colorProfile.profileNameProperty.value === ColorProfile.PROJECTOR_COLOR_PROFILE_NAME, {
-      tandem: options.tandem.createTandem( 'projectorModeEnabledProperty' )
+      tandem: options.tandem.createTandem( 'property' )
     } );
     projectorModeEnabledProperty.link( isProjectorMode => {
       colorProfile.profileNameProperty.value =
