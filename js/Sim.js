@@ -22,6 +22,7 @@ import StringProperty from '../../axon/js/StringProperty.js';
 import timer from '../../axon/js/timer.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
+import Random from '../../dot/js/Random.js';
 import DotUtils from '../../dot/js/Utils.js';
 import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
@@ -42,16 +43,16 @@ import NumberIO from '../../tandem/js/types/NumberIO.js';
 import Heartbeat from './Heartbeat.js';
 import HomeScreen from './HomeScreen.js';
 import HomeScreenView from './HomeScreenView.js';
+import joist from './joist.js';
+import joistStrings from './joistStrings.js';
 import LookAndFeel from './LookAndFeel.js';
 import MemoryMonitor from './MemoryMonitor.js';
 import NavigationBar from './NavigationBar.js';
+import packageJSON from './packageJSON.js';
 import Profiler from './Profiler.js';
 import QueryParametersWarningDialog from './QueryParametersWarningDialog.js';
 import ScreenIO from './ScreenIO.js';
 import ScreenshotGenerator from './ScreenshotGenerator.js';
-import joist from './joist.js';
-import joistStrings from './joistStrings.js';
-import packageJSON from './packageJSON.js';
 import selectScreens from './selectScreens.js';
 import LegendsOfLearningSupport from './thirdPartySupport/LegendsOfLearningSupport.js';
 import updateCheck from './updateCheck.js';
@@ -876,12 +877,15 @@ inherit( Object, Sim, {
               // Schedules animation updates and runs the first step()
               self.boundRunAnimationLoop();
 
-              // If the sim is in playback mode, then run a single frame. This makes sure that anything kicked to the next
-              // frame with timer.runOnNextFrame during startup can clear out before beginning playback.
+              // If the sim is in playback mode, then flush the timer's listeners. This makes sure that anything kicked
+              // to the next frame with `timer.runOnNextFrame` during startup (like every notification about a PhET-iO
+              // instrumented element in phetioEngine.phetioObjectAdded()) can clear out before beginning playback.
               if ( phet.joist.playbackModeEnabledProperty.value ) {
-
-                // Mark this as a "root" event so that events caused by this don't duplicate in the playback
-                self.stepOneFrame();
+                const beforeCounts = Array.from( Random.allRandomInstances ).map( n => n.randCount );
+                timer.emit( 0 );
+                const afterCounts = Array.from( Random.allRandomInstances ).map( n => n.randCount );
+                assert && assert( _.isEqual( beforeCounts, afterCounts ),
+                  `Random was called more times in the playback sim on startup, before: ${beforeCounts}, after: ${afterCounts}` );
               }
 
               // After the application is ready to go, remove the splash screen and progress bar.  Note the splash
