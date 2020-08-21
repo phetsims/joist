@@ -881,9 +881,9 @@ inherit( Object, Sim, {
               // to the next frame with `timer.runOnNextFrame` during startup (like every notification about a PhET-iO
               // instrumented element in phetioEngine.phetioObjectAdded()) can clear out before beginning playback.
               if ( phet.joist.playbackModeEnabledProperty.value ) {
-                const beforeCounts = Array.from( Random.allRandomInstances ).map( n => n.randCount );
+                const beforeCounts = Array.from( Random.allRandomInstances ).map( n => n.numberOfCalls );
                 timer.emit( 0 );
-                const afterCounts = Array.from( Random.allRandomInstances ).map( n => n.randCount );
+                const afterCounts = Array.from( Random.allRandomInstances ).map( n => n.numberOfCalls );
                 assert && assert( _.isEqual( beforeCounts, afterCounts ),
                   `Random was called more times in the playback sim on startup, before: ${beforeCounts}, after: ${afterCounts}` );
               }
