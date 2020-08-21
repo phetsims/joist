@@ -13,6 +13,9 @@ import joist from './joist.js';
 // variables
 let started = false;
 
+// a boolean to flip back and forth to make sure safari doesn't get sleepy, see usage.
+let value = true;
+
 const Heartbeat = {
 
   /**
@@ -41,7 +44,8 @@ const Heartbeat = {
     // prevent Safari from going to sleep, see https://github.com/phetsims/joist/issues/140
     sim.frameStartedEmitter.addListener( function() {
       if ( sim.frameCounter % 1000 === 0 ) {
-        heartbeatDiv.innerHTML = phet.joist.random.nextDouble();
+        value = !value;
+        heartbeatDiv.innerHTML = value;
       }
     } );
   }
