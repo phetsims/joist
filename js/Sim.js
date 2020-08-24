@@ -52,6 +52,7 @@ import packageJSON from './packageJSON.js';
 import Profiler from './Profiler.js';
 import QueryParametersWarningDialog from './QueryParametersWarningDialog.js';
 import ScreenIO from './ScreenIO.js';
+import ScreenSelectionSoundGenerator from './ScreenSelectionSoundGenerator.js';
 import ScreenshotGenerator from './ScreenshotGenerator.js';
 import selectScreens from './selectScreens.js';
 import LegendsOfLearningSupport from './thirdPartySupport/LegendsOfLearningSupport.js';
@@ -486,9 +487,12 @@ function Sim( name, allSimScreens, options ) {
                                ( packageJSON.phet.supportsEnhancedSound ||
                                  phet.chipper.queryParameters.supportsEnhancedSound );
 
-  // Initialize the sound library if enabled.
+  // Initialize the sound library if enabled, then hook up sound generation for screen changes.
   if ( this.supportsSound ) {
     soundManager.initialize( this.browserTabVisibleProperty, this.activeProperty );
+    soundManager.addSoundGenerator(
+      new ScreenSelectionSoundGenerator( this.screenProperty, this.homeScreen, { initialOutputLevel: 0.5 } )
+    );
   }
 
   // @private {null|VibrationManager} - The singleton instance of VibrationManager. Experimental and not frequently

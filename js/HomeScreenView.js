@@ -17,9 +17,9 @@ import Node from '../../scenery/js/nodes/Node.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import HomeScreenButton from './HomeScreenButton.js';
+import HomeScreenSoundGenerator from './HomeScreenSoundGenerator.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
-import ScreenSelectionSoundGenerator from './ScreenSelectionSoundGenerator.js';
 import ScreenView from './ScreenView.js';
 
 const simScreensString = joistStrings.a11y.simScreens;
@@ -186,7 +186,7 @@ function HomeScreenView( simNameProperty, model, tandem, options ) {
   // Add sound generation for screen selection.  This generates sound for all changes between screens, not just for the
   // home screen.
   soundManager.addSoundGenerator(
-    new ScreenSelectionSoundGenerator( model, { initialOutputLevel: 0.5 } ),
+    new HomeScreenSoundGenerator( model, { initialOutputLevel: 0.5 } ),
     { categoryName: 'user-interface' }
   );
 
