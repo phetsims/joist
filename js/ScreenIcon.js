@@ -17,7 +17,7 @@ import Screen from './Screen.js';
 
 /**
  * @param {Node} iconNode
- * @param options
+ * @param {Object} [options]
  * @constructor
  */
 function ScreenIcon( iconNode, options ) {
