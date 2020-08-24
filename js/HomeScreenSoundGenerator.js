@@ -34,7 +34,6 @@ class HomeScreenSoundGenerator extends MultiClip {
 
     homeScreenModel.screenProperty.lazyLink( screen => {
       if ( screen.model === homeScreenModel ) {
-        console.log( 'play home screen sound' );
         this.playAssociatedSound( SoundType.HOME_SCREEN_SELECTED );
       }
     } );
