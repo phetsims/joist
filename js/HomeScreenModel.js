@@ -16,7 +16,8 @@ import ScreenIO from './ScreenIO.js';
 class HomeScreenModel {
 
   /**
-   * @param {Property.<Screen>} screenProperty
+   * @param {Property.<Screen>} screenProperty - the screen that is displayed to the user in the main area above the
+   *                                           - navigation bar
    * @param {Screen[]} simScreens
    * @param {Tandem} tandem
    */
@@ -25,10 +26,10 @@ class HomeScreenModel {
     // @public {Screen[]} - screens in the simulations that are not the HomeScreen
     this.simScreens = simScreens;
 
-    // @public {Property<Screen>}
+    // @public {Property<Screen>} - the screen that is displayed to the user in the main area above the navigation bar
     this.screenProperty = screenProperty;
 
-    // @public {Property<Screen>}
+    // @public {Property<Screen>} - on the home screen only, the screen corresponding to the large button icon
     this.selectedScreenProperty = new Property( simScreens[ 0 ], {
       validValues: simScreens,
       phetioType: PropertyIO( ScreenIO ),
