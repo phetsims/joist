@@ -33,7 +33,6 @@ import Display from '../../scenery/js/display/Display.js';
 import InputFuzzer from '../../scenery/js/input/InputFuzzer.js';
 import AnimatedPanZoomListener from '../../scenery/js/listeners/AnimatedPanZoomListener.js';
 import Node from '../../scenery/js/nodes/Node.js';
-import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import scenery from '../../scenery/js/scenery.js';
 import Utils from '../../scenery/js/util/Utils.js';
 import '../../sherpa/lib/game-up-camera-1.0.0.js';
@@ -195,9 +194,6 @@ function Sim( name, allSimScreens, options ) {
     this.screenBoundsProperty.value = new Bounds2( 0, 0, width, screenHeight );
 
     if ( this.panZoomListener ) {
-
-      // fills the window, so that the PanZoomListener can receive input anywhere in bounds
-      this.simulationRoot.setRect( 0, 0, width, height );
 
       // set the scale describing the target Node, since scale from window resize is applied to each ScreenView,
       // (children of the PanZoomListener targetNode)
@@ -562,9 +558,9 @@ function Sim( name, allSimScreens, options ) {
   // @public - root node for the Display
   this.rootNode = new Node( { renderer: options.rootRenderer } );
 
-  // root for the simulation and the target for MultiListener to support magnification since the display rootNode
-  // cannot be transformed - the rectangle is resized to fill the screen to capture all input
-  this.simulationRoot = new Rectangle( 0, 0, 0, 0 );
+  // root for the simulation and the target for MultiListener to support magnification since the Display rootNode
+  // cannot be transformed
+  this.simulationRoot = new Node();
   this.rootNode.addChild( this.simulationRoot );
 
   // @private
