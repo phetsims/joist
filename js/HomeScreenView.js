@@ -185,10 +185,9 @@ function HomeScreenView( simNameProperty, model, tandem, options ) {
 
   // Add sound generation for screen selection.  This generates sound for all changes between screens, not just for the
   // home screen.
-  soundManager.addSoundGenerator(
-    new HomeScreenSoundGenerator( model, { initialOutputLevel: 0.5 } ),
-    { categoryName: 'user-interface' }
-  );
+  soundManager.addSoundGenerator( new HomeScreenSoundGenerator( model, { initialOutputLevel: 0.5 } ), {
+    categoryName: 'user-interface'
+  } );
 
   if ( options.warningNode ) {
     const warningNode = options.warningNode;
