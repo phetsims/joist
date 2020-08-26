@@ -365,7 +365,7 @@ function Sim( name, allSimScreens, options ) {
   // it was created
   this.screens = screenData.screens;
 
-  // @public (read-only) - true if all possible screens are present (order-independent)
+  // @public (read-only) {boolean} - true if all possible screens are present (order-independent)
   this.allScreensCreated = screenData.allScreensCreated;
 
   // @public {Property.<Screen>}
