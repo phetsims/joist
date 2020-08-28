@@ -939,6 +939,9 @@ inherit( Object, Sim, {
     if ( this.activeProperty.value ) {
       this.stepOneFrame();
     }
+
+    // PhET-iO batches messages to be sent to other frames, messages must be sent whether the sim is active or not
+    Tandem.PHET_IO_ENABLED && phet.phetio.phetioCommandProcessor.onAnimationLoop( this );
   },
 
   // @private - run a single frame including model, view and display updates
