@@ -1,7 +1,7 @@
 // Copyright 2018-2020, University of Colorado Boulder
 
 /**
- * IO type for PhetButton, to interface with phet-io api.  The PhetButtonIO acts as the main phet-io branding/logo in
+ * IO Type for PhetButton, to interface with phet-io api.  The PhetButtonIO acts as the main phet-io branding/logo in
  * the sim. It doesn't inherit from NodeIO because we neither need all of NodeIO's API methods, nor do we want to
  * support maintaining overriding no-ops in this file see https://github.com/phetsims/scenery/issues/711 for more info.
  *

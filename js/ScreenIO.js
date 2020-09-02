@@ -1,7 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * IO type for Screen
+ * IO Type for Screen
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chris Klusendorf (PhET Interactive Simulations)
