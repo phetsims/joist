@@ -433,10 +433,10 @@ function Sim( name, allSimScreens, options ) {
   // instead see Sim.supportsInteractiveDescriptions. This is to support a consistent API for PhET-iO, see https://github.com/phetsims/phet-io/issues/1457
   this.accessibilityPartOfTheAPI = packageJSON.phet.supportsInteractiveDescriptions;
 
-  // @public (joist-internal, read-only) {boolean} - if true, the simulation supports the zoom/pan feature - query
-  // parameter will override the package.json entry (even if false)
-  this.supportsZoom = phet.chipper.queryParameters.supportsZoom === null ? packageJSON.phet.supportsZoom :
-                      phet.chipper.queryParameters.supportsZoom === 'true';
+  // @public (joist-internal, read-only) {boolean} - If true, the simulation supports the zoom feature. Default
+  // value is true unless specified otherwise in package.json (checked in initialize-globals) or with
+  // query parameter.
+  this.supportsZoom = phet.chipper.queryParameters.supportsZoom;
 
   // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
   this.supportsGestureDescription = this.supportsInteractiveDescriptions && SUPPORTS_GESTURE_DESCRIPTION;
