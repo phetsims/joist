@@ -235,7 +235,9 @@ function Sim( name, allSimScreens, options ) {
 
   // @public Emitter that indicates when a frame ends.  Listen to this Emitter if you have an action that must be
   // performed after the step completes.
-  this.frameEndedEmitter = new Emitter();
+  this.frameEndedEmitter = new Emitter( {
+    tandem: Tandem.GENERAL_MODEL.createTandem( 'frameEndedEmitter' )
+  } );
 
   // @public {Action} Action that steps the simulation. This Action is implemented so it can be automatically
   // played back for PhET-iO record/playback.  Listen to this Action if you have an action that happens during the
