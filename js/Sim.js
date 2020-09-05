@@ -11,6 +11,7 @@
  */
 
 import Action from '../../axon/js/Action.js';
+import animationFrameTimer from '../../axon/js/animationFrameTimer.js';
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Emitter from '../../axon/js/Emitter.js';
@@ -741,9 +742,9 @@ inherit( Object, Sim, {
     // Kick off checking for updates, if that is enabled
     updateCheck.check();
 
-    // @public (joist-internal) - Keep track of the previous time for computing dt, and initially signify that time
-    // hasn't been recorded yet.
-    this.lastTime = -1;
+    // @private - Keep track of the previous time for computing dt, and initially signify that time hasn't been recorded yet.
+    this.lastStepTime = -1;
+    this.lastAnimationFrameTime = -1;
 
     // @public (joist-internal)
     // Bind the animation loop so it can be called from requestAnimationFrame with the right this.
@@ -940,6 +941,11 @@ inherit( Object, Sim, {
       this.stepOneFrame();
     }
 
+    // The animation frame timer runs every frame
+    const currentTime = Date.now();
+    animationFrameTimer.emit( getDT( this.lastAnimationFrameTime, currentTime ) );
+    this.lastAnimationFrameTime = currentTime;
+
     // PhET-iO batches messages to be sent to other frames, messages must be sent whether the sim is active or not
     Tandem.PHET_IO_ENABLED && phet.phetio.phetioCommandProcessor.onAnimationLoop( this );
   },
@@ -948,12 +954,9 @@ inherit( Object, Sim, {
   stepOneFrame: function() {
 
     // Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
-    const time = Date.now();
-    const elapsedTimeMilliseconds = ( this.lastTime === -1 ) ? ( 1000.0 / 60.0 ) : ( time - this.lastTime );
-    this.lastTime = time;
-
-    // Convert to seconds
-    const dt = elapsedTimeMilliseconds / 1000.0;
+    const currentTime = Date.now();
+    const dt = getDT( this.lastStepTime, currentTime );
+    this.lastStepTime = currentTime;
 
     // Don't run the simulation on steps back in time (see https://github.com/phetsims/joist/issues/409)
     if ( dt > 0 ) {
@@ -996,4 +999,16 @@ inherit( Object, Sim, {
   }
 } );
 
+/**
+ * Compute the dt since the last event
+ * @param {number} lastTime - milliseconds, time of the last event
+ * @param {number} currentTime - milliseconds, current time.  Passed in instead of computed so there is no "slack" between measurements
+ * @returns {number} - seconds
+ */
+const getDT = ( lastTime, currentTime ) => {
+
+  // Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
+  return ( lastTime === -1 ) ? 1 / 60 :
+         ( currentTime - lastTime ) / 1000.0;
+};
 export default Sim;
