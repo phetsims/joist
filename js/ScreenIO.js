@@ -16,7 +16,7 @@ class ScreenIO extends ReferenceIO( ObjectIO ) {}
 ScreenIO.documentation = 'Section of a simulation which has its own model and view.';
 ScreenIO.validator = { isValidValue: v => v instanceof phet.joist.Screen };
 ScreenIO.typeName = 'ScreenIO';
-ObjectIO.validateSubtype( ScreenIO );
+ObjectIO.validateIOType( ScreenIO );
 
 joist.register( 'ScreenIO', ScreenIO );
 export default ScreenIO;

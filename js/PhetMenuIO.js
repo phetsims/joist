@@ -15,7 +15,7 @@ class PhetMenuIO extends ObjectIO {}
 PhetMenuIO.documentation = 'The PhET Menu in the bottom right of the screen';
 PhetMenuIO.validator = { isValidValue: v => v instanceof phet.joist.PhetMenu };
 PhetMenuIO.typeName = 'PhetMenuIO';
-ObjectIO.validateSubtype( PhetMenuIO );
+ObjectIO.validateIOType( PhetMenuIO );
 
 joist.register( 'PhetMenuIO', PhetMenuIO );
 export default PhetMenuIO;

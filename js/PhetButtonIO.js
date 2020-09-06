@@ -68,7 +68,7 @@ class PhetButtonIO extends ObjectIO {
 PhetButtonIO.documentation = 'The PhET Button in the bottom right of the screen';
 PhetButtonIO.validator = { isValidValue: v => v instanceof phet.joist.PhetButton };
 PhetButtonIO.typeName = 'PhetButtonIO';
-ObjectIO.validateSubtype( PhetButtonIO );
+ObjectIO.validateIOType( PhetButtonIO );
 
 joist.register( 'PhetButtonIO', PhetButtonIO );
 export default PhetButtonIO;
