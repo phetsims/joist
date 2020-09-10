@@ -8,7 +8,6 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
@@ -30,130 +29,134 @@ const creditsThanksString = joistStrings.credits.thanks;
 const creditsTitleString = joistStrings.credits.title;
 const creditsTranslationString = joistStrings.credits.translation;
 
-/**
- * Creates node that displays the credits.
- * @param {Object} credits - see implementation herein for supported {string} fields
- * @param {Object} [options]
- * @constructor
- */
-function CreditsNode( credits, options ) {
+class CreditsNode extends VBox {
 
-  options = merge( {
-    titleFont: null,
-    textFont: null,
-    align: 'left',
-    spacing: 1,
-    maxWidth: 550
-  }, options );
+  /**
+   * Creates node that displays the credits.
+   * @param {Object} credits - see implementation herein for supported {string} fields
+   * @param {Object} [options]
+   */
+  constructor( credits, options ) {
 
-  options.titleFont = options.titleFont || new PhetFont( { size: 18, weight: 'bold' } );
-  options.textFont = options.textFont || new PhetFont( 16 );
+    options = merge( {
+      titleFont: null,
+      textFont: null,
+      align: 'left',
+      spacing: 1,
+      maxWidth: 550
+    }, options );
 
-  const richTextOptions = {
-    font: options.textFont,
-    align: 'left',
-    lineWrap: options.maxWidth,
-    tagName: 'p'
-  };
+    options.titleFont = options.titleFont || new PhetFont( { size: 18, weight: 'bold' } );
+    options.textFont = options.textFont || new PhetFont( 16 );
 
-  const children = [];
+    const richTextOptions = {
+      font: options.textFont,
+      align: 'left',
+      lineWrap: options.maxWidth,
+      tagName: 'p'
+    };
 
-  // Credits
-  children.push( new Text( creditsTitleString, {
-    font: options.titleFont,
+    const children = [];
 
-    // pdom
-    tagName: 'h2',
-    innerContent: creditsTitleString
-  } ) );
-
-  // Primary lead designer should be listed first, followed by contributing designers in alphabetical order.
-  if ( credits.leadDesign ) {
-    const designString = StringUtils.format( creditsLeadDesignString, '\u202a' + credits.leadDesign + '\u202c' );
-    children.push( new RichText( designString, merge( { innerContent: designString }, richTextOptions ) ) );
-  }
-
-  // Primary developer should be listed first, followed by contributing developers in alphabetical order.
-  if ( credits.softwareDevelopment ) {
-    const developmentString = StringUtils.format( creditsSoftwareDevelopmentString, '\u202a' + credits.softwareDevelopment + '\u202c' );
-    children.push( new RichText( developmentString, merge( { innerContent: developmentString }, richTextOptions ) ) );
-  }
-
-  // In alphabetical order
-  if ( credits.team ) {
-    const teamString = StringUtils.format( creditsTeamString, '\u202a' + credits.team + '\u202c' );
-    children.push( new RichText( teamString, merge( { innerContent: teamString }, richTextOptions ) ) );
-  }
-
-  // In alphabetical order
-  if ( credits.contributors ) {
-    const contributorsString = StringUtils.format( creditsContributorsString, '\u202a' + credits.contributors + '\u202c' );
-    children.push( new RichText( contributorsString, merge( { innerContent: contributorsString }, richTextOptions ) ) );
-  }
-
-  // In alphabetical order
-  if ( credits.qualityAssurance ) {
-    const qualityAssuranceString = StringUtils.format( creditsQualityAssuranceString, '\u202a' + credits.qualityAssurance + '\u202c' );
-    children.push( new RichText( qualityAssuranceString, merge( { innerContent: qualityAssuranceString }, richTextOptions ) ) );
-  }
-
-  // In alphabetical order
-  if ( credits.graphicArts ) {
-    const graphicArtsString = StringUtils.format( creditsGraphicArtsString, '\u202a' + credits.graphicArts + '\u202c' );
-    children.push( new RichText( graphicArtsString, merge( { innerContent: graphicArtsString }, richTextOptions ) ) );
-  }
-
-  // In alphabetical order
-  if ( credits.soundDesign ) {
-    const soundDesignString = StringUtils.format( creditsSoundDesignString, '\u202a' + credits.soundDesign + '\u202c' );
-    children.push( new RichText( soundDesignString, merge( { innerContent: soundDesignString }, richTextOptions ) ) );
-  }
-
-  //TODO obtain translation credit from strings file, see https://github.com/phetsims/joist/issues/163
-  // Translation
-  if ( credits.translation ) {
-    if ( children.length > 0 ) { children.push( new VStrut( 13 ) ); }
-    children.push( new Text( creditsTranslationString, {
+    // Credits
+    children.push( new Text( creditsTitleString, {
       font: options.titleFont,
-      tagName: 'h2',
-      innerContent: creditsTranslationString
-    } ) );
-    children.push( new RichText( credits.translation, richTextOptions ) );
-  }
 
-  // Thanks
-  if ( credits.thanks ) {
-    if ( children.length > 0 ) { children.push( new VStrut( 13 ) ); }
-    children.push( new Text( creditsThanksString, {
-      font: options.titleFont,
+      // pdom
       tagName: 'h2',
-      innerContent: creditsThanksString
+      innerContent: creditsTitleString
     } ) );
 
-    const thanksText = new RichText( credits.thanks, richTextOptions );
-    thanksText.innerContent = credits.thanks;
-    children.push( thanksText );
+    // Primary lead designer should be listed first, followed by contributing designers in alphabetical order.
+    if ( credits.leadDesign ) {
+      const designString = StringUtils.format( creditsLeadDesignString, '\u202a' + credits.leadDesign + '\u202c' );
+      children.push( new RichText( designString, merge( { innerContent: designString }, richTextOptions ) ) );
+    }
+
+    // Primary developer should be listed first, followed by contributing developers in alphabetical order.
+    if ( credits.softwareDevelopment ) {
+      const developmentString = StringUtils.format( creditsSoftwareDevelopmentString, '\u202a' + credits.softwareDevelopment + '\u202c' );
+      children.push( new RichText( developmentString, merge( { innerContent: developmentString }, richTextOptions ) ) );
+    }
+
+    // In alphabetical order
+    if ( credits.team ) {
+      const teamString = StringUtils.format( creditsTeamString, '\u202a' + credits.team + '\u202c' );
+      children.push( new RichText( teamString, merge( { innerContent: teamString }, richTextOptions ) ) );
+    }
+
+    // In alphabetical order
+    if ( credits.contributors ) {
+      const contributorsString = StringUtils.format( creditsContributorsString, '\u202a' + credits.contributors + '\u202c' );
+      children.push( new RichText( contributorsString, merge( { innerContent: contributorsString }, richTextOptions ) ) );
+    }
+
+    // In alphabetical order
+    if ( credits.qualityAssurance ) {
+      const qualityAssuranceString = StringUtils.format( creditsQualityAssuranceString, '\u202a' + credits.qualityAssurance + '\u202c' );
+      children.push( new RichText( qualityAssuranceString, merge( { innerContent: qualityAssuranceString }, richTextOptions ) ) );
+    }
+
+    // In alphabetical order
+    if ( credits.graphicArts ) {
+      const graphicArtsString = StringUtils.format( creditsGraphicArtsString, '\u202a' + credits.graphicArts + '\u202c' );
+      children.push( new RichText( graphicArtsString, merge( { innerContent: graphicArtsString }, richTextOptions ) ) );
+    }
+
+    // In alphabetical order
+    if ( credits.soundDesign ) {
+      const soundDesignString = StringUtils.format( creditsSoundDesignString, '\u202a' + credits.soundDesign + '\u202c' );
+      children.push( new RichText( soundDesignString, merge( { innerContent: soundDesignString }, richTextOptions ) ) );
+    }
+
+    //TODO obtain translation credit from strings file, see https://github.com/phetsims/joist/issues/163
+    // Translation
+    if ( credits.translation ) {
+      if ( children.length > 0 ) { children.push( new VStrut( 13 ) ); }
+      children.push( new Text( creditsTranslationString, {
+        font: options.titleFont,
+        tagName: 'h2',
+        innerContent: creditsTranslationString
+      } ) );
+      children.push( new RichText( credits.translation, richTextOptions ) );
+    }
+
+    // Thanks
+    if ( credits.thanks ) {
+      if ( children.length > 0 ) { children.push( new VStrut( 13 ) ); }
+      children.push( new Text( creditsThanksString, {
+        font: options.titleFont,
+        tagName: 'h2',
+        innerContent: creditsThanksString
+      } ) );
+
+      const thanksText = new RichText( credits.thanks, richTextOptions );
+      thanksText.innerContent = credits.thanks;
+      children.push( thanksText );
+    }
+
+    assert && assert( !options.children, 'CreditsNode sets children' );
+    options.children = children;
+
+    super( options );
+
+    // @private
+    this.disposeCreditsNode = () => {
+      children.forEach( child => {
+        child.dispose && child.dispose();
+      } );
+    };
   }
 
-  assert && assert( !options.children, 'this node sets its own children' );
-  options.children = children;
-
-  VBox.call( this, options );
-
-  this.disposeCreditsNode = function() {
-    children.forEach( function( child ) {
-      child.dispose && child.dispose();
-    } );
-  };
+  /**
+   * @public
+   * @override
+   */
+  dispose() {
+    this.disposeCreditsNode();
+    super.dispose();
+  }
 }
 
 joist.register( 'CreditsNode', CreditsNode );
-
-inherit( VBox, CreditsNode, {
-  dispose: function() {
-    this.disposeCreditsNode();
-    VBox.prototype.dispose.call( this );
-  }
-} );
-
 export default CreditsNode;
