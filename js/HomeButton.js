@@ -22,6 +22,7 @@ import joistStrings from './joistStrings.js';
 const homeScreenDescriptionString = joistStrings.a11y.homeScreenDescription;
 
 class HomeButton extends JoistButton {
+
   /**
    * @param {number} navBarHeight
    * @param {Property.<string>} navigationBarFillProperty - the color of the navbar, as a string.
@@ -61,14 +62,15 @@ class HomeButton extends JoistButton {
     const highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );
     this.focusHighlight = Shape.bounds( this.bounds.setMaxY( this.bounds.maxY - highlightLineWidth / 2 ) );
 
-    Property.multilink( [ this.interactionStateProperty, navigationBarFillProperty ], function( interactionState, navigationBarFill ) {
-      if ( navigationBarFill === 'black' ) {
-        homeIcon.fill = interactionState === ButtonInteractionState.PRESSED ? 'gray' : 'white';
-      }
-      else {
-        homeIcon.fill = interactionState === ButtonInteractionState.PRESSED ? '#444' : '#222';
-      }
-    } );
+    Property.multilink( [ this.interactionStateProperty, navigationBarFillProperty ],
+      ( interactionState, navigationBarFill ) => {
+        if ( navigationBarFill === 'black' ) {
+          homeIcon.fill = interactionState === ButtonInteractionState.PRESSED ? 'gray' : 'white';
+        }
+        else {
+          homeIcon.fill = interactionState === ButtonInteractionState.PRESSED ? '#444' : '#222';
+        }
+      } );
 
     pdomDisplayNameProperty.link( name => {
       this.innerContent = name;
