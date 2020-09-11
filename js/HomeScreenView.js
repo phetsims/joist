@@ -186,7 +186,7 @@ function HomeScreenView( simNameProperty, model, tandem, options ) {
   model.selectedScreenProperty.link( relayout );
 
   // When the visibility of the icons changes, say via Studio, relayout
-  screenElements.forEach( s => s.button._visibleProperty.link( relayout ) );
+  screenElements.forEach( screenElement => screenElement.button._visibleProperty.link( relayout ) );
 
   // Add sound generation for screen selection.  This generates sound for all changes between screens, not just for the
   // home screen.
