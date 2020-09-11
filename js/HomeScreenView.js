@@ -77,9 +77,7 @@ function HomeScreenView( simNameProperty, model, tandem, options ) {
   } );
 
   // update the titleText when the sim name changes
-  simNameProperty.link( simTitle => {
-    titleText.setText( simTitle );
-  } );
+  simNameProperty.link( simTitle => titleText.setText( simTitle ) );
 
   // Have this before adding the child to support the startup layout. Use `localBoundsProperty` to avoid an infinite loop.
   titleText.localBoundsProperty.link( () => {
