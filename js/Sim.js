@@ -20,7 +20,7 @@ import ObservableArray from '../../axon/js/ObservableArray.js';
 import Property from '../../axon/js/Property.js';
 import PropertyIO from '../../axon/js/PropertyIO.js';
 import StringProperty from '../../axon/js/StringProperty.js';
-import timer from '../../axon/js/timer.js';
+import stepTimer from '../../axon/js/stepTimer.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Random from '../../dot/js/Random.js';
@@ -290,7 +290,7 @@ function Sim( name, allSimScreens, options ) {
 
     // timer step before model/view steps, see https://github.com/phetsims/joist/issues/401
     // Note that this is vital to support Interactive Descriptions and the utterance queue.
-    timer.emit( dt );
+    stepTimer.emit( dt );
 
     // If the DT is 0, we will skip the model step (see https://github.com/phetsims/joist/issues/171)
     if ( screen.model.step && dt ) {
@@ -885,7 +885,7 @@ inherit( Object, Sim, {
               // instrumented element in phetioEngine.phetioObjectAdded()) can clear out before beginning playback.
               if ( phet.joist.playbackModeEnabledProperty.value ) {
                 const beforeCounts = Array.from( Random.allRandomInstances ).map( n => n.numberOfCalls );
-                timer.emit( 0 );
+                stepTimer.emit( 0 );
                 const afterCounts = Array.from( Random.allRandomInstances ).map( n => n.numberOfCalls );
                 assert && assert( _.isEqual( beforeCounts, afterCounts ),
                   `Random was called more times in the playback sim on startup, before: ${beforeCounts}, after: ${afterCounts}` );

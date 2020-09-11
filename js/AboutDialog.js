@@ -6,7 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import timer from '../../axon/js/timer.js';
+import stepTimer from '../../axon/js/stepTimer.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import PDOMPeer from '../../scenery/js/accessibility/pdom/PDOMPeer.js';
@@ -274,7 +274,7 @@ class AboutDialog extends Dialog {
       }
 
       // Hook up our spinner listener when we're shown
-      timer.addListener( this.updateStepListener );
+      stepTimer.addListener( this.updateStepListener );
 
       // Hook up our visibility listener
       updateCheck.stateProperty.link( this.updateVisibilityListener );
@@ -298,7 +298,7 @@ class AboutDialog extends Dialog {
         updateCheck.stateProperty.unlink( this.updateVisibilityListener );
 
         // Disconnect our spinner listener when we're hidden
-        timer.removeListener( this.updateStepListener );
+        stepTimer.removeListener( this.updateStepListener );
       }
     }
   }

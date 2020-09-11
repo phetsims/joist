@@ -6,7 +6,7 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import timer from '../../axon/js/timer.js';
+import stepTimer from '../../axon/js/stepTimer.js';
 import inherit from '../../phet-core/js/inherit.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Dialog from '../../sun/js/Dialog.js';
@@ -108,7 +108,7 @@ inherit( Dialog, UpdateDialog, {
       }
 
       // Hook up our spinner listener when we're shown
-      timer.addListener( this.updateStepListener );
+      stepTimer.addListener( this.updateStepListener );
 
       // Hook up our visibility listener
       updateCheck.stateProperty.link( this.updateVisibilityListener );
@@ -131,7 +131,7 @@ inherit( Dialog, UpdateDialog, {
         updateCheck.stateProperty.unlink( this.updateVisibilityListener );
 
         // Disconnect our spinner listener when we're hidden
-        timer.removeListener( this.updateStepListener );
+        stepTimer.removeListener( this.updateStepListener );
       }
     }
   }
