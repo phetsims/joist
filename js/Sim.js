@@ -439,7 +439,7 @@ function Sim( name, allSimScreens, options ) {
   // @public (joist-internal, read-only) {boolean} - If true, the simulation supports the zoom feature. Default
   // value is true unless specified otherwise in package.json (checked in initialize-globals) or with
   // query parameter.
-  this.supportsZoom = phet.chipper.queryParameters.supportsZoom;
+  this.supportsPanAndZoom = phet.chipper.queryParameters.supportsPanAndZoom;
 
   // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
   this.supportsGestureDescription = this.supportsInteractiveDescriptions && SUPPORTS_GESTURE_DESCRIPTION;
@@ -637,7 +637,7 @@ function Sim( name, allSimScreens, options ) {
 
   // @private {AnimatedPanZoomListener|null} - magnification support, null unless specifically enabled
   this.panZoomListener = null;
-  if ( this.supportsZoom ) {
+  if ( this.supportsPanAndZoom ) {
     this.panZoomListener = new AnimatedPanZoomListener( this.simulationRoot );
     this.display.addInputListener( this.panZoomListener );
   }
