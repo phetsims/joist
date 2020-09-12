@@ -881,7 +881,7 @@ inherit( Object, Sim, {
               self.boundRunAnimationLoop();
 
               // If the sim is in playback mode, then flush the timer's listeners. This makes sure that anything kicked
-              // to the next frame with `timer.runOnNextFrame` during startup (like every notification about a PhET-iO
+              // to the next frame with `timer.runOnNextTick` during startup (like every notification about a PhET-iO
               // instrumented element in phetioEngine.phetioObjectAdded()) can clear out before beginning playback.
               if ( phet.joist.playbackModeEnabledProperty.value ) {
                 const beforeCounts = Array.from( Random.allRandomInstances ).map( n => n.numberOfCalls );
