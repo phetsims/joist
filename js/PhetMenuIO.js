@@ -7,15 +7,13 @@
  * @author Andrew Adare (PhET Interactive Simulations)
  */
 
-import ObjectIO from '../../tandem/js/types/ObjectIO.js';
+import IOType from '../../tandem/js/types/IOType.js';
 import joist from './joist.js';
 
-class PhetMenuIO extends ObjectIO {}
-
-PhetMenuIO.documentation = 'The PhET Menu in the bottom right of the screen';
-PhetMenuIO.validator = { isValidValue: v => v instanceof phet.joist.PhetMenu };
-PhetMenuIO.typeName = 'PhetMenuIO';
-ObjectIO.validateIOType( PhetMenuIO );
+const PhetMenuIO = new IOType( 'PhetMenuIO', {
+  isValidValue: v => v instanceof phet.joist.PhetMenu,
+  documentation: 'The PhET Menu in the bottom right of the screen'
+} );
 
 joist.register( 'PhetMenuIO', PhetMenuIO );
 export default PhetMenuIO;

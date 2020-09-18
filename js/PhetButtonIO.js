@@ -11,13 +11,14 @@
 import PropertyIO from '../../axon/js/PropertyIO.js';
 import NodeProperty from '../../scenery/js/util/NodeProperty.js';
 import BooleanIO from '../../tandem/js/types/BooleanIO.js';
+import IOType from '../../tandem/js/types/IOType.js';
 import NullableIO from '../../tandem/js/types/NullableIO.js';
-import ObjectIO from '../../tandem/js/types/ObjectIO.js';
 import joist from './joist.js';
 
-class PhetButtonIO extends ObjectIO {
-  constructor( phetButton, phetioID ) {
-    super( phetButton, phetioID );
+const PhetButtonIO = new IOType( 'PhetButtonIO', {
+  isValidValue: v => v instanceof phet.joist.PhetButton,
+  documentation: 'The PhET Button in the bottom right of the screen',
+  wrapInstance( phetButton, phetioID ) {
 
     // This code is similar to code in NodeIO, but it is not customizable through phetioComponentOptions because all
     // instances have the same level of instrumentation.
@@ -34,41 +35,14 @@ class PhetButtonIO extends ObjectIO {
     this.disposePhetButtonIO = function() {
       pickableProperty.dispose();
     };
-  }
-
-  /**
-   * @public - called by PhetioObject when the wrapper is done
-   */
-  dispose() {
-    this.disposePhetButtonIO();
-  }
-
-  /**
-   * See NodeIO.toStateObject
-   * @returns {undefined} - We don't use null because other types want that value in the state, see `NullableIO` for example.
-   * @override
-   * @public
-   */
-  static toStateObject() {
+  },
+  toStateObject() {
     return undefined;
-  }
-
-  /**
-   * See NodeIO.fromStateObject
-   * @param {Node} stateObject
-   * @returns {Object}
-   * @override - to prevent attempted JSON serialization of circular Node
-   * @public
-   */
-  static fromStateObject( stateObject ) {
+  },
+  fromStateObject( stateObject ) {
     return stateObject; // Pass through values defined by subclasses
   }
-}
-
-PhetButtonIO.documentation = 'The PhET Button in the bottom right of the screen';
-PhetButtonIO.validator = { isValidValue: v => v instanceof phet.joist.PhetButton };
-PhetButtonIO.typeName = 'PhetButtonIO';
-ObjectIO.validateIOType( PhetButtonIO );
+} );
 
 joist.register( 'PhetButtonIO', PhetButtonIO );
 export default PhetButtonIO;
