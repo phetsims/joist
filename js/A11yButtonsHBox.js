@@ -6,7 +6,6 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import platform from '../../phet-core/js/platform.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
@@ -15,58 +14,61 @@ import joist from './joist.js';
 import KeyboardHelpButton from './KeyboardHelpButton.js';
 import NavigationBarSoundToggleButton from './NavigationBarSoundToggleButton.js';
 
-/**
- * @param {Sim} sim
- * @param {Property.<Color|string>} backgroundColorProperty
- * @param {Tandem} tandem
- * @param {Object} [options]
- * @constructor
- */
-function A11yButtonsHBox( sim, backgroundColorProperty, tandem, options ) {
-  options = merge( {
-    align: 'center',
-    spacing: 6
-  }, options );
+class A11yButtonsHBox extends HBox {
 
-  // list of optional buttons added for a11y
-  const a11yButtons = [];
+  /**
+   * @param {Sim} sim
+   * @param {Property.<Color|string>} backgroundColorProperty
+   * @param {Tandem} tandem
+   * @param {Object} [options]
+   */
+  constructor( sim, backgroundColorProperty, tandem, options ) {
 
-  // If the sim has sound support in its API, then create the button. This is support consistent API for PhET-iO
-  if ( sim.soundPartOfTheAPI ) {
-    const soundOnOffButton = new NavigationBarSoundToggleButton(
-      soundManager.enabledProperty,
-      backgroundColorProperty,
-      tandem.createTandem( 'soundOnOffButton' )
-    );
+    options = merge( {
+      align: 'center',
+      spacing: 6
+    }, options );
 
-    // only put the sound on/off button on the nav bar if the sound library is enabled
-    if ( sim.supportsSound ) {
-      a11yButtons.push( soundOnOffButton );
+    // list of optional buttons added for a11y
+    const a11yButtons = [];
+
+    // If the sim has sound support in its API, then create the button. This is support consistent API for PhET-iO
+    if ( sim.soundPartOfTheAPI ) {
+      const soundOnOffButton = new NavigationBarSoundToggleButton(
+        soundManager.enabledProperty,
+        backgroundColorProperty,
+        tandem.createTandem( 'soundOnOffButton' )
+      );
+
+      // only put the sound on/off button on the nav bar if the sound library is enabled
+      if ( sim.supportsSound ) {
+        a11yButtons.push( soundOnOffButton );
+      }
     }
-  }
 
-  // If the sim has accessibility support in its API, then create the button. This is support consistent API for PhET-iO
-  if ( sim.accessibilityPartOfTheAPI && sim.keyboardHelpNode ) {
+    // If the sim has accessibility support in its API, then create the button. This is support consistent API for PhET-iO
+    if ( sim.accessibilityPartOfTheAPI && sim.keyboardHelpNode ) {
 
-    // Pops open a dialog with information about keyboard navigation
-    const keyboardHelpButton = new KeyboardHelpButton(
-      sim.keyboardHelpNode,
-      backgroundColorProperty,
-      tandem.createTandem( 'keyboardHelpButton' )
-    );
+      // Pops open a dialog with information about keyboard navigation
+      const keyboardHelpButton = new KeyboardHelpButton(
+        sim.keyboardHelpNode,
+        backgroundColorProperty,
+        tandem.createTandem( 'keyboardHelpButton' )
+      );
 
-    // only show the keyboard help button if the sim supports interactive descriptions, there is keyboard help content,
-    // and we are not in mobile safari
-    if ( sim.supportsInteractiveDescriptions && !platform.mobileSafari ) {
-      a11yButtons.push( keyboardHelpButton );
+      // only show the keyboard help button if the sim supports interactive descriptions, there is keyboard help content,
+      // and we are not in mobile safari
+      if ( sim.supportsInteractiveDescriptions && !platform.mobileSafari ) {
+        a11yButtons.push( keyboardHelpButton );
+      }
     }
-  }
 
-  options.children = a11yButtons;
-  HBox.call( this, options );
+    assert && assert( !options.children, 'A11yButtonsHBox sets children' );
+    options.children = a11yButtons;
+
+    super( options );
+  }
 }
 
 joist.register( 'A11yButtonsHBox', A11yButtonsHBox );
-
-inherit( HBox, A11yButtonsHBox );
 export default A11yButtonsHBox;
