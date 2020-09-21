@@ -7,7 +7,6 @@
  */
 
 import stepTimer from '../../axon/js/stepTimer.js';
-import inherit from '../../phet-core/js/inherit.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Dialog from '../../sun/js/Dialog.js';
 import joist from './joist.js';
@@ -15,90 +14,86 @@ import updateCheck from './updateCheck.js';
 import UpdateNodes from './UpdateNodes.js';
 import UpdateState from './UpdateState.js';
 
-/**
- * @param {PhetButton} phetButton - PhET button in the navigation bar, receives focus when this dialog is closed
- */
-function UpdateDialog( phetButton ) {
-  assert && assert( updateCheck.areUpdatesChecked,
-    'Updates need to be checked for UpdateDialog to be created' );
-
-  const self = this;
-
-  const positionOptions = { centerX: 0, centerY: 0, big: true };
-  const checkingNode = UpdateNodes.createCheckingNode( positionOptions );
-  const upToDateNode = UpdateNodes.createUpToDateNode( positionOptions );
-
-  const outOfDateNode = new Node( {
-
-    // pdom - dialog content contained in parent div so ARIA roles can be applied to all children
-    tagName: 'div'
-  } );
-
-  const offlineNode = UpdateNodes.createOfflineNode( positionOptions );
-
-  function updateOutOfDateNode() {
-    // fallback size placeholder for version
-    const latestVersionString = updateCheck.latestVersion ? updateCheck.latestVersion.toString() : 'x.x.xx';
-    const ourVersionString = updateCheck.ourVersion.toString();
-
-    outOfDateNode.children = [
-      UpdateNodes.createOutOfDateDialogNode( self, ourVersionString, latestVersionString, positionOptions )
-    ];
-  }
-
-  updateOutOfDateNode();
-
-  // @private - Listener that should be called every frame where we are shown, with {number} dt as a single parameter.
-  this.updateStepListener = checkingNode.stepListener;
-
-  // Listener that should be called whenever our update state changes (while we are displayed)
-  this.updateVisibilityListener = function( state ) {
-    if ( state === UpdateState.OUT_OF_DATE ) {
-      updateOutOfDateNode();
-    }
-
-    checkingNode.visible = state === UpdateState.CHECKING;
-    upToDateNode.visible = state === UpdateState.UP_TO_DATE;
-    outOfDateNode.visible = state === UpdateState.OUT_OF_DATE;
-    offlineNode.visible = state === UpdateState.OFFLINE;
-
-    // pdom - update visibility of update nodes for screen readers by adding/removing content from the DOM,
-    // necessary because screen readers will read hidden content in a Dialog
-    checkingNode.accessibleContentDisplayed = checkingNode.visible;
-    upToDateNode.accessibleContentDisplayed = upToDateNode.visible;
-    outOfDateNode.accessibleContentDisplayed = outOfDateNode.visible;
-    offlineNode.accessibleContentDisplayed = offlineNode.visible;
-  };
-
-  const content = new Node( {
-    children: [
-      checkingNode,
-      upToDateNode,
-      outOfDateNode,
-      offlineNode
-    ],
-
-    // pdom
-    tagName: 'div'
-  } );
-
-  Dialog.call( this, content, {
-
-    // pdom
-    focusOnCloseNode: phetButton
-  } );
-}
-
-joist.register( 'UpdateDialog', UpdateDialog );
-
-inherit( Dialog, UpdateDialog, {
+class UpdateDialog extends Dialog {
 
   /**
-   * Show the UpdateDialog, registering listeners that should only be called while
-   * the dialog is shown.
+   * @param {PhetButton} phetButton - PhET button in the navigation bar, receives focus when this dialog is closed
+   */
+  constructor( phetButton ) {
+    assert && assert( updateCheck.areUpdatesChecked,
+      'Updates need to be checked for UpdateDialog to be created' );
+
+    const positionOptions = { centerX: 0, centerY: 0, big: true };
+    const checkingNode = UpdateNodes.createCheckingNode( positionOptions );
+    const upToDateNode = UpdateNodes.createUpToDateNode( positionOptions );
+
+    const outOfDateNode = new Node( {
+
+      // pdom - dialog content contained in parent div so ARIA roles can be applied to all children
+      tagName: 'div'
+    } );
+
+    const offlineNode = UpdateNodes.createOfflineNode( positionOptions );
+
+    const content = new Node( {
+      children: [
+        checkingNode,
+        upToDateNode,
+        outOfDateNode,
+        offlineNode
+      ],
+
+      // pdom
+      tagName: 'div'
+    } );
+
+    super( content, {
+
+      // pdom
+      focusOnCloseNode: phetButton
+    } );
+
+    const updateOutOfDateNode = () => {
+
+      // fallback size placeholder for version
+      const latestVersionString = updateCheck.latestVersion ? updateCheck.latestVersion.toString() : 'x.x.xx';
+      const ourVersionString = updateCheck.ourVersion.toString();
+
+      outOfDateNode.children = [
+        UpdateNodes.createOutOfDateDialogNode( this, ourVersionString, latestVersionString, positionOptions )
+      ];
+    };
+
+    updateOutOfDateNode();
+
+    // @private - Listener that should be called every frame where we are shown, with {number} dt as a single parameter.
+    this.updateStepListener = checkingNode.stepListener;
+
+    // Listener that should be called whenever our update state changes (while we are displayed)
+    this.updateVisibilityListener = function( state ) {
+      if ( state === UpdateState.OUT_OF_DATE ) {
+        updateOutOfDateNode();
+      }
+
+      checkingNode.visible = state === UpdateState.CHECKING;
+      upToDateNode.visible = state === UpdateState.UP_TO_DATE;
+      outOfDateNode.visible = state === UpdateState.OUT_OF_DATE;
+      offlineNode.visible = state === UpdateState.OFFLINE;
+
+      // pdom - update visibility of update nodes for screen readers by adding/removing content from the DOM,
+      // necessary because screen readers will read hidden content in a Dialog
+      checkingNode.accessibleContentDisplayed = checkingNode.visible;
+      upToDateNode.accessibleContentDisplayed = upToDateNode.visible;
+      outOfDateNode.accessibleContentDisplayed = outOfDateNode.visible;
+      offlineNode.accessibleContentDisplayed = offlineNode.visible;
+    };
+  }
+
+  /**
+   * Shows the UpdateDialog, registering listeners that should only be called while the dialog is shown.
    * @public (joist-internal)
    */
-  show: function() {
+  show() {
     if ( updateCheck.areUpdatesChecked && !this.isShowingProperty.value ) {
       updateCheck.resetTimeout();
 
@@ -114,16 +109,16 @@ inherit( Dialog, UpdateDialog, {
       updateCheck.stateProperty.link( this.updateVisibilityListener );
     }
 
-    Dialog.prototype.show.call( this );
-  },
+    super.show();
+  }
 
   /**
-   * Remove listeners that should only be called when the Dialog is shown.
+   * Removes listeners that should only be called when the Dialog is shown.
    * @public (joist-internal)
    */
-  hide: function() {
+  hide() {
     if ( this.isShowingProperty.value ) {
-      Dialog.prototype.hide.call( this );
+      super.hide();
 
       if ( updateCheck.areUpdatesChecked ) {
 
@@ -135,6 +130,7 @@ inherit( Dialog, UpdateDialog, {
       }
     }
   }
-} );
+}
 
+joist.register( 'UpdateDialog', UpdateDialog );
 export default UpdateDialog;
