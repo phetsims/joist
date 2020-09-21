@@ -7,7 +7,6 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
@@ -15,38 +14,42 @@ import Color from '../../scenery/js/util/Color.js';
 import LinearGradient from '../../scenery/js/util/LinearGradient.js';
 import joist from './joist.js';
 
-/**
- * @param {number} width - can be mutated with the `spacing` property.
- * @param {number} height
- * @param {Object} [options]
- * @constructor
- */
-function HighlightNode( width, height, options ) {
+class HighlightNode extends HBox {
 
-  options = merge( {
-    fill: 'white',
-    highlightWidth: 1,
-    pickable: false
-  }, options );
+  /**
+   * @param {number} width - can be mutated with the `spacing` property.
+   * @param {number} height
+   * @param {Object} [options]
+   */
+  constructor( width, height, options ) {
 
-  const innerColor = options.fill;
-  const outerColor = Color.toColor( innerColor ).withAlpha( 0 ); // transparent
+    options = merge( {
+      fill: 'white',
+      highlightWidth: 1,
+      pickable: false
+    }, options );
 
-  const barOptions = {
-    fill: new LinearGradient( 0, 0, 0, height )
-      .addColorStop( 0, outerColor )
-      .addColorStop( 0.5, innerColor )
-      .addColorStop( 1, outerColor )
-  };
-  const leftBar = new Rectangle( 0, 0, options.highlightWidth, height, barOptions );
-  const rightBar = new Rectangle( 0, 0, options.highlightWidth, height, barOptions );
+    assert && assert( options.spacing === undefined, 'HighlightNode sets spacing' );
+    options.spacing = width;
 
-  options.children = [ leftBar, rightBar ];
-  options.spacing = width;
-  HBox.call( this, options );
+    const innerColor = options.fill;
+    const outerColor = Color.toColor( innerColor ).withAlpha( 0 ); // transparent
+
+    const barOptions = {
+      fill: new LinearGradient( 0, 0, 0, height )
+        .addColorStop( 0, outerColor )
+        .addColorStop( 0.5, innerColor )
+        .addColorStop( 1, outerColor )
+    };
+    const leftBar = new Rectangle( 0, 0, options.highlightWidth, height, barOptions );
+    const rightBar = new Rectangle( 0, 0, options.highlightWidth, height, barOptions );
+
+    assert && assert( !options.children, 'HighlightNode sets children' );
+    options.children = [ leftBar, rightBar ];
+
+    super( options );
+  }
 }
 
 joist.register( 'HighlightNode', HighlightNode );
-
-inherit( HBox, HighlightNode );
 export default HighlightNode;
