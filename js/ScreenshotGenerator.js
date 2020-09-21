@@ -7,20 +7,10 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import inherit from '../../phet-core/js/inherit.js';
 import CanvasContextWrapper from '../../scenery/js/util/CanvasContextWrapper.js';
 import joist from './joist.js';
 
-/**
- *
- * @constructor
- */
-function ScreenshotGenerator() {
-}
-
-joist.register( 'ScreenshotGenerator', ScreenshotGenerator );
-
-inherit( Object, ScreenshotGenerator, {}, {
+class ScreenshotGenerator {
 
   /**
    * Given a sim, generate a screenshot as a data url
@@ -29,7 +19,7 @@ inherit( Object, ScreenshotGenerator, {}, {
    * @returns {string} dataURL
    * @public
    */
-  generateScreenshot: function( sim, mimeType ) {
+  static generateScreenshot( sim, mimeType ) {
 
     // Default to PNG
     mimeType = mimeType || 'image/png';
@@ -46,10 +36,9 @@ inherit( Object, ScreenshotGenerator, {}, {
     sim.rootNode.renderToCanvasSubtree( wrapper );
 
     // get the data URL in PNG format
-    const dataURL = canvas.toDataURL( mimeType );
-
-    return dataURL;
+    return canvas.toDataURL( mimeType );
   }
-} );
+}
 
+joist.register( 'ScreenshotGenerator', ScreenshotGenerator );
 export default ScreenshotGenerator;
