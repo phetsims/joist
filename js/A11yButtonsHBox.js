@@ -55,8 +55,8 @@ function A11yButtonsHBox( sim, backgroundColorProperty, tandem, options ) {
       tandem.createTandem( 'keyboardHelpButton' )
     );
 
-    // only show the keyboard help button if the sim supports interactive descriptions, there is keyboard help content, and we are
-    // not in mobile safari
+    // only show the keyboard help button if the sim supports interactive descriptions, there is keyboard help content,
+    // and we are not in mobile safari
     if ( sim.supportsInteractiveDescriptions && !platform.mobileSafari ) {
       a11yButtons.push( keyboardHelpButton );
     }
