@@ -204,6 +204,9 @@ class HomeScreenButton extends VBox {
       this.focus();
     };
     this.addInputListener( { focus: toggleListener } );
+
+    // when a screen reader is in use, the button may be selected with the virtual cursor
+    // without focus landing on the button - toggle focus (and therefore size) in this case
     this.addInputListener( { click: toggleListener } );
 
     // set the mouseArea and touchArea to be the whole local bounds of this node, because if it just relies on the
