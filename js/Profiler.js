@@ -7,7 +7,8 @@
  * happen, which are typically a spike in a single frame.  Hence, the data is shown as a histogram. Data that
  * doesn't fit in the histogram appears in an optional 'longTimes' field.
  *
- * Output is displayed in the upper-left corner of the browser window, and updates every 60 frames.
+ * When a sim is run with ?profiler, output is displayed in the upper-left corner of the browser window, and updates
+ * every 60 frames.
  *
  * The general format is:
  *
@@ -29,52 +30,52 @@
  */
 
 import Utils from '../../dot/js/Utils.js';
-import inherit from '../../phet-core/js/inherit.js';
 import joist from './joist.js';
 
 // constants
 const FIELD_SEPARATOR = ' \u2014 '; // em dash, a long horizontal dash
 const HISTOGRAM_LENGTH = 30;
 
-/**
- * Construct a Profiler
- * @constructor
- */
-function Profiler() {
+class Profiler {
 
-  // @private These data structured were chosen to minimize CPU time.
-  this.allTimes = [];  // {number[]} times for all frames, in ms
-  this.histogram = []; // {number[]} array index corresponds to number of ms, value is number of frames at that time
-  this.longTimes = []; // {number[]} any frame times that didn't fit in histogram
-  this.frameStartTime = 0; // {number} start time of the current frame
-  this.previousFrameStartTime = 0; // {number} start time of the previous frame
+  constructor() {
 
-  // initialize histogram
-  for ( let i = 0; i < HISTOGRAM_LENGTH; i++ ) {
-    this.histogram.push( 0 );
+    // @private These data structured were chosen to minimize CPU time.
+    this.allTimes = [];  // {number[]} times for all frames, in ms
+    this.histogram = []; // {number[]} array index corresponds to number of ms, value is number of frames at that time
+    this.longTimes = []; // {number[]} any frame times that didn't fit in histogram
+    this.frameStartTime = 0; // {number} start time of the current frame
+    this.previousFrameStartTime = 0; // {number} start time of the previous frame
+
+    // initialize histogram
+    for ( let i = 0; i < HISTOGRAM_LENGTH; i++ ) {
+      this.histogram.push( 0 );
+    }
+
+    // this is where the profiler displays its output
+    $( 'body' ).append( '<div style="z-index: 99999999;position: absolute;color:red" id="phetProfiler" ></div>' );
   }
 
-  // this is where the profiler displays its output
-  $( 'body' ).append( '<div style="z-index: 99999999;position: absolute;color:red" id="phetProfiler" ></div>' );
-}
-
-joist.register( 'Profiler', Profiler );
-
-inherit( Object, Profiler, {
+  // @public
+  static start( sim ) {
+    const profiler = new Profiler();
+    sim.frameStartedEmitter.addListener( () => profiler.frameStarted() );
+    sim.frameEndedEmitter.addListener( () => profiler.frameEnded() );
+  }
 
   // @private
-  frameStarted: function() {
+  frameStarted() {
     this.frameStartTime = Date.now();
-  },
+  }
 
   // @private
-  frameEnded: function() {
+  frameEnded() {
 
     // update the display every 60 frames
     if ( this.allTimes.length > 0 && this.allTimes.length % 60 === 0 ) {
 
       let totalTime = 0;
-      for ( var i = 0; i < this.allTimes.length; i++ ) {
+      for ( let i = 0; i < this.allTimes.length; i++ ) {
         totalTime += this.allTimes[ i ];
       }
 
@@ -91,7 +92,7 @@ inherit( Object, Profiler, {
 
       // longTimes
       if ( this.longTimes.length > 0 ) {
-        this.longTimes.sort( function( a, b ) { return b - a; } ); // sort longTimes in descending order
+        this.longTimes.sort( ( a, b ) => ( b - a ) ); // sort longTimes in descending order
         text = text + FIELD_SEPARATOR + this.longTimes;
       }
 
@@ -99,7 +100,7 @@ inherit( Object, Profiler, {
       $( '#phetProfiler' ).html( text );
 
       // clear data structures
-      for ( i = 0; i < HISTOGRAM_LENGTH; i++ ) {
+      for ( let i = 0; i < HISTOGRAM_LENGTH; i++ ) {
         this.histogram[ i ] = 0;
       }
       this.longTimes.length = 0;
@@ -120,18 +121,7 @@ inherit( Object, Profiler, {
 
     this.previousFrameStartTime = this.frameStartTime;
   }
-}, {
+}
 
-  // @public
-  start: function( sim ) {
-    const profiler = new Profiler();
-    sim.frameStartedEmitter.addListener( function() {
-      profiler.frameStarted();
-    } );
-    sim.frameEndedEmitter.addListener( function() {
-      profiler.frameEnded();
-    } );
-  }
-} );
-
+joist.register( 'Profiler', Profiler );
 export default Profiler;
