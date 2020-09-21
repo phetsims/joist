@@ -8,45 +8,49 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import joist from './joist.js';
 import Screen from './Screen.js';
 
-/**
- * @param {Node} iconNode
- * @param {Object} [options]
- * @constructor
- */
-function ScreenIcon( iconNode, options ) {
+class ScreenIcon extends Node {
 
-  options = merge( {
-    size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE, // {Dimension2} size of the background
-    maxIconWidthProportion: 0.85, // max proportion of the background width occupied by iconNode, (0,1]
-    maxIconHeightProportion: 0.85, // max proportion of the background height occupied by iconNode, (0,1]
-    fill: 'white', // {Color|string} background fill
-    stroke: null // {Color|string} background stroke
-  }, options );
+  /**
+   * @param {Node} iconNode
+   * @param {Object} [options]
+   */
+  constructor( iconNode, options ) {
 
-  assert && assert( options.maxIconWidthProportion > 0 && options.maxIconWidthProportion <= 1 );
-  assert && assert( options.maxIconHeightProportion > 0 && options.maxIconHeightProportion <= 1 );
+    options = merge( {
+      size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE, // {Dimension2} size of the background
+      maxIconWidthProportion: 0.85, // max proportion of the background width occupied by iconNode, (0,1]
+      maxIconHeightProportion: 0.85, // max proportion of the background height occupied by iconNode, (0,1]
+      fill: 'white', // {Color|string} background fill
+      stroke: null // {Color|string} background stroke
+    }, options );
 
-  const background = new Rectangle( 0, 0, options.size.width, options.size.height, {
-    fill: options.fill,
-    stroke: options.stroke
-  } );
+    assert && assert( options.maxIconWidthProportion > 0 && options.maxIconWidthProportion <= 1 );
+    assert && assert( options.maxIconHeightProportion > 0 && options.maxIconHeightProportion <= 1 );
 
-  iconNode.setScaleMagnitude( Math.min( options.maxIconWidthProportion * background.width / iconNode.width, options.maxIconHeightProportion * background.height / iconNode.height ) );
-  iconNode.center = background.center;
-  iconNode.pickable = false;
+    const background = new Rectangle( 0, 0, options.size.width, options.size.height, {
+      fill: options.fill,
+      stroke: options.stroke
+    } );
 
-  options.children = [ background, iconNode ];
-  Node.call( this, options );
+    iconNode.setScaleMagnitude( Math.min(
+      options.maxIconWidthProportion * background.width / iconNode.width,
+      options.maxIconHeightProportion * background.height / iconNode.height
+    ) );
+    iconNode.center = background.center;
+    iconNode.pickable = false;
+
+    assert && assert( !options.children, 'ScreenIcon sets children' );
+    options.children = [ background, iconNode ];
+
+    super( options );
+  }
 }
 
 joist.register( 'ScreenIcon', ScreenIcon );
-
-inherit( Node, ScreenIcon );
 export default ScreenIcon;
