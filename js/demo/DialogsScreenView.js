@@ -33,6 +33,9 @@ class DialogsScreenView extends ScreenView {
     const keyboardHelpPanel = new Panel( keyboardHelpButton, {
       fill: phet.joist.sim.lookAndFeel.navigationBarFillProperty.value
     } );
+    phet.joist.sim.lookAndFeel.navigationBarFillProperty.link( navigationBarFill => {
+      keyboardHelpPanel.setFill( navigationBarFill );
+    } );
 
     this.addChild( new VBox( {
       children: [
