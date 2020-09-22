@@ -28,8 +28,9 @@ class DialogsScreenView extends ScreenView {
     );
     keyboardHelpButton.setScaleMagnitude( 2 );
 
-    // Since KeyboardHelpButton adapts its color to the navigation bar,
-    // put the button in a panel that's the same color as the navigation bar
+    // Since KeyboardHelpButton adapts its color to the navigation bar, put the button in a panel that's the same
+    // color as the navigation bar. You can test this by toggling phet.joist.sim.lookAndFeel.backgroundColorProperty
+    // between 'white' and 'black' is the browser console.
     const keyboardHelpPanel = new Panel( keyboardHelpButton, {
       fill: phet.joist.sim.lookAndFeel.navigationBarFillProperty.value
     } );
