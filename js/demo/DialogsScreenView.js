@@ -23,7 +23,7 @@ class DialogsScreenView extends ScreenView {
 
     const keyboardHelpButton = new KeyboardHelpButton(
       keyboardHelpDialogContent,
-      phet.joist.sim.lookAndFeel.backgroundColorProperty,
+      phet.joist.sim.lookAndFeel.navigationBarFillProperty,
       Tandem.GENERAL.createTandem( 'keyboardHelpButton' )
     );
     keyboardHelpButton.setScaleMagnitude( 2 );
