@@ -272,7 +272,7 @@ function Sim( name, allSimScreens, options ) {
     // fire or synthesize keyboard input events
     if ( phet.chipper.queryParameters.fuzzBoard ) {
       assert && assert( this.supportsInteractiveDescriptions, 'fuzzBoard can only run with interactive descriptions enabled.' );
-      this.keyboardFuzzer.fuzzBoardEvents();
+      this.keyboardFuzzer.fuzzBoardEvents( phet.chipper.queryParameters.fuzzRate );
     }
 
     // If the user is on the home screen, we won't have a Screen that we'll want to step.  This must be done after
