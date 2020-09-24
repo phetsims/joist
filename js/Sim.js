@@ -944,9 +944,6 @@ inherit( Object, Sim, {
     const currentTime = Date.now();
     animationFrameTimer.emit( getDT( this.lastAnimationFrameTime, currentTime ) );
     this.lastAnimationFrameTime = currentTime;
-
-    // PhET-iO batches messages to be sent to other frames, messages must be sent whether the sim is active or not
-    Tandem.PHET_IO_ENABLED && phet.phetio.phetioCommandProcessor.onAnimationLoop( this );
   },
 
   // @private - run a single frame including model, view and display updates
