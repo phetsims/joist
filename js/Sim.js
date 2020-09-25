@@ -820,31 +820,30 @@ class Sim {
 
   // @public (joist-internal)
   start() {
-    const self = this;
 
     // In order to animate the loading progress bar, we must schedule work with setTimeout
     // This array of {function} is the work that must be completed to launch the sim.
     const workItems = [];
 
     // Schedule instantiation of the screens
-    this.screens.forEach( function initializeScreen( screen ) {
-      workItems.push( function() {
+    this.screens.forEach( screen => {
+      workItems.push( () => {
 
         // Screens may share the same instance of backgroundProperty, see joist#441
-        if ( !screen.backgroundColorProperty.hasListener( self.updateBackground ) ) {
-          screen.backgroundColorProperty.link( self.updateBackground );
+        if ( !screen.backgroundColorProperty.hasListener( this.updateBackground ) ) {
+          screen.backgroundColorProperty.link( this.updateBackground );
         }
         screen.initializeModel();
       } );
-      workItems.push( function() {
-        screen.initializeView( self.simNameProperty.value, self.screens.length );
+      workItems.push( () => {
+        screen.initializeView( this.simNameProperty.value, this.screens.length );
       } );
     } );
 
     // loop to run startup items asynchronously so the DOM can be updated to show animation on the progress bar
-    const runItem = function( i ) {
+    const runItem = i => {
       setTimeout( // eslint-disable-line bad-sim-text
-        function() {
+        () => {
           workItems[ i ]();
           // Move the progress ahead by one so we show the full progress bar for a moment before the sim starts up
 
@@ -861,8 +860,8 @@ class Sim {
             runItem( i + 1 );
           }
           else {
-            setTimeout( function() { // eslint-disable-line bad-sim-text
-              self.finishInit( self.screens );
+            setTimeout( () => { // eslint-disable-line bad-sim-text
+              this.finishInit( this.screens );
 
               // Make sure requestAnimationFrame is defined
               Utils.polyfillRequestAnimationFrame();
@@ -871,19 +870,19 @@ class Sim {
               // if true, prints screen initialization time (total, model, view) to the console and displays
               // profiling information on the screen
               if ( phet.chipper.queryParameters.profiler ) {
-                Profiler.start( self );
+                Profiler.start( this );
               }
 
               // Notify listeners that all models and views have been constructed, and the Sim is ready to be shown.
               // Used by PhET-iO. This does not coincide with the end of the Sim constructor (because Sim has
               // asynchronous steps that finish after the constructor is completed )
-              self.isConstructionCompleteProperty.value = true;
+              this.isConstructionCompleteProperty.value = true;
 
               // place the requestAnimationFrame *before* rendering to assure as close to 60fps with the setTimeout fallback.
               // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
               // Launch the bound version so it can easily be swapped out for debugging.
               // Schedules animation updates and runs the first step()
-              self.boundRunAnimationLoop();
+              this.boundRunAnimationLoop();
 
               // If the sim is in playback mode, then flush the timer's listeners. This makes sure that anything kicked
               // to the next frame with `timer.runOnNextTick` during startup (like every notification about a PhET-iO
