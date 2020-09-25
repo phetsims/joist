@@ -682,9 +682,6 @@ class Sim {
    */
   finishInit( screens ) {
 
-    // ModuleIndex should always be defined.  On startup screenIndex=1 to highlight the 1st screen.
-    // When moving from a screen to the homescreen, the previous screen should be highlighted
-
     _.each( screens, screen => {
       screen.view.layerSplit = true;
       this.simulationRoot.addChild( screen.view );
