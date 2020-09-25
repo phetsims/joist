@@ -85,7 +85,6 @@ class Sim {
    */
   constructor( name, allSimScreens, options ) {
 
-    const self = this;
     window.phetSplashScreenDownloadComplete();
 
     assert && assert( allSimScreens.length >= 1, 'at least one screen is required' );
@@ -399,8 +398,8 @@ class Sim {
     } );
 
     // set the state of the property that indicates if the browser tab is visible
-    document.addEventListener( 'visibilitychange', function() {
-      self.browserTabVisibleProperty.set( document.visibilityState === 'visible' );
+    document.addEventListener( 'visibilitychange', () => {
+      this.browserTabVisibleProperty.set( document.visibilityState === 'visible' );
     }, false );
 
     // @public (joist-internal, read-only) - How the home screen and navbar are scaled. This scale is based on the
@@ -589,8 +588,8 @@ class Sim {
     this.keyboardFuzzer = new KeyboardFuzzer( this.display, fuzzerSeed );
 
     // When the sim is inactive, make it non-interactive, see https://github.com/phetsims/scenery/issues/414
-    this.activeProperty.link( function( active ) {
-      self.display.interactive = active;
+    this.activeProperty.link( active => {
+      this.display.interactive = active;
 
       // The sim must remain inactive while playbackModeEnabledProperty is true
       if ( active ) {
@@ -647,8 +646,8 @@ class Sim {
       this.lookAndFeel.backgroundColorProperty.value = this.screenProperty.value.backgroundColorProperty.value;
     };
 
-    this.lookAndFeel.backgroundColorProperty.link( function( backgroundColor ) {
-      self.display.backgroundColor = backgroundColor;
+    this.lookAndFeel.backgroundColorProperty.link( backgroundColor => {
+      this.display.backgroundColor = backgroundColor;
     } );
 
     this.screenProperty.link( () => this.updateBackground() );
@@ -682,14 +681,13 @@ class Sim {
    * @private
    */
   finishInit( screens ) {
-    const self = this;
 
     // ModuleIndex should always be defined.  On startup screenIndex=1 to highlight the 1st screen.
     // When moving from a screen to the homescreen, the previous screen should be highlighted
 
-    _.each( screens, function( screen ) {
+    _.each( screens, screen => {
       screen.view.layerSplit = true;
-      self.simulationRoot.addChild( screen.view );
+      this.simulationRoot.addChild( screen.view );
     } );
     this.simulationRoot.addChild( this.navigationBar );
 
@@ -732,11 +730,11 @@ class Sim {
     // Fit to the window and render the initial scene
     // Can't synchronously do this in Firefox, see https://github.com/phetsims/vegas/issues/55 and
     // https://bugzilla.mozilla.org/show_bug.cgi?id=840412.
-    const resizeListener = function() {
+    const resizeListener = () => {
       // Don't resize on window size changes if we are playing back input events.
       // See https://github.com/phetsims/joist/issues/37
       if ( !phet.joist.playbackModeEnabledProperty.value ) {
-        self.resizePending = true;
+        this.resizePending = true;
       }
     };
     $( window ).resize( resizeListener );
