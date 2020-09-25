@@ -567,7 +567,7 @@ class Sim {
     this.rootNode.addChild( this.simulationRoot );
 
     // @private
-    this.display = new Display( self.rootNode, {
+    this.display = new Display( this.rootNode, {
 
       // prevent overflow that can cause iOS bugginess, see https://github.com/phetsims/phet-io/issues/341
       allowSceneOverflow: false,
@@ -598,13 +598,13 @@ class Sim {
       }
     } );
 
-    self.display.domElement.id = 'sim';
-    document.body.appendChild( self.display.domElement );
+    this.display.domElement.id = 'sim';
+    document.body.appendChild( this.display.domElement );
 
     // for now interactive descriptions are only in english
     // NOTE: When translatable this will need to update with language, change to phet.chipper.local
     if ( this.supportsInteractiveDescriptions ) {
-      self.display.accessibleDOMElement.lang = 'en';
+      this.display.accessibleDOMElement.lang = 'en';
     }
 
     Heartbeat.start( this );
@@ -624,11 +624,11 @@ class Sim {
     window.phet.joist.display = this.display; // make the display available for debugging
 
     // Pass through query parameters to scenery for showing supplemental information
-    self.display.setPointerDisplayVisible( phet.chipper.queryParameters.showPointers );
-    self.display.setPointerAreaDisplayVisible( phet.chipper.queryParameters.showPointerAreas );
-    self.display.setHitAreaDisplayVisible( phet.chipper.queryParameters.showHitAreas );
-    self.display.setCanvasNodeBoundsVisible( phet.chipper.queryParameters.showCanvasNodeBounds );
-    self.display.setFittedBlockBoundsVisible( phet.chipper.queryParameters.showFittedBlockBounds );
+    this.display.setPointerDisplayVisible( phet.chipper.queryParameters.showPointers );
+    this.display.setPointerAreaDisplayVisible( phet.chipper.queryParameters.showPointerAreas );
+    this.display.setHitAreaDisplayVisible( phet.chipper.queryParameters.showHitAreas );
+    this.display.setCanvasNodeBoundsVisible( phet.chipper.queryParameters.showCanvasNodeBounds );
+    this.display.setFittedBlockBoundsVisible( phet.chipper.queryParameters.showFittedBlockBounds );
 
     const isMultiScreenSimDisplayingSingleScreen = this.simScreens.length === 1 && allSimScreens.length !== this.simScreens.length;
 
