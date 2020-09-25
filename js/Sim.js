@@ -19,13 +19,12 @@ import NumberProperty from '../../axon/js/NumberProperty.js';
 import ObservableArray from '../../axon/js/ObservableArray.js';
 import Property from '../../axon/js/Property.js';
 import PropertyIO from '../../axon/js/PropertyIO.js';
-import StringProperty from '../../axon/js/StringProperty.js';
 import stepTimer from '../../axon/js/stepTimer.js';
+import StringProperty from '../../axon/js/StringProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Random from '../../dot/js/Random.js';
 import DotUtils from '../../dot/js/Utils.js';
-import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import platform from '../../phet-core/js/platform.js';
 import BarrierRectangle from '../../scenery-phet/js/BarrierRectangle.js';
@@ -77,607 +76,612 @@ phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for repl
 // @public (phet-io)
 phet.joist.playbackModeEnabledProperty = new BooleanProperty( phet.chipper.queryParameters.playbackMode );
 
-/**
- * Main Sim constructor
- * @param {string} name - the name of the simulation, to be displayed in the navbar and homescreen
- * @param {Screen[]} allSimScreens - the possible screens for the sim in order of declaration (does not include the home screen)
- * @param {Object} [options] - see below for options
- * @constructor
- */
-function Sim( name, allSimScreens, options ) {
-  const self = this;
-  window.phetSplashScreenDownloadComplete();
+class Sim {
 
-  assert && assert( allSimScreens.length >= 1, 'at least one screen is required' );
+  /**
+   * @param {string} name - the name of the simulation, to be displayed in the navbar and homescreen
+   * @param {Screen[]} allSimScreens - the possible screens for the sim in order of declaration (does not include the home screen)
+   * @param {Object} [options] - see below for options
+   */
+  constructor( name, allSimScreens, options ) {
 
-  options = merge( {
+    const self = this;
+    window.phetSplashScreenDownloadComplete();
 
-    // credits, see AboutDialog for format
-    credits: {},
+    assert && assert( allSimScreens.length >= 1, 'at least one screen is required' );
 
-    // {null|function(tandem:Tandem):Node} creates the content for the Options dialog
-    createOptionsDialogContent: null,
+    options = merge( {
 
-    // a {Node} placed onto the home screen (if available)
-    homeScreenWarningNode: null,
+      // credits, see AboutDialog for format
+      credits: {},
 
-    // if true, records the scenery input events and sends them to a server that can store them
-    recordInputEventLog: false,
+      // {null|function(tandem:Tandem):Node} creates the content for the Options dialog
+      createOptionsDialogContent: null,
 
-    // when playing back a recorded scenery input event log, use the specified filename.  Please see getEventLogName for more
-    inputEventLogName: undefined,
+      // a {Node} placed onto the home screen (if available)
+      homeScreenWarningNode: null,
 
-    // a {Node|null} placed into the keyboard help dialog that can be opened from the navigation bar
-    keyboardHelpNode: null,
+      // if true, records the scenery input events and sends them to a server that can store them
+      recordInputEventLog: false,
 
-    // the default renderer for the rootNode, see #221, #184 and https://github.com/phetsims/molarity/issues/24
-    rootRenderer: 'svg',
+      // when playing back a recorded scenery input event log, use the specified filename.  Please see getEventLogName for more
+      inputEventLogName: undefined,
 
-    // {VibrationManager|null} - Responsible for managing vibration feedback for a sim. Experimental, and
-    // not used frequently. The vibrationManager instance is passed through options so that tappi doesn't have to
-    // become a dependency for all sims yet. If this gets more use, this will likely change.
-    vibrationManager: null,
+      // a {Node|null} placed into the keyboard help dialog that can be opened from the navigation bar
+      keyboardHelpNode: null,
 
-    // Sims that do not use WebGL trigger a ~ 0.5 second pause shortly after the sim starts up, so sims must opt in to
-    // webgl support, see https://github.com/phetsims/scenery/issues/621
-    webgl: false,
+      // the default renderer for the rootNode, see #221, #184 and https://github.com/phetsims/molarity/issues/24
+      rootRenderer: 'svg',
 
-    // {boolean} - Whether to allow WebGL 2x scaling when antialiasing is detected. If running out of memory on
-    // things like iPad 2s (e.g. https://github.com/phetsims/scenery/issues/859), this can be turned to false to help.
-    allowBackingScaleAntialiasing: true
+      // {VibrationManager|null} - Responsible for managing vibration feedback for a sim. Experimental, and
+      // not used frequently. The vibrationManager instance is passed through options so that tappi doesn't have to
+      // become a dependency for all sims yet. If this gets more use, this will likely change.
+      vibrationManager: null,
 
-  }, options );
+      // Sims that do not use WebGL trigger a ~ 0.5 second pause shortly after the sim starts up, so sims must opt in to
+      // webgl support, see https://github.com/phetsims/scenery/issues/621
+      webgl: false,
 
-  // @public - used by PhetButton and maybe elsewhere
-  this.options = options;
+      // {boolean} - Whether to allow WebGL 2x scaling when antialiasing is detected. If running out of memory on
+      // things like iPad 2s (e.g. https://github.com/phetsims/scenery/issues/859), this can be turned to false to help.
+      allowBackingScaleAntialiasing: true
 
-  // override rootRenderer using query parameter, see #221 and #184
-  options.rootRenderer = phet.chipper.queryParameters.rootRenderer || options.rootRenderer;
+    }, options );
 
-  // @public {Property.<string>} (joist-internal)
-  this.simNameProperty = new StringProperty( name, {
-    tandem: Tandem.GENERAL_MODEL.createTandem( 'simNameProperty' ),
-    phetioFeatured: true,
-    phetioDocumentation: 'The name of the sim. Changing this value will update the title text on the navigation bar ' +
-                         'and the title text on the home screen, if it exists.'
-  } );
+    // @public - used by PhetButton and maybe elsewhere
+    this.options = options;
 
-  // playbackModeEnabledProperty cannot be changed after Sim construction has begun, hence this listener is added before
-  // anything else is done, see https://github.com/phetsims/phet-io/issues/1146
-  phet.joist.playbackModeEnabledProperty.lazyLink( function( playbackModeEnabled ) {
-    throw new Error( 'playbackModeEnabledProperty cannot be changed after Sim construction has begun' );
-  } );
+    // override rootRenderer using query parameter, see #221 and #184
+    options.rootRenderer = phet.chipper.queryParameters.rootRenderer || options.rootRenderer;
 
-  // @public {Property} that indicates sim construction completed, and that all screen models and views have been created.
-  // This was added for PhET-iO but can be used by any client. This does not coincide with the end of the Sim
-  // constructor (because Sim has asynchronous steps that finish after the constructor is completed)
-  this.isConstructionCompleteProperty = new Property( false );
-  assert && this.isConstructionCompleteProperty.lazyLink( isConstructionComplete => {
-    assert && assert( isConstructionComplete, 'Sim construction should never uncomplete' );
-  } );
+    // @public {Property.<string>} (joist-internal)
+    this.simNameProperty = new StringProperty( name, {
+      tandem: Tandem.GENERAL_MODEL.createTandem( 'simNameProperty' ),
+      phetioFeatured: true,
+      phetioDocumentation: 'The name of the sim. Changing this value will update the title text on the navigation bar ' +
+                           'and the title text on the home screen, if it exists.'
+    } );
 
-  // Supplied query parameters override options (but default values for non-supplied query parameters do not).
-  if ( QueryStringMachine.containsKey( 'webgl' ) ) {
-    options.webgl = phet.chipper.queryParameters.webgl;
-  }
+    // playbackModeEnabledProperty cannot be changed after Sim construction has begun, hence this listener is added before
+    // anything else is done, see https://github.com/phetsims/phet-io/issues/1146
+    phet.joist.playbackModeEnabledProperty.lazyLink( function( playbackModeEnabled ) {
+      throw new Error( 'playbackModeEnabledProperty cannot be changed after Sim construction has begun' );
+    } );
 
-  Utils.setWebGLEnabled( options.webgl );
+    // @public {Property} that indicates sim construction completed, and that all screen models and views have been created.
+    // This was added for PhET-iO but can be used by any client. This does not coincide with the end of the Sim
+    // constructor (because Sim has asynchronous steps that finish after the constructor is completed)
+    this.isConstructionCompleteProperty = new Property( false );
+    assert && this.isConstructionCompleteProperty.lazyLink( isConstructionComplete => {
+      assert && assert( isConstructionComplete, 'Sim construction should never uncomplete' );
+    } );
 
-  // @public - Action that indicates when the sim resized.  This Action is implemented so it can be automatically played back.
-  this.resizeAction = new Action( ( width, height ) => {
-    assert && assert( width > 0 && height > 0, 'sim should have a nonzero area' );
-
-    // Gracefully support bad dimensions, see https://github.com/phetsims/joist/issues/472
-    if ( width === 0 || height === 0 ) {
-      return;
-    }
-    const scale = Math.min( width / HomeScreenView.LAYOUT_BOUNDS.width, height / HomeScreenView.LAYOUT_BOUNDS.height );
-
-    // 40 px high on iPad Mobile Safari
-    const navBarHeight = scale * NavigationBar.NAVIGATION_BAR_SIZE.height;
-    this.navigationBar.layout( scale, width, navBarHeight );
-    this.navigationBar.y = height - navBarHeight;
-    this.display.setSize( new Dimension2( width, height ) );
-    const screenHeight = height - this.navigationBar.height;
-
-    // Layout each of the screens
-    _.each( this.screens, m => m.view.layout( width, screenHeight ) );
-    this.topLayer.children.forEach( child => child.layout && child.layout( width, screenHeight ) );
-
-    // Fixes problems where the div would be way off center on iOS7
-    if ( platform.mobileSafari ) {
-      window.scrollTo( 0, 0 );
+    // Supplied query parameters override options (but default values for non-supplied query parameters do not).
+    if ( QueryStringMachine.containsKey( 'webgl' ) ) {
+      options.webgl = phet.chipper.queryParameters.webgl;
     }
 
-    // update our scale and bounds properties after other changes (so listeners can be fired after screens are resized)
-    this.scaleProperty.value = scale;
-    this.boundsProperty.value = new Bounds2( 0, 0, width, height );
-    this.screenBoundsProperty.value = new Bounds2( 0, 0, width, screenHeight );
+    Utils.setWebGLEnabled( options.webgl );
 
-    if ( this.panZoomListener ) {
+    // @public - Action that indicates when the sim resized.  This Action is implemented so it can be automatically played back.
+    this.resizeAction = new Action( ( width, height ) => {
+      assert && assert( width > 0 && height > 0, 'sim should have a nonzero area' );
 
-      // set the scale describing the target Node, since scale from window resize is applied to each ScreenView,
-      // (children of the PanZoomListener targetNode)
-      this.panZoomListener.setTargetScale( scale );
+      // Gracefully support bad dimensions, see https://github.com/phetsims/joist/issues/472
+      if ( width === 0 || height === 0 ) {
+        return;
+      }
+      const scale = Math.min( width / HomeScreenView.LAYOUT_BOUNDS.width, height / HomeScreenView.LAYOUT_BOUNDS.height );
 
-      // set the bounds which accurately describe the panZoomListener targetNode, since it would otherwise be
-      // inaccurate with the very large BarrierRectangle
-      this.panZoomListener.setTargetBounds( this.boundsProperty.value );
+      // 40 px high on iPad Mobile Safari
+      const navBarHeight = scale * NavigationBar.NAVIGATION_BAR_SIZE.height;
+      this.navigationBar.layout( scale, width, navBarHeight );
+      this.navigationBar.y = height - navBarHeight;
+      this.display.setSize( new Dimension2( width, height ) );
+      const screenHeight = height - this.navigationBar.height;
 
-      // constrain the simulation pan bounds so that it cannot be moved off screen
-      this.panZoomListener.setPanBounds( this.boundsProperty.value );
-    }
-  }, {
-    tandem: Tandem.GENERAL_MODEL.createTandem( 'resizeAction' ),
-    parameters: [
-      { name: 'width', phetioType: NumberIO },
-      { name: 'height', phetioType: NumberIO }
-    ],
-    phetioPlayback: true,
-    phetioEventMetadata: {
+      // Layout each of the screens
+      _.each( this.screens, m => m.view.layout( width, screenHeight ) );
+      this.topLayer.children.forEach( child => child.layout && child.layout( width, screenHeight ) );
 
-      // resizeAction needs to always be playbackable because it acts independently of any other playback event.
-      // Because of its unique nature, it should be a "top-level" `playback: true` event so that it is never marked as
-      // `playback: false`. There are cases where it is nested under another `playback: true` event, like when the
-      // wrapper launches the simulation, that cannot be avoided. For this reason, we use this override.
-      alwaysPlaybackableOverride: true
-    },
-    phetioDocumentation: 'Executes when the sim is resized. Values are the sim dimensions in CSS pixels.'
-  } );
+      // Fixes problems where the div would be way off center on iOS7
+      if ( platform.mobileSafari ) {
+        window.scrollTo( 0, 0 );
+      }
 
-  // Sim screens normally update by implementing model.step(dt) or view.step(dt).  When that is impossible or
-  // relatively awkward, it is possible to listen for a callback when a frame begins, when a frame is being processed
-  // or after the frame is complete.  See https://github.com/phetsims/joist/issues/534
+      // update our scale and bounds properties after other changes (so listeners can be fired after screens are resized)
+      this.scaleProperty.value = scale;
+      this.boundsProperty.value = new Bounds2( 0, 0, width, height );
+      this.screenBoundsProperty.value = new Bounds2( 0, 0, width, screenHeight );
 
-  // @public Emitter that indicates when a frame starts.  Listen to this Emitter if you have an action that must be
-  // performed before the step begins.
-  this.frameStartedEmitter = new Emitter();
+      if ( this.panZoomListener ) {
 
-  // @public Emitter that indicates when a frame ends.  Listen to this Emitter if you have an action that must be
-  // performed after the step completes.
-  this.frameEndedEmitter = new Emitter( {
-    tandem: Tandem.GENERAL_MODEL.createTandem( 'frameEndedEmitter' )
-  } );
+        // set the scale describing the target Node, since scale from window resize is applied to each ScreenView,
+        // (children of the PanZoomListener targetNode)
+        this.panZoomListener.setTargetScale( scale );
 
-  // @public {Action} Action that steps the simulation. This Action is implemented so it can be automatically
-  // played back for PhET-iO record/playback.  Listen to this Action if you have an action that happens during the
-  // simulation step.
-  this.stepSimulationAction = new Action( dt => {
-    this.frameStartedEmitter.emit();
+        // set the bounds which accurately describe the panZoomListener targetNode, since it would otherwise be
+        // inaccurate with the very large BarrierRectangle
+        this.panZoomListener.setTargetBounds( this.boundsProperty.value );
 
-    // increment this before we can have an exception thrown, to see if we are missing frames
-    this.frameCounter++;
+        // constrain the simulation pan bounds so that it cannot be moved off screen
+        this.panZoomListener.setPanBounds( this.boundsProperty.value );
+      }
+    }, {
+      tandem: Tandem.GENERAL_MODEL.createTandem( 'resizeAction' ),
+      parameters: [
+        { name: 'width', phetioType: NumberIO },
+        { name: 'height', phetioType: NumberIO }
+      ],
+      phetioPlayback: true,
+      phetioEventMetadata: {
 
-    // Apply any scaling effects here before it is used.
-    dt *= phet.chipper.queryParameters.speed;
+        // resizeAction needs to always be playbackable because it acts independently of any other playback event.
+        // Because of its unique nature, it should be a "top-level" `playback: true` event so that it is never marked as
+        // `playback: false`. There are cases where it is nested under another `playback: true` event, like when the
+        // wrapper launches the simulation, that cannot be avoided. For this reason, we use this override.
+        alwaysPlaybackableOverride: true
+      },
+      phetioDocumentation: 'Executes when the sim is resized. Values are the sim dimensions in CSS pixels.'
+    } );
 
-    if ( this.resizePending ) {
-      this.resizeToWindow();
-    }
+    // Sim screens normally update by implementing model.step(dt) or view.step(dt).  When that is impossible or
+    // relatively awkward, it is possible to listen for a callback when a frame begins, when a frame is being processed
+    // or after the frame is complete.  See https://github.com/phetsims/joist/issues/534
 
-    // If fuzz parameter is used then fuzzTouch and fuzzMouse events should be fired
-    const fuzzTouch = phet.chipper.queryParameters.fuzzTouch || phet.chipper.queryParameters.fuzz;
-    const fuzzMouse = phet.chipper.queryParameters.fuzzMouse || phet.chipper.queryParameters.fuzz;
+    // @public Emitter that indicates when a frame starts.  Listen to this Emitter if you have an action that must be
+    // performed before the step begins.
+    this.frameStartedEmitter = new Emitter();
 
-    // fire or synthesize input events
-    if ( fuzzMouse || fuzzTouch ) {
-      this.inputFuzzer.fuzzEvents(
-        phet.chipper.queryParameters.fuzzRate,
-        fuzzMouse,
-        fuzzTouch,
-        phet.chipper.queryParameters.fuzzPointers
+    // @public Emitter that indicates when a frame ends.  Listen to this Emitter if you have an action that must be
+    // performed after the step completes.
+    this.frameEndedEmitter = new Emitter( {
+      tandem: Tandem.GENERAL_MODEL.createTandem( 'frameEndedEmitter' )
+    } );
+
+    // @public {Action} Action that steps the simulation. This Action is implemented so it can be automatically
+    // played back for PhET-iO record/playback.  Listen to this Action if you have an action that happens during the
+    // simulation step.
+    this.stepSimulationAction = new Action( dt => {
+      this.frameStartedEmitter.emit();
+
+      // increment this before we can have an exception thrown, to see if we are missing frames
+      this.frameCounter++;
+
+      // Apply any scaling effects here before it is used.
+      dt *= phet.chipper.queryParameters.speed;
+
+      if ( this.resizePending ) {
+        this.resizeToWindow();
+      }
+
+      // If fuzz parameter is used then fuzzTouch and fuzzMouse events should be fired
+      const fuzzTouch = phet.chipper.queryParameters.fuzzTouch || phet.chipper.queryParameters.fuzz;
+      const fuzzMouse = phet.chipper.queryParameters.fuzzMouse || phet.chipper.queryParameters.fuzz;
+
+      // fire or synthesize input events
+      if ( fuzzMouse || fuzzTouch ) {
+        this.inputFuzzer.fuzzEvents(
+          phet.chipper.queryParameters.fuzzRate,
+          fuzzMouse,
+          fuzzTouch,
+          phet.chipper.queryParameters.fuzzPointers
+        );
+      }
+
+      // fire or synthesize keyboard input events
+      if ( phet.chipper.queryParameters.fuzzBoard ) {
+        assert && assert( this.supportsInteractiveDescriptions, 'fuzzBoard can only run with interactive descriptions enabled.' );
+        this.keyboardFuzzer.fuzzBoardEvents( phet.chipper.queryParameters.fuzzRate );
+      }
+
+      // If the user is on the home screen, we won't have a Screen that we'll want to step.  This must be done after
+      // fuzz mouse, because fuzzing could change the selected screen, see #130
+      const screen = this.screenProperty.value;
+
+      // cap dt based on the current screen, see https://github.com/phetsims/joist/issues/130
+      if ( screen.maxDT ) {
+        dt = Math.min( dt, screen.maxDT );
+      }
+
+      // TODO: we are /1000 just to *1000?  Seems wasteful and like opportunity for error. See https://github.com/phetsims/joist/issues/387
+      // Store the elapsed time in milliseconds for usage by Tween clients
+      phet.joist.elapsedTime = phet.joist.elapsedTime + dt * 1000;
+
+      // timer step before model/view steps, see https://github.com/phetsims/joist/issues/401
+      // Note that this is vital to support Interactive Descriptions and the utterance queue.
+      stepTimer.emit( dt );
+
+      // If the DT is 0, we will skip the model step (see https://github.com/phetsims/joist/issues/171)
+      if ( screen.model.step && dt ) {
+        screen.model.step( dt );
+      }
+
+      // If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
+      // Update the tweens after the model is updated but before the view step.
+      // See https://github.com/phetsims/joist/issues/401.
+      //TODO https://github.com/phetsims/joist/issues/404 run TWEENs for the selected screen only
+      if ( window.TWEEN ) {
+        window.TWEEN.update( phet.joist.elapsedTime );
+      }
+
+      if ( this.panZoomListener ) {
+
+        // animate the PanZoomListener, for smooth panning/scaling
+        this.panZoomListener.step( dt );
+      }
+
+      // if provided, update the vibrationManager which tracks time sequences of on/off vibration
+      if ( this.vibrationManager ) {
+        this.vibrationManager.step( dt );
+      }
+
+      // View step is the last thing before updateDisplay(), so we can do paint updates there.
+      // See https://github.com/phetsims/joist/issues/401.
+      if ( screen.view.step ) {
+        screen.view.step( dt );
+      }
+      this.display.updateDisplay();
+
+      if ( phet.chipper.queryParameters.memoryLimit ) {
+        this.memoryMonitor.measure();
+      }
+      this.frameEndedEmitter.emit();
+    }, {
+      tandem: Tandem.GENERAL_MODEL.createTandem( 'stepSimulationAction' ),
+      parameters: [ {
+        name: 'dt',
+        phetioType: NumberIO,
+        phetioDocumentation: 'The amount of time stepped in each call, in seconds.'
+      } ],
+      phetioHighFrequency: true,
+      phetioPlayback: true,
+      phetioDocumentation: 'A function that steps time forward.'
+    } );
+
+    const homeScreenQueryParameter = phet.chipper.queryParameters.homeScreen;
+    const initialScreenIndex = phet.chipper.queryParameters.initialScreen;
+    const screensQueryParameter = phet.chipper.queryParameters.screens;
+
+    const screenData = selectScreens(
+      allSimScreens,
+      homeScreenQueryParameter,
+      QueryStringMachine.containsKey( 'homeScreen' ),
+      initialScreenIndex,
+      QueryStringMachine.containsKey( 'initialScreen' ),
+      screensQueryParameter,
+      QueryStringMachine.containsKey( 'screens' ),
+      selectedSimScreens => {
+        return new HomeScreen( this.simNameProperty, () => this.screenProperty, selectedSimScreens, Tandem.ROOT.createTandem( window.phetio.PhetioIDUtils.HOME_SCREEN_COMPONENT_NAME ), {
+          warningNode: options.homeScreenWarningNode
+        } );
+      }
+    );
+
+    // @public (read-only) {HomeScreen|null}
+    this.homeScreen = screenData.homeScreen;
+
+    // @public (read-only) {Screen[]} - the ordered list of sim-specific screens that appear in this runtime of the sim
+    this.simScreens = screenData.selectedSimScreens;
+
+    // @public (read-only) {Screen[]} - all screens that appear in the runtime of this sim, with the homeScreen first if
+    // it was created
+    this.screens = screenData.screens;
+
+    // @public (read-only) {boolean} - true if all possible screens are present (order-independent)
+    this.allScreensCreated = screenData.allScreensCreated;
+
+    // @public {Property.<Screen>}
+    this.screenProperty = new Property( screenData.initialScreen, {
+      tandem: Tandem.GENERAL_MODEL.createTandem( 'screenProperty' ),
+      phetioFeatured: true,
+      phetioDocumentation: 'Determines which screen is selected in the simulation',
+      validValues: this.screens,
+      phetioType: PropertyIO( ScreenIO )
+    } );
+
+    // @public - When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.
+    // Set to false for when the sim will be paused.  If the sim has playbackModeEnabledProperty set to true, the
+    // activeProperty will automatically be set to false so the timing and inputs can be controlled by the playback engine
+    this.activeProperty = new BooleanProperty( !phet.joist.playbackModeEnabledProperty.value, {
+      tandem: Tandem.GENERAL_MODEL.createTandem( 'activeProperty' ),
+      phetioFeatured: true,
+      phetioDocumentation: 'Determines whether the entire simulation is running and processing user input. ' +
+                           'Setting this property to false pauses the simulation, and prevents user interaction.'
+    } );
+
+    // @public (read-only) - property that indicates whether the browser tab containing the simulation is currently visible
+    this.browserTabVisibleProperty = new BooleanProperty( true, {
+      tandem: Tandem.GENERAL_MODEL.createTandem( 'browserTabVisibleProperty' ),
+      phetioDocumentation: 'Indicates whether the browser tab containing the simulation is currently visible',
+      phetioReadOnly: true,
+      phetioFeatured: true
+    } );
+
+    // set the state of the property that indicates if the browser tab is visible
+    document.addEventListener( 'visibilitychange', function() {
+      self.browserTabVisibleProperty.set( document.visibilityState === 'visible' );
+    }, false );
+
+    // @public (joist-internal, read-only) - How the home screen and navbar are scaled. This scale is based on the
+    // HomeScreen's layout bounds to support a consistently sized nav bar and menu. If this scale was based on the
+    // layout bounds of the current screen, there could be differences in the nav bar across screens.
+    this.scaleProperty = new NumberProperty( 1 );
+
+    // @public (joist-internal, read-only) {Property.<Bounds2>|null} - global bounds for the entire simulation. null
+    //                                                                 before first resize
+    this.boundsProperty = new Property( null );
+
+    // @public (joist-internal, read-only) {Property.<Bounds2>|null} - global bounds for the screen-specific part
+    //                                                            (excludes the navigation bar), null before first resize
+    this.screenBoundsProperty = new Property( null );
+
+    // @public
+    this.lookAndFeel = new LookAndFeel();
+    assert && assert( window.phet.joist.launchCalled, 'Sim must be launched using simLauncher, ' +
+                                                      'see https://github.com/phetsims/joist/issues/142' );
+
+    // @private
+    this.destroyed = false;
+
+    // @public {MemoryMonitor}
+    this.memoryMonitor = new MemoryMonitor();
+
+    // @public (read-only) {boolean} - if true, the simulation supports the interactive descriptions accessibility feature
+    this.supportsInteractiveDescriptions = phet.chipper.queryParameters.supportsDescriptions ||
+                                           packageJSON.phet.supportsInteractiveDescriptions;
+
+    // @public (joist-internal, read-only) {boolean} - used to specify if the sim is set up to support accessibility,
+    // even if this specific runtime turns it on/off via a query parameter. Most of the time this should not be used;
+    // instead see Sim.supportsInteractiveDescriptions. This is to support a consistent API for PhET-iO, see https://github.com/phetsims/phet-io/issues/1457
+    this.accessibilityPartOfTheAPI = packageJSON.phet.supportsInteractiveDescriptions;
+
+    // @public (joist-internal, read-only) {boolean} - If true, the simulation supports the zoom feature. Default
+    // value is true unless specified otherwise in package.json (checked in initialize-globals) or with
+    // query parameter.
+    this.supportsPanAndZoom = phet.chipper.queryParameters.supportsPanAndZoom;
+
+    // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
+    this.supportsGestureDescription = this.supportsInteractiveDescriptions && SUPPORTS_GESTURE_DESCRIPTION;
+
+    // @public (joist-internal, read-only)
+    this.keyboardHelpNode = options.keyboardHelpNode;
+
+    assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
+    window.phet.joist.sim = this;
+
+    // Set up PhET-iO, must be done after phet.joist.sim is assigned
+    Tandem.PHET_IO_ENABLED && phet.phetio.phetioEngine.onSimConstructionStarted( this );
+
+    // @public (read-only) {Property.<boolean>} - if PhET-iO is currently setting the state of the simulation.
+    // See PhetioStateEngine for details. This must be declared before soundManager.initialized is called.
+    this.isSettingPhetioStateProperty = Tandem.PHET_IO_ENABLED ?
+                                        new DerivedProperty(
+                                          [ phet.phetio.phetioEngine.phetioStateEngine.isSettingStateProperty ],
+                                          _.identity ) :
+                                        new BooleanProperty( false );
+
+    // commented out because https://github.com/phetsims/joist/issues/553 is deferred for after GQIO-oneone
+    // if ( PHET_IO_ENABLED ) {
+    //   this.engagementMetrics = new EngagementMetrics( this );
+    // }
+
+    // Set/update global flag values that enable and configure the sound library.  These can be controlled through sim
+    // flags or query params.
+
+    // @public (joist-internal, read-only) {boolean} - true if the simulation supports sound and sound is enabled
+    this.supportsSound = ( packageJSON.phet.supportsSound || phet.chipper.queryParameters.supportsSound ) &&
+                         ( phet.chipper.queryParameters.sound === 'enabled' ||
+                           phet.chipper.queryParameters.sound === 'muted' ) &&
+                         !platform.ie;
+
+    // @public (joist-internal, read-only) {boolean} - used to specify if the sim is set up to support sound, even if
+    // this specific runtime turns it off via a query parameter. Most of the time this should not be used; instead see
+    // Sim.supportsSound. This is to support a consistent API for PhET-iO, see https://github.com/phetsims/joist/issues/573
+    this.soundPartOfTheAPI = packageJSON.phet.supportsSound;
+
+    // @public (joist-internal, read-only) {boolean} - true if the simulation supports enhanced sound, cannot support
+    // enhanced without supporting sound in general
+    this.supportsEnhancedSound = this.supportsSound &&
+                                 ( packageJSON.phet.supportsEnhancedSound ||
+                                   phet.chipper.queryParameters.supportsEnhancedSound );
+
+    // Initialize the sound library if enabled, then hook up sound generation for screen changes.
+    if ( this.supportsSound ) {
+      soundManager.initialize( this.browserTabVisibleProperty, this.activeProperty );
+      soundManager.addSoundGenerator(
+        new ScreenSelectionSoundGenerator( this.screenProperty, this.homeScreen, { initialOutputLevel: 0.5 } )
       );
     }
 
-    // fire or synthesize keyboard input events
-    if ( phet.chipper.queryParameters.fuzzBoard ) {
-      assert && assert( this.supportsInteractiveDescriptions, 'fuzzBoard can only run with interactive descriptions enabled.' );
-      this.keyboardFuzzer.fuzzBoardEvents( phet.chipper.queryParameters.fuzzRate );
-    }
-
-    // If the user is on the home screen, we won't have a Screen that we'll want to step.  This must be done after
-    // fuzz mouse, because fuzzing could change the selected screen, see #130
-    const screen = this.screenProperty.value;
-
-    // cap dt based on the current screen, see https://github.com/phetsims/joist/issues/130
-    if ( screen.maxDT ) {
-      dt = Math.min( dt, screen.maxDT );
-    }
-
-    // TODO: we are /1000 just to *1000?  Seems wasteful and like opportunity for error. See https://github.com/phetsims/joist/issues/387
-    // Store the elapsed time in milliseconds for usage by Tween clients
-    phet.joist.elapsedTime = phet.joist.elapsedTime + dt * 1000;
-
-    // timer step before model/view steps, see https://github.com/phetsims/joist/issues/401
-    // Note that this is vital to support Interactive Descriptions and the utterance queue.
-    stepTimer.emit( dt );
-
-    // If the DT is 0, we will skip the model step (see https://github.com/phetsims/joist/issues/171)
-    if ( screen.model.step && dt ) {
-      screen.model.step( dt );
-    }
-
-    // If using the TWEEN animation library, then update all of the tweens (if any) before rendering the scene.
-    // Update the tweens after the model is updated but before the view step.
-    // See https://github.com/phetsims/joist/issues/401.
-    //TODO https://github.com/phetsims/joist/issues/404 run TWEENs for the selected screen only
-    if ( window.TWEEN ) {
-      window.TWEEN.update( phet.joist.elapsedTime );
-    }
-
-    if ( this.panZoomListener ) {
-
-      // animate the PanZoomListener, for smooth panning/scaling
-      this.panZoomListener.step( dt );
-    }
-
-    // if provided, update the vibrationManager which tracks time sequences of on/off vibration
+    // @private {null|VibrationManager} - The singleton instance of VibrationManager. Experimental and not frequently
+    // used. If used more generally, reference will no longer be needed as joist will have access to vibrationManager
+    // through when tappi becomes a sim lib.
+    this.vibrationManager = options.vibrationManager;
     if ( this.vibrationManager ) {
-      this.vibrationManager.step( dt );
+      this.vibrationManager.initialize( this.browserTabVisibleProperty, this.activeProperty );
     }
 
-    // View step is the last thing before updateDisplay(), so we can do paint updates there.
-    // See https://github.com/phetsims/joist/issues/401.
-    if ( screen.view.step ) {
-      screen.view.step( dt );
+    // Make ScreenshotGenerator available globally so it can be used in preload files such as PhET-iO.
+    window.phet.joist.ScreenshotGenerator = ScreenshotGenerator;
+
+    this.version = packageJSON.version; // @public (joist-internal)
+    this.credits = options.credits;     // @public (joist-internal)
+
+    // @private - number of animation frames that have occurred
+    this.frameCounter = 0;
+
+    // @private {boolean} - Whether the window has resized since our last updateDisplay()
+    this.resizePending = true;
+
+    // @public - Make our locale available
+    this.locale = phet.chipper.locale || 'en';
+
+    // If the locale query parameter was specified, then we may be running the all.html file, so adjust the title.
+    // See https://github.com/phetsims/chipper/issues/510
+    if ( QueryStringMachine.containsKey( 'locale' ) ) {
+      $( 'title' ).html( name );
     }
-    this.display.updateDisplay();
 
-    if ( phet.chipper.queryParameters.memoryLimit ) {
-      this.memoryMonitor.measure();
+    // enables recording of Scenery's input events, request animation frames, and dt's so the sim can be played back
+    if ( phet.chipper.queryParameters.recordInputEventLog ) {
+      options.recordInputEventLog = true;
+      options.inputEventLogName = phet.chipper.queryParameters.recordInputEventLog;
     }
-    this.frameEndedEmitter.emit();
-  }, {
-    tandem: Tandem.GENERAL_MODEL.createTandem( 'stepSimulationAction' ),
-    parameters: [ {
-      name: 'dt',
-      phetioType: NumberIO,
-      phetioDocumentation: 'The amount of time stepped in each call, in seconds.'
-    } ],
-    phetioHighFrequency: true,
-    phetioPlayback: true,
-    phetioDocumentation: 'A function that steps time forward.'
-  } );
 
-  const homeScreenQueryParameter = phet.chipper.queryParameters.homeScreen;
-  const initialScreenIndex = phet.chipper.queryParameters.initialScreen;
-  const screensQueryParameter = phet.chipper.queryParameters.screens;
-
-  const screenData = selectScreens(
-    allSimScreens,
-    homeScreenQueryParameter,
-    QueryStringMachine.containsKey( 'homeScreen' ),
-    initialScreenIndex,
-    QueryStringMachine.containsKey( 'initialScreen' ),
-    screensQueryParameter,
-    QueryStringMachine.containsKey( 'screens' ),
-    selectedSimScreens => {
-      return new HomeScreen( this.simNameProperty, () => this.screenProperty, selectedSimScreens, Tandem.ROOT.createTandem( window.phetio.PhetioIDUtils.HOME_SCREEN_COMPONENT_NAME ), {
-        warningNode: options.homeScreenWarningNode
-      } );
+    // instead of loading like normal, download a previously-recorded event sequence and play it back (unique to the browser and window size)
+    if ( phet.chipper.queryParameters.playbackInputEventLog ) {
+      options.playbackInputEventLog = true;
+      options.inputEventLogName = phet.chipper.queryParameters.playbackInputEventLog;
     }
-  );
 
-  // @public (read-only) {HomeScreen|null}
-  this.homeScreen = screenData.homeScreen;
-
-  // @public (read-only) {Screen[]} - the ordered list of sim-specific screens that appear in this runtime of the sim
-  this.simScreens = screenData.selectedSimScreens;
-
-  // @public (read-only) {Screen[]} - all screens that appear in the runtime of this sim, with the homeScreen first if
-  // it was created
-  this.screens = screenData.screens;
-
-  // @public (read-only) {boolean} - true if all possible screens are present (order-independent)
-  this.allScreensCreated = screenData.allScreensCreated;
-
-  // @public {Property.<Screen>}
-  this.screenProperty = new Property( screenData.initialScreen, {
-    tandem: Tandem.GENERAL_MODEL.createTandem( 'screenProperty' ),
-    phetioFeatured: true,
-    phetioDocumentation: 'Determines which screen is selected in the simulation',
-    validValues: this.screens,
-    phetioType: PropertyIO( ScreenIO )
-  } );
-
-  // @public - When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.
-  // Set to false for when the sim will be paused.  If the sim has playbackModeEnabledProperty set to true, the
-  // activeProperty will automatically be set to false so the timing and inputs can be controlled by the playback engine
-  this.activeProperty = new BooleanProperty( !phet.joist.playbackModeEnabledProperty.value, {
-    tandem: Tandem.GENERAL_MODEL.createTandem( 'activeProperty' ),
-    phetioFeatured: true,
-    phetioDocumentation: 'Determines whether the entire simulation is running and processing user input. ' +
-                         'Setting this property to false pauses the simulation, and prevents user interaction.'
-  } );
-
-  // @public (read-only) - property that indicates whether the browser tab containing the simulation is currently visible
-  this.browserTabVisibleProperty = new BooleanProperty( true, {
-    tandem: Tandem.GENERAL_MODEL.createTandem( 'browserTabVisibleProperty' ),
-    phetioDocumentation: 'Indicates whether the browser tab containing the simulation is currently visible',
-    phetioReadOnly: true,
-    phetioFeatured: true
-  } );
-
-  // set the state of the property that indicates if the browser tab is visible
-  document.addEventListener( 'visibilitychange', function() {
-    self.browserTabVisibleProperty.set( document.visibilityState === 'visible' );
-  }, false );
-
-  // @public (joist-internal, read-only) - How the home screen and navbar are scaled. This scale is based on the
-  // HomeScreen's layout bounds to support a consistently sized nav bar and menu. If this scale was based on the
-  // layout bounds of the current screen, there could be differences in the nav bar across screens.
-  this.scaleProperty = new NumberProperty( 1 );
-
-  // @public (joist-internal, read-only) {Property.<Bounds2>|null} - global bounds for the entire simulation. null
-  //                                                                 before first resize
-  this.boundsProperty = new Property( null );
-
-  // @public (joist-internal, read-only) {Property.<Bounds2>|null} - global bounds for the screen-specific part
-  //                                                            (excludes the navigation bar), null before first resize
-  this.screenBoundsProperty = new Property( null );
-
-  // @public
-  this.lookAndFeel = new LookAndFeel();
-  assert && assert( window.phet.joist.launchCalled, 'Sim must be launched using simLauncher, ' +
-                                                    'see https://github.com/phetsims/joist/issues/142' );
-
-  // @private
-  this.destroyed = false;
-
-  // @public {MemoryMonitor}
-  this.memoryMonitor = new MemoryMonitor();
-
-  // @public (read-only) {boolean} - if true, the simulation supports the interactive descriptions accessibility feature
-  this.supportsInteractiveDescriptions = phet.chipper.queryParameters.supportsDescriptions ||
-                                         packageJSON.phet.supportsInteractiveDescriptions;
-
-  // @public (joist-internal, read-only) {boolean} - used to specify if the sim is set up to support accessibility,
-  // even if this specific runtime turns it on/off via a query parameter. Most of the time this should not be used;
-  // instead see Sim.supportsInteractiveDescriptions. This is to support a consistent API for PhET-iO, see https://github.com/phetsims/phet-io/issues/1457
-  this.accessibilityPartOfTheAPI = packageJSON.phet.supportsInteractiveDescriptions;
-
-  // @public (joist-internal, read-only) {boolean} - If true, the simulation supports the zoom feature. Default
-  // value is true unless specified otherwise in package.json (checked in initialize-globals) or with
-  // query parameter.
-  this.supportsPanAndZoom = phet.chipper.queryParameters.supportsPanAndZoom;
-
-  // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
-  this.supportsGestureDescription = this.supportsInteractiveDescriptions && SUPPORTS_GESTURE_DESCRIPTION;
-
-  // @public (joist-internal, read-only)
-  this.keyboardHelpNode = options.keyboardHelpNode;
-
-  assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
-  window.phet.joist.sim = this;
-
-  // Set up PhET-iO, must be done after phet.joist.sim is assigned
-  Tandem.PHET_IO_ENABLED && phet.phetio.phetioEngine.onSimConstructionStarted( this );
-
-  // @public (read-only) {Property.<boolean>} - if PhET-iO is currently setting the state of the simulation.
-  // See PhetioStateEngine for details. This must be declared before soundManager.initialized is called.
-  this.isSettingPhetioStateProperty = Tandem.PHET_IO_ENABLED ?
-                                      new DerivedProperty(
-                                        [ phet.phetio.phetioEngine.phetioStateEngine.isSettingStateProperty ],
-                                        _.identity ) :
-                                      new BooleanProperty( false );
-
-  // commented out because https://github.com/phetsims/joist/issues/553 is deferred for after GQIO-oneone
-  // if ( PHET_IO_ENABLED ) {
-  //   this.engagementMetrics = new EngagementMetrics( this );
-  // }
-
-  // Set/update global flag values that enable and configure the sound library.  These can be controlled through sim
-  // flags or query params.
-
-  // @public (joist-internal, read-only) {boolean} - true if the simulation supports sound and sound is enabled
-  this.supportsSound = ( packageJSON.phet.supportsSound || phet.chipper.queryParameters.supportsSound ) &&
-                       ( phet.chipper.queryParameters.sound === 'enabled' ||
-                         phet.chipper.queryParameters.sound === 'muted' ) &&
-                       !platform.ie;
-
-  // @public (joist-internal, read-only) {boolean} - used to specify if the sim is set up to support sound, even if
-  // this specific runtime turns it off via a query parameter. Most of the time this should not be used; instead see
-  // Sim.supportsSound. This is to support a consistent API for PhET-iO, see https://github.com/phetsims/joist/issues/573
-  this.soundPartOfTheAPI = packageJSON.phet.supportsSound;
-
-  // @public (joist-internal, read-only) {boolean} - true if the simulation supports enhanced sound, cannot support
-  // enhanced without supporting sound in general
-  this.supportsEnhancedSound = this.supportsSound &&
-                               ( packageJSON.phet.supportsEnhancedSound ||
-                                 phet.chipper.queryParameters.supportsEnhancedSound );
-
-  // Initialize the sound library if enabled, then hook up sound generation for screen changes.
-  if ( this.supportsSound ) {
-    soundManager.initialize( this.browserTabVisibleProperty, this.activeProperty );
-    soundManager.addSoundGenerator(
-      new ScreenSelectionSoundGenerator( this.screenProperty, this.homeScreen, { initialOutputLevel: 0.5 } )
-    );
-  }
-
-  // @private {null|VibrationManager} - The singleton instance of VibrationManager. Experimental and not frequently
-  // used. If used more generally, reference will no longer be needed as joist will have access to vibrationManager
-  // through when tappi becomes a sim lib.
-  this.vibrationManager = options.vibrationManager;
-  if ( this.vibrationManager ) {
-    this.vibrationManager.initialize( this.browserTabVisibleProperty, this.activeProperty );
-  }
-
-  // Make ScreenshotGenerator available globally so it can be used in preload files such as PhET-iO.
-  window.phet.joist.ScreenshotGenerator = ScreenshotGenerator;
-
-  this.version = packageJSON.version; // @public (joist-internal)
-  this.credits = options.credits;     // @public (joist-internal)
-
-  // @private - number of animation frames that have occurred
-  this.frameCounter = 0;
-
-  // @private {boolean} - Whether the window has resized since our last updateDisplay()
-  this.resizePending = true;
-
-  // @public - Make our locale available
-  this.locale = phet.chipper.locale || 'en';
-
-  // If the locale query parameter was specified, then we may be running the all.html file, so adjust the title.
-  // See https://github.com/phetsims/chipper/issues/510
-  if ( QueryStringMachine.containsKey( 'locale' ) ) {
-    $( 'title' ).html( name );
-  }
-
-  // enables recording of Scenery's input events, request animation frames, and dt's so the sim can be played back
-  if ( phet.chipper.queryParameters.recordInputEventLog ) {
-    options.recordInputEventLog = true;
-    options.inputEventLogName = phet.chipper.queryParameters.recordInputEventLog;
-  }
-
-  // instead of loading like normal, download a previously-recorded event sequence and play it back (unique to the browser and window size)
-  if ( phet.chipper.queryParameters.playbackInputEventLog ) {
-    options.playbackInputEventLog = true;
-    options.inputEventLogName = phet.chipper.queryParameters.playbackInputEventLog;
-  }
-
-  // override window.open with a semi-API-compatible function, so fuzzing doesn't open new windows.
-  if ( phet.chipper.queryParameters.fuzz || phet.chipper.queryParameters.fuzzMouse || phet.chipper.queryParameters.fuzzTouch || phet.chipper.queryParameters.fuzzBoard ) {
-    window.open = function() {
-      return {
-        focus: function() {},
-        blur: function() {}
+    // override window.open with a semi-API-compatible function, so fuzzing doesn't open new windows.
+    if ( phet.chipper.queryParameters.fuzz || phet.chipper.queryParameters.fuzzMouse || phet.chipper.queryParameters.fuzzTouch || phet.chipper.queryParameters.fuzzBoard ) {
+      window.open = function() {
+        return {
+          focus: function() {},
+          blur: function() {}
+        };
       };
+    }
+
+    const $body = $( 'body' );
+
+    // prevent scrollbars
+    $body.css( 'padding', '0' ).css( 'margin', '0' ).css( 'overflow', 'hidden' );
+
+    // check to see if the sim div already exists in the DOM under the body. This is the case for https://github.com/phetsims/scenery/issues/174 (iOS offline reading list)
+    if ( document.getElementById( 'sim' ) && document.getElementById( 'sim' ).parentNode === document.body ) {
+      document.body.removeChild( document.getElementById( 'sim' ) );
+    }
+
+    // Prevents selection cursor issues in Safari, see https://github.com/phetsims/scenery/issues/476
+    document.onselectstart = function() { return false; };
+
+    // @public - root node for the Display
+    this.rootNode = new Node( { renderer: options.rootRenderer } );
+
+    // root for the simulation and the target for MultiListener to support magnification since the Display rootNode
+    // cannot be transformed
+    this.simulationRoot = new Node();
+    this.rootNode.addChild( this.simulationRoot );
+
+    // @private
+    this.display = new Display( self.rootNode, {
+
+      // prevent overflow that can cause iOS bugginess, see https://github.com/phetsims/phet-io/issues/341
+      allowSceneOverflow: false,
+
+      // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
+      allowWebGL: phet.chipper.queryParameters.webgl,
+      accessibility: this.supportsInteractiveDescriptions,
+      assumeFullWindow: true, // a bit faster if we can assume no coordinate translations are needed for the display.
+      allowBackingScaleAntialiasing: options.allowBackingScaleAntialiasing
+    } );
+
+    // Seeding by default a random value for reproducable fuzzes if desired
+    const fuzzerSeed = phet.chipper.queryParameters.randomSeed * Math.PI;
+
+    // @private {InputFuzzer}
+    this.inputFuzzer = new InputFuzzer( this.display, fuzzerSeed );
+
+    // @private {KeyboardFuzzer}
+    this.keyboardFuzzer = new KeyboardFuzzer( this.display, fuzzerSeed );
+
+    // When the sim is inactive, make it non-interactive, see https://github.com/phetsims/scenery/issues/414
+    this.activeProperty.link( function( active ) {
+      self.display.interactive = active;
+
+      // The sim must remain inactive while playbackModeEnabledProperty is true
+      if ( active ) {
+        assert && assert( !phet.joist.playbackModeEnabledProperty.value, 'The sim must remain inactive while playbackModeEnabledProperty is true' );
+      }
+    } );
+
+    self.display.domElement.id = 'sim';
+    document.body.appendChild( self.display.domElement );
+
+    // for now interactive descriptions are only in english
+    // NOTE: When translatable this will need to update with language, change to phet.chipper.local
+    if ( this.supportsInteractiveDescriptions ) {
+      self.display.accessibleDOMElement.lang = 'en';
+    }
+
+    Heartbeat.start( this );
+
+    if ( phet.chipper.queryParameters.sceneryLog ) {
+      scenery.enableLogging( phet.chipper.queryParameters.sceneryLog );
+    }
+
+    if ( phet.chipper.queryParameters.sceneryStringLog ) {
+      scenery.switchLogToString();
+    }
+
+    this.display.initializeEvents( {
+      tandem: Tandem.GENERAL.createTandem( 'controller' ).createTandem( 'input' )
+    } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
+    window.phet.joist.rootNode = this.rootNode; // make the scene available for debugging
+    window.phet.joist.display = this.display; // make the display available for debugging
+
+    // Pass through query parameters to scenery for showing supplemental information
+    self.display.setPointerDisplayVisible( phet.chipper.queryParameters.showPointers );
+    self.display.setPointerAreaDisplayVisible( phet.chipper.queryParameters.showPointerAreas );
+    self.display.setHitAreaDisplayVisible( phet.chipper.queryParameters.showHitAreas );
+    self.display.setCanvasNodeBoundsVisible( phet.chipper.queryParameters.showCanvasNodeBounds );
+    self.display.setFittedBlockBoundsVisible( phet.chipper.queryParameters.showFittedBlockBounds );
+
+    const isMultiScreenSimDisplayingSingleScreen = this.simScreens.length === 1 && allSimScreens.length !== this.simScreens.length;
+
+    // @public (joist-internal)
+    this.navigationBar = new NavigationBar( this, isMultiScreenSimDisplayingSingleScreen, Tandem.GENERAL_VIEW.createTandem( 'navigationBar' ) );
+
+    // @private {AnimatedPanZoomListener|null} - magnification support, null unless specifically enabled
+    this.panZoomListener = null;
+    if ( this.supportsPanAndZoom ) {
+      this.panZoomListener = new AnimatedPanZoomListener( this.simulationRoot );
+      this.display.addInputListener( this.panZoomListener );
+    }
+
+    // @public (joist-internal)
+    this.updateBackground = () => {
+      this.lookAndFeel.backgroundColorProperty.value = this.screenProperty.value.backgroundColorProperty.value;
     };
+
+    this.lookAndFeel.backgroundColorProperty.link( function( backgroundColor ) {
+      self.display.backgroundColor = backgroundColor;
+    } );
+
+    this.screenProperty.link( () => this.updateBackground() );
+
+    // When the user switches screens, interrupt the input on the previous screen.
+    // See https://github.com/phetsims/scenery/issues/218
+    this.screenProperty.lazyLink( ( newScreen, oldScreen ) => oldScreen.view.interruptSubtreeInput() );
+
+    // If the page is loaded from the back-forward cache, then reload the page to avoid bugginess,
+    // see https://github.com/phetsims/joist/issues/448
+    window.addEventListener( 'pageshow', function( event ) {
+      if ( event.persisted ) {
+        window.location.reload();
+      }
+    } );
+
+    // Third party support
+    phet.chipper.queryParameters.legendsOfLearning && new LegendsOfLearningSupport( this ).start();
   }
-
-  const $body = $( 'body' );
-
-  // prevent scrollbars
-  $body.css( 'padding', '0' ).css( 'margin', '0' ).css( 'overflow', 'hidden' );
-
-  // check to see if the sim div already exists in the DOM under the body. This is the case for https://github.com/phetsims/scenery/issues/174 (iOS offline reading list)
-  if ( document.getElementById( 'sim' ) && document.getElementById( 'sim' ).parentNode === document.body ) {
-    document.body.removeChild( document.getElementById( 'sim' ) );
-  }
-
-  // Prevents selection cursor issues in Safari, see https://github.com/phetsims/scenery/issues/476
-  document.onselectstart = function() { return false; };
-
-  // @public - root node for the Display
-  this.rootNode = new Node( { renderer: options.rootRenderer } );
-
-  // root for the simulation and the target for MultiListener to support magnification since the Display rootNode
-  // cannot be transformed
-  this.simulationRoot = new Node();
-  this.rootNode.addChild( this.simulationRoot );
-
-  // @private
-  this.display = new Display( self.rootNode, {
-
-    // prevent overflow that can cause iOS bugginess, see https://github.com/phetsims/phet-io/issues/341
-    allowSceneOverflow: false,
-
-    // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
-    allowWebGL: phet.chipper.queryParameters.webgl,
-    accessibility: this.supportsInteractiveDescriptions,
-    assumeFullWindow: true, // a bit faster if we can assume no coordinate translations are needed for the display.
-    allowBackingScaleAntialiasing: options.allowBackingScaleAntialiasing
-  } );
-
-  // Seeding by default a random value for reproducable fuzzes if desired
-  const fuzzerSeed = phet.chipper.queryParameters.randomSeed * Math.PI;
-
-  // @private {InputFuzzer}
-  this.inputFuzzer = new InputFuzzer( this.display, fuzzerSeed );
-
-  // @private {KeyboardFuzzer}
-  this.keyboardFuzzer = new KeyboardFuzzer( this.display, fuzzerSeed );
-
-  // When the sim is inactive, make it non-interactive, see https://github.com/phetsims/scenery/issues/414
-  this.activeProperty.link( function( active ) {
-    self.display.interactive = active;
-
-    // The sim must remain inactive while playbackModeEnabledProperty is true
-    if ( active ) {
-      assert && assert( !phet.joist.playbackModeEnabledProperty.value, 'The sim must remain inactive while playbackModeEnabledProperty is true' );
-    }
-  } );
-
-  self.display.domElement.id = 'sim';
-  document.body.appendChild( self.display.domElement );
-
-  // for now interactive descriptions are only in english
-  // NOTE: When translatable this will need to update with language, change to phet.chipper.local
-  if ( this.supportsInteractiveDescriptions ) {
-    self.display.accessibleDOMElement.lang = 'en';
-  }
-
-  Heartbeat.start( this );
-
-  if ( phet.chipper.queryParameters.sceneryLog ) {
-    scenery.enableLogging( phet.chipper.queryParameters.sceneryLog );
-  }
-
-  if ( phet.chipper.queryParameters.sceneryStringLog ) {
-    scenery.switchLogToString();
-  }
-
-  this.display.initializeEvents( {
-    tandem: Tandem.GENERAL.createTandem( 'controller' ).createTandem( 'input' )
-  } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
-  window.phet.joist.rootNode = this.rootNode; // make the scene available for debugging
-  window.phet.joist.display = this.display; // make the display available for debugging
-
-  // Pass through query parameters to scenery for showing supplemental information
-  self.display.setPointerDisplayVisible( phet.chipper.queryParameters.showPointers );
-  self.display.setPointerAreaDisplayVisible( phet.chipper.queryParameters.showPointerAreas );
-  self.display.setHitAreaDisplayVisible( phet.chipper.queryParameters.showHitAreas );
-  self.display.setCanvasNodeBoundsVisible( phet.chipper.queryParameters.showCanvasNodeBounds );
-  self.display.setFittedBlockBoundsVisible( phet.chipper.queryParameters.showFittedBlockBounds );
-
-  const isMultiScreenSimDisplayingSingleScreen = this.simScreens.length === 1 && allSimScreens.length !== this.simScreens.length;
-
-  // @public (joist-internal)
-  this.navigationBar = new NavigationBar( this, isMultiScreenSimDisplayingSingleScreen, Tandem.GENERAL_VIEW.createTandem( 'navigationBar' ) );
-
-  // @private {AnimatedPanZoomListener|null} - magnification support, null unless specifically enabled
-  this.panZoomListener = null;
-  if ( this.supportsPanAndZoom ) {
-    this.panZoomListener = new AnimatedPanZoomListener( this.simulationRoot );
-    this.display.addInputListener( this.panZoomListener );
-  }
-
-  // @public (joist-internal)
-  this.updateBackground = () => {
-    this.lookAndFeel.backgroundColorProperty.value = this.screenProperty.value.backgroundColorProperty.value;
-  };
-
-  this.lookAndFeel.backgroundColorProperty.link( function( backgroundColor ) {
-    self.display.backgroundColor = backgroundColor;
-  } );
-
-  this.screenProperty.link( () => this.updateBackground() );
-
-  // When the user switches screens, interrupt the input on the previous screen.
-  // See https://github.com/phetsims/scenery/issues/218
-  this.screenProperty.lazyLink( ( newScreen, oldScreen ) => oldScreen.view.interruptSubtreeInput() );
-
-  // If the page is loaded from the back-forward cache, then reload the page to avoid bugginess,
-  // see https://github.com/phetsims/joist/issues/448
-  window.addEventListener( 'pageshow', function( event ) {
-    if ( event.persisted ) {
-      window.location.reload();
-    }
-  } );
-
-  // Third party support
-  phet.chipper.queryParameters.legendsOfLearning && new LegendsOfLearningSupport( this ).start();
-}
-
-joist.register( 'Sim', Sim );
-
-inherit( Object, Sim, {
 
   /**
-   * @param screens
+   * Get the single utteranceQueue instance to be used by the PhET sim to make aria-live alerts.
+   * @public
+   */
+  get utteranceQueue() {
+    return this.display.utteranceQueue;
+  }
+
+  /**
+   * @param {Screen[]} screens
    * @private
    */
-  finishInit: function( screens ) {
+  finishInit( screens ) {
     const self = this;
 
     // ModuleIndex should always be defined.  On startup screenIndex=1 to highlight the 1st screen.
@@ -762,7 +766,7 @@ inherit( Object, Sim, {
       } );
       warningDialog.show();
     }
-  },
+  }
 
   /*
    * Adds a popup in the global coordinate frame, and optionally displays a semi-transparent black input barrier behind it.
@@ -772,7 +776,7 @@ inherit( Object, Sim, {
    * @param {boolean} isModal - Whether to display the semi-transparent black input barrier behind it.
    * @public
    */
-  showPopup: function( node, isModal ) {
+  showPopup( node, isModal ) {
     assert && assert( node );
     assert && assert( !!node.hide, 'Missing node.hide() for showPopup' );
     assert && assert( !this.topLayer.hasChild( node ), 'Popup already shown' );
@@ -783,7 +787,7 @@ inherit( Object, Sim, {
       node.layout( this.screenBoundsProperty.value.width, this.screenBoundsProperty.value.height );
     }
     this.topLayer.addChild( node );
-  },
+  }
 
   /*
    * Hides a popup that was previously displayed with showPopup()
@@ -791,30 +795,33 @@ inherit( Object, Sim, {
    * @param {boolean} isModal - Whether the previous popup was modal (or not)
    * @public
    */
-  hidePopup: function( node, isModal ) {
+  hidePopup( node, isModal ) {
     assert && assert( node && this.modalNodeStack.includes( node ) );
     assert && assert( this.topLayer.hasChild( node ), 'Popup was not shown' );
     if ( isModal ) {
       this.modalNodeStack.remove( node );
     }
     this.topLayer.removeChild( node );
-  },
+  }
 
   /**
    * @public (joist-internal)
    */
-  resizeToWindow: function() {
+  resizeToWindow() {
     this.resizePending = false;
     this.resize( window.innerWidth, window.innerHeight );
-  },
+  }
 
   // @public (joist-internal, phet-io)
-  resize: function( width, height ) {
+  resize( width, height ) {
     this.resizeAction.execute( width, height );
-  },
+  }
+
+  // Destroy a sim so that it will no longer consume any resources. Formerly used in Smorgasbord.  May not be used by
+  // anything else at the moment.
 
   // @public (joist-internal)
-  start: function() {
+  start() {
     const self = this;
 
     // In order to animate the loading progress bar, we must schedule work with setTimeout
@@ -921,18 +928,16 @@ inherit( Object, Sim, {
       );
     };
     runItem( 0 );
-  },
+  }
 
-  // Destroy a sim so that it will no longer consume any resources. Formerly used in Smorgasbord.  May not be used by
-  // anything else at the moment.
   // @public (joist-internal)
-  destroy: function() {
+  destroy() {
     this.destroyed = true;
     this.display.domElement.parentNode && this.display.domElement.parentNode.removeChild( this.display.domElement );
-  },
+  }
 
   // @private - Bound to this.boundRunAnimationLoop so it can be run in window.requestAnimationFrame
-  runAnimationLoop: function() {
+  runAnimationLoop() {
     if ( !this.destroyed ) {
       window.requestAnimationFrame( this.boundRunAnimationLoop );
     }
@@ -950,10 +955,10 @@ inherit( Object, Sim, {
 
     // PhET-iO batches messages to be sent to other frames, messages must be sent whether the sim is active or not
     Tandem.PHET_IO_ENABLED && phet.phetio.phetioCommandProcessor.onAnimationLoop( this );
-  },
+  }
 
   // @private - run a single frame including model, view and display updates
-  stepOneFrame: function() {
+  stepOneFrame() {
 
     // Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
     const currentTime = Date.now();
@@ -964,24 +969,23 @@ inherit( Object, Sim, {
     if ( dt > 0 ) {
       this.stepSimulation( dt );
     }
-  },
+  }
 
   /**
    * Update the simulation model, view, scenery display with an elapsed time of dt.
    * @param {number} dt in seconds
    * @public (phet-io)
    */
-  stepSimulation: function( dt ) {
+  stepSimulation( dt ) {
     this.stepSimulationAction.execute( dt );
-  },
+  }
 
   /**
    * Hide or show all accessible content related to the sim ScreenViews, and navigation bar. This content will
    * remain visible, but not be tab navigable or readable with a screen reader. This is generally useful when
    * displaying a pop up or modal dialog.
-   * @public
-   *
    * @param {boolean} visible
+   * @public
    */
   setAccessibleViewsVisible( visible ) {
     for ( let i = 0; i < this.screens.length; i++ ) {
@@ -990,16 +994,8 @@ inherit( Object, Sim, {
 
     this.navigationBar.accessibleVisible = visible;
     this.homeScreen && this.homeScreen.view.setAccessibleVisible( visible );
-  },
-
-  /**
-   * Get the single utteranceQueue instance to be used by the PhET sim to make aria-live alerts.
-   * @public
-   */
-  get utteranceQueue() {
-    return this.display.utteranceQueue;
   }
-} );
+}
 
 /**
  * Compute the dt since the last event
@@ -1007,10 +1003,12 @@ inherit( Object, Sim, {
  * @param {number} currentTime - milliseconds, current time.  Passed in instead of computed so there is no "slack" between measurements
  * @returns {number} - seconds
  */
-const getDT = ( lastTime, currentTime ) => {
+function getDT( lastTime, currentTime ) {
 
   // Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
   return ( lastTime === -1 ) ? 1 / 60 :
          ( currentTime - lastTime ) / 1000.0;
-};
+}
+
+joist.register( 'Sim', Sim );
 export default Sim;
