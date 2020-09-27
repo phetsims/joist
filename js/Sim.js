@@ -235,7 +235,8 @@ class Sim {
     // @public Emitter that indicates when a frame ends.  Listen to this Emitter if you have an action that must be
     // performed after the step completes.
     this.frameEndedEmitter = new Emitter( {
-      tandem: Tandem.GENERAL_MODEL.createTandem( 'frameEndedEmitter' )
+      tandem: Tandem.GENERAL_MODEL.createTandem( 'frameEndedEmitter' ),
+      phetioHighFrequency: true
     } );
 
     // @public {Action} Action that steps the simulation. This Action is implemented so it can be automatically
