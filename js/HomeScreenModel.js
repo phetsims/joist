@@ -9,7 +9,6 @@
  */
 
 import Property from '../../axon/js/Property.js';
-import PropertyIO from '../../axon/js/PropertyIO.js';
 import joist from './joist.js';
 import ScreenIO from './ScreenIO.js';
 
@@ -32,7 +31,7 @@ class HomeScreenModel {
     // @public {Property<Screen>} - on the home screen only, the screen corresponding to the large button icon
     this.selectedScreenProperty = new Property( simScreens[ 0 ], {
       validValues: simScreens,
-      phetioType: PropertyIO( ScreenIO ),
+      phetioType: Property.PropertyIO( ScreenIO ),
       tandem: tandem.createTandem( 'selectedScreenProperty' )
     } );
 

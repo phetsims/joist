@@ -14,7 +14,6 @@
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Property from '../../axon/js/Property.js';
-import PropertyIO from '../../axon/js/PropertyIO.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Shape from '../../kite/js/Shape.js';
 import merge from '../../phet-core/js/merge.js';
@@ -136,7 +135,7 @@ class Screen extends PhetioObject {
 
     // @public (read-only) {Property<String|null>} - may be null for single-screen simulations
     this.nameProperty = new Property( options.name, {
-      phetioType: PropertyIO( NullableIO( StringIO ) ),
+      phetioType: Property.PropertyIO( NullableIO( StringIO ) ),
       tandem: instrumentNameProperty ? options.tandem.createTandem( 'nameProperty' ) : Tandem.OPT_OUT,
       phetioFeatured: true,
       phetioDocumentation: 'The name of the screen. Changing this value will update the screen name for the screen\'s ' +

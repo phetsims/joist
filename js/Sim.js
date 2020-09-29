@@ -18,7 +18,6 @@ import Emitter from '../../axon/js/Emitter.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
 import ObservableArray from '../../axon/js/ObservableArray.js';
 import Property from '../../axon/js/Property.js';
-import PropertyIO from '../../axon/js/PropertyIO.js';
 import stepTimer from '../../axon/js/stepTimer.js';
 import StringProperty from '../../axon/js/StringProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
@@ -377,7 +376,7 @@ class Sim {
       phetioFeatured: true,
       phetioDocumentation: 'Determines which screen is selected in the simulation',
       validValues: this.screens,
-      phetioType: PropertyIO( ScreenIO )
+      phetioType: Property.PropertyIO( ScreenIO )
     } );
 
     // @public - When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.

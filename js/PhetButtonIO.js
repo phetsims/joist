@@ -8,7 +8,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import PropertyIO from '../../axon/js/PropertyIO.js';
+import Property from '../../axon/js/Property.js';
 import NodeProperty from '../../scenery/js/util/NodeProperty.js';
 import BooleanIO from '../../tandem/js/types/BooleanIO.js';
 import IOType from '../../tandem/js/types/IOType.js';
@@ -27,7 +27,7 @@ const PhetButtonIO = new IOType( 'PhetButtonIO', {
       // pick the following values from the parent Node
       phetioReadOnly: phetButton.phetioReadOnly,
       tandem: phetButton.tandem.createTandem( 'pickableProperty' ),
-      phetioType: PropertyIO( NullableIO( BooleanIO ) ),
+      phetioType: Property.PropertyIO( NullableIO( BooleanIO ) ),
       phetioDocumentation: 'Set whether the phetButton will be pickable (and hence interactive), see the NodeIO documentation for more details'
     } );
 
