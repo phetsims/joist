@@ -5,17 +5,21 @@
  * of the navbar.
  *
  * @author Sam Reid (PhET Interactive Simulations)
+ * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
 import Property from '../../axon/js/Property.js';
 import inherit from '../../phet-core/js/inherit.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import Node from '../../scenery/js/nodes/Node.js';
+import NodeProperty from '../../scenery/js/util/NodeProperty.js';
 import pushButtonSoundPlayer from '../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import BooleanIO from '../../tandem/js/types/BooleanIO.js';
+import IOType from '../../tandem/js/types/IOType.js';
+import NullableIO from '../../tandem/js/types/NullableIO.js';
 import JoistButton from './JoistButton.js';
 import KebabMenuIcon from './KebabMenuIcon.js';
-import PhetButtonIO from './PhetButtonIO.js';
 import PhetMenu from './PhetMenu.js';
 import UpdateState from './UpdateState.js';
 import joist from './joist.js';
@@ -91,7 +95,7 @@ function PhetButton( sim, backgroundFillProperty, tandem ) {
       phetMenu.show();
       pushButtonSoundPlayer.play();
     },
-    phetioType: PhetButtonIO,
+    phetioType: PhetButton.PhetButtonIO,
     phetioDocumentation: 'The button that appears at the right side of the navigation bar, which shows a menu when pressed',
 
     // This is the primary way to disable learners from accessing the phet menu in PhET-iO, so feature it.
@@ -142,7 +146,43 @@ function PhetButton( sim, backgroundFillProperty, tandem ) {
   this.setAccessibleAttribute( 'aria-haspopup', true );
 }
 
-joist.register( 'PhetButton', PhetButton );
 
 inherit( JoistButton, PhetButton );
+
+/**
+ * IO Type for PhetButton, to interface with phet-io api.  The PhetButtonIO acts as the main phet-io branding/logo in
+ * the sim. It doesn't inherit from NodeIO because we neither need all of NodeIO's API methods, nor do we want to
+ * support maintaining overriding no-ops in this file see https://github.com/phetsims/scenery/issues/711 for more info.
+ */
+PhetButton.PhetButtonIO = new IOType( 'PhetButtonIO', {
+  valueType: PhetButton,
+  documentation: 'The PhET Button in the bottom right of the screen',
+  wrapInstance( phetButton, phetioID ) {
+
+    // This code is similar to code in NodeIO, but it is not customizable through phetioComponentOptions because all
+    // instances have the same level of instrumentation.
+    const pickableProperty = new NodeProperty( phetButton, phetButton.pickableProperty, 'pickable', {
+
+      // pick the following values from the parent Node
+      phetioReadOnly: phetButton.phetioReadOnly,
+      tandem: phetButton.tandem.createTandem( 'pickableProperty' ),
+      phetioType: Property.PropertyIO( NullableIO( BooleanIO ) ),
+      phetioDocumentation: 'Set whether the phetButton will be pickable (and hence interactive), see the NodeIO documentation for more details'
+    } );
+
+    // @private
+    this.disposePhetButtonIO = function() {
+      pickableProperty.dispose();
+    };
+  },
+  toStateObject() {
+    return undefined;
+  },
+  fromStateObject( stateObject ) {
+    return stateObject; // Pass through values defined by subclasses
+  }
+} );
+
+joist.register( 'PhetButton', PhetButton );
+
 export default PhetButton;
