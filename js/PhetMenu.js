@@ -28,11 +28,11 @@ import soundManager from '../../tambo/js/soundManager.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
 import PhetioCapsuleIO from '../../tandem/js/PhetioCapsuleIO.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import IOType from '../../tandem/js/types/IOType.js';
 import AboutDialog from './AboutDialog.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import OptionsDialog from './OptionsDialog.js';
-import PhetMenuIO from './PhetMenuIO.js';
 import ScreenshotGenerator from './ScreenshotGenerator.js';
 import updateCheck from './updateCheck.js';
 import UpdateDialog from './UpdateDialog.js';
@@ -79,7 +79,7 @@ class PhetMenu extends Node {
 
     options = merge( {
 
-      phetioType: PhetMenuIO,
+      phetioType: PhetMenu.PhetMenuIO,
       phetioState: false,
       phetioDocumentation: 'This menu is displayed when the PhET button is pressed.',
 
@@ -523,6 +523,11 @@ const createBubble = function( width, height ) {
 
   return bubble;
 };
+
+PhetMenu.PhetMenuIO = new IOType( 'PhetMenuIO', {
+  valueType: PhetMenu,
+  documentation: 'The PhET Menu in the bottom right of the screen'
+} );
 
 joist.register( 'PhetMenu', PhetMenu );
 export default PhetMenu;

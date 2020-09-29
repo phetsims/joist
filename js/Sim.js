@@ -49,7 +49,7 @@ import NavigationBar from './NavigationBar.js';
 import packageJSON from './packageJSON.js';
 import Profiler from './Profiler.js';
 import QueryParametersWarningDialog from './QueryParametersWarningDialog.js';
-import ScreenIO from './ScreenIO.js';
+import Screen from './Screen.js';
 import ScreenSelectionSoundGenerator from './ScreenSelectionSoundGenerator.js';
 import ScreenshotGenerator from './ScreenshotGenerator.js';
 import selectScreens from './selectScreens.js';
@@ -376,7 +376,7 @@ class Sim {
       phetioFeatured: true,
       phetioDocumentation: 'Determines which screen is selected in the simulation',
       validValues: this.screens,
-      phetioType: Property.PropertyIO( ScreenIO )
+      phetioType: Property.PropertyIO( Screen.ScreenIO )
     } );
 
     // @public - When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.

@@ -22,12 +22,13 @@ import Path from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import IOType from '../../tandem/js/types/IOType.js';
 import NullableIO from '../../tandem/js/types/NullableIO.js';
+import ReferenceIO from '../../tandem/js/types/ReferenceIO.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import ScreenIcon from './ScreenIcon.js';
-import ScreenIO from './ScreenIO.js';
 
 const screenNamePatternString = joistStrings.a11y.screenNamePattern;
 const screenSimPatternString = joistStrings.a11y.screenSimPattern;
@@ -84,7 +85,7 @@ class Screen extends PhetioObject {
       maxDT: 0.5,
 
       tandem: Tandem.REQUIRED,
-      phetioType: ScreenIO,
+      phetioType: Screen.ScreenIO,
       phetioState: false,
       phetioFeatured: true,
 
@@ -331,6 +332,12 @@ function devCreateVisibleBoundsNode( screenView ) {
 Screen.HOME_SCREEN_ICON_ASPECT_RATIO = HOME_SCREEN_ICON_ASPECT_RATIO;
 Screen.MINIMUM_HOME_SCREEN_ICON_SIZE = MINIMUM_HOME_SCREEN_ICON_SIZE;
 Screen.MINIMUM_NAVBAR_ICON_SIZE = MINIMUM_NAVBAR_ICON_SIZE;
+
+Screen.ScreenIO = new IOType( 'ScreenIO', {
+  valueType: Screen,
+  supertype: ReferenceIO( IOType.ObjectIO ),
+  documentation: 'Section of a simulation which has its own model and view.'
+} );
 
 joist.register( 'Screen', Screen );
 export default Screen;
