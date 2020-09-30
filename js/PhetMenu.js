@@ -26,7 +26,6 @@ import Dialog from '../../sun/js/Dialog.js';
 import MenuItem from '../../sun/js/MenuItem.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
-import PhetioCapsuleIO from '../../tandem/js/PhetioCapsuleIO.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import AboutDialog from './AboutDialog.js';
@@ -102,7 +101,7 @@ class PhetMenu extends Node {
       return new AboutDialog( sim.simNameProperty.value, sim.version, sim.credits, sim.locale, phetButton, tandem );
     }, [], {
       tandem: tandem.createTandem( 'aboutDialogCapsule' ),
-      phetioType: PhetioCapsuleIO( Dialog.DialogIO )
+      phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )
     } );
 
     // only create the singleton if there is options dialog content
@@ -114,7 +113,7 @@ class PhetMenu extends Node {
         } );
       }, [], {
         tandem: tandem.createTandem( 'optionsDialogCapsule' ),
-        phetioType: PhetioCapsuleIO( Dialog.DialogIO )
+        phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )
       } );
     }
 

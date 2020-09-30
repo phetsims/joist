@@ -12,7 +12,6 @@ import merge from '../../phet-core/js/merge.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import Dialog from '../../sun/js/Dialog.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
-import PhetioCapsuleIO from '../../tandem/js/PhetioCapsuleIO.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import darkIconImage from '../images/keyboard-icon-on-white_png.js'; // on a white navbar
 import brightIconImage from '../images/keyboard-icon_png.js'; // on a black navbar
@@ -60,7 +59,7 @@ function KeyboardHelpButton( helpContent, backgroundColorProperty, tandem, optio
     } );
   }, [], {
     tandem: tandem.createTandem( 'keyboardHelpDialogCapsule' ),
-    phetioType: PhetioCapsuleIO( Dialog.DialogIO )
+    phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )
   } );
 
   options.listener = () => {
