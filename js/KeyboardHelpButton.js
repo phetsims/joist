@@ -10,7 +10,7 @@
 import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import Image from '../../scenery/js/nodes/Image.js';
-import DialogIO from '../../sun/js/DialogIO.js';
+import Dialog from '../../sun/js/Dialog.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
 import PhetioCapsuleIO from '../../tandem/js/PhetioCapsuleIO.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
@@ -60,7 +60,7 @@ function KeyboardHelpButton( helpContent, backgroundColorProperty, tandem, optio
     } );
   }, [], {
     tandem: tandem.createTandem( 'keyboardHelpDialogCapsule' ),
-    phetioType: PhetioCapsuleIO( DialogIO )
+    phetioType: PhetioCapsuleIO( Dialog.DialogIO )
   } );
 
   options.listener = () => {

@@ -22,7 +22,7 @@ import Path from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import FullScreen from '../../scenery/js/util/FullScreen.js';
-import DialogIO from '../../sun/js/DialogIO.js';
+import Dialog from '../../sun/js/Dialog.js';
 import MenuItem from '../../sun/js/MenuItem.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
@@ -102,7 +102,7 @@ class PhetMenu extends Node {
       return new AboutDialog( sim.simNameProperty.value, sim.version, sim.credits, sim.locale, phetButton, tandem );
     }, [], {
       tandem: tandem.createTandem( 'aboutDialogCapsule' ),
-      phetioType: PhetioCapsuleIO( DialogIO )
+      phetioType: PhetioCapsuleIO( Dialog.DialogIO )
     } );
 
     // only create the singleton if there is options dialog content
@@ -114,7 +114,7 @@ class PhetMenu extends Node {
         } );
       }, [], {
         tandem: tandem.createTandem( 'optionsDialogCapsule' ),
-        phetioType: PhetioCapsuleIO( DialogIO )
+        phetioType: PhetioCapsuleIO( Dialog.DialogIO )
       } );
     }
 
