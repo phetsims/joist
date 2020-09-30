@@ -153,13 +153,7 @@ inherit( JoistButton, PhetButton );
  */
 PhetButton.PhetButtonIO = new IOType( 'PhetButtonIO', {
   valueType: PhetButton,
-  documentation: 'The PhET Button in the bottom right of the screen',
-  toStateObject() {
-    return undefined;
-  },
-  fromStateObject( stateObject ) {
-    return stateObject; // Pass through values defined by subclasses
-  }
+  documentation: 'The PhET Button in the bottom right of the screen'
 } );
 
 joist.register( 'PhetButton', PhetButton );
