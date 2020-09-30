@@ -157,7 +157,9 @@ inherit( JoistButton, PhetButton );
 PhetButton.PhetButtonIO = new IOType( 'PhetButtonIO', {
   valueType: PhetButton,
   documentation: 'The PhET Button in the bottom right of the screen',
-  wrapInstance( phetButton, phetioID ) {
+  createWrapper( phetButton, phetioID ) {
+
+    const superWrapper = this.supertype.createWrapper( phetButton, phetioID );
 
     // This code is similar to code in NodeIO, but it is not customizable through phetioComponentOptions because all
     // instances have the same level of instrumentation.
@@ -174,6 +176,16 @@ PhetButton.PhetButtonIO = new IOType( 'PhetButtonIO', {
     this.disposePhetButtonIO = function() {
       pickableProperty.dispose();
     };
+
+    return {
+      phetioObject: phetButton,
+      phetioID: phetioID,
+      dispose: () => {
+        pickableProperty.dispose();
+        superWrapper.dispose();
+      }
+    };
+
   },
   toStateObject() {
     return undefined;
