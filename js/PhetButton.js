@@ -12,12 +12,9 @@ import Property from '../../axon/js/Property.js';
 import inherit from '../../phet-core/js/inherit.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import Node from '../../scenery/js/nodes/Node.js';
-import NodeProperty from '../../scenery/js/util/NodeProperty.js';
 import pushButtonSoundPlayer from '../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import BooleanIO from '../../tandem/js/types/BooleanIO.js';
 import IOType from '../../tandem/js/types/IOType.js';
-import NullableIO from '../../tandem/js/types/NullableIO.js';
 import JoistButton from './JoistButton.js';
 import KebabMenuIcon from './KebabMenuIcon.js';
 import PhetMenu from './PhetMenu.js';
@@ -157,36 +154,6 @@ inherit( JoistButton, PhetButton );
 PhetButton.PhetButtonIO = new IOType( 'PhetButtonIO', {
   valueType: PhetButton,
   documentation: 'The PhET Button in the bottom right of the screen',
-  createWrapper( phetButton, phetioID ) {
-
-    const superWrapper = this.supertype.createWrapper( phetButton, phetioID );
-
-    // This code is similar to code in NodeIO, but it is not customizable through phetioComponentOptions because all
-    // instances have the same level of instrumentation.
-    const pickableProperty = new NodeProperty( phetButton, phetButton.pickableProperty, 'pickable', {
-
-      // pick the following values from the parent Node
-      phetioReadOnly: phetButton.phetioReadOnly,
-      tandem: phetButton.tandem.createTandem( 'pickableProperty' ),
-      phetioType: Property.PropertyIO( NullableIO( BooleanIO ) ),
-      phetioDocumentation: 'Set whether the phetButton will be pickable (and hence interactive), see the NodeIO documentation for more details'
-    } );
-
-    // @private
-    this.disposePhetButtonIO = function() {
-      pickableProperty.dispose();
-    };
-
-    return {
-      phetioObject: phetButton,
-      phetioID: phetioID,
-      dispose: () => {
-        pickableProperty.dispose();
-        superWrapper.dispose();
-      }
-    };
-
-  },
   toStateObject() {
     return undefined;
   },
