@@ -16,7 +16,7 @@ import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Emitter from '../../axon/js/Emitter.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
-import ObservableArray from '../../axon/js/ObservableArray.js';
+import createObservableArray from '../../axon/js/createObservableArray.js';
 import Property from '../../axon/js/Property.js';
 import stepTimer from '../../axon/js/stepTimer.js';
 import StringProperty from '../../axon/js/StringProperty.js';
@@ -711,7 +711,7 @@ class Sim {
 
     // @private list of nodes that are "modal" and hence block input with the barrierRectangle.  Used by modal dialogs
     // and the PhetMenu
-    this.modalNodeStack = new ObservableArray(); // {Node} with node.hide()
+    this.modalNodeStack = createObservableArray(); // {Node} with node.hide()
 
     // @public (joist-internal) Semi-transparent black barrier used to block input events when a dialog (or other popup)
     // is present, and fade out the background.
