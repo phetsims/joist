@@ -27,7 +27,7 @@ const HELP_BUTTON_HEIGHT = 67;
 const HELP_BUTTON_SCALE = 0.30;  // scale applied to the icon
 
 /**
- * @param {Property.<{keyboardHelpNode}>} screenProperty - Property that holds an object that stores keyboardHelpContent on it
+ * @param {Property.<{keyboardHelpNode}>} screenProperty - Property that holds an object that stores keyboardHelpNode on it
  * @param {Property.<Color|string>} backgroundColorProperty
  * @param {Tandem} tandem
  * @param {Object} [options]
