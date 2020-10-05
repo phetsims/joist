@@ -8,10 +8,11 @@
 
 import Property from '../../axon/js/Property.js';
 import merge from '../../phet-core/js/merge.js';
+import HomeScreenKeyboardHelpContent from './HomeScreenKeyboardHelpContent.js';
 import HomeScreenModel from './HomeScreenModel.js';
 import HomeScreenView from './HomeScreenView.js';
-import joistStrings from './joistStrings.js';
 import joist from './joist.js';
+import joistStrings from './joistStrings.js';
 import Screen from './Screen.js';
 
 // constants
@@ -39,6 +40,10 @@ class HomeScreen extends Screen {
       backgroundColorProperty: new Property( BACKGROUND_COLOR ),
 
       name: homeString,
+
+      keyboardHelpNode: new HomeScreenKeyboardHelpContent(),
+
+      // phet-io
       instrumentNameProperty: false // requested by designers, see https://github.com/phetsims/joist/issues/627
     }, options );
 

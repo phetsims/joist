@@ -84,14 +84,19 @@ class Screen extends PhetioObject {
       // dt cap in seconds, see https://github.com/phetsims/joist/issues/130
       maxDT: 0.5,
 
-      tandem: Tandem.REQUIRED,
-      phetioType: Screen.ScreenIO,
-      phetioState: false,
-      phetioFeatured: true,
+      // a {Node|null} placed into the keyboard help dialog that can be opened from the navigation bar when this
+      // screen is selected
+      keyboardHelpNode: null,
 
       // pdom - The description that is used when interacting with screen icons/buttons in joist.
       // This is often a full but short sentence with a period at the end of it.
-      descriptionContent: null
+      descriptionContent: null,
+
+      // phet-io
+      tandem: Tandem.REQUIRED,
+      phetioType: Screen.ScreenIO,
+      phetioState: false,
+      phetioFeatured: true
     }, options );
 
     // Verify that the home screen and nav bar icons, if provided, are SceenIcons or sub-types thereof.
@@ -148,6 +153,9 @@ class Screen extends PhetioObject {
     this.navigationBarIcon = options.navigationBarIcon;
     this.showUnselectedHomeScreenIconFrame = options.showUnselectedHomeScreenIconFrame;
     this.showScreenIconFrameForNavigationBarFill = options.showScreenIconFrameForNavigationBarFill;
+
+    // @public (joist-internal, read-only)
+    this.keyboardHelpNode = options.keyboardHelpNode;
 
     // @public (read-only) {Property<String|null>} - may be null for single-screen simulations
     this.pdomDisplayNameProperty = new DerivedProperty( [ this.nameProperty ], name => {

@@ -13,10 +13,10 @@
 import Action from '../../axon/js/Action.js';
 import animationFrameTimer from '../../axon/js/animationFrameTimer.js';
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
+import createObservableArray from '../../axon/js/createObservableArray.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Emitter from '../../axon/js/Emitter.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
-import createObservableArray from '../../axon/js/createObservableArray.js';
 import Property from '../../axon/js/Property.js';
 import stepTimer from '../../axon/js/stepTimer.js';
 import StringProperty from '../../axon/js/StringProperty.js';
@@ -105,8 +105,9 @@ class Sim {
       // when playing back a recorded scenery input event log, use the specified filename.  Please see getEventLogName for more
       inputEventLogName: undefined,
 
-      // a {Node|null} placed into the keyboard help dialog that can be opened from the navigation bar
-      keyboardHelpNode: null,
+      // {boolean} - true when this sim supports a keyboard help button on the navigation bar that shows keyboard help
+      // content. This content is specific to each screen, see Screen.keyboardHelpNode for more info.
+      hasKeyboardHelpContent: false,
 
       // the default renderer for the rootNode, see #221, #184 and https://github.com/phetsims/molarity/issues/24
       rootRenderer: 'svg',
@@ -444,7 +445,7 @@ class Sim {
     this.supportsGestureDescription = this.supportsInteractiveDescriptions && SUPPORTS_GESTURE_DESCRIPTION;
 
     // @public (joist-internal, read-only)
-    this.keyboardHelpNode = options.keyboardHelpNode;
+    this.hasKeyboardHelpContent = options.hasKeyboardHelpContent;
 
     assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
     window.phet.joist.sim = this;

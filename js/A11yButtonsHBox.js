@@ -47,11 +47,11 @@ class A11yButtonsHBox extends HBox {
     }
 
     // If the sim has accessibility support in its API, then create the button. This is support consistent API for PhET-iO
-    if ( sim.accessibilityPartOfTheAPI && sim.keyboardHelpNode ) {
+    if ( sim.accessibilityPartOfTheAPI && sim.hasKeyboardHelpContent ) {
 
       // Pops open a dialog with information about keyboard navigation
       const keyboardHelpButton = new KeyboardHelpButton(
-        sim.keyboardHelpNode,
+        sim.screenProperty,
         backgroundColorProperty,
         tandem.createTandem( 'keyboardHelpButton' )
       );

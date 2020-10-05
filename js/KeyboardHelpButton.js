@@ -10,14 +10,15 @@
 import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import Image from '../../scenery/js/nodes/Image.js';
+import Node from '../../scenery/js/nodes/Node.js';
 import Dialog from '../../sun/js/Dialog.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import darkIconImage from '../images/keyboard-icon-on-white_png.js'; // on a white navbar
 import brightIconImage from '../images/keyboard-icon_png.js'; // on a black navbar
 import joist from './joist.js';
-import joistStrings from './joistStrings.js';
 import JoistButton from './JoistButton.js';
+import joistStrings from './joistStrings.js';
 import KeyboardHelpDialog from './KeyboardHelpDialog.js';
 
 // constants
@@ -26,13 +27,13 @@ const HELP_BUTTON_HEIGHT = 67;
 const HELP_BUTTON_SCALE = 0.30;  // scale applied to the icon
 
 /**
- * @param {Node} helpContent - content for the KeyboardHelpDialog
+ * @param {Property.<{keyboardHelpNode}>} screenProperty - Property that holds an object that stores keyboardHelpContent on it
  * @param {Property.<Color|string>} backgroundColorProperty
  * @param {Tandem} tandem
  * @param {Object} [options]
  * @constructor
  */
-function KeyboardHelpButton( helpContent, backgroundColorProperty, tandem, options ) {
+function KeyboardHelpButton( screenProperty, backgroundColorProperty, tandem, options ) {
 
   options = merge( {
     highlightExtensionWidth: 5,
@@ -52,8 +53,16 @@ function KeyboardHelpButton( helpContent, backgroundColorProperty, tandem, optio
 
   PhetioObject.mergePhetioComponentOptions( { visibleProperty: { phetioFeatured: true } }, options );
 
+  const content = new Node();
+
+  // When the screen changes, swap out keyboard help content to the selected screen's content
+  screenProperty.link( screen => {
+    assert && assert( screen.keyboardHelpNode, 'screen should have keyboardHelpNode' );
+    content.children = [ screen.keyboardHelpNode ];
+  } );
+
   const keyboardHelpDialogCapsule = new PhetioCapsule( tandem => {
-    return new KeyboardHelpDialog( helpContent, {
+    return new KeyboardHelpDialog( content, {
       focusOnCloseNode: this,
       tandem: tandem
     } );

@@ -6,6 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import Property from '../../../axon/js/Property.js';
 import GeneralKeyboardHelpSection from '../../../scenery-phet/js/keyboard/help/GeneralKeyboardHelpSection.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
 import Panel from '../../../sun/js/Panel.js';
@@ -22,7 +23,7 @@ class DialogsScreenView extends ScreenView {
     const keyboardHelpDialogContent = new GeneralKeyboardHelpSection();
 
     const keyboardHelpButton = new KeyboardHelpButton(
-      keyboardHelpDialogContent,
+      new Property( { keyboardHelpNode: keyboardHelpDialogContent } ),
       phet.joist.sim.lookAndFeel.navigationBarFillProperty,
       Tandem.GENERAL.createTandem( 'keyboardHelpButton' )
     );
