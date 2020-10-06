@@ -13,7 +13,11 @@ import joist from './joist.js';
 class HomeScreenKeyboardHelpContent extends Node {
 
   constructor() {
-    super( { children: [ new GeneralKeyboardHelpSection() ] } );
+    super( {
+      children: [ new GeneralKeyboardHelpSection( {
+        withGroupContent: true
+      } ) ]
+    } );
   }
 }
 
