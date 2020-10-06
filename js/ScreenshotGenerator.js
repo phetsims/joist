@@ -7,7 +7,9 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Matrix3 from '../../dot/js/Matrix3.js';
 import CanvasContextWrapper from '../../scenery/js/util/CanvasContextWrapper.js';
+import Utils from '../../scenery/js/util/Utils.js';
 import joist from './joist.js';
 
 class ScreenshotGenerator {
@@ -26,14 +28,18 @@ class ScreenshotGenerator {
 
     // set up our Canvas with the correct background color
     const canvas = document.createElement( 'canvas' );
-    canvas.width = sim.display.width;
-    canvas.height = sim.display.height;
     const context = canvas.getContext( '2d' );
+
+    const backingScale = Utils.backingScale( context );
+    canvas.width = sim.display.width * backingScale;
+    canvas.height = sim.display.height * backingScale;
+
+    context.scale( backingScale, backingScale );
     context.fillStyle = sim.display.domElement.style.backgroundColor;
     context.fillRect( 0, 0, canvas.width, canvas.height );
     const wrapper = new CanvasContextWrapper( canvas, context );
 
-    sim.rootNode.renderToCanvasSubtree( wrapper );
+    sim.rootNode.renderToCanvasSubtree( wrapper, Matrix3.scaling( backingScale ) );
 
     // get the data URL in PNG format
     return canvas.toDataURL( mimeType );
