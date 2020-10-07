@@ -601,10 +601,23 @@ class Sim {
     this.display.domElement.id = 'sim';
     document.body.appendChild( this.display.domElement );
 
-    // for now interactive descriptions are only in english
-    // NOTE: When translatable this will need to update with language, change to phet.chipper.local
     if ( this.supportsInteractiveDescriptions ) {
+
+      // for now interactive descriptions are only in english
+      // NOTE: When translatable this will need to update with language, change to phet.chipper.local
       this.display.accessibleDOMElement.lang = 'en';
+
+      // clear focus if we receive a down event, so that focus doesn't interfere
+      // with mouse/touch interactions
+      this.display.addInputListener( {
+        down: event => {
+
+          // An AT might have sent a down event outside of the display, if this happened we will not remove focus.
+          if ( this.display.bounds.containsPoint( event.pointer.point ) ) {
+            Display.focus = null;
+          }
+        }
+      } );
     }
 
     Heartbeat.start( this );
