@@ -26,7 +26,6 @@ import Dialog from '../../sun/js/Dialog.js';
 import MenuItem from '../../sun/js/MenuItem.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
-import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import AboutDialog from './AboutDialog.js';
 import joist from './joist.js';
@@ -83,8 +82,6 @@ class PhetMenu extends Node {
       phetioDocumentation: 'This menu is displayed when the PhET button is pressed.',
 
       visiblePropertyOptions: {
-        // TODO: Shouldn't it be read-only instead of uninstrumented? See https://github.com/phetsims/scenery/issues/1046
-        tandem: Tandem.OPT_OUT,
         phetioReadOnly: true
       },
 

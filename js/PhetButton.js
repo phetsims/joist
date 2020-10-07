@@ -13,15 +13,14 @@ import inherit from '../../phet-core/js/inherit.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import pushButtonSoundPlayer from '../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
-import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
+import joist from './joist.js';
 import JoistButton from './JoistButton.js';
+import joistStrings from './joistStrings.js';
 import KebabMenuIcon from './KebabMenuIcon.js';
 import PhetMenu from './PhetMenu.js';
-import UpdateState from './UpdateState.js';
-import joist from './joist.js';
-import joistStrings from './joistStrings.js';
 import updateCheck from './updateCheck.js';
+import UpdateState from './UpdateState.js';
 
 // Accommodate logos of any height by scaling them down proportionately.
 // The primary logo is 108px high and we have been scaling it at 0.28 to make it look good even on higher resolution
@@ -101,8 +100,6 @@ function PhetButton( sim, backgroundFillProperty, tandem ) {
     },
 
     visiblePropertyOptions: {
-      // TODO: Shouldn't it be read-only instead of uninstrumented? See https://github.com/phetsims/scenery/issues/1046
-      tandem: Tandem.OPT_OUT,
       phetioReadOnly: true
     },
 
