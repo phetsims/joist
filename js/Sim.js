@@ -612,9 +612,14 @@ class Sim {
       this.display.addInputListener( {
         down: event => {
 
-          // An AT might have sent a down event outside of the display, if this happened we will not remove focus.
-          if ( this.display.bounds.containsPoint( event.pointer.point ) ) {
-            Display.focus = null;
+          // in the self-voicing prototype we want the focus highlight to remain with
+          // mouse/touch presses
+          if ( !phet.chipper.queryParameters.supportsSelfVoicing ) {
+
+            // An AT might have sent a down event outside of the display, if this happened we will not remove focus.
+            if ( this.display.bounds.containsPoint( event.pointer.point ) ) {
+              Display.focus = null;
+            }
           }
         }
       } );
