@@ -14,9 +14,7 @@ class HomeScreenKeyboardHelpContent extends Node {
 
   constructor() {
     super( {
-      children: [ new GeneralKeyboardHelpSection( {
-        withGroupContent: true
-      } ) ]
+      children: [ new GeneralKeyboardHelpSection() ]
     } );
   }
 }
