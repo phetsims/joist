@@ -111,7 +111,7 @@ class ScreenView extends Node {
     this.addChild( this.pdomParent );
   }
 
-  set accessibleOrder( order ) { throw new Error( 'should not need to set accessible order on the screen view' ); }
+  set accessibleOrder( order ) { throw new Error( 'should not need to set accessible order on a ScreenView' ); }
 
   /**
    * Get the scale to use for laying out the sim components and the navigation bar, so its size will track
