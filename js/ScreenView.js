@@ -114,50 +114,6 @@ class ScreenView extends Node {
   set accessibleOrder( order ) { throw new Error( 'should not need to set accessible order on a ScreenView' ); }
 
   /**
-   * Get the scale to use for laying out the sim components and the navigation bar, so its size will track
-   * with the sim size
-   * @public
-   *
-   * @param {Bounds2} layoutBounds
-   * @param {number} width
-   * @param {number} height
-   * @returns {number}
-   */
-  static getLayoutScale( layoutBounds, width, height ) {
-    return Math.min( width / layoutBounds.width, height / layoutBounds.height );
-  }
-
-  /**
-   * @public
-   *
-   * @param {Bounds2} layoutBounds
-   * @param {number} width
-   * @param {number} height
-   * @returns {Matrix3}
-   */
-  static getLayoutMatrix( layoutBounds, width, height ) {
-    const scale = ScreenView.getLayoutScale( layoutBounds, width, height );
-
-    let dx = 0;
-    let dy = 0;
-
-    if ( scale === width / layoutBounds.width ) {
-      // center vertically
-      dy = ( height / scale - layoutBounds.height ) / 2;
-    }
-    else if ( scale === height / layoutBounds.height ) {
-      // center horizontally
-      dx = ( width / scale - layoutBounds.width ) / 2;
-    }
-
-    return Matrix3.rowMajor(
-      scale, 0, dx * scale,
-      0, scale, dy * scale,
-      0, 0, 1
-    );
-  }
-
-  /**
    * Override to make sure that setting children doesn't blow away Nodes set by ScreenView.
    * @override
    * @public
@@ -230,6 +186,50 @@ class ScreenView extends Node {
    */
   setScreenSummaryIntroString( simName, screenName, isMultiScreen ) {
     this.pdomScreenSummaryNode.setIntroString( simName, screenName, isMultiScreen );
+  }
+
+  /**
+   * Get the scale to use for laying out the sim components and the navigation bar, so its size will track
+   * with the sim size
+   * @public
+   *
+   * @param {Bounds2} layoutBounds
+   * @param {number} width
+   * @param {number} height
+   * @returns {number}
+   */
+  static getLayoutScale( layoutBounds, width, height ) {
+    return Math.min( width / layoutBounds.width, height / layoutBounds.height );
+  }
+
+  /**
+   * @public
+   *
+   * @param {Bounds2} layoutBounds
+   * @param {number} width
+   * @param {number} height
+   * @returns {Matrix3}
+   */
+  static getLayoutMatrix( layoutBounds, width, height ) {
+    const scale = ScreenView.getLayoutScale( layoutBounds, width, height );
+
+    let dx = 0;
+    let dy = 0;
+
+    if ( scale === width / layoutBounds.width ) {
+      // center vertically
+      dy = ( height / scale - layoutBounds.height ) / 2;
+    }
+    else if ( scale === height / layoutBounds.height ) {
+      // center horizontally
+      dx = ( width / scale - layoutBounds.width ) / 2;
+    }
+
+    return Matrix3.rowMajor(
+      scale, 0, dx * scale,
+      0, scale, dy * scale,
+      0, 0, 1
+    );
   }
 }
 
