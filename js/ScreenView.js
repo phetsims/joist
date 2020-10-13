@@ -112,7 +112,9 @@ class ScreenView extends Node {
   }
 
   /**
-   * See ParallelDOM setAccessibleOrder.
+   * This method should not be called because ScreenView defines child Nodes that organize the PDOM structure of a
+   * screen. See this.pdomScreenSummaryNode, this.pdomPlayAreaNode, and this.pdomControlAreaNode and set their accessible
+   * order accordingly when adding accessible content to the PDOM for this screen.
    * @public
    * @override
    * @param {Array.<Node|null>|null} accessibleOrder
