@@ -20,7 +20,6 @@
 import Property from '../../axon/js/Property.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Matrix3 from '../../dot/js/Matrix3.js';
-import inherit from '../../phet-core/js/inherit.js';
 import merge from '../../phet-core/js/merge.js';
 import ControlAreaNode from '../../scenery-phet/js/accessibility/nodes/ControlAreaNode.js';
 import PlayAreaNode from '../../scenery-phet/js/accessibility/nodes/PlayAreaNode.js';
@@ -39,204 +38,203 @@ import joist from './joist.js';
  */
 const DEFAULT_LAYOUT_BOUNDS = new Bounds2( 0, 0, 1024, 618 );
 
-function ScreenView( options ) {
+class ScreenView extends Node {
 
-  options = merge( {
+  /**
+   * @param {Object} [options]
+   */
+  constructor( options ) {
 
-    // {Bounds2} the bounds that are safe to draw in on all supported platforms
-    layoutBounds: DEFAULT_LAYOUT_BOUNDS.copy(),
+    options = merge( {
 
-    // Node options
-    layerSplit: true, // so we're not in the same layer as the navbar, etc.
-    excludeInvisible: true, // so we don't keep invisible screens in the SVG tree
+      // {Bounds2} the bounds that are safe to draw in on all supported platforms
+      layoutBounds: DEFAULT_LAYOUT_BOUNDS.copy(),
 
-    // phet-io options
-    tandem: Tandem.OPTIONAL,
+      // Node options
+      layerSplit: true, // so we're not in the same layer as the navbar, etc.
+      excludeInvisible: true, // so we don't keep invisible screens in the SVG tree
 
-    // pdom options
-    containerTagName: 'article',
-    tagName: 'div',
-    labelTagName: 'h1',
+      // phet-io options
+      tandem: Tandem.OPTIONAL,
 
-    // {Node|null} the Node with screen summary content to be added to the ScreenSummaryNode, and into PDOM above
-    // the Play Area. This Node is added as a child to the ScreenSummaryNode.
-    screenSummaryContent: null,
+      // pdom options
+      containerTagName: 'article',
+      tagName: 'div',
+      labelTagName: 'h1',
 
-    // {boolean} whether or not to add the screen summay, play area, and control area Nodes to the PDOM
-    includePDOMNodes: true
-  }, options );
+      // {Node|null} the Node with screen summary content to be added to the ScreenSummaryNode, and into PDOM above
+      // the Play Area. This Node is added as a child to the ScreenSummaryNode.
+      screenSummaryContent: null,
 
-  // @public (read-only) {Bounds2} - the bounds the confine the layout of the view.
-  assert && assert( options.layoutBounds instanceof Bounds2, 'invalid layoutBounds' );
-  this.layoutBounds = options.layoutBounds;
+      // {boolean} whether or not to add the screen summay, play area, and control area Nodes to the PDOM
+      includePDOMNodes: true
+    }, options );
 
-  PhetioObject.mergePhetioComponentOptions( { visibleProperty: { phetioState: false } }, options );
+    PhetioObject.mergePhetioComponentOptions( { visibleProperty: { phetioState: false } }, options );
 
-  Node.call( this, options );
+    super( options );
 
-  // The visible bounds of the ScreenView in ScreenView coordinates.  This includes top/bottom or left/right margins
-  // depending on the aspect ratio of the screen.
-  // Initialize to defaults, then update as soon as layout() is called, which is before the ScreenView is displayed
-  // @public (read-only)
-  this.visibleBoundsProperty = new Property( options.layoutBounds );
+    // @public (read-only) {Bounds2} - the bounds the confine the layout of the view.
+    assert && assert( options.layoutBounds instanceof Bounds2, 'invalid layoutBounds' );
+    this.layoutBounds = options.layoutBounds;
 
-  // @public (read-only) - add children and set accessible order to these to organize and structure the PDOM.
-  this.pdomPlayAreaNode = new PlayAreaNode();
-  this.pdomControlAreaNode = new ControlAreaNode();
+    // The visible bounds of the ScreenView in ScreenView coordinates.  This includes top/bottom or left/right margins
+    // depending on the aspect ratio of the screen.
+    // Initialize to defaults, then update as soon as layout() is called, which is before the ScreenView is displayed
+    // @public (read-only)
+    this.visibleBoundsProperty = new Property( options.layoutBounds );
 
-  // @private
-  // pdom - this Node is suffixed "container" because it is added to with sim specific screen summary content, often
-  // called {Sim}ScreenSummaryNode. This container has the intro "{sim} is an interactive sim, it changes as you . . ."
-  this.pdomScreenSummaryNode = new ScreenSummaryNode();
+    // @public (read-only) - add children and set accessible order to these to organize and structure the PDOM.
+    this.pdomPlayAreaNode = new PlayAreaNode();
+    this.pdomControlAreaNode = new ControlAreaNode();
 
-  // @private {Node|null} - keep track of the content added to the summary Node, so that if it is set more than once,
-  // the previous one can be removed.
-  this.screenSummaryContent = null;
+    // @private
+    // pdom - this Node is suffixed "container" because it is added to with sim specific screen summary content, often
+    // called {Sim}ScreenSummaryNode. This container has the intro "{sim} is an interactive sim, it changes as you . . ."
+    this.pdomScreenSummaryNode = new ScreenSummaryNode();
 
-  // at the Node from options in the same way that can be done at any time
-  options.screenSummaryContent && this.setScreenSummaryContent( options.screenSummaryContent );
+    // @private {Node|null} - keep track of the content added to the summary Node, so that if it is set more than once,
+    // the previous one can be removed.
+    this.screenSummaryContent = null;
 
-  // @private
-  this.pdomParent = new Node( {
-    children: options.includePDOMNodes ? [
-      this.pdomScreenSummaryNode,
-      this.pdomPlayAreaNode,
-      this.pdomControlAreaNode
-    ] : []
-  } );
-  this.addChild( this.pdomParent );
-}
+    // at the Node from options in the same way that can be done at any time
+    options.screenSummaryContent && this.setScreenSummaryContent( options.screenSummaryContent );
 
-joist.register( 'ScreenView', ScreenView );
+    // @private
+    this.pdomParent = new Node( {
+      children: options.includePDOMNodes ? [
+        this.pdomScreenSummaryNode,
+        this.pdomPlayAreaNode,
+        this.pdomControlAreaNode
+      ] : []
+    } );
+    this.addChild( this.pdomParent );
+  }
 
-inherit( Node, ScreenView, {
+  set accessibleOrder( order ) { throw new Error( 'should not need to set accessible order on the screen view' ); }
 
-    /**
-     * Override to make sure that setting children doesn't blow away Nodes set by ScreenView.
-     * @override
-     * @param {Node[]} children
-     */
-    setChildren( children ) {
-      Node.prototype.setChildren.call( this, children );
-      if ( !this.hasChild( this.pdomParent ) ) {
-        this.addChild( this.pdomParent );
-        this.pdomParent.moveToBack();
-      }
-    },
+  /**
+   * Get the scale to use for laying out the sim components and the navigation bar, so its size will track
+   * with the sim size
+   * @public
+   *
+   * @param {Bounds2} layoutBounds
+   * @param {number} width
+   * @param {number} height
+   * @returns {number}
+   */
+  static getLayoutScale( layoutBounds, width, height ) {
+    return Math.min( width / layoutBounds.width, height / layoutBounds.height );
+  }
 
-    /**
-     * Get the scale to use for laying out the sim components and the navigation bar, so its size will track
-     * with the sim size
-     * @param {number} width
-     * @param {number} height
-     * @returns {number}
-     * @public (joist-internal)
-     */
-    getLayoutScale: function( width, height ) {
-      return ScreenView.getLayoutScale( this.layoutBounds, width, height );
-    },
+  /**
+   * @public
+   *
+   * @param {Bounds2} layoutBounds
+   * @param {number} width
+   * @param {number} height
+   * @returns {Matrix3}
+   */
+  static getLayoutMatrix( layoutBounds, width, height ) {
+    const scale = ScreenView.getLayoutScale( layoutBounds, width, height );
 
-    /**
-     * Default layout function uses the layoutWidth and layoutHeight to scale the content (based on whichever is more limiting: width or height)
-     * and centers the content in the screen vertically and horizontally
-     * This function can be replaced by subclasses that wish to perform their own custom layout.
-     * @param {number} width
-     * @param {number} height
-     * @public (joist-internal)
-     */
-    layout: function( width, height ) {
-      this.matrix = ScreenView.getLayoutMatrix( this.layoutBounds, width, height );
-      this.visibleBoundsProperty.value = this.parentToLocalBounds( new Bounds2( 0, 0, width, height ) );
-    },
+    let dx = 0;
+    let dy = 0;
 
-    /**
-     * Make screen view eligible for garbage collection.
-     * @public
-     */
-    dispose: function() {
-      Node.prototype.dispose.call( this );
-      this.disposeScreenView();
-    },
+    if ( scale === width / layoutBounds.width ) {
+      // center vertically
+      dy = ( height / scale - layoutBounds.height ) / 2;
+    }
+    else if ( scale === height / layoutBounds.height ) {
+      // center horizontally
+      dx = ( width / scale - layoutBounds.width ) / 2;
+    }
 
-    /**
-     * Set the screen summary Node for the PDOM of this Screen View. Prefer passing in a screen summary Node via
-     * constructor options, but this method can be used directly when necessary.
-     * @param {Node} node
-     * @public
-     */
-    setScreenSummaryContent: function( node ) {
-      assert && assert( node instanceof Node );
-      assert && assert( node !== this.screenSummaryContent, 'this is already the screen summary Node content' );
+    return Matrix3.rowMajor(
+      scale, 0, dx * scale,
+      0, scale, dy * scale,
+      0, 0, 1
+    );
+  }
 
-      this.screenSummaryContent && this.pdomScreenSummaryNode.removeChild( this.screenSummaryContent );
-
-      this.screenSummaryContent = node;
-      this.pdomScreenSummaryNode.addChild( node );
-    },
-
-    /**
-     * Set the screen summary Node intro string
-     * @param {string} simName
-     * @param {string} screenName
-     * @param {boolean} isMultiScreen
-     * @public (joist-internal)
-     */
-    setScreenSummaryIntroString: function( simName, screenName, isMultiScreen ) {
-      this.pdomScreenSummaryNode.setIntroString( simName, screenName, isMultiScreen );
-    },
-
-    set accessibleOrder( order ) { throw new Error( 'should not need to set accessible order on the screen view' ); }
-  },
-
-  //statics
-  {
-    // @public
-    DEFAULT_LAYOUT_BOUNDS: DEFAULT_LAYOUT_BOUNDS,
-
-    /**
-     * Get the scale to use for laying out the sim components and the navigation bar, so its size will track
-     * with the sim size
-     * @public
-     *
-     * @param {Bounds2} layoutBounds
-     * @param {number} width
-     * @param {number} height
-     * @returns {number}
-     */
-    getLayoutScale: function( layoutBounds, width, height ) {
-      return Math.min( width / layoutBounds.width, height / layoutBounds.height );
-    },
-
-    /**
-     * @public
-     *
-     * @param {Bounds2} layoutBounds
-     * @param {number} width
-     * @param {number} height
-     * @returns {Matrix3}
-     */
-    getLayoutMatrix( layoutBounds, width, height ) {
-      const scale = ScreenView.getLayoutScale( layoutBounds, width, height );
-
-      let dx = 0;
-      let dy = 0;
-
-      if ( scale === width / layoutBounds.width ) {
-        // center vertically
-        dy = ( height / scale - layoutBounds.height ) / 2;
-      }
-      else if ( scale === height / layoutBounds.height ) {
-        // center horizontally
-        dx = ( width / scale - layoutBounds.width ) / 2;
-      }
-
-      return Matrix3.rowMajor(
-        scale, 0, dx * scale,
-        0, scale, dy * scale,
-        0, 0, 1
-      );
+  /**
+   * Override to make sure that setting children doesn't blow away Nodes set by ScreenView.
+   * @override
+   * @public
+   * @param {Node[]} children
+   */
+  setChildren( children ) {
+    Node.prototype.setChildren.call( this, children );
+    if ( !this.hasChild( this.pdomParent ) ) {
+      this.addChild( this.pdomParent );
+      this.pdomParent.moveToBack();
     }
   }
-);
 
+  /**
+   * Get the scale to use for laying out the sim components and the navigation bar, so its size will track
+   * with the sim size
+   * @param {number} width
+   * @param {number} height
+   * @returns {number}
+   * @public (joist-internal)
+   */
+  getLayoutScale( width, height ) {
+    return ScreenView.getLayoutScale( this.layoutBounds, width, height );
+  }
+
+  /**
+   * Default layout function uses the layoutWidth and layoutHeight to scale the content (based on whichever is more limiting: width or height)
+   * and centers the content in the screen vertically and horizontally
+   * This function can be replaced by subclasses that wish to perform their own custom layout.
+   * @param {number} width
+   * @param {number} height
+   * @public (joist-internal)
+   */
+  layout( width, height ) {
+    this.matrix = ScreenView.getLayoutMatrix( this.layoutBounds, width, height );
+    this.visibleBoundsProperty.value = this.parentToLocalBounds( new Bounds2( 0, 0, width, height ) );
+  }
+
+  /**
+   * Make screen view eligible for garbage collection.
+   * @public
+   */
+  dispose() {
+    Node.prototype.dispose.call( this );
+    this.disposeScreenView();
+  }
+
+  /**
+   * Set the screen summary Node for the PDOM of this Screen View. Prefer passing in a screen summary Node via
+   * constructor options, but this method can be used directly when necessary.
+   * @param {Node} node
+   * @public
+   */
+  setScreenSummaryContent( node ) {
+    assert && assert( node instanceof Node );
+    assert && assert( node !== this.screenSummaryContent, 'this is already the screen summary Node content' );
+
+    this.screenSummaryContent && this.pdomScreenSummaryNode.removeChild( this.screenSummaryContent );
+
+    this.screenSummaryContent = node;
+    this.pdomScreenSummaryNode.addChild( node );
+  }
+
+  /**
+   * Set the screen summary Node intro string
+   * @param {string} simName
+   * @param {string} screenName
+   * @param {boolean} isMultiScreen
+   * @public (joist-internal)
+   */
+  setScreenSummaryIntroString( simName, screenName, isMultiScreen ) {
+    this.pdomScreenSummaryNode.setIntroString( simName, screenName, isMultiScreen );
+  }
+}
+
+// @public
+ScreenView.DEFAULT_LAYOUT_BOUNDS = DEFAULT_LAYOUT_BOUNDS;
+
+joist.register( 'ScreenView', ScreenView );
 export default ScreenView;
