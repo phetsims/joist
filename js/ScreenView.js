@@ -111,7 +111,15 @@ class ScreenView extends Node {
     this.addChild( this.pdomParent );
   }
 
-  set accessibleOrder( order ) { throw new Error( 'should not need to set accessible order on a ScreenView' ); }
+  /**
+   * See ParallelDOM setAccessibleOrder.
+   * @public
+   * @override
+   * @param {Array.<Node|null>|null} accessibleOrder
+   */
+  setAccessibleOrder( accessibleOrder ) {
+    throw new Error( 'should not need to set accessible order on a ScreenView' );
+  }
 
   /**
    * Override to make sure that setting children doesn't blow away Nodes set by ScreenView.
