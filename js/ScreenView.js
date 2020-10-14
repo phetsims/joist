@@ -25,7 +25,6 @@ import ControlAreaNode from '../../scenery-phet/js/accessibility/nodes/ControlAr
 import PlayAreaNode from '../../scenery-phet/js/accessibility/nodes/PlayAreaNode.js';
 import ScreenSummaryNode from '../../scenery-phet/js/accessibility/nodes/ScreenSummaryNode.js';
 import Node from '../../scenery/js/nodes/Node.js';
-import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
 
@@ -56,6 +55,7 @@ class ScreenView extends Node {
 
       // phet-io options
       tandem: Tandem.OPTIONAL,
+      visiblePropertyOptions: { phetioState: false },
 
       // pdom options
       containerTagName: 'article',
@@ -69,8 +69,6 @@ class ScreenView extends Node {
       // {boolean} whether or not to add the screen summay, play area, and control area Nodes to the PDOM
       includePDOMNodes: true
     }, options );
-
-    PhetioObject.mergePhetioComponentOptions( { visibleProperty: { phetioState: false } }, options );
 
     super( options );
 

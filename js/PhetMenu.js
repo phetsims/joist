@@ -129,11 +129,7 @@ class PhetMenu extends Node {
         callback: () => optionsDialogCapsule.getElement().show(),
         options: {
           tandem: tandem.createTandem( 'optionsMenuItem' ),
-          phetioComponentOptions: {
-            visibleProperty: {
-              phetioFeatured: true
-            }
-          },
+          visiblePropertyOptions: { phetioFeatured: true },
           phetioDocumentation: 'This menu item shows an options dialog.'
         }
       },
@@ -247,11 +243,7 @@ class PhetMenu extends Node {
         options: {
           tandem: tandem.createTandem( 'screenshotMenuItem' ),
           phetioDocumentation: 'This menu item captures a screenshot from the simulation and saves it to the file system.',
-          phetioComponentOptions: {
-            visibleProperty: {
-              phetioFeatured: true
-            }
-          },
+          visiblePropertyOptions: { phetioFeatured: true },
 
           // pdom
           handleFocusCallback: () => {
@@ -272,11 +264,7 @@ class PhetMenu extends Node {
           tandem: tandem.createTandem( 'enhancedSoundMenuItem' ),
           phetioDocumentation: 'This menu item toggles between basic and enhanced sound modes. This will only be ' +
                                'displayed if the simulation supports enhanced sounds.',
-          phetioComponentOptions: {
-            visibleProperty: {
-              phetioFeatured: true
-            }
-          },
+          visiblePropertyOptions: { phetioFeatured: true },
 
           // pdom
           handleFocusCallback: () => {
@@ -296,11 +284,7 @@ class PhetMenu extends Node {
           checkedProperty: FullScreen.isFullScreenProperty,
           tandem: tandem.createTandem( 'fullScreenMenuItem' ),
           phetioDocumentation: 'This menu item requests full-screen access for the simulation display.',
-          phetioComponentOptions: {
-            visibleProperty: {
-              phetioFeatured: true
-            }
-          },
+          visiblePropertyOptions: { phetioFeatured: true },
 
           // pdom
           handleFocusCallback: () => {
@@ -320,11 +304,7 @@ class PhetMenu extends Node {
           // phet-io
           tandem: tandem.createTandem( 'aboutMenuItem' ),
           phetioDocumentation: 'This menu item shows a dialog with information about the simulation.',
-          phetioComponentOptions: {
-            visibleProperty: {
-              phetioFeatured: true
-            }
-          }
+          visiblePropertyOptions: { phetioFeatured: true }
         }
       }
     ];
