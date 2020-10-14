@@ -9,7 +9,7 @@
 
 import merge from '../../phet-core/js/merge.js';
 import KeyboardHelpSection from '../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
-import TabKeyNode from '../../scenery-phet/js/keyboard/TabKeyNode.js';
+import TextKeyNode from '../../scenery-phet/js/keyboard/TextKeyNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import PDOMPeer from '../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
@@ -60,7 +60,7 @@ class KeyboardHelpDialog extends Dialog {
 
     // a line to say "tab to get started" below the "Keyboard Shortcuts" 'title'
     const tabHintLine = KeyboardHelpSection.labelWithIcon( joistStrings.keyboardShortcuts.toGetStarted,
-      new TabKeyNode(), joistStrings.a11y.keyboardHelp.tabToGetStarted, {
+      TextKeyNode.tab(), joistStrings.a11y.keyboardHelp.tabToGetStarted, {
         iconOptions: {
           tagName: 'p' // because there is only one, and the default is an li tag
         }
