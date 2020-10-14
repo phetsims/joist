@@ -13,7 +13,6 @@ import Image from '../../scenery/js/nodes/Image.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Dialog from '../../sun/js/Dialog.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
-import PhetioObject from '../../tandem/js/PhetioObject.js';
 import darkIconImage from '../images/keyboard-icon-on-white_png.js'; // on a white navbar
 import brightIconImage from '../images/keyboard-icon_png.js'; // on a black navbar
 import joist from './joist.js';
@@ -44,14 +43,15 @@ function KeyboardHelpButton( screenProperty, backgroundColorProperty, tandem, op
     // will align with the speaker button and the PhET logo
     highlightCenterOffsetY: 2,
 
+    // phet-io
+    visiblePropertyOptions: { phetioFeatured: true },
+
     // pdom
     tagName: 'button',
     innerContent: hotKeysAndHelpString
   }, options );
 
   assert && assert( !options.listener, 'KeyboardHelpButton set\'s its own listener' );
-
-  PhetioObject.mergePhetioComponentOptions( { visibleProperty: { phetioFeatured: true } }, options );
 
   const icon = new Image( brightIconImage, {
     scale: HELP_BUTTON_SCALE / brightIconImage.height * HELP_BUTTON_HEIGHT,

@@ -15,7 +15,6 @@ import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import ToggleNode from '../../sun/js/ToggleNode.js';
-import PhetioObject from '../../tandem/js/PhetioObject.js';
 import ActivationUtterance from '../../utterance-queue/js/ActivationUtterance.js';
 import joist from './joist.js';
 import JoistButton from './JoistButton.js';
@@ -61,6 +60,8 @@ class NavigationBarSoundToggleButton extends JoistButton {
       highlightExtensionHeight: 10,
       highlightCenterOffsetY: 0,
 
+      visiblePropertyOptions: { phetioFeatured: true },
+
       // pdom
       tagName: 'button',
       innerContent: joistStrings.a11y.soundToggle.label
@@ -68,8 +69,6 @@ class NavigationBarSoundToggleButton extends JoistButton {
 
     assert && assert( options.listener === undefined, 'NavigationBarSoundToggleButton sets listener' );
     options.listener = () => soundEnabledProperty.set( !soundEnabledProperty.get() );
-
-    PhetioObject.mergePhetioComponentOptions( { visibleProperty: { phetioFeatured: true } }, options );
 
     const soundOnNode = new Node();
     const soundOffNode = new Node();
