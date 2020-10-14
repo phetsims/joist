@@ -35,10 +35,9 @@ class AboutDialog extends Dialog {
    * @param {string} version - The version of the simulation
    * @param {string} credits - The credits for the simulation, or falsy to show no credits
    * @param {string} locale - The locale string
-   * @param {Node} phetButton - The PhET button in the navigation bar, receives focus when this dialog is closed
    * @param {Tandem} tandem
    */
-  constructor( name, version, credits, locale, phetButton, tandem ) {
+  constructor( name, version, credits, locale, tandem ) {
 
     // Dynamic modules are loaded in simLauncher and accessed through their namespace
     const Brand = phet.brand.Brand;
@@ -226,7 +225,6 @@ class AboutDialog extends Dialog {
     } );
 
     super( content, {
-      focusOnCloseNode: phetButton,
       xSpacing: 26,
       topMargin: 26,
       bottomMargin: 26,

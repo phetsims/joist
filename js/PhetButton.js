@@ -48,7 +48,7 @@ function PhetButton( sim, backgroundFillProperty, tandem ) {
   const logoOnBlackBackground = Brand.logoOnBlackBackground;
   const logoOnWhiteBackground = Brand.logoOnWhiteBackground;
 
-  const phetMenu = new PhetMenu( sim, this, tandem.createTandem( 'phetMenu' ), {
+  const phetMenu = new PhetMenu( sim, tandem.createTandem( 'phetMenu' ), {
     closeCallback: function() {
       phetMenu.hide();
     }
@@ -107,6 +107,9 @@ function PhetButton( sim, backgroundFillProperty, tandem ) {
     tagName: 'button',
     innerContent: joistStrings.a11y.phetMenu
   } );
+
+  // Restore focus to PhetButton when the PhetMenu is closed.
+  phetMenu.setFocusOnCloseNode( this );
 
   // No need to unlink, as the PhetButton exists for the lifetime of the sim
   Property.multilink( [ backgroundFillProperty, sim.screenProperty, updateCheck.stateProperty ],

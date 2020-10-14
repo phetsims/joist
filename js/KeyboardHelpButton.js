@@ -53,6 +53,30 @@ function KeyboardHelpButton( screenProperty, backgroundColorProperty, tandem, op
 
   PhetioObject.mergePhetioComponentOptions( { visibleProperty: { phetioFeatured: true } }, options );
 
+  const icon = new Image( brightIconImage, {
+    scale: HELP_BUTTON_SCALE / brightIconImage.height * HELP_BUTTON_HEIGHT,
+    pickable: false
+  } );
+
+  assert && assert( !options.listener, 'PhetButton sets listener' );
+  let keyboardHelpDialogCapsule = null; // set after super
+  let buttonModel = null; // see after super
+  options.listener = () => {
+    const keyboardHelpDialog = keyboardHelpDialogCapsule.getElement();
+    keyboardHelpDialog.show();
+
+    // if listener was fired because of accessibility
+    if ( buttonModel.isA11yClicking() ) {
+
+      // focus the close button if the dialog is open with a keyboard
+      keyboardHelpDialog.focusCloseButton();
+    }
+  };
+
+  JoistButton.call( this, icon, backgroundColorProperty, tandem, options );
+
+  buttonModel = this.buttonModel;
+
   const content = new Node();
 
   // When the screen changes, swap out keyboard help content to the selected screen's content
@@ -61,34 +85,16 @@ function KeyboardHelpButton( screenProperty, backgroundColorProperty, tandem, op
     content.children = [ screen.keyboardHelpNode ];
   } );
 
-  const keyboardHelpDialogCapsule = new PhetioCapsule( tandem => {
-    return new KeyboardHelpDialog( content, {
-      focusOnCloseNode: this,
+  keyboardHelpDialogCapsule = new PhetioCapsule( tandem => {
+    const keyboardHelpDialog = new KeyboardHelpDialog( content, {
       tandem: tandem
     } );
+    keyboardHelpDialog.setFocusOnCloseNode( this );
+    return keyboardHelpDialog;
   }, [], {
     tandem: tandem.createTandem( 'keyboardHelpDialogCapsule' ),
     phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )
   } );
-
-  options.listener = () => {
-    const keyboardHelpDialog = keyboardHelpDialogCapsule.getElement();
-    keyboardHelpDialog.show();
-
-    // if listener was fired because of accessibility
-    if ( this.buttonModel.isA11yClicking() ) {
-
-      // focus the close button if the dialog is open with a keyboard
-      keyboardHelpDialog.focusCloseButton();
-    }
-  };
-
-  const icon = new Image( brightIconImage, {
-    scale: HELP_BUTTON_SCALE / brightIconImage.height * HELP_BUTTON_HEIGHT,
-    pickable: false
-  } );
-
-  JoistButton.call( this, icon, backgroundColorProperty, tandem, options );
 
   // change the icon so that it is visible when the background changes from dark to light
   backgroundColorProperty.link( function( backgroundColor ) {

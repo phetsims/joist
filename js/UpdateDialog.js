@@ -16,10 +16,7 @@ import UpdateState from './UpdateState.js';
 
 class UpdateDialog extends Dialog {
 
-  /**
-   * @param {PhetButton} phetButton - PhET button in the navigation bar, receives focus when this dialog is closed
-   */
-  constructor( phetButton ) {
+  constructor() {
     assert && assert( updateCheck.areUpdatesChecked,
       'Updates need to be checked for UpdateDialog to be created' );
 
@@ -47,11 +44,7 @@ class UpdateDialog extends Dialog {
       tagName: 'div'
     } );
 
-    super( content, {
-
-      // pdom
-      focusOnCloseNode: phetButton
-    } );
+    super( content );
 
     const updateOutOfDateNode = () => {
 

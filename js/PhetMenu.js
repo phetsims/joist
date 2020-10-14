@@ -65,11 +65,10 @@ class PhetMenu extends Node {
 
   /**
    * @param {Sim} sim
-   * @param {PhetButton} phetButton - passed directly since sim.navigationBar hasn't yet been assigned
    * @param {Tandem} tandem
    * @param {Object} [options]
    */
-  constructor( sim, phetButton, tandem, options ) {
+  constructor( sim, tandem, options ) {
 
     // Only show certain features for PhET Sims, such as links to our website
     const isPhETBrand = phet.chipper.brand === 'phet';
@@ -94,29 +93,37 @@ class PhetMenu extends Node {
 
     super();
 
+    // @private (a11y) {Node|null} see setFocusOnCloseNode
+    this.focusOnCloseNode = null;
+
+    // AboutDialog is created lazily (so that Sim bounds are valid), then reused.
+    // Since AboutDialog is instrumented for PhET-iO, this lazy creation requires use of PhetioCapsule.
     const aboutDialogCapsule = new PhetioCapsule( tandem => {
-      return new AboutDialog( sim.simNameProperty.value, sim.version, sim.credits, sim.locale, phetButton, tandem );
+      const aboutDialog = new AboutDialog( sim.simNameProperty.value, sim.version, sim.credits, sim.locale, tandem );
+      aboutDialog.setFocusOnCloseNode( this.focusOnCloseNode );
+      return aboutDialog;
     }, [], {
       tandem: tandem.createTandem( 'aboutDialogCapsule' ),
       phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )
     } );
 
-    // only create the singleton if there is options dialog content
+    // If content was provided, OptionsDialog is created lazily (so that Sim bounds are valid), then reused.
+    // Since OptionsDialog is instrumented for PhET-iO, this lazy creation requires use of PhetioCapsule.
     let optionsDialogCapsule = null;
     if ( sim.options.createOptionsDialogContent ) {
       optionsDialogCapsule = new PhetioCapsule( tandem => {
-        return new OptionsDialog( sim.options.createOptionsDialogContent, {
+        const optionsDialog = new OptionsDialog( sim.options.createOptionsDialogContent, {
           tandem: tandem
         } );
+        optionsDialog.setFocusOnCloseNode( this.focusOnCloseNode );
+        return optionsDialog;
       }, [], {
         tandem: tandem.createTandem( 'optionsDialogCapsule' ),
         phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )
       } );
     }
 
-    // Dialogs that could be constructed by the menu. The menu will create a dialog the
-    // first time the item is selected, and they will be reused after that.  Must
-    // be created lazily because Dialog requires Sim to have bounds during construction
+    // Update dialog is created lazily (so that Sim bounds are valid), then reused.
     let updateDialog = null;
 
     /*
@@ -201,7 +208,8 @@ class PhetMenu extends Node {
         present: updateCheck.areUpdatesChecked,
         callback: () => {
           if ( !updateDialog ) {
-            updateDialog = new UpdateDialog( phetButton );
+            updateDialog = new UpdateDialog( this.focusOnCloseNode );
+            updateDialog.setFocusOnCloseNode( this.focusOnCloseNode );
           }
           updateDialog.show();
         },
@@ -255,7 +263,7 @@ class PhetMenu extends Node {
 
           // pdom
           handleFocusCallback: () => {
-            phetButton.focus();
+            this.restoreFocus();
           }
         }
       },
@@ -279,9 +287,7 @@ class PhetMenu extends Node {
           },
 
           // pdom
-          handleFocusCallback: () => {
-            phetButton.focus();
-          }
+          handleFocusCallback: () => this.restoreFocus()
         }
       },
 
@@ -303,9 +309,7 @@ class PhetMenu extends Node {
           },
 
           // pdom
-          handleFocusCallback: () => {
-            phetButton.focus();
-          }
+          handleFocusCallback: () => this.restoreFocus()
         }
       },
 
@@ -423,24 +427,15 @@ class PhetMenu extends Node {
         }
         else if ( domEvent.keyCode === KeyboardUtils.KEY_UP_ARROW ) {
 
-          // On up arow, focus previous item in the list, or wrap back to the last item if focus is on first item
+          // On up arrow, focus previous item in the list, or wrap back to the last item if focus is on first item
           const previousFocusable = firstItem.focused ? lastItem : PDOMUtils.getPreviousFocusable();
           previousFocusable.focus();
         }
-        else if ( domEvent.keyCode === KeyboardUtils.KEY_ESCAPE ) {
+        else if ( domEvent.keyCode === KeyboardUtils.KEY_ESCAPE || domEvent.keyCode === KeyboardUtils.KEY_TAB ) {
 
-          // On escape, close the menu and focus the PhET button
+          // On escape or tab, close the menu and restore focus to the element that had focus before the menu was opened.
           options.closeCallback();
-          phetButton.focus();
-        }
-        else if ( domEvent.keyCode === KeyboardUtils.KEY_TAB ) {
-
-          // close the menu whenever the user tabs out of it
-          options.closeCallback();
-
-          // send focus back to the phet button - the browser should then focus the next/previous focusable
-          // element with default 'tab' behavior
-          phetButton.focus();
+          this.restoreFocus();
         }
 
         event.pointer.reserveForKeyboardDrag();
@@ -493,6 +488,27 @@ class PhetMenu extends Node {
     this.disposePhetMenu();
     _.each( this.items, item => item.dispose() );
     super.dispose();
+  }
+
+  /**
+   * Sets the Node that receives focus when the menu is closed. If null, focus returns to the element that had focus
+   * when the menu was opened.
+   * @param {Node|null} node
+   * @public
+   */
+  setFocusOnCloseNode( node ) {
+    this.focusOnCloseNode = node;
+  }
+
+  /**
+   * Restores focus to either focusOnCloseNode, or the element that had focus when the menu was opened.
+   * @private
+   */
+  restoreFocus() {
+    const focusNode = this.focusOnCloseNode || Display.focusedNode;
+    if ( focusNode ) {
+      focusNode.focus();
+    }
   }
 }
 
