@@ -106,7 +106,7 @@ class NavigationBarScreenButton extends Node {
     const text = new Text( screen.nameProperty.value, {
       font: new PhetFont( 10 ),
       tandem: options.tandem.createTandem( 'text' ),
-      phetioComponentOptions: { textProperty: { phetioReadOnly: true } } // text is updated via screen.nameProperty
+      textPropertyOptions: { phetioReadOnly: true } // text is updated via screen.nameProperty
     } );
 
     // spacing set by Property link below

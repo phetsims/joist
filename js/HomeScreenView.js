@@ -70,9 +70,7 @@ class HomeScreenView extends ScreenView {
       y: 130,
       maxWidth: this.layoutBounds.width - 10, // To support PhET-iO Clients setting this
       tandem: tandem.createTandem( 'titleText' ),
-      phetioComponentOptions: {
-        textProperty: { phetioReadOnly: true }
-      }
+      textPropertyOptions: { phetioReadOnly: true }
     } );
 
     // update the titleText when the sim name changes

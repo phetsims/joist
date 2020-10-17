@@ -101,7 +101,7 @@ class HomeScreenButton extends VBox {
     // text for the button
     const text = new Text( screen.nameProperty.value, {
       tandem: options.tandem.createTandem( 'text' ),
-      phetioComponentOptions: { textProperty: { phetioReadOnly: true } } // text is updated via screen.nameProperty
+      textPropertyOptions: { phetioReadOnly: true } // text is updated via screen.nameProperty
     } );
 
     super( merge( { children: [ nodeContainer, text ] }, options ) );
