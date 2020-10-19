@@ -183,7 +183,8 @@ class NavigationBarScreenButton extends Node {
       // update layout from the maxWidth change
       layout();
 
-      assert && assert( Utils.toFixed( this.width, 0 ) === Utils.toFixed( options.maxButtonWidth, 0 ) );
+      assert && assert( Utils.toFixed( this.width, 0 ) === Utils.toFixed( options.maxButtonWidth, 0 ),
+        `this.width ${this.width} !== options.maxButtonWidth ${options.maxButtonWidth}` );
     }
     else {
 
