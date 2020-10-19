@@ -75,16 +75,49 @@ class NavigationBarScreenButton extends Node {
     // frame around the icon
     const iconFrame = new Rectangle( 0, 0, icon.width, icon.height );
 
-    const iconParent = new Node( {
+    const iconAndFrame = new Node( {
       children: [ icon, iconFrame ]
     } );
+
+    const text = new Text( screen.nameProperty.value, {
+      font: new PhetFont( 10 ),
+      tandem: options.tandem.createTandem( 'text' ),
+      textPropertyOptions: { phetioReadOnly: true } // text is updated via screen.nameProperty
+    } );
+
+    // spacing set by Property link below
+    const iconAndText = new VBox( {
+      children: [ iconAndFrame, text ],
+      pickable: false,
+      usesOpacity: true, // hint, since we change its opacity
+      maxHeight: navBarHeight
+    } );
+
+    // add a transparent overlay for input handling and to size touchArea/mouseArea
+    const overlay = new Rectangle( 0, 0, iconAndText.width, iconAndText.height, { center: iconAndText.center } );
+
+    // highlights
+    const highlightWidth = getHighlightWidth( overlay );
+    const brightenHighlight = new HighlightNode( highlightWidth, overlay.height, {
+      center: iconAndText.center,
+      fill: 'white'
+    } );
+    const darkenHighlight = new HighlightNode( highlightWidth, overlay.height, {
+      center: iconAndText.center,
+      fill: 'black'
+    } );
+
+    this.addChild( iconAndText );
+    this.addChild( overlay );
+    this.addChild( brightenHighlight );
+    this.addChild( darkenHighlight );
 
     // Is this button's screen selected?
     const selectedProperty = new DerivedProperty( [ screenProperty ], currentScreen => ( currentScreen === screen ) );
 
-    // @public (phet-io) - create the button model, needs to be public so that PhET-iO wrappers can hook up to it if needed
-    // Note it shares a tandem with this, so the emitter will be instrumented as a child of the button
-    // Note that this buttonModel will always be phetioReadOnly false despite the parent value
+    // @public (phet-io) Create the button model, needs to be public so that PhET-iO wrappers can hook up to it if
+    // needed. Note it shares a tandem with this, so the emitter will be instrumented as a child of the button.
+    // Note that this buttonModel will always be phetioReadOnly false despite the parent value.
     this.buttonModel = new PushButtonModel( {
       listener: () => {
         screenProperty.value = screen;
@@ -100,41 +133,7 @@ class NavigationBarScreenButton extends Node {
       tandem: options.tandem.createTandem( 'pressListener' ),
       phetioDocumentation: 'Indicates when the screen button has been pressed or released'
     } );
-
     this.addInputListener( pressListener );
-
-    const text = new Text( screen.nameProperty.value, {
-      font: new PhetFont( 10 ),
-      tandem: options.tandem.createTandem( 'text' ),
-      textPropertyOptions: { phetioReadOnly: true } // text is updated via screen.nameProperty
-    } );
-
-    // spacing set by Property link below
-    const box = new VBox( {
-      children: [ iconParent, text ],
-      pickable: false,
-      usesOpacity: true, // hint, since we change its opacity
-      maxHeight: navBarHeight
-    } );
-
-    // add a transparent overlay for input handling and to size touchArea/mouseArea
-    const overlay = new Rectangle( 0, 0, box.width, box.height, { center: box.center } );
-
-    // highlights
-    const highlightWidth = getHighlightWidth( overlay );
-    const brightenHighlight = new HighlightNode( highlightWidth, overlay.height, {
-      center: box.center,
-      fill: 'white'
-    } );
-    const darkenHighlight = new HighlightNode( highlightWidth, overlay.height, {
-      center: box.center,
-      fill: 'black'
-    } );
-
-    this.addChild( box );
-    this.addChild( overlay );
-    this.addChild( brightenHighlight );
-    this.addChild( darkenHighlight );
 
     // manage interaction feedback
     Property.multilink(
@@ -148,7 +147,7 @@ class NavigationBarScreenButton extends Node {
         const unselectedTextColor = useDarkenHighlights ? 'gray' : 'white';
 
         text.fill = selected ? selectedTextColor : unselectedTextColor;
-        box.opacity = selected ? 1.0 : ( looksPressed ? 0.65 : 0.5 );
+        iconAndText.opacity = selected ? 1.0 : ( looksPressed ? 0.65 : 0.5 );
         brightenHighlight.visible = !useDarkenHighlights && ( over || looksPressed );
         darkenHighlight.visible = useDarkenHighlights && ( over || looksPressed );
 
@@ -163,26 +162,25 @@ class NavigationBarScreenButton extends Node {
         iconFrame.stroke = iconFrameStroke;
       } );
 
-    // adjust the layout of the overlay and the highlights
-    const layout = () => {
+    // Update the button's layout
+    const updateLayout = () => {
+
+      // adjust the vertical space between icon and text, see https://github.com/phetsims/joist/issues/143
+      iconAndText.spacing = Math.max( 0, 12 - text.height );
 
       // adjust the overlay
-      overlay.setRect( 0, 0, box.width, overlay.height );
-      overlay.center = box.center;
+      overlay.setRect( 0, 0, iconAndText.width, overlay.height );
+      overlay.center = iconAndText.center;
 
       // adjust the highlights
       brightenHighlight.spacing = darkenHighlight.spacing = getHighlightWidth( overlay );
-      brightenHighlight.center = darkenHighlight.center = box.center;
+      brightenHighlight.center = darkenHighlight.center = iconAndText.center;
     };
 
     // Constrain text and icon width, if necessary
     if ( options.maxButtonWidth && ( this.width > options.maxButtonWidth ) ) {
-
-      text.maxWidth = icon.maxWidth = options.maxButtonWidth - ( this.width - box.width );
-
-      // update layout from the maxWidth change
-      layout();
-
+      text.maxWidth = icon.maxWidth = options.maxButtonWidth - ( this.width - iconAndText.width );
+      updateLayout();
       assert && assert( Utils.toFixed( this.width, 0 ) === Utils.toFixed( options.maxButtonWidth, 0 ),
         `this.width ${this.width} !== options.maxButtonWidth ${options.maxButtonWidth}` );
     }
@@ -193,13 +191,10 @@ class NavigationBarScreenButton extends Node {
       text.maxWidth = this.width;
     }
 
-    // update the text when the screen name changes
+    // Update the button's text and layout when the screen name changes
     screen.nameProperty.link( name => {
       text.text = name;
-      box.spacing = Math.max( 0, 12 - text.height ); // see https://github.com/phetsims/joist/issues/143
-
-      // update layout from the text change
-      layout();
+      updateLayout();
     } );
 
     // pdom - Pass a shape to the focusHighlight to prevent dilation, then tweak the top up just a hair.
