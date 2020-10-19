@@ -10,7 +10,6 @@
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Property from '../../axon/js/Property.js';
-import Utils from '../../dot/js/Utils.js';
 import Shape from '../../kite/js/Shape.js';
 import merge from '../../phet-core/js/merge.js';
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
@@ -76,7 +75,8 @@ class NavigationBarScreenButton extends Node {
     const iconFrame = new Rectangle( 0, 0, icon.width, icon.height );
 
     const iconParent = new Node( {
-      children: [ icon, iconFrame ]
+      children: [ icon, iconFrame ],
+      maxWidth: options.maxButtonWidth
     } );
 
     // Is this button's screen selected?
@@ -105,6 +105,7 @@ class NavigationBarScreenButton extends Node {
 
     const text = new Text( screen.nameProperty.value, {
       font: new PhetFont( 10 ),
+      maxWidth: options.maxButtonWidth,
       tandem: options.tandem.createTandem( 'text' ),
       textPropertyOptions: { phetioReadOnly: true } // text is updated via screen.nameProperty
     } );
@@ -174,24 +175,6 @@ class NavigationBarScreenButton extends Node {
       brightenHighlight.spacing = darkenHighlight.spacing = getHighlightWidth( overlay );
       brightenHighlight.center = darkenHighlight.center = box.center;
     };
-
-    // Constrain text and icon width, if necessary
-    if ( options.maxButtonWidth && ( this.width > options.maxButtonWidth ) ) {
-
-      text.maxWidth = icon.maxWidth = options.maxButtonWidth - ( this.width - box.width );
-
-      // update layout from the maxWidth change
-      layout();
-
-      assert && assert( Utils.toFixed( this.width, 0 ) === Utils.toFixed( options.maxButtonWidth, 0 ),
-        `this.width ${this.width} !== options.maxButtonWidth ${options.maxButtonWidth}` );
-    }
-    else {
-
-      // Don't allow the text to grow larger than the icon if changed later on using PhET-iO, see #438
-      // Text is allowed to go beyond the bounds of the icon, hence we use `this.width` instead of `icon.width`
-      text.maxWidth = this.width;
-    }
 
     // update the text when the screen name changes
     screen.nameProperty.link( name => {
