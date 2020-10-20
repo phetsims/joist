@@ -23,6 +23,7 @@ import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import FullScreen from '../../scenery/js/util/FullScreen.js';
 import Dialog from '../../sun/js/Dialog.js';
+import HSeparator from '../../sun/js/HSeparator.js';
 import MenuItem from '../../sun/js/MenuItem.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
@@ -363,7 +364,10 @@ class PhetMenu extends Node {
       // Don't add a separator for the first item
       if ( item.separatorBefore && items[ 0 ] !== item ) {
         y += ySpacing;
-        separator = new Path( Shape.lineSegment( 0, y, separatorWidth, y ), { stroke: 'gray', lineWidth: 1 } );
+        separator = new HSeparator( separatorWidth, {
+          stroke: 'gray',
+          y: y
+        } );
         content.addChild( separator );
         y = y + separator.height + ySpacing;
       }
