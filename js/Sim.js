@@ -28,6 +28,7 @@ import merge from '../../phet-core/js/merge.js';
 import platform from '../../phet-core/js/platform.js';
 import BarrierRectangle from '../../scenery-phet/js/BarrierRectangle.js';
 import KeyboardFuzzer from '../../scenery/js/accessibility/KeyboardFuzzer.js';
+import webSpeaker from '../../scenery/js/accessibility/speaker/webSpeaker.js';
 import Display from '../../scenery/js/display/Display.js';
 import InputFuzzer from '../../scenery/js/input/InputFuzzer.js';
 import AnimatedPanZoomListener from '../../scenery/js/listeners/AnimatedPanZoomListener.js';
@@ -38,6 +39,7 @@ import '../../sherpa/lib/game-up-camera-1.0.0.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
+import UtteranceQueue from '../../utterance-queue/js/UtteranceQueue.js';
 import Heartbeat from './Heartbeat.js';
 import HomeScreen from './HomeScreen.js';
 import HomeScreenView from './HomeScreenView.js';
@@ -623,6 +625,13 @@ class Sim {
           }
         }
       } );
+    }
+
+    if ( phet.chipper.queryParameters.supportsSelfVoicing ) {
+
+      // @public - the UtteranceQueue that is specifically used for the self-voicing feature, where
+      // Utterances are spoken with speech synthesis
+      this.selfVoicingUtteranceQueue = new UtteranceQueue( webSpeaker, false );
     }
 
     Heartbeat.start( this );
