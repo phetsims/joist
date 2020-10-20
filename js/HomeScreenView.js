@@ -25,6 +25,10 @@ const simScreensString = joistStrings.a11y.simScreens;
 const homeScreenDescriptionPatternString = joistStrings.a11y.homeScreenDescriptionPattern;
 
 // constants
+
+// NOTE: In https://github.com/phetsims/joist/issues/640, we attempted to use ScreenView.DEFAULT_LAYOUT_BOUNDS here.
+// Lots of problems were encountered, since both the Home screen and navigation bar are dependent on this value.
+// If/when joist is cleaned up, this should be ScreenView.DEFAULT_LAYOUT_BOUNDS.
 const LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
 
 // iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
