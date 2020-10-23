@@ -129,7 +129,7 @@ class NavigationBarScreenButton extends Node {
     } );
 
     // Hook up the input listener
-    const pressListener = this.buttonModel.createListener( {
+    const pressListener = this.buttonModel.createPressListener( {
       tandem: options.tandem.createTandem( 'pressListener' ),
       phetioDocumentation: 'Indicates when the screen button has been pressed or released'
     } );

@@ -90,7 +90,7 @@ class JoistButton extends Node {
     this.buttonModel.enabledProperty.link( enabled => { this.cursor = enabled ? 'pointer' : null; } );
 
     // Hook up the input listener
-    const pressListener = this.buttonModel.createListener( {
+    const pressListener = this.buttonModel.createPressListener( {
       tandem: tandem.createTandem( 'pressListener' )
     } );
     this.addInputListener( pressListener );
