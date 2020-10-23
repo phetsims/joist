@@ -89,11 +89,11 @@ class JoistButton extends Node {
     // JoistButtons exist for the lifetime of the sim, and don't need to be disposed
     this.buttonModel.enabledProperty.link( enabled => { this.cursor = enabled ? 'pointer' : null; } );
 
-    // Hook up the input listener
-    const pressListener = this.buttonModel.createPressListener( {
+    // @private - Hook up the input listener
+    this._pressListener = this.buttonModel.createPressListener( {
       tandem: tandem.createTandem( 'pressListener' )
     } );
-    this.addInputListener( pressListener );
+    this.addInputListener( this._pressListener );
 
     // eliminate interactivity gap between label and button
     this.mouseArea = this.touchArea = Shape.bounds( this.bounds );
@@ -101,6 +101,15 @@ class JoistButton extends Node {
     // shift the focus highlight for the joist button so that the bottom is always on screen
     const highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );
     this.focusHighlight = Shape.bounds( this.bounds.shiftedY( -highlightLineWidth ) );
+  }
+
+  /**
+   * Is the button currently firing because of accessibility input coming from the PDOM?
+   * @public (pdom)
+   * @returns {boolean}
+   */
+  isPDOMClicking() {
+    return this._pressListener.pdomClickingProperty.get();
   }
 }
 

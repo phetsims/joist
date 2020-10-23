@@ -53,13 +53,12 @@ class KeyboardHelpButton extends JoistButton {
 
     assert && assert( !options.listener, 'PhetButton sets listener' );
     let keyboardHelpDialogCapsule = null; // set after calling super
-    let buttonModel = null; // set after calling super
     options.listener = () => {
       const keyboardHelpDialog = keyboardHelpDialogCapsule.getElement();
       keyboardHelpDialog.show();
 
       // if listener was fired because of accessibility
-      if ( buttonModel.isA11yClicking() ) {
+      if ( this.isPDOMClicking() ) {
 
         // focus the close button if the dialog is open with a keyboard
         keyboardHelpDialog.focusCloseButton();
@@ -72,8 +71,6 @@ class KeyboardHelpButton extends JoistButton {
     } );
 
     super( icon, backgroundColorProperty, tandem, options );
-
-    buttonModel = this.buttonModel;
 
     const content = new Node();
 

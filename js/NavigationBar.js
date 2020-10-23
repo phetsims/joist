@@ -206,7 +206,7 @@ class NavigationBar extends Node {
             sim.screenProperty.value = sim.homeScreen;
 
             // only if fired from a11y
-            if ( this.homeButton.buttonModel.isA11yClicking() ) {
+            if ( this.homeButton.isPDOMClicking() ) {
               sim.homeScreen.view.focusHighlightedScreenButton();
             }
           }
