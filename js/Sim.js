@@ -266,7 +266,7 @@ class Sim {
 
         // Even though we are nested underneath a PhET-iO playbackable event (the stepSimulationAction), we still want
         // to propagate fuzz events as playbackable.
-        Tandem.PHET_IO_ENABLED && phet.phetio.dataStream.popNonPlaybackable();
+        Tandem.PHET_IO_ENABLED && phet.phetio.dataStream.disallowPlaybackCount > 0 && phet.phetio.dataStream.popNonPlaybackable();
 
         this.inputFuzzer.fuzzEvents(
           phet.chipper.queryParameters.fuzzRate,
@@ -274,7 +274,7 @@ class Sim {
           fuzzTouch,
           phet.chipper.queryParameters.fuzzPointers
         );
-        Tandem.PHET_IO_ENABLED && phet.phetio.dataStream.pushNonPlaybackable();
+        Tandem.PHET_IO_ENABLED && phet.phetio.dataStream.disallowPlaybackCount > 1 && phet.phetio.dataStream.pushNonPlaybackable();
       }
 
       // fire or synthesize keyboard input events
@@ -283,10 +283,10 @@ class Sim {
 
         // Even though we are nested underneath a PhET-iO playbackable event (the stepSimulationAction), we still want
         // to propagate fuzzBoard events as playbackable.
-        Tandem.PHET_IO_ENABLED && phet.phetio.dataStream.popNonPlaybackable();
+        Tandem.PHET_IO_ENABLED && phet.phetio.dataStream.disallowPlaybackCount > 0 && phet.phetio.dataStream.popNonPlaybackable();
 
         this.keyboardFuzzer.fuzzBoardEvents( phet.chipper.queryParameters.fuzzRate );
-        Tandem.PHET_IO_ENABLED && phet.phetio.dataStream.pushNonPlaybackable();
+        Tandem.PHET_IO_ENABLED && phet.phetio.dataStream.disallowPlaybackCount > 1 && phet.phetio.dataStream.pushNonPlaybackable();
       }
 
       // If the user is on the home screen, we won't have a Screen that we'll want to step.  This must be done after
