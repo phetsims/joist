@@ -257,38 +257,6 @@ class Sim {
         this.resizeToWindow();
       }
 
-      // If fuzz parameter is used then fuzzTouch and fuzzMouse events should be fired
-      const fuzzTouch = phet.chipper.queryParameters.fuzzTouch || phet.chipper.queryParameters.fuzz;
-      const fuzzMouse = phet.chipper.queryParameters.fuzzMouse || phet.chipper.queryParameters.fuzz;
-
-      // fire or synthesize input events
-      if ( fuzzMouse || fuzzTouch ) {
-
-        // Even though we are nested underneath a PhET-iO playbackable event (the stepSimulationAction), we still want
-        // to propagate fuzz events as playbackable.
-        Tandem.PHET_IO_ENABLED && phet.phetio.dataStream.disallowPlaybackCount > 0 && phet.phetio.dataStream.popNonPlaybackable();
-
-        this.inputFuzzer.fuzzEvents(
-          phet.chipper.queryParameters.fuzzRate,
-          fuzzMouse,
-          fuzzTouch,
-          phet.chipper.queryParameters.fuzzPointers
-        );
-        Tandem.PHET_IO_ENABLED && phet.phetio.dataStream.disallowPlaybackCount > 1 && phet.phetio.dataStream.pushNonPlaybackable();
-      }
-
-      // fire or synthesize keyboard input events
-      if ( phet.chipper.queryParameters.fuzzBoard ) {
-        assert && assert( this.supportsInteractiveDescriptions, 'fuzzBoard can only run with interactive descriptions enabled.' );
-
-        // Even though we are nested underneath a PhET-iO playbackable event (the stepSimulationAction), we still want
-        // to propagate fuzzBoard events as playbackable.
-        Tandem.PHET_IO_ENABLED && phet.phetio.dataStream.disallowPlaybackCount > 0 && phet.phetio.dataStream.popNonPlaybackable();
-
-        this.keyboardFuzzer.fuzzBoardEvents( phet.chipper.queryParameters.fuzzRate );
-        Tandem.PHET_IO_ENABLED && phet.phetio.dataStream.disallowPlaybackCount > 1 && phet.phetio.dataStream.pushNonPlaybackable();
-      }
-
       // If the user is on the home screen, we won't have a Screen that we'll want to step.  This must be done after
       // fuzz mouse, because fuzzing could change the selected screen, see #130
       const screen = this.screenProperty.value;
@@ -979,6 +947,8 @@ class Sim {
     // Setting the activeProperty to false pauses the sim and also enables optional support for playback back recorded
     // events (if playbackModeEnabledProperty) is true
     if ( this.activeProperty.value ) {
+      this.fuzzInputEvents(); // Handle Input fuzzing before stepping the sim because input events occur outside of sim steps.
+
       this.stepOneFrame();
     }
 
@@ -1012,6 +982,33 @@ class Sim {
    */
   stepSimulation( dt ) {
     this.stepSimulationAction.execute( dt );
+  }
+
+  /**
+   * Handle synthetic input event fuzzing
+   * @private
+   */
+  fuzzInputEvents() {
+
+    // If fuzz parameter is used then fuzzTouch and fuzzMouse events should be fired
+    const fuzzTouch = phet.chipper.queryParameters.fuzzTouch || phet.chipper.queryParameters.fuzz;
+    const fuzzMouse = phet.chipper.queryParameters.fuzzMouse || phet.chipper.queryParameters.fuzz;
+
+    // fire or synthesize input events
+    if ( fuzzMouse || fuzzTouch ) {
+      this.inputFuzzer.fuzzEvents(
+        phet.chipper.queryParameters.fuzzRate,
+        fuzzMouse,
+        fuzzTouch,
+        phet.chipper.queryParameters.fuzzPointers
+      );
+    }
+
+    // fire or synthesize keyboard input events
+    if ( phet.chipper.queryParameters.fuzzBoard ) {
+      assert && assert( this.supportsInteractiveDescriptions, 'fuzzBoard can only run with interactive descriptions enabled.' );
+      this.keyboardFuzzer.fuzzBoardEvents( phet.chipper.queryParameters.fuzzRate );
+    }
   }
 
   /**
