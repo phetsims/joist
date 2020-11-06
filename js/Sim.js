@@ -947,7 +947,10 @@ class Sim {
     // Setting the activeProperty to false pauses the sim and also enables optional support for playback back recorded
     // events (if playbackModeEnabledProperty) is true
     if ( this.activeProperty.value ) {
-      this.frameCounter > 0 && this.fuzzInputEvents(); // Handle Input fuzzing before stepping the sim because input events occur outside of sim steps.
+
+      // Handle Input fuzzing before stepping the sim because input events occur outside of sim steps, but not before the
+      // first sim step (to prevent issues like https://github.com/phetsims/equality-explorer/issues/161).
+      this.frameCounter > 0 && this.fuzzInputEvents();
 
       this.stepOneFrame();
     }
