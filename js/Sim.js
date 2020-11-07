@@ -77,6 +77,8 @@ phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for repl
 // @public (phet-io)
 phet.joist.playbackModeEnabledProperty = new BooleanProperty( phet.chipper.queryParameters.playbackMode );
 
+assert && assert( typeof phet.chipper.brand === 'string', 'phet.chipper.brand is required to run a sim' );
+
 class Sim {
 
   /**
