@@ -687,6 +687,20 @@ class Sim {
   }
 
   /**
+   * Pan to a Node in the sim using the AnimatedPanZoomListener. If the pan and zoom
+   * feature is not enabled, this will be a no-op. The node must be in the scene graph.
+   * @public
+   *
+   * @param {Node} node
+   */
+  panToNode( node ) {
+    if ( this.panZoomListener ) {
+      assert && assert( node.getTrailsTo( this.rootNode ).length > 0, 'trying to pan to Node not in scene graph' );
+      this.panZoomListener.panToNode( node );
+    }
+  }
+
+  /**
    * @param {Screen[]} screens
    * @private
    */
