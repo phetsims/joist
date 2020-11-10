@@ -10,7 +10,6 @@ import Bounds2 from '../../dot/js/Bounds2.js';
 import merge from '../../phet-core/js/merge.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import PDOMPeer from '../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Text from '../../scenery/js/nodes/Text.js';
@@ -21,7 +20,6 @@ import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import ScreenView from './ScreenView.js';
 
-const simScreensString = joistStrings.a11y.simScreens;
 const homeScreenDescriptionPatternString = joistStrings.a11y.homeScreenDescriptionPattern;
 
 // constants
@@ -112,29 +110,9 @@ class HomeScreenView extends ScreenView {
       return { screen: screen, button: homeScreenButton };
     } );
 
-    // pdom this is needed to create the right PDOM structure, the phet menu shouldn't be a child of this 'nav', so
-    // the HomeScreenView can't be the 'nav' tag.
-    const navIconsNode = new Node( {
-
-      // pdom
-      tagName: 'div',
-      containerTagName: 'nav',
-      labelTagName: 'h2',
-      labelContent: simScreensString
-    } );
-
-    navIconsNode.addAriaLabelledbyAssociation( {
-      thisElementName: PDOMPeer.PRIMARY_SIBLING,
-      otherNode: navIconsNode,
-      otherElementName: PDOMPeer.LABEL_SIBLING
-    } );
-
     // Intermediate node, so that icons are always in the same rendering layer
     const iconsParentNode = new Node( { tagName: 'ol' } );
-
-    // add the icons to the nav tag Node
-    navIconsNode.addChild( iconsParentNode );
-    this.addChild( navIconsNode );
+    this.addChild( iconsParentNode );
 
     // Space the icons out more if there are fewer, so they will be spaced nicely.
     // Cannot have only 1 screen because for 1-screen sims there is no home screen.

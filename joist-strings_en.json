@@ -180,7 +180,7 @@
       "value": "Go to Home Screen."
     },
     "homeScreenDescriptionPattern": {
-      "value": "Come explore with {{name}}. It has {{screens}} screens."
+      "value": "Welcome to {{name}}. It has {{screens}} interactive screens that you can explore. Choose a screen to start exploring."
     },
     "simResources": {
       "value": "Sim Resources"
