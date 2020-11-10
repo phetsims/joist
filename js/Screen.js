@@ -245,8 +245,9 @@ class Screen extends PhetioObject {
    * @param {string} simName - The name of the sim, used for a11y.
    * @param {string} displayedName - The display name of the sim, used for a11y. Could change based on screen.
    * @param {number} numberOfScreens - the number of screens in the sim this runtime (could change with `?screens=...`.
+   * @param {boolean} isHomeScreen - if this screen is the home screen.
    */
-  initializeView( simName, displayedName, numberOfScreens ) {
+  initializeView( simName, displayedName, numberOfScreens, isHomeScreen ) {
     assert && assert( this._view === null, 'there was already a view' );
     this._view = this.createView( this.model );
     this._view.setVisible( false ); // a Screen is invisible until selected
@@ -271,7 +272,10 @@ class Screen extends PhetioObject {
       // Using total screens for sim breaks modularity a bit, but it also is needed as that parameter changes the
       // labelling of this screen, see https://github.com/phetsims/joist/issues/496
       if ( numberOfScreens === 1 ) {
-        this._view.labelContent = displayedName;
+        this._view.labelContent = displayedName; // for multiscreen sims, like "Ratio and Proportion -- Create"
+      }
+      else if ( isHomeScreen ) {
+        this._view.labelContent = simName; // Like "Ratio and Propotion"
       }
       else {
 
