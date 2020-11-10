@@ -242,13 +242,16 @@ class Screen extends PhetioObject {
   /**
    * Initialize the view.
    * @public (joist-internal)
-   * @param {string} [simName] - The display name of the sim, used for a11y. Not provided for the home screen.
-   * @param {number} [numberOfScreens] - the number of screens in the whole sim.
+   * @param {string} simName - The name of the sim, used for a11y.
+   * @param {string} displayedName - The display name of the sim, used for a11y. Could change based on screen.
+   * @param {number} numberOfScreens - the number of screens in the sim this runtime (could change with `?screens=...`.
    */
-  initializeView( simName, numberOfScreens ) {
+  initializeView( simName, displayedName, numberOfScreens ) {
     assert && assert( this._view === null, 'there was already a view' );
     this._view = this.createView( this.model );
     this._view.setVisible( false ); // a Screen is invisible until selected
+
+    assert && assert( typeof simName === 'string' );
 
     // Show the home screen's layoutBounds
     if ( phet.chipper.queryParameters.dev ) {
@@ -262,25 +265,25 @@ class Screen extends PhetioObject {
     }
 
     // Set the accessible label for the screen.
-    simName && this.pdomDisplayNameProperty.link( name => {
+    this.pdomDisplayNameProperty.link( screenName => {
 
       // Single screen sims don't need screen names, instead just show the title of the sim.
       // Using total screens for sim breaks modularity a bit, but it also is needed as that parameter changes the
       // labelling of this screen, see https://github.com/phetsims/joist/issues/496
       if ( numberOfScreens === 1 ) {
-        this._view.labelContent = simName;
+        this._view.labelContent = displayedName;
       }
       else {
 
         // initialize proper PDOM labelling for ScreenView
         this._view.labelContent = StringUtils.fillIn( screenSimPatternString, {
-          screenName: name,
+          screenName: screenName,
           simName: simName
         } );
       }
 
       // if there is a screenSummaryNode, then set its intro string now
-      this._view.setScreenSummaryIntroString( simName, name, numberOfScreens > 1 );
+      this._view.setScreenSummaryIntroString( simName, screenName, numberOfScreens > 1 );
     } );
 
     assert && this._view.accessibleAudit();

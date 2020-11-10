@@ -879,7 +879,7 @@ class Sim {
         screen.initializeModel();
       } );
       workItems.push( () => {
-        screen.initializeView( this.simNameProperty.value, this.screens.length );
+        screen.initializeView( this.simNameProperty.value, this.displayedSimNameProperty.value, this.screens.length );
       } );
     } );
 
