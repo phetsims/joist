@@ -24,10 +24,8 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import Property from '../../axon/js/Property.js';
 import StringProperty from '../../axon/js/StringProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
-import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import PDOMPeer from '../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import Node from '../../scenery/js/nodes/Node.js';
@@ -65,11 +63,9 @@ class NavigationBar extends Node {
 
   /**
    * @param {Sim} sim
-   * @param {boolean} isMultiScreenSimDisplayingSingleScreen - true if only one screen is provided for the sim but the
-   *                                                           sim supports multiple screens
    * @param {Tandem} tandem
    */
-  constructor( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
+  constructor( sim, tandem ) {
 
     super();
 
@@ -101,9 +97,7 @@ class NavigationBar extends Node {
     this.barContents = new Node();
     this.addChild( this.barContents );
 
-    let title = sim.simNameProperty.value;
-
-    this.titleText = new Text( title, {
+    this.titleText = new Text( sim.displayedSimNameProperty.value, {
       font: new PhetFont( 16 ),
       fill: sim.lookAndFeel.navigationBarTextFillProperty,
       tandem: tandem.createTandem( 'titleText' ),
@@ -120,28 +114,9 @@ class NavigationBar extends Node {
     } );
     this.barContents.addChild( titleContainerNode );
 
-    // update the titleText based on values of the sim name and screen name
-    Property.multilink( [ sim.simNameProperty, this.simScreens[ 0 ].nameProperty ],
-      ( simName, screenName ) => {
-
-        if ( isMultiScreenSimDisplayingSingleScreen && simName && screenName ) {
-
-          // If the 'screens' query parameter selects only 1 screen and both the sim and screen name are not the empty
-          // string, then update the nav bar title to include a hyphen and the screen name after the sim name.
-          title = StringUtils.fillIn( joistStrings.simTitleWithScreenNamePattern, {
-            simName: simName,
-            screenName: screenName
-          } );
-        }
-        else if ( isMultiScreenSimDisplayingSingleScreen && screenName ) {
-          title = screenName;
-        }
-        else {
-          title = simName;
-        }
-
-        this.titleText.setText( title );
-      } );
+    sim.displayedSimNameProperty.link( title => {
+      this.titleText.setText( title );
+    } );
 
     // @private - PhET button, fill determined by state of navigationBarFillProperty
     this.phetButton = new PhetButton(

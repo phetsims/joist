@@ -26,6 +26,7 @@ import Random from '../../dot/js/Random.js';
 import DotUtils from '../../dot/js/Utils.js';
 import merge from '../../phet-core/js/merge.js';
 import platform from '../../phet-core/js/platform.js';
+import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import BarrierRectangle from '../../scenery-phet/js/BarrierRectangle.js';
 import KeyboardFuzzer from '../../scenery/js/accessibility/KeyboardFuzzer.js';
 import webSpeaker from '../../scenery/js/accessibility/speaker/webSpeaker.js';
@@ -364,6 +365,29 @@ class Sim {
       phetioType: Property.PropertyIO( Screen.ScreenIO )
     } );
 
+    // @public - the displayed name in the sim. This depends on what screens are shown this runtime (effected by query parameters).
+    this.displayedSimNameProperty = new DerivedProperty( [ this.simNameProperty, this.simScreens[ 0 ].nameProperty ],
+      ( simName, screenName ) => {
+        const isMultiScreenSimDisplayingSingleScreen = this.simScreens.length === 1 && allSimScreens.length !== this.simScreens.length;
+
+        // update the titleText based on values of the sim name and screen name
+        if ( isMultiScreenSimDisplayingSingleScreen && simName && screenName ) {
+
+          // If the 'screens' query parameter selects only 1 screen and both the sim and screen name are not the empty
+          // string, then update the nav bar title to include a hyphen and the screen name after the sim name.
+          return StringUtils.fillIn( joistStrings.simTitleWithScreenNamePattern, {
+            simName: simName,
+            screenName: screenName
+          } );
+        }
+        else if ( isMultiScreenSimDisplayingSingleScreen && screenName ) {
+          return screenName;
+        }
+        else {
+          return simName;
+        }
+      } );
+
     // @public - When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.
     // Set to false for when the sim will be paused.  If the sim has playbackModeEnabledProperty set to true, the
     // activeProperty will automatically be set to false so the timing and inputs can be controlled by the playback engine
@@ -639,10 +663,8 @@ class Sim {
     this.display.setCanvasNodeBoundsVisible( phet.chipper.queryParameters.showCanvasNodeBounds );
     this.display.setFittedBlockBoundsVisible( phet.chipper.queryParameters.showFittedBlockBounds );
 
-    const isMultiScreenSimDisplayingSingleScreen = this.simScreens.length === 1 && allSimScreens.length !== this.simScreens.length;
-
     // @public (joist-internal)
-    this.navigationBar = new NavigationBar( this, isMultiScreenSimDisplayingSingleScreen, Tandem.GENERAL_VIEW.createTandem( 'navigationBar' ) );
+    this.navigationBar = new NavigationBar( this, Tandem.GENERAL_VIEW.createTandem( 'navigationBar' ) );
 
     // @private {AnimatedPanZoomListener|null} - magnification support, null unless specifically enabled
     this.panZoomListener = null;
