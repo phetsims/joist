@@ -137,8 +137,8 @@ class NavigationBarScreenButton extends Node {
 
     // manage interaction feedback
     Property.multilink(
-      [ selectedProperty, this.buttonModel.looksPressedProperty, this.buttonModel.overProperty, navigationBarFillProperty ],
-      ( selected, looksPressed, over, navigationBarFill ) => {
+      [ selectedProperty, this.buttonModel.looksPressedProperty, this.buttonModel.overProperty, navigationBarFillProperty, this.buttonModel.enabledProperty ],
+      ( selected, looksPressed, over, navigationBarFill, enabled ) => {
 
         const useDarkenHighlights = ( navigationBarFill !== 'black' );
 
@@ -148,8 +148,8 @@ class NavigationBarScreenButton extends Node {
 
         text.fill = selected ? selectedTextColor : unselectedTextColor;
         iconAndText.opacity = selected ? 1.0 : ( looksPressed ? 0.65 : 0.5 );
-        brightenHighlight.visible = !useDarkenHighlights && ( over || looksPressed );
-        darkenHighlight.visible = useDarkenHighlights && ( over || looksPressed );
+        brightenHighlight.visible = !useDarkenHighlights && enabled && ( over || looksPressed );
+        darkenHighlight.visible = useDarkenHighlights && enabled && ( over || looksPressed );
 
         // Put a frame around the screen icon, depending on the navigation bar background color.
         let iconFrameStroke = null;
@@ -161,6 +161,9 @@ class NavigationBarScreenButton extends Node {
         }
         iconFrame.stroke = iconFrameStroke;
       } );
+
+    // Keep the cursor in sync with if the button is enabled. This doesn't need to be disposed.
+    this.buttonModel.enabledProperty.link( enabled => { this.cursor = enabled ? options.cursor : null; } );
 
     // Update the button's layout
     const updateLayout = () => {

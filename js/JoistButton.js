@@ -75,19 +75,21 @@ class JoistButton extends Node {
     this.interactionStateProperty = interactionStateProperty;
 
     // Update the highlights based on whether the button is highlighted and whether it is against a light or dark background.
-    Property.multilink( [ interactionStateProperty, navigationBarFillProperty ], function( interactionState, navigationBarFill ) {
-      const useDarkenHighlight = navigationBarFill !== 'black';
-      brightenHighlight.visible = !useDarkenHighlight &&
+    Property.multilink( [ interactionStateProperty, navigationBarFillProperty, this.buttonModel.enabledProperty ],
+      ( interactionState, navigationBarFill, enabled ) => {
+        const useDarkenHighlight = navigationBarFill !== 'black';
+
+        brightenHighlight.visible = !useDarkenHighlight && enabled &&
+                                    ( interactionState === ButtonInteractionState.OVER ||
+                                      interactionState === ButtonInteractionState.PRESSED );
+        darkenHighlight.visible = useDarkenHighlight && enabled &&
                                   ( interactionState === ButtonInteractionState.OVER ||
                                     interactionState === ButtonInteractionState.PRESSED );
-      darkenHighlight.visible = useDarkenHighlight &&
-                                ( interactionState === ButtonInteractionState.OVER ||
-                                  interactionState === ButtonInteractionState.PRESSED );
-    } );
+      } );
 
     // Keep the cursor in sync with if the button is enabled.
     // JoistButtons exist for the lifetime of the sim, and don't need to be disposed
-    this.buttonModel.enabledProperty.link( enabled => { this.cursor = enabled ? 'pointer' : null; } );
+    this.buttonModel.enabledProperty.link( enabled => { this.cursor = enabled ? options.cursor : null; } );
 
     // @private - Hook up the input listener
     this._pressListener = this.buttonModel.createPressListener( {
