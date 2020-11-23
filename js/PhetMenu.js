@@ -220,7 +220,7 @@ class PhetMenu extends Node {
       // "Screenshot" Menu item
       {
         text: menuItemScreenshotString,
-        present: !platform.ie9 && !isApp, // Not supported by IE9, see https://github.com/phetsims/joist/issues/212
+        present: !isApp, // Not supported by IE9, see https://github.com/phetsims/joist/issues/212
         callback: () => {
           const dataURL = ScreenshotGenerator.generateScreenshot( sim );
 

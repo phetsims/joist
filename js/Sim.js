@@ -480,8 +480,7 @@ class Sim {
     // @public (joist-internal, read-only) {boolean} - true if the simulation supports sound and sound is enabled
     this.supportsSound = ( packageJSON.phet.supportsSound || phet.chipper.queryParameters.supportsSound ) &&
                          ( phet.chipper.queryParameters.sound === 'enabled' ||
-                           phet.chipper.queryParameters.sound === 'muted' ) &&
-                         !platform.ie;
+                           phet.chipper.queryParameters.sound === 'muted' );
 
     // @public (joist-internal, read-only) {boolean} - used to specify if the sim is set up to support sound, even if
     // this specific runtime turns it off via a query parameter. Most of the time this should not be used; instead see
