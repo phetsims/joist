@@ -202,7 +202,7 @@ class NavigationBarScreenButton extends Node {
 
     // pdom - Pass a shape to the focusHighlight to prevent dilation, then tweak the top up just a hair.
     const highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );
-    this.focusHighlight = Shape.bounds( this.bounds.setMinY( this.bounds.minY - highlightLineWidth / 2 ) );
+    this.focusHighlight = Shape.bounds( this.bounds.withMinY( this.bounds.minY - highlightLineWidth / 2 ) );
 
     this.mutate( options );
   }
