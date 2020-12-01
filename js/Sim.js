@@ -668,7 +668,9 @@ class Sim {
     // @private {AnimatedPanZoomListener|null} - magnification support, null unless specifically enabled
     this.panZoomListener = null;
     if ( this.supportsPanAndZoom ) {
-      this.panZoomListener = new AnimatedPanZoomListener( this.simulationRoot );
+      this.panZoomListener = new AnimatedPanZoomListener( this.simulationRoot, {
+        tandem: Tandem.GENERAL_VIEW.createTandem( 'panZoomListener' )
+      } );
       this.display.addInputListener( this.panZoomListener );
     }
 
