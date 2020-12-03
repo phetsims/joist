@@ -650,7 +650,7 @@ class Sim {
     }
 
     this.display.initializeEvents( {
-      tandem: Tandem.GENERAL.createTandem( 'controller' ).createTandem( 'input' )
+      tandem: Tandem.GENERAL_CONTROLLER.createTandem( 'input' )
     } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
     window.phet.joist.rootNode = this.rootNode; // make the scene available for debugging
     window.phet.joist.display = this.display; // make the display available for debugging
