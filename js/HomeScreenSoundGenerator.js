@@ -39,7 +39,7 @@ class HomeScreenSoundGenerator extends MultiClip {
     } );
 
     // play the sound when the user selects a different icon on the home screen
-    homeScreenModel.selectedScreenProperty.lazyLink( selectedScreen => {
+    homeScreenModel.selectedScreenProperty.lazyLink( () => {
       if ( homeScreenModel.screenProperty.value.model === homeScreenModel ) {
         this.playAssociatedSound( SoundType.DIFFERENT_ICON_SELECTED );
       }
