@@ -62,6 +62,10 @@ class ScreenView extends Node {
       tagName: 'div',
       labelTagName: 'h1',
 
+      // To support focusing the top of newly selected screens, we focus a screen. This is to prevent visual indication
+      // of this behavior/logic, see https://github.com/phetsims/ratio-and-proportion/issues/282
+      focusHighlight: 'invisible',
+
       // {Node|null} the Node with screen summary content to be added to the ScreenSummaryNode, and into PDOM above
       // the Play Area. This Node is added as a child to the ScreenSummaryNode.
       screenSummaryContent: null,

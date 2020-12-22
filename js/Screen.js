@@ -254,6 +254,22 @@ class Screen extends PhetioObject {
 
     assert && assert( typeof simName === 'string' );
 
+    // When a screen is made visible, support focus management starting from the top of the screen. This way focus
+    // doesn't stay in the navigation bar screen buttons, see https://github.com/phetsims/ratio-and-proportion/issues/282
+    this._view.visibleProperty.lazyLink( visible => {
+      if ( visible ) {
+        this.view.focusable = true;
+        this.view.focus();
+        const blurListener = {
+          blur: () => {
+            this.view.focusable = false;
+            this.view.removeInputListener( blurListener );
+          }
+        };
+        this.view.addInputListener( blurListener );
+      }
+    } );
+
     // Show the home screen's layoutBounds
     if ( phet.chipper.queryParameters.dev ) {
       this._view.addChild( devCreateLayoutBoundsNode( this._view.layoutBounds ) );
