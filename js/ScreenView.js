@@ -165,15 +165,6 @@ class ScreenView extends Node {
   }
 
   /**
-   * Make screen view eligible for garbage collection.
-   * @public
-   */
-  dispose() {
-    Node.prototype.dispose.call( this );
-    this.disposeScreenView();
-  }
-
-  /**
    * Set the screen summary Node for the PDOM of this Screen View. Prefer passing in a screen summary Node via
    * constructor options, but this method can be used directly when necessary.
    * @param {Node} node
