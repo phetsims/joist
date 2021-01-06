@@ -10,7 +10,6 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import Utils from '../../dot/js/Utils.js';
 import joist from './joist.js';
 
 class TemporalCounter {
@@ -36,7 +35,7 @@ class TemporalCounter {
   onEvent( time ) {
     assert && this.previousTime && assert( time >= this.previousTime, 'time must increase each event' );
 
-    assert && assert( Utils.isInteger( time ), 'time must be an integer' );
+    assert && assert( Number.isInteger( time ), 'time must be an integer' );
 
     const currentBinIndex = Math.floor( time / this.binSize );
 
