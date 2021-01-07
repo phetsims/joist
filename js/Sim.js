@@ -626,8 +626,11 @@ class Sim {
       // NOTE: When translatable this will need to update with language, change to phet.chipper.local
       this.display.accessibleDOMElement.lang = 'en';
 
-      // clear focus if we receive a down event, so that focus doesn't interfere
-      // with mouse/touch interactions
+      // If a down event is received we either remove DOM focus or make focus highlights invisible, depending
+      // on the target of the down event. If the event trail contains the currently focused Node, focus highlights
+      // are made invisible so that they are not distracting, but DOM focus is kept on the active element so that it
+      // can still remain a target for assistive devices that use pointer events on behalf of the user.
+      // See https://github.com/phetsims/scenery/issues/1137
       this.display.addInputListener( {
         down: event => {
 
@@ -637,9 +640,21 @@ class Sim {
 
             // An AT might have sent a down event outside of the display, if this happened we will not remove focus.
             if ( this.display.bounds.containsPoint( event.pointer.point ) ) {
-              Display.focus = null;
+
+              // no need to do this work unless some element in the simulation has focus
+              if ( Display.focusedNode ) {
+                if ( event.trail.nodes.includes( Display.focusedNode ) ) {
+                  this.display.setFocusHighlightVisible( false );
+                }
+                else {
+                  Display.focus = null;
+                }
+              }
             }
           }
+        },
+        focus: event => {
+          this.display.setFocusHighlightVisible( true );
         }
       } );
     }
