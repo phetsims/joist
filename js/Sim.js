@@ -210,7 +210,7 @@ class Sim {
       this.boundsProperty.value = new Bounds2( 0, 0, width, height );
       this.screenBoundsProperty.value = new Bounds2( 0, 0, width, screenHeight );
 
-      if ( this.panZoomListener ) {
+      if ( this.supportsPanAndZoom ) {
 
         // set the scale describing the target Node, since scale from window resize is applied to each ScreenView,
         // (children of the PanZoomListener targetNode)
@@ -302,7 +302,7 @@ class Sim {
         window.TWEEN.update( phet.joist.elapsedTime );
       }
 
-      if ( this.panZoomListener ) {
+      if ( this.supportsPanAndZoom ) {
 
         // animate the PanZoomListener, for smooth panning/scaling
         this.panZoomListener.step( dt );
@@ -692,12 +692,12 @@ class Sim {
     // @public (joist-internal)
     this.navigationBar = new NavigationBar( this, Tandem.GENERAL_VIEW.createTandem( 'navigationBar' ) );
 
-    // @private {AnimatedPanZoomListener|null} - magnification support, null unless specifically enabled
-    this.panZoomListener = null;
+    // @private {AnimatedPanZoomListener} - magnification support, always created for consistent PhET-iO API, but
+    // only conditionally added to the Display
+    this.panZoomListener = new AnimatedPanZoomListener( this.simulationRoot, {
+      tandem: Tandem.GENERAL_VIEW.createTandem( 'panZoomListener' )
+    } );
     if ( this.supportsPanAndZoom ) {
-      this.panZoomListener = new AnimatedPanZoomListener( this.simulationRoot, {
-        tandem: Tandem.GENERAL_VIEW.createTandem( 'panZoomListener' )
-      } );
       this.display.addInputListener( this.panZoomListener );
     }
 
@@ -744,7 +744,7 @@ class Sim {
    * @param {Node} node
    */
   panToNode( node ) {
-    if ( this.panZoomListener ) {
+    if ( this.supportsPanAndZoom ) {
       assert && assert( node.getTrailsTo( this.rootNode ).length > 0, 'trying to pan to Node not in scene graph' );
       this.panZoomListener.panToNode( node );
     }
