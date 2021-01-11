@@ -210,19 +210,16 @@ class Sim {
       this.boundsProperty.value = new Bounds2( 0, 0, width, height );
       this.screenBoundsProperty.value = new Bounds2( 0, 0, width, screenHeight );
 
-      if ( this.supportsPanAndZoom ) {
+      // set the scale describing the target Node, since scale from window resize is applied to each ScreenView,
+      // (children of the PanZoomListener targetNode)
+      this.panZoomListener.setTargetScale( scale );
 
-        // set the scale describing the target Node, since scale from window resize is applied to each ScreenView,
-        // (children of the PanZoomListener targetNode)
-        this.panZoomListener.setTargetScale( scale );
+      // set the bounds which accurately describe the panZoomListener targetNode, since it would otherwise be
+      // inaccurate with the very large BarrierRectangle
+      this.panZoomListener.setTargetBounds( this.boundsProperty.value );
 
-        // set the bounds which accurately describe the panZoomListener targetNode, since it would otherwise be
-        // inaccurate with the very large BarrierRectangle
-        this.panZoomListener.setTargetBounds( this.boundsProperty.value );
-
-        // constrain the simulation pan bounds so that it cannot be moved off screen
-        this.panZoomListener.setPanBounds( this.boundsProperty.value );
-      }
+      // constrain the simulation pan bounds so that it cannot be moved off screen
+      this.panZoomListener.setPanBounds( this.boundsProperty.value );
     }, {
       tandem: Tandem.GENERAL_MODEL.createTandem( 'resizeAction' ),
       parameters: [
