@@ -9,6 +9,7 @@
  */
 
 import Property from '../../axon/js/Property.js';
+import AriaHasPopUpMutator from '../../scenery/js/accessibility/pdom/AriaHasPopUpMutator.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import pushButtonSoundPlayer from '../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
@@ -138,7 +139,7 @@ class PhetButton extends JoistButton {
     } );
 
     // pdom - add an attribute that lets the user know the button opens a menu
-    this.setAccessibleAttribute( 'aria-haspopup', true );
+    AriaHasPopUpMutator.mutateNode( this, true );
   }
 }
 
