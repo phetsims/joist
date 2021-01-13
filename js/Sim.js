@@ -38,9 +38,7 @@ import scenery from '../../scenery/js/scenery.js';
 import Utils from '../../scenery/js/util/Utils.js';
 import '../../sherpa/lib/game-up-camera-1.0.0.js';
 import soundManager from '../../tambo/js/soundManager.js';
-import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import IOType from '../../tandem/js/types/IOType.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
 import UtteranceQueue from '../../utterance-queue/js/UtteranceQueue.js';
 import Heartbeat from './Heartbeat.js';
@@ -58,6 +56,7 @@ import Screen from './Screen.js';
 import ScreenSelectionSoundGenerator from './ScreenSelectionSoundGenerator.js';
 import ScreenshotGenerator from './ScreenshotGenerator.js';
 import selectScreens from './selectScreens.js';
+import SimInfo from './SimInfo.js';
 import LegendsOfLearningSupport from './thirdPartySupport/LegendsOfLearningSupport.js';
 import updateCheck from './updateCheck.js';
 
@@ -146,16 +145,6 @@ class Sim {
       phetioFeatured: true,
       phetioDocumentation: 'The name of the sim. Changing this value will update the title text on the navigation bar ' +
                            'and the title text on the home screen, if it exists.'
-    } );
-
-    // Make the simulation name and version part of the state for Studio save/load. Use a different variable name
-    // than the tandem since "version" is already taken by the string itself.
-    this.versionPhetioObject = new PhetioObject( {
-      phetioType: new IOType( 'SimVersionIO', {
-        isValidValue: coreObject => coreObject === this.versionPhetioObject,
-        toStateObject: () => _.pick( packageJSON, [ 'version', 'name' ] )
-      } ),
-      tandem: Tandem.GENERAL_MODEL.createTandem( 'version' )
     } );
 
     // playbackModeEnabledProperty cannot be changed after Sim construction has begun, hence this listener is added before
@@ -467,9 +456,6 @@ class Sim {
     assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
     window.phet.joist.sim = this;
 
-    // Set up PhET-iO, must be done after phet.joist.sim is assigned
-    Tandem.PHET_IO_ENABLED && phet.phetio.phetioEngine.onSimConstructionStarted( this );
-
     // @public (read-only) {Property.<boolean>} - if PhET-iO is currently setting the state of the simulation.
     // See PhetioStateEngine for details. This must be declared before soundManager.initialized is called.
     this.isSettingPhetioStateProperty = Tandem.PHET_IO_ENABLED ?
@@ -720,6 +706,12 @@ class Sim {
         window.location.reload();
       }
     } );
+
+    // @public (read-only) {SimInfo} - create this only after all other members have been set on Sim
+    this.simInfo = new SimInfo( this );
+
+    // Set up PhET-iO, must be done after phet.joist.sim is assigned
+    Tandem.PHET_IO_ENABLED && phet.phetio.phetioEngine.onSimConstructionStarted( this );
 
     // Third party support
     phet.chipper.queryParameters.legendsOfLearning && new LegendsOfLearningSupport( this ).start();
