@@ -624,9 +624,9 @@ class Sim {
       this.display.accessibleDOMElement.lang = 'en';
 
       // If a down event is received we either remove DOM focus or make focus highlights invisible, depending
-      // on the target of the down event. If the event trail contains the currently focused Node, focus highlights
-      // are made invisible so that they are not distracting, but DOM focus is kept on the active element so that it
-      // can still remain a target for assistive devices that use pointer events on behalf of the user.
+      // on the target of the event. If the event trail contains the currently focused Node, focus highlights
+      // are made invisible so that they do not distract for sighted users. DOM focus is kept on the active element so
+      // that it can still remain a target for assistive devices that use pointer events on behalf of the user.
       // See https://github.com/phetsims/scenery/issues/1137
       this.display.addInputListener( {
         down: event => {
