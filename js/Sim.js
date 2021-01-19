@@ -32,7 +32,7 @@ import KeyboardFuzzer from '../../scenery/js/accessibility/KeyboardFuzzer.js';
 import webSpeaker from '../../scenery/js/accessibility/speaker/webSpeaker.js';
 import Display from '../../scenery/js/display/Display.js';
 import InputFuzzer from '../../scenery/js/input/InputFuzzer.js';
-import AnimatedPanZoomListener from '../../scenery/js/listeners/AnimatedPanZoomListener.js';
+import animatedPanZoomSingleton from '../../scenery/js/listeners/animatedPanZoomSingleton.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import scenery from '../../scenery/js/scenery.js';
 import Utils from '../../scenery/js/util/Utils.js';
@@ -201,14 +201,14 @@ class Sim {
 
       // set the scale describing the target Node, since scale from window resize is applied to each ScreenView,
       // (children of the PanZoomListener targetNode)
-      this.panZoomListener.setTargetScale( scale );
+      animatedPanZoomSingleton.listener.setTargetScale( scale );
 
       // set the bounds which accurately describe the panZoomListener targetNode, since it would otherwise be
       // inaccurate with the very large BarrierRectangle
-      this.panZoomListener.setTargetBounds( this.boundsProperty.value );
+      animatedPanZoomSingleton.listener.setTargetBounds( this.boundsProperty.value );
 
       // constrain the simulation pan bounds so that it cannot be moved off screen
-      this.panZoomListener.setPanBounds( this.boundsProperty.value );
+      animatedPanZoomSingleton.listener.setPanBounds( this.boundsProperty.value );
     }, {
       tandem: Tandem.GENERAL_MODEL.createTandem( 'resizeAction' ),
       parameters: [
@@ -291,7 +291,7 @@ class Sim {
       if ( this.supportsPanAndZoom ) {
 
         // animate the PanZoomListener, for smooth panning/scaling
-        this.panZoomListener.step( dt );
+        animatedPanZoomSingleton.listener.step( dt );
       }
 
       // if provided, update the vibrationManager which tracks time sequences of on/off vibration
@@ -675,13 +675,12 @@ class Sim {
     // @public (joist-internal)
     this.navigationBar = new NavigationBar( this, Tandem.GENERAL_VIEW.createTandem( 'navigationBar' ) );
 
-    // @private {AnimatedPanZoomListener} - magnification support, always created for consistent PhET-iO API, but
-    // only conditionally added to the Display
-    this.panZoomListener = new AnimatedPanZoomListener( this.simulationRoot, {
+    // magnification support - always initialized for consistent PhET-iO API, but only conditionally added to Display
+    animatedPanZoomSingleton.initialize( this.simulationRoot, {
       tandem: Tandem.GENERAL_VIEW.createTandem( 'panZoomListener' )
     } );
     if ( this.supportsPanAndZoom ) {
-      this.display.addInputListener( this.panZoomListener );
+      this.display.addInputListener( animatedPanZoomSingleton.listener );
     }
 
     // @public (joist-internal)
@@ -723,20 +722,6 @@ class Sim {
    */
   get utteranceQueue() {
     return this.display.utteranceQueue;
-  }
-
-  /**
-   * Pan to a Node in the sim using the AnimatedPanZoomListener. If the pan and zoom
-   * feature is not enabled, this will be a no-op. The node must be in the scene graph.
-   * @public
-   *
-   * @param {Node} node
-   */
-  panToNode( node ) {
-    if ( this.supportsPanAndZoom ) {
-      assert && assert( node.getTrailsTo( this.rootNode ).length > 0, 'trying to pan to Node not in scene graph' );
-      this.panZoomListener.panToNode( node );
-    }
   }
 
   /**
