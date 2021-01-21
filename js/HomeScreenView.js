@@ -62,6 +62,8 @@ class HomeScreenView extends ScreenView {
       } )
     } );
 
+    this.selectedScreenProperty = model.selectedScreenProperty; // @private
+
     const titleText = new Text( simNameProperty.value, {
       font: new PhetFont( {
         size: 52,
@@ -86,7 +88,8 @@ class HomeScreenView extends ScreenView {
 
     const buttonGroupTandem = tandem.createTandem( 'buttonGroup' );
 
-    const screenButtons = _.map( model.simScreens, screen => {
+    // @private
+    this.screenButtons = _.map( model.simScreens, screen => {
 
       assert && assert( screen.nameProperty.value, 'name is required for screen ' + model.simScreens.indexOf( screen ) );
       assert && assert( screen.homeScreenIcon, 'homeScreenIcon is required for screen ' + screen.nameProperty.value );
@@ -123,7 +126,7 @@ class HomeScreenView extends ScreenView {
     // add layout of icons
     const hBox = new HBox( {
       spacing: spacing,
-      children: screenButtons,
+      children: this.screenButtons,
       align: 'top',
       resize: false, // see https://github.com/phetsims/scenery/issues/116
       maxWidth: this.layoutBounds.width - 118,
@@ -133,19 +136,7 @@ class HomeScreenView extends ScreenView {
     } );
     this.addChild( hBox );
 
-    // @private - for a11y, allow focus to be set when returning to home screen from sim
-    this.highlightedScreenButton = null;
-
     const updateIconsLayout = () => {
-      for ( let i = 0; i < screenButtons.length; i++ ) {
-        const screenButton = screenButtons[ i ];
-        if ( screenButton.screen === model.selectedScreenProperty.value ) {
-          this.highlightedScreenButton = screenButton;
-          break;
-        }
-      }
-
-      assert && assert( this.highlightedScreenButton, 'highlighted screen button should be declared' );
 
       hBox.updateLayout();
 
@@ -158,7 +149,7 @@ class HomeScreenView extends ScreenView {
     model.selectedScreenProperty.link( updateIconsLayout );
 
     // When the visibility of the icons changes, say via Studio, update layout of the icons.
-    screenButtons.forEach( screenButton => screenButton._visibleProperty.link( updateIconsLayout ) );
+    this.screenButtons.forEach( screenButton => screenButton._visibleProperty.link( updateIconsLayout ) );
 
     // Add sound generation for screen selection.  This generates sound for all changes between screens, not just for the
     // home screen.
@@ -179,7 +170,13 @@ class HomeScreenView extends ScreenView {
    * @public
    */
   focusHighlightedScreenButton() {
-    this.highlightedScreenButton.focus();
+    for ( let i = 0; i < this.screenButtons.length; i++ ) {
+      const screenButton = this.screenButtons[ i ];
+      if ( screenButton.screen === this.selectedScreenProperty.value ) {
+        screenButton.focus();
+        break;
+      }
+    }
   }
 }
 
