@@ -139,7 +139,7 @@ class Screen extends PhetioObject {
     // even if it has a name, see https://github.com/phetsims/joist/issues/627 and https://github.com/phetsims/joist/issues/629.
     const instrumentNameProperty = options.instrumentNameProperty && options.name;
 
-    // @public (read-only) {Property<String|null>} - may be null for single-screen simulations
+    // @public (read-only) {Property.<String|null>} - may be null for single-screen simulations
     this.nameProperty = new Property( options.name, {
       phetioType: Property.PropertyIO( NullableIO( StringIO ) ),
       tandem: instrumentNameProperty ? options.tandem.createTandem( 'nameProperty' ) : Tandem.OPT_OUT,
@@ -157,7 +157,7 @@ class Screen extends PhetioObject {
     // @public (joist-internal, read-only)
     this.keyboardHelpNode = options.keyboardHelpNode;
 
-    // @public (read-only) {Property<String|null>} - may be null for single-screen simulations
+    // @public (read-only) {Property.<String|null>} - may be null for single-screen simulations
     this.pdomDisplayNameProperty = new DerivedProperty( [ this.nameProperty ], name => {
       return name === null ? null : StringUtils.fillIn( screenNamePatternString, {
         name: name

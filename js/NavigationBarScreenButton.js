@@ -33,7 +33,7 @@ class NavigationBarScreenButton extends Node {
 
   /**
    * @param {Property.<string>} navigationBarFillProperty - the color of the navbar, as a string.
-   * @param {Property<Screen>} screenProperty
+   * @param {Property.<Screen>} screenProperty
    * @param {Screen} screen
    * @param {number} simScreenIndex - the index (within sim screens only) of the screen corresponding to this button
    * @param {number} navBarHeight
