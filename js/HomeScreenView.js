@@ -11,7 +11,6 @@ import merge from '../../phet-core/js/merge.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
-import Node from '../../scenery/js/nodes/Node.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import HomeScreenButton from './HomeScreenButton.js';
@@ -111,10 +110,6 @@ class HomeScreenView extends ScreenView {
       return homeScreenButton;
     } );
 
-    // Intermediate node, so that icons are always in the same rendering layer
-    const iconsParentNode = new Node( { tagName: 'ol' } );
-    this.addChild( iconsParentNode );
-
     // Space the icons out more if there are fewer, so they will be spaced nicely.
     // Cannot have only 1 screen because for 1-screen sims there is no home screen.
     let spacing = 60;
@@ -131,9 +126,12 @@ class HomeScreenView extends ScreenView {
       children: screenButtons,
       align: 'top',
       resize: false, // see https://github.com/phetsims/scenery/issues/116
-      maxWidth: this.layoutBounds.width - 118
+      maxWidth: this.layoutBounds.width - 118,
+
+      // pdom
+      tagName: 'ol'
     } );
-    iconsParentNode.addChild( hBox );
+    this.addChild( hBox );
 
     // @private - for a11y, allow focus to be set when returning to home screen from sim
     this.highlightedScreenButton = null;
@@ -152,8 +150,8 @@ class HomeScreenView extends ScreenView {
       hBox.updateLayout();
 
       // position the icons
-      iconsParentNode.centerX = this.layoutBounds.width / 2;
-      iconsParentNode.top = this.layoutBounds.height / 3 + 20;
+      hBox.centerX = this.layoutBounds.width / 2;
+      hBox.top = this.layoutBounds.height / 3 + 20;
     };
 
     // When the selected screen changes, update layout of the icons
