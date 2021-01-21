@@ -87,7 +87,7 @@ class HomeScreenView extends ScreenView {
 
     const buttonGroupTandem = tandem.createTandem( 'buttonGroup' );
 
-    const screenElements = _.map( model.simScreens, function( screen, index ) {
+    const screenButtons = _.map( model.simScreens, screen => {
 
       assert && assert( screen.nameProperty.value, 'name is required for screen ' + model.simScreens.indexOf( screen ) );
       assert && assert( screen.homeScreenIcon, 'homeScreenIcon is required for screen ' + screen.nameProperty.value );
@@ -103,11 +103,12 @@ class HomeScreenView extends ScreenView {
           // phet-io
           tandem: buttonGroupTandem.createTandem( screen.tandem.name + 'Button' )
         } );
+
       screen.pdomDisplayNameProperty.link( screenName => {
         homeScreenButton.innerContent = screenName;
       } );
 
-      return { screen: screen, button: homeScreenButton };
+      return homeScreenButton;
     } );
 
     // Intermediate node, so that icons are always in the same rendering layer
@@ -124,38 +125,31 @@ class HomeScreenView extends ScreenView {
       spacing = 20;
     }
 
-    let hBox = null;
+    // add layout of icons
+    const hBox = new HBox( {
+      spacing: spacing,
+      children: screenButtons,
+      align: 'top',
+      resize: false, // see https://github.com/phetsims/scenery/issues/116
+      maxWidth: this.layoutBounds.width - 118
+    } );
+    iconsParentNode.addChild( hBox );
 
     // @private - for a11y, allow focus to be set when returning to home screen from sim
     this.highlightedScreenButton = null;
 
     const updateIconsLayout = () => {
-      const selectedScreen = model.selectedScreenProperty.value;
-
-      // remove previous layout of icons
-      if ( hBox ) {
-        hBox.removeAllChildren(); // because icons have reference to hBox (their parent)
-        iconsParentNode.removeChild( hBox );
+      for ( let i = 0; i < screenButtons.length; i++ ) {
+        const screenButton = screenButtons[ i ];
+        if ( screenButton.screen === model.selectedScreenProperty.value ) {
+          this.highlightedScreenButton = screenButton;
+          break;
+        }
       }
 
-      // add new layout of icons
-      const icons = _.map( screenElements, screenElement => {
+      assert && assert( this.highlightedScreenButton, 'highlighted screen button should be declared' );
 
-        // check for the current screen
-        if ( screenElement.screen === selectedScreen ) {
-          this.highlightedScreenButton = screenElement.button;
-        }
-        return screenElement.button;
-      } );
-
-      hBox = new HBox( {
-        spacing: spacing,
-        children: icons,
-        align: 'top',
-        resize: false,
-        maxWidth: this.layoutBounds.width - 118
-      } );
-      iconsParentNode.addChild( hBox );
+      hBox.updateLayout();
 
       // position the icons
       iconsParentNode.centerX = this.layoutBounds.width / 2;
@@ -166,7 +160,7 @@ class HomeScreenView extends ScreenView {
     model.selectedScreenProperty.link( updateIconsLayout );
 
     // When the visibility of the icons changes, say via Studio, update layout of the icons.
-    screenElements.forEach( screenElement => screenElement.button._visibleProperty.link( updateIconsLayout ) );
+    screenButtons.forEach( screenButton => screenButton._visibleProperty.link( updateIconsLayout ) );
 
     // Add sound generation for screen selection.  This generates sound for all changes between screens, not just for the
     // home screen.

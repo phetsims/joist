@@ -106,6 +106,9 @@ class HomeScreenButton extends VBox {
 
     super( merge( { children: [ nodeContainer, text ] }, options ) );
 
+    // @public (read-only)
+    this.screen = screen;
+
     this.addAriaDescribedbyAssociation( {
       otherNode: this,
       otherElementName: PDOMPeer.DESCRIPTION_SIBLING,
