@@ -56,12 +56,6 @@ const MAX_ITEM_WIDTH = 400;
 // the supported keys allowed in each itemDescriptor for a MenuItem
 const allowedItemDescriptorKeys = [ 'text', 'callback', 'present', 'options' ];
 
-// For disabling features that are incompatible with fuzzing
-const fuzzes = phet.chipper.queryParameters.fuzz ||
-               phet.chipper.queryParameters.fuzzMouse ||
-               phet.chipper.queryParameters.fuzzTouch ||
-               phet.chipper.queryParameters.fuzzBoard;
-
 class PhetMenu extends Node {
 
   /**
@@ -145,7 +139,7 @@ class PhetMenu extends Node {
         text: menuItemPhetWebsiteString,
         present: isPhETBrand,
         callback: () => {
-          if ( !fuzzes ) {
+          if ( !phet.chipper.isFuzzEnabled() ) {
             // Open locale-specific PhET home page. If there is no website translation for locale, fallback will be handled by server. See joist#97.
             openPopup( 'http://phet.colorado.edu/' + sim.locale );
           }
@@ -179,14 +173,13 @@ class PhetMenu extends Node {
         text: menuItemReportAProblemString,
         present: isPhETBrand && !isApp,
         callback: () => {
-          const url = 'http://phet.colorado.edu/files/troubleshooting/' +
-                      '?sim=' + encodeURIComponent( sim.simNameProperty.value ) +
-                      '&version=' + encodeURIComponent( sim.version + ' ' +
-                      ( phet.chipper.buildTimestamp ? phet.chipper.buildTimestamp : '(unbuilt)' ) ) +
-                      '&url=' + encodeURIComponent( window.location.href ) +
-                      '&dependencies=' + encodeURIComponent( JSON.stringify( {} ) );
-
-          if ( !fuzzes ) {
+          if ( !phet.chipper.isFuzzEnabled() ) {
+            const url = 'http://phet.colorado.edu/files/troubleshooting/' +
+                        '?sim=' + encodeURIComponent( sim.simNameProperty.value ) +
+                        '&version=' + encodeURIComponent( sim.version + ' ' +
+                        ( phet.chipper.buildTimestamp ? phet.chipper.buildTimestamp : '(unbuilt)' ) ) +
+                        '&url=' + encodeURIComponent( window.location.href ) +
+                        '&dependencies=' + encodeURIComponent( JSON.stringify( {} ) );
             openPopup( url );
           }
         }
@@ -195,7 +188,7 @@ class PhetMenu extends Node {
         text: 'QR code',
         present: phet.chipper.queryParameters.qrCode,
         callback: () => {
-          if ( !fuzzes ) {
+          if ( !phet.chipper.isFuzzEnabled() ) {
             openPopup( 'http://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent( window.location.href ) + '&size=220x220&margin=0' );
           }
         }
@@ -241,11 +234,11 @@ class PhetMenu extends Node {
             // our preferred filename
             const filename = stripEmbeddingMarks( sim.simNameProperty.value ) + ' screenshot.png';
 
-            if ( !fuzzes ) {
+            if ( !phet.chipper.isFuzzEnabled() ) {
               window.saveAs( blob, filename );
             }
           }
-          else if ( !fuzzes ) {
+          else if ( !phet.chipper.isFuzzEnabled() ) {
             openPopup( dataURL );
           }
         },
@@ -283,7 +276,7 @@ class PhetMenu extends Node {
       // "Full Screen" menu item
       {
         text: menuItemFullscreenString,
-        present: FullScreen.isFullScreenEnabled() && !isApp && !fuzzes && !platform.mobileSafari,
+        present: FullScreen.isFullScreenEnabled() && !isApp && !phet.chipper.isFuzzEnabled() && !platform.mobileSafari,
         callback: () => {
           FullScreen.toggleFullScreen( sim.display );
         },
