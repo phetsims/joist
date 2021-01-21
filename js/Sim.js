@@ -538,7 +538,7 @@ class Sim {
     }
 
     // override window.open with a semi-API-compatible function, so fuzzing doesn't open new windows.
-    if ( phet.chipper.queryParameters.fuzz || phet.chipper.queryParameters.fuzzMouse || phet.chipper.queryParameters.fuzzTouch || phet.chipper.queryParameters.fuzzBoard ) {
+    if ( phet.chipper.isFuzzEnabled() ) {
       window.open = function() {
         return {
           focus: function() {},
