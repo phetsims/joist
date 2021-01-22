@@ -5,7 +5,6 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import Random from '../../dot/js/Random.js';
 import arrayRemove from '../../phet-core/js/arrayRemove.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
@@ -82,10 +81,6 @@ class SimLauncher {
         if ( Tandem.PHET_IO_ENABLED ) {
           phetioEngine.onCrossFrameListenersReady();
         }
-
-        // Provide a global Random that is easy to use and seedable from phet-io for playback
-        // phet-io configuration happens after simLauncher.launch is called and before phet.joist.launchSimulation is called
-        phet.joist.random = new Random( { staticSeed: true } );
 
         // Instantiate the sim and show it.
         this.callback();

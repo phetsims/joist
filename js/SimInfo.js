@@ -33,7 +33,7 @@ class SimInfo extends PhetioObject {
 
     // globals
     this.putInfo( 'url', window.location.href );
-    this.putInfo( 'randomSeed', window.phet.chipper.randomSeed );
+    this.putInfo( 'randomSeed', window.phet.chipper.queryParameters.randomSeed );
     this.putInfo( 'userAgent', window.navigator.userAgent );
     this.putInfo( 'language', window.navigator.language );
     this.putInfo( 'window', window.innerWidth + 'x' + window.innerHeight );
