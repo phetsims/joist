@@ -248,9 +248,7 @@ class PhetMenu extends Node {
           visiblePropertyOptions: { phetioFeatured: true },
 
           // pdom
-          handleFocusCallback: () => {
-            this.restoreFocus();
-          }
+          handleFocusCallback: () => this.restoreFocus()
         }
       },
 

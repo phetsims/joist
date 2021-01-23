@@ -88,6 +88,7 @@ class PhetButton extends JoistButton {
       highlightCenterOffsetY: 4,
       listener: () => {
         phetMenu.show();
+        phetMenu.items[ 0 ].focus();
         pushButtonSoundPlayer.play();
       },
       phetioType: PhetButton.PhetButtonIO,
@@ -123,20 +124,6 @@ class PhetButton extends JoistButton {
     // Added for phet-io, when toggling enabled, hide the option dots to prevent the cueing.
     // No need to be removed because the PhetButton exists for the lifetime of the sim.
     this.buttonModel.enabledProperty.link( enabled => { menuIcon.visible = enabled; } );
-
-    // pdom - add a listener that opens the menu on 'click' and 'reset', and closes it on escape and if the
-    // button receives focus again
-    this.addInputListener( {
-      click: () => {
-
-        // open and set focus on the first item
-        phetMenu.show();
-        phetMenu.items[ 0 ].focus();
-
-        // sound generation
-        pushButtonSoundPlayer.play();
-      }
-    } );
 
     // pdom - add an attribute that lets the user know the button opens a menu
     AriaHasPopUpMutator.mutateNode( this, true );
