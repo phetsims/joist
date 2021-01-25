@@ -24,6 +24,8 @@ if ( Tandem.PHET_IO_ENABLED ) {
   } );
 }
 
+const unlockLaunch = asyncLoader.createLock( { name: 'launch' } );
+
 class SimLauncher {
   constructor() {
 
@@ -42,7 +44,8 @@ class SimLauncher {
   launch( callback ) {
     assert && assert( !window.phet.joist.launchCalled, 'Tried to launch twice' );
 
-    asyncLoader.readyToProceed( () => {
+    // Add listener before unlocking the launch lock
+    asyncLoader.addListener( () => {
 
       window.phet.joist.launchSimulation = () => {
         assert && assert( !this.launchComplete, 'should not have completed launching the sim yet' );
@@ -79,6 +82,7 @@ class SimLauncher {
         window.phet.joist.launchSimulation();
       }
     } );
+    unlockLaunch();
 
     // Signify that the simLauncher was called, see https://github.com/phetsims/joist/issues/142
     window.phet.joist.launchCalled = true;
