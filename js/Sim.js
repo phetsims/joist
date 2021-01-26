@@ -766,17 +766,14 @@ class Sim {
       this.updateBackground();
 
       currentView = currentScreen.view;
-      if ( currentView.visible ) {
 
-        // When a new screen is made visible focus should start at the top of the screen.
-        currentView.focusable = true;
-        currentView.focus();
+      // When a new screen is made visible focus should start at the top of the screen.
+      currentView.focusable = true;
+      currentView.focus();
 
-        // if the screen was changed before receiving a blur, remove the listener to
-        // avoid a memory leak
-        if ( this.display.hasInputListener( blurListener ) ) {
-          this.display.removeInputListener( blurListener );
-        }
+      // if the screen was changed before receiving a blur, remove the listener to
+      // avoid a memory leak
+      if ( !this.display.hasInputListener( blurListener ) ) {
         this.display.addInputListener( blurListener );
       }
     } );
