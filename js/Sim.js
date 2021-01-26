@@ -759,6 +759,19 @@ class Sim {
     } );
     this.simulationRoot.addChild( this.navigationBar );
 
+    // listener that makes the ScreenView un-focusable after initial focus
+    // to start navigation order at the top of the screen
+    let currentView = null;
+    const blurListener = {
+      blur: event => {
+        if ( event.target === currentView ) {
+          currentView.blur();
+          currentView.focusable = false;
+          this.display.removeInputListener( blurListener );
+        }
+      }
+    }
+
     this.screenProperty.link( currentScreen => {
       screens.forEach( screen => {
         const visible = screen === currentScreen;
@@ -774,6 +787,21 @@ class Sim {
         }
       } );
       this.updateBackground();
+
+      currentView = currentScreen.view;
+      if ( currentView.visible ) {
+
+        // When a new screen is made visible focus should start at the top of the screen.
+        currentView.focusable = true;
+        currentView.focus();
+
+        // if the screen was changed before receiving a blur, remove the listener to
+        // avoid a memory leak
+        if ( this.display.hasInputListener( blurListener ) ) {
+          this.display.removeInputListener( blurListener );
+        }
+        this.display.addInputListener( blurListener );
+      }
     } );
 
     // layer for popups, dialogs, and their backgrounds and barriers
