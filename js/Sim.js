@@ -747,7 +747,7 @@ class Sim {
           this.display.removeInputListener( blurListener );
         }
       }
-    }
+    };
 
     this.screenProperty.link( currentScreen => {
       screens.forEach( screen => {
