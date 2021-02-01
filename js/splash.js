@@ -159,6 +159,15 @@
     splashImage.src = '../brand/' + brand + '/images/splash.svg';
   }
 
+  // Do not allow zoom from input on the splash screen. Keyboard events are OK because they
+  // will trigger 'resize' events and the splash screen/sim will adjust
+  const passiveOption = { passive: false }; // mark as passive to allow preventDefault()
+  const preventZoom = event => { event.preventDefault(); };
+  const zoomEvents = [ 'wheel', 'touchstart', 'gesturestart' ];
+  zoomEvents.forEach( zoomEvent => {
+    window.addEventListener( zoomEvent, preventZoom, passiveOption );
+  } );
+
   window.phetSplashScreen = {
 
     /**
@@ -172,6 +181,11 @@
       }
       window.removeEventListener( 'resize', adjustPosition );
       window.removeEventListener( 'load', adjustPosition );
+
+      zoomEvents.forEach( zoomEvent => {
+        window.removeEventListener( zoomEvent, preventZoom );
+      } );
+
       document.body.removeChild( div );
       delete window.phetSplashScreen;
     }
