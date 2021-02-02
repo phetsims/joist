@@ -276,7 +276,7 @@ class NavigationBar extends Node {
       containerTagName: 'section',
       labelTagName: 'h2',
       labelContent: joistStrings.a11y.simResources,
-      accessibleOrder: [
+      pdomOrder: [
         this.a11yButtonsHBox,
         this.phetButton
       ].filter( node => node !== undefined )

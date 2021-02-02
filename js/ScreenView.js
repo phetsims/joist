@@ -11,8 +11,8 @@
  * The screenSummaryNode instance is not available on the ScreenView, instead content can be added to it via a constructor
  * option or `ScreenView.setScreenSummaryContent`. This is because some accessible descriptions in the screen summary
  * are the same throughout all simulations. The playAreaNode and controlAreaNode instances are public, read-only Nodes
- * that are meant to have their accessibleOrder and children set to achieve the proper PDOM structure. Do not set
- * `accessibleOrder` directly on the ScreenView, as ScreenView set's its own accessibleOrder
+ * that are meant to have their pdomOrder and children set to achieve the proper PDOM structure. Do not set
+ * `pdomOrder` directly on the ScreenView, as ScreenView set's its own pdomOrder
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -119,9 +119,9 @@ class ScreenView extends Node {
    * order accordingly when adding accessible content to the PDOM for this screen.
    * @public
    * @override
-   * @param {Array.<Node|null>|null} accessibleOrder
+   * @param {Array.<Node|null>|null} pdomOrder
    */
-  setAccessibleOrder( accessibleOrder ) {
+  setPDOMOrder( pdomOrder ) {
     throw new Error( 'should not need to set accessible order on a ScreenView' );
   }
 
