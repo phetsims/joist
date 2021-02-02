@@ -95,10 +95,10 @@ class AboutDialog extends Dialog {
 
         // pdom - make update content visible/invisible for screen readers by explicitly removing content
         // from the DOM, necessary because AT will ready hidden content in a Dialog.
-        checkingNode.accessibleContentDisplayed = checkingNode.visible;
-        upToDateNode.accessibleContentDisplayed = upToDateNode.visible;
-        outOfDateNode.accessibleContentDisplayed = outOfDateNode.visible;
-        offlineNode.accessibleContentDisplayed = offlineNode.visible;
+        checkingNode.pdomDisplayed = checkingNode.visible;
+        upToDateNode.pdomDisplayed = upToDateNode.visible;
+        outOfDateNode.pdomDisplayed = outOfDateNode.visible;
+        offlineNode.pdomDisplayed = offlineNode.visible;
       };
 
       children.push( new Node( {
