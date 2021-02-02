@@ -609,7 +609,7 @@ class Sim {
 
       // for now interactive description is only in english
       // NOTE: When translatable this will need to update with language, change to phet.chipper.local
-      this.display.accessibleDOMElement.lang = 'en';
+      this.display.pdomRootElement.lang = 'en';
 
       // If a down event is received we will make the focus highlights invisible. Is is to support iOS + VO accessibility
       // when that platform only provides pointer events (and nothing from the PDOM). We need to keep focus on elements
