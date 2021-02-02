@@ -274,7 +274,7 @@ class Sim {
       phet.joist.elapsedTime = phet.joist.elapsedTime + dt * 1000;
 
       // timer step before model/view steps, see https://github.com/phetsims/joist/issues/401
-      // Note that this is vital to support Interactive Descriptions and the utterance queue.
+      // Note that this is vital to support Interactive Description and the utterance queue.
       stepTimer.emit( dt );
 
       // If the DT is 0, we will skip the model step (see https://github.com/phetsims/joist/issues/171)
@@ -435,14 +435,14 @@ class Sim {
     // @public {MemoryMonitor}
     this.memoryMonitor = new MemoryMonitor();
 
-    // @public (read-only) {boolean} - if true, the simulation supports the interactive descriptions accessibility feature
-    this.supportsInteractiveDescriptions = phet.chipper.queryParameters.supportsDescriptions ||
-                                           packageJSON.phet.supportsInteractiveDescriptions;
+    // @public (read-only) {boolean} - if true, the simulation supports the interactive description accessibility feature
+    this.supportsInteractiveDescription = phet.chipper.queryParameters.supportsDescription ||
+                                          packageJSON.phet.supportsInteractiveDescription;
 
     // @public (joist-internal, read-only) {boolean} - used to specify if the sim is set up to support accessibility,
     // even if this specific runtime turns it on/off via a query parameter. Most of the time this should not be used;
-    // instead see Sim.supportsInteractiveDescriptions. This is to support a consistent API for PhET-iO, see https://github.com/phetsims/phet-io/issues/1457
-    this.accessibilityPartOfTheAPI = packageJSON.phet.supportsInteractiveDescriptions;
+    // instead see Sim.supportsInteractiveDescription. This is to support a consistent API for PhET-iO, see https://github.com/phetsims/phet-io/issues/1457
+    this.accessibilityPartOfTheAPI = packageJSON.phet.supportsInteractiveDescription;
 
     // @public (joist-internal, read-only) {boolean} - If true, the simulation supports the zoom feature. Default
     // value is true unless specified otherwise in package.json (checked in initialize-globals) or with
@@ -450,7 +450,7 @@ class Sim {
     this.supportsPanAndZoom = phet.chipper.queryParameters.supportsPanAndZoom;
 
     // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
-    this.supportsGestureDescription = this.supportsInteractiveDescriptions && SUPPORTS_GESTURE_DESCRIPTION;
+    this.supportsGestureDescription = this.supportsInteractiveDescription && SUPPORTS_GESTURE_DESCRIPTION;
 
     // @public (joist-internal, read-only)
     this.hasKeyboardHelpContent = options.hasKeyboardHelpContent;
@@ -578,7 +578,7 @@ class Sim {
 
       // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
       allowWebGL: phet.chipper.queryParameters.webgl,
-      accessibility: this.supportsInteractiveDescriptions,
+      accessibility: this.supportsInteractiveDescription,
       assumeFullWindow: true, // a bit faster if we can assume no coordinate translations are needed for the display.
       allowBackingScaleAntialiasing: options.allowBackingScaleAntialiasing
     } );
@@ -605,9 +605,9 @@ class Sim {
     this.display.domElement.id = 'sim';
     document.body.appendChild( this.display.domElement );
 
-    if ( this.supportsInteractiveDescriptions ) {
+    if ( this.supportsInteractiveDescription ) {
 
-      // for now interactive descriptions are only in english
+      // for now interactive description is only in english
       // NOTE: When translatable this will need to update with language, change to phet.chipper.local
       this.display.accessibleDOMElement.lang = 'en';
 
@@ -1096,7 +1096,7 @@ class Sim {
 
     // fire or synthesize keyboard input events
     if ( phet.chipper.queryParameters.fuzzBoard ) {
-      assert && assert( this.supportsInteractiveDescriptions, 'fuzzBoard can only run with interactive descriptions enabled.' );
+      assert && assert( this.supportsInteractiveDescription, 'fuzzBoard can only run with interactive description enabled.' );
       this.keyboardFuzzer.fuzzBoardEvents( phet.chipper.queryParameters.fuzzRate );
     }
   }
