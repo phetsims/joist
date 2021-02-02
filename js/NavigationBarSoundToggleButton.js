@@ -147,18 +147,18 @@ class NavigationBarSoundToggleButton extends JoistButton {
       tandem: tandem.createTandem( 'property' )
     } );
 
-    // accessible attribute lets user know when the toggle is pressed, linked lazily so that an alert isn't triggered
+    // pdom attribute lets user know when the toggle is pressed, linked lazily so that an alert isn't triggered
     // on construction and must be unlinked in dispose
     const soundUtterance = new ActivationUtterance();
     const pressedListener = value => {
-      this.setAccessibleAttribute( 'aria-pressed', !value );
+      this.setPDOMAttribute( 'aria-pressed', !value );
 
       soundUtterance.alert = value ? joistStrings.a11y.soundToggle.alert.simSoundOn
                                    : joistStrings.a11y.soundToggle.alert.simSoundOff;
       phet.joist.sim.utteranceQueue.addToBack( soundUtterance );
     };
     soundEnabledProperty.lazyLink( pressedListener );
-    this.setAccessibleAttribute( 'aria-pressed', !soundEnabledProperty.get() );
+    this.setPDOMAttribute( 'aria-pressed', !soundEnabledProperty.get() );
 
     // change the icon so that it is visible when the background changes from dark to light
     backgroundColorProperty.link( backgroundColor => {
