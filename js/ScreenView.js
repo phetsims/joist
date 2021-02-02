@@ -133,8 +133,8 @@ class ScreenView extends Node {
    */
   setChildren( children ) {
     Node.prototype.setChildren.call( this, children );
-    if ( !this.hasChild( this.pdomParent ) ) {
-      this.addChild( this.pdomParent );
+    if ( !this.hasChild( this.pdomParentNode ) ) {
+      this.addChild( this.pdomParentNode );
       this.pdomParentNode.moveToBack();
     }
   }
