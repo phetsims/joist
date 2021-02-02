@@ -1110,11 +1110,11 @@ class Sim {
    */
   setAccessibleViewsVisible( visible ) {
     for ( let i = 0; i < this.screens.length; i++ ) {
-      this.screens[ i ].view.accessibleVisible = visible;
+      this.screens[ i ].view.pdomVisible = visible;
     }
 
-    this.navigationBar.accessibleVisible = visible;
-    this.homeScreen && this.homeScreen.view.setAccessibleVisible( visible );
+    this.navigationBar.pdomVisible = visible;
+    this.homeScreen && this.homeScreen.view.setPDOMVisible( visible );
   }
 }
 
