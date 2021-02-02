@@ -290,7 +290,7 @@ class Screen extends PhetioObject {
       this._view.setScreenSummaryIntroString( simName, screenName, numberOfScreens > 1 );
     } );
 
-    assert && this._view.accessibleAudit();
+    assert && this._view.pdomAudit();
   }
 }
 
