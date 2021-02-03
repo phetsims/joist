@@ -160,11 +160,12 @@
   }
 
   // Do not allow zoom from input on the splash screen. Keyboard events are OK because they
-  // will trigger 'resize' events and the splash screen/sim will adjust
-  const passiveOption = { passive: false }; // mark as passive to allow preventDefault()
+  // will trigger 'resize' events and the splash screen/sim will adjust.
   const preventZoom = event => event.preventDefault();
   const zoomEvents = [ 'wheel', 'touchstart', 'gesturestart' ];
-  zoomEvents.forEach( zoomEvent => window.addEventListener( zoomEvent, preventZoom, passiveOption ) );
+  zoomEvents.forEach( zoomEvent => window.addEventListener( zoomEvent, preventZoom, {
+    passive: false // non-passive to allow event.preventDefault()
+  } ) );
 
   window.phetSplashScreen = {
 
