@@ -389,24 +389,26 @@ class PhetMenu extends Node {
         const firstItem = this.items[ 0 ];
         const lastItem = this.items[ this.items.length - 1 ];
 
+        const key = domEvent.key.toLowerCase();
+
         // this attempts to prevents the scren reader's virtual cursor from also moving with the arrow keys
-        if ( KeyboardUtils.isArrowKey( domEvent.keyCode ) ) {
+        if ( KeyboardUtils.isArrowKey( key ) ) {
           domEvent.preventDefault();
         }
 
-        if ( domEvent.keyCode === KeyboardUtils.KEY_DOWN_ARROW ) {
+        if ( key === KeyboardUtils.KEY_DOWN_ARROW ) {
 
           // On down arrow, focus next item in the list, or wrap up to the first item if focus is at the end
           const nextFocusable = lastItem.focused ? firstItem : PDOMUtils.getNextFocusable();
           nextFocusable.focus();
         }
-        else if ( domEvent.keyCode === KeyboardUtils.KEY_UP_ARROW ) {
+        else if ( key === KeyboardUtils.KEY_UP_ARROW ) {
 
           // On up arrow, focus previous item in the list, or wrap back to the last item if focus is on first item
           const previousFocusable = firstItem.focused ? lastItem : PDOMUtils.getPreviousFocusable();
           previousFocusable.focus();
         }
-        else if ( domEvent.keyCode === KeyboardUtils.KEY_ESCAPE || domEvent.keyCode === KeyboardUtils.KEY_TAB ) {
+        else if ( key === KeyboardUtils.KEY_ESCAPE || key === KeyboardUtils.KEY_TAB ) {
 
           // On escape or tab, close the menu and restore focus to the element that had focus before the menu was opened.
           options.closeCallback();
