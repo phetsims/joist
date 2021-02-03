@@ -159,9 +159,12 @@
     splashImage.src = '../brand/' + brand + '/images/splash.svg';
   }
 
-  // Do not allow zoom from input on the splash screen. Keyboard events are OK because they
-  // will trigger 'resize' events and the splash screen/sim will adjust.
+  // Do not allow zoom from input on the splash screen.
   const preventZoom = event => event.preventDefault();
+
+  // List of events that may initiate native zoom. `wheel` and `touchstart` prevent all mouse touchscreen zooming.
+  // `gesturestart` is non-standard and specific to Apple, but prevents trackpad zooming gestures. Keyboard events are
+  // OK because they will trigger 'resize' events and the splash screen/sim will adjust.
   const zoomEvents = [ 'wheel', 'touchstart', 'gesturestart' ];
   zoomEvents.forEach( zoomEvent => window.addEventListener( zoomEvent, preventZoom, {
     passive: false // non-passive to allow event.preventDefault()
