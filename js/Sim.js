@@ -609,7 +609,7 @@ class Sim {
 
       // for now interactive description is only in english
       // NOTE: When translatable this will need to update with language, change to phet.chipper.local
-      this.display.accessibleDOMElement.lang = 'en';
+      this.display.pdomRootElement.lang = 'en';
 
       // If a down event is received we will make the focus highlights invisible. Is is to support iOS + VO accessibility
       // when that platform only provides pointer events (and nothing from the PDOM). We need to keep focus on elements
@@ -659,7 +659,7 @@ class Sim {
       // When tabbing into the sim, make focus highlights visible - on keyup because the keydown is likely to have
       // occurred on an element outside of the DOM scope.
       globalKeyStateTracker.keyupEmitter.addListener( event => {
-        if ( event.keyCode === KeyboardUtils.KEY_TAB ) {
+        if ( event.key.toLowerCase() === KeyboardUtils.KEY_TAB ) {
           setHighlightsVisible();
         }
       } );
@@ -1110,11 +1110,11 @@ class Sim {
    */
   setAccessibleViewsVisible( visible ) {
     for ( let i = 0; i < this.screens.length; i++ ) {
-      this.screens[ i ].view.accessibleVisible = visible;
+      this.screens[ i ].view.pdomVisible = visible;
     }
 
-    this.navigationBar.accessibleVisible = visible;
-    this.homeScreen && this.homeScreen.view.setAccessibleVisible( visible );
+    this.navigationBar.pdomVisible = visible;
+    this.homeScreen && this.homeScreen.view.setPDOMVisible( visible );
   }
 }
 

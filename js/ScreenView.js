@@ -103,14 +103,14 @@ class ScreenView extends Node {
     options.screenSummaryContent && this.setScreenSummaryContent( options.screenSummaryContent );
 
     // @private
-    this.pdomParent = new Node( {
+    this.pdomParentNode = new Node( {
       children: options.includePDOMNodes ? [
         this.pdomScreenSummaryNode,
         this.pdomPlayAreaNode,
         this.pdomControlAreaNode
       ] : []
     } );
-    this.addChild( this.pdomParent );
+    this.addChild( this.pdomParentNode );
   }
 
   /**
@@ -133,9 +133,9 @@ class ScreenView extends Node {
    */
   setChildren( children ) {
     Node.prototype.setChildren.call( this, children );
-    if ( !this.hasChild( this.pdomParent ) ) {
-      this.addChild( this.pdomParent );
-      this.pdomParent.moveToBack();
+    if ( !this.hasChild( this.pdomParentNode ) ) {
+      this.addChild( this.pdomParentNode );
+      this.pdomParentNode.moveToBack();
     }
   }
 

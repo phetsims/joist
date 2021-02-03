@@ -75,10 +75,10 @@ class UpdateDialog extends Dialog {
 
       // pdom - update visibility of update nodes for screen readers by adding/removing content from the DOM,
       // necessary because screen readers will read hidden content in a Dialog
-      checkingNode.accessibleContentDisplayed = checkingNode.visible;
-      upToDateNode.accessibleContentDisplayed = upToDateNode.visible;
-      outOfDateNode.accessibleContentDisplayed = outOfDateNode.visible;
-      offlineNode.accessibleContentDisplayed = offlineNode.visible;
+      checkingNode.pdomVisible = checkingNode.visible;
+      upToDateNode.pdomVisible = upToDateNode.visible;
+      outOfDateNode.pdomVisible = outOfDateNode.visible;
+      offlineNode.pdomVisible = offlineNode.visible;
     };
   }
 
