@@ -180,6 +180,7 @@ class HomeScreenButton extends VBox {
     };
 
     const fireListener = new FireListener( {
+      fireOnDown: true, // to match prior behavior
       fire: buttonDown,
       tandem: options.tandem.createTandem( 'inputListener' )
     } );
