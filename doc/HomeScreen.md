@@ -35,7 +35,7 @@ When designing the Home Screen please consider and provide drafts for the follow
 
 
 ### Gesture Support
-ToDO.
+ToDO. See Ratio and Proportion for a working example.
 
 ### Keyboard Support
 | Key        | Function |
@@ -59,36 +59,45 @@ ToDO.
 
 ### Sample HTML for Home Screen and Sim Screens
 
-#### Coulomb's Law Example (two screens) 
+#### Ratio and Proportion Example (two screens) 
 ```html
 <!-- Home Screen -->
-<h1>Coulomb’s Law</h1> 
-  <p>{{Come explore with}} {{Coulomb’s Law.}}. It has {{two}} interactive screens.</p>
+<h1>Ratio and Proportion</h1> 
+  <p>Welcome to {{Ratio and Proportion}}. It has {{2}} interactive screens that you can explore. Choose a screen to start exploring.</p>
   	
-<!-- Screen buttons and their descriptions -->
+<!-- Screen buttons and their descriptions with aria-describedby -->
 <nav aria-lablledby="labelSimScreens">
   <h2 id="labelSimScreens">Sim Screens</h2>
   <ol>
-    <li><button aria-describedby="descriptionScreen01">{{Macro Scale}} Screen</button>
-		<p id="descriptionScreen01">{{Explore Coulomb’s Law on a macro scale}}.</p></li>
-    <li><button aria-describedby="descriptionScreen02">{{Atomic Scale}} Screen</button>
-		<p id="descriptionScreen02">{{Explore Coulomb’s Law at the atomic scale}}.</p></li>
+    <li><button aria-describedby="descriptionScreen01">{{Discover}} Screen</button>
+		<p id="descriptionScreen01">{{Explore this screen to discover set challenge ratios}}.</p></li>
+    <li><button aria-describedby="descriptionScreen02">{{Create Scale}} Screen</button>
+		<p id="descriptionScreen02">{{On this screen, set your own challenge ratios to explore}}.</p></li>
   </ol>
 </nav>
  
 <!-- Section for Sim Resources, but no need for Keyboard Shortcuts on Home Screen -->
 <section>
   <h2>Sim Resources</h2>
-  <!-- contains PhET Button and access to PhET Menu -->
+  <!-- contains Mute Sound, Keyboard Shortcuts and PhET Menu Button -->
 <section> 
 
 <!-- Sim Screen 01 -->
 <article>
-  <h1>{{Macro Scale}} Screen, Coulomb’s Law</h1>
+  <h1>{{Discover}} Screen, {{Ratio and Proportion}}</h1>
    <!-- Screen specific intro with Screen Parameters -->
-   <p>The interactive {{Macro Scale}} Screen changes as you play with it. It has a Play Area and a Control Area. The Play Area has two charged spheres, Charge 1 (q1) and Charge 2 (q2), currently separated by {{distance}} centimeters. Each charge is held by a small robot. Spheres can be moved closer or further from one another, and the charge of each sphere can be increased or decreased. The Control Area has checkboxes to display forces or change to scientific notation, and a button to reset the sim.</p>
+   <p>The {{Discover}} Screen changes as you play with it. It has a Play Area and a Control Area.</p>
+   <p>{{The Play Area is a tall space ...}}</p>
+   <p>{{...more info about Play Area...}}</p>
+   <p>{{The Control Area has a button to reset the sim.}}</p>
+   <!-- Big-picture state-of-the-sim -->
+   <p>Currently, hands are at the challenge 1 ratio and very close to each other:</p>
+   <ul>
+	   <li>Left hand {{in lower region}} of Play Area</li>
+	   <li>Right hand {{in lower-middle region}} of Play Area</li>
+	</ul>
    <!-- Screen Specific Interaction Hint -->
-   <p>{{Move spheres or change their charge to begin observations.}}</p>
+   <p>{{Move hands to find the Challenge Ratio in different places.}}</p>
    <!-- Common Keyboard Shortcuts Hint -->
    <p>If needed, check out keyboard shortcuts under Sim Resources.</p>
   <h2>Play Area</h2>
@@ -99,11 +108,15 @@ ToDO.
 
 <!-- Sim Screen 02 -->
 <article>
-  <h1>Atomic Scale Screen, Coulomb’s Law</h1>
+  <h1>{{Create}} Screen, {{Ratio and Proportion}}</h1>
     <!-- Screen specific intro with Screen Parameters -->
-    <p>The interactive {{Atomic Scale}} Screen changes as you play with it. It has a Play Area and a Control Area. The Play Area has {{two charged particles, charge 1 (q1) and charge 2 (q2), currently separated by {{value}} picometers. Each particle is held by a microscopic robot. Particles can be moved closer or further from one another, and the charge of each particle can be increased or decreased}}. The Control Area has {{checkboxes to display forces or change to scientific notation,}} and a reset button to reset the sim.</p>
+    <p>The {{Create}} Screen changes as you play with it. It has a Play Area and a Control Area.</p>
+    <p>{{Here, you can create your own Challenge Ratio. The Play Area is a tall space...}}</p>
+    <p>{{...}}</p>
+    <p>{{The Control Area has a button to reset the sim.}}</p>
+	
     <!-- Screen Specific Interaction Hint -->
-    <p>{{Move particles or change their charge to begin observations.}}.</p>
+    <p>{{Explore current challenge, or look for My Challenge to create your own.}}</p>
     <!-- Common Keyboard Shortcuts Hint -->
     <p>If needed, check out keyboard shortcuts under Sim Resources.</p>
   <h2>Play Area</h2>
@@ -115,12 +128,14 @@ ToDO.
 <!-- Navigation landmark section for Sim Screens, that includes all relevant screen buttons -->
 <nav aria-lablledby="labelSimScreens">
   <h2 id="labelSimScreens">Sim Screens</h2>
-	 <!-- All relevant screen buttons without aria-describedby. -->
+	 <!-- All relevant screen buttons WITHOUT aria-describedby. -->
 	 <ol>
-       <li><button>{{Macro Scale}} Screen</button>
-   		<p id="descriptionScreen01">{{Explore Coulomb’s Law on a macro scale}}.</p></li>
-       <li><button>{{Atomic Scale}} Screen</button>
-   		<p id="descriptionScreen02">{{Explore Coulomb’s Law at the atomic scale}}.</p></li>
+	<li><button>Home Screen</button>
+   		<p id="descriptionScreen00">Go to Home Screen.</p></li>
+       <li><button>{{Discover}} Screen</button>
+   		<p id="descriptionScreen01">{{Explore this screen to discover set challenge ratios.}}</p></li>
+       <li><button>{{Create}} Screen</button>
+   		<p id="descriptionScreen02">{{On this screen, set your own challenge ratios to explore.}}</p></li>
 	 </ol>
 </nav>
 
@@ -135,7 +150,7 @@ ToDO.
 ```html
 <!-- Home Screen -->
 <h1>Build an Atom</h1> 
-  <p>{{Come explore with}} {{Build an Atom}}. It has {{three}} interactive screens.</p>	
+  <p>Welcome to {{Build an Atom}}. It has {{3}} interactive screens.</p>	
 
 <!-- Sim Screen buttons and their descriptions -->
 <nav aria-lablledby="labelSimScreens">
@@ -160,9 +175,11 @@ ToDO.
 <article>
   <h1>Atom Screen, Build an Atom</h1>
    <!-- Screen specific intro with Screen Parameters -->
-   <p>The interactive {{Atom}} Screen changes as you play with it. It has a Play Area and a Control Area. The Play Area {{has a model of an atom called My Atom, three buckets of particles, and three detail panels that track important things about the atom}}. The Control Area has {{radio buttons to switch the Atom model, checkboxes to adjust what inforamtion is shown,}} and a reset button to reset the sim.</p>
+	<p>The {{Atom}} Screen changes as you play with it. It has a Play Area and a Control Area.</p>
+	<p>{{The Play Area {{has a model of an atom called My Atom, three buckets of particles, and three detail panels that track important things about the atom}}.}}</p>
+	<p>{{The Control Area has {{radio buttons to switch the Atom model, checkboxes to adjust what inforamtion is shown,}} and a reset button to reset the sim.}}</p>
    <!-- Screen Specific Interaction Hint -->
-   <p>Look for particle buckets to play.</p>
+   <p>{{Look for particle buckets to play.}}</p>
    <!-- Common Keyboard Shortcuts Hint -->
    <p>If needed, check out keyboard shortcuts under Sim Resources.</p>
   <h2>Play Area</h2>
@@ -175,9 +192,11 @@ ToDO.
 <article>
   <h1>Symbol Screen, Build an Atom</h1>
      <!-- Screen specific intro with Screen Parameters -->
-     <p>The interactive {{Symbol}} Screen changes as you play with it. It has a Play Area and a Control Area. The Play Area has {{DESCRIPTION OF PLAY AREA}}. The Control Area has {{DESCRIPTION OF CONTROL AREA,}} and a reset button to reset the sim.</p>
+     <p>The {{Symbol}} Screen changes as you play with it. It has a Play Area and a Control Area.</p>
+	<p>{{The Play Area has {{DESCRIPTION OF PLAY AREA}}.}}</p>
+	<p>{{The Control Area has {{DESCRIPTION OF CONTROL AREA,}} and a reset button to reset the sim.}}</p>
      <!-- Screen Specific Interaction Hint -->
-     <p>{{HINT FOR SYMBOL SCREEN}}.</p>
+     <p>{{HINT FOR SYMBOL SCREEN.}}</p>
      <!-- Common Keyboard Shortcuts Hint -->
      <p>If needed, check out keyboard shortcuts under Sim Resources.</p>
     <h2>Play Area</h2>
@@ -190,7 +209,7 @@ ToDO.
 <article>
   <h1>Game Screen, Build an Atom</h1>
      <!-- Screen specific intro with Screen Parameters -->
-     <p>The interactive {{Game}} Screen, there is {{DESCRIPTION OF GAME SCREEN}}.</p>
+     <p>The {{Game}} Screen {{DESCRIPTION OF GAME SCREEN}}.</p>
      <!-- Screen Specific Interaction Hint -->
      <p>{{HINT FOR a GAME SCREEN}}</p>
      <!-- Common Keyboard Shortcuts Hint -->
@@ -203,6 +222,8 @@ ToDO.
   <h2 id="labelSimScreens">Sim Screens</h2>
 	 <!-- All relevant screen buttons without aria-describedby. -->
 	 <ol>
+	   <li><button>Home Screen</button>
+		   <p id="descriptionScreen00">Go to Home Screen.</p></li>
 	   <li><button>{{Atom}} Screen</button>
 		   <p id="descriptionScreen01">{{Explore what makes up an atom}}.</p></li>
 	   <li><button>{{Symbol}} Screen</button>
@@ -223,7 +244,7 @@ ToDO.
 ```html
 <!-- Home Screen -->
 <h1>{{SimName}}</h1> 
-  <p>{{GeneralActionPhrase}} {{SimName}}. It has {{NumScreens}} interactive screens.</p>	
+  <p>Welcome to {{SimName}}. It has {{NumScreens}} interactive screens that you can explore. Choose a screen to start exploring.</p>	
 
 <!-- List screen buttons and their descriptions -->
   <nav aria-lablledby="simScreensLabel">
@@ -248,7 +269,9 @@ ToDO.
 <article>
   <h1>{{ScreenName01}} Screen, {{SimName}}</h1>
    <!-- Screen specific intro with Screen Parameters -->
-   <p>The interactive {{ScreenName01}} Screen changes as you play with it. It has a Play Area and a Control Area. The Play Area {{DESCRIPTION OF PLAY AREA FOR SCREEN 01}}. The Control Area has {{DESCRIPTION OF CONTROL AREA FOR SCREEN 01,}} and a reset button to reset the sim.</p>
+   <p>The {{ScreenName01}} Screen changes as you play with it. It has a Play Area and a Control Area.</p>
+   <p>{{The Play Area {{DESCRIPTION OF PLAY AREA FOR SCREEN 01}}.}}</p>
+   <p>{{The Control Area has {{DESCRIPTION OF CONTROL AREA FOR SCREEN 01,}} and a reset button to reset the sim.}}</p>
    <!-- Screen Specific Interaction Hint -->
    <p>{{HINT FOR SCREEN 01}}</p>
    <!-- Common Keyboard Shortcuts Hint -->
@@ -263,7 +286,9 @@ ToDO.
 <article>
   <h1>{{ScreenName02}} Screen, {{SimName}}</h1>
      <!-- Screen specific intro with Screen Parameters -->
-     <p>The interactive {{ScreenName02}} Screen changes as you play with it. It has a Play Area and a Control Area. The Play Area has {{DESCRIPTION OF PLAY AREA FOR SCREEN 02}}. The Control Area has {{DESCRIPTION OF CONTROL AREA FOR SCREEN 02,}} and a reset button to reset the sim.</p>
+	<p>The {{ScreenName02}} Screen changes as you play with it.</p>
+	<p>{{It has a Play Area and a Control Area. The Play Area has {{DESCRIPTION OF PLAY AREA FOR SCREEN 02}}.}}</p>
+	<p>{{The Control Area has {{DESCRIPTION OF CONTROL AREA FOR SCREEN 02,}} and a reset button to reset the sim.}}</p>
      <!-- Screen Specific Interaction Hint -->
      <p>{{HINT FOR SCREEN 02}}.</p>
      <!-- Common Keyboard Shortcuts Hint -->
@@ -278,7 +303,7 @@ ToDO.
 <article>
   <h1>{{GameScreenName}}, {{SimName}}</h1>
      <!-- Screen specific intro with Screen Parameters -->
-     <p>On the interactive {{GameScreenName}} Screen, there is {{DESCRIPTION OF GAME SCREEN}}.</p>
+      <p>The {{Game}} Screen {{DESCRIPTION OF GAME SCREEN}}.</p>
      <!-- Screen Specific Interaction Hint -->
      <p>{{HINT FOR a GAME SCREEN}}</p>
      <!-- Common Keyboard Shortcuts Hint -->
@@ -291,6 +316,8 @@ ToDO.
   <h2 id="labelSimScreens">Sim Screens</h2>
 	 <!-- All relevant screen buttons without aria-describedby. -->
 	 <ol>
+	  <li><button>Home Screen</button>
+ 		  <p id="descriptionScreen00">Go to Home Screen.</p></li>
    	  <li><button>{{ScreenName01}} Screen</button>
  		  <p id="descriptionScreen01">{{ActionPhraseForScreen01}}.</p></li>
    	  <li><button>{{ScreenName02}} Screen</button>
@@ -321,7 +348,7 @@ Screen 1 name:
 Screen 1 description:
 
 Screen 2 name:
-Screen 3 description:
+Screen 2 description:
 
 Screen 3 name:
 Screen 3 description:
