@@ -91,8 +91,7 @@ class ScreenView extends Node {
     this.pdomControlAreaNode = new ControlAreaNode();
 
     // @private
-    // pdom - this Node is suffixed "container" because it is added to with sim specific screen summary content, often
-    // called {Sim}ScreenSummaryNode. This container has the intro "{sim} is an interactive sim, it changes as you . . ."
+    // This container has the intro "{{SIM}} is an interactive sim, it changes as you . . ."
     this.pdomScreenSummaryNode = new ScreenSummaryNode();
 
     // @private {Node|null} - keep track of the content added to the summary Node, so that if it is set more than once,
