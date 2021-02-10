@@ -494,7 +494,10 @@ class Sim {
     if ( this.supportsSound ) {
       soundManager.initialize( this.browserTabVisibleProperty, this.activeProperty );
       soundManager.addSoundGenerator(
-        new ScreenSelectionSoundGenerator( this.screenProperty, this.homeScreen, { initialOutputLevel: 0.5 } )
+        new ScreenSelectionSoundGenerator( this.screenProperty, this.homeScreen, { initialOutputLevel: 0.5 } ),
+        {
+          categoryName: 'user-interface'
+        }
       );
     }
 
