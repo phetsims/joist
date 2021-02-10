@@ -767,7 +767,6 @@ class Sim {
       blur: event => {
         const currentView = this.screenProperty.value.view;
         if ( event.target === currentView ) {
-          currentView.blur();
           currentView.focusable = false;
         }
       }
