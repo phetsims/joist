@@ -765,7 +765,6 @@ class Sim {
     const blurListener = {
       blur: event => {
         if ( event.target === currentView ) {
-          currentView.blur();
           currentView.focusable = false;
           this.display.removeInputListener( blurListener );
         }
