@@ -118,6 +118,8 @@ class PhetMenu extends Node {
       } );
     }
 
+    const restoreFocusCallback = () => this.restoreFocus();
+
     // Update dialog is created lazily (so that Sim bounds are valid), then reused.
     let updateDialog = null;
 
@@ -143,6 +145,9 @@ class PhetMenu extends Node {
             // Open locale-specific PhET home page. If there is no website translation for locale, fallback will be handled by server. See joist#97.
             openPopup( 'http://phet.colorado.edu/' + sim.locale );
           }
+        },
+        options: {
+          handleFocusCallback: restoreFocusCallback
         }
       },
       {
@@ -151,6 +156,9 @@ class PhetMenu extends Node {
         callback: () => {
           // prints the recorded input event log to the console
           console.log( sim.getRecordedInputEventLogString() );
+        },
+        options: {
+          handleFocusCallback: restoreFocusCallback
         }
       },
       {
@@ -159,6 +167,9 @@ class PhetMenu extends Node {
         callback: () => {
           // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
           sim.submitEventLog();
+        },
+        options: {
+          handleFocusCallback: restoreFocusCallback
         }
       },
       {
@@ -167,6 +178,9 @@ class PhetMenu extends Node {
         callback: () => {
           // mailto: link including the body to email
           sim.mailEventLog();
+        },
+        options: {
+          handleFocusCallback: restoreFocusCallback
         }
       },
       {
@@ -182,6 +196,9 @@ class PhetMenu extends Node {
                         '&dependencies=' + encodeURIComponent( JSON.stringify( {} ) );
             openPopup( url );
           }
+        },
+        options: {
+          handleFocusCallback: restoreFocusCallback
         }
       },
       {
@@ -191,6 +208,9 @@ class PhetMenu extends Node {
           if ( !phet.chipper.isFuzzEnabled() ) {
             openPopup( 'http://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent( window.location.href ) + '&size=220x220&margin=0' );
           }
+        },
+        options: {
+          handleFocusCallback: restoreFocusCallback
         }
       },
       {
@@ -248,7 +268,7 @@ class PhetMenu extends Node {
           visiblePropertyOptions: { phetioFeatured: true },
 
           // pdom
-          handleFocusCallback: () => this.restoreFocus()
+          handleFocusCallback: restoreFocusCallback
         }
       },
 
@@ -267,7 +287,7 @@ class PhetMenu extends Node {
           visiblePropertyOptions: { phetioFeatured: true },
 
           // pdom
-          handleFocusCallback: () => this.restoreFocus()
+          handleFocusCallback: restoreFocusCallback
         }
       },
 
@@ -285,7 +305,7 @@ class PhetMenu extends Node {
           visiblePropertyOptions: { phetioFeatured: true },
 
           // pdom
-          handleFocusCallback: () => this.restoreFocus()
+          handleFocusCallback: restoreFocusCallback
         }
       },
 
