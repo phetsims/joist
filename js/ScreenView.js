@@ -211,6 +211,16 @@ class ScreenView extends Node {
   }
 
   /**
+   * Remove focus from the h1 title of this screen view. There are cases where the screen can change
+   * but never receive the blur event (like if the sim is running in a background tab).
+   *
+   * @public
+   */
+  blurTitle() {
+    this.pdomTitleNode.focusable = false;
+  }
+
+  /**
    * Get the scale to use for laying out the sim components and the navigation bar, so its size will track
    * with the sim size
    * @public
