@@ -762,17 +762,6 @@ class Sim {
     } );
     this.simulationRoot.addChild( this.navigationBar );
 
-    // focus starts at the top of the current screen, but it should then be removed from the focus order
-    const blurListener = {
-      blur: event => {
-        const currentView = this.screenProperty.value.view;
-        if ( event.target === currentView ) {
-          currentView.focusable = false;
-        }
-      }
-    };
-    this.display.addInputListener( blurListener );
-
     this.screenProperty.link( currentScreen => {
       screens.forEach( screen => {
         const visible = screen === currentScreen;
@@ -789,10 +778,8 @@ class Sim {
       } );
       this.updateBackground();
 
-      // When a new screen is made visible focus should start at the top of the screen. Once focus is moved,
-      // the current ScreenView is removed from focus order, see blurListener above.
-      currentScreen.view.focusable = true;
-      currentScreen.view.focus();
+      // When a new screen is made visible focus should start at the top of the screen.
+      currentScreen.view.focusTitle();
 
       if ( !this.isSettingPhetioStateProperty.value ) {
 
@@ -800,7 +787,7 @@ class Sim {
         // and so user has an overview of the new screen, see https://github.com/phetsims/joist/issues/682.
         animatedPanZoomSingleton.listener.resetTransform();
       }
-      } );
+    } );
 
     // layer for popups, dialogs, and their backgrounds and barriers
     this.topLayer = new Node();

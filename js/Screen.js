@@ -268,26 +268,28 @@ class Screen extends PhetioObject {
     // Set the accessible label for the screen.
     this.pdomDisplayNameProperty.link( screenName => {
 
+      let titleString;
+
       // Single screen sims don't need screen names, instead just show the title of the sim.
       // Using total screens for sim breaks modularity a bit, but it also is needed as that parameter changes the
       // labelling of this screen, see https://github.com/phetsims/joist/issues/496
       if ( numberOfScreens === 1 ) {
-        this._view.labelContent = displayedName; // for multiscreen sims, like "Ratio and Proportion -- Create"
+        titleString = displayedName; // for multiscreen sims, like "Ratio and Proportion -- Create"
       }
       else if ( isHomeScreen ) {
-        this._view.labelContent = simName; // Like "Ratio and Propotion"
+        titleString = simName; // Like "Ratio and Propotion"
       }
       else {
 
         // initialize proper PDOM labelling for ScreenView
-        this._view.labelContent = StringUtils.fillIn( screenSimPatternString, {
+        titleString = StringUtils.fillIn( screenSimPatternString, {
           screenName: screenName,
           simName: simName
         } );
       }
 
       // if there is a screenSummaryNode, then set its intro string now
-      this._view.setScreenSummaryIntroString( simName, screenName, numberOfScreens > 1 );
+      this._view.setScreenSummaryIntroAndTitle( simName, screenName, titleString, numberOfScreens > 1 );
     } );
 
     assert && this._view.pdomAudit();

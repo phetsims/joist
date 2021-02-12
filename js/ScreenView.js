@@ -60,11 +60,6 @@ class ScreenView extends Node {
       // pdom options
       containerTagName: 'article',
       tagName: 'div',
-      labelTagName: 'h1',
-
-      // To support focusing the top of newly selected screens, we focus a screen. This is to prevent visual indication
-      // of this behavior/logic, see https://github.com/phetsims/ratio-and-proportion/issues/282
-      focusHighlight: 'invisible',
 
       // {Node|null} the Node with screen summary content to be added to the ScreenSummaryNode, and into PDOM above
       // the Play Area. This Node is added as a child to the ScreenSummaryNode.
@@ -86,6 +81,9 @@ class ScreenView extends Node {
     // @public (read-only)
     this.visibleBoundsProperty = new Property( options.layoutBounds );
 
+    // @private - this cannot be a label to this ScreenView, because it needs to be focusable.
+    this.pdomTitleNode = new Node( { tagName: 'h1', focusHighlight: 'invisible' } );
+
     // @public (read-only) - add children and set accessible order to these to organize and structure the PDOM.
     this.pdomPlayAreaNode = new PlayAreaNode();
     this.pdomControlAreaNode = new ControlAreaNode();
@@ -101,13 +99,20 @@ class ScreenView extends Node {
     // at the Node from options in the same way that can be done at any time
     options.screenSummaryContent && this.setScreenSummaryContent( options.screenSummaryContent );
 
+    this.pdomTitleNode.addInputListener( {
+      blur: () => {
+        this.pdomTitleNode.focusable = false;
+      }
+    } );
+
     // @private
     this.pdomParentNode = new Node( {
       children: options.includePDOMNodes ? [
+        this.pdomTitleNode,
         this.pdomScreenSummaryNode,
         this.pdomPlayAreaNode,
         this.pdomControlAreaNode
-      ] : []
+      ] : [ this.pdomTitleNode ]
     } );
     this.addChild( this.pdomParentNode );
   }
@@ -183,11 +188,24 @@ class ScreenView extends Node {
    * Set the screen summary Node intro string
    * @param {string} simName
    * @param {string} screenName
+   * @param {string} simTitle
    * @param {boolean} isMultiScreen
    * @public (joist-internal)
    */
-  setScreenSummaryIntroString( simName, screenName, isMultiScreen ) {
+  setScreenSummaryIntroAndTitle( simName, screenName, simTitle, isMultiScreen ) {
     this.pdomScreenSummaryNode.setIntroString( simName, screenName, isMultiScreen );
+    this.pdomTitleNode.innerContent = simTitle;
+  }
+
+  /**
+   * Focus the h1 title of this screen view (the first thing in the screen). Once focus is moved,
+   * the current ScreenView is removed from focus order, see blur listener above in constructor.
+   * @public
+   */
+  focusTitle() {
+    assert && assert( !this.pdomTitleNode.focusable, 'about to set to be focusable' );
+    this.pdomTitleNode.focusable = true;
+    this.pdomTitleNode.focus();
   }
 
   /**
