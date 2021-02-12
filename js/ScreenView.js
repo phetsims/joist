@@ -99,6 +99,7 @@ class ScreenView extends Node {
     // at the Node from options in the same way that can be done at any time
     options.screenSummaryContent && this.setScreenSummaryContent( options.screenSummaryContent );
 
+    // after initial focus, the titleNode should be removed from the focus order
     this.pdomTitleNode.addInputListener( {
       blur: () => {
         this.pdomTitleNode.focusable = false;
