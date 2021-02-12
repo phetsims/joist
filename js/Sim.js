@@ -770,9 +770,6 @@ class Sim {
         // screen.isActiveProperty should change only while the screen is invisible, https://github.com/phetsims/joist/issues/418
         if ( visible ) {
           screen.activeProperty.set( visible );
-
-          // When a new screen is made visible focus should start at the top of the screen.
-          screen.view.focusTitle();
         }
         screen.view.setVisible( visible );
         if ( !visible ) {
@@ -784,6 +781,9 @@ class Sim {
         }
       } );
       this.updateBackground();
+
+      // When a new screen is made visible focus should start at the top of the screen.
+      currentScreen.view.focusTitle();
 
       if ( !this.isSettingPhetioStateProperty.value ) {
 
