@@ -774,6 +774,13 @@ class Sim {
         }
       } );
       this.updateBackground();
+
+      if ( !this.isSettingPhetioStateProperty.value ) {
+
+        // Zoom out again after changing screens so we don't pan to the center of the focused ScreenView,
+        // and so user has an overview of the new screen, see https://github.com/phetsims/joist/issues/682.
+        animatedPanZoomSingleton.listener.resetTransform();
+      }
     } );
 
     // layer for popups, dialogs, and their backgrounds and barriers
