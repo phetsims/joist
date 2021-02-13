@@ -100,13 +100,25 @@ class ScreenView extends Node {
     // at the Node from options in the same way that can be done at any time
     options.screenSummaryContent && this.setScreenSummaryContent( options.screenSummaryContent );
 
+    // To make sure that the title "h1" is the first, focused item on a screen when that screen is selected, toggle the
+    // focusability of the title, and then focus it. See https://github.com/phetsims/ratio-and-proportion/issues/321
+    this.visibleProperty.lazyLink( visible => {
+      if ( visible ) {
+        assert && assert( !this.pdomTitleNode.focusable, 'about to set to be focusable' );
+        this.pdomTitleNode.focusable = true;
+        this.pdomTitleNode.focus();
+      }
+      else {
+        this.pdomTitleNode.focusable = false;
+      }
+    } );
+
     // after initial focus, the titleNode should be removed from the focus order
     this.pdomTitleNode.addInputListener( {
       blur: () => {
         this.pdomTitleNode.focusable = false;
       }
     } );
-
     // @private
     this.pdomParent = new Node( {
       children: options.includePDOMNodes ? [
@@ -197,27 +209,6 @@ class ScreenView extends Node {
   setScreenSummaryIntroAndTitle( simName, screenName, simTitle, isMultiScreen ) {
     this.pdomScreenSummaryNode.setIntroString( simName, screenName, isMultiScreen );
     this.pdomTitleNode.innerContent = simTitle;
-  }
-
-  /**
-   * Focus the h1 title of this screen view (the first thing in the screen). Once focus is moved,
-   * the current ScreenView is removed from focus order, see blur listener above in constructor.
-   * @public
-   */
-  focusTitle() {
-    assert && assert( !this.pdomTitleNode.focusable, 'about to set to be focusable' );
-    this.pdomTitleNode.focusable = true;
-    this.pdomTitleNode.focus();
-  }
-
-  /**
-   * Remove focus from the h1 title of this screen view. There are cases where the screen can change
-   * but never receive the blur event (like if the sim is running in a background tab).
-   *
-   * @public
-   */
-  blurTitle() {
-    this.pdomTitleNode.focusable = false;
   }
 
   /**
