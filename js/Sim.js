@@ -774,16 +774,9 @@ class Sim {
         screen.view.setVisible( visible );
         if ( !visible ) {
           screen.activeProperty.set( visible );
-
-          // in case the title did not receive a blur event, make sure it is no longer focusable when
-          // changing screens
-          screen.view.blurTitle();
         }
       } );
       this.updateBackground();
-
-      // When a new screen is made visible focus should start at the top of the screen.
-      currentScreen.view.focusTitle();
 
       if ( !this.isSettingPhetioStateProperty.value ) {
 
