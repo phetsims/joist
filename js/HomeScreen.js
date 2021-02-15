@@ -36,7 +36,7 @@ class HomeScreen extends Screen {
 
     options = merge( {
 
-      // TODO get this color from LookAndFeel, see https://github.com/phetsims/joist/issues/255
+      // TODO get this color from LookAndFeel, see https://github.com/phetsims/joist/issues/222
       backgroundColorProperty: new Property( BACKGROUND_COLOR ),
 
       name: homeString,
