@@ -412,7 +412,7 @@ class PhetMenu extends Node {
         const key = domEvent.key.toLowerCase();
 
         // this attempts to prevents the scren reader's virtual cursor from also moving with the arrow keys
-        if ( KeyboardUtils.isArrowKey( key ) ) {
+        if ( KeyboardUtils.isArrowKey( domEvent ) ) {
           domEvent.preventDefault();
         }
 
