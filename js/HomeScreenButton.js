@@ -170,7 +170,7 @@ class HomeScreenButton extends VBox {
     // touchover, in which case we need to guard on touchdown since we don't want to double fire for touchover and
     // touchdown, see https://github.com/phetsims/joist/issues/624
     const buttonDown = () => {
-      if ( isSelectedProperty.value && ( !( fireListener.pointer.isTouchLike() ) || buttonWasAlreadySelected ) ) {
+      if ( isSelectedProperty.value && ( !( fireListener.pointer && fireListener.pointer.isTouchLike() ) || buttonWasAlreadySelected ) ) {
         homeScreenModel.screenProperty.value = screen;
       }
       else {
