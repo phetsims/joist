@@ -17,7 +17,6 @@ import merge from '../../phet-core/js/merge.js';
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import PDOMPeer from '../../scenery/js/accessibility/pdom/PDOMPeer.js';
-import Touch from '../../scenery/js/input/Touch.js';
 import FireListener from '../../scenery/js/listeners/FireListener.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
@@ -171,7 +170,7 @@ class HomeScreenButton extends VBox {
     // touchover, in which case we need to guard on touchdown since we don't want to double fire for touchover and
     // touchdown, see https://github.com/phetsims/joist/issues/624
     const buttonDown = () => {
-      if ( isSelectedProperty.value && ( !( fireListener.pointer instanceof Touch ) || buttonWasAlreadySelected ) ) {
+      if ( isSelectedProperty.value && ( !( fireListener.pointer.isTouchLike() ) || buttonWasAlreadySelected ) ) {
         homeScreenModel.screenProperty.value = screen;
       }
       else {
