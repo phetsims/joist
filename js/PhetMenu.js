@@ -409,7 +409,7 @@ class PhetMenu extends Node {
         const firstItem = this.items[ 0 ];
         const lastItem = this.items[ this.items.length - 1 ];
 
-        const key = domEvent.key.toLowerCase();
+        const key = KeyboardUtils.getKeyDef( domEvent );
 
         // this attempts to prevents the scren reader's virtual cursor from also moving with the arrow keys
         if ( KeyboardUtils.isArrowKey( domEvent ) ) {

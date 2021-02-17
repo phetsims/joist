@@ -662,7 +662,7 @@ class Sim {
       // When tabbing into the sim, make focus highlights visible - on keyup because the keydown is likely to have
       // occurred on an element outside of the DOM scope.
       globalKeyStateTracker.keyupEmitter.addListener( event => {
-        if ( event.key.toLowerCase() === KeyboardUtils.KEY_TAB ) {
+        if ( KeyboardUtils.isKeyEvent( event, KeyboardUtils.KEY_TAB ) ) {
           setHighlightsVisible();
         }
       } );
