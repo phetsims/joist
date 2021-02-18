@@ -27,7 +27,6 @@ const creditsSoundDesignString = joistStrings.credits.soundDesign;
 const creditsTeamString = joistStrings.credits.team;
 const creditsThanksString = joistStrings.credits.thanks;
 const creditsTitleString = joistStrings.credits.title;
-const creditsTranslationString = joistStrings.credits.translation;
 
 class CreditsNode extends VBox {
 
@@ -107,18 +106,6 @@ class CreditsNode extends VBox {
     if ( credits.soundDesign ) {
       const soundDesignString = StringUtils.format( creditsSoundDesignString, '\u202a' + credits.soundDesign + '\u202c' );
       children.push( new RichText( soundDesignString, merge( { innerContent: soundDesignString }, richTextOptions ) ) );
-    }
-
-    //TODO obtain translation credit from strings file, see https://github.com/phetsims/joist/issues/163
-    // Translation
-    if ( credits.translation ) {
-      if ( children.length > 0 ) { children.push( new VStrut( 13 ) ); }
-      children.push( new Text( creditsTranslationString, {
-        font: options.titleFont,
-        tagName: 'h2',
-        innerContent: creditsTranslationString
-      } ) );
-      children.push( new RichText( credits.translation, richTextOptions ) );
     }
 
     // Thanks
