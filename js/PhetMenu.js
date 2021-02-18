@@ -9,6 +9,7 @@
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Shape from '../../kite/js/Shape.js';
+import gracefulBind from '../../phet-core/js/gracefulBind.js';
 import merge from '../../phet-core/js/merge.js';
 import openPopup from '../../phet-core/js/openPopup.js';
 import platform from '../../phet-core/js/platform.js';
@@ -71,6 +72,9 @@ class PhetMenu extends Node {
 
     options = merge( {
 
+      showPopup: gracefulBind( 'phet.joist.sim.showPopup' ),
+      hidePopup: gracefulBind( 'phet.joist.sim.hidePopup' ),
+
       phetioType: PhetMenu.PhetMenuIO,
       phetioState: false,
       phetioDocumentation: 'This menu is displayed when the PhET button is pressed.',
@@ -84,12 +88,17 @@ class PhetMenu extends Node {
       ariaRole: 'menu'
     }, options );
 
+    assert && assert( typeof options.showPopup === 'function', 'showPopup is required, and must be provided if phet.joist.sim is not available.' );
+    assert && assert( typeof options.hidePopup === 'function', 'hidePopup is required, and must be provided if phet.joist.sim is not available.' );
+
     options.tandem = tandem;
 
     super();
 
     // @private (a11y) {Node|null} see setFocusOnCloseNode
     this.focusOnCloseNode = null;
+    this.showPopup = options.showPopup; // @private
+    this.hidePopup = options.hidePopup; // @private
 
     // AboutDialog is created lazily (so that Sim bounds are valid), then reused.
     // Since AboutDialog is instrumented for PhET-iO, this lazy creation requires use of PhetioCapsule.
@@ -464,7 +473,7 @@ class PhetMenu extends Node {
       // make sure that any previously focused elements no longer have focus
       Display.focus = null;
 
-      window.phet.joist.sim.showPopup( this, true );
+      this.showPopup( this, true );
       this.isShowing = true;
     }
   }
@@ -473,7 +482,7 @@ class PhetMenu extends Node {
   hide() {
     if ( this.isShowing ) {
       this.isShowing = false;
-      window.phet.joist.sim.hidePopup( this, true );
+      this.hidePopup( this, true );
     }
   }
 
