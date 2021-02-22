@@ -199,11 +199,13 @@ class HomeScreenButton extends VBox {
 
     // If you touch an unselected button, it become selected. If then without lifting your finger you swipe over to the
     // next button, that one becomes selected instead.
+    const onTouchLikeOver = () => {
+      buttonWasAlreadySelected = homeScreenModel.selectedScreenProperty.value === screen;
+      homeScreenModel.selectedScreenProperty.value = screen;
+    };
     this.addInputListener( {
-      touchover: event => {
-        buttonWasAlreadySelected = homeScreenModel.selectedScreenProperty.value === screen;
-        homeScreenModel.selectedScreenProperty.value = screen;
-      }
+      touchover: onTouchLikeOver,
+      penover: onTouchLikeOver
     } );
 
     // set the mouseArea and touchArea to be the whole local bounds of this node, because if it just relies on the
