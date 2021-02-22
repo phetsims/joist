@@ -11,6 +11,7 @@ import merge from '../../phet-core/js/merge.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
+import Node from '../../scenery/js/nodes/Node.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import HomeScreenButton from './HomeScreenButton.js';
@@ -52,15 +53,17 @@ class HomeScreenView extends ScreenView {
 
       // Remove the "normal" PDOM structure Nodes like the screen summary, play area, and control area Nodes from the
       // HomeScreen. The HomeScreen handles its own description.
-      includePDOMNodes: false,
+      includePDOMNodes: false
+    } );
 
-      // pdom
-      labelContent: simNameProperty.value,
-      descriptionContent: StringUtils.fillIn( homeScreenDescriptionPatternString, {
+    // Add the home screen description, since there are no PDOM container Nodes for this ScreenView
+    this.addChild( new Node( {
+      tagName: 'p',
+      innerContent: StringUtils.fillIn( homeScreenDescriptionPatternString, {
         name: simNameProperty.value,
         screens: model.simScreens.length
       } )
-    } );
+    } ) );
 
     this.selectedScreenProperty = model.selectedScreenProperty; // @private
 
