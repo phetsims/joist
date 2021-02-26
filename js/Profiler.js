@@ -41,7 +41,7 @@ class Profiler {
   constructor() {
 
     // @private These data structured were chosen to minimize CPU time.
-    this.allTimes = [];  // {number[]} times for all frames, in ms
+    this.allTimes = []; // {number[]} times for all frames, in ms
     this.histogram = []; // {number[]} array index corresponds to number of ms, value is number of frames at that time
     this.longTimes = []; // {number[]} any frame times that didn't fit in histogram
     this.frameStartTime = 0; // {number} start time of the current frame

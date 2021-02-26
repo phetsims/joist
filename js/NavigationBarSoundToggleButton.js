@@ -103,7 +103,8 @@ class NavigationBarSoundToggleButton extends JoistButton {
 
     // create X for sound off
     const soundOffX = new Path(
-      new Shape().moveTo( 0, 0 ).lineTo( X_WIDTH, X_WIDTH ).moveTo( 0, X_WIDTH ).lineTo( X_WIDTH, 0 ),
+      new Shape().moveTo( 0, 0 ).lineTo( X_WIDTH, X_WIDTH ).moveTo( 0, X_WIDTH )
+        .lineTo( X_WIDTH, 0 ),
       {
         stroke: 'black',
         lineWidth: 1.7,

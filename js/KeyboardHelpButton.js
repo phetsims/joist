@@ -22,7 +22,7 @@ import KeyboardHelpDialog from './KeyboardHelpDialog.js';
 // constants
 const hotKeysAndHelpString = joistStrings.a11y.keyboardHelp.hotKeysAndHelp;
 const HELP_BUTTON_HEIGHT = 67;
-const HELP_BUTTON_SCALE = 0.30;  // scale applied to the icon
+const HELP_BUTTON_SCALE = 0.30; // scale applied to the icon
 
 class KeyboardHelpButton extends JoistButton {
 

@@ -142,6 +142,7 @@ class NavigationBar extends Node {
     } );
 
     if ( this.simScreens.length === 1 ) {
+
       /* single-screen sim */
 
       // title can occupy all space to the left of the PhET button
@@ -150,6 +151,7 @@ class NavigationBar extends Node {
                                 this.phetButton.width - PHET_BUTTON_RIGHT_MARGIN;
     }
     else {
+
       /* multi-screen sim */
 
       // Start with the assumption that the title can occupy (at most) this percentage of the bar.
@@ -239,6 +241,7 @@ class NavigationBar extends Node {
       // @private - Put all screen buttons under a parent, to simplify layout
       this.screenButtonsContainer = new Node( {
         children: screenButtons,
+
         // NOTE: these layout settings are duplicated in layout(), but are necessary due to title's maxWidth requiring layout
         x: this.background.centerX, // since we have buttons centered around our origin, this centers the buttons
         centerY: this.background.centerY,
@@ -318,10 +321,12 @@ class NavigationBar extends Node {
     // determine our local-coordinate 'right' side of the screen, so we can expand if necessary
     let right;
     if ( NAVIGATION_BAR_SIZE.width * scale < width ) {
+
       // expanded
       right = width / scale;
     }
     else {
+
       // compact
       right = NAVIGATION_BAR_SIZE.width;
     }

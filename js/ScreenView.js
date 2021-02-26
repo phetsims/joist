@@ -118,6 +118,7 @@ class ScreenView extends Node {
         this.pdomTitleNode.focusable = false;
       }
     } );
+
     // @private
     this.pdomParentNode = new Node( {
       children: options.includePDOMNodes ? [
@@ -239,10 +240,12 @@ class ScreenView extends Node {
     let dy = 0;
 
     if ( scale === width / layoutBounds.width ) {
+
       // center vertically
       dy = ( height / scale - layoutBounds.height ) / 2;
     }
     else if ( scale === height / layoutBounds.height ) {
+
       // center horizontally
       dx = ( width / scale - layoutBounds.width ) / 2;
     }

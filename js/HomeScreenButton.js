@@ -27,7 +27,6 @@ import Tandem from '../../tandem/js/Tandem.js';
 import Frame from './Frame.js';
 import joist from './joist.js';
 
-
 // constants
 const LARGE_ICON_HEIGHT = 140;
 

@@ -28,7 +28,7 @@ import UpdateState from './UpdateState.js';
 // Scale to the same height as the PhET logo, so that layout code works correctly.
 // height of the PhET logo, brand/phet/images/logo.png or brand/adapted-from-phet/images/logo.png
 const PHET_LOGO_HEIGHT = 108;
-const PHET_LOGO_SCALE = 0.28;  // scale applied to the PhET logo
+const PHET_LOGO_SCALE = 0.28; // scale applied to the PhET logo
 
 class PhetButton extends JoistButton {
 

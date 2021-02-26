@@ -11,11 +11,11 @@ import Enumeration from '../../phet-core/js/Enumeration.js';
 import joist from './joist.js';
 
 const UpdateState = Enumeration.byKeys( [
-  'UP_TO_DATE',  // Simulation version is equal to or greater than the currently published version.
+  'UP_TO_DATE', // Simulation version is equal to or greater than the currently published version.
   'OUT_OF_DATE', // Simulation version is less than currently published version (or equal but has a suffix)
-  'CHECKING',    // Request to server sent out, has not processed reply yet.
-  'OFFLINE',     // Last attempt to check failed, most likely offline
-  'UNCHECKED'    // No attempt as been made to check the version against the latest online.
+  'CHECKING', // Request to server sent out, has not processed reply yet.
+  'OFFLINE', // Last attempt to check failed, most likely offline
+  'UNCHECKED' // No attempt as been made to check the version against the latest online.
 ] );
 joist.register( 'UpdateState', UpdateState );
 export default UpdateState;

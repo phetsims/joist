@@ -271,7 +271,7 @@ class Sim {
 
       // TODO: we are /1000 just to *1000?  Seems wasteful and like opportunity for error. See https://github.com/phetsims/joist/issues/387
       // Store the elapsed time in milliseconds for usage by Tween clients
-      phet.joist.elapsedTime = phet.joist.elapsedTime + dt * 1000;
+      phet.joist.elapsedTime += dt * 1000;
 
       // timer step before model/view steps, see https://github.com/phetsims/joist/issues/401
       // Note that this is vital to support Interactive Description and the utterance queue.
@@ -513,7 +513,7 @@ class Sim {
     window.phet.joist.ScreenshotGenerator = ScreenshotGenerator;
 
     this.version = packageJSON.version; // @public (joist-internal)
-    this.credits = options.credits;     // @public (joist-internal)
+    this.credits = options.credits; // @public (joist-internal)
 
     // @private - number of animation frames that have occurred
     this.frameCounter = 0;
@@ -809,6 +809,7 @@ class Sim {
     // Can't synchronously do this in Firefox, see https://github.com/phetsims/vegas/issues/55 and
     // https://bugzilla.mozilla.org/show_bug.cgi?id=840412.
     const resizeListener = () => {
+
       // Don't resize on window size changes if we are playing back input events.
       // See https://github.com/phetsims/joist/issues/37
       if ( !phet.joist.playbackModeEnabledProperty.value ) {
@@ -923,6 +924,7 @@ class Sim {
       setTimeout( // eslint-disable-line bad-sim-text
         () => {
           workItems[ i ]();
+
           // Move the progress ahead by one so we show the full progress bar for a moment before the sim starts up
 
           const progress = DotUtils.linear( 0, workItems.length - 1, 0.25, 1.0, i );
@@ -995,6 +997,7 @@ class Sim {
             }, 25 ); // pause for a few milliseconds with the progress bar filled in before going to the home screen
           }
         },
+
         // The following sets the amount of delay between each work item to make it easier to see the changes to the
         // progress bar.  A total value is divided by the number of work items.  This makes it possible to see the
         // progress bar when few work items exist, such as for a single screen sim, but allows things to move

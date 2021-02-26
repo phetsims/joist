@@ -92,6 +92,7 @@ class UpdateCheck {
     const req = new XMLHttpRequest();
 
     if ( 'withCredentials' in req ) {
+
       // we'll be able to send the proper type of request, so we mark ourself as checking
       self.stateProperty.value = UpdateState.CHECKING;
 
@@ -127,7 +128,7 @@ class UpdateCheck {
             }
           }
         }
-        catch( e ) {
+        catch ( e ) {
           self.stateProperty.value = UpdateState.OFFLINE;
         }
       };

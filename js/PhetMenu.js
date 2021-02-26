@@ -151,6 +151,7 @@ class PhetMenu extends Node {
         present: isPhETBrand,
         callback: () => {
           if ( !phet.chipper.isFuzzEnabled() ) {
+
             // Open locale-specific PhET home page. If there is no website translation for locale, fallback will be handled by server. See joist#97.
             openPopup( 'http://phet.colorado.edu/' + sim.locale );
           }
@@ -163,6 +164,7 @@ class PhetMenu extends Node {
         text: menuItemOutputInputEventsLogString,
         present: !!sim.options.recordInputEventLog,
         callback: () => {
+
           // prints the recorded input event log to the console
           console.log( sim.getRecordedInputEventLogString() );
         },
@@ -174,6 +176,7 @@ class PhetMenu extends Node {
         text: menuItemSubmitInputEventsLogString,
         present: !!sim.options.recordInputEventLog,
         callback: () => {
+
           // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
           sim.submitEventLog();
         },
@@ -185,6 +188,7 @@ class PhetMenu extends Node {
         text: menuItemMailInputEventsLogString,
         present: !!sim.options.recordInputEventLog,
         callback: () => {
+
           // mailto: link including the body to email
           sim.mailEventLog();
         },
@@ -248,6 +252,7 @@ class PhetMenu extends Node {
 
           // if we have FileSaver support
           if ( window.Blob && !!new window.Blob() ) {
+
             // construct a blob out of it
             const requiredPrefix = 'data:image/png;base64,';
             assert && assert( dataURL.slice( 0, requiredPrefix.length ) === requiredPrefix );
@@ -358,16 +363,16 @@ class PhetMenu extends Node {
 
     // Create the menu items.
     const unfilteredItems = _.map( keepItemDescriptors, itemDescriptor => {
-        return new MenuItem(
-          maxTextWidth,
-          maxTextHeight,
-          options.closeCallback,
-          itemDescriptor.text,
-          itemDescriptor.callback,
-          itemDescriptor.present,
-          itemDescriptor.options
-        );
-      }
+      return new MenuItem(
+        maxTextWidth,
+        maxTextHeight,
+        options.closeCallback,
+        itemDescriptor.text,
+        itemDescriptor.callback,
+        itemDescriptor.present,
+        itemDescriptor.options
+      );
+    }
     );
     const items = _.filter( unfilteredItems, item => item.present );
 
@@ -381,6 +386,7 @@ class PhetMenu extends Node {
     const ySpacing = 2;
     let separator;
     _.each( items, item => {
+
       // Don't add a separator for the first item
       if ( item.separatorBefore && items[ 0 ] !== item ) {
         y += ySpacing;

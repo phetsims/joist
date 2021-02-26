@@ -5,7 +5,6 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-
 import GeneralKeyboardHelpSection from '../../scenery-phet/js/keyboard/help/GeneralKeyboardHelpSection.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import joist from './joist.js';

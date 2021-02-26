@@ -85,7 +85,9 @@ const UpdateNodes = {
           fill: '#5c3',
           scale: options.big ? 1.2 : 1,
           children: [
-            new FontAwesomeNode( 'check', { fill: '#fff', scale: 0.38, centerX: 10, centerY: 10 } )
+            new FontAwesomeNode( 'check', {
+              fill: '#fff', scale: 0.38, centerX: 10, centerY: 10
+            } )
           ]
         } ),
         new Text( updatesUpToDateString, {
@@ -161,6 +163,7 @@ const UpdateNodes = {
             new TextPushButton( updatesNoThanksString, {
               baseColor: '#ddd', font: UPDATE_TEXT_FONT, listener: function() {
                 dialog.hide();
+
                 // Closing the dialog is handled by the Dialog listener itself, no need to add code to close it here.
               }
             } )

@@ -46,6 +46,7 @@ class HomeButton extends JoistButton {
     assert && assert( !options.innerContent, 'HomeButton sets its own innerContent' );
 
     const homeIcon = new FontAwesomeNode( 'home' );
+
     // scale so that the icon is slightly taller than screen button icons, value determined empirically, see joist#127
     homeIcon.setScaleMagnitude( 0.48 * navBarHeight / homeIcon.height );
 

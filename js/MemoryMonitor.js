@@ -17,11 +17,13 @@ const MB = 1024 * 1024;
 let hadMemoryFailure = false;
 
 class MemoryMonitor {
+
   /**
    * @param {Object} [options]
    */
   constructor( options ) {
     options = merge( {
+
       // {number} - Quantity of measurements in the running average
       windowSize: 2000,
 

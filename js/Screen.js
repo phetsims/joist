@@ -175,7 +175,7 @@ class Screen extends PhetioObject {
     // a) faster loading when only loading certain screens
     // b) showing a loading progress bar <not implemented>
     this._model = null; // @private
-    this._view = null;  // @private
+    this._view = null; // @private
 
     // @public {Property.<boolean>} indicates whether the Screen is active. Clients can read this, joist sets it.
     // To prevent potential visual glitches, the value should change only while the screen's view is invisible.
@@ -227,6 +227,7 @@ class Screen extends PhetioObject {
 
   // @public
   reset() {
+
     // Background color not reset, as it's a responsibility of the code that changes the property
   }
 
