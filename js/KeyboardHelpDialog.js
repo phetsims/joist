@@ -68,17 +68,17 @@ class KeyboardHelpDialog extends Dialog {
 
     // stack the two items with a bit of spacing
     options.title = new VBox( {
-      children: [
-        shortcutsTitleText,
+        children: [
+          shortcutsTitleText,
 
-        // labelWithIcon is meant to be passed to KeyboardHelpSection, so we have to hack a bit here
-        new HBox( { children: [ tabHintLine.icon, tabHintLine.label ], spacing: 4 } )
-      ],
-      spacing: 5,
+          // labelWithIcon is meant to be passed to KeyboardHelpSection, so we have to hack a bit here
+          new HBox( { children: [ tabHintLine.icon, tabHintLine.label ], spacing: 4 } )
+        ],
+        spacing: 5,
 
-      // pdom
-      tagName: 'div'
-    }
+        // pdom
+        tagName: 'div'
+      }
     );
 
     // help content surrounded by a div unless already specified, so that all content is read when dialog opens

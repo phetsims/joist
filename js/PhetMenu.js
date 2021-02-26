@@ -363,16 +363,16 @@ class PhetMenu extends Node {
 
     // Create the menu items.
     const unfilteredItems = _.map( keepItemDescriptors, itemDescriptor => {
-      return new MenuItem(
-        maxTextWidth,
-        maxTextHeight,
-        options.closeCallback,
-        itemDescriptor.text,
-        itemDescriptor.callback,
-        itemDescriptor.present,
-        itemDescriptor.options
-      );
-    }
+        return new MenuItem(
+          maxTextWidth,
+          maxTextHeight,
+          options.closeCallback,
+          itemDescriptor.text,
+          itemDescriptor.callback,
+          itemDescriptor.present,
+          itemDescriptor.options
+        );
+      }
     );
     const items = _.filter( unfilteredItems, item => item.present );
 
