@@ -128,7 +128,7 @@ class UpdateCheck {
             }
           }
         }
-        catch ( e ) {
+        catch( e ) {
           self.stateProperty.value = UpdateState.OFFLINE;
         }
       };
