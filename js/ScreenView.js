@@ -69,11 +69,11 @@ class ScreenView extends Node {
       includePDOMNodes: true
     }, options );
 
-    if ( assert && Tandem.VALIDATION && options.tandem.supplied ) {
+    super( options );
+
+    if ( assert && Tandem.VALIDATION && this.isPhetioInstrumented() ) {
       assert && assert( options.tandem.name === 'view', 'tandem name should be view' );
     }
-
-    super( options );
 
     // @public (read-only) {Bounds2} - the bounds the confine the layout of the view.
     assert && assert( options.layoutBounds instanceof Bounds2, 'invalid layoutBounds' );
