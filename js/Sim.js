@@ -492,7 +492,12 @@ class Sim {
 
     // Initialize the sound library if enabled, then hook up sound generation for screen changes.
     if ( this.supportsSound ) {
-      soundManager.initialize( this.browserTabVisibleProperty, this.activeProperty );
+      soundManager.initialize(
+        this.isConstructionCompleteProperty,
+        this.browserTabVisibleProperty,
+        this.activeProperty,
+        this.isSettingPhetioStateProperty
+      );
       soundManager.addSoundGenerator(
         new ScreenSelectionSoundGenerator( this.screenProperty, this.homeScreen, { initialOutputLevel: 0.5 } ),
         {
