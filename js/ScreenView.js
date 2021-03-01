@@ -54,7 +54,7 @@ class ScreenView extends Node {
       excludeInvisible: true, // so we don't keep invisible screens in the SVG tree
 
       // phet-io options
-      tandem: Tandem.OPTIONAL,
+      tandem: Tandem.REQUIRED,
       visiblePropertyOptions: { phetioState: false },
 
       // pdom options
@@ -68,6 +68,10 @@ class ScreenView extends Node {
       // {boolean} whether or not to add the screen summay, play area, and control area Nodes to the PDOM
       includePDOMNodes: true
     }, options );
+
+    if ( assert && Tandem.VALIDATION && options.tandem.supplied ) {
+      assert && assert( options.tandem.name === 'view', 'tandem name should be view' );
+    }
 
     super( options );
 
