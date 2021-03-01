@@ -65,7 +65,7 @@ class ScreenView extends Node {
       // the Play Area. This Node is added as a child to the ScreenSummaryNode.
       screenSummaryContent: null,
 
-      // {boolean} whether or not to add the screen summay, play area, and control area Nodes to the PDOM
+      // {boolean} whether or not to add the screen summary, play area, and control area Nodes to the PDOM
       includePDOMNodes: true
     }, options );
 
