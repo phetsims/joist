@@ -603,6 +603,7 @@ class Sim {
     // When the sim is inactive, make it non-interactive, see https://github.com/phetsims/scenery/issues/414
     this.activeProperty.link( active => {
       this.display.interactive = active;
+      globalKeyStateTracker.enabled = active;
 
       // The sim must remain inactive while playbackModeEnabledProperty is true
       if ( active ) {
