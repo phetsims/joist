@@ -168,18 +168,27 @@ class HomeScreenButton extends VBox {
     // button selected. The one exception to the former sentence is due to the desired behavior of selecting on
     // touchover, in which case we need to guard on touchdown since we don't want to double fire for touchover and
     // touchdown, see https://github.com/phetsims/joist/issues/624
-    const buttonDown = () => {
-      if ( isSelectedProperty.value && ( !( fireListener.pointer && fireListener.pointer.isTouchLike() ) || buttonWasAlreadySelected ) ) {
+    const buttonFired = () => {
+
+      // TODO: Why doesn't the following work?  Seems like it should.  See https://github.com/phetsims/joist/issues/689.
+      // const pointerIsTouchLike = fireListener.pointer && fireListener.pointer.isTouchLike();
+      const pointerIsTouchLike = fireListener.overPointers.length === 1 && fireListener.overPointers[ 0 ].isTouchLike();
+
+      if ( isSelectedProperty.value && ( !pointerIsTouchLike || buttonWasAlreadySelected ) ) {
+
+        // Select the screen that corresponds to this button.  This will make that screen appear to the user and the
+        // home screen disappear.
         homeScreenModel.screenProperty.value = screen;
       }
       else {
+
+        // Select the screen button.  This causes the button to enlarge, but doesn't go to the screen.
         homeScreenModel.selectedScreenProperty.value = screen;
       }
     };
 
     const fireListener = new FireListener( {
-      fireOnDown: true, // to match prior behavior
-      fire: buttonDown,
+      fire: buttonFired,
       tandem: options.tandem.createTandem( 'inputListener' )
     } );
     this.addInputListener( fireListener );
