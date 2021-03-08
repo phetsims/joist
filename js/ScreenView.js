@@ -71,7 +71,7 @@ class ScreenView extends Node {
 
     super( options );
 
-    if ( assert && Tandem.VALIDATION && this.isPhetioInstrumented() ) {
+    if ( assert && this.isPhetioInstrumented() ) {
       assert && assert( options.tandem.name === 'view', 'tandem name should be view' );
     }
 
