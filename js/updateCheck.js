@@ -19,7 +19,7 @@ const SimVersion = phet.preloads.chipper.SimVersion; // use preload from chipper
 // constants
 const simName = packageJSON.name;
 const simVersion = SimVersion.parse( packageJSON.version, phet.chipper.buildTimestamp );
-const requestProtocolString = ( 'https:' === document.location.protocol ? 'https:' : 'http:' );
+const requestProtocolString = ( document.location.protocol === 'https:' ? 'https:' : 'http:' );
 const TIMEOUT_MILLISECONDS = 15000; // How many ms before we time out (set to 'offline')
 
 class UpdateCheck {
