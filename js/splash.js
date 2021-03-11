@@ -47,7 +47,7 @@
     const translationY = Math.round( ( availableHeight - currentHeight * scale ) * POSITION_Y ); // eslint-disable-line bad-sim-text
 
     // Position the div using CSS
-    const transformString = 'translate(' + translationX + 'px, ' + translationY + 'px) ' + 'scale3d(' + scale + ', ' + scale + ', 1)';
+    const transformString = 'translate(' + translationX + 'px, ' + translationY + 'px) scale3d(' + scale + ', ' + scale + ', 1)';
     div.style[ '-webkit-transform' ] = transformString;
     div.style[ '-ms-transform' ] = transformString;
     div.style.transform = transformString;
