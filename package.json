@@ -24,6 +24,9 @@
     "parserOptions": {
       "sourceType": "module",
       "allowImportExportEverywhere": true
+    },
+    "rules": {
+      "template-curly-spacing": "off"
     }
   }
 }
