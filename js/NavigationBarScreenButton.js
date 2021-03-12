@@ -41,8 +41,8 @@ class NavigationBarScreenButton extends Node {
    */
   constructor( navigationBarFillProperty, screenProperty, screen, simScreenIndex, navBarHeight, options ) {
 
-    assert && assert( screen.nameProperty.value, 'name is required for screen ' + simScreenIndex );
-    assert && assert( screen.navigationBarIcon, 'navigationBarIcon is required for screen ' + screen.nameProperty.value );
+    assert && assert( screen.nameProperty.value, `name is required for screen ${ simScreenIndex}` );
+    assert && assert( screen.navigationBarIcon, `navigationBarIcon is required for screen ${ screen.nameProperty.value}` );
 
     options = merge( {
       cursor: 'pointer',

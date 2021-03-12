@@ -109,7 +109,7 @@ const UpdateNodes = {
    * @public (joist-internal)
    */
   createOutOfDateAboutNode: function( options ) {
-    const text = phet.chipper.queryParameters.allowLinks ? '<a href="{{url}}">' + updatesOutOfDateString + '</a>' : updatesOutOfDateString;
+    const text = phet.chipper.queryParameters.allowLinks ? `<a href="{{url}}">${ updatesOutOfDateString }</a>` : updatesOutOfDateString;
     const links = phet.chipper.queryParameters.allowLinks ? { url: updateCheck.updateURL } : {};
     const linkNode = new RichText( text, {
       links: links, // RichText must fill in URL for link

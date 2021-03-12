@@ -47,7 +47,7 @@
     const translationY = Math.round( ( availableHeight - currentHeight * scale ) * POSITION_Y ); // eslint-disable-line bad-sim-text
 
     // Position the div using CSS
-    const transformString = 'translate(' + translationX + 'px, ' + translationY + 'px) scale3d(' + scale + ', ' + scale + ', 1)';
+    const transformString = `translate(${ translationX }px, ${ translationY }px) scale3d(${ scale }, ${ scale }, 1)`;
     div.style[ '-webkit-transform' ] = transformString;
     div.style[ '-ms-transform' ] = transformString;
     div.style.transform = transformString;
@@ -104,7 +104,7 @@
   const progressBarBackground = document.createElementNS( XML_NAMESPACE, 'rect' );
   progressBarBackground.setAttribute( 'id', 'progressBarBackground' );
   progressBarBackground.setAttribute( 'x', '1' ); // prevent clipping on the left side, see https://github.com/phetsims/joist/issues/400
-  progressBarBackground.setAttribute( 'y', PROGRESS_BAR_Y + '' );
+  progressBarBackground.setAttribute( 'y', `${PROGRESS_BAR_Y }` );
   progressBarBackground.setAttribute( 'width', '273' );
   progressBarBackground.setAttribute( 'height', '10' );
   progressBarBackground.setAttribute( 'rx', '3' );
@@ -116,7 +116,7 @@
   const progressBarForeground = document.createElementNS( XML_NAMESPACE, 'rect' );
   progressBarForeground.setAttribute( 'id', 'progressBarForeground' );
   progressBarForeground.setAttribute( 'x', '1' ); // prevent clipping on the left side, see https://github.com/phetsims/joist/issues/400
-  progressBarForeground.setAttribute( 'y', PROGRESS_BAR_Y + '' );
+  progressBarForeground.setAttribute( 'y', `${PROGRESS_BAR_Y }` );
   progressBarForeground.setAttribute( 'width', '0' );
   progressBarForeground.setAttribute( 'height', '10' );
   progressBarForeground.setAttribute( 'rx', '3' );
@@ -156,7 +156,7 @@
     // Identify the brand (assume generated brand if not provided with query parameters)
     const brandMatch = location.search.match( /brand=([^&]+)/ );
     const brand = brandMatch ? decodeURIComponent( brandMatch[ 1 ] ) : 'adapted-from-phet';
-    splashImage.src = '../brand/' + brand + '/images/splash.svg';
+    splashImage.src = `../brand/${ brand }/images/splash.svg`;
   }
 
   // Do not allow zoom from input on the splash screen.

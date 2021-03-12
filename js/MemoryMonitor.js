@@ -60,7 +60,7 @@ class MemoryMonitor {
          averageMemory > this.memoryLimit &&
          currentMemory > this.memoryLimit * 0.5 ) {
       hadMemoryFailure = true;
-      throw new Error( 'Average memory used (' + MemoryMonitor.memoryString( averageMemory ) + ') is above our memoryLimit (' + MemoryMonitor.memoryString( this.memoryLimit ) + '). Current memory: ' + MemoryMonitor.memoryString( currentMemory ) + '.' );
+      throw new Error( `Average memory used (${ MemoryMonitor.memoryString( averageMemory ) }) is above our memoryLimit (${ MemoryMonitor.memoryString( this.memoryLimit ) }). Current memory: ${ MemoryMonitor.memoryString( currentMemory ) }.` );
     }
   }
 
@@ -72,7 +72,7 @@ class MemoryMonitor {
    * @returns {string}
    */
   static memoryString( bytes ) {
-    return Math.ceil( bytes / MB ) + 'MB';
+    return `${Math.ceil( bytes / MB ) }MB`;
   }
 }
 

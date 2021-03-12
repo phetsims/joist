@@ -153,7 +153,7 @@ class PhetMenu extends Node {
           if ( !phet.chipper.isFuzzEnabled() ) {
 
             // Open locale-specific PhET home page. If there is no website translation for locale, fallback will be handled by server. See joist#97.
-            openPopup( 'http://phet.colorado.edu/' + sim.locale );
+            openPopup( `http://phet.colorado.edu/${ sim.locale}` );
           }
         },
         options: {
@@ -201,12 +201,12 @@ class PhetMenu extends Node {
         present: isPhETBrand && !isApp,
         callback: () => {
           if ( !phet.chipper.isFuzzEnabled() ) {
-            const url = 'http://phet.colorado.edu/files/troubleshooting/' +
-                        '?sim=' + encodeURIComponent( sim.simNameProperty.value ) +
-                        '&version=' + encodeURIComponent( sim.version + ' ' +
-                        ( phet.chipper.buildTimestamp ? phet.chipper.buildTimestamp : '(unbuilt)' ) ) +
-                        '&url=' + encodeURIComponent( window.location.href ) +
-                        '&dependencies=' + encodeURIComponent( JSON.stringify( {} ) );
+            const url = `${'http://phet.colorado.edu/files/troubleshooting/' +
+                        '?sim='}${ encodeURIComponent( sim.simNameProperty.value )
+                        }&version=${ encodeURIComponent( `${sim.version } ${
+                         phet.chipper.buildTimestamp ? phet.chipper.buildTimestamp : '(unbuilt)'}` )
+                        }&url=${ encodeURIComponent( window.location.href )
+                        }&dependencies=${ encodeURIComponent( JSON.stringify( {} ) )}`;
             openPopup( url );
           }
         },
@@ -219,7 +219,7 @@ class PhetMenu extends Node {
         present: phet.chipper.queryParameters.qrCode,
         callback: () => {
           if ( !phet.chipper.isFuzzEnabled() ) {
-            openPopup( 'http://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent( window.location.href ) + '&size=220x220&margin=0' );
+            openPopup( `http://api.qrserver.com/v1/create-qr-code/?data=${ encodeURIComponent( window.location.href ) }&size=220x220&margin=0` );
           }
         },
         options: {
@@ -266,7 +266,7 @@ class PhetMenu extends Node {
             const blob = new window.Blob( [ byteArray ], { type: 'image/png' } );
 
             // our preferred filename
-            const filename = stripEmbeddingMarks( sim.simNameProperty.value ) + ' screenshot.png';
+            const filename = `${stripEmbeddingMarks( sim.simNameProperty.value ) } screenshot.png`;
 
             if ( !phet.chipper.isFuzzEnabled() ) {
               window.saveAs( blob, filename );

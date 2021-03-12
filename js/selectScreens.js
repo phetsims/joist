@@ -137,7 +137,7 @@ const selectScreens = ( allSimScreens,
   }
 
   if ( screens.indexOf( initialScreen ) === -1 ) {
-    throw new Error( 'screen not found: ' + initialScreenIndex );
+    throw new Error( `screen not found: ${ initialScreenIndex}` );
   }
 
   // {boolean} indicates whether all possible screens have been created (order-independent)

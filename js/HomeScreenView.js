@@ -41,7 +41,7 @@ class HomeScreenView extends ScreenView {
    * @param {Object} [options]
    */
   constructor( simNameProperty, model, tandem, options ) {
-    assert && assert( simNameProperty.value, 'simName is required: ' + simNameProperty.value );
+    assert && assert( simNameProperty.value, `simName is required: ${ simNameProperty.value}` );
 
     options = merge( {
       warningNode: null // {Node | null}, to display below the icons as a warning if available
@@ -94,8 +94,8 @@ class HomeScreenView extends ScreenView {
     // @private
     this.screenButtons = _.map( model.simScreens, screen => {
 
-      assert && assert( screen.nameProperty.value, 'name is required for screen ' + model.simScreens.indexOf( screen ) );
-      assert && assert( screen.homeScreenIcon, 'homeScreenIcon is required for screen ' + screen.nameProperty.value );
+      assert && assert( screen.nameProperty.value, `name is required for screen ${ model.simScreens.indexOf( screen )}` );
+      assert && assert( screen.homeScreenIcon, `homeScreenIcon is required for screen ${ screen.nameProperty.value}` );
 
       const homeScreenButton = new HomeScreenButton(
         screen,
@@ -106,7 +106,7 @@ class HomeScreenView extends ScreenView {
           descriptionContent: screen.descriptionContent,
 
           // phet-io
-          tandem: buttonGroupTandem.createTandem( screen.tandem.name + 'Button' )
+          tandem: buttonGroupTandem.createTandem( `${screen.tandem.name }Button` )
         } );
 
       screen.pdomDisplayNameProperty.link( screenName => {

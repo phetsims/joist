@@ -104,7 +104,7 @@ class Screen extends PhetioObject {
     assert && assert( !options.navigationBarIcon || options.navigationBarIcon instanceof ScreenIcon, 'invalid navigationBarIcon' );
 
     assert && assert( _.includes( [ 'black', 'white', null ], options.showScreenIconFrameForNavigationBarFill ),
-      'invalid showScreenIconFrameForNavigationBarFill: ' + options.showScreenIconFrameForNavigationBarFill );
+      `invalid showScreenIconFrameForNavigationBarFill: ${ options.showScreenIconFrameForNavigationBarFill}` );
 
     super( options );
 
@@ -312,7 +312,7 @@ function validateIconSize( icon, minimumSize, aspectRatio, name ) {
   const actualAspectRatio = icon.width / icon.height;
   assert && assert(
     Math.abs( aspectRatio - actualAspectRatio ) < ICON_ASPECT_RATIO_TOLERANCE,
-    name + ' has invalid aspect ratio: ' + actualAspectRatio
+    `${name } has invalid aspect ratio: ${ actualAspectRatio}`
   );
 }
 

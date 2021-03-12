@@ -41,10 +41,10 @@ class UpdateCheck {
     this.areUpdatesChecked = phet.chipper.brand === 'phet' && !phet.chipper.isApp;
 
     // @public - The URL to be used for "New version available" clicks
-    this.updateURL = 'http://phet.colorado.edu/html-sim-update' +
-                     '?simulation=' + encodeURIComponent( simName ) +
-                     '&version=' + encodeURIComponent( simVersion.toString() ) +
-                     '&buildTimestamp=' + encodeURIComponent( '' + phet.chipper.buildTimestamp );
+    this.updateURL = `${'http://phet.colorado.edu/html-sim-update' +
+                     '?simulation='}${ encodeURIComponent( simName )
+                     }&version=${ encodeURIComponent( simVersion.toString() )
+                     }&buildTimestamp=${ encodeURIComponent( `${ phet.chipper.buildTimestamp}` )}`;
 
     // @private {number} - Valid only if `state === UpdateState.CHECKING`, the timeout ID of our timeout listener
     this.timeoutId = -1;
@@ -105,7 +105,7 @@ class UpdateCheck {
           const data = JSON.parse( req.responseText );
 
           if ( data.error ) {
-            console.log( 'Update check failure: ' + data.error );
+            console.log( `Update check failure: ${ data.error}` );
             self.stateProperty.value = UpdateState.OFFLINE;
           }
           else {
@@ -123,7 +123,7 @@ class UpdateCheck {
               self.stateProperty.value = UpdateState.UP_TO_DATE;
             }
             else {
-              console.log( 'Failed to get proper state: ' + data.state );
+              console.log( `Failed to get proper state: ${ data.state}` );
               self.stateProperty.value = UpdateState.OFFLINE;
             }
           }
@@ -137,7 +137,7 @@ class UpdateCheck {
 
         self.stateProperty.value = UpdateState.OFFLINE;
       };
-      req.open( 'post', requestProtocolString + '//phet.colorado.edu/services/check-html-updates', true ); // enable CORS
+      req.open( 'post', `${requestProtocolString }//phet.colorado.edu/services/check-html-updates`, true ); // enable CORS
       req.send( JSON.stringify( {
         api: '1.0',
         simulation: simName,
