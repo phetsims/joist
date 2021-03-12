@@ -127,7 +127,7 @@
   svg.appendChild( progressBarForeground );
 
   // fade/glow the background of the loading bar
-  const phetSplashScreenAnimationInterval = setInterval( function() { // eslint-disable-line bad-sim-text
+  const phetSplashScreenAnimationInterval = setInterval( () => { // eslint-disable-line bad-sim-text
 
     // use browser toFixed because this is a preload
     progressBarBackground.style[ 'stroke-width' ] = ( Math.sin( Date.now() / 1000 * 4 ) * 0.55 + 1 ).toFixed( 2 );

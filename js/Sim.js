@@ -151,7 +151,7 @@ class Sim {
 
     // playbackModeEnabledProperty cannot be changed after Sim construction has begun, hence this listener is added before
     // anything else is done, see https://github.com/phetsims/phet-io/issues/1146
-    phet.joist.playbackModeEnabledProperty.lazyLink( function( playbackModeEnabled ) {
+    phet.joist.playbackModeEnabledProperty.lazyLink( playbackModeEnabled => {
       throw new Error( 'playbackModeEnabledProperty cannot be changed after Sim construction has begun' );
     } );
 
@@ -732,7 +732,7 @@ class Sim {
 
     // If the page is loaded from the back-forward cache, then reload the page to avoid bugginess,
     // see https://github.com/phetsims/joist/issues/448
-    window.addEventListener( 'pageshow', function( event ) {
+    window.addEventListener( 'pageshow', event => {
       if ( event.persisted ) {
         window.location.reload();
       }

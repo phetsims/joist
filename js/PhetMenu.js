@@ -237,9 +237,9 @@ class PhetMenu extends Node {
           updateDialog.show();
         },
         options: {
-          textFill: new DerivedProperty( [ updateCheck.stateProperty ], function( state ) {
+          textFill: new DerivedProperty( [ updateCheck.stateProperty ], ( state => {
             return state === UpdateState.OUT_OF_DATE ? '#0a0' : '#000';
-          } )
+          } ) )
         }
       },
 

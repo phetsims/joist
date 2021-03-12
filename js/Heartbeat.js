@@ -42,7 +42,7 @@ const Heartbeat = {
     sim.display.domElement.appendChild( heartbeatDiv );
 
     // prevent Safari from going to sleep, see https://github.com/phetsims/joist/issues/140
-    sim.frameStartedEmitter.addListener( function() {
+    sim.frameStartedEmitter.addListener( () => {
       if ( sim.frameCounter % 1000 === 0 ) {
         value = !value;
         heartbeatDiv.innerHTML = value;

@@ -22,7 +22,7 @@ class LegendsOfLearningSupport {
     this.sim = sim;
 
     // Respond to pause/resume commands from the Legends of Learning platform
-    window.addEventListener( 'message', function( message ) {
+    window.addEventListener( 'message', message => {
       if ( message.data.messageName === 'pause' ) {
         sim.stepOneFrame();
         sim.activeProperty.value = false;

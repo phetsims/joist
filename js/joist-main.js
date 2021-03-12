@@ -21,12 +21,14 @@ const simOptions = {
   }
 };
 
-simLauncher.launch( function() {
+simLauncher.launch( () => {
 
   const screens = [
     new Screen(
-      function() { return {}; },
-      function( model ) { return new DialogsScreenView(); },
+      ( () => {
+        return {};
+      } ),
+      ( model => new DialogsScreenView() ),
       {
         name: 'Dialogs',
         backgroundColorProperty: new Property( 'white' )

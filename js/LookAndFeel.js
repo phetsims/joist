@@ -20,21 +20,21 @@ class LookAndFeel {
 
     // @public (joist-internal) {boolean} - True if the navigation bar background is black
     this.navigationBarDarkProperty = new DerivedProperty( [ this.backgroundColorProperty ],
-      function( backgroundColor ) {
+      ( backgroundColor => {
         return !!new Color( backgroundColor ).equals( Color.BLACK );
-      } );
+      } ) );
 
     // @public (joist-internal) - Navigation bar background fill
     this.navigationBarFillProperty = new DerivedProperty( [ this.navigationBarDarkProperty ],
-      function( backgroundDark ) {
+      ( backgroundDark => {
         return backgroundDark ? 'white' : 'black';
-      } );
+      } ) );
 
     // @public (joist-internal) - Navigation bar text fill
     this.navigationBarTextFillProperty = new DerivedProperty( [ this.navigationBarFillProperty ],
-      function( navigationBarFill ) {
+      ( navigationBarFill => {
         return navigationBarFill === 'black' ? 'white' : 'black';
-      } );
+      } ) );
   }
 
   // @public
