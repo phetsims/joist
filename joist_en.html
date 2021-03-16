@@ -46,6 +46,9 @@
         "parserOptions": {
           "sourceType": "module",
           "allowImportExportEverywhere": true
+        },
+        "rules": {
+          "template-curly-spacing": "off"
         }
       }
     };
@@ -97,6 +100,7 @@
 
   if ( brand === 'phet-io' ) {
     preloads = preloads.concat( [
+      '../chipper/js/phet-io/phetioCompareAPIs.js',
       '../phet-io/js/phet-io-initialize-globals.js',
       '../joist/js/joist-phet-io-overrides.js'
     ] );
