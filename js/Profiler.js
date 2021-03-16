@@ -81,11 +81,11 @@ class Profiler {
 
       // FPS
       const averageFPS = Utils.roundSymmetric( 1000 / ( totalTime / this.allTimes.length ) );
-      let text = `${ averageFPS } FPS`;
+      let text = `${averageFPS} FPS`;
 
       // ms/frame
       const averageFrameTime = Utils.roundSymmetric( totalTime / this.allTimes.length );
-      text = `${text + FIELD_SEPARATOR + averageFrameTime }ms/frame`;
+      text = `${text + FIELD_SEPARATOR + averageFrameTime}ms/frame`;
 
       // histogram
       text = text + FIELD_SEPARATOR + this.histogram;

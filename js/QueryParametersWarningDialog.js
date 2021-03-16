@@ -26,7 +26,7 @@ class QueryParametersWarningDialog extends OopsDialog {
    */
   constructor( warnings, options ) {
 
-    assert && assert( warnings.length > 0, `expected 1 or more warnings: ${ warnings.length}` );
+    assert && assert( warnings.length > 0, `expected 1 or more warnings: ${warnings.length}` );
 
     options = merge( {
 
@@ -43,11 +43,11 @@ class QueryParametersWarningDialog extends OopsDialog {
     }, options );
 
     // add warnings to generic message
-    let message = `${queryParametersWarningDialogOneOrMoreQueryParametersString }<br><br>`;
+    let message = `${queryParametersWarningDialogOneOrMoreQueryParametersString}<br><br>`;
     warnings.forEach( warning => {
       message += `${warning.key}=${warning.value}<br>`;
     } );
-    message += `<br>${ queryParametersWarningDialogTheSimulationWillStartString}`;
+    message += `<br>${queryParametersWarningDialogTheSimulationWillStartString}`;
 
     super( message, options );
   }

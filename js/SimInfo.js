@@ -36,7 +36,7 @@ class SimInfo extends PhetioObject {
     this.putInfo( 'randomSeed', window.phet.chipper.queryParameters.randomSeed );
     this.putInfo( 'userAgent', window.navigator.userAgent );
     this.putInfo( 'language', window.navigator.language );
-    this.putInfo( 'window', `${window.innerWidth }x${ window.innerHeight}` );
+    this.putInfo( 'window', `${window.innerWidth}x${window.innerHeight}` );
     this.putInfo( 'referrer', document.referrer );
 
     // from Scenery Utils
@@ -56,7 +56,7 @@ class SimInfo extends PhetioObject {
     }
     catch( e ) {} // eslint-disable-line
 
-    this.putInfo( 'pixelRatio', `${window.devicePixelRatio || 1 }/${ backingStorePixelRatio}` );
+    this.putInfo( 'pixelRatio', `${window.devicePixelRatio || 1}/${backingStorePixelRatio}` );
 
     const flags = [];
     if ( window.navigator.pointerEnabled ) { flags.push( 'pointerEnabled' ); }

@@ -68,43 +68,43 @@ class CreditsNode extends VBox {
 
     // Primary lead designer should be listed first, followed by contributing designers in alphabetical order.
     if ( credits.leadDesign ) {
-      const designString = StringUtils.format( creditsLeadDesignString, `\u202a${ credits.leadDesign }\u202c` );
+      const designString = StringUtils.format( creditsLeadDesignString, `\u202a${credits.leadDesign}\u202c` );
       children.push( new RichText( designString, merge( { innerContent: designString }, richTextOptions ) ) );
     }
 
     // Primary developer should be listed first, followed by contributing developers in alphabetical order.
     if ( credits.softwareDevelopment ) {
-      const developmentString = StringUtils.format( creditsSoftwareDevelopmentString, `\u202a${ credits.softwareDevelopment }\u202c` );
+      const developmentString = StringUtils.format( creditsSoftwareDevelopmentString, `\u202a${credits.softwareDevelopment}\u202c` );
       children.push( new RichText( developmentString, merge( { innerContent: developmentString }, richTextOptions ) ) );
     }
 
     // In alphabetical order
     if ( credits.team ) {
-      const teamString = StringUtils.format( creditsTeamString, `\u202a${ credits.team }\u202c` );
+      const teamString = StringUtils.format( creditsTeamString, `\u202a${credits.team}\u202c` );
       children.push( new RichText( teamString, merge( { innerContent: teamString }, richTextOptions ) ) );
     }
 
     // In alphabetical order
     if ( credits.contributors ) {
-      const contributorsString = StringUtils.format( creditsContributorsString, `\u202a${ credits.contributors }\u202c` );
+      const contributorsString = StringUtils.format( creditsContributorsString, `\u202a${credits.contributors}\u202c` );
       children.push( new RichText( contributorsString, merge( { innerContent: contributorsString }, richTextOptions ) ) );
     }
 
     // In alphabetical order
     if ( credits.qualityAssurance ) {
-      const qualityAssuranceString = StringUtils.format( creditsQualityAssuranceString, `\u202a${ credits.qualityAssurance }\u202c` );
+      const qualityAssuranceString = StringUtils.format( creditsQualityAssuranceString, `\u202a${credits.qualityAssurance}\u202c` );
       children.push( new RichText( qualityAssuranceString, merge( { innerContent: qualityAssuranceString }, richTextOptions ) ) );
     }
 
     // In alphabetical order
     if ( credits.graphicArts ) {
-      const graphicArtsString = StringUtils.format( creditsGraphicArtsString, `\u202a${ credits.graphicArts }\u202c` );
+      const graphicArtsString = StringUtils.format( creditsGraphicArtsString, `\u202a${credits.graphicArts}\u202c` );
       children.push( new RichText( graphicArtsString, merge( { innerContent: graphicArtsString }, richTextOptions ) ) );
     }
 
     // In alphabetical order
     if ( credits.soundDesign ) {
-      const soundDesignString = StringUtils.format( creditsSoundDesignString, `\u202a${ credits.soundDesign }\u202c` );
+      const soundDesignString = StringUtils.format( creditsSoundDesignString, `\u202a${credits.soundDesign}\u202c` );
       children.push( new RichText( soundDesignString, merge( { innerContent: soundDesignString }, richTextOptions ) ) );
     }
 

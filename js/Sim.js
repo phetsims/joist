@@ -940,7 +940,7 @@ class Sim {
           if ( document.getElementById( 'progressBarForeground' ) ) {
 
             // Grow the progress bar foreground to the right based on the progress so far.
-            document.getElementById( 'progressBarForeground' ).setAttribute( 'width', `${progress * PROGRESS_BAR_WIDTH }` );
+            document.getElementById( 'progressBarForeground' ).setAttribute( 'width', `${progress * PROGRESS_BAR_WIDTH}` );
           }
           if ( i + 1 < workItems.length ) {
             runItem( i + 1 );

@@ -195,7 +195,7 @@ class AboutDialog extends Dialog {
         const link = links[ i ];
 
         // If links are allowed, use hyperlinks.  Otherwise just output the URL.  This doesn't need to be internationalized.
-        const text = phet.chipper.queryParameters.allowLinks ? `<a href="{{url}}">${ link.text }</a>` : `${link.text }: ${ link.url}`;
+        const text = phet.chipper.queryParameters.allowLinks ? `<a href="{{url}}">${link.text}</a>` : `${link.text}: ${link.url}`;
 
         // This is PhET-iO instrumented because it is a keyboard navigation focusable element.
         linksChildren.push( new RichText( text, {
