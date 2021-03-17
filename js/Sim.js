@@ -31,7 +31,6 @@ import BarrierRectangle from '../../scenery-phet/js/BarrierRectangle.js';
 import globalKeyStateTracker from '../../scenery/js/accessibility/globalKeyStateTracker.js';
 import KeyboardFuzzer from '../../scenery/js/accessibility/KeyboardFuzzer.js';
 import KeyboardUtils from '../../scenery/js/accessibility/KeyboardUtils.js';
-import webSpeaker from '../../scenery/js/accessibility/speaker/webSpeaker.js';
 import Display from '../../scenery/js/display/Display.js';
 import InputFuzzer from '../../scenery/js/input/InputFuzzer.js';
 import animatedPanZoomSingleton from '../../scenery/js/listeners/animatedPanZoomSingleton.js';
@@ -42,7 +41,6 @@ import '../../sherpa/lib/game-up-camera-1.0.0.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
-import UtteranceQueue from '../../utterance-queue/js/UtteranceQueue.js';
 import Heartbeat from './Heartbeat.js';
 import HomeScreen from './HomeScreen.js';
 import HomeScreenView from './HomeScreenView.js';
@@ -674,13 +672,6 @@ class Sim {
       } );
     }
 
-    if ( phet.chipper.queryParameters.supportsSelfVoicing ) {
-
-      // @public - the UtteranceQueue that is specifically used for the self-voicing feature, where
-      // Utterances are spoken with speech synthesis
-      this.selfVoicingUtteranceQueue = new UtteranceQueue( webSpeaker, false );
-    }
-
     Heartbeat.start( this );
 
     if ( phet.chipper.queryParameters.sceneryLog ) {
@@ -751,9 +742,19 @@ class Sim {
   /**
    * Get the single utteranceQueue instance to be used by the PhET sim to make aria-live alerts.
    * @public
+   * @returns {UtteranceQueue}
    */
   get utteranceQueue() {
     return this.display.utteranceQueue;
+  }
+
+  /**
+   * Get the single UtteranceQueue instance used for alerts spoken with SpeechSynthesis.
+   * @public
+   * @returns {UtteranceQueue}
+   */
+  get voicingUtteranceQueue() {
+    return this.display.voicingUtteranceQueue;
   }
 
   /**
