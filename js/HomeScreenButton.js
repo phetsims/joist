@@ -170,9 +170,7 @@ class HomeScreenButton extends VBox {
     // touchdown, see https://github.com/phetsims/joist/issues/624
     const buttonFired = () => {
 
-      // TODO: Why doesn't the following work?  Seems like it should.  See https://github.com/phetsims/joist/issues/689.
-      // const pointerIsTouchLike = fireListener.pointer && fireListener.pointer.isTouchLike();
-      const pointerIsTouchLike = fireListener.overPointers.length === 1 && fireListener.overPointers[ 0 ].isTouchLike();
+      const pointerIsTouchLike = fireListener.pointer && fireListener.pointer.isTouchLike();
 
       if ( isSelectedProperty.value && ( !pointerIsTouchLike || buttonWasAlreadySelected ) ) {
 
