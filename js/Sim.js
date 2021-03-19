@@ -586,7 +586,10 @@ class Sim {
       allowWebGL: phet.chipper.queryParameters.webgl,
       accessibility: this.supportsInteractiveDescription,
       assumeFullWindow: true, // a bit faster if we can assume no coordinate translations are needed for the display.
-      allowBackingScaleAntialiasing: options.allowBackingScaleAntialiasing
+      allowBackingScaleAntialiasing: options.allowBackingScaleAntialiasing,
+
+      // phet-io
+      tandem: Tandem.GENERAL_VIEW.createTandem( 'display' )
     } );
 
     // Seeding by default a random value for reproducable fuzzes if desired
