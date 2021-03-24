@@ -585,7 +585,7 @@ class Sim {
       // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
       allowWebGL: phet.chipper.queryParameters.webgl,
       accessibility: this.supportsInteractiveDescription,
-      voicing: phet.chipper.queryParameters.supportsSelfVoicing,
+      voicing: phet.chipper.queryParameters.supportsVoicing,
       assumeFullWindow: true, // a bit faster if we can assume no coordinate translations are needed for the display.
       allowBackingScaleAntialiasing: options.allowBackingScaleAntialiasing,
 
@@ -632,7 +632,7 @@ class Sim {
 
           // in the self-voicing prototype we want the focus highlight to remain visible with
           // mouse/touch presses
-          if ( !phet.chipper.queryParameters.supportsSelfVoicing ) {
+          if ( !phet.chipper.queryParameters.supportsVoicing ) {
 
             // An AT might have sent a down event outside of the display, if this happened we will not do anything
             // to change focus
