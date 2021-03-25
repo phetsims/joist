@@ -630,7 +630,7 @@ class Sim {
       this.display.addInputListener( {
         down: event => {
 
-          // in the self-voicing prototype we want the focus highlight to remain visible with
+          // in the voicing prototype we want the focus highlight to remain visible with
           // mouse/touch presses
           if ( !phet.chipper.queryParameters.supportsVoicing ) {
 
