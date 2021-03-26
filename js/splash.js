@@ -130,7 +130,7 @@
   const phetSplashScreenAnimationInterval = setInterval( () => { // eslint-disable-line bad-sim-text
 
     // use browser toFixed because this is a preload
-    progressBarBackground.style[ 'stroke-width' ] = ( Math.sin( Date.now() / 1000 * 4 ) * 0.55 + 1 ).toFixed( 2 );
+    progressBarBackground.style[ 'stroke-width' ] = ( Math.sin( Date.now() / 1000 * 4 ) * 0.55 + 1 ).toFixed( 2 ); // eslint-disable-line bad-sim-text
   }, 16 );
 
   // After download is complete, stop the animation of the background
