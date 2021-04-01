@@ -141,6 +141,8 @@ class NavigationBar extends Node {
       otherElementName: PDOMPeer.LABEL_SIBLING
     } );
 
+    let buttons = null;
+
     if ( this.simScreens.length === 1 ) {
 
       /* single-screen sim */
@@ -158,7 +160,7 @@ class NavigationBar extends Node {
       const maxTitleWidth = Math.min( this.titleText.width, 0.20 * HomeScreenView.LAYOUT_BOUNDS.width );
 
       // pdom - container for the homeButton and all the screen buttons.
-      var buttons = new Node( { // eslint-disable-line no-var
+      buttons = new Node( {
         tagName: 'ol',
         containerTagName: 'nav',
         labelTagName: 'h2',
