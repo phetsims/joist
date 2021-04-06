@@ -288,7 +288,7 @@ class Sim {
         window.TWEEN.update( phet.joist.elapsedTime );
       }
 
-      if ( this.supportsPanAndZoom ) {
+      if ( phet.chipper.queryParameters.supportsPanAndZoom ) {
 
         // animate the PanZoomListener, for smooth panning/scaling
         animatedPanZoomSingleton.listener.step( dt );
@@ -441,11 +441,6 @@ class Sim {
     // even if this specific runtime turns it on/off via a query parameter. Most of the time this should not be used;
     // instead see Sim.supportsInteractiveDescription. This is to support a consistent API for PhET-iO, see https://github.com/phetsims/phet-io/issues/1457
     this.accessibilityPartOfTheAPI = packageJSON.phet.supportsInteractiveDescription;
-
-    // @public (joist-internal, read-only) {boolean} - If true, the simulation supports the zoom feature. Default
-    // value is true unless specified otherwise in package.json (checked in initialize-globals) or with
-    // query parameter.
-    this.supportsPanAndZoom = phet.chipper.queryParameters.supportsPanAndZoom;
 
     // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
     this.supportsGestureDescription = this.supportsInteractiveDescription && SUPPORTS_GESTURE_DESCRIPTION;
@@ -706,7 +701,7 @@ class Sim {
     animatedPanZoomSingleton.initialize( this.simulationRoot, {
       tandem: Tandem.GENERAL_VIEW.createTandem( 'panZoomListener' )
     } );
-    if ( this.supportsPanAndZoom ) {
+    if ( phet.chipper.queryParameters.supportsPanAndZoom ) {
       this.display.addInputListener( animatedPanZoomSingleton.listener );
     }
 
