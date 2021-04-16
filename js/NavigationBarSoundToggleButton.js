@@ -63,7 +63,6 @@ class NavigationBarSoundToggleButton extends JoistButton {
       visiblePropertyOptions: { phetioFeatured: true },
 
       // pdom
-      tagName: 'button',
       innerContent: joistStrings.a11y.soundToggle.label
     }, options );
 

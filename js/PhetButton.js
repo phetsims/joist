@@ -104,7 +104,6 @@ class PhetButton extends JoistButton {
       },
 
       // pdom
-      tagName: 'button',
       innerContent: joistStrings.a11y.phetMenu
     } );
 

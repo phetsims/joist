@@ -37,7 +37,6 @@ class HomeButton extends JoistButton {
       listener: null,
 
       // pdom,
-      tagName: 'button',
       containerTagName: 'li',
       descriptionContent: homeScreenDescriptionString,
       appendDescription: true

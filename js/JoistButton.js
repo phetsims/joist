@@ -37,7 +37,10 @@ class JoistButton extends Node {
       highlightCenterOffsetY: 0,
 
       // JoistButtons by default do not have a featured enabledProperty
-      enabledPropertyOptions: { phetioFeatured: false }
+      enabledPropertyOptions: { phetioFeatured: false },
+
+      // pdom
+      tagName: 'button'
     }, options );
 
     assert && assert( options.tandem === undefined, 'JoistButton sets tandem' );

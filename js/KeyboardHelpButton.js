@@ -47,7 +47,6 @@ class KeyboardHelpButton extends JoistButton {
       visiblePropertyOptions: { phetioFeatured: true },
 
       // pdom
-      tagName: 'button',
       innerContent: hotKeysAndHelpString
     }, options );
 
