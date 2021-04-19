@@ -436,7 +436,7 @@ class Sim {
     // @public (joist-internal, read-only) {boolean} - used to specify if the sim is set up to support accessibility,
     // even if this specific runtime turns it on/off via a query parameter. Most of the time this should not be used;
     // instead see phet.chipper.queryParameters.supportsInteractiveDescription. This is to support a consistent API for PhET-iO, see https://github.com/phetsims/phet-io/issues/1457
-    this.accessibilityPartOfTheAPI = packageJSON.phet.supportsInteractiveDescription;
+    this.accessibilityPartOfTheAPI = packageJSON.phet.features && packageJSON.phet.features.supportsInteractiveDescription;
 
     // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
     this.supportsGestureDescription = phet.chipper.queryParameters.supportsInteractiveDescription && SUPPORTS_GESTURE_DESCRIPTION;
