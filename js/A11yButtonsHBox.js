@@ -58,7 +58,7 @@ class A11yButtonsHBox extends HBox {
 
       // only show the keyboard help button if the sim supports interactive description, there is keyboard help content,
       // and we are not in mobile safari
-      if ( sim.supportsInteractiveDescription && !platform.mobileSafari ) {
+      if ( phet.chipper.queryParameters.supportsInteractiveDescription && !platform.mobileSafari ) {
         a11yButtons.push( keyboardHelpButton );
       }
     }
