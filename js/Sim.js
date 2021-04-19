@@ -434,7 +434,7 @@ class Sim {
     this.memoryMonitor = new MemoryMonitor();
 
     // @public (read-only) {boolean} - if true, the simulation supports the interactive description accessibility feature
-    this.supportsInteractiveDescription = phet.chipper.queryParameters.supportsDescription ||
+    this.supportsInteractiveDescription = phet.chipper.queryParameters.supportsInteractiveDescription ||
                                           packageJSON.phet.supportsInteractiveDescription;
 
     // @public (joist-internal, read-only) {boolean} - used to specify if the sim is set up to support accessibility,
