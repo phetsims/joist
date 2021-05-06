@@ -32,7 +32,8 @@ class HomeScreenModel {
     this.selectedScreenProperty = new Property( simScreens[ 0 ], {
       validValues: simScreens,
       phetioType: Property.PropertyIO( Screen.ScreenIO ),
-      tandem: tandem.createTandem( 'selectedScreenProperty' )
+      tandem: tandem.createTandem( 'selectedScreenProperty' ),
+      phetioFeatured: true
     } );
 
     // the correct screen icon is selected when returning to the home screen
