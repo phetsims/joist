@@ -32,9 +32,16 @@ class SimInfo extends PhetioObject {
     this.info = {};
 
     // globals
-    this.putInfo( 'url', window.location.href );
     this.putInfo( 'randomSeed', window.phet.chipper.queryParameters.randomSeed );
-    this.putInfo( 'userAgent', window.navigator.userAgent );
+
+    // Some data values change from run to run and should not be recorded for purposes of PhET-iO API generation or
+    // comparison
+    if ( !Tandem.PHET_IO_ENABLED || ( !phet.preloads.phetio.queryParameters.phetioPrintAPI &&
+                                      !phet.preloads.phetio.queryParameters.phetioCompareAPI ) ) {
+      this.putInfo( 'url', window.location.href );
+      this.putInfo( 'userAgent', window.navigator.userAgent );
+    }
+
     this.putInfo( 'language', window.navigator.language );
     this.putInfo( 'window', `${window.innerWidth}x${window.innerHeight}` );
     this.putInfo( 'referrer', document.referrer );
