@@ -39,6 +39,7 @@ import scenery from '../../scenery/js/scenery.js';
 import Utils from '../../scenery/js/util/Utils.js';
 import '../../sherpa/lib/game-up-camera-1.0.0.js';
 import soundManager from '../../tambo/js/soundManager.js';
+import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
 import Heartbeat from './Heartbeat.js';
@@ -81,7 +82,7 @@ phet.joist.playbackModeEnabledProperty = new BooleanProperty( phet.chipper.query
 
 assert && assert( typeof phet.chipper.brand === 'string', 'phet.chipper.brand is required to run a sim' );
 
-class Sim {
+class Sim extends PhetioObject {
 
   /**
    * @param {string} name - the name of the simulation, to be displayed in the navbar and homescreen
@@ -129,9 +130,15 @@ class Sim {
 
       // {boolean} - Whether to allow WebGL 2x scaling when antialiasing is detected. If running out of memory on
       // things like iPad 2s (e.g. https://github.com/phetsims/scenery/issues/859), this can be turned to false to help.
-      allowBackingScaleAntialiasing: true
+      allowBackingScaleAntialiasing: true,
 
+      // phet-io
+      phetioState: false,
+      phetioReadOnly: true,
+      tandem: Tandem.ROOT
     }, options );
+
+    super( options );
 
     // @public - used by PhetButton and maybe elsewhere
     this.options = options;
