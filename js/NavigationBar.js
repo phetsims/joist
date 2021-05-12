@@ -202,7 +202,7 @@ function NavigationBar( sim, isMultiScreenSimDisplayingSingleScreen, tandem ) {
     this.homeButton = new HomeButton(
       NAVIGATION_BAR_SIZE.height,
       sim.lookAndFeel.navigationBarFillProperty,
-      sim.homeScreen.pdomDisplayNameProperty,
+      sim.homeScreen ? sim.homeScreen.pdomDisplayNameProperty : new Property( 'NO HOME SCREEN' ),
       tandem.createTandem( 'homeButton' ), {
         listener: () => {
           sim.screenProperty.value = sim.homeScreen;
