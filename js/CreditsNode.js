@@ -1,7 +1,8 @@
 // Copyright 2015-2020, University of Colorado Boulder
 
 /**
- * Displays the credits section in the About dialog
+ * CreditsNode displays the credits section in the About dialog.
+ * See documentation below for conventions related to each credits field.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Chris Malley (PixelZoom, Inc.)
@@ -66,43 +67,43 @@ class CreditsNode extends VBox {
       innerContent: creditsTitleString
     } ) );
 
-    // Primary lead designer should be listed first, followed by contributing designers in alphabetical order.
+    // Primary HTML5 designer first, followed by contributing designers (HTML5 and legacy) in alphabetical order.
     if ( credits.leadDesign ) {
       const designString = StringUtils.format( creditsLeadDesignString, `\u202a${credits.leadDesign}\u202c` );
       children.push( new RichText( designString, merge( { innerContent: designString }, richTextOptions ) ) );
     }
 
-    // Primary developer should be listed first, followed by contributing developers in alphabetical order.
+    // Primary HTML5 developer first, followed by contributing developers (HTML5 and legacy) in alphabetical order.
     if ( credits.softwareDevelopment ) {
       const developmentString = StringUtils.format( creditsSoftwareDevelopmentString, `\u202a${credits.softwareDevelopment}\u202c` );
       children.push( new RichText( developmentString, merge( { innerContent: developmentString }, richTextOptions ) ) );
     }
 
-    // In alphabetical order
+    // In alphabetical order (includes HTML5 and legacy team members)
     if ( credits.team ) {
       const teamString = StringUtils.format( creditsTeamString, `\u202a${credits.team}\u202c` );
       children.push( new RichText( teamString, merge( { innerContent: teamString }, richTextOptions ) ) );
     }
 
-    // In alphabetical order
+    // In alphabetical order (this field is new for HTML5 sims)
     if ( credits.contributors ) {
       const contributorsString = StringUtils.format( creditsContributorsString, `\u202a${credits.contributors}\u202c` );
       children.push( new RichText( contributorsString, merge( { innerContent: contributorsString }, richTextOptions ) ) );
     }
 
-    // In alphabetical order
+    // In alphabetical order (this field is new for HTML5 sims)
     if ( credits.qualityAssurance ) {
       const qualityAssuranceString = StringUtils.format( creditsQualityAssuranceString, `\u202a${credits.qualityAssurance}\u202c` );
       children.push( new RichText( qualityAssuranceString, merge( { innerContent: qualityAssuranceString }, richTextOptions ) ) );
     }
 
-    // In alphabetical order
+    // In alphabetical order (this field is new for HTML5 sims)
     if ( credits.graphicArts ) {
       const graphicArtsString = StringUtils.format( creditsGraphicArtsString, `\u202a${credits.graphicArts}\u202c` );
       children.push( new RichText( graphicArtsString, merge( { innerContent: graphicArtsString }, richTextOptions ) ) );
     }
 
-    // In alphabetical order
+    // In alphabetical order (this field is new for HTML5 sims)
     if ( credits.soundDesign ) {
       const soundDesignString = StringUtils.format( creditsSoundDesignString, `\u202a${credits.soundDesign}\u202c` );
       children.push( new RichText( soundDesignString, merge( { innerContent: soundDesignString }, richTextOptions ) ) );
