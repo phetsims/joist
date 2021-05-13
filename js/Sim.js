@@ -265,20 +265,6 @@ define( require => {
       phetioPlayback: true
     } );
 
-    if ( screens.length === 1 ) {
-
-      // Problems related to query parameters throw errors instead of assertions (so they are not stripped out)
-      if ( QueryStringMachine.containsKey( 'homeScreen' ) ) {
-        throw new Error( 'homeScreen query parameter not supported for single-screen sims' );
-      }
-      if ( QueryStringMachine.containsKey( 'initialScreen' ) ) {
-        throw new Error( 'initialScreen query parameter not supported for single-screen sims' );
-      }
-      if ( QueryStringMachine.containsKey( 'screens' ) ) {
-        throw new Error( 'screens query parameter not supported for single-screen sims' );
-      }
-    }
-
     let initialScreen = phet.chipper.queryParameters.initialScreen;
     const homeScreen = phet.chipper.queryParameters.homeScreen;
 
