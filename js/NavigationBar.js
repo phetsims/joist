@@ -124,7 +124,7 @@ define( function( require ) {
         },
         tandem: options.tandem && options.tandem.createTandem( 'homeButton' )
       } );
-      this.barContents.addChild( this.homeButton );
+      phet.chipper.queryParameters.homeScreen && this.barContents.addChild( this.homeButton );
 
       /*
        * Allocate remaining horizontal space equally for screen buttons, assuming they will be centered in the navbar.
