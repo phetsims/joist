@@ -90,6 +90,8 @@ define( function( require ) {
       // If we are not recording for visual playback, then we omit these from the data stream so that we don't get spammed with dt's.
     } );
 
+    var initialScreen = phet.chipper.queryParameters.initialScreen;
+
     // The screens to be included, and their order, may be specified via a query parameter.
     // For documentation, see the schema for phet.chipper.queryParameters.screens in initialize-globals.js.
     // Do this before setting options.showHomeScreen, since no home screen should be shown if we have 1 screen.
@@ -102,16 +104,25 @@ define( function( require ) {
         }
         newScreens.push( screens[ screenIndex ] );
       } );
+
+      // If the user specified an initial screen other than the homescreen and specified a subset of screens
+      // remap the selected 1-based index from the original screens list to the filtered screens list.
+      if ( initialScreen !== 0 ) {
+        var index = _.indexOf( newScreens, screens[ initialScreen - 1 ] );
+        assert && assert( index !== -1, 'screen not found' );
+        initialScreen = index + 1;
+      }
+
       screens = newScreens;
     }
 
     options = _.extend( {
 
       // whether to show the home screen, or go immediately to the screen indicated by screenIndex
-      showHomeScreen: ( screens.length > 1 ) && phet.chipper.queryParameters.showHomeScreen,
+      showHomeScreen: ( screens.length > 1 ) && phet.chipper.queryParameters.homeScreen,
 
       // index of the screen that will be selected at startup (the query parameter is 1-based)
-      screenIndex: phet.chipper.queryParameters.screenIndex - 1,
+      screenIndex: initialScreen === 0 ? 0 : initialScreen - 1,
 
       // credits, see AboutDialog for format
       credits: {},
