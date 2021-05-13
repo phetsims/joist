@@ -36,8 +36,7 @@ class SimInfo extends PhetioObject {
 
     // Some data values change from run to run and should not be recorded for purposes of PhET-iO API generation or
     // comparison
-    if ( !Tandem.PHET_IO_ENABLED || ( !phet.preloads.phetio.queryParameters.phetioPrintAPI &&
-                                      !phet.preloads.phetio.queryParameters.phetioCompareAPI ) ) {
+    if ( !Tandem.API_GENERATION ) {
       this.putInfo( 'url', window.location.href );
       this.putInfo( 'userAgent', window.navigator.userAgent );
     }
