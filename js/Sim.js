@@ -59,7 +59,7 @@ define( function( require ) {
     options = _.extend( {
 
       // whether to show the home screen, or go immediately to the screen indicated by screenIndex
-      showHomeScreen: true,
+      showHomeScreen: phet.chipper.queryParameters.homeScreen,
 
       // index of the screen that will be selected at startup
       screenIndex: 0,
@@ -123,13 +123,30 @@ define( function( require ) {
     //Default values are to show the home screen with the 1st screen selected
     var showHomeScreen = ( _.isUndefined( options.showHomeScreen ) ) ? true : options.showHomeScreen;
 
+    var initialScreen = phet.chipper.queryParameters.initialScreen;
+
     //If specifying 'screens' then use 1-based (not zero-based) and "." delimited string such as "1.3.4" to get the 1st, 3rd and 4th screen
     if ( phet.chipper.getQueryParameter( 'screens' ) ) {
-      var screensValueString = phet.chipper.getQueryParameter( 'screens' );
-      screens = screensValueString.split( ',' ).map( function( screenString ) {
-        return screens[ parseInt( screenString, 10 ) - 1 ];
+      var newScreens = [];
+      phet.chipper.getQueryParameter( 'screens' ).split( '.' ).map( function( screenString ) {
+        return parseInt( screenString, 10 );
+      } ).forEach( function( userIndex ) {
+        var screenIndex = userIndex - 1; // screens query parameter is 1-based
+        if ( screenIndex < 0 || screenIndex > screens.length - 1 ) {
+          throw new Error( 'invalid screen index: ' + userIndex );
+        }
+        newScreens.push( screens[ screenIndex ] );
       } );
-      options.screenIndex = 0;
+
+      // If the user specified an initial screen other than the homescreen and specified a subset of screens
+      // remap the selected 1-based index from the original screens list to the filtered screens list.
+      if ( initialScreen !== 0 ) {
+        var index = _.indexOf( newScreens, screens[ initialScreen - 1 ] );
+        assert && assert( index !== -1, 'screen not found' );
+        initialScreen = index + 1;
+      }
+
+      screens = newScreens;
     }
 
     //If there is only one screen, do not show the home screen
@@ -143,7 +160,7 @@ define( function( require ) {
       showHomeScreen: showHomeScreen,
 
       // @public (joist-internal) - The selected index
-      screenIndex: options.screenIndex || 0,
+      screenIndex: initialScreen === 0 ? 0 : initialScreen - 1,
 
       // @public (joist-internal, read-only) - how the home screen and navbar are scaled
       scale: 1,
