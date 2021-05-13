@@ -97,7 +97,7 @@ define( function( require ) {
     // not in mobile safari
     if ( sim.accessible && sim.keyboardHelpNode && !platform.mobileSafari ) {
       this.barContents.addChild( this.keyboardHelpButton );
-    } 
+    }
 
     if ( screens.length === 1 ) {
       /* single-screen sim */
@@ -121,7 +121,8 @@ define( function( require ) {
             sim.showHomeScreenProperty.value = true;
           }
         } );
-      this.barContents.addChild( this.homeButton );
+      // Add the home button, but only if it isn't turned off with ?homeScreen=false
+      phet.chipper.queryParameters.homeScreen && this.barContents.addChild( this.homeButton );
 
       /*
        * Allocate remaining horizontal space equally for screen buttons, assuming they will be centered in the navbar.
