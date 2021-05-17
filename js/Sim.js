@@ -751,15 +751,6 @@ class Sim extends PhetioObject {
   }
 
   /**
-   * Get the single UtteranceQueue instance used for alerts spoken with SpeechSynthesis.
-   * @public
-   * @returns {UtteranceQueue}
-   */
-  get voicingUtteranceQueue() {
-    return this.display.voicingUtteranceQueue;
-  }
-
-  /**
    * @param {Screen[]} screens
    * @private
    */
