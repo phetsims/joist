@@ -858,6 +858,7 @@ class Sim extends PhetioObject {
     assert && assert( !!popup.hide, 'Missing popup.hide() for showPopup' );
     assert && assert( !this.topLayer.hasChild( popup ), 'popup already shown' );
     if ( isModal ) {
+      this.rootNode.interruptSubtreeInput();
       this.modalNodeStack.push( popup );
     }
     if ( popup.layout ) {
