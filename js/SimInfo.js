@@ -32,18 +32,8 @@ class SimInfo extends PhetioObject {
     this.info = {};
 
     // globals
-    this.putInfo( 'randomSeed', window.phet.chipper.queryParameters.randomSeed );
-
-    // Some data values change from run to run and should not be recorded for purposes of PhET-iO API generation or
-    // comparison
-    if ( !Tandem.API_GENERATION ) {
-      this.putInfo( 'url', window.location.href );
-      this.putInfo( 'userAgent', window.navigator.userAgent );
-    }
 
     this.putInfo( 'language', window.navigator.language );
-    this.putInfo( 'window', `${window.innerWidth}x${window.innerHeight}` );
-    this.putInfo( 'referrer', document.referrer );
 
     // from Scenery Utils
     this.putInfo( 'checkIE11StencilSupport', Utils.checkIE11StencilSupport() );
@@ -62,14 +52,11 @@ class SimInfo extends PhetioObject {
     }
     catch( e ) {} // eslint-disable-line
 
-    this.putInfo( 'pixelRatio', `${window.devicePixelRatio || 1}/${backingStorePixelRatio}` );
-
     const flags = [];
     if ( window.navigator.pointerEnabled ) { flags.push( 'pointerEnabled' ); }
     if ( window.navigator.msPointerEnabled ) { flags.push( 'msPointerEnabled' ); }
     if ( !window.navigator.onLine ) { flags.push( 'offline' ); }
     if ( ( window.devicePixelRatio || 1 ) / backingStorePixelRatio !== 1 ) { flags.push( 'pixelRatioScaling' ); }
-    this.putInfo( 'flags', flags.join( ', ' ) );
 
     canvas = null; // dispose only reference
 
@@ -88,6 +75,18 @@ class SimInfo extends PhetioObject {
       }
       return screenObject;
     } ) );
+
+    // Some data values change from run to run and should not be recorded for purposes of PhET-iO API generation or
+    // comparison
+    if ( !Tandem.API_GENERATION ) {
+      this.putInfo( 'randomSeed', window.phet.chipper.queryParameters.randomSeed );
+      this.putInfo( 'url', window.location.href );
+      this.putInfo( 'userAgent', window.navigator.userAgent );
+      this.putInfo( 'window', `${window.innerWidth}x${window.innerHeight}` );
+      this.putInfo( 'referrer', document.referrer );
+      this.putInfo( 'flags', flags.join( ', ' ) );
+      this.putInfo( 'pixelRatio', `${window.devicePixelRatio || 1}/${backingStorePixelRatio}` );
+    }
 
     // From PhET-iO code
     if ( Tandem.PHET_IO_ENABLED ) {
