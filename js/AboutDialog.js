@@ -232,7 +232,6 @@ class AboutDialog extends Dialog {
       rightMargin: 26,
       tandem: tandem,
       phetioReadOnly: true, // the AboutDialog should not be settable
-      phetioState: true,
       phetioDynamicElement: true
     } );
 
