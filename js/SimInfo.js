@@ -1,4 +1,4 @@
-// Copyright 2018-2020, University of Colorado Boulder
+// Copyright 2021, University of Colorado Boulder
 
 /**
  * Return an object of data about the simulation and the browser
