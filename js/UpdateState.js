@@ -1,4 +1,4 @@
-// Copyright 2019-2020, University of Colorado Boulder
+// Copyright 2019-2021, University of Colorado Boulder
 
 /**
  * Enumeration for the various states that can occur during an "update check." See updateCheck.js for main usage.
