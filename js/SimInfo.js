@@ -22,9 +22,6 @@ class SimInfo extends PhetioObject {
       tandem: Tandem.GENERAL_MODEL.createTandem( 'simInfo' ),
       phetioType: SimInfo.SimInfoIO,
       phetioReadOnly: true,
-
-      // Exclude this from state because state is tracked in the API, and this data varies too much between runtimes.
-      phetioState: false,
       phetioDocumentation: 'A collection of data about the runtime and simulation. Available in the simStarted PhET-iO ' +
                            'data stream event, as well as on demand in the PhET-iO state.'
     } );
@@ -112,7 +109,19 @@ class SimInfo extends PhetioObject {
 // @private
 SimInfo.SimInfoIO = new IOType( 'SimInfoIO', {
   valueType: SimInfo,
-  toStateObject: simInfo => simInfo.info
+  toStateObject: simInfo => {
+    return {
+      simName: simInfo.info.simName,
+      screens: simInfo.info.screens,
+      simVersion: simInfo.info.simVersion,
+      repoName: simInfo.info.repoName,
+
+      screenPropertyValue: simInfo.info.screenPropertyValue,
+      wrapperMetadata: simInfo.info.wrapperMetadata,
+      dataStreamVersion: simInfo.info.dataStreamVersion,
+      phetioCommandProcessorProtocol: simInfo.info.phetioCommandProcessorProtocol
+    };
+  }
 } );
 
 joist.register( 'SimInfo', SimInfo );
