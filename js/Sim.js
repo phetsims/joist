@@ -184,7 +184,7 @@ define( function( require ) {
     options.rootRenderer = phet.chipper.queryParameters.rootRenderer || options.rootRenderer;
 
     // @public (joist-internal) - True if the home screen is showing
-    this.showHomeScreenProperty = new Property( options.showHomeScreen, {
+    this.showHomeScreenProperty = new Property( initialScreen === 0 ? options.showHomeScreen : false, {
       tandem: simTandem.createTandem( 'showHomeScreenProperty' ),
       phetioValueType: TBoolean
     } );
