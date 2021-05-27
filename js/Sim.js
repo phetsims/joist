@@ -150,7 +150,7 @@ define( function( require ) {
     }
 
     //If there is only one screen, do not show the home screen
-    if ( screens.length === 1 ) {
+    if ( screens.length === 1 || initialScreen !== 0 ) {
       showHomeScreen = false;
     }
 
