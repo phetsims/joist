@@ -11,7 +11,11 @@
 import Utils from '../../scenery/js/util/Utils.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import ArrayIO from '../../tandem/js/types/ArrayIO.js';
 import IOType from '../../tandem/js/types/IOType.js';
+import NullableIO from '../../tandem/js/types/NullableIO.js';
+import ObjectLiteralIO from '../../tandem/js/types/ObjectLiteralIO.js';
+import StringIO from '../../tandem/js/types/StringIO.js';
 import joist from './joist.js';
 import packageJSON from './packageJSON.js';
 
@@ -121,6 +125,17 @@ SimInfo.SimInfoIO = new IOType( 'SimInfoIO', {
       dataStreamVersion: simInfo.info.dataStreamVersion,
       phetioCommandProcessorProtocol: simInfo.info.phetioCommandProcessorProtocol
     };
+  },
+  stateSchema: {
+    simName: StringIO,
+    screens: ArrayIO( ObjectLiteralIO ),
+    simVersion: StringIO,
+    repoName: StringIO,
+
+    screenPropertyValue: StringIO,
+    wrapperMetadata: NullableIO( ObjectLiteralIO ),
+    dataStreamVersion: StringIO,
+    phetioCommandProcessorProtocol: StringIO
   }
 } );
 
