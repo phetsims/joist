@@ -46,8 +46,11 @@ class A11yButtonsHBox extends HBox {
       }
     }
 
-    // If the sim has accessibility support in its API, then create the button. This is support consistent API for PhET-iO
-    if ( sim.accessibilityPartOfTheAPI && sim.hasKeyboardHelpContent ) {
+    // Create the KeyboardHelpButton if there is content and the sim has supports Interactive Description. When running
+    // in phet-io brand, the button is only created if accessibility is part of the permanent API in order to support
+    // a consistent PhET-iO API.
+    if ( sim.hasKeyboardHelpContent && ( phet.chipper.brand === 'phet-io' ? sim.accessibilityPartOfTheAPI :
+                                         phet.chipper.queryParameters.supportsInteractiveDescription ) ) {
 
       // Pops open a dialog with information about keyboard navigation
       const keyboardHelpButton = new KeyboardHelpButton(
