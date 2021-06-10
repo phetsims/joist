@@ -69,7 +69,11 @@ class NavigationBarScreenButton extends Node {
     const icon = new Node( {
       children: [ screen.navigationBarIcon ], // wrap in case this icon is used in multiple place (eg, home screen and navbar)
       maxHeight: 0.625 * navBarHeight,
-      tandem: options.tandem.createTandem( 'icon' )
+      tandem: options.tandem.createTandem( 'icon' ),
+
+      // pdom - the icon may have focusable components in its graphic, but they should be invisible for Interactive
+      // Description, all accessibility should go through this button
+      pdomVisible: false
     } );
 
     // frame around the icon
