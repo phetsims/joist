@@ -117,7 +117,6 @@ SimInfo.SimInfoIO = new IOType( 'SimInfoIO', {
     return {
       simName: simInfo.info.simName,
       screens: simInfo.info.screens,
-      simVersion: simInfo.info.simVersion,
       repoName: simInfo.info.repoName,
 
       screenPropertyValue: simInfo.info.screenPropertyValue,
@@ -129,7 +128,6 @@ SimInfo.SimInfoIO = new IOType( 'SimInfoIO', {
   stateSchema: {
     simName: StringIO,
     screens: ArrayIO( ObjectLiteralIO ),
-    simVersion: StringIO,
     repoName: StringIO,
 
     screenPropertyValue: StringIO,
