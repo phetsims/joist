@@ -15,9 +15,9 @@ import openPopup from '../../phet-core/js/openPopup.js';
 import platform from '../../phet-core/js/platform.js';
 import stripEmbeddingMarks from '../../phet-core/js/stripEmbeddingMarks.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
+import FocusManager from '../../scenery/js/accessibility/FocusManager.js';
 import KeyboardUtils from '../../scenery/js/accessibility/KeyboardUtils.js';
 import PDOMUtils from '../../scenery/js/accessibility/pdom/PDOMUtils.js';
-import Display from '../../scenery/js/display/Display.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
@@ -461,14 +461,14 @@ class PhetMenu extends Node {
         this.hide();
       }
     };
-    Display.focusProperty.lazyLink( focusListener );
+    FocusManager.pdomFocusProperty.lazyLink( focusListener );
 
     this.mutate( options );
 
     // @private
     this.disposePhetMenu = () => {
       this.removeInputListener( keydownListener );
-      Display.focusProperty.unlink( focusListener );
+      FocusManager.pdomFocusProperty.unlink( focusListener );
     };
   }
 
@@ -477,7 +477,7 @@ class PhetMenu extends Node {
     if ( !this.isShowing ) {
 
       // make sure that any previously focused elements no longer have focus
-      Display.focus = null;
+      FocusManager.pdomFocus = null;
 
       this.showPopup( this, true );
       this.isShowing = true;
@@ -517,7 +517,7 @@ class PhetMenu extends Node {
    * @private
    */
   restoreFocus() {
-    const focusNode = this.focusOnCloseNode || Display.focusedNode;
+    const focusNode = this.focusOnCloseNode || FocusManager.pdomFocusedNode;
     if ( focusNode ) {
       focusNode.focus();
     }

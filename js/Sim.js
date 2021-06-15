@@ -28,6 +28,7 @@ import merge from '../../phet-core/js/merge.js';
 import platform from '../../phet-core/js/platform.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import BarrierRectangle from '../../scenery-phet/js/BarrierRectangle.js';
+import FocusManager from '../../scenery/js/accessibility/FocusManager.js';
 import globalKeyStateTracker from '../../scenery/js/accessibility/globalKeyStateTracker.js';
 import KeyboardFuzzer from '../../scenery/js/accessibility/KeyboardFuzzer.js';
 import KeyboardUtils from '../../scenery/js/accessibility/KeyboardUtils.js';
@@ -637,16 +638,16 @@ class Sim extends PhetioObject {
             if ( this.display.bounds.containsPoint( event.pointer.point ) ) {
 
               // in response to pointer events, always hide the focus highlight so it isn't distracting
-              this.display.focusHighlightsVisibleProperty.value = false;
+              this.display.focusManager.pdomFocusHighlightsVisibleProperty.value = false;
 
               // no need to do this work unless some element in the simulation has focus
-              if ( Display.focusedNode ) {
+              if ( FocusManager.pdomFocusedNode ) {
 
                 // if the event trail doesn't include the focusedNode, clear it - otherwise DOM focus is kept on the
                 // active element so that it can remain the target for assistive devices using pointer events
                 // on behalf of the user, see https://github.com/phetsims/scenery/issues/1137
-                if ( !event.trail.nodes.includes( Display.focusedNode ) ) {
-                  Display.focus = null;
+                if ( !event.trail.nodes.includes( FocusManager.pdomFocusedNode ) ) {
+                  FocusManager.pdomFocus = null;
                 }
               }
             }
@@ -654,7 +655,7 @@ class Sim extends PhetioObject {
         }
       } );
 
-      const setHighlightsVisible = () => { this.display.focusHighlightsVisibleProperty.value = true; };
+      const setHighlightsVisible = () => { this.display.focusManager.pdomFocusHighlightsVisibleProperty.value = true; };
       const focusHighlightVisibleListener = {};
 
       // restore display of focus highlights if we receive PDOM events. Exclude focus-related events here
