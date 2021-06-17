@@ -125,14 +125,25 @@ class ScreenView extends Node {
 
     // @private
     this.pdomParentNode = new Node( {
+
+      // order of Nodes for the PDOM that makes most sense for graphical rendering, "Play Area" components
+      // on top of "Control Area" components.
       children: options.includePDOMNodes ? [
         this.pdomTitleNode,
         this.pdomScreenSummaryNode,
-        this.pdomPlayAreaNode,
-        this.pdomControlAreaNode
+        this.pdomControlAreaNode,
+        this.pdomPlayAreaNode
       ] : [ this.pdomTitleNode ]
     } );
     this.addChild( this.pdomParentNode );
+
+    // pdom - "Play Area" comes before "Control Area" in PDOM
+    this.pdomParentNode.pdomOrder = options.includePDOMNodes ? [
+      this.pdomTitleNode,
+      this.pdomScreenSummaryNode,
+      this.pdomPlayAreaNode,
+      this.pdomControlAreaNode
+    ] : [ this.pdomTitleNode ];
   }
 
   /**
