@@ -14,6 +14,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import ArrayIO from '../../tandem/js/types/ArrayIO.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import NullableIO from '../../tandem/js/types/NullableIO.js';
+import NumberIO from '../../tandem/js/types/NumberIO.js';
 import ObjectLiteralIO from '../../tandem/js/types/ObjectLiteralIO.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
 import joist from './joist.js';
@@ -123,7 +124,14 @@ SimInfo.SimInfoIO = new IOType( 'SimInfoIO', {
       screenPropertyValue: simInfo.info.screenPropertyValue,
       wrapperMetadata: simInfo.info.wrapperMetadata,
       dataStreamVersion: simInfo.info.dataStreamVersion,
-      phetioCommandProcessorProtocol: simInfo.info.phetioCommandProcessorProtocol
+      phetioCommandProcessorProtocol: simInfo.info.phetioCommandProcessorProtocol,
+
+      randomSeed: Tandem.API_GENERATION ? null : window.phet.chipper.queryParameters.randomSeed,
+      url: Tandem.API_GENERATION ? null : window.location.href,
+      userAgent: Tandem.API_GENERATION ? null : window.navigator.userAgent,
+      window: Tandem.API_GENERATION ? null : `${window.innerWidth}x${window.innerHeight}`,
+      referrer: Tandem.API_GENERATION ? null : document.referrer,
+      flags: Tandem.API_GENERATION ? null : simInfo.flags || null
     };
   },
   stateSchema: {
@@ -135,7 +143,15 @@ SimInfo.SimInfoIO = new IOType( 'SimInfoIO', {
     screenPropertyValue: StringIO,
     wrapperMetadata: NullableIO( ObjectLiteralIO ),
     dataStreamVersion: StringIO,
-    phetioCommandProcessorProtocol: StringIO
+    phetioCommandProcessorProtocol: StringIO,
+
+    // Parts that are omitted in API generation
+    randomSeed: NullableIO( NumberIO ),
+    url: NullableIO( StringIO ),
+    userAgent: NullableIO( StringIO ),
+    window: NullableIO( StringIO ),
+    referrer: NullableIO( StringIO ),
+    flags: NullableIO( StringIO )
   }
 } );
 
