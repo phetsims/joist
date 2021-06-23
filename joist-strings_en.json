@@ -148,7 +148,7 @@
   },
   "a11y": {
     "keyboardHelp": {
-      "hotKeysAndHelp": {
+      "keyboardShortcuts": {
         "value": "Keyboard Shortcuts"
       },
       "tabToGetStarted": {

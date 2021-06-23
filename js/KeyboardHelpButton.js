@@ -20,7 +20,7 @@ import joistStrings from './joistStrings.js';
 import KeyboardHelpDialog from './KeyboardHelpDialog.js';
 
 // constants
-const hotKeysAndHelpString = joistStrings.a11y.keyboardHelp.hotKeysAndHelp;
+const keyboardShortcutsString = joistStrings.a11y.keyboardHelp.keyboardShortcuts;
 const HELP_BUTTON_HEIGHT = 67;
 const HELP_BUTTON_SCALE = 0.30; // scale applied to the icon
 
@@ -47,7 +47,7 @@ class KeyboardHelpButton extends JoistButton {
       visiblePropertyOptions: { phetioFeatured: true },
 
       // pdom
-      innerContent: hotKeysAndHelpString
+      innerContent: keyboardShortcutsString
     }, options );
 
     assert && assert( !options.listener, 'PhetButton sets listener' );

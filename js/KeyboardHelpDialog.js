@@ -55,7 +55,7 @@ class KeyboardHelpDialog extends Dialog {
 
       // pdom options
       tagName: 'h1',
-      innerContent: joistStrings.a11y.keyboardHelp.hotKeysAndHelp
+      innerContent: joistStrings.a11y.keyboardHelp.keyboardShortcuts
     } );
 
     // a line to say "tab to get started" below the "Keyboard Shortcuts" 'title'
