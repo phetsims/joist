@@ -175,26 +175,24 @@ class ScreenView extends Node {
   /**
    * Get the scale to use for laying out the sim components and the navigation bar, so its size will track
    * with the sim size
-   * @param {number} width
-   * @param {number} height
+   * @param {Bounds2} viewBounds
    * @returns {number}
    * @public (joist-internal)
    */
-  getLayoutScale( width, height ) {
-    return ScreenView.getLayoutScale( this.layoutBounds, width, height );
+  getLayoutScale( viewBounds ) {
+    return ScreenView.getLayoutScale( this.layoutBounds, viewBounds );
   }
 
   /**
    * Default layout function uses the layoutWidth and layoutHeight to scale the content (based on whichever is more limiting: width or height)
    * and centers the content in the screen vertically and horizontally
    * This function can be replaced by subclasses that wish to perform their own custom layout.
-   * @param {number} width
-   * @param {number} height
+   * @param {Bounds2} viewBounds - desired bounds for the view
    * @public (joist-internal)
    */
-  layout( width, height ) {
-    this.matrix = ScreenView.getLayoutMatrix( this.layoutBounds, width, height );
-    this.visibleBoundsProperty.value = this.parentToLocalBounds( new Bounds2( 0, 0, width, height ) );
+  layout( viewBounds ) {
+    this.matrix = ScreenView.getLayoutMatrix( this.layoutBounds, viewBounds );
+    this.visibleBoundsProperty.value = this.parentToLocalBounds( viewBounds );
   }
 
   /**
@@ -232,24 +230,25 @@ class ScreenView extends Node {
    * @public
    *
    * @param {Bounds2} layoutBounds
-   * @param {number} width
-   * @param {number} height
+   * @param {Bounds2} viewBounds
    * @returns {number}
    */
-  static getLayoutScale( layoutBounds, width, height ) {
-    return Math.min( width / layoutBounds.width, height / layoutBounds.height );
+  static getLayoutScale( layoutBounds, viewBounds ) {
+    return Math.min( viewBounds.width / layoutBounds.width, viewBounds.height / layoutBounds.height );
   }
 
   /**
    * @public
    *
    * @param {Bounds2} layoutBounds
-   * @param {number} width
-   * @param {number} height
+   * @param {Bounds2} viewBounds
    * @returns {Matrix3}
    */
-  static getLayoutMatrix( layoutBounds, width, height ) {
-    const scale = ScreenView.getLayoutScale( layoutBounds, width, height );
+  static getLayoutMatrix( layoutBounds, viewBounds ) {
+
+    const width = viewBounds.width;
+    const height = viewBounds.height;
+    const scale = ScreenView.getLayoutScale( layoutBounds, viewBounds );
 
     let dx = 0;
     let dy = 0;
@@ -266,8 +265,8 @@ class ScreenView extends Node {
     }
 
     return Matrix3.rowMajor(
-      scale, 0, dx * scale,
-      0, scale, dy * scale,
+      scale, 0, dx * scale + viewBounds.left,
+      0, scale, dy * scale + viewBounds.top,
       0, 0, 1
     );
   }

@@ -193,9 +193,14 @@ class Sim extends PhetioObject {
       this.display.setSize( new Dimension2( width, height ) );
       const screenHeight = height - this.navigationBar.height;
 
+      // The available bounds for screens and top layer children - though currently provided
+      // full width and height, will soon be reduced when menus (specifically the Preferences
+      // Toolbar) takes up screen space.
+      const availableScreenBounds = new Bounds2( 0, 0, width, screenHeight );
+
       // Layout each of the screens
-      _.each( this.screens, m => m.view.layout( width, screenHeight ) );
-      this.topLayer.children.forEach( child => child.layout && child.layout( width, screenHeight ) );
+      _.each( this.screens, m => m.view.layout( availableScreenBounds ) );
+      this.topLayer.children.forEach( child => child.layout && child.layout( availableScreenBounds ) );
 
       // Fixes problems where the div would be way off center on iOS7
       if ( platform.mobileSafari ) {
@@ -205,7 +210,7 @@ class Sim extends PhetioObject {
       // update our scale and bounds properties after other changes (so listeners can be fired after screens are resized)
       this.scaleProperty.value = scale;
       this.boundsProperty.value = new Bounds2( 0, 0, width, height );
-      this.screenBoundsProperty.value = new Bounds2( 0, 0, width, screenHeight );
+      this.screenBoundsProperty.value = availableScreenBounds.copy();
 
       // set the scale describing the target Node, since scale from window resize is applied to each ScreenView,
       // (children of the PanZoomListener targetNode)
@@ -863,7 +868,7 @@ class Sim extends PhetioObject {
       this.modalNodeStack.push( popup );
     }
     if ( popup.layout ) {
-      popup.layout( this.screenBoundsProperty.value.width, this.screenBoundsProperty.value.height );
+      popup.layout( this.screenBoundsProperty.value );
     }
     this.topLayer.addChild( popup );
   }
