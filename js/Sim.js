@@ -492,10 +492,15 @@ class Sim extends PhetioObject {
                                  ( packageJSON.phet.supportsEnhancedSound ||
                                    phet.chipper.queryParameters.supportsEnhancedSound );
 
+    // @public {BooleanProperty} - Whether or not all features involving sound are enabled in the simulation
+    // (such as sound, enhanced sound, and voicing). When false the sim should be totally silent.
+    this.allAudioEnabledProperty = new BooleanProperty( true );
+
     // Initialize the sound library if enabled, then hook up sound generation for screen changes.
     if ( this.supportsSound ) {
       soundManager.initialize(
         this.isConstructionCompleteProperty,
+        this.allAudioEnabledProperty,
         this.browserTabVisibleProperty,
         this.activeProperty,
         this.isSettingPhetioStateProperty

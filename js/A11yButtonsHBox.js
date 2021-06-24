@@ -35,7 +35,7 @@ class A11yButtonsHBox extends HBox {
     // If the sim has sound support in its API, then create the button. This is support consistent API for PhET-iO
     if ( sim.soundPartOfTheAPI ) {
       const soundOnOffButton = new NavigationBarSoundToggleButton(
-        soundManager.enabledProperty,
+        sim.allAudioEnabledProperty,
         backgroundColorProperty,
         tandem.createTandem( 'soundOnOffButton' )
       );
