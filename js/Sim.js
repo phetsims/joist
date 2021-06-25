@@ -699,7 +699,11 @@ class Sim extends PhetioObject {
     // through user preferences.
     this.preferencesManager = null;
 
+    // @private {Toolbar|null} - The Toolbar is not created unless requested with a PreferencesConfiguration.
+    this.toolbar = null;
+
     if ( this.preferencesConfiguration ) {
+
       this.preferencesManager = new PreferencesManager( this );
       this.toolbar = new Toolbar( this );
 
@@ -734,9 +738,6 @@ class Sim extends PhetioObject {
 
     // @public (joist-internal)
     this.navigationBar = new NavigationBar( this, Tandem.GENERAL_VIEW.createTandem( 'navigationBar' ) );
-
-    // @private {Toolbar|null} - The Toolbar is not created unless requested with a PreferencesConfiguration.
-    this.toolbar = null;
 
     // magnification support - always initialized for consistent PhET-iO API, but only conditionally added to Display
     animatedPanZoomSingleton.initialize( this.simulationRoot, {
