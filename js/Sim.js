@@ -52,6 +52,7 @@ import LookAndFeel from './LookAndFeel.js';
 import MemoryMonitor from './MemoryMonitor.js';
 import NavigationBar from './NavigationBar.js';
 import packageJSON from './packageJSON.js';
+import PreferencesManager from './preferences/PreferencesManager.js';
 import Profiler from './Profiler.js';
 import QueryParametersWarningDialog from './QueryParametersWarningDialog.js';
 import Screen from './Screen.js';
@@ -60,6 +61,7 @@ import ScreenshotGenerator from './ScreenshotGenerator.js';
 import selectScreens from './selectScreens.js';
 import SimInfo from './SimInfo.js';
 import LegendsOfLearningSupport from './thirdPartySupport/LegendsOfLearningSupport.js';
+import Toolbar from './toolbar/Toolbar.js';
 import updateCheck from './updateCheck.js';
 
 // constants
@@ -124,6 +126,10 @@ class Sim extends PhetioObject {
       // not used frequently. The vibrationManager instance is passed through options so that tappi doesn't have to
       // become a dependency for all sims yet. If this gets more use, this will likely change.
       vibrationManager: null,
+
+      // {PreferencesConfiguration|null} - If a PreferencesConfiguration is provided the sim will
+      // include the PreferencesDialog and a button in the NavigationBar to open it.
+      preferencesConfiguration: null,
 
       // Sims that do not use WebGL trigger a ~ 0.5 second pause shortly after the sim starts up, so sims must opt in to
       // webgl support, see https://github.com/phetsims/scenery/issues/621
@@ -193,10 +199,15 @@ class Sim extends PhetioObject {
       this.display.setSize( new Dimension2( width, height ) );
       const screenHeight = height - this.navigationBar.height;
 
+      if ( this.toolbar ) {
+        this.toolbar.layout( scale, screenHeight );
+      }
+
       // The available bounds for screens and top layer children - though currently provided
       // full width and height, will soon be reduced when menus (specifically the Preferences
       // Toolbar) takes up screen space.
-      const availableScreenBounds = new Bounds2( 0, 0, width, screenHeight );
+      const screenMinX = this.toolbar ? this.toolbar.getDisplayedWidth() : 0;
+      const availableScreenBounds = new Bounds2( screenMinX, 0, width, screenHeight );
 
       // Layout each of the screens
       _.each( this.screens, m => m.view.layout( availableScreenBounds ) );
@@ -457,6 +468,9 @@ class Sim extends PhetioObject {
     // @public (joist-internal, read-only)
     this.hasKeyboardHelpContent = options.hasKeyboardHelpContent;
 
+    // @public (read-only) {PreferencesConfiguration|null}
+    this.preferencesConfiguration = options.preferencesConfiguration;
+
     assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
     window.phet.joist.sim = this;
 
@@ -639,26 +653,21 @@ class Sim extends PhetioObject {
       this.display.addInputListener( {
         down: event => {
 
-          // in the voicing prototype we want the focus highlight to remain visible with
-          // mouse/touch presses
-          if ( !phet.chipper.queryParameters.supportsVoicing ) {
+          // An AT might have sent a down event outside of the display, if this happened we will not do anything
+          // to change focus
+          if ( this.display.bounds.containsPoint( event.pointer.point ) ) {
 
-            // An AT might have sent a down event outside of the display, if this happened we will not do anything
-            // to change focus
-            if ( this.display.bounds.containsPoint( event.pointer.point ) ) {
+            // in response to pointer events, always hide the focus highlight so it isn't distracting
+            this.display.focusManager.pdomFocusHighlightsVisibleProperty.value = false;
 
-              // in response to pointer events, always hide the focus highlight so it isn't distracting
-              this.display.focusManager.pdomFocusHighlightsVisibleProperty.value = false;
+            // no need to do this work unless some element in the simulation has focus
+            if ( FocusManager.pdomFocusedNode ) {
 
-              // no need to do this work unless some element in the simulation has focus
-              if ( FocusManager.pdomFocusedNode ) {
-
-                // if the event trail doesn't include the focusedNode, clear it - otherwise DOM focus is kept on the
-                // active element so that it can remain the target for assistive devices using pointer events
-                // on behalf of the user, see https://github.com/phetsims/scenery/issues/1137
-                if ( !event.trail.nodes.includes( FocusManager.pdomFocusedNode ) ) {
-                  FocusManager.pdomFocus = null;
-                }
+              // if the event trail doesn't include the focusedNode, clear it - otherwise DOM focus is kept on the
+              // active element so that it can remain the target for assistive devices using pointer events
+              // on behalf of the user, see https://github.com/phetsims/scenery/issues/1137
+              if ( !event.trail.nodes.includes( FocusManager.pdomFocusedNode ) ) {
+                FocusManager.pdomFocus = null;
               }
             }
           }
@@ -682,6 +691,21 @@ class Sim extends PhetioObject {
         if ( KeyboardUtils.isKeyEvent( event, KeyboardUtils.KEY_TAB ) ) {
           setHighlightsVisible();
         }
+      } );
+    }
+
+    // @public {PreferencesManager} - If Preferences are available through a PreferencesConfiguration,
+    // this type will be added to the Sim to manage the state of features that can be enabled/disabled
+    // through user preferences.
+    this.preferencesManager = null;
+
+    if ( this.preferencesConfiguration ) {
+      this.preferencesManager = new PreferencesManager( this );
+      this.toolbar = new Toolbar( this );
+
+      // when the Toolbar positions update, resize the sim to fit in the available space
+      this.toolbar.rightPositionProperty.lazyLink( () => {
+        this.resize( this.boundsProperty.value.width, this.boundsProperty.value.height );
       } );
     }
 
@@ -710,6 +734,9 @@ class Sim extends PhetioObject {
 
     // @public (joist-internal)
     this.navigationBar = new NavigationBar( this, Tandem.GENERAL_VIEW.createTandem( 'navigationBar' ) );
+
+    // @private {Toolbar|null} - The Toolbar is not created unless requested with a PreferencesConfiguration.
+    this.toolbar = null;
 
     // magnification support - always initialized for consistent PhET-iO API, but only conditionally added to Display
     animatedPanZoomSingleton.initialize( this.simulationRoot, {
@@ -772,6 +799,11 @@ class Sim extends PhetioObject {
       this.simulationRoot.addChild( screen.view );
     } );
     this.simulationRoot.addChild( this.navigationBar );
+
+    if ( this.toolbar ) {
+      this.simulationRoot.addChild( this.toolbar );
+      this.simulationRoot.pdomOrder = [ this.toolbar ];
+    }
 
     this.screenProperty.link( currentScreen => {
       screens.forEach( screen => {
