@@ -6,7 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 ( function() {
-  'use strict';
+  
 
   // Overall scale factor for the image + progress bar, matched empirically to desired size
   const SCALE_FACTOR = 1.0 / 4.0 * 1.042;
