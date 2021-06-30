@@ -19,6 +19,7 @@ import AlignGroup from '../../../scenery/js/nodes/AlignGroup.js';
 import HBox from '../../../scenery/js/nodes/HBox.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Text from '../../../scenery/js/nodes/Text.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import Utterance from '../../../utterance-queue/js/Utterance.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
@@ -154,7 +155,8 @@ class LabelButtonRow {
     // @private {PlayStopButton}
     this.playStopButton = new PlayStopButton( this.playingProperty, merge( {
       startPlayingLabel: labelString,
-      voicingNameResponse: labelString
+      voicingNameResponse: labelString,
+      tandem: Tandem.OPT_OUT
     }, {
       radius: 12
     } ) );

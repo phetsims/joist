@@ -11,6 +11,7 @@ import Dimension2 from '../../../dot/js/Dimension2.js';
 import merge from '../../../phet-core/js/merge.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import ToggleSwitch from '../../../sun/js/ToggleSwitch.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 
 class PreferencesToggleSwitch extends Node {
@@ -47,7 +48,10 @@ class PreferencesToggleSwitch extends Node {
       toggleSwitchOptions: {
         size: new Dimension2( 36, 18 ),
         trackFillRight: '#64bd5a'
-      }
+      },
+
+      // phet-io - opting out of Tandems for now
+      tandem: Tandem.OPT_OUT
     }, options );
     assert && assert( options.labelNode === null || options.labelNode instanceof Node, 'labelNode is null or inserted as child' );
     assert && assert( options.descriptionNode === null || options.descriptionNode instanceof Node, 'labelNode is null or inserted as child' );
@@ -66,7 +70,10 @@ class PreferencesToggleSwitch extends Node {
 
       // voicing
       voicingIgnoreVoicingManagerProperties: true,
-      voicingNameResponse: options.a11yLabel
+      voicingNameResponse: options.a11yLabel,
+
+      // tandem - opting out of Tandems for now
+      tandem: options.tandem
     } ) );
     this.addChild( toggleSwitch );
 

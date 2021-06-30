@@ -14,6 +14,7 @@ import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
 import Voicing from '../../../scenery/js/accessibility/voicing/Voicing.js';
 import PressListener from '../../../scenery/js/listeners/PressListener.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import Node from '../../../scenery/js/nodes/Node.js';
@@ -193,7 +194,10 @@ class Tab extends Node {
 
         // speak the object response on activation
         this.voicingSpeakNameResponse();
-      }
+      },
+
+      // phet-io - opting out for now to get CT working
+      tandem: Tandem.OPT_OUT
     } );
     this.addInputListener( buttonListener );
 

@@ -25,6 +25,7 @@ import Path from '../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import ButtonNode from '../../../sun/js/buttons/ButtonNode.js';
 import RoundPushButton from '../../../sun/js/buttons/RoundPushButton.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import VoicingToolbarAlertManager from './VoicingToolbarAlertManager.js';
@@ -97,7 +98,10 @@ class Toolbar extends Node {
       content: chevronIcon,
       listener: () => this.openProperty.toggle(),
       buttonAppearanceStrategy: ButtonNode.FlatAppearanceStrategy,
-      baseColor: 'lightgrey'
+      baseColor: 'lightgrey',
+
+      // phet-io - opting out of Tandems for now
+      tandem: Tandem.OPT_OUT
     } );
 
     // @private {number} - width of content for the toolbar in the local coordinate frame
