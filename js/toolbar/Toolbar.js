@@ -146,7 +146,6 @@ class Toolbar extends Node {
     // when shown or hidden update destination positions so it animates open or close
     const isShowingListener = showing => {
       this.updateDestinationPosition();
-      console.log( showing );
 
       // when now showing, this entire toolbar should be hidden for Interactive Description, but we don't use
       // visibility directly because we want to see the Toolbar animate away
