@@ -65,11 +65,11 @@ class PreferencesManager {
       ], ( voicingFullyEnabled, allAudioEnabled ) => {
         sim.display.focusManager.readingBlockHighlightsVisibleProperty.value = voicingFullyEnabled && allAudioEnabled;
       } );
-
-      this.preferencesProperties.interactiveHighlightsEnabledProperty.link( visible => {
-        sim.display.focusManager.interactiveHighlightsVisibleProperty.value = visible;
-      } );
     }
+
+    this.preferencesProperties.interactiveHighlightsEnabledProperty.link( visible => {
+      sim.display.focusManager.interactiveHighlightsVisibleProperty.value = visible;
+    } );
   }
 }
 
