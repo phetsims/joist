@@ -456,6 +456,15 @@
         "playHintLabel": {
           "value": "Play Hint"
         },
+        "overviewLabel": {
+          "value": "Overview"
+        },
+        "detailsLabel": {
+          "value": "Details"
+        },
+        "hintLabel": {
+          "value": "Hint"
+        },
         "simVoicingOnAlert": {
           "value": "Sim Voicing on."
         },

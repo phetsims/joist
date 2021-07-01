@@ -39,6 +39,9 @@ const toolbarString = joistStrings.a11y.toolbar.title;
 const playOverviewString = joistStrings.a11y.toolbar.voicing.playOverviewLabel;
 const playDetailsString = joistStrings.a11y.toolbar.voicing.playDetailsLabel;
 const playHintString = joistStrings.a11y.toolbar.voicing.playHintLabel;
+const overviewString = joistStrings.a11y.toolbar.voicing.overviewLabel;
+const detailsString = joistStrings.a11y.toolbar.voicing.detailsLabel;
+const hintString = joistStrings.a11y.toolbar.voicing.hintLabel;
 
 class VoicingToolbarItem extends Node {
 
@@ -81,9 +84,9 @@ class VoicingToolbarItem extends Node {
     const labelAlignGroup = new AlignGroup();
     const inputAlignGroup = new AlignGroup();
 
-    const overviewRow = new LabelButtonRow( playOverviewString, labelAlignGroup, inputAlignGroup, lookAndFeel, alertManager.createOverviewContent.bind( alertManager ) );
-    const detailsRow = new LabelButtonRow( playDetailsString, labelAlignGroup, inputAlignGroup, lookAndFeel, alertManager.createDetailsContent.bind( alertManager ) );
-    const hintRow = new LabelButtonRow( playHintString, labelAlignGroup, inputAlignGroup, lookAndFeel, alertManager.createHintContent.bind( alertManager ) );
+    const overviewRow = new LabelButtonRow( overviewString, playOverviewString, labelAlignGroup, inputAlignGroup, lookAndFeel, alertManager.createOverviewContent.bind( alertManager ) );
+    const detailsRow = new LabelButtonRow( detailsString, playDetailsString, labelAlignGroup, inputAlignGroup, lookAndFeel, alertManager.createDetailsContent.bind( alertManager ) );
+    const hintRow = new LabelButtonRow( hintString, playHintString, labelAlignGroup, inputAlignGroup, lookAndFeel, alertManager.createHintContent.bind( alertManager ) );
 
     this.children = [ muteSpeechSwitch, quickInfoText, overviewRow.content, detailsRow.content, hintRow.content ];
 
@@ -132,13 +135,14 @@ class VoicingToolbarItem extends Node {
 class LabelButtonRow {
 
   /**
-   * @param {string} labelString
+   * @param {string} labelString - the visually rendered Text label for the button
+   * @param {string} a11yLabel - the string read in the PDOM and with the Voicing feature that labels this Button
    * @param {AlignGroup} labelAlignGroup - To align all labels in the VoicingToolbarItem
    * @param {AlignGroup} inputAlignGroup - To align all inputs in the VoicingToolbarItem
    * @param {LookAndFeel} lookAndFeel
    * @param {function} createAlert - function that creates the alert when the button is pressed
    */
-  constructor( labelString, labelAlignGroup, inputAlignGroup, lookAndFeel, createAlert ) {
+  constructor( labelString, a11yLabel, labelAlignGroup, inputAlignGroup, lookAndFeel, createAlert ) {
 
     // @private
     this.lookAndFeel = lookAndFeel;
@@ -154,8 +158,8 @@ class LabelButtonRow {
 
     // @private {PlayStopButton}
     this.playStopButton = new PlayStopButton( this.playingProperty, merge( {
-      startPlayingLabel: labelString,
-      voicingNameResponse: labelString,
+      startPlayingLabel: a11yLabel,
+      voicingNameResponse: a11yLabel,
       tandem: Tandem.OPT_OUT
     }, {
       radius: 12
