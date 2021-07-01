@@ -7,8 +7,7 @@
  */
 
 import UserCog from '../../../sherpa/js/fontawesome-5/solid/UserCog.js';
-import Dialog from '../../../sun/js/Dialog.js';
-import PhetioCapsule from '../../../tandem/js/PhetioCapsule.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import JoistButton from '../JoistButton.js';
 import joistStrings from '../joistStrings.js';
@@ -23,27 +22,24 @@ class NavigationBarPreferencesButton extends JoistButton {
    * @param {Property.<boolean>} simSoundProperty
    * @param {Object} [options]
    */
-  constructor( preferencesConfiguration, preferencesProperties, lookAndFeel, simSoundProperty, tandem ) {
+  constructor( preferencesConfiguration, preferencesProperties, lookAndFeel, simSoundProperty ) {
 
     const icon = new UserCog( {
       fill: lookAndFeel.navigationBarTextFillProperty,
       maxWidth: 25
     } );
 
-    const preferencesDialogCapsule = new PhetioCapsule( tandem => {
-      return new PreferencesDialog( preferencesConfiguration, preferencesProperties, simSoundProperty, {
-        tandem: tandem
-      } );
-    }, [], {
-      tandem: tandem.createTandem( 'preferencesDialogCapsule' ),
-      phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )
-    } );
-
-    super( icon, lookAndFeel.navigationBarFillProperty, tandem, {
+    let preferencesDialog = null;
+    super( icon, lookAndFeel.navigationBarFillProperty, Tandem.OPT_OUT, {
       listener: () => {
-        const dialog = preferencesDialogCapsule.getElement();
-        dialog.show();
-        dialog.focusSelectedTab();
+        if ( !preferencesDialog ) {
+          preferencesDialog = new PreferencesDialog( preferencesConfiguration, preferencesProperties, simSoundProperty, {
+            tandem: Tandem.OPT_OUT
+          } );
+        }
+
+        preferencesDialog.show();
+        preferencesDialog.focusSelectedTab();
       },
       highlightExtensionWidth: 5,
       highlightExtensionHeight: 10,

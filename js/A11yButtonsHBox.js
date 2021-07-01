@@ -37,8 +37,7 @@ class A11yButtonsHBox extends HBox {
         sim.preferencesConfiguration,
         sim.preferencesManager.preferencesProperties,
         sim.lookAndFeel,
-        sim.allAudioEnabledProperty,
-        tandem.createTandem( 'preferencesButton' )
+        sim.allAudioEnabledProperty
       );
 
       a11yButtons.push( preferencesButton );
