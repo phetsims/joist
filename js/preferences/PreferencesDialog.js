@@ -51,7 +51,10 @@ class PreferencesDialog extends Dialog {
 
     options = merge( {
       titleAlign: 'center',
-      title: titleText
+      title: titleText,
+
+      // phet-io
+      phetioDynamicElement: true
     }, options );
 
     // determine which tabs will be supported in this Dialog, true if any entry in a configuration has content
