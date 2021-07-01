@@ -28,6 +28,7 @@ import ComboBox from '../../../sun/js/ComboBox.js';
 import ComboBoxItem from '../../../sun/js/ComboBoxItem.js';
 import ExpandCollapseButton from '../../../sun/js/ExpandCollapseButton.js';
 import HSlider from '../../../sun/js/HSlider.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
@@ -171,7 +172,10 @@ class VoicingPanelSection extends PreferencesPanelSection {
       innerContent: customizeVoiceString,
 
       // voicing
-      voicingNameResponse: customizeVoiceString
+      voicingNameResponse: customizeVoiceString,
+
+      // phet-io
+      tandem: Tandem.OPT_OUT
     } );
 
     const voiceOptionsContainer = new Node( {
@@ -182,7 +186,10 @@ class VoicingPanelSection extends PreferencesPanelSection {
     const voiceOptionsPressListener = new PressListener( {
       press: () => {
         voiceOptionsOpenProperty.toggle();
-      }
+      },
+
+      // phet-io
+      tandem: Tandem.OPT_OUT
     } );
     voiceOptionsLabel.addInputListener( voiceOptionsPressListener );
 
@@ -295,7 +302,10 @@ const createCheckbox = ( labelString, property ) => {
     labelContent: labelString,
 
     // voicing
-    voicingNameResponse: labelString
+    voicingNameResponse: labelString,
+
+    // phet-io
+    tandem: Tandem.OPT_OUT
   } );
 };
 
@@ -334,7 +344,10 @@ class VoiceRateNumberControl extends NumberControl {
 
         // voicing
         voicingNameResponse: labelString
-      }
+      },
+
+      // phet-io
+      tandem: Tandem.OPT_OUT
     } );
 
     // voicing
@@ -398,7 +411,10 @@ class VoiceComboBox extends ComboBox {
 
     super( items, webSpeaker.voiceProperty, parentNode, {
       listPosition: 'above',
-      accessibleName: voiceLabelString
+      accessibleName: voiceLabelString,
+
+      // phet-io
+      tandem: Tandem.OPT_OUT
     } );
 
     // NOTE: This somehow needs to be built into ComboBox
@@ -461,7 +477,10 @@ class VoicingPitchSlider extends VBox {
       labelContent: labelString,
 
       // voicing
-      voicingNameResponse: labelString
+      voicingNameResponse: labelString,
+
+      // phet-io
+      tandem: Tandem.OPT_OUT
     } );
 
     const lowLabel = new Text( 'Low', { font: new PhetFont( 14 ) } );
