@@ -76,7 +76,7 @@ class VoicingToolbarItem extends Node {
       labelNode: titleText,
       a11yLabel: titleString,
       toggleSwitchOptions: {
-        voicingUtteranceQueue: phet.joist.sim.joistVoicingUtteranceQueue
+        voicingUtteranceQueue: joistVoicingUtteranceQueue
       }
     } );
 
