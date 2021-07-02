@@ -20,7 +20,7 @@ class NavigationBarPreferencesButton extends JoistButton {
    * @param {PreferencesProperties} preferencesProperties
    * @param {LookAndFeel} lookAndFeel
    * @param {Property.<boolean>} simSoundProperty
-   * @param {Object} [options]
+   * @param {Tandem} tandem
    */
   constructor( preferencesConfiguration, preferencesProperties, lookAndFeel, simSoundProperty ) {
 
