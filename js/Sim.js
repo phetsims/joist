@@ -503,8 +503,7 @@ class Sim extends PhetioObject {
     // @public (joist-internal, read-only) {boolean} - true if the simulation supports enhanced sound, cannot support
     // enhanced without supporting sound in general
     this.supportsEnhancedSound = this.supportsSound &&
-                                 ( packageJSON.phet.supportsEnhancedSound ||
-                                   phet.chipper.queryParameters.supportsEnhancedSound );
+                                 ( phet.chipper.queryParameters.supportsEnhancedSound );
 
     // @public {BooleanProperty} - Whether or not all features involving sound are enabled in the simulation
     // (such as sound, enhanced sound, and voicing). When false the sim should be totally silent.
