@@ -118,7 +118,6 @@ SimInfo.SimInfoIO = new IOType( 'SimInfoIO', {
     return {
       simName: simInfo.info.simName,
       screens: simInfo.info.screens,
-      simVersion: simInfo.info.simVersion,
       repoName: simInfo.info.repoName,
 
       screenPropertyValue: simInfo.info.screenPropertyValue,
@@ -126,6 +125,7 @@ SimInfo.SimInfoIO = new IOType( 'SimInfoIO', {
       dataStreamVersion: simInfo.info.dataStreamVersion,
       phetioCommandProcessorProtocol: simInfo.info.phetioCommandProcessorProtocol,
 
+      simVersion: Tandem.API_GENERATION ? null : simInfo.info.simVersion,
       randomSeed: Tandem.API_GENERATION ? null : window.phet.chipper.queryParameters.randomSeed,
       url: Tandem.API_GENERATION ? null : window.location.href,
       userAgent: Tandem.API_GENERATION ? null : window.navigator.userAgent,
@@ -137,7 +137,6 @@ SimInfo.SimInfoIO = new IOType( 'SimInfoIO', {
   stateSchema: {
     simName: StringIO,
     screens: ArrayIO( ObjectLiteralIO ),
-    simVersion: StringIO,
     repoName: StringIO,
 
     screenPropertyValue: StringIO,
@@ -146,6 +145,7 @@ SimInfo.SimInfoIO = new IOType( 'SimInfoIO', {
     phetioCommandProcessorProtocol: StringIO,
 
     // Parts that are omitted in API generation
+    simVersion: NullableIO( StringIO ),
     randomSeed: NullableIO( NumberIO ),
     url: NullableIO( StringIO ),
     userAgent: NullableIO( StringIO ),
