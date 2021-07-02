@@ -107,7 +107,7 @@ class HomeScreenButton extends VBox {
       textPropertyOptions: { phetioReadOnly: true } // text is updated via screen.nameProperty
     } );
 
-    super( merge( { children: [ nodeContainer, text ] }, options ) );
+    super( merge( { children: [ nodeContainer, new Node( { children: [ text ] } ) ] }, options ) );
 
     // @public (read-only)
     this.screen = screen;
