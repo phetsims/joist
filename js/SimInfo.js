@@ -12,6 +12,7 @@ import Utils from '../../scenery/js/util/Utils.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import ArrayIO from '../../tandem/js/types/ArrayIO.js';
+import BooleanIO from '../../tandem/js/types/BooleanIO.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import NullableIO from '../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
@@ -121,17 +122,21 @@ SimInfo.SimInfoIO = new IOType( 'SimInfoIO', {
       repoName: simInfo.info.repoName,
 
       screenPropertyValue: simInfo.info.screenPropertyValue,
-      wrapperMetadata: simInfo.info.wrapperMetadata,
       dataStreamVersion: simInfo.info.dataStreamVersion,
       phetioCommandProcessorProtocol: simInfo.info.phetioCommandProcessorProtocol,
 
       simVersion: Tandem.API_GENERATION ? null : simInfo.info.simVersion,
-      randomSeed: Tandem.API_GENERATION ? null : window.phet.chipper.queryParameters.randomSeed,
-      url: Tandem.API_GENERATION ? null : window.location.href,
-      userAgent: Tandem.API_GENERATION ? null : window.navigator.userAgent,
-      window: Tandem.API_GENERATION ? null : `${window.innerWidth}x${window.innerHeight}`,
-      referrer: Tandem.API_GENERATION ? null : document.referrer,
-      flags: Tandem.API_GENERATION ? null : simInfo.flags || null
+      wrapperMetadata: Tandem.API_GENERATION ? null : simInfo.info.wrapperMetadata,
+      randomSeed: Tandem.API_GENERATION ? null : simInfo.info.randomSeed,
+      url: Tandem.API_GENERATION ? null : simInfo.info.url,
+      userAgent: Tandem.API_GENERATION ? null : simInfo.info.userAgent,
+      window: Tandem.API_GENERATION ? null : simInfo.info.window,
+      referrer: Tandem.API_GENERATION ? null : simInfo.info.referrer,
+      language: Tandem.API_GENERATION ? null : simInfo.info.language,
+      pixelRatio: Tandem.API_GENERATION ? null : simInfo.info.pixelRatio,
+      isWebGLSupported: Tandem.API_GENERATION ? null : simInfo.info.isWebGLSupported,
+      checkIE11StencilSupport: Tandem.API_GENERATION ? null : simInfo.info.checkIE11StencilSupport,
+      flags: Tandem.API_GENERATION ? null : simInfo.info.flags || null
     };
   },
   stateSchema: {
@@ -151,6 +156,10 @@ SimInfo.SimInfoIO = new IOType( 'SimInfoIO', {
     userAgent: NullableIO( StringIO ),
     window: NullableIO( StringIO ),
     referrer: NullableIO( StringIO ),
+    language: NullableIO( StringIO ),
+    pixelRatio: NullableIO( StringIO ),
+    isWebGLSupported: NullableIO( BooleanIO ),
+    checkIE11StencilSupport: NullableIO( BooleanIO ),
     flags: NullableIO( StringIO )
   }
 } );
