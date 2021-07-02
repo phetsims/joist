@@ -42,7 +42,7 @@ class HomeScreenButton extends VBox {
 
     options = merge( {
       cursor: 'pointer',
-      resize: false, // don't resize the VBox or it will shift down when the border becomes thicker
+      resize: true,
       showUnselectedHomeScreenIconFrame: false, // put a frame around unselected home screen icons
 
       // pdom
