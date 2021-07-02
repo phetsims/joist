@@ -42,6 +42,7 @@ const voicingLabelString = joistStrings.a11y.preferences.tabs.audio.voicing.titl
 const voicingDescriptionString = joistStrings.a11y.preferences.tabs.audio.voicing.description;
 const toolbarLabelString = joistStrings.a11y.preferences.tabs.audio.voicing.toolbar.title;
 const rateString = joistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.title;
+const rateLabelString = joistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.labelString;
 const pitchString = joistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.pitch.title;
 const voicingEnabledString = joistStrings.a11y.preferences.tabs.audio.voicing.voicingOn;
 const voicingDisabledString = joistStrings.a11y.preferences.tabs.audio.voicing.voicingOff;
@@ -148,7 +149,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
     speechOutputDescription.leftTop = speechOutputLabel.leftBottom.plusXY( 0, 5 );
     speechOutputCheckboxes.leftTop = speechOutputDescription.leftBottom.plusXY( 15, 5 );
 
-    const rateSlider = new VoiceRateNumberControl( rateString, webSpeaker.voiceRateProperty );
+    const rateSlider = new VoiceRateNumberControl( rateString, rateLabelString, webSpeaker.voiceRateProperty );
     const pitchSlider = new VoicingPitchSlider( pitchString, webSpeaker.voicePitchProperty );
     const voiceOptionsContent = new VBox( {
       spacing: 5,
@@ -317,7 +318,7 @@ const createCheckbox = ( labelString, property ) => {
  * @returns {NumberControl}
  */
 class VoiceRateNumberControl extends NumberControl {
-  constructor( labelString, voiceRateProperty ) {
+  constructor( labelString, a11yLabelString, voiceRateProperty ) {
     super( labelString, voiceRateProperty, voiceRateProperty.range, {
       includeArrowButtons: false,
       layoutFunction: NumberControl.createLayoutFunction4(),
@@ -340,10 +341,7 @@ class VoiceRateNumberControl extends NumberControl {
 
         // pdom
         labelTagName: 'label',
-        labelContent: labelString,
-
-        // voicing
-        voicingNameResponse: labelString
+        labelContent: a11yLabelString
       },
 
       // phet-io
@@ -351,15 +349,22 @@ class VoiceRateNumberControl extends NumberControl {
     } );
 
     // voicing
-    this.initializeVoicing();
+    this.initializeVoicing( {
+      voicingNameResponse: a11yLabelString
+    } );
+
+    this.slider.addInputListener( {
+      focus: event => {
+        this.voicingSpeakFullResponse();
+      }
+    } );
 
     voiceRateProperty.link( ( rate, previousValue ) => {
-
-      // this.slider.voicingObjectResponse = this.getRateDescriptionString( rate );
+      this.voicingObjectResponse = this.getRateDescriptionString( rate );
       if ( previousValue !== null ) {
 
         // every change read the name and object response for the slider
-        // this.slider.voicingSpeakFullResponse();
+        this.voicingSpeakFullResponse();
       }
     } );
   }
@@ -376,6 +381,8 @@ class VoiceRateNumberControl extends NumberControl {
     } );
   }
 }
+
+Voicing.compose( VoiceRateNumberControl );
 
 /**
  * Inner class for the ComboBox that selects the voice for the webSpeaker. This ComboBox can be created and destroyed
@@ -443,8 +450,6 @@ class VoiceComboBox extends ComboBox {
   }
 }
 
-Voicing.compose( NumberControl );
-
 /**
  * A slider with labels and tick marks used to control voice rate of web speech synthesis.
  *
@@ -495,13 +500,23 @@ class VoicingPitchSlider extends VBox {
       spacing: 5
     } );
 
+    this.initializeVoicing( {
+      voicingNameResponse: labelString
+    } );
+
+    slider.addInputListener( {
+      focus: event => {
+        this.voicingSpeakFullResponse();
+      }
+    } );
+
     // voicing
     voicePitchProperty.link( ( pitch, previousValue ) => {
-      // slider.voicingObjectResponse = this.getPitchDescriptionString( pitch );
+      this.voicingObjectResponse = this.getPitchDescriptionString( pitch );
 
       // alert made lazily so it is not heard on construction, speak the name and object response every change
       if ( previousValue !== null ) {
-        // slider.voicingSpeakFullResponse();
+        this.voicingSpeakFullResponse();
       }
     } );
   }
@@ -525,6 +540,8 @@ class VoicingPitchSlider extends VBox {
     return pitchDescription;
   }
 }
+
+Voicing.compose( VoicingPitchSlider );
 
 joist.register( 'VoicingPanelSection', VoicingPanelSection );
 export default VoicingPanelSection;

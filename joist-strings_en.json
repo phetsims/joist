@@ -380,6 +380,9 @@
                 "title": {
                   "value": "Rate"
                 },
+                "labelString": {
+                  "value": "Voice Rate"
+                },
                 "rangeDescriptions": {
                   "low": {
                     "value": "in low range"
@@ -394,7 +397,7 @@
                     "value": "in high range"
                   },
                   "voiceRateNormal": {
-                    "value": "Voice Rate normal"
+                    "value": "normal"
                   }
                 }
               },
