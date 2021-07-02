@@ -8,6 +8,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import animationFrameTimer from '../../axon/js/animationFrameTimer.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Property from '../../axon/js/Property.js';
 import Utils from '../../dot/js/Utils.js';
@@ -202,6 +203,10 @@ class NavigationBarScreenButton extends Node {
     screen.nameProperty.link( name => {
       text.text = name;
       updateLayout();
+
+      // For unknown reasons, the layout must be adjusted later than something else.  Unclear what else is happening,
+      // but this seems to work until we have a better long-term solution here
+      animationFrameTimer.runOnNextTick( updateLayout );
     } );
 
     // pdom - Pass a shape to the focusHighlight to prevent dilation, then tweak the top up just a hair.
