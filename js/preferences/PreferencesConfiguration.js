@@ -58,8 +58,8 @@ class PreferencesConfiguration {
         // can only be included if supportsSound is also true.
         // NOTE: When initialize-globals uses package.json to control sound features the packageJSON check
         // here can be removed
-        supportsSound: phetFeatures.supportsSound || packageJSON.phet.supportsSound,
-        supportsEnhancedSound: phetFeatures.supportsEnhancedSound || packageJSON.phet.supportsEnhancedSound
+        supportsSound: phetFeatures.supportsSound || packageJSON.phet.features && packageJSON.phet.features.supportsSound,
+        supportsEnhancedSound: phetFeatures.supportsEnhancedSound
       },
 
       // configuration for controls in the "Input" tab of the PreferencesDialog
