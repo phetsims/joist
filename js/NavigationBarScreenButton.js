@@ -91,7 +91,7 @@ class NavigationBarScreenButton extends Node {
 
     // spacing set by Property link below
     const iconAndText = new VBox( {
-      children: [ iconAndFrame, text ],
+      children: [ iconAndFrame, new Node( { children: [ text ] } ) ],
       pickable: false,
       usesOpacity: true, // hint, since we change its opacity
       maxHeight: navBarHeight
