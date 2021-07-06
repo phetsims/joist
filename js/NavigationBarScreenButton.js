@@ -8,7 +8,6 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import animationFrameTimer from '../../axon/js/animationFrameTimer.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Property from '../../axon/js/Property.js';
 import Utils from '../../dot/js/Utils.js';
@@ -92,14 +91,14 @@ class NavigationBarScreenButton extends Node {
 
     // spacing set by Property link below
     const iconAndText = new VBox( {
-      children: [ iconAndFrame, new Node( { children: [ text ] } ) ],
+      children: [ iconAndFrame, text ],
       pickable: false,
       usesOpacity: true, // hint, since we change its opacity
       maxHeight: navBarHeight
     } );
 
     // add a transparent overlay for input handling and to size touchArea/mouseArea
-    const overlay = new Rectangle( 0, 0, iconAndText.width, iconAndText.height, { center: iconAndText.center } );
+    const overlay = new Rectangle( { rectBounds: iconAndText.bounds } );
 
     // highlights
     const highlightWidth = getHighlightWidth( overlay );
@@ -157,14 +156,15 @@ class NavigationBarScreenButton extends Node {
         darkenHighlight.visible = useDarkenHighlights && enabled && ( looksOver || looksPressed );
 
         // Put a frame around the screen icon, depending on the navigation bar background color.
-        let iconFrameStroke = null;
         if ( screen.showScreenIconFrameForNavigationBarFill === 'black' && navigationBarFill === 'black' ) {
-          iconFrameStroke = PhetColorScheme.SCREEN_ICON_FRAME;
+          iconFrame.stroke = PhetColorScheme.SCREEN_ICON_FRAME;
         }
         else if ( screen.showScreenIconFrameForNavigationBarFill === 'white' && navigationBarFill === 'white' ) {
-          iconFrameStroke = 'black'; // black frame on a white navbar
+          iconFrame.stroke = 'black'; // black frame on a white navbar
         }
-        iconFrame.stroke = iconFrameStroke;
+        else {
+          iconFrame.stroke = 'transparent'; // keep the same bounds for simplicity
+        }
       } );
 
     // Keep the cursor in sync with if the button is enabled. This doesn't need to be disposed.
@@ -177,23 +177,20 @@ class NavigationBarScreenButton extends Node {
       iconAndText.spacing = Math.max( 0, 12 - text.height );
 
       // adjust the overlay
-      overlay.setRect( 0, 0, iconAndText.width, overlay.height );
-      overlay.center = iconAndText.center;
+      overlay.setRectBounds( iconAndText.bounds );
 
       // adjust the highlights
       brightenHighlight.spacing = darkenHighlight.spacing = getHighlightWidth( overlay );
       brightenHighlight.center = darkenHighlight.center = iconAndText.center;
     };
 
+    const needsIconMaxWidth = options.maxButtonWidth && ( this.width > options.maxButtonWidth );
+
     // Constrain text and icon width, if necessary
-    if ( options.maxButtonWidth && ( this.width > options.maxButtonWidth ) ) {
+    if ( needsIconMaxWidth ) {
       text.maxWidth = icon.maxWidth = options.maxButtonWidth - ( this.width - iconAndText.width );
-      updateLayout();
-      assert && assert( Utils.toFixed( this.width, 0 ) === Utils.toFixed( options.maxButtonWidth, 0 ),
-        `this.width ${this.width} !== options.maxButtonWidth ${options.maxButtonWidth}` );
     }
     else {
-
       // Don't allow the text to grow larger than the icon if changed later on using PhET-iO, see #438
       // Text is allowed to go beyond the bounds of the icon, hence we use `this.width` instead of `icon.width`
       text.maxWidth = this.width;
@@ -202,12 +199,12 @@ class NavigationBarScreenButton extends Node {
     // Update the button's text and layout when the screen name changes
     screen.nameProperty.link( name => {
       text.text = name;
-      updateLayout();
-
-      // For unknown reasons, the layout must be adjusted later than something else.  Unclear what else is happening,
-      // but this seems to work until we have a better long-term solution here
-      animationFrameTimer.runOnNextTick( updateLayout );
     } );
+
+    text.boundsProperty.link( updateLayout );
+
+    needsIconMaxWidth && assert && assert( Utils.toFixed( this.width, 0 ) === Utils.toFixed( options.maxButtonWidth, 0 ),
+      `this.width ${this.width} !== options.maxButtonWidth ${options.maxButtonWidth}` );
 
     // pdom - Pass a shape to the focusHighlight to prevent dilation, then tweak the top up just a hair.
     const highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );
