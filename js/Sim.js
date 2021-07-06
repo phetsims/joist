@@ -68,6 +68,8 @@ import updateCheck from './updateCheck.js';
 const PROGRESS_BAR_WIDTH = 273;
 const SUPPORTS_GESTURE_DESCRIPTION = platform.android || platform.mobileSafari;
 
+const packageFeatures = packageJSON.phet.features || {};
+
 // strings needed for the IE warning dialog
 joistStrings.ieErrorPage.platformError;
 joistStrings.ieErrorPage.ieIsNotSupported;
@@ -460,7 +462,7 @@ class Sim extends PhetioObject {
     // @public (joist-internal, read-only) {boolean} - used to specify if the sim is set up to support accessibility,
     // even if this specific runtime turns it on/off via a query parameter. Most of the time this should not be used;
     // instead see phet.chipper.queryParameters.supportsInteractiveDescription. This is to support a consistent API for PhET-iO, see https://github.com/phetsims/phet-io/issues/1457
-    this.accessibilityPartOfTheAPI = packageJSON.phet.features && packageJSON.phet.features.supportsInteractiveDescription;
+    this.accessibilityPartOfTheAPI = packageFeatures.supportsInteractiveDescription;
 
     // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
     this.supportsGestureDescription = phet.chipper.queryParameters.supportsInteractiveDescription && SUPPORTS_GESTURE_DESCRIPTION;
@@ -491,15 +493,14 @@ class Sim extends PhetioObject {
     // flags or query params.
 
     // @public (joist-internal, read-only) {boolean} - true if the simulation supports sound and sound is enabled
-    const packageSupportsSound = packageJSON.phet.features && packageJSON.phet.features.supportsSound;
-    this.supportsSound = ( packageSupportsSound || phet.chipper.queryParameters.supportsSound ) &&
+    this.supportsSound = phet.chipper.queryParameters.supportsSound &&
                          ( phet.chipper.queryParameters.sound === 'enabled' ||
                            phet.chipper.queryParameters.sound === 'muted' );
 
     // @public (joist-internal, read-only) {boolean} - used to specify if the sim is set up to support sound, even if
     // this specific runtime turns it off via a query parameter. Most of the time this should not be used; instead see
     // Sim.supportsSound. This is to support a consistent API for PhET-iO, see https://github.com/phetsims/joist/issues/573
-    this.soundPartOfTheAPI = packageSupportsSound;
+    this.soundPartOfTheAPI = packageFeatures.supportsSound;
 
     // @public (joist-internal, read-only) {boolean} - true if the simulation supports enhanced sound, cannot support
     // enhanced without supporting sound in general

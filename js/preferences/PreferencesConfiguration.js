@@ -11,7 +11,6 @@
 import merge from '../../../phet-core/js/merge.js';
 import webSpeaker from '../../../scenery/js/accessibility/voicing/webSpeaker.js';
 import joist from '../joist.js';
-import packageJSON from '../packageJSON.js';
 
 class PreferencesConfiguration {
 
@@ -58,7 +57,7 @@ class PreferencesConfiguration {
         // can only be included if supportsSound is also true.
         // NOTE: When initialize-globals uses package.json to control sound features the packageJSON check
         // here can be removed
-        supportsSound: phetFeatures.supportsSound || packageJSON.phet.features && packageJSON.phet.features.supportsSound,
+        supportsSound: phetFeatures.supportsSound,
         supportsEnhancedSound: phetFeatures.supportsEnhancedSound
       },
 
