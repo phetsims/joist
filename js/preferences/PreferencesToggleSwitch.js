@@ -74,7 +74,7 @@ class PreferencesToggleSwitch extends Node {
       voicingNameResponse: options.a11yLabel,
 
       // tandem - opting out of Tandems for now
-      tandem: options.tandem
+      tandem: Tandem.OPT_OUT
     } ) );
     this.addChild( toggleSwitch );
 

@@ -14,6 +14,7 @@ import Node from '../../../scenery/js/nodes/Node.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import soundManager from '../../../tambo/js/soundManager.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
@@ -61,7 +62,10 @@ class SoundPanelSection extends PreferencesPanelSection {
         labelContent: extraSoundsLabelString,
 
         // voicing
-        voicingNameResponse: extraSoundsLabelString
+        voicingNameResponse: extraSoundsLabelString,
+
+        // phet-io
+        tandem: Tandem.OPT_OUT
       } );
       soundManager.enabledProperty.link( enabled => {
         enhancedSoundCheckbox.enabled = enabled;

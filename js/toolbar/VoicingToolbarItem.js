@@ -8,7 +8,6 @@
  */
 
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
-import merge from '../../../phet-core/js/merge.js';
 import PlayStopButton from '../../../scenery-phet/js/buttons/PlayStopButton.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import VoicingText from '../../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
@@ -157,13 +156,14 @@ class LabelButtonRow {
     this.playingProperty = new BooleanProperty( false );
 
     // @private {PlayStopButton}
-    this.playStopButton = new PlayStopButton( this.playingProperty, merge( {
+    this.playStopButton = new PlayStopButton( this.playingProperty, {
       startPlayingLabel: a11yLabel,
       voicingNameResponse: a11yLabel,
+      radius: 12,
+
+      // phet-io
       tandem: Tandem.OPT_OUT
-    }, {
-      radius: 12
-    } ) );
+    } );
 
     const textLabel = new Text( labelString, {
       font: new PhetFont( 12 ),
