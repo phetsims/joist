@@ -142,6 +142,9 @@ class Sim extends PhetioObject {
       // things like iPad 2s (e.g. https://github.com/phetsims/scenery/issues/859), this can be turned to false to help.
       allowBackingScaleAntialiasing: true,
 
+      // {boolean} whether the visible bounds takes up the full screen or excludes space for the NavigationBar
+      fullScreenVisibleBounds: false,
+
       // phet-io
       phetioState: false,
       phetioReadOnly: true,
@@ -200,7 +203,7 @@ class Sim extends PhetioObject {
       this.navigationBar.layout( scale, width, navBarHeight );
       this.navigationBar.y = height - navBarHeight;
       this.display.setSize( new Dimension2( width, height ) );
-      const screenHeight = height - this.navigationBar.height;
+      const screenHeight = options.fullScreenVisibleBounds ? height : height - navBarHeight;
 
       if ( this.toolbar ) {
         this.toolbar.layout( scale, screenHeight );
