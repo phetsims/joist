@@ -201,7 +201,7 @@ class NavigationBarScreenButton extends Node {
       text.text = name;
     } );
 
-    text.boundsProperty.link( updateLayout );
+    text.textProperty.link( updateLayout );
 
     needsIconMaxWidth && assert && assert( Utils.toFixed( this.width, 0 ) === Utils.toFixed( options.maxButtonWidth, 0 ),
       `this.width ${this.width} !== options.maxButtonWidth ${options.maxButtonWidth}` );
