@@ -6,7 +6,8 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import UserCog from '../../../sherpa/js/fontawesome-5/solid/UserCog.js';
+import Path from '../../../scenery/js/nodes/Path.js';
+import userCogSolidShape from '../../../sherpa/js/fontawesome-5/userCogSolidShape.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import JoistButton from '../JoistButton.js';
@@ -24,7 +25,7 @@ class NavigationBarPreferencesButton extends JoistButton {
    */
   constructor( preferencesConfiguration, preferencesProperties, lookAndFeel, simSoundProperty ) {
 
-    const icon = new UserCog( {
+    const icon = new Path( userCogSolidShape, {
       fill: lookAndFeel.navigationBarTextFillProperty,
       maxWidth: 25
     } );
