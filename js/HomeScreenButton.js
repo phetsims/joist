@@ -42,7 +42,6 @@ class HomeScreenButton extends VBox {
 
     options = merge( {
       cursor: 'pointer',
-      resize: true,
       showUnselectedHomeScreenIconFrame: false, // put a frame around unselected home screen icons
 
       // pdom
@@ -107,7 +106,7 @@ class HomeScreenButton extends VBox {
       textPropertyOptions: { phetioReadOnly: true } // text is updated via screen.nameProperty
     } );
 
-    super( merge( { children: [ nodeContainer, new Node( { children: [ text ] } ) ] }, options ) );
+    super( merge( { children: [ nodeContainer, text ] }, options ) );
 
     // @public (read-only)
     this.screen = screen;
@@ -150,9 +149,6 @@ class HomeScreenButton extends VBox {
       text.maxWidth = nodeContainer.width;
       setOpacityAndFill();
       this.setSpacing( data.spacing );
-
-      // update the VBox layout after changing the size of its children
-      this.updateLayout();
     } );
 
     // update the appearance when the button is highlighted
@@ -164,7 +160,6 @@ class HomeScreenButton extends VBox {
     // update the text when the screen name changes
     screen.nameProperty.link( name => {
       text.text = name;
-      this.updateLayout();
     } );
 
     let buttonWasAlreadySelected = false;
