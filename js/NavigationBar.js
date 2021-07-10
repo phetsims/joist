@@ -234,11 +234,12 @@ class NavigationBar extends Node {
 
       // Compute the distance between *centers* of each button
       const spaceBetweenButtons = maxScreenButtonWidth + SCREEN_BUTTON_SPACING;
-      for ( let i = 0; i < screenButtons.length; i++ ) {
-
+      screenButtons.forEach( ( screenButton, i ) => {
         // Equally space the centers of the buttons around the origin of their parent (screenButtonsContainer)
-        screenButtons[ i ].centerX = spaceBetweenButtons * ( i - ( screenButtons.length - 1 ) / 2 );
-      }
+        screenButton.localBoundsProperty.link( localBounds => {
+          screenButton.centerX = spaceBetweenButtons * ( i - ( screenButtons.length - 1 ) / 2 );
+        } );
+      } );
 
       // @private - Put all screen buttons under a parent, to simplify layout
       this.screenButtonsContainer = new Node( {
