@@ -111,11 +111,6 @@ class NavigationBarScreenButton extends Node {
       fill: 'black'
     } );
 
-    this.addChild( iconAndText );
-    this.addChild( overlay );
-    this.addChild( brightenHighlight );
-    this.addChild( darkenHighlight );
-
     // Is this button's screen selected?
     const selectedProperty = new DerivedProperty( [ screenProperty ], currentScreen => ( currentScreen === screen ) );
 
@@ -184,6 +179,20 @@ class NavigationBarScreenButton extends Node {
       brightenHighlight.center = darkenHighlight.center = iconAndText.center;
     };
 
+    // Update the button's text and layout when the screen name changes
+    screen.nameProperty.link( name => {
+      text.text = name;
+    } );
+    iconAndText.boundsProperty.lazyLink( updateLayout );
+    text.boundsProperty.link( updateLayout );
+
+    this.children = [
+      iconAndText,
+      overlay,
+      brightenHighlight,
+      darkenHighlight
+    ];
+
     const needsIconMaxWidth = options.maxButtonWidth && ( this.width > options.maxButtonWidth );
 
     // Constrain text and icon width, if necessary
@@ -195,13 +204,6 @@ class NavigationBarScreenButton extends Node {
       // Text is allowed to go beyond the bounds of the icon, hence we use `this.width` instead of `icon.width`
       text.maxWidth = this.width;
     }
-
-    // Update the button's text and layout when the screen name changes
-    screen.nameProperty.link( name => {
-      text.text = name;
-    } );
-
-    text.textProperty.link( updateLayout );
 
     needsIconMaxWidth && assert && assert( Utils.toFixed( this.width, 0 ) === Utils.toFixed( options.maxButtonWidth, 0 ),
       `this.width ${this.width} !== options.maxButtonWidth ${options.maxButtonWidth}` );
