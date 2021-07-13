@@ -10,6 +10,7 @@ import Property from '../../axon/js/Property.js';
 import Shape from '../../kite/js/Shape.js';
 import merge from '../../phet-core/js/merge.js';
 import FocusHighlightPath from '../../scenery/js/accessibility/FocusHighlightPath.js';
+import Voicing from '../../scenery/js/accessibility/voicing/Voicing.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';
 import PushButtonInteractionStateProperty from '../../sun/js/buttons/PushButtonInteractionStateProperty.js';
@@ -67,6 +68,9 @@ class JoistButton extends Node {
 
     super( options );
 
+    // voicing - initialize the voicing trait
+    this.initializeVoicing( options );
+
     // @public (phet-io|a11y) - Button model
     // Note it shares a tandem with "this", so the emitter will be instrumented as a child of the button
     this.buttonModel = new PushButtonModel( options );
@@ -117,6 +121,8 @@ class JoistButton extends Node {
     return this._pressListener.pdomClickingProperty.get();
   }
 }
+
+Voicing.compose( JoistButton );
 
 joist.register( 'JoistButton', JoistButton );
 export default JoistButton;

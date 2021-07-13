@@ -47,7 +47,10 @@ class NavigationBarPreferencesButton extends JoistButton {
 
       // pdom
       innerContent: joistStrings.preferences.title,
-      positionInPDOM: true
+      positionInPDOM: true,
+
+      // voicing
+      voicingNameResponse: joistStrings.preferences.title
     } );
 
     // pdom - Signal to screen readers that the button will open a dialog. For some reason, this also seems to

@@ -239,14 +239,14 @@
     "soundToggle": {
       "alert": {
         "simSoundOn": {
-          "value": "Sim sound on."
+          "value": "Audio Features on."
         },
         "simSoundOff": {
-          "value": "Sim sound off."
+          "value": "Audio Features off."
         }
       },
       "label": {
-        "value": "Mute Sound"
+        "value": "All Audio"
       }
     },
     "checkOutShortcuts": {

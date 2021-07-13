@@ -47,7 +47,10 @@ class KeyboardHelpButton extends JoistButton {
       visiblePropertyOptions: { phetioFeatured: true },
 
       // pdom
-      innerContent: keyboardShortcutsString
+      innerContent: keyboardShortcutsString,
+
+      // voicing
+      voicingNameResponse: keyboardShortcutsString
     }, options );
 
     assert && assert( !options.listener, 'PhetButton sets listener' );

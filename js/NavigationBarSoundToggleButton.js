@@ -63,7 +63,10 @@ class NavigationBarSoundToggleButton extends JoistButton {
       visiblePropertyOptions: { phetioFeatured: true },
 
       // pdom
-      innerContent: joistStrings.a11y.soundToggle.label
+      innerContent: joistStrings.a11y.soundToggle.label,
+
+      // voicing
+      voicingNameResponse: joistStrings.a11y.soundToggle.label
     }, options );
 
     assert && assert( options.listener === undefined, 'NavigationBarSoundToggleButton sets listener' );

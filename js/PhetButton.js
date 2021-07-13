@@ -104,7 +104,10 @@ class PhetButton extends JoistButton {
       },
 
       // pdom
-      innerContent: joistStrings.a11y.phetMenu
+      innerContent: joistStrings.a11y.phetMenu,
+
+      // voicing
+      voicingNameResponse: joistStrings.a11y.phetMenu
     } );
 
     // Restore focus to PhetButton when the PhetMenu is closed.
