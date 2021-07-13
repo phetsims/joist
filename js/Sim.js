@@ -1156,6 +1156,7 @@ class Sim extends PhetioObject {
 
     this.navigationBar.pdomVisible = visible;
     this.homeScreen && this.homeScreen.view.setPDOMVisible( visible );
+    this.toolbar && this.toolbar.setPDOMVisible( visible );
   }
 }
 
