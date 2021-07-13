@@ -69,7 +69,7 @@ class PreferencesDialog extends Dialog {
     assert && assert( supportedTabs.length > 0, 'Trying to create a PreferencesDialog with no tabs, check PreferencesConfiguration' );
 
     // the selected PreferencesTab, indicating which tab is visible in the Dialog
-    const selectedTabProperty = new EnumerationProperty( PreferencesTab, PreferencesTab.AUDIO );
+    const selectedTabProperty = new EnumerationProperty( PreferencesTab, PreferencesTab.GENERAL );
 
     // the set of tabs you can can click to activate a tab panel
     const preferencesTabs = new PreferencesTabs( preferencesConfiguration, supportedTabs, selectedTabProperty );
