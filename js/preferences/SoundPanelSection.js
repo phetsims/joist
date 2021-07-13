@@ -10,8 +10,8 @@ import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import VoicingRichText from '../../../scenery/js/accessibility/voicing/nodes/VoicingRichText.js';
 import VoicingText from '../../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
 import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
-import Node from '../../../scenery/js/nodes/Node.js';
 import Text from '../../../scenery/js/nodes/Text.js';
+import VBox from '../../../scenery/js/nodes/VBox.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import soundManager from '../../../tambo/js/soundManager.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -67,9 +67,7 @@ class SoundPanelSection extends PreferencesPanelSection {
         // phet-io
         tandem: Tandem.OPT_OUT
       } );
-      soundManager.enabledProperty.link( enabled => {
-        enhancedSoundCheckbox.enabled = enabled;
-      } );
+
       const enhancedSoundDescription = new VoicingRichText( extraSoundsDescriptionString, {
         font: PreferencesDialog.CONTENT_FONT,
         lineWrap: 300,
@@ -79,11 +77,15 @@ class SoundPanelSection extends PreferencesPanelSection {
         } )
       } );
 
-      enhancedSoundContent = new Node( {
-        children: [ enhancedSoundCheckbox, enhancedSoundDescription ]
+      enhancedSoundContent = new VBox( {
+        children: [ enhancedSoundCheckbox, enhancedSoundDescription ],
+        align: 'left',
+        spacing: 5
       } );
 
-      enhancedSoundDescription.leftTop = enhancedSoundCheckbox.leftBottom.plusXY( 0, 5 );
+      soundManager.enabledProperty.link( enabled => {
+        enhancedSoundContent.enabled = enabled;
+      } );
     }
 
     super( {
