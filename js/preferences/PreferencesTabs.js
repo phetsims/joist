@@ -51,7 +51,7 @@ class PreferencesTabs extends Node {
     // @private {EnumerationProperty}
     this.selectedPanelProperty = selectedPanelProperty;
 
-    //@private {{node: Node, value: PreferenceTab}[]}
+    // @private {Tab[]}
     this.content = [];
     const addTabIfSupported = ( preferenceTab, titleString ) => {
       _.includes( supportedTabs, preferenceTab ) && this.content.push( new Tab( titleString, selectedPanelProperty, preferenceTab ) );
@@ -68,15 +68,15 @@ class PreferencesTabs extends Node {
       }
     }
 
-    // pdom - alternative input support to move through tabs with arrow keys
+    // pdom - keyboard support to move through tabs with arrow keys
     const keyboardListener = {
       keyup: event => {
-        if ( KeyboardUtils.isArrowKey( event.domEvent ) ) {
+        if ( ( KeyboardUtils.isAnyKeyEvent( event.domEvent, [ KeyboardUtils.KEY_RIGHT_ARROW, KeyboardUtils.KEY_LEFT_ARROW ] ) ) ) {
 
           // prevent "native" behavior so that Safari doesn't make an error sound with arrow keys in full screen mode
           event.domEvent.preventDefault();
 
-          const direction = ( KeyboardUtils.isAnyKeyEvent( event.domEvent, [ KeyboardUtils.KEY_RIGHT_ARROW, KeyboardUtils.KEY_UP_ARROW ] ) ) ? 1 : -1;
+          const direction = KeyboardUtils.isKeyEvent( event.domEvent, KeyboardUtils.KEY_RIGHT_ARROW ) ? 1 : -1;
           for ( let i = 0; i < this.content.length; i++ ) {
             if ( this.selectedButton === this.content[ i ] ) {
               const nextButtonContent = this.content[ i + direction ];
@@ -172,7 +172,7 @@ class Tab extends Node {
       cursor: 'pointer',
 
       // pdom
-      tagName: 'div',
+      tagName: 'button',
       innerContent: label,
       ariaRole: 'tab',
       focusable: true,

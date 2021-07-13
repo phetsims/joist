@@ -4,6 +4,8 @@
  * Dialog with preferences to enable or disable various features for the simulation. Groups of preferences are
  * organized and displayed in a tab panel.
  *
+ * Once the dialog is created it is never destroyed so listeners and components do not need to be disposed.
+ *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
@@ -11,6 +13,7 @@ import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
 import Enumeration from '../../../phet-core/js/Enumeration.js';
 import merge from '../../../phet-core/js/merge.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
+import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import Dialog from '../../../sun/js/Dialog.js';
@@ -92,14 +95,32 @@ class PreferencesDialog extends Dialog {
 
     // @private {PreferencesTabs}
     this.preferencesTabs = preferencesTabs;
+    this.preferencesPanels = preferencesPanels;
+
+    // pdom - When the "down" arrow is pressed on the group of tabs, move focus to the selected panel
+    preferencesTabs.addInputListener( {
+      keydown: event => {
+        if ( KeyboardUtils.isKeyEvent( event.domEvent, KeyboardUtils.KEY_DOWN_ARROW ) ) {
+          this.focusSelectedPanel();
+        }
+      }
+    } );
   }
 
   /**
    * Move focus to the selected tab. Generally to be used when opening the dialog.
-   * @private
+   * @public
    */
   focusSelectedTab() {
     this.preferencesTabs.focusSelectedTab();
+  }
+
+  /**
+   * Move focus to the selected panel.
+   * @private
+   */
+  focusSelectedPanel() {
+    this.preferencesPanels.focusSelectedPanel();
   }
 }
 

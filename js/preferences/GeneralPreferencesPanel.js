@@ -30,7 +30,7 @@ class GeneralPreferencesPanel extends VBox {
       spacing: 40,
 
       // pdom
-      tagName: 'div',
+      tagName: 'section',
       labelTagName: 'h2',
       labelContent: 'General'
     } );
