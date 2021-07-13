@@ -46,8 +46,15 @@ class NavigationBarPreferencesButton extends JoistButton {
       highlightExtensionHeight: 10,
 
       // pdom
-      innerContent: joistStrings.preferences.title
+      innerContent: joistStrings.preferences.title,
+      positionInPDOM: true
     } );
+
+    // pdom - Signal to screen readers that the button will open a dialog. For some reason, this also seems to
+    // prevent a bug in iOS Safari where two events are dispatched to the screen on activation instead of one.
+    // The result was that one press would open the dialog and the second buggy press would immediately close it.
+    // Make sure that the dialog can be opened on iOS Safari before removing this.
+    this.setPDOMAttribute( 'aria-haspopup', true );
   }
 }
 

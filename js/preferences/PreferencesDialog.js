@@ -54,7 +54,10 @@ class PreferencesDialog extends Dialog {
       title: titleText,
 
       // phet-io
-      phetioDynamicElement: true
+      phetioDynamicElement: true,
+
+      // pdom
+      positionInPDOM: true
     }, options );
 
     // determine which tabs will be supported in this Dialog, true if any entry in a configuration has content
