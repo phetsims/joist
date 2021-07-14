@@ -10,17 +10,19 @@ import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import SpinningIndicatorNode from '../../scenery-phet/js/SpinningIndicatorNode.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
+import Path from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../scenery/js/nodes/RichText.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import VBox from '../../scenery/js/nodes/VBox.js';
 import VStrut from '../../scenery/js/nodes/VStrut.js';
-import TextPushButton from '../../sun/js/buttons/TextPushButton.js';
+import exclamationTriangleSolidShape from '../../sherpa/js/fontawesome-5/exclamationTriangleSolidShape.js';
 import FontAwesomeNode from '../../sun/js/FontAwesomeNode.js';
+import TextPushButton from '../../sun/js/buttons/TextPushButton.js';
+import UpdateState from './UpdateState.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import updateCheck from './updateCheck.js';
-import UpdateState from './UpdateState.js';
 
 const updatesCheckingString = joistStrings.updates.checking;
 const updatesGetUpdateString = joistStrings.updates.getUpdate;
@@ -120,7 +122,10 @@ const UpdateNodes = {
       cursor: phet.chipper.queryParameters.allowLinks ? 'pointer' : null,
       maxWidth: MAX_WIDTH,
       children: [
-        new FontAwesomeNode( 'warning_sign', { fill: '#E87600', scale: 0.5 } ), // "safety orange", according to Wikipedia
+        new Path( exclamationTriangleSolidShape, {
+          fill: '#E87600', // "safety orange", according to Wikipedia
+          scale: 0.03
+        } ),
         linkNode
       ],
 
