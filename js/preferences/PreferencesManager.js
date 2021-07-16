@@ -7,7 +7,7 @@
  */
 
 import Property from '../../../axon/js/Property.js';
-import voicingManager from '../../../scenery/js/accessibility/voicing/voicingManager.js';
+import responseCollector from '../../../scenery/js/accessibility/voicing/responseCollector.js';
 import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import webSpeaker from '../../../scenery/js/accessibility/voicing/webSpeaker.js';
 import joistVoicingUtteranceQueue from '../../../utterance-queue/js/UtteranceQueue.js';
@@ -32,8 +32,8 @@ class PreferencesManager {
     if ( audioOptions.supportsVoicing ) {
 
       // The default utteranceQueue will be used for voicing of simulation components, and
-      // it is enabled when the voicingManager is fully enabled.
-      voicingManager.voicingFullyEnabledProperty.link( enabled => {
+      // it is enabled when the responseCollector is fully enabled.
+      responseCollector.voicingFullyEnabledProperty.link( enabled => {
         voicingUtteranceQueue.enabled = enabled;
       } );
 
@@ -46,7 +46,7 @@ class PreferencesManager {
       // having ReadingBlock highlights that do nothing is too confusing so they should be removed unless they
       // have some output.
       Property.multilink( [
-        voicingManager.voicingFullyEnabledProperty,
+        responseCollector.voicingFullyEnabledProperty,
         audioManager.audioEnabledProperty
       ], ( voicingFullyEnabled, allAudioEnabled ) => {
         sim.display.focusManager.readingBlockHighlightsVisibleProperty.value = voicingFullyEnabled && allAudioEnabled;

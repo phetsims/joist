@@ -16,7 +16,7 @@ import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import FocusHighlightFromNode from '../../../scenery/js/accessibility/FocusHighlightFromNode.js';
 import VoicingText from '../../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
 import Voicing from '../../../scenery/js/accessibility/voicing/Voicing.js';
-import voicingManager from '../../../scenery/js/accessibility/voicing/voicingManager.js';
+import responseCollector from '../../../scenery/js/accessibility/voicing/responseCollector.js';
 import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import webSpeaker from '../../../scenery/js/accessibility/voicing/webSpeaker.js';
 import PressListener from '../../../scenery/js/listeners/PressListener.js';
@@ -137,9 +137,9 @@ class VoicingPanelSection extends PreferencesPanelSection {
       align: 'left',
       spacing: 5,
       children: [
-        createCheckbox( objectDetailsLabelString, voicingManager.objectResponsesEnabledProperty ),
-        createCheckbox( contextChangesLabelString, voicingManager.contextResponsesEnabledProperty ),
-        createCheckbox( helpfulHintsLabelString, voicingManager.hintResponsesEnabledProperty )
+        createCheckbox( objectDetailsLabelString, responseCollector.objectResponsesEnabledProperty ),
+        createCheckbox( contextChangesLabelString, responseCollector.contextResponsesEnabledProperty ),
+        createCheckbox( helpfulHintsLabelString, responseCollector.hintResponsesEnabledProperty )
       ]
     } );
 
@@ -224,7 +224,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
       // only speak if "Sim Voicing" is on, all voicing should be disabled except for the Toolbar
       // buttons in this case
-      if ( voicingManager.mainWindowVoicingEnabledProperty.value ) {
+      if ( responseCollector.mainWindowVoicingEnabledProperty.value ) {
         const alertString = enabled ? voicingEnabledString : voicingDisabledString;
         webSpeaker.speakImmediately( alertString );
         phet.joist.sim.utteranceQueue.addToBack( alertString );
@@ -262,19 +262,19 @@ class VoicingPanelSection extends PreferencesPanelSection {
       phet.joist.sim.utteranceQueue.addToBack( alertString );
     } );
 
-    voicingManager.objectResponsesEnabledProperty.lazyLink( voicingObjectChanges => {
+    responseCollector.objectResponsesEnabledProperty.lazyLink( voicingObjectChanges => {
       const alertString = voicingObjectChanges ? voicingObjectChangesString : objectChangesMutedString;
       voicingUtteranceQueue.addToBack( alertString );
       phet.joist.sim.utteranceQueue.addToBack( alertString );
     } );
 
-    voicingManager.contextResponsesEnabledProperty.lazyLink( voicingContextChanges => {
+    responseCollector.contextResponsesEnabledProperty.lazyLink( voicingContextChanges => {
       const alertString = voicingContextChanges ? voicingContextChangesString : contextChangesMutedString;
       voicingUtteranceQueue.addToBack( alertString );
       phet.joist.sim.utteranceQueue.addToBack( alertString );
     } );
 
-    voicingManager.hintResponsesEnabledProperty.lazyLink( voicingHints => {
+    responseCollector.hintResponsesEnabledProperty.lazyLink( voicingHints => {
       const alertString = voicingHints ? voicingHintsString : hintsMutedString;
       voicingUtteranceQueue.addToBack( alertString );
       phet.joist.sim.utteranceQueue.addToBack( alertString );
