@@ -1,8 +1,9 @@
 // Copyright 2018-2021, University of Colorado Boulder
 
 /**
- * NavigationBarAudioToggleButton is a button for controlling whether sound is enabled or disabled that is designed to
- * work on the PhET navigation bar.
+ * NavigationBarAudioToggleButton is a button for controlling whether audio is enabled or disabled that is designed to
+ * work on the PhET navigation bar. Audio includes all auditory features in the sim, so when this is button is toggled
+ * "off", the sim should be totally silent.
  *
  * If you're wondering why this is drawn in code rather than using a Font Awesome node, please see
  * https://github.com/phetsims/tambo/issues/19.
