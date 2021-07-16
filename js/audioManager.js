@@ -5,6 +5,17 @@
  * indicate which auditory features are supported. Also responsible for initializing managers for sub-components
  * of the AudioManager.
  *
+ * PhET uses the term "Audio" to describe the collection of all auditory features that are provided by the simulation.
+ * Under "Audio" there are currently two sub-features that can be separately enabled and disabled that PhET calls
+ * "Sound" and "Voicing". Illustrated below:
+ *
+ * "Audio" - All auditory output in the sim.
+ *  - "Sound" - All sound effects and sonifications that represent the simulation.
+ *    - "Enhanced Sound" - Additional Sounds that can be enabled separately, but may not be beneficial for all users.
+ *  - "Voicing" - Spoken text that describes what is happening in the simulation.
+ *
+ *  Disabling Audio will mute all subcomponents. But each subcomponent can be muted separately.
+ *
  * @author Jesse Greenberg
  */
 
