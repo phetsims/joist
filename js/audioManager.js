@@ -40,9 +40,12 @@ class AudioManager {
     // @public {joist-internal, read-only) {boolean} - True if voicing is supported.
     this.supportsVoicing = phet.chipper.queryParameters.supportsVoicing;
 
+    // @public {joist-internal, read-only) {boolean} - True if any form of Audio is enabled in the simulation.
+    this.supportsAudio = phet.chipper.queryParameters.audio !== 'disabled' && ( this.supportsSound || this.supportsVoicing );
+
     // @public {BooleanProperty} - Whether or not all features involving audio are enabled (including sound, enhanced
     // sound, and voicing). When false, everything should be totally silent.
-    this.audioEnabledProperty = new BooleanProperty( true );
+    this.audioEnabledProperty = new BooleanProperty( phet.chipper.queryParameters.audio === 'enabled' );
 
     // @public {DerivedProperty.<boolean>} - Indicates when both Audio and Sound are enabled. When false, the
     // soundManager will not produce any sound.
