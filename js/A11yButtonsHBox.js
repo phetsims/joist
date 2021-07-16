@@ -9,6 +9,7 @@
 import merge from '../../phet-core/js/merge.js';
 import platform from '../../phet-core/js/platform.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
+import audioManager from './audioManager.js';
 import joist from './joist.js';
 import KeyboardHelpButton from './KeyboardHelpButton.js';
 import NavigationBarSoundToggleButton from './NavigationBarSoundToggleButton.js';
@@ -37,22 +38,22 @@ class A11yButtonsHBox extends HBox {
         sim.preferencesConfiguration,
         sim.preferencesManager.preferencesProperties,
         sim.lookAndFeel,
-        sim.allAudioEnabledProperty
+        audioManager.audioEnabledProperty
       );
 
       a11yButtons.push( preferencesButton );
     }
 
     // If the sim has sound support in its API, then create the button. This is support consistent API for PhET-iO
-    if ( sim.soundPartOfTheAPI ) {
+    if ( audioManager.soundPartOfTheAPI ) {
       const soundOnOffButton = new NavigationBarSoundToggleButton(
-        sim.allAudioEnabledProperty,
+        audioManager.audioEnabledProperty,
         backgroundColorProperty,
         tandem.createTandem( 'soundOnOffButton' )
       );
 
       // only put the sound on/off button on the nav bar if the sound library is enabled
-      if ( sim.supportsSound ) {
+      if ( audioManager.supportsSound ) {
         a11yButtons.push( soundOnOffButton );
       }
     }
