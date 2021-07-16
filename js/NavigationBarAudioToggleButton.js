@@ -1,7 +1,7 @@
 // Copyright 2018-2021, University of Colorado Boulder
 
 /**
- * NavigationBarSoundToggleButton is a button for controlling whether sound is enabled or disabled that is designed to
+ * NavigationBarAudioToggleButton is a button for controlling whether sound is enabled or disabled that is designed to
  * work on the PhET navigation bar.
  *
  * If you're wondering why this is drawn in code rather than using a Font Awesome node, please see
@@ -46,7 +46,7 @@ const MIN_CURVE_RADIUS = MED_CURVE_RADIUS - RADIUS_STEPPER;
 const CURVE_ANGLE = Math.PI / 2.7;
 const NEG_CURVE_ANGLE = CURVE_ANGLE * -1.0;
 
-class NavigationBarSoundToggleButton extends JoistButton {
+class NavigationBarAudioToggleButton extends JoistButton {
 
   /**
    * @param {BooleanProperty} soundEnabledProperty
@@ -72,7 +72,7 @@ class NavigationBarSoundToggleButton extends JoistButton {
       voicingNameResponse: joistStrings.a11y.soundToggle.label
     }, options );
 
-    assert && assert( options.listener === undefined, 'NavigationBarSoundToggleButton sets listener' );
+    assert && assert( options.listener === undefined, 'NavigationBarAudioToggleButton sets listener' );
     options.listener = () => soundEnabledProperty.set( !soundEnabledProperty.get() );
 
     const soundOnNode = new Node();
@@ -176,5 +176,5 @@ class NavigationBarSoundToggleButton extends JoistButton {
   }
 }
 
-joist.register( 'NavigationBarSoundToggleButton', NavigationBarSoundToggleButton );
-export default NavigationBarSoundToggleButton;
+joist.register( 'NavigationBarAudioToggleButton', NavigationBarAudioToggleButton );
+export default NavigationBarAudioToggleButton;
