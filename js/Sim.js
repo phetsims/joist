@@ -44,6 +44,7 @@ import soundManager from '../../tambo/js/soundManager.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
+import audioManager from './audioManager.js';
 import Heartbeat from './Heartbeat.js';
 import HomeScreen from './HomeScreen.js';
 import HomeScreenView from './HomeScreenView.js';
@@ -490,39 +491,11 @@ class Sim extends PhetioObject {
     //   this.engagementMetrics = new EngagementMetrics( this );
     // }
 
-    // Set/update global flag values that enable and configure the sound library.  These can be controlled through sim
-    // flags or query params.
+    // initialize audio and audio subcomponents
+    audioManager.initialize( this );
 
-    // @public (joist-internal, read-only) {boolean} - true if the simulation supports sound and sound is enabled
-    this.supportsSound = phet.chipper.queryParameters.supportsSound &&
-                         ( phet.chipper.queryParameters.sound === 'enabled' ||
-                           phet.chipper.queryParameters.sound === 'muted' );
-
-    // @public (joist-internal, read-only) {boolean} - used to specify if the sim is set up to support sound, even if
-    // this specific runtime turns it off via a query parameter. Most of the time this should not be used; instead see
-    // Sim.supportsSound. This is to support a consistent API for PhET-iO, see https://github.com/phetsims/joist/issues/573
-    this.soundPartOfTheAPI = packageFeatures.supportsSound;
-
-    // @public (joist-internal, read-only) {boolean} - true if the simulation supports enhanced sound, cannot support
-    // enhanced without supporting sound in general
-    this.supportsEnhancedSound = this.supportsSound &&
-                                 ( phet.chipper.queryParameters.supportsEnhancedSound );
-
-    // @public {BooleanProperty} - Whether or not all features involving sound are enabled in the simulation
-    // (such as sound, enhanced sound, and voicing). When false the sim should be totally silent.
-    // TODO: See https://github.com/phetsims/joist/issues/724 - Temporarily, initial value is set by the "sound"
-    //  query parameter, but should have its own query parameter eventually
-    this.allAudioEnabledProperty = new BooleanProperty( phet.chipper.queryParameters.sound === 'enabled' );
-
-    // Initialize the sound library if enabled, then hook up sound generation for screen changes.
-    if ( this.supportsSound ) {
-      soundManager.initialize(
-        this.isConstructionCompleteProperty,
-        this.allAudioEnabledProperty,
-        this.browserTabVisibleProperty,
-        this.activeProperty,
-        this.isSettingPhetioStateProperty
-      );
+    // hook up sound generation for screen changes
+    if ( audioManager.supportsSound ) {
       soundManager.addSoundGenerator(
         new ScreenSelectionSoundGenerator( this.screenProperty, this.homeScreen, { initialOutputLevel: 0.5 } ),
         {

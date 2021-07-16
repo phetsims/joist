@@ -26,6 +26,7 @@ import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import ButtonNode from '../../../sun/js/buttons/ButtonNode.js';
 import RoundPushButton from '../../../sun/js/buttons/RoundPushButton.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import audioManager from '../audioManager.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import VoicingToolbarAlertManager from './VoicingToolbarAlertManager.js';
@@ -80,7 +81,7 @@ class Toolbar extends Node {
     // @public (read-only) {DerivedProperty.<boolean>} - Whether the Toolbar is shown to the user. At this time,
     // that is true if the toolbar is enabled, voicing is enabled, and if all audio is enabled. The Toolbar only
     // includes controls related to audio (voicing) so when audio is disabled there is no need to show it.
-    this.isShowingProperty = DerivedProperty.and( [ this.isEnabledProperty, webSpeaker.enabledProperty, sim.allAudioEnabledProperty ] );
+    this.isShowingProperty = DerivedProperty.and( [ this.isEnabledProperty, webSpeaker.enabledProperty, audioManager.audioEnabledProperty ] );
 
     // @private {number} - Scale applied to the Toolbar and its contents in response to layout and window resizing.
     this.layoutScale = 1;

@@ -30,6 +30,7 @@ import soundManager from '../../tambo/js/soundManager.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import AboutDialog from './AboutDialog.js';
+import audioManager from './audioManager.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import OptionsDialog from './OptionsDialog.js';
@@ -291,7 +292,7 @@ class PhetMenu extends Node {
         text: menuItemEnhancedSoundString,
 
         // if the sim has a PreferencesConfiguration the control for enhanced sounds will be in the Dialog
-        present: sim.supportsEnhancedSound && !sim.preferencesConfiguration,
+        present: audioManager.supportsEnhancedSound && !sim.preferencesConfiguration,
         callback: () => {
           soundManager.enhancedSoundEnabledProperty.set( !soundManager.enhancedSoundEnabledProperty.get() );
         },

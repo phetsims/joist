@@ -6,12 +6,12 @@
  * @author Jesse Greenberg
  */
 
-import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import Property from '../../../axon/js/Property.js';
 import voicingManager from '../../../scenery/js/accessibility/voicing/voicingManager.js';
 import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import webSpeaker from '../../../scenery/js/accessibility/voicing/webSpeaker.js';
 import joistVoicingUtteranceQueue from '../../../utterance-queue/js/UtteranceQueue.js';
+import audioManager from '../audioManager.js';
 import joist from '../joist.js';
 import PreferencesProperties from './PreferencesProperties.js';
 
@@ -31,20 +31,6 @@ class PreferencesManager {
     const audioOptions = preferencesConfiguration.audioOptions;
     if ( audioOptions.supportsVoicing ) {
 
-      webSpeaker.initialize( {
-
-        // specify the Properties that control whether or not output is allowed from webSpeaker
-        speechAllowedProperty: new DerivedProperty( [
-          sim.isConstructionCompleteProperty,
-          sim.browserTabVisibleProperty,
-          sim.activeProperty,
-          sim.isSettingPhetioStateProperty,
-          sim.allAudioEnabledProperty
-        ], ( simConstructionComplete, simVisible, simActive, simSettingPhetioState, allAudioEnabled ) => {
-          return simConstructionComplete && simVisible && simActive && !simSettingPhetioState && allAudioEnabled;
-        } )
-      } );
-
       // The default utteranceQueue will be used for voicing of simulation components, and
       // it is enabled when the voicingManager is fully enabled.
       voicingManager.voicingFullyEnabledProperty.link( enabled => {
@@ -61,7 +47,7 @@ class PreferencesManager {
       // have some output.
       Property.multilink( [
         voicingManager.voicingFullyEnabledProperty,
-        sim.allAudioEnabledProperty
+        audioManager.audioEnabledProperty
       ], ( voicingFullyEnabled, allAudioEnabled ) => {
         sim.display.focusManager.readingBlockHighlightsVisibleProperty.value = voicingFullyEnabled && allAudioEnabled;
       } );
