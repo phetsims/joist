@@ -49,7 +49,7 @@ class A11yButtonsHBox extends HBox {
       const audioToggleButton = new NavigationBarAudioToggleButton(
         audioManager.audioEnabledProperty,
         backgroundColorProperty,
-        tandem.createTandem( 'soundOnOffButton' )
+        tandem.createTandem( 'audioToggleButton' )
       );
 
       // only put the sound on/off button on the nav bar if the sound library is enabled
