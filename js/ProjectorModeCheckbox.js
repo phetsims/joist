@@ -32,19 +32,6 @@ class ProjectorModeCheckbox extends Checkbox {
     // TODO: See https://github.com/phetsims/scenery-phet/issues/515 the support for passing in colorProfile is temporary
     // TODO: Once all sims are using the new pattern, that parameter can be removed. https://github.com/phetsims/scenery-phet/issues/515
     assert && assert( colorProfile === null || colorProfile instanceof ColorProfile, `invalid colorProfile: ${colorProfile}` );
-    if ( colorProfile !== null ) {
-
-      // verify that colorProfile has the required profiles
-      assert && assert( colorProfile.hasProfile( ColorProfile.PROJECTOR_COLOR_PROFILE_NAME ),
-        `colorProfile must have a profile named ${ColorProfile.PROJECTOR_COLOR_PROFILE_NAME}` );
-      assert && assert( colorProfile.hasProfile( options.defaultColorProfileName ),
-        `colorProfile must have a profile named ${options.defaultColorProfileName}` );
-    }
-      // TODO https://github.com/phetsims/scenery-phet/issues/515 invert this if/else
-      // TODO https://github.com/phetsims/scenery-phet/issues/515 assert that package.json supports default|projector
-
-    const selectedColorProfileNameProperty = colorProfile === null ? colorProfileNameProperty :
-                                     colorProfile.profileNameProperty;
 
     options = merge( {
 
@@ -58,6 +45,20 @@ class ProjectorModeCheckbox extends Checkbox {
       // phet-io
       phetioLinkProperty: false // we will create the `property` tandem here in the subtype
     }, options );
+
+    if ( colorProfile !== null ) {
+
+      // verify that colorProfile has the required profiles
+      assert && assert( colorProfile.hasProfile( ColorProfile.PROJECTOR_COLOR_PROFILE_NAME ),
+        `colorProfile must have a profile named ${ColorProfile.PROJECTOR_COLOR_PROFILE_NAME}` );
+      assert && assert( colorProfile.hasProfile( options.defaultColorProfileName ),
+        `colorProfile must have a profile named ${options.defaultColorProfileName}` );
+    }
+      // TODO https://github.com/phetsims/scenery-phet/issues/515 invert this if/else
+      // TODO https://github.com/phetsims/scenery-phet/issues/515 assert that package.json supports default|projector
+
+    const selectedColorProfileNameProperty = colorProfile === null ? colorProfileNameProperty :
+                                     colorProfile.profileNameProperty;
 
     const labelNode = new Text( projectorModeString, {
       font: options.font,
