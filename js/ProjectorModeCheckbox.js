@@ -11,8 +11,8 @@
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import merge from '../../phet-core/js/merge.js';
-import ColorProfile from '../../scenery-phet/js/ColorProfile.js';
 import Text from '../../scenery/js/nodes/Text.js';
+import SceneryConstants from '../../scenery/js/SceneryConstants.js';
 import colorProfileProperty from '../../scenery/js/util/colorProfileProperty.js';
 import Checkbox from '../../sun/js/Checkbox.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -40,8 +40,8 @@ class ProjectorModeCheckbox extends Checkbox {
     }, options );
 
     assert && assert(
-    phet.chipper.colorProfiles[ 0 ] !== ColorProfile.PROJECTOR_COLOR_PROFILE_NAME &&
-    phet.chipper.colorProfiles.includes( ColorProfile.PROJECTOR_COLOR_PROFILE_NAME ),
+    phet.chipper.colorProfiles[ 0 ] !== SceneryConstants.PROJECTOR_COLOR_PROFILE_NAME &&
+    phet.chipper.colorProfiles.includes( SceneryConstants.PROJECTOR_COLOR_PROFILE_NAME ),
       'ProjectorModeCheckbox requires sims that support projector color profiles and a different primary one' );
 
     const labelNode = new Text( projectorModeString, {
@@ -51,12 +51,12 @@ class ProjectorModeCheckbox extends Checkbox {
 
     // Internal adapter Property, to map between the string value needed by colorProfileProperty
     // and the boolean value needed by superclass Checkbox.
-    const projectorModeEnabledProperty = new BooleanProperty( colorProfileProperty.value === ColorProfile.PROJECTOR_COLOR_PROFILE_NAME, {
+    const projectorModeEnabledProperty = new BooleanProperty( colorProfileProperty.value === SceneryConstants.PROJECTOR_COLOR_PROFILE_NAME, {
       tandem: options.tandem.createTandem( 'property' )
     } );
     projectorModeEnabledProperty.link( isProjectorMode => {
       colorProfileProperty.value =
-        ( isProjectorMode ? ColorProfile.PROJECTOR_COLOR_PROFILE_NAME : phet.chipper.colorProfiles[ 0 ] );
+        ( isProjectorMode ? SceneryConstants.PROJECTOR_COLOR_PROFILE_NAME : phet.chipper.colorProfiles[ 0 ] );
     } );
 
     const profileNameListener = profileName => {
