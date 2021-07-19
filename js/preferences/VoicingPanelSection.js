@@ -224,7 +224,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
       // only speak if "Sim Voicing" is on, all voicing should be disabled except for the Toolbar
       // buttons in this case
-      if ( responseCollector.mainWindowVoicingEnabledProperty.value ) {
+      if ( webSpeaker.mainWindowVoicingEnabledProperty.value ) {
         const alertString = enabled ? voicingEnabledString : voicingDisabledString;
         webSpeaker.speakImmediately( alertString );
         phet.joist.sim.utteranceQueue.addToBack( alertString );

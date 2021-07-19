@@ -12,7 +12,6 @@ import PlayStopButton from '../../../scenery-phet/js/buttons/PlayStopButton.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import VoicingText from '../../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
 import ReadingBlockHighlight from '../../../scenery/js/accessibility/voicing/ReadingBlockHighlight.js';
-import responseCollector from '../../../scenery/js/accessibility/voicing/responseCollector.js';
 import webSpeaker from '../../../scenery/js/accessibility/voicing/webSpeaker.js';
 import AlignGroup from '../../../scenery/js/nodes/AlignGroup.js';
 import HBox from '../../../scenery/js/nodes/HBox.js';
@@ -71,7 +70,7 @@ class VoicingToolbarItem extends Node {
       innerStroke: 'white'
     } );
 
-    const muteSpeechSwitch = new PreferencesToggleSwitch( responseCollector.mainWindowVoicingEnabledProperty, false, true, {
+    const muteSpeechSwitch = new PreferencesToggleSwitch( webSpeaker.mainWindowVoicingEnabledProperty, false, true, {
       labelNode: titleText,
       a11yLabel: titleString,
       toggleSwitchOptions: {
@@ -109,11 +108,11 @@ class VoicingToolbarItem extends Node {
       phet.joist.sim.utteranceQueue.addToBack( alert );
       joistVoicingUtteranceQueue.addToBack( alert );
     };
-    responseCollector.mainWindowVoicingEnabledProperty.lazyLink( voicingEnabledListener );
+    webSpeaker.mainWindowVoicingEnabledProperty.lazyLink( voicingEnabledListener );
 
     // @private
     this.disposeVoicingToolbarItem = () => {
-      responseCollector.mainWindowVoicingEnabledProperty.unlink( voicingEnabledListener );
+      webSpeaker.mainWindowVoicingEnabledProperty.unlink( voicingEnabledListener );
     };
   }
 
