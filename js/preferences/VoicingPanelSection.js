@@ -18,7 +18,7 @@ import VoicingText from '../../../scenery/js/accessibility/voicing/nodes/Voicing
 import Voicing from '../../../scenery/js/accessibility/voicing/Voicing.js';
 import responseCollector from '../../../scenery/js/accessibility/voicing/responseCollector.js';
 import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
-import webSpeaker from '../../../scenery/js/accessibility/voicing/webSpeaker.js';
+import voicingManager from '../../../scenery/js/accessibility/voicing/voicingManager.js';
 import PressListener from '../../../scenery/js/listeners/PressListener.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Text from '../../../scenery/js/nodes/Text.js';
@@ -99,7 +99,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
     // the checkbox is the title for the section and totally enables/disables the feature
     const voicingLabel = new Text( voicingLabelString, { font: PreferencesDialog.PANEL_SECTION_LABEL_FONT } );
-    const voicingSwitch = new PreferencesToggleSwitch( webSpeaker.enabledProperty, false, true, {
+    const voicingSwitch = new PreferencesToggleSwitch( voicingManager.enabledProperty, false, true, {
       labelNode: voicingLabel,
       descriptionNode: new VoicingText( voicingDescriptionString, {
         font: PreferencesDialog.CONTENT_FONT,
@@ -149,8 +149,8 @@ class VoicingPanelSection extends PreferencesPanelSection {
     speechOutputDescription.leftTop = speechOutputLabel.leftBottom.plusXY( 0, 5 );
     speechOutputCheckboxes.leftTop = speechOutputDescription.leftBottom.plusXY( 15, 5 );
 
-    const rateSlider = new VoiceRateNumberControl( rateString, rateLabelString, webSpeaker.voiceRateProperty );
-    const pitchSlider = new VoicingPitchSlider( pitchString, webSpeaker.voicePitchProperty );
+    const rateSlider = new VoiceRateNumberControl( rateString, rateLabelString, voicingManager.voiceRateProperty );
+    const pitchSlider = new VoicingPitchSlider( pitchString, voicingManager.voicePitchProperty );
     const voiceOptionsContent = new VBox( {
       spacing: 5,
       align: 'left',
@@ -214,19 +214,19 @@ class VoicingPanelSection extends PreferencesPanelSection {
       contentNode: content
     } );
 
-    webSpeaker.enabledProperty.link( enabled => {
+    voicingManager.enabledProperty.link( enabled => {
       content.visible = enabled;
     } );
 
     // Speak when voicing becomes initially enabled. First speech is done synchronously (not using utterance-queue)
     // in response to user input, otherwise all speech will be blocked on many platforms
-    webSpeaker.enabledProperty.lazyLink( enabled => {
+    voicingManager.enabledProperty.lazyLink( enabled => {
 
       // only speak if "Sim Voicing" is on, all voicing should be disabled except for the Toolbar
       // buttons in this case
-      if ( webSpeaker.mainWindowVoicingEnabledProperty.value ) {
+      if ( voicingManager.mainWindowVoicingEnabledProperty.value ) {
         const alertString = enabled ? voicingEnabledString : voicingDisabledString;
-        webSpeaker.speakImmediately( alertString );
+        voicingManager.speakImmediately( alertString );
         phet.joist.sim.utteranceQueue.addToBack( alertString );
       }
     } );
@@ -241,7 +241,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
       }
 
       // for now, only english voices are available because the Voicing feature is not translatable
-      const englishVoices = _.filter( webSpeaker.voices, voice => {
+      const englishVoices = _.filter( voicingManager.voices, voice => {
 
         // most browsers use dashes to separate the local, Android uses underscore
         return voice.lang === 'en-US' || voice.lang === 'en_US';
@@ -251,7 +251,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
       voiceComboBox = new VoiceComboBox( phet.joist.sim.topLayer, includedVoices );
       voiceOptionsContent.addChild( voiceComboBox );
     };
-    webSpeaker.voicesChangedEmitter.addListener( voicesChangedListener );
+    voicingManager.voicesChangedEmitter.addListener( voicesChangedListener );
 
     // eagerly create the first ComboBox, even if no voices are available
     voicesChangedListener();
@@ -385,7 +385,7 @@ class VoiceRateNumberControl extends NumberControl {
 Voicing.compose( VoiceRateNumberControl );
 
 /**
- * Inner class for the ComboBox that selects the voice for the webSpeaker. This ComboBox can be created and destroyed
+ * Inner class for the ComboBox that selects the voice for the voicingManager. This ComboBox can be created and destroyed
  * a few times as the browser list of supported voices may change while the SpeechSynthesis is first getting put to
  * use.
  */
@@ -393,7 +393,7 @@ class VoiceComboBox extends ComboBox {
 
   /**
    * @param {Node} parentNode - node that acts as a parent for the ComboBox list
-   * @param {SpeechSynthesisVoice[]} voices - list of voices to include from the webSpeaker
+   * @param {SpeechSynthesisVoice[]} voices - list of voices to include from the voicingManager
    */
   constructor( parentNode, voices ) {
     const items = [];
@@ -414,9 +414,9 @@ class VoiceComboBox extends ComboBox {
 
     // since we are updating the list, set the VoiceProperty to the first available value, or null if there are
     // voices
-    webSpeaker.voiceProperty.set( items[ 0 ].value );
+    voicingManager.voiceProperty.set( items[ 0 ].value );
 
-    super( items, webSpeaker.voiceProperty, parentNode, {
+    super( items, voicingManager.voiceProperty, parentNode, {
       listPosition: 'above',
       accessibleName: voiceLabelString,
 
@@ -430,14 +430,14 @@ class VoiceComboBox extends ComboBox {
       // the voice can be null
       if ( voice ) {
         this.button.voicingObjectResponse = _.find(
-          items, item => item.value === webSpeaker.voiceProperty.value
+          items, item => item.value === voicingManager.voiceProperty.value
         ).value.name;
       }
     };
-    webSpeaker.voiceProperty.link( voicePropertyListener );
+    voicingManager.voiceProperty.link( voicePropertyListener );
 
     this.disposeVoiceComboBox = () => {
-      webSpeaker.voiceProperty.unlink( voicePropertyListener );
+      voicingManager.voiceProperty.unlink( voicePropertyListener );
     };
   }
 

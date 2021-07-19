@@ -1,7 +1,7 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * A singleton UtteranceQueue that is used for Voicing of joist components. It uses webSpeaker
+ * A singleton UtteranceQueue that is used for Voicing of joist components. It uses voicingManager
  * to announce utterances using HTML5 SpeechSynthesis. Voicing for joist components can be
  * enabled/disabled separately from other sim Voicing output. The most common case of this
  * is when we want to Voice parts sim settings in the Preferences Dialog even when Voicing
@@ -11,11 +11,11 @@
  * @author Jesse Greenberg
  */
 
-import webSpeaker from '../../scenery/js/accessibility/voicing/webSpeaker.js';
+import voicingManager from '../../scenery/js/accessibility/voicing/voicingManager.js';
 import UtteranceQueue from '../../utterance-queue/js/UtteranceQueue.js';
 import joist from './joist.js';
 
-const joistVoicingUtteranceQueue = new UtteranceQueue( webSpeaker );
+const joistVoicingUtteranceQueue = new UtteranceQueue( voicingManager );
 
 joist.register( 'joistVoicingUtteranceQueue', joistVoicingUtteranceQueue );
 export default joistVoicingUtteranceQueue;

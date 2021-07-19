@@ -6,7 +6,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import webSpeaker from '../../../scenery/js/accessibility/voicing/webSpeaker.js';
+import voicingManager from '../../../scenery/js/accessibility/voicing/voicingManager.js';
 import HBox from '../../../scenery/js/nodes/HBox.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
@@ -60,8 +60,8 @@ class AudioPreferencesTabPanel extends VBox {
 
         phet.joist.sim.utteranceQueue.addToBack( alertString );
 
-        if ( webSpeaker.voicingFullyEnabledProperty.value ) {
-          webSpeaker.speakImmediately( alertString );
+        if ( voicingManager.voicingFullyEnabledProperty.value ) {
+          voicingManager.speakImmediately( alertString );
         }
       }
     };

@@ -21,7 +21,7 @@
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import webSpeaker from '../../scenery/js/accessibility/voicing/webSpeaker.js';
+import voicingManager from '../../scenery/js/accessibility/voicing/voicingManager.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import joist from './joist.js';
 import packageJSON from './packageJSON.js';
@@ -63,13 +63,13 @@ class AudioManager {
     this.audioAndSoundEnabledProperty = DerivedProperty.and( [ this.audioEnabledProperty, soundManager.enabledProperty ] );
 
     // @public {DerivedProperty.<boolean>} - Indicates when both Audio and Voicing are enabled. When false, the
-    // webSpeaker will not produce any speech.
-    this.audioAndVoicingEnabledProperty = DerivedProperty.and( [ this.audioEnabledProperty, webSpeaker.enabledProperty ] );
+    // voicingManager will not produce any speech.
+    this.audioAndVoicingEnabledProperty = DerivedProperty.and( [ this.audioEnabledProperty, voicingManager.enabledProperty ] );
 
     // @public {DerivedProperty.<boolean> - Indicates when any subcomponent of audio is enabled. Note this will
     // still be true when audio is disabled. It is only for subcomponents.
     this.anySubcomponentEnabledProperty = new DerivedProperty(
-      [ soundManager.enabledProperty, webSpeaker.enabledProperty ],
+      [ soundManager.enabledProperty, voicingManager.enabledProperty ],
       ( soundEnabled, voicingEnabled ) => {
         return soundEnabled || voicingEnabled;
       }
@@ -101,9 +101,9 @@ class AudioManager {
     }
 
     if ( this.supportsVoicing ) {
-      webSpeaker.initialize( {
+      voicingManager.initialize( {
 
-        // specify the Properties that control whether or not output is allowed from webSpeaker
+        // specify the Properties that control whether or not output is allowed from voicingManager
         speechAllowedProperty: new DerivedProperty( [
           sim.isConstructionCompleteProperty,
           sim.browserTabVisibleProperty,

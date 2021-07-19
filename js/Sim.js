@@ -32,7 +32,7 @@ import FocusManager from '../../scenery/js/accessibility/FocusManager.js';
 import globalKeyStateTracker from '../../scenery/js/accessibility/globalKeyStateTracker.js';
 import KeyboardFuzzer from '../../scenery/js/accessibility/KeyboardFuzzer.js';
 import KeyboardUtils from '../../scenery/js/accessibility/KeyboardUtils.js';
-import webSpeaker from '../../scenery/js/accessibility/voicing/webSpeaker.js';
+import voicingManager from '../../scenery/js/accessibility/voicing/voicingManager.js';
 import Display from '../../scenery/js/display/Display.js';
 import InputFuzzer from '../../scenery/js/input/InputFuzzer.js';
 import animatedPanZoomSingleton from '../../scenery/js/listeners/animatedPanZoomSingleton.js';
@@ -593,7 +593,7 @@ class Sim extends PhetioObject {
     } );
 
     if ( phet.chipper.queryParameters.supportsVoicing ) {
-      webSpeaker.enabledProperty.value = phet.chipper.queryParameters.voicingInitiallyEnabled;
+      voicingManager.enabledProperty.value = phet.chipper.queryParameters.voicingInitiallyEnabled;
     }
 
     // Seeding by default a random value for reproducable fuzzes if desired

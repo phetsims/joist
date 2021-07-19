@@ -12,7 +12,7 @@ import PlayStopButton from '../../../scenery-phet/js/buttons/PlayStopButton.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import VoicingText from '../../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
 import ReadingBlockHighlight from '../../../scenery/js/accessibility/voicing/ReadingBlockHighlight.js';
-import webSpeaker from '../../../scenery/js/accessibility/voicing/webSpeaker.js';
+import voicingManager from '../../../scenery/js/accessibility/voicing/voicingManager.js';
 import AlignGroup from '../../../scenery/js/nodes/AlignGroup.js';
 import HBox from '../../../scenery/js/nodes/HBox.js';
 import Node from '../../../scenery/js/nodes/Node.js';
@@ -70,7 +70,7 @@ class VoicingToolbarItem extends Node {
       innerStroke: 'white'
     } );
 
-    const muteSpeechSwitch = new PreferencesToggleSwitch( webSpeaker.mainWindowVoicingEnabledProperty, false, true, {
+    const muteSpeechSwitch = new PreferencesToggleSwitch( voicingManager.mainWindowVoicingEnabledProperty, false, true, {
       labelNode: titleText,
       a11yLabel: titleString,
       toggleSwitchOptions: {
@@ -108,11 +108,11 @@ class VoicingToolbarItem extends Node {
       phet.joist.sim.utteranceQueue.addToBack( alert );
       joistVoicingUtteranceQueue.addToBack( alert );
     };
-    webSpeaker.mainWindowVoicingEnabledProperty.lazyLink( voicingEnabledListener );
+    voicingManager.mainWindowVoicingEnabledProperty.lazyLink( voicingEnabledListener );
 
     // @private
     this.disposeVoicingToolbarItem = () => {
-      webSpeaker.mainWindowVoicingEnabledProperty.unlink( voicingEnabledListener );
+      voicingManager.mainWindowVoicingEnabledProperty.unlink( voicingEnabledListener );
     };
   }
 
@@ -128,7 +128,7 @@ class VoicingToolbarItem extends Node {
 /**
  * An inner class that manages a labelled PlayStopButton in the VoicingToolbarItem. Creates the label, button,
  * and adds listeners that generate the alert to be Voiced and toggle the button's playing state when
- * the webSpeaker stops speaking.
+ * the voicingManager stops speaking.
  */
 class LabelButtonRow {
 
@@ -150,7 +150,7 @@ class LabelButtonRow {
 
     this.createAlert = createAlert;
 
-    // @public {BooleanProperty - Whether the PlayStopButton has been pressed and the webSpeaker is actively speaking
+    // @public {BooleanProperty - Whether the PlayStopButton has been pressed and the voicingManager is actively speaking
     // this content
     this.playingProperty = new BooleanProperty( false );
 
@@ -174,7 +174,7 @@ class LabelButtonRow {
 
     this.content = new HBox( { children: [ labelBox, inputBox ], spacing: CONTENT_VERTICAL_SPACING } );
 
-    webSpeaker.endSpeakingEmitter.addListener( endedUtterance => {
+    voicingManager.endSpeakingEmitter.addListener( endedUtterance => {
       if ( endedUtterance === this.utterance ) {
         this.playingProperty.set( false );
       }
@@ -202,7 +202,7 @@ class LabelButtonRow {
       joistVoicingUtteranceQueue.addToBack( this.utterance );
     }
     else {
-      webSpeaker.cancel();
+      voicingManager.cancel();
     }
   }
 }
