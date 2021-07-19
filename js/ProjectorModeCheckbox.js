@@ -42,8 +42,10 @@ class ProjectorModeCheckbox extends Checkbox {
       phetioLinkProperty: false // we will create the `property` tandem here in the subtype
     }, options );
 
-    // TODO https://github.com/phetsims/scenery-phet/issues/515 invert this if/else
-    // TODO https://github.com/phetsims/scenery-phet/issues/515 assert that package.json supports default|projector
+    assert && assert(
+    phet.chipper.colorProfiles.includes( ColorProfile.DEFAULT_COLOR_PROFILE_NAME ) &&
+    phet.chipper.colorProfiles.includes( ColorProfile.PROJECTOR_COLOR_PROFILE_NAME ),
+      'ProjectorModeCheckbox requires sims that support default and projector color profiles' );
 
     const labelNode = new Text( projectorModeString, {
       font: options.font,
