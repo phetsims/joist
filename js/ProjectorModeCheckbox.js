@@ -49,7 +49,7 @@ class ProjectorModeCheckbox extends Checkbox {
       maxWidth: options.maxTextWidth
     } );
 
-    // Internal adapter Property, to map between the string value needed by colorProfile.profileNameProperty
+    // Internal adapter Property, to map between the string value needed by colorProfileProperty
     // and the boolean value needed by superclass Checkbox.
     const projectorModeEnabledProperty = new BooleanProperty( colorProfileProperty.value === ColorProfile.PROJECTOR_COLOR_PROFILE_NAME, {
       tandem: options.tandem.createTandem( 'property' )
