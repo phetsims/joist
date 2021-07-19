@@ -81,7 +81,14 @@ class AudioManager {
       [ this.audioEnabledProperty, this.anySubcomponentEnabledProperty ],
       ( audioEnabled, anySubcomponentEnabled ) => {
         return audioEnabled && anySubcomponentEnabled;
-      } );
+      }
+    );
+
+    // Since voicingManager in Scenery can not use initialize-globals,set the initial
+    // value for whether Voicing is enabled here in the audioManager
+    if ( phet.chipper.queryParameters.supportsVoicing ) {
+      voicingManager.enabledProperty.value = phet.chipper.queryParameters.voicingInitiallyEnabled;
+    }
   }
 
   /**
