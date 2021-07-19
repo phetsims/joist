@@ -31,9 +31,6 @@ class ProjectorModeCheckbox extends Checkbox {
 
     options = merge( {
 
-      // {string} name of the color profile to use when not in projector mode
-      defaultColorProfileName: ColorProfile.DEFAULT_COLOR_PROFILE_NAME,
-
       font: OptionsDialog.DEFAULT_FONT,
       maxTextWidth: 350, // empirically determined, works reasonably well for long strings
       tandem: Tandem.REQUIRED,
@@ -43,9 +40,9 @@ class ProjectorModeCheckbox extends Checkbox {
     }, options );
 
     assert && assert(
-    phet.chipper.colorProfiles.includes( ColorProfile.DEFAULT_COLOR_PROFILE_NAME ) &&
+    phet.chipper.colorProfiles[ 0 ] !== ColorProfile.PROJECTOR_COLOR_PROFILE_NAME &&
     phet.chipper.colorProfiles.includes( ColorProfile.PROJECTOR_COLOR_PROFILE_NAME ),
-      'ProjectorModeCheckbox requires sims that support default and projector color profiles' );
+      'ProjectorModeCheckbox requires sims that support projector color profiles and a different primary one' );
 
     const labelNode = new Text( projectorModeString, {
       font: options.font,
@@ -59,7 +56,7 @@ class ProjectorModeCheckbox extends Checkbox {
     } );
     projectorModeEnabledProperty.link( isProjectorMode => {
       colorProfileProperty.value =
-        ( isProjectorMode ? ColorProfile.PROJECTOR_COLOR_PROFILE_NAME : options.defaultColorProfileName );
+        ( isProjectorMode ? ColorProfile.PROJECTOR_COLOR_PROFILE_NAME : phet.chipper.colorProfiles[ 0 ] );
     } );
 
     const profileNameListener = profileName => {
