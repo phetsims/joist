@@ -16,13 +16,13 @@ import RichText from '../../scenery/js/nodes/RichText.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import VBox from '../../scenery/js/nodes/VBox.js';
 import VStrut from '../../scenery/js/nodes/VStrut.js';
+import checkSolidShape from '../../sherpa/js/fontawesome-5/checkSolidShape.js';
 import exclamationTriangleSolidShape from '../../sherpa/js/fontawesome-5/exclamationTriangleSolidShape.js';
-import FontAwesomeNode from '../../sun/js/FontAwesomeNode.js';
 import TextPushButton from '../../sun/js/buttons/TextPushButton.js';
-import UpdateState from './UpdateState.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import updateCheck from './updateCheck.js';
+import UpdateState from './UpdateState.js';
 
 const updatesCheckingString = joistStrings.updates.checking;
 const updatesGetUpdateString = joistStrings.updates.getUpdate;
@@ -87,8 +87,11 @@ const UpdateNodes = {
           fill: '#5c3',
           scale: options.big ? 1.2 : 1,
           children: [
-            new FontAwesomeNode( 'check', {
-              fill: '#fff', scale: 0.38, centerX: 10, centerY: 10
+            new Path( checkSolidShape, {
+              fill: '#fff',
+              scale: 0.029,
+              centerX: 10,
+              centerY: 10
             } )
           ]
         } ),

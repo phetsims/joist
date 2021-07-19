@@ -27,7 +27,7 @@ import joist from './joist.js';
 import packageJSON from './packageJSON.js';
 
 // constants
-const packageFeatures = packageJSON.phet.features || {};
+const packageSimFeatures = packageJSON.phet.simFeatures || {};
 
 class AudioManager {
   constructor() {
@@ -46,7 +46,7 @@ class AudioManager {
     // runtime turns it off via a query parameter. Most of the time this should not be used; instead see
     // this.supportsSound. This is to support a consistent API for PhET-iO, see
     // https://github.com/phetsims/joist/issues/573
-    this.soundPartOfTheAPI = packageFeatures.supportsSound;
+    this.soundPartOfTheAPI = packageSimFeatures.supportsSound;
 
     // @public {joist-internal, read-only) {boolean} - True if voicing is supported.
     this.supportsVoicing = phet.chipper.queryParameters.supportsVoicing;
