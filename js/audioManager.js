@@ -65,6 +65,23 @@ class AudioManager {
     // @public {DerivedProperty.<boolean>} - Indicates when both Audio and Voicing are enabled. When false, the
     // webSpeaker will not produce any speech.
     this.audioAndVoicingEnabledProperty = DerivedProperty.and( [ this.audioEnabledProperty, webSpeaker.enabledProperty ] );
+
+    // @public {DerivedProperty.<boolean> - Indicates when any subcomponent of audio is enabled. Note this will
+    // still be true when audio is disabled. It is only for subcomponents.
+    this.anySubcomponentEnabledProperty = new DerivedProperty(
+      [ soundManager.enabledProperty, webSpeaker.enabledProperty ],
+      ( soundEnabled, voicingEnabled ) => {
+        return soundEnabled || voicingEnabled;
+      }
+    );
+
+    // @public {DerivedProperty.<boolean>} - Indicates when audio and at least one of its subcomponents are enabled.
+    // When false, there should be no auditory output.
+    this.anyOutputEnabledProperty = new DerivedProperty(
+      [ this.audioEnabledProperty, this.anySubcomponentEnabledProperty ],
+      ( audioEnabled, anySubcomponentEnabled ) => {
+        return audioEnabled && anySubcomponentEnabled;
+      } );
   }
 
   /**

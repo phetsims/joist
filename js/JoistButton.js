@@ -12,6 +12,7 @@ import merge from '../../phet-core/js/merge.js';
 import FocusHighlightPath from '../../scenery/js/accessibility/FocusHighlightPath.js';
 import Voicing from '../../scenery/js/accessibility/voicing/Voicing.js';
 import Node from '../../scenery/js/nodes/Node.js';
+import SceneryConstants from '../../scenery/js/SceneryConstants.js';
 import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';
 import PushButtonInteractionStateProperty from '../../sun/js/buttons/PushButtonInteractionStateProperty.js';
 import PushButtonModel from '../../sun/js/buttons/PushButtonModel.js';
@@ -39,6 +40,7 @@ class JoistButton extends Node {
 
       // JoistButtons by default do not have a featured enabledProperty
       enabledPropertyOptions: { phetioFeatured: false },
+      disabledOpacity: SceneryConstants.DISABLED_OPACITY,
 
       // pdom
       tagName: 'button'

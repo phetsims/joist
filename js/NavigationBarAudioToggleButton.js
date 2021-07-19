@@ -20,6 +20,7 @@ import Path from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import ToggleNode from '../../sun/js/ToggleNode.js';
 import ActivationUtterance from '../../utterance-queue/js/ActivationUtterance.js';
+import audioManager from './audioManager.js';
 import joist from './joist.js';
 import JoistButton from './JoistButton.js';
 import joistStrings from './joistStrings.js';
@@ -139,7 +140,9 @@ class NavigationBarAudioToggleButton extends JoistButton {
     );
     soundOnNode.addChild( soundOnCurves );
 
-    const toggleNode = new ToggleNode( soundEnabledProperty,
+    // If "Audio" and at least one subcomponent of audio is enabled, show the "sound on" icon. Otherwise,
+    // show the "sound off" icon because there will be no output, even if "Audio" is enabled.
+    const toggleNode = new ToggleNode( audioManager.anyOutputEnabledProperty,
       [
         { value: true, node: soundOnNode },
         { value: false, node: soundOffNode }
@@ -166,6 +169,13 @@ class NavigationBarAudioToggleButton extends JoistButton {
     };
     soundEnabledProperty.lazyLink( pressedListener );
     this.setPDOMAttribute( 'aria-pressed', !soundEnabledProperty.get() );
+
+    // If no subcomponents of the audioManager that are enabled disable this button
+    // to make it clear that toggling the audioEnabledProperty will have no impact
+    // on the output.
+    audioManager.anySubcomponentEnabledProperty.link( enabled => {
+      this.enabled = enabled;
+    } );
 
     // change the icon so that it is visible when the background changes from dark to light
     backgroundColorProperty.link( backgroundColor => {
