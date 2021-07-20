@@ -6,7 +6,6 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import voicingManager from '../../../scenery/js/accessibility/voicing/voicingManager.js';
 import HBox from '../../../scenery/js/nodes/HBox.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
@@ -19,8 +18,6 @@ import VoicingPanelSection from './VoicingPanelSection.js';
 
 // constants
 const audioFeaturesString = joistStrings.preferences.tabs.audio.audioFeatures.title;
-const audioFeaturesEnabledAlert = joistStrings.a11y.audioFeatures.enabledAlert;
-const audioFeaturesDisabledAlert = joistStrings.a11y.audioFeatures.disabledAlert;
 
 class AudioPreferencesTabPanel extends VBox {
 
@@ -51,19 +48,8 @@ class AudioPreferencesTabPanel extends VBox {
       a11yLabel: audioFeaturesString
     } );
 
-    const soundEnabledListener = ( enabled, previousValue ) => {
+    const soundEnabledListener = enabled => {
       sections.enabled = enabled;
-
-      // alerts should occur lazily, not on construction
-      if ( previousValue !== null ) {
-        const alertString = enabled ? audioFeaturesEnabledAlert : audioFeaturesDisabledAlert;
-
-        phet.joist.sim.utteranceQueue.addToBack( alertString );
-
-        if ( voicingManager.voicingFullyEnabledProperty.value ) {
-          voicingManager.speakImmediately( alertString );
-        }
-      }
     };
 
     simSoundProperty.link( soundEnabledListener );

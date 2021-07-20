@@ -15,6 +15,7 @@
 import Vector2 from '../../dot/js/Vector2.js';
 import Shape from '../../kite/js/Shape.js';
 import merge from '../../phet-core/js/merge.js';
+import voicingManager from '../../scenery/js/accessibility/voicing/voicingManager.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
@@ -166,6 +167,9 @@ class NavigationBarAudioToggleButton extends JoistButton {
       soundUtterance.alert = value ? joistStrings.a11y.soundToggle.alert.simSoundOn
                                    : joistStrings.a11y.soundToggle.alert.simSoundOff;
       phet.joist.sim.utteranceQueue.addToBack( soundUtterance );
+      if ( voicingManager.voicingFullyEnabledProperty.value ) {
+        voicingManager.speakImmediately( soundUtterance.alert );
+      }
     };
     soundEnabledProperty.lazyLink( pressedListener );
     this.setPDOMAttribute( 'aria-pressed', !soundEnabledProperty.get() );

@@ -475,14 +475,6 @@
           "value": "Sim Voicing off."
         }
       }
-    },
-    "audioFeatures": {
-      "enabledAlert": {
-        "value": "Audio Features on."
-      },
-      "disabledAlert": {
-        "value": "Audio Features off."
-      }
     }
   }
 }
