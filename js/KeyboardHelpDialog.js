@@ -12,8 +12,10 @@ import KeyboardHelpSection from '../../scenery-phet/js/keyboard/help/KeyboardHel
 import TextKeyNode from '../../scenery-phet/js/keyboard/TextKeyNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import PDOMPeer from '../../scenery/js/accessibility/pdom/PDOMPeer.js';
+import VoicingText from '../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
+import ReadingBlock from '../../scenery/js/accessibility/voicing/ReadingBlock.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
-import Text from '../../scenery/js/nodes/Text.js';
+import Node from '../../scenery/js/nodes/Node.js';
 import VBox from '../../scenery/js/nodes/VBox.js';
 import Dialog from '../../sun/js/Dialog.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -22,6 +24,8 @@ import joistStrings from './joistStrings.js';
 
 // constants
 const TITLE_MAX_WIDTH = 670;
+
+const tabToGetStartedString = joistStrings.a11y.keyboardHelp.tabToGetStarted;
 
 class KeyboardHelpDialog extends Dialog {
 
@@ -46,7 +50,7 @@ class KeyboardHelpDialog extends Dialog {
 
     // title
     assert && assert( !options.title, 'KeyboardHelpDialog sets title' );
-    const shortcutsTitleText = new Text( joistStrings.keyboardShortcuts.title, {
+    const shortcutsTitleText = new VoicingText( joistStrings.keyboardShortcuts.title, {
       font: new PhetFont( {
         weight: 'bold',
         size: 24
@@ -58,21 +62,12 @@ class KeyboardHelpDialog extends Dialog {
       innerContent: joistStrings.a11y.keyboardHelp.keyboardShortcuts
     } );
 
-    // a line to say "tab to get started" below the "Keyboard Shortcuts" 'title'
-    const tabHintLine = KeyboardHelpSection.labelWithIcon( joistStrings.keyboardShortcuts.toGetStarted,
-      TextKeyNode.tab(), joistStrings.a11y.keyboardHelp.tabToGetStarted, {
-        iconOptions: {
-          tagName: 'p' // because there is only one, and the default is an li tag
-        }
-      } );
 
     // stack the two items with a bit of spacing
     options.title = new VBox( {
         children: [
           shortcutsTitleText,
-
-          // labelWithIcon is meant to be passed to KeyboardHelpSection, so we have to hack a bit here
-          new HBox( { children: [ tabHintLine.icon, tabHintLine.label ], spacing: 4 } )
+          new TabHintLine()
         ],
         spacing: 5,
 
@@ -94,6 +89,38 @@ class KeyboardHelpDialog extends Dialog {
     } );
   }
 }
+
+/**
+ * An inner class that assembles the "Tab to get started" content of the Dialog title. This content
+ * is interactive with Voicing in that it can be clicked to hear this content (when Voicing is enabled).
+ */
+class TabHintLine extends Node {
+
+  /**
+   * @mixes ReadingBlock
+   * @param {Object} [options]
+   */
+  constructor( options ) {
+    super( options );
+
+    // a line to say "tab to get started" below the "Keyboard Shortcuts" 'title'
+    const labelWithIcon = KeyboardHelpSection.labelWithIcon( joistStrings.keyboardShortcuts.toGetStarted,
+      TextKeyNode.tab(), tabToGetStartedString, {
+        iconOptions: {
+          tagName: 'p' // because there is only one, and the default is an li tag
+        }
+      } );
+
+    // labelWithIcon is meant to be passed to KeyboardHelpSection, so we have to hack a bit here
+    this.addChild( new HBox( { children: [ labelWithIcon.icon, labelWithIcon.label ], spacing: 4 } ) );
+
+    this.initializeReadingBlock( {
+      readingBlockContent: tabToGetStartedString
+    } );
+  }
+}
+
+ReadingBlock.compose( TabHintLine );
 
 joist.register( 'KeyboardHelpDialog', KeyboardHelpDialog );
 export default KeyboardHelpDialog;
