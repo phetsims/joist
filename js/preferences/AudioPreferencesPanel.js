@@ -35,7 +35,15 @@ class AudioPreferencesTabPanel extends VBox {
     }
 
     if ( audioOptions.supportsSound ) {
-      panelChildren.push( new SoundPanelSection( audioOptions ) );
+
+      // If only one of the audio features are in use, do not include the toggle switch to
+      // enable/disable that feature because the control is redundant. The audio output should go
+      // through the "Audio Features" toggle only.
+      const hideSoundToggle = audioOptions.supportsVoicing !== audioOptions.supportsSound;
+
+      panelChildren.push( new SoundPanelSection( audioOptions, {
+        includeTitleToggleSwitch: !hideSoundToggle
+      } ) );
     }
 
     const sections = new HBox( {

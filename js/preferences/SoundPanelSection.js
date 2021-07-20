@@ -6,6 +6,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import VoicingRichText from '../../../scenery/js/accessibility/voicing/nodes/VoicingRichText.js';
 import VoicingText from '../../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
@@ -36,10 +37,21 @@ class SoundPanelSection extends PreferencesPanelSection {
 
   /**
    * @param {Object} audioOptions - configuration for audio preferences, see PreferencesConfiguration
+   * @param {Object} [options]
    */
-  constructor( audioOptions ) {
+  constructor( audioOptions, options ) {
+
+    options = merge( {
+
+      // {boolean} - Whether or not to include the toggle switch in the title content for this
+      // PreferencesPanelSection. It is possible that the toggle for Sound can be redundant when Sound
+      // is the only Audio feature supported. In that case, control of Sound should go through the
+      // "All Audio" toggle.
+      includeTitleToggleSwitch: true
+    }, options );
 
     const soundLabel = new Text( soundsLabelString, { font: PreferencesDialog.PANEL_SECTION_LABEL_FONT } );
+
     const titleNode = new PreferencesToggleSwitch( soundManager.enabledProperty, false, true, {
       labelNode: soundLabel,
       descriptionNode: new VoicingText( soundDescriptionString, {
@@ -49,6 +61,9 @@ class SoundPanelSection extends PreferencesPanelSection {
           description: soundDescriptionString
         } )
       } ),
+      toggleSwitchOptions: {
+        visible: options.includeTitleToggleSwitch
+      },
       a11yLabel: soundsLabelString
     } );
 
