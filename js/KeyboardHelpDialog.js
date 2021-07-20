@@ -62,7 +62,6 @@ class KeyboardHelpDialog extends Dialog {
       innerContent: joistStrings.a11y.keyboardHelp.keyboardShortcuts
     } );
 
-
     // stack the two items with a bit of spacing
     options.title = new VBox( {
         children: [
