@@ -30,8 +30,9 @@ class PreferencesManager {
     const audioOptions = preferencesConfiguration.audioOptions;
     if ( audioOptions.supportsVoicing ) {
 
-      // The default utteranceQueue will be used for voicing of simulation components, and
-      // it is enabled when the voicingManager is fully enabled.
+      // The default utteranceQueue will be used for voicing of simulation components, and it is enabled when the
+      // voicingManager is fully enabled (voicingManager is enabled and the voicing is enabled for the "main window"
+      // sim screens)
       voicingManager.voicingFullyEnabledProperty.link( enabled => {
         voicingUtteranceQueue.enabled = enabled;
       } );
