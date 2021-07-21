@@ -158,6 +158,10 @@ class LabelButtonRow {
     this.playStopButton = new PlayStopButton( this.playingProperty, {
       startPlayingLabel: a11yLabel,
       voicingNameResponse: a11yLabel,
+
+      // voicing responses should be spoken for these buttons regardless of "Sim Voicing"
+      // selection, they shoudl always be heard as long as voicing is enabled
+      voicingUtteranceQueue: joistVoicingUtteranceQueue,
       radius: 12,
 
       // phet-io
