@@ -428,6 +428,11 @@ class VoiceComboBox extends ComboBox {
       tandem: Tandem.OPT_OUT
     } );
 
+    // voicing -  responses for the button should always come through, regardless of user selection of
+    // responses
+    this.button.voicingIgnoreVoicingManagerProperties = true;
+
+    // NOTE: this kind of thing should be moved to ComboBox.js
     const voicePropertyListener = voice => {
 
       // the voice can be null
