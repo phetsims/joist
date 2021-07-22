@@ -10,9 +10,10 @@ import stepTimer from '../../axon/js/stepTimer.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import PDOMPeer from '../../scenery/js/accessibility/pdom/PDOMPeer.js';
+import VoicingRichText from '../../scenery/js/accessibility/voicing/nodes/VoicingRichText.js';
+import VoicingText from '../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import RichText from '../../scenery/js/nodes/RichText.js';
-import Text from '../../scenery/js/nodes/Text.js';
 import VBox from '../../scenery/js/nodes/VBox.js';
 import VStrut from '../../scenery/js/nodes/VStrut.js';
 import Dialog from '../../sun/js/Dialog.js';
@@ -45,7 +46,7 @@ class AboutDialog extends Dialog {
 
     let children = [];
 
-    const titleText = new Text( name, {
+    const titleText = new VoicingText( name, {
       font: new PhetFont( 2 * NOMINAL_FONT_SIZE ),
       maxWidth: MAX_WIDTH,
       tagName: 'h1',
@@ -54,7 +55,7 @@ class AboutDialog extends Dialog {
     children.push( titleText );
 
     const versionString = StringUtils.format( joistStrings.versionPattern, version );
-    children.push( new Text( versionString, {
+    children.push( new VoicingText( versionString, {
       font: new PhetFont( NOMINAL_FONT_SIZE ),
       maxWidth: MAX_WIDTH,
       tagName: 'p',
@@ -63,7 +64,7 @@ class AboutDialog extends Dialog {
 
     // Built versions will have a build timestamp
     if ( phet.chipper.buildTimestamp ) {
-      children.push( new Text( phet.chipper.buildTimestamp, {
+      children.push( new VoicingText( phet.chipper.buildTimestamp, {
         font: new PhetFont( 0.65 * NOMINAL_FONT_SIZE ),
         maxWidth: MAX_WIDTH,
         tagName: 'p',
@@ -116,7 +117,7 @@ class AboutDialog extends Dialog {
 
     // Show the brand name, if it exists
     if ( Brand.name ) {
-      brandChildren.push( new RichText( Brand.name, {
+      brandChildren.push( new VoicingRichText( Brand.name, {
         font: new PhetFont( NOMINAL_FONT_SIZE ),
         supScale: 0.5,
         supYOffset: 3,
@@ -136,7 +137,7 @@ class AboutDialog extends Dialog {
 
       const copyright = StringUtils.fillIn( Brand.copyright, { year: year } );
 
-      brandChildren.push( new Text( copyright, {
+      brandChildren.push( new VoicingText( copyright, {
         font: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
         maxWidth: MAX_WIDTH,
 
@@ -150,7 +151,7 @@ class AboutDialog extends Dialog {
 
     // Optional additionalLicenseStatement, used in phet-io
     if ( Brand.additionalLicenseStatement ) {
-      additionalLicenseStatement = new RichText( Brand.additionalLicenseStatement, {
+      additionalLicenseStatement = new VoicingRichText( Brand.additionalLicenseStatement, {
           font: new PhetFont( 0.65 * NOMINAL_FONT_SIZE ),
           fill: 'gray',
           align: 'left',
