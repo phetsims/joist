@@ -9,11 +9,11 @@ import openPopup from '../../phet-core/js/openPopup.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import SpinningIndicatorNode from '../../scenery-phet/js/SpinningIndicatorNode.js';
+import VoicingText from '../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
 import HBox from '../../scenery/js/nodes/HBox.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../scenery/js/nodes/RichText.js';
-import Text from '../../scenery/js/nodes/Text.js';
 import VBox from '../../scenery/js/nodes/VBox.js';
 import VStrut from '../../scenery/js/nodes/VStrut.js';
 import checkSolidShape from '../../sherpa/js/fontawesome-5/checkSolidShape.js';
@@ -53,7 +53,7 @@ const UpdateNodes = {
       maxWidth: MAX_WIDTH,
       children: [
         spinningIndicatorNode,
-        new Text( updatesCheckingString, {
+        new VoicingText( updatesCheckingString, {
           font: new PhetFont( options.big ? 16 : 14 ),
           fontWeight: options.big ? 'bold' : 'normal'
         } )
@@ -95,7 +95,7 @@ const UpdateNodes = {
             } )
           ]
         } ),
-        new Text( updatesUpToDateString, {
+        new VoicingText( updatesUpToDateString, {
           font: new PhetFont( options.big ? 16 : 14 ),
           fontWeight: options.big ? 'bold' : 'normal'
         } )
@@ -153,10 +153,10 @@ const UpdateNodes = {
       children: [
         new VBox( {
           spacing: 5, align: 'left', children: [
-            new Text( StringUtils.format( updatesNewVersionAvailableString, latestVersionString ), {
+            new VoicingText( StringUtils.format( updatesNewVersionAvailableString, latestVersionString ), {
               font: new PhetFont( 16 ), fontWeight: 'bold'
             } ),
-            new Text( StringUtils.format( updatesYourCurrentVersionString, ourVersionString ), {
+            new VoicingText( StringUtils.format( updatesYourCurrentVersionString, ourVersionString ), {
               font: UPDATE_TEXT_FONT
             } )
           ]
@@ -193,7 +193,7 @@ const UpdateNodes = {
       maxWidth: MAX_WIDTH,
       children: [
         new VStrut( 20 ), // spacer to match layout of other nodes
-        new Text( updatesOfflineString, {
+        new VoicingText( updatesOfflineString, {
           font: new PhetFont( options.big ? 16 : 14 ),
           fontWeight: options.big ? 'bold' : 'normal'
         } )
