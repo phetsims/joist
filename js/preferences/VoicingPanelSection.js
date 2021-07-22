@@ -350,7 +350,11 @@ class VoiceRateNumberControl extends NumberControl {
 
     // voicing
     this.initializeVoicing( {
-      voicingNameResponse: a11yLabelString
+      voicingNameResponse: a11yLabelString,
+
+      // ignore the selections of Preferences menu, we always want to hear all responses
+      // that happen when changing the voice attributes
+      voicingIgnoreVoicingManagerProperties: true
     } );
 
     this.slider.addInputListener( {
@@ -424,7 +428,6 @@ class VoiceComboBox extends ComboBox {
       tandem: Tandem.OPT_OUT
     } );
 
-    // NOTE: This somehow needs to be built into ComboBox
     const voicePropertyListener = voice => {
 
       // the voice can be null
@@ -501,7 +504,11 @@ class VoicingPitchSlider extends VBox {
     } );
 
     this.initializeVoicing( {
-      voicingNameResponse: labelString
+      voicingNameResponse: labelString,
+
+      // ignore the selections of Preferences menu, we always want to hear all responses
+      // that happen when changing the voice attributes
+      voicingIgnoreVoicingManagerProperties: true
     } );
 
     slider.addInputListener( {
