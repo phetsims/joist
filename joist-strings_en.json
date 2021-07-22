@@ -260,6 +260,9 @@
         "labelledDescriptionPattern": {
           "value": "{{label}}, {{description}}"
         },
+        "tabResponsePattern": {
+          "value": "Preferences, {{title}} Tab"
+        },
         "visual": {
           "interactiveHighlights": {
             "enabledAlert": {
