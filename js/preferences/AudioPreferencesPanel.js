@@ -70,7 +70,7 @@ class AudioPreferencesTabPanel extends VBox {
       // pdom
       tagName: 'div',
       labelTagName: 'h2',
-      labelContent: 'Audio'
+      labelContent: audioFeaturesString
     } );
 
     // @private - for disposal
