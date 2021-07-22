@@ -18,6 +18,7 @@ import PreferencesPanelSection from './PreferencesPanelSection.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 
 // constants
+const inputTitleString = joistStrings.preferences.tabs.input.title;
 const gestureControlsString = joistStrings.preferences.tabs.input.gestureControls.title;
 const gestureControlsDescriptionString = joistStrings.preferences.tabs.input.gestureControls.description;
 const gestureControlEnabledAlertString = joistStrings.a11y.preferences.tabs.input.gestureControl.enabledAlert;
@@ -35,7 +36,7 @@ class InputPreferencesPanel extends Node {
       // pdom
       tagName: 'div',
       labelTagName: 'h2',
-      labelContent: 'Input'
+      labelContent: inputTitleString
     } );
 
     const toggleSwitch = new PreferencesToggleSwitch( gestureControlsEnabledProperty, false, true, {
