@@ -91,9 +91,7 @@ class AudioManager {
     }
 
     if ( phet.chipper.queryParameters.printVoicingResponses ) {
-      voicingManager.startSpeakingEmitter.addListener( ( utterance, text ) => {
-        console.log( text );
-      } );
+      voicingManager.startSpeakingEmitter.addListener( text => console.log( text ) );
     }
   }
 

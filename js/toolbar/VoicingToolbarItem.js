@@ -178,7 +178,7 @@ class LabelButtonRow {
 
     this.content = new HBox( { children: [ labelBox, inputBox ], spacing: CONTENT_VERTICAL_SPACING } );
 
-    voicingManager.endSpeakingEmitter.addListener( endedUtterance => {
+    voicingManager.endSpeakingEmitter.addListener( ( text, endedUtterance ) => {
       if ( endedUtterance === this.utterance ) {
         this.playingProperty.set( false );
       }
