@@ -89,6 +89,12 @@ class AudioManager {
     if ( phet.chipper.queryParameters.supportsVoicing ) {
       voicingManager.enabledProperty.value = phet.chipper.queryParameters.voicingInitiallyEnabled;
     }
+
+    if ( phet.chipper.queryParameters.printVoicingResponses ) {
+      voicingManager.startSpeakingEmitter.addListener( ( utterance, text ) => {
+        console.log( text );
+      } );
+    }
   }
 
   /**
