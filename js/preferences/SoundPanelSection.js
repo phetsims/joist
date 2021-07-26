@@ -50,17 +50,16 @@ class SoundPanelSection extends PreferencesPanelSection {
       includeTitleToggleSwitch: true
     }, options );
 
-    const soundLabel = new Text( soundsLabelString, { font: PreferencesDialog.PANEL_SECTION_LABEL_FONT } );
+    const soundLabel = new Text( soundsLabelString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
 
     const titleNode = new PreferencesToggleSwitch( soundManager.enabledProperty, false, true, {
       labelNode: soundLabel,
-      descriptionNode: new VoicingText( soundDescriptionString, {
-        font: PreferencesDialog.CONTENT_FONT,
+      descriptionNode: new VoicingText( soundDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         readingBlockContent: StringUtils.fillIn( labelledDescriptionPatternString, {
           label: soundsLabelString,
           description: soundDescriptionString
         } )
-      } ),
+      } ) ),
       toggleSwitchOptions: {
         visible: options.includeTitleToggleSwitch
       },
@@ -69,7 +68,7 @@ class SoundPanelSection extends PreferencesPanelSection {
 
     let enhancedSoundContent = null;
     if ( audioOptions.supportsEnhancedSound ) {
-      const enahncedSoundLabel = new Text( extraSoundsLabelString, { font: PreferencesDialog.CONTENT_FONT } );
+      const enahncedSoundLabel = new Text( extraSoundsLabelString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
       const enhancedSoundCheckbox = new Checkbox( enahncedSoundLabel, soundManager.enhancedSoundEnabledProperty, {
 
         // pdom
@@ -83,14 +82,13 @@ class SoundPanelSection extends PreferencesPanelSection {
         tandem: Tandem.OPT_OUT
       } );
 
-      const enhancedSoundDescription = new VoicingRichText( extraSoundsDescriptionString, {
-        font: PreferencesDialog.CONTENT_FONT,
+      const enhancedSoundDescription = new VoicingRichText( extraSoundsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         lineWrap: 300,
         readingBlockContent: StringUtils.fillIn( labelledDescriptionPatternString, {
           label: extraSoundsLabelString,
           description: extraSoundsDescriptionString
         } )
-      } );
+      } ) );
 
       enhancedSoundContent = new VBox( {
         children: [ enhancedSoundCheckbox, enhancedSoundDescription ],

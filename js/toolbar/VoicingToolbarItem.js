@@ -59,7 +59,8 @@ class VoicingToolbarItem extends Node {
 
     const titleTextOptions = {
       font: new PhetFont( 14 ),
-      fill: lookAndFeel.navigationBarTextFillProperty
+      fill: lookAndFeel.navigationBarTextFillProperty,
+      maxWidth: 90 // i18n, by inspection
     };
 
     const titleText = new Text( titleString, titleTextOptions );
@@ -170,7 +171,8 @@ class LabelButtonRow {
 
     const textLabel = new Text( labelString, {
       font: new PhetFont( 12 ),
-      fill: this.lookAndFeel.navigationBarTextFillProperty
+      fill: this.lookAndFeel.navigationBarTextFillProperty,
+      maxWidth: 100 // i18n, by inspection
     } );
 
     const labelBox = labelAlignGroup.createBox( textLabel, { xAlign: 'left' } );

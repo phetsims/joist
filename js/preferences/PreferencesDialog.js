@@ -26,10 +26,28 @@ import PreferencesTabs from './PreferencesTabs.js';
 // constants
 const preferencesTitleString = joistStrings.preferences.title;
 
-const TAB_FONT = new PhetFont( 20 );
 const TITLE_FONT = new PhetFont( { size: 24, weight: 'bold' } );
+
+const TAB_FONT = new PhetFont( 20 );
+const TAB_MAX_WIDTH = 120;
+const TAB_OPTIONS = {
+  font: TAB_FONT,
+  maxWidth: TAB_MAX_WIDTH
+};
+
 const CONTENT_FONT = new PhetFont( 16 );
+const CONTENT_MAX_WIDTH = 500;
+const PANEL_SECTION_CONTENT_OPTIONS = {
+  font: CONTENT_FONT,
+  maxWidth: CONTENT_MAX_WIDTH
+};
+
 const PANEL_SECTION_LABEL_FONT = new PhetFont( { weight: 'bold', size: 16 } );
+const PANEL_SECTION_LABEL_MAX_WIDTH = 360;
+const PANEL_SECTION_LABEL_OPTIONS = {
+  font: PANEL_SECTION_LABEL_FONT,
+  maxWidth: PANEL_SECTION_LABEL_MAX_WIDTH
+};
 
 // tabs available in this Dialog
 const PreferencesTab = Enumeration.byKeys( [ 'GENERAL', 'VISUAL', 'AUDIO', 'INPUT' ] );
@@ -127,9 +145,17 @@ class PreferencesDialog extends Dialog {
 // @public
 // @static
 PreferencesDialog.PreferencesTab = PreferencesTab;
-PreferencesDialog.CONTENT_FONT = CONTENT_FONT;
+
 PreferencesDialog.TAB_FONT = TAB_FONT;
+PreferencesDialog.TAB_OPTIONS = TAB_OPTIONS;
+
+PreferencesDialog.CONTENT_FONT = CONTENT_FONT;
+PreferencesDialog.CONTENT_MAX_WIDTH = CONTENT_MAX_WIDTH;
+PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS = PANEL_SECTION_CONTENT_OPTIONS;
+
 PreferencesDialog.PANEL_SECTION_LABEL_FONT = PANEL_SECTION_LABEL_FONT;
+PreferencesDialog.PANEL_SECTION_LABEL_MAX_WIDTH = PANEL_SECTION_LABEL_MAX_WIDTH;
+PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS = PANEL_SECTION_LABEL_OPTIONS;
 
 joist.register( 'PreferencesDialog', PreferencesDialog );
 export default PreferencesDialog;
