@@ -10,15 +10,16 @@ import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import Range from '../../../dot/js/Range.js';
 import Utils from '../../../dot/js/Utils.js';
+import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import NumberControl from '../../../scenery-phet/js/NumberControl.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import FocusHighlightFromNode from '../../../scenery/js/accessibility/FocusHighlightFromNode.js';
 import VoicingText from '../../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
-import Voicing from '../../../scenery/js/accessibility/voicing/Voicing.js';
 import responseCollector from '../../../scenery/js/accessibility/voicing/responseCollector.js';
-import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
+import Voicing from '../../../scenery/js/accessibility/voicing/Voicing.js';
 import voicingManager from '../../../scenery/js/accessibility/voicing/voicingManager.js';
+import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import PressListener from '../../../scenery/js/listeners/PressListener.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Text from '../../../scenery/js/nodes/Text.js';
@@ -98,41 +99,38 @@ class VoicingPanelSection extends PreferencesPanelSection {
   constructor( toolbarEnabledProperty ) {
 
     // the checkbox is the title for the section and totally enables/disables the feature
-    const voicingLabel = new Text( voicingLabelString, { font: PreferencesDialog.PANEL_SECTION_LABEL_FONT } );
+    const voicingLabel = new Text( voicingLabelString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
     const voicingSwitch = new PreferencesToggleSwitch( voicingManager.enabledProperty, false, true, {
       labelNode: voicingLabel,
-      descriptionNode: new VoicingText( voicingDescriptionString, {
-        font: PreferencesDialog.CONTENT_FONT,
+      descriptionNode: new VoicingText( voicingDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         readingBlockContent: StringUtils.fillIn( labelledDescriptionPatternString, {
           label: voicingLabelString,
           description: voicingDescriptionString
         } )
-      } ),
+      } ) ),
       a11yLabel: voicingLabelString
     } );
 
     // checkbox for the toolbar
-    const quickAccessLabel = new Text( toolbarLabelString, { font: PreferencesDialog.PANEL_SECTION_LABEL_FONT } );
+    const quickAccessLabel = new Text( toolbarLabelString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
     const toolbarSwitch = new PreferencesToggleSwitch( toolbarEnabledProperty, false, true, {
       labelNode: quickAccessLabel,
       a11yLabel: toolbarLabelString
     } );
 
     // Speech output levels
-    const speechOutputLabel = new Text( simVoicingOptionsString, {
-      font: PreferencesDialog.PANEL_SECTION_LABEL_FONT,
+    const speechOutputLabel = new Text( simVoicingOptionsString, merge( {}, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS, {
 
       // pdom
       tagName: 'h3',
       innerContent: simVoicingOptionsString
-    } );
-    const speechOutputDescription = new VoicingText( simVoicingDescriptionString, {
-      font: PreferencesDialog.CONTENT_FONT,
+    } ) );
+    const speechOutputDescription = new VoicingText( simVoicingDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
       readingBlockContent: StringUtils.fillIn( labelledDescriptionPatternString, {
         label: simVoicingOptionsString,
         description: simVoicingDescriptionString
       } )
-    } );
+    } ) );
     const speechOutputCheckboxes = new VBox( {
       align: 'left',
       spacing: 5,
@@ -161,10 +159,9 @@ class VoicingPanelSection extends PreferencesPanelSection {
     } );
 
     // voice options
-    const voiceOptionsLabel = new Text( customizeVoiceString, {
-      font: PreferencesDialog.PANEL_SECTION_LABEL_FONT,
+    const voiceOptionsLabel = new Text( customizeVoiceString, merge( {}, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS, {
       cursor: 'pointer'
-    } );
+    } ) );
     const voiceOptionsOpenProperty = new BooleanProperty( false );
     const expandCollapseButton = new ExpandCollapseButton( voiceOptionsOpenProperty, {
       sideLength: 16,
@@ -295,7 +292,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
  * @returns {Checkbox}
  */
 const createCheckbox = ( labelString, property ) => {
-  const labelNode = new Text( labelString, { font: PreferencesDialog.CONTENT_FONT } );
+  const labelNode = new Text( labelString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
   return new Checkbox( labelNode, property, {
 
     // pdom
@@ -323,15 +320,15 @@ class VoiceRateNumberControl extends NumberControl {
       includeArrowButtons: false,
       layoutFunction: NumberControl.createLayoutFunction4(),
       delta: 0.25,
-      titleNodeOptions: {
-        font: PreferencesDialog.CONTENT_FONT
-      },
+      titleNodeOptions: merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
+        maxWidth: 45
+      } ),
       numberDisplayOptions: {
         decimalPlaces: 2,
         valuePattern: voiceVariablesPatternString,
-        textOptions: {
-          font: PreferencesDialog.CONTENT_FONT
-        }
+        textOptions: merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
+          maxWidth: 45
+        } )
       },
       sliderOptions: {
         thumbSize: THUMB_SIZE,
@@ -403,14 +400,14 @@ class VoiceComboBox extends ComboBox {
     const items = [];
 
     if ( voices.length === 0 ) {
-      const textNode = new Text( noVoicesAvailableString, { font: PreferencesDialog.CONTENT_FONT } );
+      const textNode = new Text( noVoicesAvailableString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
       items.push( new ComboBoxItem( textNode, null, {
         a11yLabel: noVoicesAvailableString
       } ) );
     }
 
     voices.forEach( voice => {
-      const textNode = new Text( voice.name, { font: PreferencesDialog.CONTENT_FONT } );
+      const textNode = new Text( voice.name, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
       items.push( new ComboBoxItem( textNode, voice, {
         a11yLabel: voice.name
       } ) );
@@ -473,7 +470,7 @@ class VoicingPitchSlider extends VBox {
    * @returns {VBox}
    */
   constructor( labelString, voicePitchProperty ) {
-    const label = new Text( labelString, { font: PreferencesDialog.CONTENT_FONT } );
+    const label = new Text( labelString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
     const slider = new HSlider( voicePitchProperty, voicePitchProperty.range, {
       majorTickLength: 10,
       thumbSize: THUMB_SIZE,

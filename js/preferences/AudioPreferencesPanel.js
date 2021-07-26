@@ -52,7 +52,7 @@ class AudioPreferencesTabPanel extends VBox {
     } );
 
     const allAudioSwitch = new PreferencesToggleSwitch( simSoundProperty, false, true, {
-      labelNode: new Text( audioFeaturesString, { font: PreferencesDialog.PANEL_SECTION_LABEL_FONT } ),
+      labelNode: new Text( audioFeaturesString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ),
       a11yLabel: audioFeaturesString
     } );
 

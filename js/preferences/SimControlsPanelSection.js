@@ -22,9 +22,7 @@ class SimControlsPanelSection extends PreferencesPanelSection {
    */
   constructor( simControls ) {
     super( {
-      titleNode: new Text( simulationSpecificSettingsString, {
-        font: PreferencesDialog.PANEL_SECTION_LABEL_FONT
-      } ),
+      titleNode: new Text( simulationSpecificSettingsString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ),
       contentNode: simControls
     } );
   }

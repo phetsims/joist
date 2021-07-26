@@ -6,6 +6,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import VoicingRichText from '../../../scenery/js/accessibility/voicing/nodes/VoicingRichText.js';
 import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
@@ -40,16 +41,15 @@ class InputPreferencesPanel extends Node {
     } );
 
     const toggleSwitch = new PreferencesToggleSwitch( gestureControlsEnabledProperty, false, true, {
-      labelNode: new Text( gestureControlsString, { font: PreferencesDialog.PANEL_SECTION_LABEL_FONT } ),
-      descriptionNode: new VoicingRichText( gestureControlsDescriptionString, {
-        font: PreferencesDialog.CONTENT_FONT,
+      labelNode: new Text( gestureControlsString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ),
+      descriptionNode: new VoicingRichText( gestureControlsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         lineWrap: 350,
 
         readingBlockContent: StringUtils.fillIn( labelledDescriptionPatternString, {
           label: gestureControlsString,
           description: gestureControlsDescriptionString
         } )
-      } ),
+      } ) ),
       a11yLabel: gestureControlsString
     } );
 

@@ -76,23 +76,39 @@ class PreferencesToggleSwitch extends Node {
       // tandem - opting out of Tandems for now
       tandem: Tandem.OPT_OUT
     } ) );
+
     this.addChild( toggleSwitch );
+    options.descriptionNode && this.addChild( options.descriptionNode );
+    options.labelNode && this.addChild( options.labelNode );
 
-    // layout code, dependent on whether label/description are provided
-    if ( options.descriptionNode ) {
-      this.addChild( options.descriptionNode );
-      options.descriptionNode.rightTop = toggleSwitch.rightBottom.plusXY( 0, options.descriptionSpacing );
-    }
-    if ( options.labelNode ) {
-      this.addChild( options.labelNode );
+    // layout code, dependent on which components are available
+    if ( options.descriptionNode && options.labelNode ) {
 
-      // if there is a description Node, label is left aligned with it
-      if ( options.descriptionNode ) {
-        options.labelNode.leftBottom = options.descriptionNode.leftTop.minusXY( 0, options.descriptionSpacing );
+      options.descriptionNode.leftTop = options.labelNode.leftBottom.plusXY( 0, options.descriptionSpacing );
+      toggleSwitch.centerY = options.labelNode.centerY;
+
+      if ( options.descriptionNode.right - options.labelNode.right < toggleSwitch.width + options.labelSpacing ) {
+
+        // right-aligning the toggleSwitch with the description would result in the toggleSwitch and label overlapping,
+        // put the toggleSwitch to the right of the label
+        toggleSwitch.left = options.labelNode.right + options.labelSpacing;
       }
       else {
-        options.labelNode.rightCenter = toggleSwitch.leftCenter.minusXY( options.labelSpacing, 0 );
+
+        // the description extends far enough to the right of the label that the toggleSwitch should be right-aligned
+        // with it
+        toggleSwitch.right = options.descriptionNode.right;
       }
+    }
+    else if ( options.descriptionNode ) {
+
+      // only a description node, right align with the toggle switch
+      options.descriptionNode.rightTop = toggleSwitch.rightBottom.plusXY( 0, options.descriptionSpacing );
+    }
+    else if ( options.labelNode ) {
+
+      // only a label node, it goes to the left of the toggleSwitch
+      options.labelNode.rightCenter = toggleSwitch.leftCenter.minusXY( options.labelSpacing, 0 );
     }
   }
 }

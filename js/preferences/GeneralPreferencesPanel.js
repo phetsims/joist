@@ -41,7 +41,13 @@ class GeneralPreferencesPanel extends VBox {
     }
 
     const introParagraphs = new VBox( { spacing: 10, align: 'left' } );
-    const introTextOptions = { font: PreferencesDialog.CONTENT_FONT, lineWrap: 600, tagName: 'p' };
+    const introTextOptions = merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
+
+      // using lineWrap instead of default maxWidth for content
+      maxWidth: null,
+      lineWrap: 600,
+      tagName: 'p'
+    } );
     introParagraphs.children = [
       new VoicingRichText( accessibilityIntroString, merge( {
         innerContent: accessibilityIntroString

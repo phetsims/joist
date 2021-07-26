@@ -152,9 +152,7 @@ class Tab extends Node {
    */
   constructor( label, property, value ) {
 
-    const textNode = new Text( label, {
-      font: PreferencesDialog.TAB_FONT
-    } );
+    const textNode = new Text( label, PreferencesDialog.TAB_OPTIONS );
 
     // background Node behind the Text for layout spacing, and to increase the clickable area of the tab
     const backgroundNode = new Rectangle( textNode.bounds.dilatedXY( 15, 10 ), {

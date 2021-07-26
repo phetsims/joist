@@ -7,6 +7,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import VoicingText from '../../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
 import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
@@ -39,16 +40,15 @@ class VisualPreferencesPanel extends Node {
       labelContent: 'Visual'
     } );
 
-    const label = new Text( interactiveHighlightsString, { font: PreferencesDialog.PANEL_SECTION_LABEL_FONT } );
+    const label = new Text( interactiveHighlightsString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
     const toggleSwitch = new PreferencesToggleSwitch( interactiveHighlightsEnabledProperty, false, true, {
       labelNode: label,
-      descriptionNode: new VoicingText( interactiveHighlightsDescriptionString, {
-        font: PreferencesDialog.CONTENT_FONT,
+      descriptionNode: new VoicingText( interactiveHighlightsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         readingBlockContent: StringUtils.fillIn( labelledDescriptionPatternString, {
           label: interactiveHighlightsString,
           description: interactiveHighlightsDescriptionString
         } )
-      } ),
+      } ) ),
       a11yLabel: interactiveHighlightsString
     } );
 
