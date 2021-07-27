@@ -41,8 +41,13 @@ class ProjectorModeCheckbox extends Checkbox {
 
     assert && assert(
     phet.chipper.colorProfiles[ 0 ] !== SceneryConstants.PROJECTOR_COLOR_PROFILE &&
-    phet.chipper.colorProfiles.includes( SceneryConstants.PROJECTOR_COLOR_PROFILE ),
-      'ProjectorModeCheckbox requires sims that support projector color profiles and a different primary one' );
+    phet.chipper.colorProfiles.includes( SceneryConstants.PROJECTOR_COLOR_PROFILE ) &&
+    phet.chipper.colorProfiles.length === 2 &&
+    phet.chipper.colorProfiles[ 0 ] !== phet.chipper.colorProfiles[ 1 ],
+      'ProjectorModeCheckbox requires sims that support the projector color profile and one other color profile' );
+
+    // Identify the non-projector color profile that this checkbox sets.
+    const otherColorProfile = phet.chipper.colorProfiles.find( colorProfile => colorProfile !== SceneryConstants.PROJECTOR_COLOR_PROFILE );
 
     const labelNode = new Text( projectorModeString, {
       font: options.font,
@@ -55,8 +60,7 @@ class ProjectorModeCheckbox extends Checkbox {
       tandem: options.tandem.createTandem( 'property' )
     } );
     projectorModeEnabledProperty.link( isProjectorMode => {
-      colorProfileProperty.value =
-        ( isProjectorMode ? SceneryConstants.PROJECTOR_COLOR_PROFILE : phet.chipper.colorProfiles[ 0 ] );
+      colorProfileProperty.value = ( isProjectorMode ? SceneryConstants.PROJECTOR_COLOR_PROFILE : otherColorProfile );
     } );
 
     const profileNameListener = profileName => {
