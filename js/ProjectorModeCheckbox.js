@@ -60,7 +60,7 @@ class ProjectorModeCheckbox extends Checkbox {
     } );
 
     const profileNameListener = profileName => {
-      projectorModeEnabledProperty.value = ( profileName === 'projector' );
+      projectorModeEnabledProperty.value = ( profileName === SceneryConstants.PROJECTOR_COLOR_PROFILE_NAME );
     };
     colorProfileProperty.link( profileNameListener );
 
