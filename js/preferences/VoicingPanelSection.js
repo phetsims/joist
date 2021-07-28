@@ -246,7 +246,9 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
       // It was discovered that macOS can provide "premium" voices that have no output when used by Safari, remove those
       const withoutPremium = _.remove( englishVoices, voice => {
-        return voice.voiceURI.includes( 'premium' );
+
+        // if it is the default platform voice, we should keep it
+        return voice.voiceURI.includes( 'premium' ) && !voice.default;
       } );
 
       // the browser sometimes provides duplicate voices, prune those out of the list
