@@ -244,8 +244,13 @@ class VoicingPanelSection extends PreferencesPanelSection {
         return voice.lang === 'en-US' || voice.lang === 'en_US';
       } );
 
+      // It was discovered that macOS can provide "premium" voices that have no output when used by Safari, remove those
+      const withoutPremium = _.remove( englishVoices, voice => {
+        return voice.voiceURI.includes( 'premium' );
+      } );
+
       // the browser sometimes provides duplicate voices, prune those out of the list
-      const withoutDuplicates = _.uniqBy( englishVoices, voice => voice.name );
+      const withoutDuplicates = _.uniqBy( withoutPremium, voice => voice.name );
 
       // limit the voices for now to keep the size of the ComboBox manageable
       const includedVoices = withoutDuplicates.slice( 0, 12 );
