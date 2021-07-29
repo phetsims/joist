@@ -48,8 +48,9 @@ class AudioManager {
     // https://github.com/phetsims/joist/issues/573
     this.soundPartOfTheAPI = packageSimFeatures.supportsSound;
 
-    // @public {joist-internal, read-only) {boolean} - True if voicing is supported.
-    this.supportsVoicing = phet.chipper.queryParameters.supportsVoicing;
+    // @public {joist-internal, read-only) {boolean} - True if "Voicing" features or speech synthesis is supported,
+    // and we need to initialize the voicingManager for SpeechSynthesis.
+    this.supportsVoicing = phet.chipper.queryParameters.supportsVoicing || phet.chipper.queryParameters.supportsSpeechSynthesis;
 
     // @public {joist-internal, read-only) {boolean} - True if any form of Audio is enabled in the simulation.
     this.supportsAudio = phet.chipper.queryParameters.audio !== 'disabled' && ( this.supportsSound || this.supportsVoicing );
