@@ -50,7 +50,8 @@ class AudioManager {
 
     // @public {joist-internal, read-only) {boolean} - True if "Voicing" features or speech synthesis is supported,
     // and we need to initialize the voicingManager for SpeechSynthesis.
-    this.supportsVoicing = phet.chipper.queryParameters.supportsVoicing || phet.chipper.queryParameters.supportsSpeechSynthesis;
+    this.supportsVoicing = voicingManager.isSpeechSynthesisSupported() &&
+                           ( phet.chipper.queryParameters.supportsVoicing || phet.chipper.queryParameters.supportsSpeechSynthesis );
 
     // @public {joist-internal, read-only) {boolean} - True if any form of Audio is enabled in the simulation.
     this.supportsAudio = phet.chipper.queryParameters.audio !== 'disabled' && ( this.supportsSound || this.supportsVoicing );
