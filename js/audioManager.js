@@ -49,7 +49,7 @@ class AudioManager {
     this.soundPartOfTheAPI = packageSimFeatures.supportsSound;
 
     // @public {joist-internal, read-only) {boolean} - True if voicing is supported.
-    this.supportsVoicing = phet.chipper.queryParameters.supportsVoicing;
+    this.supportsVoicing = voicingManager.isSpeechSynthesisSupported() && phet.chipper.queryParameters.supportsVoicing;
 
     // @public {joist-internal, read-only) {boolean} - True if any form of Audio is enabled in the simulation.
     this.supportsAudio = phet.chipper.queryParameters.audio !== 'disabled' && ( this.supportsSound || this.supportsVoicing );
