@@ -166,7 +166,7 @@ class NavigationBarAudioToggleButton extends JoistButton {
 
       soundUtterance.alert = value ? joistStrings.a11y.soundToggle.alert.simSoundOn
                                    : joistStrings.a11y.soundToggle.alert.simSoundOff;
-      phet.joist.sim.utteranceQueue.addToBack( soundUtterance );
+      this.alertDescriptionUtterance( soundUtterance );
       if ( voicingManager.voicingFullyEnabledProperty.value ) {
         voicingManager.speakImmediately( soundUtterance.alert );
       }

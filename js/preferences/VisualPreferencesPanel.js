@@ -64,7 +64,7 @@ class VisualPreferencesPanel extends Node {
       voicingUtteranceQueue.addToBack( alertString );
 
       // pdom
-      phet.joist.sim.utteranceQueue.addToBack( alertString );
+      this.alertDescriptionUtterance( alertString );
     };
     interactiveHighlightsEnabledProperty.lazyLink( alertEnabledChange );
 

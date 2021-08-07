@@ -18,8 +18,8 @@ import NumberProperty from '../../../axon/js/NumberProperty.js';
 import stepTimer from '../../../axon/js/stepTimer.js';
 import Matrix3 from '../../../dot/js/Matrix3.js';
 import Shape from '../../../kite/js/Shape.js';
-import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import voicingManager from '../../../scenery/js/accessibility/voicing/voicingManager.js';
+import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
@@ -143,7 +143,7 @@ class Toolbar extends Node {
         const alert = open ? toolbarShownString : toolbarHiddenString;
 
         voicingUtteranceQueue.addToBack( alert );
-        phet.joist.sim.utteranceQueue.addToBack( alert );
+        this.alertDescriptionUtterance( alert );
       }
     };
     this.openProperty.link( isOpenListener );

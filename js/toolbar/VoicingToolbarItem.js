@@ -106,7 +106,7 @@ class VoicingToolbarItem extends Node {
 
     const voicingEnabledListener = enabled => {
       const alert = enabled ? simVoicingOnString : simVoicingOffString;
-      phet.joist.sim.utteranceQueue.addToBack( alert );
+      this.alertDescriptionUtterance( alert );
       joistVoicingUtteranceQueue.addToBack( alert );
     };
     voicingManager.mainWindowVoicingEnabledProperty.lazyLink( voicingEnabledListener );

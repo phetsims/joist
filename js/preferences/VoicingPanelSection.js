@@ -224,7 +224,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
       if ( voicingManager.mainWindowVoicingEnabledProperty.value ) {
         const alertString = enabled ? voicingEnabledString : voicingDisabledString;
         voicingManager.speakImmediately( alertString );
-        phet.joist.sim.utteranceQueue.addToBack( alertString );
+        this.alertDescriptionUtterance( alertString );
       }
     } );
 
@@ -261,31 +261,31 @@ class VoicingPanelSection extends PreferencesPanelSection {
     toolbarEnabledProperty.lazyLink( enabled => {
       const alertString = enabled ? toolbarAddedString : toolbarRemovedString;
       voicingUtteranceQueue.addToBack( alertString );
-      phet.joist.sim.utteranceQueue.addToBack( alertString );
+      this.alertDescriptionUtterance( alertString );
     } );
 
     responseCollector.objectResponsesEnabledProperty.lazyLink( voicingObjectChanges => {
       const alertString = voicingObjectChanges ? voicingObjectChangesString : objectChangesMutedString;
       voicingUtteranceQueue.addToBack( alertString );
-      phet.joist.sim.utteranceQueue.addToBack( alertString );
+      this.alertDescriptionUtterance( alertString );
     } );
 
     responseCollector.contextResponsesEnabledProperty.lazyLink( voicingContextChanges => {
       const alertString = voicingContextChanges ? voicingContextChangesString : contextChangesMutedString;
       voicingUtteranceQueue.addToBack( alertString );
-      phet.joist.sim.utteranceQueue.addToBack( alertString );
+      this.alertDescriptionUtterance( alertString );
     } );
 
     responseCollector.hintResponsesEnabledProperty.lazyLink( voicingHints => {
       const alertString = voicingHints ? voicingHintsString : hintsMutedString;
       voicingUtteranceQueue.addToBack( alertString );
-      phet.joist.sim.utteranceQueue.addToBack( alertString );
+      this.alertDescriptionUtterance( alertString );
     } );
 
     voiceOptionsOpenProperty.lazyLink( open => {
       const alert = open ? customizeVoiceExpandedString : customizeVoiceCollapsedString;
       voicingUtteranceQueue.addToBack( alert );
-      phet.joist.sim.utteranceQueue.addToBack( alert );
+      this.alertDescriptionUtterance( alert );
     } );
   }
 }
