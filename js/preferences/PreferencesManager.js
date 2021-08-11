@@ -7,8 +7,8 @@
  */
 
 import Property from '../../../axon/js/Property.js';
-import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import voicingManager from '../../../scenery/js/accessibility/voicing/voicingManager.js';
+import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import joistVoicingUtteranceQueue from '../../../utterance-queue/js/UtteranceQueue.js';
 import audioManager from '../audioManager.js';
 import joist from '../joist.js';
@@ -35,6 +35,7 @@ class PreferencesManager {
       // sim screens)
       voicingManager.voicingFullyEnabledProperty.link( enabled => {
         voicingUtteranceQueue.enabled = enabled;
+        !enabled && voicingUtteranceQueue.clear();
       } );
 
       // the utteranceQueue for surrounding user controls is enabled as long as voicing is enabled
