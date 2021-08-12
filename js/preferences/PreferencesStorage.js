@@ -56,7 +56,7 @@ class PreferencesStorage {
     if ( window.localStorage.getItem( key ) ) {
       property.value = JSON.parse( window.localStorage.getItem( key ) );
     }
-    property.lazyLink( value => {
+    property.link( value => {
       window.localStorage.setItem( key, JSON.stringify( value ) );
     } );
     this.registedProperties.push( property );
