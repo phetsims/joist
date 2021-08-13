@@ -32,6 +32,7 @@ import FocusManager from '../../scenery/js/accessibility/FocusManager.js';
 import globalKeyStateTracker from '../../scenery/js/accessibility/globalKeyStateTracker.js';
 import KeyboardFuzzer from '../../scenery/js/accessibility/KeyboardFuzzer.js';
 import KeyboardUtils from '../../scenery/js/accessibility/KeyboardUtils.js';
+import voicingUtteranceQueue from '../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import Display from '../../scenery/js/display/Display.js';
 import InputFuzzer from '../../scenery/js/input/InputFuzzer.js';
 import animatedPanZoomSingleton from '../../scenery/js/listeners/animatedPanZoomSingleton.js';
@@ -49,6 +50,7 @@ import HomeScreen from './HomeScreen.js';
 import HomeScreenView from './HomeScreenView.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
+import joistVoicingUtteranceQueue from './joistVoicingUtteranceQueue.js';
 import LookAndFeel from './LookAndFeel.js';
 import MemoryMonitor from './MemoryMonitor.js';
 import NavigationBar from './NavigationBar.js';
@@ -749,7 +751,14 @@ class Sim extends PhetioObject {
     this.simInfo = new SimInfo( this );
 
     // Set up PhET-iO, must be done after phet.joist.sim is assigned
-    Tandem.PHET_IO_ENABLED && phet.phetio.phetioEngine.onSimConstructionStarted( this.simInfo, this.isConstructionCompleteProperty, this.frameEndedEmitter );
+    Tandem.PHET_IO_ENABLED && phet.phetio.phetioEngine.onSimConstructionStarted(
+      this.simInfo,
+      this.isConstructionCompleteProperty,
+      this.frameEndedEmitter,
+      this.display.utteranceQueue,
+      voicingUtteranceQueue,
+      joistVoicingUtteranceQueue
+    );
 
     // Third party support
     phet.chipper.queryParameters.legendsOfLearning && new LegendsOfLearningSupport( this ).start();
