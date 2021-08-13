@@ -749,7 +749,7 @@ class Sim extends PhetioObject {
     this.simInfo = new SimInfo( this );
 
     // Set up PhET-iO, must be done after phet.joist.sim is assigned
-    Tandem.PHET_IO_ENABLED && phet.phetio.phetioEngine.onSimConstructionStarted( this );
+    Tandem.PHET_IO_ENABLED && phet.phetio.phetioEngine.onSimConstructionStarted( this.simInfo, this.isConstructionCompleteProperty, this.frameEndedEmitter );
 
     // Third party support
     phet.chipper.queryParameters.legendsOfLearning && new LegendsOfLearningSupport( this ).start();
