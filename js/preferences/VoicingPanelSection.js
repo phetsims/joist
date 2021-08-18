@@ -30,6 +30,7 @@ import ComboBoxItem from '../../../sun/js/ComboBoxItem.js';
 import ExpandCollapseButton from '../../../sun/js/ExpandCollapseButton.js';
 import HSlider from '../../../sun/js/HSlider.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import Utterance from '../../../utterance-queue/js/Utterance.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
@@ -223,14 +224,15 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
     // Speak when voicing becomes initially enabled. First speech is done synchronously (not using utterance-queue)
     // in response to user input, otherwise all speech will be blocked on many platforms
+    const voicingEnabledUtterance = new Utterance();
     voicingManager.enabledProperty.lazyLink( enabled => {
 
       // only speak if "Sim Voicing" is on, all voicing should be disabled except for the Toolbar
       // buttons in this case
       if ( voicingManager.mainWindowVoicingEnabledProperty.value ) {
-        const alertString = enabled ? voicingEnabledString : voicingDisabledString;
-        voicingManager.speakImmediately( alertString );
-        this.alertDescriptionUtterance( alertString );
+        voicingEnabledUtterance.alert = enabled ? voicingEnabledString : voicingDisabledString;
+        voicingManager.speakIgnoringEnabled( voicingEnabledUtterance );
+        this.alertDescriptionUtterance( voicingEnabledUtterance );
       }
     } );
 
