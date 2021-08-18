@@ -168,7 +168,7 @@ class NavigationBarAudioToggleButton extends JoistButton {
                                    : joistStrings.a11y.soundToggle.alert.simSoundOff;
       this.alertDescriptionUtterance( soundUtterance );
       if ( voicingManager.voicingFullyEnabledProperty.value ) {
-        voicingManager.speakImmediately( soundUtterance.alert );
+        voicingManager.speakIgnoringEnabled( soundUtterance );
       }
     };
     soundEnabledProperty.lazyLink( pressedListener );
