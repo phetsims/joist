@@ -35,7 +35,6 @@ import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
-import PreferencesStorage from './PreferencesStorage.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 
 // constants
@@ -142,11 +141,6 @@ class VoicingPanelSection extends PreferencesPanelSection {
         createCheckbox( helpfulHintsLabelString, responseCollector.hintResponsesEnabledProperty )
       ]
     } );
-
-    // Register these to be stored when PreferencesStorage is enabled
-    PreferencesStorage.register( responseCollector.objectResponsesEnabledProperty, 'objectResponsesEnabledProperty' );
-    PreferencesStorage.register( responseCollector.contextResponsesEnabledProperty, 'contextResponsesEnabledProperty' );
-    PreferencesStorage.register( responseCollector.hintResponsesEnabledProperty, 'hintResponsesEnabledProperty' );
 
     const speechOutputContent = new Node( {
       children: [ speechOutputLabel, speechOutputDescription, speechOutputCheckboxes ]

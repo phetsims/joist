@@ -32,6 +32,7 @@ import FocusManager from '../../scenery/js/accessibility/FocusManager.js';
 import globalKeyStateTracker from '../../scenery/js/accessibility/globalKeyStateTracker.js';
 import KeyboardFuzzer from '../../scenery/js/accessibility/KeyboardFuzzer.js';
 import KeyboardUtils from '../../scenery/js/accessibility/KeyboardUtils.js';
+import responseCollector from '../../scenery/js/accessibility/voicing/responseCollector.js';
 import voicingUtteranceQueue from '../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import Display from '../../scenery/js/display/Display.js';
 import InputFuzzer from '../../scenery/js/input/InputFuzzer.js';
@@ -56,6 +57,7 @@ import MemoryMonitor from './MemoryMonitor.js';
 import NavigationBar from './NavigationBar.js';
 import packageJSON from './packageJSON.js';
 import PreferencesManager from './preferences/PreferencesManager.js';
+import PreferencesStorage from './preferences/PreferencesStorage.js';
 import Profiler from './Profiler.js';
 import QueryParametersWarningDialog from './QueryParametersWarningDialog.js';
 import Screen from './Screen.js';
@@ -688,6 +690,11 @@ class Sim extends PhetioObject {
       this.toolbar.rightPositionProperty.lazyLink( () => {
         this.resize( this.boundsProperty.value.width, this.boundsProperty.value.height );
       } );
+
+      // Register these to be stored when PreferencesStorage is enabled. TODO: likely to be moved to a better spot, see https://github.com/phetsims/joist/issues/737
+      PreferencesStorage.register( responseCollector.objectResponsesEnabledProperty, 'objectResponsesEnabledProperty' );
+      PreferencesStorage.register( responseCollector.contextResponsesEnabledProperty, 'contextResponsesEnabledProperty' );
+      PreferencesStorage.register( responseCollector.hintResponsesEnabledProperty, 'hintResponsesEnabledProperty' );
     }
 
     Heartbeat.start( this );
