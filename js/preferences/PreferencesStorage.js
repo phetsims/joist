@@ -66,10 +66,11 @@ class PreferencesStorage {
    * @public
    * @param {Property} property
    * @param {string} name
+   * @returns {Property} - for chaining
    */
   static register( property, name ) {
     if ( !phet.chipper.queryParameters.preferencesStorage ) {
-      return;
+      return property;
     }
 
     if ( !preferencesStorage ) {
@@ -79,6 +80,8 @@ class PreferencesStorage {
     if ( preferencesStorage.enabled ) {
       preferencesStorage.registerToLocalStorage( property, name );
     }
+
+    return property;
   }
 }
 

@@ -44,7 +44,6 @@ import soundManager from '../../tambo/js/soundManager.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
-import responseCollector from '../../utterance-queue/js/responseCollector.js';
 import audioManager from './audioManager.js';
 import Heartbeat from './Heartbeat.js';
 import HomeScreen from './HomeScreen.js';
@@ -57,7 +56,6 @@ import MemoryMonitor from './MemoryMonitor.js';
 import NavigationBar from './NavigationBar.js';
 import packageJSON from './packageJSON.js';
 import PreferencesManager from './preferences/PreferencesManager.js';
-import PreferencesStorage from './preferences/PreferencesStorage.js';
 import Profiler from './Profiler.js';
 import QueryParametersWarningDialog from './QueryParametersWarningDialog.js';
 import Screen from './Screen.js';
@@ -690,11 +688,6 @@ class Sim extends PhetioObject {
       this.toolbar.rightPositionProperty.lazyLink( () => {
         this.resize( this.boundsProperty.value.width, this.boundsProperty.value.height );
       } );
-
-      // Register these to be stored when PreferencesStorage is enabled. TODO: likely to be moved to a better spot, see https://github.com/phetsims/joist/issues/737
-      PreferencesStorage.register( responseCollector.objectResponsesEnabledProperty, 'objectResponsesEnabledProperty' );
-      PreferencesStorage.register( responseCollector.contextResponsesEnabledProperty, 'contextResponsesEnabledProperty' );
-      PreferencesStorage.register( responseCollector.hintResponsesEnabledProperty, 'hintResponsesEnabledProperty' );
     }
 
     Heartbeat.start( this );
