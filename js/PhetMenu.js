@@ -154,7 +154,7 @@ class PhetMenu extends Node {
           if ( !phet.chipper.isFuzzEnabled() ) {
 
             // Open locale-specific PhET home page. If there is no website translation for locale, fallback will be handled by server. See joist#97.
-            openPopup( `http://phet.colorado.edu/${sim.locale}` );
+            openPopup( `https://phet.colorado.edu/${sim.locale}` );
           }
         },
         options: {
@@ -202,7 +202,7 @@ class PhetMenu extends Node {
         present: isPhETBrand && !isApp,
         callback: () => {
           if ( !phet.chipper.isFuzzEnabled() ) {
-            const url = `${'http://phet.colorado.edu/files/troubleshooting/' +
+            const url = `${'https://phet.colorado.edu/files/troubleshooting/' +
                            '?sim='}${encodeURIComponent( sim.simNameProperty.value )
             }&version=${encodeURIComponent( `${sim.version} ${
               phet.chipper.buildTimestamp ? phet.chipper.buildTimestamp : '(unbuilt)'}` )
