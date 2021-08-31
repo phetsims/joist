@@ -61,7 +61,7 @@ This HTML smaple combines both the [PhetButton.js](../js/PhetButton.js) and [Phe
 	   	      About this Sim
 	   	    </li>
 	   	    <li role="menuitem">
-	   	      <a href="http://phet.colorado.edu/">PhET Website</a>
+	   	      <a href="https://phet.colorado.edu/">PhET Website</a>
 	   	    </li>
 	   	  </ul>
 		  <!-- end PhetMenu -->
