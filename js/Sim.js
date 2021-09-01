@@ -755,7 +755,7 @@ class Sim extends PhetioObject {
       this.simInfo,
       this.isConstructionCompleteProperty,
       this.frameEndedEmitter,
-      this.display.utteranceQueue,
+      this.display.descriptionUtteranceQueue,
       voicingUtteranceQueue,
       joistVoicingUtteranceQueue
     );
@@ -770,7 +770,7 @@ class Sim extends PhetioObject {
    * @returns {UtteranceQueue}
    */
   get utteranceQueue() {
-    return this.display.utteranceQueue;
+    return this.display.descriptionUtteranceQueue;
   }
 
   /**
