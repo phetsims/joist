@@ -105,7 +105,7 @@ class PhetMenu extends Node {
     // Since AboutDialog is instrumented for PhET-iO, this lazy creation requires use of PhetioCapsule.
     const aboutDialogCapsule = new PhetioCapsule( tandem => {
       const aboutDialog = new AboutDialog( sim.simNameProperty.value, sim.version, sim.credits, sim.locale, tandem );
-      aboutDialog.setFocusOnCloseNode( this.focusOnCloseNode );
+        aboutDialog.setFocusOnCloseNode( this.focusOnCloseNode );
       return aboutDialog;
     }, [], {
       tandem: tandem.createTandem( 'aboutDialogCapsule' ),
