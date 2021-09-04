@@ -1,0 +1,45 @@
+{
+  "extends": "../chipper/tsconfig-core.json",
+  "references": [
+    {
+      "path": "../scenery-phet"
+    },
+    {
+      "path": "../phet-io"
+    },
+    {
+
+      // Defines joist and joistStrings, and other parts loaded dynamically in SimLauncher
+      "path": "../brand"
+    }
+  ],
+  "include": [
+    "js/**/*",
+    "sounds/**/*",
+    "mipmaps/**/*",
+    "images/**/*",
+
+    // scenery-phet had to wait to get these in the joist layer
+    "../sun/js/Popupable.js",
+    "../sun/js/Dialog.js",
+    "../scenery-phet/js/ContextLossFailureDialog.js",
+    "../scenery-phet/js/OopsDialog.js",
+
+    "../chipper/js/sim-tests/qunitStart.js",
+    "../sun/js/demo/DemosScreenView.js"
+  ],
+  "exclude": [
+    "js/**/*tests.js", // Cannot use **test** like we do elsewhere because of UpdaTESTate
+    "js/joist-main.js",
+    "js/demo/**/*",
+
+    // In brand layer
+    "js/joist.js",
+    "js/joistStrings.js",
+
+    // defined in phet-io layer
+    "js/packageJSON.js",
+    "js/SimInfo.js",
+    "js/joist.js"
+  ]
+}
