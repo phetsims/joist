@@ -98,8 +98,8 @@ class PreferencesDialog extends Dialog {
     // the panels of content with UI components to select preferences, only one is displayed at a time
     const preferencesPanels = new PreferencesPanels( preferencesConfiguration, supportedTabs, selectedTabProperty, simSoundProperty, preferencesProperties );
 
-    // visual separator between tabs and panels
-    const tabPanelSeparator = new HSeparator( preferencesPanels.width, { lineWidth: 1 } );
+    // visual separator between tabs and panels - as long as the widest separated content, which may change with i18n
+    const tabPanelSeparator = new HSeparator( Math.max( preferencesPanels.width, preferencesTabs.width ), { lineWidth: 1 } );
 
     const content = new Node( {
       children: [ preferencesTabs, tabPanelSeparator, preferencesPanels ]
