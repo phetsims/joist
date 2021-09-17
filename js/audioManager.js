@@ -23,14 +23,27 @@ import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import voicingManager from '../../scenery/js/accessibility/voicing/voicingManager.js';
 import soundManager from '../../tambo/js/soundManager.js';
+import PhetioObject from '../../tandem/js/PhetioObject.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
 import packageJSON from './packageJSON.js';
 
 // constants
 const packageSimFeatures = packageJSON.phet.simFeatures || {};
 
-class AudioManager {
-  constructor() {
+class AudioManager extends PhetioObject {
+
+  /**
+   * @param {Tandem} tandem
+   */
+  constructor( tandem ) {
+
+    super( {
+      tandem: tandem,
+      phetioState: false,
+      phetioDocumentation: 'Controls the simulation\'s audio features. This includes sound and voicing. For sims that ' +
+                           'do not support these features, this element and its children can be ignored.'
+    } );
 
     // @public (joist-internal, read-only) {boolean} - true if sound is supported and enabled
     this.supportsSound = phet.chipper.queryParameters.supportsSound &&
@@ -58,7 +71,10 @@ class AudioManager {
 
     // @public {BooleanProperty} - Whether or not all features involving audio are enabled (including sound, enhanced
     // sound, and voicing). When false, everything should be totally silent.
-    this.audioEnabledProperty = new BooleanProperty( phet.chipper.queryParameters.audio === 'enabled' );
+    this.audioEnabledProperty = new BooleanProperty( phet.chipper.queryParameters.audio === 'enabled', {
+      tandem: tandem.createTandem( 'audioEnabledProperty' ),
+      phetioDocumentation: 'determines whether audio features are enabled for this simulation'
+    } );
 
     // @public {DerivedProperty.<boolean>} - Indicates when both Audio and Sound are enabled. When false, the
     // soundManager will not produce any sound.
@@ -131,7 +147,7 @@ class AudioManager {
   }
 }
 
-const audioManager = new AudioManager();
+const audioManager = new AudioManager( Tandem.GENERAL_VIEW.createTandem( 'audioManager' ) );
 
 joist.register( 'audioManager', audioManager );
 export default audioManager;
