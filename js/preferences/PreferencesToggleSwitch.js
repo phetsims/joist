@@ -66,6 +66,9 @@ class PreferencesToggleSwitch extends Node {
 
     const toggleSwitch = new VoicingToggleSwitch( property, leftValue, rightValue, merge( options.toggleSwitchOptions, {
 
+      // enabled:true by default, but disable if fuzzing when supporting voicing
+      enabled: !( phet.chipper.isFuzzEnabled() && phet.chipper.queryParameters.supportsVoicing ),
+
       // pdom
       innerContent: options.a11yLabel,
 
