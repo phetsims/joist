@@ -85,7 +85,7 @@ class PreferencesDialog extends Dialog {
     const supportedTabs = [];
     supportedTabs.push( PreferencesTab.GENERAL ); // There is always a "General" tab
     _.some( preferencesConfiguration.visualOptions, entry => !!entry ) && supportedTabs.push( PreferencesTab.VISUAL );
-    _.some( preferencesConfiguration.audioOptions, entry => !!entry ) && supportedTabs.push( PreferencesTab.AUDIO );
+    ( _.some( preferencesConfiguration.audioOptions, entry => !!entry ) && phet.chipper.queryParameters.audio !== 'disabled' ) && supportedTabs.push( PreferencesTab.AUDIO );
     _.some( preferencesConfiguration.inputOptions, entry => !!entry ) && supportedTabs.push( PreferencesTab.INPUT );
     assert && assert( supportedTabs.length > 0, 'Trying to create a PreferencesDialog with no tabs, check PreferencesConfiguration' );
 
