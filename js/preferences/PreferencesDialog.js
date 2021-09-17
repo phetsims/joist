@@ -18,6 +18,7 @@ import Node from '../../../scenery/js/nodes/Node.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import Dialog from '../../../sun/js/Dialog.js';
 import HSeparator from '../../../sun/js/HSeparator.js';
+import audioManager from '../audioManager.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesPanels from './PreferencesPanels.js';
@@ -85,7 +86,7 @@ class PreferencesDialog extends Dialog {
     const supportedTabs = [];
     supportedTabs.push( PreferencesTab.GENERAL ); // There is always a "General" tab
     _.some( preferencesConfiguration.visualOptions, entry => !!entry ) && supportedTabs.push( PreferencesTab.VISUAL );
-    ( _.some( preferencesConfiguration.audioOptions, entry => !!entry ) && phet.chipper.queryParameters.audio !== 'disabled' ) && supportedTabs.push( PreferencesTab.AUDIO );
+    ( _.some( preferencesConfiguration.audioOptions, entry => !!entry ) && audioManager.supportsAudio ) && supportedTabs.push( PreferencesTab.AUDIO );
     _.some( preferencesConfiguration.inputOptions, entry => !!entry ) && supportedTabs.push( PreferencesTab.INPUT );
     assert && assert( supportedTabs.length > 0, 'Trying to create a PreferencesDialog with no tabs, check PreferencesConfiguration' );
 
