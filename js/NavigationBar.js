@@ -134,6 +134,9 @@ class NavigationBar extends Node {
     );
     this.barContents.addChild( this.a11yButtonsHBox );
 
+    // whenever the dimensions changes internally to the a11y buttons, re-layout it within the whole nav bar.
+    this.a11yButtonsHBox.boundsProperty.lazyLink( () => this.layoutA11yButtonsHBox() );
+
     // pdom - tell this node that it is aria-labelled by its own labelContent.
     this.addAriaLabelledbyAssociation( {
       thisElementName: PDOMPeer.PRIMARY_SIBLING,
@@ -306,6 +309,17 @@ class NavigationBar extends Node {
   }
 
   /**
+   * Layout just the a11yButtonsHBox
+   * @public
+   */
+  layoutA11yButtonsHBox() {
+
+    if ( this.a11yButtonsHBox.getChildrenCount() > 0 ) {
+      this.a11yButtonsHBox.right = this.phetButton.left - PHET_BUTTON_LEFT_MARGIN;
+    }
+  }
+
+  /**
    * Called when the navigation bar layout needs to be updated, typically when the browser window is resized.
    * @param {number} scale
    * @param {number} width
@@ -337,9 +351,7 @@ class NavigationBar extends Node {
     // horizontal positioning
     this.phetButton.right = right - PHET_BUTTON_RIGHT_MARGIN;
 
-    if ( this.a11yButtonsHBox.getChildrenCount() > 0 ) {
-      this.a11yButtonsHBox.right = this.phetButton.left - PHET_BUTTON_LEFT_MARGIN;
-    }
+    this.layoutA11yButtonsHBox();
 
     // For multi-screen sims ...
     if ( this.simScreens.length !== 1 ) {
