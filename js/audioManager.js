@@ -73,6 +73,7 @@ class AudioManager extends PhetioObject {
     // sound, and voicing). When false, everything should be totally silent.
     this.audioEnabledProperty = new BooleanProperty( phet.chipper.queryParameters.audio === 'enabled', {
       tandem: tandem.createTandem( 'audioEnabledProperty' ),
+      phetioFeatured: true,
       phetioDocumentation: 'determines whether audio features are enabled for this simulation'
     } );
 
