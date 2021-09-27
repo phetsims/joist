@@ -239,18 +239,18 @@ class VoicingPanelSection extends PreferencesPanelSection {
         voiceComboBox.dispose();
       }
 
+      // use the recommended prioritization of voices suggested by voicingManager
+      const prioritizedVoices = voicingManager.getPrioritizedVoices();
+
       // for now, only english voices are available because the Voicing feature is not translatable
-      const englishVoices = _.filter( voicingManager.voices, voice => {
+      const englishVoices = _.filter( prioritizedVoices, voice => {
 
         // most browsers use dashes to separate the local, Android uses underscore
         return voice.lang === 'en-US' || voice.lang === 'en_US';
       } );
 
-      // the browser sometimes provides duplicate voices, prune those out of the list
-      const withoutDuplicates = _.uniqBy( englishVoices, voice => voice.name );
-
       // limit the voices for now to keep the size of the ComboBox manageable
-      const includedVoices = withoutDuplicates.slice( 0, 12 );
+      const includedVoices = englishVoices.slice( 0, 12 );
 
       voiceComboBox = new VoiceComboBox( phet.joist.sim.topLayer, includedVoices );
       voiceOptionsContent.addChild( voiceComboBox );
