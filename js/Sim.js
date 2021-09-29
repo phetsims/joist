@@ -622,7 +622,7 @@ class Sim extends PhetioObject {
       // NOTE: When translatable this will need to update with language, change to phet.chipper.local
       this.display.pdomRootElement.lang = 'en';
 
-      // If a down event is received we will make the focus highlights invisible. Is is to support iOS + VO accessibility
+      // If a down event is received we will make the focus highlights invisible. It is to support iOS + VO accessibility
       // when that platform only provides pointer events (and nothing from the PDOM). We need to keep focus on elements
       // even when the focus highlights aren't shown. Also, if you have a down event on anything that isn't the
       // currently focused element, then it will remove focus from all Displays.
