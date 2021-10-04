@@ -58,13 +58,6 @@ class KeyboardHelpButton extends JoistButton {
     options.listener = () => {
       const keyboardHelpDialog = keyboardHelpDialogCapsule.getElement();
       keyboardHelpDialog.show();
-
-      // if listener was fired because of accessibility
-      if ( this.isPDOMClicking() ) {
-
-        // focus the close button if the dialog is open with a keyboard
-        keyboardHelpDialog.focusCloseButton();
-      }
     };
 
     const icon = new Image( brightIconImage, {
