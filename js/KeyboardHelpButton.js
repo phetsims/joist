@@ -86,7 +86,7 @@ class KeyboardHelpButton extends JoistButton {
       const keyboardHelpDialog = new KeyboardHelpDialog( content, {
         tandem: tandem
       } );
-      keyboardHelpDialog.setFocusOnCloseNode( this );
+      keyboardHelpDialog.setFocusOnHideNode( this );
       return keyboardHelpDialog;
     }, [], {
       tandem: tandem.createTandem( 'keyboardHelpDialogCapsule' ),
