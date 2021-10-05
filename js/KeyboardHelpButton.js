@@ -76,11 +76,10 @@ class KeyboardHelpButton extends JoistButton {
     } );
 
     keyboardHelpDialogCapsule = new PhetioCapsule( tandem => {
-      const keyboardHelpDialog = new KeyboardHelpDialog( content, {
-        tandem: tandem
+      return new KeyboardHelpDialog( content, {
+        tandem: tandem,
+        focusOnHideNode: this
       } );
-      keyboardHelpDialog.setFocusOnHideNode( this );
-      return keyboardHelpDialog;
     }, [], {
       tandem: tandem.createTandem( 'keyboardHelpDialogCapsule' ),
       phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )

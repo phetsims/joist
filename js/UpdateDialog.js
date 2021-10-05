@@ -16,7 +16,10 @@ import UpdateState from './UpdateState.js';
 
 class UpdateDialog extends Dialog {
 
-  constructor() {
+  /**
+   * @param {Object} [options]
+   */
+  constructor( options ) {
     assert && assert( updateCheck.areUpdatesChecked,
       'Updates need to be checked for UpdateDialog to be created' );
 
@@ -44,7 +47,7 @@ class UpdateDialog extends Dialog {
       tagName: 'div'
     } );
 
-    super( content );
+    super( content, options );
 
     const updateOutOfDateNode = () => {
 

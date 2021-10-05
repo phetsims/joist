@@ -7,6 +7,7 @@
  */
 
 import stepTimer from '../../axon/js/stepTimer.js';
+import merge from '../../phet-core/js/merge.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import PDOMPeer from '../../scenery/js/accessibility/pdom/PDOMPeer.js';
@@ -16,6 +17,7 @@ import Text from '../../scenery/js/nodes/Text.js';
 import VBox from '../../scenery/js/nodes/VBox.js';
 import VStrut from '../../scenery/js/nodes/VStrut.js';
 import Dialog from '../../sun/js/Dialog.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import CreditsNode from './CreditsNode.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
@@ -35,9 +37,20 @@ class AboutDialog extends Dialog {
    * @param {string} version - The version of the simulation
    * @param {string} credits - The credits for the simulation, or falsy to show no credits
    * @param {string} locale - The locale string
-   * @param {Tandem} tandem
+   * @param {Object} [options]
    */
-  constructor( name, version, credits, locale, tandem ) {
+  constructor( name, version, credits, locale, options ) {
+
+    options = merge( {
+      xSpacing: 26,
+      topMargin: 26,
+      bottomMargin: 26,
+      leftMargin: 26,
+      rightMargin: 26,
+      phetioReadOnly: true, // the AboutDialog should not be settable
+      phetioDynamicElement: true,
+      tandem: Tandem.REQUIRED
+    }, options );
 
     // Dynamic modules are loaded in simLauncher and accessed through their namespace
     const Brand = phet.brand.Brand;
@@ -201,7 +214,7 @@ class AboutDialog extends Dialog {
         linksChildren.push( new RichText( text, {
           links: { url: link.url }, // RichText must fill in URL for link
           font: new PhetFont( NOMINAL_FONT_SIZE ),
-          tandem: tandem.createTandem( link.tandemName ),
+          tandem: options.tandem.createTandem( link.tandemName ),
           phetioReadOnly: true
         } ) );
       }
@@ -224,16 +237,7 @@ class AboutDialog extends Dialog {
       tagName: 'div'
     } );
 
-    super( content, {
-      xSpacing: 26,
-      topMargin: 26,
-      bottomMargin: 26,
-      leftMargin: 26,
-      rightMargin: 26,
-      tandem: tandem,
-      phetioReadOnly: true, // the AboutDialog should not be settable
-      phetioDynamicElement: true
-    } );
+    super( content, options );
 
     // @private
     this.updateStepListener = updateStepListener;

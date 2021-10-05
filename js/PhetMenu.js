@@ -104,9 +104,10 @@ class PhetMenu extends Node {
     // AboutDialog is created lazily (so that Sim bounds are valid), then reused.
     // Since AboutDialog is instrumented for PhET-iO, this lazy creation requires use of PhetioCapsule.
     const aboutDialogCapsule = new PhetioCapsule( tandem => {
-      const aboutDialog = new AboutDialog( sim.simNameProperty.value, sim.version, sim.credits, sim.locale, tandem );
-        aboutDialog.setFocusOnHideNode( this.focusOnCloseNode );
-      return aboutDialog;
+      return new AboutDialog( sim.simNameProperty.value, sim.version, sim.credits, sim.locale, {
+        tandem: tandem,
+        focusOnHideNode: this.focusOnCloseNode
+      } );
     }, [], {
       tandem: tandem.createTandem( 'aboutDialogCapsule' ),
       phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )
@@ -117,11 +118,10 @@ class PhetMenu extends Node {
     let optionsDialogCapsule = null;
     if ( sim.options.createOptionsDialogContent ) {
       optionsDialogCapsule = new PhetioCapsule( tandem => {
-        const optionsDialog = new OptionsDialog( sim.options.createOptionsDialogContent, {
-          tandem: tandem
+        return new OptionsDialog( sim.options.createOptionsDialogContent, {
+          tandem: tandem,
+          focusOnHideNode: this.focusOnCloseNode
         } );
-        optionsDialog.setFocusOnHideNode( this.focusOnCloseNode );
-        return optionsDialog;
       }, [], {
         tandem: tandem.createTandem( 'optionsDialogCapsule' ),
         phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )
@@ -232,8 +232,9 @@ class PhetMenu extends Node {
         present: updateCheck.areUpdatesChecked,
         callback: () => {
           if ( !updateDialog ) {
-            updateDialog = new UpdateDialog( this.focusOnCloseNode );
-            updateDialog.setFocusOnHideNode( this.focusOnCloseNode );
+            updateDialog = new UpdateDialog( {
+              focusOnHideNode: this.focusOnCloseNode
+            } );
           }
           updateDialog.show();
         },
@@ -312,9 +313,7 @@ class PhetMenu extends Node {
       {
         text: menuItemFullscreenString,
         present: FullScreen.isFullScreenEnabled() && !isApp && !phet.chipper.isFuzzEnabled() && !platform.mobileSafari,
-        callback: () => {
-          FullScreen.toggleFullScreen( sim.display );
-        },
+        callback: () => FullScreen.toggleFullScreen( sim.display ),
         options: {
           checkedProperty: FullScreen.isFullScreenProperty,
           tandem: tandem.createTandem( 'fullScreenMenuItem' ),
