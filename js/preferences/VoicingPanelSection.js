@@ -16,7 +16,6 @@ import NumberControl from '../../../scenery-phet/js/NumberControl.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import FocusHighlightFromNode from '../../../scenery/js/accessibility/FocusHighlightFromNode.js';
 import VoicingText from '../../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
-import responseCollector from '../../../utterance-queue/js/responseCollector.js';
 import Voicing from '../../../scenery/js/accessibility/voicing/Voicing.js';
 import voicingManager from '../../../scenery/js/accessibility/voicing/voicingManager.js';
 import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
@@ -30,6 +29,7 @@ import ComboBoxItem from '../../../sun/js/ComboBoxItem.js';
 import ExpandCollapseButton from '../../../sun/js/ExpandCollapseButton.js';
 import HSlider from '../../../sun/js/HSlider.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import responseCollector from '../../../utterance-queue/js/responseCollector.js';
 import Utterance from '../../../utterance-queue/js/Utterance.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
@@ -239,20 +239,26 @@ class VoicingPanelSection extends PreferencesPanelSection {
         voiceComboBox.dispose();
       }
 
-      // use the recommended prioritization of voices suggested by voicingManager
-      const prioritizedVoices = voicingManager.getPrioritizedVoices();
+      let voiceList = [];
 
-      // for now, only english voices are available because the Voicing feature is not translatable
-      const englishVoices = _.filter( prioritizedVoices, voice => {
+      // Only get the prioritized and pruned list of voices if the VoicingManager has voices
+      // available, otherwise wait until the next voicesChangedEmitter message. If there are no voices
+      // available VoiceComboBox will handle that gracefully.
+      if ( voicingManager.voices.length > 0 ) {
+        const prioritizedVoices = voicingManager.getPrioritizedVoices();
 
-        // most browsers use dashes to separate the local, Android uses underscore
-        return voice.lang === 'en-US' || voice.lang === 'en_US';
-      } );
+        // for now, only english voices are available because the Voicing feature is not translatable
+        const englishVoices = _.filter( prioritizedVoices, voice => {
 
-      // limit the voices for now to keep the size of the ComboBox manageable
-      const includedVoices = englishVoices.slice( 0, 12 );
+          // most browsers use dashes to separate the local, Android uses underscore
+          return voice.lang === 'en-US' || voice.lang === 'en_US';
+        } );
 
-      voiceComboBox = new VoiceComboBox( phet.joist.sim.topLayer, includedVoices );
+        // limit the voices for now to keep the size of the ComboBox manageable
+        voiceList = englishVoices.slice( 0, 12 );
+      }
+
+      voiceComboBox = new VoiceComboBox( phet.joist.sim.topLayer, voiceList );
       voiceOptionsContent.addChild( voiceComboBox );
     };
     voicingManager.voicesChangedEmitter.addListener( voicesChangedListener );
