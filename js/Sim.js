@@ -28,10 +28,8 @@ import merge from '../../phet-core/js/merge.js';
 import platform from '../../phet-core/js/platform.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import BarrierRectangle from '../../scenery-phet/js/BarrierRectangle.js';
-import FocusManager from '../../scenery/js/accessibility/FocusManager.js';
 import globalKeyStateTracker from '../../scenery/js/accessibility/globalKeyStateTracker.js';
 import KeyboardFuzzer from '../../scenery/js/accessibility/KeyboardFuzzer.js';
-import KeyboardUtils from '../../scenery/js/accessibility/KeyboardUtils.js';
 import voicingUtteranceQueue from '../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import Display from '../../scenery/js/display/Display.js';
 import InputFuzzer from '../../scenery/js/input/InputFuzzer.js';
@@ -46,6 +44,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
 import audioManager from './audioManager.js';
 import Heartbeat from './Heartbeat.js';
+import HighlightVisibilityListener from './HighlightVisibilityListener.js';
 import HomeScreen from './HomeScreen.js';
 import HomeScreenView from './HomeScreenView.js';
 import joist from './joist.js';
@@ -621,54 +620,6 @@ class Sim extends PhetioObject {
       // for now interactive description is only in english
       // NOTE: When translatable this will need to update with language, change to phet.chipper.local
       this.display.pdomRootElement.lang = 'en';
-
-      // If a down event is received we will make the focus highlights invisible. It is to support iOS + VO accessibility
-      // when that platform only provides pointer events (and nothing from the PDOM). We need to keep focus on elements
-      // even when the focus highlights aren't shown. Also, if you have a down event on anything that isn't the
-      // currently focused element, then it will remove focus from all Displays.
-      // See https://github.com/phetsims/scenery/issues/1137
-      this.display.addInputListener( {
-        down: event => {
-
-          // An AT might have sent a down event outside of the display, if this happened we will not do anything
-          // to change focus
-          if ( this.display.bounds.containsPoint( event.pointer.point ) ) {
-
-            // in response to pointer events, always hide the focus highlight so it isn't distracting
-            this.display.focusManager.pdomFocusHighlightsVisibleProperty.value = false;
-
-            // no need to do this work unless some element in the simulation has focus
-            if ( FocusManager.pdomFocusedNode ) {
-
-              // if the event trail doesn't include the focusedNode, clear it - otherwise DOM focus is kept on the
-              // active element so that it can remain the target for assistive devices using pointer events
-              // on behalf of the user, see https://github.com/phetsims/scenery/issues/1137
-              if ( !event.trail.nodes.includes( FocusManager.pdomFocusedNode ) ) {
-                FocusManager.pdomFocus = null;
-              }
-            }
-          }
-        }
-      } );
-
-      const setHighlightsVisible = () => { this.display.focusManager.pdomFocusHighlightsVisibleProperty.value = true; };
-      const focusHighlightVisibleListener = {};
-
-      // restore display of focus highlights if we receive PDOM events. Exclude focus-related events here
-      // so that we can support some iOS cases where we want PDOM behavior even though iOS + VO only provided pointer
-      // events. See https://github.com/phetsims/scenery/issues/1137 for details.
-      [ 'click', 'input', 'change', 'keydown', 'keyup' ].forEach( eventType => {
-        focusHighlightVisibleListener[ eventType ] = setHighlightsVisible;
-      } );
-      this.display.addInputListener( focusHighlightVisibleListener );
-
-      // When tabbing into the sim, make focus highlights visible - on keyup because the keydown is likely to have
-      // occurred on an element outside of the DOM scope.
-      globalKeyStateTracker.keyupEmitter.addListener( event => {
-        if ( KeyboardUtils.isKeyEvent( event, KeyboardUtils.KEY_TAB ) ) {
-          setHighlightsVisible();
-        }
-      } );
     }
 
     // @public {PreferencesManager} - If Preferences are available through a PreferencesConfiguration,
@@ -689,6 +640,9 @@ class Sim extends PhetioObject {
         this.resize( this.boundsProperty.value.width, this.boundsProperty.value.height );
       } );
     }
+
+    // Add a listener to the Display that controls visibility of various highlights in response to user input.
+    this.display.addInputListener( new HighlightVisibilityListener( this ) );
 
     Heartbeat.start( this );
 
