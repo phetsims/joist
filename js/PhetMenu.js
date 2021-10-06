@@ -96,8 +96,8 @@ class PhetMenu extends Node {
 
     super();
 
-    // @private (a11y) {Node|null} see setFocusOnCloseNode
-    this.focusOnCloseNode = null;
+    // @private (a11y) {Node|null} see setFocusOnHideNode
+    this.focusOnHideNode = null;
     this.showPopup = options.showPopup; // @private
     this.hidePopup = options.hidePopup; // @private
 
@@ -106,7 +106,7 @@ class PhetMenu extends Node {
     const aboutDialogCapsule = new PhetioCapsule( tandem => {
       return new AboutDialog( sim.simNameProperty.value, sim.version, sim.credits, sim.locale, {
         tandem: tandem,
-        focusOnHideNode: this.focusOnCloseNode
+        focusOnHideNode: this.focusOnHideNode
       } );
     }, [], {
       tandem: tandem.createTandem( 'aboutDialogCapsule' ),
@@ -120,7 +120,7 @@ class PhetMenu extends Node {
       optionsDialogCapsule = new PhetioCapsule( tandem => {
         return new OptionsDialog( sim.options.createOptionsDialogContent, {
           tandem: tandem,
-          focusOnHideNode: this.focusOnCloseNode
+          focusOnHideNode: this.focusOnHideNode
         } );
       }, [], {
         tandem: tandem.createTandem( 'optionsDialogCapsule' ),
@@ -233,7 +233,7 @@ class PhetMenu extends Node {
         callback: () => {
           if ( !updateDialog ) {
             updateDialog = new UpdateDialog( {
-              focusOnHideNode: this.focusOnCloseNode
+              focusOnHideNode: this.focusOnHideNode
             } );
           }
           updateDialog.show();
@@ -510,16 +510,16 @@ class PhetMenu extends Node {
    * @param {Node|null} node
    * @public
    */
-  setFocusOnCloseNode( node ) {
-    this.focusOnCloseNode = node;
+  setFocusOnHideNode( node ) {
+    this.focusOnHideNode = node;
   }
 
   /**
-   * Restores focus to either focusOnCloseNode, or the element that had focus when the menu was opened.
+   * Restores focus to either focusOnHideNode, or the element that had focus when the menu was opened.
    * @private
    */
   restoreFocus() {
-    const focusNode = this.focusOnCloseNode || FocusManager.pdomFocusedNode;
+    const focusNode = this.focusOnHideNode || FocusManager.pdomFocusedNode;
     if ( focusNode ) {
       focusNode.focus();
     }

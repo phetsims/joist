@@ -111,7 +111,7 @@ class PhetButton extends JoistButton {
     } );
 
     // Restore focus to PhetButton when the PhetMenu is closed.
-    phetMenu.setFocusOnCloseNode( this );
+    phetMenu.setFocusOnHideNode( this );
 
     // No need to unlink, as the PhetButton exists for the lifetime of the sim
     Property.multilink( [ backgroundFillProperty, sim.screenProperty, updateCheck.stateProperty ],
