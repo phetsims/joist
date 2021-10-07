@@ -113,12 +113,6 @@ class Sim extends PhetioObject {
       // a {Node} placed onto the home screen (if available)
       homeScreenWarningNode: null,
 
-      // if true, records the scenery input events and sends them to a server that can store them
-      recordInputEventLog: false,
-
-      // when playing back a recorded scenery input event log, use the specified filename.  Please see getEventLogName for more
-      inputEventLogName: undefined,
-
       // {boolean} - true when this sim supports a keyboard help button on the navigation bar that shows keyboard help
       // content. This content is specific to each screen, see Screen.keyboardHelpNode for more info.
       hasKeyboardHelpContent: false,
@@ -531,18 +525,6 @@ class Sim extends PhetioObject {
     // See https://github.com/phetsims/chipper/issues/510
     if ( QueryStringMachine.containsKey( 'locale' ) ) {
       $( 'title' ).html( name );
-    }
-
-    // enables recording of Scenery's input events, request animation frames, and dt's so the sim can be played back
-    if ( phet.chipper.queryParameters.recordInputEventLog ) {
-      options.recordInputEventLog = true;
-      options.inputEventLogName = phet.chipper.queryParameters.recordInputEventLog;
-    }
-
-    // instead of loading like normal, download a previously-recorded event sequence and play it back (unique to the browser and window size)
-    if ( phet.chipper.queryParameters.playbackInputEventLog ) {
-      options.playbackInputEventLog = true;
-      options.inputEventLogName = phet.chipper.queryParameters.playbackInputEventLog;
     }
 
     // override window.open with a semi-API-compatible function, so fuzzing doesn't open new windows.
