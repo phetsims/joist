@@ -145,8 +145,8 @@ class Sim extends PhetioObject {
 
     super( options );
 
-    // @public - used by PhetButton and maybe elsewhere
-    this.options = options;
+    // @public (read-only PhetMenu) {null|function(tandem:Tandem):Node}
+    this.createOptionsDialogContent = options.createOptionsDialogContent;
 
     // override rootRenderer using query parameter, see #221 and #184
     options.rootRenderer = phet.chipper.queryParameters.rootRenderer || options.rootRenderer;

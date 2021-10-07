@@ -113,9 +113,9 @@ class PhetMenu extends Node {
     // If content was provided, OptionsDialog is created lazily (so that Sim bounds are valid), then reused.
     // Since OptionsDialog is instrumented for PhET-iO, this lazy creation requires use of PhetioCapsule.
     let optionsDialogCapsule = null;
-    if ( sim.options.createOptionsDialogContent ) {
+    if ( sim.createOptionsDialogContent ) {
       optionsDialogCapsule = new PhetioCapsule( tandem => {
-        return new OptionsDialog( sim.options.createOptionsDialogContent, {
+        return new OptionsDialog( sim.createOptionsDialogContent, {
           tandem: tandem,
           focusOnHideNode: this.focusOnHideNode
         } );
@@ -136,7 +136,7 @@ class PhetMenu extends Node {
     const itemDescriptors = [
       {
         text: menuItemOptionsString,
-        present: !!sim.options.createOptionsDialogContent,
+        present: !!sim.createOptionsDialogContent,
         callback: () => optionsDialogCapsule.getElement().show(),
         options: {
           tandem: tandem.createTandem( 'optionsMenuItem' ),
