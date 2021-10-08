@@ -118,9 +118,7 @@ class HighlightVisibilityController {
             this.relativePointerDistance = 0;
           }
           else {
-            if ( this.display.hasInputListener( moveListener ) ) {
-              this.display.removeInputListener( moveListener );
-            }
+            this.display.hasInputListener( moveListener ) && this.display.removeInputListener( moveListener );
           }
         }
       );
