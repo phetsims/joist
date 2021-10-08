@@ -134,9 +134,12 @@ class Sim extends PhetioObject {
       tandem: Tandem.ROOT
     }, options );
 
-    // promote webgl to top level sim option out of API ease, but it is passed to the display.
+    // Some options are used by sim and SimDisplay. Promote webgl to top level sim option out of API ease, but it is
+    // passed to the SimDisplay.
     options.simDisplayOptions = merge( {
       webgl: options.webgl,
+
+      preferencesConfiguration: options.preferencesConfiguration,
       tandem: Tandem.GENERAL_VIEW.createTandem( 'display' )
     }, options.simDisplayOptions );
 
@@ -525,6 +528,10 @@ class Sim extends PhetioObject {
     if ( this.preferencesConfiguration ) {
 
       this.preferencesManager = new PreferencesManager( this );
+
+      assert && assert( !options.simDisplayOptions.preferencesManager );
+      options.simDisplayOptions.preferencesManager = this.preferencesManager;
+
       this.toolbar = new Toolbar( this );
 
       // when the Toolbar positions update, resize the sim to fit in the available space
@@ -534,7 +541,7 @@ class Sim extends PhetioObject {
     }
 
     // @private
-    this.display = new SimDisplay( this, options.simDisplayOptions );
+    this.display = new SimDisplay( options.simDisplayOptions );
 
     // @public - root node for the Display
     this.rootNode = this.display.rootNode;

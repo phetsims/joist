@@ -8,6 +8,7 @@
  */
 
 import Property from '../../axon/js/Property.js';
+import merge from '../../phet-core/js/merge.js';
 import FocusManager from '../../scenery/js/accessibility/FocusManager.js';
 import globalKeyStateTracker from '../../scenery/js/accessibility/globalKeyStateTracker.js';
 import KeyboardUtils from '../../scenery/js/accessibility/KeyboardUtils.js';
@@ -23,10 +24,17 @@ const HIDE_FOCUS_HIGHLIGHTS_MOVEMENT_THRESHOLD = 100;
 class HighlightVisibilityListener {
 
   /**
-   * @param {Sim} sim - TODO: try to get rid of this reference, https://github.com/phetsims/joist/issues/753
    * @param {Display} display
+   * @param {Object} [options]
    */
-  constructor( sim, display ) {
+  constructor( display, options ) {
+
+    options = merge( {
+
+      // See Sim.js for full documentation
+      preferencesConfiguration: null, // {PreferencesConfiguration|null}
+      preferencesManager: null // {PreferencesManager|null}
+    }, options );
 
     // @private {Display} - A reference to the Display whose FocusManager we will operate on to control the visibility
     // of various kinds of highlights
@@ -67,7 +75,7 @@ class HighlightVisibilityListener {
       }
     } );
 
-    if ( sim.preferencesConfiguration && sim.preferencesConfiguration.audioOptions.supportsVoicing ) {
+    if ( options.preferencesConfiguration && options.preferencesConfiguration.audioOptions.supportsVoicing ) {
 
       // For now, ReadingBlocks are only enabled when voicing is fully enabled and when sound is on. We decided that
       // having ReadingBlock highlights that do nothing is too confusing so they should be removed unless they
@@ -80,22 +88,22 @@ class HighlightVisibilityListener {
       } );
     }
 
-    if ( sim.preferencesManager ) {
-      sim.preferencesManager.preferencesProperties.interactiveHighlightsEnabledProperty.link( visible => {
+    if ( options.preferencesManager ) {
+      options.preferencesManager.preferencesProperties.interactiveHighlightsEnabledProperty.link( visible => {
         display.focusManager.interactiveHighlightsVisibleProperty.value = visible;
       } );
     }
 
     // If Interactive Highlights are supported add a listener that switch between using focus highlights and Interactive
     // Highlights depending on the input received.
-    if ( sim.preferencesConfiguration &&
-         sim.preferencesConfiguration.visualOptions.supportsInteractiveHighlights ) {
+    if ( options.preferencesConfiguration &&
+         options.preferencesConfiguration.visualOptions.supportsInteractiveHighlights ) {
 
       // When both Interactive Highlights are enabled and the PDOM focus highlights are visible, add a listener that
       // will make focus highlights invisible and interactive highlights visible if we receive a certain amount of
       // mouse movement. The listener is removed as soon as PDOM focus highlights are made invisible or Interactive
       // Highlights are disabled.
-      const interactiveHighlightsEnabledProperty = sim.preferencesManager.preferencesProperties.interactiveHighlightsEnabledProperty;
+      const interactiveHighlightsEnabledProperty = options.preferencesManager.preferencesProperties.interactiveHighlightsEnabledProperty;
       const pdomFocusHighlightsVisibleProperty = this.display.focusManager.pdomFocusHighlightsVisibleProperty;
       Property.multilink(
         [ interactiveHighlightsEnabledProperty, pdomFocusHighlightsVisibleProperty ],

@@ -29,10 +29,9 @@ const DEFAULT_WEBGL = false;
 class SimDisplay extends Display {
 
   /**
-   * @param {Sim} sim
    * @param {Object} [options] - see below for options
    */
-  constructor( sim, options ) {
+  constructor( options ) {
 
     options = merge( {
 
@@ -53,6 +52,10 @@ class SimDisplay extends Display {
       // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
       allowWebGL: phet.chipper.queryParameters.webgl,
       assumeFullWindow: true, // a bit faster if we can assume no coordinate translations are needed for the display.
+
+      // See Sim.js for full documentation
+      preferencesConfiguration: null, // {PreferencesConfiguration|null}
+      preferencesManager: null, // {PreferencesManager|null}
 
       // pdom accessibility (interactive description)
       accessibility: phet.chipper.queryParameters.supportsInteractiveDescription,
@@ -121,7 +124,7 @@ class SimDisplay extends Display {
     }
 
     // Add a listener to the Display that controls visibility of various highlights in response to user input.
-    this.addInputListener( new HighlightVisibilityListener( sim, this ) );
+    this.addInputListener( new HighlightVisibilityListener( this, _.pick( options, [ 'preferencesConfiguration', 'preferencesManager' ] ) ) );
 
     if ( phet.chipper.queryParameters.sceneryLog ) {
       scenery.enableLogging( phet.chipper.queryParameters.sceneryLog );
