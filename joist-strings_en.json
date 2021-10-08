@@ -11,12 +11,6 @@
   "menuItem.about": {
     "value": "About\u2026"
   },
-  "menuItem.mailInputEventsLog": {
-    "value": "Mail Input Events Log"
-  },
-  "menuItem.outputInputEventsLog": {
-    "value": "Output Input Events Log"
-  },
   "menuItem.outputLog": {
     "value": "Output Log"
   },
@@ -31,9 +25,6 @@
   },
   "menuItem.fullscreen": {
     "value": "Full Screen"
-  },
-  "menuItem.submitInputEventsLog": {
-    "value": "Submit Input Events Log"
   },
   "menuItem.getUpdate": {
     "value": "Check for Updates\u2026"

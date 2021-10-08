@@ -43,13 +43,10 @@ const menuItemAboutString = joistStrings.menuItem.about;
 const menuItemEnhancedSoundString = joistStrings.menuItem.enhancedSound;
 const menuItemFullscreenString = joistStrings.menuItem.fullscreen;
 const menuItemGetUpdateString = joistStrings.menuItem.getUpdate;
-const menuItemMailInputEventsLogString = joistStrings.menuItem.mailInputEventsLog;
 const menuItemOptionsString = joistStrings.menuItem.options;
-const menuItemOutputInputEventsLogString = joistStrings.menuItem.outputInputEventsLog;
 const menuItemPhetWebsiteString = joistStrings.menuItem.phetWebsite;
 const menuItemReportAProblemString = joistStrings.menuItem.reportAProblem;
 const menuItemScreenshotString = joistStrings.menuItem.screenshot;
-const menuItemSubmitInputEventsLogString = joistStrings.menuItem.submitInputEventsLog;
 
 // constants
 const FONT_SIZE = 18;
@@ -116,9 +113,9 @@ class PhetMenu extends Node {
     // If content was provided, OptionsDialog is created lazily (so that Sim bounds are valid), then reused.
     // Since OptionsDialog is instrumented for PhET-iO, this lazy creation requires use of PhetioCapsule.
     let optionsDialogCapsule = null;
-    if ( sim.options.createOptionsDialogContent ) {
+    if ( sim.createOptionsDialogContent ) {
       optionsDialogCapsule = new PhetioCapsule( tandem => {
-        return new OptionsDialog( sim.options.createOptionsDialogContent, {
+        return new OptionsDialog( sim.createOptionsDialogContent, {
           tandem: tandem,
           focusOnHideNode: this.focusOnHideNode
         } );
@@ -139,7 +136,7 @@ class PhetMenu extends Node {
     const itemDescriptors = [
       {
         text: menuItemOptionsString,
-        present: !!sim.options.createOptionsDialogContent,
+        present: !!sim.createOptionsDialogContent,
         callback: () => optionsDialogCapsule.getElement().show(),
         options: {
           tandem: tandem.createTandem( 'optionsMenuItem' ),
@@ -156,42 +153,6 @@ class PhetMenu extends Node {
             // Open locale-specific PhET home page. If there is no website translation for locale, fallback will be handled by server. See joist#97.
             openPopup( `https://phet.colorado.edu/${sim.locale}` );
           }
-        },
-        options: {
-          handleFocusCallback: restoreFocusCallback
-        }
-      },
-      {
-        text: menuItemOutputInputEventsLogString,
-        present: !!sim.options.recordInputEventLog,
-        callback: () => {
-
-          // prints the recorded input event log to the console
-          console.log( sim.getRecordedInputEventLogString() );
-        },
-        options: {
-          handleFocusCallback: restoreFocusCallback
-        }
-      },
-      {
-        text: menuItemSubmitInputEventsLogString,
-        present: !!sim.options.recordInputEventLog,
-        callback: () => {
-
-          // submits a recorded event log to the same-origin server (run scenery/tests/event-logs/server/server.js with Node, from the same directory)
-          sim.submitEventLog();
-        },
-        options: {
-          handleFocusCallback: restoreFocusCallback
-        }
-      },
-      {
-        text: menuItemMailInputEventsLogString,
-        present: !!sim.options.recordInputEventLog,
-        callback: () => {
-
-          // mailto: link including the body to email
-          sim.mailEventLog();
         },
         options: {
           handleFocusCallback: restoreFocusCallback
