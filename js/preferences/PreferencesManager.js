@@ -6,12 +6,10 @@
  * @author Jesse Greenberg
  */
 
-import Property from '../../../axon/js/Property.js';
 import voicingManager from '../../../scenery/js/accessibility/voicing/voicingManager.js';
 import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import responseCollector from '../../../utterance-queue/js/responseCollector.js';
 import joistVoicingUtteranceQueue from '../../../utterance-queue/js/UtteranceQueue.js';
-import audioManager from '../audioManager.js';
 import joist from '../joist.js';
 import PreferencesProperties from './PreferencesProperties.js';
 import PreferencesStorage from './PreferencesStorage.js';
@@ -45,25 +43,11 @@ class PreferencesManager {
         joistVoicingUtteranceQueue.enabled = enabled;
       } );
 
-      // For now, ReadingBlocks are only enabled when voicing is fully enabled and when sound is on. We decided that
-      // having ReadingBlock highlights that do nothing is too confusing so they should be removed unless they
-      // have some output.
-      Property.multilink( [
-        voicingManager.voicingFullyEnabledProperty,
-        audioManager.audioEnabledProperty
-      ], ( voicingFullyEnabled, allAudioEnabled ) => {
-        sim.display.focusManager.readingBlockHighlightsVisibleProperty.value = voicingFullyEnabled && allAudioEnabled;
-      } );
-
       // Register these to be stored when PreferencesStorage is enabled. TODO: likely to be moved to a better spot, see https://github.com/phetsims/joist/issues/737
       PreferencesStorage.register( responseCollector.objectResponsesEnabledProperty, 'objectResponsesEnabledProperty' );
       PreferencesStorage.register( responseCollector.contextResponsesEnabledProperty, 'contextResponsesEnabledProperty' );
       PreferencesStorage.register( responseCollector.hintResponsesEnabledProperty, 'hintResponsesEnabledProperty' );
     }
-
-    this.preferencesProperties.interactiveHighlightsEnabledProperty.link( visible => {
-      sim.display.focusManager.interactiveHighlightsVisibleProperty.value = visible;
-    } );
   }
 }
 

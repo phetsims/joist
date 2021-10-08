@@ -11,6 +11,8 @@ import Property from '../../axon/js/Property.js';
 import FocusManager from '../../scenery/js/accessibility/FocusManager.js';
 import globalKeyStateTracker from '../../scenery/js/accessibility/globalKeyStateTracker.js';
 import KeyboardUtils from '../../scenery/js/accessibility/KeyboardUtils.js';
+import voicingManager from '../../scenery/js/accessibility/voicing/voicingManager.js';
+import audioManager from './audioManager.js';
 import joist from './joist.js';
 
 // constants
@@ -21,13 +23,14 @@ const HIDE_FOCUS_HIGHLIGHTS_MOVEMENT_THRESHOLD = 100;
 class HighlightVisibilityListener {
 
   /**
-   * @param {Sim} sim
+   * @param {Sim} sim - TODO: try to get rid of this reference, https://github.com/phetsims/joist/issues/753
+   * @param {Display} display
    */
-  constructor( sim ) {
+  constructor( sim, display ) {
 
     // @private {Display} - A reference to the Display whose FocusManager we will operate on to control the visibility
     // of various kinds of highlights
-    this.display = sim.display;
+    this.display = display;
 
     // {null|Vector2} - The initial point of the Pointer when focus highlights are made visible and Interactive
     // highlights are enabled. Pointer movement to determine whether to switch to showing Interactive Highlights
@@ -63,6 +66,25 @@ class HighlightVisibilityListener {
         setHighlightsVisible();
       }
     } );
+
+    if ( sim.preferencesConfiguration && sim.preferencesConfiguration.audioOptions.supportsVoicing ) {
+
+      // For now, ReadingBlocks are only enabled when voicing is fully enabled and when sound is on. We decided that
+      // having ReadingBlock highlights that do nothing is too confusing so they should be removed unless they
+      // have some output.
+      Property.multilink( [
+        voicingManager.voicingFullyEnabledProperty,
+        audioManager.audioEnabledProperty
+      ], ( voicingFullyEnabled, allAudioEnabled ) => {
+        display.focusManager.readingBlockHighlightsVisibleProperty.value = voicingFullyEnabled && allAudioEnabled;
+      } );
+    }
+
+    if ( sim.preferencesManager ) {
+      sim.preferencesManager.preferencesProperties.interactiveHighlightsEnabledProperty.link( visible => {
+        display.focusManager.interactiveHighlightsVisibleProperty.value = visible;
+      } );
+    }
 
     // If Interactive Highlights are supported add a listener that switch between using focus highlights and Interactive
     // Highlights depending on the input received.

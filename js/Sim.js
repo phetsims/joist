@@ -29,13 +29,9 @@ import platform from '../../phet-core/js/platform.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import BarrierRectangle from '../../scenery-phet/js/BarrierRectangle.js';
 import globalKeyStateTracker from '../../scenery/js/accessibility/globalKeyStateTracker.js';
-import KeyboardFuzzer from '../../scenery/js/accessibility/KeyboardFuzzer.js';
 import voicingUtteranceQueue from '../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
-import Display from '../../scenery/js/display/Display.js';
-import InputFuzzer from '../../scenery/js/input/InputFuzzer.js';
 import animatedPanZoomSingleton from '../../scenery/js/listeners/animatedPanZoomSingleton.js';
 import Node from '../../scenery/js/nodes/Node.js';
-import scenery from '../../scenery/js/scenery.js';
 import Utils from '../../scenery/js/util/Utils.js';
 import '../../sherpa/lib/game-up-camera-1.0.0.js';
 import soundManager from '../../tambo/js/soundManager.js';
@@ -44,7 +40,6 @@ import Tandem from '../../tandem/js/Tandem.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
 import audioManager from './audioManager.js';
 import Heartbeat from './Heartbeat.js';
-import HighlightVisibilityListener from './HighlightVisibilityListener.js';
 import HomeScreen from './HomeScreen.js';
 import HomeScreenView from './HomeScreenView.js';
 import joist from './joist.js';
@@ -61,6 +56,7 @@ import Screen from './Screen.js';
 import ScreenSelectionSoundGenerator from './ScreenSelectionSoundGenerator.js';
 import ScreenshotGenerator from './ScreenshotGenerator.js';
 import selectScreens from './selectScreens.js';
+import SimDisplay from './SimDisplay.js';
 import SimInfo from './SimInfo.js';
 import LegendsOfLearningSupport from './thirdPartySupport/LegendsOfLearningSupport.js';
 import Toolbar from './toolbar/Toolbar.js';
@@ -117,9 +113,6 @@ class Sim extends PhetioObject {
       // content. This content is specific to each screen, see Screen.keyboardHelpNode for more info.
       hasKeyboardHelpContent: false,
 
-      // the default renderer for the rootNode, see #221, #184 and https://github.com/phetsims/molarity/issues/24
-      rootRenderer: 'svg',
-
       // {VibrationManager|null} - Responsible for managing vibration feedback for a sim. Experimental, and
       // not used frequently. The vibrationManager instance is passed through options so that tappi doesn't have to
       // become a dependency for all sims yet. If this gets more use, this will likely change.
@@ -129,13 +122,11 @@ class Sim extends PhetioObject {
       // include the PreferencesDialog and a button in the NavigationBar to open it.
       preferencesConfiguration: null,
 
-      // Sims that do not use WebGL trigger a ~ 0.5 second pause shortly after the sim starts up, so sims must opt in to
-      // webgl support, see https://github.com/phetsims/scenery/issues/621
-      webgl: false,
+      // Passed to SimDisplay
+      webgl: SimDisplay.DEFAULT_WEBGL,
 
-      // {boolean} - Whether to allow WebGL 2x scaling when antialiasing is detected. If running out of memory on
-      // things like iPad 2s (e.g. https://github.com/phetsims/scenery/issues/859), this can be turned to false to help.
-      allowBackingScaleAntialiasing: true,
+      // Passed to the SimDisplay
+      simDisplayOptions: {},
 
       // phet-io
       phetioState: false,
@@ -143,13 +134,16 @@ class Sim extends PhetioObject {
       tandem: Tandem.ROOT
     }, options );
 
+    // promote webgl to top level sim option out of API ease, but it is passed to the display.
+    options.simDisplayOptions = merge( {
+      webgl: options.webgl,
+      tandem: Tandem.GENERAL_VIEW.createTandem( 'display' )
+    }, options.simDisplayOptions );
+
     super( options );
 
     // @public (read-only PhetMenu) {null|function(tandem:Tandem):Node}
     this.createOptionsDialogContent = options.createOptionsDialogContent;
-
-    // override rootRenderer using query parameter, see #221 and #184
-    options.rootRenderer = phet.chipper.queryParameters.rootRenderer || options.rootRenderer;
 
     // @public {Property.<string>} (joist-internal)
     this.simNameProperty = new StringProperty( name, {
@@ -172,13 +166,6 @@ class Sim extends PhetioObject {
     assert && this.isConstructionCompleteProperty.lazyLink( isConstructionComplete => {
       assert && assert( isConstructionComplete, 'Sim construction should never uncomplete' );
     } );
-
-    // Supplied query parameters override options (but default values for non-supplied query parameters do not).
-    if ( QueryStringMachine.containsKey( 'webgl' ) ) {
-      options.webgl = phet.chipper.queryParameters.webgl;
-    }
-
-    Utils.setWebGLEnabled( options.webgl );
 
     // @public - Action that indicates when the sim resized.  This Action is implemented so it can be automatically played back.
     this.resizeAction = new Action( ( width, height ) => {
@@ -527,83 +514,6 @@ class Sim extends PhetioObject {
       $( 'title' ).html( name );
     }
 
-    // override window.open with a semi-API-compatible function, so fuzzing doesn't open new windows.
-    if ( phet.chipper.isFuzzEnabled() ) {
-      window.open = function() {
-        return {
-          focus: function() {},
-          blur: function() {}
-        };
-      };
-    }
-
-    const $body = $( 'body' );
-
-    // prevent scrollbars
-    $body.css( 'padding', '0' ).css( 'margin', '0' ).css( 'overflow', 'hidden' );
-
-    // check to see if the sim div already exists in the DOM under the body. This is the case for https://github.com/phetsims/scenery/issues/174 (iOS offline reading list)
-    if ( document.getElementById( 'sim' ) && document.getElementById( 'sim' ).parentNode === document.body ) {
-      document.body.removeChild( document.getElementById( 'sim' ) );
-    }
-
-    // Prevents selection cursor issues in Safari, see https://github.com/phetsims/scenery/issues/476
-    document.onselectstart = function() { return false; };
-
-    // @public - root node for the Display
-    this.rootNode = new Node( { renderer: options.rootRenderer } );
-
-    // root for the simulation and the target for MultiListener to support magnification since the Display rootNode
-    // cannot be transformed
-    this.simulationRoot = new Node();
-    this.rootNode.addChild( this.simulationRoot );
-
-    // @private
-    this.display = new Display( this.rootNode, {
-
-      // prevent overflow that can cause iOS bugginess, see https://github.com/phetsims/phet-io/issues/341
-      allowSceneOverflow: false,
-
-      // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
-      allowWebGL: phet.chipper.queryParameters.webgl,
-      accessibility: phet.chipper.queryParameters.supportsInteractiveDescription,
-      assumeFullWindow: true, // a bit faster if we can assume no coordinate translations are needed for the display.
-      allowBackingScaleAntialiasing: options.allowBackingScaleAntialiasing,
-
-      // phet-io
-      tandem: Tandem.GENERAL_VIEW.createTandem( 'display' )
-    } );
-
-    // Seeding by default a random value for reproducable fuzzes if desired
-    const fuzzerSeed = phet.chipper.queryParameters.randomSeed * Math.PI;
-
-    // @private {InputFuzzer}
-    this.inputFuzzer = new InputFuzzer( this.display, fuzzerSeed );
-
-    // @private {KeyboardFuzzer}
-    this.keyboardFuzzer = new KeyboardFuzzer( this.display, fuzzerSeed );
-
-    // When the sim is inactive, make it non-interactive, see https://github.com/phetsims/scenery/issues/414
-    this.activeProperty.link( active => {
-      this.display.interactive = active;
-      globalKeyStateTracker.enabled = active;
-
-      // The sim must remain inactive while playbackModeEnabledProperty is true
-      if ( active ) {
-        assert && assert( !phet.joist.playbackModeEnabledProperty.value, 'The sim must remain inactive while playbackModeEnabledProperty is true' );
-      }
-    } );
-
-    this.display.domElement.id = 'sim';
-    document.body.appendChild( this.display.domElement );
-
-    if ( phet.chipper.queryParameters.supportsInteractiveDescription ) {
-
-      // for now interactive description is only in english
-      // NOTE: When translatable this will need to update with language, change to phet.chipper.local
-      this.display.pdomRootElement.lang = 'en';
-    }
-
     // @public {PreferencesManager} - If Preferences are available through a PreferencesConfiguration,
     // this type will be added to the Sim to manage the state of features that can be enabled/disabled
     // through user preferences.
@@ -623,42 +533,29 @@ class Sim extends PhetioObject {
       } );
     }
 
-    // Add a listener to the Display that controls visibility of various highlights in response to user input.
-    this.display.addInputListener( new HighlightVisibilityListener( this ) );
+    // @private
+    this.display = new SimDisplay( this, options.simDisplayOptions );
+
+    // @public - root node for the Display
+    this.rootNode = this.display.rootNode;
+
+    // When the sim is inactive, make it non-interactive, see https://github.com/phetsims/scenery/issues/414
+    this.activeProperty.link( active => {
+      this.display.interactive = active;
+      globalKeyStateTracker.enabled = active;
+
+      // The sim must remain inactive while playbackModeEnabledProperty is true
+      if ( active ) {
+        assert && assert( !phet.joist.playbackModeEnabledProperty.value, 'The sim must remain inactive while playbackModeEnabledProperty is true' );
+      }
+    } );
+
+    document.body.appendChild( this.display.domElement );
 
     Heartbeat.start( this );
 
-    if ( phet.chipper.queryParameters.sceneryLog ) {
-      scenery.enableLogging( phet.chipper.queryParameters.sceneryLog );
-    }
-
-    if ( phet.chipper.queryParameters.sceneryStringLog ) {
-      scenery.switchLogToString();
-    }
-
-    this.display.initializeEvents( {
-      tandem: Tandem.GENERAL_CONTROLLER.createTandem( 'input' )
-    } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
-    window.phet.joist.rootNode = this.rootNode; // make the scene available for debugging
-    window.phet.joist.display = this.display; // make the display available for debugging
-
-    // Pass through query parameters to scenery for showing supplemental information
-    this.display.setPointerDisplayVisible( phet.chipper.queryParameters.showPointers );
-    this.display.setPointerAreaDisplayVisible( phet.chipper.queryParameters.showPointerAreas );
-    this.display.setHitAreaDisplayVisible( phet.chipper.queryParameters.showHitAreas );
-    this.display.setCanvasNodeBoundsVisible( phet.chipper.queryParameters.showCanvasNodeBounds );
-    this.display.setFittedBlockBoundsVisible( phet.chipper.queryParameters.showFittedBlockBounds );
-
     // @public (joist-internal)
     this.navigationBar = new NavigationBar( this, Tandem.GENERAL_VIEW.createTandem( 'navigationBar' ) );
-
-    // magnification support - always initialized for consistent PhET-iO API, but only conditionally added to Display
-    animatedPanZoomSingleton.initialize( this.simulationRoot, {
-      tandem: Tandem.GENERAL_VIEW.createTandem( 'panZoomListener' )
-    } );
-    if ( phet.chipper.queryParameters.supportsPanAndZoom ) {
-      this.display.addInputListener( animatedPanZoomSingleton.listener );
-    }
 
     // @public (joist-internal)
     this.updateBackground = () => {
@@ -674,14 +571,6 @@ class Sim extends PhetioObject {
     // When the user switches screens, interrupt the input on the previous screen.
     // See https://github.com/phetsims/scenery/issues/218
     this.screenProperty.lazyLink( ( newScreen, oldScreen ) => oldScreen.view.interruptSubtreeInput() );
-
-    // If the page is loaded from the back-forward cache, then reload the page to avoid bugginess,
-    // see https://github.com/phetsims/joist/issues/448
-    window.addEventListener( 'pageshow', event => {
-      if ( event.persisted ) {
-        window.location.reload();
-      }
-    } );
 
     // @public (read-only) {SimInfo} - create this only after all other members have been set on Sim
     this.simInfo = new SimInfo( this );
@@ -717,13 +606,13 @@ class Sim extends PhetioObject {
 
     _.each( screens, screen => {
       screen.view.layerSplit = true;
-      this.simulationRoot.addChild( screen.view );
+      this.display.simulationRoot.addChild( screen.view );
     } );
-    this.simulationRoot.addChild( this.navigationBar );
+    this.display.simulationRoot.addChild( this.navigationBar );
 
     if ( this.toolbar ) {
-      this.simulationRoot.addChild( this.toolbar );
-      this.simulationRoot.pdomOrder = [ this.toolbar ];
+      this.display.simulationRoot.addChild( this.toolbar );
+      this.display.simulationRoot.pdomOrder = [ this.toolbar ];
     }
 
     this.screenProperty.link( currentScreen => {
@@ -752,7 +641,7 @@ class Sim extends PhetioObject {
 
     // layer for popups, dialogs, and their backgrounds and barriers
     this.topLayer = new Node();
-    this.simulationRoot.addChild( this.topLayer );
+    this.display.simulationRoot.addChild( this.topLayer );
 
     // @private list of nodes that are "modal" and hence block input with the barrierRectangle.  Used by modal dialogs
     // and the PhetMenu
@@ -991,7 +880,7 @@ class Sim extends PhetioObject {
 
       // Handle Input fuzzing before stepping the sim because input events occur outside of sim steps, but not before the
       // first sim step (to prevent issues like https://github.com/phetsims/equality-explorer/issues/161).
-      this.frameCounter > 0 && this.fuzzInputEvents();
+      this.frameCounter > 0 && this.display.fuzzInputEvents();
 
       this.stepOneFrame();
     }
@@ -1026,33 +915,6 @@ class Sim extends PhetioObject {
    */
   stepSimulation( dt ) {
     this.stepSimulationAction.execute( dt );
-  }
-
-  /**
-   * Handle synthetic input event fuzzing
-   * @private
-   */
-  fuzzInputEvents() {
-
-    // If fuzz parameter is used then fuzzTouch and fuzzMouse events should be fired
-    const fuzzTouch = phet.chipper.queryParameters.fuzzTouch || phet.chipper.queryParameters.fuzz;
-    const fuzzMouse = phet.chipper.queryParameters.fuzzMouse || phet.chipper.queryParameters.fuzz;
-
-    // fire or synthesize input events
-    if ( fuzzMouse || fuzzTouch ) {
-      this.inputFuzzer.fuzzEvents(
-        phet.chipper.queryParameters.fuzzRate,
-        fuzzMouse,
-        fuzzTouch,
-        phet.chipper.queryParameters.fuzzPointers
-      );
-    }
-
-    // fire or synthesize keyboard input events
-    if ( phet.chipper.queryParameters.fuzzBoard ) {
-      assert && assert( phet.chipper.queryParameters.supportsInteractiveDescription, 'fuzzBoard can only run with interactive description enabled.' );
-      this.keyboardFuzzer.fuzzBoardEvents( phet.chipper.queryParameters.fuzzRate );
-    }
   }
 
   /**
