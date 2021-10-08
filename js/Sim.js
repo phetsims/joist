@@ -122,7 +122,7 @@ class Sim extends PhetioObject {
       // include the PreferencesDialog and a button in the NavigationBar to open it.
       preferencesConfiguration: null,
 
-      // Passed to SimDisplay
+      // Passed to SimDisplay, but a top level option for API ease.
       webgl: SimDisplay.DEFAULT_WEBGL,
 
       // Passed to the SimDisplay
@@ -133,6 +133,9 @@ class Sim extends PhetioObject {
       phetioReadOnly: true,
       tandem: Tandem.ROOT
     }, options );
+
+    assert && assert( !options.simDisplayOptions.webgl, 'use top level sim option instead of simDisplayOptions' );
+    assert && assert( !options.simDisplayOptions.preferencesConfiguration, 'use top level sim option instead of simDisplayOptions' );
 
     // Some options are used by sim and SimDisplay. Promote webgl to top level sim option out of API ease, but it is
     // passed to the SimDisplay.
