@@ -71,6 +71,10 @@ import updateCheck from './updateCheck.js';
 const PROGRESS_BAR_WIDTH = 273;
 const SUPPORTS_GESTURE_DESCRIPTION = platform.android || platform.mobileSafari;
 
+// The amount of Pointer movement required to switch from showing focus highlights to Interactive Highlights if both
+// are enabled, in the global coordinate frame.
+const HIDE_FOCUS_HIGHLIGHTS_MOVEMENT_THRESHOLD = 100;
+
 const packageSimFeatures = packageJSON.phet.simFeatures || {};
 
 // strings needed for the IE warning dialog
@@ -688,6 +692,51 @@ class Sim extends PhetioObject {
       this.toolbar.rightPositionProperty.lazyLink( () => {
         this.resize( this.boundsProperty.value.width, this.boundsProperty.value.height );
       } );
+
+      // If Interactive Highlights are supported add a listener that switch between using focus highlights and Interactive
+      // Highlights depending on the input received.
+      if ( this.preferencesConfiguration.visualOptions.supportsInteractiveHighlights ) {
+
+        // {null|Vector2} - The initial point of the Pointer when focus highlights are made visible and Interactive
+        // highlights are enabled. Pointer movement to determine whether to switch to showing Interactive Highlights
+        // instead of focus highlights will be relative to this point. A value of null means we haven't saved a point
+        // yet and we need to on the next move event.
+        this.initialPointerPoint = null;
+
+        // {number} - The amount of distance that the Pointer has moved relative to initialPointerPoint, in the global
+        // coordinate frame.
+        this.relativePointerDistance = 0;
+
+        // A listener that is added/removed from the display to manage visibility of highlights on move events. We
+        // usually don't need this listener so it is only added when we need to listen for move events.
+        const moveListener = {
+          move: this.handleMove.bind( this )
+        };
+
+        // When both Interactive Highlights are enabled and the PDOM focus highlights are visible, add a listener that
+        // will make focus highlights invisible and interactive highlights visible if we receive a certain amount of
+        // mouse movement. The listener is removed as soon as PDOM focus highlights are made invisible or Interactive
+        // Highlights are disabled.
+        const interactiveHighlightsEnabledProperty = this.preferencesManager.preferencesProperties.interactiveHighlightsEnabledProperty;
+        const pdomFocusHighlightsVisibleProperty = this.display.focusManager.pdomFocusHighlightsVisibleProperty;
+        Property.multilink(
+          [ interactiveHighlightsEnabledProperty, pdomFocusHighlightsVisibleProperty ],
+          ( interactiveHighlightsEnabled, pdomHighlightsVisible ) => {
+            if ( interactiveHighlightsEnabled && pdomHighlightsVisible ) {
+              this.display.addInputListener( moveListener );
+
+              // Setting to null indicates that we should store the Pointer.point as the initialPointerPoint on next move.
+              this.initialPointerPoint = null;
+
+              // Reset distance of movement for the mouse pointer since we are looking for changes again.
+              this.relativePointerDistance = 0;
+            }
+            else {
+              this.display.hasInputListener( moveListener ) && this.display.removeInputListener( moveListener );
+            }
+          }
+        );
+      }
     }
 
     Heartbeat.start( this );
@@ -1134,6 +1183,31 @@ class Sim extends PhetioObject {
     this.navigationBar.pdomVisible = visible;
     this.homeScreen && this.homeScreen.view.setPDOMVisible( visible );
     this.toolbar && this.toolbar.setPDOMVisible( visible );
+  }
+
+  /**
+   * Switches between focus highlights and Interactive Highlights if there is enough mouse movement.
+   * @private
+   *
+   * @param {SceneryEvent} event
+   */
+  handleMove( event ) {
+
+    // A null initialPointerPoint means that we have not set the point yet since we started listening for mouse
+    // movements - set it now so that distance of mose movement will be relative to this initial point.
+    if ( this.initialPointerPoint === null ) {
+      this.initialPointerPoint = event.pointer.point;
+    }
+    else {
+      this.relativePointerDistance = event.pointer.point.distance( this.initialPointerPoint );
+
+      // we have moved enough to switch from focus highlights to Interactive Highlights. Setting the
+      // pdomFocusHighlightsVisibleProperty to false will remove this listener for us.
+      if ( this.relativePointerDistance > HIDE_FOCUS_HIGHLIGHTS_MOVEMENT_THRESHOLD ) {
+        this.display.focusManager.pdomFocusHighlightsVisibleProperty.value = false;
+        this.display.focusManager.interactiveHighlightsVisibleProperty.value = true;
+      }
+    }
   }
 }
 
