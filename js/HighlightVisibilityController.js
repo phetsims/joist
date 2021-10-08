@@ -21,7 +21,7 @@ import joist from './joist.js';
 // are enabled, in the global coordinate frame.
 const HIDE_FOCUS_HIGHLIGHTS_MOVEMENT_THRESHOLD = 100;
 
-class HighlightVisibilityListener {
+class HighlightVisibilityController {
 
   /**
    * @param {Display} display
@@ -84,13 +84,13 @@ class HighlightVisibilityListener {
         voicingManager.voicingFullyEnabledProperty,
         audioManager.audioEnabledProperty
       ], ( voicingFullyEnabled, allAudioEnabled ) => {
-        display.focusManager.readingBlockHighlightsVisibleProperty.value = voicingFullyEnabled && allAudioEnabled;
+        this.display.focusManager.readingBlockHighlightsVisibleProperty.value = voicingFullyEnabled && allAudioEnabled;
       } );
     }
 
     if ( options.preferencesManager ) {
       options.preferencesManager.preferencesProperties.interactiveHighlightsEnabledProperty.link( visible => {
-        display.focusManager.interactiveHighlightsVisibleProperty.value = visible;
+        this.display.focusManager.interactiveHighlightsVisibleProperty.value = visible;
       } );
     }
 
@@ -125,35 +125,33 @@ class HighlightVisibilityListener {
         }
       );
     }
-  }
 
-  /**
-   * Whenever we receive a down event focus highlights are made invisible. We may also blur the active element in
-   * some cases, but not always as is necessary for iOS VoiceOver. See documentation details in the function.
-   *
-   * @private
-   * @param {SceneryEvent} event
-   */
-  down( event ) {
+    this.display.addInputListener( {
 
-    // An AT might have sent a down event outside of the display, if this happened we will not do anything
-    // to change focus
-    if ( this.display.bounds.containsPoint( event.pointer.point ) ) {
+      // Whenever we receive a down event focus highlights are made invisible. We may also blur the active element in
+      // some cases, but not always as is necessary for iOS VoiceOver. See documentation details in the function.
+      down: event => {
 
-      // in response to pointer events, always hide the focus highlight so it isn't distracting
-      this.display.focusManager.pdomFocusHighlightsVisibleProperty.value = false;
+        // An AT might have sent a down event outside of the display, if this happened we will not do anything
+        // to change focus
+        if ( this.display.bounds.containsPoint( event.pointer.point ) ) {
 
-      // no need to do this work unless some element in the simulation has focus
-      if ( FocusManager.pdomFocusedNode ) {
+          // in response to pointer events, always hide the focus highlight so it isn't distracting
+          this.display.focusManager.pdomFocusHighlightsVisibleProperty.value = false;
 
-        // if the event trail doesn't include the focusedNode, clear it - otherwise DOM focus is kept on the
-        // active element so that it can remain the target for assistive devices using pointer events
-        // on behalf of the user, see https://github.com/phetsims/scenery/issues/1137
-        if ( !event.trail.nodes.includes( FocusManager.pdomFocusedNode ) ) {
-          FocusManager.pdomFocus = null;
+          // no need to do this work unless some element in the simulation has focus
+          if ( FocusManager.pdomFocusedNode ) {
+
+            // if the event trail doesn't include the focusedNode, clear it - otherwise DOM focus is kept on the
+            // active element so that it can remain the target for assistive devices using pointer events
+            // on behalf of the user, see https://github.com/phetsims/scenery/issues/1137
+            if ( !event.trail.nodes.includes( FocusManager.pdomFocusedNode ) ) {
+              FocusManager.pdomFocus = null;
+            }
+          }
         }
       }
-    }
+    } );
   }
 
   /**
@@ -182,5 +180,5 @@ class HighlightVisibilityListener {
   }
 }
 
-joist.register( 'HighlightVisibilityListener', HighlightVisibilityListener );
-export default HighlightVisibilityListener;
+joist.register( 'HighlightVisibilityController', HighlightVisibilityController );
+export default HighlightVisibilityController;

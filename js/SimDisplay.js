@@ -21,7 +21,7 @@ import scenery from '../../scenery/js/scenery.js';
 import Utils from '../../scenery/js/util/Utils.js';
 import '../../sherpa/lib/game-up-camera-1.0.0.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import HighlightVisibilityListener from './HighlightVisibilityListener.js';
+import HighlightVisibilityController from './HighlightVisibilityController.js';
 import joist from './joist.js';
 
 const DEFAULT_WEBGL = false;
@@ -123,8 +123,11 @@ class SimDisplay extends Display {
       this.pdomRootElement.lang = 'en';
     }
 
-    // Add a listener to the Display that controls visibility of various highlights in response to user input.
-    this.addInputListener( new HighlightVisibilityListener( this, _.pick( options, [ 'preferencesConfiguration', 'preferencesManager' ] ) ) );
+    // @private - Add a listener to the Display that controls visibility of various highlights in response to user input.
+    this.highlightVisibilityController = new HighlightVisibilityController( this, _.pick( options, [
+      'preferencesConfiguration',
+      'preferencesManager'
+    ] ) );
 
     if ( phet.chipper.queryParameters.sceneryLog ) {
       scenery.enableLogging( phet.chipper.queryParameters.sceneryLog );
