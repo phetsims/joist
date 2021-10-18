@@ -13,12 +13,12 @@ import FocusHighlightPath from '../../../scenery/js/accessibility/FocusHighlight
 import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
 import Voicing from '../../../scenery/js/accessibility/voicing/Voicing.js';
 import PressListener from '../../../scenery/js/listeners/PressListener.js';
+import Line from '../../../scenery/js/nodes/Line.js';
+import Node from '../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
+import Text from '../../../scenery/js/nodes/Text.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
-import Text from '../../../scenery/js/nodes/Text.js';
-import Node from '../../../scenery/js/nodes/Node.js';
-import Line from '../../../scenery/js/nodes/Line.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
 
@@ -70,6 +70,11 @@ class PreferencesTabs extends Node {
 
     // pdom - keyboard support to move through tabs with arrow keys
     const keyboardListener = {
+      keydown: event => {
+
+        // reserve keyboard events for dragging to prevent default panning behavior with zoom features
+        event.pointer.reserveForKeyboardDrag();
+      },
       keyup: event => {
         if ( ( KeyboardUtils.isAnyKeyEvent( event.domEvent, [ KeyboardUtils.KEY_RIGHT_ARROW, KeyboardUtils.KEY_LEFT_ARROW ] ) ) ) {
 
