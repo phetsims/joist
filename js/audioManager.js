@@ -46,10 +46,7 @@ class AudioManager extends PhetioObject {
     } );
 
     // @public (joist-internal, read-only) {boolean} - true if sound is supported and enabled
-    this.supportsSound = phet.chipper.queryParameters.supportsSound &&
-                         ( phet.chipper.queryParameters.sound === 'enabled' ||
-                           phet.chipper.queryParameters.sound === 'muted' );
-
+    this.supportsSound = phet.chipper.queryParameters.supportsSound;
 
     // @public (joist-internal, read-only) {boolean} - true if enhancedSound is supported, cannot support enhanced
     // without supporting sound in general
