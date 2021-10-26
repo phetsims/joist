@@ -55,7 +55,10 @@ class ScreenView extends Node {
 
       // phet-io options
       tandem: Tandem.REQUIRED,
-      visiblePropertyOptions: { phetioState: false },
+      visiblePropertyOptions: {
+        phetioState: false,
+        phetioReadOnly: true
+      },
 
       // pdom options
       containerTagName: 'article',
