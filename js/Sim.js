@@ -600,15 +600,6 @@ class Sim extends PhetioObject {
   }
 
   /**
-   * Get the single utteranceQueue instance to be used by the PhET sim to make aria-live alerts.
-   * @public
-   * @returns {UtteranceQueue}
-   */
-  get utteranceQueue() {
-    return this.display.descriptionUtteranceQueue;
-  }
-
-  /**
    * @param {Screen[]} screens
    * @private
    */
