@@ -439,32 +439,9 @@ class VoiceComboBox extends ComboBox {
     } );
 
     // voicing -  responses for the button should always come through, regardless of user selection of
-    // responses
+    // responses. As of 10/29/21, ComboBox will only read the name response (which are always read regardless)
+    // so this isn't really necessary but it is prudent to include it anyway.
     this.button.voicingIgnoreVoicingManagerProperties = true;
-
-    // NOTE: this kind of thing should be moved to ComboBox.js
-    const voicePropertyListener = voice => {
-
-      // the voice can be null
-      if ( voice ) {
-        this.button.voicingObjectResponse = _.find(
-          items, item => item.value === voicingManager.voiceProperty.value
-        ).value.name;
-      }
-    };
-    voicingManager.voiceProperty.link( voicePropertyListener );
-
-    this.disposeVoiceComboBox = () => {
-      voicingManager.voiceProperty.unlink( voicePropertyListener );
-    };
-  }
-
-  /**
-   * @public
-   */
-  dispose() {
-    this.disposeVoiceComboBox();
-    super.dispose();
   }
 }
 
