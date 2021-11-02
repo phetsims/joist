@@ -26,10 +26,6 @@ import soundManager from '../../tambo/js/soundManager.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
-import packageJSON from './packageJSON.js';
-
-// constants
-const packageSimFeatures = packageJSON.phet.simFeatures || {};
 
 class AudioManager extends PhetioObject {
 
@@ -51,12 +47,6 @@ class AudioManager extends PhetioObject {
     // @public (joist-internal, read-only) {boolean} - true if enhancedSound is supported, cannot support enhanced
     // without supporting sound in general
     this.supportsEnhancedSound = this.supportsSound && phet.chipper.queryParameters.supportsEnhancedSound;
-
-    // @public (joist-internal, read-only) {boolean} - used to specify if sound is supported, even if this specific
-    // runtime turns it off via a query parameter. Most of the time this should not be used; instead see
-    // this.supportsSound. This is to support a consistent API for PhET-iO, see
-    // https://github.com/phetsims/joist/issues/573
-    this.soundPartOfTheAPI = packageSimFeatures.supportsSound;
 
     // @public {joist-internal, read-only) {boolean} - True if "Voicing" features or speech synthesis is supported,
     // and we need to initialize the voicingManager for SpeechSynthesis.

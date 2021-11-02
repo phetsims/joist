@@ -44,18 +44,17 @@ class A11yButtonsHBox extends HBox {
       a11yButtons.push( preferencesButton );
     }
 
-    // If the sim has sound support in its API, then create the button. This is support consistent API for PhET-iO
-    if ( audioManager.soundPartOfTheAPI ) {
-      const audioToggleButton = new NavigationBarAudioToggleButton(
-        audioManager.audioEnabledProperty,
-        backgroundColorProperty,
-        tandem.createTandem( 'audioToggleButton' )
-      );
+    // For consistent PhET-iO support, we eagerly create the audio toggle button in every sim.  But it is only
+    // added to the a11yButtons when sound is fully enabled in a sim runtime.
+    const audioToggleButton = new NavigationBarAudioToggleButton(
+      audioManager.audioEnabledProperty,
+      backgroundColorProperty,
+      tandem.createTandem( 'audioToggleButton' )
+    );
 
-      // only put the sound on/off button on the nav bar if the sound library is enabled
-      if ( audioManager.supportsAudio ) {
-        a11yButtons.push( audioToggleButton );
-      }
+    // only put the sound on/off button on the nav bar if the sound library is enabled
+    if ( audioManager.supportsAudio ) {
+      a11yButtons.push( audioToggleButton );
     }
 
     // Create the KeyboardHelpButton if there is content and the sim has supports Interactive Description. When running
