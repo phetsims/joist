@@ -66,8 +66,6 @@ import updateCheck from './updateCheck.js';
 const PROGRESS_BAR_WIDTH = 273;
 const SUPPORTS_GESTURE_DESCRIPTION = platform.android || platform.mobileSafari;
 
-const packageSimFeatures = packageJSON.phet.simFeatures || {};
-
 // strings needed for the IE warning dialog
 joistStrings.ieErrorPage.platformError;
 joistStrings.ieErrorPage.ieIsNotSupported;
@@ -447,11 +445,6 @@ class Sim extends PhetioObject {
 
     // @public {MemoryMonitor}
     this.memoryMonitor = new MemoryMonitor();
-
-    // @public (joist-internal, read-only) {boolean} - used to specify if the sim is set up to support accessibility,
-    // even if this specific runtime turns it on/off via a query parameter. Most of the time this should not be used;
-    // instead see phet.chipper.queryParameters.supportsInteractiveDescription. This is to support a consistent API for PhET-iO, see https://github.com/phetsims/phet-io/issues/1457
-    this.accessibilityPartOfTheAPI = packageSimFeatures.supportsInteractiveDescription;
 
     // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
     this.supportsGestureDescription = phet.chipper.queryParameters.supportsInteractiveDescription && SUPPORTS_GESTURE_DESCRIPTION;

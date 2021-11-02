@@ -57,24 +57,19 @@ class A11yButtonsHBox extends HBox {
       a11yButtons.push( audioToggleButton );
     }
 
-    // Create the KeyboardHelpButton if there is content and the sim has supports Interactive Description. When running
-    // in phet-io brand, the button is only created if accessibility is part of the permanent API in order to support
-    // a consistent PhET-iO API.
-    if ( sim.hasKeyboardHelpContent && ( phet.chipper.brand === 'phet-io' ? sim.accessibilityPartOfTheAPI :
-                                         phet.chipper.queryParameters.supportsInteractiveDescription ) ) {
+    // Create the KeyboardHelpButton (pops open a dialog with information about keyboard navigation) if there is content
+    // and the sim has supports Interactive Description. Eagerly create this to support a consistent PhET-iO API, but
+    // only conditionally add it to the nav bar if in the proper runtime.
+    const keyboardHelpButton = new KeyboardHelpButton(
+      sim.screenProperty,
+      backgroundColorProperty,
+      tandem.createTandem( 'keyboardHelpButton' )
+    );
 
-      // Pops open a dialog with information about keyboard navigation
-      const keyboardHelpButton = new KeyboardHelpButton(
-        sim.screenProperty,
-        backgroundColorProperty,
-        tandem.createTandem( 'keyboardHelpButton' )
-      );
-
-      // only show the keyboard help button if the sim supports interactive description, there is keyboard help content,
-      // and we are not in mobile safari
-      if ( phet.chipper.queryParameters.supportsInteractiveDescription && !platform.mobileSafari ) {
-        a11yButtons.push( keyboardHelpButton );
-      }
+    // only show the keyboard help button if the sim supports interactive description, there is keyboard help content,
+    // and we are not in mobile safari
+    if ( phet.chipper.queryParameters.supportsInteractiveDescription && sim.hasKeyboardHelpContent && !platform.mobileSafari ) {
+      a11yButtons.push( keyboardHelpButton );
     }
 
     assert && assert( !options.children, 'A11yButtonsHBox sets children' );

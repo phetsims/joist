@@ -71,8 +71,9 @@ class KeyboardHelpButton extends JoistButton {
 
     // When the screen changes, swap out keyboard help content to the selected screen's content
     screenProperty.link( screen => {
-      assert && assert( screen.keyboardHelpNode, 'screen should have keyboardHelpNode' );
-      content.children = [ screen.keyboardHelpNode ];
+      if ( screen.keyboardHelpNode ) {
+        content.children = [ screen.keyboardHelpNode ];
+      }
     } );
 
     keyboardHelpDialogCapsule = new PhetioCapsule( tandem => {
