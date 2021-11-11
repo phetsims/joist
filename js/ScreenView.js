@@ -245,9 +245,16 @@ class ScreenView extends Node {
    *
    * @param {Bounds2} layoutBounds
    * @param {Bounds2} viewBounds
+   * @param {Object} [options]
    * @returns {Matrix3}
    */
-  static getLayoutMatrix( layoutBounds, viewBounds ) {
+  static getLayoutMatrix( layoutBounds, viewBounds, options ) {
+
+    options = merge( {
+      verticalAlign: 'center' // 'center' or 'bottom'
+    }, options );
+
+    assert && assert( options.verticalAlign === 'center' || options.verticalAlign === 'bottom' );
 
     const width = viewBounds.width;
     const height = viewBounds.height;
@@ -258,8 +265,13 @@ class ScreenView extends Node {
 
     if ( scale === width / layoutBounds.width ) {
 
+      // vertically float to bottom
+      dy = ( height / scale - layoutBounds.height );
+
       // center vertically
-      dy = ( height / scale - layoutBounds.height ) / 2;
+      if ( options.verticalAlign === 'center' ) {
+        dy /= 2;
+      }
     }
     else if ( scale === height / layoutBounds.height ) {
 
