@@ -97,7 +97,7 @@ ToDO. See Ratio and Proportion for a working example.
 	   <li>Right hand {{in lower-middle region}} of Play Area</li>
 	</ul>
    <!-- Screen Specific Interaction Hint -->
-   <p>{{Move hands to find the Challenge Ratio in different places.}}</p>
+   <p>{{Move hands up and down to explore and discover different challenges.}}</p>
    <!-- Common Keyboard Shortcuts Hint -->
    <p>If needed, check out keyboard shortcuts under Sim Resources.</p>
   <h2>Play Area</h2>
