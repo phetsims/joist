@@ -52,7 +52,7 @@ class VoicingToolbarAlertManager {
   createHintContent() {
     const screenView = this.screenProperty.value.view;
     assert && assert( screenView, 'view needs to be inititalized for voicing toolbar content' );
-    assert && assert( screenView.getVoicingHintContent, 'voicing toolbar is enabled, implement getVoicingDetailsContent on ScreenView' );
+    assert && assert( screenView.getVoicingHintContent, 'voicing toolbar is enabled, implement getVoicingHintContent on ScreenView' );
     return this.screenProperty.value.view.getVoicingHintContent();
   }
 }
