@@ -171,9 +171,16 @@ class Sim extends PhetioObject {
       assert && assert( isConstructionComplete, 'Sim construction should never uncomplete' );
     } );
 
+    // @public {Property.<Dimension2>} - Stores the effective window dimensions that the simulation will be taking up
+    this.dimensionProperty = new Property( new Dimension2( 0, 0 ), {
+      useDeepEquality: true
+    } );
+
     // @public - Action that indicates when the sim resized.  This Action is implemented so it can be automatically played back.
     this.resizeAction = new Action( ( width, height ) => {
       assert && assert( width > 0 && height > 0, 'sim should have a nonzero area' );
+
+      this.dimensionProperty.value = new Dimension2( width, height );
 
       // Gracefully support bad dimensions, see https://github.com/phetsims/joist/issues/472
       if ( width === 0 || height === 0 ) {
@@ -734,7 +741,7 @@ class Sim extends PhetioObject {
    */
   resizeToWindow() {
     this.resizePending = false;
-    this.resize( window.innerWidth, window.innerHeight );
+    this.resize( window.innerWidth, window.innerHeight ); // eslint-disable-line bad-sim-text
   }
 
   // @public (joist-internal, phet-io)

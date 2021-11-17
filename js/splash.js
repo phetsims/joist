@@ -34,8 +34,8 @@
     const currentWidth = splashImageWidth;
     const currentHeight = splashImageHeight;
 
-    const availableHeight = window.innerHeight;
-    const availableWidth = window.innerWidth;
+    const availableHeight = window.innerHeight; // eslint-disable-line bad-sim-text
+    const availableWidth = window.innerWidth; // eslint-disable-line bad-sim-text
 
     const scaleX = availableWidth / currentWidth;
     const scaleY = availableHeight / currentHeight;
