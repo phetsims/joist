@@ -56,12 +56,18 @@ class HomeScreenView extends ScreenView {
       includePDOMNodes: false
     } );
 
+    // @private
+    this.homeScreenScreenSummaryIntro = StringUtils.fillIn( homeScreenDescriptionPatternString, {
+      name: simNameProperty.value,
+      screens: model.simScreens.length
+    } );
+
     // Add the home screen description, since there are no PDOM container Nodes for this ScreenView
     this.addChild( new Node( {
       tagName: 'p',
-      innerContent: StringUtils.fillIn( homeScreenDescriptionPatternString, {
-        name: simNameProperty.value,
-        screens: model.simScreens.length
+      innerContent: StringUtils.fillIn( joistStrings.a11y.homeScreenIntroPattern, {
+        description: this.homeScreenScreenSummaryIntro,
+        hint: joistStrings.a11y.homeScreenHint
       } )
     } ) );
 
@@ -180,6 +186,46 @@ class HomeScreenView extends ScreenView {
         break;
       }
     }
+  }
+
+  /**
+   * To support voicing.
+   * @override
+   * @public
+   */
+  getVoicingOverviewContent() {
+    return this.homeScreenScreenSummaryIntro;
+  }
+
+  /**
+   * To support voicing.
+   * @override
+   * @public
+   */
+  getVoicingDetailsContent() {
+
+    let details = '';
+
+    // Do this dynamically so that it supports changes that may occur to the pdomDisplayNameProperty
+    this.screenButtons.forEach( screenButton => {
+      if ( details !== '' ) {
+        details += ' ';
+      }
+      details += StringUtils.fillIn( joistStrings.a11y.homeScreenButtonDetailsPattern, {
+        name: screenButton.screen.pdomDisplayNameProperty.value,
+        screenHint: screenButton.screen.descriptionContent
+      } );
+    } );
+    return details;
+  }
+
+  /**
+   * To support voicing.
+   * @override
+   * @public
+   */
+  getVoicingHintContent() {
+    return joistStrings.a11y.homeScreenHint;
   }
 }
 

@@ -88,8 +88,9 @@ class Screen extends PhetioObject {
       // screen is selected
       keyboardHelpNode: null,
 
-      // pdom - The description that is used when interacting with screen icons/buttons in joist.
-      // This is often a full but short sentence with a period at the end of it.
+      // pdom/voicing - The description that is used when interacting with screen icons/buttons in joist (and home screen).
+      // This is often a full but short sentence with a period at the end of it. This is also used for voicing this screen
+      // in the home screen.
       descriptionContent: null,
 
       // phet-io
