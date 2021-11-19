@@ -35,7 +35,7 @@
 
     // In brand layer
     "js/joist.js",
-    "js/joistStrings.js",
+    "js/joistStrings.ts",
 
     // defined in phet-io layer
     "js/packageJSON.js",
