@@ -222,7 +222,16 @@
       "value": "Go to Home Screen."
     },
     "homeScreenDescriptionPattern": {
-      "value": "Welcome to {{name}}. It has {{screens}} interactive screens that you can explore. Choose a screen to start exploring."
+      "value": "Welcome to {{name}}. It has {{screens}} interactive screens that you can explore."
+    },
+    "homeScreenHint": {
+      "value": "Choose a screen to start exploring."
+    },
+    "homeScreenIntroPattern": {
+      "value": "{{description}} {{hint}}"
+    },
+    "homeScreenButtonDetailsPattern": {
+      "value": "On {{name}}, {{screenHint}}"
     },
     "simResources": {
       "value": "Sim Resources"
