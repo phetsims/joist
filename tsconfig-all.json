@@ -1,0 +1,22 @@
+{
+  "extends": "../chipper/tsconfig-core.json",
+  "references": [
+    {
+      "path": "./tsconfig.json"
+    }
+  ],
+  "include": [
+    "js/**/*tests.js", // Cannot use **test** like we do elsewhere because of UpdaTESTate
+    "js/joist-main.js",
+    "js/demo/**/*",
+
+    // In brand layer
+    "js/joist.js",
+    "js/joistStrings.ts",
+
+    // defined in phet-io layer
+    "js/packageJSON.js",
+    "js/SimInfo.js",
+    "js/joist.js"
+  ]
+}
