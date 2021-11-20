@@ -5,7 +5,7 @@
       "path": "../scenery-phet"
     },
     {
-      "path": "../phet-io"
+      "path": "../phet-io/tsconfig-module.json"
     },
     {
 
