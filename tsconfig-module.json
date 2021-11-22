@@ -2,7 +2,7 @@
   "extends": "../chipper/tsconfig-core.json",
   "references": [
     {
-      "path": "../scenery-phet"
+      "path": "../scenery-phet/tsconfig-module.json"
     },
     {
       "path": "../phet-io/tsconfig-module.json"
