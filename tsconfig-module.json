@@ -30,6 +30,7 @@
   ],
   "exclude": [
     "js/**/*tests.js", // Cannot use **test** like we do elsewhere because of UpdaTESTate
+    "js/**/*Tests.js", // Cannot use **test** like we do elsewhere because of UpdaTESTate
     "js/joist-main.js",
     "js/demo/**/*",
 
