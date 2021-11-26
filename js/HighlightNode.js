@@ -8,10 +8,10 @@
  */
 
 import merge from '../../phet-core/js/merge.js';
-import HBox from '../../scenery/js/nodes/HBox.js';
-import Rectangle from '../../scenery/js/nodes/Rectangle.js';
-import Color from '../../scenery/js/util/Color.js';
-import LinearGradient from '../../scenery/js/util/LinearGradient.js';
+import { HBox } from '../../scenery/js/imports.js';
+import { Rectangle } from '../../scenery/js/imports.js';
+import { Color } from '../../scenery/js/imports.js';
+import { LinearGradient } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 
 class HighlightNode extends HBox {

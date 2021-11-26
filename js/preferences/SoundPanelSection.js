@@ -8,11 +8,11 @@
 
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import VoicingRichText from '../../../scenery/js/accessibility/voicing/nodes/VoicingRichText.js';
-import VoicingText from '../../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
-import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
-import Text from '../../../scenery/js/nodes/Text.js';
-import VBox from '../../../scenery/js/nodes/VBox.js';
+import { VoicingRichText } from '../../../scenery/js/imports.js';
+import { VoicingText } from '../../../scenery/js/imports.js';
+import { voicingUtteranceQueue } from '../../../scenery/js/imports.js';
+import { Text } from '../../../scenery/js/imports.js';
+import { VBox } from '../../../scenery/js/imports.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import soundManager from '../../../tambo/js/soundManager.js';
 import Tandem from '../../../tandem/js/Tandem.js';

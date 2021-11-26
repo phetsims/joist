@@ -8,9 +8,9 @@
 
 import Bounds2 from '../../dot/js/Bounds2.js';
 import merge from '../../phet-core/js/merge.js';
-import Node from '../../scenery/js/nodes/Node.js';
-import Rectangle from '../../scenery/js/nodes/Rectangle.js';
-import LinearGradient from '../../scenery/js/util/LinearGradient.js';
+import { Node } from '../../scenery/js/imports.js';
+import { Rectangle } from '../../scenery/js/imports.js';
+import { LinearGradient } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 
 class Frame extends Node {

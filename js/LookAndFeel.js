@@ -8,7 +8,7 @@
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Property from '../../axon/js/Property.js';
-import Color from '../../scenery/js/util/Color.js';
+import { Color } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 
 class LookAndFeel {

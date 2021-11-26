@@ -8,8 +8,8 @@
  */
 
 import merge from '../../phet-core/js/merge.js';
-import Image from '../../scenery/js/nodes/Image.js';
-import Node from '../../scenery/js/nodes/Node.js';
+import { Image } from '../../scenery/js/imports.js';
+import { Node } from '../../scenery/js/imports.js';
 import Dialog from '../../sun/js/Dialog.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
 import darkIconImage from '../images/keyboard-icon-on-white_png.js'; // on a white navbar

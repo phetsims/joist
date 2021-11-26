@@ -8,8 +8,8 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
-import AlignGroup from '../../../scenery/js/nodes/AlignGroup.js';
-import VBox from '../../../scenery/js/nodes/VBox.js';
+import { AlignGroup } from '../../../scenery/js/imports.js';
+import { VBox } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 
 class PreferencesPanelSection extends VBox {

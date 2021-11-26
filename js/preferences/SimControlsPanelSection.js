@@ -10,7 +10,7 @@ import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
-import Text from '../../../scenery/js/nodes/Text.js';
+import { Text } from '../../../scenery/js/imports.js';
 
 // constants
 const simulationSpecificSettingsString = joistStrings.preferences.tabs.general.simulationSpecificSettings;

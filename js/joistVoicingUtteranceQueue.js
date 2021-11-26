@@ -11,7 +11,7 @@
  * @author Jesse Greenberg
  */
 
-import voicingManager from '../../scenery/js/accessibility/voicing/voicingManager.js';
+import { voicingManager } from '../../scenery/js/imports.js';
 import UtteranceQueue from '../../utterance-queue/js/UtteranceQueue.js';
 import joist from './joist.js';
 

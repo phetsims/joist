@@ -8,8 +8,8 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
-import VoicingRichText from '../../../scenery/js/accessibility/voicing/nodes/VoicingRichText.js';
-import VBox from '../../../scenery/js/nodes/VBox.js';
+import { VoicingRichText } from '../../../scenery/js/imports.js';
+import { VBox } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';

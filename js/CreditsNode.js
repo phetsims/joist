@@ -12,10 +12,10 @@
 import merge from '../../phet-core/js/merge.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import VoicingRichText from '../../scenery/js/accessibility/voicing/nodes/VoicingRichText.js';
-import VoicingText from '../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
-import VBox from '../../scenery/js/nodes/VBox.js';
-import VStrut from '../../scenery/js/nodes/VStrut.js';
+import { VoicingRichText } from '../../scenery/js/imports.js';
+import { VoicingText } from '../../scenery/js/imports.js';
+import { VBox } from '../../scenery/js/imports.js';
+import { VStrut } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 

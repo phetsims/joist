@@ -10,7 +10,7 @@
 import merge from '../../phet-core/js/merge.js';
 import OopsDialog from '../../scenery-phet/js/OopsDialog.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import Text from '../../scenery/js/nodes/Text.js';
+import { Text } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 

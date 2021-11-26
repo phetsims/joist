@@ -9,8 +9,8 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import AlignGroup from '../../../scenery/js/nodes/AlignGroup.js';
-import Node from '../../../scenery/js/nodes/Node.js';
+import { AlignGroup } from '../../../scenery/js/imports.js';
+import { Node } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import AudioPreferencesPanel from './AudioPreferencesPanel.js';
 import GeneralPreferencesPanel from './GeneralPreferencesPanel.js';

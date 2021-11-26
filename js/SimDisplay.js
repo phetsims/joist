@@ -12,13 +12,13 @@
  */
 
 import merge from '../../phet-core/js/merge.js';
-import KeyboardFuzzer from '../../scenery/js/accessibility/KeyboardFuzzer.js';
-import Display from '../../scenery/js/display/Display.js';
-import InputFuzzer from '../../scenery/js/input/InputFuzzer.js';
-import animatedPanZoomSingleton from '../../scenery/js/listeners/animatedPanZoomSingleton.js';
-import Node from '../../scenery/js/nodes/Node.js';
-import scenery from '../../scenery/js/scenery.js';
-import Utils from '../../scenery/js/util/Utils.js';
+import { KeyboardFuzzer } from '../../scenery/js/imports.js';
+import { Display } from '../../scenery/js/imports.js';
+import { InputFuzzer } from '../../scenery/js/imports.js';
+import { animatedPanZoomSingleton } from '../../scenery/js/imports.js';
+import { Node } from '../../scenery/js/imports.js';
+import { scenery } from '../../scenery/js/imports.js';
+import { Utils } from '../../scenery/js/imports.js';
 import '../../sherpa/lib/game-up-camera-1.0.0.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import HighlightVisibilityController from './HighlightVisibilityController.js';

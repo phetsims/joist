@@ -9,7 +9,7 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
-import voicingManager from '../../../scenery/js/accessibility/voicing/voicingManager.js';
+import { voicingManager } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 
 class PreferencesConfiguration {

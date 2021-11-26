@@ -24,7 +24,7 @@ import merge from '../../phet-core/js/merge.js';
 import ControlAreaNode from '../../scenery-phet/js/accessibility/nodes/ControlAreaNode.js';
 import PlayAreaNode from '../../scenery-phet/js/accessibility/nodes/PlayAreaNode.js';
 import ScreenSummaryNode from '../../scenery-phet/js/accessibility/nodes/ScreenSummaryNode.js';
-import Node from '../../scenery/js/nodes/Node.js';
+import { Node } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
 

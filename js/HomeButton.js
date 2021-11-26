@@ -9,10 +9,10 @@
 import Property from '../../axon/js/Property.js';
 import Shape from '../../kite/js/Shape.js';
 import merge from '../../phet-core/js/merge.js';
-import FocusHighlightPath from '../../scenery/js/accessibility/FocusHighlightPath.js';
-import Node from '../../scenery/js/nodes/Node.js';
-import Path from '../../scenery/js/nodes/Path.js';
-import Rectangle from '../../scenery/js/nodes/Rectangle.js';
+import { FocusHighlightPath } from '../../scenery/js/imports.js';
+import { Node } from '../../scenery/js/imports.js';
+import { Path } from '../../scenery/js/imports.js';
+import { Rectangle } from '../../scenery/js/imports.js';
 import homeSolidShape from '../../sherpa/js/fontawesome-5/homeSolidShape.js';
 import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';
 import joist from './joist.js';

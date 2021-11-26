@@ -8,7 +8,7 @@
 
 import merge from '../../phet-core/js/merge.js';
 import platform from '../../phet-core/js/platform.js';
-import HBox from '../../scenery/js/nodes/HBox.js';
+import { HBox } from '../../scenery/js/imports.js';
 import audioManager from './audioManager.js';
 import joist from './joist.js';
 import KeyboardHelpButton from './KeyboardHelpButton.js';

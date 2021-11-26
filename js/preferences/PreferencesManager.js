@@ -6,8 +6,8 @@
  * @author Jesse Greenberg
  */
 
-import voicingManager from '../../../scenery/js/accessibility/voicing/voicingManager.js';
-import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
+import { voicingManager } from '../../../scenery/js/imports.js';
+import { voicingUtteranceQueue } from '../../../scenery/js/imports.js';
 import responseCollector from '../../../utterance-queue/js/responseCollector.js';
 import joistVoicingUtteranceQueue from '../../../utterance-queue/js/UtteranceQueue.js';
 import joist from '../joist.js';

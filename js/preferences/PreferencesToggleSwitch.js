@@ -9,8 +9,8 @@
 
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import merge from '../../../phet-core/js/merge.js';
-import Voicing from '../../../scenery/js/accessibility/voicing/Voicing.js';
-import Node from '../../../scenery/js/nodes/Node.js';
+import { Voicing } from '../../../scenery/js/imports.js';
+import { Node } from '../../../scenery/js/imports.js';
 import ToggleSwitch from '../../../sun/js/ToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';

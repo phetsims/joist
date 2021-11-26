@@ -9,14 +9,14 @@
 
 import Property from '../../../axon/js/Property.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import FocusHighlightPath from '../../../scenery/js/accessibility/FocusHighlightPath.js';
-import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
-import Voicing from '../../../scenery/js/accessibility/voicing/Voicing.js';
-import PressListener from '../../../scenery/js/listeners/PressListener.js';
-import Line from '../../../scenery/js/nodes/Line.js';
-import Node from '../../../scenery/js/nodes/Node.js';
-import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
-import Text from '../../../scenery/js/nodes/Text.js';
+import { FocusHighlightPath } from '../../../scenery/js/imports.js';
+import { KeyboardUtils } from '../../../scenery/js/imports.js';
+import { Voicing } from '../../../scenery/js/imports.js';
+import { PressListener } from '../../../scenery/js/imports.js';
+import { Line } from '../../../scenery/js/imports.js';
+import { Node } from '../../../scenery/js/imports.js';
+import { Rectangle } from '../../../scenery/js/imports.js';
+import { Text } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';

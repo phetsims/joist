@@ -8,7 +8,7 @@
 
 import Property from '../../../axon/js/Property.js';
 import GeneralKeyboardHelpSection from '../../../scenery-phet/js/keyboard/help/GeneralKeyboardHelpSection.js';
-import VBox from '../../../scenery/js/nodes/VBox.js';
+import { VBox } from '../../../scenery/js/imports.js';
 import Panel from '../../../sun/js/Panel.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';

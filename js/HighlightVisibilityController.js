@@ -9,10 +9,10 @@
 
 import Property from '../../axon/js/Property.js';
 import merge from '../../phet-core/js/merge.js';
-import FocusManager from '../../scenery/js/accessibility/FocusManager.js';
-import globalKeyStateTracker from '../../scenery/js/accessibility/globalKeyStateTracker.js';
-import KeyboardUtils from '../../scenery/js/accessibility/KeyboardUtils.js';
-import voicingManager from '../../scenery/js/accessibility/voicing/voicingManager.js';
+import { FocusManager } from '../../scenery/js/imports.js';
+import { globalKeyStateTracker } from '../../scenery/js/imports.js';
+import { KeyboardUtils } from '../../scenery/js/imports.js';
+import { voicingManager } from '../../scenery/js/imports.js';
 import audioManager from './audioManager.js';
 import joist from './joist.js';
 

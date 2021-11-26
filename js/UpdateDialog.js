@@ -7,7 +7,7 @@
  */
 
 import stepTimer from '../../axon/js/stepTimer.js';
-import Node from '../../scenery/js/nodes/Node.js';
+import { Node } from '../../scenery/js/imports.js';
 import Dialog from '../../sun/js/Dialog.js';
 import joist from './joist.js';
 import updateCheck from './updateCheck.js';

@@ -9,9 +9,9 @@
  */
 
 import Property from '../../axon/js/Property.js';
-import AriaHasPopUpMutator from '../../scenery/js/accessibility/pdom/AriaHasPopUpMutator.js';
-import Image from '../../scenery/js/nodes/Image.js';
-import Node from '../../scenery/js/nodes/Node.js';
+import { AriaHasPopUpMutator } from '../../scenery/js/imports.js';
+import { Image } from '../../scenery/js/imports.js';
+import { Node } from '../../scenery/js/imports.js';
 import pushButtonSoundPlayer from '../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import joist from './joist.js';

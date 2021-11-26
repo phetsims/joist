@@ -8,8 +8,8 @@
  */
 
 import Matrix3 from '../../dot/js/Matrix3.js';
-import CanvasContextWrapper from '../../scenery/js/util/CanvasContextWrapper.js';
-import Utils from '../../scenery/js/util/Utils.js';
+import { CanvasContextWrapper } from '../../scenery/js/imports.js';
+import { Utils } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 
 class ScreenshotGenerator {
