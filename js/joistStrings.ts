@@ -131,6 +131,9 @@ type StringsType = {
     'home': string,
     'homeScreenDescription': string,
     'homeScreenDescriptionPattern': string,
+    'homeScreenHint': string,
+    'homeScreenIntroPattern': string,
+    'homeScreenButtonDetailsPattern': string,
     'simResources': string,
     'soundToggle': {
       'alert': {
