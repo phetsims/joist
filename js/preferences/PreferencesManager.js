@@ -6,8 +6,7 @@
  * @author Jesse Greenberg
  */
 
-import { voicingManager } from '../../../scenery/js/imports.js';
-import { voicingUtteranceQueue } from '../../../scenery/js/imports.js';
+import { voicingManager, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
 import responseCollector from '../../../utterance-queue/js/responseCollector.js';
 import joistVoicingUtteranceQueue from '../../../utterance-queue/js/UtteranceQueue.js';
 import joist from '../joist.js';
@@ -47,6 +46,8 @@ class PreferencesManager {
       PreferencesStorage.register( responseCollector.objectResponsesEnabledProperty, 'objectResponsesEnabledProperty' );
       PreferencesStorage.register( responseCollector.contextResponsesEnabledProperty, 'contextResponsesEnabledProperty' );
       PreferencesStorage.register( responseCollector.hintResponsesEnabledProperty, 'hintResponsesEnabledProperty' );
+      PreferencesStorage.register( voicingManager.voiceRateProperty, 'voiceRateProperty' );
+      PreferencesStorage.register( voicingManager.voicePitchProperty, 'voicePitchProperty' );
     }
   }
 }
