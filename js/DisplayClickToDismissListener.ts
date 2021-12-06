@@ -18,9 +18,8 @@ class DisplayClickToDismissListener {
 
   /**
    * @param listener - The listener to be called when the Pointer goes up, likely to dismiss something.
-   * @param options
    */
-  constructor( listener: Function, options?: any ) {
+  constructor( listener: Function ) {
 
     // The active Pointer for this listener, after a down event a subsequent up event on this Pointer will trigger
     // the behavior of `listener`.
