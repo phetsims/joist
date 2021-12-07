@@ -35,6 +35,9 @@ class DisplayClickToDismissListener {
 
       interrupt: () => {
         this.dismissPointer( this.pointer );
+      },
+      cancel: () => {
+        this.dismissPointer( this.pointer );
       }
     };
   }
