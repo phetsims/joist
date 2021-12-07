@@ -228,6 +228,41 @@ class ScreenView extends Node {
   }
 
   /**
+   * Create the alert content for this ScreenView when the Voicing feature is enabled and the "Overview" button
+   * is pressed.
+   * @public
+   * @abstract
+   *
+   * @returns {string}
+   */
+  getVoicingOverviewContent() {
+    throw new Error( 'The ScreenView should implement getVoicingOverviewContent if Voicing is enabled' );
+  }
+
+  /**
+   * Create tha alert content for this ScreenView when the Voicing feature is enabled and the "Details" button is
+   * pressed.
+   * @public
+   * @abstract
+   *
+   * @returns {string}
+   */
+  getVoicingDetailsContent() {
+    throw new Error( 'The ScreenView should implement getVoicingDetailsContent when the Voicing feature is enabled.' );
+  }
+
+  /**
+   * Create the alert content for this ScreenView when the Voicing feature is enabled and the "Hint" button is pressed.
+   * @public
+   * @abstract
+   *
+   * @returns {string}
+   */
+  getVoicingHintContent() {
+    throw new Error( 'The ScreenView should implement getVoicingHintContent when Voicing is enabled.' );
+  }
+
+  /**
    * Get the scale to use for laying out the sim components and the navigation bar, so its size will track
    * with the sim size
    * @public
