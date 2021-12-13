@@ -9,10 +9,7 @@
 import Property from '../../axon/js/Property.js';
 import Shape from '../../kite/js/Shape.js';
 import merge from '../../phet-core/js/merge.js';
-import { FocusHighlightPath } from '../../scenery/js/imports.js';
-import { Voicing } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { SceneryConstants } from '../../scenery/js/imports.js';
+import { FocusHighlightPath, Node, SceneryConstants, Voicing } from '../../scenery/js/imports.js';
 import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';
 import PushButtonInteractionStateProperty from '../../sun/js/buttons/PushButtonInteractionStateProperty.js';
 import PushButtonModel from '../../sun/js/buttons/PushButtonModel.js';
@@ -68,10 +65,13 @@ class JoistButton extends Node {
     assert && assert( !options.children, 'NAME sets children' );
     options.children = [ content, brightenHighlight, darkenHighlight ];
 
-    super( options );
+    super();
 
     // voicing - initialize the voicing trait
-    this.initializeVoicing( options );
+    this.initializeVoicing();
+
+    // We want to mutate eagerly, but must do so after initializing Voicing properties
+    this.mutate( options );
 
     // @public (phet-io|a11y) - Button model
     // Note it shares a tandem with "this", so the emitter will be instrumented as a child of the button
