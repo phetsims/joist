@@ -14,15 +14,7 @@ import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import NumberControl from '../../../scenery-phet/js/NumberControl.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { FocusHighlightFromNode } from '../../../scenery/js/imports.js';
-import { VoicingText } from '../../../scenery/js/imports.js';
-import { Voicing } from '../../../scenery/js/imports.js';
-import { voicingManager } from '../../../scenery/js/imports.js';
-import { voicingUtteranceQueue } from '../../../scenery/js/imports.js';
-import { PressListener } from '../../../scenery/js/imports.js';
-import { Node } from '../../../scenery/js/imports.js';
-import { Text } from '../../../scenery/js/imports.js';
-import { VBox } from '../../../scenery/js/imports.js';
+import { FocusHighlightFromNode, Node, PressListener, Text, VBox, Voicing, voicingManager, VoicingText, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import ComboBox from '../../../sun/js/ComboBox.js';
 import ComboBoxItem from '../../../sun/js/ComboBoxItem.js';
@@ -359,13 +351,7 @@ class VoiceRateNumberControl extends NumberControl {
     } );
 
     // voicing
-    this.initializeVoicing( {
-      voicingNameResponse: a11yLabelString,
-
-      // ignore the selections of Preferences menu, we always want to hear all responses
-      // that happen when changing the voice attributes
-      voicingIgnoreVoicingManagerProperties: true
-    } );
+    this.initializeVoicing();
 
     this.slider.addInputListener( {
       focus: event => {
@@ -380,6 +366,14 @@ class VoiceRateNumberControl extends NumberControl {
         // every change read the name and object response for the slider
         this.voicingSpeakFullResponse();
       }
+    } );
+
+    this.mutate( {
+      voicingNameResponse: a11yLabelString,
+
+      // ignore the selections of Preferences menu, we always want to hear all responses
+      // that happen when changing the voice attributes
+      voicingIgnoreVoicingManagerProperties: true
     } );
   }
 
@@ -489,19 +483,9 @@ class VoicingPitchSlider extends VBox {
     const highLabel = new Text( 'High', { font: new PhetFont( 14 ) } );
     slider.addMajorTick( voicePitchProperty.range.max, highLabel );
 
-    super( {
-      children: [ label, slider ],
-      align: 'left',
-      spacing: 5
-    } );
+    super();
 
-    this.initializeVoicing( {
-      voicingNameResponse: labelString,
-
-      // ignore the selections of Preferences menu, we always want to hear all responses
-      // that happen when changing the voice attributes
-      voicingIgnoreVoicingManagerProperties: true
-    } );
+    this.initializeVoicing();
 
     slider.addInputListener( {
       focus: event => {
@@ -517,6 +501,19 @@ class VoicingPitchSlider extends VBox {
       if ( previousValue !== null ) {
         this.voicingSpeakFullResponse();
       }
+    } );
+
+    this.mutate( {
+      children: [ label, slider ],
+      align: 'left',
+      spacing: 5,
+
+      // voicing
+      voicingNameResponse: labelString,
+
+      // ignore the selections of Preferences menu, we always want to hear all responses
+      // that happen when changing the voice attributes
+      voicingIgnoreVoicingManagerProperties: true
     } );
   }
 

@@ -11,12 +11,7 @@ import merge from '../../phet-core/js/merge.js';
 import KeyboardHelpSection from '../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import TextKeyNode from '../../scenery-phet/js/keyboard/TextKeyNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { PDOMPeer } from '../../scenery/js/imports.js';
-import { VoicingText } from '../../scenery/js/imports.js';
-import { ReadingBlock } from '../../scenery/js/imports.js';
-import { HBox } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { VBox } from '../../scenery/js/imports.js';
+import { HBox, Node, PDOMPeer, ReadingBlock, VBox, VoicingText } from '../../scenery/js/imports.js';
 import Dialog from '../../sun/js/Dialog.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
@@ -100,7 +95,12 @@ class TabHintLine extends Node {
    * @param {Object} [options]
    */
   constructor( options ) {
-    super( options );
+
+    options = merge( {
+      readingBlockContent: tabToGetStartedString
+    }, options );
+
+    super();
 
     // a line to say "tab to get started" below the "Keyboard Shortcuts" 'title'
     const labelWithIcon = KeyboardHelpSection.labelWithIcon( joistStrings.keyboardShortcuts.toGetStarted,
@@ -113,9 +113,8 @@ class TabHintLine extends Node {
     // labelWithIcon is meant to be passed to KeyboardHelpSection, so we have to hack a bit here
     this.addChild( new HBox( { children: [ labelWithIcon.icon, labelWithIcon.label ], spacing: 4 } ) );
 
-    this.initializeReadingBlock( {
-      readingBlockContent: tabToGetStartedString
-    } );
+    this.initializeReadingBlock();
+    this.mutate( options );
   }
 }
 
