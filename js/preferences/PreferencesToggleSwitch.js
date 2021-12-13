@@ -9,7 +9,6 @@
 
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import merge from '../../../phet-core/js/merge.js';
-import { Voicing } from '../../../scenery/js/imports.js';
 import { Node } from '../../../scenery/js/imports.js';
 import ToggleSwitch from '../../../sun/js/ToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -64,7 +63,7 @@ class PreferencesToggleSwitch extends Node {
 
     super( options );
 
-    const toggleSwitch = new VoicingToggleSwitch( property, leftValue, rightValue, merge( options.toggleSwitchOptions, {
+    const toggleSwitch = new ToggleSwitch( property, leftValue, rightValue, merge( options.toggleSwitchOptions, {
 
       // enabled:true by default, but disable if fuzzing when supporting voicing
       enabled: !( phet.chipper.isFuzzEnabled() && phet.chipper.queryParameters.supportsVoicing ),
@@ -115,25 +114,6 @@ class PreferencesToggleSwitch extends Node {
     }
   }
 }
-
-class VoicingToggleSwitch extends ToggleSwitch {
-
-  /**
-   * @param {Property.<*>}property
-   * @param {*} leftValue
-   * @param {*} rightValue
-   * @param {Object} [options]
-   * @mixes Voicing
-   */
-  constructor( property, leftValue, rightValue, options ) {
-    super( property, leftValue, rightValue, options );
-
-    // initializeVoicing mutates with only Voicing options, so OK to pass through everything
-    this.initializeVoicing( options );
-  }
-}
-
-Voicing.compose( VoicingToggleSwitch );
 
 joist.register( 'PreferencesToggleSwitch', PreferencesToggleSwitch );
 export default PreferencesToggleSwitch;
