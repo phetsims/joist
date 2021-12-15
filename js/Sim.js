@@ -28,11 +28,7 @@ import merge from '../../phet-core/js/merge.js';
 import platform from '../../phet-core/js/platform.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import BarrierRectangle from '../../scenery-phet/js/BarrierRectangle.js';
-import { globalKeyStateTracker } from '../../scenery/js/imports.js';
-import { voicingUtteranceQueue } from '../../scenery/js/imports.js';
-import { animatedPanZoomSingleton } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Utils } from '../../scenery/js/imports.js';
+import { animatedPanZoomSingleton, globalKeyStateTracker, Node, Utils, voicingUtteranceQueue } from '../../scenery/js/imports.js';
 import '../../sherpa/lib/game-up-camera-1.0.0.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
@@ -159,7 +155,7 @@ class Sim extends PhetioObject {
 
     // playbackModeEnabledProperty cannot be changed after Sim construction has begun, hence this listener is added before
     // anything else is done, see https://github.com/phetsims/phet-io/issues/1146
-    phet.joist.playbackModeEnabledProperty.lazyLink( playbackModeEnabled => {
+    phet.joist.playbackModeEnabledProperty.lazyLink( () => {
       throw new Error( 'playbackModeEnabledProperty cannot be changed after Sim construction has begun' );
     } );
 
@@ -407,9 +403,8 @@ class Sim extends PhetioObject {
       } );
 
     // @public - When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.
-    // Set to false for when the sim will be paused.  If the sim has playbackModeEnabledProperty set to true, the
-    // activeProperty will automatically be set to false so the timing and inputs can be controlled by the playback engine
-    this.activeProperty = new BooleanProperty( !phet.joist.playbackModeEnabledProperty.value, {
+    // Set to false for when the sim will be paused.
+    this.activeProperty = new BooleanProperty( true, {
       tandem: Tandem.GENERAL_MODEL.createTandem( 'activeProperty' ),
       phetioFeatured: true,
       phetioDocumentation: 'Determines whether the entire simulation is running and processing user input. ' +
@@ -549,14 +544,19 @@ class Sim extends PhetioObject {
     // @public - root node for the Display
     this.rootNode = this.display.rootNode;
 
-    // When the sim is inactive, make it non-interactive, see https://github.com/phetsims/scenery/issues/414
-    this.activeProperty.link( active => {
-      this.display.interactive = active;
-      globalKeyStateTracker.enabled = active;
+    Property.multilink( [ this.activeProperty, phet.joist.playbackModeEnabledProperty ], ( active, playbackModeEnabled ) => {
 
-      // The sim must remain inactive while playbackModeEnabledProperty is true
-      if ( active ) {
-        assert && assert( !phet.joist.playbackModeEnabledProperty.value, 'The sim must remain inactive while playbackModeEnabledProperty is true' );
+      // If in playbackMode is enabled, then the display must be interactive to support PDOM event listeners during
+      // playback (which often come directly from sim code and not from user input).
+      if ( playbackModeEnabled ) {
+        this.display.interactive = true;
+        globalKeyStateTracker.enabled = true;
+      }
+      else {
+
+        // When the sim is inactive, make it non-interactive, see https://github.com/phetsims/scenery/issues/414
+        this.display.interactive = active;
+        globalKeyStateTracker.enabled = active;
       }
     } );
 
@@ -882,9 +882,9 @@ class Sim extends PhetioObject {
       window.requestAnimationFrame( this.boundRunAnimationLoop );
     }
 
-    // Setting the activeProperty to false pauses the sim and also enables optional support for playback back recorded
-    // events (if playbackModeEnabledProperty) is true
-    if ( this.activeProperty.value ) {
+    // Only run animation frames for an active sim. If in playbackMode, playback logic will handle animation frame
+    // stepping manually.
+    if ( this.activeProperty.value && !phet.joist.playbackModeEnabledProperty.value ) {
 
       // Handle Input fuzzing before stepping the sim because input events occur outside of sim steps, but not before the
       // first sim step (to prevent issues like https://github.com/phetsims/equality-explorer/issues/161).
