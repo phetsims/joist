@@ -320,7 +320,11 @@ class Sim extends PhetioObject {
       if ( screen.view.step ) {
         screen.view.step( dt );
       }
-      this.display.updateDisplay();
+
+      // Do not update the display while customizing, or it could show the sim before it is fully customized.
+      if ( !( Tandem.PHET_IO_ENABLED && phet.phetio.phetioEngine.isCustomizing ) ) {
+        this.display.updateDisplay();
+      }
 
       if ( phet.chipper.queryParameters.memoryLimit ) {
         this.memoryMonitor.measure();
@@ -839,8 +843,10 @@ class Sim extends PhetioObject {
 
               // After the application is ready to go, remove the splash screen and progress bar.  Note the splash
               // screen is removed after one step(), so the rendering is ready to go when the progress bar is hidden.
-              window.phetSplashScreen.dispose();
-
+              // no-op otherwise and will be disposed by phetioEngine.
+              if ( !( Tandem.PHET_IO_ENABLED && phet.phetio.phetioEngine.isCustomizing ) ) {
+                window.phetSplashScreen.dispose();
+              }
               // Sanity check that there is no phetio object in phet brand, see https://github.com/phetsims/phet-io/issues/1229
               phet.chipper.brand === 'phet' && assert && assert( !Tandem.PHET_IO_ENABLED, 'window.phet.preloads.phetio should not exist for phet brand' );
 
