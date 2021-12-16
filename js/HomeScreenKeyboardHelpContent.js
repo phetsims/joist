@@ -5,7 +5,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import GeneralKeyboardHelpSection from '../../scenery-phet/js/keyboard/help/GeneralKeyboardHelpSection.js';
+import BasicActionsKeyboardHelpSection from '../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
 import { Node } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 
@@ -13,7 +13,7 @@ class HomeScreenKeyboardHelpContent extends Node {
 
   constructor() {
     super( {
-      children: [ new GeneralKeyboardHelpSection() ]
+      children: [ new BasicActionsKeyboardHelpSection() ]
     } );
   }
 }

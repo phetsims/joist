@@ -7,7 +7,7 @@
  */
 
 import Property from '../../../axon/js/Property.js';
-import GeneralKeyboardHelpSection from '../../../scenery-phet/js/keyboard/help/GeneralKeyboardHelpSection.js';
+import BasicActionsKeyboardHelpSection from '../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
 import { VBox } from '../../../scenery/js/imports.js';
 import Panel from '../../../sun/js/Panel.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -20,7 +20,7 @@ class DialogsScreenView extends ScreenView {
 
     super();
 
-    const keyboardHelpDialogContent = new GeneralKeyboardHelpSection();
+    const keyboardHelpDialogContent = new BasicActionsKeyboardHelpSection();
 
     const keyboardHelpButton = new KeyboardHelpButton(
       new Property( { keyboardHelpNode: keyboardHelpDialogContent } ),
