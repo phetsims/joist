@@ -1,5 +1,5 @@
 {
-  "keyboard-icon-on-white.png": {
+  "keyboardIconOnWhite.png": {
     "text": [
       "Copyright 2016 University of Colorado Boulder"
     ],
@@ -7,7 +7,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Amy Rouinfar based on original icon from Font Awesome"
   },
-  "keyboard-icon.png": {
+  "keyboardIcon.png": {
     "text": [
       "Copyright 2016 University of Colorado Boulder"
     ],

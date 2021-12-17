@@ -9,8 +9,8 @@
 
 import Enumeration from '../../phet-core/js/Enumeration.js';
 import MultiClip from '../../tambo/js/sound-generators/MultiClip.js';
-import homeSelectedSound from '../sounds/screen-selection-home-v3_mp3.js';
-import iconSelectedSound from '../sounds/switching-screen-selector-icons-003_mp3.js';
+import screenSelectionHomeV3_mp3 from '../sounds/screenSelectionHomeV3_mp3.js';
+import switchingScreenSelectorIcons003_mp3 from '../sounds/switchingScreenSelectorIcons003_mp3.js';
 import joist from './joist.js';
 
 // constants
@@ -26,8 +26,8 @@ class HomeScreenSoundGenerator extends MultiClip {
 
     // create the map of home screen actions to sounds
     const valuesToSoundsMap = new Map( [
-      [ SoundType.HOME_SCREEN_SELECTED, homeSelectedSound ],
-      [ SoundType.DIFFERENT_ICON_SELECTED, iconSelectedSound ]
+      [ SoundType.HOME_SCREEN_SELECTED, screenSelectionHomeV3_mp3 ],
+      [ SoundType.DIFFERENT_ICON_SELECTED, switchingScreenSelectorIcons003_mp3 ]
     ] );
 
     super( valuesToSoundsMap, options );

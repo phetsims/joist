@@ -13,7 +13,7 @@ import { VBox } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
-import SimControlsTabPanelSection from './SimControlsPanelSection.js';
+import SimControlsPanelSection from './SimControlsPanelSection.js';
 
 // constants
 const accessibilityIntroString = joistStrings.preferences.tabs.general.accessibilityIntro;
@@ -37,7 +37,7 @@ class GeneralPreferencesPanel extends VBox {
 
     const panelChildren = [];
     if ( generalConfiguration.simControls ) {
-      panelChildren.push( new SimControlsTabPanelSection( generalConfiguration.simControls ) );
+      panelChildren.push( new SimControlsPanelSection( generalConfiguration.simControls ) );
     }
 
     const introParagraphs = new VBox( { spacing: 10, align: 'left' } );

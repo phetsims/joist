@@ -8,7 +8,7 @@
  */
 
 import SoundClip from '../../tambo/js/sound-generators/SoundClip.js';
-import screenSelectedSound from '../sounds/screen-selection_mp3.js';
+import screenSelection_mp3 from '../sounds/screenSelection_mp3.js';
 import joist from './joist.js';
 
 class ScreenSelectionSoundGenerator extends SoundClip {
@@ -20,7 +20,7 @@ class ScreenSelectionSoundGenerator extends SoundClip {
    */
   constructor( screenProperty, homeScreen, options ) {
 
-    super( screenSelectedSound, options );
+    super( screenSelection_mp3, options );
 
     // play sounds when the user navigates between screens and to/from the home screen
     screenProperty.lazyLink( currentScreen => {

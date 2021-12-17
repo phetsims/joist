@@ -12,8 +12,8 @@ import { Image } from '../../scenery/js/imports.js';
 import { Node } from '../../scenery/js/imports.js';
 import Dialog from '../../sun/js/Dialog.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
-import darkIconImage from '../images/keyboard-icon-on-white_png.js'; // on a white navbar
-import brightIconImage from '../images/keyboard-icon_png.js'; // on a black navbar
+import keyboardIconOnWhite_png from '../images/keyboardIconOnWhite_png.js'; // on a white navbar
+import keyboardIcon_png from '../images/keyboardIcon_png.js'; // on a black navbar
 import joist from './joist.js';
 import JoistButton from './JoistButton.js';
 import joistStrings from './joistStrings.js';
@@ -60,8 +60,8 @@ class KeyboardHelpButton extends JoistButton {
       keyboardHelpDialog.show();
     };
 
-    const icon = new Image( brightIconImage, {
-      scale: HELP_BUTTON_SCALE / brightIconImage.height * HELP_BUTTON_HEIGHT,
+    const icon = new Image( keyboardIcon_png, {
+      scale: HELP_BUTTON_SCALE / keyboardIcon_png.height * HELP_BUTTON_HEIGHT,
       pickable: false
     } );
 
@@ -87,7 +87,7 @@ class KeyboardHelpButton extends JoistButton {
 
     // change the icon so that it is visible when the background changes from dark to light
     backgroundColorProperty.link( backgroundColor => {
-      icon.image = backgroundColor === 'black' ? brightIconImage : darkIconImage;
+      icon.image = backgroundColor === 'black' ? keyboardIcon_png : keyboardIconOnWhite_png;
     } );
   }
 }

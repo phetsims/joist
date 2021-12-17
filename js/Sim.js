@@ -23,7 +23,7 @@ import StringProperty from '../../axon/js/StringProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Random from '../../dot/js/Random.js';
-import DotUtils from '../../dot/js/Utils.js';
+import DotUtils from '../../dot/js/Utils.js'; // eslint-disable-line default-import-match-filename
 import merge from '../../phet-core/js/merge.js';
 import platform from '../../phet-core/js/platform.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
