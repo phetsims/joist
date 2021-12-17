@@ -8,7 +8,7 @@
 
 import { voicingManager, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
 import responseCollector from '../../../utterance-queue/js/responseCollector.js';
-import joistVoicingUtteranceQueue from '../../../utterance-queue/js/UtteranceQueue.js';
+import joistVoicingUtteranceQueue from '../joistVoicingUtteranceQueue.js';
 import joist from '../joist.js';
 import PreferencesProperties from './PreferencesProperties.js';
 import PreferencesStorage from './PreferencesStorage.js';
