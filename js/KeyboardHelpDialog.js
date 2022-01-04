@@ -104,7 +104,8 @@ class TabHintLine extends Node {
 
     // a line to say "tab to get started" below the "Keyboard Shortcuts" 'title'
     const labelWithIcon = KeyboardHelpSection.labelWithIcon( joistStrings.keyboardShortcuts.toGetStarted,
-      TextKeyNode.tab(), tabToGetStartedString, {
+      TextKeyNode.tab(), {
+        labelInnerContent: tabToGetStartedString,
         iconOptions: {
           tagName: 'p' // because there is only one, and the default is an li tag
         }
