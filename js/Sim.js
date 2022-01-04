@@ -599,8 +599,31 @@ class Sim extends PhetioObject {
       joistVoicingUtteranceQueue
     );
 
+    this.isSettingPhetioStateProperty.lazyLink( isSettingState => {
+      if ( !isSettingState ) {
+        this.updateViews();
+      }
+    } );
+
     // Third party support
     phet.chipper.queryParameters.legendsOfLearning && new LegendsOfLearningSupport( this ).start();
+  }
+
+  /**
+   * Update the views of the sim. This is meant to run after the state has been set to make sure that all view
+   * elements are in sync with the new, current state of the sim. (even when the sim is inactive, as in the state
+   * wrapper).
+   * @private
+   */
+  updateViews() {
+
+    // Trigger layout code
+    phet.joist.sim.resizeToWindow();
+
+    this.screenProperty.value.view.step && this.screenProperty.value.view.step( 0 );
+
+    // Update the display asynchronously since it can trigger events on pointer validation, see https://github.com/phetsims/ph-scale/issues/212
+    animationFrameTimer.runOnNextTick( () => phet.joist.display.updateDisplay() );
   }
 
   /**
