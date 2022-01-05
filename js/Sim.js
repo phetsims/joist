@@ -618,7 +618,7 @@ class Sim extends PhetioObject {
   updateViews() {
 
     // Trigger layout code
-    phet.joist.sim.resizeToWindow();
+    this.resizeToWindow();
 
     this.screenProperty.value.view.step && this.screenProperty.value.view.step( 0 );
 
