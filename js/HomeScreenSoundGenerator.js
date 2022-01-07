@@ -7,14 +7,14 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import Enumeration from '../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../phet-core/js/EnumerationDeprecated.js';
 import MultiClip from '../../tambo/js/sound-generators/MultiClip.js';
 import screenSelectionHomeV3_mp3 from '../sounds/screenSelectionHomeV3_mp3.js';
 import switchingScreenSelectorIcons003_mp3 from '../sounds/switchingScreenSelectorIcons003_mp3.js';
 import joist from './joist.js';
 
 // constants
-const SoundType = Enumeration.byKeys( [ 'HOME_SCREEN_SELECTED', 'DIFFERENT_ICON_SELECTED' ] );
+const SoundType = EnumerationDeprecated.byKeys( [ 'HOME_SCREEN_SELECTED', 'DIFFERENT_ICON_SELECTED' ] );
 
 class HomeScreenSoundGenerator extends MultiClip {
 

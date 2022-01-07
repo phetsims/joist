@@ -10,7 +10,7 @@
  */
 
 import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
-import Enumeration from '../../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../../phet-core/js/EnumerationDeprecated.js';
 import merge from '../../../phet-core/js/merge.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { KeyboardUtils } from '../../../scenery/js/imports.js';
@@ -51,7 +51,7 @@ const PANEL_SECTION_LABEL_OPTIONS = {
 };
 
 // tabs available in this Dialog
-const PreferencesTab = Enumeration.byKeys( [ 'GENERAL', 'VISUAL', 'AUDIO', 'INPUT' ] );
+const PreferencesTab = EnumerationDeprecated.byKeys( [ 'GENERAL', 'VISUAL', 'AUDIO', 'INPUT' ] );
 
 class PreferencesDialog extends Dialog {
 

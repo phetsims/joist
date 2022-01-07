@@ -7,10 +7,10 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import Enumeration from '../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../phet-core/js/EnumerationDeprecated.js';
 import joist from './joist.js';
 
-const UpdateState = Enumeration.byKeys( [
+const UpdateState = EnumerationDeprecated.byKeys( [
   'UP_TO_DATE',   // Simulation version is equal to or greater than the currently published version.
   'OUT_OF_DATE',  // Simulation version is less than currently published version (or equal but has a suffix)
   'CHECKING',     // Request to server sent out, has not processed reply yet.
