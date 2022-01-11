@@ -9,7 +9,7 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
+import EnumerationDeprecatedProperty from '../../axon/js/EnumerationDeprecatedProperty.js';
 import joist from './joist.js';
 import packageJSON from './packageJSON.js'; // parse name/version out of the package.json
 import UpdateState from './UpdateState.js';
@@ -26,7 +26,7 @@ class UpdateCheck {
   constructor() {
 
     // @public (read-only joist-internal) {Property.<UpdateState>}
-    this.stateProperty = new EnumerationProperty( UpdateState, UpdateState.UNCHECKED );
+    this.stateProperty = new EnumerationDeprecatedProperty( UpdateState, UpdateState.UNCHECKED );
 
     // @public (read-only joist-internal) {SimVersion|null} will be filled in by check() if applicable
     this.latestVersion = null;

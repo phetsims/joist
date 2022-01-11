@@ -9,7 +9,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
+import EnumerationDeprecatedProperty from '../../../axon/js/EnumerationDeprecatedProperty.js';
 import EnumerationDeprecated from '../../../phet-core/js/EnumerationDeprecated.js';
 import merge from '../../../phet-core/js/merge.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
@@ -91,7 +91,7 @@ class PreferencesDialog extends Dialog {
     assert && assert( supportedTabs.length > 0, 'Trying to create a PreferencesDialog with no tabs, check PreferencesConfiguration' );
 
     // the selected PreferencesTab, indicating which tab is visible in the Dialog
-    const selectedTabProperty = new EnumerationProperty( PreferencesTab, PreferencesTab.GENERAL );
+    const selectedTabProperty = new EnumerationDeprecatedProperty( PreferencesTab, PreferencesTab.GENERAL );
 
     // the set of tabs you can can click to activate a tab panel
     const preferencesTabs = new PreferencesTabs( preferencesConfiguration, supportedTabs, selectedTabProperty );

@@ -34,7 +34,7 @@ class PreferencesTabs extends Node {
   /**
    * @param {PreferencesConfiguration} preferencesConfiguration
    * @param {PreferencesTab[]} supportedTabs - list of tabs the Dialog should include
-   * @param {EnumerationProperty.<PreferencesDialog.PreferenceTab>} selectedPanelProperty
+   * @param {EnumerationDeprecatedProperty.<PreferencesDialog.PreferenceTab>} selectedPanelProperty
    */
   constructor( preferencesConfiguration, supportedTabs, selectedPanelProperty ) {
     super( {
@@ -48,7 +48,7 @@ class PreferencesTabs extends Node {
     // tab is next in order when cycling through with alternative input.
     this.selectedButton = null;
 
-    // @private {EnumerationProperty}
+    // @private {EnumerationDeprecatedProperty}
     this.selectedPanelProperty = selectedPanelProperty;
 
     // @private {Tab[]}
@@ -152,7 +152,7 @@ class Tab extends Node {
 
   /**
    * @param {string} label - text label for the tab
-   * @param {EnumerationProperty.<PreferencesDialog.<PreferencesTab>} property
+   * @param {EnumerationDeprecatedProperty.<PreferencesDialog.<PreferencesTab>} property
    * @param {PreferencesDialog.PreferencesTab} value - PreferencesTab shown when this tab is selected
    */
   constructor( label, property, value ) {

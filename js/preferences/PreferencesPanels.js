@@ -23,7 +23,7 @@ class PreferencesPanels extends Node {
   /**
    * @param {PreferencesConfiguration} preferencesConfiguration
    * @param {PreferencesTab[]} supportedTabs - list of Tabs supported by this Dialog
-   * @param {EnumerationProperty.<PreferencesTab>} selectedTabProperty
+   * @param {EnumerationDeprecatedProperty.<PreferencesTab>} selectedTabProperty
    * @param {BooleanProperty} simAudioProperty - Property controlling all sim audio
    * @param {PreferencesProperties} preferencesProperties
    */
