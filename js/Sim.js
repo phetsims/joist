@@ -927,8 +927,17 @@ class Sim extends PhetioObject {
     animationFrameTimer.emit( getDT( this.lastAnimationFrameTime, currentTime ) );
     this.lastAnimationFrameTime = currentTime;
 
-    // PhET-iO batches messages to be sent to other frames, messages must be sent whether the sim is active or not
-    Tandem.PHET_IO_ENABLED && phet.phetio.phetioCommandProcessor.onAnimationLoop( this );
+    if ( Tandem.PHET_IO_ENABLED ) {
+
+      // PhET-iO batches messages to be sent to other frames, messages must be sent whether the sim is active or not
+      phet.phetio.phetioCommandProcessor.onAnimationLoop( this );
+
+      // Process Studio Autoselect each frame, whether the sim is enabled or not.
+      if ( phet.phetio.phetioEngine.phetioElementMouseOverProperty.hasListeners() && this.display._input.mouse ) {
+        const node = this.display.getPhetioElementAt( this.display._input.mouse.point );
+        phet.phetio.phetioEngine.phetioElementMouseOverProperty.value = node ? node.tandem.phetioID : null;
+      }
+    }
   }
 
   // @private - run a single frame including model, view and display updates
