@@ -208,7 +208,7 @@ class LabelButtonRow {
       joistVoicingUtteranceQueue.addToBack( this.utterance );
     }
     else {
-      voicingManager.cancel();
+      voicingManager.cancelUtterance( this.utterance );
     }
   }
 }
