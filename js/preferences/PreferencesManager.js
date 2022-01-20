@@ -42,6 +42,13 @@ class PreferencesManager {
         joistVoicingUtteranceQueue.enabled = enabled;
       } );
 
+      // If initially enabled, then apply all responses on startup, can (and should) be overwritten by PreferencesStorage.
+      if ( phet.chipper.queryParameters.voicingInitiallyEnabled ) {
+        responseCollector.objectResponsesEnabledProperty.value = true;
+        responseCollector.contextResponsesEnabledProperty.value = true;
+        responseCollector.hintResponsesEnabledProperty.value = true;
+      }
+
       // Register these to be stored when PreferencesStorage is enabled. TODO: likely to be moved to a better spot, see https://github.com/phetsims/joist/issues/737
       PreferencesStorage.register( responseCollector.objectResponsesEnabledProperty, 'objectResponsesEnabledProperty' );
       PreferencesStorage.register( responseCollector.contextResponsesEnabledProperty, 'contextResponsesEnabledProperty' );
