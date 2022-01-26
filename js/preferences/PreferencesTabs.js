@@ -148,7 +148,7 @@ class PreferencesTabs extends Node {
  * Inner class, a single tab for the list of tabs.
  * @mixes Voicing
  */
-class Tab extends Node {
+class Tab extends Voicing( Node ) {
 
   /**
    * @param {string} label - text label for the tab
@@ -185,8 +185,6 @@ class Tab extends Node {
     // @public {PreferenceTab}
     this.value = value;
 
-    // voicing
-    this.initializeVoicing();
     this.voicingNameResponse = StringUtils.fillIn( preferencesTabResponsePatternString, {
       title: label
     } );
@@ -215,8 +213,6 @@ class Tab extends Node {
 
   }
 }
-
-Voicing.compose( Tab );
 
 joist.register( 'PreferencesTabs', PreferencesTabs );
 export default PreferencesTabs;

@@ -16,7 +16,7 @@ import PushButtonModel from '../../sun/js/buttons/PushButtonModel.js';
 import HighlightNode from './HighlightNode.js';
 import joist from './joist.js';
 
-class JoistButton extends Node {
+class JoistButton extends Voicing( Node ) {
 
   /**
    * @param {Node} content - the scenery node to render as the content of the button
@@ -66,9 +66,6 @@ class JoistButton extends Node {
     options.children = [ content, brightenHighlight, darkenHighlight ];
 
     super();
-
-    // voicing - initialize the voicing trait
-    this.initializeVoicing();
 
     // We want to mutate eagerly, but must do so after initializing Voicing properties
     this.mutate( options );
@@ -123,8 +120,6 @@ class JoistButton extends Node {
     return this._pressListener.pdomClickingProperty.get();
   }
 }
-
-Voicing.compose( JoistButton );
 
 joist.register( 'JoistButton', JoistButton );
 export default JoistButton;

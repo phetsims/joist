@@ -88,7 +88,7 @@ class KeyboardHelpDialog extends Dialog {
  * An inner class that assembles the "Tab to get started" content of the Dialog title. This content
  * is interactive with Voicing in that it can be clicked to hear this content (when Voicing is enabled).
  */
-class TabHintLine extends Node {
+class TabHintLine extends ReadingBlock( Node ) {
 
   /**
    * @mixes ReadingBlock
@@ -114,12 +114,9 @@ class TabHintLine extends Node {
     // labelWithIcon is meant to be passed to KeyboardHelpSection, so we have to hack a bit here
     this.addChild( new HBox( { children: [ labelWithIcon.icon, labelWithIcon.label ], spacing: 4 } ) );
 
-    this.initializeReadingBlock();
     this.mutate( options );
   }
 }
-
-ReadingBlock.compose( TabHintLine );
 
 joist.register( 'KeyboardHelpDialog', KeyboardHelpDialog );
 export default KeyboardHelpDialog;

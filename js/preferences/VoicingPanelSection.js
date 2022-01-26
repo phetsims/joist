@@ -319,7 +319,7 @@ const createCheckbox = ( labelString, property ) => {
  * @param {NumberProperty} voiceRateProperty
  * @returns {NumberControl}
  */
-class VoiceRateNumberControl extends NumberControl {
+class VoiceRateNumberControl extends Voicing( NumberControl ) {
   constructor( labelString, a11yLabelString, voiceRateProperty ) {
     super( labelString, voiceRateProperty, voiceRateProperty.range, {
       includeArrowButtons: false,
@@ -349,9 +349,6 @@ class VoiceRateNumberControl extends NumberControl {
       // phet-io
       tandem: Tandem.OPT_OUT
     } );
-
-    // voicing
-    this.initializeVoicing();
 
     this.slider.addInputListener( {
       focus: event => {
@@ -389,8 +386,6 @@ class VoiceRateNumberControl extends NumberControl {
     } );
   }
 }
-
-Voicing.compose( VoiceRateNumberControl );
 
 /**
  * Inner class for the ComboBox that selects the voice for the voicingManager. This ComboBox can be created and destroyed
@@ -446,7 +441,7 @@ class VoiceComboBox extends ComboBox {
  * @param {NumberProperty} voicePitchProperty
  * @returns {VBox}
  */
-class VoicingPitchSlider extends VBox {
+class VoicingPitchSlider extends Voicing( VBox ) {
 
   /**
    * @param labelString
@@ -484,8 +479,6 @@ class VoicingPitchSlider extends VBox {
     slider.addMajorTick( voicePitchProperty.range.max, highLabel );
 
     super();
-
-    this.initializeVoicing();
 
     slider.addInputListener( {
       focus: event => {
@@ -536,8 +529,6 @@ class VoicingPitchSlider extends VBox {
     return pitchDescription;
   }
 }
-
-Voicing.compose( VoicingPitchSlider );
 
 joist.register( 'VoicingPanelSection', VoicingPanelSection );
 export default VoicingPanelSection;
