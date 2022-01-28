@@ -9,11 +9,7 @@
 
 import Property from '../../axon/js/Property.js';
 import merge from '../../phet-core/js/merge.js';
-import { FocusManager } from '../../scenery/js/imports.js';
-import { globalKeyStateTracker } from '../../scenery/js/imports.js';
-import { KeyboardUtils } from '../../scenery/js/imports.js';
-import { voicingManager } from '../../scenery/js/imports.js';
-import audioManager from './audioManager.js';
+import { FocusManager, globalKeyStateTracker, KeyboardUtils } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 
 // constants
@@ -74,19 +70,6 @@ class HighlightVisibilityController {
         setHighlightsVisible();
       }
     } );
-
-    if ( options.preferencesConfiguration && options.preferencesConfiguration.audioOptions.supportsVoicing ) {
-
-      // For now, ReadingBlocks are only enabled when voicing is fully enabled and when sound is on. We decided that
-      // having ReadingBlock highlights that do nothing is too confusing so they should be removed unless they
-      // have some output.
-      Property.multilink( [
-        voicingManager.voicingFullyEnabledProperty,
-        audioManager.audioEnabledProperty
-      ], ( voicingFullyEnabled, allAudioEnabled ) => {
-        this.display.focusManager.readingBlockHighlightsVisibleProperty.value = voicingFullyEnabled && allAudioEnabled;
-      } );
-    }
 
     if ( options.preferencesManager ) {
       options.preferencesManager.preferencesProperties.interactiveHighlightsEnabledProperty.link( visible => {
