@@ -148,7 +148,7 @@ class PreferencesTabs extends Node {
  * Inner class, a single tab for the list of tabs.
  * @mixes Voicing
  */
-class Tab extends Voicing( Node ) {
+class Tab extends Voicing( Node, 0 ) {
 
   /**
    * @param {string} label - text label for the tab

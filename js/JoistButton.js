@@ -16,7 +16,7 @@ import PushButtonModel from '../../sun/js/buttons/PushButtonModel.js';
 import HighlightNode from './HighlightNode.js';
 import joist from './joist.js';
 
-class JoistButton extends Voicing( Node ) {
+class JoistButton extends Voicing( Node, 0 ) {
 
   /**
    * @param {Node} content - the scenery node to render as the content of the button

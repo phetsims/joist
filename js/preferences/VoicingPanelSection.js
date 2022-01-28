@@ -319,7 +319,7 @@ const createCheckbox = ( labelString, property ) => {
  * @param {NumberProperty} voiceRateProperty
  * @returns {NumberControl}
  */
-class VoiceRateNumberControl extends Voicing( NumberControl ) {
+class VoiceRateNumberControl extends Voicing( NumberControl, 3 ) {
   constructor( labelString, a11yLabelString, voiceRateProperty ) {
     super( labelString, voiceRateProperty, voiceRateProperty.range, {
       includeArrowButtons: false,
@@ -441,7 +441,7 @@ class VoiceComboBox extends ComboBox {
  * @param {NumberProperty} voicePitchProperty
  * @returns {VBox}
  */
-class VoicingPitchSlider extends Voicing( VBox ) {
+class VoicingPitchSlider extends Voicing( VBox, 0 ) {
 
   /**
    * @param labelString
