@@ -321,8 +321,8 @@ class Sim extends PhetioObject {
         screen.view.step( dt );
       }
 
-      // Do not update the display while customizing, or it could show the sim before it is fully customized.
-      if ( !( Tandem.PHET_IO_ENABLED && phet.phetio.phetioEngine.isCustomizing ) ) {
+      // Do not update the display while PhET-iO is customizing, or it could show the sim before it is fully ready for display.
+      if ( !( Tandem.PHET_IO_ENABLED && !phet.phetio.phetioEngine.isReadyForDisplay ) ) {
         this.display.updateDisplay();
       }
 
@@ -867,7 +867,7 @@ class Sim extends PhetioObject {
               // After the application is ready to go, remove the splash screen and progress bar.  Note the splash
               // screen is removed after one step(), so the rendering is ready to go when the progress bar is hidden.
               // no-op otherwise and will be disposed by phetioEngine.
-              if ( !( Tandem.PHET_IO_ENABLED && phet.phetio.phetioEngine.isCustomizing ) ) {
+              if ( !Tandem.PHET_IO_ENABLED || phet.preloads.phetio.queryParameters.phetioStandalone ) {
                 window.phetSplashScreen.dispose();
               }
               // Sanity check that there is no phetio object in phet brand, see https://github.com/phetsims/phet-io/issues/1229
