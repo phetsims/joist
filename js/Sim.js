@@ -935,11 +935,7 @@ class Sim extends PhetioObject {
       // Process Studio Autoselect each frame, whether the sim is enabled or not.
       if ( phet.phetio.phetioEngine.phetioElementMouseOverProperty.hasListeners() && this.display._input.mouse ) {
         const node = this.display.getPhetioElementAt( this.display._input.mouse.point );
-        const altKey = phet.phetio.phetioEngine.latestEvent && phet.phetio.phetioEngine.latestEvent.altKey;
-        const ctrlKey = phet.phetio.phetioEngine.latestEvent && phet.phetio.phetioEngine.latestEvent.ctrlKey;
-
-        phet.phetio.phetioEngine.phetioElementMouseOverProperty.value =
-          JSON.stringify( { phetioID: node ? node.tandem.phetioID : null, altKey: altKey, ctrlKey: ctrlKey } );
+        phet.phetio.phetioEngine.phetioElementMouseOverProperty.value = node ? node.tandem.phetioID : null;
       }
     }
   }
