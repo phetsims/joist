@@ -100,7 +100,7 @@ class SimDisplay extends Display {
     // @private
     super( new Node( { renderer: options.rootRenderer } ), options );
 
-    // @public (Sim) root for the simulation and the target for MultiListener to support magnification since the Display rootNode
+    // @public - root Node for the simulation and the target for MultiListener to support magnification since the Display rootNode
     // cannot be transformed
     this.simulationRoot = new Node();
     this.rootNode.addChild( this.simulationRoot );
