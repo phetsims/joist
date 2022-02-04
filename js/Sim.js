@@ -594,6 +594,7 @@ class Sim extends PhetioObject {
       this.simInfo,
       this.isConstructionCompleteProperty,
       this.frameEndedEmitter,
+      this.display,
       this.display.descriptionUtteranceQueue,
       voicingUtteranceQueue,
       joistVoicingUtteranceQueue
@@ -931,12 +932,6 @@ class Sim extends PhetioObject {
 
       // PhET-iO batches messages to be sent to other frames, messages must be sent whether the sim is active or not
       phet.phetio.phetioCommandProcessor.onAnimationLoop( this );
-
-      // Process Studio Autoselect each frame, whether the sim is enabled or not.
-      if ( phet.phetio.phetioEngine.phetioElementMouseOverProperty.hasListeners() && this.display._input.mouse ) {
-        const node = this.display.getPhetioElementAt( this.display._input.mouse.point );
-        phet.phetio.phetioEngine.phetioElementMouseOverProperty.value = node ? node.tandem.phetioID : null;
-      }
     }
   }
 
