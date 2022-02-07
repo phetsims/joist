@@ -21,7 +21,7 @@
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import { voicingManager } from '../../scenery/js/imports.js';
+import { Display, voicingManager } from '../../scenery/js/imports.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -118,7 +118,7 @@ class AudioManager extends PhetioObject {
     }
 
     if ( this.supportsVoicing ) {
-      voicingManager.initialize( {
+      voicingManager.initialize( Display.userGestureEmitter, {
 
         // specify the Properties that control whether or not output is allowed from voicingManager
         speechAllowedProperty: new DerivedProperty( [
