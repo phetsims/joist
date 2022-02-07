@@ -22,6 +22,7 @@
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import { Display, voicingManager } from '../../scenery/js/imports.js';
+import SpeechSynthesisAnnouncer from '../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -50,7 +51,7 @@ class AudioManager extends PhetioObject {
 
     // @public {joist-internal, read-only) {boolean} - True if "Voicing" features or speech synthesis is supported,
     // and we need to initialize the voicingManager for SpeechSynthesis.
-    this.supportsVoicing = voicingManager.isSpeechSynthesisSupported() &&
+    this.supportsVoicing = SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() &&
                            ( phet.chipper.queryParameters.supportsVoicing || phet.chipper.queryParameters.supportsSpeechSynthesis );
 
     // @public {joist-internal, read-only) {boolean} - True if any form of Audio is enabled in the simulation.

@@ -9,7 +9,7 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
-import { voicingManager } from '../../../scenery/js/imports.js';
+import SpeechSynthesisAnnouncer from '../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import joist from '../joist.js';
 
 class PreferencesConfiguration {
@@ -51,7 +51,7 @@ class PreferencesConfiguration {
         // The entry point for Voicing, and if true the sim will support Voicing and Voicing options in Preferences.
         // The feature is only available on platforms where SpeechSynthesis is supported. For now, it is only available
         // when running with english locales, accessibility strings are not made available for translation yet.
-        supportsVoicing: phetFeatures.supportsVoicing && voicingManager.isSpeechSynthesisSupported() && simLocale === 'en',
+        supportsVoicing: phetFeatures.supportsVoicing && SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() && simLocale === 'en',
 
         // {boolean} - Whether or not to include checkboxes related to sound and enhanced sound. supportsEnhancedSound
         // can only be included if supportsSound is also true.
