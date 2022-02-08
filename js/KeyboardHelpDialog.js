@@ -88,7 +88,7 @@ class KeyboardHelpDialog extends Dialog {
  * An inner class that assembles the "Tab to get started" content of the Dialog title. This content
  * is interactive with Voicing in that it can be clicked to hear this content (when Voicing is enabled).
  */
-class TabHintLine extends ReadingBlock( Node ) {
+class TabHintLine extends ReadingBlock( Node, 0 ) {
 
   /**
    * @mixes ReadingBlock
