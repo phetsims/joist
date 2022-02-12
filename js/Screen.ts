@@ -13,14 +13,15 @@
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
+import Bounds2 from '../../dot/js/Bounds2.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Shape from '../../kite/js/Shape.js';
-import merge from '../../phet-core/js/merge.js';
+import optionize from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
-import { Path } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
-import PhetioObject from '../../tandem/js/PhetioObject.js';
+import { Color, Path, Rectangle, Node } from '../../scenery/js/imports.js';
+import PhetioObject, { PhetioObjectOptions } from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import NullableIO from '../../tandem/js/types/NullableIO.js';
@@ -29,6 +30,7 @@ import StringIO from '../../tandem/js/types/StringIO.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import ScreenIcon from './ScreenIcon.js';
+import ScreenView from './ScreenView.js';
 
 const screenNamePatternString = joistStrings.a11y.screenNamePattern;
 const screenSimPatternString = joistStrings.a11y.screenSimPattern;
@@ -45,16 +47,47 @@ const ICON_ASPECT_RATIO_TOLERANCE = 5E-3; // how close to the ideal aspect ratio
 assert && assert( Math.abs( HOME_SCREEN_ICON_ASPECT_RATIO - HOME_SCREEN_ICON_ASPECT_RATIO ) < ICON_ASPECT_RATIO_TOLERANCE,
   'MINIMUM_HOME_SCREEN_ICON_SIZE and MINIMUM_NAVBAR_ICON_SIZE must have the same aspect ratio' );
 
-class Screen extends PhetioObject {
+// Documentation is by the defaults
+type ScreenSelfOptions = {
+  name?: string | null;
+  instrumentNameProperty?: true;
+  backgroundColorProperty?: Property<string> | Property<Color>;
+  homeScreenIcon?: ScreenIcon | null;
+  showUnselectedHomeScreenIconFrame?: boolean;
+  navigationBarIcon?: ScreenIcon | null;
+  showScreenIconFrameForNavigationBarFill?: string | null;
+  maxDT?: number;
+  keyboardHelpNode?: Node | null;
+  descriptionContent?: string | null;
+};
+export type ScreenOptions = ScreenSelfOptions & PhetioObjectOptions;
 
-  /**
-   * @param {function} createModel
-   * @param {function:Object } createView - function( model )
-   * @param {Object} [options]
-   */
-  constructor( createModel, createView, options ) {
+// Parameterized on M=Model and V=View
+class Screen<M, V extends ScreenView> extends PhetioObject {
+  backgroundColorProperty: Property<string> | Property<Color>;
+  private readonly nameProperty: IReadOnlyProperty<string | null>;
+  private readonly showScreenIconFrameForNavigationBarFill: string | null;
+  private readonly homeScreenIcon: Node | null;
+  private readonly navigationBarIcon: Node | null;
+  private readonly showUnselectedHomeScreenIconFrame: boolean;
+  private readonly keyboardHelpNode: Node | null; // joist-internal
+  private readonly pdomDisplayNameProperty: DerivedProperty<string | null, [ string | null ]>;
+  private readonly maxDT: number;
+  private readonly createModel: () => M;
+  private readonly createView: ( model: M ) => V;
+  private _model: M | null;
+  private _view: V | null;
+  private readonly activeProperty: BooleanProperty;
+  private readonly descriptionContent: string; // TODO: https://github.com/phetsims/joist/issues/776 this seems unused
 
-    options = merge( {
+  static HOME_SCREEN_ICON_ASPECT_RATIO: number;
+  static MINIMUM_HOME_SCREEN_ICON_SIZE: Dimension2;
+  static MINIMUM_NAVBAR_ICON_SIZE: Dimension2;
+  static ScreenIO: IOType;
+
+  constructor( createModel: () => M, createView: ( model: M ) => V, providedOptions?: ScreenOptions ) {
+
+    const options = optionize<ScreenOptions, ScreenSelfOptions, PhetioObjectOptions, 'tandem'>( {
 
       // {string|null} name of the sim, as displayed to the user.
       // For single-screen sims, there is no home screen or navigation bar, and null is OK.
@@ -98,11 +131,7 @@ class Screen extends PhetioObject {
       phetioType: Screen.ScreenIO,
       phetioState: false,
       phetioFeatured: true
-    }, options );
-
-    // Verify that the home screen and nav bar icons, if provided, are SceenIcons or sub-types thereof.
-    assert && assert( !options.homeScreenIcon || options.homeScreenIcon instanceof ScreenIcon, 'invalid homeScreenIcon' );
-    assert && assert( !options.navigationBarIcon || options.navigationBarIcon instanceof ScreenIcon, 'invalid navigationBarIcon' );
+    }, providedOptions );
 
     assert && assert( _.includes( [ 'black', 'white', null ], options.showScreenIconFrameForNavigationBarFill ),
       `invalid showScreenIconFrameForNavigationBarFill: ${options.showScreenIconFrameForNavigationBarFill}` );
@@ -130,9 +159,6 @@ class Screen extends PhetioObject {
       assert && assert( _.endsWith( options.tandem.phetioID, 'Screen' ), 'Screen tandems should end with Screen suffix' );
     }
 
-    assert && assert( !options.backgroundColor, 'Please provide backgroundColorProperty instead' );
-
-    // @public
     this.backgroundColorProperty = options.backgroundColorProperty;
 
     // Don't instrument this.nameProperty if options.instrumentNameProperty is false or if options.name is not provided.
@@ -140,7 +166,7 @@ class Screen extends PhetioObject {
     // even if it has a name, see https://github.com/phetsims/joist/issues/627 and https://github.com/phetsims/joist/issues/629.
     const instrumentNameProperty = options.instrumentNameProperty && options.name;
 
-    // @public (read-only) {Property.<String|null>} - may be null for single-screen simulations
+    // may be null for single-screen simulations
     this.nameProperty = new Property( options.name, {
       phetioType: Property.PropertyIO( NullableIO( StringIO ) ),
       tandem: instrumentNameProperty ? options.tandem.createTandem( 'nameProperty' ) : Tandem.OPT_OUT,
@@ -149,36 +175,31 @@ class Screen extends PhetioObject {
                            'corresponding button on the navigation bar and home screen, if they exist.'
     } );
 
-    // @public (read-only)
     this.homeScreenIcon = options.homeScreenIcon;
     this.navigationBarIcon = options.navigationBarIcon;
     this.showUnselectedHomeScreenIconFrame = options.showUnselectedHomeScreenIconFrame;
     this.showScreenIconFrameForNavigationBarFill = options.showScreenIconFrameForNavigationBarFill;
-
-    // @public (joist-internal, read-only)
     this.keyboardHelpNode = options.keyboardHelpNode;
 
-    // @public (read-only) {Property.<String|null>} - may be null for single-screen simulations
+    // may be null for single-screen simulations
     this.pdomDisplayNameProperty = new DerivedProperty( [ this.nameProperty ], name => {
       return name === null ? null : StringUtils.fillIn( screenNamePatternString, {
         name: name
       } );
     } );
 
-    // @public (read-only, joist)
     this.maxDT = options.maxDT;
 
-    // @private
     this.createModel = createModel;
     this.createView = createView;
 
     // Construction of the model and view are delayed and controlled to enable features like
     // a) faster loading when only loading certain screens
     // b) showing a loading progress bar <not implemented>
-    this._model = null; // @private
-    this._view = null; // @private
+    this._model = null;
+    this._view = null;
 
-    // @public {Property.<boolean>} indicates whether the Screen is active. Clients can read this, joist sets it.
+    // Indicates whether the Screen is active. Clients can read this, joist sets it.
     // To prevent potential visual glitches, the value should change only while the screen's view is invisible.
     // That is: transitions from false to true before a Screen becomes visible, and from true to false after a Screen becomes invisible.
     this.activeProperty = new BooleanProperty( true, {
@@ -188,8 +209,8 @@ class Screen extends PhetioObject {
                            'simulations, there is only one screen and it is always active.'
     } );
 
-    // @public (a11y) - used to set the ScreenView's descriptionContent. This is a bit of a misnomer because Screen is
-    // not a Node subtype, so this is a value property rather than a setter.
+    // Used to set the ScreenView's descriptionContent. This is a bit of a misnomer because Screen is not a Node
+    // subtype, so this is a value property rather than a setter.
     this.descriptionContent = '';
     if ( options.descriptionContent ) {
       this.descriptionContent = options.descriptionContent;
@@ -204,30 +225,29 @@ class Screen extends PhetioObject {
     }
 
     assert && this.activeProperty.lazyLink( () => {
-      assert( this._view, 'isActive should not change before the Screen view has been initialized' );
+      assert && assert( this._view, 'isActive should not change before the Screen view has been initialized' );
 
       // In phet-io mode, the state of a sim can be set without a deterministic order. The activeProperty could be
       // changed before the view's visibility is set.
       if ( !Tandem.PHET_IO_ENABLED ) {
-        assert( !this._view.isVisible(), 'isActive should not change while the Screen view is visible' );
+        assert && assert( !this._view!.isVisible(), 'isActive should not change while the Screen view is visible' );
       }
     } );
   }
 
-  // @public - Returns the model (if it has been constructed)
-  get model() {
+  // Returns the model (if it has been constructed)
+  get model(): M {
     assert && assert( this._model, 'Model has not yet been constructed' );
-    return this._model;
+    return this._model!;
   }
 
-  // @public - Returns the view (if it has been constructed)
-  get view() {
+  // Returns the view (if it has been constructed)
+  get view(): V {
     assert && assert( this._view, 'View has not yet been constructed' );
-    return this._view;
+    return this._view!;
   }
 
-  // @public
-  reset() {
+  reset(): void {
 
     // Background color not reset, as it's a responsibility of the code that changes the property
   }
@@ -236,7 +256,7 @@ class Screen extends PhetioObject {
    * Initialize the model.
    * @public (joist-internal)
    */
-  initializeModel() {
+  initializeModel(): void {
     assert && assert( this._model === null, 'there was already a model' );
     this._model = this.createModel();
   }
@@ -244,14 +264,14 @@ class Screen extends PhetioObject {
   /**
    * Initialize the view.
    * @public (joist-internal)
-   * @param {string} simName - The name of the sim, used for a11y.
-   * @param {string} displayedName - The display name of the sim, used for a11y. Could change based on screen.
-   * @param {number} numberOfScreens - the number of screens in the sim this runtime (could change with `?screens=...`.
-   * @param {boolean} isHomeScreen - if this screen is the home screen.
+   * @param simName - The name of the sim, used for a11y.
+   * @param displayedName - The display name of the sim, used for a11y. Could change based on screen.
+   * @param numberOfScreens - the number of screens in the sim this runtime (could change with `?screens=...`.
+   * @param isHomeScreen - if this screen is the home screen.
    */
-  initializeView( simName, displayedName, numberOfScreens, isHomeScreen ) {
+  initializeView( simName: string, displayedName: string, numberOfScreens: number, isHomeScreen: boolean ): void {
     assert && assert( this._view === null, 'there was already a view' );
-    this._view = this.createView( this.model );
+    this._view = this.createView( this.model! );
     this._view.setVisible( false ); // a Screen is invisible until selected
 
     assert && assert( typeof simName === 'string' );
@@ -291,7 +311,7 @@ class Screen extends PhetioObject {
       }
 
       // if there is a screenSummaryNode, then set its intro string now
-      this._view.setScreenSummaryIntroAndTitle( simName, screenName, titleString, numberOfScreens > 1 );
+      this._view!.setScreenSummaryIntroAndTitle( simName, screenName!, titleString, numberOfScreens > 1 );
     } );
 
     assert && this._view.pdomAudit();
@@ -300,12 +320,12 @@ class Screen extends PhetioObject {
 
 /**
  * Validates the sizes for the home screen icon and navigation bar icon.
- * @param {Node} icon - the icon to validate
- * @param {Dimension2} minimumSize - the minimum allowed size for the icon
- * @param {number} aspectRatio - the required aspect ratio
- * @param {string} name - the name of the icon type (for assert messages)
+ * @param icon - the icon to validate
+ * @param minimumSize - the minimum allowed size for the icon
+ * @param aspectRatio - the required aspect ratio
+ * @param name - the name of the icon type (for assert messages)
  */
-function validateIconSize( icon, minimumSize, aspectRatio, name ) {
+function validateIconSize( icon: Node, minimumSize: Dimension2, aspectRatio: number, name: string ): void {
   assert && assert( icon.width >= minimumSize.width, `${name} width is too small: ${icon.width} < ${minimumSize.width}` );
   assert && assert( icon.height >= minimumSize.height, `${name} height is too small: ${icon.height} < ${minimumSize.height}` );
 
@@ -319,10 +339,8 @@ function validateIconSize( icon, minimumSize, aspectRatio, name ) {
 
 /**
  * Creates a Node for visualizing the ScreenView layoutBounds with 'dev' query parameter.
- * @param {Bounds2} layoutBounds
- * @returns {Node}
  */
-function devCreateLayoutBoundsNode( layoutBounds ) {
+function devCreateLayoutBoundsNode( layoutBounds: Bounds2 ): Node {
   return new Path( Shape.bounds( layoutBounds ), {
     stroke: 'red',
     lineWidth: 3,
@@ -332,10 +350,8 @@ function devCreateLayoutBoundsNode( layoutBounds ) {
 
 /**
  * Creates a Node for visualizing the ScreenView visibleBoundsProperty with 'showVisibleBounds' query parameter.
- * @param {ScreenView} screenView
- * @returns {Node}
  */
-function devCreateVisibleBoundsNode( screenView ) {
+function devCreateVisibleBoundsNode( screenView: ScreenView ): Node {
   const path = new Path( Shape.bounds( screenView.visibleBoundsProperty.value ), {
     stroke: 'blue',
     lineWidth: 6,
@@ -347,7 +363,6 @@ function devCreateVisibleBoundsNode( screenView ) {
   return path;
 }
 
-// @public
 Screen.HOME_SCREEN_ICON_ASPECT_RATIO = HOME_SCREEN_ICON_ASPECT_RATIO;
 Screen.MINIMUM_HOME_SCREEN_ICON_SIZE = MINIMUM_HOME_SCREEN_ICON_SIZE;
 Screen.MINIMUM_NAVBAR_ICON_SIZE = MINIMUM_NAVBAR_ICON_SIZE;
