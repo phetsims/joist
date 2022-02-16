@@ -274,8 +274,6 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
     this._view = this.createView( this.model! );
     this._view.setVisible( false ); // a Screen is invisible until selected
 
-    assert && assert( typeof simName === 'string' );
-
     // Show the home screen's layoutBounds
     if ( phet.chipper.queryParameters.dev ) {
       this._view.addChild( devCreateLayoutBoundsNode( this._view.layoutBounds ) );
