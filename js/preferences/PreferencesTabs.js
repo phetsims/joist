@@ -26,7 +26,7 @@ import PreferencesDialog from './PreferencesDialog.js';
 const generalTitleString = joistStrings.preferences.tabs.general.title;
 const visualTitleString = joistStrings.preferences.tabs.visual.title;
 const audioTitleString = joistStrings.preferences.tabs.audio.title;
-const inputTitleString = joistStrings.preferences.tabs.input.title;
+const inputTitleString = 'Input';
 const preferencesTabResponsePatternString = joistStrings.a11y.preferences.tabs.tabResponsePattern;
 
 class PreferencesTabs extends Node {

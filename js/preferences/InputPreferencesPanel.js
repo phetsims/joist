@@ -19,12 +19,14 @@ import PreferencesPanelSection from './PreferencesPanelSection.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 
 // constants
-const inputTitleString = joistStrings.preferences.tabs.input.title;
-const gestureControlsString = joistStrings.preferences.tabs.input.gestureControls.title;
-const gestureControlsDescriptionString = joistStrings.preferences.tabs.input.gestureControls.description;
 const gestureControlEnabledAlertString = joistStrings.a11y.preferences.tabs.input.gestureControl.enabledAlert;
 const gestureControlDisabledAlertString = joistStrings.a11y.preferences.tabs.input.gestureControl.disabledAlert;
 const labelledDescriptionPatternString = joistStrings.a11y.preferences.tabs.labelledDescriptionPattern;
+
+// NOT translatable yet because this tab does not appear in any published simulation.
+const inputTitleString = 'Input';
+const gestureControlsString = 'Gesture Control';
+const gestureControlsDescriptionString = 'Use touch with custom swipes and taps instead. No direct touch with gesture control enabled.';
 
 class InputPreferencesPanel extends Node {
 
