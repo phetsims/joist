@@ -78,7 +78,7 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
   private _model: M | null;
   private _view: V | null;
   private readonly activeProperty: BooleanProperty;
-  private readonly descriptionContent: string; // TODO: https://github.com/phetsims/joist/issues/777 this seems unused
+  public readonly descriptionContent: string;
 
   static HOME_SCREEN_ICON_ASPECT_RATIO: number;
   static MINIMUM_HOME_SCREEN_ICON_SIZE: Dimension2;
