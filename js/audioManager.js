@@ -21,12 +21,14 @@
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import { Display, voicingManager } from '../../scenery/js/imports.js';
+import { Display, voicingManager, voicingUtteranceQueue } from '../../scenery/js/imports.js';
 import SpeechSynthesisAnnouncer from '../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
+import responseCollector from '../../utterance-queue/js/responseCollector.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
+import joistVoicingUtteranceQueue from './joistVoicingUtteranceQueue.js';
 
 class AudioManager extends PhetioObject {
 
@@ -93,8 +95,28 @@ class AudioManager extends PhetioObject {
 
     // Since voicingManager in Scenery can not use initialize-globals,set the initial
     // value for whether Voicing is enabled here in the audioManager
-    if ( phet.chipper.queryParameters.supportsVoicing ) {
+    if ( this.supportsVoicing ) {
       voicingManager.enabledProperty.value = phet.chipper.queryParameters.voicingInitiallyEnabled;
+
+      // The default utteranceQueue will be used for voicing of simulation components, and it is enabled when the
+      // voicingManager is fully enabled (voicingManager is enabled and the voicing is enabled for the "main window"
+      // sim screens)
+      voicingManager.voicingFullyEnabledProperty.link( enabled => {
+        voicingUtteranceQueue.enabled = enabled;
+        !enabled && voicingUtteranceQueue.clear();
+      } );
+
+      // the utteranceQueue for surrounding user controls is enabled as long as voicing is enabled
+      voicingManager.enabledProperty.link( enabled => {
+        joistVoicingUtteranceQueue.enabled = enabled;
+      } );
+
+      // If initially enabled, then apply all responses on startup, can (and should) be overwritten by PreferencesStorage.
+      if ( phet.chipper.queryParameters.voicingInitiallyEnabled ) {
+        responseCollector.objectResponsesEnabledProperty.value = true;
+        responseCollector.contextResponsesEnabledProperty.value = true;
+        responseCollector.hintResponsesEnabledProperty.value = true;
+      }
     }
 
     if ( phet.chipper.queryParameters.printVoicingResponses ) {
