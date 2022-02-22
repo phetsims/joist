@@ -6,7 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 ( function() {
-  
+
 
   // Overall scale factor for the image + progress bar, matched empirically to desired size
   const SCALE_FACTOR = 1.0 / 4.0 * 1.042;
@@ -53,15 +53,27 @@
     div.style.transform = transformString;
   }
 
+  const splashBackground = document.createElement( 'div' );
+  splashBackground.style.position = 'fixed';
+  splashBackground.style.left = '0px';
+  splashBackground.style.top = '0px';
+  splashBackground.style.width = '100%';
+  splashBackground.style.height = '100%';
+  splashBackground.style.backgroundColor = 'black';
+  splashBackground.style.zIndex = 10000;
+
+  splashBackground.style[ '-webkit-transform-origin' ] = '0 0';
+  splashBackground.style[ '-ms-transform-origin' ] = '0 0';
+  splashBackground.style[ 'transform-origin' ] = '0 0';
   // Create the main container div, which will hold the splash image and progress bar
-  const div = document.createElement( 'div' );
-  div.id = SPLASH_CONTAINER_ID;
-  div.style.position = 'fixed';
-  div.style.left = '0px';
-  div.style.top = '0px';
-  div.style[ '-webkit-transform-origin' ] = '0 0';
-  div.style[ '-ms-transform-origin' ] = '0 0';
-  div.style[ 'transform-origin' ] = '0 0';
+  const centerLogoAndProgress = document.createElement( 'div' );
+  centerLogoAndProgress.id = SPLASH_CONTAINER_ID;
+  centerLogoAndProgress.style.position = 'fixed';
+  centerLogoAndProgress.style.left = '0px';
+  centerLogoAndProgress.style.top = '0px';
+  centerLogoAndProgress.style[ '-webkit-transform-origin' ] = '0 0';
+  centerLogoAndProgress.style[ '-ms-transform-origin' ] = '0 0';
+  centerLogoAndProgress.style[ 'transform-origin' ] = '0 0';
 
   // Create the splash image, which is an SVG logo
   const splashImage = document.createElement( 'img' );
@@ -72,7 +84,7 @@
 
   // Closure which binds the values to positionDiv, which can be used as a listener reference.
   const adjustPosition = function() {
-    positionDiv( div, splashImage );
+    positionDiv( centerLogoAndProgress, splashImage );
   };
 
   // Wait until the image has loaded so that everything appears at once.
@@ -91,7 +103,8 @@
 
     // After creating and positioning the div, add it to the body.  This could show in the wrong position if the image
     // dimensions are 0x0, see https://github.com/phetsims/joist/issues/408
-    document.body.appendChild( div );
+    splashBackground.appendChild( centerLogoAndProgress );
+    document.body.appendChild( splashBackground );
   };
 
   // Create the progress bar
@@ -142,8 +155,8 @@
   };
 
   // Add elements
-  div.appendChild( splashImage );
-  div.appendChild( svg );
+  centerLogoAndProgress.appendChild( splashImage );
+  centerLogoAndProgress.appendChild( svg );
 
   // Load the splash screen image
   if ( window.PHET_SPLASH_DATA_URI ) {
@@ -186,7 +199,7 @@
 
       zoomEvents.forEach( zoomEvent => window.removeEventListener( zoomEvent, preventZoom ) );
 
-      document.body.removeChild( div );
+      document.body.removeChild( splashBackground );
       delete window.phetSplashScreen;
     }
   };
