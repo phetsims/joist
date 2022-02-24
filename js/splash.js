@@ -53,6 +53,7 @@
     div.style.transform = transformString;
   }
 
+  // The main overlay for the whole screen, which will hide anything going on behind it.
   const splashBackground = document.createElement( 'div' );
   splashBackground.style.position = 'fixed';
   splashBackground.style.left = '0px';
@@ -61,11 +62,11 @@
   splashBackground.style.height = '100%';
   splashBackground.style.backgroundColor = 'black';
   splashBackground.style.zIndex = 10000;
-
   splashBackground.style[ '-webkit-transform-origin' ] = '0 0';
   splashBackground.style[ '-ms-transform-origin' ] = '0 0';
   splashBackground.style[ 'transform-origin' ] = '0 0';
-  // Create the main container div, which will hold the splash image and progress bar
+
+  // Create the container div which will hold the splash image and progress bar
   const centerLogoAndProgress = document.createElement( 'div' );
   centerLogoAndProgress.id = SPLASH_CONTAINER_ID;
   centerLogoAndProgress.style.position = 'fixed';
