@@ -21,13 +21,11 @@ import VisualPreferencesPanel from './VisualPreferencesPanel.js';
 class PreferencesPanels extends Node {
 
   /**
-   * @param {PreferencesConfiguration} preferencesConfiguration
+   * @param {PreferencesManager} preferencesModel
    * @param {PreferencesTab[]} supportedTabs - list of Tabs supported by this Dialog
    * @param {EnumerationDeprecatedProperty.<PreferencesTab>} selectedTabProperty
-   * @param {BooleanProperty} simAudioProperty - Property controlling all sim audio
-   * @param {PreferencesProperties} preferencesProperties
    */
-  constructor( preferencesConfiguration, supportedTabs, selectedTabProperty, simAudioProperty, preferencesProperties ) {
+  constructor( preferencesModel, supportedTabs, selectedTabProperty ) {
     super();
 
     const panelAlignGroup = new AlignGroup( {
@@ -39,7 +37,7 @@ class PreferencesPanels extends Node {
 
     let generalPreferencesPanel = null;
     if ( supportedTabs.includes( PreferencesDialog.PreferencesTab.GENERAL ) ) {
-      generalPreferencesPanel = new GeneralPreferencesPanel( preferencesConfiguration.generalOptions );
+      generalPreferencesPanel = new GeneralPreferencesPanel( preferencesModel.generalModel );
       const generalBox = panelAlignGroup.createBox( generalPreferencesPanel );
       this.addChild( generalBox );
       this.content.push( new PreferencesPanel( generalPreferencesPanel, PreferencesDialog.PreferencesTab.GENERAL ) );
@@ -47,7 +45,7 @@ class PreferencesPanels extends Node {
 
     let visualPreferencesPanel = null;
     if ( supportedTabs.includes( PreferencesDialog.PreferencesTab.VISUAL ) ) {
-      visualPreferencesPanel = new VisualPreferencesPanel( preferencesProperties.interactiveHighlightsEnabledProperty );
+      visualPreferencesPanel = new VisualPreferencesPanel( preferencesModel.visualModel );
       const visualBox = panelAlignGroup.createBox( visualPreferencesPanel );
       this.addChild( visualBox );
       this.content.push( new PreferencesPanel( visualPreferencesPanel, PreferencesDialog.PreferencesTab.VISUAL ) );
@@ -55,7 +53,7 @@ class PreferencesPanels extends Node {
 
     let audioPreferencesPanel = null;
     if ( supportedTabs.includes( PreferencesDialog.PreferencesTab.AUDIO ) ) {
-      audioPreferencesPanel = new AudioPreferencesPanel( preferencesConfiguration.audioOptions, simAudioProperty, preferencesProperties.toolbarEnabledProperty );
+      audioPreferencesPanel = new AudioPreferencesPanel( preferencesModel.audioModel, preferencesModel.toolbarEnabledProperty );
       const audioBox = panelAlignGroup.createBox( audioPreferencesPanel );
       this.addChild( audioBox );
       this.content.push( new PreferencesPanel( audioPreferencesPanel, PreferencesDialog.PreferencesTab.AUDIO ) );
@@ -63,7 +61,7 @@ class PreferencesPanels extends Node {
 
     let inputPreferencesPanel = null;
     if ( supportedTabs.includes( PreferencesDialog.PreferencesTab.INPUT ) ) {
-      inputPreferencesPanel = new InputPreferencesPanel( preferencesProperties.gestureControlsEnabledProperty );
+      inputPreferencesPanel = new InputPreferencesPanel( preferencesModel.inputModel );
       this.addChild( inputPreferencesPanel );
       this.content.push( new PreferencesPanel( inputPreferencesPanel, PreferencesDialog.PreferencesTab.INPUT ) );
     }

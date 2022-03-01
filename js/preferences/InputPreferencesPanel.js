@@ -31,9 +31,9 @@ const gestureControlsDescriptionString = 'Use touch with custom swipes and taps 
 class InputPreferencesPanel extends Node {
 
   /**
-   * @param {BooleanProperty} gestureControlsEnabledProperty
+   * @param {Object} inputModel - see PreferencesManager
    */
-  constructor( gestureControlsEnabledProperty ) {
+  constructor( inputModel ) {
     super( {
 
       // pdom
@@ -42,7 +42,7 @@ class InputPreferencesPanel extends Node {
       labelContent: inputTitleString
     } );
 
-    const toggleSwitch = new PreferencesToggleSwitch( gestureControlsEnabledProperty, false, true, {
+    const toggleSwitch = new PreferencesToggleSwitch( inputModel.gestureControlsEnabledProperty, false, true, {
       labelNode: new Text( gestureControlsString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ),
       descriptionNode: new VoicingRichText( gestureControlsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         lineWrap: 350,
@@ -60,7 +60,7 @@ class InputPreferencesPanel extends Node {
     } );
     this.addChild( panelSection );
 
-    gestureControlsEnabledProperty.lazyLink( enabled => {
+    inputModel.gestureControlsEnabledProperty.lazyLink( enabled => {
       const alert = enabled ? gestureControlEnabledAlertString : gestureControlDisabledAlertString;
       voicingUtteranceQueue.addToBack( alert );
     } );

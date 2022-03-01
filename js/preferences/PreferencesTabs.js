@@ -32,11 +32,10 @@ const preferencesTabResponsePatternString = joistStrings.a11y.preferences.tabs.t
 class PreferencesTabs extends Node {
 
   /**
-   * @param {PreferencesConfiguration} preferencesConfiguration
    * @param {PreferencesTab[]} supportedTabs - list of tabs the Dialog should include
    * @param {EnumerationDeprecatedProperty.<PreferencesDialog.PreferenceTab>} selectedPanelProperty
    */
-  constructor( preferencesConfiguration, supportedTabs, selectedPanelProperty ) {
+  constructor( supportedTabs, selectedPanelProperty ) {
     super( {
 
       tagName: 'ul',

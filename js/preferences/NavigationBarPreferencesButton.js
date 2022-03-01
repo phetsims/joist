@@ -9,6 +9,7 @@
 import { Path } from '../../../scenery/js/imports.js';
 import userCogSolidShape from '../../../sherpa/js/fontawesome-5/userCogSolidShape.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import merge from '../../../phet-core/js/merge.js';
 import joist from '../joist.js';
 import JoistButton from '../JoistButton.js';
 import joistStrings from '../joistStrings.js';
@@ -17,13 +18,15 @@ import PreferencesDialog from './PreferencesDialog.js';
 class NavigationBarPreferencesButton extends JoistButton {
 
   /**
-   * @param {PreferencesConfiguration} preferencesConfiguration
-   * @param {PreferencesProperties} preferencesProperties
+   * @param {PreferencesManager} preferencesModel
    * @param {LookAndFeel} lookAndFeel
-   * @param {Property.<boolean>} simSoundProperty
-   * @param {Tandem} tandem
+   * @param {Object} [options]
    */
-  constructor( preferencesConfiguration, preferencesProperties, lookAndFeel, simSoundProperty ) {
+  constructor( preferencesModel, lookAndFeel, options ) {
+
+    options = merge( {
+      tandem: Tandem.REQUIRED
+    }, options );
 
     const icon = new Path( userCogSolidShape, {
       fill: lookAndFeel.navigationBarTextFillProperty,
@@ -34,7 +37,7 @@ class NavigationBarPreferencesButton extends JoistButton {
     super( icon, lookAndFeel.navigationBarFillProperty, Tandem.OPT_OUT, {
       listener: () => {
         if ( !preferencesDialog ) {
-          preferencesDialog = new PreferencesDialog( preferencesConfiguration, preferencesProperties, simSoundProperty, {
+          preferencesDialog = new PreferencesDialog( preferencesModel, {
             tandem: Tandem.OPT_OUT
           } );
         }

@@ -22,9 +22,9 @@ const moreAccessibilityString = joistStrings.preferences.tabs.general.moreAccess
 class GeneralPreferencesPanel extends VBox {
 
   /**
-   * @param {Object} generalConfiguration - configuration for the Tab, see PreferencesConfiguration for entries
+   * @param {Object} generalModel - configuration for the Tab, see PreferencesManager for entries
    */
-  constructor( generalConfiguration ) {
+  constructor( generalModel ) {
     super( {
       align: 'left',
       spacing: 40,
@@ -36,9 +36,7 @@ class GeneralPreferencesPanel extends VBox {
     } );
 
     const panelChildren = [];
-    if ( generalConfiguration.simControls ) {
-      panelChildren.push( new SimControlsPanelSection( generalConfiguration.simControls ) );
-    }
+    generalModel.simControls && panelChildren.push( new SimControlsPanelSection( generalModel.simControls ) );
 
     const introParagraphs = new VBox( { spacing: 10, align: 'left' } );
     const introTextOptions = merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {

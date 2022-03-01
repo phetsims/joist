@@ -54,7 +54,6 @@ class SimDisplay extends Display {
       assumeFullWindow: true, // a bit faster if we can assume no coordinate translations are needed for the display.
 
       // See Sim.js for full documentation
-      preferencesConfiguration: null, // {PreferencesConfiguration|null}
       preferencesManager: null, // {PreferencesManager|null}
 
       // pdom accessibility (interactive description)
@@ -124,10 +123,7 @@ class SimDisplay extends Display {
     }
 
     // @private - Add a listener to the Display that controls visibility of various highlights in response to user input.
-    this.highlightVisibilityController = new HighlightVisibilityController( this, _.pick( options, [
-      'preferencesConfiguration',
-      'preferencesManager'
-    ] ) );
+    this.highlightVisibilityController = new HighlightVisibilityController( this, options.preferencesManager );
 
     if ( phet.chipper.queryParameters.sceneryLog ) {
       scenery.enableLogging( phet.chipper.queryParameters.sceneryLog );

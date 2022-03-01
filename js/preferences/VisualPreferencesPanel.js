@@ -29,9 +29,9 @@ const labelledDescriptionPatternString = joistStrings.a11y.preferences.tabs.labe
 class VisualPreferencesPanel extends Node {
 
   /**
-   * @param {BooleanProperty} interactiveHighlightsEnabledProperty - whether or not interactive highlights are enabled
+   * @param {Object} visualModel - see PreferencesManager
    */
-  constructor( interactiveHighlightsEnabledProperty ) {
+  constructor( visualModel ) {
     super( {
 
       // pdom
@@ -41,7 +41,7 @@ class VisualPreferencesPanel extends Node {
     } );
 
     const label = new Text( interactiveHighlightsString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
-    const toggleSwitch = new PreferencesToggleSwitch( interactiveHighlightsEnabledProperty, false, true, {
+    const toggleSwitch = new PreferencesToggleSwitch( visualModel.interactiveHighlightsEnabledProperty, false, true, {
       labelNode: label,
       descriptionNode: new VoicingText( interactiveHighlightsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         readingBlockContent: StringUtils.fillIn( labelledDescriptionPatternString, {
@@ -66,11 +66,11 @@ class VisualPreferencesPanel extends Node {
       // pdom
       this.alertDescriptionUtterance( alertString );
     };
-    interactiveHighlightsEnabledProperty.lazyLink( alertEnabledChange );
+    visualModel.interactiveHighlightsEnabledProperty.lazyLink( alertEnabledChange );
 
     // @private
     this.disposeVisualPreferencesPanel = () => {
-      interactiveHighlightsEnabledProperty.unlink( alertEnabledChange );
+      visualModel.interactiveHighlightsEnabledProperty.unlink( alertEnabledChange );
     };
   }
 

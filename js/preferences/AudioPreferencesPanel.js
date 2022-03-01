@@ -22,26 +22,25 @@ const audioFeaturesString = joistStrings.preferences.tabs.audio.audioFeatures.ti
 class AudioPreferencesTabPanel extends VBox {
 
   /**
-   * @param {Object} audioOptions - configuration for audio settings, see PreferencesConfiguration
-   * @param {BooleanProperty} simSoundProperty - whether sim sound is globally enabled
+   * @param {Object} audioModel - configuration for audio settings, see PreferencesManager
    * @param {BooleanProperty} enableToolbarProperty - whether the Toolbar is enabled
    */
-  constructor( audioOptions, simSoundProperty, enableToolbarProperty ) {
+  constructor( audioModel, enableToolbarProperty ) {
 
     const panelChildren = [];
 
-    if ( audioOptions.supportsVoicing ) {
-      panelChildren.push( new VoicingPanelSection( enableToolbarProperty ) );
+    if ( audioModel.supportsVoicing ) {
+      panelChildren.push( new VoicingPanelSection( audioModel, enableToolbarProperty ) );
     }
 
-    if ( audioOptions.supportsSound ) {
+    if ( audioModel.supportsSound ) {
 
       // If only one of the audio features are in use, do not include the toggle switch to
       // enable/disable that feature because the control is redundant. The audio output should go
       // through the "Audio Features" toggle only.
-      const hideSoundToggle = audioOptions.supportsVoicing !== audioOptions.supportsSound;
+      const hideSoundToggle = audioModel.supportsVoicing !== audioModel.supportsSound;
 
-      panelChildren.push( new SoundPanelSection( audioOptions, {
+      panelChildren.push( new SoundPanelSection( audioModel, {
         includeTitleToggleSwitch: !hideSoundToggle
       } ) );
     }
@@ -51,7 +50,7 @@ class AudioPreferencesTabPanel extends VBox {
       children: panelChildren
     } );
 
-    const allAudioSwitch = new PreferencesToggleSwitch( simSoundProperty, false, true, {
+    const allAudioSwitch = new PreferencesToggleSwitch( audioModel.simSoundEnabledProperty, false, true, {
       labelNode: new Text( audioFeaturesString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ),
       a11yLabel: audioFeaturesString
     } );
@@ -60,7 +59,7 @@ class AudioPreferencesTabPanel extends VBox {
       sections.enabled = enabled;
     };
 
-    simSoundProperty.link( soundEnabledListener );
+    audioModel.simSoundEnabledProperty.link( soundEnabledListener );
 
     super( {
       align: 'center',
@@ -75,7 +74,7 @@ class AudioPreferencesTabPanel extends VBox {
 
     // @private - for disposal
     this.disposeAudioPreferencesPanel = () => {
-      simSoundProperty.unlink( soundEnabledListener );
+      audioModel.simSoundEnabledProperty.unlink( soundEnabledListener );
     };
   }
 

@@ -87,13 +87,14 @@ const TRACK_SIZE = new Dimension2( 100, 5 );
 class VoicingPanelSection extends PreferencesPanelSection {
 
   /**
+   * @param {Object} audioModel - configuration for audio settings, see PreferencesManager
    * @param {BooleanProperty} toolbarEnabledProperty - whether or not the Toolbar is enabled for use
    */
-  constructor( toolbarEnabledProperty ) {
+  constructor( audioModel, toolbarEnabledProperty ) {
 
     // the checkbox is the title for the section and totally enables/disables the feature
     const voicingLabel = new Text( voicingLabelString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
-    const voicingSwitch = new PreferencesToggleSwitch( voicingManager.enabledProperty, false, true, {
+    const voicingSwitch = new PreferencesToggleSwitch( audioModel.voicingEnabledProperty, false, true, {
       labelNode: voicingLabel,
       descriptionNode: new VoicingText( voicingDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         readingBlockContent: StringUtils.fillIn( labelledDescriptionPatternString, {
@@ -128,9 +129,9 @@ class VoicingPanelSection extends PreferencesPanelSection {
       align: 'left',
       spacing: 5,
       children: [
-        createCheckbox( objectDetailsLabelString, responseCollector.objectResponsesEnabledProperty ),
-        createCheckbox( contextChangesLabelString, responseCollector.contextResponsesEnabledProperty ),
-        createCheckbox( helpfulHintsLabelString, responseCollector.hintResponsesEnabledProperty )
+        createCheckbox( objectDetailsLabelString, audioModel.voicingObjectResponsesEnabledProperty ),
+        createCheckbox( contextChangesLabelString, audioModel.voicingContextResponsesEnabledProperty ),
+        createCheckbox( helpfulHintsLabelString, audioModel.voicingHintResponsesEnabledProperty )
       ]
     } );
 
@@ -140,8 +141,8 @@ class VoicingPanelSection extends PreferencesPanelSection {
     speechOutputDescription.leftTop = speechOutputLabel.leftBottom.plusXY( 0, 5 );
     speechOutputCheckboxes.leftTop = speechOutputDescription.leftBottom.plusXY( 15, 5 );
 
-    const rateSlider = new VoiceRateNumberControl( rateString, rateLabelString, voicingManager.voiceRateProperty );
-    const pitchSlider = new VoicingPitchSlider( pitchString, voicingManager.voicePitchProperty );
+    const rateSlider = new VoiceRateNumberControl( rateString, rateLabelString, audioModel.voiceRateProperty );
+    const pitchSlider = new VoicingPitchSlider( pitchString, audioModel.voicePitchProperty );
     const voiceOptionsContent = new VBox( {
       spacing: 5,
       align: 'left',
@@ -204,18 +205,18 @@ class VoicingPanelSection extends PreferencesPanelSection {
       contentNode: content
     } );
 
-    voicingManager.enabledProperty.link( enabled => {
+    audioModel.voicingEnabledProperty.link( enabled => {
       content.visible = enabled;
     } );
 
     // Speak when voicing becomes initially enabled. First speech is done synchronously (not using utterance-queue)
     // in response to user input, otherwise all speech will be blocked on many platforms
     const voicingEnabledUtterance = new Utterance();
-    voicingManager.enabledProperty.lazyLink( enabled => {
+    audioModel.voicingEnabledProperty.lazyLink( enabled => {
 
       // only speak if "Sim Voicing" is on, all voicing should be disabled except for the Toolbar
       // buttons in this case
-      if ( voicingManager.mainWindowVoicingEnabledProperty.value ) {
+      if ( audioModel.voicingMainWindowVoicingEnabledProperty.value ) {
         voicingEnabledUtterance.alert = enabled ? voicingEnabledString : voicingDisabledString;
         voicingManager.speakIgnoringEnabled( voicingEnabledUtterance );
         this.alertDescriptionUtterance( voicingEnabledUtterance );
@@ -250,7 +251,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
         voiceList = englishVoices.slice( 0, 12 );
       }
 
-      voiceComboBox = new VoiceComboBox( phet.joist.sim.topLayer, voiceList );
+      voiceComboBox = new VoiceComboBox( voiceList, audioModel.voiceProperty, phet.joist.sim.topLayer );
       voiceOptionsContent.addChild( voiceComboBox );
     };
     voicingManager.voicesChangedEmitter.addListener( voicesChangedListener );
@@ -395,10 +396,11 @@ class VoiceRateNumberControl extends Voicing( NumberControl, 3 ) {
 class VoiceComboBox extends ComboBox {
 
   /**
-   * @param {Node} parentNode - node that acts as a parent for the ComboBox list
    * @param {SpeechSynthesisVoice[]} voices - list of voices to include from the voicingManager
+   * @param {Property.<SpeechSynthesisVoice|null>} voiceProperty
+   * @param {Node} parentNode - node that acts as a parent for the ComboBox list
    */
-  constructor( parentNode, voices ) {
+  constructor( voices, voiceProperty, parentNode ) {
     const items = [];
 
     if ( voices.length === 0 ) {
@@ -417,9 +419,9 @@ class VoiceComboBox extends ComboBox {
 
     // since we are updating the list, set the VoiceProperty to the first available value, or null if there are
     // voices
-    voicingManager.voiceProperty.set( items[ 0 ].value );
+    voiceProperty.set( items[ 0 ].value );
 
-    super( items, voicingManager.voiceProperty, parentNode, {
+    super( items, voiceProperty, parentNode, {
       listPosition: 'above',
       accessibleName: voiceLabelString,
 

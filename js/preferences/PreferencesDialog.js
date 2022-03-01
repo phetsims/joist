@@ -9,8 +9,9 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import EnumerationDeprecatedProperty from '../../../axon/js/EnumerationDeprecatedProperty.js';
-import EnumerationDeprecated from '../../../phet-core/js/EnumerationDeprecated.js';
+import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
+import EnumerationValue from '../../../phet-core/js/EnumerationValue.js';
+import Enumeration from '../../../phet-core/js/Enumeration.js';
 import merge from '../../../phet-core/js/merge.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { KeyboardUtils } from '../../../scenery/js/imports.js';
@@ -51,17 +52,22 @@ const PANEL_SECTION_LABEL_OPTIONS = {
 };
 
 // tabs available in this Dialog
-const PreferencesTab = EnumerationDeprecated.byKeys( [ 'GENERAL', 'VISUAL', 'AUDIO', 'INPUT' ] );
+class PreferencesTab extends EnumerationValue {
+  static GENERAL = new PreferencesTab();
+  static VISUAL = new PreferencesTab();
+  static AUDIO = new PreferencesTab();
+  static INPUT = new PreferencesTab();
+
+  static enumeration = new Enumeration( PreferencesTab );
+}
 
 class PreferencesDialog extends Dialog {
 
   /**
-   * @param {PreferencesConfiguration} preferencesConfiguration
-   * @param {PreferencesProperties} preferencesProperties
-   * @param {BooleanProperty}simSoundProperty
+   * @param {PreferencesManager} preferencesModel
    * @param {Object} [options]
    */
-  constructor( preferencesConfiguration, preferencesProperties, simSoundProperty, options ) {
+  constructor( preferencesModel, options ) {
 
     const titleText = new Text( preferencesTitleString, {
       font: TITLE_FONT,
@@ -85,19 +91,19 @@ class PreferencesDialog extends Dialog {
     // determine which tabs will be supported in this Dialog, true if any entry in a configuration has content
     const supportedTabs = [];
     supportedTabs.push( PreferencesTab.GENERAL ); // There is always a "General" tab
-    _.some( preferencesConfiguration.visualOptions, entry => !!entry ) && supportedTabs.push( PreferencesTab.VISUAL );
-    ( _.some( preferencesConfiguration.audioOptions, entry => !!entry ) && audioManager.supportsAudio ) && supportedTabs.push( PreferencesTab.AUDIO );
-    _.some( preferencesConfiguration.inputOptions, entry => !!entry ) && supportedTabs.push( PreferencesTab.INPUT );
+    preferencesModel.supportsVisualPreferences() && supportedTabs.push( PreferencesTab.VISUAL );
+    preferencesModel.supportsAudioPreferences() && audioManager.supportsAudio && supportedTabs.push( PreferencesTab.AUDIO );
+    preferencesModel.supportsInputPreferences() && supportedTabs.push( PreferencesTab.INPUT );
     assert && assert( supportedTabs.length > 0, 'Trying to create a PreferencesDialog with no tabs, check PreferencesConfiguration' );
 
     // the selected PreferencesTab, indicating which tab is visible in the Dialog
-    const selectedTabProperty = new EnumerationDeprecatedProperty( PreferencesTab, PreferencesTab.GENERAL );
+    const selectedTabProperty = new EnumerationProperty( PreferencesTab.GENERAL );
 
     // the set of tabs you can can click to activate a tab panel
-    const preferencesTabs = new PreferencesTabs( preferencesConfiguration, supportedTabs, selectedTabProperty );
+    const preferencesTabs = new PreferencesTabs( supportedTabs, selectedTabProperty );
 
     // the panels of content with UI components to select preferences, only one is displayed at a time
-    const preferencesPanels = new PreferencesPanels( preferencesConfiguration, supportedTabs, selectedTabProperty, simSoundProperty, preferencesProperties );
+    const preferencesPanels = new PreferencesPanels( preferencesModel, supportedTabs, selectedTabProperty );
 
     // visual separator between tabs and panels - as long as the widest separated content, which may change with i18n
     const tabPanelSeparator = new HSeparator( Math.max( preferencesPanels.width, preferencesTabs.width ), { lineWidth: 1 } );

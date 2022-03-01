@@ -254,7 +254,7 @@ class PhetMenu extends Node {
         text: menuItemEnhancedSoundString,
 
         // if the sim has a PreferencesConfiguration the control for enhanced sounds will be in the Dialog
-        present: audioManager.supportsEnhancedSound && !sim.preferencesConfiguration,
+        present: audioManager.supportsEnhancedSound && !sim.preferencesManager,
         callback: () => {
           soundManager.enhancedSoundEnabledProperty.set( !soundManager.enhancedSoundEnabledProperty.get() );
         },

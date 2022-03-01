@@ -36,7 +36,7 @@ const labelledDescriptionPatternString = joistStrings.a11y.preferences.tabs.labe
 class SoundPanelSection extends PreferencesPanelSection {
 
   /**
-   * @param {Object} audioOptions - configuration for audio preferences, see PreferencesConfiguration
+   * @param {Object} audioOptions - configuration for audio preferences, see PreferencesManager
    * @param {Object} [options]
    */
   constructor( audioOptions, options ) {

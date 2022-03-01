@@ -129,14 +129,11 @@ class Sim extends PhetioObject {
     }, options );
 
     assert && assert( !options.simDisplayOptions.webgl, 'use top level sim option instead of simDisplayOptions' );
-    assert && assert( !options.simDisplayOptions.preferencesConfiguration, 'use top level sim option instead of simDisplayOptions' );
 
     // Some options are used by sim and SimDisplay. Promote webgl to top level sim option out of API ease, but it is
     // passed to the SimDisplay.
     options.simDisplayOptions = merge( {
       webgl: options.webgl,
-
-      preferencesConfiguration: options.preferencesConfiguration,
       tandem: Tandem.GENERAL_VIEW.createTandem( 'display' )
     }, options.simDisplayOptions );
 
@@ -458,9 +455,6 @@ class Sim extends PhetioObject {
     // @public (joist-internal, read-only)
     this.hasKeyboardHelpContent = options.hasKeyboardHelpContent;
 
-    // @public (read-only) {PreferencesConfiguration|null}
-    this.preferencesConfiguration = options.preferencesConfiguration;
-
     assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
     window.phet.joist.sim = this;
 
@@ -527,9 +521,9 @@ class Sim extends PhetioObject {
     // @private {Toolbar|null} - The Toolbar is not created unless requested with a PreferencesConfiguration.
     this.toolbar = null;
 
-    if ( this.preferencesConfiguration ) {
+    if ( options.preferencesConfiguration ) {
 
-      this.preferencesManager = new PreferencesManager( this );
+      this.preferencesManager = new PreferencesManager( options.preferencesConfiguration );
 
       assert && assert( !options.simDisplayOptions.preferencesManager );
       options.simDisplayOptions.preferencesManager = this.preferencesManager;

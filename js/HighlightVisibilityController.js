@@ -8,7 +8,6 @@
  */
 
 import Property from '../../axon/js/Property.js';
-import merge from '../../phet-core/js/merge.js';
 import { FocusManager, globalKeyStateTracker, KeyboardUtils } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 
@@ -21,16 +20,9 @@ class HighlightVisibilityController {
 
   /**
    * @param {Display} display
-   * @param {Object} [options]
+   * @param {PreferencesManager} preferencesModel
    */
-  constructor( display, options ) {
-
-    options = merge( {
-
-      // See Sim.js for full documentation
-      preferencesConfiguration: null, // {PreferencesConfiguration|null}
-      preferencesManager: null // {PreferencesManager|null}
-    }, options );
+  constructor( display, preferencesModel ) {
 
     // @private {Display} - A reference to the Display whose FocusManager we will operate on to control the visibility
     // of various kinds of highlights
@@ -71,40 +63,41 @@ class HighlightVisibilityController {
       }
     } );
 
-    if ( options.preferencesManager ) {
-      options.preferencesManager.preferencesProperties.interactiveHighlightsEnabledProperty.link( visible => {
+    if ( preferencesModel ) {
+
+      // TODO: move this into the conditional below? https://github.com/phetsims/joist/issues/743
+      preferencesModel.visualModel.interactiveHighlightsEnabledProperty.link( visible => {
         this.display.focusManager.interactiveHighlightsVisibleProperty.value = visible;
       } );
-    }
 
-    // If Interactive Highlights are supported add a listener that switch between using focus highlights and Interactive
-    // Highlights depending on the input received.
-    if ( options.preferencesConfiguration &&
-         options.preferencesConfiguration.visualOptions.supportsInteractiveHighlights ) {
+      // If Interactive Highlights are supported add a listener that switch between using focus highlights and Interactive
+      // Highlights depending on the input received.
+      if ( preferencesModel.visualModel.supportsInteractiveHighlights ) {
 
-      // When both Interactive Highlights are enabled and the PDOM focus highlights are visible, add a listener that
-      // will make focus highlights invisible and interactive highlights visible if we receive a certain amount of
-      // mouse movement. The listener is removed as soon as PDOM focus highlights are made invisible or Interactive
-      // Highlights are disabled.
-      const interactiveHighlightsEnabledProperty = options.preferencesManager.preferencesProperties.interactiveHighlightsEnabledProperty;
-      const pdomFocusHighlightsVisibleProperty = this.display.focusManager.pdomFocusHighlightsVisibleProperty;
-      Property.multilink(
-        [ interactiveHighlightsEnabledProperty, pdomFocusHighlightsVisibleProperty ],
-        ( interactiveHighlightsEnabled, pdomHighlightsVisible ) => {
-          if ( interactiveHighlightsEnabled && pdomHighlightsVisible ) {
-            this.display.addInputListener( moveListener );
+        // When both Interactive Highlights are enabled and the PDOM focus highlights are visible, add a listener that
+        // will make focus highlights invisible and interactive highlights visible if we receive a certain amount of
+        // mouse movement. The listener is removed as soon as PDOM focus highlights are made invisible or Interactive
+        // Highlights are disabled.
+        const interactiveHighlightsEnabledProperty = preferencesModel.visualModel.interactiveHighlightsEnabledProperty;
+        const pdomFocusHighlightsVisibleProperty = this.display.focusManager.pdomFocusHighlightsVisibleProperty;
+        Property.multilink(
+          [ interactiveHighlightsEnabledProperty, pdomFocusHighlightsVisibleProperty ],
+          ( interactiveHighlightsEnabled, pdomHighlightsVisible ) => {
+            if ( interactiveHighlightsEnabled && pdomHighlightsVisible ) {
+              this.display.addInputListener( moveListener );
 
-            // Setting to null indicates that we should store the Pointer.point as the initialPointerPoint on next move.
-            this.initialPointerPoint = null;
+              // Setting to null indicates that we should store the Pointer.point as the initialPointerPoint on next move.
+              this.initialPointerPoint = null;
 
-            // Reset distance of movement for the mouse pointer since we are looking for changes again.
-            this.relativePointerDistance = 0;
+              // Reset distance of movement for the mouse pointer since we are looking for changes again.
+              this.relativePointerDistance = 0;
+            }
+            else {
+              this.display.hasInputListener( moveListener ) && this.display.removeInputListener( moveListener );
+            }
           }
-          else {
-            this.display.hasInputListener( moveListener ) && this.display.removeInputListener( moveListener );
-          }
-        }
-      );
+        );
+      }
     }
 
     this.display.addInputListener( {

@@ -58,7 +58,7 @@ class Toolbar extends Node {
     } );
 
     // @private {BooleanProperty} - Whether or not the Toolbar is enabled (visible to the user)
-    this.isEnabledProperty = sim.preferencesManager.preferencesProperties.toolbarEnabledProperty;
+    this.isEnabledProperty = sim.preferencesManager.toolbarEnabledProperty;
 
     // @private {Rectangle} - the Rectangle for the Toolbar that surrounds all content, bounds set once
     // content is created and in layout to fill height of screen

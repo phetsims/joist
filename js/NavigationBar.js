@@ -129,8 +129,9 @@ class NavigationBar extends Node {
     // @private - a11y HBox, button fills determined by state of navigationBarFillProperty
     this.a11yButtonsHBox = new A11yButtonsHBox(
       sim,
-      this.navigationBarFillProperty,
-      tandem // no need for a container here. If there is a conflict, then it will error loudly.
+      this.navigationBarFillProperty, {
+        tandem: tandem // no need for a container here. If there is a conflict, then it will error loudly.
+      }
     );
     this.barContents.addChild( this.a11yButtonsHBox );
 

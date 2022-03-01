@@ -8,6 +8,7 @@
 
 import merge from '../../phet-core/js/merge.js';
 import platform from '../../phet-core/js/platform.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import { HBox } from '../../scenery/js/imports.js';
 import audioManager from './audioManager.js';
 import joist from './joist.js';
@@ -20,26 +21,25 @@ class A11yButtonsHBox extends HBox {
   /**
    * @param {Sim} sim
    * @param {Property.<Color|string>} backgroundColorProperty
-   * @param {Tandem} tandem
    * @param {Object} [options]
    */
-  constructor( sim, backgroundColorProperty, tandem, options ) {
+  constructor( sim, backgroundColorProperty, options ) {
 
     options = merge( {
       align: 'center',
-      spacing: 6
+      spacing: 6,
+      tandem: Tandem.REQUIRED
     }, options );
 
     // list of optional buttons added for a11y
     const a11yButtons = [];
 
-    if ( sim.preferencesConfiguration ) {
+    if ( sim.preferencesManager ) {
       const preferencesButton = new NavigationBarPreferencesButton(
-        sim.preferencesConfiguration,
-        sim.preferencesManager.preferencesProperties,
-        sim.lookAndFeel,
-        audioManager.audioEnabledProperty
-      );
+        sim.preferencesManager,
+        sim.lookAndFeel, {
+          tandem: options.tandem.createTandem( 'navigationBarPreferencesButton' )
+        } );
 
       a11yButtons.push( preferencesButton );
     }
@@ -49,7 +49,7 @@ class A11yButtonsHBox extends HBox {
     const audioToggleButton = new NavigationBarAudioToggleButton(
       audioManager.audioEnabledProperty,
       backgroundColorProperty,
-      tandem.createTandem( 'audioToggleButton' )
+      options.tandem.createTandem( 'audioToggleButton' )
     );
 
     // only put the sound on/off button on the nav bar if the sound library is enabled
@@ -66,7 +66,7 @@ class A11yButtonsHBox extends HBox {
       const keyboardHelpButton = new KeyboardHelpButton(
         sim.screenProperty,
         backgroundColorProperty,
-        tandem.createTandem( 'keyboardHelpButton' )
+        options.tandem.createTandem( 'keyboardHelpButton' )
       );
 
       // only show the keyboard help button if the sim supports interactive description and we are not in mobile safari
