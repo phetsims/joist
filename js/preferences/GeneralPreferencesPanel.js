@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * The content for the "General" tab in the PreferencesDialog. This is always present. Contains an introductory
