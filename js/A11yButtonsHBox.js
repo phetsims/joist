@@ -29,7 +29,7 @@ class A11yButtonsHBox extends HBox {
       align: 'center',
       spacing: 6,
 
-      // This Node is not instrumented! This tandem is instead just used to create subcomponents.
+      // This Node is not instrumented! This tandem is instead just used to instrument child elements.
       tandem: Tandem.REQUIRED
     }, options );
 
@@ -80,7 +80,7 @@ class A11yButtonsHBox extends HBox {
     assert && assert( !options.children, 'A11yButtonsHBox sets children' );
     options.children = a11yButtons;
 
-    // Don't instrument this tandem
+    // Don't instrument this Node, only its child elements.
     super( _.omit( options, 'tandem' ) );
   }
 }
