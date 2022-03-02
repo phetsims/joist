@@ -83,6 +83,7 @@ class PreferencesManager {
       PreferencesStorage.register( voicingManager.voiceRateProperty, 'voiceRateProperty' );
       PreferencesStorage.register( voicingManager.voicePitchProperty, 'voicePitchProperty' );
     }
+    PreferencesStorage.register( this.visualModel.interactiveHighlightsEnabledProperty, 'interactiveHighlightsEnabledProperty' );
   }
 
   /**
