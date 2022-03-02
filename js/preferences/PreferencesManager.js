@@ -64,7 +64,7 @@ class PreferencesManager {
 
     // @public (read-only)
     this.inputModel = {
-      supportsInteractiveHighlights: preferencesConfiguration.inputOptions.supportsGestureControl,
+      supportsGestureControl: preferencesConfiguration.inputOptions.supportsGestureControl,
 
       // @public {BooleanProperty} - Whether or not "Gesture Controls" are enabled for the simulation. If enabled,
       // touch screen input will change to work like a screen reader. Horizontal swipes across the screen will move focus,
@@ -108,7 +108,7 @@ class PreferencesManager {
    * @returns {boolean}
    */
   supportsInputPreferences() {
-    return this.inputModel.supportsInteractiveHighlights;
+    return this.inputModel.supportsGestureControl;
   }
 }
 
