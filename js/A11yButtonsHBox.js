@@ -28,6 +28,8 @@ class A11yButtonsHBox extends HBox {
     options = merge( {
       align: 'center',
       spacing: 6,
+
+      // This Node is not instrumented! This tandem is instead just used to create subcomponents.
       tandem: Tandem.REQUIRED
     }, options );
 
@@ -78,7 +80,8 @@ class A11yButtonsHBox extends HBox {
     assert && assert( !options.children, 'A11yButtonsHBox sets children' );
     options.children = a11yButtons;
 
-    super( options );
+    // Don't instrument this tandem
+    super( _.omit( options, 'tandem' ) );
   }
 }
 
