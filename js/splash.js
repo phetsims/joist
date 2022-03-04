@@ -54,27 +54,27 @@
   }
 
   // The main overlay for the whole screen, which will hide anything going on behind it.
-  const splashBackground = document.createElement( 'div' );
-  splashBackground.style.position = 'fixed';
-  splashBackground.style.left = '0px';
-  splashBackground.style.top = '0px';
-  splashBackground.style.width = '100%';
-  splashBackground.style.height = '100%';
-  splashBackground.style.backgroundColor = 'black';
-  splashBackground.style.zIndex = 10000;
-  splashBackground.style[ '-webkit-transform-origin' ] = '0 0';
-  splashBackground.style[ '-ms-transform-origin' ] = '0 0';
-  splashBackground.style[ 'transform-origin' ] = '0 0';
+  const splashBackgroundDiv = document.createElement( 'div' );
+  splashBackgroundDiv.style.position = 'fixed';
+  splashBackgroundDiv.style.left = '0px';
+  splashBackgroundDiv.style.top = '0px';
+  splashBackgroundDiv.style.width = '100%';
+  splashBackgroundDiv.style.height = '100%';
+  splashBackgroundDiv.style.backgroundColor = 'black';
+  splashBackgroundDiv.style.zIndex = 10000;
+  splashBackgroundDiv.style[ '-webkit-transform-origin' ] = '0 0';
+  splashBackgroundDiv.style[ '-ms-transform-origin' ] = '0 0';
+  splashBackgroundDiv.style[ 'transform-origin' ] = '0 0';
 
   // Create the container div which will hold the splash image and progress bar
-  const centerLogoAndProgress = document.createElement( 'div' );
-  centerLogoAndProgress.id = SPLASH_CONTAINER_ID;
-  centerLogoAndProgress.style.position = 'fixed';
-  centerLogoAndProgress.style.left = '0px';
-  centerLogoAndProgress.style.top = '0px';
-  centerLogoAndProgress.style[ '-webkit-transform-origin' ] = '0 0';
-  centerLogoAndProgress.style[ '-ms-transform-origin' ] = '0 0';
-  centerLogoAndProgress.style[ 'transform-origin' ] = '0 0';
+  const centerLogoAndProgressDiv = document.createElement( 'div' );
+  centerLogoAndProgressDiv.id = SPLASH_CONTAINER_ID;
+  centerLogoAndProgressDiv.style.position = 'fixed';
+  centerLogoAndProgressDiv.style.left = '0px';
+  centerLogoAndProgressDiv.style.top = '0px';
+  centerLogoAndProgressDiv.style[ '-webkit-transform-origin' ] = '0 0';
+  centerLogoAndProgressDiv.style[ '-ms-transform-origin' ] = '0 0';
+  centerLogoAndProgressDiv.style[ 'transform-origin' ] = '0 0';
 
   // Create the splash image, which is an SVG logo
   const splashImage = document.createElement( 'img' );
@@ -85,7 +85,7 @@
 
   // Closure which binds the values to positionDiv, which can be used as a listener reference.
   const adjustPosition = function() {
-    positionDiv( centerLogoAndProgress, splashImage );
+    positionDiv( centerLogoAndProgressDiv, splashImage );
   };
 
   // Wait until the image has loaded so that everything appears at once.
@@ -104,8 +104,8 @@
 
     // After creating and positioning the div, add it to the body.  This could show in the wrong position if the image
     // dimensions are 0x0, see https://github.com/phetsims/joist/issues/408
-    splashBackground.appendChild( centerLogoAndProgress );
-    document.body.appendChild( splashBackground );
+    splashBackgroundDiv.appendChild( centerLogoAndProgressDiv );
+    document.body.appendChild( splashBackgroundDiv );
   };
 
   // Create the progress bar
@@ -156,8 +156,8 @@
   };
 
   // Add elements
-  centerLogoAndProgress.appendChild( splashImage );
-  centerLogoAndProgress.appendChild( svg );
+  centerLogoAndProgressDiv.appendChild( splashImage );
+  centerLogoAndProgressDiv.appendChild( svg );
 
   // Load the splash screen image
   if ( window.PHET_SPLASH_DATA_URI ) {
@@ -200,7 +200,7 @@
 
       zoomEvents.forEach( zoomEvent => window.removeEventListener( zoomEvent, preventZoom ) );
 
-      document.body.removeChild( splashBackground );
+      document.body.removeChild( splashBackgroundDiv );
       delete window.phetSplashScreen;
     }
   };
