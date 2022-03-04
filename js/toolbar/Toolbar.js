@@ -17,7 +17,7 @@ import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import stepTimer from '../../../axon/js/stepTimer.js';
 import Matrix3 from '../../../dot/js/Matrix3.js';
-import Shape from '../../../kite/js/Shape.js';
+import { Shape } from '../../../kite/js/imports.js';
 import { voicingManager } from '../../../scenery/js/imports.js';
 import { voicingUtteranceQueue } from '../../../scenery/js/imports.js';
 import { Node } from '../../../scenery/js/imports.js';

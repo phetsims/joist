@@ -8,7 +8,7 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import Shape from '../../kite/js/Shape.js';
+import { Shape } from '../../kite/js/imports.js';
 import gracefulBind from '../../phet-core/js/gracefulBind.js';
 import merge from '../../phet-core/js/merge.js';
 import openPopup from '../../phet-core/js/openPopup.js';
