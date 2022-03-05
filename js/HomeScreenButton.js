@@ -1,4 +1,4 @@
-// Copyright 2020-2021, University of Colorado Boulder
+// Copyright 2020-2022, University of Colorado Boulder
 
 /**
  * A HomeScreenButton is displayed on the HomeScreen for choosing a screen. The button can be in a selected or

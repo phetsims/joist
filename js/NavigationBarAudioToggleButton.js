@@ -1,4 +1,4 @@
-// Copyright 2018-2021, University of Colorado Boulder
+// Copyright 2018-2022, University of Colorado Boulder
 
 /**
  * NavigationBarAudioToggleButton is a button for controlling whether audio is enabled or disabled that is designed to
