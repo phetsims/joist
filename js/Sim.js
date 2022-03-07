@@ -10,7 +10,7 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import Action from '../../axon/js/Action.js';
+import PhetioAction from '../../tandem/js/PhetioAction.js';
 import animationFrameTimer from '../../axon/js/animationFrameTimer.js';
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import createObservableArray from '../../axon/js/createObservableArray.js';
@@ -170,7 +170,7 @@ class Sim extends PhetioObject {
     } );
 
     // @public - Action that indicates when the sim resized.  This Action is implemented so it can be automatically played back.
-    this.resizeAction = new Action( ( width, height ) => {
+    this.resizeAction = new PhetioAction( ( width, height ) => {
       assert && assert( width > 0 && height > 0, 'sim should have a nonzero area' );
 
       this.dimensionProperty.value = new Dimension2( width, height );
@@ -258,7 +258,7 @@ class Sim extends PhetioObject {
     // @public {Action} Action that steps the simulation. This Action is implemented so it can be automatically
     // played back for PhET-iO record/playback.  Listen to this Action if you have an action that happens during the
     // simulation step.
-    this.stepSimulationAction = new Action( dt => {
+    this.stepSimulationAction = new PhetioAction( dt => {
       this.frameStartedEmitter.emit();
 
       // increment this before we can have an exception thrown, to see if we are missing frames
