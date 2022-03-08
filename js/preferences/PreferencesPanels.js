@@ -78,18 +78,40 @@ class PreferencesPanels extends Node {
   }
 
   /**
+   * @private
+   * @returns {PreferencesPanel} - the currently selected preferences panel
+   */
+  getSelectedContent() {
+    for ( let i = 0; i < this.content.length; i++ ) {
+      const currentContent = this.content[ i ];
+      if ( currentContent.selectedTabValue === this.selectedTabProperty.value ) {
+        return currentContent;
+      }
+    }
+    assert && assert( false, 'should never not have a selected panel content.' );
+    return null;
+  }
+
+  /**
    * Focus the selected panel. The panel should not be focusable until this is requested, so it is set to be
    * focusable before the focus() call. When focus is removed from the panel, it should become non-focusable
    * again. That is handled in PreferencesPanel class.
    * @public
    */
   focusSelectedPanel() {
-    this.content.forEach( content => {
-      if ( content.selectedTabValue === this.selectedTabProperty.value ) {
-        content.panelContent.focusable = true;
-        content.panelContent.focus();
-      }
-    } );
+    const selectedContent = this.getSelectedContent();
+    selectedContent.panelContent.focusable = true;
+    selectedContent.panelContent.focus();
+  }
+
+  /**
+   * @param {Node} node - the potential content for the selected panel that is focusable
+   * @returns {boolean} if the provided node is the currently selected panel
+   * @public
+   */
+  isFocusableSelectedContent( node ) {
+    const selectedContent = this.getSelectedContent();
+    return node === selectedContent.panelContent; // the panelContent is what is focused in focusSelectedPanel()
   }
 }
 

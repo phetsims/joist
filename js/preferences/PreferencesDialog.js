@@ -130,6 +130,14 @@ class PreferencesDialog extends Dialog {
         }
       }
     } );
+    content.addInputListener( {
+      keydown: event => {
+        if ( KeyboardUtils.isKeyEvent( event.domEvent, KeyboardUtils.KEY_UP_ARROW ) &&
+             this.preferencesPanels.isFocusableSelectedContent( event.target ) ) {
+          this.focusSelectedTab();
+        }
+      }
+    } );
   }
 
   /**
