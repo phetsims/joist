@@ -16,7 +16,7 @@ import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import MeasuringTapeNode from '../../scenery-phet/js/MeasuringTapeNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { Color, Display, DragListener, HBox, Node, RichText, SceneryEvent, Trail, VBox } from '../../scenery/js/imports.js';
+import { Color, Display, DragListener, FlowBox, Font, GradientStop, GridBox, HBox, IColor, Image, IPaint, LinearGradient, Node, Paint, Path, Pattern, PressListener, RadialGradient, Rectangle, RichText, SceneryEvent, Spacer, Text, Trail, VBox } from '../../scenery/js/imports.js';
 import Panel from '../../sun/js/Panel.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
@@ -26,12 +26,39 @@ import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import Checkbox from '../../sun/js/Checkbox.js';
 import ScreenView from './ScreenView.js';
 import IProperty from '../../axon/js/IProperty.js';
+import inheritance from '../../phet-core/js/inheritance.js';
+import Property from '../../axon/js/Property.js';
+import Matrix3 from '../../dot/js/Matrix3.js';
+
+const round = ( n: number, places: number = 2 ) => Utils.toFixed( n, places );
 
 class Helper {
   private sim: Sim;
   private simDisplay: Display;
   private helperDisplay?: Display;
+
+  // Whether the helper is visible (active) or not
   activeProperty: IProperty<boolean>;
+
+  // Where the current pointer is
+  pointerPositionProperty: IProperty<Vector2>;
+
+  // If the user has clicked on a Trail and selected it
+  selectedTrailProperty: IProperty<Trail | null>;
+
+  // What Trail the pointer is over right now
+  activeTrailProperty: IProperty<Trail | null>;
+
+  // What Trail to show as a preview (and to highlight) - selection overrides what the pointer is over
+  previewTrailProperty: IProperty<Trail | null>;
+
+  screenViewProperty: IProperty<ScreenView | null>;
+
+  // ImageData from the sim
+  imageDataProperty: IProperty<ImageData | null>;
+
+  // The pixel color under the pointer
+  colorProperty: IProperty<Color>;
 
   constructor( sim: Sim, simDisplay: SimDisplay ) {
 
@@ -48,21 +75,31 @@ class Helper {
     //   Ignore inputDisabled?
     //   Mouse areas? Touch areas?
 
+    // Normal picker
+    // Radio button Areas: Mouse | Touch | None
+
+    // Visible item
+
     this.sim = sim;
     this.simDisplay = simDisplay;
-
-    // Whether the helper is visible (active) or not
     this.activeProperty = new TinyProperty( false );
 
-    const screenViewProperty = new TinyProperty<ScreenView | null>( null );
+    this.pointerPositionProperty = new TinyProperty( Vector2.ZERO );
 
-    // Where the current pointer is
-    const pointerPositionProperty = new TinyProperty( Vector2.ZERO );
+    this.selectedTrailProperty = new TinyProperty<Trail | null>( null );
+    this.activeTrailProperty = new DerivedProperty( [ this.pointerPositionProperty ], ( point: Vector2 ) => {
+      return simDisplay.rootNode.hitTest( point, true, false );
+    }, {
+      tandem: Tandem.OPT_OUT
+    } );
+    this.previewTrailProperty = new DerivedProperty( [ this.selectedTrailProperty, this.activeTrailProperty ], ( selected, active ) => {
+      return selected ? selected : active;
+    } );
+    this.screenViewProperty = new TinyProperty<ScreenView | null>( null );
 
-    // ImageData from the sim
-    const imageDataProperty = new TinyProperty<ImageData | null>( null );
+    this.imageDataProperty = new TinyProperty<ImageData | null>( null );
 
-    const colorProperty = new DerivedProperty( [ pointerPositionProperty, imageDataProperty ], ( position: Vector2, imageData: ImageData | null ) => {
+    this.colorProperty = new DerivedProperty( [ this.pointerPositionProperty, this.imageDataProperty ], ( position: Vector2, imageData: ImageData | null ) => {
       if ( !imageData ) {
         return Color.TRANSPARENT;
       }
@@ -77,12 +114,6 @@ class Helper {
         imageData.data[ index + 2 ],
         imageData.data[ index + 3 ] / 255
       );
-    }, {
-      tandem: Tandem.OPT_OUT
-    } );
-
-    const trailProperty = new DerivedProperty( [ pointerPositionProperty ], ( point: Vector2 ) => {
-      return simDisplay.rootNode.hitTest( point, true, false );
     }, {
       tandem: Tandem.OPT_OUT
     } );
@@ -105,13 +136,11 @@ class Helper {
       renderer: 'svg'
     } );
 
-    const round = ( n: number, places: number = 2 ) => Utils.toFixed( n, places );
-
-    const positionTextProperty = new MappedProperty( pointerPositionProperty, {
+    const positionTextProperty = new MappedProperty( this.pointerPositionProperty, {
       tandem: Tandem.OPT_OUT,
       bidirectional: true,
       map: position => {
-        const view = screenViewProperty.value;
+        const view = this.screenViewProperty.value;
         if ( view ) {
           const viewPosition = view.globalToLocalPoint( position );
           return `global: x: ${round( position.x )}, y: ${round( position.y )}<br>view: x: ${round( viewPosition.x )}, y: ${round( viewPosition.y )}`;
@@ -129,23 +158,31 @@ class Helper {
     const colorTextMap = ( color: Color ) => {
       return `${color.toHexString()} ${color.toCSS()}`;
     };
-    const colorTextProperty = new MappedProperty( colorProperty, {
+    const colorTextProperty = new MappedProperty( this.colorProperty, {
       tandem: Tandem.OPT_OUT,
       bidirectional: true,
       map: colorTextMap
     } );
-    const colorText = new RichText( colorTextMap( colorProperty.value ), {
+    const colorText = new RichText( colorTextMap( this.colorProperty.value ), {
       font: new PhetFont( 12 ),
       textProperty: colorTextProperty
     } );
-    colorProperty.link( color => {
+    this.colorProperty.link( color => {
       colorText.fill = Color.getLuminance( color ) > 128 ? Color.BLACK : Color.WHITE;
     } );
 
     const colorBackground = new Panel( colorText, {
       cornerRadius: 0,
       stroke: null,
-      fill: colorProperty
+      fill: this.colorProperty
+    } );
+
+    const infoContainer = new VBox( {
+      spacing: 3,
+      align: 'left'
+    } );
+    this.previewTrailProperty.link( trail => {
+      infoContainer.children = trail ? createInfo( trail ) : [];
     } );
 
     const fuzzCheckbox = new Checkbox( new RichText( 'Fuzz', { font: new PhetFont( 12 ) } ), fuzzProperty, {
@@ -159,7 +196,7 @@ class Helper {
     const trailReadout = new RichText( '', {
       font: new PhetFont( 12 )
     } );
-    trailProperty.link( ( trail: Trail | null ) => {
+    this.previewTrailProperty.link( ( trail: Trail | null ) => {
       if ( trail ) {
         trailReadout.text = '<b>Trail:</b><br>' + trail.nodes.slice().reverse().map( node => {
           return node.constructor.name;
@@ -171,7 +208,17 @@ class Helper {
       trailReadout.visible = !!trail;
     } );
 
-    const helperReadoutContent = new VBox( {
+    const backgroundNode = new Node();
+
+    backgroundNode.addInputListener( new PressListener( {
+      press: () => {
+        this.selectedTrailProperty.value = this.activeTrailProperty.value;
+      }
+    } ) );
+    helperRoot.addChild( backgroundNode );
+
+    const helperReadoutContent = new FlowBox( {
+      orientation: 'vertical',
       spacing: 5,
       align: 'left',
       children: [
@@ -184,12 +231,13 @@ class Helper {
             measuringTapeVisibleCheckbox
           ]
         } ),
+        infoContainer,
         trailReadout
       ]
     } );
     const helperReadoutPanel = new Panel( helperReadoutContent, {
-      fill: 'rgba(255,255,255,0.7)',
-      stroke: 'rgba(0,0,0,0.7)',
+      fill: 'rgba(255,255,255,0.85)',
+      stroke: 'rgba(0,0,0,0.85)',
       cornerRadius: 0
     } );
     helperReadoutPanel.addInputListener( new DragListener( {
@@ -210,11 +258,19 @@ class Helper {
       this.helperDisplay!.width = size.width;
       this.helperDisplay!.height = size.height;
       layoutBoundsProperty.value = layoutBoundsProperty.value.withMaxX( size.width ).withMaxY( size.height );
+      backgroundNode.mouseArea = new Bounds2( 0, 0, size.width, size.height );
+      backgroundNode.touchArea = new Bounds2( 0, 0, size.width, size.height );
     };
 
     const frameListener = ( dt: number ) => {
       this.helperDisplay?.updateDisplay();
     };
+
+    document.addEventListener( 'keyup', ( event: KeyboardEvent ) => {
+      if ( event.key === 'Escape' ) {
+        this.selectedTrailProperty.value = null;
+      }
+    } );
 
     this.activeProperty.lazyLink( active => {
       if ( active ) {
@@ -224,10 +280,10 @@ class Helper {
         // @ts-ignore Screen?
         if ( screen.hasView() ) {
           // @ts-ignore Screen?
-          screenViewProperty.value = screen.view;
+          this.screenViewProperty.value = screen.view;
         }
         else {
-          screenViewProperty.value = null;
+          this.screenViewProperty.value = null;
         }
 
         this.helperDisplay = new Display( helperRoot, {
@@ -242,7 +298,7 @@ class Helper {
         this.helperDisplay!.domElement.style.zIndex = '10000';
 
         const onLocationEvent = ( event: SceneryEvent<TouchEvent | PointerEvent | MouseEvent> ) => {
-          pointerPositionProperty.value = event.pointer.point;
+          this.pointerPositionProperty.value = event.pointer.point;
         };
 
         this.helperDisplay.addInputListener( {
@@ -251,10 +307,10 @@ class Helper {
           up: onLocationEvent
         } );
 
-        if ( screenViewProperty.value ) {
+        if ( this.screenViewProperty.value ) {
           measuringTapeUnitsProperty.value = {
             name: 'view units',
-            multiplier: screenViewProperty.value.getGlobalToLocalMatrix().getScaleVector().x
+            multiplier: this.screenViewProperty.value.getGlobalToLocalMatrix().getScaleVector().x
           };
         }
 
@@ -272,7 +328,7 @@ class Helper {
               context.drawImage( image, 0, 0 );
 
               if ( this.activeProperty.value ) {
-                imageDataProperty.value = context.getImageData( 0, 0, width, height );
+                this.imageDataProperty.value = context.getImageData( 0, 0, width, height );
               }
             } );
             image.src = dataURI;
@@ -291,7 +347,7 @@ class Helper {
         this.helperDisplay!.dispose();
 
         sim.activeProperty.value = true;
-        imageDataProperty.value = null;
+        this.imageDataProperty.value = null;
       }
     } );
   }
@@ -316,5 +372,496 @@ class Helper {
 }
 
 joist.register( 'Helper', Helper );
+
+
+// class DraggableDivider extends Rectangle {
+//   constructor( preferredBoundsProperty, orientation, initialSeparatorLocation, pushFromMax ) {
+//
+//     super( {
+//       fill: '#666',
+//       cursor: orientation === 'horizontal' ? 'w-resize' : 'n-resize'
+//     } );
+//
+//     this.minBoundsProperty = new TinyProperty( new Bounds2( 0, 0, 0, 0 ) );
+//     this.maxBoundsProperty = new TinyProperty( new Bounds2( 0, 0, 0, 0 ) );
+//
+//     this.preferredBoundsProperty = preferredBoundsProperty;
+//     this.orientation = orientation;
+//     this.primaryCoordinate = orientation === 'horizontal' ? 'x' : 'y';
+//     this.secondaryCoordinate = orientation === 'horizontal' ? 'y' : 'x';
+//     this.primaryName = orientation === 'horizontal' ? 'width' : 'height';
+//     this.secondaryName = orientation === 'horizontal' ? 'height' : 'width';
+//     this.primaryRectName = orientation === 'horizontal' ? 'rectWidth' : 'rectHeight';
+//     this.secondaryRectName = orientation === 'horizontal' ? 'rectHeight' : 'rectWidth';
+//     this.minCoordinate = orientation === 'horizontal' ? 'left' : 'top';
+//     this.maxCoordinate = orientation === 'horizontal' ? 'right' : 'bottom';
+//     this.centerName = orientation === 'horizontal' ? 'centerX' : 'centerY';
+//     this.minimum = 100;
+//
+//     this.separatorLocation = initialSeparatorLocation;
+//
+//     this[ this.primaryRectName ] = 2;
+//
+//     var dragListener = new scenery.DragListener( {
+//       drag: event => {
+//         this.separatorLocation = dragListener.parentPoint[ this.primaryCoordinate ];
+//         this.layout();
+//       }
+//     } );
+//     this.addInputListener( dragListener );
+//
+//     preferredBoundsProperty.link( ( newPreferredBounds, oldPreferredBounds ) => {
+//       if ( pushFromMax && oldPreferredBounds ) {
+//         this.separatorLocation += newPreferredBounds[ this.maxCoordinate ] - oldPreferredBounds[ this.maxCoordinate ];
+//       }
+//       if ( !pushFromMax && oldPreferredBounds ) {
+//         this.separatorLocation += newPreferredBounds[ this.minCoordinate ] - oldPreferredBounds[ this.minCoordinate ];
+//       }
+//       this.layout();
+//     } );
+//   }
+//
+//   /**
+//    * @public
+//    */
+//   layout() {
+//     var preferredBounds = this.preferredBoundsProperty.value;
+//     var separatorLocation = this.separatorLocation;
+//
+//     if ( separatorLocation < preferredBounds[ this.minCoordinate ] + this.minimum ) {
+//       separatorLocation = preferredBounds[ this.minCoordinate ] + this.minimum;
+//     }
+//     if ( separatorLocation > preferredBounds[ this.maxCoordinate ] - this.minimum ) {
+//       if ( preferredBounds[ this.primaryName ] >= this.minimum * 2 ) {
+//         separatorLocation = preferredBounds[ this.maxCoordinate ] - this.minimum;
+//       }
+//       else {
+//         separatorLocation = preferredBounds[ this.minCoordinate ] + preferredBounds[ this.primaryName ] / 2;
+//       }
+//     }
+//
+//     this[ this.centerName ] = separatorLocation;
+//     this[ this.secondaryCoordinate ] = preferredBounds[ this.secondaryCoordinate ];
+//     this[ this.secondaryRectName ] = preferredBounds[ this.secondaryName ];
+//
+//     if ( this.orientation === 'horizontal' ) {
+//       this.mouseArea = this.touchArea = this.localBounds.dilatedX( 5 );
+//     }
+//     else {
+//       this.mouseArea = this.touchArea = this.localBounds.dilatedY( 5 );
+//     }
+//
+//     var minBounds = preferredBounds.copy();
+//     var maxBounds = preferredBounds.copy();
+//     if ( this.orientation === 'horizontal' ) {
+//       minBounds.maxX = separatorLocation - this.width / 2;
+//       maxBounds.minX = separatorLocation + this.width / 2;
+//     }
+//     else {
+//       minBounds.maxY = separatorLocation - this.height / 2;
+//       maxBounds.minY = separatorLocation + this.height / 2;
+//     }
+//     this.minBoundsProperty.value = minBounds;
+//     this.maxBoundsProperty.value = maxBounds;
+//   }
+// }
+
+// class TreeNode extends Node {
+//   constructor( displayNode, trail ) {
+//     super();
+//
+//     var self = this;
+//
+//     this.displayNode = displayNode;
+//     this.trail = trail;
+//
+//     displayNode.addInputListener( {
+//       over: function( event ) {
+//         if ( event.target === displayNode ) {
+//           activeTreeNodeProperty.value = self;
+//           focusActive();
+//         }
+//       },
+//       out: function( event ) {
+//         if ( event.target === displayNode ) {
+//           activeTreeNodeProperty.value = null;
+//           focusSelected();
+//         }
+//       },
+//       down: function( event ) {
+//         if ( event.target === displayNode ) {
+//           selectedTreeNodeProperty.value = self;
+//           focusSelected();
+//         }
+//       }
+//     } );
+//
+//     this.expandedProperty = new axon.Property( true );
+//
+//     var serialization = displayNode._serialization;
+//     var isVisible = _.every( trail.nodes, function( node ) {
+//       return node._serialization.options.visible !== false;
+//     } );
+//
+//     var selfNode = new scenery.HBox( {
+//       spacing: 5
+//     } );
+//
+//     var buttonSize = 12;
+//     var expandButton = new scenery.Rectangle( -buttonSize / 2, -buttonSize / 2, buttonSize, buttonSize, {
+//       children: [
+//         new scenery.Path( kite.Shape.regularPolygon( 3, buttonSize / 2.5 ), {
+//           fill: '#444'
+//         } )
+//       ],
+//       visible: false,
+//       cursor: 'pointer'
+//     } );
+//     expandButton.addInputListener( new scenery.FireListener( {
+//       fire: function() {
+//         self.expandedProperty.value = !self.expandedProperty.value;
+//       }
+//     } ) );
+//     selfNode.addChild( expandButton );
+//
+//     var TREE_FONT = new scenery.Font( { size: 12 } );
+//
+//     selfNode.addChild( new scenery.Text( serialization.name, {
+//       font: TREE_FONT,
+//       pickable: false,
+//       fill: isVisible ? '#000' : '#60a'
+//     } ) );
+//     if ( serialization.name !== serialization.type && serialization.type !== 'Node' ) {
+//       selfNode.addChild( new scenery.Text( '(' + serialization.type + ')', {
+//         font: TREE_FONT,
+//         pickable: false,
+//         fill: '#666'
+//       } ) );
+//     }
+//     if ( serialization.type === 'Text' ) {
+//       selfNode.addChild( new scenery.Text( '"' + displayNode.text + '"', {
+//         font: TREE_FONT,
+//         pickable: false,
+//         fill: '#666'
+//       } ) );
+//     }
+//
+//     var selfBackground = this.selfBackground = scenery.Rectangle.bounds( selfNode.bounds, {
+//       children: [ selfNode ],
+//       cursor: 'pointer',
+//       fill: new axon.DerivedProperty( [ selectedTreeNodeProperty, activeTreeNodeProperty ], function( selected, active ) {
+//         if ( self === selected ) {
+//           return 'rgba(0,128,255,0.4)';
+//         }
+//         else if ( self === active ) {
+//           return 'rgba(0,128,255,0.2)';
+//         }
+//         else {
+//           return 'transparent';
+//         }
+//       } )
+//     } );
+//     selfBackground.addInputListener( {
+//       enter: function( event ) {
+//         activeTreeNodeProperty.value = self;
+//       },
+//       exit: function( event ) {
+//         activeTreeNodeProperty.value = null;
+//       }
+//     } );
+//     selfBackground.addInputListener( new scenery.FireListener( {
+//       fire: function() {
+//         selectedTreeNodeProperty.value = self;
+//       }
+//     } ) );
+//     this.addChild( selfBackground );
+//
+//     this.childTreeNodes = displayNode.children.filter( function( child ) {
+//       return !!child._serialization;
+//     } ).map( function( child, index ) {
+//       return new TreeNode( child, trail.copy().addDescendant( child, index ) );
+//     } );
+//
+//     var childrenNode = new scenery.VBox( {
+//       spacing: 0,
+//       align: 'left',
+//       children: this.childTreeNodes
+//     } );
+//
+//     var column = new scenery.Rectangle( {
+//       rectWidth: 2,
+//       rectHeight: 5,
+//       fill: 'rgba(0,0,0,0.1)'
+//     } );
+//
+//     var expandedNode = new scenery.Node( {
+//       children: [
+//         childrenNode,
+//         // column
+//       ]
+//     } );
+//
+//     if ( childrenNode.bounds.isFinite() ) {
+//       childrenNode.left = selfNode.left + 13;
+//       childrenNode.top = selfNode.bottom;
+//       column.centerX = selfNode.left + buttonSize / 2;
+//       column.top = selfNode.bottom;
+//
+//       expandButton.visible = true;
+//       this.addChild( expandedNode );
+//
+//       self.expandedProperty.link( function( expanded ) {
+//         expandButton.rotation = expanded ? Math.PI / 2 : 0;
+//         if ( expanded && !self.hasChild( expandedNode ) ) {
+//           self.addChild( expandedNode );
+//         }
+//         if ( !expanded && self.hasChild( expandedNode ) ) {
+//           self.removeChild( expandedNode );
+//         }
+//       } );
+//
+//       childrenNode.boundsProperty.lazyLink( function() {
+//         column.rectHeight = childrenNode.height;
+//       } );
+//     }
+//   }
+//
+//   expandRecusively() {
+//     this.expandedProperty.value = true;
+//     this.childTreeNodes.forEach( treeNode => {
+//       treeNode.expandRecusively();
+//     } );
+//   }
+//
+//   collapseRecursively() {
+//     this.expandedProperty.value = false;
+//     this.childTreeNodes.forEach( treeNode => {
+//       treeNode.collapseRecursively();
+//     } );
+//   }
+// }
+
+const createInfo = ( trail: Trail ): Node[] => {
+  const children = [];
+  const node = trail.lastNode();
+
+  const types = inheritance( node.constructor ).map( type => type.name ).filter( name => {
+    return name && name !== 'Object';
+  } );
+
+  if ( types ) {
+    children.push( new Text( types.join( ' : ' ), { fontSize: 14, fontWeight: 'bold' } ) );
+  }
+
+  const addRaw = ( key: string, valueNode: Node ) => {
+    children.push( new HBox( {
+      spacing: 0,
+      align: 'top',
+      children: [
+        new Text( key + ': ', { fontSize: 12 } ),
+        valueNode
+      ]
+    } ) );
+  };
+
+  const addSimple = ( key: string, value: any ) => {
+    if ( value !== undefined ) {
+      addRaw( key, new Text( '' + value, { fontSize: 12 } ) );
+    }
+  };
+
+  const colorSwatch = ( color: Color ): Node => {
+    return new HBox( {
+      spacing: 4,
+      children: [
+        new Rectangle( 0, 0, 10, 10, { fill: color, stroke: 'black', lineWidth: 0.5 } ),
+        new Text( color.toHexString(), { fontSize: 12 } ),
+        new Text( color.toCSS(), { fontSize: 12 } )
+      ]
+    } );
+  };
+
+  const iColorToColor = ( color: IColor ): Color | null => {
+    const nonProperty: Color | string | null = ( color instanceof Property || color instanceof TinyProperty ) ? color.value : color;
+    return nonProperty === null ? null : Color.toColor( nonProperty );
+  };
+
+  const addColor = ( key: string, color: IColor ) => {
+    const result = iColorToColor( color );
+    if ( result !== null ) {
+      addRaw( key, colorSwatch( result ) );
+    }
+  };
+  const addPaint = ( key: string, paint: IPaint ) => {
+    const stopToNode = ( stop: GradientStop ): Node => {
+      return new HBox( {
+        spacing: 3,
+        children: [
+          new Text( stop.ratio, { fontSize: 12 } ),
+          colorSwatch( iColorToColor( stop.color ) || Color.TRANSPARENT )
+        ]
+      } );
+    };
+
+    if ( paint instanceof Paint ) {
+      if ( paint instanceof LinearGradient ) {
+        addRaw( key, new HBox( {
+          spacing: 3,
+          children: [
+            new Text( `LinearGradient ${paint.start} => ${paint.end}`, { fontSize: 12 } ),
+            ...paint.stops.map( stopToNode )
+          ]
+        } ) );
+      }
+      else if ( paint instanceof RadialGradient ) {
+        addRaw( key, new HBox( {
+          spacing: 3,
+          children: [
+            new Text( `RadialGradient ${paint.start} ${paint.startRadius} => ${paint.end} ${paint.endRadius}`, { fontSize: 12 } ),
+            ...paint.stops.map( stopToNode )
+          ]
+        } ) );
+      }
+      else if ( paint instanceof Pattern ) {
+        addRaw( key, new HBox( {
+          spacing: 3,
+          children: [
+            new Text( 'Pattern', { fontSize: 12 } ),
+            new Image( paint.image, { maxWidth: 10, maxHeight: 10 } )
+          ]
+        } ) );
+      }
+    }
+    else {
+      addColor( key, paint );
+    }
+  };
+
+  const addNumber = ( key: string, number: number ) => addSimple( key, number );
+  const addMatrix3 = ( key: string, matrix: Matrix3 ) => {
+    addRaw( key, new GridBox( {
+      spacing: 6,
+      children: [
+        new Text( matrix.m00(), { layoutOptions: { x: 0, y: 0 } } ),
+        new Text( matrix.m01(), { layoutOptions: { x: 1, y: 0 } } ),
+        new Text( matrix.m02(), { layoutOptions: { x: 2, y: 0 } } ),
+        new Text( matrix.m10(), { layoutOptions: { x: 0, y: 1 } } ),
+        new Text( matrix.m11(), { layoutOptions: { x: 1, y: 1 } } ),
+        new Text( matrix.m12(), { layoutOptions: { x: 2, y: 1 } } ),
+        new Text( matrix.m20(), { layoutOptions: { x: 0, y: 2 } } ),
+        new Text( matrix.m21(), { layoutOptions: { x: 1, y: 2 } } ),
+        new Text( matrix.m22(), { layoutOptions: { x: 2, y: 2 } } )
+      ]
+    } ) );
+  };
+  const addBounds2 = ( key: string, bounds: Bounds2 ) => addRaw( key, new RichText( `minX: ${bounds.minX}<br>minY: ${bounds.minY}<br>maxX: ${bounds.maxX}<br>maxY: ${bounds.maxY}<br>`, { font: new PhetFont( 12 ) } ) );
+
+  if ( node instanceof Path || node instanceof Text ) {
+    addPaint( 'fill', node.fill );
+    addPaint( 'stroke', node.stroke );
+  }
+  if ( !node.visible ) {
+    addSimple( 'visible', node.visible );
+  }
+  if ( node.opacity !== 1 ) {
+    addNumber( 'opacity', node.opacity );
+  }
+  // addSerial( 'lineDash', serialization.setup.lineDash );
+  // addSimple( 'pickable', serialization.options.pickable );
+  // addSimple( 'inputEnabled', serialization.options.inputEnabled );
+  // addSimple( 'cursor', serialization.options.cursor );
+  // addSimple( 'transformBounds', serialization.options.transformBounds );
+  // addSimple( 'renderer', serialization.options.renderer );
+  // addSimple( 'usesOpacity', serialization.options.usesOpacity );
+  // addSimple( 'layerSplit', serialization.options.layerSplit );
+  // addSimple( 'cssTransform', serialization.options.cssTransform );
+  // addSimple( 'excludeInvisible', serialization.options.excludeInvisible );
+  // addSimple( 'webglScale', serialization.options.webglScale );
+  // addSimple( 'preventFit', serialization.options.preventFit );
+  addMatrix3( 'matrix', node.matrix );
+  // addSerial( 'maxWidth', serialization.setup.maxWidth );
+  // addSerial( 'maxHeight', serialization.setup.maxHeight );
+  // addSerial( 'clipArea', serialization.setup.clipArea );
+  // addSerial( 'mouseArea', serialization.setup.mouseArea );
+  // addSerial( 'touchArea', serialization.setup.touchArea );
+  // addSerial( 'localBounds', serialization.setup.localBounds );
+  // if ( serialization.setup.hasInputListeners ) {
+  //   addSimple( 'inputListeners', '' );
+  // }
+  // addSerial( 'path', serialization.setup.path );
+  // addSimple( 'width', serialization.setup.width );
+  // addSimple( 'height', serialization.setup.height );
+  // addSimple( 'imageType', serialization.setup.imageType );
+
+  children.push( new Spacer( 5, 5 ) );
+  children.push( new Text( 'Bounds', { font: new Font( { size: 14, weight: 'bold' } ) } ) );
+
+  addBounds2( 'local', node.localBounds );
+  addBounds2( 'parent', node.bounds );
+
+  children.push( new Spacer( 5, 5 ) );
+  children.push( new Text( 'Trail', { font: new Font( { size: 14, weight: 'bold' } ) } ) );
+
+  // Visibility check
+  if ( _.some( trail.nodes, node => {
+    return node.visible === false;
+  } ) ) {
+    addSimple( 'visible', false );
+  }
+
+  let opacity = 1;
+  trail.nodes.forEach( treeNode => {
+    opacity *= treeNode.opacity;
+  } );
+  if ( opacity !== 1 ) {
+    addSimple( 'opacity', opacity );
+  }
+
+  const hasPickableFalseEquivalent = _.some( trail.nodes, node => {
+    return node.pickable === false || node.visible === false;
+  } );
+  const hasPickableTrueEquivalent = _.some( trail.nodes, node => {
+    return node.inputListeners.length > 0 || node.pickable === true;
+  } );
+  if ( !hasPickableFalseEquivalent && hasPickableTrueEquivalent ) {
+    children.push( new Text( 'Hit Tested', { fontSize: 12, fill: '#f00' } ) );
+  }
+  addMatrix3( 'matrix', trail.getMatrix() );
+
+  /*---------------------------------------------------------------------------*
+  * Buttons
+  *----------------------------------------------------------------------------*/
+
+  // function badButton( label, action ) {
+  //   var text = new Text( label, { fontSize: 12 } );
+  //   var rect = Rectangle.bounds( text.bounds.dilatedXY( 5, 3 ), {
+  //     children: [ text ],
+  //     stroke: 'black',
+  //     cursor: 'pointer'
+  //   } );
+  //   rect.addInputListener( new FireListener( {
+  //     fire: action
+  //   } ) );
+  //   return rect;
+  // }
+  //
+  // children.push( new Spacer( 10, 10 ) );
+  //
+  // children.push( new HBox( {
+  //   spacing: 5,
+  //   children: [
+  //     badButton( 'toggle visibility', function() {
+  //       treeNode.displayNode.visible = !treeNode.displayNode.visible;
+  //     } ),
+  //     badButton( 'sim path', function() {
+  //       window.prompt( 'Copy-paste this into a sim:', 'phet.joist.display.rootNode' + treeNode.trail.indices.map( function( index ) {
+  //         return '.children[ ' + index + ' ]';
+  //       } ).join( '' ) );
+  //     } )
+  //   ]
+  // } ) );
+
+  return children;
+};
 
 export default Helper;
