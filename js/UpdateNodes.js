@@ -57,11 +57,7 @@ const UpdateNodes = {
           font: new PhetFont( options.big ? 16 : 14 ),
           fontWeight: options.big ? 'bold' : 'normal'
         } )
-      ],
-
-      // pdom
-      tagName: 'p',
-      innerContent: updatesCheckingString
+      ]
     }, options ) );
     checkingNode.step = function( dt ) {
       if ( updateCheck.stateProperty.value === UpdateState.CHECKING ) {
@@ -99,11 +95,7 @@ const UpdateNodes = {
           font: new PhetFont( options.big ? 16 : 14 ),
           fontWeight: options.big ? 'bold' : 'normal'
         } )
-      ],
-
-      // pdom
-      tagName: 'p',
-      innerContent: updatesUpToDateString
+      ]
     }, options ) );
   },
 
@@ -197,11 +189,7 @@ const UpdateNodes = {
           font: new PhetFont( options.big ? 16 : 14 ),
           fontWeight: options.big ? 'bold' : 'normal'
         } )
-      ],
-
-      // pdom
-      tagName: 'p',
-      innerContent: updatesOfflineString
+      ]
     }, options ) );
   }
 };
