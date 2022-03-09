@@ -272,12 +272,12 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
   /**
    * Initialize the view.
    * @public (joist-internal)
-   * @param simName - The name of the sim, used for a11y.
-   * @param displayedName - The display name of the sim, used for a11y. Could change based on screen.
+   * @param simNameProperty - The Property of the name of the sim, used for a11y.
+   * @param displayedSimNameProperty - The Property of the display name of the sim, used for a11y. Could change based on screen.
    * @param numberOfScreens - the number of screens in the sim this runtime (could change with `?screens=...`.
    * @param isHomeScreen - if this screen is the home screen.
    */
-  initializeView( simName: string, displayedName: string, numberOfScreens: number, isHomeScreen: boolean ): void {
+  initializeView( simNameProperty: IReadOnlyProperty<string>, displayedSimNameProperty: IReadOnlyProperty<string>, numberOfScreens: number, isHomeScreen: boolean ): void {
     assert && assert( this._view === null, 'there was already a view' );
     this._view = this.createView( this.model! );
     this._view.setVisible( false ); // a Screen is invisible until selected
@@ -294,31 +294,32 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
     }
 
     // Set the accessible label for the screen.
-    this.pdomDisplayNameProperty.link( screenName => {
+    Property.multilink<[ string, string, string | null]>( [ displayedSimNameProperty, simNameProperty, this.pdomDisplayNameProperty ],
+      ( displayedName, simName, pdomDisplayName ) => {
 
-      let titleString;
+        let titleString;
 
-      // Single screen sims don't need screen names, instead just show the title of the sim.
-      // Using total screens for sim breaks modularity a bit, but it also is needed as that parameter changes the
-      // labelling of this screen, see https://github.com/phetsims/joist/issues/496
-      if ( numberOfScreens === 1 ) {
-        titleString = displayedName; // for multiscreen sims, like "Ratio and Proportion -- Create"
-      }
-      else if ( isHomeScreen ) {
-        titleString = simName; // Like "Ratio and Propotion"
-      }
-      else {
+        // Single screen sims don't need screen names, instead just show the title of the sim.
+        // Using total screens for sim breaks modularity a bit, but it also is needed as that parameter changes the
+        // labelling of this screen, see https://github.com/phetsims/joist/issues/496
+        if ( numberOfScreens === 1 ) {
+          titleString = displayedName; // for multiscreen sims, like "Ratio and Proportion -- Create"
+        }
+        else if ( isHomeScreen ) {
+          titleString = simName; // Like "Ratio and Propotion"
+        }
+        else {
 
-        // initialize proper PDOM labelling for ScreenView
-        titleString = StringUtils.fillIn( screenSimPatternString, {
-          screenName: screenName,
-          simName: simName
-        } );
-      }
+          // initialize proper PDOM labelling for ScreenView
+          titleString = StringUtils.fillIn( screenSimPatternString, {
+            screenName: pdomDisplayName,
+            simName: simName
+          } );
+        }
 
-      // if there is a screenSummaryNode, then set its intro string now
-      this._view!.setScreenSummaryIntroAndTitle( simName, screenName!, titleString, numberOfScreens > 1 );
-    } );
+        // if there is a screenSummaryNode, then set its intro string now
+        this._view!.setScreenSummaryIntroAndTitle( simName, pdomDisplayName, titleString, numberOfScreens > 1 );
+      } );
 
     assert && this._view.pdomAudit();
   }

@@ -795,7 +795,7 @@ class Sim extends PhetioObject {
         screen.initializeModel();
       } );
       workItems.push( () => {
-        screen.initializeView( this.simNameProperty.value, this.displayedSimNameProperty.value, this.screens.length, this.homeScreen === screen );
+        screen.initializeView( this.simNameProperty, this.displayedSimNameProperty, this.screens.length, this.homeScreen === screen );
       } );
     } );
 

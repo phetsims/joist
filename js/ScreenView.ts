@@ -220,8 +220,8 @@ class ScreenView extends Node {
    * Set the screen summary Node intro string
    * @public (joist-internal)
    */
-  setScreenSummaryIntroAndTitle( simName: string, screenName: string, simTitle: string, isMultiScreen: boolean ): void {
-    this.pdomScreenSummaryNode.setIntroString( simName, screenName, isMultiScreen );
+  setScreenSummaryIntroAndTitle( simName: string, screenDisplayName: string | null, simTitle: string, isMultiScreen: boolean ): void {
+    this.pdomScreenSummaryNode.setIntroString( simName, screenDisplayName, isMultiScreen );
     this.pdomTitleNode.innerContent = simTitle;
   }
 

@@ -56,20 +56,25 @@ class HomeScreenView extends ScreenView {
       includePDOMNodes: false
     } );
 
-    // @private
-    this.homeScreenScreenSummaryIntro = StringUtils.fillIn( homeScreenDescriptionPatternString, {
-      name: simNameProperty.value,
-      screens: model.simScreens.length
+    const homeScreenPDOMNode = new Node( {
+      tagName: 'p'
     } );
+    this.addChild( homeScreenPDOMNode );
 
-    // Add the home screen description, since there are no PDOM container Nodes for this ScreenView
-    this.addChild( new Node( {
-      tagName: 'p',
-      innerContent: StringUtils.fillIn( joistStrings.a11y.homeScreenIntroPattern, {
+    simNameProperty.link( () => {
+
+      // @private
+      this.homeScreenScreenSummaryIntro = StringUtils.fillIn( homeScreenDescriptionPatternString, {
+        name: simNameProperty.value,
+        screens: model.simScreens.length
+      } );
+
+      // Add the home screen description, since there are no PDOM container Nodes for this ScreenView
+      homeScreenPDOMNode.innerContent = StringUtils.fillIn( joistStrings.a11y.homeScreenIntroPattern, {
         description: this.homeScreenScreenSummaryIntro,
         hint: joistStrings.a11y.homeScreenHint
-      } )
-    } ) );
+      } );
+    } );
 
     this.selectedScreenProperty = model.selectedScreenProperty; // @private
 
