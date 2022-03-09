@@ -10,7 +10,6 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import PhetioAction from '../../tandem/js/PhetioAction.js';
 import animationFrameTimer from '../../axon/js/animationFrameTimer.js';
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import createObservableArray from '../../axon/js/createObservableArray.js';
@@ -31,11 +30,13 @@ import BarrierRectangle from '../../scenery-phet/js/BarrierRectangle.js';
 import { animatedPanZoomSingleton, globalKeyStateTracker, Node, Utils, voicingUtteranceQueue } from '../../scenery/js/imports.js';
 import '../../sherpa/lib/game-up-camera-1.0.0.js';
 import soundManager from '../../tambo/js/soundManager.js';
+import PhetioAction from '../../tandem/js/PhetioAction.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberIO from '../../tandem/js/types/NumberIO.js';
 import audioManager from './audioManager.js';
 import Heartbeat from './Heartbeat.js';
+import Helper from './Helper.js';
 import HomeScreen from './HomeScreen.js';
 import HomeScreenView from './HomeScreenView.js';
 import joist from './joist.js';
@@ -541,6 +542,8 @@ class Sim extends PhetioObject {
 
     // @public - root node for the Display
     this.rootNode = this.display.rootNode;
+
+    Helper.initialize( this, this.display );
 
     Property.multilink( [ this.activeProperty, phet.joist.playbackModeEnabledProperty ], ( active, playbackModeEnabled ) => {
 

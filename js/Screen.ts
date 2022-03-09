@@ -247,6 +247,14 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
     return this._view!;
   }
 
+  hasModel(): boolean {
+    return !!this._model;
+  }
+
+  hasView(): boolean {
+    return !!this._view;
+  }
+
   reset(): void {
 
     // Background color not reset, as it's a responsibility of the code that changes the property
