@@ -16,7 +16,7 @@ import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import MeasuringTapeNode from '../../scenery-phet/js/MeasuringTapeNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { Color, Display, DragListener, FlowBox, GradientStop, GridBox, HBox, IColor, Image, IPaint, LinearGradient, Node, Paint, Path, Pattern, PressListener, RadialGradient, Rectangle, RichText, SceneryEvent, Spacer, Text, Trail, VBox } from '../../scenery/js/imports.js';
+import { Color, Display, DragListener, FireListener, FlowBox, GradientStop, GridBox, HBox, IColor, Image, IPaint, LinearGradient, Node, Paint, Path, Pattern, PressListener, RadialGradient, Rectangle, RichText, SceneryEvent, Spacer, Text, TextOptions, Trail, VBox } from '../../scenery/js/imports.js';
 import Panel from '../../sun/js/Panel.js';
 import AquaRadioButtonGroup from '../../sun/js/AquaRadioButtonGroup.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -301,7 +301,11 @@ class Helper {
             font: new PhetFont( 12 ),
             layoutOptions: {
               leftMargin: index * 10
-            }
+            },
+            cursor: 'pointer',
+            inputListeners: [ new FireListener( {
+              fire: () => { this.selectedTrailProperty.value = trail.subtrailTo( node ); }
+            } ) ]
           } ) );
         } );
       }
@@ -321,7 +325,7 @@ class Helper {
       spacing: 5,
       align: 'left',
       children: [
-        createHeaderText( 'Under Pointer', positionText ),
+        createHeaderText( 'Under Pointer', positionText, { layoutOptions: { topMargin: 0 } } ),
         positionText,
         colorBackground,
         createHeaderText( 'Tools' ),
@@ -770,15 +774,15 @@ class HelperCheckbox extends Checkbox {
 //   }
 // }
 
-const createHeaderText = ( str: string, node?: Node ) => {
-  return new Text( str, {
+const createHeaderText = ( str: string, node?: Node, options?: TextOptions ) => {
+  return new Text( str, merge( {
     fontSize: 14,
     fontWeight: 'bold',
     layoutOptions: { topMargin: 5 },
     visibleProperty: node ? new DerivedProperty( [ node.visibleProperty, node.boundsProperty ], ( visible: boolean, bounds: Bounds2 ) => {
       return visible && !bounds.isEmpty();
     } ) : new TinyProperty( true )
-  } );
+  }, options ) );
 };
 
 class Matrix3Node extends GridBox {
