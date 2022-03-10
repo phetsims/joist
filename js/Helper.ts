@@ -16,7 +16,7 @@ import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import MeasuringTapeNode from '../../scenery-phet/js/MeasuringTapeNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { Color, Display, DragListener, FireListener, FlowBox, GradientStop, GridBox, HBox, IColor, Image, IPaint, LinearGradient, Node, Paint, Path, Pattern, PressListener, RadialGradient, Rectangle, RichText, SceneryEvent, Spacer, Text, TextOptions, Trail, VBox } from '../../scenery/js/imports.js';
+import { Color, Display, DragListener, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, IColor, Image, IPaint, LinearGradient, Node, Paint, Path, Pattern, PressListener, RadialGradient, Rectangle, RichText, SceneryEvent, Spacer, Text, TextOptions, Trail, VBox } from '../../scenery/js/imports.js';
 import Panel from '../../sun/js/Panel.js';
 import AquaRadioButtonGroup from '../../sun/js/AquaRadioButtonGroup.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -34,6 +34,7 @@ import EnumerationValue from '../../phet-core/js/EnumerationValue.js';
 import Enumeration from '../../phet-core/js/Enumeration.js';
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import merge from '../../phet-core/js/merge.js';
+import { Shape } from '../../kite/js/imports.js';
 
 const round = ( n: number, places: number = 2 ) => Utils.toFixed( n, places );
 
@@ -61,17 +62,28 @@ class Helper {
   // Whether the helper is visible (active) or not
   activeProperty: IProperty<boolean>;
 
+  treeVisibleProperty: Property<boolean>;
+
   // Where the current pointer is
   pointerPositionProperty: IProperty<Vector2>;
+
+  // Whether the pointer is over the UI interface
+  overInterfaceProperty: Property<boolean>;
 
   // If the user has clicked on a Trail and selected it
   selectedTrailProperty: IProperty<Trail | null>;
 
+  // What Trail the user is over in the tree UI
+  treeHoverTrailProperty: IProperty<Trail | null>;
+
   // What Trail the pointer is over right now
-  activeTrailProperty: IProperty<Trail | null>;
+  pointerTrailProperty: IProperty<Trail | null>;
 
   // What Trail to show as a preview (and to highlight) - selection overrides what the pointer is over
   previewTrailProperty: IProperty<Trail | null>;
+
+  // The global shape of what is selected
+  previewShapeProperty: IProperty<Shape | null>;
 
   screenViewProperty: IProperty<ScreenView | null>;
 
@@ -84,39 +96,45 @@ class Helper {
   constructor( sim: Sim, simDisplay: SimDisplay ) {
 
     // NOTE: Don't pause the sim, don't use foreign object rasterization (do the smarter instant approach)
-    // NOTE: Inspector
     // NOTE: Inform about preserveDrawingBuffer query parameter
     // NOTE: Actually grab/rerender things from WebGL/Canvas, so this works nicely and at a higher resolution
-    // NOTE: Figure out FlowBox sizing!
     // NOTE: Highlight the nodes with input listeners on them!
 
-    // Picking:
-    // Follow pickability (ignore things without input listeners?)
-    //   If following, do we IGNORE what is "under" the input listener?
-    //   Ignore inputDisabled?
-    //   Mouse areas? Touch areas?
-
-    // Normal picker
-    // Radio button Areas: Mouse | Touch | None
-
-    // Visible item
+    // NOTE: PDOM info on left
+    // NOTE: PDOM tree
+    // NOTE: Scenery drawable tree
+    // NOTE: Rename "tree" to "visual tree"
 
     this.sim = sim;
     this.simDisplay = simDisplay;
     this.activeProperty = new TinyProperty( false );
+    this.treeVisibleProperty = new BooleanProperty( false, {
+      tandem: Tandem.OPT_OUT
+    } );
 
     this.inputBasedPickingProperty = new BooleanProperty( true, { tandem: Tandem.OPT_OUT } );
     this.useLeafNodeProperty = new BooleanProperty( false, { tandem: Tandem.OPT_OUT } );
     this.pointerAreaTypeProperty = new EnumerationProperty( PointerAreaType.MOUSE, { tandem: Tandem.OPT_OUT } );
 
     this.pointerPositionProperty = new TinyProperty( Vector2.ZERO );
+    this.overInterfaceProperty = new BooleanProperty( false, { tandem: Tandem.OPT_OUT } );
 
     this.selectedTrailProperty = new TinyProperty<Trail | null>( null );
-    this.activeTrailProperty = new DerivedProperty( [ this.pointerPositionProperty ], ( point: Vector2 ) => {
+    this.treeHoverTrailProperty = new TinyProperty<Trail | null>( null );
+    this.pointerTrailProperty = new DerivedProperty( [ this.pointerPositionProperty, this.overInterfaceProperty, this.pointerAreaTypeProperty, this.inputBasedPickingProperty ], ( point: Vector2, overInterface: boolean, pointerAreaType: PointerAreaType, inputBasedPicking: boolean ) => {
+      // We're not over something while we're over an interface
+      if ( overInterface ) {
+        return null;
+      }
+
+      if ( !inputBasedPicking ) {
+        return visualHitTest( simDisplay.rootNode, point );
+      }
+
       let trail = simDisplay.rootNode.hitTest(
         point,
-        this.pointerAreaTypeProperty.value === PointerAreaType.MOUSE,
-        this.pointerAreaTypeProperty.value === PointerAreaType.TOUCH
+        pointerAreaType === PointerAreaType.MOUSE,
+        pointerAreaType === PointerAreaType.TOUCH
       );
 
       if ( trail && !this.useLeafNodeProperty.value ) {
@@ -138,11 +156,27 @@ class Helper {
 
       return trail;
     }, {
-      tandem: Tandem.OPT_OUT
+      tandem: Tandem.OPT_OUT,
+      useDeepEquality: true
     } );
-    this.previewTrailProperty = new DerivedProperty( [ this.selectedTrailProperty, this.activeTrailProperty ], ( selected, active ) => {
-      return selected ? selected : active;
+    this.previewTrailProperty = new DerivedProperty( [ this.selectedTrailProperty, this.treeHoverTrailProperty, this.pointerTrailProperty ], ( selected, treeHover, active ) => {
+      return selected ? selected : ( treeHover ? treeHover : active );
     } );
+
+    this.previewShapeProperty = new DerivedProperty( [ this.previewTrailProperty, this.inputBasedPickingProperty, this.pointerAreaTypeProperty ], ( previewTrail: Trail | null, inputBasedPicking: boolean, pointerAreaType: PointerAreaType ) => {
+      if ( previewTrail ) {
+        if ( inputBasedPicking ) {
+          return getShape( previewTrail, pointerAreaType === PointerAreaType.MOUSE, pointerAreaType === PointerAreaType.TOUCH );
+        }
+        else {
+          return getShape( previewTrail, false, false );
+        }
+      }
+      else {
+        return null;
+      }
+    } );
+
     this.screenViewProperty = new TinyProperty<ScreenView | null>( null );
 
     this.imageDataProperty = new TinyProperty<ImageData | null>( null );
@@ -235,6 +269,7 @@ class Helper {
 
     const fuzzCheckbox = new HelperCheckbox( 'Fuzz', fuzzProperty );
     const measuringTapeVisibleCheckbox = new HelperCheckbox( 'Measuring Tape', measuringTapeVisibleProperty );
+    const treeVisibleCheckbox = new HelperCheckbox( 'Tree', this.treeVisibleProperty );
     const inputBasedPickingCheckbox = new HelperCheckbox( 'Input-based', this.inputBasedPickingProperty );
     const useLeafNodeCheckbox = new HelperCheckbox( 'Use Leaf', this.useLeafNodeProperty, {
       enabledProperty: this.inputBasedPickingProperty
@@ -304,18 +339,173 @@ class Helper {
             },
             cursor: 'pointer',
             inputListeners: [ new FireListener( {
-              fire: () => { this.selectedTrailProperty.value = trail.subtrailTo( node ); }
+              fire: () => {
+                this.selectedTrailProperty.value = trail.subtrailTo( node );
+                focusSelected();
+              }
             } ) ]
           } ) );
         } );
       }
     } );
 
+    const treeBackground = new Rectangle( {
+      fill: 'rgba(255,255,255,0.85)',
+      stroke: 'black',
+      rectWidth: 400,
+      visibleProperty: this.treeVisibleProperty,
+      pickable: true
+    } );
+    const treeContainer = new Node();
+    treeBackground.addChild( treeContainer );
+
+    const treeMarginX = 8;
+    const treeMarginY = 5;
+    const constrainTree = () => {
+      if ( treeContainer.children[ 0 ].bottom < treeBackground.selfBounds.bottom - treeMarginY ) {
+        treeContainer.children[ 0 ].bottom = treeBackground.selfBounds.bottom - treeMarginY;
+      }
+      if ( treeContainer.children[ 0 ].top > treeBackground.selfBounds.top + treeMarginY ) {
+        treeContainer.children[ 0 ].top = treeBackground.selfBounds.top + treeMarginY;
+      }
+      if ( treeContainer.children[ 0 ].right < treeBackground.selfBounds.right - treeMarginX ) {
+        treeContainer.children[ 0 ].right = treeBackground.selfBounds.right - treeMarginX;
+      }
+      if ( treeContainer.children[ 0 ].left > treeBackground.selfBounds.left + treeMarginX ) {
+        treeContainer.children[ 0 ].left = treeBackground.selfBounds.left + treeMarginX;
+      }
+    };
+
+    treeBackground.addInputListener( new DragListener( {
+      targetNode: treeBackground,
+      drag: ( event, listener ) => {
+        treeBackground.x = treeBackground.x + listener.modelDelta.x;
+      }
+    } ) );
+    treeBackground.addInputListener( {
+      wheel: event => {
+        const deltaX = event.domEvent!.deltaX;
+        const deltaY = event.domEvent!.deltaY;
+        const multiplier = 1;
+        treeContainer.children[ 0 ].x -= deltaX * multiplier;
+        treeContainer.children[ 0 ].y -= deltaY * multiplier;
+        constrainTree();
+      }
+    } );
+
+    const focusTrail = ( trail: Trail ) => {
+      const rootTreeNode = treeContainer.children[ 0 ] as TreeNode;
+      if ( rootTreeNode ) {
+        console.log( 'focus' );
+        // const treeNode = rootTreeNode.find( trail );
+        // const deltaY = treeNode.localToGlobalPoint( treeNode.selfBackground.center ).y - treeBackground.centerY;
+        // rootTreeNode.y -= deltaY;
+        // constrainTree();
+      }
+    };
+
+    const focusPointer = () => {
+      if ( this.pointerTrailProperty.value ) {
+        focusTrail( this.pointerTrailProperty.value );
+      }
+    };
+
+    const focusSelected = () => {
+      if ( this.selectedTrailProperty.value === null ) { return; }
+
+      focusTrail( this.selectedTrailProperty.value );
+    };
+
+    // When there isn't a selected trail, focus whatever our pointer is over
+    this.pointerTrailProperty.lazyLink( () => {
+      if ( !this.selectedTrailProperty.value ) {
+        focusPointer();
+      }
+    } );
+
+    Property.multilink( [ this.activeProperty, this.treeVisibleProperty ], ( active, treeVisible ) => {
+      if ( active && treeVisible ) {
+        treeContainer.children = [
+          new TreeNode( new Trail( simDisplay.rootNode ), this )
+        ];
+        constrainTree();
+      }
+      else {
+        treeContainer.children = [];
+      }
+    } );
+
+    const getLocalShape = ( node: Node, useMouse: boolean, useTouch: boolean ): Shape => {
+      let shape = Shape.union( [
+        ...( ( useMouse && node.mouseArea ) ? [ node.mouseArea instanceof Shape ? node.mouseArea : Shape.bounds( node.mouseArea ) ] : [] ),
+        ...( ( useTouch && node.touchArea ) ? [ node.touchArea instanceof Shape ? node.touchArea : Shape.bounds( node.touchArea ) ] : [] ),
+        node.getSelfShape(),
+
+        ...node.children.filter( child => {
+          return child.visible && child.pickable !== false;
+        } ).map( child => getLocalShape( child, useMouse, useTouch ).transformed( child.matrix ) )
+      ].filter( shape => shape.bounds.isValid() ) );
+
+      if ( node.hasClipArea() ) {
+        shape = shape.shapeIntersection( node.clipArea! );
+      }
+      return shape;
+    };
+
+    const getShape = ( trail: Trail, useMouse: boolean, useTouch: boolean ): Shape => {
+      let shape = getLocalShape( trail.lastNode(), useMouse, useTouch );
+
+      for ( let i = trail.nodes.length - 1; i >= 0; i-- ) {
+        const node = trail.nodes[ i ];
+
+        if ( node.hasClipArea() ) {
+          shape = shape.shapeIntersection( node.clipArea! );
+        }
+        shape = shape.transformed( node.matrix );
+      }
+
+      return shape;
+    };
+
+    const highlightBase = new DerivedProperty( [ this.inputBasedPickingProperty, this.pointerAreaTypeProperty ], ( inputBasedPicking, pointerAreaType ) => {
+      if ( inputBasedPicking ) {
+        if ( pointerAreaType === PointerAreaType.MOUSE ) {
+          return new Color( 0, 0, 255 );
+        }
+        else if ( pointerAreaType === PointerAreaType.TOUCH ) {
+          return new Color( 255, 0, 0 );
+        }
+        else {
+          return new Color( 200, 0, 200 );
+        }
+      }
+      else {
+        return new Color( 0, 255, 0 );
+      }
+    }, { tandem: Tandem.OPT_OUT } );
+    const highlightFill = new DerivedProperty( [ highlightBase ], color => color.withAlpha( 0.2 ), { tandem: Tandem.OPT_OUT } );
+    const highlightPath = new Path( null, {
+      stroke: highlightBase,
+      lineDash: [ 2, 2 ],
+      fill: highlightFill
+    } );
+    this.previewShapeProperty.link( shape => {
+      highlightPath.shape = shape;
+    } );
+
+
+    // this.inputBasedPickingProperty = new BooleanProperty( true, { tandem: Tandem.OPT_OUT } );
+    // this.useLeafNodeProperty = new BooleanProperty( false, { tandem: Tandem.OPT_OUT } );
+    // this.pointerAreaTypeProperty = new EnumerationProperty( PointerAreaType.MOUSE, { tandem: Tandem.OPT_OUT } );
+
+    helperRoot.addChild( highlightPath );
+
     const backgroundNode = new Node();
 
     backgroundNode.addInputListener( new PressListener( {
       press: () => {
-        this.selectedTrailProperty.value = this.activeTrailProperty.value;
+        this.selectedTrailProperty.value = this.pointerTrailProperty.value;
+        focusSelected();
       }
     } ) );
     helperRoot.addChild( backgroundNode );
@@ -333,7 +523,8 @@ class Helper {
           spacing: 10,
           children: [
             fuzzCheckbox,
-            measuringTapeVisibleCheckbox
+            measuringTapeVisibleCheckbox,
+            treeVisibleCheckbox
           ]
         } ),
         createHeaderText( 'Picking' ),
@@ -371,6 +562,8 @@ class Helper {
     } );
     helperRoot.addChild( helperReadoutPanel );
 
+    helperRoot.addChild( treeBackground );
+
     // @ts-ignore MeasuringTapeNode
     const measuringTapeNode = new MeasuringTapeNode( measuringTapeUnitsProperty, measuringTapeVisibleProperty, {
       textBackgroundColor: 'rgba(0,0,0,0.5)'
@@ -385,9 +578,14 @@ class Helper {
       layoutBoundsProperty.value = layoutBoundsProperty.value.withMaxX( size.width ).withMaxY( size.height );
       backgroundNode.mouseArea = new Bounds2( 0, 0, size.width, size.height );
       backgroundNode.touchArea = new Bounds2( 0, 0, size.width, size.height );
+      treeBackground.rectHeight = size.height;
+      treeBackground.right = size.width;
+      treeContainer.clipArea = Shape.bounds( treeBackground.localBounds.dilated( 10 ) );
     };
 
     const frameListener = ( dt: number ) => {
+      this.overInterfaceProperty.value = helperReadoutPanel.bounds.containsPoint( this.pointerPositionProperty.value ) || ( this.treeVisibleProperty.value && treeBackground.bounds.containsPoint( this.pointerPositionProperty.value ) );
+
       this.helperDisplay?.updateDisplay();
     };
 
@@ -471,8 +669,14 @@ class Helper {
 
         this.helperDisplay!.dispose();
 
+        // Unpause the simulation
         sim.activeProperty.value = true;
+
+        // Clear imageData since it won't be accurate when we re-open
         this.imageDataProperty.value = null;
+
+        // Hide the tree when closing, so it starts up quickly
+        this.treeVisibleProperty.value = false;
       }
     } );
   }
@@ -599,180 +803,171 @@ class HelperCheckbox extends Checkbox {
 //   }
 // }
 
-// class TreeNode extends Node {
-//   constructor( displayNode, trail ) {
-//     super();
-//
-//     var self = this;
-//
-//     this.displayNode = displayNode;
-//     this.trail = trail;
-//
-//     displayNode.addInputListener( {
-//       over: function( event ) {
-//         if ( event.target === displayNode ) {
-//           activeTreeNodeProperty.value = self;
-//           focusActive();
-//         }
-//       },
-//       out: function( event ) {
-//         if ( event.target === displayNode ) {
-//           activeTreeNodeProperty.value = null;
-//           focusSelected();
-//         }
-//       },
-//       down: function( event ) {
-//         if ( event.target === displayNode ) {
-//           selectedTreeNodeProperty.value = self;
-//           focusSelected();
-//         }
-//       }
-//     } );
-//
-//     this.expandedProperty = new axon.Property( true );
-//
-//     var serialization = displayNode._serialization;
-//     var isVisible = _.every( trail.nodes, function( node ) {
-//       return node._serialization.options.visible !== false;
-//     } );
-//
-//     var selfNode = new scenery.HBox( {
-//       spacing: 5
-//     } );
-//
-//     var buttonSize = 12;
-//     var expandButton = new scenery.Rectangle( -buttonSize / 2, -buttonSize / 2, buttonSize, buttonSize, {
-//       children: [
-//         new scenery.Path( kite.Shape.regularPolygon( 3, buttonSize / 2.5 ), {
-//           fill: '#444'
-//         } )
-//       ],
-//       visible: false,
-//       cursor: 'pointer'
-//     } );
-//     expandButton.addInputListener( new scenery.FireListener( {
-//       fire: function() {
-//         self.expandedProperty.value = !self.expandedProperty.value;
-//       }
-//     } ) );
-//     selfNode.addChild( expandButton );
-//
-//     var TREE_FONT = new scenery.Font( { size: 12 } );
-//
-//     selfNode.addChild( new scenery.Text( serialization.name, {
-//       font: TREE_FONT,
-//       pickable: false,
-//       fill: isVisible ? '#000' : '#60a'
-//     } ) );
-//     if ( serialization.name !== serialization.type && serialization.type !== 'Node' ) {
-//       selfNode.addChild( new scenery.Text( '(' + serialization.type + ')', {
-//         font: TREE_FONT,
-//         pickable: false,
-//         fill: '#666'
-//       } ) );
-//     }
-//     if ( serialization.type === 'Text' ) {
-//       selfNode.addChild( new scenery.Text( '"' + displayNode.text + '"', {
-//         font: TREE_FONT,
-//         pickable: false,
-//         fill: '#666'
-//       } ) );
-//     }
-//
-//     var selfBackground = this.selfBackground = scenery.Rectangle.bounds( selfNode.bounds, {
-//       children: [ selfNode ],
-//       cursor: 'pointer',
-//       fill: new axon.DerivedProperty( [ selectedTreeNodeProperty, activeTreeNodeProperty ], function( selected, active ) {
-//         if ( self === selected ) {
-//           return 'rgba(0,128,255,0.4)';
-//         }
-//         else if ( self === active ) {
-//           return 'rgba(0,128,255,0.2)';
-//         }
-//         else {
-//           return 'transparent';
-//         }
-//       } )
-//     } );
-//     selfBackground.addInputListener( {
-//       enter: function( event ) {
-//         activeTreeNodeProperty.value = self;
-//       },
-//       exit: function( event ) {
-//         activeTreeNodeProperty.value = null;
-//       }
-//     } );
-//     selfBackground.addInputListener( new scenery.FireListener( {
-//       fire: function() {
-//         selectedTreeNodeProperty.value = self;
-//       }
-//     } ) );
-//     this.addChild( selfBackground );
-//
-//     this.childTreeNodes = displayNode.children.filter( function( child ) {
-//       return !!child._serialization;
-//     } ).map( function( child, index ) {
-//       return new TreeNode( child, trail.copy().addDescendant( child, index ) );
-//     } );
-//
-//     var childrenNode = new scenery.VBox( {
-//       spacing: 0,
-//       align: 'left',
-//       children: this.childTreeNodes
-//     } );
-//
-//     var column = new scenery.Rectangle( {
-//       rectWidth: 2,
-//       rectHeight: 5,
-//       fill: 'rgba(0,0,0,0.1)'
-//     } );
-//
-//     var expandedNode = new scenery.Node( {
-//       children: [
-//         childrenNode,
-//         // column
-//       ]
-//     } );
-//
-//     if ( childrenNode.bounds.isFinite() ) {
-//       childrenNode.left = selfNode.left + 13;
-//       childrenNode.top = selfNode.bottom;
-//       column.centerX = selfNode.left + buttonSize / 2;
-//       column.top = selfNode.bottom;
-//
-//       expandButton.visible = true;
-//       this.addChild( expandedNode );
-//
-//       self.expandedProperty.link( function( expanded ) {
-//         expandButton.rotation = expanded ? Math.PI / 2 : 0;
-//         if ( expanded && !self.hasChild( expandedNode ) ) {
-//           self.addChild( expandedNode );
-//         }
-//         if ( !expanded && self.hasChild( expandedNode ) ) {
-//           self.removeChild( expandedNode );
-//         }
-//       } );
-//
-//       childrenNode.boundsProperty.lazyLink( function() {
-//         column.rectHeight = childrenNode.height;
-//       } );
-//     }
-//   }
-//
-//   expandRecusively() {
-//     this.expandedProperty.value = true;
-//     this.childTreeNodes.forEach( treeNode => {
-//       treeNode.expandRecusively();
-//     } );
-//   }
-//
-//   collapseRecursively() {
-//     this.expandedProperty.value = false;
-//     this.childTreeNodes.forEach( treeNode => {
-//       treeNode.collapseRecursively();
-//     } );
-//   }
-// }
+class TreeNode extends Node {
+
+  node: Node;
+  trail: Trail;
+  expandedProperty: IProperty<boolean>;
+
+  selfBackground: Rectangle;
+
+  private childTreeNodes: TreeNode[];
+
+  constructor( trail: Trail, helper: Helper ) {
+    super();
+
+    const node = trail.lastNode();
+
+    this.node = node;
+    this.trail = trail;
+
+    this.expandedProperty = new TinyProperty( true );
+
+    const isVisible = trail.isVisible();
+
+    const selfNode = new HBox( {
+      spacing: 5
+    } );
+
+    const buttonSize = 12;
+    const expandButton = new Rectangle( -buttonSize / 2, -buttonSize / 2, buttonSize, buttonSize, {
+      children: [
+        new Path( Shape.regularPolygon( 3, buttonSize / 2.5 ), {
+          fill: '#444'
+        } )
+      ],
+      visible: false,
+      cursor: 'pointer'
+    } );
+    expandButton.addInputListener( new FireListener( {
+      fire: () => {
+        this.expandedProperty.value = !this.expandedProperty.value;
+      }
+    } ) );
+    selfNode.addChild( expandButton );
+
+    const TREE_FONT = new Font( { size: 12 } );
+
+    const name = node.constructor.name;
+    if ( name ) {
+      selfNode.addChild( new Text( name, {
+        font: TREE_FONT,
+        pickable: false,
+        fill: isVisible ? '#000' : '#60a'
+      } ) );
+    }
+    if ( node instanceof Text ) {
+      selfNode.addChild( new Text( '"' + node.text + '"', {
+        font: TREE_FONT,
+        pickable: false,
+        fill: '#666'
+      } ) );
+    }
+    this.selfBackground = Rectangle.bounds( selfNode.bounds, {
+      children: [ selfNode ],
+      cursor: 'pointer',
+      fill: new DerivedProperty( [ helper.selectedTrailProperty, helper.pointerTrailProperty ], ( selected, active ) => {
+        if ( this.trail === selected ) {
+          return 'rgba(0,128,255,0.4)';
+        }
+        else if ( this.trail === active ) {
+          return 'rgba(0,128,255,0.2)';
+        }
+        else {
+          return 'transparent';
+        }
+      }, {
+        tandem: Tandem.OPT_OUT
+      } )
+    } );
+    this.selfBackground.addInputListener( {
+      enter: function( event ) {
+        helper.treeHoverTrailProperty.value = trail;
+      },
+      exit: function( event ) {
+        helper.treeHoverTrailProperty.value = null;
+      }
+    } );
+    this.selfBackground.addInputListener( new FireListener( {
+      fire: function() {
+        helper.selectedTrailProperty.value = trail;
+      }
+    } ) );
+    this.addChild( this.selfBackground );
+
+    this.childTreeNodes = node.children.map( ( child, index ) => {
+      return new TreeNode( trail.copy().addDescendant( child ), helper );
+    } );
+
+    const childrenNode = new VBox( {
+      spacing: 0,
+      align: 'left',
+      children: this.childTreeNodes
+    } );
+
+    const column = new Rectangle( {
+      rectWidth: 2,
+      rectHeight: 5,
+      fill: 'rgba(0,0,0,0.1)'
+    } );
+
+    const expandedNode = new Node( {
+      children: [
+        childrenNode
+        // column
+      ]
+    } );
+
+    if ( childrenNode.bounds.isFinite() ) {
+      childrenNode.left = selfNode.left + 13;
+      childrenNode.top = selfNode.bottom;
+      column.centerX = selfNode.left + buttonSize / 2;
+      column.top = selfNode.bottom;
+
+      expandButton.visible = true;
+      this.addChild( expandedNode );
+
+      this.expandedProperty.link( expanded => {
+        expandButton.rotation = expanded ? Math.PI / 2 : 0;
+        if ( expanded && !this.hasChild( expandedNode ) ) {
+          this.addChild( expandedNode );
+        }
+        if ( !expanded && this.hasChild( expandedNode ) ) {
+          this.removeChild( expandedNode );
+        }
+      } );
+
+      childrenNode.boundsProperty.lazyLink( () => {
+        column.rectHeight = childrenNode.height;
+      } );
+    }
+  }
+
+  expandRecusively() {
+    this.expandedProperty.value = true;
+    this.childTreeNodes.forEach( treeNode => {
+      treeNode.expandRecusively();
+    } );
+  }
+
+  collapseRecursively() {
+    this.expandedProperty.value = false;
+    this.childTreeNodes.forEach( treeNode => {
+      treeNode.collapseRecursively();
+    } );
+  }
+
+  find( trail: Trail ): TreeNode {
+    if ( trail.equals( this.trail ) ) {
+      return this;
+    }
+    else {
+      return _.find( this.childTreeNodes, childTreeNode => {
+        return trail.isExtensionOf( childTreeNode.trail, true );
+      } )!;
+    }
+  }
+}
 
 const createHeaderText = ( str: string, node?: Node, options?: TextOptions ) => {
   return new Text( str, merge( {
@@ -975,7 +1170,7 @@ const createInfo = ( trail: Trail ): Node[] => {
   //   spacing: 5,
   //   children: [
   //     badButton( 'toggle visibility', function() {
-  //       treeNode.displayNode.visible = !treeNode.displayNode.visible;
+  //       treeNode.node.visible = !treeNode.node.visible;
   //     } ),
   //     badButton( 'sim path', function() {
   //       window.prompt( 'Copy-paste this into a sim:', 'phet.joist.display.rootNode' + treeNode.trail.indices.map( function( index ) {
@@ -986,6 +1181,40 @@ const createInfo = ( trail: Trail ): Node[] => {
   // } ) );
 
   return children;
+};
+
+// Missing optimizations on bounds on purpose, so we hit visual changes
+const visualHitTest = ( node: Node, point: Vector2 ): Trail | null => {
+  if ( !node.visible ) {
+    return null;
+  }
+  const localPoint = node._transform.getInverse().timesVector2( point );
+
+  const clipArea = node.clipArea;
+  if ( clipArea !== null && !clipArea.containsPoint( localPoint ) ) {
+    return null;
+  }
+
+  for ( let i = node._children.length - 1; i >= 0; i-- ) {
+    const child = node._children[ i ];
+
+    const childHit = visualHitTest( child, localPoint );
+
+    if ( childHit ) {
+      return childHit.addAncestor( node, i );
+    }
+  }
+
+  // Didn't hit our children, so check ourself as a last resort. Check our selfBounds first, so we can potentially
+  // avoid hit-testing the actual object (which may be more expensive).
+  if ( node.selfBounds.containsPoint( localPoint ) ) {
+    if ( node.containsPointSelf( localPoint ) ) {
+      return new Trail( node );
+    }
+  }
+
+  // No hit
+  return null;
 };
 
 export default Helper;
