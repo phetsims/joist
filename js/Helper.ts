@@ -16,7 +16,7 @@ import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import MeasuringTapeNode from '../../scenery-phet/js/MeasuringTapeNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { Color, Display, DragListener, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, IColor, Image, IPaint, LinearGradient, Node, Paint, Path, Pattern, PressListener, RadialGradient, Rectangle, RichText, SceneryEvent, Spacer, Text, TextOptions, Trail, VBox } from '../../scenery/js/imports.js';
+import { CanvasNode, Circle, Color, Display, DOM, DragListener, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, IColor, Image, IPaint, LayoutBox, Line, LinearGradient, Node, Paint, Path, Pattern, PressListener, RadialGradient, Rectangle, RichText, SceneryEvent, Spacer, Text, TextOptions, Trail, VBox, WebGLNode } from '../../scenery/js/imports.js';
 import Panel from '../../sun/js/Panel.js';
 import AquaRadioButtonGroup from '../../sun/js/AquaRadioButtonGroup.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -1000,6 +1000,25 @@ class Matrix3Node extends GridBox {
   }
 }
 
+class ShapeNode extends Path {
+  constructor( shape: Shape ) {
+    super( shape, {
+      maxWidth: 15,
+      maxHeight: 15,
+      stroke: 'black'
+    } );
+  }
+}
+
+class ImageNode extends Image {
+  constructor( image: Image ) {
+    super( image.getImage(), {
+      maxWidth: 15,
+      maxHeight: 15
+    } );
+  }
+}
+
 const createInfo = ( trail: Trail ): Node[] => {
   const children = [];
   const node = trail.lastNode();
@@ -1062,25 +1081,28 @@ const createInfo = ( trail: Trail ): Node[] => {
 
     if ( paint instanceof Paint ) {
       if ( paint instanceof LinearGradient ) {
-        addRaw( key, new HBox( {
+        addRaw( key, new VBox( {
+          align: 'left',
           spacing: 3,
           children: [
-            new Text( `LinearGradient ${paint.start} => ${paint.end}`, { fontSize: 12 } ),
+            new Text( `LinearGradient (${paint.start.x},${paint.start.y}) => (${paint.end.x},${paint.end.y})`, { fontSize: 12 } ),
             ...paint.stops.map( stopToNode )
           ]
         } ) );
       }
       else if ( paint instanceof RadialGradient ) {
-        addRaw( key, new HBox( {
+        addRaw( key, new VBox( {
+          align: 'left',
           spacing: 3,
           children: [
-            new Text( `RadialGradient ${paint.start} ${paint.startRadius} => ${paint.end} ${paint.endRadius}`, { fontSize: 12 } ),
+            new Text( `RadialGradient (${paint.start.x},${paint.start.y}) ${paint.startRadius} => (${paint.end.x},${paint.end.y}) ${paint.endRadius}`, { fontSize: 12 } ),
             ...paint.stops.map( stopToNode )
           ]
         } ) );
       }
       else if ( paint instanceof Pattern ) {
-        addRaw( key, new HBox( {
+        addRaw( key, new VBox( {
+          align: 'left',
           spacing: 3,
           children: [
             new Text( 'Pattern', { fontSize: 12 } ),
@@ -1097,45 +1119,210 @@ const createInfo = ( trail: Trail ): Node[] => {
   const addNumber = ( key: string, number: number ) => addSimple( key, number );
   const addMatrix3 = ( key: string, matrix: Matrix3 ) => addRaw( key, new Matrix3Node( matrix ) );
   const addBounds2 = ( key: string, bounds: Bounds2 ) => addRaw( key, new RichText( `minX: ${bounds.minX}<br>maxX: ${bounds.maxX}<br>minY: ${bounds.minY}<br>maxY: ${bounds.maxY}<br>`, { font: new PhetFont( 12 ) } ) );
+  const addShape = ( key: string, shape: Shape ) => addRaw( key, new ShapeNode( shape ) );
+  const addImage = ( key: string, image: Image ) => addRaw( key, new ImageNode( image ) );
+
+  if ( node.tandem.supplied ) {
+    addSimple( 'tandem', node.tandem.phetioID );
+  }
+
+  if ( node instanceof DOM ) {
+    addSimple( 'element', node.element.constructor.name );
+  }
+
+  if ( node instanceof LayoutBox ) {
+    addSimple( 'orientation', node.orientation );
+    addSimple( 'align', node.align );
+    addSimple( 'spacing', node.spacing );
+    if ( !node.resize ) {
+      addSimple( 'resize', node.resize );
+    }
+  }
+
+  if ( node instanceof Rectangle ) {
+    addBounds2( 'rectBounds', node.rectBounds );
+    if ( node.cornerXRadius || node.cornerYRadius ) {
+      if ( node.cornerXRadius === node.cornerYRadius ) {
+        addSimple( 'cornerRadius', node.cornerRadius );
+      }
+      else {
+        addSimple( 'cornerXRadius', node.cornerXRadius );
+        addSimple( 'cornerYRadius', node.cornerYRadius );
+      }
+    }
+  }
+
+  if ( node instanceof Line ) {
+    addSimple( 'x1', node.x1 );
+    addSimple( 'y1', node.y1 );
+    addSimple( 'x2', node.x2 );
+    addSimple( 'y2', node.y2 );
+  }
+
+  if ( node instanceof Circle ) {
+    addSimple( 'radius', node.radius );
+  }
+
+  if ( node instanceof Text ) {
+    addSimple( 'text', node.text );
+    addSimple( 'font', node.font );
+    if ( node.boundsMethod !== 'hybrid' ) {
+      addSimple( 'boundsMethod', node.boundsMethod );
+    }
+  }
+
+  if ( node instanceof RichText ) {
+    addSimple( 'text', node.text );
+    addSimple( 'font', node.font instanceof Font ? node.font.getFont() : node.font );
+    addPaint( 'fill', node.fill );
+    addPaint( 'stroke', node.stroke );
+    if ( node.boundsMethod !== 'hybrid' ) {
+      addSimple( 'boundsMethod', node.boundsMethod );
+    }
+    if ( node.lineWrap !== null ) {
+      addSimple( 'lineWrap', node.lineWrap );
+    }
+  }
+
+  if ( node instanceof Image ) {
+    addImage( 'image', node );
+    addSimple( 'imageWidth', node.imageWidth );
+    addSimple( 'imageHeight', node.imageHeight );
+    if ( node.imageOpacity !== 1 ) {
+      addSimple( 'imageOpacity', node.imageOpacity );
+    }
+    if ( node.imageBounds ) {
+      addBounds2( 'imageBounds', node.imageBounds );
+    }
+    if ( node.initialWidth ) {
+      addSimple( 'initialWidth', node.initialWidth );
+    }
+    if ( node.initialHeight ) {
+      addSimple( 'initialHeight', node.initialHeight );
+    }
+    if ( node.hitTestPixels ) {
+      addSimple( 'hitTestPixels', node.hitTestPixels );
+    }
+  }
+
+  if ( node instanceof CanvasNode || node instanceof WebGLNode ) {
+    addBounds2( 'canvasBounds', node.canvasBounds );
+  }
+
+  if ( node instanceof Path ) {
+    if ( node.shape ) {
+      addShape( 'shape', node.shape );
+    }
+    if ( node.boundsMethod !== 'accurate' ) {
+      addSimple( 'boundsMethod', node.boundsMethod );
+    }
+  }
 
   if ( node instanceof Path || node instanceof Text ) {
     addPaint( 'fill', node.fill );
     addPaint( 'stroke', node.stroke );
+    if ( node.lineDash.length ) {
+      addSimple( 'lineDash', node.lineDash );
+    }
+    if ( !node.fillPickable ) {
+      addSimple( 'fillPickable', node.fillPickable );
+    }
+    if ( node.strokePickable ) {
+      addSimple( 'strokePickable', node.strokePickable );
+    }
+    if ( node.lineWidth !== 1 ) {
+      addSimple( 'lineWidth', node.lineWidth );
+    }
+    if ( node.lineCap !== 'butt' ) {
+      addSimple( 'lineCap', node.lineCap );
+    }
+    if ( node.lineJoin !== 'miter' ) {
+      addSimple( 'lineJoin', node.lineJoin );
+    }
+    if ( node.lineDashOffset !== 0 ) {
+      addSimple( 'lineDashOffset', node.lineDashOffset );
+    }
+    if ( node.miterLimit !== 10 ) {
+      addSimple( 'miterLimit', node.miterLimit );
+    }
   }
+
   if ( !node.visible ) {
     addSimple( 'visible', node.visible );
   }
   if ( node.opacity !== 1 ) {
     addNumber( 'opacity', node.opacity );
   }
-  // addSerial( 'lineDash', serialization.setup.lineDash );
-  // addSimple( 'pickable', serialization.options.pickable );
-  // addSimple( 'inputEnabled', serialization.options.inputEnabled );
-  // addSimple( 'cursor', serialization.options.cursor );
-  // addSimple( 'transformBounds', serialization.options.transformBounds );
-  // addSimple( 'renderer', serialization.options.renderer );
-  // addSimple( 'usesOpacity', serialization.options.usesOpacity );
-  // addSimple( 'layerSplit', serialization.options.layerSplit );
-  // addSimple( 'cssTransform', serialization.options.cssTransform );
-  // addSimple( 'excludeInvisible', serialization.options.excludeInvisible );
-  // addSimple( 'webglScale', serialization.options.webglScale );
-  // addSimple( 'preventFit', serialization.options.preventFit );
+  if ( node.pickable !== null ) {
+    addSimple( 'pickable', node.pickable );
+  }
+  if ( !node.enabled ) {
+    addSimple( 'enabled', node.enabled );
+  }
+  if ( !node.inputEnabled ) {
+    addSimple( 'inputEnabled', node.inputEnabled );
+  }
+  if ( node.cursor !== null ) {
+    addSimple( 'cursor', node.cursor );
+  }
+  if ( node.transformBounds ) {
+    addSimple( 'transformBounds', node.transformBounds );
+  }
+  if ( node.renderer ) {
+    addSimple( 'renderer', node.renderer );
+  }
+  if ( node.usesOpacity ) {
+    addSimple( 'usesOpacity', node.usesOpacity );
+  }
+  if ( node.layerSplit ) {
+    addSimple( 'layerSplit', node.layerSplit );
+  }
+  if ( node.cssTransform ) {
+    addSimple( 'cssTransform', node.cssTransform );
+  }
+  if ( node.excludeInvisible ) {
+    addSimple( 'excludeInvisible', node.excludeInvisible );
+  }
+  if ( node.preventFit ) {
+    addSimple( 'preventFit', node.preventFit );
+  }
+  if ( node.webglScale !== null ) {
+    addSimple( 'webglScale', node.webglScale );
+  }
   if ( !node.matrix.isIdentity() ) {
     addMatrix3( 'matrix', node.matrix );
   }
-  // addSerial( 'maxWidth', serialization.setup.maxWidth );
-  // addSerial( 'maxHeight', serialization.setup.maxHeight );
-  // addSerial( 'clipArea', serialization.setup.clipArea );
-  // addSerial( 'mouseArea', serialization.setup.mouseArea );
-  // addSerial( 'touchArea', serialization.setup.touchArea );
-  // addSerial( 'localBounds', serialization.setup.localBounds );
-  // if ( serialization.setup.hasInputListeners ) {
-  //   addSimple( 'inputListeners', '' );
-  // }
-  // addSerial( 'path', serialization.setup.path );
-  // addSimple( 'width', serialization.setup.width );
-  // addSimple( 'height', serialization.setup.height );
-  // addSimple( 'imageType', serialization.setup.imageType );
+  if ( node.maxWidth !== null ) {
+    addSimple( 'maxWidth', node.maxWidth );
+  }
+  if ( node.maxHeight !== null ) {
+    addSimple( 'maxHeight', node.maxHeight );
+  }
+  if ( node.clipArea !== null ) {
+    addShape( 'clipArea', node.clipArea );
+  }
+  if ( node.mouseArea !== null ) {
+    if ( node.mouseArea instanceof Bounds2 ) {
+      addBounds2( 'mouseArea', node.mouseArea );
+    }
+    else {
+      addShape( 'mouseArea', node.mouseArea );
+    }
+  }
+  if ( node.touchArea !== null ) {
+    if ( node.touchArea instanceof Bounds2 ) {
+      addBounds2( 'touchArea', node.touchArea );
+    }
+    else {
+      addShape( 'touchArea', node.touchArea );
+    }
+  }
+  if ( node.localBoundsOverridden ) {
+    addBounds2( 'localBounds', node.localBounds );
+  }
+  if ( node.inputListeners.length ) {
+    addSimple( 'inputListeners', node.inputListeners.map( listener => listener.constructor.name ).join( ', ' ) );
+  }
 
   children.push( new Spacer( 5, 5 ) );
 
