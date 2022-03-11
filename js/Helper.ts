@@ -35,6 +35,7 @@ import Enumeration from '../../phet-core/js/Enumeration.js';
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import merge from '../../phet-core/js/merge.js';
 import { Shape } from '../../kite/js/imports.js';
+import RectangularPushButton from '../../sun/js/buttons/RectangularPushButton.js';
 
 const round = ( n: number, places: number = 2 ) => Utils.toFixed( n, places );
 
@@ -1005,8 +1006,14 @@ class ShapeNode extends Path {
     super( shape, {
       maxWidth: 15,
       maxHeight: 15,
-      stroke: 'black'
+      stroke: 'black',
+      cursor: 'pointer',
+      strokePickable: true
     } );
+
+    this.addInputListener( new FireListener( {
+      fire: () => copyToClipboard( shape.getSVGPath() )
+    } ) );
   }
 }
 
@@ -1047,7 +1054,15 @@ const createInfo = ( trail: Trail ): Node[] => {
 
   const addSimple = ( key: string, value: any ) => {
     if ( value !== undefined ) {
-      addRaw( key, new Text( '' + value, { fontSize: 12 } ) );
+      addRaw( key, new Text( '' + value, {
+        fontSize: 12,
+        cursor: 'pointer',
+        inputListeners: [
+          new FireListener( {
+            fire: () => copyToClipboard( '' + value )
+          } )
+        ]
+      } ) );
     }
   };
 
@@ -1058,6 +1073,12 @@ const createInfo = ( trail: Trail ): Node[] => {
         new Rectangle( 0, 0, 10, 10, { fill: color, stroke: 'black', lineWidth: 0.5 } ),
         new Text( color.toHexString(), { fontSize: 12 } ),
         new Text( color.toCSS(), { fontSize: 12 } )
+      ],
+      cursor: 'pointer',
+      inputListeners: [
+        new FireListener( {
+          fire: () => copyToClipboard( color.toHexString() )
+        } )
       ]
     } );
   };
@@ -1329,38 +1350,12 @@ const createInfo = ( trail: Trail ): Node[] => {
   addBounds2( 'localBounds', node.localBounds );
   addBounds2( 'bounds', node.bounds );
 
-  /*---------------------------------------------------------------------------*
-  * Buttons
-  *----------------------------------------------------------------------------*/
-
-  // function badButton( label, action ) {
-  //   var text = new Text( label, { fontSize: 12 } );
-  //   var rect = Rectangle.bounds( text.bounds.dilatedXY( 5, 3 ), {
-  //     children: [ text ],
-  //     stroke: 'black',
-  //     cursor: 'pointer'
-  //   } );
-  //   rect.addInputListener( new FireListener( {
-  //     fire: action
-  //   } ) );
-  //   return rect;
-  // }
-  //
-  // children.push( new Spacer( 10, 10 ) );
-  //
-  // children.push( new HBox( {
-  //   spacing: 5,
-  //   children: [
-  //     badButton( 'toggle visibility', function() {
-  //       treeNode.node.visible = !treeNode.node.visible;
-  //     } ),
-  //     badButton( 'sim path', function() {
-  //       window.prompt( 'Copy-paste this into a sim:', 'phet.joist.display.rootNode' + treeNode.trail.indices.map( function( index ) {
-  //         return '.children[ ' + index + ' ]';
-  //       } ).join( '' ) );
-  //     } )
-  //   ]
-  // } ) );
+  children.push( new RectangularPushButton( {
+    content: new Text( 'Copy Path', { fontSize: 12 } ),
+    listener: () => copyToClipboard( 'phet.joist.display.rootNode' + trail.indices.map( index => {
+       return `.children[ ${index} ]`;
+     } ).join( '' ) )
+  } ) );
 
   return children;
 };
@@ -1422,6 +1417,10 @@ const visualHitTest = ( node: Node, point: Vector2 ): Trail | null => {
 
   // No hit
   return null;
+};
+
+const copyToClipboard = ( str: string ) => {
+  navigator.clipboard?.writeText( str );
 };
 
 export default Helper;
