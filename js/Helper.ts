@@ -396,11 +396,10 @@ class Helper {
     const focusTrail = ( trail: Trail ) => {
       const rootTreeNode = treeContainer.children[ 0 ] as TreeNode;
       if ( rootTreeNode ) {
-        console.log( 'focus' );
-        // const treeNode = rootTreeNode.find( trail );
-        // const deltaY = treeNode.localToGlobalPoint( treeNode.selfBackground.center ).y - treeBackground.centerY;
-        // rootTreeNode.y -= deltaY;
-        // constrainTree();
+        const treeNode = rootTreeNode.find( trail );
+        const deltaY = treeNode.localToGlobalPoint( treeNode.selfBackground.center ).y - treeBackground.centerY;
+        rootTreeNode.y -= deltaY;
+        constrainTree();
       }
     };
 
@@ -428,6 +427,7 @@ class Helper {
         treeContainer.children = [
           new TreeNode( new Trail( simDisplay.rootNode ), this )
         ];
+        focusSelected();
         constrainTree();
       }
       else {
@@ -964,7 +964,7 @@ class TreeNode extends Node {
     else {
       return _.find( this.childTreeNodes, childTreeNode => {
         return trail.isExtensionOf( childTreeNode.trail, true );
-      } )!;
+      } )!.find( trail );
     }
   }
 }
@@ -1041,11 +1041,6 @@ const createInfo = ( trail: Trail ): Node[] => {
         new Text( color.toCSS(), { fontSize: 12 } )
       ]
     } );
-  };
-
-  const iColorToColor = ( color: IColor ): Color | null => {
-    const nonProperty: Color | string | null = ( color instanceof Property || color instanceof TinyProperty ) ? color.value : color;
-    return nonProperty === null ? null : Color.toColor( nonProperty );
   };
 
   const addColor = ( key: string, color: IColor ) => {
@@ -1183,6 +1178,21 @@ const createInfo = ( trail: Trail ): Node[] => {
   return children;
 };
 
+const iColorToColor = ( color: IColor ): Color | null => {
+  const nonProperty: Color | string | null = ( color instanceof Property || color instanceof TinyProperty ) ? color.value : color;
+  return nonProperty === null ? null : Color.toColor( nonProperty );
+};
+
+const isPaintNonTransparent = ( paint: IPaint ): boolean => {
+  if ( paint instanceof Paint ) {
+    return true;
+  }
+  else {
+    const color = iColorToColor( paint );
+    return !!color && color.alpha > 0;
+  }
+};
+
 // Missing optimizations on bounds on purpose, so we hit visual changes
 const visualHitTest = ( node: Node, point: Vector2 ): Trail | null => {
   if ( !node.visible ) {
@@ -1208,7 +1218,17 @@ const visualHitTest = ( node: Node, point: Vector2 ): Trail | null => {
   // Didn't hit our children, so check ourself as a last resort. Check our selfBounds first, so we can potentially
   // avoid hit-testing the actual object (which may be more expensive).
   if ( node.selfBounds.containsPoint( localPoint ) ) {
-    if ( node.containsPointSelf( localPoint ) ) {
+
+    // Ignore those transparent paths...
+    if ( node instanceof Path && node.hasShape() ) {
+      if ( isPaintNonTransparent( node.fill ) && node.getShape()!.containsPoint( point ) ) {
+        return new Trail( node );
+      }
+      if ( isPaintNonTransparent( node.stroke ) && node.getStrokedShape()!.containsPoint( point ) ) {
+        return new Trail( node );
+      }
+    }
+    else if ( node.containsPointSelf( localPoint ) ) {
       return new Trail( node );
     }
   }
