@@ -975,10 +975,10 @@ class TreeNode extends Node {
       children: [ selfNode ],
       cursor: 'pointer',
       fill: new DerivedProperty( [ helper.selectedTrailProperty, helper.pointerTrailProperty ], ( selected, active ) => {
-        if ( this.trail === selected ) {
+        if ( selected && this.trail.equals( selected ) ) {
           return 'rgba(0,128,255,0.4)';
         }
-        else if ( this.trail === active ) {
+        else if ( active && this.trail.equals( active ) ) {
           return 'rgba(0,128,255,0.2)';
         }
         else {
