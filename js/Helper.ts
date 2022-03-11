@@ -65,6 +65,9 @@ class Helper {
   activeProperty: IProperty<boolean>;
 
   treeVisibleProperty: Property<boolean>;
+  underPointerVisibleProperty: Property<boolean>;
+  toolsVisibleProperty: Property<boolean>;
+  pickingVisibleProperty: Property<boolean>;
   previewVisibleProperty: Property<boolean>;
   selectedNodeContentVisibleProperty: Property<boolean>;
   selectedTrailContentVisibleProperty: Property<boolean>;
@@ -114,6 +117,15 @@ class Helper {
     this.simDisplay = simDisplay;
     this.activeProperty = new TinyProperty( false );
     this.treeVisibleProperty = new BooleanProperty( false, {
+      tandem: Tandem.OPT_OUT
+    } );
+    this.underPointerVisibleProperty = new BooleanProperty( true, {
+      tandem: Tandem.OPT_OUT
+    } );
+    this.toolsVisibleProperty = new BooleanProperty( true, {
+      tandem: Tandem.OPT_OUT
+    } );
+    this.pickingVisibleProperty = new BooleanProperty( true, {
       tandem: Tandem.OPT_OUT
     } );
     this.previewVisibleProperty = new BooleanProperty( true, {
@@ -293,21 +305,20 @@ class Helper {
     this.previewTrailProperty.link( trail => {
       previewNode.removeAllChildren();
       if ( trail ) {
+        previewNode.addChild( previewBackground );
         const node = trail.lastNode();
         if ( node.bounds.isValid() ) {
           const scale = window.devicePixelRatio * 0.9 * Math.min( previewBackground.selfBounds.width / node.width, previewBackground.selfBounds.height / node.height );
-          previewNode.children = [
-            previewBackground,
-            new Node( {
-              scale: scale / window.devicePixelRatio,
-              center: previewBackground.center,
-              children: [
-                node.rasterized( {
-                  resolution: scale
-                } )
-              ]
-            } )
-          ];
+          previewNode.addChild( new Node( {
+            scale: scale / window.devicePixelRatio,
+            center: previewBackground.center,
+            children: [
+              node.rasterized( {
+                resolution: scale,
+                sourceBounds: node.bounds.dilated( node.bounds.width * 0.01 ).roundedOut()
+              } )
+            ]
+          } ) );
         }
       }
     } );
@@ -362,6 +373,40 @@ class Helper {
       selectedTrailContent.children = [];
 
       if ( trail ) {
+
+        trail.nodes.slice().forEach( ( node, index ) => {
+          selectedTrailContent.addChild( new RichText( `${index > 0 ? trail.nodes[ index - 1 ].children.indexOf( node ) : '-'} ${node.constructor.name}`, {
+            font: new PhetFont( 12 ),
+            fill: index === trail.nodes.length - 1 ? 'black' : '#bbb',
+            layoutOptions: {
+              leftMargin: index * 10
+            },
+            cursor: 'pointer',
+            inputListeners: [ new FireListener( {
+              fire: () => {
+                this.selectedTrailProperty.value = trail.subtrailTo( node );
+                focusSelected();
+              }
+            } ) ]
+          } ) );
+        } );
+        trail.lastNode().children.forEach( ( node, index ) => {
+          selectedTrailContent.addChild( new RichText( `${trail.lastNode().children.indexOf( node )} ${node.constructor.name}`, {
+            font: new PhetFont( 12 ),
+            fill: '#88f',
+            layoutOptions: {
+              leftMargin: trail.nodes.length * 10
+            },
+            cursor: 'pointer',
+            inputListeners: [ new FireListener( {
+              fire: () => {
+                this.selectedTrailProperty.value = trail.copy().addDescendant( node, index );
+                focusSelected();
+              }
+            } ) ]
+          } ) );
+        } );
+
         // Visibility check
         if ( !trail.isVisible() ) {
           selectedTrailContent.addChild( new Text( 'invisible', { fill: '#60a', fontSize: 12 } ) );
@@ -385,22 +430,6 @@ class Helper {
           // Why is this wrapper node needed?
           selectedTrailContent.addChild( new Node( { children: [ new Matrix3Node( trail.getMatrix() ) ] } ) );
         }
-
-        trail.nodes.slice().forEach( ( node, index ) => {
-          selectedTrailContent.addChild( new RichText( node.constructor.name, {
-            font: new PhetFont( 12 ),
-            layoutOptions: {
-              leftMargin: index * 10
-            },
-            cursor: 'pointer',
-            inputListeners: [ new FireListener( {
-              fire: () => {
-                this.selectedTrailProperty.value = trail.subtrailTo( node );
-                focusSelected();
-              }
-            } ) ]
-          } ) );
-        } );
       }
     } );
 
@@ -565,24 +594,31 @@ class Helper {
     } ) );
     helperRoot.addChild( backgroundNode );
 
-    const helperReadoutContent = new FlowBox( {
+    const underPointerNode = new FlowBox( {
       orientation: 'vertical',
       spacing: 5,
       align: 'left',
       children: [
-        createHeaderText( 'Under Pointer', positionText, { layoutOptions: { topMargin: 0 } } ),
         positionText,
-        colorBackground,
-        createHeaderText( 'Tools' ),
-        new HBox( {
-          spacing: 10,
-          children: [
-            fuzzCheckbox,
-            measuringTapeVisibleCheckbox,
-            treeVisibleCheckbox
-          ]
-        } ),
-        createHeaderText( 'Picking' ),
+        colorBackground
+      ],
+      visibleProperty: this.underPointerVisibleProperty
+    } );
+
+    const toolsNode = new HBox( {
+      spacing: 10,
+      children: [
+        fuzzCheckbox,
+        measuringTapeVisibleCheckbox,
+        treeVisibleCheckbox
+      ],
+      visibleProperty: this.toolsVisibleProperty
+    } );
+
+    const pickingNode = new VBox( {
+      spacing: 5,
+      align: 'left',
+      children: [
         new HBox( {
           spacing: 10,
           children: [
@@ -590,7 +626,22 @@ class Helper {
             useLeafNodeCheckbox
           ]
         } ),
-        pointerAreaTypeRadioButtonGroup,
+        pointerAreaTypeRadioButtonGroup
+      ],
+      visibleProperty: this.pickingVisibleProperty
+    } );
+
+    const helperReadoutContent = new FlowBox( {
+      orientation: 'vertical',
+      spacing: 5,
+      align: 'left',
+      children: [
+        createCollapsibleHeaderText( 'Under Pointer', this.underPointerVisibleProperty, underPointerNode, { layoutOptions: { topMargin: 0 } } ),
+        underPointerNode,
+        createCollapsibleHeaderText( 'Tools', this.toolsVisibleProperty, toolsNode ),
+        toolsNode,
+        createCollapsibleHeaderText( 'Picking', this.pickingVisibleProperty, pickingNode ),
+        pickingNode,
         createCollapsibleHeaderText( 'Preview', this.previewVisibleProperty, previewNode ),
         previewNode,
         createCollapsibleHeaderText( 'Selected Node', this.selectedNodeContentVisibleProperty, selectedNodeContent ),
