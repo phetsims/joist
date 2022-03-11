@@ -16,7 +16,7 @@ import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import MeasuringTapeNode from '../../scenery-phet/js/MeasuringTapeNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { CanvasNode, Circle, Color, Display, DOM, DragListener, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, IColor, Image, IPaint, LayoutBox, Line, LinearGradient, Node, Paint, Path, Pattern, PressListener, RadialGradient, Rectangle, RichText, SceneryEvent, Spacer, Text, TextOptions, Trail, VBox, WebGLNode } from '../../scenery/js/imports.js';
+import { CanvasNode, Circle, Color, Display, DOM, DragListener, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, IColor, Image, IPaint, LayoutBox, Line, LinearGradient, Node, NodePattern, Paint, Path, Pattern, PressListener, RadialGradient, Rectangle, RichText, SceneryEvent, Spacer, Text, TextOptions, Trail, VBox, WebGLNode } from '../../scenery/js/imports.js';
 import Panel from '../../sun/js/Panel.js';
 import AquaRadioButtonGroup from '../../sun/js/AquaRadioButtonGroup.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -36,6 +36,7 @@ import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import merge from '../../phet-core/js/merge.js';
 import { Shape } from '../../kite/js/imports.js';
 import RectangularPushButton from '../../sun/js/buttons/RectangularPushButton.js';
+import ExpandCollapseButton from '../../sun/js/ExpandCollapseButton.js';
 
 const round = ( n: number, places: number = 2 ) => Utils.toFixed( n, places );
 
@@ -64,6 +65,9 @@ class Helper {
   activeProperty: IProperty<boolean>;
 
   treeVisibleProperty: Property<boolean>;
+  previewVisibleProperty: Property<boolean>;
+  selectedNodeContentVisibleProperty: Property<boolean>;
+  selectedTrailContentVisibleProperty: Property<boolean>;
 
   // Where the current pointer is
   pointerPositionProperty: IProperty<Vector2>;
@@ -110,6 +114,15 @@ class Helper {
     this.simDisplay = simDisplay;
     this.activeProperty = new TinyProperty( false );
     this.treeVisibleProperty = new BooleanProperty( false, {
+      tandem: Tandem.OPT_OUT
+    } );
+    this.previewVisibleProperty = new BooleanProperty( true, {
+      tandem: Tandem.OPT_OUT
+    } );
+    this.selectedNodeContentVisibleProperty = new BooleanProperty( true, {
+      tandem: Tandem.OPT_OUT
+    } );
+    this.selectedTrailContentVisibleProperty = new BooleanProperty( true, {
       tandem: Tandem.OPT_OUT
     } );
 
@@ -260,12 +273,52 @@ class Helper {
       fill: this.colorProperty
     } );
 
-    const infoContainer = new VBox( {
+    const previewNode = new Node( {
+      visibleProperty: this.previewVisibleProperty
+    } );
+
+    const previewBackground = new Rectangle( 0, 0, 200, 200, {
+      fill: new NodePattern( new Node( {
+        children: [
+          new Rectangle( 0, 0, 10, 10, { fill: '#ddd' } ),
+          new Rectangle( 10, 10, 10, 10, { fill: '#ddd' } ),
+          new Rectangle( 0, 10, 10, 10, { fill: '#fafafa' } ),
+          new Rectangle( 10, 0, 10, 10, { fill: '#fafafa' } )
+        ]
+      } ), 2, 0, 0, 20, 20 ),
+      stroke: 'black',
+      visibleProperty: this.previewVisibleProperty
+    } );
+
+    this.previewTrailProperty.link( trail => {
+      previewNode.removeAllChildren();
+      if ( trail ) {
+        const node = trail.lastNode();
+        if ( node.bounds.isValid() ) {
+          const scale = window.devicePixelRatio * 0.9 * Math.min( previewBackground.selfBounds.width / node.width, previewBackground.selfBounds.height / node.height );
+          previewNode.children = [
+            previewBackground,
+            new Node( {
+              scale: scale / window.devicePixelRatio,
+              center: previewBackground.center,
+              children: [
+                node.rasterized( {
+                  resolution: scale
+                } )
+              ]
+            } )
+          ];
+        }
+      }
+    } );
+
+    const selectedNodeContent = new VBox( {
       spacing: 3,
-      align: 'left'
+      align: 'left',
+      visibleProperty: this.selectedNodeContentVisibleProperty
     } );
     this.previewTrailProperty.link( trail => {
-      infoContainer.children = trail ? createInfo( trail ) : [];
+      selectedNodeContent.children = trail ? createInfo( trail ) : [];
     } );
 
     const fuzzCheckbox = new HelperCheckbox( 'Fuzz', fuzzProperty );
@@ -299,22 +352,23 @@ class Helper {
       tandem: Tandem.OPT_OUT
     } );
 
-    const trailReadout = new FlowBox( {
+    const selectedTrailContent = new FlowBox( {
       orientation: 'vertical',
-      align: 'left'
+      align: 'left',
+      visibleProperty: this.selectedTrailContentVisibleProperty
     } );
 
     this.previewTrailProperty.link( ( trail: Trail | null ) => {
-      trailReadout.children = [];
+      selectedTrailContent.children = [];
 
       if ( trail ) {
         // Visibility check
         if ( !trail.isVisible() ) {
-          trailReadout.addChild( new Text( 'invisible', { fill: '#60a', fontSize: 12 } ) );
+          selectedTrailContent.addChild( new Text( 'invisible', { fill: '#60a', fontSize: 12 } ) );
         }
 
         if ( trail.getOpacity() !== 1 ) {
-          trailReadout.addChild( new Text( `opacity: ${trail.getOpacity()}`, { fill: '#888', fontSize: 12 } ) );
+          selectedTrailContent.addChild( new Text( `opacity: ${trail.getOpacity()}`, { fill: '#888', fontSize: 12 } ) );
         }
 
         const hasPickableFalseEquivalent = _.some( trail.nodes, node => {
@@ -324,16 +378,16 @@ class Helper {
           return node.inputListeners.length > 0 || node.pickable === true;
         } );
         if ( !hasPickableFalseEquivalent && hasPickableTrueEquivalent ) {
-          trailReadout.addChild( new Text( 'Hit Tested', { fill: '#f00', fontSize: 12 } ) );
+          selectedTrailContent.addChild( new Text( 'Hit Tested', { fill: '#f00', fontSize: 12 } ) );
         }
 
         if ( !trail.getMatrix().isIdentity() ) {
           // Why is this wrapper node needed?
-          trailReadout.addChild( new Node( { children: [ new Matrix3Node( trail.getMatrix() ) ] } ) );
+          selectedTrailContent.addChild( new Node( { children: [ new Matrix3Node( trail.getMatrix() ) ] } ) );
         }
 
         trail.nodes.slice().forEach( ( node, index ) => {
-          trailReadout.addChild( new RichText( node.constructor.name, {
+          selectedTrailContent.addChild( new RichText( node.constructor.name, {
             font: new PhetFont( 12 ),
             layoutOptions: {
               leftMargin: index * 10
@@ -537,10 +591,12 @@ class Helper {
           ]
         } ),
         pointerAreaTypeRadioButtonGroup,
-        createHeaderText( 'Selected Node', infoContainer ),
-        infoContainer,
-        createHeaderText( 'Selected Trail', trailReadout ),
-        trailReadout
+        createCollapsibleHeaderText( 'Preview', this.previewVisibleProperty, previewNode ),
+        previewNode,
+        createCollapsibleHeaderText( 'Selected Node', this.selectedNodeContentVisibleProperty, selectedNodeContent ),
+        selectedNodeContent,
+        createCollapsibleHeaderText( 'Selected Trail', this.selectedTrailContentVisibleProperty, selectedTrailContent ),
+        selectedTrailContent
       ]
     } );
     const helperReadoutPanel = new Panel( helperReadoutContent, {
@@ -975,10 +1031,28 @@ const createHeaderText = ( str: string, node?: Node, options?: TextOptions ) => 
     fontSize: 14,
     fontWeight: 'bold',
     layoutOptions: { topMargin: 5 },
-    visibleProperty: node ? new DerivedProperty( [ node.visibleProperty, node.boundsProperty ], ( visible: boolean, bounds: Bounds2 ) => {
-      return visible && !bounds.isEmpty();
+    visibleProperty: node ? new DerivedProperty( [ node.boundsProperty ], ( bounds: Bounds2 ) => {
+      return !bounds.isEmpty();
     } ) : new TinyProperty( true )
   }, options ) );
+};
+
+const createCollapsibleHeaderText = ( str: string, visibleProperty: Property<boolean>, node?: Node, options?: TextOptions ) => {
+  const headerText = createHeaderText( str, node, options );
+  headerText.addInputListener( new FireListener( {
+    fire: () => {
+      visibleProperty.value = !visibleProperty.value;
+    }
+  } ) );
+  headerText.cursor = 'pointer';
+  return new HBox( {
+    spacing: 7,
+    children: [
+      new ExpandCollapseButton( visibleProperty, { tandem: Tandem.OPT_OUT, sideLength: 14 } ),
+      headerText
+    ],
+    visibleProperty: headerText.visibleProperty
+  } );
 };
 
 class Matrix3Node extends GridBox {
@@ -1139,7 +1213,7 @@ const createInfo = ( trail: Trail ): Node[] => {
 
   const addNumber = ( key: string, number: number ) => addSimple( key, number );
   const addMatrix3 = ( key: string, matrix: Matrix3 ) => addRaw( key, new Matrix3Node( matrix ) );
-  const addBounds2 = ( key: string, bounds: Bounds2 ) => addRaw( key, new RichText( `minX: ${bounds.minX}<br>maxX: ${bounds.maxX}<br>minY: ${bounds.minY}<br>maxY: ${bounds.maxY}<br>`, { font: new PhetFont( 12 ) } ) );
+  const addBounds2 = ( key: string, bounds: Bounds2 ) => addRaw( key, new RichText( `x: [${bounds.minX}, ${bounds.maxX}]<br>y: [${bounds.minY}, ${bounds.maxY}]`, { font: new PhetFont( 12 ) } ) );
   const addShape = ( key: string, shape: Shape ) => addRaw( key, new ShapeNode( shape ) );
   const addImage = ( key: string, image: Image ) => addRaw( key, new ImageNode( image ) );
 
