@@ -1038,20 +1038,32 @@ class PDOMTreeNode extends CollapsibleTreeNode<PDOMTreeNode> {
 
     const TREE_FONT = new Font( { size: 12 } );
 
-    const nameNode = new HBox( { spacing: 5 } );
+    const selfNode = new HBox( { spacing: 5 } );
 
-    const parentTrail = instance.parent ? instance.parent.trail! : new Trail();
-    const name = trail.nodes.slice( parentTrail.nodes.length ).map( node => node.constructor.name ).join( ' | ' );
+    if ( trail.nodes.length ) {
+      const fill = isVisible ? '#000' : '#60a';
+      const node = trail.lastNode();
 
-    nameNode.addChild( new Text( name || '(root)', {
-      font: TREE_FONT,
-      pickable: false,
-      fill: isVisible ? '#000' : '#60a'
-    } ) );
+      if ( node.tagName ) {
+        selfNode.addChild( new Text( node.tagName, { font: new Font( { size: 12, weight: 'bold' } ), fill: fill } ) );
+      }
+
+      const parentTrail = instance.parent ? instance.parent.trail! : new Trail();
+      const name = trail.nodes.slice( parentTrail.nodes.length ).map( node => node.constructor.name ).filter( n => n !== 'Node' ).join( ',' );
+
+      if ( name ) {
+        selfNode.addChild( new Text( name, { font: TREE_FONT, fill: fill } ) );
+      }
+    }
+    else {
+      selfNode.addChild( new Text( '(root)', { font: TREE_FONT } ) );
+    }
 
     // Refactor this code out?
-    const selfBackground = Rectangle.bounds( nameNode.bounds, {
-      children: [ nameNode ],
+    const selfBackground = Rectangle.bounds( selfNode.bounds, {
+      children: [
+        selfNode
+      ],
       cursor: 'pointer',
       fill: new DerivedProperty( [ helper.selectedTrailProperty, helper.pointerTrailProperty ], ( selected, active ) => {
         if ( selected && trail.equals( selected ) ) {
@@ -1096,14 +1108,20 @@ class PDOMTreeNode extends CollapsibleTreeNode<PDOMTreeNode> {
     this.trail = trail;
   }
 
-  find( trail: Trail ): PDOMTreeNode {
+  find( trail: Trail ): PDOMTreeNode | null {
     if ( trail.equals( this.instance.trail! ) ) {
       return this;
     }
     else {
-      return _.find( this.childTreeNodes, childTreeNode => {
+      const treeNode = _.find( this.childTreeNodes, childTreeNode => {
         return trail.isExtensionOf( childTreeNode.instance.trail!, true );
-      } )!.find( trail );
+      } );
+      if ( treeNode ) {
+        return treeNode.find( trail );
+      }
+      else {
+        return null;
+      }
     }
   }
 }
@@ -1201,9 +1219,11 @@ class TreeNode<T extends ( VisualTreeNode | PDOMTreeNode )> extends Rectangle {
   focusTrail( trail: Trail ) {
     if ( this.treeNode ) {
       const treeNode = this.treeNode.find( trail );
-      const deltaY = treeNode.localToGlobalPoint( treeNode.selfNode.center ).y - this.centerY;
-      this.treeNode.y -= deltaY;
-      this.constrainTree();
+      if ( treeNode ) {
+        const deltaY = treeNode.localToGlobalPoint( treeNode.selfNode.center ).y - this.centerY;
+        this.treeNode.y -= deltaY;
+        this.constrainTree();
+      }
     }
   }
 
@@ -1322,8 +1342,9 @@ const createInfo = ( trail: Trail ): Node[] => {
 
   const addSimple = ( key: string, value: any ) => {
     if ( value !== undefined ) {
-      addRaw( key, new Text( '' + value, {
-        fontSize: 12,
+      addRaw( key, new RichText( '' + value, {
+        lineWrap: 400,
+        font: new PhetFont( 12 ),
         cursor: 'pointer',
         inputListeners: [
           new FireListener( {
@@ -1534,6 +1555,70 @@ const createInfo = ( trail: Trail ): Node[] => {
     if ( node.miterLimit !== 10 ) {
       addSimple( 'miterLimit', node.miterLimit );
     }
+  }
+
+  if ( node.tagName ) {
+    addSimple( 'tagName', node.tagName );
+  }
+  if ( node.accessibleName ) {
+    addSimple( 'accessibleName', node.accessibleName );
+  }
+  if ( node.helpText ) {
+    addSimple( 'helpText', node.helpText );
+  }
+  if ( node.pdomHeading ) {
+    addSimple( 'pdomHeading', node.pdomHeading );
+  }
+  if ( node.containerTagName ) {
+    addSimple( 'containerTagName', node.containerTagName );
+  }
+  if ( node.containerAriaRole ) {
+    addSimple( 'containerAriaRole', node.containerAriaRole );
+  }
+  if ( node.innerContent ) {
+    addSimple( 'innerContent', node.innerContent );
+  }
+  if ( node.inputType ) {
+    addSimple( 'inputType', node.inputType );
+  }
+  if ( node.inputValue ) {
+    addSimple( 'inputValue', node.inputValue );
+  }
+  if ( node.pdomNamespace ) {
+    addSimple( 'pdomNamespace', node.pdomNamespace );
+  }
+  if ( node.ariaLabel ) {
+    addSimple( 'ariaLabel', node.ariaLabel );
+  }
+  if ( node.ariaRole ) {
+    addSimple( 'ariaRole', node.ariaRole );
+  }
+  if ( node.ariaValueText ) {
+    addSimple( 'ariaValueText', node.ariaValueText );
+  }
+  if ( node.labelTagName ) {
+    addSimple( 'labelTagName', node.labelTagName );
+  }
+  if ( node.labelContent ) {
+    addSimple( 'labelContent', node.labelContent );
+  }
+  if ( node.appendLabel ) {
+    addSimple( 'appendLabel', node.appendLabel );
+  }
+  if ( node.descriptionTagName ) {
+    addSimple( 'descriptionTagName', node.descriptionTagName );
+  }
+  if ( node.descriptionContent ) {
+    addSimple( 'descriptionContent', node.descriptionContent );
+  }
+  if ( node.appendDescription ) {
+    addSimple( 'appendDescription', node.appendDescription );
+  }
+  if ( !node.pdomVisible ) {
+    addSimple( 'pdomVisible', node.pdomVisible );
+  }
+  if ( node.pdomOrder ) {
+    addSimple( 'pdomOrder', node.pdomOrder.map( node => node === null ? 'null' : node.constructor.name ) );
   }
 
   if ( !node.visible ) {
