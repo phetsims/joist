@@ -1018,14 +1018,20 @@ class VisualTreeNode extends CollapsibleTreeNode<VisualTreeNode> {
     this.trail = trail;
   }
 
-  find( trail: Trail ): VisualTreeNode {
+  find( trail: Trail ): VisualTreeNode | null {
     if ( trail.equals( this.trail ) ) {
       return this;
     }
     else {
-      return _.find( this.childTreeNodes, childTreeNode => {
+      const treeNode = _.find( this.childTreeNodes, childTreeNode => {
         return trail.isExtensionOf( childTreeNode.trail, true );
-      } )!.find( trail );
+      } );
+      if ( treeNode ) {
+        return treeNode.find( trail );
+      }
+      else {
+        return null;
+      }
     }
   }
 }
@@ -1052,11 +1058,21 @@ class PDOMTreeNode extends CollapsibleTreeNode<PDOMTreeNode> {
         selfNode.addChild( new Text( node.tagName, { font: new Font( { size: 12, weight: 'bold' } ), fill: fill } ) );
       }
 
+      if ( node.labelContent ) {
+        selfNode.addChild( new Text( node.labelContent, { font: TREE_FONT, fill: '#800' } ) );
+      }
+      if ( node.innerContent ) {
+        selfNode.addChild( new Text( node.innerContent, { font: TREE_FONT, fill: '#080' } ) );
+      }
+      if ( node.descriptionContent ) {
+        selfNode.addChild( new Text( node.descriptionContent, { font: TREE_FONT, fill: '#444' } ) );
+      }
+
       const parentTrail = instance.parent ? instance.parent.trail! : new Trail();
       const name = trail.nodes.slice( parentTrail.nodes.length ).map( node => node.constructor.name ).filter( n => n !== 'Node' ).join( ',' );
 
       if ( name ) {
-        selfNode.addChild( new Text( name, { font: TREE_FONT, fill: fill } ) );
+        selfNode.addChild( new Text( `(${name})`, { font: TREE_FONT, fill: '#008' } ) );
       }
     }
     else {
@@ -1432,7 +1448,17 @@ const createInfo = ( trail: Trail ): Node[] => {
 
   const addNumber = ( key: string, number: number ) => addSimple( key, number );
   const addMatrix3 = ( key: string, matrix: Matrix3 ) => addRaw( key, new Matrix3Node( matrix ) );
-  const addBounds2 = ( key: string, bounds: Bounds2 ) => addRaw( key, new RichText( `x: [${bounds.minX}, ${bounds.maxX}]<br>y: [${bounds.minY}, ${bounds.maxY}]`, { font: new PhetFont( 12 ) } ) );
+  const addBounds2 = ( key: string, bounds: Bounds2 ) => {
+    if ( bounds.equals( Bounds2.NOTHING ) ) {
+      // DO nothing
+    }
+    else if ( bounds.equals( Bounds2.EVERYTHING ) ) {
+      addSimple( key, 'everything' );
+    }
+    else {
+      addRaw( key, new RichText( `x: [${bounds.minX}, ${bounds.maxX}]<br>y: [${bounds.minY}, ${bounds.maxY}]`, { font: new PhetFont( 12 ) } ) );
+    }
+  };
   const addShape = ( key: string, shape: Shape ) => addRaw( key, new ShapeNode( shape ) );
   const addImage = ( key: string, image: Image ) => addRaw( key, new ImageNode( image ) );
 
