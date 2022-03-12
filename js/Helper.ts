@@ -222,6 +222,10 @@ class Helper {
 
       const index = 4 * ( x + imageData.width * y );
 
+      if ( x < 0 || y < 0 || x > imageData.width || y > imageData.height ) {
+        return Color.TRANSPARENT;
+      }
+
       return new Color(
         imageData.data[ index ],
         imageData.data[ index + 1 ],
