@@ -519,38 +519,6 @@ class Helper {
       }
     } );
 
-    const getLocalShape = ( node: Node, useMouse: boolean, useTouch: boolean ): Shape => {
-      let shape = Shape.union( [
-        ...( ( useMouse && node.mouseArea ) ? [ node.mouseArea instanceof Shape ? node.mouseArea : Shape.bounds( node.mouseArea ) ] : [] ),
-        ...( ( useTouch && node.touchArea ) ? [ node.touchArea instanceof Shape ? node.touchArea : Shape.bounds( node.touchArea ) ] : [] ),
-        node.getSelfShape(),
-
-        ...node.children.filter( child => {
-          return child.visible && child.pickable !== false;
-        } ).map( child => getLocalShape( child, useMouse, useTouch ).transformed( child.matrix ) )
-      ].filter( shape => shape.bounds.isValid() ) );
-
-      if ( node.hasClipArea() ) {
-        shape = shape.shapeIntersection( node.clipArea! );
-      }
-      return shape;
-    };
-
-    const getShape = ( trail: Trail, useMouse: boolean, useTouch: boolean ): Shape => {
-      let shape = getLocalShape( trail.lastNode(), useMouse, useTouch );
-
-      for ( let i = trail.nodes.length - 1; i >= 0; i-- ) {
-        const node = trail.nodes[ i ];
-
-        if ( node.hasClipArea() ) {
-          shape = shape.shapeIntersection( node.clipArea! );
-        }
-        shape = shape.transformed( node.matrix );
-      }
-
-      return shape;
-    };
-
     const highlightBase = new DerivedProperty( [ this.inputBasedPickingProperty, this.pointerAreaTypeProperty ], ( inputBasedPicking, pointerAreaType ) => {
       if ( inputBasedPicking ) {
         if ( pointerAreaType === PointerAreaType.MOUSE ) {
@@ -1546,6 +1514,38 @@ const visualHitTest = ( node: Node, point: Vector2 ): Trail | null => {
 
 const copyToClipboard = ( str: string ) => {
   navigator.clipboard?.writeText( str );
+};
+
+const getLocalShape = ( node: Node, useMouse: boolean, useTouch: boolean ): Shape => {
+  let shape = Shape.union( [
+    ...( ( useMouse && node.mouseArea ) ? [ node.mouseArea instanceof Shape ? node.mouseArea : Shape.bounds( node.mouseArea ) ] : [] ),
+    ...( ( useTouch && node.touchArea ) ? [ node.touchArea instanceof Shape ? node.touchArea : Shape.bounds( node.touchArea ) ] : [] ),
+    node.getSelfShape(),
+
+    ...node.children.filter( child => {
+      return child.visible && child.pickable !== false;
+    } ).map( child => getLocalShape( child, useMouse, useTouch ).transformed( child.matrix ) )
+  ].filter( shape => shape.bounds.isValid() ) );
+
+  if ( node.hasClipArea() ) {
+    shape = shape.shapeIntersection( node.clipArea! );
+  }
+  return shape;
+};
+
+const getShape = ( trail: Trail, useMouse: boolean, useTouch: boolean ): Shape => {
+  let shape = getLocalShape( trail.lastNode(), useMouse, useTouch );
+
+  for ( let i = trail.nodes.length - 1; i >= 0; i-- ) {
+    const node = trail.nodes[ i ];
+
+    if ( node.hasClipArea() ) {
+      shape = shape.shapeIntersection( node.clipArea! );
+    }
+    shape = shape.transformed( node.matrix );
+  }
+
+  return shape;
 };
 
 export default Helper;
