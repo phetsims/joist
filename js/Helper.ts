@@ -1437,7 +1437,7 @@ const createInfo = ( trail: Trail ): Node[] => {
   const addImage = ( key: string, image: Image ) => addRaw( key, new ImageNode( image ) );
 
   if ( node.tandem.supplied ) {
-    addSimple( 'tandem', node.tandem.phetioID );
+    addSimple( 'tandem', node.tandem.phetioID.split( '.' ).join( ' ' ) );
   }
 
   if ( node instanceof DOM ) {
