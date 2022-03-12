@@ -16,7 +16,7 @@ import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import MeasuringTapeNode from '../../scenery-phet/js/MeasuringTapeNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { CanvasNode, Circle, Color, Display, DOM, DragListener, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, IColor, Image, IPaint, LayoutBox, Line, LinearGradient, Node, NodePattern, Paint, Path, Pattern, PressListener, RadialGradient, Rectangle, RichText, SceneryEvent, Spacer, Text, TextOptions, Trail, VBox, WebGLNode } from '../../scenery/js/imports.js';
+import { CanvasNode, Circle, Color, Display, DOM, DragListener, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, IColor, Image, IPaint, LayoutBox, Line, LinearGradient, Node, NodeOptions, NodePattern, Paint, Path, Pattern, PressListener, RadialGradient, Rectangle, RichText, SceneryEvent, Spacer, Text, TextOptions, Trail, VBox, WebGLNode } from '../../scenery/js/imports.js';
 import Panel from '../../sun/js/Panel.js';
 import AquaRadioButtonGroup from '../../sun/js/AquaRadioButtonGroup.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -37,6 +37,8 @@ import merge from '../../phet-core/js/merge.js';
 import { Shape } from '../../kite/js/imports.js';
 import RectangularPushButton from '../../sun/js/buttons/RectangularPushButton.js';
 import ExpandCollapseButton from '../../sun/js/ExpandCollapseButton.js';
+import { default as createObservableArray, ObservableArray } from '../../axon/js/createObservableArray.js';
+import optionize from '../../phet-core/js/optionize.js';
 
 const round = ( n: number, places: number = 2 ) => Utils.toFixed( n, places );
 
@@ -481,7 +483,7 @@ class Helper {
       const rootTreeNode = treeContainer.children[ 0 ] as TreeNode;
       if ( rootTreeNode ) {
         const treeNode = rootTreeNode.find( trail );
-        const deltaY = treeNode.localToGlobalPoint( treeNode.selfBackground.center ).y - treeBackground.centerY;
+        const deltaY = treeNode.localToGlobalPoint( treeNode.selfNode.center ).y - treeBackground.centerY;
         rootTreeNode.y -= deltaY;
         constrainTree();
       }
@@ -511,6 +513,9 @@ class Helper {
         treeContainer.children = [
           new TreeNode( new Trail( simDisplay.rootNode ), this )
         ];
+        // Have the constrain properly position it
+        treeContainer.children[ 0 ].x = 500;
+        treeContainer.children[ 0 ].y = 500;
         focusSelected();
         constrainTree();
       }
@@ -879,144 +884,105 @@ class HelperCheckbox extends Checkbox {
 //   }
 // }
 
-class TreeNode extends Node {
+type CollapsibleTreeNodeSelfOptions<T> = {
+  createChildren?: () => T[],
+  spacing?: number;
+  indent?: number;
+};
 
-  node: Node;
-  trail: Trail;
+type CollapsibleTreeNodeOptions<T> = CollapsibleTreeNodeSelfOptions<T> & NodeOptions;
+
+class CollapsibleTreeNode<T extends CollapsibleTreeNode<any>> extends Node {
+
+  selfNode: Node;
   expandedProperty: IProperty<boolean>;
+  childTreeNodes: ObservableArray<T>;
+  expandCollapseButton: Node;
 
-  selfBackground: Rectangle;
+  private childContainer: Node;
 
-  private childTreeNodes: TreeNode[];
+  constructor( selfNode: Node, providedOptions?: CollapsibleTreeNodeOptions<T> ) {
+    const options = optionize<CollapsibleTreeNodeOptions<T>, CollapsibleTreeNodeSelfOptions<T>, NodeOptions>( {
+      createChildren: () => [],
+      spacing: 0,
+      indent: 5
+    }, providedOptions );
 
-  constructor( trail: Trail, helper: Helper ) {
-    super();
+    super( {
+      excludeInvisibleChildrenFromBounds: true
+    } );
 
-    const node = trail.lastNode();
-
-    this.node = node;
-    this.trail = trail;
+    this.selfNode = selfNode;
+    this.selfNode.centerY = 0;
 
     this.expandedProperty = new TinyProperty( true );
-
-    const isVisible = trail.isVisible();
-
-    const selfNode = new HBox( {
-      spacing: 5
+    this.childTreeNodes = createObservableArray<T>( {
+      elements: options.createChildren()
     } );
 
     const buttonSize = 12;
-    const expandButton = new Rectangle( -buttonSize / 2, -buttonSize / 2, buttonSize, buttonSize, {
+    const expandCollapseShape = new Shape()
+      .moveToPoint( Vector2.createPolar( buttonSize / 2.5, 3 / 4 * Math.PI ).plusXY( buttonSize / 8, 0 ) )
+      .lineTo( buttonSize / 8, 0 )
+      .lineToPoint( Vector2.createPolar( buttonSize / 2.5, 5 / 4 * Math.PI ).plusXY( buttonSize / 8, 0 ) );
+    this.expandCollapseButton = new Rectangle( -buttonSize / 2, -buttonSize / 2, buttonSize, buttonSize, {
       children: [
-        new Path( Shape.regularPolygon( 3, buttonSize / 2.5 ), {
-          fill: '#444'
+        new Path( expandCollapseShape, {
+          stroke: '#888',
+          lineCap: 'round',
+          lineWidth: 1.5
         } )
       ],
       visible: false,
-      cursor: 'pointer'
+      cursor: 'pointer',
+      right: 0
     } );
-    expandButton.addInputListener( new FireListener( {
+    this.expandedProperty.link( expanded => {
+      this.expandCollapseButton.rotation = expanded ? Math.PI / 2 : 0;
+    } );
+    this.expandCollapseButton.addInputListener( new FireListener( {
       fire: () => {
         this.expandedProperty.value = !this.expandedProperty.value;
       }
     } ) );
-    selfNode.addChild( expandButton );
 
-    const TREE_FONT = new Font( { size: 12 } );
+    this.addChild( this.expandCollapseButton );
 
-    const name = node.constructor.name;
-    if ( name ) {
-      selfNode.addChild( new Text( name, {
-        font: TREE_FONT,
-        pickable: false,
-        fill: isVisible ? '#000' : '#60a'
-      } ) );
-    }
-    if ( node instanceof Text ) {
-      selfNode.addChild( new Text( '"' + node.text + '"', {
-        font: TREE_FONT,
-        pickable: false,
-        fill: '#666'
-      } ) );
-    }
-    this.selfBackground = Rectangle.bounds( selfNode.bounds, {
-      children: [ selfNode ],
-      cursor: 'pointer',
-      fill: new DerivedProperty( [ helper.selectedTrailProperty, helper.pointerTrailProperty ], ( selected, active ) => {
-        if ( selected && this.trail.equals( selected ) ) {
-          return 'rgba(0,128,255,0.4)';
-        }
-        else if ( active && this.trail.equals( active ) ) {
-          return 'rgba(0,128,255,0.2)';
-        }
-        else {
-          return 'transparent';
-        }
-      }, {
-        tandem: Tandem.OPT_OUT
-      } )
-    } );
-    this.selfBackground.addInputListener( {
-      enter: function( event ) {
-        helper.treeHoverTrailProperty.value = trail;
-      },
-      exit: function( event ) {
-        helper.treeHoverTrailProperty.value = null;
-      }
-    } );
-    this.selfBackground.addInputListener( new FireListener( {
-      fire: function() {
-        helper.selectedTrailProperty.value = trail;
-      }
-    } ) );
-    this.addChild( this.selfBackground );
-
-    this.childTreeNodes = node.children.map( ( child, index ) => {
-      return new TreeNode( trail.copy().addDescendant( child ), helper );
-    } );
-
-    const childrenNode = new VBox( {
-      spacing: 0,
+    this.childContainer = new FlowBox( {
+      orientation: 'vertical',
       align: 'left',
-      children: this.childTreeNodes
+      spacing: options.spacing,
+      children: this.childTreeNodes,
+      x: options.indent,
+      y: this.selfNode.bottom + options.spacing,
+      visibleProperty: this.expandedProperty
     } );
+    this.addChild( this.childContainer );
 
-    const column = new Rectangle( {
-      rectWidth: 2,
-      rectHeight: 5,
-      fill: 'rgba(0,0,0,0.1)'
+    this.addChild( selfNode );
+
+    const onChildrenChange = () => {
+      this.childContainer.children = this.childTreeNodes;
+      this.expandCollapseButton.visible = this.childTreeNodes.length > 0;
+    };
+
+    this.childTreeNodes.addItemAddedListener( () => {
+      onChildrenChange();
     } );
-
-    const expandedNode = new Node( {
-      children: [
-        childrenNode
-        // column
-      ]
+    this.childTreeNodes.addItemRemovedListener( () => {
+      onChildrenChange();
     } );
+    onChildrenChange();
 
-    if ( childrenNode.bounds.isFinite() ) {
-      childrenNode.left = selfNode.left + 13;
-      childrenNode.top = selfNode.bottom;
-      column.centerX = selfNode.left + buttonSize / 2;
-      column.top = selfNode.bottom;
+    this.mutate( options );
+  }
 
-      expandButton.visible = true;
-      this.addChild( expandedNode );
+  expand() {
+    this.expandedProperty.value = true;
+  }
 
-      this.expandedProperty.link( expanded => {
-        expandButton.rotation = expanded ? Math.PI / 2 : 0;
-        if ( expanded && !this.hasChild( expandedNode ) ) {
-          this.addChild( expandedNode );
-        }
-        if ( !expanded && this.hasChild( expandedNode ) ) {
-          this.removeChild( expandedNode );
-        }
-      } );
-
-      childrenNode.boundsProperty.lazyLink( () => {
-        column.rectHeight = childrenNode.height;
-      } );
-    }
+  collapse() {
+    this.expandedProperty.value = false;
   }
 
   expandRecusively() {
@@ -1031,6 +997,81 @@ class TreeNode extends Node {
     this.childTreeNodes.forEach( treeNode => {
       treeNode.collapseRecursively();
     } );
+  }
+}
+
+class TreeNode extends CollapsibleTreeNode<TreeNode> {
+
+  trail: Trail;
+
+  constructor( trail: Trail, helper: Helper ) {
+
+    const node = trail.lastNode();
+    const isVisible = trail.isVisible();
+
+    const TREE_FONT = new Font( { size: 12 } );
+
+    const nameNode = new HBox( { spacing: 5 } );
+
+    const name = node.constructor.name;
+    if ( name ) {
+      nameNode.addChild( new Text( name, {
+        font: TREE_FONT,
+        pickable: false,
+        fill: isVisible ? '#000' : '#60a'
+      } ) );
+    }
+    if ( node instanceof Text ) {
+      nameNode.addChild( new Text( '"' + node.text + '"', {
+        font: TREE_FONT,
+        pickable: false,
+        fill: '#666'
+      } ) );
+    }
+
+    const selfBackground = Rectangle.bounds( nameNode.bounds, {
+      children: [ nameNode ],
+      cursor: 'pointer',
+      fill: new DerivedProperty( [ helper.selectedTrailProperty, helper.pointerTrailProperty ], ( selected, active ) => {
+        if ( selected && trail.equals( selected ) ) {
+          return 'rgba(0,128,255,0.4)';
+        }
+        else if ( active && trail.equals( active ) ) {
+          return 'rgba(0,128,255,0.2)';
+        }
+        else {
+          return 'transparent';
+        }
+      }, {
+        tandem: Tandem.OPT_OUT
+      } )
+    } );
+
+    selfBackground.addInputListener( {
+      enter: () => {
+        helper.treeHoverTrailProperty.value = trail;
+      },
+      exit: () => {
+        helper.treeHoverTrailProperty.value = null;
+      }
+    } );
+    selfBackground.addInputListener( new FireListener( {
+      fire: () => {
+        helper.selectedTrailProperty.value = trail;
+      }
+    } ) );
+
+    super( selfBackground, {
+      createChildren: () => trail.lastNode().children.map( child => {
+        return new TreeNode( trail.copy().addDescendant( child ), helper );
+      } )
+    } );
+
+    if ( !node.visible ) {
+      this.expandedProperty.value = false;
+    }
+
+    this.trail = trail;
   }
 
   find( trail: Trail ): TreeNode {
@@ -1496,10 +1537,10 @@ const visualHitTest = ( node: Node, point: Vector2 ): Trail | null => {
 
     // Ignore those transparent paths...
     if ( node instanceof Path && node.hasShape() ) {
-      if ( isPaintNonTransparent( node.fill ) && node.getShape()!.containsPoint( point ) ) {
+      if ( isPaintNonTransparent( node.fill ) && node.getShape()!.containsPoint( localPoint ) ) {
         return new Trail( node );
       }
-      if ( isPaintNonTransparent( node.stroke ) && node.getStrokedShape()!.containsPoint( point ) ) {
+      if ( isPaintNonTransparent( node.stroke ) && node.getStrokedShape()!.containsPoint( localPoint ) ) {
         return new Trail( node );
       }
     }
