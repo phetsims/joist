@@ -109,12 +109,7 @@ class Helper {
     // NOTE: Don't pause the sim, don't use foreign object rasterization (do the smarter instant approach)
     // NOTE: Inform about preserveDrawingBuffer query parameter
     // NOTE: Actually grab/rerender things from WebGL/Canvas, so this works nicely and at a higher resolution
-    // NOTE: Highlight the nodes with input listeners on them!
-
-    // NOTE: PDOM info on left
-    // NOTE: PDOM tree
     // NOTE: Scenery drawable tree
-    // NOTE: Rename "tree" to "visual tree"
 
     this.sim = sim;
     this.simDisplay = simDisplay;
