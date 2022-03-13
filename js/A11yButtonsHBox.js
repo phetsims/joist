@@ -8,8 +8,8 @@
 
 import merge from '../../phet-core/js/merge.js';
 import platform from '../../phet-core/js/platform.js';
-import Tandem from '../../tandem/js/Tandem.js';
 import { HBox } from '../../scenery/js/imports.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import audioManager from './audioManager.js';
 import joist from './joist.js';
 import KeyboardHelpButton from './KeyboardHelpButton.js';
@@ -39,7 +39,7 @@ class A11yButtonsHBox extends HBox {
     if ( sim.preferencesManager ) {
       const preferencesButton = new NavigationBarPreferencesButton(
         sim.preferencesManager,
-        sim.lookAndFeel, {
+        backgroundColorProperty, {
           tandem: options.tandem.createTandem( 'navigationBarPreferencesButton' )
         } );
 

@@ -6,10 +6,10 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import merge from '../../../phet-core/js/merge.js';
 import { Path } from '../../../scenery/js/imports.js';
 import userCogSolidShape from '../../../sherpa/js/fontawesome-5/userCogSolidShape.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import merge from '../../../phet-core/js/merge.js';
 import joist from '../joist.js';
 import JoistButton from '../JoistButton.js';
 import joistStrings from '../joistStrings.js';
@@ -19,22 +19,21 @@ class NavigationBarPreferencesButton extends JoistButton {
 
   /**
    * @param {PreferencesManager} preferencesModel
-   * @param {LookAndFeel} lookAndFeel
+   * @param {Property.<Color|string>} backgroundColorProperty
    * @param {Object} [options]
    */
-  constructor( preferencesModel, lookAndFeel, options ) {
+  constructor( preferencesModel, backgroundColorProperty, options ) {
 
     options = merge( {
       tandem: Tandem.REQUIRED
     }, options );
 
     const icon = new Path( userCogSolidShape, {
-      fill: lookAndFeel.navigationBarTextFillProperty,
       maxWidth: 25
     } );
 
     let preferencesDialog = null;
-    super( icon, lookAndFeel.navigationBarFillProperty, Tandem.OPT_OUT, {
+    super( icon, backgroundColorProperty, Tandem.OPT_OUT, {
       listener: () => {
         if ( !preferencesDialog ) {
           preferencesDialog = new PreferencesDialog( preferencesModel, {
@@ -54,6 +53,11 @@ class NavigationBarPreferencesButton extends JoistButton {
 
       // voicing
       voicingNameResponse: joistStrings.preferences.title
+    } );
+
+    // change the icon so that it is visible when the background changes from dark to light
+    backgroundColorProperty.link( backgroundColor => {
+      icon.fill = backgroundColor === 'black' ? 'white' : 'black';
     } );
 
     // pdom - Signal to screen readers that the button will open a dialog. For some reason, this also seems to
