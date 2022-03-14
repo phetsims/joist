@@ -50,7 +50,7 @@ class PointerAreaType extends EnumerationValue {
   static enumeration = new Enumeration( PointerAreaType );
 }
 
-class Helper {
+export default class Helper {
   private sim: Sim;
   private simDisplay: Display;
   private helperDisplay?: Display;
@@ -1832,5 +1832,3 @@ const getShape = ( trail: Trail, useMouse: boolean, useTouch: boolean ): Shape =
 
   return shape;
 };
-
-export default Helper;
