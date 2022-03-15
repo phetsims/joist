@@ -1115,10 +1115,6 @@ class PDOMTreeNode extends CollapsibleTreeNode<PDOMTreeNode> {
       createChildren: () => instance.children.map( ( instance: PDOMInstance ) => new PDOMTreeNode( instance, helper ) )
     } );
 
-    if ( !trail.isPDOMVisible() ) {
-      this.expandedProperty.value = false;
-    }
-
     this.instance = instance;
     this.trail = trail;
   }
