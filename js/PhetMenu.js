@@ -15,14 +15,7 @@ import openPopup from '../../phet-core/js/openPopup.js';
 import platform from '../../phet-core/js/platform.js';
 import stripEmbeddingMarks from '../../phet-core/js/stripEmbeddingMarks.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { FocusManager } from '../../scenery/js/imports.js';
-import { KeyboardUtils } from '../../scenery/js/imports.js';
-import { PDOMUtils } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
-import { Text } from '../../scenery/js/imports.js';
-import { FullScreen } from '../../scenery/js/imports.js';
+import { FocusManager, FullScreen, KeyboardUtils, Node, Path, PDOMUtils, Rectangle, Text } from '../../scenery/js/imports.js';
 import Dialog from '../../sun/js/Dialog.js';
 import HSeparator from '../../sun/js/HSeparator.js';
 import MenuItem from '../../sun/js/MenuItem.js';
@@ -273,8 +266,12 @@ class PhetMenu extends Node {
       // "Full Screen" menu item
       {
         text: menuItemFullscreenString,
-        present: FullScreen.isFullScreenEnabled() && !isApp && !phet.chipper.isFuzzEnabled() && !platform.mobileSafari,
-        callback: () => FullScreen.toggleFullScreen( sim.display ),
+        present: FullScreen.isFullScreenEnabled() && !isApp && !platform.mobileSafari,
+        callback: () => {
+          if ( !phet.chipper.isFuzzEnabled() ) {
+            FullScreen.toggleFullScreen( sim.display );
+          }
+        },
         options: {
           checkedProperty: FullScreen.isFullScreenProperty,
           tandem: tandem.createTandem( 'fullScreenMenuItem' ),
