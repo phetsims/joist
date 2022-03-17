@@ -29,7 +29,8 @@
     "../scenery-phet/js/ContextLossFailureDialog.js",
     "../scenery-phet/js/OopsDialog.js",
 
-    "../chipper/js/sim-tests/qunitStart.js"
+    "../chipper/js/sim-tests/qunitStart.js",
+    "../sun/js/demo/DemosScreenView.ts"
   ],
   "exclude": [
     "js/**/*tests.js", // Cannot use **test** like we do elsewhere because of UpdaTESTate
