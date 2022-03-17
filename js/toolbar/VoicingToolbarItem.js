@@ -153,7 +153,12 @@ class LabelButtonRow {
 
     // @public {BooleanProperty - Whether the PlayStopButton has been pressed and the voicingManager is actively speaking
     // this content
-    this.playingProperty = new BooleanProperty( false );
+    this.playingProperty = new BooleanProperty( false, {
+
+      // Speech is requested from a listener on the isPlayingProperty. But if the browser cannot speak it may
+      // immediately cancel speech and set this Property to false again causing reentrancy.
+      reentrant: true
+    } );
 
     // @private {PlayStopButton}
     this.playStopButton = new PlayStopButton( this.playingProperty, {
