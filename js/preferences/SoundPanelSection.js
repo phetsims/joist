@@ -55,7 +55,7 @@ class SoundPanelSection extends PreferencesPanelSection {
     const titleNode = new PreferencesToggleSwitch( soundManager.enabledProperty, false, true, {
       labelNode: soundLabel,
       descriptionNode: new VoicingText( soundDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
-        readingBlockContent: StringUtils.fillIn( labelledDescriptionPatternString, {
+        readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternString, {
           label: soundsLabelString,
           description: soundDescriptionString
         } )
@@ -84,7 +84,7 @@ class SoundPanelSection extends PreferencesPanelSection {
 
       const enhancedSoundDescription = new VoicingRichText( extraSoundsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         lineWrap: 300,
-        readingBlockContent: StringUtils.fillIn( labelledDescriptionPatternString, {
+        readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternString, {
           label: extraSoundsLabelString,
           description: extraSoundsDescriptionString
         } )

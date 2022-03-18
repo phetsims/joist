@@ -47,7 +47,7 @@ class InputPreferencesPanel extends Node {
       descriptionNode: new VoicingRichText( gestureControlsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         lineWrap: 350,
 
-        readingBlockContent: StringUtils.fillIn( labelledDescriptionPatternString, {
+        readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternString, {
           label: gestureControlsString,
           description: gestureControlsDescriptionString
         } )

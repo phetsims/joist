@@ -97,7 +97,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
     const voicingSwitch = new PreferencesToggleSwitch( audioModel.voicingEnabledProperty, false, true, {
       labelNode: voicingLabel,
       descriptionNode: new VoicingText( voicingDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
-        readingBlockContent: StringUtils.fillIn( labelledDescriptionPatternString, {
+        readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternString, {
           label: voicingLabelString,
           description: voicingDescriptionString
         } )
@@ -120,7 +120,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
       innerContent: simVoicingOptionsString
     } ) );
     const speechOutputDescription = new VoicingText( simVoicingDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
-      readingBlockContent: StringUtils.fillIn( labelledDescriptionPatternString, {
+      readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternString, {
         label: simVoicingOptionsString,
         description: simVoicingDescriptionString
       } )

@@ -44,7 +44,7 @@ class VisualPreferencesPanel extends Node {
     const toggleSwitch = new PreferencesToggleSwitch( visualModel.interactiveHighlightsEnabledProperty, false, true, {
       labelNode: label,
       descriptionNode: new VoicingText( interactiveHighlightsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
-        readingBlockContent: StringUtils.fillIn( labelledDescriptionPatternString, {
+        readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternString, {
           label: interactiveHighlightsString,
           description: interactiveHighlightsDescriptionString
         } )

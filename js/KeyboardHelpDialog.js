@@ -97,7 +97,7 @@ class TabHintLine extends ReadingBlock( Node, 0 ) {
   constructor( options ) {
 
     options = merge( {
-      readingBlockContent: tabToGetStartedString
+      readingBlockNameResponse: tabToGetStartedString
     }, options );
 
     super();
