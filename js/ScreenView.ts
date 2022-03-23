@@ -40,9 +40,9 @@ const DEFAULT_LAYOUT_BOUNDS = new Bounds2( 0, 0, 1024, 618 );
 
 // Documented where the defaults are defined
 type ScreenViewSelfOptions = {
-  layoutBounds?: Bounds2,
-  screenSummaryContent?: Node | null,
-  includePDOMNodes?: boolean
+  layoutBounds?: Bounds2;
+  screenSummaryContent?: Node | null;
+  includePDOMNodes?: boolean;
 };
 export type ScreenViewOptions = ScreenViewSelfOptions & NodeOptions;
 

@@ -241,7 +241,7 @@ export default class Helper {
     const measuringTapeVisibleProperty = new BooleanProperty( false, {
       tandem: Tandem.OPT_OUT
     } );
-    const measuringTapeUnitsProperty = new TinyProperty<{ name: string, multiplier: number }>( { name: 'view units', multiplier: 0 } );
+    const measuringTapeUnitsProperty = new TinyProperty<{ name: string; multiplier: number }>( { name: 'view units', multiplier: 0 } );
 
     const layoutBoundsProperty = new TinyProperty( Bounds2.NOTHING );
 
@@ -824,7 +824,7 @@ class HelperCheckbox extends Checkbox {
 // }
 
 type CollapsibleTreeNodeSelfOptions<T> = {
-  createChildren?: () => T[],
+  createChildren?: () => T[];
   spacing?: number;
   indent?: number;
 };
