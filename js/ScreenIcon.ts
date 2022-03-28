@@ -24,7 +24,7 @@ type SelfOptions = {
 
 export type ScreenIconOptions = SelfOptions & NodeOptions;
 
-class ScreenIcon extends Node {
+export default class ScreenIcon extends Node {
 
   /**
    * @param iconNode
@@ -65,4 +65,3 @@ class ScreenIcon extends Node {
 }
 
 joist.register( 'ScreenIcon', ScreenIcon );
-export default ScreenIcon;
