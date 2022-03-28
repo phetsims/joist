@@ -1,5 +1,6 @@
 // Copyright 2015-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * An icon suitable for one of the screen-selection buttons on the home screen or navigation bar.
  * By default, the size is optimized for the home screen.
