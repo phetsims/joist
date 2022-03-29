@@ -392,7 +392,8 @@ export default class Helper {
               fire: () => {
                 this.selectedTrailProperty.value = trail.subtrailTo( node );
                 focusSelected();
-              }
+              },
+              tandem: Tandem.OPT_OUT
             } ) ]
           } ) );
         } );
@@ -408,7 +409,8 @@ export default class Helper {
               fire: () => {
                 this.selectedTrailProperty.value = trail.copy().addDescendant( node, index );
                 focusSelected();
-              }
+              },
+              tandem: Tandem.OPT_OUT
             } ) ]
           } ) );
         } );
@@ -486,7 +488,8 @@ export default class Helper {
       press: () => {
         this.selectedTrailProperty.value = this.pointerTrailProperty.value;
         focusSelected();
-      }
+      },
+      tandem: Tandem.OPT_OUT
     } ) );
     helperRoot.addChild( backgroundNode );
 
@@ -565,7 +568,8 @@ export default class Helper {
     } );
     helperReadoutPanel.addInputListener( new DragListener( {
       translateNode: true,
-      targetNode: helperReadoutPanel
+      targetNode: helperReadoutPanel,
+      tandem: Tandem.OPT_OUT
     } ) );
 
     // Allow scrolling to scroll the panel's position
@@ -882,7 +886,8 @@ class CollapsibleTreeNode<T extends CollapsibleTreeNode<any>> extends Node {
     this.expandCollapseButton.addInputListener( new FireListener( {
       fire: () => {
         this.expandedProperty.value = !this.expandedProperty.value;
-      }
+      },
+      tandem: Tandem.OPT_OUT
     } ) );
 
     this.addChild( this.expandCollapseButton );
@@ -997,7 +1002,8 @@ class VisualTreeNode extends CollapsibleTreeNode<VisualTreeNode> {
     selfBackground.addInputListener( new FireListener( {
       fire: () => {
         helper.selectedTrailProperty.value = trail;
-      }
+      },
+      tandem: Tandem.OPT_OUT
     } ) );
 
     super( selfBackground, {
@@ -1107,7 +1113,8 @@ class PDOMTreeNode extends CollapsibleTreeNode<PDOMTreeNode> {
       selfBackground.addInputListener( new FireListener( {
         fire: () => {
           helper.selectedTrailProperty.value = trail;
-        }
+        },
+        tandem: Tandem.OPT_OUT
       } ) );
     }
 
@@ -1161,7 +1168,8 @@ class TreeNode<T extends ( VisualTreeNode | PDOMTreeNode )> extends Rectangle {
       targetNode: this,
       drag: ( event, listener ) => {
         this.x = this.x + listener.modelDelta.x;
-      }
+      },
+      tandem: Tandem.OPT_OUT
     } ) );
     this.addInputListener( {
       wheel: event => {
@@ -1267,7 +1275,8 @@ const createCollapsibleHeaderText = ( str: string, visibleProperty: Property<boo
   headerText.addInputListener( new FireListener( {
     fire: () => {
       visibleProperty.value = !visibleProperty.value;
-    }
+    },
+    tandem: Tandem.OPT_OUT
   } ) );
   headerText.cursor = 'pointer';
   return new HBox( {
@@ -1311,7 +1320,8 @@ class ShapeNode extends Path {
     } );
 
     this.addInputListener( new FireListener( {
-      fire: () => copyToClipboard( shape.getSVGPath() )
+      fire: () => copyToClipboard( shape.getSVGPath() ),
+      tandem: Tandem.OPT_OUT
     } ) );
   }
 }
@@ -1359,7 +1369,8 @@ const createInfo = ( trail: Trail ): Node[] => {
         cursor: 'pointer',
         inputListeners: [
           new FireListener( {
-            fire: () => copyToClipboard( '' + value )
+            fire: () => copyToClipboard( '' + value ),
+            tandem: Tandem.OPT_OUT
           } )
         ]
       } ) );
@@ -1377,7 +1388,8 @@ const createInfo = ( trail: Trail ): Node[] => {
       cursor: 'pointer',
       inputListeners: [
         new FireListener( {
-          fire: () => copyToClipboard( color.toHexString() )
+          fire: () => copyToClipboard( color.toHexString() ),
+          tandem: Tandem.OPT_OUT
         } )
       ]
     } );
@@ -1727,8 +1739,9 @@ const createInfo = ( trail: Trail ): Node[] => {
   children.push( new RectangularPushButton( {
     content: new Text( 'Copy Path', { fontSize: 12 } ),
     listener: () => copyToClipboard( 'phet.joist.display.rootNode' + trail.indices.map( index => {
-       return `.children[ ${index} ]`;
-     } ).join( '' ) )
+      return `.children[ ${index} ]`;
+    } ).join( '' ) ),
+    tandem: Tandem.OPT_OUT
   } ) );
 
   return children;
