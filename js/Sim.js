@@ -593,10 +593,7 @@ class Sim extends PhetioObject {
       this.simInfo,
       this.isConstructionCompleteProperty,
       this.frameEndedEmitter,
-      this.display,
-      this.display.descriptionUtteranceQueue,
-      voicingUtteranceQueue,
-      joistVoicingUtteranceQueue
+      this.display
     );
 
     this.isSettingPhetioStateProperty.lazyLink( isSettingState => {
@@ -621,6 +618,12 @@ class Sim extends PhetioObject {
     this.resizeToWindow();
 
     this.screenProperty.value.view.step && this.screenProperty.value.view.step( 0 );
+
+    // Clear all UtteranceQueue outputs that may have collected Utterances while state-setting logic occurred.
+    // This is transient. https://github.com/phetsims/utterance-queue/issues/22 and https://github.com/phetsims/scenery/issues/1397
+    this.display.descriptionUtteranceQueue.clear();
+    voicingUtteranceQueue.clear();
+    joistVoicingUtteranceQueue.clear();
 
     // Update the display asynchronously since it can trigger events on pointer validation, see https://github.com/phetsims/ph-scale/issues/212
     animationFrameTimer.runOnNextTick( () => phet.joist.display.updateDisplay() );
