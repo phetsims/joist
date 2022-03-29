@@ -8,10 +8,8 @@
 
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { VoicingRichText } from '../../../scenery/js/imports.js';
-import { voicingUtteranceQueue } from '../../../scenery/js/imports.js';
-import { Node } from '../../../scenery/js/imports.js';
-import { Text } from '../../../scenery/js/imports.js';
+import { Node, Text, VoicingRichText, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
@@ -32,17 +30,22 @@ class InputPreferencesPanel extends Node {
 
   /**
    * @param {Object} inputModel - see PreferencesManager
+   * @param {Object} [options]
    */
-  constructor( inputModel ) {
-    super( {
+  constructor( inputModel, options ) {
+    options = merge( {
 
       // pdom
       tagName: 'div',
       labelTagName: 'h2',
-      labelContent: inputTitleString
-    } );
+      labelContent: inputTitleString,
 
-    const toggleSwitch = new PreferencesToggleSwitch( inputModel.gestureControlsEnabledProperty, false, true, {
+      tandem: Tandem.REQUIRED
+    }, options );
+
+    super( options );
+
+    const gestureControlsEnabledSwitch = new PreferencesToggleSwitch( inputModel.gestureControlsEnabledProperty, false, true, {
       labelNode: new Text( gestureControlsString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ),
       descriptionNode: new VoicingRichText( gestureControlsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         lineWrap: 350,
@@ -52,11 +55,12 @@ class InputPreferencesPanel extends Node {
           description: gestureControlsDescriptionString
         } )
       } ) ),
-      a11yLabel: gestureControlsString
+      a11yLabel: gestureControlsString,
+      tandem: options.tandem.createTandem( 'gestureControlsEnabledSwitch' )
     } );
 
     const panelSection = new PreferencesPanelSection( {
-      titleNode: toggleSwitch
+      titleNode: gestureControlsEnabledSwitch
     } );
     this.addChild( panelSection );
 
@@ -64,6 +68,19 @@ class InputPreferencesPanel extends Node {
       const alert = enabled ? gestureControlEnabledAlertString : gestureControlDisabledAlertString;
       voicingUtteranceQueue.addToBack( alert );
     } );
+
+    // @private
+    this.disposeInputPreferencesPanel = () => {
+      gestureControlsEnabledSwitch.dispose();
+    };
+  }
+
+  /**
+   * @public
+   */
+  dispose() {
+    this.disposeInputPreferencesPanel();
+    super.dispose();
   }
 }
 

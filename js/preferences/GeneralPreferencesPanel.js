@@ -8,8 +8,8 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
-import { VoicingRichText } from '../../../scenery/js/imports.js';
-import { VBox } from '../../../scenery/js/imports.js';
+import { VBox, VoicingRichText } from '../../../scenery/js/imports.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
@@ -23,17 +23,24 @@ class GeneralPreferencesPanel extends VBox {
 
   /**
    * @param {Object} generalModel - configuration for the Tab, see PreferencesManager for entries
+   * @param {Object} [options]
    */
-  constructor( generalModel ) {
-    super( {
+  constructor( generalModel, options ) {
+
+    options = merge( {
       align: 'left',
       spacing: 40,
 
       // pdom
       tagName: 'section',
       labelTagName: 'h2',
-      labelContent: 'General'
-    } );
+      labelContent: 'General',
+
+      // phet-io
+      tandem: Tandem.REQUIRED
+    }, options );
+
+    super( options );
 
     const panelChildren = [];
     generalModel.simControls && panelChildren.push( new SimControlsPanelSection( generalModel.simControls ) );

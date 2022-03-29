@@ -89,12 +89,17 @@ class VoicingPanelSection extends PreferencesPanelSection {
   /**
    * @param {Object} audioModel - configuration for audio settings, see PreferencesManager
    * @param {BooleanProperty} toolbarEnabledProperty - whether or not the Toolbar is enabled for use
+   * @param {Object} [options]
    */
-  constructor( audioModel, toolbarEnabledProperty ) {
+  constructor( audioModel, toolbarEnabledProperty, options ) {
+
+    options = merge( {
+      tandem: Tandem.REQUIRED
+    }, options );
 
     // the checkbox is the title for the section and totally enables/disables the feature
     const voicingLabel = new Text( voicingLabelString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
-    const voicingSwitch = new PreferencesToggleSwitch( audioModel.voicingEnabledProperty, false, true, {
+    const voicingEnabledSwitch = new PreferencesToggleSwitch( audioModel.voicingEnabledProperty, false, true, {
       labelNode: voicingLabel,
       descriptionNode: new VoicingText( voicingDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternString, {
@@ -102,14 +107,16 @@ class VoicingPanelSection extends PreferencesPanelSection {
           description: voicingDescriptionString
         } )
       } ) ),
-      a11yLabel: voicingLabelString
+      a11yLabel: voicingLabelString,
+      tandem: options.tandem.createTandem( 'voicingEnabledSwitch' )
     } );
 
     // checkbox for the toolbar
     const quickAccessLabel = new Text( toolbarLabelString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
-    const toolbarSwitch = new PreferencesToggleSwitch( toolbarEnabledProperty, false, true, {
+    const toolbarEnabledSwitch = new PreferencesToggleSwitch( toolbarEnabledProperty, false, true, {
       labelNode: quickAccessLabel,
-      a11yLabel: toolbarLabelString
+      a11yLabel: toolbarLabelString,
+      tandem: options.tandem.createTandem( 'toolbarEnabledSwitch' )
     } );
 
     // Speech output levels
@@ -129,9 +136,15 @@ class VoicingPanelSection extends PreferencesPanelSection {
       align: 'left',
       spacing: 5,
       children: [
-        createCheckbox( objectDetailsLabelString, audioModel.voicingObjectResponsesEnabledProperty ),
-        createCheckbox( contextChangesLabelString, audioModel.voicingContextResponsesEnabledProperty ),
-        createCheckbox( helpfulHintsLabelString, audioModel.voicingHintResponsesEnabledProperty )
+        createCheckbox( objectDetailsLabelString, audioModel.voicingObjectResponsesEnabledProperty,
+          options.tandem.createTandem( 'voicingObjectResponsesEnabledCheckbox' )
+        ),
+        createCheckbox( contextChangesLabelString, audioModel.voicingContextResponsesEnabledProperty,
+          options.tandem.createTandem( 'voicingContextResponsesEnabledCheckbox' )
+        ),
+        createCheckbox( helpfulHintsLabelString, audioModel.voicingHintResponsesEnabledProperty,
+          options.tandem.createTandem( 'voicingHintResponsesEnabledCheckbox' )
+        )
       ]
     } );
 
@@ -167,7 +180,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
       voicingNameResponse: customizeVoiceString,
 
       // phet-io
-      tandem: Tandem.OPT_OUT
+      tandem: options.tandem.createTandem( 'expandCollapseButton' )
     } );
 
     const voiceOptionsContainer = new Node( {
@@ -180,19 +193,19 @@ class VoicingPanelSection extends PreferencesPanelSection {
         voiceOptionsOpenProperty.toggle();
       },
 
-      // phet-io
+      // phet-io TODO: https://github.com/phetsims/joist/issues/744
       tandem: Tandem.OPT_OUT
     } );
     voiceOptionsLabel.addInputListener( voiceOptionsPressListener );
 
     const content = new Node( {
-      children: [ speechOutputContent, toolbarSwitch, voiceOptionsContainer, voiceOptionsContent ]
+      children: [ speechOutputContent, toolbarEnabledSwitch, voiceOptionsContainer, voiceOptionsContent ]
     } );
 
     // layout for section content, custom rather than using a LayoutBox because the voice options label needs
     // to be left aligned with other labels, while the ExpandCollapseButton extends to the left
-    toolbarSwitch.leftTop = speechOutputContent.leftBottom.plusXY( 0, 20 );
-    voiceOptionsLabel.leftTop = toolbarSwitch.leftBottom.plusXY( 0, 20 );
+    toolbarEnabledSwitch.leftTop = speechOutputContent.leftBottom.plusXY( 0, 20 );
+    voiceOptionsLabel.leftTop = toolbarEnabledSwitch.leftBottom.plusXY( 0, 20 );
     expandCollapseButton.leftCenter = voiceOptionsLabel.rightCenter.plusXY( 10, 0 );
     voiceOptionsContent.leftTop = voiceOptionsLabel.leftBottom.plusXY( 0, 10 );
     voiceOptionsOpenProperty.link( open => { voiceOptionsContent.visible = open; } );
@@ -201,7 +214,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
     expandCollapseButton.focusHighlight = new FocusHighlightFromNode( voiceOptionsContainer );
 
     super( {
-      titleNode: voicingSwitch,
+      titleNode: voicingEnabledSwitch,
       contentNode: content
     } );
 
@@ -251,7 +264,10 @@ class VoicingPanelSection extends PreferencesPanelSection {
         voiceList = englishVoices.slice( 0, 12 );
       }
 
-      voiceComboBox = new VoiceComboBox( voiceList, audioModel.voiceProperty, phet.joist.sim.topLayer );
+      // phet-io - for when creating the Archetype for the Capsule housing the preferencesDialog, we don't have a sim global.
+      const parent = phet.joist.sim.topLayer || new Node();
+
+      voiceComboBox = new VoiceComboBox( voiceList, audioModel.voiceProperty, parent );
       voiceOptionsContent.addChild( voiceComboBox );
     };
     voicingManager.voicesChangedEmitter.addListener( voicesChangedListener );
@@ -288,6 +304,23 @@ class VoicingPanelSection extends PreferencesPanelSection {
       voicingUtteranceQueue.addToBack( alert );
       this.alertDescriptionUtterance( alert );
     } );
+
+    // @private
+    this.disposeVoicingPanelSection = () => {
+      voicingEnabledSwitch.dispose();
+      expandCollapseButton.dispose();
+      toolbarEnabledSwitch.dispose();
+      speechOutputCheckboxes.children.forEach( child => child.dispose() );
+
+    };
+  }
+
+  /**
+   * @public
+   */
+  dispose() {
+    this.disposeVoicingPanelSection();
+    super.dispose();
   }
 }
 
@@ -297,7 +330,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
  * @param {BooleanProperty} property
  * @returns {Checkbox}
  */
-const createCheckbox = ( labelString, property ) => {
+const createCheckbox = ( labelString, property, tandem ) => {
   const labelNode = new Text( labelString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
   return new Checkbox( labelNode, property, {
 
@@ -309,7 +342,7 @@ const createCheckbox = ( labelString, property ) => {
     voicingNameResponse: labelString,
 
     // phet-io
-    tandem: Tandem.OPT_OUT
+    tandem: tandem
   } );
 };
 
@@ -399,8 +432,18 @@ class VoiceComboBox extends ComboBox {
    * @param {SpeechSynthesisVoice[]} voices - list of voices to include from the voicingManager
    * @param {Property.<SpeechSynthesisVoice|null>} voiceProperty
    * @param {Node} parentNode - node that acts as a parent for the ComboBox list
+   * @param {Object} [options]
    */
-  constructor( voices, voiceProperty, parentNode ) {
+  constructor( voices, voiceProperty, parentNode, options ) {
+
+    options = merge( {
+      listPosition: 'above',
+      accessibleName: voiceLabelString,
+
+      // phet-io, opt out because we would need to instrument voices, but those could change between runtimes.
+      tandem: Tandem.OPT_OUT
+    }, options );
+
     const items = [];
 
     if ( voices.length === 0 ) {
@@ -421,13 +464,7 @@ class VoiceComboBox extends ComboBox {
     // voices
     voiceProperty.set( items[ 0 ].value );
 
-    super( items, voiceProperty, parentNode, {
-      listPosition: 'above',
-      accessibleName: voiceLabelString,
-
-      // phet-io
-      tandem: Tandem.OPT_OUT
-    } );
+    super( items, voiceProperty, parentNode, options );
 
     // voicing -  responses for the button should always come through, regardless of user selection of
     // responses. As of 10/29/21, ComboBox will only read the name response (which are always read regardless)
@@ -470,7 +507,7 @@ class VoicingPitchSlider extends Voicing( VBox, 0 ) {
       // voicing
       voicingNameResponse: labelString,
 
-      // phet-io
+      // phet-io TODO: https://github.com/phetsims/joist/issues/744
       tandem: Tandem.OPT_OUT
     } );
 

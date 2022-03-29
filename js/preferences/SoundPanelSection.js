@@ -8,11 +8,7 @@
 
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { VoicingRichText } from '../../../scenery/js/imports.js';
-import { VoicingText } from '../../../scenery/js/imports.js';
-import { voicingUtteranceQueue } from '../../../scenery/js/imports.js';
-import { Text } from '../../../scenery/js/imports.js';
-import { VBox } from '../../../scenery/js/imports.js';
+import { Text, VBox, VoicingRichText, VoicingText, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import soundManager from '../../../tambo/js/soundManager.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -47,12 +43,15 @@ class SoundPanelSection extends PreferencesPanelSection {
       // PreferencesPanelSection. It is possible that the toggle for Sound can be redundant when Sound
       // is the only Audio feature supported. In that case, control of Sound should go through the
       // "All Audio" toggle.
-      includeTitleToggleSwitch: true
+      includeTitleToggleSwitch: true,
+
+      // phet-io
+      tandem: Tandem.REQUIRED
     }, options );
 
     const soundLabel = new Text( soundsLabelString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
 
-    const titleNode = new PreferencesToggleSwitch( soundManager.enabledProperty, false, true, {
+    const soundEnabledSwitch = new PreferencesToggleSwitch( soundManager.enabledProperty, false, true, {
       labelNode: soundLabel,
       descriptionNode: new VoicingText( soundDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternString, {
@@ -63,13 +62,15 @@ class SoundPanelSection extends PreferencesPanelSection {
       toggleSwitchOptions: {
         visible: options.includeTitleToggleSwitch
       },
-      a11yLabel: soundsLabelString
+      a11yLabel: soundsLabelString,
+      tandem: options.tandem.createTandem( 'soundEnabledSwitch' )
     } );
 
     let enhancedSoundContent = null;
+    let enhancedSoundCheckbox = null;
     if ( audioOptions.supportsEnhancedSound ) {
       const enahncedSoundLabel = new Text( extraSoundsLabelString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
-      const enhancedSoundCheckbox = new Checkbox( enahncedSoundLabel, soundManager.enhancedSoundEnabledProperty, {
+      enhancedSoundCheckbox = new Checkbox( enahncedSoundLabel, soundManager.enhancedSoundEnabledProperty, {
 
         // pdom
         labelTagName: 'label',
@@ -79,7 +80,7 @@ class SoundPanelSection extends PreferencesPanelSection {
         voicingNameResponse: extraSoundsLabelString,
 
         // phet-io
-        tandem: Tandem.OPT_OUT
+        tandem: options.tandem.createTandem( 'enhancedSoundCheckbox' )
       } );
 
       const enhancedSoundDescription = new VoicingRichText( extraSoundsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
@@ -102,7 +103,7 @@ class SoundPanelSection extends PreferencesPanelSection {
     }
 
     super( {
-      titleNode: titleNode,
+      titleNode: soundEnabledSwitch,
       contentNode: enhancedSoundContent
     } );
 
@@ -118,6 +119,21 @@ class SoundPanelSection extends PreferencesPanelSection {
       voicingUtteranceQueue.addToBack( alert );
       this.alertDescriptionUtterance( alert );
     } );
+
+    // @private
+    this.disposeSoundPanelSection = () => {
+      soundEnabledSwitch.dispose();
+      enhancedSoundCheckbox && enhancedSoundCheckbox.dispose();
+    };
+  }
+
+
+  /**
+   * @public
+   */
+  dispose() {
+    this.disposeSoundPanelSection();
+    super.dispose();
   }
 }
 

@@ -9,6 +9,8 @@
 import merge from '../../../phet-core/js/merge.js';
 import { Path } from '../../../scenery/js/imports.js';
 import userCogSolidShape from '../../../sherpa/js/fontawesome-5/userCogSolidShape.js';
+import Dialog from '../../../sun/js/Dialog.js';
+import PhetioCapsule from '../../../tandem/js/PhetioCapsule.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import JoistButton from '../JoistButton.js';
@@ -32,15 +34,19 @@ class NavigationBarPreferencesButton extends JoistButton {
       maxWidth: 25
     } );
 
-    let preferencesDialog = null;
-    super( icon, backgroundColorProperty, Tandem.OPT_OUT, {
-      listener: () => {
-        if ( !preferencesDialog ) {
-          preferencesDialog = new PreferencesDialog( preferencesModel, {
-            tandem: Tandem.OPT_OUT
-          } );
-        }
+    assert && assert( !options.listener, 'PhetButton sets listener' );
+    const preferencesDialogCapsule = new PhetioCapsule( tandem => {
+      return new PreferencesDialog( preferencesModel, {
+        tandem: tandem
+      } );
+    }, [], {
+      tandem: options.tandem.createTandem( 'preferencesDialogCapsule' ),
+      phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )
+    } );
 
+    super( icon, backgroundColorProperty, options.tandem, {
+      listener: () => {
+        const preferencesDialog = preferencesDialogCapsule.getElement();
         preferencesDialog.show();
         preferencesDialog.focusSelectedTab();
       },

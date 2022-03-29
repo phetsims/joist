@@ -37,10 +37,11 @@ class A11yButtonsHBox extends HBox {
     const a11yButtons = [];
 
     if ( sim.preferencesManager ) {
+
       const preferencesButton = new NavigationBarPreferencesButton(
         sim.preferencesManager,
         backgroundColorProperty, {
-          tandem: options.tandem.createTandem( 'navigationBarPreferencesButton' )
+          tandem: options.tandem.createTandem( 'preferencesButton' )
         } );
 
       a11yButtons.push( preferencesButton );

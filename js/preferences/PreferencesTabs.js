@@ -8,15 +8,9 @@
  */
 
 import Property from '../../../axon/js/Property.js';
+import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { FocusHighlightPath } from '../../../scenery/js/imports.js';
-import { KeyboardUtils } from '../../../scenery/js/imports.js';
-import { Voicing } from '../../../scenery/js/imports.js';
-import { PressListener } from '../../../scenery/js/imports.js';
-import { Line } from '../../../scenery/js/imports.js';
-import { Node } from '../../../scenery/js/imports.js';
-import { Rectangle } from '../../../scenery/js/imports.js';
-import { Text } from '../../../scenery/js/imports.js';
+import { FocusHighlightPath, KeyboardUtils, Line, Node, PressListener, Rectangle, Text, Voicing } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
@@ -34,14 +28,21 @@ class PreferencesTabs extends Node {
   /**
    * @param {PreferencesTab[]} supportedTabs - list of tabs the Dialog should include
    * @param {EnumerationDeprecatedProperty.<PreferencesDialog.PreferenceTab>} selectedPanelProperty
+   * @param {Object} [options]
    */
-  constructor( supportedTabs, selectedPanelProperty ) {
-    super( {
+  constructor( supportedTabs, selectedPanelProperty, options ) {
+    options = merge( {
 
+      // pdom
       tagName: 'ul',
       ariaRole: 'tablist',
-      groupFocusHighlight: true
-    } );
+      groupFocusHighlight: true,
+
+      // phet-io
+      tandem: Tandem.REQUIRED
+    }, options );
+
+    super( options );
 
     // @private {null|Node} - A reference to the selected and focusable tab content so that we can determine which
     // tab is next in order when cycling through with alternative input.
@@ -52,13 +53,14 @@ class PreferencesTabs extends Node {
 
     // @private {Tab[]}
     this.content = [];
-    const addTabIfSupported = ( preferenceTab, titleString ) => {
-      _.includes( supportedTabs, preferenceTab ) && this.content.push( new Tab( titleString, selectedPanelProperty, preferenceTab ) );
+    const addTabIfSupported = ( preferenceTab, titleString, tandemName ) => {
+      const tandem = options.tandem.createTandem( tandemName );
+      _.includes( supportedTabs, preferenceTab ) && this.content.push( new Tab( titleString, selectedPanelProperty, preferenceTab, tandem ) );
     };
-    addTabIfSupported( PreferencesDialog.PreferencesTab.GENERAL, generalTitleString );
-    addTabIfSupported( PreferencesDialog.PreferencesTab.VISUAL, visualTitleString );
-    addTabIfSupported( PreferencesDialog.PreferencesTab.AUDIO, audioTitleString );
-    addTabIfSupported( PreferencesDialog.PreferencesTab.INPUT, inputTitleString );
+    addTabIfSupported( PreferencesDialog.PreferencesTab.GENERAL, generalTitleString, 'generalTab' );
+    addTabIfSupported( PreferencesDialog.PreferencesTab.VISUAL, visualTitleString, 'visualTab' );
+    addTabIfSupported( PreferencesDialog.PreferencesTab.AUDIO, audioTitleString, 'audioTab' );
+    addTabIfSupported( PreferencesDialog.PreferencesTab.INPUT, inputTitleString, 'audioTab' );
 
     for ( let i = 0; i < this.content.length; i++ ) {
       this.addChild( this.content[ i ] );
@@ -117,8 +119,9 @@ class PreferencesTabs extends Node {
 
     // @private
     this.disposePreferencesTabs = () => {
-      this.removeListener( keyboardListener );
+      this.removeInputListener( keyboardListener );
       selectedPanelProperty.unlink( selectedPanelListener );
+      this.content.forEach( tab => tab.dispose() );
     };
   }
 
@@ -154,7 +157,7 @@ class Tab extends Voicing( Node, 0 ) {
    * @param {EnumerationDeprecatedProperty.<PreferencesDialog.<PreferencesTab>} property
    * @param {PreferencesDialog.PreferencesTab} value - PreferencesTab shown when this tab is selected
    */
-  constructor( label, property, value ) {
+  constructor( label, property, value, tandem ) {
 
     const textNode = new Text( label, PreferencesDialog.TAB_OPTIONS );
 
@@ -178,7 +181,9 @@ class Tab extends Voicing( Node, 0 ) {
       innerContent: label,
       ariaRole: 'tab',
       focusable: true,
-      containerTagName: 'li'
+      containerTagName: 'li',
+
+      tandem: tandem
     } );
 
     // @public {PreferenceTab}
@@ -188,7 +193,7 @@ class Tab extends Voicing( Node, 0 ) {
       title: label
     } );
 
-    const buttonListener = new PressListener( {
+    const pressListener = new PressListener( {
       press: () => {
         property.set( value );
 
@@ -196,12 +201,12 @@ class Tab extends Voicing( Node, 0 ) {
         this.voicingSpeakNameResponse();
       },
 
-      // phet-io - opting out for now to get CT working
-      tandem: Tandem.OPT_OUT
+      // phet-io
+      tandem: tandem.createTandem( 'pressListener' )
     } );
-    this.addInputListener( buttonListener );
+    this.addInputListener( pressListener );
 
-    Property.multilink( [ property, buttonListener.isOverProperty ], ( selectedTab, isOver ) => {
+    Property.multilink( [ property, pressListener.isOverProperty ], ( selectedTab, isOver ) => {
       textNode.opacity = selectedTab === value ? 1 :
                          isOver ? 0.8 :
                          0.6;
@@ -210,6 +215,18 @@ class Tab extends Voicing( Node, 0 ) {
       underlineNode.visible = selectedTab === value;
     } );
 
+    // @private
+    this.disposeTab = () => {
+      pressListener.dispose();
+    };
+  }
+
+  /**
+   * @public
+   */
+  dispose() {
+    this.disposeTab();
+    super.dispose();
   }
 }
 

@@ -50,8 +50,8 @@ class PreferencesToggleSwitch extends Node {
         trackFillRight: '#64bd5a'
       },
 
-      // phet-io - opting out of Tandems for now
-      tandem: Tandem.OPT_OUT
+      // phet-io
+      tandem: Tandem.REQUIRED
     }, options );
     assert && assert( options.labelNode === null || options.labelNode instanceof Node, 'labelNode is null or inserted as child' );
     assert && assert( options.descriptionNode === null || options.descriptionNode instanceof Node, 'labelNode is null or inserted as child' );
@@ -75,8 +75,8 @@ class PreferencesToggleSwitch extends Node {
       voicingIgnoreVoicingManagerProperties: true,
       voicingNameResponse: options.a11yLabel,
 
-      // tandem - opting out of Tandems for now
-      tandem: Tandem.OPT_OUT
+      // tandem
+      tandem: options.tandem.createTandem( 'toggleSwitch' )
     } ) );
 
     this.addChild( toggleSwitch );
@@ -112,6 +112,19 @@ class PreferencesToggleSwitch extends Node {
       // only a label node, it goes to the left of the toggleSwitch
       options.labelNode.rightCenter = toggleSwitch.leftCenter.minusXY( options.labelSpacing, 0 );
     }
+
+    // @private
+    this.disposePreferencesToggleSwitch = () => {
+      toggleSwitch.dispose();
+    };
+  }
+
+  /**
+   * @public
+   */
+  dispose() {
+    this.disposePreferencesToggleSwitch();
+    super.dispose();
   }
 }
 

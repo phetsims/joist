@@ -8,15 +8,10 @@
  */
 
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
+import merge from '../../../phet-core/js/merge.js';
 import PlayStopButton from '../../../scenery-phet/js/buttons/PlayStopButton.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { VoicingText } from '../../../scenery/js/imports.js';
-import { ReadingBlockHighlight } from '../../../scenery/js/imports.js';
-import { voicingManager } from '../../../scenery/js/imports.js';
-import { AlignGroup } from '../../../scenery/js/imports.js';
-import { HBox } from '../../../scenery/js/imports.js';
-import { Node } from '../../../scenery/js/imports.js';
-import { Text } from '../../../scenery/js/imports.js';
+import { AlignGroup, HBox, Node, ReadingBlockHighlight, Text, voicingManager, VoicingText } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import Utterance from '../../../utterance-queue/js/Utterance.js';
 import joist from '../joist.js';
@@ -46,16 +41,21 @@ class VoicingToolbarItem extends Node {
   /**
    * @param {VoicingToolbarAlertManager} alertManager - generates the alert content when buttons are pressed
    * @param {LookAndFeel} lookAndFeel
+   * @param {Object} [options]
    */
-  constructor( alertManager, lookAndFeel ) {
-
-    super( {
+  constructor( alertManager, lookAndFeel, options ) {
+    options = merge( {
 
       // pdom
       tagName: 'section',
       labelTagName: 'h2',
-      labelContent: toolbarString
-    } );
+      labelContent: toolbarString,
+
+      // phet-io
+      tandem: Tandem.REQUIRED
+    }, options );
+
+    super( options );
 
     const titleTextOptions = {
       font: new PhetFont( 14 ),
@@ -76,7 +76,8 @@ class VoicingToolbarItem extends Node {
       a11yLabel: titleString,
       toggleSwitchOptions: {
         voicingUtteranceQueue: joistVoicingUtteranceQueue
-      }
+      },
+      tandem: options.tandem.createTandem( 'muteSpeechSwitch' )
     } );
 
     // layout

@@ -9,10 +9,8 @@
 
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { VoicingText } from '../../../scenery/js/imports.js';
-import { voicingUtteranceQueue } from '../../../scenery/js/imports.js';
-import { Node } from '../../../scenery/js/imports.js';
-import { Text } from '../../../scenery/js/imports.js';
+import { Node, Text, VoicingText, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
@@ -30,18 +28,25 @@ class VisualPreferencesPanel extends Node {
 
   /**
    * @param {Object} visualModel - see PreferencesManager
+   * @param {Object} [options]
    */
-  constructor( visualModel ) {
-    super( {
+  constructor( visualModel, options ) {
+
+    options = merge( {
 
       // pdom
       tagName: 'div',
       labelTagName: 'h2',
-      labelContent: 'Visual'
-    } );
+      labelContent: 'Visual',
+
+      // phet-io
+      tandem: Tandem.REQUIRED
+    }, options );
+
+    super( options );
 
     const label = new Text( interactiveHighlightsString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
-    const toggleSwitch = new PreferencesToggleSwitch( visualModel.interactiveHighlightsEnabledProperty, false, true, {
+    const interactiveHighlightsEnabledSwitch = new PreferencesToggleSwitch( visualModel.interactiveHighlightsEnabledProperty, false, true, {
       labelNode: label,
       descriptionNode: new VoicingText( interactiveHighlightsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternString, {
@@ -49,11 +54,12 @@ class VisualPreferencesPanel extends Node {
           description: interactiveHighlightsDescriptionString
         } )
       } ) ),
-      a11yLabel: interactiveHighlightsString
+      a11yLabel: interactiveHighlightsString,
+      tandem: options.tandem.createTandem( 'interactiveHighlightsEnabledSwitch' )
     } );
 
     const panelSection = new PreferencesPanelSection( {
-      titleNode: toggleSwitch
+      titleNode: interactiveHighlightsEnabledSwitch
     } );
     this.addChild( panelSection );
 
@@ -70,6 +76,7 @@ class VisualPreferencesPanel extends Node {
 
     // @private
     this.disposeVisualPreferencesPanel = () => {
+      interactiveHighlightsEnabledSwitch.dispose();
       visualModel.interactiveHighlightsEnabledProperty.unlink( alertEnabledChange );
     };
   }

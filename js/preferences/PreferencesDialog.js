@@ -10,15 +10,14 @@
  */
 
 import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
-import EnumerationValue from '../../../phet-core/js/EnumerationValue.js';
 import Enumeration from '../../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../../phet-core/js/EnumerationValue.js';
 import merge from '../../../phet-core/js/merge.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { KeyboardUtils } from '../../../scenery/js/imports.js';
-import { Node } from '../../../scenery/js/imports.js';
-import { Text } from '../../../scenery/js/imports.js';
+import { KeyboardUtils, Node, Text } from '../../../scenery/js/imports.js';
 import Dialog from '../../../sun/js/Dialog.js';
 import HSeparator from '../../../sun/js/HSeparator.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import audioManager from '../audioManager.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
@@ -83,6 +82,7 @@ class PreferencesDialog extends Dialog {
 
       // phet-io
       phetioDynamicElement: true,
+      tandem: Tandem.REQUIRED,
 
       // pdom
       positionInPDOM: true
@@ -97,13 +97,19 @@ class PreferencesDialog extends Dialog {
     assert && assert( supportedTabs.length > 0, 'Trying to create a PreferencesDialog with no tabs, check PreferencesConfiguration' );
 
     // the selected PreferencesTab, indicating which tab is visible in the Dialog
-    const selectedTabProperty = new EnumerationProperty( PreferencesTab.GENERAL );
+    const selectedTabProperty = new EnumerationProperty( PreferencesTab.GENERAL, {
+      tandem: options.tandem.createTandem( 'selectedTabProperty' )
+    } );
 
     // the set of tabs you can can click to activate a tab panel
-    const preferencesTabs = new PreferencesTabs( supportedTabs, selectedTabProperty );
+    const preferencesTabs = new PreferencesTabs( supportedTabs, selectedTabProperty, {
+      tandem: options.tandem.createTandem( 'preferencesTabs' )
+    } );
 
     // the panels of content with UI components to select preferences, only one is displayed at a time
-    const preferencesPanels = new PreferencesPanels( preferencesModel, supportedTabs, selectedTabProperty );
+    const preferencesPanels = new PreferencesPanels( preferencesModel, supportedTabs, selectedTabProperty, {
+      tandem: options.tandem.createTandem( 'preferencesPanels' )
+    } );
 
     // visual separator between tabs and panels - as long as the widest separated content, which may change with i18n
     const tabPanelSeparator = new HSeparator( Math.max( preferencesPanels.width, preferencesTabs.width ), { lineWidth: 1 } );
@@ -138,6 +144,13 @@ class PreferencesDialog extends Dialog {
         }
       }
     } );
+
+    // @private
+    this.disposePreferencesDialog = () => {
+      preferencesTabs.dispose();
+      selectedTabProperty.dispose();
+      preferencesPanels.dispose();
+    };
   }
 
   /**
@@ -154,6 +167,14 @@ class PreferencesDialog extends Dialog {
    */
   focusSelectedPanel() {
     this.preferencesPanels.focusSelectedPanel();
+  }
+
+  /**
+   * @public
+   */
+  dispose() {
+    this.disposePreferencesDialog();
+    super.dispose();
   }
 }
 

@@ -6,9 +6,9 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import { HBox } from '../../../scenery/js/imports.js';
-import { Text } from '../../../scenery/js/imports.js';
-import { VBox } from '../../../scenery/js/imports.js';
+import merge from '../../../phet-core/js/merge.js';
+import { HBox, Text, VBox } from '../../../scenery/js/imports.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
@@ -24,13 +24,20 @@ class AudioPreferencesTabPanel extends VBox {
   /**
    * @param {Object} audioModel - configuration for audio settings, see PreferencesManager
    * @param {BooleanProperty} enableToolbarProperty - whether the Toolbar is enabled
+   * @param {Object} [options]
    */
-  constructor( audioModel, enableToolbarProperty ) {
+  constructor( audioModel, enableToolbarProperty, options ) {
+
+    options = merge( {
+      tandem: Tandem.REQUIRED
+    }, options );
 
     const panelChildren = [];
 
     if ( audioModel.supportsVoicing ) {
-      panelChildren.push( new VoicingPanelSection( audioModel, enableToolbarProperty ) );
+      panelChildren.push( new VoicingPanelSection( audioModel, enableToolbarProperty, {
+        tandem: options.tandem.createTandem( 'voicingPanelSection' )
+      } ) );
     }
 
     if ( audioModel.supportsSound ) {
@@ -41,7 +48,8 @@ class AudioPreferencesTabPanel extends VBox {
       const hideSoundToggle = audioModel.supportsVoicing !== audioModel.supportsSound;
 
       panelChildren.push( new SoundPanelSection( audioModel, {
-        includeTitleToggleSwitch: !hideSoundToggle
+        includeTitleToggleSwitch: !hideSoundToggle,
+        tandem: options.tandem.createTandem( 'soundPanelSection' )
       } ) );
     }
 
@@ -52,7 +60,8 @@ class AudioPreferencesTabPanel extends VBox {
 
     const allAudioSwitch = new PreferencesToggleSwitch( audioModel.simSoundEnabledProperty, false, true, {
       labelNode: new Text( audioFeaturesString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ),
-      a11yLabel: audioFeaturesString
+      a11yLabel: audioFeaturesString,
+      tandem: options.tandem.createTandem( 'allAudioSwitch' )
     } );
 
     const soundEnabledListener = enabled => {
@@ -74,6 +83,8 @@ class AudioPreferencesTabPanel extends VBox {
 
     // @private - for disposal
     this.disposeAudioPreferencesPanel = () => {
+      panelChildren.forEach( child => child.dispose() );
+      allAudioSwitch.dispose();
       audioModel.simSoundEnabledProperty.unlink( soundEnabledListener );
     };
   }

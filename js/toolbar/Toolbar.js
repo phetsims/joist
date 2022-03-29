@@ -18,11 +18,8 @@ import NumberProperty from '../../../axon/js/NumberProperty.js';
 import stepTimer from '../../../axon/js/stepTimer.js';
 import Matrix3 from '../../../dot/js/Matrix3.js';
 import { Shape } from '../../../kite/js/imports.js';
-import { voicingManager } from '../../../scenery/js/imports.js';
-import { voicingUtteranceQueue } from '../../../scenery/js/imports.js';
-import { Node } from '../../../scenery/js/imports.js';
-import { Path } from '../../../scenery/js/imports.js';
-import { Rectangle } from '../../../scenery/js/imports.js';
+import merge from '../../../phet-core/js/merge.js';
+import { Node, Path, Rectangle, voicingManager, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
 import ButtonNode from '../../../sun/js/buttons/ButtonNode.js';
 import RoundPushButton from '../../../sun/js/buttons/RoundPushButton.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -48,14 +45,20 @@ class Toolbar extends Node {
 
   /**
    * @param {Sim} sim
+   * @param {Object} [options]
    */
-  constructor( sim ) {
+  constructor( sim, options ) {
 
-    super( {
+    options = merge( {
 
       // pdom
-      tagName: 'div'
-    } );
+      tagName: 'div',
+
+      // phet-io
+      tandem: Tandem.REQUIRED
+    }, options );
+
+    super( options );
 
     // @private {BooleanProperty} - Whether or not the Toolbar is enabled (visible to the user)
     this.isEnabledProperty = sim.preferencesManager.toolbarEnabledProperty;
@@ -89,7 +92,9 @@ class Toolbar extends Node {
     // @private {VoicingToolbarItem} - Contents for the Toolbar, currently only controls related to the voicing
     // feature.
     const voicingAlertManager = new VoicingToolbarAlertManager( sim.screenProperty );
-    this.menuContent = new VoicingToolbarItem( voicingAlertManager, sim.lookAndFeel );
+    this.menuContent = new VoicingToolbarItem( voicingAlertManager, sim.lookAndFeel, {
+      tandem: options.tandem.createTandem( 'menuContent' )
+    } );
 
     // icon for the openButton
     const chevronIcon = new DoubleChevron();

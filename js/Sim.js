@@ -529,7 +529,9 @@ class Sim extends PhetioObject {
       assert && assert( !options.simDisplayOptions.preferencesManager );
       options.simDisplayOptions.preferencesManager = this.preferencesManager;
 
-      this.toolbar = new Toolbar( this );
+      this.toolbar = new Toolbar( this, {
+        tandem: Tandem.GENERAL_VIEW.createTandem( 'toolbar' )
+      } );
 
       // when the Toolbar positions update, resize the sim to fit in the available space
       this.toolbar.rightPositionProperty.lazyLink( () => {
