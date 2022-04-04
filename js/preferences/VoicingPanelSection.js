@@ -77,8 +77,8 @@ const inHighRangeString = joistStrings.a11y.preferences.tabs.audio.voicing.custo
 
 const VOICE_PITCH_DESCRIPTION_MAP = new Map();
 VOICE_PITCH_DESCRIPTION_MAP.set( new Range( 0.5, 0.75 ), inLowRangeString );
-VOICE_PITCH_DESCRIPTION_MAP.set( new Range( 0.75, 1.24 ), inNormalRangeString );
-VOICE_PITCH_DESCRIPTION_MAP.set( new Range( 1.25, 1.49 ), aboveNormalRangeString );
+VOICE_PITCH_DESCRIPTION_MAP.set( new Range( 0.75, 1.25 ), inNormalRangeString );
+VOICE_PITCH_DESCRIPTION_MAP.set( new Range( 1.25, 1.5 ), aboveNormalRangeString );
 VOICE_PITCH_DESCRIPTION_MAP.set( new Range( 1.5, 2 ), inHighRangeString );
 
 const THUMB_SIZE = new Dimension2( 13, 26 );
