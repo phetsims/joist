@@ -108,11 +108,6 @@ class Sim extends PhetioObject {
       // content. This content is specific to each screen, see Screen.keyboardHelpNode for more info.
       hasKeyboardHelpContent: false,
 
-      // {VibrationManager|null} - Responsible for managing vibration feedback for a sim. Experimental, and
-      // not used frequently. The vibrationManager instance is passed through options so that tappi doesn't have to
-      // become a dependency for all sims yet. If this gets more use, this will likely change.
-      vibrationManager: null,
-
       // {PreferencesConfiguration|null} - If a PreferencesConfiguration is provided the sim will
       // include the PreferencesDialog and a button in the NavigationBar to open it.
       preferencesConfiguration: null,
@@ -308,11 +303,6 @@ class Sim extends PhetioObject {
         animatedPanZoomSingleton.listener.step( dt );
       }
 
-      // if provided, update the vibrationManager which tracks time sequences of on/off vibration
-      if ( this.vibrationManager ) {
-        this.vibrationManager.step( dt );
-      }
-
       // View step is the last thing before updateDisplay(), so we can do paint updates there.
       // See https://github.com/phetsims/joist/issues/401.
       if ( screen.view.step ) {
@@ -483,14 +473,6 @@ class Sim extends PhetioObject {
           categoryName: 'user-interface'
         }
       );
-    }
-
-    // @private {null|VibrationManager} - The singleton instance of VibrationManager. Experimental and not frequently
-    // used. If used more generally, reference will no longer be needed as joist will have access to vibrationManager
-    // through when tappi becomes a sim lib.
-    this.vibrationManager = options.vibrationManager;
-    if ( this.vibrationManager ) {
-      this.vibrationManager.initialize( this.browserTabVisibleProperty, this.activeProperty );
     }
 
     // Make ScreenshotGenerator available globally so it can be used in preload files such as PhET-iO.
