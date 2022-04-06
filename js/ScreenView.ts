@@ -166,14 +166,14 @@ class ScreenView extends Node {
    * screen. See this.pdomScreenSummaryNode, this.pdomPlayAreaNode, and this.pdomControlAreaNode and set their accessible
    * order accordingly when adding accessible content to the PDOM for this screen.
    */
-  setPDOMOrder( pdomOrder: Array<Node | null> | null ): void {
+  override setPDOMOrder( pdomOrder: Array<Node | null> | null ): void {
     throw new Error( 'should not need to set accessible order on a ScreenView' );
   }
 
   /**
    * Override to make sure that setting children doesn't blow away Nodes set by ScreenView.
    */
-  setChildren( children: Node[] ): this {
+  override setChildren( children: Node[] ): this {
     Node.prototype.setChildren.call( this, children );
     if ( !this.hasChild( this.pdomParentNode ) ) {
       this.addChild( this.pdomParentNode );
