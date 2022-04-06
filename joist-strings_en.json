@@ -149,9 +149,6 @@
   "preferences.tabs.general.moreAccessibility": {
     "value": "To find other simulations with inclusive features, look for Access and Inclusion on the simulation filter page and filter by inclusive feature."
   },
-  "preferences.tabs.general.simulationSpecificSettings": {
-    "value": "Simulation-specific Settings"
-  },
   "preferences.tabs.visual.title": {
     "value": "Visual"
   },
@@ -178,15 +175,6 @@
   },
   "preferences.tabs.audio.sounds.extraSounds.description": {
     "value": "Play additional sound that may be helpful for some learners."
-  },
-  "preferences.tabs.input.title": {
-    "value": "Input"
-  },
-  "preferences.tabs.input.gestureControls.title": {
-    "value": "Gesture Control"
-  },
-  "preferences.tabs.input.gestureControls.description": {
-    "value": "Use touch with custom swipes and taps instead. No direct touch with gesture control enabled."
   },
   "a11y": {
     "keyboardHelp": {
