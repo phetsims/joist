@@ -8,16 +8,18 @@
  */
 
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
-import merge from '../../../phet-core/js/merge.js';
 import PlayStopButton from '../../../scenery-phet/js/buttons/PlayStopButton.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { AlignGroup, HBox, Node, ReadingBlockHighlight, Text, voicingManager, VoicingText } from '../../../scenery/js/imports.js';
+import { AlignGroup, HBox, Node, NodeOptions, ReadingBlockHighlight, Text, voicingManager, VoicingText } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import Utterance from '../../../utterance-queue/js/Utterance.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import joistVoicingUtteranceQueue from '../joistVoicingUtteranceQueue.js';
 import PreferencesToggleSwitch from '../preferences/PreferencesToggleSwitch.js';
+import VoicingToolbarAlertManager from './VoicingToolbarAlertManager.js';
+import LookAndFeel from '../LookAndFeel.js';
+import optionize from '../../../phet-core/js/optionize.js';
 
 // constants
 const CONTENT_VERTICAL_SPACING = 10;
@@ -38,13 +40,11 @@ const hintString = joistStrings.a11y.toolbar.voicing.hintLabel;
 
 class VoicingToolbarItem extends Node {
 
-  /**
-   * @param {VoicingToolbarAlertManager} alertManager - generates the alert content when buttons are pressed
-   * @param {LookAndFeel} lookAndFeel
-   * @param {Object} [options]
-   */
-  constructor( alertManager, lookAndFeel, options ) {
-    options = merge( {
+  // implements disposal for garbage collection
+  private readonly disposeVoicingToolbarItem: () => void;
+
+  constructor( alertManager: VoicingToolbarAlertManager, lookAndFeel: LookAndFeel, providedOptions?: NodeOptions ) {
+    const options = optionize<NodeOptions, {}, NodeOptions>( {
 
       // pdom
       tagName: 'section',
@@ -53,7 +53,10 @@ class VoicingToolbarItem extends Node {
 
       // phet-io
       tandem: Tandem.REQUIRED
-    }, options );
+    }, providedOptions );
+
+    const tandem = options.tandem!;
+    assert && assert( tandem, 'Tandem was required!' );
 
     super( options );
 
@@ -77,7 +80,7 @@ class VoicingToolbarItem extends Node {
       toggleSwitchOptions: {
         voicingUtteranceQueue: joistVoicingUtteranceQueue
       },
-      tandem: options.tandem.createTandem( 'muteSpeechSwitch' )
+      tandem: tandem.createTandem( 'muteSpeechSwitch' )
     } );
 
     // layout
@@ -105,7 +108,7 @@ class VoicingToolbarItem extends Node {
       } );
     } );
 
-    const voicingEnabledListener = enabled => {
+    const voicingEnabledListener = ( enabled: boolean ) => {
       const alert = enabled ? simVoicingOnString : simVoicingOffString;
       this.alertDescriptionUtterance( alert );
       joistVoicingUtteranceQueue.addToBack( alert );
@@ -121,7 +124,7 @@ class VoicingToolbarItem extends Node {
   /**
    * @public
    */
-  dispose() {
+  public override dispose(): void {
     this.disposeVoicingToolbarItem();
     super.dispose();
   }
@@ -134,26 +137,31 @@ class VoicingToolbarItem extends Node {
  */
 class LabelButtonRow {
 
+  private readonly lookAndFeel: LookAndFeel;
+  private readonly utterance: Utterance;
+  private readonly createAlert: () => string;
+  private readonly playStopButton: PlayStopButton;
+
+  // Whether the PlayStopButton has been pressed and the voicingManager is actively speaking this content
+  public readonly playingProperty: BooleanProperty;
+
+  // The Node of content to be displayed in the view, managing layout of the label and button
+  public readonly content: Node;
+
   /**
-   * @param {string} labelString - the visually rendered Text label for the button
-   * @param {string} a11yLabel - the string read in the PDOM and with the Voicing feature that labels this Button
-   * @param {AlignGroup} labelAlignGroup - To align all labels in the VoicingToolbarItem
-   * @param {AlignGroup} inputAlignGroup - To align all inputs in the VoicingToolbarItem
-   * @param {LookAndFeel} lookAndFeel
-   * @param {function} createAlert - function that creates the alert when the button is pressed
+   * @param labelString - the visually rendered Text label for the button
+   * @param a11yLabel - the string read in the PDOM and with the Voicing feature that labels this Button
+   * @param labelAlignGroup - To align all labels in the VoicingToolbarItem
+   * @param inputAlignGroup - To align all inputs in the VoicingToolbarItem
+   * @param lookAndFeel
+   * @param createAlert - function that creates the alert when the button is pressed
    */
-  constructor( labelString, a11yLabel, labelAlignGroup, inputAlignGroup, lookAndFeel, createAlert ) {
+  constructor( labelString: string, a11yLabel: string, labelAlignGroup: AlignGroup, inputAlignGroup: AlignGroup, lookAndFeel: LookAndFeel, createAlert: () => string ) {
 
-    // @private
     this.lookAndFeel = lookAndFeel;
-
-    // @private
     this.utterance = new Utterance();
-
     this.createAlert = createAlert;
 
-    // @public {BooleanProperty - Whether the PlayStopButton has been pressed and the voicingManager is actively speaking
-    // this content
     this.playingProperty = new BooleanProperty( false, {
 
       // Speech is requested from a listener on the isPlayingProperty. But if the browser cannot speak it may
@@ -161,7 +169,6 @@ class LabelButtonRow {
       reentrant: true
     } );
 
-    // @private {PlayStopButton}
     this.playStopButton = new PlayStopButton( this.playingProperty, {
       startPlayingLabel: a11yLabel,
       voicingNameResponse: a11yLabel,
@@ -182,7 +189,7 @@ class LabelButtonRow {
     } );
 
     const labelBox = labelAlignGroup.createBox( textLabel, { xAlign: 'left' } );
-    const inputBox = inputAlignGroup.createBox( this.playStopButton, { align: 'right' } );
+    const inputBox = inputAlignGroup.createBox( this.playStopButton, { xAlign: 'right' } );
 
     this.content = new HBox( { children: [ labelBox, inputBox ], spacing: CONTENT_VERTICAL_SPACING } );
 
@@ -195,12 +202,8 @@ class LabelButtonRow {
 
   /**
    * Play the Voicing content for this Row.
-   * @public
-   *
-   * @param {BooleanProperty[]} playingProperties
-   * @param {string} alertContent
    */
-  playContent( playingProperties ) {
+  public playContent( playingProperties: BooleanProperty[] ): void {
 
     if ( this.playingProperty.value ) {
 
