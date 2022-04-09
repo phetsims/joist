@@ -20,6 +20,7 @@ import PreferencesToggleSwitch from '../preferences/PreferencesToggleSwitch.js';
 import VoicingToolbarAlertManager from './VoicingToolbarAlertManager.js';
 import LookAndFeel from '../LookAndFeel.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 
 // constants
 const CONTENT_VERTICAL_SPACING = 10;
@@ -38,13 +39,15 @@ const overviewString = joistStrings.a11y.toolbar.voicing.overviewLabel;
 const detailsString = joistStrings.a11y.toolbar.voicing.detailsLabel;
 const hintString = joistStrings.a11y.toolbar.voicing.hintLabel;
 
+type SelfOptions = {};
+export type VoicingToolbarItemOptions = SelfOptions & NodeOptions & PickRequired<NodeOptions, 'labelContent' | 'tandem'>;
 class VoicingToolbarItem extends Node {
 
   // implements disposal for garbage collection
   private readonly disposeVoicingToolbarItem: () => void;
 
-  constructor( alertManager: VoicingToolbarAlertManager, lookAndFeel: LookAndFeel, providedOptions?: NodeOptions ) {
-    const options = optionize<NodeOptions, {}, NodeOptions>( {
+  constructor( alertManager: VoicingToolbarAlertManager, lookAndFeel: LookAndFeel, providedOptions?: VoicingToolbarItemOptions ) {
+    const options = optionize<VoicingToolbarItemOptions, SelfOptions, NodeOptions>( {
 
       // pdom
       tagName: 'section',
@@ -54,9 +57,6 @@ class VoicingToolbarItem extends Node {
       // phet-io
       tandem: Tandem.REQUIRED
     }, providedOptions );
-
-    const tandem = options.tandem!;
-    assert && assert( tandem, 'Tandem was required!' );
 
     super( options );
 
@@ -80,7 +80,7 @@ class VoicingToolbarItem extends Node {
       toggleSwitchOptions: {
         voicingUtteranceQueue: joistVoicingUtteranceQueue
       },
-      tandem: tandem.createTandem( 'muteSpeechSwitch' )
+      tandem: options.tandem.createTandem( 'muteSpeechSwitch' )
     } );
 
     // layout
