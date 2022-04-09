@@ -40,7 +40,7 @@ const detailsString = joistStrings.a11y.toolbar.voicing.detailsLabel;
 const hintString = joistStrings.a11y.toolbar.voicing.hintLabel;
 
 type SelfOptions = {};
-export type VoicingToolbarItemOptions = SelfOptions & NodeOptions & PickRequired<NodeOptions, 'labelContent' | 'tandem'>;
+export type VoicingToolbarItemOptions = SelfOptions & NodeOptions & PickRequired<NodeOptions, 'tandem'>;
 class VoicingToolbarItem extends Node {
 
   // implements disposal for garbage collection
