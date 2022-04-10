@@ -86,8 +86,7 @@ type StringsType = {
       'general': {
         'title': string,
         'accessibilityIntro': string,
-        'moreAccessibility': string,
-        'simulationSpecificSettings': string
+        'moreAccessibility': string
       },
       'visual': {
         'title': string,
@@ -106,13 +105,6 @@ type StringsType = {
         },
         'audioFeatures': {
           'title': string
-        }
-      },
-      'input': {
-        'title': string,
-        'gestureControls': {
-          'title': string,
-          'description': string
         }
       }
     }
