@@ -979,6 +979,7 @@ class Sim extends PhetioObject {
     }
 
     this.navigationBar.voicingVisible = visible;
+    this.topLayer && this.topLayer.setVoicingVisible( visible );
     this.homeScreen && this.homeScreen.view.setVoicingVisible( visible );
   }
 }
