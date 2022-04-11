@@ -8,7 +8,7 @@
 
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { Node, Text, VoicingRichText, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
+import { Node, Text, VoicingRichText } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
@@ -55,7 +55,13 @@ class InputPreferencesPanel extends Node {
           description: gestureControlsDescriptionString
         } )
       } ) ),
+
+      // a11y
       a11yLabel: gestureControlsString,
+      leftValueContextResponse: gestureControlDisabledAlertString,
+      rightValueContextResponse: gestureControlEnabledAlertString,
+
+      // phet-io
       tandem: options.tandem.createTandem( 'gestureControlsEnabledSwitch' )
     } );
 
@@ -63,11 +69,6 @@ class InputPreferencesPanel extends Node {
       titleNode: gestureControlsEnabledSwitch
     } );
     this.addChild( panelSection );
-
-    inputModel.gestureControlsEnabledProperty.lazyLink( enabled => {
-      const alert = enabled ? gestureControlEnabledAlertString : gestureControlDisabledAlertString;
-      voicingUtteranceQueue.addToBack( alert );
-    } );
 
     // @private
     this.disposeInputPreferencesPanel = () => {
