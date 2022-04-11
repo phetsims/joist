@@ -28,7 +28,6 @@ import Tandem from '../../tandem/js/Tandem.js';
 import responseCollector from '../../utterance-queue/js/responseCollector.js';
 import SpeechSynthesisAnnouncer from '../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import joist from './joist.js';
-import joistVoicingUtteranceQueue from './joistVoicingUtteranceQueue.js';
 
 class AudioManager extends PhetioObject {
 
@@ -100,14 +99,9 @@ class AudioManager extends PhetioObject {
       // The default utteranceQueue will be used for voicing of simulation components, and it is enabled when the
       // voicingManager is fully enabled (voicingManager is enabled and the voicing is enabled for the "main window"
       // sim screens)
-      voicingManager.voicingFullyEnabledProperty.link( enabled => {
+      voicingManager.enabledProperty.link( enabled => {
         voicingUtteranceQueue.enabled = enabled;
         !enabled && voicingUtteranceQueue.clear();
-      } );
-
-      // the utteranceQueue for surrounding user controls is enabled as long as voicing is enabled
-      voicingManager.enabledProperty.link( enabled => {
-        joistVoicingUtteranceQueue.enabled = enabled;
       } );
 
       // If initially enabled, then apply all responses on startup, can (and should) be overwritten by PreferencesStorage.

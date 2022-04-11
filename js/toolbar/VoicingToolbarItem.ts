@@ -10,12 +10,11 @@
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import PlayStopButton from '../../../scenery-phet/js/buttons/PlayStopButton.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { AlignGroup, HBox, Node, NodeOptions, ReadingBlockHighlight, Text, voicingManager, VoicingText } from '../../../scenery/js/imports.js';
+import { AlignGroup, HBox, Node, NodeOptions, ReadingBlockHighlight, Text, voicingManager, VoicingText, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import Utterance from '../../../utterance-queue/js/Utterance.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
-import joistVoicingUtteranceQueue from '../joistVoicingUtteranceQueue.js';
 import PreferencesToggleSwitch from '../preferences/PreferencesToggleSwitch.js';
 import VoicingToolbarAlertManager from './VoicingToolbarAlertManager.js';
 import LookAndFeel from '../LookAndFeel.js';
@@ -41,10 +40,8 @@ const hintString = joistStrings.a11y.toolbar.voicing.hintLabel;
 
 type SelfOptions = {};
 export type VoicingToolbarItemOptions = SelfOptions & NodeOptions & PickRequired<NodeOptions, 'tandem'>;
-class VoicingToolbarItem extends Node {
 
-  // implements disposal for garbage collection
-  private readonly disposeVoicingToolbarItem: () => void;
+class VoicingToolbarItem extends Node {
 
   constructor( alertManager: VoicingToolbarAlertManager, lookAndFeel: LookAndFeel, providedOptions?: VoicingToolbarItemOptions ) {
     const options = optionize<VoicingToolbarItemOptions, SelfOptions, NodeOptions>( {
@@ -77,9 +74,8 @@ class VoicingToolbarItem extends Node {
     const muteSpeechSwitch = new PreferencesToggleSwitch( voicingManager.mainWindowVoicingEnabledProperty, false, true, {
       labelNode: titleText,
       a11yLabel: titleString,
-      toggleSwitchOptions: {
-        voicingUtteranceQueue: joistVoicingUtteranceQueue
-      },
+      rightValueContextResponse: simVoicingOnString,
+      leftValueContextResponse: simVoicingOffString,
       tandem: options.tandem.createTandem( 'muteSpeechSwitch' )
     } );
 
@@ -107,25 +103,12 @@ class VoicingToolbarItem extends Node {
         row.playContent( playingProperties );
       } );
     } );
-
-    const voicingEnabledListener = ( enabled: boolean ) => {
-      const alert = enabled ? simVoicingOnString : simVoicingOffString;
-      this.alertDescriptionUtterance( alert );
-      joistVoicingUtteranceQueue.addToBack( alert );
-    };
-    voicingManager.mainWindowVoicingEnabledProperty.lazyLink( voicingEnabledListener );
-
-    // @private
-    this.disposeVoicingToolbarItem = () => {
-      voicingManager.mainWindowVoicingEnabledProperty.unlink( voicingEnabledListener );
-    };
   }
 
   /**
    * @public
    */
   public override dispose(): void {
-    this.disposeVoicingToolbarItem();
     super.dispose();
   }
 }
@@ -171,11 +154,12 @@ class LabelButtonRow {
 
     this.playStopButton = new PlayStopButton( this.playingProperty, {
       startPlayingLabel: a11yLabel,
-      voicingNameResponse: a11yLabel,
 
-      // voicing responses should be spoken for these buttons regardless of "Sim Voicing"
-      // selection, they shoudl always be heard as long as voicing is enabled
-      voicingUtteranceQueue: joistVoicingUtteranceQueue,
+      // voicing
+      voicingNameResponse: a11yLabel,
+      voicingIgnoreVoicingManagerProperties: true,
+      voicingUtterance: this.utterance,
+
       radius: 12,
 
       // phet-io
@@ -214,10 +198,12 @@ class LabelButtonRow {
       } );
 
       this.utterance.alert = this.createAlert();
-      joistVoicingUtteranceQueue.addToBack( this.utterance );
+      this.playStopButton.voicingSpeakResponse( {
+        objectResponse: this.createAlert()
+      } );
     }
     else {
-      joistVoicingUtteranceQueue.cancelUtterance( this.utterance );
+      voicingUtteranceQueue.cancelUtterance( this.utterance );
     }
   }
 }

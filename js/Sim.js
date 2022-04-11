@@ -27,7 +27,7 @@ import merge from '../../phet-core/js/merge.js';
 import platform from '../../phet-core/js/platform.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import BarrierRectangle from '../../scenery-phet/js/BarrierRectangle.js';
-import { animatedPanZoomSingleton, globalKeyStateTracker, Node, Utils, voicingUtteranceQueue } from '../../scenery/js/imports.js';
+import { animatedPanZoomSingleton, globalKeyStateTracker, Node, Utils, voicingManager, voicingUtteranceQueue } from '../../scenery/js/imports.js';
 import '../../sherpa/lib/game-up-camera-1.0.0.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import PhetioAction from '../../tandem/js/PhetioAction.js';
@@ -41,7 +41,6 @@ import HomeScreen from './HomeScreen.js';
 import HomeScreenView from './HomeScreenView.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
-import joistVoicingUtteranceQueue from './joistVoicingUtteranceQueue.js';
 import LookAndFeel from './LookAndFeel.js';
 import MemoryMonitor from './MemoryMonitor.js';
 import NavigationBar from './NavigationBar.js';
@@ -605,7 +604,6 @@ class Sim extends PhetioObject {
     // This is transient. https://github.com/phetsims/utterance-queue/issues/22 and https://github.com/phetsims/scenery/issues/1397
     this.display.descriptionUtteranceQueue.clear();
     voicingUtteranceQueue.clear();
-    joistVoicingUtteranceQueue.clear();
 
     // Update the display asynchronously since it can trigger events on pointer validation, see https://github.com/phetsims/ph-scale/issues/212
     animationFrameTimer.runOnNextTick( () => phet.joist.display.updateDisplay() );
@@ -626,6 +624,13 @@ class Sim extends PhetioObject {
     if ( this.toolbar ) {
       this.display.simulationRoot.addChild( this.toolbar );
       this.display.simulationRoot.pdomOrder = [ this.toolbar ];
+
+      // If Voicing is not "fully" enabled, only the toolbar is able to produce any Voicing output.
+      // All other simulation components should not voice anything. This must be called only after
+      // all ScreenViews have been constructed.
+      voicingManager.voicingFullyEnabledProperty.link( fullyEnabled => {
+        this.setSimVoicingVisible( fullyEnabled );
+      } );
     }
 
     this.screenProperty.link( currentScreen => {
@@ -957,6 +962,24 @@ class Sim extends PhetioObject {
     this.navigationBar.pdomVisible = visible;
     this.homeScreen && this.homeScreen.view.setPDOMVisible( visible );
     this.toolbar && this.toolbar.setPDOMVisible( visible );
+  }
+
+  /**
+   * Set the voicingVisible state of simulation components. When false, ONLY the Toolbar
+   * and its buttons will be able to announce Voicing utterances. This is used by the
+   * "Sim Voicing" switch in the toolbar which will disable all Voicing in the sim so that
+   * only Toolbar content is announced.
+   * @public
+   *
+   * @param {boolean} visible
+   */
+  setSimVoicingVisible( visible ) {
+    for ( let i = 0; i < this.screens.length; i++ ) {
+      this.screens[ i ].view.voicingVisible = visible;
+    }
+
+    this.navigationBar.voicingVisible = visible;
+    this.homeScreen && this.homeScreen.view.setVoicingVisible( visible );
   }
 }
 

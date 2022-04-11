@@ -12,6 +12,7 @@ import merge from '../../../phet-core/js/merge.js';
 import { Node } from '../../../scenery/js/imports.js';
 import ToggleSwitch from '../../../sun/js/ToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import Utterance from '../../../utterance-queue/js/Utterance.js';
 import joist from '../joist.js';
 
 class PreferencesToggleSwitch extends Node {
@@ -43,6 +44,13 @@ class PreferencesToggleSwitch extends Node {
       // NOTE: Seeing more overlap like this between PDOM and voicing (which is good) but not sure how it will
       // all work yet. This option is the first of its kind.
       a11yLabel: null,
+
+      // a11y
+      // {IAlertable|null} - If provided, these responses will be spoken to describe the change in simulation context
+      // for both Voicing and Interactive Description features when the value changes to either leftValue or
+      // rightValue.
+      leftValueContextResponse: null,
+      rightValueContextResponse: null,
 
       // {Object} - options passed to the actual ToggleSwitch
       toggleSwitchOptions: {
@@ -78,6 +86,20 @@ class PreferencesToggleSwitch extends Node {
       // tandem
       tandem: options.tandem.createTandem( 'toggleSwitch' )
     } ) );
+
+    // a11y - Describe the change in value if context responses were provided in options. Listener needs to be
+    // removed on dispose.
+    const valueListener = value => {
+      const alert = value === rightValue ? options.rightValueContextResponse : options.leftValueContextResponse;
+
+      if ( alert ) {
+        this.alertDescriptionUtterance( alert );
+        toggleSwitch.voicingSpeakResponse( {
+          contextResponse: Utterance.alertableToText( alert )
+        } );
+      }
+    };
+    property.lazyLink( valueListener );
 
     this.addChild( toggleSwitch );
     options.descriptionNode && this.addChild( options.descriptionNode );
@@ -115,6 +137,7 @@ class PreferencesToggleSwitch extends Node {
 
     // @private
     this.disposePreferencesToggleSwitch = () => {
+      property.unlink( valueListener );
       toggleSwitch.dispose();
     };
   }
