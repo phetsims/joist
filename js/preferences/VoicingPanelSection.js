@@ -14,14 +14,13 @@ import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import NumberControl from '../../../scenery-phet/js/NumberControl.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { FocusHighlightFromNode, Node, PressListener, Text, VBox, Voicing, voicingManager, VoicingText, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
+import { FocusHighlightFromNode, Node, PressListener, Text, VBox, Voicing, voicingManager, VoicingText } from '../../../scenery/js/imports.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import ComboBox from '../../../sun/js/ComboBox.js';
 import ComboBoxItem from '../../../sun/js/ComboBoxItem.js';
 import ExpandCollapseButton from '../../../sun/js/ExpandCollapseButton.js';
 import HSlider from '../../../sun/js/HSlider.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import responseCollector from '../../../utterance-queue/js/responseCollector.js';
 import Utterance from '../../../utterance-queue/js/Utterance.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
@@ -116,6 +115,8 @@ class VoicingPanelSection extends PreferencesPanelSection {
     const toolbarEnabledSwitch = new PreferencesToggleSwitch( toolbarEnabledProperty, false, true, {
       labelNode: quickAccessLabel,
       a11yLabel: toolbarLabelString,
+      leftValueContextResponse: toolbarRemovedString,
+      rightValueContextResponse: toolbarAddedString,
       tandem: options.tandem.createTandem( 'toolbarEnabledSwitch' )
     } );
 
@@ -137,12 +138,15 @@ class VoicingPanelSection extends PreferencesPanelSection {
       spacing: 5,
       children: [
         createCheckbox( objectDetailsLabelString, audioModel.voicingObjectResponsesEnabledProperty,
+          voicingObjectChangesString, objectChangesMutedString,
           options.tandem.createTandem( 'voicingObjectResponsesEnabledCheckbox' )
         ),
         createCheckbox( contextChangesLabelString, audioModel.voicingContextResponsesEnabledProperty,
+          voicingContextChangesString, contextChangesMutedString,
           options.tandem.createTandem( 'voicingContextResponsesEnabledCheckbox' )
         ),
         createCheckbox( helpfulHintsLabelString, audioModel.voicingHintResponsesEnabledProperty,
+          voicingHintsString, hintsMutedString,
           options.tandem.createTandem( 'voicingHintResponsesEnabledCheckbox' )
         )
       ]
@@ -178,6 +182,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
       // voicing
       voicingNameResponse: customizeVoiceString,
+      voicingIgnoreVoicingManagerProperties: true, // Controls need to always speak responses so UI functions are clear
 
       // phet-io
       tandem: options.tandem.createTandem( 'expandCollapseButton' )
@@ -275,33 +280,11 @@ class VoicingPanelSection extends PreferencesPanelSection {
     // eagerly create the first ComboBox, even if no voices are available
     voicesChangedListener();
 
-    toolbarEnabledProperty.lazyLink( enabled => {
-      const alertString = enabled ? toolbarAddedString : toolbarRemovedString;
-      voicingUtteranceQueue.addToBack( alertString );
-      this.alertDescriptionUtterance( alertString );
-    } );
-
-    responseCollector.objectResponsesEnabledProperty.lazyLink( voicingObjectChanges => {
-      const alertString = voicingObjectChanges ? voicingObjectChangesString : objectChangesMutedString;
-      voicingUtteranceQueue.addToBack( alertString );
-      this.alertDescriptionUtterance( alertString );
-    } );
-
-    responseCollector.contextResponsesEnabledProperty.lazyLink( voicingContextChanges => {
-      const alertString = voicingContextChanges ? voicingContextChangesString : contextChangesMutedString;
-      voicingUtteranceQueue.addToBack( alertString );
-      this.alertDescriptionUtterance( alertString );
-    } );
-
-    responseCollector.hintResponsesEnabledProperty.lazyLink( voicingHints => {
-      const alertString = voicingHints ? voicingHintsString : hintsMutedString;
-      voicingUtteranceQueue.addToBack( alertString );
-      this.alertDescriptionUtterance( alertString );
-    } );
-
     voiceOptionsOpenProperty.lazyLink( open => {
       const alert = open ? customizeVoiceExpandedString : customizeVoiceCollapsedString;
-      voicingUtteranceQueue.addToBack( alert );
+      expandCollapseButton.voicingSpeakContextResponse( {
+        contextResponse: alert
+      } );
       this.alertDescriptionUtterance( alert );
     } );
 
@@ -328,9 +311,12 @@ class VoicingPanelSection extends PreferencesPanelSection {
  * Create a checkbox for the features of voicing content with a label.
  * @param {string} labelString
  * @param {BooleanProperty} property
+ * @param {string} checkedContextResponse
+ * @param {string} uncheckedContextResponse
+ * @param {Tandem} tandem
  * @returns {Checkbox}
  */
-const createCheckbox = ( labelString, property, tandem ) => {
+const createCheckbox = ( labelString, property, checkedContextResponse, uncheckedContextResponse, tandem ) => {
   const labelNode = new Text( labelString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
   return new Checkbox( labelNode, property, {
 
@@ -340,6 +326,11 @@ const createCheckbox = ( labelString, property, tandem ) => {
 
     // voicing
     voicingNameResponse: labelString,
+    voicingIgnoreVoicingManagerProperties: true,
+
+    // both pdom and voicing
+    checkedContextResponse: checkedContextResponse,
+    uncheckedContextResponse: uncheckedContextResponse,
 
     // phet-io
     tandem: tandem
