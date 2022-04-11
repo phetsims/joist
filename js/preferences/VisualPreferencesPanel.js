@@ -9,7 +9,7 @@
 
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { Node, Text, VoicingText, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
+import { Node, Text, VoicingText } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
@@ -55,6 +55,8 @@ class VisualPreferencesPanel extends Node {
         } )
       } ) ),
       a11yLabel: interactiveHighlightsString,
+      leftValueContextResponse: interactiveHighlightsDisabledAlertString,
+      rightValueContextResponse: interactiveHighlightsEnabledAlertString,
       tandem: options.tandem.createTandem( 'interactiveHighlightsEnabledSwitch' )
     } );
 
@@ -63,21 +65,9 @@ class VisualPreferencesPanel extends Node {
     } );
     this.addChild( panelSection );
 
-    const alertEnabledChange = enabled => {
-
-      // voicing
-      const alertString = enabled ? interactiveHighlightsEnabledAlertString : interactiveHighlightsDisabledAlertString;
-      voicingUtteranceQueue.addToBack( alertString );
-
-      // pdom
-      this.alertDescriptionUtterance( alertString );
-    };
-    visualModel.interactiveHighlightsEnabledProperty.lazyLink( alertEnabledChange );
-
     // @private
     this.disposeVisualPreferencesPanel = () => {
       interactiveHighlightsEnabledSwitch.dispose();
-      visualModel.interactiveHighlightsEnabledProperty.unlink( alertEnabledChange );
     };
   }
 
