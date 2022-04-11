@@ -8,7 +8,7 @@
 
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { Text, VBox, VoicingRichText, VoicingText, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
+import { Text, VBox, VoicingRichText, VoicingText } from '../../../scenery/js/imports.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import soundManager from '../../../tambo/js/soundManager.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -63,6 +63,8 @@ class SoundPanelSection extends PreferencesPanelSection {
         visible: options.includeTitleToggleSwitch
       },
       a11yLabel: soundsLabelString,
+      leftValueContextResponse: soundsOffString,
+      rightValueContextResponse: soundsOnString,
       tandem: options.tandem.createTandem( 'soundEnabledSwitch' )
     } );
 
@@ -78,6 +80,11 @@ class SoundPanelSection extends PreferencesPanelSection {
 
         // voicing
         voicingNameResponse: extraSoundsLabelString,
+        voicingIgnoreVoicingManagerProperties: true, // Always speak Preferences responses so control function is clear
+
+        // both voicing and pdom
+        checkedContextResponse: extraSoundsOnString,
+        uncheckedContextResponse: extraSoundsOffString,
 
         // phet-io
         tandem: options.tandem.createTandem( 'enhancedSoundCheckbox' )
@@ -107,26 +114,12 @@ class SoundPanelSection extends PreferencesPanelSection {
       contentNode: enhancedSoundContent
     } );
 
-    // voicing
-    soundManager.enabledProperty.lazyLink( enabled => {
-      const alert = enabled ? soundsOnString : soundsOffString;
-      voicingUtteranceQueue.addToBack( alert );
-      this.alertDescriptionUtterance( alert );
-    } );
-
-    soundManager.enhancedSoundEnabledProperty.lazyLink( enabled => {
-      const alert = enabled ? extraSoundsOnString : extraSoundsOffString;
-      voicingUtteranceQueue.addToBack( alert );
-      this.alertDescriptionUtterance( alert );
-    } );
-
     // @private
     this.disposeSoundPanelSection = () => {
       soundEnabledSwitch.dispose();
       enhancedSoundCheckbox && enhancedSoundCheckbox.dispose();
     };
   }
-
 
   /**
    * @public
