@@ -19,7 +19,7 @@ import stepTimer from '../../../axon/js/stepTimer.js';
 import Matrix3 from '../../../dot/js/Matrix3.js';
 import { Shape } from '../../../kite/js/imports.js';
 import merge from '../../../phet-core/js/merge.js';
-import { Node, Path, Rectangle, voicingManager, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
+import { Node, Path, Rectangle, voicingManager } from '../../../scenery/js/imports.js';
 import ButtonNode from '../../../sun/js/buttons/ButtonNode.js';
 import RoundPushButton from '../../../sun/js/buttons/RoundPushButton.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -150,7 +150,6 @@ class Toolbar extends Node {
           contextResponse: alert
         } );
 
-        voicingUtteranceQueue.addToBack( alert );
         this.alertDescriptionUtterance( alert );
       }
     };
