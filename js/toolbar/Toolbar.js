@@ -146,6 +146,9 @@ class Toolbar extends Node {
 
       if ( oldValue !== null ) {
         const alert = open ? toolbarShownString : toolbarHiddenString;
+        this.openButton.voicingSpeakContextResponse( {
+          contextResponse: alert
+        } );
 
         voicingUtteranceQueue.addToBack( alert );
         this.alertDescriptionUtterance( alert );
