@@ -10,7 +10,7 @@
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import PlayStopButton from '../../../scenery-phet/js/buttons/PlayStopButton.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { AlignGroup, HBox, Node, NodeOptions, ReadingBlockHighlight, Text, voicingManager, VoicingText, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
+import { AlignGroup, Display, HBox, Node, NodeOptions, ReadingBlockHighlight, SceneryEvent, Text, voicingManager, VoicingText, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import Utterance from '../../../utterance-queue/js/Utterance.js';
 import joist from '../joist.js';
@@ -180,6 +180,41 @@ class LabelButtonRow {
     voicingManager.endSpeakingEmitter.addListener( ( text, endedUtterance ) => {
       if ( endedUtterance === this.utterance ) {
         this.playingProperty.set( false );
+
+        // Remove if listener wasn't interrupted by Display input.
+        if ( Display.inputListeners.includes( displayListener ) ) {
+          Display.removeInputListener( displayListener );
+        }
+      }
+    } );
+
+    // Reduces the priority of this.utterance as soon as there is an interaction with the screen so that it may
+    // be interrupted by simulation responses. See https://github.com/phetsims/joist/issues/752.
+    const reducePriorityListener = ( event: SceneryEvent ) => {
+
+      // After a down event it will be possible for this.utterance to be interrupted. That will turn the "Stop" button
+      // into a "Play" button. If the mouse is still down in this case the next up event on the "Play" button will
+      // immediately play its content which is unexpected. We get around this by not reducing priority if the event
+      // is going to this button.
+      if ( !event.trail.nodes.includes( this.playStopButton ) ) {
+        Display.removeInputListener( displayListener );
+
+        // Wait until the listener is removed before reducing this, this may immediately end the Utterance and remove
+        // the listener again in the endSpeakingListener above.
+        this.utterance.priorityProperty.value = 0;
+      }
+    };
+
+    const displayListener = {
+
+      // The events that indicate some kind of input so we should allow this.utterance to be interrupted.
+      down: reducePriorityListener,
+      focus: reducePriorityListener
+    };
+
+    voicingManager.startSpeakingEmitter.addListener( ( response, utterance ) => {
+      if ( utterance === this.utterance ) {
+        Display.addInputListener( displayListener );
       }
     } );
   }
@@ -197,7 +232,9 @@ class LabelButtonRow {
         property.value = false;
       } );
 
-      this.utterance.alert = this.createAlert();
+      // This utterance is top priority so that it does not get interrupted during responses that happen as
+      // the simulation changes. It stays top priority until there is some interaction with the display.
+      this.utterance.priorityProperty.value = Utterance.TOP_PRIORITY;
       this.playStopButton.voicingSpeakResponse( {
         objectResponse: this.createAlert()
       } );
