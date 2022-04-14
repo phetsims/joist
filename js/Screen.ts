@@ -31,6 +31,7 @@ import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import ScreenIcon from './ScreenIcon.js';
 import ScreenView from './ScreenView.js';
+import PickRequired from '../../phet-core/js/types/PickRequired.js';
 
 const screenNamePatternString = joistStrings.a11y.screenNamePattern;
 const screenSimPatternString = joistStrings.a11y.screenSimPattern;
@@ -60,7 +61,7 @@ type ScreenSelfOptions = {
   keyboardHelpNode?: Node | null;
   descriptionContent?: string | null;
 };
-export type ScreenOptions = ScreenSelfOptions & PhetioObjectOptions;
+export type ScreenOptions = ScreenSelfOptions & PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 // Parameterized on M=Model and V=View
 class Screen<M, V extends ScreenView> extends PhetioObject {
@@ -87,7 +88,7 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
 
   constructor( createModel: () => M, createView: ( model: M ) => V, providedOptions?: ScreenOptions ) {
 
-    const options = optionize<ScreenOptions, ScreenSelfOptions, PhetioObjectOptions, 'tandem'>( {
+    const options = optionize<ScreenOptions, ScreenSelfOptions, PhetioObjectOptions>( {
 
       // {string|null} name of the sim, as displayed to the user.
       // For single-screen sims, there is no home screen or navigation bar, and null is OK.
@@ -127,7 +128,6 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
       descriptionContent: null,
 
       // phet-io
-      tandem: Tandem.REQUIRED,
       phetioType: Screen.ScreenIO,
       phetioState: false,
       phetioFeatured: true

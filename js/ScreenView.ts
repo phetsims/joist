@@ -28,6 +28,7 @@ import ScreenSummaryNode from '../../scenery-phet/js/accessibility/nodes/ScreenS
 import { Node, NodeOptions } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
+import PickRequired from '../../phet-core/js/types/PickRequired.js';
 
 /*
  * Default width and height for iPad2, iPad3, iPad4 running Safari with default tabs and decorations
@@ -44,7 +45,7 @@ type ScreenViewSelfOptions = {
   screenSummaryContent?: Node | null;
   includePDOMNodes?: boolean;
 };
-export type ScreenViewOptions = ScreenViewSelfOptions & NodeOptions;
+export type ScreenViewOptions = ScreenViewSelfOptions & NodeOptions & PickRequired<NodeOptions, 'tandem'>;
 
 class ScreenView extends Node {
   readonly layoutBounds: Bounds2;
@@ -60,7 +61,7 @@ class ScreenView extends Node {
 
   constructor( providedOptions?: ScreenViewOptions ) {
 
-    const options = optionize<ScreenViewOptions, ScreenViewSelfOptions, NodeOptions, 'tandem'>( {
+    const options = optionize<ScreenViewOptions, ScreenViewSelfOptions, NodeOptions>( {
 
       // {Bounds2} the bounds that are safe to draw in on all supported platforms
       layoutBounds: DEFAULT_LAYOUT_BOUNDS.copy(),
