@@ -1,4 +1,5 @@
 // Copyright 2013-2022, University of Colorado Boulder
+// @ts-nocheck
 
 /**
  * Main class that represents one simulation.
