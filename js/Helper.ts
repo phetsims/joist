@@ -1,5 +1,5 @@
 // Copyright 2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Some in-simulation utilities designed to help designers and developers
  *
