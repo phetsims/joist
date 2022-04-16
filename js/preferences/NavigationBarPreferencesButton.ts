@@ -6,35 +6,34 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import merge from '../../../phet-core/js/merge.js';
-import { Path } from '../../../scenery/js/imports.js';
+import Property from '../../../axon/js/Property.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import { Color, Path } from '../../../scenery/js/imports.js';
 import userCogSolidShape from '../../../sherpa/js/fontawesome-5/userCogSolidShape.js';
 import Dialog from '../../../sun/js/Dialog.js';
 import PhetioCapsule from '../../../tandem/js/PhetioCapsule.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
-import JoistButton from '../JoistButton.js';
+import JoistButton, { JoistButtonOptions } from '../JoistButton.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
+import PreferencesManager from './PreferencesManager.js';
+
+type NavigationBarPreferencesButtonOptions = Omit<JoistButtonOptions, 'listener'>;
 
 class NavigationBarPreferencesButton extends JoistButton {
 
-  /**
-   * @param {PreferencesManager} preferencesModel
-   * @param {Property.<Color|string>} backgroundColorProperty
-   * @param {Object} [options]
-   */
-  constructor( preferencesModel, backgroundColorProperty, options ) {
+  constructor( preferencesModel: PreferencesManager, backgroundColorProperty: Property<Color>, providedOptions: NavigationBarPreferencesButtonOptions ) {
 
-    options = merge( {
+    const options = optionize<NavigationBarPreferencesButtonOptions, {}, JoistButtonOptions, 'tandem'>( {
       tandem: Tandem.REQUIRED
-    }, options );
+    }, providedOptions );
 
     const icon = new Path( userCogSolidShape, {
       maxWidth: 25
     } );
 
-    assert && assert( !options.listener, 'PhetButton sets listener' );
+    // @ts-ignore TODO https://github.com/phetsims/joist/issues/795
     const preferencesDialogCapsule = new PhetioCapsule( tandem => {
       return new PreferencesDialog( preferencesModel, {
         tandem: tandem
@@ -47,7 +46,11 @@ class NavigationBarPreferencesButton extends JoistButton {
     super( icon, backgroundColorProperty, options.tandem, {
       listener: () => {
         const preferencesDialog = preferencesDialogCapsule.getElement();
+
+        // @ts-ignore
         preferencesDialog.show();
+
+        // @ts-ignore
         preferencesDialog.focusSelectedTab();
       },
       highlightExtensionWidth: 5,
@@ -63,7 +66,7 @@ class NavigationBarPreferencesButton extends JoistButton {
 
     // change the icon so that it is visible when the background changes from dark to light
     backgroundColorProperty.link( backgroundColor => {
-      icon.fill = backgroundColor === 'black' ? 'white' : 'black';
+      icon.fill = backgroundColor.equals( Color.BLACK ) ? 'white' : 'black';
     } );
 
     // pdom - Signal to screen readers that the button will open a dialog. For some reason, this also seems to

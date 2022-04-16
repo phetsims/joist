@@ -8,32 +8,42 @@
 
 import Property from '../../axon/js/Property.js';
 import { Shape } from '../../kite/js/imports.js';
-import merge from '../../phet-core/js/merge.js';
-import { FocusHighlightPath } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Color, FocusHighlightPath } from '../../scenery/js/imports.js';
 import { Node } from '../../scenery/js/imports.js';
 import { Path } from '../../scenery/js/imports.js';
 import { Rectangle } from '../../scenery/js/imports.js';
 import homeSolidShape from '../../sherpa/js/fontawesome-5/homeSolidShape.js';
 import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
-import JoistButton from './JoistButton.js';
+import JoistButton, { JoistButtonOptions } from './JoistButton.js';
 import joistStrings from './joistStrings.js';
 
 // constants
 const homeScreenDescriptionString = joistStrings.a11y.homeScreenDescription;
 
-class HomeButton extends JoistButton {
+type SelfOptions = {};
+type HomeButtonOptions = SelfOptions & Omit<JoistButtonOptions, 'innerContent'>;
+
+export default class HomeButton extends JoistButton {
 
   /**
-   * @param {number} navBarHeight
-   * @param {Property.<string>} navigationBarFillProperty - the color of the navbar, as a string.
-   * @param {Tandem} tandem
-   * @param {Property.<string|null>} pdomDisplayNameProperty - for the HomeScreen, for description
-   * @param {Object} [options]
+   * @param navBarHeight
+   * @param navigationBarFillProperty - the color of the navbar, as a string.
+   * @param tandem
+   * @param pdomDisplayNameProperty - for the HomeScreen, for description
+   * @param [providedOptions]
    */
-  constructor( navBarHeight, navigationBarFillProperty, pdomDisplayNameProperty, tandem, options ) {
+  constructor(
+    navBarHeight: number,
+    navigationBarFillProperty: Property<Color>,
+    pdomDisplayNameProperty: Property<string | null>,
+    tandem: Tandem,
+    providedOptions: HomeButtonOptions
+  ) {
 
-    options = merge( {
+    const options = optionize<HomeButtonOptions, SelfOptions, JoistButtonOptions>( {
       highlightExtensionWidth: 4,
       listener: null,
 
@@ -41,9 +51,7 @@ class HomeButton extends JoistButton {
       containerTagName: 'li',
       descriptionContent: homeScreenDescriptionString,
       appendDescription: true
-    }, options );
-
-    assert && assert( !options.innerContent, 'HomeButton sets its own innerContent' );
+    }, providedOptions );
 
     const homeIcon = new Path( homeSolidShape );
 
@@ -64,8 +72,8 @@ class HomeButton extends JoistButton {
     this.focusHighlight = Shape.bounds( this.bounds.setMaxY( this.bounds.maxY - highlightLineWidth / 2 ) );
 
     Property.multilink( [ this.interactionStateProperty, navigationBarFillProperty ],
-      ( interactionState, navigationBarFill ) => {
-        if ( navigationBarFill === 'black' ) {
+      ( interactionState: ButtonInteractionState, navigationBarFill: Color ) => {
+        if ( navigationBarFill.equals( Color.BLACK ) ) {
           homeIcon.fill = interactionState === ButtonInteractionState.PRESSED ? 'gray' : 'white';
         }
         else {
@@ -80,4 +88,3 @@ class HomeButton extends JoistButton {
 }
 
 joist.register( 'HomeButton', HomeButton );
-export default HomeButton;

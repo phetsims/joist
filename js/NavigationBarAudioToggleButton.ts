@@ -12,18 +12,21 @@
  * @author Chris Klusendorf
  */
 
+import BooleanProperty from '../../axon/js/BooleanProperty.js';
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
-import merge from '../../phet-core/js/merge.js';
-import { voicingManager } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Color, voicingManager } from '../../scenery/js/imports.js';
 import { Node } from '../../scenery/js/imports.js';
 import { Path } from '../../scenery/js/imports.js';
 import { Rectangle } from '../../scenery/js/imports.js';
 import ToggleNode from '../../sun/js/ToggleNode.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../utterance-queue/js/ActivationUtterance.js';
 import audioManager from './audioManager.js';
 import joist from './joist.js';
-import JoistButton from './JoistButton.js';
+import JoistButton, { JoistButtonOptions } from './JoistButton.js';
 import joistStrings from './joistStrings.js';
 
 // constants for node background
@@ -49,17 +52,13 @@ const MIN_CURVE_RADIUS = MED_CURVE_RADIUS - RADIUS_STEPPER;
 const CURVE_ANGLE = Math.PI / 2.7;
 const NEG_CURVE_ANGLE = CURVE_ANGLE * -1.0;
 
+type NavigationBarAudioToggleButtonOptions = JoistButtonOptions;
+
 class NavigationBarAudioToggleButton extends JoistButton {
 
-  /**
-   * @param {BooleanProperty} soundEnabledProperty
-   * @param {Property.<Color|string>} backgroundColorProperty
-   * @param {Tandem} tandem
-   * @param {Object} [options]
-   */
-  constructor( soundEnabledProperty, backgroundColorProperty, tandem, options ) {
+  constructor( soundEnabledProperty: BooleanProperty, backgroundColorProperty: IReadOnlyProperty<Color>, tandem: Tandem, providedOptions: NavigationBarAudioToggleButtonOptions ) {
 
-    options = merge( {
+    const options = optionize<NavigationBarAudioToggleButtonOptions, {}, JoistButtonOptions>( {
 
       // JoistButton options
       highlightExtensionWidth: 5,
@@ -76,7 +75,7 @@ class NavigationBarAudioToggleButton extends JoistButton {
 
       // voicing
       voicingNameResponse: joistStrings.a11y.soundToggle.label
-    }, options );
+    }, providedOptions );
 
     assert && assert( options.listener === undefined, 'NavigationBarAudioToggleButton sets listener' );
     options.listener = () => soundEnabledProperty.set( !soundEnabledProperty.get() );
@@ -164,7 +163,7 @@ class NavigationBarAudioToggleButton extends JoistButton {
     // pdom attribute lets user know when the toggle is pressed, linked lazily so that an alert isn't triggered
     // on construction and must be unlinked in dispose
     const soundUtterance = new ActivationUtterance();
-    const pressedListener = value => {
+    const pressedListener = ( value: boolean ) => {
       this.setPDOMAttribute( 'aria-pressed', !value );
 
       soundUtterance.alert = value ? joistStrings.a11y.soundToggle.alert.simSoundOn
@@ -186,7 +185,7 @@ class NavigationBarAudioToggleButton extends JoistButton {
 
     // change the icon so that it is visible when the background changes from dark to light
     backgroundColorProperty.link( backgroundColor => {
-      const baseColor = backgroundColor === 'black' ? 'white' : 'black';
+      const baseColor = backgroundColor.equals( Color.BLACK ) ? 'white' : 'black';
       speakerNode.stroke = baseColor;
       soundOffX.stroke = baseColor;
       soundOnCurves.stroke = baseColor;

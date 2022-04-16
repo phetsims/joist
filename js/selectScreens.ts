@@ -1,6 +1,7 @@
 // Copyright 2020-2021, University of Colorado Boulder
-// @ts-nocheck
 import joist from './joist.js';
+import HomeScreen from './HomeScreen.js';
+import Screen from './Screen.js';
 
 /**
  * Given an array of all possible screens that a sim can have, select and order them according to the relevant query
@@ -13,25 +14,26 @@ import joist from './joist.js';
  * @author Michael Kauzmann (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
  *
- * @param {Screen[]} allSimScreens - all of the screens declared by the sim, duck-typed for tests
- * @param {boolean} homeScreenQueryParameter - from phet.chipper.queryParameters.homeScreen
- * @param {boolean} homeScreenQueryParameterProvided
- * @param {number} initialScreenIndex - from phet.chipper.queryParameters.initialScreen
- * @param {boolean} initialScreenQueryParameterProvided
- * @param {number[]} screensQueryParameter - from phet.chipper.queryParameters.screens
- * @param {boolean} screensQueryParameterProvided
- * @param {function( selectedSimScreens ):HomeScreen} createHomeScreen
+ * @param allSimScreens - all of the screens declared by the sim, duck-typed for tests
+ * @param homeScreenQueryParameter - from phet.chipper.queryParameters.homeScreen
+ * @param homeScreenQueryParameterProvided
+ * @param initialScreenIndex - from phet.chipper.queryParameters.initialScreen
+ * @param initialScreenQueryParameterProvided
+ * @param screensQueryParameter - from phet.chipper.queryParameters.screens
+ * @param screensQueryParameterProvided
+ * @param createHomeScreen
  * @returns {{homeScreen:HomeScreen|null, initialScreen:Screen, selectedSimScreens:Screen[], screens:Screen[]}} - duck-typed for tests
  * @throws Error if incompatible data is provided
  */
-const selectScreens = ( allSimScreens,
-                        homeScreenQueryParameter,
-                        homeScreenQueryParameterProvided,
-                        initialScreenIndex,
-                        initialScreenQueryParameterProvided,
-                        screensQueryParameter,
-                        screensQueryParameterProvided,
-                        createHomeScreen ) => {
+// TODO: Explicit return type, see https://github.com/phetsims/joist/issues/795
+const selectScreens = ( allSimScreens: Screen<any, any>[],
+                        homeScreenQueryParameter: boolean,
+                        homeScreenQueryParameterProvided: boolean,
+                        initialScreenIndex: number,
+                        initialScreenQueryParameterProvided: boolean,
+                        screensQueryParameter: number[],
+                        screensQueryParameterProvided: boolean,
+                        createHomeScreen: ( screens: Screen<any, any>[] ) => HomeScreen ) => {
 
   if ( allSimScreens.length === 1 && homeScreenQueryParameterProvided && homeScreenQueryParameter ) {
     const errorMessage = 'cannot specify homeScreen=true for single-screen sims';

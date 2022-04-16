@@ -7,34 +7,39 @@
  * @author Jesse Greenberg
  */
 
-import merge from '../../phet-core/js/merge.js';
-import { Image } from '../../scenery/js/imports.js';
+import Property from '../../axon/js/Property.js';
+import { Color, Image } from '../../scenery/js/imports.js';
 import { Node } from '../../scenery/js/imports.js';
 import Dialog from '../../sun/js/Dialog.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
+import PhetioObject from '../../tandem/js/PhetioObject.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import keyboardIconOnWhite_png from '../images/keyboardIconOnWhite_png.js'; // on a white navbar
 import keyboardIcon_png from '../images/keyboardIcon_png.js'; // on a black navbar
 import joist from './joist.js';
-import JoistButton from './JoistButton.js';
+import JoistButton, { JoistButtonOptions } from './JoistButton.js';
 import joistStrings from './joistStrings.js';
 import KeyboardHelpDialog from './KeyboardHelpDialog.js';
+import optionize from '../../phet-core/js/optionize.js';
 
 // constants
 const keyboardShortcutsString = joistStrings.a11y.keyboardHelp.keyboardShortcuts;
 const HELP_BUTTON_HEIGHT = 67;
 const HELP_BUTTON_SCALE = 0.30; // scale applied to the icon
 
+type KeyboardHelpButtonOptions = Omit<JoistButtonOptions, 'listener'>;
+
 class KeyboardHelpButton extends JoistButton {
 
   /**
-   * @param {Property.<{keyboardHelpNode}>} screenProperty - Property that holds an object that stores keyboardHelpNode on it
-   * @param {Property.<Color|string>} backgroundColorProperty
-   * @param {Tandem} tandem
-   * @param {Object} [options]
+   * @param screenProperty - Property that holds an object that stores keyboardHelpNode on it
+   * @param backgroundColorProperty
+   * @param tandem
+   * @param [providedOptions]
    */
-  constructor( screenProperty, backgroundColorProperty, tandem, options ) {
+  constructor( screenProperty: Property<any>, backgroundColorProperty: Property<Color>, tandem: Tandem, providedOptions: KeyboardHelpButtonOptions ) {
 
-    options = merge( {
+    const options = optionize<KeyboardHelpButtonOptions, {}, JoistButtonOptions>( {
       highlightExtensionWidth: 5,
       highlightExtensionHeight: 10,
 
@@ -51,12 +56,15 @@ class KeyboardHelpButton extends JoistButton {
 
       // voicing
       voicingNameResponse: keyboardShortcutsString
-    }, options );
+    }, providedOptions );
 
-    assert && assert( !options.listener, 'PhetButton sets listener' );
-    let keyboardHelpDialogCapsule = null; // set after calling super
+    let keyboardHelpDialogCapsule: PhetioCapsule<PhetioObject> | null = null; // set after calling super
     options.listener = () => {
+
+      // @ts-ignore
       const keyboardHelpDialog = keyboardHelpDialogCapsule.getElement();
+
+      // @ts-ignore
       keyboardHelpDialog.show();
     };
 
@@ -75,7 +83,8 @@ class KeyboardHelpButton extends JoistButton {
       content.children = [ screen.keyboardHelpNode ];
     } );
 
-    keyboardHelpDialogCapsule = new PhetioCapsule( tandem => {
+    // @ts-ignore
+    keyboardHelpDialogCapsule = new PhetioCapsule<PhetioObject>( tandem => {
       return new KeyboardHelpDialog( content, {
         tandem: tandem,
         focusOnHideNode: this
@@ -87,7 +96,7 @@ class KeyboardHelpButton extends JoistButton {
 
     // change the icon so that it is visible when the background changes from dark to light
     backgroundColorProperty.link( backgroundColor => {
-      icon.image = backgroundColor === 'black' ? keyboardIcon_png : keyboardIconOnWhite_png;
+      icon.image = backgroundColor.equals( Color.BLACK ) ? keyboardIcon_png : keyboardIconOnWhite_png;
     } );
   }
 }

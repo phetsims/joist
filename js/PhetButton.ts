@@ -8,17 +8,22 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
-import { AriaHasPopUpMutator } from '../../scenery/js/imports.js';
+import Bounds2 from '../../dot/js/Bounds2.js';
+import { AriaHasPopUpMutator, Color } from '../../scenery/js/imports.js';
 import { Image } from '../../scenery/js/imports.js';
 import { Node } from '../../scenery/js/imports.js';
 import pushButtonSoundPlayer from '../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import joist from './joist.js';
 import JoistButton from './JoistButton.js';
 import joistStrings from './joistStrings.js';
 import KebabMenuIcon from './KebabMenuIcon.js';
 import PhetMenu from './PhetMenu.js';
+import Sim from './Sim.js';
+import Screen from './Screen.js';
 import updateCheck from './updateCheck.js';
 import UpdateState from './UpdateState.js';
 
@@ -31,13 +36,9 @@ const PHET_LOGO_HEIGHT = 108;
 const PHET_LOGO_SCALE = 0.28; // scale applied to the PhET logo
 
 class PhetButton extends JoistButton {
+  static PhetButtonIO: IOType;
 
-  /**
-   * @param {Sim} sim
-   * @param {Property.<Color|string>} backgroundFillProperty
-   * @param {Tandem} tandem
-   */
-  constructor( sim, backgroundFillProperty, tandem ) {
+  constructor( sim: Sim, backgroundFillProperty: IReadOnlyProperty<Color>, tandem: Tandem ) {
 
     // Dynamic modules are loaded in simLauncher and accessed through their namespace
     const Brand = phet.brand.Brand;
@@ -57,7 +58,7 @@ class PhetButton extends JoistButton {
     // sim.bounds are null on init, but we will get the callback when it is sized for the first time
     // Does not need to be unlinked or disposed because PhetButton persists for the lifetime of the sim
     Property.multilink( [ sim.boundsProperty, sim.screenBoundsProperty, sim.scaleProperty ],
-      ( bounds, screenBounds, scale ) => {
+      ( bounds: Bounds2 | null, screenBounds: Bounds2 | null, scale: number ) => {
         if ( bounds && screenBounds && scale ) {
           phetMenu.setScaleMagnitude( scale );
           phetMenu.right = bounds.right - 2;
@@ -115,9 +116,11 @@ class PhetButton extends JoistButton {
 
     // No need to unlink, as the PhetButton exists for the lifetime of the sim
     Property.multilink( [ backgroundFillProperty, sim.screenProperty, updateCheck.stateProperty ],
-      ( backgroundFill, screen, updateState ) => {
+      ( backgroundFill: Color, screen: Screen<any, any>, updateState: any ) => {
         const showHomeScreen = screen === sim.homeScreen;
-        const backgroundIsWhite = backgroundFill !== 'black' && !showHomeScreen;
+        const backgroundIsWhite = !backgroundFill.equals( Color.BLACK ) && !showHomeScreen;
+
+        // @ts-ignore
         const outOfDate = updateState === UpdateState.OUT_OF_DATE;
         menuIcon.fill = backgroundIsWhite ? ( outOfDate ? '#0a0' : '#222' ) : ( outOfDate ? '#3F3' : 'white' );
         logoImage.image = backgroundIsWhite ? logoOnWhiteBackground : logoOnBlackBackground;

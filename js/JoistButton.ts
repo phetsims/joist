@@ -6,27 +6,44 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
 import { Shape } from '../../kite/js/imports.js';
-import merge from '../../phet-core/js/merge.js';
-import { FocusHighlightPath, Node, SceneryConstants, Voicing } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Color, FocusHighlightPath, Node, PressListener, SceneryConstants, Voicing, VoicingOptions } from '../../scenery/js/imports.js';
 import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';
 import PushButtonInteractionStateProperty from '../../sun/js/buttons/PushButtonInteractionStateProperty.js';
 import PushButtonModel from '../../sun/js/buttons/PushButtonModel.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import HighlightNode from './HighlightNode.js';
 import joist from './joist.js';
 
-class JoistButton extends Voicing( Node, 0 ) {
+type SelfOptions = {
+  highlightExtensionWidth?: number;
+  highlightExtensionHeight?: number;
+  highlightCenterOffsetX?: number;
+  highlightCenterOffsetY?: number;
+  listener?: ( () => void ) | null;
+};
+export type JoistButtonOptions = SelfOptions & VoicingOptions;
+
+export default class JoistButton extends Voicing( Node, 0 ) {
+
+  // @public (phet-io|a11y) - Button model
+  // Note it shares a tandem with "this", so the emitter will be instrumented as a child of the button
+  protected readonly buttonModel: PushButtonModel;
+  protected readonly interactionStateProperty: PushButtonInteractionStateProperty;
+  private readonly _pressListener: PressListener;
 
   /**
-   * @param {Node} content - the scenery node to render as the content of the button
-   * @param {Property.<string>} navigationBarFillProperty - the color of the navbar, as a string.
-   * @param {Tandem} tandem
-   * @param {Object} [options] Unused in client code.
+   * @param content - the scenery node to render as the content of the button
+   * @param navigationBarFillProperty - the color of the navbar, as a string.
+   * @param tandem
+   * @param [providedOptions] Unused in client code. TODO: https://github.com/phetsims/joist/issues/795
    */
-  constructor( content, navigationBarFillProperty, tandem, options ) {
+  constructor( content: Node, navigationBarFillProperty: IReadOnlyProperty<Color>, tandem: Tandem, providedOptions: JoistButtonOptions ) {
 
-    options = merge( {
+    const options = optionize<JoistButtonOptions, SelfOptions, VoicingOptions, 'cursor'>( {
       cursor: 'pointer', // {string}
       listener: null, // {function}
       //Customization for the highlight region, see overrides in HomeButton and PhetButton
@@ -41,13 +58,13 @@ class JoistButton extends Voicing( Node, 0 ) {
 
       // pdom
       tagName: 'button'
-    }, options );
+    }, providedOptions );
 
     assert && assert( options.tandem === undefined, 'JoistButton sets tandem' );
     options.tandem = tandem;
 
     // Creates the highlights for the button.
-    const createHighlight = function( fill ) {
+    const createHighlight = function( fill: Color | string ) {
       return new HighlightNode( content.width + options.highlightExtensionWidth, content.height + options.highlightExtensionHeight, {
         centerX: content.centerX + options.highlightCenterOffsetX,
         centerY: content.centerY + options.highlightCenterOffsetY,
@@ -70,20 +87,17 @@ class JoistButton extends Voicing( Node, 0 ) {
     // We want to mutate eagerly, but must do so after initializing Voicing properties
     this.mutate( options );
 
-    // @public (phet-io|a11y) - Button model
-    // Note it shares a tandem with "this", so the emitter will be instrumented as a child of the button
     this.buttonModel = new PushButtonModel( options );
 
     // Button interactions
     const interactionStateProperty = new PushButtonInteractionStateProperty( this.buttonModel );
 
-    // @protected
     this.interactionStateProperty = interactionStateProperty;
 
     // Update the highlights based on whether the button is highlighted and whether it is against a light or dark background.
     Property.multilink( [ interactionStateProperty, navigationBarFillProperty, this.buttonModel.enabledProperty ],
-      ( interactionState, navigationBarFill, enabled ) => {
-        const useDarkenHighlight = navigationBarFill !== 'black';
+      ( interactionState: ButtonInteractionState, navigationBarFill: Color, enabled: boolean ) => {
+        const useDarkenHighlight = !navigationBarFill.equals( Color.BLACK );
 
         brightenHighlight.visible = !useDarkenHighlight && enabled &&
                                     ( interactionState === ButtonInteractionState.OVER ||
@@ -95,9 +109,11 @@ class JoistButton extends Voicing( Node, 0 ) {
 
     // Keep the cursor in sync with if the button is enabled.
     // JoistButtons exist for the lifetime of the sim, and don't need to be disposed
-    this.buttonModel.enabledProperty.link( enabled => { this.cursor = enabled ? options.cursor : null; } );
+    this.buttonModel.enabledProperty.link( enabled => {
+      this.cursor = enabled ? options.cursor : null;
+    } );
 
-    // @private - Hook up the input listener
+    // Hook up the input listener
     this._pressListener = this.buttonModel.createPressListener( {
       tandem: tandem.createTandem( 'pressListener' )
     } );
@@ -122,4 +138,3 @@ class JoistButton extends Voicing( Node, 0 ) {
 }
 
 joist.register( 'JoistButton', JoistButton );
-export default JoistButton;

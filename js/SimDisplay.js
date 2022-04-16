@@ -166,7 +166,7 @@ class SimDisplay extends Display {
 
   /**
    * Handle synthetic input event fuzzing
-   * @private
+   * @public
    */
   fuzzInputEvents() {
 

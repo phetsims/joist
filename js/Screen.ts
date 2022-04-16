@@ -51,8 +51,12 @@ assert && assert( Math.abs( HOME_SCREEN_ICON_ASPECT_RATIO - HOME_SCREEN_ICON_ASP
 // Documentation is by the defaults
 type ScreenSelfOptions = {
   name?: string | null;
-  instrumentNameProperty?: true;
-  backgroundColorProperty?: Property<string> | Property<Color>;
+  instrumentNameProperty?: boolean;
+
+  // TODO: https://github.com/phetsims/joist/issues/795 Is this type union OK?
+  // It would be preferable to support Property<Color | string> solely, but many subtypes are hardcoded to be Color only
+  // or string only, so we support this polymorphic form
+  backgroundColorProperty?: Property<Color | string> | Property<Color> | Property<string>;
   homeScreenIcon?: ScreenIcon | null;
   showUnselectedHomeScreenIconFrame?: boolean;
   navigationBarIcon?: ScreenIcon | null;
@@ -65,21 +69,24 @@ export type ScreenOptions = ScreenSelfOptions & PhetioObjectOptions & PickRequir
 
 // Parameterized on M=Model and V=View
 class Screen<M, V extends ScreenView> extends PhetioObject {
-  backgroundColorProperty: Property<string> | Property<Color>;
-  private readonly nameProperty: IReadOnlyProperty<string | null>;
-  private readonly showScreenIconFrameForNavigationBarFill: string | null;
+
+  backgroundColorProperty: Property<Color> | Property<string> | Property<Color | string>;
+
+  readonly maxDT: number;
+  readonly activeProperty: BooleanProperty;
+  readonly descriptionContent: string;
+  readonly nameProperty: IReadOnlyProperty<string | null>;
+
+  readonly showScreenIconFrameForNavigationBarFill: string | null;
   private readonly homeScreenIcon: Node | null;
-  private readonly navigationBarIcon: Node | null;
+  navigationBarIcon: Node | null;
   private readonly showUnselectedHomeScreenIconFrame: boolean;
   private readonly keyboardHelpNode: Node | null; // joist-internal
-  private readonly pdomDisplayNameProperty: DerivedProperty<string | null, [ string | null ]>;
-  private readonly maxDT: number;
+  readonly pdomDisplayNameProperty: DerivedProperty<string | null, [ string | null ]>;
   private readonly createModel: () => M;
   private readonly createView: ( model: M ) => V;
   private _model: M | null;
   private _view: V | null;
-  private readonly activeProperty: BooleanProperty;
-  public readonly descriptionContent: string;
 
   static HOME_SCREEN_ICON_ASPECT_RATIO: number;
   static MINIMUM_HOME_SCREEN_ICON_SIZE: Dimension2;
@@ -98,8 +105,7 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
       // {boolean} whether nameProperty should be instrumented. see usage for explanation of its necessity.
       instrumentNameProperty: true,
 
-      // {Property.<Color|string>} background color of the Screen
-      backgroundColorProperty: new Property( 'white' ),
+      backgroundColorProperty: new Property<Color | string>( 'white' ),
 
       // {Node|null} icon shown on the home screen. If null, then a default is created.
       // For single-screen sims, there is no home screen and the default is OK.
@@ -294,7 +300,7 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
     }
 
     // Set the accessible label for the screen.
-    Property.multilink<[ string, string, string | null]>( [ displayedSimNameProperty, simNameProperty, this.pdomDisplayNameProperty ],
+    Property.multilink<[ string, string, string | null ]>( [ displayedSimNameProperty, simNameProperty, this.pdomDisplayNameProperty ],
       ( displayedName, simName, pdomDisplayName ) => {
 
         let titleString;

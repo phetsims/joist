@@ -9,13 +9,14 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
 import Utils from '../../dot/js/Utils.js';
 import { Shape } from '../../kite/js/imports.js';
-import merge from '../../phet-core/js/merge.js';
+import optionize from '../../phet-core/js/optionize.js';
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { FocusHighlightPath } from '../../scenery/js/imports.js';
+import { Color, FocusHighlightPath, NodeOptions } from '../../scenery/js/imports.js';
 import { Node } from '../../scenery/js/imports.js';
 import { Rectangle } from '../../scenery/js/imports.js';
 import { Text } from '../../scenery/js/imports.js';
@@ -24,27 +25,34 @@ import PushButtonModel from '../../sun/js/buttons/PushButtonModel.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import HighlightNode from './HighlightNode.js';
 import joist from './joist.js';
+import Screen from './Screen.js';
 
 // constants
 const HIGHLIGHT_SPACING = 4;
-const getHighlightWidth = overlay => overlay.width + ( 2 * HIGHLIGHT_SPACING );
+const getHighlightWidth = ( overlay: Node ) => overlay.width + ( 2 * HIGHLIGHT_SPACING );
+
+type SelfOptions = {
+  maxButtonWidth?: number | null;
+}
+type NavigationBarScreenButtonOptions = SelfOptions & NodeOptions;
 
 class NavigationBarScreenButton extends Node {
+  private readonly buttonModel: PushButtonModel;
 
   /**
-   * @param {Property.<string>} navigationBarFillProperty - the color of the navbar, as a string.
-   * @param {Property.<Screen>} screenProperty
-   * @param {Screen} screen
-   * @param {number} simScreenIndex - the index (within sim screens only) of the screen corresponding to this button
-   * @param {number} navBarHeight
-   * @param {Object} [options]
+   * @param navigationBarFillProperty - the color of the navbar, as a string.
+   * @param screenProperty
+   * @param screen
+   * @param simScreenIndex - the index (within sim screens only) of the screen corresponding to this button
+   * @param navBarHeight
+   * @param [providedOptions]
    */
-  constructor( navigationBarFillProperty, screenProperty, screen, simScreenIndex, navBarHeight, options ) {
+  constructor( navigationBarFillProperty: IReadOnlyProperty<Color>, screenProperty: Property<Screen<any, any>>, screen: Screen<any, any>, simScreenIndex: number, navBarHeight: number, providedOptions: NavigationBarScreenButtonOptions ) {
 
     assert && assert( screen.nameProperty.value, `name is required for screen ${simScreenIndex}` );
     assert && assert( screen.navigationBarIcon, `navigationBarIcon is required for screen ${screen.nameProperty.value}` );
 
-    options = merge( {
+    const options = optionize<NavigationBarScreenButtonOptions, SelfOptions, NodeOptions, 'tandem'>( {
       cursor: 'pointer',
       tandem: Tandem.REQUIRED,
       phetioDocumentation: `Button in the navigation bar that selects the '${screen.tandem.name}' screen`,
@@ -55,7 +63,7 @@ class NavigationBarScreenButton extends Node {
       containerTagName: 'li',
       descriptionContent: screen.descriptionContent,
       appendDescription: true
-    }, options );
+    }, providedOptions );
 
     assert && assert( !options.innerContent, 'NavigationBarScreenButton sets its own innerContent' );
 
@@ -65,9 +73,10 @@ class NavigationBarScreenButton extends Node {
       this.innerContent = name;
     } );
 
+    assert && assert( screen.navigationBarIcon, 'navigationBarIcon should exist' );
     // icon
     const icon = new Node( {
-      children: [ screen.navigationBarIcon ], // wrap in case this icon is used in multiple place (eg, home screen and navbar)
+      children: [ screen.navigationBarIcon! ], // wrap in case this icon is used in multiple place (eg, home screen and navbar)
       maxHeight: 0.625 * navBarHeight,
       tandem: options.tandem.createTandem( 'icon' ),
 
@@ -83,9 +92,12 @@ class NavigationBarScreenButton extends Node {
       children: [ icon, iconFrame ]
     } );
 
-    const text = new Text( screen.nameProperty.value, {
+    assert && assert( screen.nameProperty.value, 'screen name should be defined' );
+    const text = new Text( screen.nameProperty.value!, {
       font: new PhetFont( 10 ),
       tandem: options.tandem.createTandem( 'text' ),
+
+      // @ts-ignore
       textPropertyOptions: { phetioReadOnly: true } // text is updated via screen.nameProperty
     } );
 
@@ -130,6 +142,8 @@ class NavigationBarScreenButton extends Node {
     // Hook up the input listener
     const pressListener = this.buttonModel.createPressListener( {
       tandem: options.tandem.createTandem( 'pressListener' ),
+
+      // @ts-ignore
       phetioDocumentation: 'Indicates when the screen button has been pressed or released'
     } );
     this.addInputListener( pressListener );
@@ -137,9 +151,9 @@ class NavigationBarScreenButton extends Node {
     // manage interaction feedback
     Property.multilink(
       [ selectedProperty, this.buttonModel.looksPressedProperty, this.buttonModel.looksOverProperty, navigationBarFillProperty, this.buttonModel.enabledProperty ],
-      ( selected, looksPressed, looksOver, navigationBarFill, enabled ) => {
+      ( selected: boolean, looksPressed: boolean, looksOver: boolean, navigationBarFill: Color, enabled: boolean ) => {
 
-        const useDarkenHighlights = ( navigationBarFill !== 'black' );
+        const useDarkenHighlights = !navigationBarFill.equals( Color.BLACK );
 
         // Color match yellow with the PhET Logo
         const selectedTextColor = useDarkenHighlights ? 'black' : PhetColorScheme.BUTTON_YELLOW;
@@ -147,14 +161,19 @@ class NavigationBarScreenButton extends Node {
 
         text.fill = selected ? selectedTextColor : unselectedTextColor;
         iconAndText.opacity = selected ? 1.0 : ( looksPressed ? 0.65 : 0.5 );
+
+        // @ts-ignore
         brightenHighlight.visible = !useDarkenHighlights && enabled && ( looksOver || looksPressed );
+
+        // @ts-ignore
         darkenHighlight.visible = useDarkenHighlights && enabled && ( looksOver || looksPressed );
 
         // Put a frame around the screen icon, depending on the navigation bar background color.
-        if ( screen.showScreenIconFrameForNavigationBarFill === 'black' && navigationBarFill === 'black' ) {
+        if ( screen.showScreenIconFrameForNavigationBarFill === 'black' && navigationBarFill.equals( Color.BLACK ) ) {
           iconFrame.stroke = PhetColorScheme.SCREEN_ICON_FRAME;
         }
-        else if ( screen.showScreenIconFrameForNavigationBarFill === 'white' && navigationBarFill === 'white' ) {
+
+        else if ( screen.showScreenIconFrameForNavigationBarFill === 'white' && navigationBarFill.equals( Color.WHITE ) ) {
           iconFrame.stroke = 'black'; // black frame on a white navbar
         }
         else {
@@ -163,7 +182,11 @@ class NavigationBarScreenButton extends Node {
       } );
 
     // Keep the cursor in sync with if the button is enabled. This doesn't need to be disposed.
-    this.buttonModel.enabledProperty.link( enabled => { this.cursor = enabled ? options.cursor : null; } );
+    this.buttonModel.enabledProperty.link( enabled => {
+
+      // @ts-ignore
+      this.cursor = enabled ? options.cursor : null;
+    } );
 
     // Update the button's layout
     const updateLayout = () => {
@@ -181,6 +204,8 @@ class NavigationBarScreenButton extends Node {
 
     // Update the button's text and layout when the screen name changes
     screen.nameProperty.link( name => {
+
+      // @ts-ignore
       text.text = name;
     } );
     iconAndText.boundsProperty.lazyLink( updateLayout );
@@ -197,6 +222,8 @@ class NavigationBarScreenButton extends Node {
 
     // Constrain text and icon width, if necessary
     if ( needsIconMaxWidth ) {
+
+      // @ts-ignore
       text.maxWidth = icon.maxWidth = options.maxButtonWidth - ( this.width - iconAndText.width );
     }
     else {
@@ -205,6 +232,7 @@ class NavigationBarScreenButton extends Node {
       text.maxWidth = this.width;
     }
 
+    // @ts-ignore
     needsIconMaxWidth && assert && assert( Utils.toFixed( this.width, 0 ) === Utils.toFixed( options.maxButtonWidth, 0 ),
       `this.width ${this.width} !== options.maxButtonWidth ${options.maxButtonWidth}` );
 

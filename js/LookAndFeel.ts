@@ -1,5 +1,5 @@
 // Copyright 2015-2021, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Provides colors for Joist elements.
  *
@@ -13,32 +13,36 @@ import joist from './joist.js';
 
 class LookAndFeel {
 
+  // Background color for the currently selected screen, which will be set on the Display as its backgroundColor
+  readonly backgroundColorProperty: Property<Color>;
+
+  // (joist-internal) True if the navigation bar background is black
+  readonly navigationBarDarkProperty: DerivedProperty<boolean, [ Color ]>;
+
+  // (joist-internal) - Navigation bar background fill
+  readonly navigationBarFillProperty: DerivedProperty<Color, [ backgroundDark: boolean ]>;
+
+  // (joist-internal) - Navigation bar text fill
+  readonly navigationBarTextFillProperty: DerivedProperty<Color, [ navigationBarFill: Color ]>;
+
   constructor() {
 
-    // @public background color for the currently selected screen, which will be set on the Display as its backgroundColor
-    this.backgroundColorProperty = new Property( 'black' );
+    this.backgroundColorProperty = new Property<Color>( Color.BLACK );
 
-    // @public (joist-internal) {boolean} - True if the navigation bar background is black
-    this.navigationBarDarkProperty = new DerivedProperty( [ this.backgroundColorProperty ],
-      ( backgroundColor => {
-        return !!new Color( backgroundColor ).equals( Color.BLACK );
-      } ) );
+    this.navigationBarDarkProperty = new DerivedProperty<boolean, [ Color ]>( [ this.backgroundColorProperty ],
+      backgroundColor => backgroundColor.equals( Color.BLACK )
+    );
 
-    // @public (joist-internal) - Navigation bar background fill
     this.navigationBarFillProperty = new DerivedProperty( [ this.navigationBarDarkProperty ],
-      ( backgroundDark => {
-        return backgroundDark ? 'white' : 'black';
-      } ) );
+      backgroundDark => backgroundDark ? Color.WHITE : Color.BLACK
+    );
 
-    // @public (joist-internal) - Navigation bar text fill
     this.navigationBarTextFillProperty = new DerivedProperty( [ this.navigationBarFillProperty ],
-      ( navigationBarFill => {
-        return navigationBarFill === 'black' ? 'white' : 'black';
-      } ) );
+      navigationBarFill => navigationBarFill.equals( Color.BLACK ) ? Color.WHITE : Color.BLACK
+    );
   }
 
-  // @public
-  reset() {
+  reset(): void {
     this.backgroundColorProperty.reset();
   }
 }

@@ -6,35 +6,40 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
-import merge from '../../phet-core/js/merge.js';
+import optionize from '../../phet-core/js/optionize.js';
+import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
+import { Color, Node } from '../../scenery/js/imports.js';
 import HomeScreenKeyboardHelpContent from './HomeScreenKeyboardHelpContent.js';
 import HomeScreenModel from './HomeScreenModel.js';
 import HomeScreenView from './HomeScreenView.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
-import Screen from './Screen.js';
+import Screen, { ScreenOptions } from './Screen.js';
 
 // constants
 const homeString = joistStrings.a11y.home;
-const BACKGROUND_COLOR = 'black';
+const BACKGROUND_COLOR = Color.BLACK;
 
-class HomeScreen extends Screen {
+type SelfOptions = {
 
-  /**
-   * @param {Property.<string>} simNameProperty
-   * @param {function():Property.<Screen>} getScreenProperty - at the time of construction, the Sim.screenProperty is
-   *                                                         - not yet assigned (because it may itself include the
-   *                                                         - HomeScreen), so we must use a function to lazily get it
-   *                                                         - after it is assigned
-   * @param {Screen[]} simScreens
-   * @param {Tandem} tandem
-   * @param {Object} [options]
-   * @constructor
-   */
-  constructor( simNameProperty, getScreenProperty, simScreens, tandem, options ) {
+  // TODO: https://github.com/phetsims/joist/issues/795 awkward for this to be required but nullable
+  warningNode: Node | null;
+};
+type HomeScreenOptions = SelfOptions & ScreenOptions;
 
-    options = merge( {
+class HomeScreen extends Screen<HomeScreenModel, HomeScreenView> {
+  static BACKGROUND_COLOR: Color;
+
+  constructor(
+    simNameProperty: IReadOnlyProperty<string>,
+    getScreenProperty: () => Property<Screen<IntentionalAny, IntentionalAny>>,
+    simScreens: Screen<any, any>[],
+    providedOptions: HomeScreenOptions
+  ) {
+
+    const options = optionize<HomeScreenOptions, SelfOptions, ScreenOptions>( {
 
       // TODO get this color from LookAndFeel, see https://github.com/phetsims/joist/issues/222
       backgroundColorProperty: new Property( BACKGROUND_COLOR ),
@@ -45,14 +50,13 @@ class HomeScreen extends Screen {
 
       // phet-io
       instrumentNameProperty: false // requested by designers, see https://github.com/phetsims/joist/issues/627
-    }, options );
-
-    assert && assert( !options.tandem, 'tandem is a required constructor parameter, not an option' );
-    options.tandem = tandem;
+    }, providedOptions );
 
     super(
-      () => new HomeScreenModel( getScreenProperty(), simScreens, tandem.createTandem( 'model' ) ),
-      model => new HomeScreenView( simNameProperty, model, tandem.createTandem( 'view' ), _.pick( options, [
+      // at the time of construction, the Sim.screenProperty is not yet assigned (because it may itself include the
+      // HomeScreen), so we must use a function to lazily get it after it is assigned
+      () => new HomeScreenModel( getScreenProperty(), simScreens, options.tandem.createTandem( 'model' ) ),
+      model => new HomeScreenView( simNameProperty, model, options.tandem.createTandem( 'view' ), _.pick( options, [
         'warningNode'
       ] ) ),
       options
