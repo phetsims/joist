@@ -24,7 +24,7 @@ const BACKGROUND_COLOR = Color.BLACK;
 
 type SelfOptions = {
 
-  // TODO: https://github.com/phetsims/joist/issues/795 awkward for this to be required but nullable
+  // For REVIEW: https://github.com/phetsims/joist/issues/795 awkward for this to be required but nullable.
   warningNode: Node | null;
 };
 type HomeScreenOptions = SelfOptions & ScreenOptions;

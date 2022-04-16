@@ -39,7 +39,7 @@ export default class JoistButton extends Voicing( Node, 0 ) {
    * @param content - the scenery node to render as the content of the button
    * @param navigationBarFillProperty - the color of the navbar, as a string.
    * @param tandem
-   * @param [providedOptions] Unused in client code. TODO: https://github.com/phetsims/joist/issues/795
+   * @param [providedOptions]
    */
   constructor( content: Node, navigationBarFillProperty: IReadOnlyProperty<Color>, tandem: Tandem, providedOptions: JoistButtonOptions ) {
 
