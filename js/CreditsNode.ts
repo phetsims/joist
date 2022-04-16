@@ -10,11 +10,12 @@
  */
 
 import merge from '../../phet-core/js/merge.js';
+import optionize from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { VoicingRichText } from '../../scenery/js/imports.js';
+import { VBoxOptions, VoicingRichText } from '../../scenery/js/imports.js';
 import { VoicingText } from '../../scenery/js/imports.js';
-import { VBox } from '../../scenery/js/imports.js';
+import { VBox, Node } from '../../scenery/js/imports.js';
 import { VStrut } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
@@ -29,25 +30,38 @@ const creditsTeamString = joistStrings.credits.team;
 const creditsThanksString = joistStrings.credits.thanks;
 const creditsTitleString = joistStrings.credits.title;
 
-class CreditsNode extends VBox {
+type SelfOptions = {
+  titleFont?: PhetFont;
+  textFont?: PhetFont;
+};
+type CreditsNodeOptions = SelfOptions & VBoxOptions;
 
-  /**
-   * Creates node that displays the credits.
-   * @param {Object} credits - see implementation herein for supported {string} fields
-   * @param {Object} [options]
-   */
-  constructor( credits, options ) {
+// TODO: https://github.com/phetsims/joist/issues/795 For reviewer. The way we typically do credits, like in
+//  ratio-and-proportion-main, won't do excess property checking.  I changed Gravity and Orbits main to specify the type.
+//  We could also pass the sim options directly to the sim constructor to do excess proprerty checking.  What do you recommend?
+export type CreditsData = {
+  leadDesign?: string;
+  softwareDevelopment?: string;
+  team?: string;
+  contributors?: string;
+  qualityAssurance?: string;
+  graphicArts?: string;
+  soundDesign?: string;
+  thanks?: string;
+};
 
-    options = merge( {
-      titleFont: null,
-      textFont: null,
+export default class CreditsNode extends VBox {
+  private readonly disposeCreditsNode: () => void;
+
+  constructor( credits: CreditsData, options: CreditsNodeOptions ) {
+
+    options = optionize<CreditsNodeOptions, SelfOptions, VBoxOptions>( {
+      titleFont: new PhetFont( { size: 18, weight: 'bold' } ),
+      textFont: new PhetFont( 16 ),
       align: 'left',
       spacing: 1,
       maxWidth: 550
     }, options );
-
-    options.titleFont = options.titleFont || new PhetFont( { size: 18, weight: 'bold' } );
-    options.textFont = options.textFont || new PhetFont( 16 );
 
     const richTextOptions = {
       font: options.textFont,
@@ -56,7 +70,7 @@ class CreditsNode extends VBox {
       tagName: 'p'
     };
 
-    const children = [];
+    const children: Node[] = [];
 
     // Credits
     children.push( new VoicingText( creditsTitleString, {
@@ -136,15 +150,10 @@ class CreditsNode extends VBox {
     };
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  override dispose() {
     this.disposeCreditsNode();
     super.dispose();
   }
 }
 
 joist.register( 'CreditsNode', CreditsNode );
-export default CreditsNode;

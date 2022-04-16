@@ -64,6 +64,7 @@ import updateCheck from './updateCheck.js';
 import PreferencesConfiguration from './preferences/PreferencesConfiguration.js';
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
+import { CreditsData } from './CreditsNode.js';
 
 // constants
 const PROGRESS_BAR_WIDTH = 273;
@@ -88,8 +89,7 @@ assert && assert( typeof phet.chipper.brand === 'string', 'phet.chipper.brand is
 
 type SelfOptions = {
 
-  // credits, see AboutDialog for format.  TODO https://github.com/phetsims/joist/issues/795 convert credits to TS and give a type
-  credits?: any;
+  credits?: CreditsData;
 
   // {null|function(tandem:Tandem):Node} creates the content for the Options dialog
   createOptionsDialogContent?: null | ( ( t: Tandem ) => Node );
@@ -260,7 +260,6 @@ export default class Sim extends PhetioObject {
 
     const options = optionize<SimOptions, SelfOptions, PhetioObjectOptions>( {
 
-      // credits, see AboutDialog for format
       credits: {},
 
       // {null|function(tandem:Tandem):Node} creates the content for the Options dialog
