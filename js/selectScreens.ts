@@ -1,4 +1,4 @@
-// Copyright 2020-2021, University of Colorado Boulder
+// Copyright 2020-2022, University of Colorado Boulder
 import joist from './joist.js';
 import HomeScreen from './HomeScreen.js';
 import Screen from './Screen.js';
