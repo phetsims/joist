@@ -201,8 +201,6 @@ export default class Sim extends PhetioObject {
   // (joist-internal)
   private readonly version: string;
 
-  private readonly credits: CreditsData;
-
   // number of animation frames that have occurred
   private frameCounter: number;
 
@@ -594,7 +592,6 @@ export default class Sim extends PhetioObject {
     window.phet.joist.ScreenshotGenerator = ScreenshotGenerator;
 
     this.version = packageJSON.version;
-    this.credits = options.credits;
     this.frameCounter = 0;
     this.resizePending = true;
     this.locale = phet.chipper.locale || 'en';
