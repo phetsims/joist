@@ -15,7 +15,7 @@
 
 import animationFrameTimer from '../../axon/js/animationFrameTimer.js';
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
-import createObservableArray, { ObservableArray } from '../../axon/js/createObservableArray.js';
+import createObservableArray from '../../axon/js/createObservableArray.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Emitter from '../../axon/js/Emitter.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
@@ -121,8 +121,8 @@ export default class Sim extends PhetioObject {
   // Indicates sim construction completed, and that all screen models and views have been created.
   // This was added for PhET-iO but can be used by any client. This does not coincide with the end of the Sim
   // constructor (because Sim has asynchronous steps that finish after the constructor is completed)
-  readonly isConstructionCompleteProperty: IReadOnlyProperty<boolean>;
-  private readonly _isConstructionCompleteProperty: Property<boolean>;
+  private readonly _isConstructionCompleteProperty = new Property<boolean>( false );
+  readonly isConstructionCompleteProperty: IReadOnlyProperty<boolean> = this._isConstructionCompleteProperty;
 
   // Stores the effective window dimensions that the simulation will be taking up
   readonly dimensionProperty: IReadOnlyProperty<Dimension2>;
@@ -140,11 +140,14 @@ export default class Sim extends PhetioObject {
 
   // Indicates when a frame starts.  Listen to this Emitter if you have an action that must be
   // performed before the step begins.
-  private readonly frameStartedEmitter: Emitter;
+  private readonly frameStartedEmitter = new Emitter();
 
   // Indicates when a frame ends.  Listen to this Emitter if you have an action that must be
   // performed after the step completes.
-  private readonly frameEndedEmitter: Emitter;
+  private readonly frameEndedEmitter = new Emitter( {
+    tandem: Tandem.GENERAL_MODEL.createTandem( 'frameEndedEmitter' ),
+    phetioHighFrequency: true
+  } );
 
   // Steps the simulation. This Action is implemented so it can be automatically
   // played back for PhET-iO record/playback.  Listen to this Action if you have an action that happens during the
@@ -166,7 +169,12 @@ export default class Sim extends PhetioObject {
 
   // When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.
   // Set to false for when the sim will be paused.
-  readonly activeProperty: BooleanProperty;
+  readonly activeProperty: BooleanProperty = new BooleanProperty( true, {
+    tandem: Tandem.GENERAL_MODEL.createTandem( 'activeProperty' ),
+    phetioFeatured: true,
+    phetioDocumentation: 'Determines whether the entire simulation is running and processing user input. ' +
+                         'Setting this property to false pauses the simulation, and prevents user interaction.'
+  } );
 
   // indicates whether the browser tab containing the simulation is currently visible
   readonly browserTabVisibleProperty: IReadOnlyProperty<boolean>;
@@ -174,17 +182,17 @@ export default class Sim extends PhetioObject {
   // (joist-internal) - How the home screen and navbar are scaled. This scale is based on the
   // HomeScreen's layout bounds to support a consistently sized nav bar and menu. If this scale was based on the
   // layout bounds of the current screen, there could be differences in the nav bar across screens.
-  readonly scaleProperty: NumberProperty;
+  readonly scaleProperty = new NumberProperty( 1 );
 
   // (joist-internal) global bounds for the entire simulation. null before first resize
-  readonly boundsProperty: Property<Bounds2 | null>;
+  readonly boundsProperty = new Property<Bounds2 | null>( null );
 
   // (joist-internal) global bounds for the screen-specific part (excludes the navigation bar), null before first resize
-  readonly screenBoundsProperty: Property<Bounds2 | null>;
+  readonly screenBoundsProperty = new Property<Bounds2 | null>( null );
 
-  private readonly lookAndFeel: LookAndFeel;
-  private destroyed: boolean;
-  private readonly memoryMonitor: MemoryMonitor;
+  private readonly lookAndFeel = new LookAndFeel();
+  private destroyed = false;
+  private readonly memoryMonitor = new MemoryMonitor();
 
   // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
   private readonly supportsGestureDescription: boolean;
@@ -198,13 +206,13 @@ export default class Sim extends PhetioObject {
   private readonly version: string;
 
   // number of animation frames that have occurred
-  private frameCounter: number;
+  private frameCounter = 0;
 
   // Whether the window has resized since our last updateDisplay()
-  private resizePending: boolean;
+  private resizePending = true;
 
   // Make our locale available
-  private readonly locale: string;
+  private readonly locale = phet.chipper.locale || 'en';
 
   // create this only after all other members have been set on Sim
   private readonly simInfo: SimInfo;
@@ -218,23 +226,31 @@ export default class Sim extends PhetioObject {
   // through user preferences.
   private readonly preferencesManager: PreferencesManager | null;
 
+  // list of nodes that are "modal" and hence block input with the barrierRectangle.  Used by modal dialogs
+  // and the PhetMenu
+  private modalNodeStack = createObservableArray<Node>();
+
+  // (joist-internal) Semi-transparent black barrier used to block input events when a dialog (or other popup)
+  // is present, and fade out the background.
+  private readonly barrierRectangle = new BarrierRectangle(
+    this.modalNodeStack, {
+      fill: 'rgba(0,0,0,0.3)',
+      pickable: true,
+      tandem: Tandem.GENERAL_VIEW.createTandem( 'barrierRectangle' ),
+      phetioDocumentation: 'Semi-transparent barrier used to block input events when a dialog is shown, also fades out the background'
+    } );
+
   // layer for popups, dialogs, and their backgrounds and barriers
-  private readonly topLayer: Node;
+  private readonly topLayer = new Node( {
+    children: [ this.barrierRectangle ]
+  } );
 
   // root node for the Display
   private readonly rootNode: Node;
 
-  // list of nodes that are "modal" and hence block input with the barrierRectangle.  Used by modal dialogs
-  // and the PhetMenu
-  private modalNodeStack: ObservableArray<Node>;
-
-  // (joist-internal) Semi-transparent black barrier used to block input events when a dialog (or other popup)
-  // is present, and fade out the background.
-  private readonly barrierRectangle: BarrierRectangle;
-
   // Keep track of the previous time for computing dt, and initially signify that time hasn't been recorded yet.
-  private lastStepTime: number;
-  private lastAnimationFrameTime: number;
+  private lastStepTime = -1;
+  private lastAnimationFrameTime = -1;
 
   // (joist-internal) Bind the animation loop so it can be called from requestAnimationFrame with the right this.
   private readonly boundRunAnimationLoop: () => void;
@@ -307,8 +323,6 @@ export default class Sim extends PhetioObject {
       throw new Error( 'playbackModeEnabledProperty cannot be changed after Sim construction has begun' );
     } );
 
-    this._isConstructionCompleteProperty = new Property<boolean>( false );
-    this.isConstructionCompleteProperty = this._isConstructionCompleteProperty;
     assert && this.isConstructionCompleteProperty.lazyLink( isConstructionComplete => {
       assert && assert( isConstructionComplete, 'Sim construction should never uncomplete' );
     } );
@@ -391,12 +405,6 @@ export default class Sim extends PhetioObject {
         alwaysPlaybackableOverride: true
       },
       phetioDocumentation: 'Executes when the sim is resized. Values are the sim dimensions in CSS pixels.'
-    } );
-
-    this.frameStartedEmitter = new Emitter();
-    this.frameEndedEmitter = new Emitter( {
-      tandem: Tandem.GENERAL_MODEL.createTandem( 'frameEndedEmitter' ),
-      phetioHighFrequency: true
     } );
 
     this.stepSimulationAction = new PhetioAction( dt => {
@@ -524,13 +532,6 @@ export default class Sim extends PhetioObject {
         }
       } );
 
-    this.activeProperty = new BooleanProperty( true, {
-      tandem: Tandem.GENERAL_MODEL.createTandem( 'activeProperty' ),
-      phetioFeatured: true,
-      phetioDocumentation: 'Determines whether the entire simulation is running and processing user input. ' +
-                           'Setting this property to false pauses the simulation, and prevents user interaction.'
-    } );
-
     const browserTabVisibleProperty = new BooleanProperty( true, {
       tandem: Tandem.GENERAL_MODEL.createTandem( 'browserTabVisibleProperty' ),
       phetioDocumentation: 'Indicates whether the browser tab containing the simulation is currently visible',
@@ -544,17 +545,8 @@ export default class Sim extends PhetioObject {
       browserTabVisibleProperty.set( document.visibilityState === 'visible' );
     }, false );
 
-    this.scaleProperty = new NumberProperty( 1 );
-
-    this.boundsProperty = new Property<Bounds2 | null>( null );
-    this.screenBoundsProperty = new Property<Bounds2 | null>( null );
-    this.lookAndFeel = new LookAndFeel();
     assert && assert( window.phet.joist.launchCalled, 'Sim must be launched using simLauncher, ' +
                                                       'see https://github.com/phetsims/joist/issues/142' );
-
-    this.destroyed = false;
-
-    this.memoryMonitor = new MemoryMonitor();
 
     this.supportsGestureDescription = phet.chipper.queryParameters.supportsInteractiveDescription && SUPPORTS_GESTURE_DESCRIPTION;
     this.hasKeyboardHelpContent = options.hasKeyboardHelpContent;
@@ -588,18 +580,12 @@ export default class Sim extends PhetioObject {
     window.phet.joist.ScreenshotGenerator = ScreenshotGenerator;
 
     this.version = packageJSON.version;
-    this.frameCounter = 0;
-    this.resizePending = true;
-    this.locale = phet.chipper.locale || 'en';
 
     // If the locale query parameter was specified, then we may be running the all.html file, so adjust the title.
     // See https://github.com/phetsims/chipper/issues/510
     if ( QueryStringMachine.containsKey( 'locale' ) ) {
       $( 'title' ).html( name );
     }
-
-    this.preferencesManager = null;
-    this.toolbar = null;
 
     if ( options.preferencesConfiguration ) {
 
@@ -616,6 +602,10 @@ export default class Sim extends PhetioObject {
       this.toolbar.rightPositionProperty.lazyLink( () => {
         this.resize( this.boundsProperty.value!.width, this.boundsProperty.value!.height );
       } );
+    }
+    else {
+      this.preferencesManager = null;
+      this.toolbar = null;
     }
 
     this.display = new SimDisplay( options.simDisplayOptions );
@@ -674,20 +664,6 @@ export default class Sim extends PhetioObject {
         this.updateViews();
       }
     } );
-
-    this.topLayer = new Node();
-    this.modalNodeStack = createObservableArray(); // {Node} with node.hide()
-    this.barrierRectangle = new BarrierRectangle(
-      this.modalNodeStack, {
-        fill: 'rgba(0,0,0,0.3)',
-        pickable: true,
-        tandem: Tandem.GENERAL_VIEW.createTandem( 'barrierRectangle' ),
-        phetioDocumentation: 'Semi-transparent barrier used to block input events when a dialog is shown, also fades out the background'
-      } );
-    this.topLayer.addChild( this.barrierRectangle );
-
-    this.lastStepTime = -1;
-    this.lastAnimationFrameTime = -1;
 
     this.boundRunAnimationLoop = this.runAnimationLoop.bind( this );
 
