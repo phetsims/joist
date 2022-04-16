@@ -201,8 +201,7 @@ export default class Sim extends PhetioObject {
   // (joist-internal)
   private readonly version: string;
 
-  // (joist-internal) // TODO: any, see https://github.com/phetsims/joist/issues/795
-  private readonly credits: any;
+  private readonly credits: CreditsData;
 
   // number of animation frames that have occurred
   private frameCounter: number;
