@@ -3,6 +3,14 @@ import joist from './joist.js';
 import HomeScreen from './HomeScreen.js';
 import Screen from './Screen.js';
 
+type ReturnType = {
+  homeScreen: HomeScreen | null;
+  initialScreen: Screen<any, any>;
+  selectedSimScreens: Screen<any, any>[];
+  screens: Screen<any, any>[];
+  allScreensCreated: boolean;
+};
+
 /**
  * Given an array of all possible screens that a sim can have, select and order them according to the relevant query
  * parameters. This also will create a homeScreen if needed, and specify the initialScreen for startup.
@@ -25,15 +33,14 @@ import Screen from './Screen.js';
  * @returns {{homeScreen:HomeScreen|null, initialScreen:Screen, selectedSimScreens:Screen[], screens:Screen[]}} - duck-typed for tests
  * @throws Error if incompatible data is provided
  */
-// TODO: Explicit return type, see https://github.com/phetsims/joist/issues/795
-const selectScreens = ( allSimScreens: Screen<any, any>[],
-                        homeScreenQueryParameter: boolean,
-                        homeScreenQueryParameterProvided: boolean,
-                        initialScreenIndex: number,
-                        initialScreenQueryParameterProvided: boolean,
-                        screensQueryParameter: number[],
-                        screensQueryParameterProvided: boolean,
-                        createHomeScreen: ( screens: Screen<any, any>[] ) => HomeScreen ) => {
+export default function selectScreens( allSimScreens: Screen<any, any>[],
+                                       homeScreenQueryParameter: boolean,
+                                       homeScreenQueryParameterProvided: boolean,
+                                       initialScreenIndex: number,
+                                       initialScreenQueryParameterProvided: boolean,
+                                       screensQueryParameter: number[],
+                                       screensQueryParameterProvided: boolean,
+                                       createHomeScreen: ( screens: Screen<any, any>[] ) => HomeScreen ): ReturnType {
 
   if ( allSimScreens.length === 1 && homeScreenQueryParameterProvided && homeScreenQueryParameter ) {
     const errorMessage = 'cannot specify homeScreen=true for single-screen sims';
@@ -152,7 +159,6 @@ const selectScreens = ( allSimScreens: Screen<any, any>[],
     screens: screens,
     allScreensCreated: allScreensCreated
   };
-};
+}
 
 joist.register( 'selectScreens', selectScreens );
-export default selectScreens;
