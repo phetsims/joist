@@ -108,6 +108,7 @@ type SelfOptions = {
   simDisplayOptions?: any;
 };
 
+// TODO: https://github.com/phetsims/chipper/issues/954 for reviewer: Should we accept all PhetioObjectOptions?
 export type SimOptions = SelfOptions & PhetioObjectOptions;
 
 export default class Sim extends PhetioObject {
