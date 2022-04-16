@@ -481,17 +481,13 @@ export default class Sim extends PhetioObject {
       phetioDocumentation: 'A function that steps time forward.'
     } );
 
-    const homeScreenQueryParameter = phet.chipper.queryParameters.homeScreen;
-    const initialScreenIndex = phet.chipper.queryParameters.initialScreen;
-    const screensQueryParameter = phet.chipper.queryParameters.screens;
-
     const screenData = selectScreens(
       allSimScreens,
-      homeScreenQueryParameter,
+      phet.chipper.queryParameters.homeScreen,
       QueryStringMachine.containsKey( 'homeScreen' ),
-      initialScreenIndex,
+      phet.chipper.queryParameters.initialScreen,
       QueryStringMachine.containsKey( 'initialScreen' ),
-      screensQueryParameter,
+      phet.chipper.queryParameters.screens,
       QueryStringMachine.containsKey( 'screens' ),
       selectedSimScreens => {
         return new HomeScreen( this.simNameProperty, () => this.screenProperty, selectedSimScreens, {
