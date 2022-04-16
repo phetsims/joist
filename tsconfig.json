@@ -9,6 +9,7 @@
     "../chipper/phet-types.d.ts",
     "../chipper/node_modules/@types/lodash/index.d.ts",
     "../chipper/node_modules/@types/qunit/index.d.ts",
+    "../chipper/node_modules/@types/jquery/index.d.ts",
 
     "js/**/*tests.js", // Cannot use **test** like we do elsewhere because of UpdaTESTate
     "js/**/*Tests.js", // Cannot use **test** like we do elsewhere because of UpdaTESTate
