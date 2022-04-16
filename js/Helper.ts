@@ -1,5 +1,4 @@
 // Copyright 2022, University of Colorado Boulder
-// @ts-nocheck
 /**
  * Some in-simulation utilities designed to help designers and developers
  *
@@ -624,9 +623,7 @@ export default class Helper {
         sim.activeProperty.value = false;
 
         const screen = sim.screenProperty.value;
-        // @ts-ignore Screen?
         if ( screen.hasView() ) {
-          // @ts-ignore Screen?
           this.screenViewProperty.value = screen.view;
         }
         else {
