@@ -134,6 +134,7 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
       descriptionContent: null,
 
       // phet-io
+      tandem: Tandem.REQUIRED,
       phetioType: Screen.ScreenIO,
       phetioState: false,
       phetioFeatured: true
