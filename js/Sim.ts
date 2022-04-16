@@ -70,11 +70,6 @@ import { CreditsData } from './CreditsNode.js';
 const PROGRESS_BAR_WIDTH = 273;
 const SUPPORTS_GESTURE_DESCRIPTION = platform.android || platform.mobileSafari;
 
-// strings needed for the IE warning dialog
-joistStrings.ieErrorPage.platformError;
-joistStrings.ieErrorPage.ieIsNotSupported;
-joistStrings.ieErrorPage.useDifferentBrowser;
-
 // globals
 phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for replicable playbacks
 
