@@ -39,7 +39,7 @@ import ExpandCollapseButton from '../../sun/js/ExpandCollapseButton.js';
 import { default as createObservableArray, ObservableArray } from '../../axon/js/createObservableArray.js';
 import optionize from '../../phet-core/js/optionize.js';
 
-const round = ( n: number, places: number = 2 ) => Utils.toFixed( n, places );
+const round = ( n: number, places = 2 ) => Utils.toFixed( n, places );
 
 class PointerAreaType extends EnumerationValue {
   static MOUSE = new PointerAreaType();
