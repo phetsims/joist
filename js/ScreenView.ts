@@ -71,7 +71,7 @@ class ScreenView extends Node {
       excludeInvisible: true, // so we don't keep invisible screens in the SVG tree
 
       // phet-io options
-      tandem: Tandem.REQUIRED,
+      tandem: Tandem.REQUIRED, // include a default for un-instrumented, JavaScript sims
       visiblePropertyOptions: {
         phetioState: false,
         phetioReadOnly: true
