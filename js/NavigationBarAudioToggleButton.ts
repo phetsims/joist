@@ -58,7 +58,7 @@ class NavigationBarAudioToggleButton extends JoistButton {
 
   constructor( soundEnabledProperty: BooleanProperty, backgroundColorProperty: IReadOnlyProperty<Color>, tandem: Tandem, providedOptions: NavigationBarAudioToggleButtonOptions ) {
 
-    const options = optionize<NavigationBarAudioToggleButtonOptions, {}, JoistButtonOptions>( {
+    const options = optionize<NavigationBarAudioToggleButtonOptions, {}, JoistButtonOptions>()( {
 
       // JoistButton options
       highlightExtensionWidth: 5,

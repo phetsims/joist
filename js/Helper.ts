@@ -842,7 +842,7 @@ class CollapsibleTreeNode<T extends CollapsibleTreeNode<any>> extends Node {
   private childContainer: Node;
 
   constructor( selfNode: Node, providedOptions?: CollapsibleTreeNodeOptions<T> ) {
-    const options = optionize<CollapsibleTreeNodeOptions<T>, CollapsibleTreeNodeSelfOptions<T>, NodeOptions>( {
+    const options = optionize<CollapsibleTreeNodeOptions<T>, CollapsibleTreeNodeSelfOptions<T>, NodeOptions>()( {
       createChildren: () => [],
       spacing: 0,
       indent: 5

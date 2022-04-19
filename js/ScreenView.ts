@@ -61,7 +61,7 @@ class ScreenView extends Node {
 
   constructor( providedOptions?: ScreenViewOptions ) {
 
-    const options = optionize<ScreenViewOptions, ScreenViewSelfOptions, NodeOptions>( {
+    const options = optionize<ScreenViewOptions, ScreenViewSelfOptions, NodeOptions>()( {
 
       // {Bounds2} the bounds that are safe to draw in on all supported platforms
       layoutBounds: DEFAULT_LAYOUT_BOUNDS.copy(),

@@ -267,7 +267,7 @@ export default class Sim extends PhetioObject {
 
     assert && assert( allSimScreens.length >= 1, 'at least one screen is required' );
 
-    const options = optionize<SimOptions, SelfOptions, PhetioObjectOptions>( {
+    const options = optionize<SimOptions, SelfOptions, PhetioObjectOptions>()( {
 
       credits: {},
 

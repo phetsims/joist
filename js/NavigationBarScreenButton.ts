@@ -52,7 +52,7 @@ class NavigationBarScreenButton extends Node {
     assert && assert( screen.nameProperty.value, `name is required for screen ${simScreenIndex}` );
     assert && assert( screen.navigationBarIcon, `navigationBarIcon is required for screen ${screen.nameProperty.value}` );
 
-    const options = optionize<NavigationBarScreenButtonOptions, SelfOptions, NodeOptions, 'tandem'>( {
+    const options = optionize<NavigationBarScreenButtonOptions, SelfOptions, NodeOptions>()( {
       cursor: 'pointer',
       tandem: Tandem.REQUIRED,
       phetioDocumentation: `Button in the navigation bar that selects the '${screen.tandem.name}' screen`,

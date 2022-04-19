@@ -25,7 +25,7 @@ class NavigationBarPreferencesButton extends JoistButton {
 
   constructor( preferencesModel: PreferencesManager, backgroundColorProperty: Property<Color>, providedOptions: NavigationBarPreferencesButtonOptions ) {
 
-    const options = optionize<NavigationBarPreferencesButtonOptions, {}, JoistButtonOptions, 'tandem'>( {
+    const options = optionize<NavigationBarPreferencesButtonOptions, {}, JoistButtonOptions>()( {
       tandem: Tandem.REQUIRED
     }, providedOptions );
 

@@ -43,7 +43,7 @@ export default class JoistButton extends Voicing( Node, 0 ) {
    */
   constructor( content: Node, navigationBarFillProperty: IReadOnlyProperty<Color>, tandem: Tandem, providedOptions: JoistButtonOptions ) {
 
-    const options = optionize<JoistButtonOptions, SelfOptions, VoicingOptions, 'cursor'>( {
+    const options = optionize<JoistButtonOptions, SelfOptions, VoicingOptions>()( {
       cursor: 'pointer', // {string}
       listener: null, // {function}
       //Customization for the highlight region, see overrides in HomeButton and PhetButton

@@ -95,7 +95,7 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
 
   constructor( createModel: () => M, createView: ( model: M ) => V, providedOptions?: ScreenOptions ) {
 
-    const options = optionize<ScreenOptions, ScreenSelfOptions, PhetioObjectOptions>( {
+    const options = optionize<ScreenOptions, ScreenSelfOptions, PhetioObjectOptions>()( {
 
       // {string|null} name of the sim, as displayed to the user.
       // For single-screen sims, there is no home screen or navigation bar, and null is OK.

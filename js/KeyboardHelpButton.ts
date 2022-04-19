@@ -39,7 +39,7 @@ class KeyboardHelpButton extends JoistButton {
    */
   constructor( screenProperty: Property<any>, backgroundColorProperty: Property<Color>, tandem: Tandem, providedOptions: KeyboardHelpButtonOptions ) {
 
-    const options = optionize<KeyboardHelpButtonOptions, {}, JoistButtonOptions>( {
+    const options = optionize<KeyboardHelpButtonOptions, {}, JoistButtonOptions>()( {
       highlightExtensionWidth: 5,
       highlightExtensionHeight: 10,
 

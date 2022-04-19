@@ -43,7 +43,7 @@ export default class HomeButton extends JoistButton {
     providedOptions: HomeButtonOptions
   ) {
 
-    const options = optionize<HomeButtonOptions, SelfOptions, JoistButtonOptions>( {
+    const options = optionize<HomeButtonOptions, SelfOptions, JoistButtonOptions>()( {
       highlightExtensionWidth: 4,
       listener: null,
 

@@ -44,7 +44,7 @@ export type VoicingToolbarItemOptions = SelfOptions & NodeOptions & PickRequired
 class VoicingToolbarItem extends Node {
 
   constructor( alertManager: VoicingToolbarAlertManager, lookAndFeel: LookAndFeel, providedOptions?: VoicingToolbarItemOptions ) {
-    const options = optionize<VoicingToolbarItemOptions, SelfOptions, NodeOptions>( {
+    const options = optionize<VoicingToolbarItemOptions, SelfOptions, NodeOptions>()( {
 
       // pdom
       tagName: 'section',

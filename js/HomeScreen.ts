@@ -39,7 +39,7 @@ class HomeScreen extends Screen<HomeScreenModel, HomeScreenView> {
     providedOptions: HomeScreenOptions
   ) {
 
-    const options = optionize<HomeScreenOptions, SelfOptions, ScreenOptions>( {
+    const options = optionize<HomeScreenOptions, SelfOptions, ScreenOptions>()( {
 
       // TODO get this color from LookAndFeel, see https://github.com/phetsims/joist/issues/222
       backgroundColorProperty: new Property( BACKGROUND_COLOR ),

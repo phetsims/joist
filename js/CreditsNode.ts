@@ -55,7 +55,7 @@ export default class CreditsNode extends VBox {
 
   constructor( credits: CreditsData, options: CreditsNodeOptions ) {
 
-    options = optionize<CreditsNodeOptions, SelfOptions, VBoxOptions>( {
+    options = optionize<CreditsNodeOptions, SelfOptions, VBoxOptions>()( {
       titleFont: new PhetFont( { size: 18, weight: 'bold' } ),
       textFont: new PhetFont( 16 ),
       align: 'left',

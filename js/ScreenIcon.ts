@@ -32,7 +32,7 @@ export default class ScreenIcon extends Node {
    */
   constructor( iconNode: Node, providedOptions?: ScreenIconOptions ) {
 
-    const options = optionize<ScreenIconOptions, SelfOptions, NodeOptions>( {
+    const options = optionize<ScreenIconOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
       size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE, // {Dimension2} size of the background
