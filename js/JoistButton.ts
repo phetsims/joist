@@ -29,7 +29,7 @@ export type JoistButtonOptions = SelfOptions & VoicingOptions;
 
 export default class JoistButton extends Voicing( Node, 0 ) {
 
-  // @public (phet-io|a11y) - Button model
+  // (phet-io|a11y) - Button model
   // Note it shares a tandem with "this", so the emitter will be instrumented as a child of the button
   protected readonly buttonModel: PushButtonModel;
   protected readonly interactionStateProperty: PushButtonInteractionStateProperty;
@@ -129,8 +129,7 @@ export default class JoistButton extends Voicing( Node, 0 ) {
 
   /**
    * Is the button currently firing because of accessibility input coming from the PDOM?
-   * @public (pdom)
-   * @returns {boolean}
+   * (pdom)
    */
   isPDOMClicking() {
     return this._pressListener.pdomClickingProperty.get();

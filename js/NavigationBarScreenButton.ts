@@ -126,7 +126,7 @@ class NavigationBarScreenButton extends Node {
     // Is this button's screen selected?
     const selectedProperty = new DerivedProperty( [ screenProperty ], currentScreen => ( currentScreen === screen ) );
 
-    // @public (phet-io) Create the button model, needs to be public so that PhET-iO wrappers can hook up to it if
+    // (phet-io) Create the button model, needs to be public so that PhET-iO wrappers can hook up to it if
     // needed. Note it shares a tandem with this, so the emitter will be instrumented as a child of the button.
     // Note that this buttonModel will always be phetioReadOnly false despite the parent value.
     this.buttonModel = new PushButtonModel( {

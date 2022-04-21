@@ -65,7 +65,7 @@ class HomeScreen extends Screen<HomeScreenModel, HomeScreenView> {
   }
 }
 
-// @public (read-only)
+// (read-only)
 HomeScreen.BACKGROUND_COLOR = BACKGROUND_COLOR;
 
 joist.register( 'HomeScreen', HomeScreen );

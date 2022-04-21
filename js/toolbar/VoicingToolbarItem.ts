@@ -106,7 +106,6 @@ class VoicingToolbarItem extends Node {
   }
 
   /**
-   * @public
    */
   public override dispose(): void {
     super.dispose();

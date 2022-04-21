@@ -186,7 +186,7 @@ class ScreenView extends Node {
   /**
    * Get the scale to use for laying out the sim components and the navigation bar, so its size will track
    * with the sim size
-   * @public (joist-internal)
+   * (joist-internal)
    */
   getLayoutScale( viewBounds: Bounds2 ): number {
     return ScreenView.getLayoutScale( this.layoutBounds, viewBounds );
@@ -197,7 +197,7 @@ class ScreenView extends Node {
    * and centers the content in the screen vertically and horizontally
    * This function can be replaced by subclasses that wish to perform their own custom layout.
    * @param viewBounds - desired bounds for the view
-   * @public (joist-internal)
+   * (joist-internal)
    */
   layout( viewBounds: Bounds2 ): void {
     this.matrix = ScreenView.getLayoutMatrix( this.layoutBounds, viewBounds );
@@ -219,7 +219,7 @@ class ScreenView extends Node {
 
   /**
    * Set the screen summary Node intro string
-   * @public (joist-internal)
+   * (joist-internal)
    */
   setScreenSummaryIntroAndTitle( simName: string, screenDisplayName: string | null, simTitle: string, isMultiScreen: boolean ): void {
     this.pdomScreenSummaryNode.setIntroString( simName, screenDisplayName, isMultiScreen );

@@ -270,7 +270,7 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
 
   /**
    * Initialize the model.
-   * @public (joist-internal)
+   * (joist-internal)
    */
   initializeModel(): void {
     assert && assert( this._model === null, 'there was already a model' );
@@ -279,7 +279,7 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
 
   /**
    * Initialize the view.
-   * @public (joist-internal)
+   * (joist-internal)
    * @param simNameProperty - The Property of the name of the sim, used for a11y.
    * @param displayedSimNameProperty - The Property of the display name of the sim, used for a11y. Could change based on screen.
    * @param numberOfScreens - the number of screens in the sim this runtime (could change with `?screens=...`.

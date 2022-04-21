@@ -780,8 +780,7 @@ class HelperCheckbox extends Checkbox {
 //   }
 //
 //   /**
-//    * @public
-//    */
+// //    */
 //   layout() {
 //     var preferredBounds = this.preferredBoundsProperty.value;
 //     var separatorLocation = this.separatorLocation;
