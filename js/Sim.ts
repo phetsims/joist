@@ -65,6 +65,8 @@ import PreferencesConfiguration from './preferences/PreferencesConfiguration.js'
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import { CreditsData } from './CreditsNode.js';
+import ScreenView from './ScreenView.js';
+import Popupable from '../../sun/js/Popupable.js';
 
 // constants
 const PROGRESS_BAR_WIDTH = 273;
@@ -81,6 +83,10 @@ phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for repl
 phet.joist.playbackModeEnabledProperty = new BooleanProperty( phet.chipper.queryParameters.playbackMode );
 
 assert && assert( typeof phet.chipper.brand === 'string', 'phet.chipper.brand is required to run a sim' );
+
+// Export a type that lets you check if your Node is composed with ReadingBlock
+const wrapper = () => Popupable( Node );
+type PopupableNode = InstanceType<ReturnType<typeof wrapper>> & Node;
 
 type SelfOptions = {
 
@@ -109,6 +115,7 @@ type SelfOptions = {
 };
 
 // TODO: https://github.com/phetsims/chipper/issues/954 for reviewer: Should we accept all PhetioObjectOptions?
+// REVIEW: I would remove all PhetioObjectOptions from the API for clarity, I can't think of any that would be needed on a sim by sim basis
 export type SimOptions = SelfOptions & PhetioObjectOptions;
 
 export default class Sim extends PhetioObject {
@@ -118,6 +125,7 @@ export default class Sim extends PhetioObject {
   private readonly createOptionsDialogContent: ( ( t: Tandem ) => Node ) | null;
 
   // TODO: For reviewer, OK to have the private implementation and the public interface? See https://github.com/phetsims/joist/issues/795
+  // REVIEW: This is my preferred pattern here. It makes a very typesafe API at the cost one extra line of code/duplication.
   // Indicates sim construction completed, and that all screen models and views have been created.
   // This was added for PhET-iO but can be used by any client. This does not coincide with the end of the Sim
   // constructor (because Sim has asynchronous steps that finish after the constructor is completed)
@@ -155,14 +163,18 @@ export default class Sim extends PhetioObject {
   private readonly stepSimulationAction: PhetioAction<[ number ]>;
 
   // the ordered list of sim-specific screens that appear in this runtime of the sim
-  private readonly simScreens: Screen<IntentionalAny, IntentionalAny>[];
+  // REVIEW: 1. How is this passing the type checker? IntentionalAny does not extend ScreenView.
+  // REVIEW: 2. In general, I would recommend using `any` until we are CERTAIN that any is appropriate, because it would
+  // REVIEW: easily be lost and not converted in the future.
+  // REVIEW: 3. Is it time to create a Model supertype or a IModel interface that can be used for type safety here?
+  private readonly simScreens: Screen<IntentionalAny, ScreenView>[];
 
   // all screens that appear in the runtime of this sim, with the homeScreen first if it was created
-  private readonly screens: Screen<IntentionalAny, IntentionalAny>[];
+  private readonly screens: Screen<IntentionalAny, ScreenView>[];
 
   // the displayed name in the sim. This depends on what screens are shown this runtime (effected by query parameters).
   private readonly displayedSimNameProperty: IReadOnlyProperty<string>;
-  readonly screenProperty: Property<Screen<IntentionalAny, IntentionalAny>>;
+  readonly screenProperty: Property<Screen<IntentionalAny, ScreenView>>;
 
   // true if all possible screens are present (order-independent)
   private readonly allScreensCreated: boolean;
@@ -261,7 +273,7 @@ export default class Sim extends PhetioObject {
    * @param allSimScreens - the possible screens for the sim in order of declaration (does not include the home screen)
    * @param [providedOptions] - see below for options
    */
-  constructor( name: string, allSimScreens: Screen<IntentionalAny, IntentionalAny>[], providedOptions?: SimOptions ) {
+  constructor( name: string, allSimScreens: Screen<IntentionalAny, ScreenView>[], providedOptions?: SimOptions ) {
 
     window.phetSplashScreenDownloadComplete();
 
@@ -294,7 +306,11 @@ export default class Sim extends PhetioObject {
       // phet-io
       phetioState: false,
       phetioReadOnly: true,
-      tandem: Tandem.ROOT // TODO: https://github.com/phetsims/joist/issues/795 this doesn't look correct
+
+      // TODO: https://github.com/phetsims/joist/issues/795 this doesn't look correct
+      // REVIEW: It is indeed correct, we are pretty foundational here. Are you worried about the duplication of using this
+      // Here and also in the main files to name screens?
+      tandem: Tandem.ROOT
     }, providedOptions );
 
     assert && assert( !options.simDisplayOptions.webgl, 'use top level sim option instead of simDisplayOptions' );
@@ -327,6 +343,7 @@ export default class Sim extends PhetioObject {
       assert && assert( isConstructionComplete, 'Sim construction should never uncomplete' );
     } );
 
+    // REVIEW: Can't this also be initialized where it is declared? Or perhaps that isn't needed because it is local now.
     const dimensionProperty = new Property( new Dimension2( 0, 0 ), {
       useDeepEquality: true
     } );
@@ -366,6 +383,7 @@ export default class Sim extends PhetioObject {
       this.topLayer.children.forEach( child => {
 
         // @ts-ignore TODO: See https://github.com/phetsims/joist/issues/795
+        // REVIEW: I'm really not sure how to handle this one, let's talk about it.
         child.layout && child.layout( availableScreenBounds );
       } );
 
@@ -451,11 +469,13 @@ export default class Sim extends PhetioObject {
       if ( phet.chipper.queryParameters.supportsPanAndZoom ) {
 
         // animate the PanZoomListener, for smooth panning/scaling
+        // REVIEW: Since SimDisplay initializes this, perhaps simDisplay should override updateDisplay and call step there?
         animatedPanZoomSingleton.listener!.step( dt );
       }
 
       // View step is the last thing before updateDisplay(), so we can do paint updates there.
       // See https://github.com/phetsims/joist/issues/401.
+      // REVIEW: From my changes, ScreenView has a noop step function now, we can delete this check
       if ( screen.view.step ) {
         screen.view.step( dt );
       }
@@ -491,7 +511,7 @@ export default class Sim extends PhetioObject {
       QueryStringMachine.containsKey( 'screens' ),
       selectedSimScreens => {
         return new HomeScreen( this.simNameProperty, () => this.screenProperty, selectedSimScreens, {
-          tandem: Tandem.ROOT.createTandem( window.phetio.PhetioIDUtils.HOME_SCREEN_COMPONENT_NAME ),
+          tandem: options.tandem.createTandem( window.phetio.PhetioIDUtils.HOME_SCREEN_COMPONENT_NAME ),
           warningNode: options.homeScreenWarningNode
         } );
       }
@@ -502,7 +522,7 @@ export default class Sim extends PhetioObject {
     this.screens = screenData.screens;
     this.allScreensCreated = screenData.allScreensCreated;
 
-    this.screenProperty = new Property<Screen<IntentionalAny, IntentionalAny>>( screenData.initialScreen, {
+    this.screenProperty = new Property<Screen<IntentionalAny, ScreenView>>( screenData.initialScreen, {
       tandem: Tandem.GENERAL_MODEL.createTandem( 'screenProperty' ),
       phetioFeatured: true,
       phetioDocumentation: 'Determines which screen is selected in the simulation',
@@ -538,6 +558,9 @@ export default class Sim extends PhetioObject {
       phetioReadOnly: true,
       phetioFeatured: true
     } );
+
+    // REVIEW: Can this just be moved to the declaration?
+    // REVIEW: If Not, can this just be set to this when initialized?
     this.browserTabVisibleProperty = browserTabVisibleProperty;
 
     // set the state of the property that indicates if the browser tab is visible
@@ -579,6 +602,7 @@ export default class Sim extends PhetioObject {
     // Make ScreenshotGenerator available globally so it can be used in preload files such as PhET-iO.
     window.phet.joist.ScreenshotGenerator = ScreenshotGenerator;
 
+    // REVIEW: I think this can be moved to the declaration
     this.version = packageJSON.version;
 
     // If the locale query parameter was specified, then we may be running the all.html file, so adjust the title.
@@ -692,7 +716,7 @@ export default class Sim extends PhetioObject {
     animationFrameTimer.runOnNextTick( () => phet.joist.display.updateDisplay() );
   }
 
-  private finishInit( screens: Screen<IntentionalAny, IntentionalAny>[] ): void {
+  private finishInit( screens: Screen<IntentionalAny, ScreenView>[] ): void {
 
     _.each( screens, screen => {
       screen.view.layerSplit = true;
@@ -779,7 +803,8 @@ export default class Sim extends PhetioObject {
    */
 
   // TODO: https://github.com/phetsims/joist/issues/795 Better type for Popupable
-  showPopup( popup: Node & { hide: () => void; layout?: ( bounds: Bounds2 ) => void }, isModal: boolean ): void {
+  // REVIEW: I created PopupableNode. It shouldn't need the '& Node', but I think that will need to stay until it is converted to TS.
+  showPopup( popup: PopupableNode, isModal: boolean ): void {
     assert && assert( popup );
     assert && assert( !!popup.hide, 'Missing popup.hide() for showPopup' );
     assert && assert( !this.topLayer.hasChild( popup ), 'popup already shown' );
@@ -938,6 +963,7 @@ export default class Sim extends PhetioObject {
   // Destroy a sim so that it will no longer consume resources. Formerly used in Smorgasbord.  May not be used by
   // anything else at the moment.
   // TODO: https://github.com/phetsims/joist/issues/795 remove this unused method
+  // REVIEW: Sure, it may be nice to keep it around also since we may want to cleanup a sim at some point. no preference, it isn't much code to maintain.
   private destroy(): void {
     this.destroyed = true;
     this.display.domElement.parentNode && this.display.domElement.parentNode.removeChild( this.display.domElement );
@@ -973,7 +999,7 @@ export default class Sim extends PhetioObject {
   }
 
   // Run a single frame including model, view and display updates
-  stepOneFrame(): void {
+  private stepOneFrame(): void {
 
     // Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
     const currentTime = Date.now();
@@ -989,6 +1015,7 @@ export default class Sim extends PhetioObject {
   /**
    * Update the simulation model, view, scenery display with an elapsed time of dt.
    * @param dt - in seconds
+   * (phet-io)
    */
   stepSimulation( dt: number ): void {
     this.stepSimulationAction.execute( dt );
@@ -1030,7 +1057,7 @@ export default class Sim extends PhetioObject {
  * Compute the dt since the last event
  * @param lastTime - milliseconds, time of the last event
  * @param currentTime - milliseconds, current time.  Passed in instead of computed so there is no "slack" between measurements
- * @returns - seconds
+ * @returns - in seconds
  */
 function getDT( lastTime: number, currentTime: number ): number {
 

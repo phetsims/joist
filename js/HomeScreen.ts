@@ -25,6 +25,7 @@ const BACKGROUND_COLOR = Color.BLACK;
 type SelfOptions = {
 
   // For REVIEW: https://github.com/phetsims/joist/issues/795 awkward for this to be required but nullable.
+  // REVIEW: I think it is enough until we have HomeScreenView in Typescript and can use that option here specifically, instead of duplicating.
   warningNode: Node | null;
 };
 type HomeScreenOptions = SelfOptions & ScreenOptions;

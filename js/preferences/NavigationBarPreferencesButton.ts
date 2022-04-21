@@ -33,7 +33,7 @@ class NavigationBarPreferencesButton extends JoistButton {
       maxWidth: 25
     } );
 
-    // @ts-ignore TODO https://github.com/phetsims/joist/issues/795
+    // @ts-ignore TODO https://github.com/phetsims/joist/issues/795 - until Popupable is in Typescript, TS doesn't know about the hierarchy it seems.
     const preferencesDialogCapsule = new PhetioCapsule( tandem => {
       return new PreferencesDialog( preferencesModel, {
         tandem: tandem

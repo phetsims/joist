@@ -39,6 +39,7 @@ type CreditsNodeOptions = SelfOptions & VBoxOptions;
 // TODO: https://github.com/phetsims/joist/issues/795 For reviewer. The way we typically do credits, like in
 //  ratio-and-proportion-main, won't do excess property checking.  I changed Gravity and Orbits main to specify the type.
 //  We could also pass the sim options directly to the sim constructor to do excess proprerty checking.  What do you recommend?
+// REVIEW: I recommend that all usages change to inline or `const simOptions: SimOptions = { . . . }`.
 export type CreditsData = {
   leadDesign?: string;
   softwareDevelopment?: string;
