@@ -299,6 +299,9 @@ class ScreenView extends Node {
       0, 0, 1
     );
   }
+
+  // Noops for consistent API
+  step( dt: number ): void {}
 }
 
 ScreenView.DEFAULT_LAYOUT_BOUNDS = DEFAULT_LAYOUT_BOUNDS;
