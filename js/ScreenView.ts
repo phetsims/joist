@@ -59,7 +59,7 @@ class ScreenView extends Node {
 
   static DEFAULT_LAYOUT_BOUNDS: Bounds2;
 
-  constructor( providedOptions?: ScreenViewOptions ) {
+  constructor( providedOptions: ScreenViewOptions ) {
 
     const options = optionize<ScreenViewOptions, ScreenViewSelfOptions, NodeOptions>()( {
 

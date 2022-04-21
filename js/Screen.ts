@@ -94,7 +94,7 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
   static MINIMUM_NAVBAR_ICON_SIZE: Dimension2;
   static ScreenIO: IOType;
 
-  constructor( createModel: () => M, createView: ( model: M ) => V, providedOptions?: ScreenOptions ) {
+  constructor( createModel: () => M, createView: ( model: M ) => V, providedOptions: ScreenOptions ) {
 
     const options = optionize<ScreenOptions, ScreenSelfOptions, PhetioObjectOptions>()( {
 
