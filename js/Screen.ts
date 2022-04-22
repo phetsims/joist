@@ -83,7 +83,7 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
   navigationBarIcon: Node | null;
   private readonly showUnselectedHomeScreenIconFrame: boolean;
   private readonly keyboardHelpNode: Node | null; // joist-internal
-  readonly pdomDisplayNameProperty: DerivedProperty<string | null, [ string | null ]>;
+  readonly pdomDisplayNameProperty: IReadOnlyProperty<string | null>;
   private readonly createModel: () => M;
   private readonly createView: ( model: M ) => V;
   private _model: M | null;
