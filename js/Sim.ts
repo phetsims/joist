@@ -67,6 +67,7 @@ import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import { CreditsData } from './CreditsNode.js';
 import ScreenView from './ScreenView.js';
 import Popupable from '../../sun/js/Popupable.js';
+import PickOptional from '../../phet-core/js/types/PickOptional.js';
 
 // constants
 const PROGRESS_BAR_WIDTH = 273;
@@ -114,7 +115,7 @@ type SelfOptions = {
   simDisplayOptions?: any;
 };
 
-export type SimOptions = SelfOptions;
+export type SimOptions = SelfOptions & PickOptional<PhetioObject, 'phetioDesigned'>;
 
 export default class Sim extends PhetioObject {
 
