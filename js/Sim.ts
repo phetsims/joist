@@ -784,9 +784,6 @@ export default class Sim extends PhetioObject {
    * @param popup - the popup, must implemented node.hide(), called by hidePopup
    * @param isModal - whether popup is modal
    */
-
-  // TODO: https://github.com/phetsims/joist/issues/795 Better type for Popupable
-  // REVIEW: I created PopupableNode. It shouldn't need the '& Node', but I think that will need to stay until it is converted to TS.
   showPopup( popup: PopupableNode, isModal: boolean ): void {
     assert && assert( popup );
     assert && assert( !!popup.hide, 'Missing popup.hide() for showPopup' );
