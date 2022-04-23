@@ -9,7 +9,6 @@
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
 import optionize from '../../phet-core/js/optionize.js';
-import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import { Color, Node } from '../../scenery/js/imports.js';
 import HomeScreenKeyboardHelpContent from './HomeScreenKeyboardHelpContent.js';
 import HomeScreenModel from './HomeScreenModel.js';
@@ -17,15 +16,13 @@ import HomeScreenView from './HomeScreenView.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import Screen, { ScreenOptions } from './Screen.js';
+import ScreenView from './ScreenView.js';
 
 // constants
 const homeString = joistStrings.a11y.home;
 const BACKGROUND_COLOR = Color.BLACK;
 
 type SelfOptions = {
-
-  // For REVIEW: https://github.com/phetsims/joist/issues/795 awkward for this to be required but nullable.
-  // REVIEW: I think it is enough until we have HomeScreenView in Typescript and can use that option here specifically, instead of duplicating.
   warningNode: Node | null;
 };
 type HomeScreenOptions = SelfOptions & ScreenOptions;
@@ -35,7 +32,7 @@ class HomeScreen extends Screen<HomeScreenModel, HomeScreenView> {
 
   constructor(
     simNameProperty: IReadOnlyProperty<string>,
-    getScreenProperty: () => Property<Screen<IntentionalAny, IntentionalAny>>,
+    getScreenProperty: () => Property<Screen<any, ScreenView>>,
     simScreens: Screen<any, any>[],
     providedOptions: HomeScreenOptions
   ) {

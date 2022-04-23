@@ -63,7 +63,6 @@ import Toolbar from './toolbar/Toolbar.js';
 import updateCheck from './updateCheck.js';
 import PreferencesConfiguration from './preferences/PreferencesConfiguration.js';
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
-import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import { CreditsData } from './CreditsNode.js';
 import ScreenView from './ScreenView.js';
 import Popupable from '../../sun/js/Popupable.js';
@@ -160,18 +159,15 @@ export default class Sim extends PhetioObject {
   private readonly stepSimulationAction: PhetioAction<[ number ]>;
 
   // the ordered list of sim-specific screens that appear in this runtime of the sim
-  // REVIEW: 1. How is this passing the type checker? IntentionalAny does not extend ScreenView.
-  // REVIEW: 2. In general, I would recommend using `any` until we are CERTAIN that any is appropriate, because it would
-  // REVIEW: easily be lost and not converted in the future.
   // REVIEW: 3. Is it time to create a Model supertype or a IModel interface that can be used for type safety here?
-  private readonly simScreens: Screen<IntentionalAny, ScreenView>[];
+  private readonly simScreens: Screen<any, ScreenView>[];
 
   // all screens that appear in the runtime of this sim, with the homeScreen first if it was created
-  private readonly screens: Screen<IntentionalAny, ScreenView>[];
+  private readonly screens: Screen<any, ScreenView>[];
 
   // the displayed name in the sim. This depends on what screens are shown this runtime (effected by query parameters).
   private readonly displayedSimNameProperty: IReadOnlyProperty<string>;
-  readonly screenProperty: Property<Screen<IntentionalAny, ScreenView>>;
+  readonly screenProperty: Property<Screen<any, ScreenView>>;
 
   // true if all possible screens are present (order-independent)
   private readonly allScreensCreated: boolean;
@@ -269,7 +265,7 @@ export default class Sim extends PhetioObject {
    * @param allSimScreens - the possible screens for the sim in order of declaration (does not include the home screen)
    * @param [providedOptions] - see below for options
    */
-  constructor( name: string, allSimScreens: Screen<IntentionalAny, ScreenView>[], providedOptions?: SimOptions ) {
+  constructor( name: string, allSimScreens: Screen<any, ScreenView>[], providedOptions?: SimOptions ) {
 
     window.phetSplashScreenDownloadComplete();
 
@@ -512,7 +508,7 @@ export default class Sim extends PhetioObject {
     this.screens = screenData.screens;
     this.allScreensCreated = screenData.allScreensCreated;
 
-    this.screenProperty = new Property<Screen<IntentionalAny, ScreenView>>( screenData.initialScreen, {
+    this.screenProperty = new Property<Screen<any, ScreenView>>( screenData.initialScreen, {
       tandem: Tandem.GENERAL_MODEL.createTandem( 'screenProperty' ),
       phetioFeatured: true,
       phetioDocumentation: 'Determines which screen is selected in the simulation',
@@ -703,7 +699,7 @@ export default class Sim extends PhetioObject {
     animationFrameTimer.runOnNextTick( () => phet.joist.display.updateDisplay() );
   }
 
-  private finishInit( screens: Screen<IntentionalAny, ScreenView>[] ): void {
+  private finishInit( screens: Screen<any, ScreenView>[] ): void {
 
     _.each( screens, screen => {
       screen.view.layerSplit = true;

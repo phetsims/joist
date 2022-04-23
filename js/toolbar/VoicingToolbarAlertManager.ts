@@ -9,7 +9,6 @@
  */
 
 import Property from '../../../axon/js/Property.js';
-import IntentionalAny from '../../../phet-core/js/types/IntentionalAny.js';
 import joist from '../joist.js';
 import Screen from '../Screen.js';
 import ScreenView from '../ScreenView.js';
@@ -17,12 +16,12 @@ import ScreenView from '../ScreenView.js';
 class VoicingToolbarAlertManager {
 
   // The active Screen for the simulation, to generate Voicing descriptions that are related to the active screen.
-  private readonly screenProperty: Property<Screen<IntentionalAny, ScreenView>>;
+  private readonly screenProperty: Property<Screen<any, ScreenView>>;
 
   /**
    * @param {Property.<Screen>} screenProperty - indicates the active screen
    */
-  constructor( screenProperty: Property<Screen<IntentionalAny, ScreenView>> ) {
+  constructor( screenProperty: Property<Screen<any, ScreenView>> ) {
     this.screenProperty = screenProperty;
   }
 
