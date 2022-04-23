@@ -114,9 +114,7 @@ type SelfOptions = {
   simDisplayOptions?: any;
 };
 
-// TODO: https://github.com/phetsims/chipper/issues/954 for reviewer: Should we accept all PhetioObjectOptions?
-// REVIEW: I would remove all PhetioObjectOptions from the API for clarity, I can't think of any that would be needed on a sim by sim basis
-export type SimOptions = SelfOptions & PhetioObjectOptions;
+export type SimOptions = SelfOptions;
 
 export default class Sim extends PhetioObject {
 
@@ -124,8 +122,6 @@ export default class Sim extends PhetioObject {
   private readonly simNameProperty: IReadOnlyProperty<string>;
   private readonly createOptionsDialogContent: ( ( t: Tandem ) => Node ) | null;
 
-  // TODO: For reviewer, OK to have the private implementation and the public interface? See https://github.com/phetsims/joist/issues/795
-  // REVIEW: This is my preferred pattern here. It makes a very typesafe API at the cost one extra line of code/duplication.
   // Indicates sim construction completed, and that all screen models and views have been created.
   // This was added for PhET-iO but can be used by any client. This does not coincide with the end of the Sim
   // constructor (because Sim has asynchronous steps that finish after the constructor is completed)
@@ -203,7 +199,6 @@ export default class Sim extends PhetioObject {
   readonly screenBoundsProperty = new Property<Bounds2 | null>( null );
 
   private readonly lookAndFeel = new LookAndFeel();
-  private destroyed = false;
   private readonly memoryMonitor = new MemoryMonitor();
 
   // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
@@ -215,7 +210,7 @@ export default class Sim extends PhetioObject {
   readonly isSettingPhetioStateProperty: IReadOnlyProperty<boolean>;
 
   // (joist-internal)
-  private readonly version: string;
+  private readonly version: string = packageJSON.version;
 
   // number of animation frames that have occurred
   private frameCounter = 0;
@@ -306,10 +301,6 @@ export default class Sim extends PhetioObject {
       // phet-io
       phetioState: false,
       phetioReadOnly: true,
-
-      // TODO: https://github.com/phetsims/joist/issues/795 this doesn't look correct
-      // REVIEW: It is indeed correct, we are pretty foundational here. Are you worried about the duplication of using this
-      // Here and also in the main files to name screens?
       tandem: Tandem.ROOT
     }, providedOptions );
 
@@ -343,10 +334,11 @@ export default class Sim extends PhetioObject {
       assert && assert( isConstructionComplete, 'Sim construction should never uncomplete' );
     } );
 
-    // REVIEW: Can't this also be initialized where it is declared? Or perhaps that isn't needed because it is local now.
     const dimensionProperty = new Property( new Dimension2( 0, 0 ), {
       useDeepEquality: true
     } );
+
+    // Note: the public API is IReadOnlyProperty
     this.dimensionProperty = dimensionProperty;
 
     this.resizeAction = new PhetioAction<[ number, number ]>( ( width, height ) => {
@@ -475,10 +467,7 @@ export default class Sim extends PhetioObject {
 
       // View step is the last thing before updateDisplay(), so we can do paint updates there.
       // See https://github.com/phetsims/joist/issues/401.
-      // REVIEW: From my changes, ScreenView has a noop step function now, we can delete this check
-      if ( screen.view.step ) {
-        screen.view.step( dt );
-      }
+      screen.view.step( dt );
 
       // Do not update the display while PhET-iO is customizing, or it could show the sim before it is fully ready for display.
       if ( !( Tandem.PHET_IO_ENABLED && !phet.phetio.phetioEngine.isReadyForDisplay ) ) {
@@ -552,6 +541,7 @@ export default class Sim extends PhetioObject {
         }
       } );
 
+    // Local variable is settable...
     const browserTabVisibleProperty = new BooleanProperty( true, {
       tandem: Tandem.GENERAL_MODEL.createTandem( 'browserTabVisibleProperty' ),
       phetioDocumentation: 'Indicates whether the browser tab containing the simulation is currently visible',
@@ -559,8 +549,7 @@ export default class Sim extends PhetioObject {
       phetioFeatured: true
     } );
 
-    // REVIEW: Can this just be moved to the declaration?
-    // REVIEW: If Not, can this just be set to this when initialized?
+    // ... but the public class attribute is read-only
     this.browserTabVisibleProperty = browserTabVisibleProperty;
 
     // set the state of the property that indicates if the browser tab is visible
@@ -601,9 +590,6 @@ export default class Sim extends PhetioObject {
 
     // Make ScreenshotGenerator available globally so it can be used in preload files such as PhET-iO.
     window.phet.joist.ScreenshotGenerator = ScreenshotGenerator;
-
-    // REVIEW: I think this can be moved to the declaration
-    this.version = packageJSON.version;
 
     // If the locale query parameter was specified, then we may be running the all.html file, so adjust the title.
     // See https://github.com/phetsims/chipper/issues/510
@@ -960,20 +946,9 @@ export default class Sim extends PhetioObject {
     runItem( 0 );
   }
 
-  // Destroy a sim so that it will no longer consume resources. Formerly used in Smorgasbord.  May not be used by
-  // anything else at the moment.
-  // TODO: https://github.com/phetsims/joist/issues/795 remove this unused method
-  // REVIEW: Sure, it may be nice to keep it around also since we may want to cleanup a sim at some point. no preference, it isn't much code to maintain.
-  private destroy(): void {
-    this.destroyed = true;
-    this.display.domElement.parentNode && this.display.domElement.parentNode.removeChild( this.display.domElement );
-  }
-
   // Bound to this.boundRunAnimationLoop so it can be run in window.requestAnimationFrame
   private runAnimationLoop(): void {
-    if ( !this.destroyed ) {
-      window.requestAnimationFrame( this.boundRunAnimationLoop );
-    }
+    window.requestAnimationFrame( this.boundRunAnimationLoop );
 
     // Only run animation frames for an active sim. If in playbackMode, playback logic will handle animation frame
     // stepping manually.

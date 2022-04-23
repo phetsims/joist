@@ -53,8 +53,6 @@ type ScreenSelfOptions = {
   name?: string | null;
   instrumentNameProperty?: boolean;
 
-  // TODO: https://github.com/phetsims/joist/issues/795 Is this type union OK?
-  // REVIEW: I think this is something that we should work on, but it is good have typescript demonstrating this to us.
   // It would be preferable to support Property<Color | string> solely, but many subtypes are hardcoded to be Color only
   // or string only, so we support this polymorphic form
   backgroundColorProperty?: Property<Color | string> | Property<Color> | Property<string>;
