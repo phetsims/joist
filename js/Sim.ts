@@ -259,6 +259,7 @@ export default class Sim extends PhetioObject {
   // (joist-internal) Bind the animation loop so it can be called from requestAnimationFrame with the right this.
   private readonly boundRunAnimationLoop: () => void;
   private readonly updateBackground: () => void;
+  readonly credits: CreditsData;
 
   /**
    * @param name - the name of the simulation, to be displayed in the navbar and homescreen
@@ -311,6 +312,8 @@ export default class Sim extends PhetioObject {
     }, options.simDisplayOptions );
 
     super( options );
+
+    this.credits = options.credits;
 
     this.createOptionsDialogContent = options.createOptionsDialogContent;
 
