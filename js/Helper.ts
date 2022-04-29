@@ -705,7 +705,7 @@ export default class Helper {
   // Singleton, lazily created so we don't slow down startup
   static helper?: Helper;
 
-  static initialize( sim: Sim, simDisplay: SimDisplay ) {
+  static initialize( sim: Sim, simDisplay: SimDisplay ): void {
     // Ctrl + shift + H (will open the helper)
     document.addEventListener( 'keydown', ( event: KeyboardEvent ) => {
       if ( event.ctrlKey && event.key === 'H' ) {
@@ -917,22 +917,22 @@ class CollapsibleTreeNode<T extends CollapsibleTreeNode<any>> extends Node {
     this.mutate( options );
   }
 
-  expand() {
+  expand(): void {
     this.expandedProperty.value = true;
   }
 
-  collapse() {
+  collapse(): void {
     this.expandedProperty.value = false;
   }
 
-  expandRecusively() {
+  expandRecusively(): void {
     this.expandedProperty.value = true;
     this.childTreeNodes.forEach( treeNode => {
       treeNode.expandRecusively();
     } );
   }
 
-  collapseRecursively() {
+  collapseRecursively(): void {
     this.expandedProperty.value = false;
     this.childTreeNodes.forEach( treeNode => {
       treeNode.collapseRecursively();
@@ -1205,13 +1205,13 @@ class TreeNode<T extends ( VisualTreeNode | PDOMTreeNode )> extends Rectangle {
     } );
   }
 
-  resize( size: Dimension2 ) {
+  resize( size: Dimension2 ): void {
     this.rectHeight = size.height;
     this.right = size.width;
     this.treeContainer.clipArea = Shape.bounds( this.localBounds.dilated( 10 ) );
   }
 
-  constrainTree() {
+  constrainTree(): void {
     const treeMarginX = 8;
     const treeMarginY = 5;
 
@@ -1231,7 +1231,7 @@ class TreeNode<T extends ( VisualTreeNode | PDOMTreeNode )> extends Rectangle {
     }
   }
 
-  focusTrail( trail: Trail ) {
+  focusTrail( trail: Trail ): void {
     if ( this.treeNode ) {
       const treeNode = this.treeNode.find( trail );
       if ( treeNode ) {
@@ -1242,13 +1242,13 @@ class TreeNode<T extends ( VisualTreeNode | PDOMTreeNode )> extends Rectangle {
     }
   }
 
-  focusPointer() {
+  focusPointer(): void {
     if ( this.helper.pointerTrailProperty.value ) {
       this.focusTrail( this.helper.pointerTrailProperty.value );
     }
   }
 
-  focusSelected() {
+  focusSelected(): void {
     if ( this.helper.selectedTrailProperty.value === null ) { return; }
 
     this.focusTrail( this.helper.selectedTrailProperty.value );

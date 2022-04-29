@@ -147,7 +147,7 @@ export default class CreditsNode extends VBox {
     };
   }
 
-  override dispose() {
+  override dispose(): void {
     this.disposeCreditsNode();
     super.dispose();
   }

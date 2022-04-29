@@ -131,7 +131,7 @@ export default class JoistButton extends Voicing( Node, 0 ) {
    * Is the button currently firing because of accessibility input coming from the PDOM?
    * (pdom)
    */
-  isPDOMClicking() {
+  isPDOMClicking(): boolean {
     return this._pressListener.pdomClickingProperty.get();
   }
 }
