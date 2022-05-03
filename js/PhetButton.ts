@@ -11,9 +11,7 @@
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
-import { AriaHasPopUpMutator, Color } from '../../scenery/js/imports.js';
-import { Image } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
+import { AriaHasPopUpMutator, Color, Image, Line, Node } from '../../scenery/js/imports.js';
 import pushButtonSoundPlayer from '../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
@@ -80,8 +78,21 @@ class PhetButton extends JoistButton {
       pickable: false
     } );
 
+    const children = phet.chipper.queryParameters.ea && phet.chipper.brand === 'phet-io' ?
+      [
+
+        // The underline in phet-io phetioDebug mode
+        new Line( 0, 0, logoImage.width, 0, {
+          stroke: 'red', lineWidth: 0.6,
+          centerX: logoImage.centerX,
+          bottom: logoImage.bottom
+        } ),
+
+        logoImage, menuIcon ] :
+      [ logoImage, menuIcon ];
+
     // The icon combines the PhET logo and the menu icon
-    const icon = new Node( { children: [ logoImage, menuIcon ] } );
+    const icon = new Node( { children: children } );
 
     super( icon, backgroundFillProperty, tandem, {
       highlightExtensionWidth: 6,
