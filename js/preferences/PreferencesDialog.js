@@ -138,6 +138,8 @@ class PreferencesDialog extends Dialog {
     } );
     content.addInputListener( {
       keydown: event => {
+
+        // components within the content may need to respond to input themselves, only focus tabs if container has focus
         if ( KeyboardUtils.isKeyEvent( event.domEvent, KeyboardUtils.KEY_UP_ARROW ) &&
              this.preferencesPanels.isFocusableSelectedContent( event.target ) ) {
           this.focusSelectedTab();
