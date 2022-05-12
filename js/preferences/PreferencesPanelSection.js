@@ -8,8 +8,7 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
-import { AlignGroup } from '../../../scenery/js/imports.js';
-import { VBox } from '../../../scenery/js/imports.js';
+import { AlignGroup, Node, VBox } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 
 class PreferencesPanelSection extends VBox {
@@ -43,7 +42,7 @@ class PreferencesPanelSection extends VBox {
       } ) );
     }
     if ( options.contentNode ) {
-      sectionChildren.push( sectionAlignGroup.createBox( options.contentNode, {
+      sectionChildren.push( sectionAlignGroup.createBox( new Node( { children: [ options.contentNode ] } ), {
         leftMargin: options.contentLeftMargin,
         xAlign: 'left'
       } ) );
