@@ -164,7 +164,7 @@ class NavigationBarAudioToggleButton extends JoistButton {
     // on construction and must be unlinked in dispose
     const soundUtterance = new ActivationUtterance();
     const pressedListener = ( value: boolean ) => {
-      this.setPDOMAttribute( 'aria-pressed', !value );
+      this.setPDOMAttribute( 'aria-pressed', value );
 
       soundUtterance.alert = value ? joistStrings.a11y.soundToggle.alert.simSoundOn
                                    : joistStrings.a11y.soundToggle.alert.simSoundOff;
@@ -174,7 +174,7 @@ class NavigationBarAudioToggleButton extends JoistButton {
       }
     };
     soundEnabledProperty.lazyLink( pressedListener );
-    this.setPDOMAttribute( 'aria-pressed', !soundEnabledProperty.get() );
+    this.setPDOMAttribute( 'aria-pressed', soundEnabledProperty.get() );
 
     // If no subcomponents of the audioManager that are enabled disable this button
     // to make it clear that toggling the audioEnabledProperty will have no impact
