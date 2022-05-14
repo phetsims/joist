@@ -96,7 +96,7 @@ export default class JoistButton extends Voicing( Node, 0 ) {
 
     // Update the highlights based on whether the button is highlighted and whether it is against a light or dark background.
     Property.multilink( [ interactionStateProperty, navigationBarFillProperty, this.buttonModel.enabledProperty ],
-      ( interactionState: ButtonInteractionState, navigationBarFill: Color, enabled: boolean ) => {
+      ( interactionState, navigationBarFill, enabled ) => {
         const useDarkenHighlight = !navigationBarFill.equals( Color.BLACK );
 
         brightenHighlight.visible = !useDarkenHighlight && enabled &&

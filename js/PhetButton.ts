@@ -10,7 +10,6 @@
 
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
-import Bounds2 from '../../dot/js/Bounds2.js';
 import { AriaHasPopUpMutator, Color, Image, Line, Node } from '../../scenery/js/imports.js';
 import pushButtonSoundPlayer from '../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -21,7 +20,6 @@ import joistStrings from './joistStrings.js';
 import KebabMenuIcon from './KebabMenuIcon.js';
 import PhetMenu from './PhetMenu.js';
 import Sim from './Sim.js';
-import Screen from './Screen.js';
 import updateCheck from './updateCheck.js';
 import UpdateState from './UpdateState.js';
 
@@ -56,7 +54,7 @@ class PhetButton extends JoistButton {
     // sim.bounds are null on init, but we will get the callback when it is sized for the first time
     // Does not need to be unlinked or disposed because PhetButton persists for the lifetime of the sim
     Property.multilink( [ sim.boundsProperty, sim.screenBoundsProperty, sim.scaleProperty ],
-      ( bounds: Bounds2 | null, screenBounds: Bounds2 | null, scale: number ) => {
+      ( bounds, screenBounds, scale ) => {
         if ( bounds && screenBounds && scale ) {
           phetMenu.setScaleMagnitude( scale );
           phetMenu.right = bounds.right - 2;
@@ -127,7 +125,7 @@ class PhetButton extends JoistButton {
 
     // No need to unlink, as the PhetButton exists for the lifetime of the sim
     Property.multilink( [ backgroundFillProperty, sim.screenProperty, updateCheck.stateProperty ],
-      ( backgroundFill: Color, screen: Screen<any, any>, updateState: any ) => {
+      ( backgroundFill, screen, updateState ) => {
         const showHomeScreen = screen === sim.homeScreen;
         const backgroundIsWhite = !backgroundFill.equals( Color.BLACK ) && !showHomeScreen;
 

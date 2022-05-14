@@ -72,7 +72,7 @@ export default class HomeButton extends JoistButton {
     this.focusHighlight = Shape.bounds( this.bounds.setMaxY( this.bounds.maxY - highlightLineWidth / 2 ) );
 
     Property.multilink( [ this.interactionStateProperty, navigationBarFillProperty ],
-      ( interactionState: ButtonInteractionState, navigationBarFill: Color ) => {
+      ( interactionState, navigationBarFill ) => {
         if ( navigationBarFill.equals( Color.BLACK ) ) {
           homeIcon.fill = interactionState === ButtonInteractionState.PRESSED ? 'gray' : 'white';
         }

@@ -300,7 +300,7 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
     }
 
     // Set the accessible label for the screen.
-    Property.multilink<[ string, string, string | null ]>( [ displayedSimNameProperty, simNameProperty, this.pdomDisplayNameProperty ],
+    Property.multilink( [ displayedSimNameProperty, simNameProperty, this.pdomDisplayNameProperty ],
       ( displayedName, simName, pdomDisplayName ) => {
 
         let titleString;

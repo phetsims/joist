@@ -151,7 +151,7 @@ class NavigationBarScreenButton extends Node {
     // manage interaction feedback
     Property.multilink(
       [ selectedProperty, this.buttonModel.looksPressedProperty, this.buttonModel.looksOverProperty, navigationBarFillProperty, this.buttonModel.enabledProperty ],
-      ( selected: boolean, looksPressed: boolean, looksOver: boolean, navigationBarFill: Color, enabled: boolean ) => {
+      ( selected, looksPressed, looksOver, navigationBarFill, enabled ) => {
 
         const useDarkenHighlights = !navigationBarFill.equals( Color.BLACK );
 

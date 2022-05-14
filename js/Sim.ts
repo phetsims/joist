@@ -623,7 +623,7 @@ export default class Sim extends PhetioObject {
 
     Helper.initialize( this, this.display );
 
-    Property.multilink( [ this.activeProperty, phet.joist.playbackModeEnabledProperty ], ( active: boolean, playbackModeEnabled: boolean ) => {
+    Property.multilink( [ this.activeProperty, phet.joist.playbackModeEnabledProperty ], ( active, playbackModeEnabled: boolean ) => {
 
       // If in playbackMode is enabled, then the display must be interactive to support PDOM event listeners during
       // playback (which often come directly from sim code and not from user input).
