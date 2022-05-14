@@ -30,7 +30,7 @@ class LookAndFeel {
 
     this.backgroundColorProperty = new Property<Color>( Color.BLACK );
 
-    this.navigationBarDarkProperty = new DerivedProperty<boolean, [ Color ]>( [ this.backgroundColorProperty ],
+    this.navigationBarDarkProperty = new DerivedProperty( [ this.backgroundColorProperty ],
       backgroundColor => backgroundColor.equals( Color.BLACK )
     );
 

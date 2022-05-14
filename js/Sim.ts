@@ -519,7 +519,7 @@ export default class Sim extends PhetioObject {
       phetioType: Property.PropertyIO( Screen.ScreenIO )
     } );
 
-    this.displayedSimNameProperty = new DerivedProperty<string, [ string, string | null ]>( [ this.simNameProperty, this.simScreens[ 0 ].nameProperty ],
+    this.displayedSimNameProperty = new DerivedProperty( [ this.simNameProperty, this.simScreens[ 0 ].nameProperty ],
       ( simName, screenName ) => {
         const isMultiScreenSimDisplayingSingleScreen = this.simScreens.length === 1 && allSimScreens.length !== this.simScreens.length;
 

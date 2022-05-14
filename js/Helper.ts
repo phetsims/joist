@@ -147,7 +147,7 @@ export default class Helper {
 
     this.selectedTrailProperty = new TinyProperty<Trail | null>( null );
     this.treeHoverTrailProperty = new TinyProperty<Trail | null>( null );
-    this.pointerTrailProperty = new DerivedProperty( [ this.pointerPositionProperty, this.overInterfaceProperty, this.pointerAreaTypeProperty, this.inputBasedPickingProperty ], ( point: Vector2, overInterface: boolean, pointerAreaType: PointerAreaType, inputBasedPicking: boolean ) => {
+    this.pointerTrailProperty = new DerivedProperty( [ this.pointerPositionProperty, this.overInterfaceProperty, this.pointerAreaTypeProperty, this.inputBasedPickingProperty ], ( point, overInterface, pointerAreaType, inputBasedPicking ) => {
       // We're not over something while we're over an interface
       if ( overInterface ) {
         return null;
@@ -189,7 +189,7 @@ export default class Helper {
       return selected ? selected : ( treeHover ? treeHover : active );
     } );
 
-    this.previewShapeProperty = new DerivedProperty( [ this.previewTrailProperty, this.inputBasedPickingProperty, this.pointerAreaTypeProperty ], ( previewTrail: Trail | null, inputBasedPicking: boolean, pointerAreaType: PointerAreaType ) => {
+    this.previewShapeProperty = new DerivedProperty( [ this.previewTrailProperty, this.inputBasedPickingProperty, this.pointerAreaTypeProperty ], ( previewTrail, inputBasedPicking, pointerAreaType ) => {
       if ( previewTrail ) {
         if ( inputBasedPicking ) {
           return getShape( previewTrail, pointerAreaType === PointerAreaType.MOUSE, pointerAreaType === PointerAreaType.TOUCH );
@@ -207,7 +207,7 @@ export default class Helper {
 
     this.imageDataProperty = new TinyProperty<ImageData | null>( null );
 
-    this.colorProperty = new DerivedProperty( [ this.pointerPositionProperty, this.imageDataProperty ], ( position: Vector2, imageData: ImageData | null ) => {
+    this.colorProperty = new DerivedProperty( [ this.pointerPositionProperty, this.imageDataProperty ], ( position, imageData ) => {
       if ( !imageData ) {
         return Color.TRANSPARENT;
       }
@@ -1260,7 +1260,7 @@ const createHeaderText = ( str: string, node?: Node, options?: TextOptions ) => 
     fontSize: 14,
     fontWeight: 'bold',
     layoutOptions: { topMargin: 5 },
-    visibleProperty: node ? new DerivedProperty( [ node.boundsProperty ], ( bounds: Bounds2 ) => {
+    visibleProperty: node ? new DerivedProperty( [ node.boundsProperty ], bounds => {
       return !bounds.isEmpty();
     } ) : new TinyProperty( true )
   }, options ) );
