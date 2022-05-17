@@ -79,7 +79,7 @@ class PhetButton extends JoistButton {
     const children = phet.chipper.queryParameters.ea && phet.chipper.brand === 'phet-io' ?
       [
 
-        // The underline in phet-io phetioDebug mode
+        // The underline in phet-io debug mode
         new Line( 0, 0, logoImage.width, 0, {
           stroke: 'red', lineWidth: 0.6,
           centerX: logoImage.centerX,
