@@ -79,14 +79,12 @@ class PhetButton extends JoistButton {
     const children = phet.chipper.queryParameters.ea && phet.chipper.brand === 'phet-io' ?
       [
 
-        // The underline in phet-io debug mode
-        new Line( 0, 0, logoImage.width, 0, {
-          stroke: 'red', lineWidth: 0.6,
-          centerX: logoImage.centerX,
+        // The underline in phet-io debug mode. "7" is the right distance to avoid hiding the trademark.
+        new Line( 0, 0, logoImage.width - 7, 0, {
+          stroke: 'red', lineWidth: 3,
+          left: logoImage.left,
           bottom: logoImage.bottom
-        } ),
-
-        logoImage, menuIcon ] :
+        } ), logoImage, menuIcon ] :
       [ logoImage, menuIcon ];
 
     // The icon combines the PhET logo and the menu icon
