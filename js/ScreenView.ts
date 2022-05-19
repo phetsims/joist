@@ -230,8 +230,6 @@ class ScreenView extends Node {
    * Create the alert content for this ScreenView when the Voicing feature is enabled and the "Overview" button
    * is pressed.
    * @abstract
-   *
-   * @returns {string}
    */
   getVoicingOverviewContent(): string {
     throw new Error( 'The ScreenView should implement getVoicingOverviewContent if Voicing is enabled' );
