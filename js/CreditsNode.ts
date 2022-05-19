@@ -139,7 +139,6 @@ export default class CreditsNode extends VBox {
 
     super( options );
 
-    // @private
     this.disposeCreditsNode = () => {
       children.forEach( child => {
         child.dispose && child.dispose();
