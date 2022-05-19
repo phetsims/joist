@@ -1029,7 +1029,6 @@ export default class Sim extends PhetioObject {
  * Compute the dt since the last event
  * @param lastTime - milliseconds, time of the last event
  * @param currentTime - milliseconds, current time.  Passed in instead of computed so there is no "slack" between measurements
- * @returns - in seconds
  */
 function getDT( lastTime: number, currentTime: number ): number {
 
