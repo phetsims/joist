@@ -266,7 +266,7 @@ class PhetMenu extends Node {
       // "Full Screen" menu item
       {
         text: menuItemFullscreenString,
-        present: FullScreen.isFullScreenEnabled() && !isApp && !platform.mobileSafari,
+        present: FullScreen.isFullScreenEnabled() && !isApp && !platform.mobileSafari && !phet.chipper.queryParameters.preventFullScreen,
         callback: () => {
           if ( !phet.chipper.isFuzzEnabled() ) {
             FullScreen.toggleFullScreen( sim.display );
