@@ -203,7 +203,7 @@ class HomeScreenButton extends VBox {
       out: () => isHighlightedProperty.set( false )
     } );
 
-    // If you touch an unselected button, it become selected. If then without lifting your finger you swipe over to the
+    // If you touch an unselected button, it becomes selected. If then without lifting your finger you swipe over to the
     // next button, that one becomes selected instead.
     const onTouchLikeOver = () => {
       buttonWasAlreadySelected = homeScreenModel.selectedScreenProperty.value === screen;
@@ -217,7 +217,7 @@ class HomeScreenButton extends VBox {
     // set the mouseArea and touchArea to be the whole local bounds of this node, because if it just relies on the
     // bounds of the icon and text, then there is a gap in between them. Since the button can change size, this
     // assignment needs to happen anytime the bounds change.
-    this.boundsProperty.lazyLink( () => {
+    this.boundsProperty.link( () => {
       this.mouseArea = this.touchArea = Shape.bounds( this.localBounds );
     } );
   }
