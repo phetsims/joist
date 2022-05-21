@@ -15,7 +15,7 @@ import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import MeasuringTapeNode from '../../scenery-phet/js/MeasuringTapeNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { CanvasNode, Circle, Color, Display, DOM, DragListener, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, IColor, Image, IPaint, LayoutBox, Line, LinearGradient, Node, NodeOptions, NodePattern, Paint, Path, Pattern, PDOMInstance, PressListener, RadialGradient, Rectangle, RichText, SceneryEvent, Spacer, Text, TextOptions, Trail, VBox, WebGLNode } from '../../scenery/js/imports.js';
+import { CanvasNode, Circle, Color, Display, DOM, DragListener, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, IColor, Image, IPaint, LayoutBox, LayoutNode, Line, LinearGradient, mixesHeightSizable, mixesWidthSizable, Node, NodeOptions, NodePattern, Paint, Path, Pattern, PDOMInstance, PressListener, RadialGradient, Rectangle, RichText, SceneryEvent, Spacer, Text, TextOptions, Trail, VBox, WebGLNode } from '../../scenery/js/imports.js';
 import Panel from '../../sun/js/Panel.js';
 import AquaRadioButtonGroup from '../../sun/js/AquaRadioButtonGroup.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -1476,6 +1476,70 @@ const createInfo = ( trail: Trail ): Node[] => {
     if ( !node.resize ) {
       addSimple( 'resize', node.resize );
     }
+  }
+
+  if ( mixesWidthSizable( node ) ) {
+    !node.widthSizable && addSimple( 'widthSizable', node.widthSizable );
+    node.preferredWidth !== null && addSimple( 'preferredWidth', node.preferredWidth );
+    node.preferredWidth !== node.localPreferredWidth && addSimple( 'localPreferredWidth', node.localPreferredWidth );
+    node.minimumWidth !== null && addSimple( 'minimumWidth', node.minimumWidth );
+    node.minimumWidth !== node.localMinimumWidth && addSimple( 'localMinimumWidth', node.localMinimumWidth );
+  }
+
+  if ( mixesHeightSizable( node ) ) {
+    !node.heightSizable && addSimple( 'heightSizable', node.heightSizable );
+    node.preferredHeight !== null && addSimple( 'preferredHeight', node.preferredHeight );
+    node.preferredHeight !== node.localPreferredHeight && addSimple( 'localPreferredHeight', node.localPreferredHeight );
+    node.minimumHeight !== null && addSimple( 'minimumHeight', node.minimumHeight );
+    node.minimumHeight !== node.localMinimumHeight && addSimple( 'localMinimumHeight', node.localMinimumHeight );
+  }
+
+  if ( node.layoutOptions ) {
+    addSimple( 'layoutOptions', JSON.stringify( node.layoutOptions, null, 2 ) );
+  }
+
+  if ( node instanceof LayoutNode ) {
+    !node.resize && addSimple( 'resize', node.resize );
+    !node.layoutOrigin.equals( Vector2.ZERO ) && addSimple( 'layoutOrigin', node.layoutOrigin );
+  }
+
+  if ( node instanceof FlowBox ) {
+    addSimple( 'orientation', node.orientation );
+    addSimple( 'align', node.align );
+    node.spacing && addSimple( 'spacing', node.spacing );
+    node.lineSpacing && addSimple( 'lineSpacing', node.lineSpacing );
+    addSimple( 'justify', node.justify );
+    node.justifyLines && addSimple( 'justifyLines', node.justifyLines );
+    node.wrap && addSimple( 'wrap', node.wrap );
+    node.stretch && addSimple( 'stretch', node.stretch );
+    node.grow && addSimple( 'grow', node.grow );
+    node.leftMargin && addSimple( 'leftMargin', node.leftMargin );
+    node.rightMargin && addSimple( 'rightMargin', node.rightMargin );
+    node.topMargin && addSimple( 'topMargin', node.topMargin );
+    node.bottomMargin && addSimple( 'bottomMargin', node.bottomMargin );
+    node.minContentWidth !== null && addSimple( 'minContentWidth', node.minContentWidth );
+    node.minContentHeight !== null && addSimple( 'minContentHeight', node.minContentHeight );
+    node.maxContentWidth !== null && addSimple( 'maxContentWidth', node.maxContentWidth );
+    node.maxContentHeight !== null && addSimple( 'maxContentHeight', node.maxContentHeight );
+  }
+
+  if ( node instanceof GridBox ) {
+    addSimple( 'xAlign', node.xAlign );
+    addSimple( 'yAlign', node.yAlign );
+    node.xSpacing && addSimple( 'xSpacing', node.xSpacing );
+    node.ySpacing && addSimple( 'ySpacing', node.ySpacing );
+    node.xStretch && addSimple( 'xStretch', node.xStretch );
+    node.yStretch && addSimple( 'yStretch', node.yStretch );
+    node.xGrow && addSimple( 'xGrow', node.xGrow );
+    node.yGrow && addSimple( 'yGrow', node.yGrow );
+    node.leftMargin && addSimple( 'leftMargin', node.leftMargin );
+    node.rightMargin && addSimple( 'rightMargin', node.rightMargin );
+    node.topMargin && addSimple( 'topMargin', node.topMargin );
+    node.bottomMargin && addSimple( 'bottomMargin', node.bottomMargin );
+    node.minContentWidth !== null && addSimple( 'minContentWidth', node.minContentWidth );
+    node.minContentHeight !== null && addSimple( 'minContentHeight', node.minContentHeight );
+    node.maxContentWidth !== null && addSimple( 'maxContentWidth', node.maxContentWidth );
+    node.maxContentHeight !== null && addSimple( 'maxContentHeight', node.maxContentHeight );
   }
 
   if ( node instanceof Rectangle ) {
