@@ -1784,9 +1784,6 @@ const createInfo = ( trail: Trail ): Node[] => {
       addShape( 'touchArea', node.touchArea );
     }
   }
-  if ( node.localBoundsOverridden ) {
-    addBounds2( 'localBounds', node.localBounds );
-  }
   if ( node.inputListeners.length ) {
     addSimple( 'inputListeners', node.inputListeners.map( listener => listener.constructor.name ).join( ', ' ) );
   }
@@ -1794,6 +1791,9 @@ const createInfo = ( trail: Trail ): Node[] => {
   children.push( new Spacer( 5, 5 ) );
 
   addBounds2( 'localBounds', node.localBounds );
+  if ( node.localBoundsOverridden ) {
+    addSimple( 'localBoundsOverridden', node.localBoundsOverridden );
+  }
   addBounds2( 'bounds', node.bounds );
 
   children.push( new RectangularPushButton( {
