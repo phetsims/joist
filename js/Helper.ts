@@ -1260,7 +1260,6 @@ const createHeaderText = ( str: string, node?: Node, options?: TextOptions ) => 
   return new Text( str, merge( {
     fontSize: 14,
     fontWeight: 'bold',
-    layoutOptions: { topMargin: 5 },
     visibleProperty: node ? new DerivedProperty( [ node.boundsProperty ], bounds => {
       return !bounds.isEmpty();
     } ) : new TinyProperty( true )
