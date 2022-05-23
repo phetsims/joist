@@ -9,26 +9,27 @@
  */
 
 import Property from '../../axon/js/Property.js';
+import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
 import Screen from './Screen.js';
+import ScreenView from './ScreenView.js';
 
 class HomeScreenModel {
+  simScreens: Screen<IntentionalAny, ScreenView>[]; // screens in the simulations that are not the HomeScreen
+  screenProperty: Property<Screen<IntentionalAny, ScreenView>>;
+  selectedScreenProperty: Property<Screen<IntentionalAny, ScreenView>>;
 
   /**
-   * @param {Property.<Screen>} screenProperty - the screen that is displayed to the user in the main area above the
+   * @param screenProperty - the screen that is displayed to the user in the main area above the
    *                                           - navigation bar
-   * @param {Screen[]} simScreens
-   * @param {Tandem} tandem
+   * @param simScreens
+   * @param tandem
    */
-  constructor( screenProperty, simScreens, tandem ) {
+  constructor( screenProperty: Property<Screen<IntentionalAny, IntentionalAny>>, simScreens: Screen<IntentionalAny, IntentionalAny>[], tandem: Tandem ) {
 
-    // @public {Screen[]} - screens in the simulations that are not the HomeScreen
     this.simScreens = simScreens;
-
-    // @public {Property.<Screen>} - the screen that is displayed to the user in the main area above the navigation bar
     this.screenProperty = screenProperty;
-
-    // @public {Property.<Screen>} - on the home screen only, the screen corresponding to the large button icon
     this.selectedScreenProperty = new Property( simScreens[ 0 ], {
       validValues: simScreens,
       phetioType: Property.PropertyIO( Screen.ScreenIO ),

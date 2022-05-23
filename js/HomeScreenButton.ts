@@ -14,33 +14,34 @@ import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Utils from '../../dot/js/Utils.js';
 import { Shape } from '../../kite/js/imports.js';
 import merge from '../../phet-core/js/merge.js';
+import optionize from '../../phet-core/js/optionize.js';
+import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { PDOMPeer } from '../../scenery/js/imports.js';
-import { FireListener } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
-import { Text } from '../../scenery/js/imports.js';
-import { VBox } from '../../scenery/js/imports.js';
+import { FireListener, Node, PDOMPeer, Rectangle, Text, VBox, VBoxOptions } from '../../scenery/js/imports.js';
 import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import Frame from './Frame.js';
+import HomeScreenModel from './HomeScreenModel.js';
 import joist from './joist.js';
+import ScreenView from './ScreenView.js';
+import Screen from './Screen.js';
 
 // constants
 const LARGE_ICON_HEIGHT = 140;
 
+type SelfOptions = {
+  showUnselectedHomeScreenIconFrame?: boolean;
+};
+type HomeScreenButtonOptions = SelfOptions & VBoxOptions;
+
+
 class HomeScreenButton extends VBox {
+  readonly screen: Screen<IntentionalAny, ScreenView>;
 
-  /**
-   * @param {Screen} screen
-   * @param {HomeScreenModel} homeScreenModel
-   * @param {Object} [options]
-   * @constructor
-   */
-  constructor( screen, homeScreenModel, options ) {
+  constructor( screen: Screen<IntentionalAny, ScreenView>, homeScreenModel: HomeScreenModel, providedOptions?: HomeScreenButtonOptions ) {
 
-    options = merge( {
+    const options = optionize<HomeScreenButtonOptions, SelfOptions, VBoxOptions>()( {
       cursor: 'pointer',
       showUnselectedHomeScreenIconFrame: false, // put a frame around unselected home screen icons
 
@@ -53,7 +54,7 @@ class HomeScreenButton extends VBox {
       tandem: Tandem.REQUIRED,
       phetioEventType: EventType.USER,
       phetioDocumentation: 'A button on the home screen for choosing a simulation screen'
-    }, options );
+    }, providedOptions );
 
     // derives a boolean value from homeScreenModel.selectedScreenProperty that says if this button is selected on the
     // home screen.
@@ -71,14 +72,17 @@ class HomeScreenButton extends VBox {
     }
     const smallIconHeight = smallIconScale * LARGE_ICON_HEIGHT;
 
+    assert && assert( screen.homeScreenIcon, `homeScreenIcon is required for screen ${screen.nameProperty.value}` );
+    const homeScreenIcon = screen.homeScreenIcon!;
+
     // create an icon for each size
     const smallIcon = new Node( {
-      children: [ screen.homeScreenIcon ],
-      scale: smallIconHeight / screen.homeScreenIcon.height
+      children: [ homeScreenIcon ],
+      scale: smallIconHeight / homeScreenIcon.height
     } );
     const largeIcon = new Node( {
-      children: [ screen.homeScreenIcon ],
-      scale: LARGE_ICON_HEIGHT / screen.homeScreenIcon.height
+      children: [ homeScreenIcon ],
+      scale: LARGE_ICON_HEIGHT / homeScreenIcon.height
     } );
 
     // create a frame for each size
@@ -100,15 +104,16 @@ class HomeScreenButton extends VBox {
       pdomVisible: false
     } );
 
+    assert && assert( screen.nameProperty.value, 'name is required for screen.' );
+
     // text for the button
-    const text = new Text( screen.nameProperty.value, {
+    const text = new Text( screen.nameProperty.value!, {
       tandem: options.tandem.createTandem( 'text' ),
       textPropertyOptions: { phetioReadOnly: true } // text is updated via screen.nameProperty
     } );
 
     super( merge( { children: [ nodeContainer, text ] }, options ) );
 
-    // @public (read-only)
     this.screen = screen;
 
     this.addAriaDescribedbyAssociation( {
@@ -159,7 +164,8 @@ class HomeScreenButton extends VBox {
 
     // update the text when the screen name changes
     screen.nameProperty.link( name => {
-      text.text = name;
+      assert && assert( name, 'name cannot be null.' );
+      text.text = name!;
     } );
 
     let buttonWasAlreadySelected = false;

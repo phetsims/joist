@@ -20,7 +20,7 @@ import Dimension2 from '../../dot/js/Dimension2.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
-import { Color, Path, Rectangle, Node } from '../../scenery/js/imports.js';
+import { Color, Node, Path, Rectangle } from '../../scenery/js/imports.js';
 import PhetioObject, { PhetioObjectOptions } from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
@@ -77,9 +77,9 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
   readonly nameProperty: IReadOnlyProperty<string | null>;
 
   readonly showScreenIconFrameForNavigationBarFill: string | null;
-  private readonly homeScreenIcon: Node | null;
+  readonly homeScreenIcon: Node | null;
   navigationBarIcon: Node | null;
-  private readonly showUnselectedHomeScreenIconFrame: boolean;
+  readonly showUnselectedHomeScreenIconFrame: boolean;
   private readonly keyboardHelpNode: Node | null; // joist-internal
   readonly pdomDisplayNameProperty: IReadOnlyProperty<string | null>;
   private readonly createModel: () => M;

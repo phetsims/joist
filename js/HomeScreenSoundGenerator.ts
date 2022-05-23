@@ -7,22 +7,22 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import EnumerationDeprecated from '../../phet-core/js/EnumerationDeprecated.js';
-import MultiClip from '../../tambo/js/sound-generators/MultiClip.js';
+import MultiClip, { MultiClipOptions } from '../../tambo/js/sound-generators/MultiClip.js';
 import screenSelectionHomeV3_mp3 from '../sounds/screenSelectionHomeV3_mp3.js';
 import switchingScreenSelectorIcons003_mp3 from '../sounds/switchingScreenSelectorIcons003_mp3.js';
 import joist from './joist.js';
+import HomeScreenModel from './HomeScreenModel.js';
+import Enumeration from '../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../phet-core/js/EnumerationValue.js';
 
-// constants
-const SoundType = EnumerationDeprecated.byKeys( [ 'HOME_SCREEN_SELECTED', 'DIFFERENT_ICON_SELECTED' ] );
+class SoundType extends EnumerationValue {
+  static HOME_SCREEN_SELECTED = new SoundType();
+  static DIFFERENT_ICON_SELECTED = new SoundType();
+  static enumeration = new Enumeration( SoundType );
+}
 
-class HomeScreenSoundGenerator extends MultiClip {
-
-  /**
-   * @param {HomeScreenModel} homeScreenModel - the model for the home screen
-   * @param {Object} [options]
-   */
-  constructor( homeScreenModel, options ) {
+class HomeScreenSoundGenerator extends MultiClip<SoundType> {
+  constructor( homeScreenModel: HomeScreenModel, providedOptions?: MultiClipOptions ) {
 
     // create the map of home screen actions to sounds
     const valuesToSoundsMap = new Map( [
@@ -30,7 +30,7 @@ class HomeScreenSoundGenerator extends MultiClip {
       [ SoundType.DIFFERENT_ICON_SELECTED, switchingScreenSelectorIcons003_mp3 ]
     ] );
 
-    super( valuesToSoundsMap, options );
+    super( valuesToSoundsMap, providedOptions );
 
     homeScreenModel.screenProperty.lazyLink( screen => {
       if ( screen.model === homeScreenModel ) {

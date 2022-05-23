@@ -7,22 +7,27 @@
  */
 
 import Bounds2 from '../../dot/js/Bounds2.js';
-import merge from '../../phet-core/js/merge.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { HBox } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Text } from '../../scenery/js/imports.js';
+import { HBox, Node, Text } from '../../scenery/js/imports.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import HomeScreenButton from './HomeScreenButton.js';
 import HomeScreenSoundGenerator from './HomeScreenSoundGenerator.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
-import ScreenView from './ScreenView.js';
+import ScreenView, { ScreenViewOptions } from './ScreenView.js';
+import Screen from './Screen.js';
+import HomeScreenModel from './HomeScreenModel.js';
+import Property from '../../axon/js/Property.js';
+import Tandem from '../../tandem/js/Tandem.js';
+import optionize from '../../phet-core/js/optionize.js';
+import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import PickOptional from '../../phet-core/js/types/PickOptional.js';
 
 const homeScreenDescriptionPatternString = joistStrings.a11y.homeScreenDescriptionPattern;
 
-// constants
+type GeneralScreen = Screen<IntentionalAny, ScreenView>;
 
 // NOTE: In https://github.com/phetsims/joist/issues/640, we attempted to use ScreenView.DEFAULT_LAYOUT_BOUNDS here.
 // Lots of problems were encountered, since both the Home screen and navigation bar are dependent on this value.
@@ -32,20 +37,31 @@ const LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
 // iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
 const TITLE_FONT_FAMILY = 'Century Gothic, Futura';
 
+type SelfOptions = {
+
+  // to display below the icons as a warning if available
+  warningNode?: Node | null;
+};
+
+type HomeScreenViewOptions = SelfOptions & PickOptional<ScreenViewOptions, 'tandem'> & Omit<ScreenViewOptions, 'tandem'>;
+
 class HomeScreenView extends ScreenView {
+  private homeScreenScreenSummaryIntro!: string;
+  private selectedScreenProperty: Property<GeneralScreen>;
+  screenButtons: HomeScreenButton[];
 
   /**
-   * @param {Property.<string>} simNameProperty - the internationalized text for the sim name
-   * @param {HomeScreenModel} model
-   * @param {Tandem} tandem
-   * @param {Object} [options]
+   * @param simNameProperty - the internationalized text for the sim name
+   * @param model
+   * @param tandem
+   * @param [providedOptions]
    */
-  constructor( simNameProperty, model, tandem, options ) {
+  constructor( simNameProperty: IReadOnlyProperty<string>, model: HomeScreenModel, tandem: Tandem, providedOptions?: HomeScreenViewOptions ) {
     assert && assert( simNameProperty.value, `simName is required: ${simNameProperty.value}` );
 
-    options = merge( {
-      warningNode: null // {Node | null}, to display below the icons as a warning if available
-    }, options );
+    const options = optionize<HomeScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
+      warningNode: null
+    }, providedOptions );
 
     super( {
       layoutBounds: LAYOUT_BOUNDS,
@@ -63,7 +79,6 @@ class HomeScreenView extends ScreenView {
 
     simNameProperty.link( () => {
 
-      // @private
       this.homeScreenScreenSummaryIntro = StringUtils.fillIn( homeScreenDescriptionPatternString, {
         name: simNameProperty.value,
         screens: model.simScreens.length
@@ -76,7 +91,7 @@ class HomeScreenView extends ScreenView {
       } );
     } );
 
-    this.selectedScreenProperty = model.selectedScreenProperty; // @private
+    this.selectedScreenProperty = model.selectedScreenProperty;
 
     const titleText = new Text( simNameProperty.value, {
       font: new PhetFont( {
@@ -102,8 +117,7 @@ class HomeScreenView extends ScreenView {
 
     const buttonGroupTandem = tandem.createTandem( 'buttonGroup' );
 
-    // @private
-    this.screenButtons = _.map( model.simScreens, screen => {
+    this.screenButtons = _.map( model.simScreens, ( screen: GeneralScreen ) => {
 
       assert && assert( screen.nameProperty.value, `name is required for screen ${model.simScreens.indexOf( screen )}` );
       assert && assert( screen.homeScreenIcon, `homeScreenIcon is required for screen ${screen.nameProperty.value}` );
@@ -181,9 +195,8 @@ class HomeScreenView extends ScreenView {
 
   /**
    * For a11y, highlight the currently selected screen button
-   * @public
    */
-  focusHighlightedScreenButton() {
+  focusHighlightedScreenButton(): void {
     for ( let i = 0; i < this.screenButtons.length; i++ ) {
       const screenButton = this.screenButtons[ i ];
       if ( screenButton.screen === this.selectedScreenProperty.value ) {
@@ -195,19 +208,15 @@ class HomeScreenView extends ScreenView {
 
   /**
    * To support voicing.
-   * @override
-   * @public
    */
-  getVoicingOverviewContent() {
+  override getVoicingOverviewContent(): string {
     return this.homeScreenScreenSummaryIntro;
   }
 
   /**
    * To support voicing.
-   * @override
-   * @public
    */
-  getVoicingDetailsContent() {
+  override getVoicingDetailsContent(): string {
 
     let details = '';
 
@@ -226,17 +235,14 @@ class HomeScreenView extends ScreenView {
 
   /**
    * To support voicing.
-   * @override
-   * @public
    */
-  getVoicingHintContent() {
+  override getVoicingHintContent(): string {
     return joistStrings.a11y.homeScreenHint;
   }
-}
 
-// @public
-HomeScreenView.TITLE_FONT_FAMILY = TITLE_FONT_FAMILY;
-HomeScreenView.LAYOUT_BOUNDS = LAYOUT_BOUNDS;
+  static TITLE_FONT_FAMILY = TITLE_FONT_FAMILY;
+  static LAYOUT_BOUNDS = LAYOUT_BOUNDS;
+}
 
 joist.register( 'HomeScreenView', HomeScreenView );
 export default HomeScreenView;
