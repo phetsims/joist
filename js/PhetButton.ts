@@ -9,7 +9,7 @@
  */
 
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
-import Property from '../../axon/js/Property.js';
+import Multilink from '../../axon/js/Multilink.js';
 import { AriaHasPopUpMutator, Color, Image, Line, Node } from '../../scenery/js/imports.js';
 import pushButtonSoundPlayer from '../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -53,7 +53,7 @@ class PhetButton extends JoistButton {
     // Sim.js handles scaling the popup menu.  This code sets the position of the popup menu.
     // sim.bounds are null on init, but we will get the callback when it is sized for the first time
     // Does not need to be unlinked or disposed because PhetButton persists for the lifetime of the sim
-    Property.multilink( [ sim.boundsProperty, sim.screenBoundsProperty, sim.scaleProperty ],
+    Multilink.multilink( [ sim.boundsProperty, sim.screenBoundsProperty, sim.scaleProperty ],
       ( bounds, screenBounds, scale ) => {
         if ( bounds && screenBounds && scale ) {
           phetMenu.setScaleMagnitude( scale );
@@ -122,7 +122,7 @@ class PhetButton extends JoistButton {
     phetMenu.setFocusOnHideNode( this );
 
     // No need to unlink, as the PhetButton exists for the lifetime of the sim
-    Property.multilink( [ backgroundFillProperty, sim.screenProperty, updateCheck.stateProperty ],
+    Multilink.multilink( [ backgroundFillProperty, sim.screenProperty, updateCheck.stateProperty ],
       ( backgroundFill, screen, updateState ) => {
         const showHomeScreen = screen === sim.homeScreen;
         const backgroundIsWhite = !backgroundFill.equals( Color.BLACK ) && !showHomeScreen;

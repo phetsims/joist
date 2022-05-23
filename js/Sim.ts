@@ -67,6 +67,7 @@ import { CreditsData } from './CreditsNode.js';
 import ScreenView from './ScreenView.js';
 import Popupable from '../../sun/js/Popupable.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
+import Multilink from '../../axon/js/Multilink.js';
 
 // constants
 const PROGRESS_BAR_WIDTH = 273;
@@ -623,7 +624,7 @@ export default class Sim extends PhetioObject {
 
     Helper.initialize( this, this.display );
 
-    Property.multilink( [ this.activeProperty, phet.joist.playbackModeEnabledProperty ], ( active, playbackModeEnabled: boolean ) => {
+    Multilink.multilink( [ this.activeProperty, phet.joist.playbackModeEnabledProperty ], ( active, playbackModeEnabled: boolean ) => {
 
       // If in playbackMode is enabled, then the display must be interactive to support PDOM event listeners during
       // playback (which often come directly from sim code and not from user input).

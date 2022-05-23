@@ -7,7 +7,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import Property from '../../../axon/js/Property.js';
+import Multilink from '../../../axon/js/Multilink.js';
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import { FocusHighlightPath, KeyboardUtils, Line, Node, PressListener, Rectangle, Text, Voicing } from '../../../scenery/js/imports.js';
@@ -206,7 +206,7 @@ class Tab extends Voicing( Node, 0 ) {
     } );
     this.addInputListener( pressListener );
 
-    Property.multilink( [ property, pressListener.isOverProperty ], ( selectedTab, isOver ) => {
+    Multilink.multilink( [ property, pressListener.isOverProperty ], ( selectedTab, isOver ) => {
       textNode.opacity = selectedTab === value ? 1 :
                          isOver ? 0.8 :
                          0.6;

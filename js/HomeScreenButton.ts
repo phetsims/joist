@@ -109,7 +109,7 @@ class HomeScreenButton extends VBox {
     // text for the button
     const text = new Text( screen.nameProperty.value!, {
       tandem: options.tandem.createTandem( 'text' ),
-      textPropertyOptions: { phetioReadOnly: true } // text is updated via screen.nameProperty
+      phetioReadOnly: true  // text is updated via screen.nameProperty
     } );
 
     super( merge( { children: [ nodeContainer, text ] }, options ) );
@@ -196,6 +196,8 @@ class HomeScreenButton extends VBox {
       tandem: options.tandem.createTandem( 'inputListener' )
     } );
     this.addInputListener( fireListener );
+
+    // @ts-ignore
     this.addInputListener( { focus: event => { !isSelectedProperty.value && fireListener.fire( event ); } } );
 
     // when a screen reader is in use, the button may be selected with the virtual cursor

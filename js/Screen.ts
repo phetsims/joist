@@ -32,6 +32,7 @@ import joistStrings from './joistStrings.js';
 import ScreenIcon from './ScreenIcon.js';
 import ScreenView from './ScreenView.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
+import Multilink from '../../axon/js/Multilink.js';
 
 const screenNamePatternString = joistStrings.a11y.screenNamePattern;
 const screenSimPatternString = joistStrings.a11y.screenSimPattern;
@@ -300,7 +301,7 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
     }
 
     // Set the accessible label for the screen.
-    Property.multilink( [ displayedSimNameProperty, simNameProperty, this.pdomDisplayNameProperty ],
+    Multilink.multilink( [ displayedSimNameProperty, simNameProperty, this.pdomDisplayNameProperty ],
       ( displayedName, simName, pdomDisplayName ) => {
 
         let titleString;

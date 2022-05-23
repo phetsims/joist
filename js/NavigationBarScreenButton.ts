@@ -10,6 +10,7 @@
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import Multilink from '../../axon/js/Multilink.js';
 import Property from '../../axon/js/Property.js';
 import Utils from '../../dot/js/Utils.js';
 import { Shape } from '../../kite/js/imports.js';
@@ -148,7 +149,7 @@ class NavigationBarScreenButton extends Node {
     this.addInputListener( pressListener );
 
     // manage interaction feedback
-    Property.multilink(
+    Multilink.multilink(
       [ selectedProperty, this.buttonModel.looksPressedProperty, this.buttonModel.looksOverProperty, navigationBarFillProperty, this.buttonModel.enabledProperty ],
       ( selected, looksPressed, looksOver, navigationBarFill, enabled ) => {
 

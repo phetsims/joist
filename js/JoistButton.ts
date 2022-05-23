@@ -7,7 +7,7 @@
  */
 
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
-import Property from '../../axon/js/Property.js';
+import Multilink from '../../axon/js/Multilink.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
 import { Color, FocusHighlightPath, Node, PressListener, SceneryConstants, Voicing, VoicingOptions } from '../../scenery/js/imports.js';
@@ -95,7 +95,7 @@ export default class JoistButton extends Voicing( Node, 0 ) {
     this.interactionStateProperty = interactionStateProperty;
 
     // Update the highlights based on whether the button is highlighted and whether it is against a light or dark background.
-    Property.multilink( [ interactionStateProperty, navigationBarFillProperty, this.buttonModel.enabledProperty ],
+    Multilink.multilink( [ interactionStateProperty, navigationBarFillProperty, this.buttonModel.enabledProperty ],
       ( interactionState, navigationBarFill, enabled ) => {
         const useDarkenHighlight = !navigationBarFill.equals( Color.BLACK );
 

@@ -7,7 +7,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import Property from '../../axon/js/Property.js';
+import Multilink from '../../axon/js/Multilink.js';
 import { FocusManager, globalKeyStateTracker, KeyboardUtils } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 
@@ -80,7 +80,7 @@ class HighlightVisibilityController {
         // Highlights are disabled.
         const interactiveHighlightsEnabledProperty = preferencesModel.visualModel.interactiveHighlightsEnabledProperty;
         const pdomFocusHighlightsVisibleProperty = this.display.focusManager.pdomFocusHighlightsVisibleProperty;
-        Property.multilink(
+        Multilink.multilink(
           [ interactiveHighlightsEnabledProperty, pdomFocusHighlightsVisibleProperty ],
           ( interactiveHighlightsEnabled, pdomHighlightsVisible ) => {
             if ( interactiveHighlightsEnabled && pdomHighlightsVisible ) {

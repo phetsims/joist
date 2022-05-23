@@ -6,6 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Multilink from '../../axon/js/Multilink.js';
 import Property from '../../axon/js/Property.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
@@ -71,7 +72,7 @@ export default class HomeButton extends JoistButton {
     const highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );
     this.focusHighlight = Shape.bounds( this.bounds.setMaxY( this.bounds.maxY - highlightLineWidth / 2 ) );
 
-    Property.multilink( [ this.interactionStateProperty, navigationBarFillProperty ],
+    Multilink.multilink( [ this.interactionStateProperty, navigationBarFillProperty ],
       ( interactionState, navigationBarFill ) => {
         if ( navigationBarFill.equals( Color.BLACK ) ) {
           homeIcon.fill = interactionState === ButtonInteractionState.PRESSED ? 'gray' : 'white';

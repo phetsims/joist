@@ -38,6 +38,7 @@ import RectangularPushButton from '../../sun/js/buttons/RectangularPushButton.js
 import ExpandCollapseButton from '../../sun/js/ExpandCollapseButton.js';
 import { default as createObservableArray, ObservableArray } from '../../axon/js/createObservableArray.js';
 import optionize from '../../phet-core/js/optionize.js';
+import Multilink from '../../axon/js/Multilink.js';
 
 const round = ( n: number, places = 2 ) => Utils.toFixed( n, places );
 
@@ -1187,7 +1188,7 @@ class TreeNode<T extends ( VisualTreeNode | PDOMTreeNode )> extends Rectangle {
       }
     } );
 
-    Property.multilink( [ helper.activeProperty, visibleProperty ], ( active, treeVisible ) => {
+    Multilink.multilink( [ helper.activeProperty, visibleProperty ], ( active, treeVisible ) => {
       if ( active && treeVisible ) {
         this.treeNode = createTreeNode();
 
