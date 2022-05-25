@@ -110,7 +110,7 @@ class HomeScreenButton extends Voicing( VBox, 0 ) {
     // text for the button
     const text = new Text( screen.nameProperty.value!, {
       tandem: options.tandem.createTandem( 'text' ),
-      phetioReadOnly: true  // text is updated via screen.nameProperty
+      textPropertyOptions: { phetioReadOnly: true } // text is updated via screen.nameProperty
     } );
 
     super( merge( { children: [ nodeContainer, text ] }, options ) );
@@ -213,8 +213,6 @@ class HomeScreenButton extends Voicing( VBox, 0 ) {
       tandem: options.tandem.createTandem( 'inputListener' )
     } );
     this.addInputListener( fireListener );
-
-    // @ts-ignore
     this.addInputListener( { focus: event => { !isSelectedProperty.value && fireListener.fire( event ); } } );
 
     // when a screen reader is in use, the button may be selected with the virtual cursor
