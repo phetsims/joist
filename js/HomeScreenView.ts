@@ -77,20 +77,6 @@ class HomeScreenView extends ScreenView {
     } );
     this.addChild( homeScreenPDOMNode );
 
-    simNameProperty.link( () => {
-
-      this.homeScreenScreenSummaryIntro = StringUtils.fillIn( homeScreenDescriptionPatternString, {
-        name: simNameProperty.value,
-        screens: model.simScreens.length
-      } );
-
-      // Add the home screen description, since there are no PDOM container Nodes for this ScreenView
-      homeScreenPDOMNode.innerContent = StringUtils.fillIn( joistStrings.a11y.homeScreenIntroPattern, {
-        description: this.homeScreenScreenSummaryIntro,
-        hint: joistStrings.a11y.homeScreenHint
-      } );
-    } );
-
     this.selectedScreenProperty = model.selectedScreenProperty;
 
     const titleText = new Text( simNameProperty.value, {
@@ -104,9 +90,6 @@ class HomeScreenView extends ScreenView {
       tandem: tandem.createTandem( 'titleText' ),
       phetioReadOnly: true
     } );
-
-    // update the titleText when the sim name changes
-    simNameProperty.link( simTitle => titleText.setText( simTitle ) );
 
     // Have this before adding the child to support the startup layout. Use `localBoundsProperty` to avoid an infinite loop.
     titleText.localBoundsProperty.link( () => {
@@ -130,12 +113,16 @@ class HomeScreenView extends ScreenView {
           // pdom
           descriptionContent: screen.descriptionContent,
 
+          // voicing
+          voicingHintResponse: screen.descriptionContent,
+
           // phet-io
           tandem: buttonGroupTandem.createTandem( `${screen.tandem.name}Button` )
         } );
 
       screen.pdomDisplayNameProperty.link( screenName => {
         homeScreenButton.innerContent = screenName;
+        homeScreenButton.voicingNameResponse = screenName;
       } );
 
       return homeScreenButton;
@@ -150,6 +137,27 @@ class HomeScreenView extends ScreenView {
     if ( model.simScreens.length >= 5 ) {
       spacing = 20;
     }
+
+    simNameProperty.link( simTitle => {
+
+      // update the titleText when the sim name changes
+      titleText.setText( simTitle );
+
+      this.homeScreenScreenSummaryIntro = StringUtils.fillIn( homeScreenDescriptionPatternString, {
+        name: simNameProperty.value,
+        screens: model.simScreens.length
+      } );
+
+      // Add the home screen description, since there are no PDOM container Nodes for this ScreenView
+      homeScreenPDOMNode.innerContent = StringUtils.fillIn( joistStrings.a11y.homeScreenIntroPattern, {
+        description: this.homeScreenScreenSummaryIntro,
+        hint: joistStrings.a11y.homeScreenHint
+      } );
+
+      this.screenButtons.forEach( screenButton => {
+        screenButton.voicingContextResponse = simTitle;
+      } );
+    } );
 
     // add layout of icons
     const hBox = new HBox( {

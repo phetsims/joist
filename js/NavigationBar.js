@@ -27,10 +27,7 @@ import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import StringProperty from '../../axon/js/StringProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { PDOMPeer } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
-import { Text } from '../../scenery/js/imports.js';
+import { Node, PDOMPeer, Rectangle, Text } from '../../scenery/js/imports.js';
 import A11yButtonsHBox from './A11yButtonsHBox.js';
 import HomeButton from './HomeButton.js';
 import HomeScreen from './HomeScreen.js';
@@ -259,6 +256,13 @@ class NavigationBar extends Node {
       // Now determine the actual width constraint for the sim title.
       this.titleText.maxWidth = this.screenButtonsContainer.left - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN -
                                 HOME_BUTTON_RIGHT_MARGIN - this.homeButton.width - HOME_BUTTON_LEFT_MARGIN;
+
+      const allNavBarScreenButtons = [ this.homeButton, ...screenButtons ];
+      sim.simNameProperty.link( simName => {
+        allNavBarScreenButtons.forEach( screenButton => {
+          screenButton.voicingContextResponse = simName;
+        } );
+      } );
     }
 
     // initial layout (that doesn't need to change when we are re-laid out)

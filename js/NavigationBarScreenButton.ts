@@ -15,14 +15,16 @@ import Property from '../../axon/js/Property.js';
 import Utils from '../../dot/js/Utils.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
+import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { Color, FocusHighlightPath, LayoutBox, Node, NodeOptions, Rectangle, Text } from '../../scenery/js/imports.js';
+import { Color, FocusHighlightPath, LayoutBox, Node, NodeOptions, Rectangle, Text, Voicing, VoicingOptions } from '../../scenery/js/imports.js';
 import PushButtonModel from '../../sun/js/buttons/PushButtonModel.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import HighlightNode from './HighlightNode.js';
 import joist from './joist.js';
 import Screen from './Screen.js';
+import ScreenView from './ScreenView.js';
 
 // constants
 const HIGHLIGHT_SPACING = 4;
@@ -31,9 +33,9 @@ const getHighlightWidth = ( overlay: Node ) => overlay.width + ( 2 * HIGHLIGHT_S
 type SelfOptions = {
   maxButtonWidth?: number | null;
 }
-type NavigationBarScreenButtonOptions = SelfOptions & NodeOptions;
+type NavigationBarScreenButtonOptions = SelfOptions & VoicingOptions & NodeOptions;
 
-class NavigationBarScreenButton extends Node {
+class NavigationBarScreenButton extends Voicing( Node, 0 ) {
   private readonly buttonModel: PushButtonModel;
 
   /**
@@ -44,12 +46,14 @@ class NavigationBarScreenButton extends Node {
    * @param navBarHeight
    * @param [providedOptions]
    */
-  constructor( navigationBarFillProperty: IReadOnlyProperty<Color>, screenProperty: Property<Screen<any, any>>, screen: Screen<any, any>, simScreenIndex: number, navBarHeight: number, providedOptions: NavigationBarScreenButtonOptions ) {
+  constructor( navigationBarFillProperty: IReadOnlyProperty<Color>, screenProperty: Property<Screen<IntentionalAny, ScreenView>>,
+               screen: Screen<IntentionalAny, ScreenView>, simScreenIndex: number, navBarHeight: number,
+               providedOptions: NavigationBarScreenButtonOptions ) {
 
     assert && assert( screen.nameProperty.value, `name is required for screen ${simScreenIndex}` );
     assert && assert( screen.navigationBarIcon, `navigationBarIcon is required for screen ${screen.nameProperty.value}` );
 
-    const options = optionize<NavigationBarScreenButtonOptions, SelfOptions, NodeOptions>()( {
+    const options = optionize<NavigationBarScreenButtonOptions, SelfOptions, VoicingOptions & NodeOptions>()( {
       cursor: 'pointer',
       tandem: Tandem.REQUIRED,
       phetioDocumentation: `Button in the navigation bar that selects the '${screen.tandem.name}' screen`,
@@ -59,7 +63,10 @@ class NavigationBarScreenButton extends Node {
       tagName: 'button',
       containerTagName: 'li',
       descriptionContent: screen.descriptionContent,
-      appendDescription: true
+      appendDescription: true,
+
+      // voicing
+      voicingHintResponse: screen.descriptionContent
     }, providedOptions );
 
     assert && assert( !options.innerContent, 'NavigationBarScreenButton sets its own innerContent' );
@@ -68,6 +75,7 @@ class NavigationBarScreenButton extends Node {
 
     screen.pdomDisplayNameProperty.link( name => {
       this.innerContent = name;
+      this.voicingNameResponse = name;
     } );
 
     assert && assert( screen.navigationBarIcon, 'navigationBarIcon should exist' );
@@ -131,6 +139,12 @@ class NavigationBarScreenButton extends Node {
     // Note that this buttonModel will always be phetioReadOnly false despite the parent value.
     this.buttonModel = new PushButtonModel( {
       listener: () => {
+
+
+        screenProperty.value !== screen && this.voicingSpeakFullResponse( {
+          objectResponse: null,
+          hintResponse: null
+        } );
         screenProperty.value = screen;
       },
       tandem: options.tandem,
@@ -147,6 +161,15 @@ class NavigationBarScreenButton extends Node {
       phetioDocumentation: 'Indicates when the screen button has been pressed or released'
     } );
     this.addInputListener( pressListener );
+
+    this.addInputListener( {
+      focus: () => {
+        this.voicingSpeakFullResponse( {
+          objectResponse: null,
+          contextResponse: null
+        } );
+      }
+    } );
 
     // manage interaction feedback
     Multilink.multilink(

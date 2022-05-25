@@ -10,13 +10,11 @@ import Multilink from '../../axon/js/Multilink.js';
 import Property from '../../axon/js/Property.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { Color, FocusHighlightPath } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
+import { Color, FocusHighlightPath, Node, Path, Rectangle, VoicingOptions } from '../../scenery/js/imports.js';
 import homeSolidShape from '../../sherpa/js/fontawesome-5/homeSolidShape.js';
 import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import Utterance from '../../utterance-queue/js/Utterance.js';
 import joist from './joist.js';
 import JoistButton, { JoistButtonOptions } from './JoistButton.js';
 import joistStrings from './joistStrings.js';
@@ -44,14 +42,16 @@ export default class HomeButton extends JoistButton {
     providedOptions: HomeButtonOptions
   ) {
 
-    const options = optionize<HomeButtonOptions, SelfOptions, JoistButtonOptions>()( {
+    const options = optionize<HomeButtonOptions, SelfOptions, JoistButtonOptions & VoicingOptions>()( {
       highlightExtensionWidth: 4,
       listener: null,
 
       // pdom,
       containerTagName: 'li',
       descriptionContent: homeScreenDescriptionString,
-      appendDescription: true
+      appendDescription: true,
+
+      voicingHintResponse: homeScreenDescriptionString
     }, providedOptions );
 
     const homeIcon = new Path( homeSolidShape );
@@ -64,6 +64,21 @@ export default class HomeButton extends JoistButton {
     homeIcon.center = background.center;
 
     const content = new Node( { children: [ background, homeIcon ] } );
+
+    // Create a new Utterance that isn't registered through Voicing so that it isn't silenced when the
+    // home screen is hidden upon selection. (invisible nodes have their voicing silenced).
+    const buttonSelectionUtterance = new Utterance();
+
+    const providedListener = options.listener;
+    options.listener = () => {
+      providedListener && providedListener();
+
+      this.voicingSpeakFullResponse( {
+        objectResponse: null,
+        hintResponse: null,
+        utterance: buttonSelectionUtterance
+      } );
+    };
 
     super( content, navigationBarFillProperty, tandem, options );
 
@@ -82,8 +97,18 @@ export default class HomeButton extends JoistButton {
         }
       } );
 
+    this.addInputListener( {
+      focus: () => {
+        this.voicingSpeakFullResponse( {
+          objectResponse: null,
+          contextResponse: null
+        } );
+      }
+    } );
+
     pdomDisplayNameProperty.link( name => {
       this.innerContent = name;
+      this.voicingNameResponse = name;
     } );
   }
 }

@@ -18,7 +18,7 @@ import optionize from '../../phet-core/js/optionize.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { FireListener, Node, PDOMPeer, Rectangle, Text, VBox, VBoxOptions } from '../../scenery/js/imports.js';
+import { FireListener, Node, PDOMPeer, Rectangle, Text, VBox, VBoxOptions, Voicing, VoicingOptions } from '../../scenery/js/imports.js';
 import EventType from '../../tandem/js/EventType.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import Frame from './Frame.js';
@@ -26,6 +26,7 @@ import HomeScreenModel from './HomeScreenModel.js';
 import joist from './joist.js';
 import ScreenView from './ScreenView.js';
 import Screen from './Screen.js';
+import Utterance from '../../utterance-queue/js/Utterance.js';
 
 // constants
 const LARGE_ICON_HEIGHT = 140;
@@ -33,10 +34,10 @@ const LARGE_ICON_HEIGHT = 140;
 type SelfOptions = {
   showUnselectedHomeScreenIconFrame?: boolean;
 };
-type HomeScreenButtonOptions = SelfOptions & VBoxOptions;
+type HomeScreenButtonOptions = SelfOptions & VoicingOptions & VBoxOptions;
 
 
-class HomeScreenButton extends VBox {
+class HomeScreenButton extends Voicing( VBox, 0 ) {
   readonly screen: Screen<IntentionalAny, ScreenView>;
 
   constructor( screen: Screen<IntentionalAny, ScreenView>, homeScreenModel: HomeScreenModel, providedOptions?: HomeScreenButtonOptions ) {
@@ -168,6 +169,11 @@ class HomeScreenButton extends VBox {
       text.text = name!;
     } );
 
+
+    // Create a new Utterance that isn't registered through Voicing so that it isn't silenced when the
+    // home screen is hidden upon selection. (invisible nodes have their voicing silenced).
+    const buttonSelectionUtterance = new Utterance();
+
     let buttonWasAlreadySelected = false;
 
     // If the button is already selected, then set the sim's screen to be its corresponding screen. Otherwise, make the
@@ -183,11 +189,22 @@ class HomeScreenButton extends VBox {
         // Select the screen that corresponds to this button.  This will make that screen appear to the user and the
         // home screen disappear.
         homeScreenModel.screenProperty.value = screen;
+
+        this.voicingSpeakFullResponse( {
+          objectResponse: null,
+          hintResponse: null,
+          utterance: buttonSelectionUtterance
+        } );
       }
       else {
 
         // Select the screen button.  This causes the button to enlarge, but doesn't go to the screen.
         homeScreenModel.selectedScreenProperty.value = screen;
+
+        this.voicingSpeakFullResponse( {
+          objectResponse: null,
+          contextResponse: null
+        } );
       }
     };
 
