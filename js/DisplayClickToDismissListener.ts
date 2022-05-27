@@ -9,17 +9,17 @@
  */
 
 import joist from './joist.js';
-import { Pointer, SceneryEvent } from '../../scenery/js/imports.js';
+import { IInputListener, Pointer, SceneryEvent, SceneryListenerFunction } from '../../scenery/js/imports.js';
 import dotRandom from '../../dot/js/dotRandom.js';
 
 class DisplayClickToDismissListener {
   private pointer: null | Pointer;
-  private readonly pointerListener: Object;
+  private readonly pointerListener: IInputListener;
 
   /**
    * @param listener - The listener to be called when the Pointer goes up, likely to dismiss something.
    */
-  constructor( listener: Function ) {
+  constructor( listener: SceneryListenerFunction ) {
 
     // The active Pointer for this listener, after a down event a subsequent up event on this Pointer will trigger
     // the behavior of `listener`.
