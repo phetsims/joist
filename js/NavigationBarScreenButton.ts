@@ -18,7 +18,7 @@ import optionize from '../../phet-core/js/optionize.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { Color, FocusHighlightPath, LayoutBox, Node, NodeOptions, Rectangle, Text, Voicing, VoicingOptions } from '../../scenery/js/imports.js';
+import { Color, FocusHighlightPath, Node, NodeOptions, Rectangle, Text, VBox, Voicing, VoicingOptions } from '../../scenery/js/imports.js';
 import PushButtonModel from '../../sun/js/buttons/PushButtonModel.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import HighlightNode from './HighlightNode.js';
@@ -109,8 +109,7 @@ class NavigationBarScreenButton extends Voicing( Node, 0 ) {
     // spacing set by Property link below
     // NOTE: Using LayoutBox. The reentrancy actually causes the LayoutBox to have an incorrect padding currently
     // (where FlowBox-based would have the correct padding applied).
-    const iconAndText = new LayoutBox( {
-      orientation: 'vertical',
+    const iconAndText = new VBox( {
       children: [ iconAndFrame, text ],
       pickable: false,
       usesOpacity: true, // hint, since we change its opacity
