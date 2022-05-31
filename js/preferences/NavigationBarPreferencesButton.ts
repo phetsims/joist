@@ -7,6 +7,7 @@
  */
 
 import Property from '../../../axon/js/Property.js';
+import OmitStrict from '../../../phet-core/js/types/OmitStrict.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { Color, Path } from '../../../scenery/js/imports.js';
 import userCogSolidShape from '../../../sherpa/js/fontawesome-5/userCogSolidShape.js';
@@ -19,7 +20,7 @@ import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesManager from './PreferencesManager.js';
 
-type NavigationBarPreferencesButtonOptions = Omit<JoistButtonOptions, 'listener'>;
+type NavigationBarPreferencesButtonOptions = OmitStrict<JoistButtonOptions, 'listener'>;
 
 class NavigationBarPreferencesButton extends JoistButton {
 
