@@ -8,7 +8,7 @@
  */
 
 import Property from '../../axon/js/Property.js';
-import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { Color, Image } from '../../scenery/js/imports.js';
 import { Node } from '../../scenery/js/imports.js';
 import Dialog from '../../sun/js/Dialog.js';
@@ -28,7 +28,7 @@ const keyboardShortcutsString = joistStrings.a11y.keyboardHelp.keyboardShortcuts
 const HELP_BUTTON_HEIGHT = 67;
 const HELP_BUTTON_SCALE = 0.30; // scale applied to the icon
 
-type KeyboardHelpButtonOptions = OmitStrict<JoistButtonOptions, 'listener'>;
+type KeyboardHelpButtonOptions = StrictOmit<JoistButtonOptions, 'listener'>;
 
 class KeyboardHelpButton extends JoistButton {
 

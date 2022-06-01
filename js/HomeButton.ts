@@ -7,7 +7,7 @@
  */
 
 import Multilink from '../../axon/js/Multilink.js';
-import OmitStrict from '../../phet-core/js/types/OmitStrict.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import Property from '../../axon/js/Property.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
@@ -24,7 +24,7 @@ import joistStrings from './joistStrings.js';
 const homeScreenDescriptionString = joistStrings.a11y.homeScreenDescription;
 
 type SelfOptions = {};
-type HomeButtonOptions = SelfOptions & OmitStrict<JoistButtonOptions, 'innerContent'>;
+type HomeButtonOptions = SelfOptions & StrictOmit<JoistButtonOptions, 'innerContent'>;
 
 export default class HomeButton extends JoistButton {
 
