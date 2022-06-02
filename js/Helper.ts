@@ -27,7 +27,7 @@ import Checkbox, { CheckboxOptions } from '../../sun/js/Checkbox.js';
 import ScreenView from './ScreenView.js';
 import IProperty from '../../axon/js/IProperty.js';
 import inheritance from '../../phet-core/js/inheritance.js';
-import Property from '../../axon/js/Property.js';
+import Property, { AbstractProperty } from '../../axon/js/Property.js';
 import Matrix3 from '../../dot/js/Matrix3.js';
 import EnumerationValue from '../../phet-core/js/EnumerationValue.js';
 import Enumeration from '../../phet-core/js/Enumeration.js';
@@ -39,6 +39,7 @@ import ExpandCollapseButton from '../../sun/js/ExpandCollapseButton.js';
 import { default as createObservableArray, ObservableArray } from '../../axon/js/createObservableArray.js';
 import optionize from '../../phet-core/js/optionize.js';
 import Multilink from '../../axon/js/Multilink.js';
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 
 const round = ( n: number, places = 2 ) => Utils.toFixed( n, places );
 
@@ -88,13 +89,13 @@ export default class Helper {
   treeHoverTrailProperty: IProperty<Trail | null>;
 
   // What Trail the pointer is over right now
-  pointerTrailProperty: IProperty<Trail | null>;
+  pointerTrailProperty: IReadOnlyProperty<Trail | null>;
 
   // What Trail to show as a preview (and to highlight) - selection overrides what the pointer is over
-  previewTrailProperty: IProperty<Trail | null>;
+  previewTrailProperty: IReadOnlyProperty<Trail | null>;
 
   // The global shape of what is selected
-  previewShapeProperty: IProperty<Shape | null>;
+  previewShapeProperty: IReadOnlyProperty<Shape | null>;
 
   screenViewProperty: IProperty<ScreenView | null>;
 
@@ -102,7 +103,7 @@ export default class Helper {
   imageDataProperty: IProperty<ImageData | null>;
 
   // The pixel color under the pointer
-  colorProperty: IProperty<Color>;
+  colorProperty: IReadOnlyProperty<Color>;
 
   constructor( sim: Sim, simDisplay: SimDisplay ) {
 
@@ -1799,7 +1800,7 @@ const createInfo = ( trail: Trail ): Node[] => {
 };
 
 const iColorToColor = ( color: IColor ): Color | null => {
-  const nonProperty: Color | string | null = ( color instanceof Property || color instanceof TinyProperty ) ? color.value : color;
+  const nonProperty: Color | string | null = ( color instanceof AbstractProperty || color instanceof TinyProperty ) ? color.value : color;
   return nonProperty === null ? null : Color.toColor( nonProperty );
 };
 
