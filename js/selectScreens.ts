@@ -30,7 +30,7 @@ type ReturnType = {
  * @param screensQueryParameter - from phet.chipper.queryParameters.screens
  * @param screensQueryParameterProvided
  * @param createHomeScreen
- * @returns {{homeScreen:HomeScreen|null, initialScreen:Screen, selectedSimScreens:Screen[], screens:Screen[]}} - duck-typed for tests
+ * @returns - duck-typed for tests
  * @throws Error if incompatible data is provided
  */
 export default function selectScreens( allSimScreens: Screen<any, any>[],
