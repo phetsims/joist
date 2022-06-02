@@ -19,7 +19,7 @@ class VoicingToolbarAlertManager {
   private readonly screenProperty: Property<Screen<any, ScreenView>>;
 
   /**
-   * @param {Property.<Screen>} screenProperty - indicates the active screen
+   * @param screenProperty - indicates the active screen
    */
   constructor( screenProperty: Property<Screen<any, ScreenView>> ) {
     this.screenProperty = screenProperty;

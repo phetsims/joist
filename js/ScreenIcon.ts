@@ -26,10 +26,6 @@ export type ScreenIconOptions = SelfOptions & NodeOptions;
 
 export default class ScreenIcon extends Node {
 
-  /**
-   * @param iconNode
-   * @param providedOptions
-   */
   constructor( iconNode: Node, providedOptions?: ScreenIconOptions ) {
 
     const options = optionize<ScreenIconOptions, SelfOptions, NodeOptions>()( {
