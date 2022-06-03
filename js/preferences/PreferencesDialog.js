@@ -84,6 +84,8 @@ class PreferencesDialog extends Dialog {
       phetioDynamicElement: true,
       tandem: Tandem.REQUIRED,
 
+      closeButtonVoicingDialogTitle: preferencesTitleString,
+
       // pdom
       positionInPDOM: true
     }, options );

@@ -39,6 +39,9 @@ class KeyboardHelpDialog extends Dialog {
       phetioReadOnly: true, // the KeyboardHelpDialog should not be settable
       phetioDynamicElement: true,
 
+      // Append the title to the close button
+      closeButtonVoicingDialogTitle: joistStrings.keyboardShortcuts.title,
+
       // Because of the special titleNode, we set the aria-labelledby attribute manually; see below.
       addAriaLabelledByFromTitle: false
     }, options );
