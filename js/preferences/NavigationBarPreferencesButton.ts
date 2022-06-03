@@ -34,17 +34,6 @@ class NavigationBarPreferencesButton extends JoistButton {
       maxWidth: 25
     } );
 
-    // @ts-ignore TODO https://github.com/phetsims/joist/issues/795 - until Popupable is in Typescript, TS doesn't know about the hierarchy it seems.
-    const preferencesDialogCapsule = new PhetioCapsule( tandem => {
-      return new PreferencesDialog( preferencesModel, {
-        tandem: tandem,
-        focusOnHideNode: this
-      } );
-    }, [], {
-      tandem: options.tandem.createTandem( 'preferencesDialogCapsule' ),
-      phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )
-    } );
-
     super( icon, backgroundColorProperty, options.tandem, {
       listener: () => {
         const preferencesDialog = preferencesDialogCapsule.getElement();
@@ -64,6 +53,17 @@ class NavigationBarPreferencesButton extends JoistButton {
 
       // voicing
       voicingNameResponse: joistStrings.preferences.title
+    } );
+
+    // @ts-ignore TODO https://github.com/phetsims/joist/issues/795 - until Popupable is in Typescript, TS doesn't know about the hierarchy it seems.
+    const preferencesDialogCapsule = new PhetioCapsule( tandem => {
+      return new PreferencesDialog( preferencesModel, {
+        tandem: tandem,
+        focusOnHideNode: this
+      } );
+    }, [], {
+      tandem: options.tandem.createTandem( 'preferencesDialogCapsule' ),
+      phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )
     } );
 
     // change the icon so that it is visible when the background changes from dark to light
