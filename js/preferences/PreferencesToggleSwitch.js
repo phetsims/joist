@@ -26,12 +26,20 @@ class PreferencesToggleSwitch extends Node {
   constructor( property, leftValue, rightValue, options ) {
     options = merge( {
 
-      // {null|Node} - if provided, a label Node to the left of the toggle switch
+      // {null|Node} - if provided, a label Node to the left of the toggle switch control
       labelNode: null,
 
-      // {number} - horizontal spacing between label and toggle switch IF there is no descriptionNode.
-      // If a descriptionNode is provided, layout of the labelNode will be relative to this.
+      // {number} - horizontal spacing between label for the component and toggle switch IF there is no descriptionNode.
+      // If a descriptionNode is provided, layout of the labelNode will be relative to the description.
+      // If there is a leftValueLabel it will be the horizontal spacing between the labelNode and the leftValueLabel.
       labelSpacing: 10,
+
+      // {null|Node} - if provided, a label to the left and right of the switch describing the state values
+      leftValueLabel: null,
+      rightValueLabel: null,
+
+      // {number} - horizontal spacing between the toggle switch and left/right value labels
+      valueLabelXSpacing: 8,
 
       // {null|Node} - if provided, a Node under the ToggleSwitch and label that is meant to describe the purpose
       // of the switch
@@ -86,6 +94,17 @@ class PreferencesToggleSwitch extends Node {
       // tandem
       tandem: options.tandem.createTandem( 'toggleSwitch' )
     } ) );
+
+    if ( options.leftValueLabel ) {
+      options.leftValueLabel.right = toggleSwitch.left - options.valueLabelXSpacing;
+      options.leftValueLabel.centerY = toggleSwitch.centerY;
+      toggleSwitch.addChild( options.leftValueLabel );
+    }
+    if ( options.rightValueLabel ) {
+      options.rightValueLabel.left = toggleSwitch.right + options.valueLabelXSpacing;
+      options.rightValueLabel.centerY = toggleSwitch.centerY;
+      toggleSwitch.addChild( options.rightValueLabel );
+    }
 
     // a11y - Describe the change in value if context responses were provided in options. Listener needs to be
     // removed on dispose.
