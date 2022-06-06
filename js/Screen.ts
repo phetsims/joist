@@ -50,7 +50,7 @@ assert && assert( Math.abs( HOME_SCREEN_ICON_ASPECT_RATIO - HOME_SCREEN_ICON_ASP
   'MINIMUM_HOME_SCREEN_ICON_SIZE and MINIMUM_NAVBAR_ICON_SIZE must have the same aspect ratio' );
 
 // Documentation is by the defaults
-type ScreenSelfOptions = {
+type SelfOptions = {
   name?: string | null;
   instrumentNameProperty?: boolean;
 
@@ -65,7 +65,7 @@ type ScreenSelfOptions = {
   keyboardHelpNode?: Node | null;
   descriptionContent?: string | null;
 };
-export type ScreenOptions = ScreenSelfOptions & PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+export type ScreenOptions = SelfOptions & PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 // Parameterized on M=Model and V=View
 class Screen<M, V extends ScreenView> extends PhetioObject {
@@ -95,7 +95,7 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
 
   constructor( createModel: () => M, createView: ( model: M ) => V, providedOptions: ScreenOptions ) {
 
-    const options = optionize<ScreenOptions, ScreenSelfOptions, PhetioObjectOptions>()( {
+    const options = optionize<ScreenOptions, SelfOptions, PhetioObjectOptions>()( {
 
       // {string|null} name of the sim, as displayed to the user.
       // For single-screen sims, there is no home screen or navigation bar, and null is OK.

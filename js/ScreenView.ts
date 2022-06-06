@@ -40,12 +40,12 @@ import PickRequired from '../../phet-core/js/types/PickRequired.js';
 const DEFAULT_LAYOUT_BOUNDS = new Bounds2( 0, 0, 1024, 618 );
 
 // Documented where the defaults are defined
-type ScreenViewSelfOptions = {
+type SelfOptions = {
   layoutBounds?: Bounds2;
   screenSummaryContent?: Node | null;
   includePDOMNodes?: boolean;
 };
-export type ScreenViewOptions = ScreenViewSelfOptions & NodeOptions & PickRequired<NodeOptions, 'tandem'>;
+export type ScreenViewOptions = SelfOptions & NodeOptions & PickRequired<NodeOptions, 'tandem'>;
 
 class ScreenView extends Node {
   readonly layoutBounds: Bounds2;
@@ -61,7 +61,7 @@ class ScreenView extends Node {
 
   constructor( providedOptions: ScreenViewOptions ) {
 
-    const options = optionize<ScreenViewOptions, ScreenViewSelfOptions, NodeOptions>()( {
+    const options = optionize<ScreenViewOptions, SelfOptions, NodeOptions>()( {
 
       // {Bounds2} the bounds that are safe to draw in on all supported platforms
       layoutBounds: DEFAULT_LAYOUT_BOUNDS.copy(),
