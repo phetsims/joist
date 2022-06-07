@@ -1,22 +1,36 @@
 // Copyright 2019-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
- * Enumeration for the various states that can occur during an "update check." See updateCheck.js for main usage.
+ * Enumeration for the various states that can occur during an Update check. See updateCheck.js for main usage.
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import EnumerationDeprecated from '../../phet-core/js/EnumerationDeprecated.js';
+import Enumeration from '../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../phet-core/js/EnumerationValue.js';
 import joist from './joist.js';
 
-const UpdateState = EnumerationDeprecated.byKeys( [
-  'UP_TO_DATE',   // Simulation version is equal to or greater than the currently published version.
-  'OUT_OF_DATE',  // Simulation version is less than currently published version (or equal but has a suffix)
-  'CHECKING',     // Request to server sent out, has not processed reply yet.
-  'OFFLINE',      // Last attempt to check failed, most likely offline
-  'UNCHECKED'     // No attempt as been made to check the version against the latest online.
-] );
+export default class UpdateState extends EnumerationValue {
+
+  // Simulation version is equal to or greater than the currently published version.
+  public static UP_TO_DATE = new UpdateState();
+
+  // Simulation version is less than currently published version (or equal but has a suffix)
+  public static OUT_OF_DATE = new UpdateState();
+
+  // Request to server sent out, has not processed reply yet.
+  public static CHECKING = new UpdateState();
+
+  // Last attempt to check failed, most likely offline
+  public static OFFLINE = new UpdateState();
+
+  // No attempt as been made to check the version against the latest online.
+  public static UNCHECKED = new UpdateState();
+
+  public static enumeration = new Enumeration( UpdateState, {
+    phetioDocumentation: 'Describes the states that can occur during an Update check'
+  } );
+}
+
 joist.register( 'UpdateState', UpdateState );
-export default UpdateState;

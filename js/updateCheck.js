@@ -9,7 +9,7 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import EnumerationDeprecatedProperty from '../../axon/js/EnumerationDeprecatedProperty.js';
+import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import joist from './joist.js';
 import packageJSON from './packageJSON.js'; // parse name/version out of the package.json
 import UpdateState from './UpdateState.js';
@@ -25,8 +25,8 @@ const TIMEOUT_MILLISECONDS = 15000; // How many ms before we time out (set to 'o
 class UpdateCheck {
   constructor() {
 
-    // @public (read-only joist-internal) {Property.<UpdateState>}
-    this.stateProperty = new EnumerationDeprecatedProperty( UpdateState, UpdateState.UNCHECKED );
+    // @public (read-only joist-internal)
+    this.stateProperty = new EnumerationProperty( UpdateState.UNCHECKED );
 
     // @public (read-only joist-internal) {SimVersion|null} will be filled in by check() if applicable
     this.latestVersion = null;
