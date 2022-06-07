@@ -1,5 +1,6 @@
 // Copyright 2020-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Message dialog displayed when any public query parameters have invalid values, see https://github.com/phetsims/joist/issues/593
  *
