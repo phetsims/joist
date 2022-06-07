@@ -2,7 +2,7 @@
 
 import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
 import SoundClip, { SoundClipOptions } from '../../../tambo/js/sound-generators/SoundClip.js';
-import preferencesTabSwitch_mp3 from '../../sounds/preferencesTabSwitch_mp3.js';
+import cardFlip_mp3 from '../../sounds/cardFlip_mp3.js';
 import { PreferencesTab } from './PreferencesDialog.js';
 import joist from '../joist.js';
 
@@ -12,7 +12,7 @@ class PreferencesTabSwitchSoundGenerator extends SoundClip {
 
   public constructor( selectedTabProperty: EnumerationProperty<PreferencesTab>, options: SoundClipOptions ) {
 
-    super( preferencesTabSwitch_mp3, options );
+    super( cardFlip_mp3, options );
 
     const playSound = () => { this.play(); };
 
