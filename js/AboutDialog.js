@@ -1,5 +1,6 @@
 // Copyright 2013-2021, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * AboutDialog displays information about the simulation -- its title, version number, credits, etc.
  *
