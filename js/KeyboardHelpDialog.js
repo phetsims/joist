@@ -1,5 +1,6 @@
 // Copyright 2016-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Shows a Dialog with content describing keyboard interactions. Brought up by a button
  * in the navigation bar.
