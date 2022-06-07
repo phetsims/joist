@@ -43,7 +43,7 @@ const UpdateNodes = {
    * "Checking" state node. With two size options (if options.big == true, it will be bigger)
    *
    * @param {Object} [options] - passed to the Node
-   * @returns {Node} the Checking node, with step( dt ) and stepListener (bound to the node itself)
+   * @returns {scenery.Node} the Checking node, with step( dt ) and stepListener (bound to the node itself)
    * @public (joist-internal)
    */
   createCheckingNode: function( options ) {
@@ -71,7 +71,7 @@ const UpdateNodes = {
   /**
    * "Up-to-date" state node
    * @param {Object} [options] - passed to the Node
-   * @returns {Node}
+   * @returns {scenery.Node}
    * @public (joist-internal)
    */
   createUpToDateNode: function( options ) {
@@ -102,7 +102,7 @@ const UpdateNodes = {
   /**
    * "Out-of-date" state node for the "About" dialog.
    * @param {Object} [options] - passed to the Node
-   * @returns {Node}
+   * @returns {scenery.Node}
    * @public (joist-internal)
    */
   createOutOfDateAboutNode: function( options ) {
@@ -135,7 +135,7 @@ const UpdateNodes = {
    * @param {string} ourVersionString
    * @param {string} latestVersionString
    * @param {Object} [options] - passed to the Node
-   * @returns {Node}
+   * @returns {scenery.Node}
    * @public (joist-internal)
    */
   createOutOfDateDialogNode: function( dialog, ourVersionString, latestVersionString, options ) {
@@ -176,7 +176,7 @@ const UpdateNodes = {
   /**
    * "Offline" state node
    * @param {Object} [options] - passed to the Node
-   * @returns {Node}
+   * @returns {scenery.Node}
    * @public (joist-internal)
    */
   createOfflineNode: function( options ) {
