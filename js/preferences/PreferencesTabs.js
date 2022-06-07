@@ -27,7 +27,7 @@ class PreferencesTabs extends Node {
 
   /**
    * @param {PreferencesTab[]} supportedTabs - list of tabs the Dialog should include
-   * @param {EnumerationDeprecatedProperty.<PreferencesDialog.PreferenceTab>} selectedPanelProperty
+   * @param {EnumerationProperty.<PreferencesDialog.PreferenceTab>} selectedPanelProperty
    * @param {Object} [options]
    */
   constructor( supportedTabs, selectedPanelProperty, options ) {

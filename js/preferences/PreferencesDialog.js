@@ -17,12 +17,14 @@ import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { KeyboardUtils, Node, Text } from '../../../scenery/js/imports.js';
 import Dialog from '../../../sun/js/Dialog.js';
 import HSeparator from '../../../sun/js/HSeparator.js';
+import soundManager from '../../../tambo/js/soundManager.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import audioManager from '../audioManager.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesPanels from './PreferencesPanels.js';
 import PreferencesTabs from './PreferencesTabs.js';
+import PreferencesTabSwitchSoundGenerator from './PreferencesTabSwitchSoundGenerator.js';
 
 // constants
 const preferencesTitleString = joistStrings.preferences.title;
@@ -51,7 +53,7 @@ const PANEL_SECTION_LABEL_OPTIONS = {
 };
 
 // tabs available in this Dialog
-class PreferencesTab extends EnumerationValue {
+export class PreferencesTab extends EnumerationValue {
   static GENERAL = new PreferencesTab();
   static VISUAL = new PreferencesTab();
   static AUDIO = new PreferencesTab();
@@ -103,7 +105,7 @@ class PreferencesDialog extends Dialog {
       tandem: options.tandem.createTandem( 'selectedTabProperty' )
     } );
 
-    // the set of tabs you can can click to activate a tab panel
+    // the set of tabs you can click to activate a tab panel
     const preferencesTabs = new PreferencesTabs( supportedTabs, selectedTabProperty, {
       tandem: options.tandem.createTandem( 'preferencesTabs' )
     } );
@@ -123,6 +125,12 @@ class PreferencesDialog extends Dialog {
     // layout
     tabPanelSeparator.centerTop = preferencesTabs.centerBottom;
     preferencesPanels.centerTop = tabPanelSeparator.centerBottom.plusXY( 0, 20 );
+
+    // sound generation for tab switching
+    const tabSwitchSoundGenerator = new PreferencesTabSwitchSoundGenerator( selectedTabProperty, {
+      initialOutputLevel: 0.2
+    } );
+    soundManager.addSoundGenerator( tabSwitchSoundGenerator );
 
     super( content, options );
 
