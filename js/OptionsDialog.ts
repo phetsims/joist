@@ -1,31 +1,41 @@
-// Copyright 2014-2021, University of Colorado Boulder
+// Copyright 2014-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
- * Shows an Options dialog that consists of sim-global options.
+ * OptionsDialog displays sim-global options, accessed via the PhET > Options menu item.
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import merge from '../../phet-core/js/merge.js';
+import optionize from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { Text } from '../../scenery/js/imports.js';
-import Dialog from '../../sun/js/Dialog.js';
+import { Node, Text } from '../../scenery/js/imports.js';
+import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 
-class OptionsDialog extends Dialog {
+type SelfOptions = {};
+
+export type OptionsDialogOptions = SelfOptions & StrictOmit<DialogOptions, 'title'>;
+
+export default class OptionsDialog extends Dialog {
+
+  private readonly disposeOptionsDialog: () => void;
+
+  public static readonly DEFAULT_FONT = new PhetFont( 20 );
+  public static readonly DEFAULT_SPACING = 14;
 
   /**
-   * @param {function(tandem:Tandem):Node} createContent - creates the dialog's content
-   * @param {Object} [options]
+   * @param createContent - creates the dialog's content
+   * @param [providedOptions]
    */
-  constructor( createContent, options ) {
+  constructor( createContent: ( tandem: Tandem ) => Node, providedOptions?: OptionsDialogOptions ) {
 
-    options = merge( {
+    const options = optionize<OptionsDialogOptions, SelfOptions, DialogOptions>()( {
 
+      // DialogOptions
       titleAlign: 'center',
       bottomMargin: 26,
       ySpacing: 26,
@@ -33,9 +43,8 @@ class OptionsDialog extends Dialog {
       // phet-io
       tandem: Tandem.REQUIRED,
       phetioDynamicElement: true
-    }, options );
+    }, providedOptions );
 
-    assert && assert( !options.title, 'OptionsDialog sets title' );
     options.title = new Text( joistStrings.options.title, {
       font: new PhetFont( 30 ),
       maxWidth: 400, // determined empirically
@@ -46,25 +55,16 @@ class OptionsDialog extends Dialog {
 
     super( content, options );
 
-    // @private
     this.disposeOptionsDialog = () => {
       content.dispose();
-      options.title.dispose();
+      options.title!.dispose();
     };
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeOptionsDialog();
     super.dispose();
   }
 }
 
-OptionsDialog.DEFAULT_FONT = new PhetFont( 20 );
-OptionsDialog.DEFAULT_SPACING = 14;
-
 joist.register( 'OptionsDialog', OptionsDialog );
-export default OptionsDialog;
