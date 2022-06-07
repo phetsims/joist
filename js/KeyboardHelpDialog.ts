@@ -1,19 +1,18 @@
 // Copyright 2016-2022, University of Colorado Boulder
 
-// @ts-nocheck
 /**
- * Shows a Dialog with content describing keyboard interactions. Brought up by a button
- * in the navigation bar.
+ * Shows a Dialog with content describing keyboard interactions. Opened via a button in the navigation bar.
  *
  * @author Jesse Greenberg
  */
 
-import merge from '../../phet-core/js/merge.js';
+import optionize from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import KeyboardHelpSection from '../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import TextKeyNode from '../../scenery-phet/js/keyboard/TextKeyNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { HBox, Node, PDOMPeer, ReadingBlock, VBox, VoicingText } from '../../scenery/js/imports.js';
-import Dialog from '../../sun/js/Dialog.js';
+import { HBox, Node, NodeOptions, PDOMPeer, ReadingBlock, ReadingBlockOptions, VBox, VoicingText } from '../../scenery/js/imports.js';
+import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
@@ -23,20 +22,25 @@ const TITLE_MAX_WIDTH = 670;
 
 const tabToGetStartedString = joistStrings.a11y.keyboardHelp.tabToGetStarted;
 
-class KeyboardHelpDialog extends Dialog {
+type SelfOptions = {};
+
+export type KeyboardHelpDialogOptions = SelfOptions & StrictOmit<DialogOptions, 'title'>;
+
+export default class KeyboardHelpDialog extends Dialog {
 
   /**
-   * @param {Node} helpContent - a node containing the sim specific keyboard help content
-   * @param {Object} [options]
+   * @param helpContent - a Node containing the sim specific keyboard help content
+   * @param [providedOptions]
    */
-  constructor( helpContent, options ) {
+  constructor( helpContent: Node, providedOptions?: KeyboardHelpDialogOptions ) {
 
-    options = merge( {
+    const options = optionize<KeyboardHelpDialogOptions, SelfOptions, DialogOptions>()( {
       titleAlign: 'center',
       fill: 'rgb( 214, 237, 249 )',
       ySpacing: 15,
-      tandem: Tandem.REQUIRED,
 
+      // phet-io
+      tandem: Tandem.REQUIRED,
       phetioReadOnly: true, // the KeyboardHelpDialog should not be settable
       phetioDynamicElement: true,
 
@@ -45,10 +49,8 @@ class KeyboardHelpDialog extends Dialog {
 
       // Because of the special titleNode, we set the aria-labelledby attribute manually; see below.
       addAriaLabelledByFromTitle: false
-    }, options );
+    }, providedOptions );
 
-    // title
-    assert && assert( !options.title, 'KeyboardHelpDialog sets title' );
     const shortcutsTitleText = new VoicingText( joistStrings.keyboardShortcuts.title, {
       font: new PhetFont( {
         weight: 'bold',
@@ -61,12 +63,13 @@ class KeyboardHelpDialog extends Dialog {
       innerContent: joistStrings.a11y.keyboardHelp.keyboardShortcuts
     } );
 
+    // a 'tab to get started' hint
+    const tabHintLine = new TabHintLine();
+
     // stack the two items with a bit of spacing
+    assert && assert( !options.title, 'KeyboardHelpDialog sets title' );
     options.title = new VBox( {
-        children: [
-          shortcutsTitleText,
-          new TabHintLine()
-        ],
+        children: [ shortcutsTitleText, tabHintLine ],
         spacing: 5,
 
         // pdom
@@ -92,17 +95,17 @@ class KeyboardHelpDialog extends Dialog {
  * An inner class that assembles the "Tab to get started" content of the Dialog title. This content
  * is interactive with Voicing in that it can be clicked to hear this content (when Voicing is enabled).
  */
+
+type TabHintLineSelfOptions = {};
+type TabHintLineOptions = TabHintLineSelfOptions & NodeOptions & ReadingBlockOptions;
+
 class TabHintLine extends ReadingBlock( Node, 0 ) {
 
-  /**
-   * @mixes ReadingBlock
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+  constructor( providedOptions?: TabHintLineOptions ) {
 
-    options = merge( {
+    const options = optionize<TabHintLineOptions, TabHintLineSelfOptions, ReadingBlockOptions>()( {
       readingBlockNameResponse: tabToGetStartedString
-    }, options );
+    }, providedOptions );
 
     super();
 
@@ -123,4 +126,3 @@ class TabHintLine extends ReadingBlock( Node, 0 ) {
 }
 
 joist.register( 'KeyboardHelpDialog', KeyboardHelpDialog );
-export default KeyboardHelpDialog;
