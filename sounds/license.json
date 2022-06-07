@@ -1,4 +1,12 @@
 {
+  "preferencesTabSwitch.mp3": {
+    "text": [
+      "Copyright 2022 University of Colorado Boulder"
+    ],
+    "projectURL": "https://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
+  },
   "screenSelection.mp3": {
     "text": [
       "Copyright 2002-2019 University of Colorado Boulder"
