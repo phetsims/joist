@@ -127,7 +127,6 @@ class PhetButton extends JoistButton {
         const showHomeScreen = screen === sim.homeScreen;
         const backgroundIsWhite = !backgroundFill.equals( Color.BLACK ) && !showHomeScreen;
 
-        // @ts-ignore
         const outOfDate = updateState === UpdateState.OUT_OF_DATE;
         menuIcon.fill = backgroundIsWhite ? ( outOfDate ? '#0a0' : '#222' ) : ( outOfDate ? '#3F3' : 'white' );
         logoImage.image = backgroundIsWhite ? logoOnWhiteBackground : logoOnBlackBackground;
