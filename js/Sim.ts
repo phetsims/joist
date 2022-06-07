@@ -65,7 +65,7 @@ import PreferencesConfiguration from './preferences/PreferencesConfiguration.js'
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import { CreditsData } from './CreditsNode.js';
 import ScreenView from './ScreenView.js';
-import Popupable from '../../sun/js/Popupable.js';
+import { PopupableNode } from '../../sun/js/Popupable.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
 import Multilink from '../../axon/js/Multilink.js';
 
@@ -84,10 +84,6 @@ phet.joist.elapsedTime = 0; // in milliseconds, use this in Tween.start for repl
 phet.joist.playbackModeEnabledProperty = new BooleanProperty( phet.chipper.queryParameters.playbackMode );
 
 assert && assert( typeof phet.chipper.brand === 'string', 'phet.chipper.brand is required to run a sim' );
-
-// Export a type that lets you check if your Node is composed with ReadingBlock
-const wrapper = () => Popupable( Node );
-type PopupableNode = InstanceType<ReturnType<typeof wrapper>> & Node;
 
 type SelfOptions = {
 
@@ -807,7 +803,7 @@ export default class Sim extends PhetioObject {
    * @param popup
    * @param isModal - whether popup is modal
    */
-  hidePopup( popup: Node, isModal: boolean ): void {
+  hidePopup( popup: PopupableNode, isModal: boolean ): void {
     assert && assert( popup && this.modalNodeStack.includes( popup ) );
     assert && assert( this.topLayer.hasChild( popup ), 'popup was not shown' );
     if ( isModal ) {
