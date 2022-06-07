@@ -1,5 +1,6 @@
 // Copyright 2019-2022, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Enumeration for the various states that can occur during an "update check." See updateCheck.js for main usage.
  *
