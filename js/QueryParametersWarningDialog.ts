@@ -7,8 +7,8 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import merge from '../../phet-core/js/merge.js';
-import OopsDialog from '../../scenery-phet/js/OopsDialog.js';
+import optionize from '../../phet-core/js/optionize.js';
+import OopsDialog, { OopsDialogOptions } from '../../scenery-phet/js/OopsDialog.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import { Text } from '../../scenery/js/imports.js';
 import joist from './joist.js';
@@ -18,29 +18,31 @@ const queryParametersWarningDialogInvalidQueryParametersString = joistStrings.qu
 const queryParametersWarningDialogOneOrMoreQueryParametersString = joistStrings.queryParametersWarningDialog.oneOrMoreQueryParameters;
 const queryParametersWarningDialogTheSimulationWillStartString = joistStrings.queryParametersWarningDialog.theSimulationWillStart;
 
+type SelfOptions = {};
+export type QueryParametersWarningDialogOptions = SelfOptions & OopsDialogOptions;
+
 class QueryParametersWarningDialog extends OopsDialog {
 
   /**
-   * @param {Object[]} warnings - see QueryStringMachine.warnings
-   * @param {Object} [options]
+   * @param warnings - see QueryStringMachine.warnings
+   * @param [providedOptions]
    */
-  constructor( warnings, options ) {
+  //TODO https://github.com/phetsims/chipper/issues/1253 QueryStringMachine.warnings needs a type, to replace any here
+  constructor( warnings: any[], providedOptions?: QueryParametersWarningDialogOptions ) {
 
     assert && assert( warnings.length > 0, `expected 1 or more warnings: ${warnings.length}` );
 
-    options = merge( {
+    const options = optionize<QueryParametersWarningDialogOptions, SelfOptions, OopsDialogOptions>()( {
 
-      // OopsDialog options
+      // OopsDialogOptions
       richTextOptions: {
         font: new PhetFont( 16 )
       },
-
-      // Dialog options
       title: new Text( queryParametersWarningDialogInvalidQueryParametersString, {
         font: new PhetFont( 28 )
       } )
 
-    }, options );
+    }, providedOptions );
 
     // add warnings to generic message
     let message = `${queryParametersWarningDialogOneOrMoreQueryParametersString}<br><br>`;

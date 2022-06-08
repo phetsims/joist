@@ -1,25 +1,32 @@
 // Copyright 2015-2021, University of Colorado Boulder
 
 /**
- * Shows a fixed-size dialog that displays the current update status
+ * UpdateDialog is a fixed-size dialog that displays the current update status.
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
 import stepTimer from '../../axon/js/stepTimer.js';
 import { Node } from '../../scenery/js/imports.js';
-import Dialog from '../../sun/js/Dialog.js';
+import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import joist from './joist.js';
 import updateCheck from './updateCheck.js';
 import UpdateNodes from './UpdateNodes.js';
 import UpdateState from './UpdateState.js';
 
-class UpdateDialog extends Dialog {
+type SelfOptions = {};
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+export type UpdateDialogOptions = SelfOptions & DialogOptions;
+
+export default class UpdateDialog extends Dialog {
+
+  // Listener that should be called every frame where we are shown, with {number} dt as a single parameter.
+  private readonly updateStepListener: ( dt: number ) => void;
+
+  // Listener that should be called whenever our update state changes (while we are displayed)
+  private readonly updateVisibilityListener: ( state: UpdateState ) => void;
+
+  constructor( providedOptions?: UpdateDialogOptions ) {
     assert && assert( updateCheck.areUpdatesChecked,
       'Updates need to be checked for UpdateDialog to be created' );
 
@@ -47,7 +54,7 @@ class UpdateDialog extends Dialog {
       tagName: 'div'
     } );
 
-    super( content, options );
+    super( content, providedOptions );
 
     const updateOutOfDateNode = () => {
 
@@ -62,11 +69,10 @@ class UpdateDialog extends Dialog {
 
     updateOutOfDateNode();
 
-    // @private - Listener that should be called every frame where we are shown, with {number} dt as a single parameter.
+    // @ts-ignore UpdateNodes needs to be converted to .ts
     this.updateStepListener = checkingNode.stepListener;
 
-    // Listener that should be called whenever our update state changes (while we are displayed)
-    this.updateVisibilityListener = function( state ) {
+    this.updateVisibilityListener = state => {
       if ( state === UpdateState.OUT_OF_DATE ) {
         updateOutOfDateNode();
       }
@@ -87,9 +93,9 @@ class UpdateDialog extends Dialog {
 
   /**
    * Shows the UpdateDialog, registering listeners that should only be called while the dialog is shown.
-   * @public (joist-internal)
+   * (joist-internal)
    */
-  show() {
+  public override show(): void {
     if ( updateCheck.areUpdatesChecked && !this.isShowingProperty.value ) {
       updateCheck.resetTimeout();
 
@@ -110,9 +116,9 @@ class UpdateDialog extends Dialog {
 
   /**
    * Removes listeners that should only be called when the Dialog is shown.
-   * @public (joist-internal)
+   * (joist-internal)
    */
-  hide() {
+  public override hide(): void {
     if ( this.isShowingProperty.value ) {
       super.hide();
 
@@ -129,4 +135,3 @@ class UpdateDialog extends Dialog {
 }
 
 joist.register( 'UpdateDialog', UpdateDialog );
-export default UpdateDialog;

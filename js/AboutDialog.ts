@@ -1,4 +1,4 @@
-// Copyright 2013-2021, University of Colorado Boulder
+// Copyright 2013-2022, University of Colorado Boulder
 
 /**
  * AboutDialog displays information about the simulation -- its title, version number, credits, etc.
@@ -7,19 +7,13 @@
  */
 
 import stepTimer from '../../axon/js/stepTimer.js';
-import merge from '../../phet-core/js/merge.js';
+import optionize from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { PDOMPeer } from '../../scenery/js/imports.js';
-import { VoicingRichText } from '../../scenery/js/imports.js';
-import { VoicingText } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { RichText } from '../../scenery/js/imports.js';
-import { VBox } from '../../scenery/js/imports.js';
-import { VStrut } from '../../scenery/js/imports.js';
-import Dialog from '../../sun/js/Dialog.js';
+import { Node, PDOMPeer, RichText, VBox, VoicingRichText, VoicingText, VStrut } from '../../scenery/js/imports.js';
+import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import CreditsNode from './CreditsNode.js';
+import CreditsNode, { CreditsData } from './CreditsNode.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import packageJSON from './packageJSON.js';
@@ -31,27 +25,38 @@ import UpdateState from './UpdateState.js';
 const MAX_WIDTH = 550; // Maximum width of elements in the dialog
 const NOMINAL_FONT_SIZE = 16; // Change this to make everything larger or smaller
 
-class AboutDialog extends Dialog {
+type SelfOptions = {};
+
+export type AboutDialogOptions = SelfOptions & DialogOptions;
+
+export default class AboutDialog extends Dialog {
+
+  // Listener that should be called every frame where we are shown, with {number} dt as a single parameter.
+  private readonly updateStepListener: ( ( dt: number ) => void ) | null;
+
+  // Listener that should be called whenever our update state changes (while we are displayed)
+  private readonly updateVisibilityListener: ( ( state: UpdateState ) => void ) | null;
+
+  private readonly disposeAboutDialog: () => void;
 
   /**
-   * @param {string} name - The name of the simulation
-   * @param {string} version - The version of the simulation
-   * @param {string} credits - The credits for the simulation, or falsy to show no credits
-   * @param {string} locale - The locale string
-   * @param {Object} [options]
+   * @param name - name of the simulation
+   * @param version - version of the simulation
+   * @param credits - credits for the simulation
+   * @param locale - locale string
+   * @param [providedOptions]
    */
-  constructor( name, version, credits, locale, options ) {
+  constructor( name: string, version: string, credits: CreditsData, locale: string, providedOptions?: AboutDialogOptions ) {
 
-    options = merge( {
+    const options = optionize<AboutDialogOptions, SelfOptions, DialogOptions>()( {
       xSpacing: 26,
       topMargin: 26,
       bottomMargin: 26,
       leftMargin: 26,
-      rightMargin: 26,
       phetioReadOnly: true, // the AboutDialog should not be settable
       phetioDynamicElement: true,
       tandem: Tandem.REQUIRED
-    }, options );
+    }, providedOptions );
 
     // Dynamic modules are loaded in simLauncher and accessed through their namespace
     const Brand = phet.brand.Brand;
@@ -85,10 +90,10 @@ class AboutDialog extends Dialog {
       } ) );
     }
 
-    let updateStepListener = null;
-    let updateVisibilityListener = null;
+    let updateStepListener: ( ( dt: number ) => void ) | null = null;
+    let updateVisibilityListener: ( ( state: UpdateState ) => void ) | null = null;
 
-    // brand=phet versions that are not running in the phet-app will should update status
+    // brand=phet versions that are not running in the phet-app should check update status.
     if ( updateCheck.areUpdatesChecked ) {
 
       const positionOptions = { left: 0, top: 0 };
@@ -97,15 +102,13 @@ class AboutDialog extends Dialog {
       const outOfDateNode = UpdateNodes.createOutOfDateAboutNode( positionOptions );
       const offlineNode = UpdateNodes.createOfflineNode( positionOptions );
 
-      // @private - Listener that should be called every frame where we are shown, with {number} dt as a single parameter.
       updateStepListener = checkingNode.stepListener;
 
-      // @private {function(UpdateState)} - Listener that should be called whenever our update state changes (while we are displayed)
-      updateVisibilityListener = state => {
-        checkingNode.visible = state === UpdateState.CHECKING;
-        upToDateNode.visible = state === UpdateState.UP_TO_DATE;
-        outOfDateNode.visible = state === UpdateState.OUT_OF_DATE;
-        offlineNode.visible = state === UpdateState.OFFLINE;
+      updateVisibilityListener = ( state: UpdateState ) => {
+        checkingNode.visible = ( state === UpdateState.CHECKING );
+        upToDateNode.visible = ( state === UpdateState.UP_TO_DATE );
+        outOfDateNode.visible = ( state === UpdateState.OUT_OF_DATE );
+        offlineNode.visible = ( state === UpdateState.OFFLINE );
 
         // pdom - make update content visible/invisible for screen readers by explicitly removing content
         // from the DOM, necessary because AT will ready hidden content in a Dialog.
@@ -160,7 +163,7 @@ class AboutDialog extends Dialog {
       } ) );
     }
 
-    let additionalLicenseStatement = null;
+    let additionalLicenseStatement: Node | null = null;
 
     // Optional additionalLicenseStatement, used in phet-io
     if ( Brand.additionalLicenseStatement ) {
@@ -183,10 +186,10 @@ class AboutDialog extends Dialog {
       children = children.concat( brandChildren );
     }
 
-    let creditsNode = null;
+    let creditsNode: Node | null = null;
 
     // Add credits for specific brands
-    if ( credits && ( Brand.id === 'phet' || Brand.id === 'phet-io' ) ) {
+    if ( ( Brand.id === 'phet' || Brand.id === 'phet-io' ) ) {
       children.push( new VStrut( 15 ) );
       creditsNode = new CreditsNode( credits, {
         titleFont: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } ),
@@ -196,10 +199,8 @@ class AboutDialog extends Dialog {
       children.push( creditsNode );
     }
 
-    // must be in this scope for disposal
-    const linksChildren = [];
-
     // Show any links identified in the brand
+    const linksChildren: Node[] = [];
     const links = Brand.getLinks( packageJSON.name, locale );
     if ( links && links.length > 0 ) {
 
@@ -208,7 +209,7 @@ class AboutDialog extends Dialog {
       for ( let i = 0; i < links.length; i++ ) {
         const link = links[ i ];
 
-        // If links are allowed, use hyperlinks.  Otherwise just output the URL.  This doesn't need to be internationalized.
+        // If links are allowed, use hyperlinks. Otherwise, just output the URL. This doesn't need to be internationalized.
         const text = phet.chipper.queryParameters.allowLinks ? `<a href="{{url}}">${link.text}</a>` : `${link.text}: ${link.url}`;
 
         // This is PhET-iO instrumented because it is a keyboard navigation focusable element.
@@ -240,20 +241,16 @@ class AboutDialog extends Dialog {
 
     super( content, options );
 
-    // @private
     this.updateStepListener = updateStepListener;
-
-    // @private
     this.updateVisibilityListener = updateVisibilityListener;
 
     // pdom - set label association so the title is read when focus enters the dialog
     this.addAriaLabelledbyAssociation( {
       thisElementName: PDOMPeer.PRIMARY_SIBLING,
-      otherNode: titleText,
-      otherElementName: PDOMPeer.PRIMARY_SIBLING
+      otherElementName: PDOMPeer.PRIMARY_SIBLING,
+      otherNode: titleText
     } );
 
-    // @private - to be called in dispose
     this.disposeAboutDialog = () => {
       creditsNode && creditsNode.dispose();
       additionalLicenseStatement && additionalLicenseStatement.dispose();
@@ -262,11 +259,9 @@ class AboutDialog extends Dialog {
   }
 
   /**
-   * Show the dialog
-   * @public
-   * @override
+   * When the dialog is shown, add update listeners.
    */
-  show() {
+  public override show(): void {
     if ( updateCheck.areUpdatesChecked && !this.isShowingProperty.value ) {
       updateCheck.resetTimeout();
 
@@ -275,47 +270,31 @@ class AboutDialog extends Dialog {
         updateCheck.check();
       }
 
-      // Hook up our spinner listener when we're shown
-      stepTimer.addListener( this.updateStepListener );
-
-      // Hook up our visibility listener
-      updateCheck.stateProperty.link( this.updateVisibilityListener );
+      this.updateStepListener && stepTimer.addListener( this.updateStepListener );
+      this.updateVisibilityListener && updateCheck.stateProperty.link( this.updateVisibilityListener );
     }
 
     super.show();
   }
 
   /**
-   * Remove listeners that should only be called when the dialog is shown.
-   * @public
-   * @override
+   * When the dialog is hidden, remove update listeners.
    */
-  hide() {
+  public override hide(): void {
     if ( this.isShowingProperty.value ) {
       super.hide();
 
       if ( updateCheck.areUpdatesChecked ) {
-
-        // Disconnect our visibility listener
-        updateCheck.stateProperty.unlink( this.updateVisibilityListener );
-
-        // Disconnect our spinner listener when we're hidden
-        stepTimer.removeListener( this.updateStepListener );
+        this.updateVisibilityListener && updateCheck.stateProperty.unlink( this.updateVisibilityListener );
+        this.updateStepListener && stepTimer.removeListener( this.updateStepListener );
       }
     }
   }
 
-  /**
-   * Make eligible for garbage collection.
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeAboutDialog();
     super.dispose();
   }
 }
 
 joist.register( 'AboutDialog', AboutDialog );
-
-export default AboutDialog;
