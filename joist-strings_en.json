@@ -363,6 +363,9 @@
                 "title": {
                   "value": "Voice"
                 },
+                "titlePattern": {
+                  "value": "Voice: {{value}}"
+                },
                 "noVoicesAvailable": {
                   "value": "No voices available"
                 }

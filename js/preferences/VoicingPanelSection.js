@@ -60,6 +60,7 @@ const voicingHintsString = joistStrings.a11y.preferences.tabs.audio.voicing.simV
 const hintsMutedString = joistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.helpfulHints.disabledAlert;
 
 const voiceLabelString = joistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.voice.title;
+const voiceTitlePatternLabelString = joistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.voice.titlePattern;
 const noVoicesAvailableString = joistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.voice.noVoicesAvailable;
 
 const customizeVoiceExpandedString = joistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.expandedAlert;
@@ -430,6 +431,8 @@ class VoiceComboBox extends ComboBox {
     options = merge( {
       listPosition: 'above',
       accessibleName: voiceLabelString,
+
+      comboBoxVoicingNameResponsePattern: voiceTitlePatternLabelString,
 
       // phet-io, opt out because we would need to instrument voices, but those could change between runtimes.
       tandem: Tandem.OPT_OUT

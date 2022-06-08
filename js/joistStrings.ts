@@ -192,6 +192,7 @@ type StringsType = {
               'writtenVariablesPattern': string;
               'voice': {
                 'title': string;
+                'titlePattern': string;
                 'noVoicesAvailable': string;
               };
               'rate': {
