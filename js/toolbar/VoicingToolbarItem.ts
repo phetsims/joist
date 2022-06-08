@@ -120,7 +120,10 @@ class VoicingToolbarItem extends Node {
 class LabelButtonRow {
 
   private readonly lookAndFeel: LookAndFeel;
-  private readonly utterance: Utterance;
+
+  // A unique Utterance for the object response so that it can be independently cancelled and have a dynamic Priority
+  // depending on interaction with the screen.
+  private readonly objectResponseUtterance: Utterance;
   private readonly createAlert: () => string;
   private readonly playStopButton: PlayStopButton;
 
@@ -141,7 +144,7 @@ class LabelButtonRow {
   constructor( labelString: string, a11yLabel: string, labelAlignGroup: AlignGroup, inputAlignGroup: AlignGroup, lookAndFeel: LookAndFeel, createAlert: () => string ) {
 
     this.lookAndFeel = lookAndFeel;
-    this.utterance = new Utterance();
+    this.objectResponseUtterance = new Utterance();
     this.createAlert = createAlert;
 
     this.playingProperty = new BooleanProperty( false, {
@@ -157,7 +160,6 @@ class LabelButtonRow {
       // voicing
       voicingNameResponse: a11yLabel,
       voicingIgnoreVoicingManagerProperties: true,
-      voicingUtterance: this.utterance,
 
       radius: 12,
 
@@ -177,7 +179,7 @@ class LabelButtonRow {
     this.content = new HBox( { children: [ labelBox, inputBox ], spacing: CONTENT_VERTICAL_SPACING } );
 
     voicingManager.endSpeakingEmitter.addListener( ( text, endedUtterance ) => {
-      if ( endedUtterance === this.utterance ) {
+      if ( endedUtterance === this.objectResponseUtterance ) {
         this.playingProperty.set( false );
 
         // Remove if listener wasn't interrupted by Display input.
@@ -200,7 +202,7 @@ class LabelButtonRow {
 
         // Wait until the listener is removed before reducing this, this may immediately end the Utterance and remove
         // the listener again in the endSpeakingListener above.
-        this.utterance.priorityProperty.value = 0;
+        this.objectResponseUtterance.priorityProperty.value = 0;
       }
     };
 
@@ -212,7 +214,7 @@ class LabelButtonRow {
     };
 
     voicingManager.startSpeakingEmitter.addListener( ( response, utterance ) => {
-      if ( utterance === this.utterance ) {
+      if ( utterance === this.objectResponseUtterance ) {
         Display.addInputListener( displayListener );
       }
     } );
@@ -233,13 +235,17 @@ class LabelButtonRow {
 
       // This utterance is top priority so that it does not get interrupted during responses that happen as
       // the simulation changes. It stays top priority until there is some interaction with the display.
-      this.utterance.priorityProperty.value = Utterance.TOP_PRIORITY;
+      this.objectResponseUtterance.priorityProperty.value = Utterance.TOP_PRIORITY;
       this.playStopButton.voicingSpeakResponse( {
-        objectResponse: this.createAlert()
+        objectResponse: this.createAlert(),
+
+        // A sepparate Utterance from the default voicingUtterance so that if default responses are cancelled we
+        // don't also cancel this content in the listeners related to priorityProperty above.
+        utterance: this.objectResponseUtterance
       } );
     }
     else {
-      voicingUtteranceQueue.cancelUtterance( this.utterance );
+      voicingUtteranceQueue.cancelUtterance( this.objectResponseUtterance );
     }
   }
 }
