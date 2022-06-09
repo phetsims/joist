@@ -26,7 +26,7 @@ export default class UpdateDialog extends Dialog {
   // Listener that should be called whenever our update state changes (while we are displayed)
   private readonly updateVisibilityListener: ( state: UpdateState ) => void;
 
-  constructor( providedOptions?: UpdateDialogOptions ) {
+  public constructor( providedOptions?: UpdateDialogOptions ) {
     assert && assert( updateCheck.areUpdatesChecked,
       'Updates need to be checked for UpdateDialog to be created' );
 

@@ -46,7 +46,7 @@ class NavigationBarScreenButton extends Voicing( Node, 0 ) {
    * @param navBarHeight
    * @param [providedOptions]
    */
-  constructor( navigationBarFillProperty: IReadOnlyProperty<Color>, screenProperty: Property<Screen<IntentionalAny, ScreenView>>,
+  public constructor( navigationBarFillProperty: IReadOnlyProperty<Color>, screenProperty: Property<Screen<IntentionalAny, ScreenView>>,
                screen: Screen<IntentionalAny, ScreenView>, simScreenIndex: number, navBarHeight: number,
                providedOptions: NavigationBarScreenButtonOptions ) {
 

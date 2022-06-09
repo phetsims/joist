@@ -28,9 +28,9 @@ type SelfOptions = {
 type HomeScreenOptions = SelfOptions & ScreenOptions;
 
 class HomeScreen extends Screen<HomeScreenModel, HomeScreenView> {
-  static BACKGROUND_COLOR: Color;
+  public static BACKGROUND_COLOR: Color;
 
-  constructor(
+  public constructor(
     simNameProperty: IReadOnlyProperty<string>,
     getScreenProperty: () => Property<Screen<any, ScreenView>>,
     simScreens: Screen<any, any>[],

@@ -13,10 +13,7 @@ import merge from '../../phet-core/js/merge.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { VBoxOptions, VoicingRichText } from '../../scenery/js/imports.js';
-import { VoicingText } from '../../scenery/js/imports.js';
-import { VBox, Node } from '../../scenery/js/imports.js';
-import { VStrut } from '../../scenery/js/imports.js';
+import { Node, VBox, VBoxOptions, VoicingRichText, VoicingText, VStrut } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 
@@ -50,7 +47,7 @@ export type CreditsData = {
 export default class CreditsNode extends VBox {
   private readonly disposeCreditsNode: () => void;
 
-  constructor( credits: CreditsData, options: CreditsNodeOptions ) {
+  public constructor( credits: CreditsData, options: CreditsNodeOptions ) {
 
     options = optionize<CreditsNodeOptions, SelfOptions, VBoxOptions>()( {
       titleFont: new PhetFont( { size: 18, weight: 'bold' } ),
@@ -146,7 +143,7 @@ export default class CreditsNode extends VBox {
     };
   }
 
-  override dispose(): void {
+  public override dispose(): void {
     this.disposeCreditsNode();
     super.dispose();
   }

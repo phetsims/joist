@@ -28,7 +28,7 @@ class QueryParametersWarningDialog extends OopsDialog {
    * @param [providedOptions]
    */
   //TODO https://github.com/phetsims/chipper/issues/1253 QueryStringMachine.warnings needs a type, to replace any here
-  constructor( warnings: any[], providedOptions?: QueryParametersWarningDialogOptions ) {
+  public constructor( warnings: any[], providedOptions?: QueryParametersWarningDialogOptions ) {
 
     assert && assert( warnings.length > 0, `expected 1 or more warnings: ${warnings.length}` );
 

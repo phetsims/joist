@@ -38,7 +38,7 @@ class KeyboardHelpButton extends JoistButton {
    * @param tandem
    * @param [providedOptions]
    */
-  constructor( screenProperty: Property<any>, backgroundColorProperty: Property<Color>, tandem: Tandem, providedOptions: KeyboardHelpButtonOptions ) {
+  public constructor( screenProperty: Property<any>, backgroundColorProperty: Property<Color>, tandem: Tandem, providedOptions: KeyboardHelpButtonOptions ) {
 
     const options = optionize<KeyboardHelpButtonOptions, {}, JoistButtonOptions>()( {
       highlightExtensionWidth: 5,

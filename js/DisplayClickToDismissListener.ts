@@ -19,7 +19,7 @@ class DisplayClickToDismissListener {
   /**
    * @param listener - The listener to be called when the Pointer goes up, likely to dismiss something.
    */
-  constructor( listener: SceneryListenerFunction ) {
+  public constructor( listener: SceneryListenerFunction ) {
 
     // The active Pointer for this listener, after a down event a subsequent up event on this Pointer will trigger
     // the behavior of `listener`.

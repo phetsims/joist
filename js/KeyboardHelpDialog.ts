@@ -32,7 +32,7 @@ export default class KeyboardHelpDialog extends Dialog {
    * @param helpContent - a Node containing the sim specific keyboard help content
    * @param [providedOptions]
    */
-  constructor( helpContent: Node, providedOptions?: KeyboardHelpDialogOptions ) {
+  public constructor( helpContent: Node, providedOptions?: KeyboardHelpDialogOptions ) {
 
     const options = optionize<KeyboardHelpDialogOptions, SelfOptions, DialogOptions>()( {
       titleAlign: 'center',
@@ -101,7 +101,7 @@ type TabHintLineOptions = TabHintLineSelfOptions & NodeOptions & ReadingBlockOpt
 
 class TabHintLine extends ReadingBlock( Node, 0 ) {
 
-  constructor( providedOptions?: TabHintLineOptions ) {
+  public constructor( providedOptions?: TabHintLineOptions ) {
 
     const options = optionize<TabHintLineOptions, TabHintLineSelfOptions, ReadingBlockOptions>()( {
       readingBlockNameResponse: tabToGetStartedString

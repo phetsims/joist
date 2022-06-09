@@ -31,7 +31,7 @@ export default class OptionsDialog extends Dialog {
    * @param createContent - creates the dialog's content
    * @param [providedOptions]
    */
-  constructor( createContent: ( tandem: Tandem ) => Node, providedOptions?: OptionsDialogOptions ) {
+  public constructor( createContent: ( tandem: Tandem ) => Node, providedOptions?: OptionsDialogOptions ) {
 
     const options = optionize<OptionsDialogOptions, SelfOptions, DialogOptions>()( {
 

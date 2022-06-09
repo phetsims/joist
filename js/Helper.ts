@@ -44,11 +44,11 @@ import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 const round = ( n: number, places = 2 ) => Utils.toFixed( n, places );
 
 class PointerAreaType extends EnumerationValue {
-  static MOUSE = new PointerAreaType();
-  static TOUCH = new PointerAreaType();
-  static NONE = new PointerAreaType();
+  public static MOUSE = new PointerAreaType();
+  public static TOUCH = new PointerAreaType();
+  public static NONE = new PointerAreaType();
 
-  static enumeration = new Enumeration( PointerAreaType );
+  public static enumeration = new Enumeration( PointerAreaType );
 }
 
 export default class Helper {
@@ -57,55 +57,55 @@ export default class Helper {
   private helperDisplay?: Display;
 
   // Whether we should use the input system for picking, or if we should ignore it (and the flags) for what is visual
-  inputBasedPickingProperty: Property<boolean>;
+  public inputBasedPickingProperty: Property<boolean>;
 
   // Whether we should return the leaf-most Trail (instead of finding the one with input listeners)
-  useLeafNodeProperty: Property<boolean>;
+  public useLeafNodeProperty: Property<boolean>;
 
-  pointerAreaTypeProperty: Property<PointerAreaType>;
+  public pointerAreaTypeProperty: Property<PointerAreaType>;
 
   // Whether the helper is visible (active) or not
-  activeProperty: IProperty<boolean>;
+  public activeProperty: IProperty<boolean>;
 
-  visualTreeVisibleProperty: Property<boolean>;
-  pdomTreeVisibleProperty: Property<boolean>;
-  underPointerVisibleProperty: Property<boolean>;
-  toolsVisibleProperty: Property<boolean>;
-  pickingVisibleProperty: Property<boolean>;
-  previewVisibleProperty: Property<boolean>;
-  selectedNodeContentVisibleProperty: Property<boolean>;
-  selectedTrailContentVisibleProperty: Property<boolean>;
+  public visualTreeVisibleProperty: Property<boolean>;
+  public pdomTreeVisibleProperty: Property<boolean>;
+  public underPointerVisibleProperty: Property<boolean>;
+  public toolsVisibleProperty: Property<boolean>;
+  public pickingVisibleProperty: Property<boolean>;
+  public previewVisibleProperty: Property<boolean>;
+  public selectedNodeContentVisibleProperty: Property<boolean>;
+  public selectedTrailContentVisibleProperty: Property<boolean>;
 
   // Where the current pointer is
-  pointerPositionProperty: IProperty<Vector2>;
+  public pointerPositionProperty: IProperty<Vector2>;
 
   // Whether the pointer is over the UI interface
-  overInterfaceProperty: Property<boolean>;
+  public overInterfaceProperty: Property<boolean>;
 
   // If the user has clicked on a Trail and selected it
-  selectedTrailProperty: IProperty<Trail | null>;
+  public selectedTrailProperty: IProperty<Trail | null>;
 
   // What Trail the user is over in the tree UI
-  treeHoverTrailProperty: IProperty<Trail | null>;
+  public treeHoverTrailProperty: IProperty<Trail | null>;
 
   // What Trail the pointer is over right now
-  pointerTrailProperty: IReadOnlyProperty<Trail | null>;
+  public pointerTrailProperty: IReadOnlyProperty<Trail | null>;
 
   // What Trail to show as a preview (and to highlight) - selection overrides what the pointer is over
-  previewTrailProperty: IReadOnlyProperty<Trail | null>;
+  public previewTrailProperty: IReadOnlyProperty<Trail | null>;
 
   // The global shape of what is selected
-  previewShapeProperty: IReadOnlyProperty<Shape | null>;
+  public previewShapeProperty: IReadOnlyProperty<Shape | null>;
 
-  screenViewProperty: IProperty<ScreenView | null>;
+  public screenViewProperty: IProperty<ScreenView | null>;
 
   // ImageData from the sim
-  imageDataProperty: IProperty<ImageData | null>;
+  public imageDataProperty: IProperty<ImageData | null>;
 
   // The pixel color under the pointer
-  colorProperty: IReadOnlyProperty<Color>;
+  public colorProperty: IReadOnlyProperty<Color>;
 
-  constructor( sim: Sim, simDisplay: SimDisplay ) {
+  public constructor( sim: Sim, simDisplay: SimDisplay ) {
 
     // NOTE: Don't pause the sim, don't use foreign object rasterization (do the smarter instant approach)
     // NOTE: Inform about preserveDrawingBuffer query parameter
@@ -705,9 +705,9 @@ export default class Helper {
   }
 
   // Singleton, lazily created so we don't slow down startup
-  static helper?: Helper;
+  public static helper?: Helper;
 
-  static initialize( sim: Sim, simDisplay: SimDisplay ): void {
+  public static initialize( sim: Sim, simDisplay: SimDisplay ): void {
     // Ctrl + shift + H (will open the helper)
     document.addEventListener( 'keydown', ( event: KeyboardEvent ) => {
       if ( event.ctrlKey && event.key === 'H' ) {
@@ -726,7 +726,7 @@ export default class Helper {
 joist.register( 'Helper', Helper );
 
 class HelperCheckbox extends Checkbox {
-  constructor( label: string, property: Property<boolean>, options?: CheckboxOptions ) {
+  public constructor( label: string, property: Property<boolean>, options?: CheckboxOptions ) {
     super( new RichText( label, { font: new PhetFont( 12 ) } ), property, merge( {
       tandem: Tandem.OPT_OUT,
       boxWidth: 14
@@ -835,14 +835,14 @@ type CollapsibleTreeNodeOptions<T> = CollapsibleTreeNodeSelfOptions<T> & NodeOpt
 
 class CollapsibleTreeNode<T extends CollapsibleTreeNode<any>> extends Node {
 
-  selfNode: Node;
-  expandedProperty: IProperty<boolean>;
-  childTreeNodes: ObservableArray<T>;
-  expandCollapseButton: Node;
+  public selfNode: Node;
+  public expandedProperty: IProperty<boolean>;
+  public childTreeNodes: ObservableArray<T>;
+  public expandCollapseButton: Node;
 
   private childContainer: Node;
 
-  constructor( selfNode: Node, providedOptions?: CollapsibleTreeNodeOptions<T> ) {
+  public constructor( selfNode: Node, providedOptions?: CollapsibleTreeNodeOptions<T> ) {
     const options = optionize<CollapsibleTreeNodeOptions<T>, CollapsibleTreeNodeSelfOptions<T>, NodeOptions>()( {
       createChildren: () => [],
       spacing: 0,
@@ -919,22 +919,22 @@ class CollapsibleTreeNode<T extends CollapsibleTreeNode<any>> extends Node {
     this.mutate( options );
   }
 
-  expand(): void {
+  public expand(): void {
     this.expandedProperty.value = true;
   }
 
-  collapse(): void {
+  public collapse(): void {
     this.expandedProperty.value = false;
   }
 
-  expandRecusively(): void {
+  public expandRecusively(): void {
     this.expandedProperty.value = true;
     this.childTreeNodes.forEach( treeNode => {
       treeNode.expandRecusively();
     } );
   }
 
-  collapseRecursively(): void {
+  public collapseRecursively(): void {
     this.expandedProperty.value = false;
     this.childTreeNodes.forEach( treeNode => {
       treeNode.collapseRecursively();
@@ -944,9 +944,9 @@ class CollapsibleTreeNode<T extends CollapsibleTreeNode<any>> extends Node {
 
 class VisualTreeNode extends CollapsibleTreeNode<VisualTreeNode> {
 
-  trail: Trail;
+  public trail: Trail;
 
-  constructor( trail: Trail, helper: Helper ) {
+  public constructor( trail: Trail, helper: Helper ) {
 
     const node = trail.lastNode();
     const isVisible = trail.isVisible();
@@ -1017,7 +1017,7 @@ class VisualTreeNode extends CollapsibleTreeNode<VisualTreeNode> {
     this.trail = trail;
   }
 
-  find( trail: Trail ): VisualTreeNode | null {
+  public find( trail: Trail ): VisualTreeNode | null {
     if ( trail.equals( this.trail ) ) {
       return this;
     }
@@ -1037,10 +1037,10 @@ class VisualTreeNode extends CollapsibleTreeNode<VisualTreeNode> {
 
 class PDOMTreeNode extends CollapsibleTreeNode<PDOMTreeNode> {
 
-  trail: Trail;
-  instance: PDOMInstance;
+  public trail: Trail;
+  public instance: PDOMInstance;
 
-  constructor( instance: PDOMInstance, helper: Helper ) {
+  public constructor( instance: PDOMInstance, helper: Helper ) {
 
     const trail = instance.trail!;
     const isVisible = trail.isPDOMVisible();
@@ -1124,7 +1124,7 @@ class PDOMTreeNode extends CollapsibleTreeNode<PDOMTreeNode> {
     this.trail = trail;
   }
 
-  find( trail: Trail ): PDOMTreeNode | null {
+  public find( trail: Trail ): PDOMTreeNode | null {
     if ( trail.equals( this.instance.trail! ) ) {
       return this;
     }
@@ -1144,11 +1144,11 @@ class PDOMTreeNode extends CollapsibleTreeNode<PDOMTreeNode> {
 
 class TreeNode<T extends ( VisualTreeNode | PDOMTreeNode )> extends Rectangle {
 
-  treeContainer: Node;
-  treeNode?: T;
-  helper: Helper;
+  public treeContainer: Node;
+  public treeNode?: T;
+  public helper: Helper;
 
-  constructor( visibleProperty: IProperty<boolean>, helper: Helper, createTreeNode: () => T ) {
+  public constructor( visibleProperty: IProperty<boolean>, helper: Helper, createTreeNode: () => T ) {
     super( {
       fill: 'rgba(255,255,255,0.85)',
       stroke: 'black',
@@ -1207,13 +1207,13 @@ class TreeNode<T extends ( VisualTreeNode | PDOMTreeNode )> extends Rectangle {
     } );
   }
 
-  resize( size: Dimension2 ): void {
+  public resize( size: Dimension2 ): void {
     this.rectHeight = size.height;
     this.right = size.width;
     this.treeContainer.clipArea = Shape.bounds( this.localBounds.dilated( 10 ) );
   }
 
-  constrainTree(): void {
+  public constrainTree(): void {
     const treeMarginX = 8;
     const treeMarginY = 5;
 
@@ -1233,7 +1233,7 @@ class TreeNode<T extends ( VisualTreeNode | PDOMTreeNode )> extends Rectangle {
     }
   }
 
-  focusTrail( trail: Trail ): void {
+  public focusTrail( trail: Trail ): void {
     if ( this.treeNode ) {
       const treeNode = this.treeNode.find( trail );
       if ( treeNode ) {
@@ -1244,13 +1244,13 @@ class TreeNode<T extends ( VisualTreeNode | PDOMTreeNode )> extends Rectangle {
     }
   }
 
-  focusPointer(): void {
+  public focusPointer(): void {
     if ( this.helper.pointerTrailProperty.value ) {
       this.focusTrail( this.helper.pointerTrailProperty.value );
     }
   }
 
-  focusSelected(): void {
+  public focusSelected(): void {
     if ( this.helper.selectedTrailProperty.value === null ) { return; }
 
     this.focusTrail( this.helper.selectedTrailProperty.value );
@@ -1287,7 +1287,7 @@ const createCollapsibleHeaderText = ( str: string, visibleProperty: Property<boo
 };
 
 class Matrix3Node extends GridBox {
-  constructor( matrix: Matrix3 ) {
+  public constructor( matrix: Matrix3 ) {
     super( {
       xSpacing: 5,
       ySpacing: 0,
@@ -1307,7 +1307,7 @@ class Matrix3Node extends GridBox {
 }
 
 class ShapeNode extends Path {
-  constructor( shape: Shape ) {
+  public constructor( shape: Shape ) {
     super( shape, {
       maxWidth: 15,
       maxHeight: 15,
@@ -1324,7 +1324,7 @@ class ShapeNode extends Path {
 }
 
 class ImageNode extends Image {
-  constructor( image: Image ) {
+  public constructor( image: Image ) {
     super( image.getImage(), {
       maxWidth: 15,
       maxHeight: 15

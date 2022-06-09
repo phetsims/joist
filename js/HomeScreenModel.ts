@@ -16,9 +16,9 @@ import Screen from './Screen.js';
 import ScreenView from './ScreenView.js';
 
 class HomeScreenModel {
-  simScreens: Screen<IntentionalAny, ScreenView>[]; // screens in the simulations that are not the HomeScreen
-  screenProperty: Property<Screen<IntentionalAny, ScreenView>>;
-  selectedScreenProperty: Property<Screen<IntentionalAny, ScreenView>>;
+  public simScreens: Screen<IntentionalAny, ScreenView>[]; // screens in the simulations that are not the HomeScreen
+  public screenProperty: Property<Screen<IntentionalAny, ScreenView>>;
+  public selectedScreenProperty: Property<Screen<IntentionalAny, ScreenView>>;
 
   /**
    * @param screenProperty - the screen that is displayed to the user in the main area above the
@@ -26,7 +26,7 @@ class HomeScreenModel {
    * @param simScreens
    * @param tandem
    */
-  constructor( screenProperty: Property<Screen<IntentionalAny, IntentionalAny>>, simScreens: Screen<IntentionalAny, IntentionalAny>[], tandem: Tandem ) {
+  public constructor( screenProperty: Property<Screen<IntentionalAny, IntentionalAny>>, simScreens: Screen<IntentionalAny, IntentionalAny>[], tandem: Tandem ) {
 
     this.simScreens = simScreens;
     this.screenProperty = screenProperty;

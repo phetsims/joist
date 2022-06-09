@@ -32,9 +32,9 @@ const PHET_LOGO_HEIGHT = 108;
 const PHET_LOGO_SCALE = 0.28; // scale applied to the PhET logo
 
 class PhetButton extends JoistButton {
-  static PhetButtonIO: IOType;
+  public static PhetButtonIO: IOType;
 
-  constructor( sim: Sim, backgroundFillProperty: IReadOnlyProperty<Color>, tandem: Tandem ) {
+  public constructor( sim: Sim, backgroundFillProperty: IReadOnlyProperty<Color>, tandem: Tandem ) {
 
     // Dynamic modules are loaded in simLauncher and accessed through their namespace
     const Brand = phet.brand.Brand;

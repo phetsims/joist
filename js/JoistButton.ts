@@ -41,7 +41,7 @@ export default class JoistButton extends Voicing( Node, 0 ) {
    * @param tandem
    * @param [providedOptions]
    */
-  constructor( content: Node, navigationBarFillProperty: IReadOnlyProperty<Color>, tandem: Tandem, providedOptions: JoistButtonOptions ) {
+  public constructor( content: Node, navigationBarFillProperty: IReadOnlyProperty<Color>, tandem: Tandem, providedOptions: JoistButtonOptions ) {
 
     const options = optionize<JoistButtonOptions, SelfOptions, VoicingOptions>()( {
       cursor: 'pointer', // {string}
@@ -131,7 +131,7 @@ export default class JoistButton extends Voicing( Node, 0 ) {
    * Is the button currently firing because of accessibility input coming from the PDOM?
    * (pdom)
    */
-  isPDOMClicking(): boolean {
+ public isPDOMClicking(): boolean {
     return this._pressListener.pdomClickingProperty.get();
   }
 }

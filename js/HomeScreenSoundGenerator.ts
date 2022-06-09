@@ -16,13 +16,13 @@ import Enumeration from '../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../phet-core/js/EnumerationValue.js';
 
 class SoundType extends EnumerationValue {
-  static HOME_SCREEN_SELECTED = new SoundType();
-  static DIFFERENT_ICON_SELECTED = new SoundType();
-  static enumeration = new Enumeration( SoundType );
+  public static HOME_SCREEN_SELECTED = new SoundType();
+  public static DIFFERENT_ICON_SELECTED = new SoundType();
+  public static enumeration = new Enumeration( SoundType );
 }
 
 class HomeScreenSoundGenerator extends MultiClip<SoundType> {
-  constructor( homeScreenModel: HomeScreenModel, providedOptions?: MultiClipOptions ) {
+  public constructor( homeScreenModel: HomeScreenModel, providedOptions?: MultiClipOptions ) {
 
     // create the map of home screen actions to sounds
     const valuesToSoundsMap = new Map( [

@@ -38,9 +38,9 @@ type HomeScreenButtonOptions = SelfOptions & VoicingOptions & VBoxOptions;
 
 
 class HomeScreenButton extends Voicing( VBox, 0 ) {
-  readonly screen: Screen<IntentionalAny, ScreenView>;
+  public readonly screen: Screen<IntentionalAny, ScreenView>;
 
-  constructor( screen: Screen<IntentionalAny, ScreenView>, homeScreenModel: HomeScreenModel, providedOptions?: HomeScreenButtonOptions ) {
+  public constructor( screen: Screen<IntentionalAny, ScreenView>, homeScreenModel: HomeScreenModel, providedOptions?: HomeScreenButtonOptions ) {
 
     const options = optionize<HomeScreenButtonOptions, SelfOptions, VBoxOptions>()( {
       cursor: 'pointer',

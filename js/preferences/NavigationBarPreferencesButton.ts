@@ -24,7 +24,7 @@ type NavigationBarPreferencesButtonOptions = StrictOmit<JoistButtonOptions, 'lis
 
 class NavigationBarPreferencesButton extends JoistButton {
 
-  constructor( preferencesModel: PreferencesManager, backgroundColorProperty: Property<Color>, providedOptions: NavigationBarPreferencesButtonOptions ) {
+  public constructor( preferencesModel: PreferencesManager, backgroundColorProperty: Property<Color>, providedOptions: NavigationBarPreferencesButtonOptions ) {
 
     const options = optionize<NavigationBarPreferencesButtonOptions, {}, JoistButtonOptions>()( {
       tandem: Tandem.REQUIRED

@@ -46,7 +46,7 @@ export default class AboutDialog extends Dialog {
    * @param locale - locale string
    * @param [providedOptions]
    */
-  constructor( name: string, version: string, credits: CreditsData, locale: string, providedOptions?: AboutDialogOptions ) {
+  public constructor( name: string, version: string, credits: CreditsData, locale: string, providedOptions?: AboutDialogOptions ) {
 
     const options = optionize<AboutDialogOptions, SelfOptions, DialogOptions>()( {
       xSpacing: 26,

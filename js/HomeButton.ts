@@ -35,7 +35,7 @@ export default class HomeButton extends JoistButton {
    * @param pdomDisplayNameProperty - for the HomeScreen, for description
    * @param [providedOptions]
    */
-  constructor(
+  public constructor(
     navBarHeight: number,
     navigationBarFillProperty: Property<Color>,
     pdomDisplayNameProperty: Property<string | null>,

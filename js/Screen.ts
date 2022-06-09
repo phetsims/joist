@@ -70,30 +70,30 @@ export type ScreenOptions = SelfOptions & PhetioObjectOptions & PickRequired<Phe
 // Parameterized on M=Model and V=View
 class Screen<M, V extends ScreenView> extends PhetioObject {
 
-  backgroundColorProperty: Property<Color> | Property<string> | Property<Color | string>;
+  public backgroundColorProperty: Property<Color> | Property<string> | Property<Color | string>;
 
-  readonly maxDT: number;
-  readonly activeProperty: BooleanProperty;
-  readonly descriptionContent: string;
-  readonly nameProperty: IReadOnlyProperty<string | null>;
+  public readonly maxDT: number;
+  public readonly activeProperty: BooleanProperty;
+  public readonly descriptionContent: string;
+  public readonly nameProperty: IReadOnlyProperty<string | null>;
 
-  readonly showScreenIconFrameForNavigationBarFill: string | null;
-  readonly homeScreenIcon: Node | null;
-  navigationBarIcon: Node | null;
-  readonly showUnselectedHomeScreenIconFrame: boolean;
+  public readonly showScreenIconFrameForNavigationBarFill: string | null;
+  public readonly homeScreenIcon: Node | null;
+  public navigationBarIcon: Node | null;
+  public readonly showUnselectedHomeScreenIconFrame: boolean;
   private readonly keyboardHelpNode: Node | null; // joist-internal
-  readonly pdomDisplayNameProperty: IReadOnlyProperty<string | null>;
+  public readonly pdomDisplayNameProperty: IReadOnlyProperty<string | null>;
   private readonly createModel: () => M;
   private readonly createView: ( model: M ) => V;
   private _model: M | null;
   private _view: V | null;
 
-  static HOME_SCREEN_ICON_ASPECT_RATIO: number;
-  static MINIMUM_HOME_SCREEN_ICON_SIZE: Dimension2;
-  static MINIMUM_NAVBAR_ICON_SIZE: Dimension2;
-  static ScreenIO: IOType;
+  public static HOME_SCREEN_ICON_ASPECT_RATIO: number;
+  public static MINIMUM_HOME_SCREEN_ICON_SIZE: Dimension2;
+  public static MINIMUM_NAVBAR_ICON_SIZE: Dimension2;
+  public static ScreenIO: IOType;
 
-  constructor( createModel: () => M, createView: ( model: M ) => V, providedOptions: ScreenOptions ) {
+  public constructor( createModel: () => M, createView: ( model: M ) => V, providedOptions: ScreenOptions ) {
 
     const options = optionize<ScreenOptions, SelfOptions, PhetioObjectOptions>()( {
 
@@ -243,26 +243,26 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
   }
 
   // Returns the model (if it has been constructed)
-  get model(): M {
+  public get model(): M {
     assert && assert( this._model, 'Model has not yet been constructed' );
     return this._model!;
   }
 
   // Returns the view (if it has been constructed)
-  get view(): V {
+  public get view(): V {
     assert && assert( this._view, 'View has not yet been constructed' );
     return this._view!;
   }
 
-  hasModel(): boolean {
+  public hasModel(): boolean {
     return !!this._model;
   }
 
-  hasView(): boolean {
+  public hasView(): boolean {
     return !!this._view;
   }
 
-  reset(): void {
+  public reset(): void {
 
     // Background color not reset, as it's a responsibility of the code that changes the property
   }
@@ -271,7 +271,7 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
    * Initialize the model.
    * (joist-internal)
    */
-  initializeModel(): void {
+  public initializeModel(): void {
     assert && assert( this._model === null, 'there was already a model' );
     this._model = this.createModel();
   }
@@ -284,7 +284,7 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
    * @param numberOfScreens - the number of screens in the sim this runtime (could change with `?screens=...`.
    * @param isHomeScreen - if this screen is the home screen.
    */
-  initializeView( simNameProperty: IReadOnlyProperty<string>, displayedSimNameProperty: IReadOnlyProperty<string>, numberOfScreens: number, isHomeScreen: boolean ): void {
+  public initializeView( simNameProperty: IReadOnlyProperty<string>, displayedSimNameProperty: IReadOnlyProperty<string>, numberOfScreens: number, isHomeScreen: boolean ): void {
     assert && assert( this._view === null, 'there was already a view' );
     this._view = this.createView( this.model! );
     this._view.setVisible( false ); // a Screen is invisible until selected

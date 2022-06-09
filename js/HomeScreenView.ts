@@ -49,7 +49,7 @@ type HomeScreenViewOptions = SelfOptions & PickOptional<ScreenViewOptions, 'tand
 class HomeScreenView extends ScreenView {
   private homeScreenScreenSummaryIntro!: string;
   private selectedScreenProperty: Property<GeneralScreen>;
-  screenButtons: HomeScreenButton[];
+  public screenButtons: HomeScreenButton[];
 
   /**
    * @param simNameProperty - the internationalized text for the sim name
@@ -57,7 +57,7 @@ class HomeScreenView extends ScreenView {
    * @param tandem
    * @param [providedOptions]
    */
-  constructor( simNameProperty: IReadOnlyProperty<string>, model: HomeScreenModel, tandem: Tandem, providedOptions?: HomeScreenViewOptions ) {
+  public constructor( simNameProperty: IReadOnlyProperty<string>, model: HomeScreenModel, tandem: Tandem, providedOptions?: HomeScreenViewOptions ) {
     assert && assert( simNameProperty.value, `simName is required: ${simNameProperty.value}` );
 
     const options = optionize<HomeScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
@@ -205,7 +205,7 @@ class HomeScreenView extends ScreenView {
   /**
    * For a11y, highlight the currently selected screen button
    */
-  focusHighlightedScreenButton(): void {
+  public focusHighlightedScreenButton(): void {
     for ( let i = 0; i < this.screenButtons.length; i++ ) {
       const screenButton = this.screenButtons[ i ];
       if ( screenButton.screen === this.selectedScreenProperty.value ) {
@@ -218,14 +218,14 @@ class HomeScreenView extends ScreenView {
   /**
    * To support voicing.
    */
-  override getVoicingOverviewContent(): string {
+  public override getVoicingOverviewContent(): string {
     return this.homeScreenScreenSummaryIntro;
   }
 
   /**
    * To support voicing.
    */
-  override getVoicingDetailsContent(): string {
+  public override getVoicingDetailsContent(): string {
 
     let details = '';
 
@@ -245,12 +245,12 @@ class HomeScreenView extends ScreenView {
   /**
    * To support voicing.
    */
-  override getVoicingHintContent(): string {
+  public override getVoicingHintContent(): string {
     return joistStrings.a11y.homeScreenHint;
   }
 
-  static TITLE_FONT_FAMILY = TITLE_FONT_FAMILY;
-  static LAYOUT_BOUNDS = LAYOUT_BOUNDS;
+  public static TITLE_FONT_FAMILY = TITLE_FONT_FAMILY;
+  public static LAYOUT_BOUNDS = LAYOUT_BOUNDS;
 }
 
 joist.register( 'HomeScreenView', HomeScreenView );

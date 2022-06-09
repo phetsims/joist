@@ -15,18 +15,18 @@ import joist from './joist.js';
 class LookAndFeel {
 
   // Background color for the currently selected screen, which will be set on the Display as its backgroundColor
-  readonly backgroundColorProperty: Property<Color>;
+  public readonly backgroundColorProperty: Property<Color>;
 
   // (joist-internal) True if the navigation bar background is black
-  readonly navigationBarDarkProperty: IReadOnlyProperty<boolean>;
+  public readonly navigationBarDarkProperty: IReadOnlyProperty<boolean>;
 
   // (joist-internal) - Navigation bar background fill
-  readonly navigationBarFillProperty: IReadOnlyProperty<Color>;
+  public readonly navigationBarFillProperty: IReadOnlyProperty<Color>;
 
   // (joist-internal) - Navigation bar text fill
-  readonly navigationBarTextFillProperty: IReadOnlyProperty<Color>;
+  public readonly navigationBarTextFillProperty: IReadOnlyProperty<Color>;
 
-  constructor() {
+  public constructor() {
 
     this.backgroundColorProperty = new Property<Color>( Color.BLACK );
 
@@ -43,7 +43,7 @@ class LookAndFeel {
     );
   }
 
-  reset(): void {
+  public reset(): void {
     this.backgroundColorProperty.reset();
   }
 }

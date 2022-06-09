@@ -123,17 +123,17 @@ export default class Sim extends PhetioObject {
   // This was added for PhET-iO but can be used by any client. This does not coincide with the end of the Sim
   // constructor (because Sim has asynchronous steps that finish after the constructor is completed)
   private readonly _isConstructionCompleteProperty = new Property<boolean>( false );
-  readonly isConstructionCompleteProperty: IReadOnlyProperty<boolean> = this._isConstructionCompleteProperty;
+  public readonly isConstructionCompleteProperty: IReadOnlyProperty<boolean> = this._isConstructionCompleteProperty;
 
   // Stores the effective window dimensions that the simulation will be taking up
-  readonly dimensionProperty: IReadOnlyProperty<Dimension2>;
+  public readonly dimensionProperty: IReadOnlyProperty<Dimension2>;
 
   // Indicates when the sim resized.  This Action is implemented so it can be automatically played back.
   private readonly resizeAction: PhetioAction<[ number, number ]>;
 
   // (joist-internal)
   private readonly navigationBar: NavigationBar;
-  readonly homeScreen: HomeScreen | null;
+  public readonly homeScreen: HomeScreen | null;
 
   // Sim screens normally update by implementing model.step(dt) or view.step(dt).  When that is impossible or
   // relatively awkward, it is possible to listen for a callback when a frame begins, when a frame is being processed
@@ -164,14 +164,14 @@ export default class Sim extends PhetioObject {
 
   // the displayed name in the sim. This depends on what screens are shown this runtime (effected by query parameters).
   private readonly displayedSimNameProperty: IReadOnlyProperty<string>;
-  readonly screenProperty: Property<Screen<any, ScreenView>>;
+  public readonly screenProperty: Property<Screen<any, ScreenView>>;
 
   // true if all possible screens are present (order-independent)
   private readonly allScreensCreated: boolean;
 
   // When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.
   // Set to false for when the sim will be paused.
-  readonly activeProperty: BooleanProperty = new BooleanProperty( true, {
+  public readonly activeProperty: BooleanProperty = new BooleanProperty( true, {
     tandem: Tandem.GENERAL_MODEL.createTandem( 'activeProperty' ),
     phetioFeatured: true,
     phetioDocumentation: 'Determines whether the entire simulation is running and processing user input. ' +
@@ -179,18 +179,18 @@ export default class Sim extends PhetioObject {
   } );
 
   // indicates whether the browser tab containing the simulation is currently visible
-  readonly browserTabVisibleProperty: IReadOnlyProperty<boolean>;
+  public readonly browserTabVisibleProperty: IReadOnlyProperty<boolean>;
 
   // (joist-internal) - How the home screen and navbar are scaled. This scale is based on the
   // HomeScreen's layout bounds to support a consistently sized nav bar and menu. If this scale was based on the
   // layout bounds of the current screen, there could be differences in the nav bar across screens.
-  readonly scaleProperty = new NumberProperty( 1 );
+  public readonly scaleProperty = new NumberProperty( 1 );
 
   // (joist-internal) global bounds for the entire simulation. null before first resize
-  readonly boundsProperty = new Property<Bounds2 | null>( null );
+  public readonly boundsProperty = new Property<Bounds2 | null>( null );
 
   // (joist-internal) global bounds for the screen-specific part (excludes the navigation bar), null before first resize
-  readonly screenBoundsProperty = new Property<Bounds2 | null>( null );
+  public readonly screenBoundsProperty = new Property<Bounds2 | null>( null );
 
   private readonly lookAndFeel = new LookAndFeel();
   private readonly memoryMonitor = new MemoryMonitor();
@@ -201,7 +201,7 @@ export default class Sim extends PhetioObject {
 
   // if PhET-iO is currently setting the state of the simulation. See PhetioStateEngine for details. This must be
   // declared before soundManager.initialized is called.
-  readonly isSettingPhetioStateProperty: IReadOnlyProperty<boolean>;
+  public readonly isSettingPhetioStateProperty: IReadOnlyProperty<boolean>;
 
   // (joist-internal)
   private readonly version: string = packageJSON.version;
@@ -256,14 +256,14 @@ export default class Sim extends PhetioObject {
   // (joist-internal) Bind the animation loop so it can be called from requestAnimationFrame with the right this.
   private readonly boundRunAnimationLoop: () => void;
   private readonly updateBackground: () => void;
-  readonly credits: CreditsData;
+  public readonly credits: CreditsData;
 
   /**
    * @param name - the name of the simulation, to be displayed in the navbar and homescreen
    * @param allSimScreens - the possible screens for the sim in order of declaration (does not include the home screen)
    * @param [providedOptions] - see below for options
    */
-  constructor( name: string, allSimScreens: Screen<any, ScreenView>[], providedOptions?: SimOptions ) {
+  public constructor( name: string, allSimScreens: Screen<any, ScreenView>[], providedOptions?: SimOptions ) {
 
     window.phetSplashScreenDownloadComplete();
 
@@ -784,7 +784,7 @@ export default class Sim extends PhetioObject {
    * @param popup - the popup, must implemented node.hide(), called by hidePopup
    * @param isModal - whether popup is modal
    */
-  showPopup( popup: PopupableNode, isModal: boolean ): void {
+  public showPopup( popup: PopupableNode, isModal: boolean ): void {
     assert && assert( popup );
     assert && assert( !!popup.hide, 'Missing popup.hide() for showPopup' );
     assert && assert( !this.topLayer.hasChild( popup ), 'popup already shown' );
@@ -803,7 +803,7 @@ export default class Sim extends PhetioObject {
    * @param popup
    * @param isModal - whether popup is modal
    */
-  hidePopup( popup: PopupableNode, isModal: boolean ): void {
+  public hidePopup( popup: PopupableNode, isModal: boolean ): void {
     assert && assert( popup && this.modalNodeStack.includes( popup ) );
     assert && assert( this.topLayer.hasChild( popup ), 'popup was not shown' );
     if ( isModal ) {
@@ -821,7 +821,7 @@ export default class Sim extends PhetioObject {
     this.resizeAction.execute( width, height );
   }
 
-  start(): void {
+  public start(): void {
 
     // In order to animate the loading progress bar, we must schedule work with setTimeout
     // This array of {function} is the work that must be completed to launch the sim.
@@ -986,7 +986,7 @@ export default class Sim extends PhetioObject {
    * @param dt - in seconds
    * (phet-io)
    */
-  stepSimulation( dt: number ): void {
+  public stepSimulation( dt: number ): void {
     this.stepSimulationAction.execute( dt );
   }
 
@@ -995,7 +995,7 @@ export default class Sim extends PhetioObject {
    * remain visible, but not be tab navigable or readable with a screen reader. This is generally useful when
    * displaying a pop up or modal dialog.
    */
-  setAccessibleViewsVisible( visible: boolean ): void {
+  public setAccessibleViewsVisible( visible: boolean ): void {
     for ( let i = 0; i < this.screens.length; i++ ) {
       this.screens[ i ].view.pdomVisible = visible;
     }
@@ -1011,7 +1011,7 @@ export default class Sim extends PhetioObject {
    * "Sim Voicing" switch in the toolbar which will disable all Voicing in the sim so that
    * only Toolbar content is announced.
    */
-  setSimVoicingVisible( visible: boolean ): void {
+  public setSimVoicingVisible( visible: boolean ): void {
     for ( let i = 0; i < this.screens.length; i++ ) {
       this.screens[ i ].view.voicingVisible = visible;
     }

@@ -67,7 +67,7 @@ class PreferencesConfiguration {
   public readonly audioOptions: AudioOptions;
   public readonly inputOptions: InputOptions;
 
-  constructor( providedOptions?: PreferencesConfigurationOptions ) {
+  public constructor( providedOptions?: PreferencesConfigurationOptions ) {
 
     // initialize-globals uses package.json to determine defaults for features enabled by the sim and those defaults
     // can be overwritten by query parameter.  So phet.chipper.queryParameters contains an accurate representation of

@@ -43,7 +43,7 @@ export type VoicingToolbarItemOptions = SelfOptions & NodeOptions & PickRequired
 
 class VoicingToolbarItem extends Node {
 
-  constructor( alertManager: VoicingToolbarAlertManager, lookAndFeel: LookAndFeel, providedOptions?: VoicingToolbarItemOptions ) {
+  public constructor( alertManager: VoicingToolbarAlertManager, lookAndFeel: LookAndFeel, providedOptions?: VoicingToolbarItemOptions ) {
     const options = optionize<VoicingToolbarItemOptions, SelfOptions, NodeOptions>()( {
 
       // pdom
@@ -141,7 +141,7 @@ class LabelButtonRow {
    * @param lookAndFeel
    * @param createAlert - function that creates the alert when the button is pressed
    */
-  constructor( labelString: string, a11yLabel: string, labelAlignGroup: AlignGroup, inputAlignGroup: AlignGroup, lookAndFeel: LookAndFeel, createAlert: () => string ) {
+  public constructor( labelString: string, a11yLabel: string, labelAlignGroup: AlignGroup, inputAlignGroup: AlignGroup, lookAndFeel: LookAndFeel, createAlert: () => string ) {
 
     this.lookAndFeel = lookAndFeel;
     this.objectResponseUtterance = new Utterance();

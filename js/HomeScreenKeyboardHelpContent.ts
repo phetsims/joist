@@ -11,7 +11,7 @@ import joist from './joist.js';
 
 class HomeScreenKeyboardHelpContent extends Node {
 
-  constructor() {
+  public constructor() {
     super( {
       children: [ new BasicActionsKeyboardHelpSection() ]
     } );
