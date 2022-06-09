@@ -27,7 +27,7 @@ import Checkbox, { CheckboxOptions } from '../../sun/js/Checkbox.js';
 import ScreenView from './ScreenView.js';
 import IProperty from '../../axon/js/IProperty.js';
 import inheritance from '../../phet-core/js/inheritance.js';
-import Property, { AbstractProperty } from '../../axon/js/Property.js';
+import Property, { ReadOnlyProperty } from '../../axon/js/Property.js';
 import Matrix3 from '../../dot/js/Matrix3.js';
 import EnumerationValue from '../../phet-core/js/EnumerationValue.js';
 import Enumeration from '../../phet-core/js/Enumeration.js';
@@ -1800,7 +1800,7 @@ const createInfo = ( trail: Trail ): Node[] => {
 };
 
 const iColorToColor = ( color: IColor ): Color | null => {
-  const nonProperty: Color | string | null = ( color instanceof AbstractProperty || color instanceof TinyProperty ) ? color.value : color;
+  const nonProperty: Color | string | null = ( color instanceof ReadOnlyProperty || color instanceof TinyProperty ) ? color.value : color;
   return nonProperty === null ? null : Color.toColor( nonProperty );
 };
 
