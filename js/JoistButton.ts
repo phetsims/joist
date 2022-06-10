@@ -25,7 +25,8 @@ type SelfOptions = {
   highlightCenterOffsetY?: number;
   listener?: ( () => void ) | null;
 };
-export type JoistButtonOptions = SelfOptions & VoicingOptions;
+type ParentOptions = VoicingOptions; // VoicingOptions includes NodeOptions
+export type JoistButtonOptions = SelfOptions & ParentOptions;
 
 export default class JoistButton extends Voicing( Node, 0 ) {
 
@@ -43,7 +44,7 @@ export default class JoistButton extends Voicing( Node, 0 ) {
    */
   public constructor( content: Node, navigationBarFillProperty: IReadOnlyProperty<Color>, tandem: Tandem, providedOptions: JoistButtonOptions ) {
 
-    const options = optionize<JoistButtonOptions, SelfOptions, VoicingOptions>()( {
+    const options = optionize<JoistButtonOptions, SelfOptions, ParentOptions>()( {
       cursor: 'pointer', // {string}
       listener: null, // {function}
       //Customization for the highlight region, see overrides in HomeButton and PhetButton

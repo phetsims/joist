@@ -34,15 +34,15 @@ const LARGE_ICON_HEIGHT = 140;
 type SelfOptions = {
   showUnselectedHomeScreenIconFrame?: boolean;
 };
-type HomeScreenButtonOptions = SelfOptions & VoicingOptions & VBoxOptions;
-
+type ParentOptions = VoicingOptions & VBoxOptions;
+export type HomeScreenButtonOptions = SelfOptions & ParentOptions;
 
 class HomeScreenButton extends Voicing( VBox, 0 ) {
   public readonly screen: Screen<IntentionalAny, ScreenView>;
 
   public constructor( screen: Screen<IntentionalAny, ScreenView>, homeScreenModel: HomeScreenModel, providedOptions?: HomeScreenButtonOptions ) {
 
-    const options = optionize<HomeScreenButtonOptions, SelfOptions, VBoxOptions>()( {
+    const options = optionize<HomeScreenButtonOptions, SelfOptions, ParentOptions>()( {
       cursor: 'pointer',
       showUnselectedHomeScreenIconFrame: false, // put a frame around unselected home screen icons
 
