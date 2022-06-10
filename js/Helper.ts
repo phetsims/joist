@@ -1292,15 +1292,15 @@ class Matrix3Node extends GridBox {
       xSpacing: 5,
       ySpacing: 0,
       children: [
-        new Text( matrix.m00(), { layoutOptions: { x: 0, y: 0 } } ),
-        new Text( matrix.m01(), { layoutOptions: { x: 1, y: 0 } } ),
-        new Text( matrix.m02(), { layoutOptions: { x: 2, y: 0 } } ),
-        new Text( matrix.m10(), { layoutOptions: { x: 0, y: 1 } } ),
-        new Text( matrix.m11(), { layoutOptions: { x: 1, y: 1 } } ),
-        new Text( matrix.m12(), { layoutOptions: { x: 2, y: 1 } } ),
-        new Text( matrix.m20(), { layoutOptions: { x: 0, y: 2 } } ),
-        new Text( matrix.m21(), { layoutOptions: { x: 1, y: 2 } } ),
-        new Text( matrix.m22(), { layoutOptions: { x: 2, y: 2 } } )
+        new Text( matrix.m00(), { layoutOptions: { column: 0, row: 0 } } ),
+        new Text( matrix.m01(), { layoutOptions: { column: 1, row: 0 } } ),
+        new Text( matrix.m02(), { layoutOptions: { column: 2, row: 0 } } ),
+        new Text( matrix.m10(), { layoutOptions: { column: 0, row: 1 } } ),
+        new Text( matrix.m11(), { layoutOptions: { column: 1, row: 1 } } ),
+        new Text( matrix.m12(), { layoutOptions: { column: 2, row: 1 } } ),
+        new Text( matrix.m20(), { layoutOptions: { column: 0, row: 2 } } ),
+        new Text( matrix.m21(), { layoutOptions: { column: 1, row: 2 } } ),
+        new Text( matrix.m22(), { layoutOptions: { column: 2, row: 2 } } )
       ]
     } );
   }
