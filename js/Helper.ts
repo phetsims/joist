@@ -15,7 +15,7 @@ import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import MeasuringTapeNode from '../../scenery-phet/js/MeasuringTapeNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { CanvasNode, Circle, Color, Display, DOM, DragListener, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, IColor, Image, IPaint, LayoutNode, Line, LinearGradient, mixesHeightSizable, mixesWidthSizable, Node, NodeOptions, NodePattern, Paint, Path, Pattern, PDOMInstance, PressListener, RadialGradient, Rectangle, RichText, SceneryEvent, Spacer, Text, TextOptions, Trail, VBox, WebGLNode } from '../../scenery/js/imports.js';
+import { CanvasNode, Circle, Color, Display, DOM, DragListener, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, IColor, Image, IPaint, LayoutNode, Line, LinearGradient, mixesHeightSizable, mixesWidthSizable, Node, NodeOptions, NodePattern, Paint, Path, Pattern, PDOMInstance, PressListener, RadialGradient, Rectangle, RichText, RichTextOptions, SceneryEvent, Spacer, Text, TextOptions, Trail, VBox, WebGLNode } from '../../scenery/js/imports.js';
 import Panel from '../../sun/js/Panel.js';
 import AquaRadioButtonGroup from '../../sun/js/AquaRadioButtonGroup.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -40,6 +40,7 @@ import { default as createObservableArray, ObservableArray } from '../../axon/js
 import optionize from '../../phet-core/js/optionize.js';
 import Multilink from '../../axon/js/Multilink.js';
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 
 const round = ( n: number, places = 2 ) => Utils.toFixed( n, places );
 
@@ -50,6 +51,13 @@ class PointerAreaType extends EnumerationValue {
 
   public static enumeration = new Enumeration( PointerAreaType );
 }
+
+type HelperCompatibleNode = {
+  getHelperNode(): Node;
+} & Node;
+const hasHelperNode = ( node: Node ): node is HelperCompatibleNode => {
+  return !!( node as IntentionalAny ).getHelperNode;
+};
 
 export default class Helper {
   private sim: Sim;
@@ -70,11 +78,14 @@ export default class Helper {
   public visualTreeVisibleProperty: Property<boolean>;
   public pdomTreeVisibleProperty: Property<boolean>;
   public underPointerVisibleProperty: Property<boolean>;
-  public toolsVisibleProperty: Property<boolean>;
-  public pickingVisibleProperty: Property<boolean>;
+  public optionsVisibleProperty: Property<boolean>;
   public previewVisibleProperty: Property<boolean>;
   public selectedNodeContentVisibleProperty: Property<boolean>;
   public selectedTrailContentVisibleProperty: Property<boolean>;
+  public highlightVisibleProperty: Property<boolean>;
+  public boundsVisibleProperty: Property<boolean>;
+  public selfBoundsVisibleProperty: Property<boolean>;
+  public getHelperNodeVisibleProperty: Property<boolean>;
 
   // Where the current pointer is
   public pointerPositionProperty: IProperty<Vector2>;
@@ -93,6 +104,9 @@ export default class Helper {
 
   // What Trail to show as a preview (and to highlight) - selection overrides what the pointer is over
   public previewTrailProperty: IReadOnlyProperty<Trail | null>;
+
+  // A helper-displayed Node created to help with debugging various types
+  public helperNodeProperty: IReadOnlyProperty<Node | null>;
 
   // The global shape of what is selected
   public previewShapeProperty: IReadOnlyProperty<Shape | null>;
@@ -124,19 +138,28 @@ export default class Helper {
     this.underPointerVisibleProperty = new BooleanProperty( true, {
       tandem: Tandem.OPT_OUT
     } );
-    this.toolsVisibleProperty = new BooleanProperty( true, {
+    this.optionsVisibleProperty = new BooleanProperty( true, {
       tandem: Tandem.OPT_OUT
     } );
-    this.pickingVisibleProperty = new BooleanProperty( true, {
-      tandem: Tandem.OPT_OUT
-    } );
-    this.previewVisibleProperty = new BooleanProperty( true, {
+    this.previewVisibleProperty = new BooleanProperty( false, {
       tandem: Tandem.OPT_OUT
     } );
     this.selectedNodeContentVisibleProperty = new BooleanProperty( true, {
       tandem: Tandem.OPT_OUT
     } );
     this.selectedTrailContentVisibleProperty = new BooleanProperty( true, {
+      tandem: Tandem.OPT_OUT
+    } );
+    this.highlightVisibleProperty = new BooleanProperty( true, {
+      tandem: Tandem.OPT_OUT
+    } );
+    this.boundsVisibleProperty = new BooleanProperty( true, {
+      tandem: Tandem.OPT_OUT
+    } );
+    this.selfBoundsVisibleProperty = new BooleanProperty( false, {
+      tandem: Tandem.OPT_OUT
+    } );
+    this.getHelperNodeVisibleProperty = new BooleanProperty( true, {
       tandem: Tandem.OPT_OUT
     } );
 
@@ -198,6 +221,21 @@ export default class Helper {
         }
         else {
           return getShape( previewTrail, false, false );
+        }
+      }
+      else {
+        return null;
+      }
+    } );
+
+    this.helperNodeProperty = new DerivedProperty( [ this.selectedTrailProperty ], trail => {
+      if ( trail ) {
+        const node = trail.lastNode();
+        if ( hasHelperNode( node ) ) {
+          return node.getHelperNode();
+        }
+        else {
+          return null;
         }
       }
       else {
@@ -285,6 +323,30 @@ export default class Helper {
       colorText.fill = Color.getLuminance( color ) > 128 ? Color.BLACK : Color.WHITE;
     } );
 
+    const boundsColor = new Color( '#804000' );
+    const selfBoundsColor = new Color( '#208020' );
+    const nonInputBasedColor = new Color( 255, 100, 0 );
+    const mouseColor = new Color( 0, 0, 255 );
+    const touchColor = new Color( 255, 0, 0 );
+    const inputBasedColor = new Color( 200, 0, 200 );
+
+    const highlightBaseColorProperty = new DerivedProperty( [ this.inputBasedPickingProperty, this.pointerAreaTypeProperty ], ( inputBasedPicking, pointerAreaType ) => {
+      if ( inputBasedPicking ) {
+        if ( pointerAreaType === PointerAreaType.MOUSE ) {
+          return mouseColor;
+        }
+        else if ( pointerAreaType === PointerAreaType.TOUCH ) {
+          return touchColor;
+        }
+        else {
+          return inputBasedColor;
+        }
+      }
+      else {
+        return nonInputBasedColor;
+      }
+    }, { tandem: Tandem.OPT_OUT } );
+
     const colorBackground = new Panel( colorText, {
       cornerRadius: 0,
       stroke: null,
@@ -346,6 +408,23 @@ export default class Helper {
     const useLeafNodeCheckbox = new HelperCheckbox( 'Use Leaf', this.useLeafNodeProperty, {
       enabledProperty: this.inputBasedPickingProperty
     } );
+
+    const highlightVisibleCheckbox = new HelperCheckbox( 'Highlight', this.highlightVisibleProperty, {
+      labelOptions: {
+        fill: highlightBaseColorProperty
+      }
+    } );
+    const boundsVisibleCheckbox = new HelperCheckbox( 'Bounds', this.boundsVisibleProperty, {
+      labelOptions: {
+        fill: boundsColor
+      }
+    } );
+    const selfBoundsVisibleCheckbox = new HelperCheckbox( 'Self Bounds', this.selfBoundsVisibleProperty, {
+      labelOptions: {
+        fill: selfBoundsColor
+      }
+    } );
+    const getHelperNodeVisibleCheckbox = new HelperCheckbox( 'getHelperNode()', this.getHelperNodeVisibleProperty );
 
     const pointerAreaTypeRadioButtonGroup = new AquaRadioButtonGroup<PointerAreaType>( this.pointerAreaTypeProperty, [
       {
@@ -450,30 +529,62 @@ export default class Helper {
       pdomTreeNode.focusSelected();
     };
 
-    const highlightBase = new DerivedProperty( [ this.inputBasedPickingProperty, this.pointerAreaTypeProperty ], ( inputBasedPicking, pointerAreaType ) => {
-      if ( inputBasedPicking ) {
-        if ( pointerAreaType === PointerAreaType.MOUSE ) {
-          return new Color( 0, 0, 255 );
-        }
-        else if ( pointerAreaType === PointerAreaType.TOUCH ) {
-          return new Color( 255, 0, 0 );
-        }
-        else {
-          return new Color( 200, 0, 200 );
-        }
+    const boundsPath = new Path( null, {
+      visibleProperty: this.boundsVisibleProperty,
+      stroke: boundsColor,
+      fill: boundsColor.withAlpha( 0.1 ),
+      lineDash: [ 2, 2 ],
+      lineDashOffset: 2
+    } );
+    this.previewTrailProperty.link( trail => {
+      if ( trail && trail.lastNode().localBounds.isValid() ) {
+        boundsPath.shape = Shape.bounds( trail.lastNode().localBounds ).transformed( trail.getMatrix() );
       }
       else {
-        return new Color( 0, 255, 0 );
+        boundsPath.shape = null;
       }
-    }, { tandem: Tandem.OPT_OUT } );
-    const highlightFill = new DerivedProperty( [ highlightBase ], color => color.withAlpha( 0.2 ), { tandem: Tandem.OPT_OUT } );
-    const highlightPath = new Path( null, {
-      stroke: highlightBase,
+    } );
+
+    const selfBoundsPath = new Path( null, {
+      visibleProperty: this.selfBoundsVisibleProperty,
+      stroke: selfBoundsColor,
+      fill: selfBoundsColor.withAlpha( 0.1 ),
       lineDash: [ 2, 2 ],
-      fill: highlightFill
+      lineDashOffset: 1
+    } );
+    this.previewTrailProperty.link( trail => {
+      if ( trail && trail.lastNode().selfBounds.isValid() ) {
+        selfBoundsPath.shape = Shape.bounds( trail.lastNode().selfBounds ).transformed( trail.getMatrix() );
+      }
+      else {
+        selfBoundsPath.shape = null;
+      }
+    } );
+
+    const highlightFill = new DerivedProperty( [ highlightBaseColorProperty ], color => color.withAlpha( 0.2 ), { tandem: Tandem.OPT_OUT } );
+    const highlightPath = new Path( null, {
+      stroke: highlightBaseColorProperty,
+      lineDash: [ 2, 2 ],
+      fill: highlightFill,
+      visibleProperty: this.highlightVisibleProperty
     } );
     this.previewShapeProperty.link( shape => {
       highlightPath.shape = shape;
+    } );
+
+    const helperNodeContainer = new Node( {
+      visibleProperty: this.getHelperNodeVisibleProperty
+    } );
+    this.selectedTrailProperty.link( trail => {
+      if ( trail ) {
+        helperNodeContainer.matrix = trail.getMatrix();
+      }
+    } );
+    this.helperNodeProperty.link( node => {
+      helperNodeContainer.removeAllChildren();
+      if ( node ) {
+        helperNodeContainer.addChild( node );
+      }
     } );
 
 
@@ -481,7 +592,10 @@ export default class Helper {
     // this.useLeafNodeProperty = new BooleanProperty( false, { tandem: Tandem.OPT_OUT } );
     // this.pointerAreaTypeProperty = new EnumerationProperty( PointerAreaType.MOUSE, { tandem: Tandem.OPT_OUT } );
 
+    helperRoot.addChild( boundsPath );
+    helperRoot.addChild( selfBoundsPath );
     helperRoot.addChild( highlightPath );
+    helperRoot.addChild( helperNodeContainer );
 
     const backgroundNode = new Node();
 
@@ -505,61 +619,85 @@ export default class Helper {
       visibleProperty: this.underPointerVisibleProperty
     } );
 
-    const toolsNode = new VBox( {
+    const optionsNode = new VBox( {
       spacing: 3,
       align: 'left',
       children: [
-        new HBox( {
-          spacing: 10,
+        createHeaderText( 'Tools' ),
+        new VBox( {
+          spacing: 3,
+          align: 'left',
           children: [
-            fuzzCheckbox,
-            measuringTapeVisibleCheckbox
+            new HBox( {
+              spacing: 10,
+              children: [
+                fuzzCheckbox,
+                measuringTapeVisibleCheckbox
+              ]
+            } ),
+            new HBox( {
+              spacing: 10,
+              children: [
+                visualTreeVisibleCheckbox,
+                ...( simDisplay._accessible ? [ pdomTreeVisibleCheckbox ] : [] )
+              ]
+            } )
           ]
         } ),
-        new HBox( {
-          spacing: 10,
+        createHeaderText( 'Picking', undefined, { layoutOptions: { topMargin: 3 } } ),
+        new VBox( {
+          spacing: 3,
+          align: 'left',
           children: [
-            visualTreeVisibleCheckbox,
-            ...( simDisplay._accessible ? [ pdomTreeVisibleCheckbox ] : [] )
+            new HBox( {
+              spacing: 10,
+              children: [
+                inputBasedPickingCheckbox,
+                useLeafNodeCheckbox
+              ]
+            } ),
+            pointerAreaTypeRadioButtonGroup
+          ]
+        } ),
+        createHeaderText( 'Show', undefined, { layoutOptions: { topMargin: 3 } } ),
+        new VBox( {
+          spacing: 3,
+          align: 'left',
+          children: [
+            new HBox( {
+              spacing: 10,
+              children: [
+                highlightVisibleCheckbox,
+                getHelperNodeVisibleCheckbox
+              ]
+            } ),
+            new HBox( {
+              spacing: 10,
+              children: [
+                boundsVisibleCheckbox,
+                selfBoundsVisibleCheckbox
+              ]
+            } )
           ]
         } )
       ],
-      visibleProperty: this.toolsVisibleProperty
+      visibleProperty: this.optionsVisibleProperty
     } );
 
-    const pickingNode = new VBox( {
-      spacing: 5,
-      align: 'left',
-      children: [
-        new HBox( {
-          spacing: 10,
-          children: [
-            inputBasedPickingCheckbox,
-            useLeafNodeCheckbox
-          ]
-        } ),
-        pointerAreaTypeRadioButtonGroup
-      ],
-      visibleProperty: this.pickingVisibleProperty
-    } );
-
-    const helperReadoutContent = new FlowBox( {
-      orientation: 'vertical',
+    const helperReadoutContent = new VBox( {
       spacing: 5,
       align: 'left',
       children: [
         createCollapsibleHeaderText( 'Under Pointer', this.underPointerVisibleProperty, underPointerNode, { layoutOptions: { topMargin: 0 } } ),
         underPointerNode,
-        createCollapsibleHeaderText( 'Tools', this.toolsVisibleProperty, toolsNode ),
-        toolsNode,
-        createCollapsibleHeaderText( 'Picking', this.pickingVisibleProperty, pickingNode ),
-        pickingNode,
+        createCollapsibleHeaderText( 'Options', this.optionsVisibleProperty, optionsNode ),
+        optionsNode,
         createCollapsibleHeaderText( 'Preview', this.previewVisibleProperty, previewNode ),
         previewNode,
-        createCollapsibleHeaderText( 'Selected Node', this.selectedNodeContentVisibleProperty, selectedNodeContent ),
-        selectedNodeContent,
         createCollapsibleHeaderText( 'Selected Trail', this.selectedTrailContentVisibleProperty, selectedTrailContent ),
-        selectedTrailContent
+        selectedTrailContent,
+        createCollapsibleHeaderText( 'Selected Node', this.selectedNodeContentVisibleProperty, selectedNodeContent ),
+        selectedNodeContent
       ]
     } );
     const helperReadoutPanel = new Panel( helperReadoutContent, {
@@ -725,12 +863,23 @@ export default class Helper {
 
 joist.register( 'Helper', Helper );
 
+type HelperCheckboxSelfOptions = {
+  labelOptions?: RichTextOptions;
+};
+
+type HelperCheckboxOptions = HelperCheckboxSelfOptions & CheckboxOptions;
+
 class HelperCheckbox extends Checkbox {
-  public constructor( label: string, property: Property<boolean>, options?: CheckboxOptions ) {
-    super( new RichText( label, { font: new PhetFont( 12 ) } ), property, merge( {
+  public constructor( label: string, property: Property<boolean>, providedOptions?: HelperCheckboxOptions ) {
+    const options = optionize<HelperCheckboxOptions, HelperCheckboxSelfOptions, CheckboxOptions>()( {
       tandem: Tandem.OPT_OUT,
-      boxWidth: 14
-    }, options ) );
+      boxWidth: 14,
+      labelOptions: {
+        font: new PhetFont( 12 )
+      }
+    }, providedOptions );
+
+    super( new RichText( label, options.labelOptions ), property, options );
   }
 }
 
