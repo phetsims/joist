@@ -8,6 +8,7 @@
  */
 
 import optionize from '../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import { Node, Text } from '../../scenery/js/imports.js';
@@ -16,7 +17,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 
-type SelfOptions = {};
+type SelfOptions = EmptyObjectType;
 
 export type OptionsDialogOptions = SelfOptions & StrictOmit<DialogOptions, 'title'>;
 

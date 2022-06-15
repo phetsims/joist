@@ -9,6 +9,7 @@
 
 import Property from '../../axon/js/Property.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
 import { Color, Image } from '../../scenery/js/imports.js';
 import { Node } from '../../scenery/js/imports.js';
 import Dialog from '../../sun/js/Dialog.js';
@@ -40,7 +41,7 @@ class KeyboardHelpButton extends JoistButton {
    */
   public constructor( screenProperty: Property<any>, backgroundColorProperty: Property<Color>, tandem: Tandem, providedOptions: KeyboardHelpButtonOptions ) {
 
-    const options = optionize<KeyboardHelpButtonOptions, {}, JoistButtonOptions>()( {
+    const options = optionize<KeyboardHelpButtonOptions, EmptyObjectType, JoistButtonOptions>()( {
       highlightExtensionWidth: 5,
       highlightExtensionHeight: 10,
 

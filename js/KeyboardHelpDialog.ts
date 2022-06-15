@@ -7,6 +7,7 @@
  */
 
 import optionize from '../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import KeyboardHelpSection from '../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import TextKeyNode from '../../scenery-phet/js/keyboard/TextKeyNode.js';
@@ -22,7 +23,7 @@ const TITLE_MAX_WIDTH = 670;
 
 const tabToGetStartedString = joistStrings.a11y.keyboardHelp.tabToGetStarted;
 
-type SelfOptions = {};
+type SelfOptions = EmptyObjectType;
 
 export type KeyboardHelpDialogOptions = SelfOptions & StrictOmit<DialogOptions, 'title'>;
 
@@ -96,7 +97,7 @@ export default class KeyboardHelpDialog extends Dialog {
  * is interactive with Voicing in that it can be clicked to hear this content (when Voicing is enabled).
  */
 
-type TabHintLineSelfOptions = {};
+type TabHintLineSelfOptions = EmptyObjectType;
 type TabHintLineOptions = TabHintLineSelfOptions & NodeOptions & ReadingBlockOptions;
 
 class TabHintLine extends ReadingBlock( Node, 0 ) {

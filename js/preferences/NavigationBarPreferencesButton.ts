@@ -8,6 +8,7 @@
 
 import Property from '../../../axon/js/Property.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { Color, Path } from '../../../scenery/js/imports.js';
 import userCogSolidShape from '../../../sherpa/js/fontawesome-5/userCogSolidShape.js';
@@ -26,7 +27,7 @@ class NavigationBarPreferencesButton extends JoistButton {
 
   public constructor( preferencesModel: PreferencesManager, backgroundColorProperty: Property<Color>, providedOptions: NavigationBarPreferencesButtonOptions ) {
 
-    const options = optionize<NavigationBarPreferencesButtonOptions, {}, JoistButtonOptions>()( {
+    const options = optionize<NavigationBarPreferencesButtonOptions, EmptyObjectType, JoistButtonOptions>()( {
       tandem: Tandem.REQUIRED
     }, providedOptions );
 

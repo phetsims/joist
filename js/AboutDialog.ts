@@ -8,6 +8,7 @@
 
 import stepTimer from '../../axon/js/stepTimer.js';
 import optionize from '../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import { Node, PDOMPeer, RichText, VBox, VoicingRichText, VoicingText, VStrut } from '../../scenery/js/imports.js';
@@ -25,7 +26,7 @@ import UpdateState from './UpdateState.js';
 const MAX_WIDTH = 550; // Maximum width of elements in the dialog
 const NOMINAL_FONT_SIZE = 16; // Change this to make everything larger or smaller
 
-type SelfOptions = {};
+type SelfOptions = EmptyObjectType;
 
 export type AboutDialogOptions = SelfOptions & DialogOptions;
 

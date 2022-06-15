@@ -7,6 +7,7 @@
  */
 
 import stepTimer from '../../axon/js/stepTimer.js';
+import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
 import { Node } from '../../scenery/js/imports.js';
 import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import joist from './joist.js';
@@ -14,7 +15,7 @@ import updateCheck from './updateCheck.js';
 import UpdateNodes from './UpdateNodes.js';
 import UpdateState from './UpdateState.js';
 
-type SelfOptions = {};
+type SelfOptions = EmptyObjectType;
 
 export type UpdateDialogOptions = SelfOptions & DialogOptions;
 

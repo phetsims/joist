@@ -17,6 +17,7 @@ import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
 import { Color, voicingManager } from '../../scenery/js/imports.js';
 import { Node } from '../../scenery/js/imports.js';
 import { Path } from '../../scenery/js/imports.js';
@@ -58,7 +59,7 @@ class NavigationBarAudioToggleButton extends JoistButton {
 
   public constructor( soundEnabledProperty: BooleanProperty, backgroundColorProperty: IReadOnlyProperty<Color>, tandem: Tandem, providedOptions: NavigationBarAudioToggleButtonOptions ) {
 
-    const options = optionize<NavigationBarAudioToggleButtonOptions, {}, JoistButtonOptions>()( {
+    const options = optionize<NavigationBarAudioToggleButtonOptions, EmptyObjectType, JoistButtonOptions>()( {
 
       // JoistButton options
       highlightExtensionWidth: 5,

@@ -11,6 +11,7 @@ import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import Property from '../../axon/js/Property.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
 import { Color, FocusHighlightPath, Node, Path, Rectangle, VoicingOptions } from '../../scenery/js/imports.js';
 import homeSolidShape from '../../sherpa/js/fontawesome-5/homeSolidShape.js';
 import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';
@@ -23,7 +24,7 @@ import joistStrings from './joistStrings.js';
 // constants
 const homeScreenDescriptionString = joistStrings.a11y.homeScreenDescription;
 
-type SelfOptions = {};
+type SelfOptions = EmptyObjectType;
 type HomeButtonOptions = SelfOptions & StrictOmit<JoistButtonOptions, 'innerContent'>;
 
 export default class HomeButton extends JoistButton {

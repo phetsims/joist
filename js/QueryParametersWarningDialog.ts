@@ -8,6 +8,7 @@
  */
 
 import optionize from '../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
 import OopsDialog, { OopsDialogOptions } from '../../scenery-phet/js/OopsDialog.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import { Text } from '../../scenery/js/imports.js';
@@ -18,7 +19,7 @@ const queryParametersWarningDialogInvalidQueryParametersString = joistStrings.qu
 const queryParametersWarningDialogOneOrMoreQueryParametersString = joistStrings.queryParametersWarningDialog.oneOrMoreQueryParameters;
 const queryParametersWarningDialogTheSimulationWillStartString = joistStrings.queryParametersWarningDialog.theSimulationWillStart;
 
-type SelfOptions = {};
+type SelfOptions = EmptyObjectType;
 export type QueryParametersWarningDialogOptions = SelfOptions & OopsDialogOptions;
 
 class QueryParametersWarningDialog extends OopsDialog {
