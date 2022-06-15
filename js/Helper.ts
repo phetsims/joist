@@ -15,7 +15,7 @@ import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import MeasuringTapeNode from '../../scenery-phet/js/MeasuringTapeNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { CanvasNode, Circle, Color, Display, DOM, DragListener, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, IColor, Image, IPaint, LayoutNode, Line, LinearGradient, mixesHeightSizable, mixesWidthSizable, Node, NodeOptions, NodePattern, Paint, Path, Pattern, PDOMInstance, PressListener, RadialGradient, Rectangle, RichText, RichTextOptions, SceneryEvent, Spacer, Text, TextOptions, Trail, VBox, WebGLNode } from '../../scenery/js/imports.js';
+import { CanvasNode, Circle, Color, Display, DOM, DragListener, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, IColor, Image, IPaint, LayoutNode, Line, LinearGradient, mixesHeightSizable, mixesWidthSizable, Node, NodeOptions, NodePattern, Paint, Path, Pattern, PDOMInstance, PressListener, RadialGradient, Rectangle, RichText, RichTextOptions, SceneryEvent, Spacer, Text, TextOptions, Trail, VBox, VDivider, WebGLNode } from '../../scenery/js/imports.js';
 import Panel from '../../sun/js/Panel.js';
 import AquaRadioButtonGroup from '../../sun/js/AquaRadioButtonGroup.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -86,6 +86,9 @@ export default class Helper {
   public boundsVisibleProperty: Property<boolean>;
   public selfBoundsVisibleProperty: Property<boolean>;
   public getHelperNodeVisibleProperty: Property<boolean>;
+
+  // Whether the entire helper is visible (or collapsed)
+  public helperVisibleProperty: Property<boolean>;
 
   // Where the current pointer is
   public pointerPositionProperty: IProperty<Vector2>;
@@ -160,6 +163,9 @@ export default class Helper {
       tandem: Tandem.OPT_OUT
     } );
     this.getHelperNodeVisibleProperty = new BooleanProperty( true, {
+      tandem: Tandem.OPT_OUT
+    } );
+    this.helperVisibleProperty = new BooleanProperty( true, {
       tandem: Tandem.OPT_OUT
     } );
 
@@ -449,8 +455,7 @@ export default class Helper {
       tandem: Tandem.OPT_OUT
     } );
 
-    const selectedTrailContent = new FlowBox( {
-      orientation: 'vertical',
+    const selectedTrailContent = new VBox( {
       align: 'left',
       visibleProperty: this.selectedTrailContentVisibleProperty
     } );
@@ -595,8 +600,6 @@ export default class Helper {
     helperRoot.addChild( boundsPath );
     helperRoot.addChild( selfBoundsPath );
     helperRoot.addChild( highlightPath );
-    helperRoot.addChild( helperNodeContainer );
-
     const backgroundNode = new Node();
 
     backgroundNode.addInputListener( new PressListener( {
@@ -607,6 +610,7 @@ export default class Helper {
       tandem: Tandem.OPT_OUT
     } ) );
     helperRoot.addChild( backgroundNode );
+    helperRoot.addChild( helperNodeContainer );
 
     const underPointerNode = new FlowBox( {
       orientation: 'vertical',
@@ -698,9 +702,19 @@ export default class Helper {
         selectedTrailContent,
         createCollapsibleHeaderText( 'Selected Node', this.selectedNodeContentVisibleProperty, selectedNodeContent ),
         selectedNodeContent
+      ],
+      visibleProperty: this.helperVisibleProperty
+    } );
+    const helperReadoutCollapsible = new VBox( {
+      spacing: 5,
+      align: 'left',
+      children: [
+        createCollapsibleHeaderText( 'Helper', this.helperVisibleProperty, helperReadoutContent ),
+        new VDivider(),
+        helperReadoutContent
       ]
     } );
-    const helperReadoutPanel = new Panel( helperReadoutContent, {
+    const helperReadoutPanel = new Panel( helperReadoutCollapsible, {
       fill: 'rgba(255,255,255,0.85)',
       stroke: 'rgba(0,0,0,0.85)',
       cornerRadius: 0
@@ -747,7 +761,8 @@ export default class Helper {
       this.overInterfaceProperty.value =
         helperReadoutPanel.bounds.containsPoint( this.pointerPositionProperty.value ) ||
         ( this.visualTreeVisibleProperty.value && visualTreeNode.bounds.containsPoint( this.pointerPositionProperty.value ) ) ||
-        ( this.pdomTreeVisibleProperty.value && pdomTreeNode.bounds.containsPoint( this.pointerPositionProperty.value ) );
+        ( this.pdomTreeVisibleProperty.value && pdomTreeNode.bounds.containsPoint( this.pointerPositionProperty.value ) ) ||
+        helperNodeContainer.containsPoint( this.pointerPositionProperty.value );
 
       this.helperDisplay?.updateDisplay();
     };
