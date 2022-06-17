@@ -299,7 +299,9 @@ class ScreenView extends Node {
   }
 
   // Noops for consistent API
-  public step( dt: number ): void {}
+  public step( dt: number ): void {
+    // See subclass for implementation
+  }
 }
 
 ScreenView.DEFAULT_LAYOUT_BOUNDS = DEFAULT_LAYOUT_BOUNDS;
