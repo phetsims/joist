@@ -18,7 +18,7 @@ import optionize from '../../phet-core/js/optionize.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { Color, FocusHighlightPath, Node, Rectangle, Text, VBox, Voicing, VoicingOptions } from '../../scenery/js/imports.js';
+import { Color, FocusHighlightPath, Node, NodeOptions, Rectangle, Text, VBox, Voicing, VoicingOptions } from '../../scenery/js/imports.js';
 import PushButtonModel from '../../sun/js/buttons/PushButtonModel.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import HighlightNode from './HighlightNode.js';
@@ -33,7 +33,7 @@ const getHighlightWidth = ( overlay: Node ) => overlay.width + ( 2 * HIGHLIGHT_S
 type SelfOptions = {
   maxButtonWidth?: number | null;
 }
-type ParentOptions = VoicingOptions; // VoicingOptions includes NodeOptions
+type ParentOptions = VoicingOptions & NodeOptions;
 type NavigationBarScreenButtonOptions = SelfOptions & ParentOptions;
 
 class NavigationBarScreenButton extends Voicing( Node, 0 ) {

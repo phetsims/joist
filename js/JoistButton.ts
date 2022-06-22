@@ -10,7 +10,7 @@ import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { Color, FocusHighlightPath, Node, PressListener, SceneryConstants, Voicing, VoicingOptions } from '../../scenery/js/imports.js';
+import { Color, FocusHighlightPath, Node, NodeOptions, PressListener, SceneryConstants, Voicing, VoicingOptions } from '../../scenery/js/imports.js';
 import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';
 import PushButtonInteractionStateProperty from '../../sun/js/buttons/PushButtonInteractionStateProperty.js';
 import PushButtonModel from '../../sun/js/buttons/PushButtonModel.js';
@@ -25,7 +25,7 @@ type SelfOptions = {
   highlightCenterOffsetY?: number;
   listener?: ( () => void ) | null;
 };
-type ParentOptions = VoicingOptions; // VoicingOptions includes NodeOptions
+type ParentOptions = VoicingOptions & NodeOptions;
 export type JoistButtonOptions = SelfOptions & ParentOptions;
 
 export default class JoistButton extends Voicing( Node, 0 ) {
