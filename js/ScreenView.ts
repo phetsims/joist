@@ -20,7 +20,6 @@
 import Property from '../../axon/js/Property.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Matrix3 from '../../dot/js/Matrix3.js';
-import merge from '../../phet-core/js/merge.js';
 import optionize from '../../phet-core/js/optionize.js';
 import ControlAreaNode from '../../scenery-phet/js/accessibility/nodes/ControlAreaNode.js';
 import PlayAreaNode from '../../scenery-phet/js/accessibility/nodes/PlayAreaNode.js';
@@ -39,6 +38,10 @@ import PickRequired from '../../phet-core/js/types/PickRequired.js';
  */
 const DEFAULT_LAYOUT_BOUNDS = new Bounds2( 0, 0, 1024, 618 );
 
+type GetLayoutMatrixOptions = {
+  verticalAlign: 'center' | 'bottom';
+}
+
 // Documented where the defaults are defined
 type SelfOptions = {
   layoutBounds?: Bounds2;
@@ -46,6 +49,7 @@ type SelfOptions = {
   includePDOMNodes?: boolean;
 };
 export type ScreenViewOptions = SelfOptions & NodeOptions & PickRequired<NodeOptions, 'tandem'>;
+
 
 class ScreenView extends Node {
   public readonly layoutBounds: Bounds2;
@@ -260,13 +264,11 @@ class ScreenView extends Node {
     return Math.min( viewBounds.width / layoutBounds.width, viewBounds.height / layoutBounds.height );
   }
 
-  public static getLayoutMatrix( layoutBounds: Bounds2, viewBounds: Bounds2, options?: any ): Matrix3 {
+  public static getLayoutMatrix( layoutBounds: Bounds2, viewBounds: Bounds2, providedOptions?: GetLayoutMatrixOptions ): Matrix3 {
 
-    options = merge( {
+    const options = optionize<GetLayoutMatrixOptions>()( {
       verticalAlign: 'center' // 'center' or 'bottom'
-    }, options );
-
-    assert && assert( options.verticalAlign === 'center' || options.verticalAlign === 'bottom' );
+    }, providedOptions );
 
     const width = viewBounds.width;
     const height = viewBounds.height;
