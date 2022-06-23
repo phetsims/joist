@@ -15,8 +15,11 @@ import joist from '../joist.js';
 
 type GeneralOptions = {
 
-  // any Node you would like to put under the "General" tab with sim-specific controls
-  simControls?: Node | null;
+  // Creates any Node you would like under the "Simulation specific controls" section of the General tab.
+  createSimControls?: ( () => Node ) | null;
+
+  // Creates any Node you would like under the "Localization" section of the General tab.
+  createLocalizationControls?: ( () => Node ) | null;
 }
 
 type VisualOptions = {
@@ -80,7 +83,8 @@ class PreferencesConfiguration {
 
     const options = optionize<PreferencesConfigurationOptions>()( {
       generalOptions: {
-        simControls: null
+        createSimControls: null,
+        createLocalizationControls: null
       },
       visualOptions: {
         supportsInteractiveHighlights: phetFeatures.supportsInteractiveHighlights
