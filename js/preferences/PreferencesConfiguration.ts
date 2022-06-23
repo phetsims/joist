@@ -10,16 +10,17 @@
 
 import optionize from '../../../phet-core/js/optionize.js';
 import { Node } from '../../../scenery/js/imports.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import SpeechSynthesisAnnouncer from '../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import joist from '../joist.js';
 
 type GeneralOptions = {
 
   // Creates any Node you would like under the "Simulation specific controls" section of the General tab.
-  createSimControls?: ( () => Node ) | null;
+  createSimControls?: ( ( tandem: Tandem ) => Node ) | null;
 
   // Creates any Node you would like under the "Localization" section of the General tab.
-  createLocalizationControls?: ( () => Node ) | null;
+  createLocalizationControls?: ( ( tandem: Tandem ) => Node ) | null;
 }
 
 type VisualOptions = {
