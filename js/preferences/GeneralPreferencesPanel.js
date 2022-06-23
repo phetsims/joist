@@ -9,9 +9,11 @@
 
 import merge from '../../../phet-core/js/merge.js';
 import { VBox, VoicingRichText } from '../../../scenery/js/imports.js';
+import HSeparator from '../../../sun/js/HSeparator.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
+import LocalizationControlsPanelSection from './LocalizationControlsPanelSection.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import SimControlsPanelSection from './SimControlsPanelSection.js';
 
@@ -29,7 +31,7 @@ class GeneralPreferencesPanel extends VBox {
 
     options = merge( {
       align: 'left',
-      spacing: 40,
+      spacing: 20,
 
       // pdom
       tagName: 'section',
@@ -42,8 +44,8 @@ class GeneralPreferencesPanel extends VBox {
 
     super( options );
 
-    const panelChildren = [];
-    generalModel.simControls && panelChildren.push( new SimControlsPanelSection( generalModel.simControls ) );
+    // All panel content collected in this final array
+    const panelContent = [];
 
     const introParagraphs = new VBox( { spacing: 10, align: 'left' } );
     const introTextOptions = merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
@@ -61,9 +63,46 @@ class GeneralPreferencesPanel extends VBox {
         innerContent: moreAccessibilityString
       }, introTextOptions ) )
     ];
-    panelChildren.push( introParagraphs );
 
-    this.children = panelChildren;
+    // Just the provided panel content with its own spacing
+    const providedChildren = [];
+
+    // references to the controls kept so they can be disposed if necessary (mostly for phet-io)
+    let simControls = null;
+    let localizationControls = null;
+
+    if ( generalModel.createSimControls ) {
+      simControls = generalModel.createSimControls( options.tandem );
+      providedChildren.push( new SimControlsPanelSection( simControls ) );
+    }
+    if ( generalModel.createLocalizationControls ) {
+      localizationControls = generalModel.createLocalizationControls( options.tandem );
+      providedChildren.push( new LocalizationControlsPanelSection( localizationControls ) );
+    }
+
+    if ( providedChildren.length > 0 ) {
+      const providedContent = new VBox( { spacing: 30, align: 'left', children: providedChildren } );
+      panelContent.push( providedContent );
+
+      // If there was provided content for this panel, separate from intro statements
+      panelContent.push( new HSeparator( introParagraphs.width ) );
+    }
+
+    panelContent.push( introParagraphs );
+
+    this.children = panelContent;
+
+    // @private
+    this.disposeGeneralPreferencesPanel = () => {
+      simControls && simControls.dispose();
+      localizationControls && localizationControls.dispose();
+    };
+  }
+
+  // @public
+  dispose() {
+    this.disposeGeneralPreferencesPanel();
+    super.dispose();
   }
 }
 
