@@ -45,7 +45,7 @@ class LanguageComboBox extends ComboBox<string> {
    * @param localeProperty - Selected locale for the sim (this may come from Sim.ts someday?)
    * @param [providedOptions]
    */
-  constructor( localeDescriptors: localeDescriptor[], localeProperty: Property<string>, providedOptions?: LanguageComboBoxOptions ) {
+  public constructor( localeDescriptors: localeDescriptor[], localeProperty: Property<string>, providedOptions?: LanguageComboBoxOptions ) {
 
     const options = optionize<LanguageComboBoxOptions, SelfOptions, ComboBoxOptions>()( {
 

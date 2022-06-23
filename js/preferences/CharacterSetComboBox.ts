@@ -39,7 +39,7 @@ class CharacterSetComboBox extends ComboBox<unknown> {
    * @param parentNode - Required by ComboBox to place the list box.
    * @param [providedOptions]
    */
-  constructor( characterSets: CharacterSetDescriptor[], characterSetProperty: Property<unknown>, parentNode: Node, providedOptions?: CharacterSetComboBoxOptions ) {
+  public constructor( characterSets: CharacterSetDescriptor[], characterSetProperty: Property<unknown>, parentNode: Node, providedOptions?: CharacterSetComboBoxOptions ) {
 
     const options = optionize<CharacterSetComboBoxOptions, SelfOptions, ComboBoxOptions>()( {
 

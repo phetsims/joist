@@ -22,7 +22,7 @@ class LocalizationControlsPanelSection extends PreferencesPanelSection {
   /**
    * @param localizationControls - Node you want under the "Localization" section
    */
-  constructor( localizationControls: Node ) {
+  public constructor( localizationControls: Node ) {
     super( {
       titleNode: new Text( localizationString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ),
       contentNode: localizationControls
