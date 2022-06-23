@@ -68,7 +68,7 @@ class ProjectorModeCheckbox extends Checkbox {
     };
     colorProfileProperty.link( profileNameListener );
 
-    super( labelNode, projectorModeEnabledProperty, options );
+    super( projectorModeEnabledProperty, labelNode, options );
 
     // @private - dispose function
     this.disposeProjectorModeCheckbox = function() {

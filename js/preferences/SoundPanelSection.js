@@ -72,7 +72,7 @@ class SoundPanelSection extends PreferencesPanelSection {
     let enhancedSoundCheckbox = null;
     if ( audioOptions.supportsEnhancedSound ) {
       const enahncedSoundLabel = new Text( extraSoundsLabelString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
-      enhancedSoundCheckbox = new Checkbox( enahncedSoundLabel, soundManager.enhancedSoundEnabledProperty, {
+      enhancedSoundCheckbox = new Checkbox( soundManager.enhancedSoundEnabledProperty, enahncedSoundLabel, {
 
         // pdom
         labelTagName: 'label',

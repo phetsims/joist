@@ -319,7 +319,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
  */
 const createCheckbox = ( labelString, property, checkedContextResponse, uncheckedContextResponse, tandem ) => {
   const labelNode = new Text( labelString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
-  return new Checkbox( labelNode, property, {
+  return new Checkbox( property, labelNode, {
 
     // pdom
     labelTagName: 'label',

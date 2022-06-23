@@ -406,31 +406,31 @@ export default class Helper {
       selectedNodeContent.children = trail ? createInfo( trail ) : [];
     } );
 
-    const fuzzCheckbox = new HelperCheckbox( 'Fuzz', fuzzProperty );
-    const measuringTapeVisibleCheckbox = new HelperCheckbox( 'Measuring Tape', measuringTapeVisibleProperty );
-    const visualTreeVisibleCheckbox = new HelperCheckbox( 'Visual Tree', this.visualTreeVisibleProperty );
-    const pdomTreeVisibleCheckbox = new HelperCheckbox( 'PDOM Tree', this.pdomTreeVisibleProperty );
-    const inputBasedPickingCheckbox = new HelperCheckbox( 'Input-based', this.inputBasedPickingProperty );
-    const useLeafNodeCheckbox = new HelperCheckbox( 'Use Leaf', this.useLeafNodeProperty, {
+    const fuzzCheckbox = new HelperCheckbox( fuzzProperty, 'Fuzz' );
+    const measuringTapeVisibleCheckbox = new HelperCheckbox( measuringTapeVisibleProperty, 'Measuring Tape' );
+    const visualTreeVisibleCheckbox = new HelperCheckbox( this.visualTreeVisibleProperty, 'Visual Tree' );
+    const pdomTreeVisibleCheckbox = new HelperCheckbox( this.pdomTreeVisibleProperty, 'PDOM Tree' );
+    const inputBasedPickingCheckbox = new HelperCheckbox( this.inputBasedPickingProperty, 'Input-based' );
+    const useLeafNodeCheckbox = new HelperCheckbox( this.useLeafNodeProperty, 'Use Leaf', {
       enabledProperty: this.inputBasedPickingProperty
     } );
 
-    const highlightVisibleCheckbox = new HelperCheckbox( 'Highlight', this.highlightVisibleProperty, {
+    const highlightVisibleCheckbox = new HelperCheckbox( this.highlightVisibleProperty, 'Highlight', {
       labelOptions: {
         fill: highlightBaseColorProperty
       }
     } );
-    const boundsVisibleCheckbox = new HelperCheckbox( 'Bounds', this.boundsVisibleProperty, {
+    const boundsVisibleCheckbox = new HelperCheckbox( this.boundsVisibleProperty, 'Bounds', {
       labelOptions: {
         fill: boundsColor
       }
     } );
-    const selfBoundsVisibleCheckbox = new HelperCheckbox( 'Self Bounds', this.selfBoundsVisibleProperty, {
+    const selfBoundsVisibleCheckbox = new HelperCheckbox( this.selfBoundsVisibleProperty, 'Self Bounds', {
       labelOptions: {
         fill: selfBoundsColor
       }
     } );
-    const getHelperNodeVisibleCheckbox = new HelperCheckbox( 'getHelperNode()', this.getHelperNodeVisibleProperty );
+    const getHelperNodeVisibleCheckbox = new HelperCheckbox( this.getHelperNodeVisibleProperty, 'getHelperNode()' );
 
     const pointerAreaTypeRadioButtonGroup = new AquaRadioButtonGroup<PointerAreaType>( this.pointerAreaTypeProperty, [
       {
@@ -885,7 +885,7 @@ type HelperCheckboxSelfOptions = {
 type HelperCheckboxOptions = HelperCheckboxSelfOptions & CheckboxOptions;
 
 class HelperCheckbox extends Checkbox {
-  public constructor( label: string, property: Property<boolean>, providedOptions?: HelperCheckboxOptions ) {
+  public constructor( property: Property<boolean>, label: string, providedOptions?: HelperCheckboxOptions ) {
     const options = optionize<HelperCheckboxOptions, HelperCheckboxSelfOptions, CheckboxOptions>()( {
       tandem: Tandem.OPT_OUT,
       boxWidth: 14,
@@ -894,7 +894,7 @@ class HelperCheckbox extends Checkbox {
       }
     }, providedOptions );
 
-    super( new RichText( label, options.labelOptions ), property, options );
+    super( property, new RichText( label, options.labelOptions ), options );
   }
 }
 
