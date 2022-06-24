@@ -273,7 +273,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
       // phet-io - for when creating the Archetype for the Capsule housing the preferencesDialog, we don't have a sim global.
       const parent = phet.joist.sim.topLayer || new Node();
 
-      voiceComboBox = new VoiceComboBox( voiceList, audioModel.voiceProperty, parent );
+      voiceComboBox = new VoiceComboBox( audioModel.voiceProperty, voiceList, parent );
       voiceOptionsContent.addChild( voiceComboBox );
     };
     voicingManager.voicesChangedEmitter.addListener( voicesChangedListener );
@@ -421,12 +421,12 @@ class VoiceRateNumberControl extends Voicing( NumberControl, 3 ) {
 class VoiceComboBox extends ComboBox {
 
   /**
-   * @param {SpeechSynthesisVoice[]} voices - list of voices to include from the voicingManager
    * @param {Property.<SpeechSynthesisVoice|null>} voiceProperty
+   * @param {SpeechSynthesisVoice[]} voices - list of voices to include from the voicingManager
    * @param {Node} parentNode - node that acts as a parent for the ComboBox list
    * @param {Object} [options]
    */
-  constructor( voices, voiceProperty, parentNode, options ) {
+  constructor( voiceProperty, voices, parentNode, options ) {
 
     options = merge( {
       listPosition: 'above',
@@ -458,7 +458,7 @@ class VoiceComboBox extends ComboBox {
     // voices
     voiceProperty.set( items[ 0 ].value );
 
-    super( items, voiceProperty, parentNode, options );
+    super( voiceProperty, items, parentNode, options );
 
     // voicing -  responses for the button should always come through, regardless of user selection of
     // responses. As of 10/29/21, ComboBox will only read the name response (which are always read regardless)

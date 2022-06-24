@@ -34,12 +34,13 @@ type CharacterSetComboBoxOptions = SelfOptions & StrictOmit<ComboBoxOptions, 'la
 class CharacterSetComboBox extends ComboBox<unknown> {
 
   /**
-   * @param characterSets - Collection of data used to create ComboBoxItems for each supported character set.
    * @param characterSetProperty - Selected character set.
+   * @param characterSets - Collection of data used to create ComboBoxItems for each supported character set.
    * @param parentNode - Required by ComboBox to place the list box.
-   * @param [providedOptions]
+   * @param [providedOptions?]
    */
-  public constructor( characterSets: CharacterSetDescriptor[], characterSetProperty: Property<unknown>, parentNode: Node, providedOptions?: CharacterSetComboBoxOptions ) {
+  public constructor( characterSetProperty: Property<unknown>, characterSets: CharacterSetDescriptor[],
+                      parentNode: Node, providedOptions?: CharacterSetComboBoxOptions ) {
 
     const options = optionize<CharacterSetComboBoxOptions, SelfOptions, ComboBoxOptions>()( {
 
@@ -64,7 +65,7 @@ class CharacterSetComboBox extends ComboBox<unknown> {
       );
     } );
 
-    super( comboBoxItems, characterSetProperty, parentNode, options );
+    super( characterSetProperty, comboBoxItems, parentNode, options );
   }
 }
 

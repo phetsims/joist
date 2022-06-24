@@ -41,11 +41,12 @@ type LanguageComboBoxOptions = SelfOptions & StrictOmit<ComboBoxOptions, 'labelN
 class LanguageComboBox extends ComboBox<string> {
 
   /**
-   * @param localeDescriptors
    * @param localeProperty - Selected locale for the sim (this may come from Sim.ts someday?)
-   * @param [providedOptions]
+   * @param localeDescriptors
+   * @param [providedOptions?]
    */
-  public constructor( localeDescriptors: localeDescriptor[], localeProperty: Property<string>, providedOptions?: LanguageComboBoxOptions ) {
+  public constructor( localeProperty: Property<string>, localeDescriptors: localeDescriptor[],
+                      providedOptions?: LanguageComboBoxOptions ) {
 
     const options = optionize<LanguageComboBoxOptions, SelfOptions, ComboBoxOptions>()( {
 
@@ -65,7 +66,7 @@ class LanguageComboBox extends ComboBox<string> {
       );
     } );
 
-    super( comboBoxItems, localeProperty, phet.joist.sim.topLayer, options );
+    super( localeProperty, comboBoxItems, phet.joist.sim.topLayer, options );
   }
 }
 
