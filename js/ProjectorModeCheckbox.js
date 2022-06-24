@@ -1,4 +1,4 @@
-// Copyright 2018-2021, University of Colorado Boulder
+// Copyright 2018-2022, University of Colorado Boulder
 
 /**
  * ProjectorModeCheckbox is a checkbox used to switch between 'default' and 'projector' color profiles.
