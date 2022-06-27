@@ -15,7 +15,6 @@ import ComboBox, { ComboBoxOptions } from '../../../sun/js/ComboBox.js';
 import joist from '../joist.js';
 import { Text } from '../../../scenery/js/imports.js';
 import PreferencesDialog from './PreferencesDialog.js';
-import ComboBoxItem from '../../../sun/js/ComboBoxItem.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -60,10 +59,10 @@ class LanguageComboBox extends ComboBox<string> {
     options.labelNode = new Text( languageString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
 
     const comboBoxItems = localeDescriptors.map( localeDescriptor => {
-      return new ComboBoxItem(
-        new Text( localeDescriptor.localeLabel, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ),
-        localeDescriptor.locale
-      );
+      return {
+        value: localeDescriptor.locale,
+        node: new Text( localeDescriptor.localeLabel, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS )
+      };
     } );
 
     super( localeProperty, comboBoxItems, phet.joist.sim.topLayer, options );

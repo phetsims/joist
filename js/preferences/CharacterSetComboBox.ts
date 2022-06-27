@@ -8,7 +8,6 @@ import ComboBox, { ComboBoxOptions } from '../../../sun/js/ComboBox.js';
 import joist from '../joist.js';
 import { HBox, Node, Text } from '../../../scenery/js/imports.js';
 import PreferencesDialog from './PreferencesDialog.js';
-import ComboBoxItem from '../../../sun/js/ComboBoxItem.js';
 import Property from '../../../axon/js/Property.js';
 import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
 import optionize from '../../../phet-core/js/optionize.js';
@@ -59,10 +58,10 @@ class CharacterSetComboBox extends ComboBox<unknown> {
         spacing: 10
       } );
 
-      return new ComboBoxItem(
-        itemContent,
-        characterSetDescriptor.value
-      );
+      return {
+        value: characterSetDescriptor.value,
+        node: itemContent
+      };
     } );
 
     super( characterSetProperty, comboBoxItems, parentNode, options );

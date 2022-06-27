@@ -17,7 +17,6 @@ import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { FocusHighlightFromNode, Node, PressListener, Text, VBox, Voicing, voicingManager, VoicingText } from '../../../scenery/js/imports.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import ComboBox from '../../../sun/js/ComboBox.js';
-import ComboBoxItem from '../../../sun/js/ComboBoxItem.js';
 import ExpandCollapseButton from '../../../sun/js/ExpandCollapseButton.js';
 import HSlider from '../../../sun/js/HSlider.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -441,17 +440,19 @@ class VoiceComboBox extends ComboBox {
     const items = [];
 
     if ( voices.length === 0 ) {
-      const textNode = new Text( noVoicesAvailableString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
-      items.push( new ComboBoxItem( textNode, null, {
+      items.push( {
+        value: null,
+        node: new Text( noVoicesAvailableString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ),
         a11yLabel: noVoicesAvailableString
-      } ) );
+      } );
     }
 
     voices.forEach( voice => {
-      const textNode = new Text( voice.name, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
-      items.push( new ComboBoxItem( textNode, voice, {
+      items.push( {
+        value: voice,
+        node: new Text( voice.name, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ),
         a11yLabel: voice.name
-      } ) );
+      } );
     } );
 
     // since we are updating the list, set the VoiceProperty to the first available value, or null if there are
