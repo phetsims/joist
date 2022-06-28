@@ -92,6 +92,8 @@ class PreferencesPanels extends Node {
 
     // @private
     this.disposePreferencesPanel = () => {
+      panelAlignGroup.dispose();
+
       generalPreferencesPanel && generalPreferencesPanel.dispose();
       visualPreferencesPanel && visualPreferencesPanel.dispose();
       audioPreferencesPanel && audioPreferencesPanel.dispose();

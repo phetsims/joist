@@ -72,6 +72,7 @@ class InputPreferencesPanel extends Node {
 
     // @private
     this.disposeInputPreferencesPanel = () => {
+      panelSection.dispose();
       gestureControlsEnabledSwitch.dispose();
     };
   }

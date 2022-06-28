@@ -67,6 +67,7 @@ class VisualPreferencesPanel extends Node {
 
     // @private
     this.disposeVisualPreferencesPanel = () => {
+      panelSection.dispose();
       interactiveHighlightsEnabledSwitch.dispose();
     };
   }

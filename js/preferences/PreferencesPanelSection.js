@@ -50,6 +50,19 @@ class PreferencesPanelSection extends VBox {
 
     options.children = sectionChildren;
     super( options );
+
+    this.disposePreferencesPanelSection = () => {
+      sectionAlignGroup.dispose();
+    };
+  }
+
+  /**
+   * Disposal is necessary because this component uses AlignGroup.
+   * @public
+   */
+  dispose() {
+    this.disposePreferencesPanelSection();
+    super.dispose();
   }
 }
 

@@ -67,17 +67,21 @@ class GeneralPreferencesPanel extends VBox {
     // Just the provided panel content with its own spacing
     const providedChildren = [];
 
-    // references to the controls kept so they can be disposed if necessary (mostly for phet-io)
+    // references to the controls and sections kept so that they can be disposed if necessary (mostly for phet-io)
     let simControls = null;
     let localizationControls = null;
+    let simControlsPanelSection = null;
+    let localizationControlsPanelSection = null;
 
     if ( generalModel.createSimControls ) {
       simControls = generalModel.createSimControls( options.tandem );
-      providedChildren.push( new SimControlsPanelSection( simControls ) );
+      simControlsPanelSection = new SimControlsPanelSection( simControls );
+      providedChildren.push( simControlsPanelSection );
     }
     if ( generalModel.createLocalizationControls ) {
       localizationControls = generalModel.createLocalizationControls( options.tandem );
-      providedChildren.push( new LocalizationControlsPanelSection( localizationControls ) );
+      localizationControlsPanelSection = new LocalizationControlsPanelSection( localizationControls );
+      providedChildren.push( localizationControlsPanelSection );
     }
 
     if ( providedChildren.length > 0 ) {
@@ -96,6 +100,9 @@ class GeneralPreferencesPanel extends VBox {
     this.disposeGeneralPreferencesPanel = () => {
       simControls && simControls.dispose();
       localizationControls && localizationControls.dispose();
+
+      simControlsPanelSection && simControlsPanelSection.dispose();
+      localizationControlsPanelSection && localizationControlsPanelSection.dispose();
     };
   }
 
