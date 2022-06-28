@@ -21,7 +21,7 @@ const cultureAndRegionString = 'Culture and Region';
 export type CharacterSetDescriptor = {
   setIcon: Node;
   label: string;
-  value: unknown;
+  value: number;
 }
 
 type SelfOptions = EmptyObjectType;
@@ -30,15 +30,16 @@ type SelfOptions = EmptyObjectType;
 type CharacterSetComboBoxOptions = SelfOptions & StrictOmit<ComboBoxOptions, 'labelNode'>;
 
 // TODO: Create a consistent type for this Property/ComboBox, see https://github.com/phetsims/joist/issues/814
-class CharacterSetComboBox extends ComboBox<unknown> {
+class CharacterSetComboBox extends ComboBox<number> {
 
   /**
-   * @param characterSetProperty - Selected character set.
+   * @param characterSetProperty - Number indicating a selected Character set. Map the value to particular set of
+   *                               images that you want to use (you may want to use a number of images per character).
    * @param characterSets - Collection of data used to create ComboBoxItems for each supported character set.
    * @param parentNode - Required by ComboBox to place the list box.
    * @param [providedOptions?]
    */
-  public constructor( characterSetProperty: Property<unknown>, characterSets: CharacterSetDescriptor[],
+  public constructor( characterSetProperty: Property<number>, characterSets: CharacterSetDescriptor[],
                       parentNode: Node, providedOptions?: CharacterSetComboBoxOptions ) {
 
     const options = optionize<CharacterSetComboBoxOptions, SelfOptions, ComboBoxOptions>()( {
