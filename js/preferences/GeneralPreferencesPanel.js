@@ -98,11 +98,14 @@ class GeneralPreferencesPanel extends VBox {
 
     // @private
     this.disposeGeneralPreferencesPanel = () => {
-      simControls && simControls.dispose();
-      localizationControls && localizationControls.dispose();
 
+      // The AlignGroups used for layout need to be disposed before the content of their AlignBoxes (controls below)
+      // or else bounds become undefined
       simControlsPanelSection && simControlsPanelSection.dispose();
       localizationControlsPanelSection && localizationControlsPanelSection.dispose();
+
+      simControls && simControls.dispose();
+      localizationControls && localizationControls.dispose();
     };
   }
 
