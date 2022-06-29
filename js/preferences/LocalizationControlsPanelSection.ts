@@ -15,7 +15,7 @@ import PreferencesDialog from './PreferencesDialog.js';
 // This is NOT translatable yet. This is still being designed and I don't want
 // strings to float in translatable strings until this is finished. See
 // https://github.com/phetsims/joist/issues/814
-const localizationString = 'Localization';
+const localizationSettingsString = 'Localization Settings';
 
 class LocalizationControlsPanelSection extends PreferencesPanelSection {
 
@@ -24,7 +24,7 @@ class LocalizationControlsPanelSection extends PreferencesPanelSection {
    */
   public constructor( localizationControls: Node ) {
     super( {
-      titleNode: new Text( localizationString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ),
+      titleNode: new Text( localizationSettingsString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ),
       contentNode: localizationControls
     } );
   }
