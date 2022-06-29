@@ -16,7 +16,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 
 // constants
 // Not translatable until design is complete, see https://github.com/phetsims/joist/issues/814
-const cultureAndRegionString = 'Culture and Region';
+const regionAndCultureString = 'Region and Culture';
 
 export type CharacterSetDescriptor = {
   setIcon: Node;
@@ -51,7 +51,7 @@ class CharacterSetComboBox extends ComboBox<number> {
       tandem: Tandem.REQUIRED
     }, providedOptions );
 
-    options.labelNode = new Text( cultureAndRegionString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
+    options.labelNode = new Text( regionAndCultureString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
 
     const comboBoxItems = characterSets.map( characterSetDescriptor => {
       const itemContent = new HBox( {
