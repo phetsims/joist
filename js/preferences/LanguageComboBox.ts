@@ -4,7 +4,7 @@
  * A ComboBox to control the locale used for a sim.
  *
  * This is experimental still. I don't know how this will actually work. For now this combo box is a placeholder
- * just so see how it will look in the Preferences dialog layout.
+ * just so see how it will look in the Preferences dialog layout. At the moment it is not used in any sim.
  *
  * See https://github.com/phetsims/joist/issues/814
  *
