@@ -739,7 +739,8 @@ export default class Helper {
     helperRoot.addChild( pdomTreeNode );
 
     // @ts-ignore MeasuringTapeNode
-    const measuringTapeNode = new MeasuringTapeNode( measuringTapeUnitsProperty, measuringTapeVisibleProperty, {
+    const measuringTapeNode = new MeasuringTapeNode( measuringTapeUnitsProperty, {
+      visibleProperty: measuringTapeVisibleProperty,
       textBackgroundColor: 'rgba(0,0,0,0.5)'
     } );
     measuringTapeNode.basePositionProperty.value = new Vector2( 100, 300 );
