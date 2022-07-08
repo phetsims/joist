@@ -102,6 +102,7 @@ class PreferencesDialog extends Dialog {
 
     // the selected PreferencesTab, indicating which tab is visible in the Dialog
     const selectedTabProperty = new EnumerationProperty( PreferencesTab.GENERAL, {
+      validValues: supportedTabs,
       tandem: options.tandem.createTandem( 'selectedTabProperty' )
     } );
 
