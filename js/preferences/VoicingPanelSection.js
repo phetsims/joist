@@ -230,7 +230,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
     // Speak when voicing becomes initially enabled. First speech is done synchronously (not using utterance-queue)
     // in response to user input, otherwise all speech will be blocked on many platforms
     const voicingEnabledUtterance = new Utterance();
-    audioModel.voicingEnabledProperty.lazyLink( enabled => {
+    const voicingEnabledPropertyListener = enabled => {
 
       // only speak if "Sim Voicing" is on, all voicing should be disabled except for the Toolbar
       // buttons in this case
@@ -239,7 +239,8 @@ class VoicingPanelSection extends PreferencesPanelSection {
         voicingManager.speakIgnoringEnabled( voicingEnabledUtterance );
         this.alertDescriptionUtterance( voicingEnabledUtterance );
       }
-    } );
+    };
+    audioModel.voicingEnabledProperty.lazyLink( voicingEnabledPropertyListener );
 
     // when the list of voices for the ComboBox changes, create a new ComboBox that includes the supported
     // voices
@@ -290,11 +291,13 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
     // @private
     this.disposeVoicingPanelSection = () => {
+      pitchSlider.dispose();
+      rateSlider.dispose();
+      audioModel.voicingEnabledProperty.unlink( voicingEnabledPropertyListener );
       voicingEnabledSwitch.dispose();
       expandCollapseButton.dispose();
       toolbarEnabledSwitch.dispose();
       speechOutputCheckboxes.children.forEach( child => child.dispose() );
-
     };
   }
 
@@ -381,14 +384,15 @@ class VoiceRateNumberControl extends Voicing( NumberControl, 3 ) {
       }
     } );
 
-    voiceRateProperty.link( ( rate, previousValue ) => {
+    const voiceRateListener = ( rate, previousValue ) => {
       this.voicingObjectResponse = this.getRateDescriptionString( rate );
       if ( previousValue !== null ) {
 
         // every change read the name and object response for the slider
         this.voicingSpeakFullResponse();
       }
-    } );
+    };
+    voiceRateProperty.link( voiceRateListener );
 
     this.mutate( {
       voicingNameResponse: a11yLabelString,
@@ -397,6 +401,19 @@ class VoiceRateNumberControl extends Voicing( NumberControl, 3 ) {
       // that happen when changing the voice attributes
       voicingIgnoreVoicingManagerProperties: true
     } );
+
+    this.disposeVoiceRateSlider = () => {
+      voiceRateProperty.unlink( voiceRateListener );
+    };
+  }
+
+  /**
+   * @override
+   * @public
+   */
+  dispose() {
+    this.disposeVoiceRateSlider();
+    super.dispose();
   }
 
   /**
@@ -521,14 +538,15 @@ class VoicingPitchSlider extends Voicing( VBox, 0 ) {
     } );
 
     // voicing
-    voicePitchProperty.link( ( pitch, previousValue ) => {
+    const voicePitchListener = ( pitch, previousValue ) => {
       this.voicingObjectResponse = this.getPitchDescriptionString( pitch );
 
       // alert made lazily so it is not heard on construction, speak the name and object response every change
       if ( previousValue !== null ) {
         this.voicingSpeakFullResponse();
       }
-    } );
+    };
+    voicePitchProperty.link( voicePitchListener );
 
     this.mutate( {
       children: [ label, slider ],
@@ -542,6 +560,19 @@ class VoicingPitchSlider extends Voicing( VBox, 0 ) {
       // that happen when changing the voice attributes
       voicingIgnoreVoicingManagerProperties: true
     } );
+
+    this.disposeVoicePitchSlider = () => {
+      voicePitchProperty.unlink( voicePitchListener );
+    };
+  }
+
+  /**
+   * @override
+   * @public
+   */
+  dispose() {
+    this.disposeVoicePitchSlider();
+    super.dispose();
   }
 
   /**
