@@ -36,7 +36,7 @@ class AudioPreferencesTabPanel extends VBox {
 
     if ( audioModel.supportsVoicing ) {
       panelChildren.push( new VoicingPanelSection( audioModel, enableToolbarProperty, {
-        tandem: options.tandem.createTandem( 'voicingPanelSection' )
+        tandem: options.tandem.createTandem( 'voicingControls' )
       } ) );
     }
 
@@ -49,7 +49,7 @@ class AudioPreferencesTabPanel extends VBox {
 
       panelChildren.push( new SoundPanelSection( audioModel, {
         includeTitleToggleSwitch: !hideSoundToggle,
-        tandem: options.tandem.createTandem( 'soundPanelSection' )
+        tandem: options.tandem.createTandem( 'soundControls' )
       } ) );
     }
 
