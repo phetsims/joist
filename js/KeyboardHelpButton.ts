@@ -87,7 +87,9 @@ class KeyboardHelpButton extends JoistButton {
 
     // @ts-ignore
     keyboardHelpDialogCapsule = new PhetioCapsule<PhetioObject>( tandem => {
-      return new KeyboardHelpDialog( content, {
+
+      // Wrap in a node to prevent DAG problems if archetypes are also created
+     return new KeyboardHelpDialog( new Node( { children: [ content ] } ), {
         tandem: tandem,
         focusOnHideNode: this
       } );
