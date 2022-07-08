@@ -46,11 +46,11 @@ class PreferencesManager {
     this.audioModel = {
       supportsVoicing: preferencesConfiguration.audioOptions.supportsVoicing,
       supportsSound: preferencesConfiguration.audioOptions.supportsSound,
-      supportsEnhancedSound: preferencesConfiguration.audioOptions.supportsEnhancedSound,
+      supportsExtraSound: preferencesConfiguration.audioOptions.supportsExtraSound,
 
       simSoundEnabledProperty: audioManager.audioEnabledProperty,
       soundEnabledProperty: soundManager.enabledProperty,
-      enhancedSoundEnabledProperty: soundManager.enhancedSoundEnabledProperty,
+      extraSoundEnabledProperty: soundManager.extraSoundEnabledProperty,
 
       voicingEnabledProperty: voicingManager.enabledProperty,
       voicingMainWindowVoicingEnabledProperty: voicingManager.mainWindowVoicingEnabledProperty,
@@ -101,7 +101,7 @@ class PreferencesManager {
   supportsAudioPreferences() {
     return this.audioModel.supportsVoicing ||
            this.audioModel.supportsSound ||
-           this.audioModel.supportsEnhancedSound;
+           this.audioModel.supportsExtraSound;
   }
 
   /**

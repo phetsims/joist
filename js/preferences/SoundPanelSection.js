@@ -68,11 +68,11 @@ class SoundPanelSection extends PreferencesPanelSection {
       tandem: options.tandem.createTandem( 'soundEnabledSwitch' )
     } );
 
-    let enhancedSoundContent = null;
-    let enhancedSoundCheckbox = null;
-    if ( audioOptions.supportsEnhancedSound ) {
+    let extraSoundContent = null;
+    let extraSoundCheckbox = null;
+    if ( audioOptions.supportsExtraSound ) {
       const enahncedSoundLabel = new Text( extraSoundsLabelString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
-      enhancedSoundCheckbox = new Checkbox( soundManager.enhancedSoundEnabledProperty, enahncedSoundLabel, {
+      extraSoundCheckbox = new Checkbox( soundManager.extraSoundEnabledProperty, enahncedSoundLabel, {
 
         // pdom
         labelTagName: 'label',
@@ -87,10 +87,10 @@ class SoundPanelSection extends PreferencesPanelSection {
         uncheckedContextResponse: extraSoundsOffString,
 
         // phet-io
-        tandem: options.tandem.createTandem( 'enhancedSoundCheckbox' )
+        tandem: options.tandem.createTandem( 'extraSoundCheckbox' )
       } );
 
-      const enhancedSoundDescription = new VoicingRichText( extraSoundsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
+      const extraSoundDescription = new VoicingRichText( extraSoundsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         lineWrap: 300,
         readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternString, {
           label: extraSoundsLabelString,
@@ -98,26 +98,26 @@ class SoundPanelSection extends PreferencesPanelSection {
         } )
       } ) );
 
-      enhancedSoundContent = new VBox( {
-        children: [ enhancedSoundCheckbox, enhancedSoundDescription ],
+      extraSoundContent = new VBox( {
+        children: [ extraSoundCheckbox, extraSoundDescription ],
         align: 'left',
         spacing: 5
       } );
 
       soundManager.enabledProperty.link( enabled => {
-        enhancedSoundContent.enabled = enabled;
+        extraSoundContent.enabled = enabled;
       } );
     }
 
     super( {
       titleNode: soundEnabledSwitch,
-      contentNode: enhancedSoundContent
+      contentNode: extraSoundContent
     } );
 
     // @private
     this.disposeSoundPanelSection = () => {
       soundEnabledSwitch.dispose();
-      enhancedSoundCheckbox && enhancedSoundCheckbox.dispose();
+      extraSoundCheckbox && extraSoundCheckbox.dispose();
     };
   }
 

@@ -33,7 +33,7 @@ import UpdateDialog from './UpdateDialog.js';
 import UpdateState from './UpdateState.js';
 
 const menuItemAboutString = joistStrings.menuItem.about;
-const menuItemEnhancedSoundString = joistStrings.menuItem.enhancedSound;
+const menuItemExtraSoundString = joistStrings.menuItem.enhancedSound;
 const menuItemFullscreenString = joistStrings.menuItem.fullscreen;
 const menuItemGetUpdateString = joistStrings.menuItem.getUpdate;
 const menuItemOptionsString = joistStrings.menuItem.options;
@@ -242,20 +242,20 @@ class PhetMenu extends Node {
         }
       },
 
-      // "Enhanced Sound" menu item
+      // "Extra Sound" menu item
       {
-        text: menuItemEnhancedSoundString,
+        text: menuItemExtraSoundString,
 
-        // if the sim has a PreferencesConfiguration the control for enhanced sounds will be in the Dialog
-        present: audioManager.supportsEnhancedSound && !sim.preferencesManager,
+        // if the sim has a PreferencesConfiguration the control for extra sounds will be in the Dialog
+        present: audioManager.supportsExtraSound && !sim.preferencesManager,
         callback: () => {
-          soundManager.enhancedSoundEnabledProperty.set( !soundManager.enhancedSoundEnabledProperty.get() );
+          soundManager.extraSoundEnabledProperty.set( !soundManager.extraSoundEnabledProperty.get() );
         },
         options: {
-          checkedProperty: soundManager.enhancedSoundEnabledProperty,
-          tandem: tandem.createTandem( 'enhancedSoundMenuItem' ),
-          phetioDocumentation: 'This menu item toggles between basic and enhanced sound modes. This will only be ' +
-                               'displayed if the simulation supports enhanced sounds.',
+          checkedProperty: soundManager.extraSoundEnabledProperty,
+          tandem: tandem.createTandem( 'extraSoundMenuItem' ),
+          phetioDocumentation: 'This menu item toggles between basic and extra sound modes. This will only be ' +
+                               'displayed if the simulation supports extra sounds.',
           visiblePropertyOptions: { phetioFeatured: true },
 
           // pdom

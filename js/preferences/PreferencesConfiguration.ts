@@ -37,10 +37,10 @@ type AudioOptions = {
   // when running with english locales, accessibility strings are not made available for translation yet.
   supportsVoicing?: boolean;
 
-  // Whether or not to include checkboxes related to sound and enhanced sound. supportsEnhancedSound can only be
+  // Whether or not to include checkboxes related to sound and extra sound. supportsExtraSound can only be
   // included if supportsSound is also true.
   supportsSound?: boolean;
-  supportsEnhancedSound?: boolean;
+  supportsExtraSound?: boolean;
 }
 
 type InputOptions = {
@@ -93,15 +93,15 @@ class PreferencesConfiguration {
       audioOptions: {
         supportsVoicing: phetFeatures.supportsVoicing && SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() && simLocale === 'en',
         supportsSound: phetFeatures.supportsSound,
-        supportsEnhancedSound: phetFeatures.supportsEnhancedSound
+        supportsExtraSound: phetFeatures.supportsExtraSound
       },
       inputOptions: {
         supportsGestureControl: phetFeatures.supportsGestureControl
       }
     }, providedOptions );
 
-    if ( options.audioOptions.supportsEnhancedSound ) {
-      assert && assert( options.audioOptions.supportsSound, 'supportsSound must be true to also support enhancedSound' );
+    if ( options.audioOptions.supportsExtraSound ) {
+      assert && assert( options.audioOptions.supportsSound, 'supportsSound must be true to also support extraSound' );
     }
 
     this.generalOptions = options.generalOptions;

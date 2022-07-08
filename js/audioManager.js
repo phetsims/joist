@@ -11,7 +11,7 @@
  *
  * "Audio" - All auditory output in the sim.
  *  - "Sound" - All sound effects and sonifications that represent the simulation.
- *    - "Enhanced Sound" - Additional Sounds that can be enabled separately, but may not be beneficial for all users.
+ *    - "Extra Sound" - Additional Sounds that can be enabled separately, but may not be beneficial for all users.
  *  - "Voicing" - Spoken text that describes what is happening in the simulation.
  *
  *  Disabling Audio will mute all subcomponents. But each subcomponent can be muted separately.
@@ -46,9 +46,9 @@ class AudioManager extends PhetioObject {
     // @public (joist-internal, read-only) {boolean} - true if sound is supported and enabled
     this.supportsSound = phet.chipper.queryParameters.supportsSound;
 
-    // @public (joist-internal, read-only) {boolean} - true if enhancedSound is supported, cannot support enhanced
+    // @public (joist-internal, read-only) {boolean} - true if extraSound is supported, cannot support enhanced
     // without supporting sound in general
-    this.supportsEnhancedSound = this.supportsSound && phet.chipper.queryParameters.supportsEnhancedSound;
+    this.supportsExtraSound = this.supportsSound && phet.chipper.queryParameters.supportsExtraSound;
 
     // @public {joist-internal, read-only) {boolean} - True if "Voicing" features or speech synthesis is supported,
     // and we need to initialize the voicingManager for SpeechSynthesis.
@@ -57,7 +57,7 @@ class AudioManager extends PhetioObject {
     // @public {joist-internal, read-only) {boolean} - True if any form of Audio is enabled in the simulation.
     this.supportsAudio = phet.chipper.queryParameters.audio !== 'disabled' && ( this.supportsSound || this.supportsVoicing );
 
-    // @public {BooleanProperty} - Whether or not all features involving audio are enabled (including sound, enhanced
+    // @public {BooleanProperty} - Whether or not all features involving audio are enabled (including sound, extra
     // sound, and voicing). When false, everything should be totally silent.
     this.audioEnabledProperty = new BooleanProperty( phet.chipper.queryParameters.audio === 'enabled', {
       tandem: tandem.createTandem( 'audioEnabledProperty' ),
