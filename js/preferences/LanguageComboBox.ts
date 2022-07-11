@@ -32,7 +32,7 @@ type localeDescriptor = {
 
   // Written string label for this locale.
   localeLabel: string;
-}
+};
 
 type SelfOptions = EmptyObjectType;
 type LanguageComboBoxOptions = SelfOptions & StrictOmit<ComboBoxOptions, 'labelNode'>;

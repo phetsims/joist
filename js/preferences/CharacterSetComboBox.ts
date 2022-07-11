@@ -22,7 +22,7 @@ export type CharacterSetDescriptor = {
   setIcon: Node;
   label: string;
   value: number;
-}
+};
 
 type SelfOptions = EmptyObjectType;
 

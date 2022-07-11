@@ -32,7 +32,7 @@ const getHighlightWidth = ( overlay: Node ) => overlay.width + ( 2 * HIGHLIGHT_S
 
 type SelfOptions = {
   maxButtonWidth?: number | null;
-}
+};
 type ParentOptions = VoicingOptions & NodeOptions;
 type NavigationBarScreenButtonOptions = SelfOptions & ParentOptions;
 

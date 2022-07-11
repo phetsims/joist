@@ -21,14 +21,14 @@ type GeneralOptions = {
 
   // Creates any Node you would like under the "Localization" section of the General tab.
   createLocalizationControls?: ( ( tandem: Tandem ) => Node ) | null;
-}
+};
 
 type VisualOptions = {
 
   // whether or not the sim supports the "Interactive Highlights" feature, and checkbox to enable in the
   // Preferences Dialog
   supportsInteractiveHighlights?: boolean;
-}
+};
 
 type AudioOptions = {
 
@@ -41,13 +41,13 @@ type AudioOptions = {
   // included if supportsSound is also true.
   supportsSound?: boolean;
   supportsExtraSound?: boolean;
-}
+};
 
 type InputOptions = {
 
   // Whether or not to include "gesture" controls
   supportsGestureControl?: boolean;
-}
+};
 
 export type PreferencesConfigurationOptions = {
 
@@ -62,7 +62,7 @@ export type PreferencesConfigurationOptions = {
 
   // configuration for controls in the "Input" tab of the PreferencesDialog
   inputOptions?: InputOptions;
-}
+};
 
 class PreferencesConfiguration {
 

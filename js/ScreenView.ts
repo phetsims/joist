@@ -40,7 +40,7 @@ const DEFAULT_LAYOUT_BOUNDS = new Bounds2( 0, 0, 1024, 618 );
 
 type GetLayoutMatrixOptions = {
   verticalAlign: 'center' | 'bottom';
-}
+};
 
 // Documented where the defaults are defined
 type SelfOptions = {
