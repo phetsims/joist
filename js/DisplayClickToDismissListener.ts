@@ -74,7 +74,7 @@ class DisplayClickToDismissListener {
   private dismissPointer( pointer: Pointer | null ): void {
     if ( this.pointer !== null ) {
       assert && assert( this.pointerListener, 'There should be a pointerListener to remove.' );
-      this.pointer!.removeInputListener( this.pointerListener );
+      this.pointer.removeInputListener( this.pointerListener );
       this.pointer = null;
     }
   }

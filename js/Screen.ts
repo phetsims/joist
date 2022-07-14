@@ -286,7 +286,7 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
    */
   public initializeView( simNameProperty: IReadOnlyProperty<string>, displayedSimNameProperty: IReadOnlyProperty<string>, numberOfScreens: number, isHomeScreen: boolean ): void {
     assert && assert( this._view === null, 'there was already a view' );
-    this._view = this.createView( this.model! );
+    this._view = this.createView( this.model );
     this._view.setVisible( false ); // a Screen is invisible until selected
 
     // Show the home screen's layoutBounds

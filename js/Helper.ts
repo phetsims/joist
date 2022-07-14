@@ -796,7 +796,7 @@ export default class Helper {
         animationFrameTimer.addListener( frameListener );
 
         document.body.appendChild( this.helperDisplay.domElement );
-        this.helperDisplay!.domElement.style.zIndex = '10000';
+        this.helperDisplay.domElement.style.zIndex = '10000';
 
         const onLocationEvent = ( event: SceneryEvent<TouchEvent | PointerEvent | MouseEvent> ) => {
           this.pointerPositionProperty.value = event.pointer.point;
