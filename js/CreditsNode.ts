@@ -59,7 +59,7 @@ export default class CreditsNode extends VBox {
 
     const richTextOptions = {
       font: options.textFont,
-      align: 'left',
+      align: 'left' as const,
       lineWrap: options.maxWidth,
       tagName: 'p'
     };
