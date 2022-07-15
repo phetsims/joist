@@ -2024,8 +2024,8 @@ const visualHitTest = ( node: Node, point: Vector2 ): Trail | null => {
   return null;
 };
 
-const copyToClipboard = ( str: string ) => {
-  navigator.clipboard?.writeText( str );
+const copyToClipboard = async ( str: string ) => {
+  await navigator.clipboard?.writeText( str );
 };
 
 const getLocalShape = ( node: Node, useMouse: boolean, useTouch: boolean ): Shape => {
