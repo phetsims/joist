@@ -10,15 +10,13 @@
  */
 
 import joist from '../joist.js';
+import Sim from '../Sim.js';
 
 class LegendsOfLearningSupport {
 
-  /**
-   * @param {Sim} sim
-   */
-  constructor( sim ) {
+  private readonly sim: Sim;
 
-    // @private
+  public constructor( sim: Sim ) {
     this.sim = sim;
 
     // Respond to pause/resume commands from the Legends of Learning platform
@@ -33,8 +31,7 @@ class LegendsOfLearningSupport {
     } );
   }
 
-  // @public
-  start() {
+  public start(): void {
 
     // Send init message when sim has started up so that Legends of Learning can remove their splash screen
     this.sim.isConstructionCompleteProperty.link( isConstructionComplete => {

@@ -967,8 +967,8 @@ export default class Sim extends PhetioObject {
     }
   }
 
-  // Run a single frame including model, view and display updates
-  private stepOneFrame(): void {
+  // Run a single frame including model, view and display updates, used by Legends of Learning
+  public stepOneFrame(): void {
 
     // Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
     const currentTime = Date.now();
