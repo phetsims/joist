@@ -999,7 +999,7 @@ type CollapsibleTreeNodeSelfOptions<T> = {
 
 type CollapsibleTreeNodeOptions<T> = CollapsibleTreeNodeSelfOptions<T> & NodeOptions;
 
-class CollapsibleTreeNode<T extends CollapsibleTreeNode<any>> extends Node {
+class CollapsibleTreeNode<T extends PDOMTreeNode | VisualTreeNode> extends Node {
 
   public selfNode: Node;
   public expandedProperty: IProperty<boolean>;
@@ -1524,7 +1524,7 @@ const createInfo = ( trail: Trail ): Node[] => {
     } ) );
   };
 
-  const addSimple = ( key: string, value: any ) => {
+  const addSimple = ( key: string, value: unknown ) => {
     if ( value !== undefined ) {
       addRaw( key, new RichText( '' + value, {
         lineWrap: 400,
