@@ -46,7 +46,7 @@ class PhetButton extends JoistButton {
     const logoOnBlackBackground = Brand.logoOnBlackBackground;
     const logoOnWhiteBackground = Brand.logoOnWhiteBackground;
 
-    const phetMenu = new PhetMenu( sim, tandem.createTandem( 'phetMenu' ), {
+    const phetMenu: PhetMenu = new PhetMenu( sim, tandem.createTandem( 'phetMenu' ), {
       closeCallback: () => phetMenu.hide()
     } );
 

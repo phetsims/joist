@@ -118,7 +118,7 @@ export default class Sim extends PhetioObject {
 
   // (joist-internal)
   public readonly simNameProperty: IReadOnlyProperty<string>;
-  private readonly createOptionsDialogContent: ( ( t: Tandem ) => Node ) | null;
+  public readonly createOptionsDialogContent: ( ( t: Tandem ) => Node ) | null;
 
   // Indicates sim construction completed, and that all screen models and views have been created.
   // This was added for PhET-iO but can be used by any client. This does not coincide with the end of the Sim
@@ -204,7 +204,7 @@ export default class Sim extends PhetioObject {
   public readonly isSettingPhetioStateProperty: IReadOnlyProperty<boolean>;
 
   // (joist-internal)
-  private readonly version: string = packageJSON.version;
+  public readonly version: string = packageJSON.version;
 
   // number of animation frames that have occurred
   private frameCounter = 0;
@@ -213,7 +213,7 @@ export default class Sim extends PhetioObject {
   private resizePending = true;
 
   // Make our locale available
-  private readonly locale = phet.chipper.locale || 'en';
+  public readonly locale = phet.chipper.locale || 'en';
 
   // create this only after all other members have been set on Sim
   private readonly simInfo: SimInfo;
@@ -225,7 +225,7 @@ export default class Sim extends PhetioObject {
   // If Preferences are available through a PreferencesConfiguration,
   // this type will be added to the Sim to manage the state of features that can be enabled/disabled
   // through user preferences.
-  private readonly preferencesManager: PreferencesManager | null;
+  public readonly preferencesManager: PreferencesManager | null;
 
   // list of nodes that are "modal" and hence block input with the barrierRectangle.  Used by modal dialogs
   // and the PhetMenu

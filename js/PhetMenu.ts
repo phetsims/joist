@@ -10,17 +10,19 @@
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import { Shape } from '../../kite/js/imports.js';
 import gracefulBind from '../../phet-core/js/gracefulBind.js';
-import merge from '../../phet-core/js/merge.js';
 import openPopup from '../../phet-core/js/openPopup.js';
+import optionize from '../../phet-core/js/optionize.js';
 import platform from '../../phet-core/js/platform.js';
 import stripEmbeddingMarks from '../../phet-core/js/stripEmbeddingMarks.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { FocusManager, FullScreen, KeyboardUtils, Node, Path, PDOMUtils, Rectangle, Text } from '../../scenery/js/imports.js';
+import { Focus, FocusManager, FullScreen, KeyboardUtils, Node, NodeOptions, Path, PDOMUtils, Rectangle, SceneryEvent, Text } from '../../scenery/js/imports.js';
 import Dialog from '../../sun/js/Dialog.js';
 import HSeparator from '../../sun/js/HSeparator.js';
-import MenuItem from '../../sun/js/MenuItem.js';
+import MenuItem, { MenuItemOptions } from '../../sun/js/MenuItem.js';
+import { PopupableNode } from '../../sun/js/Popupable.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import AboutDialog from './AboutDialog.js';
 import audioManager from './audioManager.js';
@@ -28,6 +30,7 @@ import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import OptionsDialog from './OptionsDialog.js';
 import ScreenshotGenerator from './ScreenshotGenerator.js';
+import Sim from './Sim.js';
 import updateCheck from './updateCheck.js';
 import UpdateDialog from './UpdateDialog.js';
 import UpdateState from './UpdateState.js';
@@ -48,23 +51,45 @@ const MAX_ITEM_WIDTH = 400;
 // the supported keys allowed in each itemDescriptor for a MenuItem
 const allowedItemDescriptorKeys = [ 'text', 'callback', 'present', 'options' ];
 
-class PhetMenu extends Node {
+type PopupToggler = ( popup: PopupableNode, isModal: boolean ) => void;
+type MenuItemDescriptor = {
+  text: string;
+  present: boolean;
+  callback: () => void;
+  separatorBefore?: boolean;
+  options?: MenuItemOptions;
+};
 
-  /**
-   * @param {Sim} sim
-   * @param {Tandem} tandem
-   * @param {Object} [options]
-   */
-  constructor( sim, tandem, options ) {
+type SelfOptions = {
+  showPopup?: PopupToggler;
+  hidePopup?: PopupToggler;
+  closeCallback: () => void;
+};
+type PhetMenuOptions = SelfOptions & NodeOptions;
+
+class PhetMenu extends Node {
+  private focusOnHideNode: Node | null;
+  private readonly showPopup: PopupToggler;
+  private readonly hidePopup: PopupToggler;
+
+  // whether the PhetMenu is showing
+  private isShowing = false;
+
+  // The items that will actually be shown in this runtime
+  public readonly items: MenuItem[];
+
+  private readonly disposePhetMenu: () => void;
+
+  public constructor( sim: Sim, tandem: Tandem, providedOptions?: PhetMenuOptions ) {
 
     // Only show certain features for PhET Sims, such as links to our website
     const isPhETBrand = phet.chipper.brand === 'phet';
     const isApp = phet.chipper.isApp;
 
-    options = merge( {
+    const options = optionize<PhetMenuOptions, SelfOptions, NodeOptions>()( {
 
-      showPopup: gracefulBind( 'phet.joist.sim.showPopup' ),
-      hidePopup: gracefulBind( 'phet.joist.sim.hidePopup' ),
+      showPopup: gracefulBind( 'phet.joist.sim.showPopup' ) as unknown as PopupToggler,
+      hidePopup: gracefulBind( 'phet.joist.sim.hidePopup' ) as unknown as PopupToggler,
 
       phetioType: PhetMenu.PhetMenuIO,
       phetioState: false,
@@ -77,7 +102,7 @@ class PhetMenu extends Node {
       // pdom, tagname and role for content in the menu
       tagName: 'ul',
       ariaRole: 'menu'
-    }, options );
+    }, providedOptions );
 
     assert && assert( typeof options.showPopup === 'function', 'showPopup is required, and must be provided if phet.joist.sim is not available.' );
     assert && assert( typeof options.hidePopup === 'function', 'hidePopup is required, and must be provided if phet.joist.sim is not available.' );
@@ -86,10 +111,10 @@ class PhetMenu extends Node {
 
     super();
 
-    // @private (a11y) {Node|null} see setFocusOnHideNode
+    // (a11y) {Node|null} see setFocusOnHideNode
     this.focusOnHideNode = null;
-    this.showPopup = options.showPopup; // @private
-    this.hidePopup = options.hidePopup; // @private
+    this.showPopup = options.showPopup;
+    this.hidePopup = options.hidePopup;
 
     // AboutDialog is created lazily (so that Sim bounds are valid), then reused.
     // Since AboutDialog is instrumented for PhET-iO, this lazy creation requires use of PhetioCapsule.
@@ -105,10 +130,10 @@ class PhetMenu extends Node {
 
     // If content was provided, OptionsDialog is created lazily (so that Sim bounds are valid), then reused.
     // Since OptionsDialog is instrumented for PhET-iO, this lazy creation requires use of PhetioCapsule.
-    let optionsDialogCapsule = null;
+    let optionsDialogCapsule: PhetioCapsule<OptionsDialog> | null = null;
     if ( sim.createOptionsDialogContent ) {
       optionsDialogCapsule = new PhetioCapsule( tandem => {
-        return new OptionsDialog( sim.createOptionsDialogContent, {
+        return new OptionsDialog( sim.createOptionsDialogContent!, {
           tandem: tandem,
           focusOnHideNode: this.focusOnHideNode
         } );
@@ -121,16 +146,16 @@ class PhetMenu extends Node {
     const restoreFocusCallback = () => this.restoreFocus();
 
     // Update dialog is created lazily (so that Sim bounds are valid), then reused.
-    let updateDialog = null;
+    let updateDialog: UpdateDialog | null = null;
 
     /*
      * Description of the items in the menu. See Menu Item for a list of properties for each itemDescriptor
      */
-    const itemDescriptors = [
+    const itemDescriptors: MenuItemDescriptor[] = [
       {
         text: menuItemOptionsString,
         present: !!sim.createOptionsDialogContent,
-        callback: () => optionsDialogCapsule.getElement().show(),
+        callback: () => optionsDialogCapsule!.getElement().show(),
         options: {
           tandem: tandem.createTandem( 'optionsMenuItem' ),
           visiblePropertyOptions: { phetioFeatured: true },
@@ -225,6 +250,8 @@ class PhetMenu extends Node {
             const filename = `${stripEmbeddingMarks( sim.simNameProperty.value )} screenshot.png`;
 
             if ( !phet.chipper.isFuzzEnabled() ) {
+
+              // @ts-ignore when typescript knows anything about window. . ..
               window.saveAs( blob, filename );
             }
           }
@@ -312,17 +339,18 @@ class PhetMenu extends Node {
 
     // Menu items have uniform size, so compute the max text dimensions.  These are only used for sizing and thus don't
     // need to be PhET-iO instrumented.
-    const textNodes = _.map( keepItemDescriptors, item => {
+    const textNodes = _.map( keepItemDescriptors, ( item: MenuItemDescriptor ) => {
       return new Text( item.present ? item.text : ' ', { // don't count items that will just be ignored.
         font: new PhetFont( FONT_SIZE ),
         maxWidth: MAX_ITEM_WIDTH
       } );
-    } );
-    const maxTextWidth = _.maxBy( textNodes, node => node.width ).width;
-    const maxTextHeight = _.maxBy( textNodes, node => node.height ).height;
+    } ) as unknown as Text[];
+
+    const maxTextWidth = _.maxBy( textNodes, ( node: Node ) => node.width )!.width;
+    const maxTextHeight = _.maxBy( textNodes, ( node: Node ) => node.height )!.height;
 
     // Create the menu items.
-    const unfilteredItems = _.map( keepItemDescriptors, itemDescriptor => {
+    const unfilteredItems = _.map( keepItemDescriptors, ( itemDescriptor: MenuItemDescriptor ) => {
         return new MenuItem(
           maxTextWidth,
           maxTextHeight,
@@ -334,13 +362,13 @@ class PhetMenu extends Node {
         );
       }
     );
-    const items = _.filter( unfilteredItems, item => item.present );
+    const items = _.filter( unfilteredItems, ( item: MenuItemDescriptor ) => item.present ) as unknown as MenuItem[];
 
-    // @private Some items that aren't present were created just to maintain a consistent PhET-iO API across all
+    // Some items that aren't present were created just to maintain a consistent PhET-iO API across all
     // runtimes, we can ignore those now.
     this.items = items;
-    const separatorWidth = _.maxBy( items, item => item.width ).width;
-    const itemHeight = _.maxBy( items, item => item.height ).height;
+    const separatorWidth = _.maxBy( items, ( item: Node ) => item.width )!.width;
+    const itemHeight = _.maxBy( items, ( item: Node ) => item.height )!.height;
     const content = new Node();
     let y = 0;
     const ySpacing = 2;
@@ -372,13 +400,10 @@ class PhetMenu extends Node {
     content.left = X_MARGIN;
     content.top = Y_MARGIN;
 
-    // @private - whether the PhetMenu is showing
-    this.isShowing = false;
-
     // pdom - add the keydown listener, handling arrow, escape, and tab keys
     // When using the arrow keys, we prevent the virtual cursor from moving in VoiceOver
     const keydownListener = {
-      keydown: event => {
+      keydown: ( event: SceneryEvent ) => {
         const domEvent = event.domEvent;
 
         const firstItem = this.items[ 0 ];
@@ -388,7 +413,7 @@ class PhetMenu extends Node {
 
         // this attempts to prevents the scren reader's virtual cursor from also moving with the arrow keys
         if ( KeyboardUtils.isArrowKey( domEvent ) ) {
-          domEvent.preventDefault();
+          domEvent!.preventDefault();
         }
 
         if ( key === KeyboardUtils.KEY_DOWN_ARROW ) {
@@ -416,7 +441,7 @@ class PhetMenu extends Node {
     this.addInputListener( keydownListener );
 
     // pdom - if the focus goes to something outside of the PhET menu, close it
-    const focusListener = focus => {
+    const focusListener = ( focus: Focus | null ) => {
       if ( focus && !_.includes( focus.trail.nodes, this ) ) {
         this.hide();
       }
@@ -425,38 +450,34 @@ class PhetMenu extends Node {
 
     this.mutate( options );
 
-    // @private
     this.disposePhetMenu = () => {
       this.removeInputListener( keydownListener );
       FocusManager.pdomFocusProperty.unlink( focusListener );
     };
   }
 
-  // @public
-  show() {
+  public show(): void {
     if ( !this.isShowing ) {
 
       // make sure that any previously focused elements no longer have focus
       FocusManager.pdomFocus = null;
 
-      this.showPopup( this, true );
+      this.showPopup( this as unknown as PopupableNode, true );
       this.isShowing = true;
     }
   }
 
-  // @public
-  hide() {
+  public hide(): void {
     if ( this.isShowing ) {
       this.isShowing = false;
-      this.hidePopup( this, true );
+      this.hidePopup( this as unknown as PopupableNode, true );
     }
   }
 
   /**
-   * @public (joist-internal)
-   * @override
+   * (joist-internal)
    */
-  dispose() {
+  public override dispose(): void {
     this.disposePhetMenu();
     _.each( this.items, item => item.dispose() );
     super.dispose();
@@ -465,27 +486,29 @@ class PhetMenu extends Node {
   /**
    * Sets the Node that receives focus when the menu is closed. If null, focus returns to the element that had focus
    * when the menu was opened.
-   * @param {Node|null} node
-   * @public
    */
-  setFocusOnHideNode( node ) {
+  public setFocusOnHideNode( node: Node | null ): void {
     this.focusOnHideNode = node;
   }
 
   /**
    * Restores focus to either focusOnHideNode, or the element that had focus when the menu was opened.
-   * @private
    */
-  restoreFocus() {
+  private restoreFocus(): void {
     const focusNode = this.focusOnHideNode || FocusManager.pdomFocusedNode;
     if ( focusNode ) {
       focusNode.focus();
     }
   }
+
+  public static PhetMenuIO = new IOType( 'PhetMenuIO', {
+    valueType: PhetMenu,
+    documentation: 'The PhET Menu in the bottom right of the screen'
+  } );
 }
 
 // Creates a comic-book style bubble.
-const createBubble = function( width, height ) {
+const createBubble = function( width: number, height: number ): Node {
 
   const rectangle = new Rectangle( 0, 0, width, height, 8, 8, { fill: 'white', lineWidth: 1, stroke: 'black' } );
 
@@ -508,10 +531,6 @@ const createBubble = function( width, height ) {
   return bubble;
 };
 
-PhetMenu.PhetMenuIO = new IOType( 'PhetMenuIO', {
-  valueType: PhetMenu,
-  documentation: 'The PhET Menu in the bottom right of the screen'
-} );
 
 joist.register( 'PhetMenu', PhetMenu );
 export default PhetMenu;
