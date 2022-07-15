@@ -186,7 +186,7 @@ class HomeScreenView extends ScreenView {
     model.selectedScreenProperty.link( updateIconsLayout );
 
     // When the visibility of the icons changes, say via Studio, update layout of the icons.
-    this.screenButtons.forEach( screenButton => screenButton._visibleProperty.link( updateIconsLayout ) );
+    this.screenButtons.forEach( screenButton => screenButton.visibleProperty.link( updateIconsLayout ) );
 
     // Add sound generation for screen selection.  This generates sound for all changes between screens, not just for the
     // home screen.
