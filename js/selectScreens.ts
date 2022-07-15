@@ -147,7 +147,7 @@ export default function selectScreens( allSimScreens: Screen<IModel, ScreenView>
     initialScreen = allSimScreens[ initialScreenIndex - 1 ];
   }
 
-  if ( screens.indexOf( initialScreen ) === -1 ) {
+  if ( !screens.includes( initialScreen ) ) {
     throw new Error( `screen not found: ${initialScreenIndex}` );
   }
 

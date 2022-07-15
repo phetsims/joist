@@ -1505,7 +1505,7 @@ const createInfo = ( trail: Trail ): Node[] => {
   const types = inheritance( node.constructor ).map( type => type.name ).filter( name => {
     return name && name !== 'Object';
   } );
-  const reducedTypes = types.indexOf( 'Node' ) >= 0 ? types.slice( 0, types.indexOf( 'Node' ) ) : types;
+  const reducedTypes = types.includes( 'Node' ) ? types.slice( 0, types.indexOf( 'Node' ) ) : types;
 
   if ( reducedTypes.length > 0 ) {
     children.push( new RichText( reducedTypes.map( ( str: string, i: number ) => {
