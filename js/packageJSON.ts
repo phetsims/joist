@@ -8,7 +8,6 @@
 
 import joist from './joist.js';
 
-// strings
 const packageString = JSON.stringify( ( window.phet && phet.chipper ) ? phet.chipper.packageObject : { name: 'placeholder' } );
 
 const packageJSON = JSON.parse( packageString );

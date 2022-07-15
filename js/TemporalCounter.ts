@@ -14,25 +14,20 @@ import joist from './joist.js';
 
 class TemporalCounter {
 
-  /**
-   * @param {number} binSize - in ms
-   */
-  constructor( binSize ) {
+  private previousTime: number | null;
+  private readonly binSize: number;
+  private lastBinIndex: number | null;
 
-    // @private
+  public counts: number;
+
+  public constructor( binSize: number ) {
     this.previousTime = null;
     this.binSize = binSize;
     this.lastBinIndex = null;
-
-    // @public
     this.counts = 0;
   }
 
-  /**
-   * @public
-   * @param {number} time - relative elapsed time
-   */
-  onEvent( time ) {
+  public onEvent( time: number ): void {
     assert && this.previousTime && assert( time >= this.previousTime, 'time must increase each event' );
 
     assert && assert( Number.isInteger( time ), 'time must be an integer' );

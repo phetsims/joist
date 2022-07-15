@@ -217,7 +217,7 @@ export default class Sim extends PhetioObject {
 
   // create this only after all other members have been set on Sim
   private readonly simInfo: SimInfo;
-  private readonly display: SimDisplay;
+  public readonly display: SimDisplay;
 
   // The Toolbar is not created unless requested with a PreferencesConfiguration.
   private readonly toolbar: Toolbar | null;
@@ -247,7 +247,7 @@ export default class Sim extends PhetioObject {
   } );
 
   // root node for the Display
-  private readonly rootNode: Node;
+  public readonly rootNode: Node;
 
   // Keep track of the previous time for computing dt, and initially signify that time hasn't been recorded yet.
   private lastStepTime = -1;

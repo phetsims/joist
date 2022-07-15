@@ -8,28 +8,25 @@
  */
 
 import Matrix3 from '../../dot/js/Matrix3.js';
-import { CanvasContextWrapper } from '../../scenery/js/imports.js';
-import { Utils } from '../../scenery/js/imports.js';
+import { CanvasContextWrapper, Utils } from '../../scenery/js/imports.js';
 import joist from './joist.js';
+import Sim from './Sim.js';
 
 class ScreenshotGenerator {
 
   /**
    * Given a sim, generate a screenshot as a data url
-   * @param {Sim} sim
-   * @param {string} [mimeType] - String for the image mimeType, defaults to 'image/png'
-   * @returns {string} dataURL
-   * @public
+   * @param sim
+   * @param mimeType - String for the image mimeType, defaults to 'image/png'
+   * @returns dataURL
    */
-  static generateScreenshot( sim, mimeType ) {
-
-    // Default to PNG
-    mimeType = mimeType || 'image/png';
+  public static generateScreenshot( sim: Sim, mimeType = 'image/png' ): string {
 
     // set up our Canvas with the correct background color
     const canvas = document.createElement( 'canvas' );
-    const context = canvas.getContext( '2d' );
+    const context = canvas.getContext( '2d' )!;
 
+    assert && assert( context );
     const backingScale = Utils.backingScale( context );
     canvas.width = sim.display.width * backingScale;
     canvas.height = sim.display.height * backingScale;

@@ -7,18 +7,17 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import SoundClip from '../../tambo/js/sound-generators/SoundClip.js';
+import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
+import SoundClip, { SoundClipOptions } from '../../tambo/js/sound-generators/SoundClip.js';
 import screenSelection_mp3 from '../sounds/screenSelection_mp3.js';
 import joist from './joist.js';
+import Screen from './Screen.js';
+import ScreenView from './ScreenView.js';
+import HomeScreen from './HomeScreen.js';
 
 class ScreenSelectionSoundGenerator extends SoundClip {
 
-  /**
-   * @param {Property.<Screen>} screenProperty
-   * @param {HomeScreen} homeScreen
-   * @param {Object} [options]
-   */
-  constructor( screenProperty, homeScreen, options ) {
+  public constructor( screenProperty: ReadOnlyProperty<Screen<unknown, ScreenView>>, homeScreen: HomeScreen | null, options?: SoundClipOptions ) {
 
     super( screenSelection_mp3, options );
 

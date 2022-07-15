@@ -7,7 +7,7 @@
  */
 
 import RunningAverage from '../../dot/js/RunningAverage.js';
-import merge from '../../phet-core/js/merge.js';
+import optionize from '../../phet-core/js/optionize.js';
 import joist from './joist.js';
 
 // constants
@@ -16,40 +16,43 @@ const MB = 1024 * 1024;
 // globals
 let hadMemoryFailure = false;
 
+type MemoryMonitorOptions = {
+  windowSize?: number;
+  memoryLimit?: number;
+};
+
 class MemoryMonitor {
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
-    options = merge( {
+  private readonly memoryLimit: number;
+  public readonly runningAverage: RunningAverage;
+  private lastMemory: number;
+
+  public constructor( providedOptions?: MemoryMonitorOptions ) {
+    const options = optionize<MemoryMonitorOptions>()( {
 
       // {number} - Quantity of measurements in the running average
       windowSize: 2000,
 
       // {number} - Number of megabytes before operations will throw an error
       memoryLimit: phet.chipper.queryParameters.memoryLimit
-    }, options );
+    }, providedOptions );
 
-    // @private {number}
     this.memoryLimit = options.memoryLimit * MB;
-
-    // @public {RunningAverage}
     this.runningAverage = new RunningAverage( options.windowSize );
-
-    // @public {number}
     this.lastMemory = 0;
   }
 
   /**
    * Records a memory measurement.
-   * @public
    */
-  measure() {
+  public measure(): void {
+
+    // @ts-ignore Until we make typescript know about preformance.memory
     if ( !window.performance || !window.performance.memory || !window.performance.memory.usedJSHeapSize ) {
       return;
     }
 
+    // @ts-ignore Until we make typescript know about preformance.memory
     const currentMemory = window.performance.memory.usedJSHeapSize;
     this.lastMemory = currentMemory;
     const averageMemory = this.runningAverage.updateRunningAverage( currentMemory );
@@ -65,13 +68,9 @@ class MemoryMonitor {
   }
 
   /**
-   * Convers a number of bytes into a quick-to-read memory string.
-   * @public
-   *
-   * @param {number} bytes
-   * @returns {string}
+   * Converts a number of bytes into a quick-to-read memory string.
    */
-  static memoryString( bytes ) {
+  private static memoryString( bytes: number ): string {
     return `${Math.ceil( bytes / MB )}MB`;
   }
 }

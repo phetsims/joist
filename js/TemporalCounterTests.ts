@@ -12,7 +12,7 @@ import TemporalCounter from './TemporalCounter.js';
 
 QUnit.test( 'TemporalCounter basics', async assert => {
 
-  const testTemporalCounter = ( binSize, timeEvents, expectedCount, message ) => {
+  const testTemporalCounter = ( binSize: number, timeEvents: number[], expectedCount: number, message: string ) => {
     const counter = new TemporalCounter( binSize );
     timeEvents.forEach( time => counter.onEvent( time ) );
     assert.ok( counter.counts === expectedCount, message );
