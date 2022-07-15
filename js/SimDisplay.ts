@@ -11,8 +11,8 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import merge from '../../phet-core/js/merge.js';
-import { KeyboardFuzzer } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { DisplayOptions, KeyboardFuzzer, RendererType } from '../../scenery/js/imports.js';
 import { Display } from '../../scenery/js/imports.js';
 import { InputFuzzer } from '../../scenery/js/imports.js';
 import { animatedPanZoomSingleton } from '../../scenery/js/imports.js';
@@ -23,24 +23,39 @@ import '../../sherpa/lib/game-up-camera-1.0.0.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import HighlightVisibilityController from './HighlightVisibilityController.js';
 import joist from './joist.js';
+import PreferencesManager from './preferences/PreferencesManager.js';
 
-const DEFAULT_WEBGL = false;
+type SelfOptions = {
+  webgl?: boolean;
+  rootRenderer?: RendererType;
+  preferencesManager?: PreferencesManager | null;
+};
+export type SimDisplayOptions = SelfOptions & DisplayOptions;
 
-class SimDisplay extends Display {
+export default class SimDisplay extends Display {
 
-  /**
-   * @param {Object} [options] - see below for options
-   */
-  constructor( options ) {
+  // root for the simulation and the target for MultiListener to support magnification since the Display rootNode
+  // cannot be transformed
+  public readonly simulationRoot = new Node();
+  private readonly inputFuzzer: InputFuzzer;
+  private readonly keyboardFuzzer: KeyboardFuzzer;
 
-    options = merge( {
+  // Add a listener to the Display that controls visibility of various highlights in response to user input.
+  private readonly highlightVisibilityController: HighlightVisibilityController;
+
+  // For consistent option defaults
+  public static readonly DEFAULT_WEBGL = false;
+
+  public constructor( providedOptions: SimDisplayOptions ) {
+
+    const options = optionize<SimDisplayOptions, SelfOptions, DisplayOptions>()( {
 
       // the default renderer for the rootNode, see #221, #184 and https://github.com/phetsims/molarity/issues/24
       rootRenderer: 'svg',
 
       // Sims that do not use WebGL trigger a ~ 0.5 second pause shortly after the sim starts up, so sims must opt in to
       // webgl support, see https://github.com/phetsims/scenery/issues/621
-      webgl: DEFAULT_WEBGL,
+      webgl: SimDisplay.DEFAULT_WEBGL,
 
       // {boolean} - Whether to allow WebGL 2x scaling when antialiasing is detected. If running out of memory on
       // things like iPad 2s (e.g. https://github.com/phetsims/scenery/issues/859), this can be turned to false to help.
@@ -61,7 +76,7 @@ class SimDisplay extends Display {
 
       // phet-io
       tandem: Tandem.REQUIRED
-    }, options );
+    }, providedOptions );
 
     // override rootRenderer using query parameter, see #221 and #184
     options.rootRenderer = phet.chipper.queryParameters.rootRenderer || options.rootRenderer;
@@ -75,10 +90,12 @@ class SimDisplay extends Display {
 
     // override window.open with a semi-API-compatible function, so fuzzing doesn't open new windows.
     if ( phet.chipper.isFuzzEnabled() ) {
+
+      // @ts-ignore
       window.open = function() {
         return {
-          focus: function() {},
-          blur: function() {}
+          focus: _.noop,
+          blur: _.noop
         };
       };
     }
@@ -89,28 +106,22 @@ class SimDisplay extends Display {
     $body.css( 'padding', '0' ).css( 'margin', '0' ).css( 'overflow', 'hidden' );
 
     // check to see if the sim div already exists in the DOM under the body. This is the case for https://github.com/phetsims/scenery/issues/174 (iOS offline reading list)
-    if ( document.getElementById( 'sim' ) && document.getElementById( 'sim' ).parentNode === document.body ) {
-      document.body.removeChild( document.getElementById( 'sim' ) );
+    if ( document.getElementById( 'sim' ) && document.getElementById( 'sim' )!.parentNode === document.body ) {
+      document.body.removeChild( document.getElementById( 'sim' )! );
     }
 
     // Prevents selection cursor issues in Safari, see https://github.com/phetsims/scenery/issues/476
     document.onselectstart = function() { return false; };
 
-    // @private
     super( new Node( { renderer: options.rootRenderer } ), options );
 
-    // @public - root Node for the simulation and the target for MultiListener to support magnification since the Display rootNode
-    // cannot be transformed
     this.simulationRoot = new Node();
     this.rootNode.addChild( this.simulationRoot );
 
     // Seeding by default a random value for reproducable fuzzes if desired
     const fuzzerSeed = phet.chipper.queryParameters.randomSeed * Math.PI;
 
-    // @private {InputFuzzer}
     this.inputFuzzer = new InputFuzzer( this, fuzzerSeed );
-
-    // @private {KeyboardFuzzer}
     this.keyboardFuzzer = new KeyboardFuzzer( this, fuzzerSeed );
 
     this.domElement.id = 'sim';
@@ -119,17 +130,20 @@ class SimDisplay extends Display {
 
       // for now interactive description is only in english
       // NOTE: When translatable this will need to update with language, change to phet.chipper.local
-      this.pdomRootElement.lang = 'en';
+      this.pdomRootElement!.lang = 'en';
     }
 
-    // @private - Add a listener to the Display that controls visibility of various highlights in response to user input.
     this.highlightVisibilityController = new HighlightVisibilityController( this, options.preferencesManager );
 
     if ( phet.chipper.queryParameters.sceneryLog ) {
+
+      // @ts-ignore
       scenery.enableLogging( phet.chipper.queryParameters.sceneryLog );
     }
 
     if ( phet.chipper.queryParameters.sceneryStringLog ) {
+
+      // @ts-ignore
       scenery.switchLogToString();
     }
 
@@ -152,7 +166,7 @@ class SimDisplay extends Display {
       tandem: Tandem.GENERAL_VIEW.createTandem( 'panZoomListener' )
     } );
     if ( phet.chipper.queryParameters.supportsPanAndZoom ) {
-      this.addInputListener( animatedPanZoomSingleton.listener );
+      this.addInputListener( animatedPanZoomSingleton.listener! );
     }
 
     // If the page is loaded from the back-forward cache, then reload the page to avoid bugginess,
@@ -166,9 +180,8 @@ class SimDisplay extends Display {
 
   /**
    * Handle synthetic input event fuzzing
-   * @public
    */
-  fuzzInputEvents() {
+  public fuzzInputEvents(): void {
 
     // If fuzz parameter is used then fuzzTouch and fuzzMouse events should be fired
     const fuzzTouch = phet.chipper.queryParameters.fuzzTouch || phet.chipper.queryParameters.fuzz;
@@ -192,9 +205,4 @@ class SimDisplay extends Display {
   }
 }
 
-// For consistent option defaults.
-SimDisplay.DEFAULT_WEBGL = DEFAULT_WEBGL;
-
-
 joist.register( 'SimDisplay', SimDisplay );
-export default SimDisplay;
