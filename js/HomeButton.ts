@@ -8,7 +8,6 @@
 
 import Multilink from '../../axon/js/Multilink.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import Property from '../../axon/js/Property.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
 import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
@@ -20,6 +19,7 @@ import Utterance from '../../utterance-queue/js/Utterance.js';
 import joist from './joist.js';
 import JoistButton, { JoistButtonOptions } from './JoistButton.js';
 import joistStrings from './joistStrings.js';
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 
 // constants
 const homeScreenDescriptionString = joistStrings.a11y.homeScreenDescription;
@@ -38,8 +38,8 @@ export default class HomeButton extends JoistButton {
    */
   public constructor(
     navBarHeight: number,
-    navigationBarFillProperty: Property<Color>,
-    pdomDisplayNameProperty: Property<string | null>,
+    navigationBarFillProperty: IReadOnlyProperty<Color>,
+    pdomDisplayNameProperty: IReadOnlyProperty<string | null>,
     tandem: Tandem,
     providedOptions: HomeButtonOptions
   ) {

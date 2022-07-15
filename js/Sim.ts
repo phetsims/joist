@@ -117,7 +117,7 @@ export type SimOptions = SelfOptions & PickOptional<PhetioObject, 'phetioDesigne
 export default class Sim extends PhetioObject {
 
   // (joist-internal)
-  private readonly simNameProperty: IReadOnlyProperty<string>;
+  public readonly simNameProperty: IReadOnlyProperty<string>;
   private readonly createOptionsDialogContent: ( ( t: Tandem ) => Node ) | null;
 
   // Indicates sim construction completed, and that all screen models and views have been created.
@@ -157,13 +157,13 @@ export default class Sim extends PhetioObject {
   private readonly stepSimulationAction: PhetioAction<[ number ]>;
 
   // the ordered list of sim-specific screens that appear in this runtime of the sim
-  private readonly simScreens: Screen<IModel, ScreenView>[];
+  public readonly simScreens: Screen<IModel, ScreenView>[];
 
   // all screens that appear in the runtime of this sim, with the homeScreen first if it was created
   private readonly screens: Screen<IModel, ScreenView>[];
 
   // the displayed name in the sim. This depends on what screens are shown this runtime (effected by query parameters).
-  private readonly displayedSimNameProperty: IReadOnlyProperty<string>;
+  public readonly displayedSimNameProperty: IReadOnlyProperty<string>;
   public readonly screenProperty: Property<Screen<IModel, ScreenView>>;
 
   // true if all possible screens are present (order-independent)
@@ -192,7 +192,7 @@ export default class Sim extends PhetioObject {
   // (joist-internal) global bounds for the screen-specific part (excludes the navigation bar), null before first resize
   public readonly screenBoundsProperty = new Property<Bounds2 | null>( null );
 
-  private readonly lookAndFeel = new LookAndFeel();
+  public readonly lookAndFeel = new LookAndFeel();
   private readonly memoryMonitor = new MemoryMonitor();
 
   // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
