@@ -13,6 +13,7 @@ import { Color, Node } from '../../scenery/js/imports.js';
 import HomeScreenKeyboardHelpContent from './HomeScreenKeyboardHelpContent.js';
 import HomeScreenModel from './HomeScreenModel.js';
 import HomeScreenView from './HomeScreenView.js';
+import IModel from './IModel.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import Screen, { ScreenOptions } from './Screen.js';
@@ -32,8 +33,8 @@ class HomeScreen extends Screen<HomeScreenModel, HomeScreenView> {
 
   public constructor(
     simNameProperty: IReadOnlyProperty<string>,
-    getScreenProperty: () => Property<Screen<any, ScreenView>>,
-    simScreens: Screen<any, any>[],
+    getScreenProperty: () => Property<Screen<IModel, ScreenView>>,
+    simScreens: Screen<IModel, ScreenView>[],
     providedOptions: HomeScreenOptions
   ) {
 

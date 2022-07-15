@@ -2,12 +2,14 @@
 import joist from './joist.js';
 import HomeScreen from './HomeScreen.js';
 import Screen from './Screen.js';
+import ScreenView from './ScreenView.js';
+import IModel from './IModel.js';
 
 type ReturnType = {
   homeScreen: HomeScreen | null;
-  initialScreen: Screen<any, any>;
-  selectedSimScreens: Screen<any, any>[];
-  screens: Screen<any, any>[];
+  initialScreen: Screen<IModel, ScreenView>;
+  selectedSimScreens: Screen<IModel, ScreenView>[];
+  screens: Screen<IModel, ScreenView>[];
   allScreensCreated: boolean;
 };
 
@@ -33,14 +35,14 @@ type ReturnType = {
  * @returns - duck-typed for tests
  * @throws Error if incompatible data is provided
  */
-export default function selectScreens( allSimScreens: Screen<any, any>[],
+export default function selectScreens( allSimScreens: Screen<IModel, ScreenView>[],
                                        homeScreenQueryParameter: boolean,
                                        homeScreenQueryParameterProvided: boolean,
                                        initialScreenIndex: number,
                                        initialScreenQueryParameterProvided: boolean,
                                        screensQueryParameter: number[],
                                        screensQueryParameterProvided: boolean,
-                                       createHomeScreen: ( screens: Screen<any, any>[] ) => HomeScreen ): ReturnType {
+                                       createHomeScreen: ( screens: Screen<IModel, ScreenView>[] ) => HomeScreen ): ReturnType {
 
   if ( allSimScreens.length === 1 && homeScreenQueryParameterProvided && homeScreenQueryParameter ) {
     const errorMessage = 'cannot specify homeScreen=true for single-screen sims';

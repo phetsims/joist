@@ -33,6 +33,7 @@ import ScreenIcon from './ScreenIcon.js';
 import ScreenView from './ScreenView.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import Multilink from '../../axon/js/Multilink.js';
+import IModel from './IModel.js';
 
 const screenNamePatternString = joistStrings.a11y.screenNamePattern;
 const screenSimPatternString = joistStrings.a11y.screenSimPattern;
@@ -68,7 +69,7 @@ type SelfOptions = {
 export type ScreenOptions = SelfOptions & PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 // Parameterized on M=Model and V=View
-class Screen<M, V extends ScreenView> extends PhetioObject {
+class Screen<M extends IModel, V extends ScreenView> extends PhetioObject {
 
   public backgroundColorProperty: Property<Color> | Property<string> | Property<Color | string>;
 
@@ -81,7 +82,7 @@ class Screen<M, V extends ScreenView> extends PhetioObject {
   public readonly homeScreenIcon: Node | null;
   public navigationBarIcon: Node | null;
   public readonly showUnselectedHomeScreenIconFrame: boolean;
-  private readonly keyboardHelpNode: Node | null; // joist-internal
+  public readonly keyboardHelpNode: Node | null; // joist-internal
   public readonly pdomDisplayNameProperty: IReadOnlyProperty<string | null>;
   private readonly createModel: () => M;
   private readonly createView: ( model: M ) => V;

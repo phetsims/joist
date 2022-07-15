@@ -23,6 +23,9 @@ import JoistButton, { JoistButtonOptions } from './JoistButton.js';
 import joistStrings from './joistStrings.js';
 import KeyboardHelpDialog from './KeyboardHelpDialog.js';
 import optionize from '../../phet-core/js/optionize.js';
+import Screen from './Screen.js';
+import ScreenView from './ScreenView.js';
+import IModel from './IModel.js';
 
 // constants
 const keyboardShortcutsString = joistStrings.a11y.keyboardHelp.keyboardShortcuts;
@@ -39,7 +42,7 @@ class KeyboardHelpButton extends JoistButton {
    * @param tandem
    * @param [providedOptions]
    */
-  public constructor( screenProperty: Property<any>, backgroundColorProperty: Property<Color>, tandem: Tandem, providedOptions: KeyboardHelpButtonOptions ) {
+  public constructor( screenProperty: Property<Screen<IModel, ScreenView>>, backgroundColorProperty: Property<Color>, tandem: Tandem, providedOptions: KeyboardHelpButtonOptions ) {
 
     const options = optionize<KeyboardHelpButtonOptions, EmptyObjectType, JoistButtonOptions>()( {
       highlightExtensionWidth: 5,
@@ -82,14 +85,14 @@ class KeyboardHelpButton extends JoistButton {
     // When the screen changes, swap out keyboard help content to the selected screen's content
     screenProperty.link( screen => {
       assert && assert( screen.keyboardHelpNode, 'screen should have keyboardHelpNode' );
-      content.children = [ screen.keyboardHelpNode ];
+      content.children = [ screen.keyboardHelpNode! ];
     } );
 
     // @ts-ignore
     keyboardHelpDialogCapsule = new PhetioCapsule<PhetioObject>( tandem => {
 
       // Wrap in a node to prevent DAG problems if archetypes are also created
-     return new KeyboardHelpDialog( new Node( { children: [ content ] } ), {
+      return new KeyboardHelpDialog( new Node( { children: [ content ] } ), {
         tandem: tandem,
         focusOnHideNode: this
       } );
