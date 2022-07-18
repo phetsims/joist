@@ -7,7 +7,6 @@
  */
 
 import Bounds2 from '../../dot/js/Bounds2.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import { HBox, Node, Text } from '../../scenery/js/imports.js';
@@ -35,9 +34,7 @@ type SelfOptions = {
   warningNode?: Node | null;
 };
 
-type HomeScreenViewOptions = SelfOptions &
-  StrictOmit<ScreenViewOptions, 'layoutBounds' | 'includePDOMNodes'> &
-  PickRequired<ScreenViewOptions, 'tandem'>;
+type HomeScreenViewOptions = SelfOptions & PickRequired<ScreenViewOptions, 'tandem'>;
 
 class HomeScreenView extends ScreenView {
 
