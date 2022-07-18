@@ -55,9 +55,10 @@ class HomeScreen extends Screen<HomeScreenModel, HomeScreenView> {
       // at the time of construction, the Sim.screenProperty is not yet assigned (because it may itself include the
       // HomeScreen), so we must use a function to lazily get it after it is assigned
       () => new HomeScreenModel( getScreenProperty(), simScreens, options.tandem.createTandem( 'model' ) ),
-      model => new HomeScreenView( simNameProperty, model, options.tandem.createTandem( 'view' ), _.pick( options, [
-        'warningNode'
-      ] ) ),
+      model => new HomeScreenView( simNameProperty, model, {
+        warningNode: options.warningNode,
+        tandem: options.tandem.createTandem( 'view' )
+      } ),
       options
     );
   }

@@ -20,23 +20,14 @@ import ScreenView, { ScreenViewOptions } from './ScreenView.js';
 import Screen from './Screen.js';
 import HomeScreenModel from './HomeScreenModel.js';
 import Property from '../../axon/js/Property.js';
-import Tandem from '../../tandem/js/Tandem.js';
 import optionize from '../../phet-core/js/optionize.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
-import PickOptional from '../../phet-core/js/types/PickOptional.js';
+import PickRequired from '../../phet-core/js/types/PickRequired.js';
 
 const homeScreenDescriptionPatternString = joistStrings.a11y.homeScreenDescriptionPattern;
 
 type GeneralScreen = Screen<IntentionalAny, ScreenView>;
-
-// NOTE: In https://github.com/phetsims/joist/issues/640, we attempted to use ScreenView.DEFAULT_LAYOUT_BOUNDS here.
-// Lots of problems were encountered, since both the Home screen and navigation bar are dependent on this value.
-// If/when joist is cleaned up, this should be ScreenView.DEFAULT_LAYOUT_BOUNDS.
-const LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
-
-// iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
-const TITLE_FONT_FAMILY = 'Century Gothic, Futura';
 
 type SelfOptions = {
 
@@ -44,34 +35,41 @@ type SelfOptions = {
   warningNode?: Node | null;
 };
 
-type HomeScreenViewOptions = SelfOptions & PickOptional<ScreenViewOptions, 'tandem'> & StrictOmit<ScreenViewOptions, 'tandem'>;
+type HomeScreenViewOptions = SelfOptions &
+  StrictOmit<ScreenViewOptions, 'layoutBounds' | 'includePDOMNodes'> &
+  PickRequired<ScreenViewOptions, 'tandem'>;
 
 class HomeScreenView extends ScreenView {
+
   private homeScreenScreenSummaryIntro!: string;
   private selectedScreenProperty: Property<GeneralScreen>;
   public screenButtons: HomeScreenButton[];
 
+  // NOTE: In https://github.com/phetsims/joist/issues/640, we attempted to use ScreenView.DEFAULT_LAYOUT_BOUNDS here.
+  // Lots of problems were encountered, since both the Home screen and navigation bar are dependent on this value.
+  // If/when joist is cleaned up, this should be ScreenView.DEFAULT_LAYOUT_BOUNDS.
+  public static readonly LAYOUT_BOUNDS = new Bounds2( 0, 0, 768, 504 );
+
+  // iPad doesn't support Century Gothic, so fall back to Futura, see http://wordpress.org/support/topic/font-not-working-on-ipad-browser
+  public static readonly TITLE_FONT_FAMILY = 'Century Gothic, Futura';
+
   /**
    * @param simNameProperty - the internationalized text for the sim name
    * @param model
-   * @param tandem
    * @param [providedOptions]
    */
-  public constructor( simNameProperty: IReadOnlyProperty<string>, model: HomeScreenModel, tandem: Tandem, providedOptions?: HomeScreenViewOptions ) {
-    assert && assert( simNameProperty.value, `simName is required: ${simNameProperty.value}` );
+  public constructor( simNameProperty: IReadOnlyProperty<string>, model: HomeScreenModel, providedOptions?: HomeScreenViewOptions ) {
 
     const options = optionize<HomeScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
-      warningNode: null
-    }, providedOptions );
-
-    super( {
-      layoutBounds: LAYOUT_BOUNDS,
-      tandem: tandem,
+      layoutBounds: HomeScreenView.LAYOUT_BOUNDS,
+      warningNode: null,
 
       // Remove the "normal" PDOM structure Nodes like the screen summary, play area, and control area Nodes from the
       // HomeScreen. The HomeScreen handles its own description.
       includePDOMNodes: false
-    } );
+    }, providedOptions );
+
+    super( options );
 
     const homeScreenPDOMNode = new Node( {
       tagName: 'p'
@@ -83,12 +81,12 @@ class HomeScreenView extends ScreenView {
     const titleText = new Text( simNameProperty.value, {
       font: new PhetFont( {
         size: 52,
-        family: TITLE_FONT_FAMILY
+        family: HomeScreenView.TITLE_FONT_FAMILY
       } ),
       fill: 'white',
       y: 130,
       maxWidth: this.layoutBounds.width - 10, // To support PhET-iO Clients setting this
-      tandem: tandem.createTandem( 'titleText' ),
+      tandem: options.tandem.createTandem( 'titleText' ),
       textPropertyOptions: { phetioReadOnly: true }
     } );
 
@@ -96,10 +94,9 @@ class HomeScreenView extends ScreenView {
     titleText.localBoundsProperty.link( () => {
       titleText.centerX = this.layoutBounds.centerX;
     } );
-
     this.addChild( titleText );
 
-    const buttonGroupTandem = tandem.createTandem( 'buttonGroup' );
+    const buttonGroupTandem = options.tandem.createTandem( 'buttonGroup' );
 
     this.screenButtons = _.map( model.simScreens, ( screen: GeneralScreen ) => {
 
@@ -248,9 +245,6 @@ class HomeScreenView extends ScreenView {
   public override getVoicingHintContent(): string {
     return joistStrings.a11y.homeScreenHint;
   }
-
-  public static TITLE_FONT_FAMILY = TITLE_FONT_FAMILY;
-  public static LAYOUT_BOUNDS = LAYOUT_BOUNDS;
 }
 
 joist.register( 'HomeScreenView', HomeScreenView );
