@@ -26,7 +26,6 @@ import Bounds2 from '../../dot/js/Bounds2.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Random from '../../dot/js/Random.js';
 import DotUtils from '../../dot/js/Utils.js'; // eslint-disable-line default-import-match-filename
-import merge from '../../phet-core/js/merge.js';
 import platform from '../../phet-core/js/platform.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
@@ -106,10 +105,6 @@ type SelfOptions = {
 
   // Passed to SimDisplay, but a top level option for API ease.
   webgl?: boolean;
-
-  // Passed to the SimDisplay
-  // TODO: https://github.com/phetsims/joist/issues/795 convert SimDisplay to TypeScript
-  simDisplayOptions?: any;
 };
 
 export type SimOptions = SelfOptions & PickOptional<PhetioObject, 'phetioDesigned'>;
@@ -290,23 +285,23 @@ export default class Sim extends PhetioObject {
       // Passed to SimDisplay, but a top level option for API ease.
       webgl: SimDisplay.DEFAULT_WEBGL,
 
-      // Passed to the SimDisplay
-      simDisplayOptions: {},
-
       // phet-io
       phetioState: false,
       phetioReadOnly: true,
       tandem: Tandem.ROOT
     }, providedOptions );
 
-    assert && assert( !options.simDisplayOptions.webgl, 'use top level sim option instead of simDisplayOptions' );
-
     // Some options are used by sim and SimDisplay. Promote webgl to top level sim option out of API ease, but it is
     // passed to the SimDisplay.
-    options.simDisplayOptions = merge( {
+    const simDisplayOptions: {
+      webgl: boolean;
+      tandem: Tandem;
+      preferencesManager: PreferencesManager | null;
+    } = {
       webgl: options.webgl,
-      tandem: Tandem.GENERAL_VIEW.createTandem( 'display' )
-    }, options.simDisplayOptions );
+      tandem: Tandem.GENERAL_VIEW.createTandem( 'display' ),
+      preferencesManager: null
+    };
 
     super( options );
 
@@ -598,8 +593,7 @@ export default class Sim extends PhetioObject {
 
       this.preferencesManager = new PreferencesManager( options.preferencesConfiguration );
 
-      assert && assert( !options.simDisplayOptions.preferencesManager );
-      options.simDisplayOptions.preferencesManager = this.preferencesManager;
+      simDisplayOptions.preferencesManager = this.preferencesManager;
 
       this.toolbar = new Toolbar( this, {
         tandem: Tandem.GENERAL_VIEW.createTandem( 'toolbar' )
@@ -615,7 +609,7 @@ export default class Sim extends PhetioObject {
       this.toolbar = null;
     }
 
-    this.display = new SimDisplay( options.simDisplayOptions );
+    this.display = new SimDisplay( simDisplayOptions );
     this.rootNode = this.display.rootNode;
 
     Helper.initialize( this, this.display );
