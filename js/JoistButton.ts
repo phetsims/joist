@@ -10,11 +10,12 @@ import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
+import PickRequired from '../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { Color, FocusHighlightPath, Node, NodeOptions, PressListener, SceneryConstants, Voicing, VoicingOptions } from '../../scenery/js/imports.js';
 import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';
 import PushButtonInteractionStateProperty from '../../sun/js/buttons/PushButtonInteractionStateProperty.js';
 import PushButtonModel from '../../sun/js/buttons/PushButtonModel.js';
-import Tandem from '../../tandem/js/Tandem.js';
 import HighlightNode from './HighlightNode.js';
 import joist from './joist.js';
 
@@ -26,7 +27,7 @@ type SelfOptions = {
   listener?: ( () => void ) | null;
 };
 type ParentOptions = VoicingOptions & NodeOptions;
-export type JoistButtonOptions = SelfOptions & ParentOptions;
+export type JoistButtonOptions = SelfOptions & StrictOmit<ParentOptions, 'children'> & PickRequired<ParentOptions, 'tandem'>;
 
 export default class JoistButton extends Voicing( Node, 0 ) {
 
@@ -39,15 +40,15 @@ export default class JoistButton extends Voicing( Node, 0 ) {
   /**
    * @param content - the scenery node to render as the content of the button
    * @param navigationBarFillProperty - the color of the navbar, as a string.
-   * @param tandem
    * @param [providedOptions]
    */
-  public constructor( content: Node, navigationBarFillProperty: IReadOnlyProperty<Color>, tandem: Tandem, providedOptions: JoistButtonOptions ) {
+  public constructor( content: Node, navigationBarFillProperty: IReadOnlyProperty<Color>, providedOptions: JoistButtonOptions ) {
 
     const options = optionize<JoistButtonOptions, SelfOptions, ParentOptions>()( {
       cursor: 'pointer', // {string}
       listener: null, // {function}
-      //Customization for the highlight region, see overrides in HomeButton and PhetButton
+
+      // Customization for the highlight region, see overrides in HomeButton and PhetButton
       highlightExtensionWidth: 0,
       highlightExtensionHeight: 0,
       highlightCenterOffsetX: 0,
@@ -60,9 +61,6 @@ export default class JoistButton extends Voicing( Node, 0 ) {
       // pdom
       tagName: 'button'
     }, providedOptions );
-
-    assert && assert( options.tandem === undefined, 'JoistButton sets tandem' );
-    options.tandem = tandem;
 
     // Creates the highlights for the button.
     const createHighlight = function( fill: Color | string ) {
@@ -80,7 +78,6 @@ export default class JoistButton extends Voicing( Node, 0 ) {
     // Highlight against the white background
     const darkenHighlight = createHighlight( 'black' );
 
-    assert && assert( !options.children, 'NAME sets children' );
     options.children = [ content, brightenHighlight, darkenHighlight ];
 
     super();
@@ -116,7 +113,7 @@ export default class JoistButton extends Voicing( Node, 0 ) {
 
     // Hook up the input listener
     this._pressListener = this.buttonModel.createPressListener( {
-      tandem: tandem.createTandem( 'pressListener' )
+      tandem: options.tandem.createTandem( 'pressListener' )
     } );
     this.addInputListener( this._pressListener );
 

@@ -7,32 +7,30 @@
  */
 
 import Multilink from '../../axon/js/Multilink.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
 import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
-import { Color, FocusHighlightPath, Node, Path, Rectangle, VoicingOptions } from '../../scenery/js/imports.js';
+import { Color, FocusHighlightPath, Node, Path, Rectangle } from '../../scenery/js/imports.js';
 import homeSolidShape from '../../sherpa/js/fontawesome-5/homeSolidShape.js';
 import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';
-import Tandem from '../../tandem/js/Tandem.js';
 import Utterance from '../../utterance-queue/js/Utterance.js';
 import joist from './joist.js';
 import JoistButton, { JoistButtonOptions } from './JoistButton.js';
 import joistStrings from './joistStrings.js';
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import PickRequired from '../../phet-core/js/types/PickRequired.js';
 
 // constants
 const homeScreenDescriptionString = joistStrings.a11y.homeScreenDescription;
 
 type SelfOptions = EmptyObjectType;
-type HomeButtonOptions = SelfOptions & StrictOmit<JoistButtonOptions, 'innerContent'>;
+type HomeButtonOptions = SelfOptions & PickRequired<JoistButtonOptions, 'listener' | 'tandem'>;
 
 export default class HomeButton extends JoistButton {
 
   /**
    * @param navBarHeight
    * @param navigationBarFillProperty - the color of the navbar, as a string.
-   * @param tandem
    * @param pdomDisplayNameProperty - for the HomeScreen, for description
    * @param [providedOptions]
    */
@@ -40,11 +38,10 @@ export default class HomeButton extends JoistButton {
     navBarHeight: number,
     navigationBarFillProperty: IReadOnlyProperty<Color>,
     pdomDisplayNameProperty: IReadOnlyProperty<string | null>,
-    tandem: Tandem,
     providedOptions: HomeButtonOptions
   ) {
 
-    const options = optionize<HomeButtonOptions, SelfOptions, JoistButtonOptions & VoicingOptions>()( {
+    const options = optionize<HomeButtonOptions, SelfOptions, JoistButtonOptions>()( {
       highlightExtensionWidth: 4,
       listener: null,
 
@@ -82,7 +79,7 @@ export default class HomeButton extends JoistButton {
       } );
     };
 
-    super( content, navigationBarFillProperty, tandem, options );
+    super( content, navigationBarFillProperty, options );
 
     // pdom - Pass a shape to the focusHighlight to prevent dilation, then tweak the bottom up just a hair so it
     // isn't off the screen.

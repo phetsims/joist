@@ -7,35 +7,28 @@
  */
 
 import Property from '../../../axon/js/Property.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { Color, Path } from '../../../scenery/js/imports.js';
 import userCogSolidShape from '../../../sherpa/js/fontawesome-5/userCogSolidShape.js';
 import Dialog from '../../../sun/js/Dialog.js';
 import PhetioCapsule from '../../../tandem/js/PhetioCapsule.js';
-import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import JoistButton, { JoistButtonOptions } from '../JoistButton.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesManager from './PreferencesManager.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 
-type NavigationBarPreferencesButtonOptions = StrictOmit<JoistButtonOptions, 'listener'>;
+type SelfOptions = EmptyObjectType;
+export type NavigationBarPreferencesButtonOptions = SelfOptions & PickRequired<JoistButtonOptions, 'tandem'>;
 
 class NavigationBarPreferencesButton extends JoistButton {
 
   public constructor( preferencesModel: PreferencesManager, backgroundColorProperty: Property<Color>, providedOptions: NavigationBarPreferencesButtonOptions ) {
 
-    const options = optionize<NavigationBarPreferencesButtonOptions, EmptyObjectType, JoistButtonOptions>()( {
-      tandem: Tandem.REQUIRED
-    }, providedOptions );
+    const options = optionize<NavigationBarPreferencesButtonOptions, SelfOptions, JoistButtonOptions>()( {
 
-    const icon = new Path( userCogSolidShape, {
-      maxWidth: 25
-    } );
-
-    super( icon, backgroundColorProperty, options.tandem, {
       listener: () => {
         const preferencesDialog = preferencesDialogCapsule.getElement();
 
@@ -54,7 +47,14 @@ class NavigationBarPreferencesButton extends JoistButton {
 
       // voicing
       voicingNameResponse: joistStrings.preferences.title
+
+    }, providedOptions );
+
+    const icon = new Path( userCogSolidShape, {
+      maxWidth: 25
     } );
+
+    super( icon, backgroundColorProperty, options );
 
     // @ts-ignore TODO https://github.com/phetsims/joist/issues/795 - until Popupable is in Typescript, TS doesn't know about the hierarchy it seems.
     const preferencesDialogCapsule = new PhetioCapsule( tandem => {

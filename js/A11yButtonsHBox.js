@@ -38,22 +38,18 @@ class A11yButtonsHBox extends HBox {
 
     if ( sim.preferencesManager ) {
 
-      const preferencesButton = new NavigationBarPreferencesButton(
-        sim.preferencesManager,
-        backgroundColorProperty, {
-          tandem: options.tandem.createTandem( 'preferencesButton' )
-        } );
+      const preferencesButton = new NavigationBarPreferencesButton( sim.preferencesManager, backgroundColorProperty, {
+        tandem: options.tandem.createTandem( 'preferencesButton' )
+      } );
 
       a11yButtons.push( preferencesButton );
     }
 
     // For consistent PhET-iO support, we eagerly create the audio toggle button in every sim.  But it is only
     // added to the a11yButtons when sound is fully enabled in a sim runtime.
-    const audioToggleButton = new NavigationBarAudioToggleButton(
-      audioManager.audioEnabledProperty,
-      backgroundColorProperty,
-      options.tandem.createTandem( 'audioToggleButton' )
-    );
+    const audioToggleButton = new NavigationBarAudioToggleButton( audioManager.audioEnabledProperty, backgroundColorProperty, {
+      tandem: options.tandem.createTandem( 'audioToggleButton' )
+    } );
 
     // only put the sound on/off button on the nav bar if the sound library is enabled
     if ( audioManager.supportsAudio ) {
@@ -66,11 +62,9 @@ class A11yButtonsHBox extends HBox {
       // Create the KeyboardHelpButton (pops open a dialog with information about keyboard navigation) if there is content
       // and the sim has supports Interactive Description. Eagerly create this to support a consistent PhET-iO API, but
       // only conditionally add it to the nav bar if in the proper runtime.
-      const keyboardHelpButton = new KeyboardHelpButton(
-        sim.screenProperty,
-        backgroundColorProperty,
-        options.tandem.createTandem( 'keyboardHelpButton' )
-      );
+      const keyboardHelpButton = new KeyboardHelpButton( sim.screenProperty, backgroundColorProperty, {
+        tandem: options.tandem.createTandem( 'keyboardHelpButton' )
+      } );
 
       // only show the keyboard help button if the sim supports interactive description and we are not in mobile safari
       if ( phet.chipper.queryParameters.supportsInteractiveDescription && !platform.mobileSafari ) {

@@ -18,12 +18,9 @@ import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
 import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
-import { Color, voicingManager } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
+import PickRequired from '../../phet-core/js/types/PickRequired.js';
+import { Color, Node, Path, Rectangle, voicingManager } from '../../scenery/js/imports.js';
 import ToggleNode from '../../sun/js/ToggleNode.js';
-import Tandem from '../../tandem/js/Tandem.js';
 import ActivationUtterance from '../../utterance-queue/js/ActivationUtterance.js';
 import audioManager from './audioManager.js';
 import joist from './joist.js';
@@ -53,11 +50,14 @@ const MIN_CURVE_RADIUS = MED_CURVE_RADIUS - RADIUS_STEPPER;
 const CURVE_ANGLE = Math.PI / 2.7;
 const NEG_CURVE_ANGLE = CURVE_ANGLE * -1.0;
 
-type NavigationBarAudioToggleButtonOptions = JoistButtonOptions;
+type SelfOptions = EmptyObjectType;
+type NavigationBarAudioToggleButtonOptions = SelfOptions & PickRequired<JoistButtonOptions, 'tandem'>;
 
 class NavigationBarAudioToggleButton extends JoistButton {
 
-  public constructor( soundEnabledProperty: BooleanProperty, backgroundColorProperty: IReadOnlyProperty<Color>, tandem: Tandem, providedOptions: NavigationBarAudioToggleButtonOptions ) {
+  public constructor( soundEnabledProperty: BooleanProperty,
+                      backgroundColorProperty: IReadOnlyProperty<Color>,
+                      providedOptions: NavigationBarAudioToggleButtonOptions ) {
 
     const options = optionize<NavigationBarAudioToggleButtonOptions, EmptyObjectType, JoistButtonOptions>()( {
 
@@ -154,11 +154,11 @@ class NavigationBarAudioToggleButton extends JoistButton {
       { maxHeight: NODE_HEIGHT }
     );
 
-    super( toggleNode, backgroundColorProperty, tandem, options );
+    super( toggleNode, backgroundColorProperty, options );
 
     // must be after the button is instrumented
     this.addLinkedElement( soundEnabledProperty, {
-      tandem: tandem.createTandem( 'property' )
+      tandem: options.tandem.createTandem( 'property' )
     } );
 
     // pdom attribute lets user know when the toggle is pressed, linked lazily so that an alert isn't triggered

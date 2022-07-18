@@ -190,8 +190,7 @@ class NavigationBar extends Node {
       this.homeButton = new HomeButton(
         NAVIGATION_BAR_SIZE.height,
         sim.lookAndFeel.navigationBarFillProperty,
-        sim.homeScreen ? sim.homeScreen.pdomDisplayNameProperty : new StringProperty( 'NO HOME SCREEN' ),
-        tandem.createTandem( 'homeButton' ), {
+        sim.homeScreen ? sim.homeScreen.pdomDisplayNameProperty : new StringProperty( 'NO HOME SCREEN' ), {
           listener: () => {
             sim.screenProperty.value = sim.homeScreen!;
 
@@ -199,7 +198,8 @@ class NavigationBar extends Node {
             if ( this.homeButton!.isPDOMClicking() ) {
               sim.homeScreen!.view.focusHighlightedScreenButton();
             }
-          }
+          },
+          tandem: tandem.createTandem( 'homeButton' )
         } );
 
       // Add the home button, but only if the homeScreen exists

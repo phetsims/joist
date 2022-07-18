@@ -91,7 +91,7 @@ class PhetButton extends JoistButton {
     // The icon combines the PhET logo and the menu icon
     const icon = new Node( { children: children } );
 
-    super( icon, backgroundFillProperty, tandem, {
+    super( icon, backgroundFillProperty, {
       highlightExtensionWidth: 6,
       highlightExtensionHeight: 5,
       highlightCenterOffsetY: 4,
@@ -100,10 +100,12 @@ class PhetButton extends JoistButton {
         phetMenu.items[ 0 ].focus();
         pushButtonSoundPlayer.play();
       },
+
+      tandem: tandem,
       phetioType: PhetButton.PhetButtonIO,
       phetioDocumentation: 'The button that appears at the right side of the navigation bar, which shows a menu when pressed',
 
-      // This is the primary way to disable learners from accessing the phet menu in PhET-iO, so feature it.
+      // This is the primary way to prevent learners from accessing the PhET menu in PhET-iO, so feature it.
       enabledPropertyOptions: {
         phetioFeatured: true
       },
