@@ -46,8 +46,9 @@ class PhetButton extends JoistButton {
     const logoOnBlackBackground = Brand.logoOnBlackBackground;
     const logoOnWhiteBackground = Brand.logoOnWhiteBackground;
 
-    const phetMenu: PhetMenu = new PhetMenu( sim, tandem.createTandem( 'phetMenu' ), {
-      closeCallback: () => phetMenu.hide()
+    const phetMenu: PhetMenu = new PhetMenu( sim, {
+      closeCallback: () => phetMenu.hide(),
+      tandem: tandem.createTandem( 'phetMenu' )
     } );
 
     // Sim.js handles scaling the popup menu.  This code sets the position of the popup menu.

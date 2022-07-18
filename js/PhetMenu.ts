@@ -14,6 +14,7 @@ import openPopup from '../../phet-core/js/openPopup.js';
 import optionize from '../../phet-core/js/optionize.js';
 import platform from '../../phet-core/js/platform.js';
 import stripEmbeddingMarks from '../../phet-core/js/stripEmbeddingMarks.js';
+import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import { Focus, FocusManager, FullScreen, KeyboardUtils, Node, NodeOptions, Path, PDOMUtils, Rectangle, SceneryEvent, Text } from '../../scenery/js/imports.js';
 import Dialog from '../../sun/js/Dialog.js';
@@ -22,7 +23,6 @@ import MenuItem, { MenuItemOptions } from '../../sun/js/MenuItem.js';
 import { PopupableNode } from '../../sun/js/Popupable.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
-import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import AboutDialog from './AboutDialog.js';
 import audioManager from './audioManager.js';
@@ -65,7 +65,7 @@ type SelfOptions = {
   hidePopup?: PopupToggler;
   closeCallback: () => void;
 };
-type PhetMenuOptions = SelfOptions & NodeOptions;
+type PhetMenuOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'>;
 
 class PhetMenu extends Node {
   private focusOnHideNode: Node | null;
@@ -80,7 +80,7 @@ class PhetMenu extends Node {
 
   private readonly disposePhetMenu: () => void;
 
-  public constructor( sim: Sim, tandem: Tandem, providedOptions?: PhetMenuOptions ) {
+  public constructor( sim: Sim, providedOptions?: PhetMenuOptions ) {
 
     // Only show certain features for PhET Sims, such as links to our website
     const isPhETBrand = phet.chipper.brand === 'phet';
@@ -107,8 +107,6 @@ class PhetMenu extends Node {
     assert && assert( typeof options.showPopup === 'function', 'showPopup is required, and must be provided if phet.joist.sim is not available.' );
     assert && assert( typeof options.hidePopup === 'function', 'hidePopup is required, and must be provided if phet.joist.sim is not available.' );
 
-    options.tandem = tandem;
-
     super();
 
     // (a11y) {Node|null} see setFocusOnHideNode
@@ -124,7 +122,7 @@ class PhetMenu extends Node {
         focusOnHideNode: this.focusOnHideNode
       } );
     }, [], {
-      tandem: tandem.createTandem( 'aboutDialogCapsule' ),
+      tandem: options.tandem.createTandem( 'aboutDialogCapsule' ),
       phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )
     } );
 
@@ -138,7 +136,7 @@ class PhetMenu extends Node {
           focusOnHideNode: this.focusOnHideNode
         } );
       }, [], {
-        tandem: tandem.createTandem( 'optionsDialogCapsule' ),
+        tandem: options.tandem.createTandem( 'optionsDialogCapsule' ),
         phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )
       } );
     }
@@ -157,7 +155,7 @@ class PhetMenu extends Node {
         present: !!sim.createOptionsDialogContent,
         callback: () => optionsDialogCapsule!.getElement().show(),
         options: {
-          tandem: tandem.createTandem( 'optionsMenuItem' ),
+          tandem: options.tandem.createTandem( 'optionsMenuItem' ),
           visiblePropertyOptions: { phetioFeatured: true },
           phetioDocumentation: 'This menu item shows an options dialog.'
         }
@@ -260,7 +258,7 @@ class PhetMenu extends Node {
           }
         },
         options: {
-          tandem: tandem.createTandem( 'screenshotMenuItem' ),
+          tandem: options.tandem.createTandem( 'screenshotMenuItem' ),
           phetioDocumentation: 'This menu item captures a screenshot from the simulation and saves it to the file system.',
           visiblePropertyOptions: { phetioFeatured: true },
 
@@ -280,7 +278,7 @@ class PhetMenu extends Node {
         },
         options: {
           checkedProperty: soundManager.extraSoundEnabledProperty,
-          tandem: tandem.createTandem( 'extraSoundMenuItem' ),
+          tandem: options.tandem.createTandem( 'extraSoundMenuItem' ),
           phetioDocumentation: 'This menu item toggles between basic and extra sound modes. This will only be ' +
                                'displayed if the simulation supports extra sounds.',
           visiblePropertyOptions: { phetioFeatured: true },
@@ -301,7 +299,7 @@ class PhetMenu extends Node {
         },
         options: {
           checkedProperty: FullScreen.isFullScreenProperty,
-          tandem: tandem.createTandem( 'fullScreenMenuItem' ),
+          tandem: options.tandem.createTandem( 'fullScreenMenuItem' ),
           phetioDocumentation: 'This menu item requests full-screen access for the simulation display.',
           visiblePropertyOptions: { phetioFeatured: true },
 
@@ -319,7 +317,7 @@ class PhetMenu extends Node {
           separatorBefore: isPhETBrand,
 
           // phet-io
-          tandem: tandem.createTandem( 'aboutMenuItem' ),
+          tandem: options.tandem.createTandem( 'aboutMenuItem' ),
           phetioDocumentation: 'This menu item shows a dialog with information about the simulation.',
           visiblePropertyOptions: { phetioFeatured: true }
         }
