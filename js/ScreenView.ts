@@ -233,7 +233,7 @@ class ScreenView extends Node {
   /**
    * Create the alert content for this ScreenView when the Voicing feature is enabled and the "Overview" button
    * is pressed.
-   * @abstract
+   * Must be implemented if supporting voicing in your ScreenView.
    */
   public getVoicingOverviewContent(): string {
     throw new Error( 'The ScreenView should implement getVoicingOverviewContent if Voicing is enabled' );
@@ -242,7 +242,7 @@ class ScreenView extends Node {
   /**
    * Create the alert content for this ScreenView when the Voicing feature is enabled and the "Details" button is
    * pressed.
-   * @abstract
+   * Must be implemented if supporting voicing in your ScreenView.
    */
   public getVoicingDetailsContent(): string {
     throw new Error( 'The ScreenView should implement getVoicingDetailsContent when the Voicing feature is enabled.' );
@@ -250,7 +250,7 @@ class ScreenView extends Node {
 
   /**
    * Create the alert content for this ScreenView when the Voicing feature is enabled and the "Hint" button is pressed.
-   * @abstract
+   * Must be implemented if supporting voicing in your ScreenView.
    */
   public getVoicingHintContent(): string {
     throw new Error( 'The ScreenView should implement getVoicingHintContent when Voicing is enabled.' );
