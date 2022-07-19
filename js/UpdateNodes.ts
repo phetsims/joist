@@ -57,7 +57,7 @@ const UpdateNodes = {
    * (joist-internal)
    */
   createCheckingNode: function( options: Options ): Node & IStep {
-    const spinningIndicatorNode = new SpinningIndicatorNode( { indicatorSize: options.big ? 24 : 18 } );
+    const spinningIndicatorNode = new SpinningIndicatorNode( { diameter: options.big ? 24 : 18 } );
     const checkingNode = new HBox( merge( {
       spacing: options.big ? 10 : 8,
       maxWidth: MAX_WIDTH,
