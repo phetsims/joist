@@ -12,13 +12,11 @@ import SoundClip, { SoundClipOptions } from '../../tambo/js/sound-generators/Sou
 import screenSelection_mp3 from '../sounds/screenSelection_mp3.js';
 import joist from './joist.js';
 import Screen from './Screen.js';
-import ScreenView from './ScreenView.js';
 import HomeScreen from './HomeScreen.js';
-import IModel from './IModel.js';
 
 class ScreenSelectionSoundGenerator extends SoundClip {
 
-  public constructor( screenProperty: ReadOnlyProperty<Screen<IModel, ScreenView>>, homeScreen: HomeScreen | null, options?: SoundClipOptions ) {
+  public constructor( screenProperty: ReadOnlyProperty<Screen>, homeScreen: HomeScreen | null, options?: SoundClipOptions ) {
 
     super( screenSelection_mp3, options );
 

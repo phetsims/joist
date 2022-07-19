@@ -224,14 +224,12 @@ export default class Sim extends PhetioObject {
 
   // list of nodes that are "modal" and hence block input with the barrierRectangle.  Used by modal dialogs
   // and the PhetMenu
-  private modalNodeStack = createObservableArray<Node>();
+  private modalNodeStack = createObservableArray<PopupableNode>();
 
   // (joist-internal) Semi-transparent black barrier used to block input events when a dialog (or other popup)
   // is present, and fade out the background.
   private readonly barrierRectangle = new BarrierRectangle(
     this.modalNodeStack, {
-      fill: 'rgba(0,0,0,0.3)',
-      pickable: true,
       tandem: Tandem.GENERAL_VIEW.createTandem( 'barrierRectangle' ),
       phetioDocumentation: 'Semi-transparent barrier used to block input events when a dialog is shown, also fades out the background'
     } );

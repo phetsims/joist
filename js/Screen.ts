@@ -68,6 +68,10 @@ type SelfOptions = {
 };
 export type ScreenOptions = SelfOptions & PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
+// Accept any subtype of IModel (defaults to supertype), and any subtype of ScreenView (defaults to subtype).
+// @ts-ignore
+type CreateView<out M extends IModel, V> = ( model: M ) => V;
+
 // Parameterized on M=Model and V=View
 class Screen<M extends IModel = IModel, V extends ScreenView = ScreenView> extends PhetioObject {
 
@@ -85,7 +89,7 @@ class Screen<M extends IModel = IModel, V extends ScreenView = ScreenView> exten
   public readonly keyboardHelpNode: Node | null; // joist-internal
   public readonly pdomDisplayNameProperty: IReadOnlyProperty<string | null>;
   private readonly createModel: () => M;
-  private readonly createView: ( model: M ) => V;
+  private readonly createView: CreateView<M, V>;
   private _model: M | null;
   private _view: V | null;
 
@@ -94,7 +98,7 @@ class Screen<M extends IModel = IModel, V extends ScreenView = ScreenView> exten
   public static MINIMUM_NAVBAR_ICON_SIZE: Dimension2;
   public static ScreenIO: IOType;
 
-  public constructor( createModel: () => M, createView: ( model: M ) => V, providedOptions: ScreenOptions ) {
+  public constructor( createModel: () => M, createView: CreateView<M, V>, providedOptions: ScreenOptions ) {
 
     const options = optionize<ScreenOptions, SelfOptions, PhetioObjectOptions>()( {
 
