@@ -14,7 +14,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import SpeechSynthesisAnnouncer from '../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import joist from '../joist.js';
 
-type GeneralOptions = {
+export type GeneralPreferencesOptions = {
 
   // Creates any Node you would like under the "Simulation specific controls" section of the General tab.
   createSimControls?: ( ( tandem: Tandem ) => Node ) | null;
@@ -23,14 +23,14 @@ type GeneralOptions = {
   createLocalizationControls?: ( ( tandem: Tandem ) => Node ) | null;
 };
 
-type VisualOptions = {
+export type VisualPreferencesOptions = {
 
   // whether or not the sim supports the "Interactive Highlights" feature, and checkbox to enable in the
   // Preferences Dialog
   supportsInteractiveHighlights?: boolean;
 };
 
-type AudioOptions = {
+export type AudioPreferencesOptions = {
 
   // The entry point for Voicing, and if true the sim will support Voicing and Voicing options in Preferences.
   // The feature is only available on platforms where SpeechSynthesis is supported. For now, it is only available
@@ -43,7 +43,7 @@ type AudioOptions = {
   supportsExtraSound?: boolean;
 };
 
-type InputOptions = {
+export type InputPreferencesOptions = {
 
   // Whether or not to include "gesture" controls
   supportsGestureControl?: boolean;
@@ -52,24 +52,24 @@ type InputOptions = {
 export type PreferencesConfigurationOptions = {
 
   // configuration for controls in the "General" tab of the PreferencesDialog
-  generalOptions?: GeneralOptions;
+  generalOptions?: GeneralPreferencesOptions;
 
   // configuration for controls in the "Visual" tab of the PreferencesDialog
-  visualOptions?: VisualOptions;
+  visualOptions?: VisualPreferencesOptions;
 
   // configuration for controls in the "Audio" tab of the PreferencesDialog
-  audioOptions?: AudioOptions;
+  audioOptions?: AudioPreferencesOptions;
 
   // configuration for controls in the "Input" tab of the PreferencesDialog
-  inputOptions?: InputOptions;
+  inputOptions?: InputPreferencesOptions;
 };
 
 class PreferencesConfiguration {
 
-  public readonly generalOptions: GeneralOptions;
-  public readonly visualOptions: VisualOptions;
-  public readonly audioOptions: AudioOptions;
-  public readonly inputOptions: InputOptions;
+  public readonly generalOptions: Required<GeneralPreferencesOptions>;
+  public readonly visualOptions: Required<VisualPreferencesOptions>;
+  public readonly audioOptions: Required<AudioPreferencesOptions>;
+  public readonly inputOptions: Required<InputPreferencesOptions>;
 
   public constructor( providedOptions?: PreferencesConfigurationOptions ) {
 
@@ -82,7 +82,7 @@ class PreferencesConfiguration {
     // strings are not made available for translation.
     const simLocale = phet.chipper.locale || 'en';
 
-    const options = optionize<PreferencesConfigurationOptions>()( {
+    const initialOptions = optionize<PreferencesConfigurationOptions>()( {
       generalOptions: {
         createSimControls: null,
         createLocalizationControls: null
@@ -100,14 +100,15 @@ class PreferencesConfiguration {
       }
     }, providedOptions );
 
-    if ( options.audioOptions.supportsExtraSound ) {
-      assert && assert( options.audioOptions.supportsSound, 'supportsSound must be true to also support extraSound' );
+    if ( initialOptions.audioOptions.supportsExtraSound ) {
+      assert && assert( initialOptions.audioOptions.supportsSound, 'supportsSound must be true to also support extraSound' );
     }
 
-    this.generalOptions = options.generalOptions;
-    this.visualOptions = options.visualOptions;
-    this.audioOptions = options.audioOptions;
-    this.inputOptions = options.inputOptions;
+    // We know that defaults are populated after the optionize call.
+    this.generalOptions = initialOptions.generalOptions as Required<GeneralPreferencesOptions>;
+    this.visualOptions = initialOptions.visualOptions as Required<VisualPreferencesOptions>;
+    this.audioOptions = initialOptions.audioOptions as Required<AudioPreferencesOptions>;
+    this.inputOptions = initialOptions.inputOptions as Required<InputPreferencesOptions>;
   }
 }
 

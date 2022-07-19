@@ -7,30 +7,35 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import merge from '../../../phet-core/js/merge.js';
-import { AlignGroup, Node, VBox } from '../../../scenery/js/imports.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import { AlignGroup, Node, VBox, VBoxOptions } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 
+type SelfOptions = {
+
+  // if provided, will be the title for the section and content will be nested under the titleNode
+  // indented with contentLeftMargin
+  titleNode?: Node | null;
+
+  // if provided, the content for the section which will be nested under the titleNode
+  contentNode?: Node | null;
+
+  // indentation for the contentNode (if provided) for layout as it is nested under the titleNode
+  contentLeftMargin?: number;
+};
+type PreferencesPanelSectionOptions = SelfOptions & StrictOmit<VBoxOptions, 'children'>;
+
 class PreferencesPanelSection extends VBox {
+  private readonly disposePreferencesPanelSection: () => void;
 
-  constructor( options ) {
-    options = merge( {
-
-      // VBox options
+  public constructor( providedOptions?: PreferencesPanelSectionOptions ) {
+    const options = optionize<PreferencesPanelSectionOptions, SelfOptions, VBoxOptions>()( {
       spacing: 20,
-
-      // section options
-      // {null|Node} - if provided, will be the title for the section and content will be nested under the titleNode
-      // indented with contentLeftMargin
       titleNode: null,
-
-      // {null|Node} - if provided, the content for the section which will be nested under the titleNode
       contentNode: null,
-
-      // {number} - indentation for the contentNode (if provided) for layout as it is nested under the titleNode
       contentLeftMargin: 30
-    }, options );
-    assert && assert( options.children === undefined, 'PreferencesPanelSection sets children' );
+    }, providedOptions );
 
     // layout - supports the layout of contentNode nested under the titleNode with indentation
     const sectionAlignGroup = new AlignGroup( { matchVertical: false } );
@@ -58,9 +63,8 @@ class PreferencesPanelSection extends VBox {
 
   /**
    * Disposal is necessary because this component uses AlignGroup.
-   * @public
    */
-  dispose() {
+  public override dispose(): void {
     this.disposePreferencesPanelSection();
     super.dispose();
   }
