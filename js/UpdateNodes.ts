@@ -9,13 +9,7 @@ import openPopup from '../../phet-core/js/openPopup.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import SpinningIndicatorNode from '../../scenery-phet/js/SpinningIndicatorNode.js';
-import { VoicingText } from '../../scenery/js/imports.js';
-import { HBox } from '../../scenery/js/imports.js';
-import { Path } from '../../scenery/js/imports.js';
-import { Rectangle } from '../../scenery/js/imports.js';
-import { RichText } from '../../scenery/js/imports.js';
-import { VBox } from '../../scenery/js/imports.js';
-import { VStrut } from '../../scenery/js/imports.js';
+import { HBox, Node, Path, Rectangle, RichText, VBox, VoicingText, VStrut } from '../../scenery/js/imports.js';
 import checkSolidShape from '../../sherpa/js/fontawesome-5/checkSolidShape.js';
 import exclamationTriangleSolidShape from '../../sherpa/js/fontawesome-5/exclamationTriangleSolidShape.js';
 import TextPushButton from '../../sun/js/buttons/TextPushButton.js';
@@ -23,6 +17,7 @@ import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import updateCheck from './updateCheck.js';
 import UpdateState from './UpdateState.js';
+import UpdateDialog from './UpdateDialog.js';
 
 const updatesCheckingString = joistStrings.updates.checking;
 const updatesGetUpdateString = joistStrings.updates.getUpdate;
@@ -37,16 +32,31 @@ const updatesYourCurrentVersionString = joistStrings.updates.yourCurrentVersion;
 const UPDATE_TEXT_FONT = new PhetFont( 14 );
 const MAX_WIDTH = 550; // Maximum width of the resulting update items
 
+type Options = {
+  big?: boolean;
+  centerX?: number;
+  centerY?: number;
+  left?: number;
+  top?: number;
+};
+
+type IStep = {
+  step: ( dt: number ) => void;
+  stepListener: ( dt: number ) => void;
+};
+
+type IStepHBox = IStep & HBox;
+
 const UpdateNodes = {
 
   /**
    * "Checking" state node. With two size options (if options.big == true, it will be bigger)
    *
-   * @param {Object} [options] - passed to the Node
-   * @returns {scenery.Node} the Checking node, with step( dt ) and stepListener (bound to the node itself)
-   * @public (joist-internal)
+   * [options] - passed to the Node
+   * returns step( dt ) and stepListener (bound to the node itself)
+   * (joist-internal)
    */
-  createCheckingNode: function( options ) {
+  createCheckingNode: function( options: Options ): Node & IStep {
     const spinningIndicatorNode = new SpinningIndicatorNode( { indicatorSize: options.big ? 24 : 18 } );
     const checkingNode = new HBox( merge( {
       spacing: options.big ? 10 : 8,
@@ -58,7 +68,7 @@ const UpdateNodes = {
           fontWeight: options.big ? 'bold' : 'normal'
         } )
       ]
-    }, options ) );
+    }, options ) ) as IStepHBox;
     checkingNode.step = function( dt ) {
       if ( updateCheck.stateProperty.value === UpdateState.CHECKING ) {
         spinningIndicatorNode.step( dt );
@@ -70,11 +80,10 @@ const UpdateNodes = {
 
   /**
    * "Up-to-date" state node
-   * @param {Object} [options] - passed to the Node
-   * @returns {scenery.Node}
-   * @public (joist-internal)
+   * [options] - passed to the Node
+   * (joist-internal)
    */
-  createUpToDateNode: function( options ) {
+  createUpToDateNode: function( options: Options ): Node {
     return new HBox( merge( {
       spacing: 8,
       maxWidth: MAX_WIDTH,
@@ -101,15 +110,13 @@ const UpdateNodes = {
 
   /**
    * "Out-of-date" state node for the "About" dialog.
-   * @param {Object} [options] - passed to the Node
-   * @returns {scenery.Node}
-   * @public (joist-internal)
+   * [options] - passed to the Node
+   * (joist-internal)
    */
-  createOutOfDateAboutNode: function( options ) {
+  createOutOfDateAboutNode: function( options: Options ): Node {
     const text = phet.chipper.queryParameters.allowLinks ? `<a href="{{url}}">${updatesOutOfDateString}</a>` : updatesOutOfDateString;
-    const links = phet.chipper.queryParameters.allowLinks ? { url: updateCheck.updateURL } : {};
     const linkNode = new RichText( text, {
-      links: links, // RichText must fill in URL for link
+      links: phet.chipper.queryParameters.allowLinks && { url: updateCheck.updateURL }, // RichText must fill in URL for link
       font: UPDATE_TEXT_FONT
     } );
     return new HBox( merge( {
@@ -131,14 +138,11 @@ const UpdateNodes = {
 
   /**
    * "Out-of-date" state node for the "Check for update" dialog.
-   * @param {UpdateDialog} dialog - the dialog, so that it can be closed with the "No thanks..." button
-   * @param {string} ourVersionString
-   * @param {string} latestVersionString
-   * @param {Object} [options] - passed to the Node
-   * @returns {scenery.Node}
-   * @public (joist-internal)
+   * dialog - the dialog, so that it can be closed with the "No thanks..." button
+   * [options] - passed to the Node
+   * (joist-internal)
    */
-  createOutOfDateDialogNode: function( dialog, ourVersionString, latestVersionString, options ) {
+  createOutOfDateDialogNode: function( dialog: UpdateDialog, ourVersionString: string, latestVersionString: string, options: Options ): Node {
     return new VBox( merge( {
       spacing: 15,
       maxWidth: MAX_WIDTH,
@@ -175,11 +179,10 @@ const UpdateNodes = {
 
   /**
    * "Offline" state node
-   * @param {Object} [options] - passed to the Node
-   * @returns {scenery.Node}
-   * @public (joist-internal)
+   * [options] - passed to the Node
+   * (joist-internal)
    */
-  createOfflineNode: function( options ) {
+  createOfflineNode: function( options: Options ): Node {
     return new HBox( merge( {
       spacing: 0,
       maxWidth: MAX_WIDTH,
