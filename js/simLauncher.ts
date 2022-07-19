@@ -8,41 +8,46 @@
  */
 
 import asyncLoader from '../../phet-core/js/asyncLoader.js';
+import { PhetioEngine } from '../../phet-io/js/phetioEngine.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
 
 // See below for dynamic imports, which must be locked.
-let phetioEngine = null; // {null|PhetioEngine}
+let phetioEngine: PhetioEngine | null = null;
 
 const unlockBrand = asyncLoader.createLock( { name: 'brand' } );
-import( /* webpackMode: "eager" */ `../../brand/${phet.chipper.brand}/js/Brand.js` ).then( module => unlockBrand() );
+import( /* webpackMode: "eager" */ `../../brand/${phet.chipper.brand}/js/Brand.js` )
+  .then( module => unlockBrand() )
+  .catch( err => console.log( err ) );
 
 if ( Tandem.PHET_IO_ENABLED ) {
   const unlockPhetioEngine = asyncLoader.createLock( { name: 'phetioEngine' } );
-  import( /* webpackMode: "eager" */ '../../phet-io/js/phetioEngine.js' ).then( module => {
-    phetioEngine = module.default;
-    unlockPhetioEngine();
-  } );
+  import( /* webpackMode: "eager" */ '../../phet-io/js/phetioEngine.js' )
+    .then( module => {
+      phetioEngine = module.default;
+      unlockPhetioEngine();
+    } )
+    .catch( err => console.log( err ) );
 }
 
 const unlockLaunch = asyncLoader.createLock( { name: 'launch' } );
 
 class SimLauncher {
-  constructor() {
 
-    // @private {boolean} - Marked as true when simLauncher has finished its work cycle and control is given over to the
-    // simulation to finish initialization.
+  private launchComplete: boolean; // Marked as true when simLauncher has finished its work cycle and control is given over to the simulation to finish initialization.
+
+  public constructor() {
     this.launchComplete = false;
   }
 
   /**
    * Launch the Sim by preloading the images and calling the callback.
-   * @public - to be called by main()s everywhere
+   * to be called by main()s everywhere
    *
-   * @param {function} callback - the callback function which should create and start the sim, given that all async
+   * callback - the callback function which should create and start the sim, given that all async
    *                              content is loaded
    */
-  launch( callback ) {
+  public launch( callback: () => void ): void {
     assert && assert( !window.phet.joist.launchCalled, 'Tried to launch twice' );
 
     // Add listener before unlocking the launch lock
@@ -55,7 +60,7 @@ class SimLauncher {
         // once launchSimulation has been called, the wrapper is ready to receive messages because any listeners it
         // wants have been set up by now.
         if ( Tandem.PHET_IO_ENABLED ) {
-          phetioEngine.onCrossFrameListenersReady();
+          phetioEngine?.onCrossFrameListenersReady();
         }
 
         // Instantiate the sim and show it.
@@ -64,7 +69,7 @@ class SimLauncher {
 
       // PhET-iO simulations support an initialization phase (before the sim launches)
       if ( Tandem.PHET_IO_ENABLED ) {
-        phetioEngine.initialize(); // calls back to window.phet.joist.launchSimulation
+        phetioEngine?.initialize(); // calls back to window.phet.joist.launchSimulation
       }
 
       if ( phet.chipper.queryParameters.postMessageOnReady ) {
