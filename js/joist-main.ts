@@ -22,7 +22,9 @@ const simOptions: SimOptions = {
   }
 };
 
-class DemoModel {}
+class DemoModel {
+  public step(): void { /* no stepping here */ }
+}
 
 simLauncher.launch( () => {
 
