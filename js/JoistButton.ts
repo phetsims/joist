@@ -80,10 +80,7 @@ export default class JoistButton extends Voicing( Node, 0 ) {
 
     options.children = [ content, brightenHighlight, darkenHighlight ];
 
-    super();
-
-    // We want to mutate eagerly, but must do so after initializing Voicing properties
-    this.mutate( options );
+    super( options );
 
     this.buttonModel = new PushButtonModel( options );
 
@@ -129,7 +126,7 @@ export default class JoistButton extends Voicing( Node, 0 ) {
    * Is the button currently firing because of accessibility input coming from the PDOM?
    * (pdom)
    */
- public isPDOMClicking(): boolean {
+  public isPDOMClicking(): boolean {
     return this._pressListener.pdomClickingProperty.get();
   }
 }
