@@ -9,7 +9,7 @@
 
 import joist from '../joist.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
-import { Text } from '../../../scenery/js/imports.js';
+import { Node, Text } from '../../../scenery/js/imports.js';
 import PreferencesDialog from './PreferencesDialog.js';
 
 // This is NOT translatable yet. This is still being designed and I don't want
