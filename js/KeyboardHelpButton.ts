@@ -24,6 +24,7 @@ import Screen from './Screen.js';
 import ScreenView from './ScreenView.js';
 import IModel from './IModel.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 
 // constants
 const keyboardShortcutsString = joistStrings.a11y.keyboardHelp.keyboardShortcuts;
@@ -41,7 +42,7 @@ class KeyboardHelpButton extends JoistButton {
    * @param [providedOptions]
    */
   public constructor( screenProperty: Property<Screen<IModel, ScreenView>>,
-                      backgroundColorProperty: Property<Color>,
+                      backgroundColorProperty: IReadOnlyProperty<Color>,
                       providedOptions: KeyboardHelpButtonOptions ) {
 
     const options = optionize<KeyboardHelpButtonOptions, SelfOptions, JoistButtonOptions>()( {

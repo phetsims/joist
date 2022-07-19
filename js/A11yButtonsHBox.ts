@@ -6,32 +6,34 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import merge from '../../phet-core/js/merge.js';
 import platform from '../../phet-core/js/platform.js';
-import { HBox } from '../../scenery/js/imports.js';
+import { Color, HBox, HBoxOptions } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import audioManager from './audioManager.js';
 import joist from './joist.js';
 import KeyboardHelpButton from './KeyboardHelpButton.js';
 import NavigationBarAudioToggleButton from './NavigationBarAudioToggleButton.js';
 import NavigationBarPreferencesButton from './preferences/NavigationBarPreferencesButton.js';
+import Sim from './Sim.js';
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
+import optionize from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+
+type SelfOptions = EmptyObjectType;
+export type A11yButtonsHBoxOptions = SelfOptions & StrictOmit<HBoxOptions, 'children'>;
 
 class A11yButtonsHBox extends HBox {
 
-  /**
-   * @param {Sim} sim
-   * @param {Property.<Color|string>} backgroundColorProperty
-   * @param {Object} [options]
-   */
-  constructor( sim, backgroundColorProperty, options ) {
+  public constructor( sim: Sim, backgroundColorProperty: IReadOnlyProperty<Color>, providedOptions?: A11yButtonsHBoxOptions ) {
 
-    options = merge( {
+    const options = optionize<A11yButtonsHBoxOptions, SelfOptions, HBoxOptions>()( {
       align: 'center',
       spacing: 6,
 
       // This Node is not instrumented! This tandem is instead just used to instrument child elements.
       tandem: Tandem.REQUIRED
-    }, options );
+    }, providedOptions );
 
     // list of optional buttons added for a11y
     const a11yButtons = [];
@@ -72,7 +74,6 @@ class A11yButtonsHBox extends HBox {
       }
     }
 
-    assert && assert( !options.children, 'A11yButtonsHBox sets children' );
     options.children = a11yButtons;
 
     // Don't instrument this Node, only its child elements.

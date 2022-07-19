@@ -6,7 +6,6 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import Property from '../../../axon/js/Property.js';
 import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { Color, Path } from '../../../scenery/js/imports.js';
@@ -19,13 +18,15 @@ import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesManager from './PreferencesManager.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import IReadOnlyProperty from '../../../axon/js/IReadOnlyProperty.js';
 
 type SelfOptions = EmptyObjectType;
 export type NavigationBarPreferencesButtonOptions = SelfOptions & PickRequired<JoistButtonOptions, 'tandem'>;
 
 class NavigationBarPreferencesButton extends JoistButton {
 
-  public constructor( preferencesModel: PreferencesManager, backgroundColorProperty: Property<Color>, providedOptions: NavigationBarPreferencesButtonOptions ) {
+  public constructor( preferencesModel: PreferencesManager, backgroundColorProperty: IReadOnlyProperty<Color>,
+                      providedOptions: NavigationBarPreferencesButtonOptions ) {
 
     const options = optionize<NavigationBarPreferencesButtonOptions, SelfOptions, JoistButtonOptions>()( {
 

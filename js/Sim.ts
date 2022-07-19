@@ -192,7 +192,7 @@ export default class Sim extends PhetioObject {
 
   // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
   private readonly supportsGestureDescription: boolean;
-  private readonly hasKeyboardHelpContent: boolean;
+  public readonly hasKeyboardHelpContent: boolean;
 
   // if PhET-iO is currently setting the state of the simulation. See PhetioStateEngine for details. This must be
   // declared before soundManager.initialized is called.
