@@ -8,6 +8,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import { Utils } from '../../scenery/js/imports.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -19,11 +20,41 @@ import NumberIO from '../../tandem/js/types/NumberIO.js';
 import ObjectLiteralIO from '../../tandem/js/types/ObjectLiteralIO.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
 import joist from './joist.js';
+import Screen from './Screen.js';
 import packageJSON from './packageJSON.js';
+import Sim from './Sim.js';
+
+type ScreenState = {
+  name: string;
+  phetioID?: string;
+};
+
+export type SimInfoState = {
+  simName: string;
+  screens: ScreenState[];
+  repoName: string;
+
+  screenPropertyValue: string;
+  wrapperMetadata: null | Record<string, IntentionalAny>; // TODO: structured clonable type, https://github.com/phetsims/phet-io/issues/1865
+  dataStreamVersion: string;
+  phetioCommandProcessorProtocol: string;
+  simVersion: string | null;
+  randomSeed: number | null;
+  url: string | null;
+  userAgent: string | null;
+  window: string | null;
+  referrer: string | null;
+  language: string | null;
+  pixelRatio: string | null;
+  isWebGLSupported: boolean | null;
+  checkIE11StencilSupport: boolean | null;
+  flags: string | null;
+};
 
 class SimInfo extends PhetioObject {
+  private readonly info: SimInfoState = {} as SimInfoState;
 
-  constructor( sim ) {
+  public constructor( sim: Sim ) {
     super( {
       tandem: Tandem.GENERAL_MODEL.createTandem( 'simInfo' ),
       phetioType: SimInfo.SimInfoIO,
@@ -33,9 +64,6 @@ class SimInfo extends PhetioObject {
     } );
 
     assert && assert( Array.isArray( sim.screens ), 'screens should be set and an array' );
-
-    // @public (SimInfoIO)
-    this.info = {};
 
     // globals
     this.putInfo( 'url', window.location.href );
@@ -51,24 +79,29 @@ class SimInfo extends PhetioObject {
       this.putInfo( 'isWebGLSupported', Utils.isWebGLSupported );
     }
 
-    let canvas;
-    let context;
-    let backingStorePixelRatio;
+    let canvas: HTMLCanvasElement | null;
+    let context: CanvasRenderingContext2D;
+    let backingStorePixelRatio: number;
+
+    const flags = [];
+
+    // @ts-ignore
+    if ( window.navigator.pointerEnabled ) { flags.push( 'pointerEnabled' ); }
+
+    // @ts-ignore
+    if ( window.navigator.msPointerEnabled ) { flags.push( 'msPointerEnabled' ); }
+    if ( !window.navigator.onLine ) { flags.push( 'offline' ); }
 
     try {
       canvas = document.createElement( 'canvas' );
-      context = canvas.getContext( '2d' );
-      backingStorePixelRatio = Utils.backingStorePixelRatio( context );
+      context = canvas.getContext( '2d' )!;
+      backingStorePixelRatio = Utils.backingStorePixelRatio( context )!;
+      this.putInfo( 'pixelRatio', `${window.devicePixelRatio || 1}/${backingStorePixelRatio}` );
+
+      if ( ( window.devicePixelRatio || 1 ) / backingStorePixelRatio !== 1 ) { flags.push( 'pixelRatioScaling' ); }
     }
-    catch( e ) {} // eslint-disable-line
+    catch( e ) {} // eslint-disable-line no-empty
 
-    this.putInfo( 'pixelRatio', `${window.devicePixelRatio || 1}/${backingStorePixelRatio}` );
-
-    const flags = [];
-    if ( window.navigator.pointerEnabled ) { flags.push( 'pointerEnabled' ); }
-    if ( window.navigator.msPointerEnabled ) { flags.push( 'msPointerEnabled' ); }
-    if ( !window.navigator.onLine ) { flags.push( 'offline' ); }
-    if ( ( window.devicePixelRatio || 1 ) / backingStorePixelRatio !== 1 ) { flags.push( 'pixelRatioScaling' ); }
     this.putInfo( 'flags', flags.join( ', ' ) );
 
     canvas = null; // dispose only reference
@@ -77,8 +110,8 @@ class SimInfo extends PhetioObject {
     this.putInfo( 'simName', sim.simNameProperty.value );
     this.putInfo( 'simVersion', sim.version );
     this.putInfo( 'repoName', packageJSON.name );
-    this.putInfo( 'screens', sim.screens.map( screen => {
-      const screenObject = {
+    this.putInfo( 'screens', sim.screens.map( ( screen: Screen ) => {
+      const screenObject: ScreenState = {
 
         // likely null for single screen sims, so use the sim name as a default
         name: screen.nameProperty.value || sim.simNameProperty.value
@@ -98,71 +131,67 @@ class SimInfo extends PhetioObject {
     }
   }
 
-  /**
-   * @private
-   * @param {string} key
-   * @param {*} value
-   */
-  putInfo( key, value ) {
+  private putInfo( key: keyof SimInfoState, value: IntentionalAny ): void {
     if ( value === undefined ) {
       value = '{{undefined}}';
     }
     assert && assert( !this.info.hasOwnProperty( key ), `key already defined: ${key}` );
+
+    // @ts-ignore I don't know how to ensure the correct value, just the key
     this.info[ key ] = value;
   }
+
+  public static SimInfoIO = new IOType<SimInfo, SimInfoState>( 'SimInfoIO', {
+    valueType: SimInfo,
+    toStateObject: simInfo => {
+      return {
+        simName: simInfo.info.simName,
+        screens: simInfo.info.screens,
+        repoName: simInfo.info.repoName,
+
+        screenPropertyValue: simInfo.info.screenPropertyValue,
+        dataStreamVersion: simInfo.info.dataStreamVersion,
+        phetioCommandProcessorProtocol: simInfo.info.phetioCommandProcessorProtocol,
+
+        simVersion: Tandem.API_GENERATION ? null : simInfo.info.simVersion,
+        wrapperMetadata: Tandem.API_GENERATION ? null : simInfo.info.wrapperMetadata,
+        randomSeed: Tandem.API_GENERATION ? null : simInfo.info.randomSeed,
+        url: Tandem.API_GENERATION ? null : simInfo.info.url,
+        userAgent: Tandem.API_GENERATION ? null : simInfo.info.userAgent,
+        window: Tandem.API_GENERATION ? null : simInfo.info.window,
+        referrer: Tandem.API_GENERATION ? null : simInfo.info.referrer,
+        language: Tandem.API_GENERATION ? null : simInfo.info.language,
+        pixelRatio: Tandem.API_GENERATION ? null : simInfo.info.pixelRatio,
+        isWebGLSupported: Tandem.API_GENERATION ? null : simInfo.info.isWebGLSupported,
+        checkIE11StencilSupport: Tandem.API_GENERATION ? null : simInfo.info.checkIE11StencilSupport,
+        flags: Tandem.API_GENERATION ? null : simInfo.info.flags || null
+      };
+    },
+    stateSchema: {
+      simName: StringIO,
+      screens: ArrayIO( ObjectLiteralIO ),
+      repoName: StringIO,
+
+      screenPropertyValue: StringIO,
+      wrapperMetadata: NullableIO( ObjectLiteralIO ),
+      dataStreamVersion: StringIO,
+      phetioCommandProcessorProtocol: StringIO,
+
+      // Parts that are omitted in API generation
+      simVersion: NullableIO( StringIO ),
+      randomSeed: NullableIO( NumberIO ),
+      url: NullableIO( StringIO ),
+      userAgent: NullableIO( StringIO ),
+      window: NullableIO( StringIO ),
+      referrer: NullableIO( StringIO ),
+      language: NullableIO( StringIO ),
+      pixelRatio: NullableIO( StringIO ),
+      isWebGLSupported: NullableIO( BooleanIO ),
+      checkIE11StencilSupport: NullableIO( BooleanIO ),
+      flags: NullableIO( StringIO )
+    }
+  } );
 }
-
-// @private
-SimInfo.SimInfoIO = new IOType( 'SimInfoIO', {
-  valueType: SimInfo,
-  toStateObject: simInfo => {
-    return {
-      simName: simInfo.info.simName,
-      screens: simInfo.info.screens,
-      repoName: simInfo.info.repoName,
-
-      screenPropertyValue: simInfo.info.screenPropertyValue,
-      dataStreamVersion: simInfo.info.dataStreamVersion,
-      phetioCommandProcessorProtocol: simInfo.info.phetioCommandProcessorProtocol,
-
-      simVersion: Tandem.API_GENERATION ? null : simInfo.info.simVersion,
-      wrapperMetadata: Tandem.API_GENERATION ? null : simInfo.info.wrapperMetadata,
-      randomSeed: Tandem.API_GENERATION ? null : simInfo.info.randomSeed,
-      url: Tandem.API_GENERATION ? null : simInfo.info.url,
-      userAgent: Tandem.API_GENERATION ? null : simInfo.info.userAgent,
-      window: Tandem.API_GENERATION ? null : simInfo.info.window,
-      referrer: Tandem.API_GENERATION ? null : simInfo.info.referrer,
-      language: Tandem.API_GENERATION ? null : simInfo.info.language,
-      pixelRatio: Tandem.API_GENERATION ? null : simInfo.info.pixelRatio,
-      isWebGLSupported: Tandem.API_GENERATION ? null : simInfo.info.isWebGLSupported,
-      checkIE11StencilSupport: Tandem.API_GENERATION ? null : simInfo.info.checkIE11StencilSupport,
-      flags: Tandem.API_GENERATION ? null : simInfo.info.flags || null
-    };
-  },
-  stateSchema: {
-    simName: StringIO,
-    screens: ArrayIO( ObjectLiteralIO ),
-    repoName: StringIO,
-
-    screenPropertyValue: StringIO,
-    wrapperMetadata: NullableIO( ObjectLiteralIO ),
-    dataStreamVersion: StringIO,
-    phetioCommandProcessorProtocol: StringIO,
-
-    // Parts that are omitted in API generation
-    simVersion: NullableIO( StringIO ),
-    randomSeed: NullableIO( NumberIO ),
-    url: NullableIO( StringIO ),
-    userAgent: NullableIO( StringIO ),
-    window: NullableIO( StringIO ),
-    referrer: NullableIO( StringIO ),
-    language: NullableIO( StringIO ),
-    pixelRatio: NullableIO( StringIO ),
-    isWebGLSupported: NullableIO( BooleanIO ),
-    checkIE11StencilSupport: NullableIO( BooleanIO ),
-    flags: NullableIO( StringIO )
-  }
-} );
 
 joist.register( 'SimInfo', SimInfo );
 export default SimInfo;

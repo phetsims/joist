@@ -69,7 +69,7 @@ type SelfOptions = {
 export type ScreenOptions = SelfOptions & PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 // Parameterized on M=Model and V=View
-class Screen<M extends IModel, V extends ScreenView> extends PhetioObject {
+class Screen<M extends IModel = IModel, V extends ScreenView = ScreenView> extends PhetioObject {
 
   public backgroundColorProperty: Property<Color> | Property<string> | Property<Color | string>;
 

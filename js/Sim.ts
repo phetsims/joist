@@ -155,7 +155,7 @@ export default class Sim extends PhetioObject {
   public readonly simScreens: Screen<IModel, ScreenView>[];
 
   // all screens that appear in the runtime of this sim, with the homeScreen first if it was created
-  private readonly screens: Screen<IModel, ScreenView>[];
+  public readonly screens: Screen<IModel, ScreenView>[];
 
   // the displayed name in the sim. This depends on what screens are shown this runtime (effected by query parameters).
   public readonly displayedSimNameProperty: IReadOnlyProperty<string>;
