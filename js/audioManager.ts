@@ -28,13 +28,42 @@ import Tandem from '../../tandem/js/Tandem.js';
 import responseCollector from '../../utterance-queue/js/responseCollector.js';
 import SpeechSynthesisAnnouncer from '../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import joist from './joist.js';
+import Sim from './Sim.js';
+import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 
 class AudioManager extends PhetioObject {
 
-  /**
-   * @param {Tandem} tandem
-   */
-  constructor( tandem ) {
+  // (joist-internal) - true if sound is supported and enabled
+  public readonly supportsSound: boolean;
+
+  // (joist-internal) - true if extraSound is supported, cannot support enhanced without supporting sound in general
+  public readonly supportsExtraSound: boolean;
+
+  // (joist-internal) - True if "Voicing" features or speech synthesis is supported, and we need to initialize the
+  // voicingManager for SpeechSynthesis.
+  public readonly supportsVoicing: boolean;
+
+  // (joist-internal) - True if any form of Audio is enabled in the simulation.
+  public readonly supportsAudio: boolean;
+
+  // Whether or not all features involving audio are enabled (including sound, extra sound, and voicing). When false,
+  // everything should be totally silent.
+  public readonly audioEnabledProperty: BooleanProperty;
+
+  // Indicates when both Audio and Sound are enabled. When false, the soundManager will not produce any sound.
+  public readonly audioAndSoundEnabledProperty: IReadOnlyProperty<boolean>;
+
+  // Indicates when both Audio and Voicing are enabled. When false, the voicingManager will not produce any speech.
+  public readonly audioAndVoicingEnabledProperty: IReadOnlyProperty<boolean>;
+
+  // Indicates when any subcomponent of audio is enabled. Note this will still be true when audio is disabled. It is
+  // only for subcomponents.
+  public readonly anySubcomponentEnabledProperty: IReadOnlyProperty<boolean>;
+
+  // Indicates when audio and at least one of its subcomponents are enabled. When false, there should be no auditory output.
+  public readonly anyOutputEnabledProperty: IReadOnlyProperty<boolean>;
+
+  public constructor( tandem: Tandem ) {
 
     super( {
       tandem: tandem,
@@ -43,38 +72,20 @@ class AudioManager extends PhetioObject {
                            'do not support these features, this element and its children can be ignored.'
     } );
 
-    // @public (joist-internal, read-only) {boolean} - true if sound is supported and enabled
     this.supportsSound = phet.chipper.queryParameters.supportsSound;
-
-    // @public (joist-internal, read-only) {boolean} - true if extraSound is supported, cannot support enhanced
-    // without supporting sound in general
     this.supportsExtraSound = this.supportsSound && phet.chipper.queryParameters.supportsExtraSound;
-
-    // @public {joist-internal, read-only) {boolean} - True if "Voicing" features or speech synthesis is supported,
-    // and we need to initialize the voicingManager for SpeechSynthesis.
     this.supportsVoicing = SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() && phet.chipper.queryParameters.supportsVoicing;
-
-    // @public {joist-internal, read-only) {boolean} - True if any form of Audio is enabled in the simulation.
     this.supportsAudio = phet.chipper.queryParameters.audio !== 'disabled' && ( this.supportsSound || this.supportsVoicing );
 
-    // @public {BooleanProperty} - Whether or not all features involving audio are enabled (including sound, extra
-    // sound, and voicing). When false, everything should be totally silent.
     this.audioEnabledProperty = new BooleanProperty( phet.chipper.queryParameters.audio === 'enabled', {
       tandem: tandem.createTandem( 'audioEnabledProperty' ),
       phetioFeatured: true,
       phetioDocumentation: 'determines whether audio features are enabled for this simulation'
     } );
 
-    // @public {DerivedProperty.<boolean>} - Indicates when both Audio and Sound are enabled. When false, the
-    // soundManager will not produce any sound.
     this.audioAndSoundEnabledProperty = DerivedProperty.and( [ this.audioEnabledProperty, soundManager.enabledProperty ] );
-
-    // @public {DerivedProperty.<boolean>} - Indicates when both Audio and Voicing are enabled. When false, the
-    // voicingManager will not produce any speech.
     this.audioAndVoicingEnabledProperty = DerivedProperty.and( [ this.audioEnabledProperty, voicingManager.enabledProperty ] );
 
-    // @public {DerivedProperty.<boolean> - Indicates when any subcomponent of audio is enabled. Note this will
-    // still be true when audio is disabled. It is only for subcomponents.
     this.anySubcomponentEnabledProperty = new DerivedProperty(
       [ soundManager.enabledProperty, voicingManager.enabledProperty ],
       ( soundEnabled, voicingEnabled ) => {
@@ -82,8 +93,6 @@ class AudioManager extends PhetioObject {
       }
     );
 
-    // @public {DerivedProperty.<boolean>} - Indicates when audio and at least one of its subcomponents are enabled.
-    // When false, there should be no auditory output.
     this.anyOutputEnabledProperty = new DerivedProperty(
       [ this.audioEnabledProperty, this.anySubcomponentEnabledProperty ],
       ( audioEnabled, anySubcomponentEnabled ) => {
@@ -119,9 +128,8 @@ class AudioManager extends PhetioObject {
 
   /**
    * Initialize the AudioManager and subcomponents.
-   * @public
    */
-  initialize( sim ) {
+  public initialize( sim: Sim ): void {
 
     if ( this.supportsSound ) {
       soundManager.initialize(
