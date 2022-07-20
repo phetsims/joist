@@ -45,7 +45,7 @@ class HomeScreenModel {
     } );
   }
 
-  public step(): void { /* no stepping here */ }
+  public step( dt: number ): void { /* no stepping here */ }
 }
 
 joist.register( 'HomeScreenModel', HomeScreenModel );
