@@ -13,12 +13,11 @@ import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
 import Screen from './Screen.js';
-import ScreenView from './ScreenView.js';
 
 class HomeScreenModel {
-  public simScreens: Screen<IntentionalAny, ScreenView>[]; // screens in the simulations that are not the HomeScreen
-  public screenProperty: Property<Screen<IntentionalAny, ScreenView>>;
-  public selectedScreenProperty: Property<Screen<IntentionalAny, ScreenView>>;
+  public simScreens: Screen<IntentionalAny>[]; // screens in the simulations that are not the HomeScreen
+  public screenProperty: Property<Screen<IntentionalAny>>;
+  public selectedScreenProperty: Property<Screen<IntentionalAny>>;
 
   /**
    * @param screenProperty - the screen that is displayed to the user in the main area above the

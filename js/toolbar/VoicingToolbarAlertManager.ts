@@ -9,20 +9,18 @@
  */
 
 import Property from '../../../axon/js/Property.js';
-import IModel from '../IModel.js';
 import joist from '../joist.js';
 import Screen from '../Screen.js';
-import ScreenView from '../ScreenView.js';
 
 class VoicingToolbarAlertManager {
 
   // The active Screen for the simulation, to generate Voicing descriptions that are related to the active screen.
-  private readonly screenProperty: Property<Screen<IModel, ScreenView>>;
+  private readonly screenProperty: Property<Screen>;
 
   /**
    * @param screenProperty - indicates the active screen
    */
-  public constructor( screenProperty: Property<Screen<IModel, ScreenView>> ) {
+  public constructor( screenProperty: Property<Screen> ) {
     this.screenProperty = screenProperty;
   }
 

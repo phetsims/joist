@@ -38,8 +38,6 @@ import joistStrings from './joistStrings.js';
 import NavigationBarScreenButton from './NavigationBarScreenButton.js';
 import PhetButton from './PhetButton.js';
 import Sim from './Sim.js';
-import ScreenView from './ScreenView.js';
-import IModel from './IModel.js';
 import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import Screen from './Screen.js';
 
@@ -63,7 +61,7 @@ const SCREEN_BUTTON_SPACING = 0;
 const MINIMUM_SCREEN_BUTTON_WIDTH = 60; // Make sure each button is at least a minimum width so they don't get too close together, see #279
 
 class NavigationBar extends Node {
-  private readonly simScreens: Screen<IModel, ScreenView>[];
+  private readonly simScreens: Screen[];
   private readonly navigationBarFillProperty: ReadOnlyProperty<Color>;
   private readonly background: Rectangle;
   private readonly barContents: Node;
