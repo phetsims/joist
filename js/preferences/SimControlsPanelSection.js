@@ -18,7 +18,7 @@ const simulationSpecificSettingsString = 'Simulation-specific Settings';
 class SimControlsPanelSection extends PreferencesPanelSection {
 
   /**
-   * @param {Node} simControls - Node with sim specific controls
+   * @param {../../../scenery/js/Node} simControls - Node with sim specific controls
    */
   constructor( simControls ) {
     super( {

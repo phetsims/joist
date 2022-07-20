@@ -8,7 +8,7 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
-import { VBox, VoicingRichText } from '../../../scenery/js/imports.js';
+import { Node, VBox, VBoxOptions, VoicingRichText } from '../../../scenery/js/imports.js';
 import HSeparator from '../../../sun/js/HSeparator.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
@@ -16,20 +16,26 @@ import joistStrings from '../joistStrings.js';
 import LocalizationControlsPanelSection from './LocalizationControlsPanelSection.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import SimControlsPanelSection from './SimControlsPanelSection.js';
+import { GeneralModel } from './PreferencesManager.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
 
 // constants
 const accessibilityIntroString = joistStrings.preferences.tabs.general.accessibilityIntro;
 const moreAccessibilityString = joistStrings.preferences.tabs.general.moreAccessibility;
 
+type SelfOptions = EmptyObjectType;
+type GeneralPreferencesPanelOptions = SelfOptions & VBoxOptions;
+
 class GeneralPreferencesPanel extends VBox {
+  private readonly disposeGeneralPreferencesPanel: () => void;
 
   /**
-   * @param {Object} generalModel - configuration for the Tab, see PreferencesManager for entries
-   * @param {Object} [options]
+   * @param generalModel - configuration for the Tab, see PreferencesManager for entries
+   * @param [providedOptions]
    */
-  constructor( generalModel, options ) {
-
-    options = merge( {
+  public constructor( generalModel: GeneralModel, providedOptions?: GeneralPreferencesPanelOptions ) {
+    const options = optionize<GeneralPreferencesPanelOptions, SelfOptions, VBoxOptions>()( {
       align: 'left',
       spacing: 20,
 
@@ -40,7 +46,7 @@ class GeneralPreferencesPanel extends VBox {
 
       // phet-io
       tandem: Tandem.REQUIRED
-    }, options );
+    }, providedOptions );
 
     super( options );
 
@@ -68,10 +74,10 @@ class GeneralPreferencesPanel extends VBox {
     const providedChildren = [];
 
     // references to the controls and sections kept so that they can be disposed if necessary (mostly for phet-io)
-    let simControls = null;
-    let localizationControls = null;
-    let simControlsPanelSection = null;
-    let localizationControlsPanelSection = null;
+    let simControls: Node | null = null;
+    let localizationControls: Node | null = null;
+    let simControlsPanelSection: Node | null = null;
+    let localizationControlsPanelSection: Node | null = null;
 
     if ( generalModel.createSimControls ) {
       simControls = generalModel.createSimControls( options.tandem );
@@ -96,7 +102,6 @@ class GeneralPreferencesPanel extends VBox {
 
     this.children = panelContent;
 
-    // @private
     this.disposeGeneralPreferencesPanel = () => {
       simControls && simControls.dispose();
       localizationControls && localizationControls.dispose();
@@ -106,8 +111,7 @@ class GeneralPreferencesPanel extends VBox {
     };
   }
 
-  // @public
-  dispose() {
+  public override dispose(): void {
     this.disposeGeneralPreferencesPanel();
     super.dispose();
   }
