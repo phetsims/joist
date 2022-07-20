@@ -7,75 +7,83 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import Property from '../../../axon/js/Property.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import merge from '../../../phet-core/js/merge.js';
-import { Node } from '../../../scenery/js/imports.js';
-import ToggleSwitch from '../../../sun/js/ToggleSwitch.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import { Node, NodeOptions } from '../../../scenery/js/imports.js';
+import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import { ResolvedResponse } from '../../../utterance-queue/js/ResponsePacket.js';
 import Utterance from '../../../utterance-queue/js/Utterance.js';
 import joist from '../joist.js';
 
-class PreferencesToggleSwitch extends Node {
+// This ToggleSwitch is not
+type ConstrainedToggleSwitchOptions = StrictOmit<ToggleSwitchOptions, 'innerContent' | 'voicingIgnoreVoicingManagerProperties'>;
 
-  /**
-   * @param {Property} property
-   * @param {*} leftValue
-   * @param {*} rightValue
-   * @param {Object} [options]
-   */
-  constructor( property, leftValue, rightValue, options ) {
-    options = merge( {
+type SelfOptions = {
 
-      // {null|Node} - if provided, a label Node to the left of the toggle switch control
+  // if provided, a label Node to the left of the toggle switch control
+  labelNode?: null | Node;
+
+  // horizontal spacing between label for the component and toggle switch IF there is no descriptionNode.
+  // If a descriptionNode is provided, layout of the labelNode will be relative to the description.
+  // If there is a leftValueLabel it will be the horizontal spacing between the labelNode and the leftValueLabel.
+  labelSpacing?: number;
+
+  // if provided, a label to the left and right of the switch describing the state values
+  leftValueLabel?: null | Node;
+  rightValueLabel?: null | Node;
+
+  // horizontal spacing between the toggle switch and left/right value labels
+  valueLabelXSpacing?: 8;
+
+  // if provided, a Node under the ToggleSwitch and label that is meant to describe the purpose of the switch
+  descriptionNode?: null | Node;
+
+  // vertical spacing between ToggleSwitch and description Node
+  descriptionSpacing?: 5;
+
+  // Sets both the inner content and the voicing response for the toggle switch on focus.
+  // NOTE?: Seeing more overlap like this between PDOM and voicing (which is good) but not sure how it will
+  // all work yet. This option is the first of its kind.
+  a11yLabel?: null | string;
+
+  // a11y
+  // If provided, these responses will be spoken to describe the change in simulation context
+  // for both Voicing and Interactive Description features when the value changes to either leftValue or
+  // rightValue.
+  leftValueContextResponse?: ResolvedResponse;
+  rightValueContextResponse?: ResolvedResponse;
+
+  // options passed to the actual ToggleSwitch
+  toggleSwitchOptions?: ConstrainedToggleSwitchOptions;
+};
+
+type PreferencesToggleSwitchOptions = SelfOptions & NodeOptions;
+
+class PreferencesToggleSwitch<T> extends Node {
+  private readonly disposePreferencesToggleSwitch: () => void;
+
+  public constructor( property: Property<T>, leftValue: T, rightValue: T, providedOptions?: PreferencesToggleSwitchOptions ) {
+    const options = optionize<PreferencesToggleSwitchOptions, SelfOptions, NodeOptions>()( {
       labelNode: null,
-
-      // {number} - horizontal spacing between label for the component and toggle switch IF there is no descriptionNode.
-      // If a descriptionNode is provided, layout of the labelNode will be relative to the description.
-      // If there is a leftValueLabel it will be the horizontal spacing between the labelNode and the leftValueLabel.
       labelSpacing: 10,
-
-      // {null|Node} - if provided, a label to the left and right of the switch describing the state values
       leftValueLabel: null,
       rightValueLabel: null,
-
-      // {number} - horizontal spacing between the toggle switch and left/right value labels
       valueLabelXSpacing: 8,
-
-      // {null|Node} - if provided, a Node under the ToggleSwitch and label that is meant to describe the purpose
-      // of the switch
       descriptionNode: null,
-
-      // {number} - vertical spacing between ToggleSwitch and description Node
       descriptionSpacing: 5,
-
-      // {string|null} - Sets both the inner content and the voicing response for the toggle switch on focus.
-      // NOTE: Seeing more overlap like this between PDOM and voicing (which is good) but not sure how it will
-      // all work yet. This option is the first of its kind.
       a11yLabel: null,
-
-      // a11y
-      // {IAlertable|null} - If provided, these responses will be spoken to describe the change in simulation context
-      // for both Voicing and Interactive Description features when the value changes to either leftValue or
-      // rightValue.
       leftValueContextResponse: null,
       rightValueContextResponse: null,
-
-      // {Object} - options passed to the actual ToggleSwitch
       toggleSwitchOptions: {
         size: new Dimension2( 36, 18 ),
         trackFillRight: '#64bd5a'
       },
-
-      // phet-io
       tandem: Tandem.REQUIRED
-    }, options );
-    assert && assert( options.labelNode === null || options.labelNode instanceof Node, 'labelNode is null or inserted as child' );
-    assert && assert( options.descriptionNode === null || options.descriptionNode instanceof Node, 'labelNode is null or inserted as child' );
-
-    if ( options.toggleSwitchOptions ) {
-      assert && assert( options.toggleSwitchOptions.voicingIgnoreVoicingManagerProperties === undefined, 'PreferencesToggleSwitch creates object responses with a11yLabel option' );
-      assert && assert( options.toggleSwitchOptions.innerContent === undefined, 'PreferencesToggleSwitch creates object response with a11yLabel option' );
-    }
+    }, providedOptions );
 
     super( options );
 
@@ -108,7 +116,7 @@ class PreferencesToggleSwitch extends Node {
 
     // a11y - Describe the change in value if context responses were provided in options. Listener needs to be
     // removed on dispose.
-    const valueListener = value => {
+    const valueListener = ( value: T ) => {
       const alert = value === rightValue ? options.rightValueContextResponse : options.leftValueContextResponse;
 
       if ( alert ) {
@@ -154,17 +162,13 @@ class PreferencesToggleSwitch extends Node {
       options.labelNode.rightCenter = toggleSwitch.leftCenter.minusXY( options.labelSpacing, 0 );
     }
 
-    // @private
     this.disposePreferencesToggleSwitch = () => {
       property.unlink( valueListener );
       toggleSwitch.dispose();
     };
   }
 
-  /**
-   * @public
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposePreferencesToggleSwitch();
     super.dispose();
   }

@@ -7,7 +7,6 @@
  */
 
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
-import IProperty from '../../../axon/js/IProperty.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import Property from '../../../axon/js/Property.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
@@ -100,7 +99,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
    * @param toolbarEnabledProperty - whether the Toolbar is enabled for use
    * @param [providedOptions]
    */
-  public constructor( audioModel: AudioModel, toolbarEnabledProperty: IProperty<boolean>, providedOptions?: VoicingPanelSectionOptions ) {
+  public constructor( audioModel: AudioModel, toolbarEnabledProperty: Property<boolean>, providedOptions?: VoicingPanelSectionOptions ) {
 
     const options = optionize<VoicingPanelSectionOptions, SelfOptions, PreferencesPanelSectionOptions>()( {
       tandem: Tandem.REQUIRED
@@ -108,7 +107,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
     // the checkbox is the title for the section and totally enables/disables the feature
     const voicingLabel = new Text( voicingLabelString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
-    const voicingEnabledSwitch = new PreferencesToggleSwitch( audioModel.voicingEnabledProperty, false, true, {
+    const voicingEnabledSwitch = new PreferencesToggleSwitch<boolean>( audioModel.voicingEnabledProperty, false, true, {
       labelNode: voicingLabel,
       descriptionNode: new VoicingText( voicingDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternString, {
@@ -122,7 +121,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
     // checkbox for the toolbar
     const quickAccessLabel = new Text( toolbarLabelString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
-    const toolbarEnabledSwitch = new PreferencesToggleSwitch( toolbarEnabledProperty, false, true, {
+    const toolbarEnabledSwitch = new PreferencesToggleSwitch<boolean>( toolbarEnabledProperty, false, true, {
       labelNode: quickAccessLabel,
       a11yLabel: toolbarLabelString,
       leftValueContextResponse: toolbarRemovedString,

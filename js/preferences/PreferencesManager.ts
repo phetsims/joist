@@ -32,8 +32,8 @@ export type AudioModel = {
   simSoundEnabledProperty: IProperty<boolean>;
   soundEnabledProperty: IProperty<boolean>;
   extraSoundEnabledProperty: IProperty<boolean>;
-  voicingEnabledProperty: IProperty<boolean>;
-  voicingMainWindowVoicingEnabledProperty: IProperty<boolean>;
+  voicingEnabledProperty: Property<boolean>;
+  voicingMainWindowVoicingEnabledProperty: Property<boolean>;
   voicingObjectResponsesEnabledProperty: Property<boolean>;
   voicingContextResponsesEnabledProperty: Property<boolean>;
   voicingHintResponsesEnabledProperty: Property<boolean>;
