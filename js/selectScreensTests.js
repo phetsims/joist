@@ -3,6 +3,8 @@
 /**
  * QUnit tests for ScreenSelector
  *
+ * Porting to TS will require re-writing tests to create Screen fixtures.
+ *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
