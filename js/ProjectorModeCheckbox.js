@@ -11,9 +11,7 @@
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import merge from '../../phet-core/js/merge.js';
-import { Text } from '../../scenery/js/imports.js';
-import { SceneryConstants } from '../../scenery/js/imports.js';
-import { colorProfileProperty } from '../../scenery/js/imports.js';
+import { colorProfileProperty, SceneryConstants, Text } from '../../scenery/js/imports.js';
 import Checkbox from '../../sun/js/Checkbox.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';

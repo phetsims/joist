@@ -8,8 +8,7 @@
 
 import Multilink from '../../axon/js/Multilink.js';
 import { Shape } from '../../kite/js/imports.js';
-import optionize from '../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import { Color, FocusHighlightPath, Node, Path, Rectangle } from '../../scenery/js/imports.js';
 import homeSolidShape from '../../sherpa/js/fontawesome-5/homeSolidShape.js';
 import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';

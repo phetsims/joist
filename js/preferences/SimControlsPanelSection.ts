@@ -9,7 +9,7 @@
 import joist from '../joist.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
-import { Text, Node } from '../../../scenery/js/imports.js';
+import { Node, Text } from '../../../scenery/js/imports.js';
 
 // constants
 // This is NOT translatable yet because it does not appear in any published simulation.

@@ -6,8 +6,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import optionize from '../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import { Color, Path } from '../../../scenery/js/imports.js';
 import userCogSolidShape from '../../../sherpa/js/fontawesome-5/userCogSolidShape.js';
 import Dialog from '../../../sun/js/Dialog.js';

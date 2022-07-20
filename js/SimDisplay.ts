@@ -12,13 +12,7 @@
  */
 
 import optionize from '../../phet-core/js/optionize.js';
-import { DisplayOptions, KeyboardFuzzer, RendererType } from '../../scenery/js/imports.js';
-import { Display } from '../../scenery/js/imports.js';
-import { InputFuzzer } from '../../scenery/js/imports.js';
-import { animatedPanZoomSingleton } from '../../scenery/js/imports.js';
-import { Node } from '../../scenery/js/imports.js';
-import { scenery } from '../../scenery/js/imports.js';
-import { Utils } from '../../scenery/js/imports.js';
+import { animatedPanZoomSingleton, Display, DisplayOptions, InputFuzzer, KeyboardFuzzer, Node, RendererType, scenery, Utils } from '../../scenery/js/imports.js';
 import '../../sherpa/lib/game-up-camera-1.0.0.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import HighlightVisibilityController from './HighlightVisibilityController.js';

@@ -17,8 +17,7 @@ import LocalizationControlsPanelSection from './LocalizationControlsPanelSection
 import PreferencesDialog from './PreferencesDialog.js';
 import SimControlsPanelSection from './SimControlsPanelSection.js';
 import { GeneralModel } from './PreferencesManager.js';
-import optionize from '../../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 
 // constants
 const accessibilityIntroString = joistStrings.preferences.tabs.general.accessibilityIntro;

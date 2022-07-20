@@ -7,8 +7,7 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
-import optionize from '../../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import { Node, NodeOptions, Text, VoicingRichText } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';

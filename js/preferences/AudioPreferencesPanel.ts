@@ -7,8 +7,7 @@
  */
 
 import Property from '../../../axon/js/Property.js';
-import optionize from '../../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import { HBox, Node, Text, VBox, VBoxOptions } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';

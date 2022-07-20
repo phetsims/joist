@@ -16,8 +16,7 @@ import NavigationBarAudioToggleButton from './NavigationBarAudioToggleButton.js'
 import NavigationBarPreferencesButton from './preferences/NavigationBarPreferencesButton.js';
 import Sim from './Sim.js';
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
-import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = EmptySelfOptions;

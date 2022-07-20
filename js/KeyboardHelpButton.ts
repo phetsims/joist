@@ -8,7 +8,7 @@
  */
 
 import Property from '../../axon/js/Property.js';
-import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import { Color, Image, Node } from '../../scenery/js/imports.js';
 import Dialog from '../../sun/js/Dialog.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
@@ -19,7 +19,6 @@ import joist from './joist.js';
 import JoistButton, { JoistButtonOptions } from './JoistButton.js';
 import joistStrings from './joistStrings.js';
 import KeyboardHelpDialog from './KeyboardHelpDialog.js';
-import optionize from '../../phet-core/js/optionize.js';
 import Screen from './Screen.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';

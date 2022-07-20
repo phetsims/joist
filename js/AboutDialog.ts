@@ -8,8 +8,7 @@
 
 import stepTimer from '../../axon/js/stepTimer.js';
 import IBrand from '../../brand/js/IBrand.js';
-import optionize from '../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import { Node, PDOMPeer, RichText, VBox, VoicingRichText, VoicingText, VStrut } from '../../scenery/js/imports.js';

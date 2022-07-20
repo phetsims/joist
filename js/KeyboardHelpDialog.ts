@@ -6,8 +6,7 @@
  * @author Jesse Greenberg
  */
 
-import optionize from '../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import KeyboardHelpSection from '../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import TextKeyNode from '../../scenery-phet/js/keyboard/TextKeyNode.js';

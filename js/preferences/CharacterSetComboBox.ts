@@ -9,8 +9,7 @@ import joist from '../joist.js';
 import { HBox, Node, Text } from '../../../scenery/js/imports.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import Property from '../../../axon/js/Property.js';
-import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import optionize from '../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 
