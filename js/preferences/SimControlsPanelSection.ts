@@ -9,18 +9,14 @@
 import joist from '../joist.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
-import { Text } from '../../../scenery/js/imports.js';
+import { Text, Node } from '../../../scenery/js/imports.js';
 
 // constants
 // This is NOT translatable yet because it does not appear in any published simulation.
 const simulationSpecificSettingsString = 'Simulation-specific Settings';
 
 class SimControlsPanelSection extends PreferencesPanelSection {
-
-  /**
-   * @param {../../../scenery/js/Node} simControls - Node with sim specific controls
-   */
-  constructor( simControls ) {
+  public constructor( simControls: Node ) {
     super( {
       titleNode: new Text( simulationSpecificSettingsString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ),
       contentNode: simControls
