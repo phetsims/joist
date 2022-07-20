@@ -14,7 +14,6 @@ import PreferencesStorage from './PreferencesStorage.js';
 import soundManager from '../../../tambo/js/soundManager.js';
 import audioManager from '../audioManager.js';
 import PreferencesConfiguration, { AudioPreferencesOptions, GeneralPreferencesOptions, InputPreferencesOptions, VisualPreferencesOptions } from './PreferencesConfiguration.js';
-import IProperty from '../../../axon/js/IProperty.js';
 import Property from '../../../axon/js/Property.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 
@@ -25,13 +24,13 @@ export type VisualModel = {
   // Whether "Interactive Highlights" are enabled for the simulation. If enabled, focus highlights will appear around
   // focusable components with 'over' events, and persist around the focused element even with mouse and touch
   // interaction.
-  interactiveHighlightsEnabledProperty: IProperty<boolean>;
+  interactiveHighlightsEnabledProperty: Property<boolean>;
 } & Required<VisualPreferencesOptions>;
 
 export type AudioModel = {
-  simSoundEnabledProperty: IProperty<boolean>;
-  soundEnabledProperty: IProperty<boolean>;
-  extraSoundEnabledProperty: IProperty<boolean>;
+  simSoundEnabledProperty: Property<boolean>;
+  soundEnabledProperty: Property<boolean>;
+  extraSoundEnabledProperty: Property<boolean>;
   voicingEnabledProperty: Property<boolean>;
   voicingMainWindowVoicingEnabledProperty: Property<boolean>;
   voicingObjectResponsesEnabledProperty: Property<boolean>;
@@ -48,7 +47,7 @@ export type InputModel = {
   // like a screen reader. Horizontal swipes across the screen will move focus, double-taps will activate the
   // selected item, and tap then hold will initiate drag and drop interactions. Note that enabling this will generally
   // prevent all touch input from working as it does normally.
-  gestureControlsEnabledProperty: IProperty<boolean>;
+  gestureControlsEnabledProperty: Property<boolean>;
 
 } & Required<InputPreferencesOptions>;
 

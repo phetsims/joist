@@ -6,12 +6,15 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import merge from '../../../phet-core/js/merge.js';
-import { HBox, Text, VBox } from '../../../scenery/js/imports.js';
+import Property from '../../../axon/js/Property.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
+import { HBox, Node, Text, VBox, VBoxOptions } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
+import { AudioModel } from './PreferencesManager.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 import SoundPanelSection from './SoundPanelSection.js';
 import VoicingPanelSection from './VoicingPanelSection.js';
@@ -20,19 +23,20 @@ import VoicingPanelSection from './VoicingPanelSection.js';
 const audioFeaturesString = joistStrings.preferences.tabs.audio.audioFeatures.title;
 
 class AudioPreferencesTabPanel extends VBox {
+  private readonly disposeAudioPreferencesPanel: () => void;
 
   /**
-   * @param {Object} audioModel - configuration for audio settings, see PreferencesManager
-   * @param {BooleanProperty} enableToolbarProperty - whether the Toolbar is enabled
-   * @param {Object} [options]
+   * @param audioModel - configuration for audio settings, see PreferencesManager
+   * @param enableToolbarProperty - whether the Toolbar is enabled
+   * @param [providedOptions]
    */
-  constructor( audioModel, enableToolbarProperty, options ) {
+  public constructor( audioModel: AudioModel, enableToolbarProperty: Property<boolean>, providedOptions?: VBoxOptions ) {
 
-    options = merge( {
+    const options = optionize<VBoxOptions, EmptyObjectType, VBoxOptions>()( {
       tandem: Tandem.REQUIRED
-    }, options );
+    }, providedOptions );
 
-    const panelChildren = [];
+    const panelChildren: Node[] = [];
 
     if ( audioModel.supportsVoicing ) {
       panelChildren.push( new VoicingPanelSection( audioModel, enableToolbarProperty, {
@@ -64,7 +68,7 @@ class AudioPreferencesTabPanel extends VBox {
       tandem: options.tandem.createTandem( 'allAudioSwitch' )
     } );
 
-    const soundEnabledListener = enabled => {
+    const soundEnabledListener = ( enabled: boolean ) => {
       sections.enabled = enabled;
     };
 
@@ -81,7 +85,6 @@ class AudioPreferencesTabPanel extends VBox {
       labelContent: audioFeaturesString
     } );
 
-    // @private - for disposal
     this.disposeAudioPreferencesPanel = () => {
       panelChildren.forEach( child => child.dispose() );
       allAudioSwitch.dispose();
@@ -89,10 +92,7 @@ class AudioPreferencesTabPanel extends VBox {
     };
   }
 
-  /**
-   * @public
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeAudioPreferencesPanel();
     super.dispose();
   }
