@@ -7,16 +7,21 @@
  */
 
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
+import IProperty from '../../../axon/js/IProperty.js';
+import NumberProperty from '../../../axon/js/NumberProperty.js';
+import Property from '../../../axon/js/Property.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import Range from '../../../dot/js/Range.js';
 import Utils from '../../../dot/js/Utils.js';
 import merge from '../../../phet-core/js/merge.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import NumberControl from '../../../scenery-phet/js/NumberControl.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { FocusHighlightFromNode, Node, PressListener, Text, VBox, Voicing, voicingManager, VoicingText } from '../../../scenery/js/imports.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
-import ComboBox from '../../../sun/js/ComboBox.js';
+import ComboBox, { ComboBoxOptions } from '../../../sun/js/ComboBox.js';
 import ExpandCollapseButton from '../../../sun/js/ExpandCollapseButton.js';
 import HSlider from '../../../sun/js/HSlider.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -24,7 +29,8 @@ import Utterance from '../../../utterance-queue/js/Utterance.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
-import PreferencesPanelSection from './PreferencesPanelSection.js';
+import { AudioModel } from './PreferencesManager.js';
+import PreferencesPanelSection, { PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 
 // constants
@@ -83,18 +89,22 @@ VOICE_PITCH_DESCRIPTION_MAP.set( new Range( 1.5, 2 ), inHighRangeString );
 const THUMB_SIZE = new Dimension2( 13, 26 );
 const TRACK_SIZE = new Dimension2( 100, 5 );
 
+type SelfOptions = EmptyObjectType;
+type VoicingPanelSectionOptions = SelfOptions & PreferencesPanelSectionOptions;
+
 class VoicingPanelSection extends PreferencesPanelSection {
+  private readonly disposeVoicingPanelSection: () => void;
 
   /**
-   * @param {Object} audioModel - configuration for audio settings, see PreferencesManager
-   * @param {BooleanProperty} toolbarEnabledProperty - whether or not the Toolbar is enabled for use
-   * @param {Object} [options]
+   * @param audioModel - configuration for audio settings, see PreferencesManager
+   * @param toolbarEnabledProperty - whether the Toolbar is enabled for use
+   * @param [providedOptions]
    */
-  constructor( audioModel, toolbarEnabledProperty, options ) {
+  public constructor( audioModel: AudioModel, toolbarEnabledProperty: IProperty<boolean>, providedOptions?: VoicingPanelSectionOptions ) {
 
-    options = merge( {
+    const options = optionize<VoicingPanelSectionOptions, SelfOptions, PreferencesPanelSectionOptions>()( {
       tandem: Tandem.REQUIRED
-    }, options );
+    }, providedOptions );
 
     // the checkbox is the title for the section and totally enables/disables the feature
     const voicingLabel = new Text( voicingLabelString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
@@ -230,7 +240,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
     // Speak when voicing becomes initially enabled. First speech is done synchronously (not using utterance-queue)
     // in response to user input, otherwise all speech will be blocked on many platforms
     const voicingEnabledUtterance = new Utterance();
-    const voicingEnabledPropertyListener = enabled => {
+    const voicingEnabledPropertyListener = ( enabled: boolean ) => {
 
       // only speak if "Sim Voicing" is on, all voicing should be disabled except for the Toolbar
       // buttons in this case
@@ -244,14 +254,14 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
     // when the list of voices for the ComboBox changes, create a new ComboBox that includes the supported
     // voices
-    let voiceComboBox = null;
+    let voiceComboBox: VoiceComboBox | null = null;
     const voicesChangedListener = () => {
       if ( voiceComboBox ) {
         voiceOptionsContent.removeChild( voiceComboBox );
         voiceComboBox.dispose();
       }
 
-      let voiceList = [];
+      let voiceList: SpeechSynthesisVoice[] = [];
 
       // Only get the prioritized and pruned list of voices if the VoicingManager has voices
       // available, otherwise wait until the next voicesChangedEmitter message. If there are no voices
@@ -289,7 +299,6 @@ class VoicingPanelSection extends PreferencesPanelSection {
       this.alertDescriptionUtterance( alert );
     } );
 
-    // @private
     this.disposeVoicingPanelSection = () => {
       pitchSlider.dispose();
       rateSlider.dispose();
@@ -301,10 +310,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
     };
   }
 
-  /**
-   * @public
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeVoicingPanelSection();
     super.dispose();
   }
@@ -312,14 +318,8 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
 /**
  * Create a checkbox for the features of voicing content with a label.
- * @param {string} labelString
- * @param {BooleanProperty} property
- * @param {string} checkedContextResponse
- * @param {string} uncheckedContextResponse
- * @param {Tandem} tandem
- * @returns {Checkbox}
  */
-const createCheckbox = ( labelString, property, checkedContextResponse, uncheckedContextResponse, tandem ) => {
+const createCheckbox = ( labelString: string, property: Property<boolean>, checkedContextResponse: string, uncheckedContextResponse: string, tandem: Tandem ): Checkbox => {
   const labelNode = new Text( labelString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
   return new Checkbox( property, labelNode, {
 
@@ -343,13 +343,17 @@ const createCheckbox = ( labelString, property, checkedContextResponse, unchecke
 /**
  * Create a NumberControl for one of the voice parameters of voicing (pitch/rate).
  *
- * @param {string} labelString - label for the NumberControl
- * @param {NumberProperty} voiceRateProperty
- * @returns {NumberControl}
+ * @param labelString - label for the NumberControl
+ * @param a11yLabelString - label for both PDOM and Voicing content
+ * @param voiceRateProperty
  */
 class VoiceRateNumberControl extends Voicing( NumberControl, 3 ) {
-  constructor( labelString, a11yLabelString, voiceRateProperty ) {
-    super( labelString, voiceRateProperty, voiceRateProperty.range, {
+  private readonly disposeVoiceRateSlider: () => void;
+
+  public constructor( labelString: string, a11yLabelString: string, voiceRateProperty: NumberProperty ) {
+
+    assert && assert( voiceRateProperty.range, 'Range is required on the property for the control.' );
+    super( labelString, voiceRateProperty, voiceRateProperty.range!, {
       includeArrowButtons: false,
       layoutFunction: NumberControl.createLayoutFunction4(),
       delta: 0.25,
@@ -384,7 +388,7 @@ class VoiceRateNumberControl extends Voicing( NumberControl, 3 ) {
       }
     } );
 
-    const voiceRateListener = ( rate, previousValue ) => {
+    const voiceRateListener = ( rate: number, previousValue: number | null ) => {
       this.voicingObjectResponse = this.getRateDescriptionString( rate );
       if ( previousValue !== null ) {
 
@@ -395,6 +399,9 @@ class VoiceRateNumberControl extends Voicing( NumberControl, 3 ) {
     voiceRateProperty.link( voiceRateListener );
 
     this.mutate( {
+
+      // @ts-ignore - mutate only supports NodeOptions currently, but this key is Voicing mutator keys,
+      // see https://github.com/phetsims/scenery/issues/1433
       voicingNameResponse: a11yLabelString,
 
       // ignore the selections of Preferences menu, we always want to hear all responses
@@ -407,52 +414,46 @@ class VoiceRateNumberControl extends Voicing( NumberControl, 3 ) {
     };
   }
 
-  /**
-   * @override
-   * @public
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeVoiceRateSlider();
     super.dispose();
   }
 
   /**
    * Returns a description of the voice rate.
-   * @public
-   *
-   * @param {number} rate
    */
-  getRateDescriptionString( rate ) {
+  public getRateDescriptionString( rate: number ): string {
     return rate === 1 ? voiceRateNormalString : StringUtils.fillIn( voiceRateDescriptionPatternString, {
       value: rate
     } );
   }
 }
 
+type VoiceComboBoxSelfOptions = EmptyObjectType;
+type VoiceComboBoxOptions = VoiceComboBoxSelfOptions & ComboBoxOptions;
+
 /**
  * Inner class for the ComboBox that selects the voice for the voicingManager. This ComboBox can be created and destroyed
  * a few times as the browser list of supported voices may change while the SpeechSynthesis is first getting put to
  * use.
  */
-class VoiceComboBox extends ComboBox {
+class VoiceComboBox extends ComboBox<SpeechSynthesisVoice | null> {
 
   /**
-   * @param {Property.<SpeechSynthesisVoice|null>} voiceProperty
-   * @param {SpeechSynthesisVoice[]} voices - list of voices to include from the voicingManager
-   * @param {Node} parentNode - node that acts as a parent for the ComboBox list
-   * @param {Object} [options]
+   * @param  voiceProperty
+   * @param voices - list of voices to include from the voicingManager
+   * @param parentNode - node that acts as a parent for the ComboBox list
+   * @param [providedOptions]
    */
-  constructor( voiceProperty, voices, parentNode, options ) {
-
-    options = merge( {
+  public constructor( voiceProperty: Property<SpeechSynthesisVoice | null>, voices: SpeechSynthesisVoice[], parentNode: Node, providedOptions?: ComboBoxOptions ) {
+    const options = optionize<VoiceComboBoxOptions, VoiceComboBoxSelfOptions, ComboBoxOptions>()( {
       listPosition: 'above',
       accessibleName: voiceLabelString,
-
       comboBoxVoicingNameResponsePattern: voiceTitlePatternLabelString,
 
       // phet-io, opt out because we would need to instrument voices, but those could change between runtimes.
       tandem: Tandem.OPT_OUT
-    }, options );
+    }, providedOptions );
 
     const items = [];
 
@@ -487,21 +488,17 @@ class VoiceComboBox extends ComboBox {
 
 /**
  * A slider with labels and tick marks used to control voice rate of web speech synthesis.
- *
- * @param {string} labelString
- * @param {NumberProperty} voicePitchProperty
- * @returns {VBox}
  */
 class VoicingPitchSlider extends Voicing( VBox, 0 ) {
+  private readonly disposeVoicePitchSlider: () => void;
 
-  /**
-   * @param labelString
-   * @param voicePitchProperty
-   * @returns {VBox}
-   */
-  constructor( labelString, voicePitchProperty ) {
+  public constructor( labelString: string, voicePitchProperty: NumberProperty ) {
     const label = new Text( labelString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
-    const slider = new HSlider( voicePitchProperty, voicePitchProperty.range, {
+
+    assert && assert( voicePitchProperty.range, 'Range is required for the voice pitch slider.' );
+    const voicePitchRange = voicePitchProperty.range!;
+
+    const slider = new HSlider( voicePitchProperty, voicePitchRange, {
       majorTickLength: 10,
       thumbSize: THUMB_SIZE,
       trackSize: TRACK_SIZE,
@@ -524,10 +521,10 @@ class VoicingPitchSlider extends Voicing( VBox, 0 ) {
     } );
 
     const lowLabel = new Text( 'Low', { font: new PhetFont( 14 ) } );
-    slider.addMajorTick( voicePitchProperty.range.min, lowLabel );
+    slider.addMajorTick( voicePitchRange.min, lowLabel );
 
     const highLabel = new Text( 'High', { font: new PhetFont( 14 ) } );
-    slider.addMajorTick( voicePitchProperty.range.max, highLabel );
+    slider.addMajorTick( voicePitchRange.max, highLabel );
 
     super();
 
@@ -538,7 +535,7 @@ class VoicingPitchSlider extends Voicing( VBox, 0 ) {
     } );
 
     // voicing
-    const voicePitchListener = ( pitch, previousValue ) => {
+    const voicePitchListener = ( pitch: number, previousValue: number | null ) => {
       this.voicingObjectResponse = this.getPitchDescriptionString( pitch );
 
       // alert made lazily so it is not heard on construction, speak the name and object response every change
@@ -550,7 +547,9 @@ class VoicingPitchSlider extends Voicing( VBox, 0 ) {
 
     this.mutate( {
       children: [ label, slider ],
-      align: 'left',
+
+      // @ts-ignore mutate doesn't work when the subclass changes mutator keys,
+      // see https://github.com/phetsims/scenery/issues/1433
       spacing: 5,
 
       // voicing
@@ -566,32 +565,23 @@ class VoicingPitchSlider extends Voicing( VBox, 0 ) {
     };
   }
 
-  /**
-   * @override
-   * @public
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeVoicePitchSlider();
     super.dispose();
   }
 
   /**
    * Gets a description of the pitch at the provided value from VOICE_PITCH_DESCRIPTION_MAP.
-   * @private
-   *
-   * @param {number} pitchValue
-   * @returns {string}
    */
-  getPitchDescriptionString( pitchValue ) {
-    let pitchDescription;
+  private getPitchDescriptionString( pitchValue: number ): string {
+    let pitchDescription = '';
     VOICE_PITCH_DESCRIPTION_MAP.forEach( ( description, range ) => {
       if ( range.contains( pitchValue ) ) {
         pitchDescription = description;
       }
     } );
     assert && assert( pitchDescription, `no description found for pitch at value: ${pitchValue}` );
-
-    return pitchDescription;
+    return pitchDescription!;
   }
 }
 

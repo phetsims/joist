@@ -24,7 +24,7 @@ type SelfOptions = {
   // indentation for the contentNode (if provided) for layout as it is nested under the titleNode
   contentLeftMargin?: number;
 };
-type PreferencesPanelSectionOptions = SelfOptions & StrictOmit<VBoxOptions, 'children'>;
+export type PreferencesPanelSectionOptions = SelfOptions & StrictOmit<VBoxOptions, 'children'>;
 
 class PreferencesPanelSection extends VBox {
   private readonly disposePreferencesPanelSection: () => void;

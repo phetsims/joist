@@ -15,10 +15,12 @@ import soundManager from '../../../tambo/js/soundManager.js';
 import audioManager from '../audioManager.js';
 import PreferencesConfiguration, { AudioPreferencesOptions, GeneralPreferencesOptions, InputPreferencesOptions, VisualPreferencesOptions } from './PreferencesConfiguration.js';
 import IProperty from '../../../axon/js/IProperty.js';
+import Property from '../../../axon/js/Property.js';
+import NumberProperty from '../../../axon/js/NumberProperty.js';
 
-type GeneralModel = Required<GeneralPreferencesOptions>;
+export type GeneralModel = Required<GeneralPreferencesOptions>;
 
-type VisualModel = {
+export type VisualModel = {
 
   // Whether "Interactive Highlights" are enabled for the simulation. If enabled, focus highlights will appear around
   // focusable components with 'over' events, and persist around the focused element even with mouse and touch
@@ -26,22 +28,21 @@ type VisualModel = {
   interactiveHighlightsEnabledProperty: IProperty<boolean>;
 } & Required<VisualPreferencesOptions>;
 
-type AudioModel = {
+export type AudioModel = {
   simSoundEnabledProperty: IProperty<boolean>;
   soundEnabledProperty: IProperty<boolean>;
   extraSoundEnabledProperty: IProperty<boolean>;
-
   voicingEnabledProperty: IProperty<boolean>;
   voicingMainWindowVoicingEnabledProperty: IProperty<boolean>;
-  voicingObjectResponsesEnabledProperty: IProperty<boolean>;
-  voicingContextResponsesEnabledProperty: IProperty<boolean>;
-  voicingHintResponsesEnabledProperty: IProperty<boolean>;
-  voicePitchProperty: IProperty<number>;
-  voiceRateProperty: IProperty<number>;
-  voiceProperty: IProperty<null | SpeechSynthesisVoice>;
+  voicingObjectResponsesEnabledProperty: Property<boolean>;
+  voicingContextResponsesEnabledProperty: Property<boolean>;
+  voicingHintResponsesEnabledProperty: Property<boolean>;
+  voicePitchProperty: NumberProperty;
+  voiceRateProperty: NumberProperty;
+  voiceProperty: Property<null | SpeechSynthesisVoice>;
 } & Required<AudioPreferencesOptions>;
 
-type InputModel = {
+export type InputModel = {
 
   // Whether "Gesture Controls" are enabled for the simulation. If enabled, touch screen input will change to work
   // like a screen reader. Horizontal swipes across the screen will move focus, double-taps will activate the
