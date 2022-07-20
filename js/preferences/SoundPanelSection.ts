@@ -7,15 +7,17 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
+import optionize from '../../../phet-core/js/optionize.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { Text, VBox, VoicingRichText, VoicingText } from '../../../scenery/js/imports.js';
+import { Node, Text, VBox, VoicingRichText, VoicingText } from '../../../scenery/js/imports.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import soundManager from '../../../tambo/js/soundManager.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
-import PreferencesPanelSection from './PreferencesPanelSection.js';
+import { AudioModel } from './PreferencesManager.js';
+import PreferencesPanelSection, { PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 
 // constants
@@ -29,25 +31,30 @@ const extraSoundsOnString = joistStrings.a11y.preferences.tabs.audio.sounds.extr
 const extraSoundsOffString = joistStrings.a11y.preferences.tabs.audio.sounds.extraSounds.extraSoundsOff;
 const labelledDescriptionPatternString = joistStrings.a11y.preferences.tabs.labelledDescriptionPattern;
 
+type SelfOptions = {
+
+  // Whether to include the toggle switch in the title content for this PreferencesPanelSection. It is possible that
+  // the toggle for Sound can be redundant when Sound is the only Audio feature supported. In that case, control of
+  // Sound should go through the "All Audio" toggle.
+  includeTitleToggleSwitch?: boolean;
+};
+
+type SoundPanelSectionOptions = SelfOptions & PreferencesPanelSectionOptions;
+
 class SoundPanelSection extends PreferencesPanelSection {
+  private readonly disposeSoundPanelSection: () => void;
 
   /**
-   * @param {Object} audioOptions - configuration for audio preferences, see PreferencesManager
-   * @param {Object} [options]
+   * @param audioModel - configuration for audio preferences, see PreferencesManager
+   * @param [providedOptions]
    */
-  constructor( audioOptions, options ) {
-
-    options = merge( {
-
-      // {boolean} - Whether or not to include the toggle switch in the title content for this
-      // PreferencesPanelSection. It is possible that the toggle for Sound can be redundant when Sound
-      // is the only Audio feature supported. In that case, control of Sound should go through the
-      // "All Audio" toggle.
+  public constructor( audioModel: AudioModel, providedOptions?: SoundPanelSectionOptions ) {
+    const options = optionize<SoundPanelSectionOptions, SelfOptions, PreferencesPanelSectionOptions>()( {
       includeTitleToggleSwitch: true,
 
       // phet-io
       tandem: Tandem.REQUIRED
-    }, options );
+    }, providedOptions );
 
     const soundLabel = new Text( soundsLabelString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
 
@@ -68,9 +75,9 @@ class SoundPanelSection extends PreferencesPanelSection {
       tandem: options.tandem.createTandem( 'soundEnabledSwitch' )
     } );
 
-    let extraSoundContent = null;
-    let extraSoundCheckbox = null;
-    if ( audioOptions.supportsExtraSound ) {
+    let extraSoundContent: Node | null = null;
+    let extraSoundCheckbox: Node | null = null;
+    if ( audioModel.supportsExtraSound ) {
       const enahncedSoundLabel = new Text( extraSoundsLabelString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
       extraSoundCheckbox = new Checkbox( soundManager.extraSoundEnabledProperty, enahncedSoundLabel, {
 
@@ -105,7 +112,7 @@ class SoundPanelSection extends PreferencesPanelSection {
       } );
 
       soundManager.enabledProperty.link( enabled => {
-        extraSoundContent.enabled = enabled;
+        extraSoundContent!.enabled = enabled;
       } );
     }
 
@@ -114,17 +121,13 @@ class SoundPanelSection extends PreferencesPanelSection {
       contentNode: extraSoundContent
     } );
 
-    // @private
     this.disposeSoundPanelSection = () => {
       soundEnabledSwitch.dispose();
       extraSoundCheckbox && extraSoundCheckbox.dispose();
     };
   }
 
-  /**
-   * @public
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeSoundPanelSection();
     super.dispose();
   }
