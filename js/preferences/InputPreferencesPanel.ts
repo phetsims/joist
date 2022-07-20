@@ -7,12 +7,15 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { Node, Text, VoicingRichText } from '../../../scenery/js/imports.js';
+import { Node, NodeOptions, Text, VoicingRichText } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
+import { InputModel } from './PreferencesManager.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 
@@ -26,22 +29,19 @@ const inputTitleString = 'Input';
 const gestureControlsString = 'Gesture Control';
 const gestureControlsDescriptionString = 'Use touch with custom swipes and taps instead. No direct touch with gesture control enabled.';
 
+type SelfOptions = EmptyObjectType;
+type InputPreferencesPanelOptions = SelfOptions & NodeOptions;
+
 class InputPreferencesPanel extends Node {
+  private readonly disposeInputPreferencesPanel: () => void;
 
-  /**
-   * @param {Object} inputModel - see PreferencesManager
-   * @param {Object} [options]
-   */
-  constructor( inputModel, options ) {
-    options = merge( {
-
-      // pdom
+  public constructor( inputModel: InputModel, providedOptions: InputPreferencesPanelOptions ) {
+    const options = optionize<InputPreferencesPanelOptions, SelfOptions, NodeOptions>()( {
       tagName: 'div',
       labelTagName: 'h2',
       labelContent: inputTitleString,
-
       tandem: Tandem.REQUIRED
-    }, options );
+    }, providedOptions );
 
     super( options );
 
@@ -70,17 +70,13 @@ class InputPreferencesPanel extends Node {
     } );
     this.addChild( panelSection );
 
-    // @private
     this.disposeInputPreferencesPanel = () => {
       panelSection.dispose();
       gestureControlsEnabledSwitch.dispose();
     };
   }
 
-  /**
-   * @public
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeInputPreferencesPanel();
     super.dispose();
   }
