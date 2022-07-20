@@ -24,7 +24,6 @@ import Tandem from '../../tandem/js/Tandem.js';
 import HighlightNode from './HighlightNode.js';
 import joist from './joist.js';
 import Screen from './Screen.js';
-import ScreenView from './ScreenView.js';
 
 // constants
 const HIGHLIGHT_SPACING = 4;
@@ -47,8 +46,8 @@ class NavigationBarScreenButton extends Voicing( Node, 0 ) {
    * @param navBarHeight
    * @param [providedOptions]
    */
-  public constructor( navigationBarFillProperty: IReadOnlyProperty<Color>, screenProperty: Property<Screen<IntentionalAny, ScreenView>>,
-               screen: Screen<IntentionalAny, ScreenView>, simScreenIndex: number, navBarHeight: number,
+  public constructor( navigationBarFillProperty: IReadOnlyProperty<Color>, screenProperty: Property<Screen<IntentionalAny>>,
+               screen: Screen<IntentionalAny>, simScreenIndex: number, navBarHeight: number,
                providedOptions: NavigationBarScreenButtonOptions ) {
 
     assert && assert( screen.nameProperty.value, `name is required for screen ${simScreenIndex}` );

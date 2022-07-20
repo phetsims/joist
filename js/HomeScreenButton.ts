@@ -24,7 +24,6 @@ import Tandem from '../../tandem/js/Tandem.js';
 import Frame from './Frame.js';
 import HomeScreenModel from './HomeScreenModel.js';
 import joist from './joist.js';
-import ScreenView from './ScreenView.js';
 import Screen from './Screen.js';
 import Utterance from '../../utterance-queue/js/Utterance.js';
 
@@ -38,9 +37,9 @@ type ParentOptions = VoicingOptions & VBoxOptions;
 export type HomeScreenButtonOptions = SelfOptions & ParentOptions;
 
 class HomeScreenButton extends Voicing( VBox, 0 ) {
-  public readonly screen: Screen<IntentionalAny, ScreenView>;
+  public readonly screen: Screen<IntentionalAny>;
 
-  public constructor( screen: Screen<IntentionalAny, ScreenView>, homeScreenModel: HomeScreenModel, providedOptions?: HomeScreenButtonOptions ) {
+  public constructor( screen: Screen<IntentionalAny>, homeScreenModel: HomeScreenModel, providedOptions?: HomeScreenButtonOptions ) {
 
     const options = optionize<HomeScreenButtonOptions, SelfOptions, ParentOptions>()( {
       cursor: 'pointer',

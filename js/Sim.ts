@@ -63,11 +63,9 @@ import updateCheck from './updateCheck.js';
 import PreferencesConfiguration from './preferences/PreferencesConfiguration.js';
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import { CreditsData } from './CreditsNode.js';
-import ScreenView from './ScreenView.js';
 import { PopupableNode } from '../../sun/js/Popupable.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
 import Multilink from '../../axon/js/Multilink.js';
-import IModel from './IModel.js';
 
 // constants
 const PROGRESS_BAR_WIDTH = 273;
@@ -152,14 +150,14 @@ export default class Sim extends PhetioObject {
   private readonly stepSimulationAction: PhetioAction<[ number ]>;
 
   // the ordered list of sim-specific screens that appear in this runtime of the sim
-  public readonly simScreens: Screen<IModel, ScreenView>[];
+  public readonly simScreens: Screen[];
 
   // all screens that appear in the runtime of this sim, with the homeScreen first if it was created
-  public readonly screens: Screen<IModel, ScreenView>[];
+  public readonly screens: Screen[];
 
   // the displayed name in the sim. This depends on what screens are shown this runtime (effected by query parameters).
   public readonly displayedSimNameProperty: IReadOnlyProperty<string>;
-  public readonly screenProperty: Property<Screen<IModel, ScreenView>>;
+  public readonly screenProperty: Property<Screen>;
 
   // true if all possible screens are present (order-independent)
   private readonly allScreensCreated: boolean;
@@ -256,7 +254,7 @@ export default class Sim extends PhetioObject {
    * @param allSimScreens - the possible screens for the sim in order of declaration (does not include the home screen)
    * @param [providedOptions] - see below for options
    */
-  public constructor( name: string, allSimScreens: Screen<IModel, ScreenView>[], providedOptions?: SimOptions ) {
+  public constructor( name: string, allSimScreens: Screen[], providedOptions?: SimOptions ) {
 
     window.phetSplashScreenDownloadComplete();
 
@@ -501,7 +499,7 @@ export default class Sim extends PhetioObject {
     this.screens = screenData.screens;
     this.allScreensCreated = screenData.allScreensCreated;
 
-    this.screenProperty = new Property<Screen<IModel, ScreenView>>( screenData.initialScreen, {
+    this.screenProperty = new Property<Screen>( screenData.initialScreen, {
       tandem: Tandem.GENERAL_MODEL.createTandem( 'screenProperty' ),
       phetioFeatured: true,
       phetioDocumentation: 'Determines which screen is selected in the simulation',
@@ -691,7 +689,7 @@ export default class Sim extends PhetioObject {
     animationFrameTimer.runOnNextTick( () => phet.joist.display.updateDisplay() );
   }
 
-  private finishInit( screens: Screen<IModel, ScreenView>[] ): void {
+  private finishInit( screens: Screen[] ): void {
 
     _.each( screens, screen => {
       screen.view.layerSplit = true;

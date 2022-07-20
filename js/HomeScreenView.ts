@@ -26,7 +26,7 @@ import PickRequired from '../../phet-core/js/types/PickRequired.js';
 
 const homeScreenDescriptionPatternString = joistStrings.a11y.homeScreenDescriptionPattern;
 
-type GeneralScreen = Screen<IntentionalAny, ScreenView>;
+type GeneralScreen = Screen<IntentionalAny>;
 
 type SelfOptions = {
 
