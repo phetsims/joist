@@ -10,9 +10,9 @@
  */
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
-import merge from '../../phet-core/js/merge.js';
-import { colorProfileProperty, SceneryConstants, Text } from '../../scenery/js/imports.js';
-import Checkbox from '../../sun/js/Checkbox.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { colorProfileProperty, Font, SceneryConstants, Text } from '../../scenery/js/imports.js';
+import Checkbox, { CheckboxOptions } from '../../sun/js/Checkbox.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
@@ -20,22 +20,26 @@ import OptionsDialog from './OptionsDialog.js';
 
 const projectorModeString = joistStrings.projectorMode;
 
+type SelfOptions = {
+  font?: Font;
+  maxTextWidth?: number;
+};
+
+type ProjectorModeCheckboxOptions = SelfOptions & CheckboxOptions;
+
 class ProjectorModeCheckbox extends Checkbox {
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+  private readonly disposeProjectorModeCheckbox: () => void;
 
-    options = merge( {
+  public constructor( providedOptions: ProjectorModeCheckboxOptions ) {
 
+    const options = optionize<ProjectorModeCheckboxOptions, SelfOptions, CheckboxOptions>()( {
       font: OptionsDialog.DEFAULT_FONT,
       maxTextWidth: 350, // empirically determined, works reasonably well for long strings
       tandem: Tandem.REQUIRED,
-
       // phet-io
       phetioLinkProperty: false // we will create the `property` tandem here in the subtype
-    }, options );
+    }, providedOptions );
 
     assert && assert(
     phet.chipper.colorProfiles[ 0 ] !== SceneryConstants.PROJECTOR_COLOR_PROFILE &&
@@ -45,7 +49,7 @@ class ProjectorModeCheckbox extends Checkbox {
       'ProjectorModeCheckbox requires sims that support the projector color profile and one other color profile' );
 
     // Identify the non-projector color profile that this checkbox sets.
-    const otherColorProfile = phet.chipper.colorProfiles.find( colorProfile => colorProfile !== SceneryConstants.PROJECTOR_COLOR_PROFILE );
+    const otherColorProfile = phet.chipper.colorProfiles.find( ( colorProfile: string ) => colorProfile !== SceneryConstants.PROJECTOR_COLOR_PROFILE );
 
     const labelNode = new Text( projectorModeString, {
       font: options.font,
@@ -61,25 +65,21 @@ class ProjectorModeCheckbox extends Checkbox {
       colorProfileProperty.value = ( isProjectorMode ? SceneryConstants.PROJECTOR_COLOR_PROFILE : otherColorProfile );
     } );
 
-    const profileNameListener = profileName => {
+    const profileNameListener = ( profileName: string ) => {
       projectorModeEnabledProperty.value = ( profileName === SceneryConstants.PROJECTOR_COLOR_PROFILE );
     };
     colorProfileProperty.link( profileNameListener );
 
     super( projectorModeEnabledProperty, labelNode, options );
 
-    // @private - dispose function
+    // dispose function
     this.disposeProjectorModeCheckbox = function() {
       colorProfileProperty.unlink( profileNameListener );
       projectorModeEnabledProperty.dispose();
     };
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeProjectorModeCheckbox();
     super.dispose();
   }
