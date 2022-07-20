@@ -9,7 +9,7 @@
 import Multilink from '../../axon/js/Multilink.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import { Color, FocusHighlightPath, Node, Path, Rectangle } from '../../scenery/js/imports.js';
 import homeSolidShape from '../../sherpa/js/fontawesome-5/homeSolidShape.js';
 import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';
@@ -23,7 +23,7 @@ import PickRequired from '../../phet-core/js/types/PickRequired.js';
 // constants
 const homeScreenDescriptionString = joistStrings.a11y.homeScreenDescription;
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 type HomeButtonOptions = SelfOptions & PickRequired<JoistButtonOptions, 'listener' | 'tandem'>;
 
 export default class HomeButton extends JoistButton {

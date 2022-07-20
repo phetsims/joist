@@ -16,7 +16,7 @@ import joist from '../joist.js';
 import { Text } from '../../../scenery/js/imports.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import Property from '../../../axon/js/Property.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
@@ -34,7 +34,7 @@ type localeDescriptor = {
   localeLabel: string;
 };
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 type LanguageComboBoxOptions = SelfOptions & StrictOmit<ComboBoxOptions, 'labelNode'>;
 
 class LanguageComboBox extends ComboBox<string> {

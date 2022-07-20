@@ -8,7 +8,7 @@
 
 import Property from '../../../axon/js/Property.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import { HBox, Node, Text, VBox, VBoxOptions } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
@@ -32,7 +32,7 @@ class AudioPreferencesTabPanel extends VBox {
    */
   public constructor( audioModel: AudioModel, enableToolbarProperty: Property<boolean>, providedOptions?: VBoxOptions ) {
 
-    const options = optionize<VBoxOptions, EmptyObjectType, VBoxOptions>()( {
+    const options = optionize<VBoxOptions, EmptySelfOptions, VBoxOptions>()( {
       tandem: Tandem.REQUIRED
     }, providedOptions );
 

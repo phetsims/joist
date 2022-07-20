@@ -19,7 +19,7 @@ import PreferencesToggleSwitch from '../preferences/PreferencesToggleSwitch.js';
 import VoicingToolbarAlertManager from './VoicingToolbarAlertManager.js';
 import LookAndFeel from '../LookAndFeel.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 
 // constants
@@ -39,7 +39,7 @@ const overviewString = joistStrings.a11y.toolbar.voicing.overviewLabel;
 const detailsString = joistStrings.a11y.toolbar.voicing.detailsLabel;
 const hintString = joistStrings.a11y.toolbar.voicing.hintLabel;
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 export type VoicingToolbarItemOptions = SelfOptions & NodeOptions & PickRequired<NodeOptions, 'tandem'>;
 
 class VoicingToolbarItem extends Node {

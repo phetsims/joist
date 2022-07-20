@@ -16,11 +16,11 @@ import NavigationBarAudioToggleButton from './NavigationBarAudioToggleButton.js'
 import NavigationBarPreferencesButton from './preferences/NavigationBarPreferencesButton.js';
 import Sim from './Sim.js';
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
-import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 export type A11yButtonsHBoxOptions = SelfOptions & StrictOmit<HBoxOptions, 'children'>;
 
 class A11yButtonsHBox extends HBox {

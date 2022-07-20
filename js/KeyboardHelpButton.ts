@@ -8,7 +8,7 @@
  */
 
 import Property from '../../axon/js/Property.js';
-import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import { Color, Image, Node } from '../../scenery/js/imports.js';
 import Dialog from '../../sun/js/Dialog.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
@@ -29,7 +29,7 @@ const keyboardShortcutsString = joistStrings.a11y.keyboardHelp.keyboardShortcuts
 const HELP_BUTTON_HEIGHT = 67;
 const HELP_BUTTON_SCALE = 0.30; // scale applied to the icon
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 export type KeyboardHelpButtonOptions = SelfOptions & PickRequired<JoistButtonOptions, 'tandem'>;
 
 class KeyboardHelpButton extends JoistButton {

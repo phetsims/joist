@@ -18,13 +18,13 @@ import PreferencesDialog from './PreferencesDialog.js';
 import SimControlsPanelSection from './SimControlsPanelSection.js';
 import { GeneralModel } from './PreferencesManager.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 
 // constants
 const accessibilityIntroString = joistStrings.preferences.tabs.general.accessibilityIntro;
 const moreAccessibilityString = joistStrings.preferences.tabs.general.moreAccessibility;
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 type GeneralPreferencesPanelOptions = SelfOptions & VBoxOptions;
 
 class GeneralPreferencesPanel extends VBox {

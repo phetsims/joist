@@ -9,7 +9,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import { AlignGroup, Node, NodeOptions } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
@@ -22,7 +22,7 @@ import PreferencesManager from './PreferencesManager.js';
 import IReadOnlyProperty from '../../../axon/js/IReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 type PreferencesPanelsOptions = SelfOptions & NodeOptions;
 
 class PreferencesPanels extends Node {

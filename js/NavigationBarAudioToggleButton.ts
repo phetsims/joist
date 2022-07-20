@@ -17,7 +17,7 @@ import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import { Color, Node, Path, Rectangle, voicingManager } from '../../scenery/js/imports.js';
 import ToggleNode from '../../sun/js/ToggleNode.js';
@@ -50,7 +50,7 @@ const MIN_CURVE_RADIUS = MED_CURVE_RADIUS - RADIUS_STEPPER;
 const CURVE_ANGLE = Math.PI / 2.7;
 const NEG_CURVE_ANGLE = CURVE_ANGLE * -1.0;
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 type NavigationBarAudioToggleButtonOptions = SelfOptions & PickRequired<JoistButtonOptions, 'tandem'>;
 
 class NavigationBarAudioToggleButton extends JoistButton {
@@ -59,7 +59,7 @@ class NavigationBarAudioToggleButton extends JoistButton {
                       backgroundColorProperty: IReadOnlyProperty<Color>,
                       providedOptions: NavigationBarAudioToggleButtonOptions ) {
 
-    const options = optionize<NavigationBarAudioToggleButtonOptions, EmptyObjectType, JoistButtonOptions>()( {
+    const options = optionize<NavigationBarAudioToggleButtonOptions, EmptySelfOptions, JoistButtonOptions>()( {
 
       // JoistButton options
       highlightExtensionWidth: 5,

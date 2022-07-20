@@ -9,7 +9,7 @@ import joist from '../joist.js';
 import { HBox, Node, Text } from '../../../scenery/js/imports.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import Property from '../../../axon/js/Property.js';
-import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -24,7 +24,7 @@ export type CharacterSetDescriptor = {
   value: number;
 };
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 
 // CharacterSetComboBoxOptions sets the labelNode
 type CharacterSetComboBoxOptions = SelfOptions & StrictOmit<ComboBoxOptions, 'labelNode'>;

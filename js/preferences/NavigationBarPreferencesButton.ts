@@ -6,7 +6,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { Color, Path } from '../../../scenery/js/imports.js';
 import userCogSolidShape from '../../../sherpa/js/fontawesome-5/userCogSolidShape.js';
@@ -20,7 +20,7 @@ import PreferencesManager from './PreferencesManager.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import IReadOnlyProperty from '../../../axon/js/IReadOnlyProperty.js';
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 export type NavigationBarPreferencesButtonOptions = SelfOptions & PickRequired<JoistButtonOptions, 'tandem'>;
 
 class NavigationBarPreferencesButton extends JoistButton {

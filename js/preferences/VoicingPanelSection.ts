@@ -14,7 +14,7 @@ import Range from '../../../dot/js/Range.js';
 import Utils from '../../../dot/js/Utils.js';
 import merge from '../../../phet-core/js/merge.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import NumberControl from '../../../scenery-phet/js/NumberControl.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
@@ -88,7 +88,7 @@ VOICE_PITCH_DESCRIPTION_MAP.set( new Range( 1.5, 2 ), inHighRangeString );
 const THUMB_SIZE = new Dimension2( 13, 26 );
 const TRACK_SIZE = new Dimension2( 100, 5 );
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 type VoicingPanelSectionOptions = SelfOptions & PreferencesPanelSectionOptions;
 
 class VoicingPanelSection extends PreferencesPanelSection {
@@ -428,7 +428,7 @@ class VoiceRateNumberControl extends Voicing( NumberControl, 3 ) {
   }
 }
 
-type VoiceComboBoxSelfOptions = EmptyObjectType;
+type VoiceComboBoxSelfOptions = EmptySelfOptions;
 type VoiceComboBoxOptions = VoiceComboBoxSelfOptions & ComboBoxOptions;
 
 /**
