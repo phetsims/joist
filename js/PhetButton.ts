@@ -78,7 +78,9 @@ class PhetButton extends JoistButton {
       pickable: false
     } );
 
-    const children = phet.chipper.queryParameters.ea && phet.chipper.brand === 'phet-io' ?
+    // Assert here means that ?ea was provided (potentially from the wrapper) AND that there are actually assertions
+    // available for debugging.
+    const children = assert && phet.chipper.brand === 'phet-io' ?
       [
 
         // The underline in phet-io debug mode. "7" is the right distance to avoid hiding the trademark.
