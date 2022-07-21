@@ -79,7 +79,7 @@ class PreferencesManager {
       soundEnabledProperty: soundManager.enabledProperty,
       extraSoundEnabledProperty: soundManager.extraSoundEnabledProperty,
 
-      voicingEnabledProperty: voicingManager.enabledProperty,
+      voicingEnabledProperty: voicingManager.enabledProperty as Property<boolean>,
       voicingMainWindowVoicingEnabledProperty: voicingManager.mainWindowVoicingEnabledProperty,
       voicingObjectResponsesEnabledProperty: responseCollector.objectResponsesEnabledProperty,
       voicingContextResponsesEnabledProperty: responseCollector.contextResponsesEnabledProperty,
