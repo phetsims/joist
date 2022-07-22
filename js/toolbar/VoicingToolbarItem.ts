@@ -205,7 +205,7 @@ class LabelButtonRow {
 
         // Wait until the listener is removed before reducing this, this may immediately end the Utterance and remove
         // the listener again in the endSpeakingListener above.
-        this.objectResponseUtterance.priorityProperty.value = 0;
+        this.objectResponseUtterance.priorityProperty.value = Utterance.LOW_PRIORITY;
       }
     };
 
