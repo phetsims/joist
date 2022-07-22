@@ -182,6 +182,9 @@ class LabelButtonRow {
       if ( endedUtterance === this.objectResponseUtterance ) {
         this.playingProperty.set( false );
 
+        // clear the voicingUtteranceQueue because stale alerts may have collected while the quick info button announced
+        voicingUtteranceQueue.clear();
+
         // Remove if listener wasn't interrupted by Display input.
         if ( Display.inputListeners.includes( displayListener ) ) {
           Display.removeInputListener( displayListener );
