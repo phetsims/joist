@@ -27,7 +27,7 @@ const labelledDescriptionPatternString = joistStrings.a11y.preferences.tabs.labe
 class VisualPreferencesPanel extends Node {
 
   /**
-   * @param {Object} visualModel - see PreferencesManager
+   * @param {Object} visualModel - see PreferencesModel
    * @param {Object} [options]
    */
   constructor( visualModel, options ) {

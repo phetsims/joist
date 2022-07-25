@@ -48,7 +48,7 @@ import LookAndFeel from './LookAndFeel.js';
 import MemoryMonitor from './MemoryMonitor.js';
 import NavigationBar from './NavigationBar.js';
 import packageJSON from './packageJSON.js';
-import PreferencesManager from './preferences/PreferencesManager.js';
+import PreferencesModel from './preferences/PreferencesModel.js';
 import Profiler from './Profiler.js';
 import QueryParametersWarningDialog from './QueryParametersWarningDialog.js';
 import Screen from './Screen.js';
@@ -218,7 +218,7 @@ export default class Sim extends PhetioObject {
   // If Preferences are available through a PreferencesConfiguration,
   // this type will be added to the Sim to manage the state of features that can be enabled/disabled
   // through user preferences.
-  public readonly preferencesManager: PreferencesManager | null;
+  public readonly preferencesModel: PreferencesModel | null;
 
   // list of nodes that are "modal" and hence block input with the barrierRectangle.  Used by modal dialogs
   // and the PhetMenu
@@ -292,11 +292,11 @@ export default class Sim extends PhetioObject {
     const simDisplayOptions: {
       webgl: boolean;
       tandem: Tandem;
-      preferencesManager: PreferencesManager | null;
+      preferencesModel: PreferencesModel | null;
     } = {
       webgl: options.webgl,
       tandem: Tandem.GENERAL_VIEW.createTandem( 'display' ),
-      preferencesManager: null
+      preferencesModel: null
     };
 
     super( options );
@@ -587,11 +587,11 @@ export default class Sim extends PhetioObject {
 
     if ( options.preferencesConfiguration ) {
 
-      this.preferencesManager = new PreferencesManager( options.preferencesConfiguration, {
+      this.preferencesModel = new PreferencesModel( options.preferencesConfiguration, {
         tandem: Tandem.GENERAL_MODEL.createTandem( 'preferencesModel' )
       } );
 
-      simDisplayOptions.preferencesManager = this.preferencesManager;
+      simDisplayOptions.preferencesModel = this.preferencesModel;
 
       this.toolbar = new Toolbar( this, {
         tandem: Tandem.GENERAL_VIEW.createTandem( 'toolbar' )
@@ -603,7 +603,7 @@ export default class Sim extends PhetioObject {
       } );
     }
     else {
-      this.preferencesManager = null;
+      this.preferencesModel = null;
       this.toolbar = null;
     }
 

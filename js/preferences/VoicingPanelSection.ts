@@ -27,7 +27,7 @@ import Utterance from '../../../utterance-queue/js/Utterance.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
-import { AudioModel } from './PreferencesManager.js';
+import { AudioModel } from './PreferencesModel.js';
 import PreferencesPanelSection, { PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 
@@ -94,7 +94,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
   private readonly disposeVoicingPanelSection: () => void;
 
   /**
-   * @param audioModel - configuration for audio settings, see PreferencesManager
+   * @param audioModel - configuration for audio settings, see PreferencesModel
    * @param toolbarEnabledProperty - whether the Toolbar is enabled for use
    * @param [providedOptions]
    */

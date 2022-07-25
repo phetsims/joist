@@ -20,7 +20,7 @@ class HighlightVisibilityController {
 
   /**
    * @param {Display} display
-   * @param {PreferencesManager} preferencesModel
+   * @param {PreferencesModel} preferencesModel
    */
   constructor( display, preferencesModel ) {
 

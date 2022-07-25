@@ -15,7 +15,7 @@ import joist from '../joist.js';
 import JoistButton, { JoistButtonOptions } from '../JoistButton.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
-import PreferencesManager from './PreferencesManager.js';
+import PreferencesModel from './PreferencesModel.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import IReadOnlyProperty from '../../../axon/js/IReadOnlyProperty.js';
 
@@ -24,7 +24,7 @@ export type NavigationBarPreferencesButtonOptions = SelfOptions & PickRequired<J
 
 class NavigationBarPreferencesButton extends JoistButton {
 
-  public constructor( preferencesModel: PreferencesManager, backgroundColorProperty: IReadOnlyProperty<Color>,
+  public constructor( preferencesModel: PreferencesModel, backgroundColorProperty: IReadOnlyProperty<Color>,
                       providedOptions: NavigationBarPreferencesButtonOptions ) {
 
     const options = optionize<NavigationBarPreferencesButtonOptions, SelfOptions, JoistButtonOptions>()( {

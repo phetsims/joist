@@ -16,7 +16,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
-import { AudioModel } from './PreferencesManager.js';
+import { AudioModel } from './PreferencesModel.js';
 import PreferencesPanelSection, { PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 
@@ -45,7 +45,7 @@ class SoundPanelSection extends PreferencesPanelSection {
   private readonly disposeSoundPanelSection: () => void;
 
   /**
-   * @param audioModel - configuration for audio preferences, see PreferencesManager
+   * @param audioModel - configuration for audio preferences, see PreferencesModel
    * @param [providedOptions]
    */
   public constructor( audioModel: AudioModel, providedOptions?: SoundPanelSectionOptions ) {

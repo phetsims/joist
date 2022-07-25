@@ -37,9 +37,9 @@ class A11yButtonsHBox extends HBox {
     // list of optional buttons added for a11y
     const a11yButtons = [];
 
-    if ( sim.preferencesManager ) {
+    if ( sim.preferencesModel ) {
 
-      const preferencesButton = new NavigationBarPreferencesButton( sim.preferencesManager, backgroundColorProperty, {
+      const preferencesButton = new NavigationBarPreferencesButton( sim.preferencesModel, backgroundColorProperty, {
         tandem: options.tandem.createTandem( 'preferencesButton' )
       } );
 

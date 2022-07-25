@@ -13,7 +13,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
-import { AudioModel } from './PreferencesManager.js';
+import { AudioModel } from './PreferencesModel.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 import SoundPanelSection from './SoundPanelSection.js';
 import VoicingPanelSection from './VoicingPanelSection.js';
@@ -25,7 +25,7 @@ class AudioPreferencesTabPanel extends VBox {
   private readonly disposeAudioPreferencesPanel: () => void;
 
   /**
-   * @param audioModel - configuration for audio settings, see PreferencesManager
+   * @param audioModel - configuration for audio settings, see PreferencesModel
    * @param enableToolbarProperty - whether the Toolbar is enabled
    * @param [providedOptions]
    */

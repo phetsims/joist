@@ -17,12 +17,12 @@ import '../../sherpa/lib/game-up-camera-1.0.0.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import HighlightVisibilityController from './HighlightVisibilityController.js';
 import joist from './joist.js';
-import PreferencesManager from './preferences/PreferencesManager.js';
+import PreferencesModel from './preferences/PreferencesModel.js';
 
 type SelfOptions = {
   webgl?: boolean;
   rootRenderer?: RendererType;
-  preferencesManager?: PreferencesManager | null;
+  preferencesModel?: PreferencesModel | null;
 };
 export type SimDisplayOptions = SelfOptions & DisplayOptions;
 
@@ -63,7 +63,7 @@ export default class SimDisplay extends Display {
       assumeFullWindow: true, // a bit faster if we can assume no coordinate translations are needed for the display.
 
       // See Sim.js for full documentation
-      preferencesManager: null, // {PreferencesManager|null}
+      preferencesModel: null, // {PreferencesModel|null}
 
       // pdom accessibility (interactive description)
       accessibility: phet.chipper.queryParameters.supportsInteractiveDescription,
@@ -127,7 +127,7 @@ export default class SimDisplay extends Display {
       this.pdomRootElement!.lang = 'en';
     }
 
-    this.highlightVisibilityController = new HighlightVisibilityController( this, options.preferencesManager );
+    this.highlightVisibilityController = new HighlightVisibilityController( this, options.preferencesModel );
 
     if ( phet.chipper.queryParameters.sceneryLog ) {
 

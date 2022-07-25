@@ -16,7 +16,7 @@ import joistStrings from '../joistStrings.js';
 import LocalizationControlsPanelSection from './LocalizationControlsPanelSection.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import SimControlsPanelSection from './SimControlsPanelSection.js';
-import { GeneralModel } from './PreferencesManager.js';
+import { GeneralModel } from './PreferencesModel.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 
 // constants
@@ -30,7 +30,7 @@ class GeneralPreferencesPanel extends VBox {
   private readonly disposeGeneralPreferencesPanel: () => void;
 
   /**
-   * @param generalModel - configuration for the Tab, see PreferencesManager for entries
+   * @param generalModel - configuration for the Tab, see PreferencesModel for entries
    * @param [providedOptions]
    */
   public constructor( generalModel: GeneralModel, providedOptions?: GeneralPreferencesPanelOptions ) {

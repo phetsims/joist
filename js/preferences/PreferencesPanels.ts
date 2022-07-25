@@ -18,7 +18,7 @@ import GeneralPreferencesPanel from './GeneralPreferencesPanel.js';
 import InputPreferencesPanel from './InputPreferencesPanel.js';
 import PreferencesDialog, { PreferencesTab } from './PreferencesDialog.js';
 import VisualPreferencesPanel from './VisualPreferencesPanel.js';
-import PreferencesManager from './PreferencesManager.js';
+import PreferencesModel from './PreferencesModel.js';
 import IReadOnlyProperty from '../../../axon/js/IReadOnlyProperty.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -40,7 +40,7 @@ class PreferencesPanels extends Node {
    * @param selectedTabProperty
    * @param [providedOptions]
    */
-  public constructor( preferencesModel: PreferencesManager, supportedTabs: PreferencesTab[], selectedTabProperty: IReadOnlyProperty<PreferencesTab>, providedOptions?: PreferencesPanelsOptions ) {
+  public constructor( preferencesModel: PreferencesModel, supportedTabs: PreferencesTab[], selectedTabProperty: IReadOnlyProperty<PreferencesTab>, providedOptions?: PreferencesPanelsOptions ) {
     const options = optionize<PreferencesPanelsOptions, SelfOptions, NodeOptions>()( {
       tandem: Tandem.REQUIRED
     }, providedOptions );

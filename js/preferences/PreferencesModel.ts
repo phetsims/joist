@@ -54,9 +54,9 @@ export type InputModel = {
 
 } & Required<InputPreferencesOptions>;
 
-type PreferencesManagerOptions = PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+type PreferencesModelOptions = PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
-class PreferencesManager extends PhetioObject {
+class PreferencesModel extends PhetioObject {
 
   // Whether the Sim Toolbar is enabled, which gives quick access to various controls for the simulation or
   // active screen.
@@ -67,9 +67,9 @@ class PreferencesManager extends PhetioObject {
   public readonly audioModel: AudioModel;
   public readonly inputModel: InputModel;
 
-  public constructor( preferencesConfiguration: PreferencesConfiguration, providedOptions: PreferencesManagerOptions ) {
+  public constructor( preferencesConfiguration: PreferencesConfiguration, providedOptions: PreferencesModelOptions ) {
 
-    const options = optionize<PreferencesManagerOptions, EmptySelfOptions, PhetioObjectOptions>()( {
+    const options = optionize<PreferencesModelOptions, EmptySelfOptions, PhetioObjectOptions>()( {
       phetioState: false,
       phetioReadOnly: true
     }, providedOptions );
@@ -158,5 +158,5 @@ class PreferencesManager extends PhetioObject {
   }
 }
 
-joist.register( 'PreferencesManager', PreferencesManager );
-export default PreferencesManager;
+joist.register( 'PreferencesModel', PreferencesModel );
+export default PreferencesModel;

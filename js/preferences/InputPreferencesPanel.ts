@@ -14,7 +14,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
-import { InputModel } from './PreferencesManager.js';
+import { InputModel } from './PreferencesModel.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 

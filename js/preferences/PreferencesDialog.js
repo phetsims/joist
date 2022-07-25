@@ -65,7 +65,7 @@ export class PreferencesTab extends EnumerationValue {
 class PreferencesDialog extends Dialog {
 
   /**
-   * @param {PreferencesManager} preferencesModel
+   * @param {PreferencesModel} preferencesModel
    * @param {Object} [options]
    */
   constructor( preferencesModel, options ) {
