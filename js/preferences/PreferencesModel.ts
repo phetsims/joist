@@ -134,11 +134,11 @@ class PreferencesModel extends PhetioObject {
     if ( this.audioModel.supportsVoicing ) {
 
       // Register these to be stored when PreferencesStorage is enabled. TODO: likely to be moved to a better spot, see https://github.com/phetsims/joist/issues/737
-      PreferencesStorage.register( responseCollector.objectResponsesEnabledProperty, 'objectResponsesEnabledProperty' );
-      PreferencesStorage.register( responseCollector.contextResponsesEnabledProperty, 'contextResponsesEnabledProperty' );
-      PreferencesStorage.register( responseCollector.hintResponsesEnabledProperty, 'hintResponsesEnabledProperty' );
-      PreferencesStorage.register( voicingManager.voiceRateProperty, 'voiceRateProperty' );
-      PreferencesStorage.register( voicingManager.voicePitchProperty, 'voicePitchProperty' );
+      PreferencesStorage.register( this.audioModel.voicingObjectResponsesEnabledProperty, 'objectResponsesEnabledProperty' );
+      PreferencesStorage.register( this.audioModel.voicingContextResponsesEnabledProperty, 'contextResponsesEnabledProperty' );
+      PreferencesStorage.register( this.audioModel.voicingHintResponsesEnabledProperty, 'hintResponsesEnabledProperty' );
+      PreferencesStorage.register( this.audioModel.voiceRateProperty, 'voiceRateProperty' );
+      PreferencesStorage.register( this.audioModel.voicePitchProperty, 'voicePitchProperty' );
     }
     PreferencesStorage.register( this.visualModel.interactiveHighlightsEnabledProperty, 'interactiveHighlightsEnabledProperty' );
   }

@@ -11,7 +11,6 @@ import optionize from '../../../phet-core/js/optionize.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import { Node, Text, VBox, VoicingRichText, VoicingText } from '../../../scenery/js/imports.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
-import soundManager from '../../../tambo/js/soundManager.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
@@ -58,7 +57,7 @@ class SoundPanelSection extends PreferencesPanelSection {
 
     const soundLabel = new Text( soundsLabelString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
 
-    const soundEnabledSwitch = new PreferencesToggleSwitch( soundManager.enabledProperty, false, true, {
+    const soundEnabledSwitch = new PreferencesToggleSwitch( audioModel.soundEnabledProperty, false, true, {
       labelNode: soundLabel,
       descriptionNode: new VoicingText( soundDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternString, {
@@ -79,7 +78,7 @@ class SoundPanelSection extends PreferencesPanelSection {
     let extraSoundCheckbox: Node | null = null;
     if ( audioModel.supportsExtraSound ) {
       const enahncedSoundLabel = new Text( extraSoundsLabelString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
-      extraSoundCheckbox = new Checkbox( soundManager.extraSoundEnabledProperty, enahncedSoundLabel, {
+      extraSoundCheckbox = new Checkbox( audioModel.extraSoundEnabledProperty, enahncedSoundLabel, {
 
         // pdom
         labelTagName: 'label',
@@ -111,7 +110,7 @@ class SoundPanelSection extends PreferencesPanelSection {
         spacing: 5
       } );
 
-      soundManager.enabledProperty.link( enabled => {
+      audioModel.soundEnabledProperty.link( enabled => {
         extraSoundContent!.enabled = enabled;
       } );
     }
