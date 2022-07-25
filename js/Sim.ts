@@ -587,7 +587,9 @@ export default class Sim extends PhetioObject {
 
     if ( options.preferencesConfiguration ) {
 
-      this.preferencesManager = new PreferencesManager( options.preferencesConfiguration );
+      this.preferencesManager = new PreferencesManager( options.preferencesConfiguration, {
+        tandem: Tandem.GENERAL_MODEL.createTandem( 'preferencesModel' )
+      } );
 
       simDisplayOptions.preferencesManager = this.preferencesManager;
 

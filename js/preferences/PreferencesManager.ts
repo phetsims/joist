@@ -16,6 +16,9 @@ import audioManager from '../audioManager.js';
 import PreferencesConfiguration, { AudioPreferencesOptions, GeneralPreferencesOptions, InputPreferencesOptions, VisualPreferencesOptions } from './PreferencesConfiguration.js';
 import Property from '../../../axon/js/Property.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 
 export type GeneralModel = Required<GeneralPreferencesOptions>;
 
@@ -51,7 +54,9 @@ export type InputModel = {
 
 } & Required<InputPreferencesOptions>;
 
-class PreferencesManager {
+type PreferencesManagerOptions = PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+
+class PreferencesManager extends PhetioObject {
 
   // Whether the Sim Toolbar is enabled, which gives quick access to various controls for the simulation or
   // active screen.
@@ -62,12 +67,25 @@ class PreferencesManager {
   public readonly audioModel: AudioModel;
   public readonly inputModel: InputModel;
 
-  public constructor( preferencesConfiguration: PreferencesConfiguration ) {
+  public constructor( preferencesConfiguration: PreferencesConfiguration, providedOptions: PreferencesManagerOptions ) {
+
+    const options = optionize<PreferencesManagerOptions, EmptySelfOptions, PhetioObjectOptions>()( {
+      phetioState: false,
+      phetioReadOnly: true
+    }, providedOptions );
+
+    super( options );
+
     this.generalModel = preferencesConfiguration.generalOptions;
 
+    const visualTandem = options.tandem.createTandem( 'visualModel' );
     this.visualModel = {
       supportsInteractiveHighlights: preferencesConfiguration.visualOptions.supportsInteractiveHighlights,
-      interactiveHighlightsEnabledProperty: new BooleanProperty( false )
+      interactiveHighlightsEnabledProperty: new BooleanProperty( false, {
+        tandem: visualTandem.createTandem( 'interactiveHighlightsEnabledProperty' ),
+        phetioState: false,
+        phetioReadOnly: true
+      } )
     };
 
     this.audioModel = {
@@ -89,11 +107,29 @@ class PreferencesManager {
       voiceProperty: voicingManager.voiceProperty
     };
 
+    // Provide linked elements for already instrumented Properties to make PreferencesModel a one-stop shop to view preferences.
+    const audioTandem = options.tandem.createTandem( 'audioModel' );
+    this.addLinkedElement( this.audioModel.simSoundEnabledProperty, { tandem: audioTandem.createTandem( 'simSoundEnabledProperty' ) } );
+    this.addLinkedElement( this.audioModel.soundEnabledProperty, { tandem: audioTandem.createTandem( 'soundEnabledProperty' ) } );
+    this.addLinkedElement( this.audioModel.extraSoundEnabledProperty, { tandem: audioTandem.createTandem( 'extraSoundEnabledProperty' ) } );
+    this.addLinkedElement( this.audioModel.voicingEnabledProperty, { tandem: audioTandem.createTandem( 'voicingEnabledProperty' ) } );
+    this.addLinkedElement( this.audioModel.voicingMainWindowVoicingEnabledProperty, { tandem: audioTandem.createTandem( 'voicingMainWindowVoicingEnabledProperty' ) } );
+    this.addLinkedElement( this.audioModel.voicingObjectResponsesEnabledProperty, { tandem: audioTandem.createTandem( 'voicingObjectResponsesEnabledProperty' ) } );
+    this.addLinkedElement( this.audioModel.voicingContextResponsesEnabledProperty, { tandem: audioTandem.createTandem( 'voicingContextResponsesEnabledProperty' ) } );
+    this.addLinkedElement( this.audioModel.voicingHintResponsesEnabledProperty, { tandem: audioTandem.createTandem( 'voicingHintResponsesEnabledProperty' ) } );
+    this.addLinkedElement( this.audioModel.voicePitchProperty, { tandem: audioTandem.createTandem( 'voicePitchProperty' ) } );
+    this.addLinkedElement( this.audioModel.voiceRateProperty, { tandem: audioTandem.createTandem( 'voiceRateProperty' ) } );
+    this.addLinkedElement( this.audioModel.voiceProperty, { tandem: audioTandem.createTandem( 'voiceProperty' ) } );
+
+    const inputTandem = options.tandem.createTandem( 'inputModel' );
     this.inputModel = {
       supportsGestureControl: preferencesConfiguration.inputOptions.supportsGestureControl,
-      gestureControlsEnabledProperty: new BooleanProperty( false )
+      gestureControlsEnabledProperty: new BooleanProperty( false, {
+        tandem: inputTandem.createTandem( 'gestureControlsEnabledProperty' ),
+        phetioState: false,
+        phetioReadOnly: true
+      } )
     };
-
 
     if ( this.audioModel.supportsVoicing ) {
 
