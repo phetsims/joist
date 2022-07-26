@@ -42,7 +42,7 @@ class PreferencesPanels extends Node {
    */
   public constructor( preferencesModel: PreferencesModel, supportedTabs: PreferencesTab[], selectedTabProperty: IReadOnlyProperty<PreferencesTab>, providedOptions?: PreferencesPanelsOptions ) {
     const options = optionize<PreferencesPanelsOptions, SelfOptions, NodeOptions>()( {
-      tandem: Tandem.REQUIRED,
+      tandem: Tandem.REQUIRED, // To support the general tab
       phetioVisiblePropertyInstrumented: false
     }, providedOptions );
 
@@ -66,9 +66,7 @@ class PreferencesPanels extends Node {
 
     let visualPreferencesPanel: Node | null = null;
     if ( supportedTabs.includes( PreferencesDialog.PreferencesTab.VISUAL ) ) {
-      visualPreferencesPanel = new VisualPreferencesPanel( preferencesModel.visualModel, {
-        tandem: options.tandem.createTandem( 'visualPreferencesPanel' )
-      } );
+      visualPreferencesPanel = new VisualPreferencesPanel( preferencesModel.visualModel );
       const visualBox = panelAlignGroup.createBox( visualPreferencesPanel );
       this.addChild( visualBox );
       this.content.push( new PreferencesPanelContainer( visualPreferencesPanel, PreferencesDialog.PreferencesTab.VISUAL ) );
@@ -76,9 +74,7 @@ class PreferencesPanels extends Node {
 
     let audioPreferencesPanel: Node | null = null;
     if ( supportedTabs.includes( PreferencesDialog.PreferencesTab.AUDIO ) ) {
-      audioPreferencesPanel = new AudioPreferencesPanel( preferencesModel.audioModel, preferencesModel.toolbarEnabledProperty, {
-        tandem: options.tandem.createTandem( 'audioPreferencesPanel' )
-      } );
+      audioPreferencesPanel = new AudioPreferencesPanel( preferencesModel.audioModel, preferencesModel.toolbarEnabledProperty );
       const audioBox = panelAlignGroup.createBox( audioPreferencesPanel );
       this.addChild( audioBox );
       this.content.push( new PreferencesPanelContainer( audioPreferencesPanel, PreferencesDialog.PreferencesTab.AUDIO ) );
@@ -86,9 +82,7 @@ class PreferencesPanels extends Node {
 
     let inputPreferencesPanel: Node | null = null;
     if ( supportedTabs.includes( PreferencesDialog.PreferencesTab.INPUT ) ) {
-      inputPreferencesPanel = new InputPreferencesPanel( preferencesModel.inputModel, {
-        tandem: options.tandem.createTandem( 'inputPreferencesPanel' )
-      } );
+      inputPreferencesPanel = new InputPreferencesPanel( preferencesModel.inputModel );
       this.addChild( inputPreferencesPanel );
       this.content.push( new PreferencesPanelContainer( inputPreferencesPanel, PreferencesDialog.PreferencesTab.INPUT ) );
     }

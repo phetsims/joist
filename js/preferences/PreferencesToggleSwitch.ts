@@ -81,8 +81,7 @@ class PreferencesToggleSwitch<T> extends Node {
       toggleSwitchOptions: {
         size: new Dimension2( 36, 18 ),
         trackFillRight: '#64bd5a'
-      },
-      tandem: Tandem.REQUIRED
+      }
     }, providedOptions );
 
     super( options );
@@ -99,8 +98,8 @@ class PreferencesToggleSwitch<T> extends Node {
       voicingIgnoreVoicingManagerProperties: true,
       voicingNameResponse: options.a11yLabel,
 
-      // tandem
-      tandem: options.tandem.createTandem( 'toggleSwitch' )
+      // phet-io
+      tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
     } ) );
 
     if ( options.leftValueLabel ) {

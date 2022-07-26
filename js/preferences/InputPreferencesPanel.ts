@@ -10,7 +10,6 @@ import merge from '../../../phet-core/js/merge.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import { Node, NodeOptions, Text, VoicingRichText } from '../../../scenery/js/imports.js';
-import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
@@ -34,12 +33,11 @@ type InputPreferencesPanelOptions = SelfOptions & NodeOptions;
 class InputPreferencesPanel extends Node {
   private readonly disposeInputPreferencesPanel: () => void;
 
-  public constructor( inputModel: InputModel, providedOptions: InputPreferencesPanelOptions ) {
+  public constructor( inputModel: InputModel, providedOptions?: InputPreferencesPanelOptions ) {
     const options = optionize<InputPreferencesPanelOptions, SelfOptions, NodeOptions>()( {
       tagName: 'div',
       labelTagName: 'h2',
-      labelContent: inputTitleString,
-      tandem: Tandem.REQUIRED
+      labelContent: inputTitleString
     }, providedOptions );
 
     super( options );
@@ -58,10 +56,7 @@ class InputPreferencesPanel extends Node {
       // a11y
       a11yLabel: gestureControlsString,
       leftValueContextResponse: gestureControlDisabledAlertString,
-      rightValueContextResponse: gestureControlEnabledAlertString,
-
-      // phet-io
-      tandem: options.tandem.createTandem( 'gestureControlsEnabledSwitch' )
+      rightValueContextResponse: gestureControlEnabledAlertString
     } );
 
     const panelSection = new PreferencesPanelSection( {

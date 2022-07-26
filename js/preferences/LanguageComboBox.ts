@@ -34,7 +34,7 @@ type localeDescriptor = {
 };
 
 type SelfOptions = EmptySelfOptions;
-type LanguageComboBoxOptions = SelfOptions & StrictOmit<ComboBoxOptions, 'labelNode'>;
+type LanguageComboBoxOptions = SelfOptions & StrictOmit<ComboBoxOptions, 'labelNode' | 'tandem'>;
 
 class LanguageComboBox extends ComboBox<string> {
 
@@ -52,7 +52,7 @@ class LanguageComboBox extends ComboBox<string> {
       yMargin: 6,
 
       // phet-io
-      tandem: Tandem.REQUIRED
+      tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
     }, providedOptions );
 
     options.labelNode = new Text( languageString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );

@@ -7,9 +7,7 @@
  */
 
 import Property from '../../../axon/js/Property.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import { HBox, Node, Text, VBox, VBoxOptions } from '../../../scenery/js/imports.js';
-import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
@@ -31,16 +29,10 @@ class AudioPreferencesTabPanel extends VBox {
    */
   public constructor( audioModel: AudioModel, enableToolbarProperty: Property<boolean>, providedOptions?: VBoxOptions ) {
 
-    const options = optionize<VBoxOptions, EmptySelfOptions, VBoxOptions>()( {
-      tandem: Tandem.REQUIRED
-    }, providedOptions );
-
     const panelChildren: Node[] = [];
 
     if ( audioModel.supportsVoicing ) {
-      panelChildren.push( new VoicingPanelSection( audioModel, enableToolbarProperty, {
-        tandem: options.tandem.createTandem( 'voicingControls' )
-      } ) );
+      panelChildren.push( new VoicingPanelSection( audioModel, enableToolbarProperty ) );
     }
 
     if ( audioModel.supportsSound ) {
@@ -51,8 +43,7 @@ class AudioPreferencesTabPanel extends VBox {
       const hideSoundToggle = audioModel.supportsVoicing !== audioModel.supportsSound;
 
       panelChildren.push( new SoundPanelSection( audioModel, {
-        includeTitleToggleSwitch: !hideSoundToggle,
-        tandem: options.tandem.createTandem( 'soundControls' )
+        includeTitleToggleSwitch: !hideSoundToggle
       } ) );
     }
 
@@ -63,8 +54,7 @@ class AudioPreferencesTabPanel extends VBox {
 
     const allAudioSwitch = new PreferencesToggleSwitch( audioModel.simSoundEnabledProperty, false, true, {
       labelNode: new Text( audioFeaturesString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ),
-      a11yLabel: audioFeaturesString,
-      tandem: options.tandem.createTandem( 'allAudioSwitch' )
+      a11yLabel: audioFeaturesString
     } );
 
     const soundEnabledListener = ( enabled: boolean ) => {

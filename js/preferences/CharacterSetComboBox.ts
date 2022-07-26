@@ -26,7 +26,7 @@ export type CharacterSetDescriptor = {
 type SelfOptions = EmptySelfOptions;
 
 // CharacterSetComboBoxOptions sets the labelNode
-type CharacterSetComboBoxOptions = SelfOptions & StrictOmit<ComboBoxOptions, 'labelNode'>;
+type CharacterSetComboBoxOptions = SelfOptions & StrictOmit<ComboBoxOptions, 'labelNode' | 'tandem'>;
 
 // TODO: Create a consistent type for this Property/ComboBox, see https://github.com/phetsims/joist/issues/814
 class CharacterSetComboBox extends ComboBox<number> {
@@ -47,7 +47,7 @@ class CharacterSetComboBox extends ComboBox<number> {
       yMargin: 3,
 
       // phet-io
-      tandem: Tandem.REQUIRED
+      tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
     }, providedOptions );
 
     options.labelNode = new Text( regionAndCultureString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );

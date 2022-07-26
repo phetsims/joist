@@ -100,10 +100,6 @@ class VoicingPanelSection extends PreferencesPanelSection {
    */
   public constructor( audioModel: AudioModel, toolbarEnabledProperty: Property<boolean>, providedOptions?: VoicingPanelSectionOptions ) {
 
-    const options = optionize<VoicingPanelSectionOptions, SelfOptions, PreferencesPanelSectionOptions>()( {
-      tandem: Tandem.REQUIRED
-    }, providedOptions );
-
     // the checkbox is the title for the section and totally enables/disables the feature
     const voicingLabel = new Text( voicingLabelString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
     const voicingEnabledSwitch = new PreferencesToggleSwitch<boolean>( audioModel.voicingEnabledProperty, false, true, {
@@ -114,8 +110,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
           description: voicingDescriptionString
         } )
       } ) ),
-      a11yLabel: voicingLabelString,
-      tandem: options.tandem.createTandem( 'voicingEnabledSwitch' )
+      a11yLabel: voicingLabelString
     } );
 
     // checkbox for the toolbar
@@ -124,8 +119,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
       labelNode: quickAccessLabel,
       a11yLabel: toolbarLabelString,
       leftValueContextResponse: toolbarRemovedString,
-      rightValueContextResponse: toolbarAddedString,
-      tandem: options.tandem.createTandem( 'toolbarEnabledSwitch' )
+      rightValueContextResponse: toolbarAddedString
     } );
 
     // Speech output levels
@@ -146,16 +140,13 @@ class VoicingPanelSection extends PreferencesPanelSection {
       spacing: 5,
       children: [
         createCheckbox( objectDetailsLabelString, audioModel.voicingObjectResponsesEnabledProperty,
-          voicingObjectChangesString, objectChangesMutedString,
-          options.tandem.createTandem( 'voicingObjectResponsesEnabledCheckbox' )
+          voicingObjectChangesString, objectChangesMutedString
         ),
         createCheckbox( contextChangesLabelString, audioModel.voicingContextResponsesEnabledProperty,
-          voicingContextChangesString, contextChangesMutedString,
-          options.tandem.createTandem( 'voicingContextResponsesEnabledCheckbox' )
+          voicingContextChangesString, contextChangesMutedString
         ),
         createCheckbox( helpfulHintsLabelString, audioModel.voicingHintResponsesEnabledProperty,
-          voicingHintsString, hintsMutedString,
-          options.tandem.createTandem( 'voicingHintResponsesEnabledCheckbox' )
+          voicingHintsString, hintsMutedString
         )
       ]
     } );
@@ -193,7 +184,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
       voicingIgnoreVoicingManagerProperties: true, // Controls need to always speak responses so UI functions are clear
 
       // phet-io
-      tandem: options.tandem.createTandem( 'expandCollapseButton' )
+      tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
     } );
 
     const voiceOptionsContainer = new Node( {
@@ -206,8 +197,8 @@ class VoicingPanelSection extends PreferencesPanelSection {
         voiceOptionsOpenProperty.toggle();
       },
 
-      // phet-io TODO: https://github.com/phetsims/joist/issues/744
-      tandem: Tandem.OPT_OUT
+      // phet-io
+      tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
     } );
     voiceOptionsLabel.addInputListener( voiceOptionsPressListener );
 
@@ -317,7 +308,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
 /**
  * Create a checkbox for the features of voicing content with a label.
  */
-const createCheckbox = ( labelString: string, property: Property<boolean>, checkedContextResponse: string, uncheckedContextResponse: string, tandem: Tandem ): Checkbox => {
+const createCheckbox = ( labelString: string, property: Property<boolean>, checkedContextResponse: string, uncheckedContextResponse: string ): Checkbox => {
   const labelNode = new Text( labelString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
   return new Checkbox( property, labelNode, {
 
@@ -334,7 +325,7 @@ const createCheckbox = ( labelString: string, property: Property<boolean>, check
     uncheckedContextResponse: uncheckedContextResponse,
 
     // phet-io
-    tandem: tandem
+    tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
   } );
 };
 
@@ -377,7 +368,7 @@ class VoiceRateNumberControl extends Voicing( NumberControl, 3 ) {
       },
 
       // phet-io
-      tandem: Tandem.OPT_OUT
+      tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
     } );
 
     this.slider.addInputListener( {
@@ -449,7 +440,9 @@ class VoiceComboBox extends ComboBox<SpeechSynthesisVoice | null> {
       accessibleName: voiceLabelString,
       comboBoxVoicingNameResponsePattern: voiceTitlePatternLabelString,
 
-      // phet-io, opt out because we would need to instrument voices, but those could change between runtimes.
+      // phet-io
+      // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
+      // Furthermore, opt out because we would need to instrument voices, but those could change between runtimes.
       tandem: Tandem.OPT_OUT
     }, providedOptions );
 
@@ -514,8 +507,8 @@ class VoicingPitchSlider extends Voicing( VBox, 0 ) {
       // voicing
       voicingNameResponse: labelString,
 
-      // phet-io TODO: https://github.com/phetsims/joist/issues/744
-      tandem: Tandem.OPT_OUT
+      // phet-io
+      tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
     } );
 
     const lowLabel = new Text( 'Low', { font: new PhetFont( 14 ) } );

@@ -49,10 +49,7 @@ class SoundPanelSection extends PreferencesPanelSection {
    */
   public constructor( audioModel: AudioModel, providedOptions?: SoundPanelSectionOptions ) {
     const options = optionize<SoundPanelSectionOptions, SelfOptions, PreferencesPanelSectionOptions>()( {
-      includeTitleToggleSwitch: true,
-
-      // phet-io
-      tandem: Tandem.REQUIRED
+      includeTitleToggleSwitch: true
     }, providedOptions );
 
     const soundLabel = new Text( soundsLabelString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
@@ -70,8 +67,7 @@ class SoundPanelSection extends PreferencesPanelSection {
       },
       a11yLabel: soundsLabelString,
       leftValueContextResponse: soundsOffString,
-      rightValueContextResponse: soundsOnString,
-      tandem: options.tandem.createTandem( 'soundEnabledSwitch' )
+      rightValueContextResponse: soundsOnString
     } );
 
     let extraSoundContent: Node | null = null;
@@ -93,7 +89,7 @@ class SoundPanelSection extends PreferencesPanelSection {
         uncheckedContextResponse: extraSoundsOffString,
 
         // phet-io
-        tandem: options.tandem.createTandem( 'extraSoundCheckbox' )
+        tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
       } );
 
       const extraSoundDescription = new VoicingRichText( extraSoundsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {

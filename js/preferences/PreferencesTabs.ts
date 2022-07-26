@@ -42,25 +42,20 @@ class PreferencesTabs extends Node {
       // pdom
       tagName: 'ul',
       ariaRole: 'tablist',
-      groupFocusHighlight: true,
-
-      // phet-io
-      tandem: Tandem.REQUIRED,
-      phetioVisiblePropertyInstrumented: false
+      groupFocusHighlight: true
     }, providedOptions );
 
     super( options );
 
     this.selectedPanelProperty = selectedPanelProperty;
 
-    const addTabIfSupported = ( preferenceTab: PreferencesTab, titleString: string, tandemName: string ) => {
-      const tandem = options.tandem.createTandem( tandemName );
-      _.includes( supportedTabs, preferenceTab ) && this.content.push( new Tab( titleString, selectedPanelProperty, preferenceTab, tandem ) );
+    const addTabIfSupported = ( preferenceTab: PreferencesTab, titleString: string ) => {
+      _.includes( supportedTabs, preferenceTab ) && this.content.push( new Tab( titleString, selectedPanelProperty, preferenceTab ) );
     };
-    addTabIfSupported( PreferencesDialog.PreferencesTab.GENERAL, generalTitleString, 'generalTab' );
-    addTabIfSupported( PreferencesDialog.PreferencesTab.VISUAL, visualTitleString, 'visualTab' );
-    addTabIfSupported( PreferencesDialog.PreferencesTab.AUDIO, audioTitleString, 'audioTab' );
-    addTabIfSupported( PreferencesDialog.PreferencesTab.INPUT, inputTitleString, 'audioTab' );
+    addTabIfSupported( PreferencesDialog.PreferencesTab.GENERAL, generalTitleString );
+    addTabIfSupported( PreferencesDialog.PreferencesTab.VISUAL, visualTitleString );
+    addTabIfSupported( PreferencesDialog.PreferencesTab.AUDIO, audioTitleString );
+    addTabIfSupported( PreferencesDialog.PreferencesTab.INPUT, inputTitleString );
 
     for ( let i = 0; i < this.content.length; i++ ) {
       this.addChild( this.content[ i ] );
@@ -154,9 +149,8 @@ class Tab extends Voicing( Node, 0 ) {
    * @param label - text label for the tab
    * @param property
    * @param value - PreferencesTab shown when this tab is selected
-   * @param tandem
    */
-  public constructor( label: string, property: IProperty<PreferencesTab>, value: PreferencesTab, tandem: Tandem ) {
+  public constructor( label: string, property: IProperty<PreferencesTab>, value: PreferencesTab ) {
 
     const textNode = new Text( label, PreferencesDialog.TAB_OPTIONS );
 
@@ -180,9 +174,7 @@ class Tab extends Voicing( Node, 0 ) {
       innerContent: label,
       ariaRole: 'tab',
       focusable: true,
-      containerTagName: 'li',
-
-      tandem: tandem
+      containerTagName: 'li'
     } );
 
     this.value = value;
@@ -200,7 +192,7 @@ class Tab extends Voicing( Node, 0 ) {
       },
 
       // phet-io
-      tandem: tandem.createTandem( 'pressListener' )
+      tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
     } );
     this.addInputListener( pressListener );
 

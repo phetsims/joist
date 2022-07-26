@@ -10,7 +10,6 @@
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import { Node, NodeOptions, Text, VoicingText } from '../../../scenery/js/imports.js';
-import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
@@ -36,10 +35,7 @@ class VisualPreferencesPanel extends Node {
       // pdom
       tagName: 'div',
       labelTagName: 'h2',
-      labelContent: 'Visual',
-
-      // phet-io
-      tandem: Tandem.REQUIRED
+      labelContent: 'Visual'
     }, providedOptions );
 
     super( options );
@@ -55,8 +51,7 @@ class VisualPreferencesPanel extends Node {
       } ) ),
       a11yLabel: interactiveHighlightsString,
       leftValueContextResponse: interactiveHighlightsDisabledAlertString,
-      rightValueContextResponse: interactiveHighlightsEnabledAlertString,
-      tandem: options.tandem.createTandem( 'interactiveHighlightsEnabledSwitch' )
+      rightValueContextResponse: interactiveHighlightsEnabledAlertString
     } );
 
     const panelSection = new PreferencesPanelSection( {

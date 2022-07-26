@@ -109,9 +109,7 @@ class PreferencesDialog extends Dialog {
     } );
 
     // the set of tabs you can click to activate a tab panel
-    const preferencesTabs = new PreferencesTabs( supportedTabs, selectedTabProperty, {
-      tandem: options.tandem.createTandem( 'preferencesTabs' )
-    } );
+    const preferencesTabs = new PreferencesTabs( supportedTabs, selectedTabProperty );
 
     // the panels of content with UI components to select preferences, only one is displayed at a time
     const preferencesPanels = new PreferencesPanels( preferencesModel, supportedTabs, selectedTabProperty, {

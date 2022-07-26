@@ -18,13 +18,14 @@ import PreferencesDialog from './PreferencesDialog.js';
 import SimControlsPanelSection from './SimControlsPanelSection.js';
 import { GeneralModel } from './PreferencesModel.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 
 // constants
 const accessibilityIntroString = joistStrings.preferences.tabs.general.accessibilityIntro;
 const moreAccessibilityString = joistStrings.preferences.tabs.general.moreAccessibility;
 
 type SelfOptions = EmptySelfOptions;
-type GeneralPreferencesPanelOptions = SelfOptions & VBoxOptions;
+type GeneralPreferencesPanelOptions = SelfOptions & VBoxOptions & PickRequired<VBoxOptions, 'tandem'>;
 
 class GeneralPreferencesPanel extends VBox {
   private readonly disposeGeneralPreferencesPanel: () => void;
@@ -44,7 +45,10 @@ class GeneralPreferencesPanel extends VBox {
       labelContent: 'General',
 
       // phet-io
-      tandem: Tandem.REQUIRED
+      // Still required, even though it is preferences because the general tab houses sim-specific elements that
+      // should support customization. https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
+      tandem: Tandem.REQUIRED,
+      phetioVisiblePropertyInstrumented: false
     }, providedOptions );
 
     super( options );
