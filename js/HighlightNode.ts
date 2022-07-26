@@ -7,24 +7,30 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import merge from '../../phet-core/js/merge.js';
-import { Color, HBox, LinearGradient, Rectangle } from '../../scenery/js/imports.js';
+import optionize from '../../phet-core/js/optionize.js';
+import { Color, HBox, HBoxOptions, IColor, LinearGradient, Rectangle } from '../../scenery/js/imports.js';
 import joist from './joist.js';
+
+type SelfOptions = {
+  highlightWidth?: number;
+  fill?: IColor;
+};
+type HighlightNodeOptions = SelfOptions & HBoxOptions;
 
 class HighlightNode extends HBox {
 
   /**
-   * @param {number} width - can be mutated with the `spacing` property.
-   * @param {number} height
-   * @param {Object} [options]
+   * @param width - can be mutated with the `spacing` property.
+   * @param height
+   * @param [providedOptions]
    */
-  constructor( width, height, options ) {
+  public constructor( width: number, height: number, providedOptions?: HighlightNodeOptions ) {
 
-    options = merge( {
+    const options = optionize<HighlightNodeOptions, SelfOptions, HBoxOptions>()( {
       fill: 'white',
       highlightWidth: 1,
       pickable: false
-    }, options );
+    }, providedOptions );
 
     assert && assert( options.spacing === undefined, 'HighlightNode sets spacing' );
     options.spacing = width;

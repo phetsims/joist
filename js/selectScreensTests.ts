@@ -8,15 +8,17 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import selectScreens from './selectScreens.js';
+import selectScreens, { ScreenReturnType } from './selectScreens.js';
+import Screen from './Screen.js';
+import HomeScreen from './HomeScreen.js';
 
-// test screen constants
-const a = 'a';
-const b = 'b';
-const c = 'c';
-const hs = 'hs';
+// test screen constants. Since these are tests, it is actually more valuable to typecast instead of making these actual screens.
+const a = 'a' as unknown as Screen;
+const b = 'b' as unknown as Screen;
+const c = 'c' as unknown as Screen;
+const hs = 'hs' as unknown as HomeScreen;
 
-const getQueryParameterValues = queryString => {
+const getQueryParameterValues = ( queryString: string ) => {
 
   // TODO: Get schema from initialize-globals.js instead of duplicating here, see https://github.com/phetsims/chipper/issues/936
   return QueryStringMachine.getAllForString( {
@@ -36,7 +38,7 @@ const getQueryParameterValues = queryString => {
       elementSchema: {
         type: 'number'
       },
-      defaultValue: null,
+      defaultValue: [],
       isValidValue: function( value ) {
         return value === null || ( value.length === _.uniq( value ).length );
       }
@@ -47,35 +49,22 @@ const getQueryParameterValues = queryString => {
 
 /**
  * Formats a message for each testValidScreenSelector result
- *
- * @param {string} key
- * @param {Object} expectedResult
- * @param {Object} result
- * @param {string} description
- * @returns {string}
  */
-const formatMessage = ( key, expectedResult, result, description ) =>
+const formatMessage = ( key: keyof ScreenReturnType, expectedResult: ScreenReturnType, result: ScreenReturnType, description: string ): string =>
   `expected ${key}: ${expectedResult[ key ]}, actual ${key}: ${result[ key ]} for valid selectScreens test ${description}`;
 
 /**
  * Format the query string + all sim screens to uniquely identify the test.
- * @param {string} queryString
- * @param {Object[]} allSimScreens
- * @returns {string}
  */
-const getDescription = ( queryString, allSimScreens ) => `${queryString} ${JSON.stringify( allSimScreens )}`;
+const getDescription = ( queryString: string, allSimScreens: Screen[] ): string => `${queryString} ${JSON.stringify( allSimScreens )}`;
 
 QUnit.test( 'valid selectScreens', async assert => {
 
   /**
    * Tests a valid combination of allSimScreens and screens-related query parameters, where the expectedResult should
    * equal the result returned from ScreenSelector.select
-   *
-   * @param {string} queryString
-   * @param {Object[]} allSimScreens
-   * @param {Object} expectedResult, see selectScreens @returns for doc
    */
-  const testValidScreenSelector = ( queryString, allSimScreens, expectedResult ) => {
+  const testValidScreenSelector = ( queryString: string, allSimScreens: Screen[], expectedResult: ScreenReturnType ) => {
     const queryParameterValues = getQueryParameterValues( queryString );
 
     const result = selectScreens(
@@ -86,8 +75,7 @@ QUnit.test( 'valid selectScreens', async assert => {
       QueryStringMachine.containsKeyForString( 'initialScreen', queryString ),
       queryParameterValues.screens,
       QueryStringMachine.containsKeyForString( 'screens', queryString ),
-      simScreens => hs,
-      queryString
+      () => hs
     );
 
     const description = getDescription( queryString, allSimScreens );
@@ -238,11 +226,8 @@ QUnit.test( 'invalid selectScreens', async assert => {
   /**
    * Tests an invalid combination of allSimScreens and screens-related query parameters, where selectScreens should
    * throw an error
-   *
-   * @param {string} queryString
-   * @param {Object[]} allSimScreens
    */
-  const testInvalidScreenSelector = ( queryString, allSimScreens ) => {
+  const testInvalidScreenSelector = ( queryString: string, allSimScreens: Screen[] ) => {
     const queryParameterValues = getQueryParameterValues( queryString );
     const description = getDescription( queryString, allSimScreens );
 
@@ -255,8 +240,7 @@ QUnit.test( 'invalid selectScreens', async assert => {
         QueryStringMachine.containsKeyForString( 'initialScreen', queryString ),
         queryParameterValues.screens,
         QueryStringMachine.containsKeyForString( 'screens', queryString ),
-        simScreens => hs,
-        queryString
+        () => hs
       );
     }, `expected error for invalid selectScreens test ${description}` );
   };

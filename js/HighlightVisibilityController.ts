@@ -8,8 +8,10 @@
  */
 
 import Multilink from '../../axon/js/Multilink.js';
-import { FocusManager, globalKeyStateTracker, KeyboardUtils } from '../../scenery/js/imports.js';
+import Vector2 from '../../dot/js/Vector2.js';
+import { Display, FocusManager, globalKeyStateTracker, IInputListener, KeyboardUtils, SceneryEvent } from '../../scenery/js/imports.js';
 import joist from './joist.js';
+import PreferencesModel from './preferences/PreferencesModel.js';
 
 // constants
 // The amount of Pointer movement required to switch from showing focus highlights to Interactive Highlights if both
@@ -17,26 +19,22 @@ import joist from './joist.js';
 const HIDE_FOCUS_HIGHLIGHTS_MOVEMENT_THRESHOLD = 100;
 
 class HighlightVisibilityController {
+  private readonly display: Display;
 
-  /**
-   * @param {Display} display
-   * @param {PreferencesModel} preferencesModel
-   */
-  constructor( display, preferencesModel ) {
+  // {null|Vector2} - The initial point of the Pointer when focus highlights are made visible and Interactive
+  // highlights are enabled. Pointer movement to determine whether to switch to showing Interactive Highlights
+  // instead of focus highlights will be relative to this point. A value of null means we haven't saved a point
+  // yet and we need to on the next move event.
+  private initialPointerPoint: Vector2 | null = null;
 
-    // @private {Display} - A reference to the Display whose FocusManager we will operate on to control the visibility
-    // of various kinds of highlights
+  // {number} - The amount of distance that the Pointer has moved relative to initialPointerPoint, in the global
+  // coordinate frame.
+  private relativePointerDistance = 0;
+
+  public constructor( display: Display, preferencesModel: PreferencesModel | null ) {
+
+    // A reference to the Display whose FocusManager we will operate on to control the visibility of various kinds of highlights
     this.display = display;
-
-    // {null|Vector2} - The initial point of the Pointer when focus highlights are made visible and Interactive
-    // highlights are enabled. Pointer movement to determine whether to switch to showing Interactive Highlights
-    // instead of focus highlights will be relative to this point. A value of null means we haven't saved a point
-    // yet and we need to on the next move event.
-    this.initialPointerPoint = null;
-
-    // {number} - The amount of distance that the Pointer has moved relative to initialPointerPoint, in the global
-    // coordinate frame.
-    this.relativePointerDistance = 0;
 
     // A listener that is added/removed from the display to manage visibility of highlights on move events. We
     // usually don't need this listener so it is only added when we need to listen for move events.
@@ -45,12 +43,12 @@ class HighlightVisibilityController {
     };
 
     const setHighlightsVisible = () => { this.display.focusManager.pdomFocusHighlightsVisibleProperty.value = true; };
-    const focusHighlightVisibleListener = {};
+    const focusHighlightVisibleListener: IInputListener = {};
 
     // Restore display of focus highlights if we receive PDOM events. Exclude focus-related events here
     // so that we can support some iOS cases where we want PDOM behavior even though iOS + VO only provided pointer
     // events. See https://github.com/phetsims/scenery/issues/1137 for details.
-    [ 'click', 'input', 'change', 'keydown', 'keyup' ].forEach( eventType => {
+    ( [ 'click', 'input', 'change', 'keydown', 'keyup' ] as const ).forEach( eventType => {
       focusHighlightVisibleListener[ eventType ] = setHighlightsVisible;
     } );
     this.display.addInputListener( focusHighlightVisibleListener );
@@ -130,11 +128,8 @@ class HighlightVisibilityController {
 
   /**
    * Switches between focus highlights and Interactive Highlights if there is enough mouse movement.
-   * @private
-   *
-   * @param {SceneryEvent} event
    */
-  handleMove( event ) {
+  private handleMove( event: SceneryEvent ): void {
 
     // A null initialPointerPoint means that we have not set the point yet since we started listening for mouse
     // movements - set it now so that distance of mose movement will be relative to this initial point.

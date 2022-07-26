@@ -135,11 +135,11 @@ export default class Sim extends PhetioObject {
 
   // Indicates when a frame starts.  Listen to this Emitter if you have an action that must be
   // performed before the step begins.
-  private readonly frameStartedEmitter = new Emitter();
+  public readonly frameStartedEmitter = new Emitter();
 
   // Indicates when a frame ends.  Listen to this Emitter if you have an action that must be
   // performed after the step completes.
-  private readonly frameEndedEmitter = new Emitter( {
+  public readonly frameEndedEmitter = new Emitter( {
     tandem: Tandem.GENERAL_MODEL.createTandem( 'frameEndedEmitter' ),
     phetioHighFrequency: true
   } );
@@ -200,7 +200,7 @@ export default class Sim extends PhetioObject {
   public readonly version: string = packageJSON.version;
 
   // number of animation frames that have occurred
-  private frameCounter = 0;
+  public frameCounter = 0;
 
   // Whether the window has resized since our last updateDisplay()
   private resizePending = true;

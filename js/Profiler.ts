@@ -31,6 +31,7 @@
 
 import Utils from '../../dot/js/Utils.js';
 import joist from './joist.js';
+import Sim from './Sim.js';
 
 // constants
 const FIELD_SEPARATOR = ' \u2014 '; // em dash, a long horizontal dash
@@ -38,14 +39,15 @@ const HISTOGRAM_LENGTH = 30;
 
 class Profiler {
 
-  constructor() {
 
-    // @private These data structured were chosen to minimize CPU time.
-    this.allTimes = []; // {number[]} times for all frames, in ms
-    this.histogram = []; // {number[]} array index corresponds to number of ms, value is number of frames at that time
-    this.longTimes = []; // {number[]} any frame times that didn't fit in histogram
-    this.frameStartTime = 0; // {number} start time of the current frame
-    this.previousFrameStartTime = 0; // {number} start time of the previous frame
+  // These data structured were chosen to minimize CPU time.
+  private readonly allTimes: number[] = []; // {number[]} times for all frames, in ms
+  private readonly histogram: number[] = []; // {number[]} array index corresponds to number of ms, value is number of frames at that time
+  private readonly longTimes: number[] = []; // {number[]} any frame times that didn't fit in histogram
+  private frameStartTime = 0; // {number} start time of the current frame
+  private previousFrameStartTime = 0; // {number} start time of the previous frame
+
+  public constructor() {
 
     // initialize histogram
     for ( let i = 0; i < HISTOGRAM_LENGTH; i++ ) {
@@ -56,20 +58,17 @@ class Profiler {
     $( 'body' ).append( '<div style="z-index: 99999999;position: absolute;color:red" id="phetProfiler" ></div>' );
   }
 
-  // @public
-  static start( sim ) {
+  public static start( sim: Sim ): void {
     const profiler = new Profiler();
     sim.frameStartedEmitter.addListener( () => profiler.frameStarted() );
     sim.frameEndedEmitter.addListener( () => profiler.frameEnded() );
   }
 
-  // @private
-  frameStarted() {
+  private frameStarted(): void {
     this.frameStartTime = Date.now();
   }
 
-  // @private
-  frameEnded() {
+  private frameEnded(): void {
 
     // update the display every 60 frames
     if ( this.allTimes.length > 0 && this.allTimes.length % 60 === 0 ) {

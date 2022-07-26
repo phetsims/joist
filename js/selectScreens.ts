@@ -3,7 +3,7 @@ import joist from './joist.js';
 import HomeScreen from './HomeScreen.js';
 import Screen from './Screen.js';
 
-type ReturnType = {
+export type ScreenReturnType = {
   homeScreen: HomeScreen | null;
   initialScreen: Screen;
   selectedSimScreens: Screen[];
@@ -40,7 +40,7 @@ export default function selectScreens( allSimScreens: Screen[],
                                        initialScreenQueryParameterProvided: boolean,
                                        screensQueryParameter: number[],
                                        screensQueryParameterProvided: boolean,
-                                       createHomeScreen: ( screens: Screen[] ) => HomeScreen ): ReturnType {
+                                       createHomeScreen: ( screens: Screen[] ) => HomeScreen ): ScreenReturnType {
 
   if ( allSimScreens.length === 1 && homeScreenQueryParameterProvided && homeScreenQueryParameter ) {
     const errorMessage = 'cannot specify homeScreen=true for single-screen sims';
