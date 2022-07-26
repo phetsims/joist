@@ -42,7 +42,8 @@ class PreferencesPanels extends Node {
    */
   public constructor( preferencesModel: PreferencesModel, supportedTabs: PreferencesTab[], selectedTabProperty: IReadOnlyProperty<PreferencesTab>, providedOptions?: PreferencesPanelsOptions ) {
     const options = optionize<PreferencesPanelsOptions, SelfOptions, NodeOptions>()( {
-      tandem: Tandem.REQUIRED
+      tandem: Tandem.REQUIRED,
+      phetioVisiblePropertyInstrumented: false
     }, providedOptions );
 
     super( options );

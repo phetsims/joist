@@ -45,7 +45,8 @@ class PreferencesTabs extends Node {
       groupFocusHighlight: true,
 
       // phet-io
-      tandem: Tandem.REQUIRED
+      tandem: Tandem.REQUIRED,
+      phetioVisiblePropertyInstrumented: false
     }, providedOptions );
 
     super( options );
