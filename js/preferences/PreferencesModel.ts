@@ -131,6 +131,18 @@ class PreferencesModel extends PhetioObject {
       } )
     };
 
+    this.registerPreferencesStorage();
+  }
+
+  /**
+   * Set up preferencesStorage for supported PreferencesProperties. Don't include all-sound and all-audio controls
+   * because that feel too global to automatically take the last value.
+   */
+  private registerPreferencesStorage(): void {
+
+    if ( this.visualModel.supportsInteractiveHighlights ) {
+      PreferencesStorage.register( this.visualModel.interactiveHighlightsEnabledProperty, 'interactiveHighlightsEnabledProperty' );
+    }
     if ( this.audioModel.supportsVoicing ) {
 
       // Register these to be stored when PreferencesStorage is enabled. TODO: likely to be moved to a better spot, see https://github.com/phetsims/joist/issues/737
@@ -140,7 +152,13 @@ class PreferencesModel extends PhetioObject {
       PreferencesStorage.register( this.audioModel.voiceRateProperty, 'voiceRateProperty' );
       PreferencesStorage.register( this.audioModel.voicePitchProperty, 'voicePitchProperty' );
     }
-    PreferencesStorage.register( this.visualModel.interactiveHighlightsEnabledProperty, 'interactiveHighlightsEnabledProperty' );
+    if ( this.audioModel.supportsExtraSound ) {
+      PreferencesStorage.register( this.audioModel.extraSoundEnabledProperty, 'extraSoundEnabledProperty' );
+    }
+
+    if ( this.inputModel.supportsGestureControl ) {
+      PreferencesStorage.register( this.inputModel.gestureControlsEnabledProperty, 'gestureControlsEnabledProperty' );
+    }
   }
 
   public supportsVisualPreferences(): boolean {
