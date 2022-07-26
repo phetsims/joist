@@ -9,13 +9,15 @@
 
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { Node, Text, VoicingText } from '../../../scenery/js/imports.js';
+import { Node, NodeOptions, Text, VoicingText } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
+import { VisualModel } from './PreferencesModel.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 
 // constants
 const interactiveHighlightsString = joistStrings.preferences.tabs.visual.interactiveHighlights;
@@ -25,14 +27,11 @@ const interactiveHighlightsDisabledAlertString = joistStrings.a11y.preferences.t
 const labelledDescriptionPatternString = joistStrings.a11y.preferences.tabs.labelledDescriptionPattern;
 
 class VisualPreferencesPanel extends Node {
+  private readonly disposeVisualPreferencesPanel: () => void;
 
-  /**
-   * @param {Object} visualModel - see PreferencesModel
-   * @param {Object} [options]
-   */
-  constructor( visualModel, options ) {
+  public constructor( visualModel: VisualModel, providedOptions?: NodeOptions ) {
 
-    options = merge( {
+    const options = optionize<NodeOptions, EmptySelfOptions, NodeOptions>()( {
 
       // pdom
       tagName: 'div',
@@ -41,7 +40,7 @@ class VisualPreferencesPanel extends Node {
 
       // phet-io
       tandem: Tandem.REQUIRED
-    }, options );
+    }, providedOptions );
 
     super( options );
 
@@ -65,17 +64,13 @@ class VisualPreferencesPanel extends Node {
     } );
     this.addChild( panelSection );
 
-    // @private
     this.disposeVisualPreferencesPanel = () => {
       panelSection.dispose();
       interactiveHighlightsEnabledSwitch.dispose();
     };
   }
 
-  /**
-   * @public
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeVisualPreferencesPanel();
     super.dispose();
   }

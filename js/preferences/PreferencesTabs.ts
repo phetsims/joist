@@ -7,14 +7,15 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import IProperty from '../../../axon/js/IProperty.js';
 import Multilink from '../../../axon/js/Multilink.js';
-import merge from '../../../phet-core/js/merge.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { FocusHighlightPath, KeyboardUtils, Line, Node, PressListener, Rectangle, Text, Voicing } from '../../../scenery/js/imports.js';
+import { FocusHighlightPath, KeyboardUtils, Line, Node, NodeOptions, PressListener, Rectangle, SceneryEvent, Text, Voicing } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
-import PreferencesDialog from './PreferencesDialog.js';
+import PreferencesDialog, { PreferencesTab } from './PreferencesDialog.js';
 
 // constants
 const generalTitleString = joistStrings.preferences.tabs.general.title;
@@ -23,15 +24,20 @@ const audioTitleString = joistStrings.preferences.tabs.audio.title;
 const inputTitleString = 'Input';
 const preferencesTabResponsePatternString = joistStrings.a11y.preferences.tabs.tabResponsePattern;
 
+type PreferencesTabsOptions = NodeOptions;
+
 class PreferencesTabs extends Node {
 
-  /**
-   * @param {PreferencesTab[]} supportedTabs - list of tabs the Dialog should include
-   * @param {EnumerationProperty.<PreferencesDialog.PreferenceTab>} selectedPanelProperty
-   * @param {Object} [options]
-   */
-  constructor( supportedTabs, selectedPanelProperty, options ) {
-    options = merge( {
+
+  //  A reference to the selected and focusable tab content so that we can determine which
+  // tab is next in order when cycling through with alternative input.
+  private selectedButton: Node | null = null;
+  private readonly selectedPanelProperty: IProperty<PreferencesTab>;
+  private readonly content: Tab[] = [];
+  private readonly disposePreferencesTabs: () => void;
+
+  public constructor( supportedTabs: PreferencesTab[], selectedPanelProperty: IProperty<PreferencesTab>, providedOptions?: PreferencesTabsOptions ) {
+    const options = optionize<PreferencesTabsOptions, EmptySelfOptions, NodeOptions>()( {
 
       // pdom
       tagName: 'ul',
@@ -40,20 +46,13 @@ class PreferencesTabs extends Node {
 
       // phet-io
       tandem: Tandem.REQUIRED
-    }, options );
+    }, providedOptions );
 
     super( options );
 
-    // @private {null|Node} - A reference to the selected and focusable tab content so that we can determine which
-    // tab is next in order when cycling through with alternative input.
-    this.selectedButton = null;
-
-    // @private {EnumerationDeprecatedProperty}
     this.selectedPanelProperty = selectedPanelProperty;
 
-    // @private {Tab[]}
-    this.content = [];
-    const addTabIfSupported = ( preferenceTab, titleString, tandemName ) => {
+    const addTabIfSupported = ( preferenceTab: PreferencesTab, titleString: string, tandemName: string ) => {
       const tandem = options.tandem.createTandem( tandemName );
       _.includes( supportedTabs, preferenceTab ) && this.content.push( new Tab( titleString, selectedPanelProperty, preferenceTab, tandem ) );
     };
@@ -71,16 +70,16 @@ class PreferencesTabs extends Node {
 
     // pdom - keyboard support to move through tabs with arrow keys
     const keyboardListener = {
-      keydown: event => {
+      keydown: ( event: SceneryEvent ) => {
 
         // reserve keyboard events for dragging to prevent default panning behavior with zoom features
         event.pointer.reserveForKeyboardDrag();
       },
-      keyup: event => {
+      keyup: ( event: SceneryEvent ) => {
         if ( ( KeyboardUtils.isAnyKeyEvent( event.domEvent, [ KeyboardUtils.KEY_RIGHT_ARROW, KeyboardUtils.KEY_LEFT_ARROW ] ) ) ) {
 
           // prevent "native" behavior so that Safari doesn't make an error sound with arrow keys in full screen mode
-          event.domEvent.preventDefault();
+          event.domEvent!.preventDefault();
 
           const direction = KeyboardUtils.isKeyEvent( event.domEvent, KeyboardUtils.KEY_RIGHT_ARROW ) ? 1 : -1;
           for ( let i = 0; i < this.content.length; i++ ) {
@@ -102,7 +101,7 @@ class PreferencesTabs extends Node {
     };
     this.addInputListener( keyboardListener );
 
-    const selectedPanelListener = selectedPanel => {
+    const selectedPanelListener = () => {
       this.content.forEach( content => {
         if ( content.value === this.selectedPanelProperty.value ) {
           this.selectedButton = content;
@@ -117,7 +116,6 @@ class PreferencesTabs extends Node {
       this.inputEnabledProperty.value = false;
     }
 
-    // @private
     this.disposePreferencesTabs = () => {
       this.removeInputListener( keyboardListener );
       selectedPanelProperty.unlink( selectedPanelListener );
@@ -127,9 +125,8 @@ class PreferencesTabs extends Node {
 
   /**
    * Move focus to the selected tab. Useful when the Preferences dialog is opened.
-   * @public
    */
-  focusSelectedTab() {
+  public focusSelectedTab(): void {
     this.content.forEach( content => {
       if ( content.value === this.selectedPanelProperty.value ) {
         content.focus();
@@ -137,10 +134,7 @@ class PreferencesTabs extends Node {
     } );
   }
 
-  /**
-   * @public
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposePreferencesTabs();
     super.dispose();
   }
@@ -152,12 +146,16 @@ class PreferencesTabs extends Node {
  */
 class Tab extends Voicing( Node, 0 ) {
 
+  public readonly value: PreferencesTab;
+  private readonly disposeTab: () => void;
+
   /**
-   * @param {string} label - text label for the tab
-   * @param {EnumerationDeprecatedProperty.<PreferencesDialog.<PreferencesTab>} property
-   * @param {PreferencesDialog.PreferencesTab} value - PreferencesTab shown when this tab is selected
+   * @param label - text label for the tab
+   * @param property
+   * @param value - PreferencesTab shown when this tab is selected
+   * @param tandem
    */
-  constructor( label, property, value, tandem ) {
+  public constructor( label: string, property: IProperty<PreferencesTab>, value: PreferencesTab, tandem: Tandem ) {
 
     const textNode = new Text( label, PreferencesDialog.TAB_OPTIONS );
 
@@ -186,7 +184,6 @@ class Tab extends Voicing( Node, 0 ) {
       tandem: tandem
     } );
 
-    // @public {PreferenceTab}
     this.value = value;
 
     this.voicingNameResponse = StringUtils.fillIn( preferencesTabResponsePatternString, {
@@ -215,16 +212,12 @@ class Tab extends Voicing( Node, 0 ) {
       underlineNode.visible = selectedTab === value;
     } );
 
-    // @private
     this.disposeTab = () => {
       pressListener.dispose();
     };
   }
 
-  /**
-   * @public
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeTab();
     super.dispose();
   }

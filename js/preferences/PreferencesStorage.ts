@@ -9,24 +9,21 @@
  * author
  */
 
+import IProperty from '../../../axon/js/IProperty.js';
 import joist from '../joist.js';
 
-let preferencesStorage = null;
+let preferencesStorage: PreferencesStorage | null = null;
 
 const PREFERENCES_KEY = 'PREFERENCES:';
 
 class PreferencesStorage {
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+  private enabled = true;
 
-    // @private
-    this.enabled = true;
+  // for debugging
+  private readonly registedProperties: IProperty<unknown>[] = [];
 
-    // @private - for debugging
-    this.registedProperties = [];
+  public constructor() {
 
     try {
 
@@ -35,26 +32,25 @@ class PreferencesStorage {
     }
     catch( e ) {
       this.enabled = false; // can't use localStorage with browser settings
-      const safari = navigator.userAgent.indexOf( 'Safari' ) !== -1 && navigator.userAgent.indexOf( 'Chrome' ) === -1;
-      if ( safari && e.toString().indexOf( 'QuotaExceededError' ) >= 0 ) {
-        console.log( 'It looks like you are browsing with private mode in Safari. ' +
-                     'Please turn that setting off if you want to use PreferencesStorage' );
-      }
-      else {
-        throw e;
+
+      if ( e instanceof Error ) {
+        const safari = window.navigator.userAgent.includes( 'Safari' ) && !window.navigator.userAgent.includes( 'Chrome' );
+
+        if ( safari && e.toString().includes( 'QuotaExceededError' ) ) {
+          console.log( 'It looks like you are browsing with private mode in Safari. ' +
+                       'Please turn that setting off if you want to use PreferencesStorage' );
+        }
+        else {
+          throw e;
+        }
       }
     }
   }
 
-  /**
-   * @private
-   * @param {Property} property
-   * @param {string} name
-   */
-  registerToLocalStorage( property, name ) {
+  private registerToLocalStorage( property: IProperty<unknown>, name: string ): void {
     const key = `${PREFERENCES_KEY}${name}`;
     if ( window.localStorage.getItem( key ) ) {
-      property.value = JSON.parse( window.localStorage.getItem( key ) );
+      property.value = JSON.parse( window.localStorage.getItem( key )! );
     }
     property.link( value => {
       window.localStorage.setItem( key, JSON.stringify( value ) );
@@ -62,13 +58,7 @@ class PreferencesStorage {
     this.registedProperties.push( property );
   }
 
-  /**
-   * @public
-   * @param {Property} property
-   * @param {string} name
-   * @returns {Property} - for chaining
-   */
-  static register( property, name ) {
+  public static register( property: IProperty<unknown>, name: string ): IProperty<unknown> {
     if ( !phet.chipper.queryParameters.preferencesStorage ) {
       return property;
     }

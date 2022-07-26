@@ -12,16 +12,17 @@
 import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
 import Enumeration from '../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../phet-core/js/EnumerationValue.js';
-import merge from '../../../phet-core/js/merge.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { KeyboardUtils, Node, Text } from '../../../scenery/js/imports.js';
-import Dialog from '../../../sun/js/Dialog.js';
+import Dialog, { DialogOptions } from '../../../sun/js/Dialog.js';
 import HSeparator from '../../../sun/js/HSeparator.js';
 import soundManager from '../../../tambo/js/soundManager.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import audioManager from '../audioManager.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
+import PreferencesModel from './PreferencesModel.js';
 import PreferencesPanels from './PreferencesPanels.js';
 import PreferencesTabs from './PreferencesTabs.js';
 import PreferencesTabSwitchSoundGenerator from './PreferencesTabSwitchSoundGenerator.js';
@@ -54,21 +55,22 @@ const PANEL_SECTION_LABEL_OPTIONS = {
 
 // tabs available in this Dialog
 export class PreferencesTab extends EnumerationValue {
-  static GENERAL = new PreferencesTab();
-  static VISUAL = new PreferencesTab();
-  static AUDIO = new PreferencesTab();
-  static INPUT = new PreferencesTab();
+  public static GENERAL = new PreferencesTab();
+  public static VISUAL = new PreferencesTab();
+  public static AUDIO = new PreferencesTab();
+  public static INPUT = new PreferencesTab();
 
-  static enumeration = new Enumeration( PreferencesTab );
+  public static enumeration = new Enumeration( PreferencesTab );
 }
 
-class PreferencesDialog extends Dialog {
+type PreferencesDialogOptions = DialogOptions;
 
-  /**
-   * @param {PreferencesModel} preferencesModel
-   * @param {Object} [options]
-   */
-  constructor( preferencesModel, options ) {
+class PreferencesDialog extends Dialog {
+  private readonly preferencesTabs: PreferencesTabs;
+  private readonly preferencesPanels: PreferencesPanels;
+  private readonly disposePreferencesDialog: () => void;
+
+  public constructor( preferencesModel: PreferencesModel, providedOptions?: PreferencesDialogOptions ) {
 
     const titleText = new Text( preferencesTitleString, {
       font: TITLE_FONT,
@@ -78,7 +80,7 @@ class PreferencesDialog extends Dialog {
       innerContent: preferencesTitleString
     } );
 
-    options = merge( {
+    const options = optionize<PreferencesDialogOptions, EmptySelfOptions, DialogOptions>()( {
       titleAlign: 'center',
       title: titleText,
 
@@ -90,7 +92,7 @@ class PreferencesDialog extends Dialog {
 
       // pdom
       positionInPDOM: true
-    }, options );
+    }, providedOptions );
 
     // determine which tabs will be supported in this Dialog, true if any entry in a configuration has content
     const supportedTabs = [];
@@ -135,7 +137,6 @@ class PreferencesDialog extends Dialog {
 
     super( content, options );
 
-    // @private {PreferencesTabs}
     this.preferencesTabs = preferencesTabs;
     this.preferencesPanels = preferencesPanels;
 
@@ -158,7 +159,6 @@ class PreferencesDialog extends Dialog {
       }
     } );
 
-    // @private
     this.disposePreferencesDialog = () => {
       preferencesTabs.dispose();
       selectedTabProperty.dispose();
@@ -168,43 +168,36 @@ class PreferencesDialog extends Dialog {
 
   /**
    * Move focus to the selected tab. Generally to be used when opening the dialog.
-   * @public
    */
-  focusSelectedTab() {
+  public focusSelectedTab(): void {
     this.preferencesTabs.focusSelectedTab();
   }
 
   /**
    * Move focus to the selected panel.
-   * @private
    */
-  focusSelectedPanel() {
+  private focusSelectedPanel(): void {
     this.preferencesPanels.focusSelectedPanel();
   }
 
-  /**
-   * @public
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposePreferencesDialog();
     super.dispose();
   }
+
+  public static PreferencesTab = PreferencesTab;
+
+  public static TAB_FONT = TAB_FONT;
+  public static TAB_OPTIONS = TAB_OPTIONS;
+
+  public static CONTENT_FONT = CONTENT_FONT;
+  public static CONTENT_MAX_WIDTH = CONTENT_MAX_WIDTH;
+  public static PANEL_SECTION_CONTENT_OPTIONS = PANEL_SECTION_CONTENT_OPTIONS;
+
+  public static PANEL_SECTION_LABEL_FONT = PANEL_SECTION_LABEL_FONT;
+  public static PANEL_SECTION_LABEL_MAX_WIDTH = PANEL_SECTION_LABEL_MAX_WIDTH;
+  public static PANEL_SECTION_LABEL_OPTIONS = PANEL_SECTION_LABEL_OPTIONS;
 }
-
-// @public
-// @static
-PreferencesDialog.PreferencesTab = PreferencesTab;
-
-PreferencesDialog.TAB_FONT = TAB_FONT;
-PreferencesDialog.TAB_OPTIONS = TAB_OPTIONS;
-
-PreferencesDialog.CONTENT_FONT = CONTENT_FONT;
-PreferencesDialog.CONTENT_MAX_WIDTH = CONTENT_MAX_WIDTH;
-PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS = PANEL_SECTION_CONTENT_OPTIONS;
-
-PreferencesDialog.PANEL_SECTION_LABEL_FONT = PANEL_SECTION_LABEL_FONT;
-PreferencesDialog.PANEL_SECTION_LABEL_MAX_WIDTH = PANEL_SECTION_LABEL_MAX_WIDTH;
-PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS = PANEL_SECTION_LABEL_OPTIONS;
 
 joist.register( 'PreferencesDialog', PreferencesDialog );
 export default PreferencesDialog;
