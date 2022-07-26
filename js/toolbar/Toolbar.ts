@@ -14,18 +14,22 @@
 
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
+import IProperty from '../../../axon/js/IProperty.js';
+import IReadOnlyProperty from '../../../axon/js/IReadOnlyProperty.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import stepTimer from '../../../axon/js/stepTimer.js';
 import Matrix3 from '../../../dot/js/Matrix3.js';
 import { Shape } from '../../../kite/js/imports.js';
-import merge from '../../../phet-core/js/merge.js';
-import { Node, Path, Rectangle, voicingManager } from '../../../scenery/js/imports.js';
+import { combineOptions } from '../../../phet-core/js/optionize.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import { Node, NodeOptions, Path, Rectangle, voicingManager } from '../../../scenery/js/imports.js';
 import ButtonNode from '../../../sun/js/buttons/ButtonNode.js';
 import RoundPushButton from '../../../sun/js/buttons/RoundPushButton.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import audioManager from '../audioManager.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
+import Sim from '../Sim.js';
 import VoicingToolbarAlertManager from './VoicingToolbarAlertManager.js';
 import VoicingToolbarItem from './VoicingToolbarItem.js';
 
@@ -41,56 +45,78 @@ const showToolbarString = joistStrings.a11y.toolbar.showToolbar;
 const toolbarShownString = joistStrings.a11y.toolbar.toolbarShown;
 const toolbarHiddenString = joistStrings.a11y.toolbar.toolbarHidden;
 
+type ToolbarOptions = NodeOptions & PickRequired<NodeOptions, 'tandem'>;
+
 class Toolbar extends Node {
 
-  /**
-   * @param {Sim} sim
-   * @param {Object} [options]
-   */
-  constructor( sim, options ) {
+  // Whether the Toolbar is enabled (visible to the user)
+  private readonly isEnabledProperty: IReadOnlyProperty<boolean>;
 
-    options = merge( {
+  // the Rectangle for the Toolbar that surrounds all content, bounds set once
+  // content is created and in layout to fill height of screen
+  private readonly backgroundRectangle: Rectangle;
+
+  // The position of the right edge of the backgroundRectangle in local coordinates.
+  // This is what controls the position of the Toolbar as it is open/closed/removed/animating.
+  public readonly rightPositionProperty: IProperty<number>;
+
+  // The target position for the rightPositionProperty, to support animation. In step,
+  // the rightPositionProperty will be changed until the rightPositionProperty equals the rightDestinationPosition.
+  private rightDestinationPosition: number;
+
+  // Whether or not the Toolbar is open or closed. This is different from whether or not it is showing.
+  private readonly openProperty: BooleanProperty;
+
+  //  Whether the Toolbar is shown to the user. At this time,
+  // that is true if the toolbar is enabled, voicing is enabled, and if all audio is enabled. The Toolbar only
+  // includes controls related to audio (voicing) so when audio is disabled there is no need to show it.
+  private readonly isShowingProperty: IReadOnlyProperty<boolean>;
+
+  // Scale applied to the Toolbar and its contents in response to layout and window resizing.
+  private layoutScale = 1;
+
+  // Contents for the Toolbar, currently only controls related to the voicing
+  // feature.
+  private readonly menuContent: VoicingToolbarItem;
+
+  private readonly openButton: RoundPushButton;
+
+  // width of content for the toolbar in the local coordinate frame
+  private readonly contentWidth: number;
+
+  // Margin between toolbar content and edge of the backgroundRectangle, in the local coordinate
+  // frame. Also used to determine the right position when closed. This is the width of the button so that when the
+  // Toolbar is closed only the button is shown and all other content is hidden.
+  private readonly contentMargin: number;
+  private readonly disposeToolbar: () => void;
+
+  public constructor( sim: Sim, providedOptions?: ToolbarOptions ) {
+
+    const options = combineOptions<ToolbarOptions>( {
 
       // pdom
       tagName: 'div',
 
       // phet-io
       tandem: Tandem.REQUIRED
-    }, options );
+    }, providedOptions );
 
     super( options );
 
-    // @private {BooleanProperty} - Whether or not the Toolbar is enabled (visible to the user)
-    this.isEnabledProperty = sim.preferencesModel.toolbarEnabledProperty;
+    assert && assert( sim.preferencesModel, 'cannot have a toolbar without a PreferencesModel' );
+    this.isEnabledProperty = sim.preferencesModel!.toolbarEnabledProperty;
 
-    // @private {Rectangle} - the Rectangle for the Toolbar that surrounds all content, bounds set once
-    // content is created and in layout to fill height of screen
     this.backgroundRectangle = new Rectangle( 0, 0, 0, 0, {
       fill: sim.lookAndFeel.navigationBarFillProperty
     } );
 
-    // @public {NumberProperty} - The position of the right edge of the backgroundRectangle in local coordinates.
-    // This is what controls the position of the Toolbar as it is open/closed/removed/animating.
     this.rightPositionProperty = new NumberProperty( 0 );
-
-    // @private {number} - The target position for the rightPositionProperty, to support animation. In step,
-    // the rightPositionProperty will be changed until the rightPositionProperty equals the rightDestinationPosition.
     this.rightDestinationPosition = 0;
 
-    // @private {BooleanProperSty} - Whether or not the Toolbar is open or closed. This is different from
-    // whether or not it is showing.
     this.openProperty = new BooleanProperty( true );
 
-    // @public (read-only) {DerivedProperty.<boolean>} - Whether the Toolbar is shown to the user. At this time,
-    // that is true if the toolbar is enabled, voicing is enabled, and if all audio is enabled. The Toolbar only
-    // includes controls related to audio (voicing) so when audio is disabled there is no need to show it.
     this.isShowingProperty = DerivedProperty.and( [ this.isEnabledProperty, voicingManager.enabledProperty, audioManager.audioEnabledProperty ] );
 
-    // @private {number} - Scale applied to the Toolbar and its contents in response to layout and window resizing.
-    this.layoutScale = 1;
-
-    // @private {VoicingToolbarItem} - Contents for the Toolbar, currently only controls related to the voicing
-    // feature.
     const voicingAlertManager = new VoicingToolbarAlertManager( sim.screenProperty );
     this.menuContent = new VoicingToolbarItem( voicingAlertManager, sim.lookAndFeel, {
       tandem: options.tandem.createTandem( 'menuContent' )
@@ -99,7 +125,6 @@ class Toolbar extends Node {
     // icon for the openButton
     const chevronIcon = new DoubleChevron();
 
-    // @private {RoundPushButton}
     this.openButton = new RoundPushButton( {
       content: chevronIcon,
       listener: () => this.openProperty.toggle(),
@@ -110,12 +135,8 @@ class Toolbar extends Node {
       tandem: Tandem.OPT_OUT
     } );
 
-    // @private {number} - width of content for the toolbar in the local coordinate frame
     this.contentWidth = this.menuContent.localBounds.width;
 
-    // @private {number} - Margin between toolbar content and edge of the backgroundRectangle, in the local coordinate
-    // frame. Also used to determine the right position when closed. This is the width of the button so that when the
-    // Toolbar is closed only the button is shown and all other content is hidden.
     this.contentMargin = this.openButton.localBounds.width;
 
     // a parent for all Nodes of the toolbar, so we can set visibility of this group internally when
@@ -126,12 +147,12 @@ class Toolbar extends Node {
     this.addChild( contentParent );
 
     // move to destination position in the animation frame
-    const timerListener = dt => {
+    const timerListener = ( dt: number ) => {
       this.step( dt );
     };
     stepTimer.addListener( timerListener );
 
-    const isOpenListener = ( open, oldValue ) => {
+    const isOpenListener = ( open: boolean, oldValue: boolean | null ) => {
 
       // rotate chevron to indicate direction of toolbar movement
       chevronIcon.matrix = open ? Matrix3.scaling( -1, 1 ) : Matrix3.IDENTITY;
@@ -156,7 +177,7 @@ class Toolbar extends Node {
     this.openProperty.link( isOpenListener );
 
     // when shown or hidden update destination positions so it animates open or close
-    const isShowingListener = showing => {
+    const isShowingListener = ( showing: boolean ) => {
       this.updateDestinationPosition();
 
       // when now showing, this entire toolbar should be hidden for Interactive Description, but we don't use
@@ -165,7 +186,6 @@ class Toolbar extends Node {
     };
     this.isShowingProperty.link( isShowingListener );
 
-    // @private
     this.disposeToolbar = () => {
       this.isShowingProperty.unlink( isShowingListener );
       this.openProperty.unlink( isOpenListener );
@@ -175,20 +195,16 @@ class Toolbar extends Node {
   /**
    * Returns the width of the Toolbar that can be seen on screen. This can be any value from the full width of the
    * Toolbar to zero width, depending on whether it is open, closed, removed entirely, or animating.
-   * @public
-   *
-   * @returns {number}
    */
-  getDisplayedWidth() {
+  public getDisplayedWidth(): number {
     return this.rightPositionProperty.value * this.layoutScale + this.openButton.width / 2;
   }
 
   /**
    * Update rightDestinationPosition so that the Toolbar will animate towards opening, closing, or being removed
    * entirely from view.
-   * @private
    */
-  updateDestinationPosition() {
+  private updateDestinationPosition(): void {
     if ( this.isShowingProperty.value ) {
       // the Toolbar is enabled and should either show all content or just the openButton
       this.rightDestinationPosition = this.openProperty.value ? this.contentWidth + this.contentMargin * 2 : this.contentMargin;
@@ -201,11 +217,8 @@ class Toolbar extends Node {
 
   /**
    * Animated the Toolbar as it opens and closes.
-   * @private
-   *
-   * @param {number} dt
    */
-  step( dt ) {
+  private step( dt: number ): void {
     const distance = Math.abs( this.rightPositionProperty.value - this.rightDestinationPosition );
     if ( distance !== 0 ) {
       const animationDistance = Math.min( distance, MAX_ANIMATION_SPEED * dt );
@@ -218,12 +231,8 @@ class Toolbar extends Node {
 
   /**
    * Layout for the Toolbar, called whenever position changes or window is resized.
-   * @public
-   *
-   * @param {number} scale
-   * @param {number} height
    */
-  layout( scale, height ) {
+  public layout( scale: number, height: number ): void {
     this.layoutScale = scale;
     this.menuContent.setScaleMagnitude( scale );
     this.openButton.setScaleMagnitude( scale );
@@ -234,10 +243,7 @@ class Toolbar extends Node {
     this.menuContent.centerTop = this.backgroundRectangle.centerTop.plusXY( 0, CONTENT_TOP_MARGIN );
   }
 
-  /**
-   * @public
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeToolbar();
     super.dispose();
   }
@@ -247,7 +253,7 @@ class Toolbar extends Node {
  * The icon for the button that opens and closes the Toolbar.
  */
 class DoubleChevron extends Path {
-  constructor() {
+  public constructor() {
 
     // spacing and dimensions for the arrows
     const chevronSpacing = 8;
