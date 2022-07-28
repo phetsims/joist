@@ -52,7 +52,7 @@ export type SimInfoState = {
 };
 
 class SimInfo extends PhetioObject {
-  private readonly info: SimInfoState = {} as SimInfoState;
+  public readonly info: SimInfoState = {} as SimInfoState;
 
   public constructor( sim: Sim ) {
     super( {
