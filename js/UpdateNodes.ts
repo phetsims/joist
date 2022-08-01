@@ -45,7 +45,7 @@ type IStep = {
   stepListener: ( dt: number ) => void;
 };
 
-type IStepHBox = IStep & HBox;
+type TStepHBox = IStep & HBox;
 
 const UpdateNodes = {
 
@@ -68,7 +68,7 @@ const UpdateNodes = {
           fontWeight: options.big ? 'bold' : 'normal'
         } )
       ]
-    }, options ) ) as IStepHBox;
+    }, options ) ) as TStepHBox;
     checkingNode.step = function( dt ) {
       if ( updateCheck.stateProperty.value === UpdateState.CHECKING ) {
         spinningIndicatorNode.step( dt );
