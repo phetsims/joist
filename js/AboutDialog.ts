@@ -7,7 +7,7 @@
  */
 
 import stepTimer from '../../axon/js/stepTimer.js';
-import IBrand from '../../brand/js/IBrand.js';
+import TBrand from '../../brand/js/TBrand.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
@@ -60,7 +60,7 @@ export default class AboutDialog extends Dialog {
     }, providedOptions );
 
     // Dynamic modules are loaded in simLauncher and accessed through their namespace
-    const Brand: IBrand = phet.brand.Brand;
+    const Brand: TBrand = phet.brand.Brand;
     assert && assert( Brand, 'Brand should exist by now' );
 
     let children = [];

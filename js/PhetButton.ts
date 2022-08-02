@@ -10,7 +10,7 @@
 
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
-import IBrand from '../../brand/js/IBrand.js';
+import TBrand from '../../brand/js/TBrand.js';
 import { AriaHasPopUpMutator, Color, Image, Line, Node } from '../../scenery/js/imports.js';
 import pushButtonSoundPlayer from '../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -38,7 +38,7 @@ class PhetButton extends JoistButton {
   public constructor( sim: Sim, backgroundFillProperty: IReadOnlyProperty<Color>, tandem: Tandem ) {
 
     // Dynamic modules are loaded in simLauncher and accessed through their namespace
-    const Brand: IBrand = phet.brand.Brand;
+    const Brand: TBrand = phet.brand.Brand;
     assert && assert( Brand, 'Brand should exist by now' );
 
     // The logo images are loaded from the brand which is selected via query parameter (during unbuilt mode)
