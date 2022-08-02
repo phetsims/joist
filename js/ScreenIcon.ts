@@ -9,7 +9,7 @@
  */
 
 import optionize from '../../phet-core/js/optionize.js';
-import { IColor, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
+import { TColor, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 import Screen from './Screen.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
@@ -18,8 +18,8 @@ type SelfOptions = {
   size?: Dimension2; // size of the background
   maxIconWidthProportion?: number; // max proportion of the background width occupied by iconNode, (0,1]
   maxIconHeightProportion?: number; // max proportion of the background height occupied by iconNode, (0,1]
-  fill?: IColor; // {Color|string} background fill
-  stroke?: IColor; // {Color|string} background stroke
+  fill?: TColor; // {Color|string} background fill
+  stroke?: TColor; // {Color|string} background stroke
 };
 
 export type ScreenIconOptions = SelfOptions & NodeOptions;

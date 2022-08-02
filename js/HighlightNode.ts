@@ -8,12 +8,12 @@
  */
 
 import optionize from '../../phet-core/js/optionize.js';
-import { Color, HBox, HBoxOptions, IColor, LinearGradient, Rectangle } from '../../scenery/js/imports.js';
+import { Color, HBox, HBoxOptions, TColor, LinearGradient, Rectangle } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 
 type SelfOptions = {
   highlightWidth?: number;
-  fill?: IColor;
+  fill?: TColor;
 };
 type HighlightNodeOptions = SelfOptions & HBoxOptions;
 

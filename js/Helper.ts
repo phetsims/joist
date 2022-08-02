@@ -15,7 +15,7 @@ import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import MeasuringTapeNode from '../../scenery-phet/js/MeasuringTapeNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { CanvasNode, Circle, Color, Display, DOM, DragListener, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, IColor, Image, IPaint, LayoutNode, Line, LinearGradient, mixesHeightSizable, mixesWidthSizable, Node, NodeOptions, NodePattern, Paint, Path, Pattern, PDOMInstance, PressListener, RadialGradient, Rectangle, RichText, RichTextOptions, SceneryEvent, Spacer, Text, TextOptions, Trail, VBox, VDivider, WebGLNode } from '../../scenery/js/imports.js';
+import { CanvasNode, Circle, Color, Display, DOM, DragListener, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, TColor, Image, IPaint, LayoutNode, Line, LinearGradient, mixesHeightSizable, mixesWidthSizable, Node, NodeOptions, NodePattern, Paint, Path, Pattern, PDOMInstance, PressListener, RadialGradient, Rectangle, RichText, RichTextOptions, SceneryEvent, Spacer, Text, TextOptions, Trail, VBox, VDivider, WebGLNode } from '../../scenery/js/imports.js';
 import Panel from '../../sun/js/Panel.js';
 import AquaRadioButtonGroup from '../../sun/js/AquaRadioButtonGroup.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -1558,7 +1558,7 @@ const createInfo = ( trail: Trail ): Node[] => {
     } );
   };
 
-  const addColor = ( key: string, color: IColor ) => {
+  const addColor = ( key: string, color: TColor ) => {
     const result = iColorToColor( color );
     if ( result !== null ) {
       addRaw( key, colorSwatch( result ) );
@@ -1965,7 +1965,7 @@ const createInfo = ( trail: Trail ): Node[] => {
   return children;
 };
 
-const iColorToColor = ( color: IColor ): Color | null => {
+const iColorToColor = ( color: TColor ): Color | null => {
   const nonProperty: Color | string | null = ( color instanceof ReadOnlyProperty || color instanceof TinyProperty ) ? color.value : color;
   return nonProperty === null ? null : Color.toColor( nonProperty );
 };
