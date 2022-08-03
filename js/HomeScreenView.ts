@@ -9,7 +9,7 @@
 import Bounds2 from '../../dot/js/Bounds2.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { HBox, Node, Text } from '../../scenery/js/imports.js';
+import { AlignBox, HBox, Node, Text } from '../../scenery/js/imports.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import HomeScreenButton from './HomeScreenButton.js';
 import HomeScreenSoundGenerator from './HomeScreenSoundGenerator.js';
@@ -154,33 +154,23 @@ class HomeScreenView extends ScreenView {
       } );
     } );
 
-    // add layout of icons
-    const hBox = new HBox( {
+    const buttonBox = new HBox( {
       spacing: spacing,
-      children: this.screenButtons,
       align: 'top',
-      resize: false, // see https://github.com/phetsims/scenery/issues/116
       maxWidth: this.layoutBounds.width - 118,
 
       // pdom
       tagName: 'ol'
     } );
-    this.addChild( hBox );
+    model.activeSimScreensProperty.link( simScreens => {
+      buttonBox.children = simScreens.map( screen => _.find( this.screenButtons, screenButton => screenButton.screen === screen )! );
+    } );
 
-    const updateIconsLayout = () => {
-
-      hBox.updateLayout();
-
-      // position the icons
-      hBox.centerX = this.layoutBounds.width / 2;
-      hBox.top = this.layoutBounds.height / 3 + 20;
-    };
-
-    // When the selected screen changes, update layout of the icons
-    model.selectedScreenProperty.link( updateIconsLayout );
-
-    // When the visibility of the icons changes, say via Studio, update layout of the icons.
-    this.screenButtons.forEach( screenButton => screenButton.visibleProperty.link( updateIconsLayout ) );
+    this.addChild( new AlignBox( buttonBox, {
+      alignBounds: this.layoutBounds,
+      yAlign: 'top',
+      topMargin: this.layoutBounds.height / 3 + 20
+    } ) );
 
     // Add sound generation for screen selection.  This generates sound for all changes between screens, not just for the
     // home screen.

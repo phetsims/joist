@@ -23,7 +23,7 @@ import PickRequired from '../../phet-core/js/types/PickRequired.js';
 const homeScreenDescriptionString = joistStrings.a11y.homeScreenDescription;
 
 type SelfOptions = EmptySelfOptions;
-type HomeButtonOptions = SelfOptions & PickRequired<JoistButtonOptions, 'listener' | 'tandem'>;
+type HomeButtonOptions = SelfOptions & JoistButtonOptions & PickRequired<JoistButtonOptions, 'listener' | 'tandem'>;
 
 export default class HomeButton extends JoistButton {
 

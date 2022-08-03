@@ -8,6 +8,7 @@
 
 import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
+import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
 import { Color, Node } from '../../scenery/js/imports.js';
 import HomeScreenKeyboardHelpContent from './HomeScreenKeyboardHelpContent.js';
@@ -33,6 +34,7 @@ class HomeScreen extends Screen<HomeScreenModel, HomeScreenView> {
     simNameProperty: IReadOnlyProperty<string>,
     getScreenProperty: () => Property<Screen>,
     simScreens: Screen[],
+    activeSimScreensProperty: ReadOnlyProperty<Screen[]>,
     providedOptions: HomeScreenOptions
   ) {
 
@@ -52,7 +54,7 @@ class HomeScreen extends Screen<HomeScreenModel, HomeScreenView> {
     super(
       // at the time of construction, the Sim.screenProperty is not yet assigned (because it may itself include the
       // HomeScreen), so we must use a function to lazily get it after it is assigned
-      () => new HomeScreenModel( getScreenProperty(), simScreens, options.tandem.createTandem( 'model' ) ),
+      () => new HomeScreenModel( getScreenProperty(), simScreens, activeSimScreensProperty, options.tandem.createTandem( 'model' ) ),
       model => new HomeScreenView( simNameProperty, model, {
         warningNode: options.warningNode,
         tandem: options.tandem.createTandem( 'view' )

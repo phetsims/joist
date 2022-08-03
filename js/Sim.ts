@@ -66,6 +66,9 @@ import { CreditsData } from './CreditsNode.js';
 import { PopupableNode } from '../../sun/js/Popupable.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
 import Multilink from '../../axon/js/Multilink.js';
+import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
+import Combination from '../../dot/js/Combination.js';
+import Permutation from '../../dot/js/Permutation.js';
 
 // constants
 const PROGRESS_BAR_WIDTH = 273;
@@ -161,6 +164,10 @@ export default class Sim extends PhetioObject {
 
   // true if all possible screens are present (order-independent)
   private readonly allScreensCreated: boolean;
+
+  private screensStringProperty!: Property<string>;
+  public activeSimScreensProperty!: ReadOnlyProperty<Screen[]>;
+  public hasHomeScreenProperty!: ReadOnlyProperty<boolean>;
 
   // When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.
   // Set to false for when the sim will be paused.
@@ -487,7 +494,22 @@ export default class Sim extends PhetioObject {
       phet.chipper.queryParameters.screens,
       QueryStringMachine.containsKey( 'screens' ),
       selectedSimScreens => {
-        return new HomeScreen( this.simNameProperty, () => this.screenProperty, selectedSimScreens, {
+        const possibleScreenIndices = selectedSimScreens.map( ( screen, index ) => index + 1 );
+        this.screensStringProperty = new StringProperty( possibleScreenIndices.join( ',' ), {
+          tandem: Tandem.GENERAL_VIEW.createTandem( 'screensStringProperty' ),
+          validValues: _.flatten( Combination.combinationsOf( possibleScreenIndices ).map( subset => Permutation.permutationsOf( subset ) ) )
+            .filter( array => array.length > 0 )
+            .map( array => array.join( ',' ) ),
+          phetioReadOnly: QueryStringMachine.containsKey( 'screens' )
+        } );
+
+        this.activeSimScreensProperty = new DerivedProperty( [ this.screensStringProperty ], screensString => {
+          return screensString.split( ',' ).map( digitString => selectedSimScreens[ Number( digitString ) - 1 ] );
+        } );
+        this.hasHomeScreenProperty = new DerivedProperty( [ this.activeSimScreensProperty ], screens => screens.length > 1 );
+      },
+      selectedSimScreens => {
+        return new HomeScreen( this.simNameProperty, () => this.screenProperty, selectedSimScreens, this.activeSimScreensProperty, {
           tandem: options.tandem.createTandem( window.phetio.PhetioIDUtils.HOME_SCREEN_COMPONENT_NAME ),
           warningNode: options.homeScreenWarningNode
         } );

@@ -38,6 +38,8 @@ type NavigationBarScreenButtonOptions = SelfOptions & ParentOptions;
 class NavigationBarScreenButton extends Voicing( Node, 0 ) {
   private readonly buttonModel: PushButtonModel;
 
+  public readonly screen: Screen<IntentionalAny>;
+
   /**
    * @param navigationBarFillProperty - the color of the navbar, as a string.
    * @param screenProperty
@@ -72,6 +74,8 @@ class NavigationBarScreenButton extends Voicing( Node, 0 ) {
     assert && assert( !options.innerContent, 'NavigationBarScreenButton sets its own innerContent' );
 
     super();
+
+    this.screen = screen;
 
     screen.pdomDisplayNameProperty.link( name => {
       this.innerContent = name;

@@ -75,6 +75,7 @@ QUnit.test( 'valid selectScreens', async assert => {
       QueryStringMachine.containsKeyForString( 'initialScreen', queryString ),
       queryParameterValues.screens,
       QueryStringMachine.containsKeyForString( 'screens', queryString ),
+      _.noop,
       () => hs
     );
 
@@ -240,6 +241,7 @@ QUnit.test( 'invalid selectScreens', async assert => {
         QueryStringMachine.containsKeyForString( 'initialScreen', queryString ),
         queryParameterValues.screens,
         QueryStringMachine.containsKeyForString( 'screens', queryString ),
+        _.noop,
         () => hs
       );
     }, `expected error for invalid selectScreens test ${description}` );

@@ -40,6 +40,7 @@ export default function selectScreens( allSimScreens: Screen[],
                                        initialScreenQueryParameterProvided: boolean,
                                        screensQueryParameter: number[],
                                        screensQueryParameterProvided: boolean,
+                                       setupScreens: ( screens: Screen[] ) => void,
                                        createHomeScreen: ( screens: Screen[] ) => HomeScreen ): ScreenReturnType {
 
   if ( allSimScreens.length === 1 && homeScreenQueryParameterProvided && homeScreenQueryParameter ) {
@@ -88,6 +89,8 @@ export default function selectScreens( allSimScreens: Screen[],
   else {
     selectedSimScreens = allSimScreens;
   }
+
+  setupScreens( selectedSimScreens );
 
   // Specifying ?homeScreen=false creates a simulation with no HomeScreen, and hence is incompatible with
   // ?initialScreen=0, which specifies to show the home screen. Note that the default value of initialScreen:0 is

@@ -9,6 +9,7 @@
  */
 
 import Property from '../../axon/js/Property.js';
+import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
@@ -18,6 +19,7 @@ class HomeScreenModel {
   public simScreens: Screen<IntentionalAny>[]; // screens in the simulations that are not the HomeScreen
   public screenProperty: Property<Screen<IntentionalAny>>;
   public selectedScreenProperty: Property<Screen<IntentionalAny>>;
+  public readonly activeSimScreensProperty: ReadOnlyProperty<Screen[]>;
 
   /**
    * @param screenProperty - the screen that is displayed to the user in the main area above the
@@ -25,10 +27,11 @@ class HomeScreenModel {
    * @param simScreens
    * @param tandem
    */
-  public constructor( screenProperty: Property<Screen<IntentionalAny, IntentionalAny>>, simScreens: Screen<IntentionalAny, IntentionalAny>[], tandem: Tandem ) {
+  public constructor( screenProperty: Property<Screen<IntentionalAny, IntentionalAny>>, simScreens: Screen<IntentionalAny, IntentionalAny>[], activeSimScreensProperty: ReadOnlyProperty<Screen[]>, tandem: Tandem ) {
 
     this.simScreens = simScreens;
     this.screenProperty = screenProperty;
+    this.activeSimScreensProperty = activeSimScreensProperty;
     this.selectedScreenProperty = new Property( simScreens[ 0 ], {
       validValues: simScreens,
       phetioType: Property.PropertyIO( Screen.ScreenIO ),
