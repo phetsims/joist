@@ -9,7 +9,7 @@ import openPopup from '../../phet-core/js/openPopup.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import SpinningIndicatorNode from '../../scenery-phet/js/SpinningIndicatorNode.js';
-import { HBox, Node, Path, Rectangle, RichText, VBox, VoicingText, VStrut } from '../../scenery/js/imports.js';
+import { HBox, Node, Path, Rectangle, RichText, RichTextLinks, VBox, VoicingText, VStrut } from '../../scenery/js/imports.js';
 import checkSolidShape from '../../sherpa/js/fontawesome-5/checkSolidShape.js';
 import exclamationTriangleSolidShape from '../../sherpa/js/fontawesome-5/exclamationTriangleSolidShape.js';
 import TextPushButton from '../../sun/js/buttons/TextPushButton.js';
@@ -115,8 +115,11 @@ const UpdateNodes = {
    */
   createOutOfDateAboutNode: function( options: Options ): Node {
     const text = phet.chipper.queryParameters.allowLinks ? `<a href="{{url}}">${updatesOutOfDateString}</a>` : updatesOutOfDateString;
+
+    const links: RichTextLinks = phet.chipper.queryParameters.allowLinks ? { url: updateCheck.updateURL } : {};
+
     const linkNode = new RichText( text, {
-      links: phet.chipper.queryParameters.allowLinks && { url: updateCheck.updateURL }, // RichText must fill in URL for link
+      links: links,
       font: UPDATE_TEXT_FONT
     } );
     return new HBox( merge( {
