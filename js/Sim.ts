@@ -494,7 +494,9 @@ export default class Sim extends PhetioObject {
       phet.chipper.queryParameters.screens,
       QueryStringMachine.containsKey( 'screens' ),
       selectedSimScreens => {
-        const possibleScreenIndices = selectedSimScreens.map( ( screen, index ) => index + 1 );
+        const possibleScreenIndices = selectedSimScreens.map( screen => {
+          return allSimScreens.indexOf( screen ) + 1;
+        } );
         this.screensStringProperty = new StringProperty( possibleScreenIndices.join( ',' ), {
           tandem: Tandem.GENERAL_VIEW.createTandem( 'screensStringProperty' ),
           validValues: _.flatten( Combination.combinationsOf( possibleScreenIndices ).map( subset => Permutation.permutationsOf( subset ) ) )
@@ -504,7 +506,7 @@ export default class Sim extends PhetioObject {
         } );
 
         this.activeSimScreensProperty = new DerivedProperty( [ this.screensStringProperty ], screensString => {
-          return screensString.split( ',' ).map( digitString => selectedSimScreens[ Number( digitString ) - 1 ] );
+          return screensString.split( ',' ).map( digitString => allSimScreens[ Number( digitString ) - 1 ] );
         } );
         this.hasHomeScreenProperty = new DerivedProperty( [ this.activeSimScreensProperty ], screens => screens.length > 1 );
       },
