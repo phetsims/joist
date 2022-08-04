@@ -165,7 +165,7 @@ export default class Sim extends PhetioObject {
   // true if all possible screens are present (order-independent)
   private readonly allScreensCreated: boolean;
 
-  private screensStringProperty!: Property<string>;
+  private screensIncludedProperty!: Property<string>;
   public activeSimScreensProperty!: ReadOnlyProperty<Screen[]>;
   public hasHomeScreenProperty!: ReadOnlyProperty<boolean>;
 
@@ -497,15 +497,20 @@ export default class Sim extends PhetioObject {
         const possibleScreenIndices = selectedSimScreens.map( screen => {
           return allSimScreens.indexOf( screen ) + 1;
         } );
-        this.screensStringProperty = new StringProperty( possibleScreenIndices.join( ',' ), {
-          tandem: Tandem.GENERAL_VIEW.createTandem( 'screensStringProperty' ),
-          validValues: _.flatten( Combination.combinationsOf( possibleScreenIndices ).map( subset => Permutation.permutationsOf( subset ) ) )
-            .filter( array => array.length > 0 )
-            .map( array => array.join( ',' ) ),
-          phetioReadOnly: QueryStringMachine.containsKey( 'screens' )
+        const validValues = _.flatten( Combination.combinationsOf( possibleScreenIndices ).map( subset => Permutation.permutationsOf( subset ) ) )
+          .filter( array => array.length > 0 )
+          .map( array => array.join( ',' ) ).sort();
+
+        // Controls the subset (and order) of screens that appear to the user. Separate from the ?screens query parameter
+        // for phet-io purposes. See https://github.com/phetsims/joist/issues/827
+        this.screensIncludedProperty = new StringProperty( possibleScreenIndices.join( ',' ), {
+          tandem: Tandem.GENERAL_MODEL.createTandem( 'screensIncludedProperty' ),
+          validValues: validValues,
+          phetioFeatured: true
+          // TODO: phetioDocumentation, see https://github.com/phetsims/joist/issues/827
         } );
 
-        this.activeSimScreensProperty = new DerivedProperty( [ this.screensStringProperty ], screensString => {
+        this.activeSimScreensProperty = new DerivedProperty( [ this.screensIncludedProperty ], screensString => {
           return screensString.split( ',' ).map( digitString => allSimScreens[ Number( digitString ) - 1 ] );
         } );
         this.hasHomeScreenProperty = new DerivedProperty( [ this.activeSimScreensProperty ], screens => screens.length > 1 );
@@ -529,6 +534,26 @@ export default class Sim extends PhetioObject {
       phetioDocumentation: 'Determines which screen is selected in the simulation',
       validValues: this.screens,
       phetioType: Property.PropertyIO( Screen.ScreenIO )
+    } );
+
+    // If the activeSimScreens changes, we'll want to update what the active screen (or selected screen) is for specific
+    // cases.
+    this.activeSimScreensProperty.lazyLink( screens => {
+      const screen = this.screenProperty.value;
+      if ( screen === this.homeScreen ) {
+        if ( screens.length === 1 ) {
+          // If we're on the home screen and it switches to a 1-screen sim, go to that screen
+          this.screenProperty.value = screens[ 0 ];
+        }
+        else if ( !screens.includes( this.homeScreen.model.selectedScreenProperty.value ) ) {
+          // If we're on the home screen and our "selected" screen disappears, select the first sim screen
+          this.homeScreen.model.selectedScreenProperty.value = screens[ 0 ];
+        }
+      }
+      else if ( !screens.includes( screen ) ) {
+        // If we're on a screen that "disappears", go to the first screen
+        this.screenProperty.value = screens[ 0 ];
+      }
     } );
 
     this.displayedSimNameProperty = new DerivedProperty( [ this.simNameProperty, this.simScreens[ 0 ].nameProperty ],
