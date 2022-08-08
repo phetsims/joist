@@ -511,7 +511,7 @@ export default class Helper {
         }
 
         const hasPickableFalseEquivalent = _.some( trail.nodes, node => {
-          return node.pickable === false || node.visible === false;
+          return node.pickable === false || !node.visible;
         } );
         const hasPickableTrueEquivalent = _.some( trail.nodes, node => {
           return node.inputListeners.length > 0 || node.pickable === true;

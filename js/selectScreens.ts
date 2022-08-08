@@ -95,7 +95,7 @@ export default function selectScreens( allSimScreens: Screen[],
   // Specifying ?homeScreen=false creates a simulation with no HomeScreen, and hence is incompatible with
   // ?initialScreen=0, which specifies to show the home screen. Note that the default value of initialScreen:0 is
   // ignored when there is no HomeScreen.
-  if ( initialScreenQueryParameterProvided && initialScreenIndex === 0 && homeScreenQueryParameter === false ) {
+  if ( initialScreenQueryParameterProvided && initialScreenIndex === 0 && !homeScreenQueryParameter ) {
     const errorMessage = 'cannot specify initialScreen=0 when home screen is disabled with homeScreen=false';
 
     // handle gracefully when running without ?ea
