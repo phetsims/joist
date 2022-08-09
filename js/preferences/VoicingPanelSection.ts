@@ -572,7 +572,7 @@ class VoicingPitchSlider extends Voicing( VBox, 0 ) {
       }
     } );
     assert && assert( pitchDescription, `no description found for pitch at value: ${pitchValue}` );
-    return pitchDescription!;
+    return pitchDescription;
   }
 }
 
