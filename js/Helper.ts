@@ -15,7 +15,7 @@ import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import MeasuringTapeNode from '../../scenery-phet/js/MeasuringTapeNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { CanvasNode, Circle, Color, Display, DOM, DragListener, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, TColor, Image, IPaint, LayoutNode, Line, LinearGradient, mixesHeightSizable, mixesWidthSizable, Node, NodeOptions, NodePattern, Paint, Path, Pattern, PDOMInstance, PressListener, RadialGradient, Rectangle, RichText, RichTextOptions, SceneryEvent, Spacer, Text, TextOptions, Trail, VBox, VDivider, WebGLNode } from '../../scenery/js/imports.js';
+import { CanvasNode, Circle, Color, Display, DOM, DragListener, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, TColor, Image, TPaint, LayoutNode, Line, LinearGradient, mixesHeightSizable, mixesWidthSizable, Node, NodeOptions, NodePattern, Paint, Path, Pattern, PDOMInstance, PressListener, RadialGradient, Rectangle, RichText, RichTextOptions, SceneryEvent, Spacer, Text, TextOptions, Trail, VBox, VDivider, WebGLNode } from '../../scenery/js/imports.js';
 import Panel from '../../sun/js/Panel.js';
 import AquaRadioButtonGroup from '../../sun/js/AquaRadioButtonGroup.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -1564,7 +1564,7 @@ const createInfo = ( trail: Trail ): Node[] => {
       addRaw( key, colorSwatch( result ) );
     }
   };
-  const addPaint = ( key: string, paint: IPaint ) => {
+  const addPaint = ( key: string, paint: TPaint ) => {
     const stopToNode = ( stop: GradientStop ): Node => {
       return new HBox( {
         spacing: 3,
@@ -1970,7 +1970,7 @@ const iColorToColor = ( color: TColor ): Color | null => {
   return nonProperty === null ? null : Color.toColor( nonProperty );
 };
 
-const isPaintNonTransparent = ( paint: IPaint ): boolean => {
+const isPaintNonTransparent = ( paint: TPaint ): boolean => {
   if ( paint instanceof Paint ) {
     return true;
   }
