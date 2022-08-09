@@ -21,7 +21,7 @@ import joistStrings from './joistStrings.js';
 import KeyboardHelpDialog from './KeyboardHelpDialog.js';
 import Screen from './Screen.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 
 // constants
 const keyboardShortcutsString = joistStrings.a11y.keyboardHelp.keyboardShortcuts;
@@ -39,7 +39,7 @@ class KeyboardHelpButton extends JoistButton {
    * @param [providedOptions]
    */
   public constructor( screenProperty: Property<Screen>,
-                      backgroundColorProperty: IReadOnlyProperty<Color>,
+                      backgroundColorProperty: TReadOnlyProperty<Color>,
                       providedOptions: KeyboardHelpButtonOptions ) {
 
     const options = optionize<KeyboardHelpButtonOptions, SelfOptions, JoistButtonOptions>()( {

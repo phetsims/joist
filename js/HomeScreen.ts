@@ -6,7 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
 import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
@@ -31,7 +31,7 @@ class HomeScreen extends Screen<HomeScreenModel, HomeScreenView> {
   public static BACKGROUND_COLOR: Color;
 
   public constructor(
-    simNameProperty: IReadOnlyProperty<string>,
+    simNameProperty: TReadOnlyProperty<string>,
     getScreenProperty: () => Property<Screen>,
     simScreens: Screen[],
     activeSimScreensProperty: ReadOnlyProperty<Screen[]>,

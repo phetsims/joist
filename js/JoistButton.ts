@@ -6,7 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
@@ -42,7 +42,7 @@ export default class JoistButton extends Voicing( Node, 0 ) {
    * @param navigationBarFillProperty - the color of the navbar, as a string.
    * @param [providedOptions]
    */
-  public constructor( content: Node, navigationBarFillProperty: IReadOnlyProperty<Color>, providedOptions: JoistButtonOptions ) {
+  public constructor( content: Node, navigationBarFillProperty: TReadOnlyProperty<Color>, providedOptions: JoistButtonOptions ) {
 
     const options = optionize<JoistButtonOptions, SelfOptions, ParentOptions>()( {
       cursor: 'pointer', // {string}

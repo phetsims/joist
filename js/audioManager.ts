@@ -29,7 +29,7 @@ import responseCollector from '../../utterance-queue/js/responseCollector.js';
 import SpeechSynthesisAnnouncer from '../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import joist from './joist.js';
 import Sim from './Sim.js';
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 
 class AudioManager extends PhetioObject {
 
@@ -51,17 +51,17 @@ class AudioManager extends PhetioObject {
   public readonly audioEnabledProperty: BooleanProperty;
 
   // Indicates when both Audio and Sound are enabled. When false, the soundManager will not produce any sound.
-  public readonly audioAndSoundEnabledProperty: IReadOnlyProperty<boolean>;
+  public readonly audioAndSoundEnabledProperty: TReadOnlyProperty<boolean>;
 
   // Indicates when both Audio and Voicing are enabled. When false, the voicingManager will not produce any speech.
-  public readonly audioAndVoicingEnabledProperty: IReadOnlyProperty<boolean>;
+  public readonly audioAndVoicingEnabledProperty: TReadOnlyProperty<boolean>;
 
   // Indicates when any subcomponent of audio is enabled. Note this will still be true when audio is disabled. It is
   // only for subcomponents.
-  public readonly anySubcomponentEnabledProperty: IReadOnlyProperty<boolean>;
+  public readonly anySubcomponentEnabledProperty: TReadOnlyProperty<boolean>;
 
   // Indicates when audio and at least one of its subcomponents are enabled. When false, there should be no auditory output.
-  public readonly anyOutputEnabledProperty: IReadOnlyProperty<boolean>;
+  public readonly anyOutputEnabledProperty: TReadOnlyProperty<boolean>;
 
   public constructor( tandem: Tandem ) {
 

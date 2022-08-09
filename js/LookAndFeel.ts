@@ -7,7 +7,7 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
 import { Color } from '../../scenery/js/imports.js';
 import joist from './joist.js';
@@ -18,13 +18,13 @@ class LookAndFeel {
   public readonly backgroundColorProperty: Property<Color>;
 
   // (joist-internal) True if the navigation bar background is black
-  public readonly navigationBarDarkProperty: IReadOnlyProperty<boolean>;
+  public readonly navigationBarDarkProperty: TReadOnlyProperty<boolean>;
 
   // (joist-internal) - Navigation bar background fill
-  public readonly navigationBarFillProperty: IReadOnlyProperty<Color>;
+  public readonly navigationBarFillProperty: TReadOnlyProperty<Color>;
 
   // (joist-internal) - Navigation bar text fill
-  public readonly navigationBarTextFillProperty: IReadOnlyProperty<Color>;
+  public readonly navigationBarTextFillProperty: TReadOnlyProperty<Color>;
 
   public constructor() {
 

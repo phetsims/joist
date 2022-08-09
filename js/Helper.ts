@@ -40,7 +40,7 @@ import ExpandCollapseButton from '../../sun/js/ExpandCollapseButton.js';
 import { default as createObservableArray, ObservableArray } from '../../axon/js/createObservableArray.js';
 import optionize from '../../phet-core/js/optionize.js';
 import Multilink from '../../axon/js/Multilink.js';
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 
 const round = ( n: number, places = 2 ) => Utils.toFixed( n, places );
@@ -104,16 +104,16 @@ export default class Helper {
   public treeHoverTrailProperty: IProperty<Trail | null>;
 
   // What Trail the pointer is over right now
-  public pointerTrailProperty: IReadOnlyProperty<Trail | null>;
+  public pointerTrailProperty: TReadOnlyProperty<Trail | null>;
 
   // What Trail to show as a preview (and to highlight) - selection overrides what the pointer is over
-  public previewTrailProperty: IReadOnlyProperty<Trail | null>;
+  public previewTrailProperty: TReadOnlyProperty<Trail | null>;
 
   // A helper-displayed Node created to help with debugging various types
-  public helperNodeProperty: IReadOnlyProperty<Node | null>;
+  public helperNodeProperty: TReadOnlyProperty<Node | null>;
 
   // The global shape of what is selected
-  public previewShapeProperty: IReadOnlyProperty<Shape | null>;
+  public previewShapeProperty: TReadOnlyProperty<Shape | null>;
 
   public screenViewProperty: IProperty<ScreenView | null>;
 
@@ -121,7 +121,7 @@ export default class Helper {
   public imageDataProperty: IProperty<ImageData | null>;
 
   // The pixel color under the pointer
-  public colorProperty: IReadOnlyProperty<Color>;
+  public colorProperty: TReadOnlyProperty<Color>;
 
   public constructor( sim: Sim, simDisplay: SimDisplay ) {
 

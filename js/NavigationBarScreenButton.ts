@@ -9,7 +9,7 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
 import Property from '../../axon/js/Property.js';
 import Utils from '../../dot/js/Utils.js';
@@ -48,7 +48,7 @@ class NavigationBarScreenButton extends Voicing( Node, 0 ) {
    * @param navBarHeight
    * @param [providedOptions]
    */
-  public constructor( navigationBarFillProperty: IReadOnlyProperty<Color>, screenProperty: Property<Screen<IntentionalAny>>,
+  public constructor( navigationBarFillProperty: TReadOnlyProperty<Color>, screenProperty: Property<Screen<IntentionalAny>>,
                screen: Screen<IntentionalAny>, simScreenIndex: number, navBarHeight: number,
                providedOptions: NavigationBarScreenButtonOptions ) {
 

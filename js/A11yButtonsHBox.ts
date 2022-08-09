@@ -15,7 +15,7 @@ import KeyboardHelpButton from './KeyboardHelpButton.js';
 import NavigationBarAudioToggleButton from './NavigationBarAudioToggleButton.js';
 import NavigationBarPreferencesButton from './preferences/NavigationBarPreferencesButton.js';
 import Sim from './Sim.js';
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 
@@ -24,7 +24,7 @@ export type A11yButtonsHBoxOptions = SelfOptions & StrictOmit<HBoxOptions, 'chil
 
 class A11yButtonsHBox extends HBox {
 
-  public constructor( sim: Sim, backgroundColorProperty: IReadOnlyProperty<Color>, providedOptions?: A11yButtonsHBoxOptions ) {
+  public constructor( sim: Sim, backgroundColorProperty: TReadOnlyProperty<Color>, providedOptions?: A11yButtonsHBoxOptions ) {
 
     const options = optionize<A11yButtonsHBoxOptions, SelfOptions, HBoxOptions>()( {
       align: 'center',

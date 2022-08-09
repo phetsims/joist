@@ -19,7 +19,7 @@ import InputPreferencesPanel from './InputPreferencesPanel.js';
 import PreferencesDialog, { PreferencesTab } from './PreferencesDialog.js';
 import VisualPreferencesPanel from './VisualPreferencesPanel.js';
 import PreferencesModel from './PreferencesModel.js';
-import IReadOnlyProperty from '../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 type PreferencesPanelsOptions = SelfOptions & NodeOptions;
@@ -30,7 +30,7 @@ class PreferencesPanels extends Node {
   private readonly content: PreferencesPanelContainer[] = [];
 
   // Property controlling the selected tab, so we can control which panel should be visible.
-  private readonly selectedTabProperty: IReadOnlyProperty<PreferencesTab>;
+  private readonly selectedTabProperty: TReadOnlyProperty<PreferencesTab>;
 
   private readonly disposePreferencesPanel: () => void;
 
@@ -40,7 +40,7 @@ class PreferencesPanels extends Node {
    * @param selectedTabProperty
    * @param [providedOptions]
    */
-  public constructor( preferencesModel: PreferencesModel, supportedTabs: PreferencesTab[], selectedTabProperty: IReadOnlyProperty<PreferencesTab>, providedOptions?: PreferencesPanelsOptions ) {
+  public constructor( preferencesModel: PreferencesModel, supportedTabs: PreferencesTab[], selectedTabProperty: TReadOnlyProperty<PreferencesTab>, providedOptions?: PreferencesPanelsOptions ) {
     const options = optionize<PreferencesPanelsOptions, SelfOptions, NodeOptions>()( {
       tandem: Tandem.REQUIRED, // To support the general tab
       phetioVisiblePropertyInstrumented: false

@@ -21,7 +21,7 @@ import HomeScreenModel from './HomeScreenModel.js';
 import Property from '../../axon/js/Property.js';
 import optionize from '../../phet-core/js/optionize.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 
 const homeScreenDescriptionPatternString = joistStrings.a11y.homeScreenDescriptionPattern;
@@ -55,7 +55,7 @@ class HomeScreenView extends ScreenView {
    * @param model
    * @param [providedOptions]
    */
-  public constructor( simNameProperty: IReadOnlyProperty<string>, model: HomeScreenModel, providedOptions?: HomeScreenViewOptions ) {
+  public constructor( simNameProperty: TReadOnlyProperty<string>, model: HomeScreenModel, providedOptions?: HomeScreenViewOptions ) {
 
     const options = optionize<HomeScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
       layoutBounds: HomeScreenView.LAYOUT_BOUNDS,

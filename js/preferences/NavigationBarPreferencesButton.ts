@@ -17,14 +17,14 @@ import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesModel from './PreferencesModel.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
-import IReadOnlyProperty from '../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 export type NavigationBarPreferencesButtonOptions = SelfOptions & PickRequired<JoistButtonOptions, 'tandem'>;
 
 class NavigationBarPreferencesButton extends JoistButton {
 
-  public constructor( preferencesModel: PreferencesModel, backgroundColorProperty: IReadOnlyProperty<Color>,
+  public constructor( preferencesModel: PreferencesModel, backgroundColorProperty: TReadOnlyProperty<Color>,
                       providedOptions: NavigationBarPreferencesButtonOptions ) {
 
     const options = optionize<NavigationBarPreferencesButtonOptions, SelfOptions, JoistButtonOptions>()( {

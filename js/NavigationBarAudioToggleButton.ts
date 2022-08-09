@@ -13,7 +13,7 @@
  */
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
@@ -55,7 +55,7 @@ type NavigationBarAudioToggleButtonOptions = SelfOptions & PickRequired<JoistBut
 class NavigationBarAudioToggleButton extends JoistButton {
 
   public constructor( soundEnabledProperty: BooleanProperty,
-                      backgroundColorProperty: IReadOnlyProperty<Color>,
+                      backgroundColorProperty: TReadOnlyProperty<Color>,
                       providedOptions: NavigationBarAudioToggleButtonOptions ) {
 
     const options = optionize<NavigationBarAudioToggleButtonOptions, EmptySelfOptions, JoistButtonOptions>()( {

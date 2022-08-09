@@ -61,7 +61,7 @@ import LegendsOfLearningSupport from './thirdPartySupport/LegendsOfLearningSuppo
 import Toolbar from './toolbar/Toolbar.js';
 import updateCheck from './updateCheck.js';
 import PreferencesConfiguration from './preferences/PreferencesConfiguration.js';
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import { CreditsData } from './CreditsNode.js';
 import { PopupableNode } from '../../sun/js/Popupable.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
@@ -113,17 +113,17 @@ export type SimOptions = SelfOptions & PickOptional<PhetioObject, 'phetioDesigne
 export default class Sim extends PhetioObject {
 
   // (joist-internal)
-  public readonly simNameProperty: IReadOnlyProperty<string>;
+  public readonly simNameProperty: TReadOnlyProperty<string>;
   public readonly createOptionsDialogContent: ( ( t: Tandem ) => Node ) | null;
 
   // Indicates sim construction completed, and that all screen models and views have been created.
   // This was added for PhET-iO but can be used by any client. This does not coincide with the end of the Sim
   // constructor (because Sim has asynchronous steps that finish after the constructor is completed)
   private readonly _isConstructionCompleteProperty = new Property<boolean>( false );
-  public readonly isConstructionCompleteProperty: IReadOnlyProperty<boolean> = this._isConstructionCompleteProperty;
+  public readonly isConstructionCompleteProperty: TReadOnlyProperty<boolean> = this._isConstructionCompleteProperty;
 
   // Stores the effective window dimensions that the simulation will be taking up
-  public readonly dimensionProperty: IReadOnlyProperty<Dimension2>;
+  public readonly dimensionProperty: TReadOnlyProperty<Dimension2>;
 
   // Indicates when the sim resized.  This Action is implemented so it can be automatically played back.
   private readonly resizeAction: PhetioAction<[ number, number ]>;
@@ -159,7 +159,7 @@ export default class Sim extends PhetioObject {
   public readonly screens: Screen[];
 
   // the displayed name in the sim. This depends on what screens are shown this runtime (effected by query parameters).
-  public readonly displayedSimNameProperty: IReadOnlyProperty<string>;
+  public readonly displayedSimNameProperty: TReadOnlyProperty<string>;
   public readonly screenProperty: Property<Screen>;
 
   // true if all possible screens are present (order-independent)
@@ -179,7 +179,7 @@ export default class Sim extends PhetioObject {
   } );
 
   // indicates whether the browser tab containing the simulation is currently visible
-  public readonly browserTabVisibleProperty: IReadOnlyProperty<boolean>;
+  public readonly browserTabVisibleProperty: TReadOnlyProperty<boolean>;
 
   // (joist-internal) - How the home screen and navbar are scaled. This scale is based on the
   // HomeScreen's layout bounds to support a consistently sized nav bar and menu. If this scale was based on the
@@ -201,7 +201,7 @@ export default class Sim extends PhetioObject {
 
   // if PhET-iO is currently setting the state of the simulation. See PhetioStateEngine for details. This must be
   // declared before soundManager.initialized is called.
-  public readonly isSettingPhetioStateProperty: IReadOnlyProperty<boolean>;
+  public readonly isSettingPhetioStateProperty: TReadOnlyProperty<boolean>;
 
   // (joist-internal)
   public readonly version: string = packageJSON.version;
@@ -333,7 +333,7 @@ export default class Sim extends PhetioObject {
       useDeepEquality: true
     } );
 
-    // Note: the public API is IReadOnlyProperty
+    // Note: the public API is TReadOnlyProperty
     this.dimensionProperty = dimensionProperty;
 
     this.resizeAction = new PhetioAction<[ number, number ]>( ( width, height ) => {

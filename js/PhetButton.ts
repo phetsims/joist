@@ -8,7 +8,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
 import TBrand from '../../brand/js/TBrand.js';
 import { AriaHasPopUpMutator, Color, Image, Line, Node } from '../../scenery/js/imports.js';
@@ -35,7 +35,7 @@ const PHET_LOGO_SCALE = 0.28; // scale applied to the PhET logo
 class PhetButton extends JoistButton {
   public static PhetButtonIO: IOType;
 
-  public constructor( sim: Sim, backgroundFillProperty: IReadOnlyProperty<Color>, tandem: Tandem ) {
+  public constructor( sim: Sim, backgroundFillProperty: TReadOnlyProperty<Color>, tandem: Tandem ) {
 
     // Dynamic modules are loaded in simLauncher and accessed through their namespace
     const Brand: TBrand = phet.brand.Brand;

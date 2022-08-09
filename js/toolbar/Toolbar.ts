@@ -15,7 +15,7 @@
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import IProperty from '../../../axon/js/IProperty.js';
-import IReadOnlyProperty from '../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import stepTimer from '../../../axon/js/stepTimer.js';
 import Matrix3 from '../../../dot/js/Matrix3.js';
@@ -50,7 +50,7 @@ type ToolbarOptions = NodeOptions & PickRequired<NodeOptions, 'tandem'>;
 class Toolbar extends Node {
 
   // Whether the Toolbar is enabled (visible to the user)
-  private readonly isEnabledProperty: IReadOnlyProperty<boolean>;
+  private readonly isEnabledProperty: TReadOnlyProperty<boolean>;
 
   // the Rectangle for the Toolbar that surrounds all content, bounds set once
   // content is created and in layout to fill height of screen
@@ -70,7 +70,7 @@ class Toolbar extends Node {
   //  Whether the Toolbar is shown to the user. At this time,
   // that is true if the toolbar is enabled, voicing is enabled, and if all audio is enabled. The Toolbar only
   // includes controls related to audio (voicing) so when audio is disabled there is no need to show it.
-  private readonly isShowingProperty: IReadOnlyProperty<boolean>;
+  private readonly isShowingProperty: TReadOnlyProperty<boolean>;
 
   // Scale applied to the Toolbar and its contents in response to layout and window resizing.
   private layoutScale = 1;

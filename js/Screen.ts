@@ -13,7 +13,7 @@
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
@@ -80,14 +80,14 @@ class Screen<M extends TModel = TModel, V extends ScreenView = ScreenView> exten
   public readonly maxDT: number;
   public readonly activeProperty: BooleanProperty;
   public readonly descriptionContent: string;
-  public readonly nameProperty: IReadOnlyProperty<string | null>;
+  public readonly nameProperty: TReadOnlyProperty<string | null>;
 
   public readonly showScreenIconFrameForNavigationBarFill: string | null;
   public readonly homeScreenIcon: Node | null;
   public navigationBarIcon: Node | null;
   public readonly showUnselectedHomeScreenIconFrame: boolean;
   public readonly keyboardHelpNode: Node | null; // joist-internal
-  public readonly pdomDisplayNameProperty: IReadOnlyProperty<string | null>;
+  public readonly pdomDisplayNameProperty: TReadOnlyProperty<string | null>;
   private readonly createModel: () => M;
   private readonly createView: CreateView<M, V>;
   private _model: M | null;
@@ -289,7 +289,7 @@ class Screen<M extends TModel = TModel, V extends ScreenView = ScreenView> exten
    * @param numberOfScreens - the number of screens in the sim this runtime (could change with `?screens=...`.
    * @param isHomeScreen - if this screen is the home screen.
    */
-  public initializeView( simNameProperty: IReadOnlyProperty<string>, displayedSimNameProperty: IReadOnlyProperty<string>, numberOfScreens: number, isHomeScreen: boolean ): void {
+  public initializeView( simNameProperty: TReadOnlyProperty<string>, displayedSimNameProperty: TReadOnlyProperty<string>, numberOfScreens: number, isHomeScreen: boolean ): void {
     assert && assert( this._view === null, 'there was already a view' );
     this._view = this.createView( this.model );
     this._view.setVisible( false ); // a Screen is invisible until selected

@@ -16,7 +16,7 @@ import Utterance from '../../utterance-queue/js/Utterance.js';
 import joist from './joist.js';
 import JoistButton, { JoistButtonOptions } from './JoistButton.js';
 import joistStrings from './joistStrings.js';
-import IReadOnlyProperty from '../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 
 // constants
@@ -35,8 +35,8 @@ export default class HomeButton extends JoistButton {
    */
   public constructor(
     navBarHeight: number,
-    navigationBarFillProperty: IReadOnlyProperty<Color>,
-    pdomDisplayNameProperty: IReadOnlyProperty<string | null>,
+    navigationBarFillProperty: TReadOnlyProperty<Color>,
+    pdomDisplayNameProperty: TReadOnlyProperty<string | null>,
     providedOptions: HomeButtonOptions
   ) {
 
