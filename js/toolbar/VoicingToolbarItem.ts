@@ -52,7 +52,10 @@ class VoicingToolbarItem extends Node {
       labelContent: toolbarString,
 
       // phet-io
-      tandem: Tandem.REQUIRED
+      tandem: Tandem.REQUIRED,
+      visiblePropertyOptions: {
+        phetioReadOnly: true
+      }
     }, providedOptions );
 
     super( options );

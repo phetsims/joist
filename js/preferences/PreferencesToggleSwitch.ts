@@ -81,6 +81,9 @@ class PreferencesToggleSwitch<T> extends Node {
       toggleSwitchOptions: {
         size: new Dimension2( 36, 18 ),
         trackFillRight: '#64bd5a'
+      },
+      visiblePropertyOptions: {
+        phetioReadOnly: true
       }
     }, providedOptions );
 
