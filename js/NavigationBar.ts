@@ -152,8 +152,8 @@ class NavigationBar extends Node {
 
       // title can occupy all space to the left of the PhET button
       titleText.maxWidth = HomeScreenView.LAYOUT_BOUNDS.width - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN -
-                                PHET_BUTTON_LEFT_MARGIN - this.a11yButtonsHBox.width - PHET_BUTTON_LEFT_MARGIN -
-                                phetButton.width - PHET_BUTTON_RIGHT_MARGIN;
+                           PHET_BUTTON_LEFT_MARGIN - this.a11yButtonsHBox.width - PHET_BUTTON_LEFT_MARGIN -
+                           phetButton.width - PHET_BUTTON_RIGHT_MARGIN;
     }
     else {
 
@@ -267,10 +267,13 @@ class NavigationBar extends Node {
 
       // home button to the left of screen buttons
       RelaxedManualConstraint.create( this.barContents, [ this.homeButton, ...screenButtons ], ( homeButtonProxy, ...screenButtonProxies ) => {
-        // Find the left-most button. We don't want the extra padding of the alignbox to be included in this calculation,
+
+        const visibleScreenButtonProxies = screenButtonProxies.filter( proxy => proxy && proxy.visible );
+
+        // Find the left-most visible button. We don't want the extra padding of the alignbox to be included in this calculation,
         // for backwards compatibility, so it's a lot more complicated.
-        if ( homeButtonProxy && _.some( screenButtonProxies ) ) {
-          homeButtonProxy.right = Math.min( ...screenButtonProxies.filter( proxy => proxy && proxy.visible ).map( proxy => proxy!.left ) ) - HOME_BUTTON_RIGHT_MARGIN;
+        if ( homeButtonProxy && visibleScreenButtonProxies.length > 0 ) {
+          homeButtonProxy.right = Math.min( ...visibleScreenButtonProxies.map( proxy => proxy!.left ) ) - HOME_BUTTON_RIGHT_MARGIN;
         }
       } );
 
