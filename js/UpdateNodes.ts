@@ -40,12 +40,12 @@ type Options = {
   top?: number;
 };
 
-type IStep = {
+type TStep = {
   step: ( dt: number ) => void;
   stepListener: ( dt: number ) => void;
 };
 
-type TStepHBox = IStep & HBox;
+type TStepHBox = TStep & HBox;
 
 const UpdateNodes = {
 
@@ -56,7 +56,7 @@ const UpdateNodes = {
    * returns step( dt ) and stepListener (bound to the node itself)
    * (joist-internal)
    */
-  createCheckingNode: function( options: Options ): Node & IStep {
+  createCheckingNode: function( options: Options ): Node & TStep {
     const spinningIndicatorNode = new SpinningIndicatorNode( { diameter: options.big ? 24 : 18 } );
     const checkingNode = new HBox( merge( {
       spacing: options.big ? 10 : 8,
