@@ -22,14 +22,14 @@ const simVersion = SimVersion.parse( packageJSON.version, phet.chipper.buildTime
 const requestProtocolString = ( document.location.protocol === 'https:' ? 'https:' : 'http:' );
 const TIMEOUT_MILLISECONDS = 15000; // How many ms before we time out (set to 'offline')
 
-type ISimVersion = string & {
+type TSimVersion = string & {
   isSimNotPublished: boolean;
 };
 
 class UpdateCheck {
   public readonly stateProperty: EnumerationProperty<UpdateState>;
-  public latestVersion: ISimVersion | null; // {SimVersion|null} will be filled in by check() if applicable
-  public readonly ourVersion: ISimVersion; // (joist-internal) {SimVersion} version of the sim that is running
+  public latestVersion: TSimVersion | null; // {SimVersion|null} will be filled in by check() if applicable
+  public readonly ourVersion: TSimVersion; // (joist-internal) {SimVersion} version of the sim that is running
   private readonly timeoutCallback: () => void;
   public readonly areUpdatesChecked: boolean; // Whether we actually allow checking for updates, or showing any update-related UIs.
   public updateURL: string; // The URL to be used for "New version available" clicks
