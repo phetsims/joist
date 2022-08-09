@@ -33,7 +33,7 @@ import ScreenIcon from './ScreenIcon.js';
 import ScreenView from './ScreenView.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import Multilink from '../../axon/js/Multilink.js';
-import IModel from './IModel.js';
+import TModel from './TModel.js';
 
 const screenNamePatternString = joistStrings.a11y.screenNamePattern;
 const screenSimPatternString = joistStrings.a11y.screenSimPattern;
@@ -68,12 +68,12 @@ type SelfOptions = {
 };
 export type ScreenOptions = SelfOptions & PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
-// Accept any subtype of IModel (defaults to supertype), and any subtype of ScreenView (defaults to subtype).
+// Accept any subtype of TModel (defaults to supertype), and any subtype of ScreenView (defaults to subtype).
 // @ts-ignore
-type CreateView<out M extends IModel, V> = ( model: M ) => V;
+type CreateView<out M extends TModel, V> = ( model: M ) => V;
 
 // Parameterized on M=Model and V=View
-class Screen<M extends IModel = IModel, V extends ScreenView = ScreenView> extends PhetioObject {
+class Screen<M extends TModel = TModel, V extends ScreenView = ScreenView> extends PhetioObject {
 
   public backgroundColorProperty: Property<Color> | Property<string> | Property<Color | string>;
 

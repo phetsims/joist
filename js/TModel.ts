@@ -5,8 +5,8 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-type IModel = {
+type TModel = {
   step: ( dt: number ) => void;
 };
 
-export default IModel;
+export default TModel;
