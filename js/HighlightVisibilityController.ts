@@ -9,7 +9,7 @@
 
 import Multilink from '../../axon/js/Multilink.js';
 import Vector2 from '../../dot/js/Vector2.js';
-import { Display, FocusManager, globalKeyStateTracker, IInputListener, KeyboardUtils, SceneryEvent } from '../../scenery/js/imports.js';
+import { Display, FocusManager, globalKeyStateTracker, TInputListener, KeyboardUtils, SceneryEvent } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 import PreferencesModel from './preferences/PreferencesModel.js';
 
@@ -43,7 +43,7 @@ class HighlightVisibilityController {
     };
 
     const setHighlightsVisible = () => { this.display.focusManager.pdomFocusHighlightsVisibleProperty.value = true; };
-    const focusHighlightVisibleListener: IInputListener = {};
+    const focusHighlightVisibleListener: TInputListener = {};
 
     // Restore display of focus highlights if we receive PDOM events. Exclude focus-related events here
     // so that we can support some iOS cases where we want PDOM behavior even though iOS + VO only provided pointer
