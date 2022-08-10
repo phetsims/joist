@@ -11,6 +11,7 @@
 
 import IProperty from '../../../axon/js/IProperty.js';
 import joist from '../joist.js';
+import IntentionalAny from '../../../phet-core/js/types/IntentionalAny.js';
 
 let preferencesStorage: PreferencesStorage | null = null;
 
@@ -52,7 +53,7 @@ class PreferencesStorage {
     if ( window.localStorage.getItem( key ) ) {
       property.value = JSON.parse( window.localStorage.getItem( key )! );
     }
-    property.link( value => {
+    property.link( ( value: IntentionalAny ) => {
       window.localStorage.setItem( key, JSON.stringify( value ) );
     } );
     this.registedProperties.push( property );
