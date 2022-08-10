@@ -34,7 +34,7 @@ class HomeScreenModel {
     this.activeSimScreensProperty = activeSimScreensProperty;
     this.selectedScreenProperty = new Property( simScreens[ 0 ], {
       validValues: simScreens,
-      phetioType: Property.PropertyIO( Screen.ScreenIO ),
+      phetioValueType: Screen.ScreenIO,
       tandem: tandem.createTandem( 'selectedScreenProperty' ),
       phetioFeatured: true
     } );

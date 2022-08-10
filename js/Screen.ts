@@ -180,7 +180,7 @@ class Screen<M extends TModel = TModel, V extends ScreenView = ScreenView> exten
 
     // may be null for single-screen simulations
     this.nameProperty = new Property( options.name, {
-      phetioType: Property.PropertyIO( NullableIO( StringIO ) ),
+      phetioValueType: NullableIO( StringIO ),
       tandem: instrumentNameProperty ? options.tandem.createTandem( 'nameProperty' ) : Tandem.OPT_OUT,
       phetioFeatured: true,
       phetioDocumentation: 'The name of the screen. Changing this value will update the screen name for the screen\'s ' +

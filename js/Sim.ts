@@ -533,7 +533,7 @@ export default class Sim extends PhetioObject {
       phetioFeatured: true,
       phetioDocumentation: 'Determines which screen is selected in the simulation',
       validValues: this.screens,
-      phetioType: Property.PropertyIO( Screen.ScreenIO )
+      phetioValueType: Screen.ScreenIO
     } );
 
     // If the activeSimScreens changes, we'll want to update what the active screen (or selected screen) is for specific
