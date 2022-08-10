@@ -46,7 +46,11 @@ class NavigationBarPreferencesButton extends JoistButton {
       positionInPDOM: true,
 
       // voicing
-      voicingNameResponse: joistStrings.preferences.title
+      voicingNameResponse: joistStrings.preferences.title,
+
+      visiblePropertyOptions: {
+        phetioFeatured: true
+      }
 
     }, providedOptions );
 
