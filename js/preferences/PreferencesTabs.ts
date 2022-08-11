@@ -140,7 +140,7 @@ class PreferencesTabs extends Node {
  * Inner class, a single tab for the list of tabs.
  * @mixes Voicing
  */
-class Tab extends Voicing( Node, 0 ) {
+class Tab extends Voicing( Node ) {
 
   public readonly value: PreferencesTab;
   private readonly disposeTab: () => void;

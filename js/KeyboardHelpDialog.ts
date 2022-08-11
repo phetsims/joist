@@ -99,7 +99,7 @@ export default class KeyboardHelpDialog extends Dialog {
 type TabHintLineSelfOptions = EmptySelfOptions;
 type TabHintLineOptions = TabHintLineSelfOptions & NodeOptions & ReadingBlockOptions;
 
-class TabHintLine extends ReadingBlock( Node, 0 ) {
+class TabHintLine extends ReadingBlock( Node ) {
 
   public constructor( providedOptions?: TabHintLineOptions ) {
 

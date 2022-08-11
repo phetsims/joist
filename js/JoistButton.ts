@@ -29,7 +29,7 @@ type SelfOptions = {
 type ParentOptions = VoicingOptions & NodeOptions;
 export type JoistButtonOptions = SelfOptions & StrictOmit<ParentOptions, 'children'> & PickRequired<ParentOptions, 'tandem'>;
 
-export default class JoistButton extends Voicing( Node, 0 ) {
+export default class JoistButton extends Voicing( Node ) {
 
   // (phet-io|a11y) - Button model
   // Note it shares a tandem with "this", so the emitter will be instrumented as a child of the button

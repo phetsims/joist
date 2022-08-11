@@ -35,7 +35,7 @@ type SelfOptions = {
 type ParentOptions = VoicingOptions & NodeOptions;
 type NavigationBarScreenButtonOptions = SelfOptions & ParentOptions;
 
-class NavigationBarScreenButton extends Voicing( Node, 0 ) {
+class NavigationBarScreenButton extends Voicing( Node ) {
   private readonly buttonModel: PushButtonModel;
 
   public readonly screen: Screen<IntentionalAny>;

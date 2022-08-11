@@ -336,7 +336,7 @@ const createCheckbox = ( labelString: string, property: Property<boolean>, check
  * @param a11yLabelString - label for both PDOM and Voicing content
  * @param voiceRateProperty
  */
-class VoiceRateNumberControl extends Voicing( NumberControl, 3 ) {
+class VoiceRateNumberControl extends Voicing( NumberControl ) {
   private readonly disposeVoiceRateSlider: () => void;
 
   public constructor( labelString: string, a11yLabelString: string, voiceRateProperty: NumberProperty ) {
@@ -480,7 +480,7 @@ class VoiceComboBox extends ComboBox<SpeechSynthesisVoice | null> {
 /**
  * A slider with labels and tick marks used to control voice rate of web speech synthesis.
  */
-class VoicingPitchSlider extends Voicing( VBox, 0 ) {
+class VoicingPitchSlider extends Voicing( VBox ) {
   private readonly disposeVoicePitchSlider: () => void;
 
   public constructor( labelString: string, voicePitchProperty: NumberProperty ) {

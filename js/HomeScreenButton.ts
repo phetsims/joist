@@ -36,7 +36,7 @@ type SelfOptions = {
 type ParentOptions = VoicingOptions & VBoxOptions;
 export type HomeScreenButtonOptions = SelfOptions & ParentOptions;
 
-class HomeScreenButton extends Voicing( VBox, 0 ) {
+class HomeScreenButton extends Voicing( VBox ) {
   public readonly screen: Screen<IntentionalAny>;
 
   public constructor( screen: Screen<IntentionalAny>, homeScreenModel: HomeScreenModel, providedOptions?: HomeScreenButtonOptions ) {
