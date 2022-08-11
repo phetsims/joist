@@ -57,8 +57,7 @@ class PreferencesPanels extends Node {
     let generalPreferencesPanel: Node | null = null;
     if ( supportedTabs.includes( PreferencesDialog.PreferencesTab.GENERAL ) ) {
       generalPreferencesPanel = new GeneralPreferencesPanel( preferencesModel.generalModel, {
-        tandem: options.tandem.createTandem( 'generalPreferencesPanel' ),
-        describeTabs: supportedTabs.length > 1
+        tandem: options.tandem.createTandem( 'generalPreferencesPanel' )
       } );
       const generalBox = panelAlignGroup.createBox( generalPreferencesPanel );
       this.addChild( generalBox );

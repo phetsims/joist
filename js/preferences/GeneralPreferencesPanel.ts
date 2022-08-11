@@ -17,14 +17,14 @@ import LocalizationControlsPanelSection from './LocalizationControlsPanelSection
 import PreferencesDialog from './PreferencesDialog.js';
 import SimControlsPanelSection from './SimControlsPanelSection.js';
 import { GeneralModel } from './PreferencesModel.js';
-import optionize from '../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 
 // constants
 const accessibilityIntroString = joistStrings.preferences.tabs.general.accessibilityIntro;
 const moreAccessibilityString = joistStrings.preferences.tabs.general.moreAccessibility;
 
-type SelfOptions = { describeTabs: boolean };
+type SelfOptions = EmptySelfOptions;
 type GeneralPreferencesPanelOptions = SelfOptions & VBoxOptions & PickRequired<VBoxOptions, 'tandem'>;
 
 class GeneralPreferencesPanel extends VBox {
@@ -98,14 +98,10 @@ class GeneralPreferencesPanel extends VBox {
       panelContent.push( providedContent );
 
       // If there was provided content for this panel, separate from intro statements
-      if ( options.describeTabs ) {
-        panelContent.push( new HSeparator( introParagraphs.width ) );
-      }
+      panelContent.push( new HSeparator( introParagraphs.width ) );
     }
 
-    if ( options.describeTabs ) {
-      panelContent.push( introParagraphs );
-    }
+    panelContent.push( introParagraphs );
 
     this.children = panelContent;
 
