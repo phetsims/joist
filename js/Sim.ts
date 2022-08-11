@@ -240,7 +240,7 @@ export default class Sim extends PhetioObject {
     } );
 
   // layer for popups, dialogs, and their backgrounds and barriers
-  private readonly topLayer = new Node( {
+  private readonly topLayer: TopLayerNode = new Node( {
     children: [ this.barrierRectangle ]
   } );
 
@@ -368,9 +368,6 @@ export default class Sim extends PhetioObject {
       _.each( this.screens, m => m.view.layout( availableScreenBounds ) );
 
       this.topLayer.children.forEach( child => {
-
-        // @ts-ignore TODO: See https://github.com/phetsims/joist/issues/795
-        // REVIEW: I'm really not sure how to handle this one, let's talk about it.
         child.layout && child.layout( availableScreenBounds );
       } );
 
@@ -1062,6 +1059,16 @@ export default class Sim extends PhetioObject {
     this.homeScreen && this.homeScreen.view.setVoicingVisible( visible );
   }
 }
+
+type LayoutNode = Node & {
+  layout?: ( layoutBounds: Bounds2 ) => void;
+};
+
+// This Node supports children that have layout.
+type TopLayerNode = {
+  addChild( child: LayoutNode ): void;
+  children: LayoutNode[];
+} & Node;
 
 /**
  * Compute the dt since the last event
