@@ -779,7 +779,7 @@ export default class Helper {
       if ( active ) {
         sim.activeProperty.value = false;
 
-        const screen = sim.screenProperty.value;
+        const screen = sim.selectedScreenProperty.value;
         if ( screen.hasView() ) {
           this.screenViewProperty.value = screen.view;
         }

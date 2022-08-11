@@ -128,7 +128,7 @@ class PhetButton extends JoistButton {
     phetMenu.setFocusOnHideNode( this );
 
     // No need to unlink, as the PhetButton exists for the lifetime of the sim
-    Multilink.multilink( [ backgroundFillProperty, sim.screenProperty, updateCheck.stateProperty ],
+    Multilink.multilink( [ backgroundFillProperty, sim.selectedScreenProperty, updateCheck.stateProperty ],
       ( backgroundFill, screen, updateState ) => {
         const showHomeScreen = screen === sim.homeScreen;
         const backgroundIsWhite = !backgroundFill.equals( Color.BLACK ) && !showHomeScreen;

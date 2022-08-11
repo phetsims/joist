@@ -42,6 +42,7 @@ import Sim from './Sim.js';
 import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Screen from './Screen.js';
+import BooleanProperty from '../../axon/js/BooleanProperty.js';
 
 // constants
 // for layout of the NavigationBar, used in the following way:
@@ -75,7 +76,7 @@ class NavigationBar extends Node {
 
     // The nav bar fill and determining fill for elements on the nav bar (if it's black, the elements are white)
     this.navigationBarFillProperty = new DerivedProperty( [
-      sim.screenProperty,
+      sim.selectedScreenProperty,
       sim.lookAndFeel.navigationBarFillProperty
     ], ( screen, simNavigationBarFill ) => {
 
@@ -111,7 +112,7 @@ class NavigationBar extends Node {
     // independently by PhET-iO and whether the user is on the homescreen.
     const titleContainerNode = new Node( {
       children: [ titleText ],
-      visibleProperty: new DerivedProperty( [ sim.screenProperty ], screen => screen !== sim.homeScreen )
+      visibleProperty: new DerivedProperty( [ sim.selectedScreenProperty ], screen => screen !== sim.homeScreen )
     } );
     this.barContents.addChild( titleContainerNode );
 
@@ -162,14 +163,20 @@ class NavigationBar extends Node {
       // Start with the assumption that the title can occupy (at most) this percentage of the bar.
       const maxTitleWidth = Math.min( titleText.width, 0.20 * HomeScreenView.LAYOUT_BOUNDS.width );
 
+      const isUserNavigableProperty = new BooleanProperty( true, {
+        tandem: Tandem.GENERAL_MODEL.createTandem( 'screens' ).createTandem( 'isUserNavigableProperty' ),
+        phetioFeatured: true
+        // TODO: phetioDocumentation, see https://github.com/phetsims/joist/issues/827
+      } );
+
       // pdom - container for the homeButton and all the screen buttons.
       buttons = new Node( {
         tagName: 'ol',
         containerTagName: 'nav',
         labelTagName: 'h2',
         labelContent: joistStrings.a11y.simScreens,
-        visibleProperty: new DerivedProperty( [ sim.activeSimScreensProperty, sim.screenProperty ], ( screens, screen ) => {
-          return screen !== sim.homeScreen && screens.length > 1;
+        visibleProperty: new DerivedProperty( [ sim.activeSimScreensProperty, sim.selectedScreenProperty, isUserNavigableProperty ], ( screens, screen, isUserNavigable ) => {
+          return screen !== sim.homeScreen && screens.length > 1 && isUserNavigable;
         } )
       } );
 
@@ -186,7 +193,7 @@ class NavigationBar extends Node {
         sim.lookAndFeel.navigationBarFillProperty,
         sim.homeScreen ? sim.homeScreen.pdomDisplayNameProperty : new StringProperty( 'NO HOME SCREEN' ), {
           listener: () => {
-            sim.screenProperty.value = sim.homeScreen!;
+            sim.selectedScreenProperty.value = sim.homeScreen!;
 
             // only if fired from a11y
             if ( this.homeButton!.isPDOMClicking() ) {
@@ -223,7 +230,7 @@ class NavigationBar extends Node {
       const screenButtons = sim.simScreens.map( screen => {
         return new NavigationBarScreenButton(
           sim.lookAndFeel.navigationBarFillProperty,
-          sim.screenProperty,
+          sim.selectedScreenProperty,
           screen,
           sim.simScreens.indexOf( screen ),
           NAVIGATION_BAR_SIZE.height, {

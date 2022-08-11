@@ -121,7 +121,7 @@ class Toolbar extends Node {
 
     this.isShowingProperty = DerivedProperty.and( [ this.isEnabledProperty, voicingManager.enabledProperty, audioManager.audioEnabledProperty ] );
 
-    const voicingAlertManager = new VoicingToolbarAlertManager( sim.screenProperty );
+    const voicingAlertManager = new VoicingToolbarAlertManager( sim.selectedScreenProperty );
     this.menuContent = new VoicingToolbarItem( voicingAlertManager, sim.lookAndFeel, {
       tandem: options.tandem.createTandem( 'menuContent' )
     } );

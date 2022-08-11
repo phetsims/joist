@@ -75,14 +75,14 @@ class EngagementMetrics {
     const dataStream = phet && phet.phetio && phet.phetio.dataStream;
     assert && assert( dataStream, 'cannot add dataStream listener because dataStream is not defined' );
 
-    let currentScreenEntry = this.screens[ sim.screens.indexOf( sim.screenProperty.value ) ];
+    let currentScreenEntry = this.screens[ sim.screens.indexOf( sim.selectedScreenProperty.value ) ];
 
     sim.screens.forEach( screen => {
       this.screens.push( new ScreenData( screen.tandem.name ) );
     } );
 
     const updateCurrentScreenEntry = ( event: PhetioEvent ) => {
-      currentScreenEntry = this.screens[ sim.screens.indexOf( sim.screenProperty.value ) ];
+      currentScreenEntry = this.screens[ sim.screens.indexOf( sim.selectedScreenProperty.value ) ];
 
       // initial condition if first time on this screen
       currentScreenEntry.firstTimestamp = currentScreenEntry.firstTimestamp! || event.time;
@@ -98,7 +98,7 @@ class EngagementMetrics {
       }
 
       // screenIndex changedr
-      if ( event.phetioID === sim.screenProperty.tandem.phetioID &&
+      if ( event.phetioID === sim.selectedScreenProperty.tandem.phetioID &&
            event.name === Property.CHANGED_EVENT_NAME ) {
         updateCurrentScreenEntry( event );
       }

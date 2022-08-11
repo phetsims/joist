@@ -69,6 +69,7 @@ import Multilink from '../../axon/js/Multilink.js';
 import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import Combination from '../../dot/js/Combination.js';
 import Permutation from '../../dot/js/Permutation.js';
+import ArrayIO from '../../tandem/js/types/ArrayIO.js';
 
 // constants
 const PROGRESS_BAR_WIDTH = 273;
@@ -160,14 +161,13 @@ export default class Sim extends PhetioObject {
 
   // the displayed name in the sim. This depends on what screens are shown this runtime (effected by query parameters).
   public readonly displayedSimNameProperty: TReadOnlyProperty<string>;
-  public readonly screenProperty: Property<Screen>;
+  public readonly selectedScreenProperty: Property<Screen>;
 
   // true if all possible screens are present (order-independent)
   private readonly allScreensCreated: boolean;
 
-  private screensIncludedProperty!: Property<string>;
+  private availableScreensProperty!: Property<number[]>;
   public activeSimScreensProperty!: ReadOnlyProperty<Screen[]>;
-  public hasHomeScreenProperty!: ReadOnlyProperty<boolean>;
 
   // When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.
   // Set to false for when the sim will be paused.
@@ -424,7 +424,7 @@ export default class Sim extends PhetioObject {
 
       // If the user is on the home screen, we won't have a Screen that we'll want to step.  This must be done after
       // fuzz mouse, because fuzzing could change the selected screen, see #130
-      const screen = this.screenProperty.value;
+      const screen = this.selectedScreenProperty.value;
 
       // cap dt based on the current screen, see https://github.com/phetsims/joist/issues/130
       dt = Math.min( dt, screen.maxDT );
@@ -482,6 +482,8 @@ export default class Sim extends PhetioObject {
       phetioDocumentation: 'A function that steps time forward.'
     } );
 
+    const screensTandem = Tandem.GENERAL_MODEL.createTandem( 'screens' );
+
     const screenData = selectScreens(
       allSimScreens,
       phet.chipper.queryParameters.homeScreen,
@@ -495,25 +497,24 @@ export default class Sim extends PhetioObject {
           return allSimScreens.indexOf( screen ) + 1;
         } );
         const validValues = _.flatten( Combination.combinationsOf( possibleScreenIndices ).map( subset => Permutation.permutationsOf( subset ) ) )
-          .filter( array => array.length > 0 )
-          .map( array => array.join( ',' ) ).sort();
+          .filter( array => array.length > 0 ).sort();
 
         // Controls the subset (and order) of screens that appear to the user. Separate from the ?screens query parameter
         // for phet-io purposes. See https://github.com/phetsims/joist/issues/827
-        this.screensIncludedProperty = new StringProperty( possibleScreenIndices.join( ',' ), {
-          tandem: Tandem.GENERAL_MODEL.createTandem( 'screensIncludedProperty' ),
-          validValues: validValues,
-          phetioFeatured: true
+        this.availableScreensProperty = new Property( possibleScreenIndices, {
+          tandem: screensTandem.createTandem( 'availableScreensProperty' ),
+          isValidValue: value => _.some( validValues, validValue => _.isEqual( value, validValue ) ),
+          phetioFeatured: true,
+          phetioValueType: ArrayIO( NumberIO )
           // TODO: phetioDocumentation, see https://github.com/phetsims/joist/issues/827
         } );
 
-        this.activeSimScreensProperty = new DerivedProperty( [ this.screensIncludedProperty ], screensString => {
-          return screensString.split( ',' ).map( digitString => allSimScreens[ Number( digitString ) - 1 ] );
+        this.activeSimScreensProperty = new DerivedProperty( [ this.availableScreensProperty ], screenIndices => {
+          return screenIndices.map( index => allSimScreens[ index - 1 ] );
         } );
-        this.hasHomeScreenProperty = new DerivedProperty( [ this.activeSimScreensProperty ], screens => screens.length > 1 );
       },
       selectedSimScreens => {
-        return new HomeScreen( this.simNameProperty, () => this.screenProperty, selectedSimScreens, this.activeSimScreensProperty, {
+        return new HomeScreen( this.simNameProperty, () => this.selectedScreenProperty, selectedSimScreens, this.activeSimScreensProperty, {
           tandem: options.tandem.createTandem( window.phetio.PhetioIDUtils.HOME_SCREEN_COMPONENT_NAME ),
           warningNode: options.homeScreenWarningNode
         } );
@@ -525,8 +526,8 @@ export default class Sim extends PhetioObject {
     this.screens = screenData.screens;
     this.allScreensCreated = screenData.allScreensCreated;
 
-    this.screenProperty = new Property<Screen>( screenData.initialScreen, {
-      tandem: Tandem.GENERAL_MODEL.createTandem( 'screenProperty' ),
+    this.selectedScreenProperty = new Property<Screen>( screenData.initialScreen, {
+      tandem: screensTandem.createTandem( 'selectedScreenProperty' ),
       phetioFeatured: true,
       phetioDocumentation: 'Determines which screen is selected in the simulation',
       validValues: this.screens,
@@ -536,11 +537,11 @@ export default class Sim extends PhetioObject {
     // If the activeSimScreens changes, we'll want to update what the active screen (or selected screen) is for specific
     // cases.
     this.activeSimScreensProperty.lazyLink( screens => {
-      const screen = this.screenProperty.value;
+      const screen = this.selectedScreenProperty.value;
       if ( screen === this.homeScreen ) {
         if ( screens.length === 1 ) {
           // If we're on the home screen and it switches to a 1-screen sim, go to that screen
-          this.screenProperty.value = screens[ 0 ];
+          this.selectedScreenProperty.value = screens[ 0 ];
         }
         else if ( !screens.includes( this.homeScreen.model.selectedScreenProperty.value ) ) {
           // If we're on the home screen and our "selected" screen disappears, select the first sim screen
@@ -549,7 +550,7 @@ export default class Sim extends PhetioObject {
       }
       else if ( !screens.includes( screen ) ) {
         // If we're on a screen that "disappears", go to the first screen
-        this.screenProperty.value = screens[ 0 ];
+        this.selectedScreenProperty.value = screens[ 0 ];
       }
     } );
 
@@ -615,7 +616,7 @@ export default class Sim extends PhetioObject {
     // hook up sound generation for screen changes
     if ( audioManager.supportsSound ) {
       soundManager.addSoundGenerator(
-        new ScreenSelectionSoundGenerator( this.screenProperty, this.homeScreen, { initialOutputLevel: 0.5 } ),
+        new ScreenSelectionSoundGenerator( this.selectedScreenProperty, this.homeScreen, { initialOutputLevel: 0.5 } ),
         {
           categoryName: 'user-interface'
         }
@@ -681,18 +682,18 @@ export default class Sim extends PhetioObject {
     this.navigationBar = new NavigationBar( this, Tandem.GENERAL_VIEW.createTandem( 'navigationBar' ) );
 
     this.updateBackground = () => {
-      this.lookAndFeel.backgroundColorProperty.value = Color.toColor( this.screenProperty.value.backgroundColorProperty.value );
+      this.lookAndFeel.backgroundColorProperty.value = Color.toColor( this.selectedScreenProperty.value.backgroundColorProperty.value );
     };
 
     this.lookAndFeel.backgroundColorProperty.link( backgroundColor => {
       this.display.backgroundColor = backgroundColor;
     } );
 
-    this.screenProperty.link( () => this.updateBackground() );
+    this.selectedScreenProperty.link( () => this.updateBackground() );
 
     // When the user switches screens, interrupt the input on the previous screen.
     // See https://github.com/phetsims/scenery/issues/218
-    this.screenProperty.lazyLink( ( newScreen, oldScreen ) => oldScreen.view.interruptSubtreeInput() );
+    this.selectedScreenProperty.lazyLink( ( newScreen, oldScreen ) => oldScreen.view.interruptSubtreeInput() );
 
     this.simInfo = new SimInfo( this );
 
@@ -726,7 +727,7 @@ export default class Sim extends PhetioObject {
     // Trigger layout code
     this.resizeToWindow();
 
-    this.screenProperty.value.view.step && this.screenProperty.value.view.step( 0 );
+    this.selectedScreenProperty.value.view.step && this.selectedScreenProperty.value.view.step( 0 );
 
     // Clear all UtteranceQueue outputs that may have collected Utterances while state-setting logic occurred.
     // This is transient. https://github.com/phetsims/utterance-queue/issues/22 and https://github.com/phetsims/scenery/issues/1397
@@ -757,7 +758,7 @@ export default class Sim extends PhetioObject {
       } );
     }
 
-    this.screenProperty.link( currentScreen => {
+    this.selectedScreenProperty.link( currentScreen => {
       screens.forEach( screen => {
         const visible = screen === currentScreen;
 

@@ -124,7 +124,7 @@ class SimInfo extends PhetioObject {
 
     // From PhET-iO code
     if ( Tandem.PHET_IO_ENABLED ) {
-      this.putInfo( 'screenPropertyValue', sim.screenProperty.value.tandem.phetioID );
+      this.putInfo( 'screenPropertyValue', sim.selectedScreenProperty.value.tandem.phetioID );
       this.putInfo( 'wrapperMetadata', phet.preloads.phetio.simStartedMetadata );
       this.putInfo( 'dataStreamVersion', phet.phetio.dataStream.VERSION );
       this.putInfo( 'phetioCommandProcessorProtocol', phet.phetio.phetioCommandProcessor.PHET_IO_PROTOCOL );

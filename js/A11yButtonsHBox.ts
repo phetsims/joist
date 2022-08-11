@@ -63,7 +63,7 @@ class A11yButtonsHBox extends HBox {
       // Create the KeyboardHelpButton (pops open a dialog with information about keyboard navigation) if there is content
       // and the sim has supports Interactive Description. Eagerly create this to support a consistent PhET-iO API, but
       // only conditionally add it to the nav bar if in the proper runtime.
-      const keyboardHelpButton = new KeyboardHelpButton( sim.screenProperty, backgroundColorProperty, {
+      const keyboardHelpButton = new KeyboardHelpButton( sim.selectedScreenProperty, backgroundColorProperty, {
         tandem: options.tandem.createTandem( 'keyboardHelpButton' )
       } );
 
