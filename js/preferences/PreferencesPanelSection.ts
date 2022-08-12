@@ -31,7 +31,7 @@ class PreferencesPanelSection extends VBox {
 
   public constructor( providedOptions?: PreferencesPanelSectionOptions ) {
     const options = optionize<PreferencesPanelSectionOptions, SelfOptions, VBoxOptions>()( {
-      spacing: 20,
+      spacing: PreferencesPanelSection.DEFAULT_ITEM_SPACING,
       titleNode: null,
       contentNode: null,
       contentLeftMargin: 30
@@ -68,6 +68,9 @@ class PreferencesPanelSection extends VBox {
     this.disposePreferencesPanelSection();
     super.dispose();
   }
+
+  // Default spacing used for content items within a PreferencesPanelSection
+  public static readonly DEFAULT_ITEM_SPACING = 20;
 }
 
 joist.register( 'PreferencesPanelSection', PreferencesPanelSection );

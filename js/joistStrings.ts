@@ -92,6 +92,7 @@ type StringsType = {
         'title': string;
         'interactiveHighlights': string;
         'interactiveHighlightsDescription': string;
+        'projectorModeDescription': string;
       };
       'audio': {
         'title': string;

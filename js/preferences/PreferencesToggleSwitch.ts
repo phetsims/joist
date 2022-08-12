@@ -61,7 +61,7 @@ type SelfOptions = {
   toggleSwitchOptions?: ConstrainedToggleSwitchOptions;
 };
 
-type PreferencesToggleSwitchOptions = SelfOptions & NodeOptions;
+export type PreferencesToggleSwitchOptions = SelfOptions & NodeOptions;
 
 class PreferencesToggleSwitch<T> extends Node {
   private readonly disposePreferencesToggleSwitch: () => void;

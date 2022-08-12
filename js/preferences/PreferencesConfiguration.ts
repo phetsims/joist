@@ -25,6 +25,9 @@ export type GeneralPreferencesOptions = {
 
 export type VisualPreferencesOptions = {
 
+  // Whether the sim supports projector mode and a toggle switch to enable it in the PreferencesDialog.
+  supportsProjectorMode?: boolean;
+
   // whether or not the sim supports the "Interactive Highlights" feature, and checkbox to enable in the
   // Preferences Dialog
   supportsInteractiveHighlights?: boolean;

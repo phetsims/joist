@@ -81,6 +81,7 @@ class PreferencesModel extends PhetioObject {
     const visualTandem = options.tandem.createTandem( 'visualModel' );
     this.visualModel = {
       supportsInteractiveHighlights: preferencesConfiguration.visualOptions.supportsInteractiveHighlights,
+      supportsProjectorMode: preferencesConfiguration.visualOptions.supportsProjectorMode,
       interactiveHighlightsEnabledProperty: new BooleanProperty( false, {
         tandem: visualTandem.createTandem( 'interactiveHighlightsEnabledProperty' ),
         phetioState: false,
@@ -162,7 +163,7 @@ class PreferencesModel extends PhetioObject {
   }
 
   public supportsVisualPreferences(): boolean {
-    return this.visualModel.supportsInteractiveHighlights;
+    return this.visualModel.supportsInteractiveHighlights || this.visualModel.supportsProjectorMode;
   }
 
   public supportsAudioPreferences(): boolean {

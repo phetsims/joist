@@ -9,7 +9,7 @@
 
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { Node, NodeOptions, Text, VoicingText } from '../../../scenery/js/imports.js';
+import { Node, NodeOptions, Text, VBox, VoicingText } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
@@ -17,6 +17,7 @@ import PreferencesPanelSection from './PreferencesPanelSection.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 import { VisualModel } from './PreferencesModel.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import ProjectorModeToggleSwitch from './ProjectorModeToggleSwitch.js';
 
 // constants
 const interactiveHighlightsString = joistStrings.preferences.tabs.visual.interactiveHighlights;
@@ -40,28 +41,51 @@ class VisualPreferencesPanel extends Node {
 
     super( options );
 
-    const label = new Text( interactiveHighlightsString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
-    const interactiveHighlightsEnabledSwitch = new PreferencesToggleSwitch( visualModel.interactiveHighlightsEnabledProperty, false, true, {
-      labelNode: label,
-      descriptionNode: new VoicingText( interactiveHighlightsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
-        readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternString, {
-          label: interactiveHighlightsString,
-          description: interactiveHighlightsDescriptionString
-        } )
-      } ) ),
-      a11yLabel: interactiveHighlightsString,
-      leftValueContextResponse: interactiveHighlightsDisabledAlertString,
-      rightValueContextResponse: interactiveHighlightsEnabledAlertString
+    const contentNode = new VBox( {
+      spacing: PreferencesPanelSection.DEFAULT_ITEM_SPACING,
+      align: 'left'
     } );
 
+    if ( visualModel.supportsProjectorMode ) {
+      const projectorModeSwitch = new ProjectorModeToggleSwitch();
+      contentNode.addChild( projectorModeSwitch );
+    }
+
+    if ( visualModel.supportsInteractiveHighlights ) {
+
+      const label = new Text( interactiveHighlightsString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
+      const interactiveHighlightsEnabledSwitch = new PreferencesToggleSwitch( visualModel.interactiveHighlightsEnabledProperty, false, true, {
+        labelNode: label,
+        descriptionNode: new VoicingText( interactiveHighlightsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
+          readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternString, {
+            label: interactiveHighlightsString,
+            description: interactiveHighlightsDescriptionString
+          } )
+        } ) ),
+        a11yLabel: interactiveHighlightsString,
+        leftValueContextResponse: interactiveHighlightsDisabledAlertString,
+        rightValueContextResponse: interactiveHighlightsEnabledAlertString
+      } );
+
+      contentNode.addChild( interactiveHighlightsEnabledSwitch );
+    }
+
     const panelSection = new PreferencesPanelSection( {
-      titleNode: interactiveHighlightsEnabledSwitch
+      contentNode: contentNode,
+
+      // no title for this section so no indendation necessary
+      contentLeftMargin: 0
     } );
     this.addChild( panelSection );
 
     this.disposeVisualPreferencesPanel = () => {
       panelSection.dispose();
-      interactiveHighlightsEnabledSwitch.dispose();
+
+      // Dispose each PreferencesToggleSwitch
+      contentNode.children.forEach( child => {
+        child.dispose();
+      } );
+      contentNode.dispose();
     };
   }
 

@@ -158,6 +158,9 @@
   "preferences.tabs.visual.interactiveHighlightsDescription": {
     "value": "Add visual highlights for mouse and touch as you interact."
   },
+  "preferences.tabs.visual.projectorModeDescription": {
+    "value": "Increase color contrast for better visibility in classrooms."
+  },
   "preferences.tabs.audio.title": {
     "value": "Audio"
   },
