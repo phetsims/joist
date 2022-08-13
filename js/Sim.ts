@@ -240,7 +240,7 @@ export default class Sim extends PhetioObject {
     } );
 
   // layer for popups, dialogs, and their backgrounds and barriers
-  private readonly topLayer: TopLayerNode = new Node( {
+  public readonly topLayer: TopLayerNode = new Node( {
     children: [ this.barrierRectangle ]
   } );
 

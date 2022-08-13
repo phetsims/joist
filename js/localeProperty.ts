@@ -13,7 +13,7 @@ import joist from './joist.js';
 const localeProperty = new StringProperty( phet.chipper.locale || 'en', {
   tandem: Tandem.GENERAL_VIEW.createTandem( 'localeProperty' ),
   phetioFeatured: true,
-  validValues: Object.keys( phet.chipper.strings )
+  validValues: Object.keys( phet.chipper.strings ).sort()
 } );
 
 joist.register( 'localeProperty', localeProperty );
