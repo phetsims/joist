@@ -1953,6 +1953,12 @@ const createInfo = ( trail: Trail ): Node[] => {
     addSimple( 'localBoundsOverridden', node.localBoundsOverridden );
   }
   addBounds2( 'bounds', node.bounds );
+  if ( isFinite( node.width ) ) {
+    addSimple( 'width', node.width );
+  }
+  if ( isFinite( node.height ) ) {
+    addSimple( 'height', node.height );
+  }
 
   children.push( new RectangularPushButton( {
     content: new Text( 'Copy Path', { fontSize: 12 } ),
