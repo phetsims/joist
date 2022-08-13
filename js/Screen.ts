@@ -34,6 +34,7 @@ import ScreenView from './ScreenView.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import Multilink from '../../axon/js/Multilink.js';
 import TModel from './TModel.js';
+import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 
 const screenNamePatternString = joistStrings.a11y.screenNamePattern;
 const screenSimPatternString = joistStrings.a11y.screenSimPattern;
@@ -52,7 +53,7 @@ assert && assert( Math.abs( HOME_SCREEN_ICON_ASPECT_RATIO - HOME_SCREEN_ICON_ASP
 
 // Documentation is by the defaults
 type SelfOptions = {
-  name?: string | null;
+  name?: string | ReadOnlyProperty<string> | null;
   instrumentNameProperty?: boolean;
 
   // It would be preferable to support Property<Color | string> solely, but many subtypes are hardcoded to be Color only
@@ -80,7 +81,7 @@ class Screen<M extends TModel = TModel, V extends ScreenView = ScreenView> exten
   public readonly maxDT: number;
   public readonly activeProperty: BooleanProperty;
   public readonly descriptionContent: string;
-  public readonly nameProperty: TReadOnlyProperty<string | null>;
+  public readonly nameProperty: Property<string>;
 
   public readonly showScreenIconFrameForNavigationBarFill: string | null;
   public readonly homeScreenIcon: Node | null;
@@ -179,13 +180,18 @@ class Screen<M extends TModel = TModel, V extends ScreenView = ScreenView> exten
     const instrumentNameProperty = options.instrumentNameProperty && options.name;
 
     // may be null for single-screen simulations
-    this.nameProperty = new Property( options.name, {
+    this.nameProperty = new Property( typeof options.name === 'string' ? options.name : ( options.name ? options.name.value : '' ), {
       phetioValueType: NullableIO( StringIO ),
       tandem: instrumentNameProperty ? options.tandem.createTandem( 'nameProperty' ) : Tandem.OPT_OUT,
       phetioFeatured: true,
       phetioDocumentation: 'The name of the screen. Changing this value will update the screen name for the screen\'s ' +
                            'corresponding button on the navigation bar and home screen, if they exist.'
     } );
+    if ( options.name instanceof ReadOnlyProperty ) {
+      options.name.link( name => {
+        this.nameProperty.value = name;
+      } );
+    }
 
     this.homeScreenIcon = options.homeScreenIcon;
     this.navigationBarIcon = options.navigationBarIcon;

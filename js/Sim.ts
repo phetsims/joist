@@ -261,7 +261,7 @@ export default class Sim extends PhetioObject {
    * @param allSimScreens - the possible screens for the sim in order of declaration (does not include the home screen)
    * @param [providedOptions] - see below for options
    */
-  public constructor( name: string, allSimScreens: Screen[], providedOptions?: SimOptions ) {
+  public constructor( name: string | TReadOnlyProperty<string>, allSimScreens: Screen[], providedOptions?: SimOptions ) {
 
     window.phetSplashScreenDownloadComplete();
 
@@ -312,12 +312,18 @@ export default class Sim extends PhetioObject {
 
     this.createOptionsDialogContent = options.createOptionsDialogContent;
 
-    this.simNameProperty = new StringProperty( name, {
+    this.simNameProperty = new StringProperty( typeof name === 'string' ? name : name.value, {
       tandem: Tandem.GENERAL_MODEL.createTandem( 'simNameProperty' ),
       phetioFeatured: true,
       phetioDocumentation: 'The name of the sim. Changing this value will update the title text on the navigation bar ' +
                            'and the title text on the home screen, if it exists.'
     } );
+    if ( typeof name !== 'string' ) {
+      name.lazyLink( nameString => {
+        // @ts-ignore Ignoring readonly for now
+        this.simNameProperty.value = nameString;
+      } );
+    }
 
     // playbackModeEnabledProperty cannot be changed after Sim construction has begun, hence this listener is added before
     // anything else is done, see https://github.com/phetsims/phet-io/issues/1146
@@ -628,9 +634,9 @@ export default class Sim extends PhetioObject {
 
     // If the locale query parameter was specified, then we may be running the all.html file, so adjust the title.
     // See https://github.com/phetsims/chipper/issues/510
-    if ( QueryStringMachine.containsKey( 'locale' ) ) {
-      $( 'title' ).html( name );
-    }
+    this.simNameProperty.link( simName => {
+      $( 'title' ).html( simName );
+    } );
 
     if ( options.preferencesConfiguration ) {
 
