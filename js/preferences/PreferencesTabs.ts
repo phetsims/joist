@@ -21,8 +21,12 @@ import PreferencesDialog, { PreferencesTab } from './PreferencesDialog.js';
 const generalTitleString = joistStrings.preferences.tabs.general.title;
 const visualTitleString = joistStrings.preferences.tabs.visual.title;
 const audioTitleString = joistStrings.preferences.tabs.audio.title;
-const inputTitleString = 'Input';
 const preferencesTabResponsePatternString = joistStrings.a11y.preferences.tabs.tabResponsePattern;
+
+// These strings are NOT translatable yet because they do not appear in any published sim. So they should not be
+// available for translators.
+const inputTitleString = 'Input';
+const localizationTitleString = 'Localization';
 
 type PreferencesTabsOptions = NodeOptions;
 
@@ -56,6 +60,7 @@ class PreferencesTabs extends Node {
     addTabIfSupported( PreferencesDialog.PreferencesTab.VISUAL, visualTitleString );
     addTabIfSupported( PreferencesDialog.PreferencesTab.AUDIO, audioTitleString );
     addTabIfSupported( PreferencesDialog.PreferencesTab.INPUT, inputTitleString );
+    addTabIfSupported( PreferencesDialog.PreferencesTab.LOCALIZATION, localizationTitleString );
 
     for ( let i = 0; i < this.content.length; i++ ) {
       this.addChild( this.content[ i ] );

@@ -59,6 +59,7 @@ export class PreferencesTab extends EnumerationValue {
   public static VISUAL = new PreferencesTab();
   public static AUDIO = new PreferencesTab();
   public static INPUT = new PreferencesTab();
+  public static LOCALIZATION = new PreferencesTab();
 
   public static enumeration = new Enumeration( PreferencesTab );
 }
@@ -100,6 +101,7 @@ class PreferencesDialog extends Dialog {
     preferencesModel.supportsVisualPreferences() && supportedTabs.push( PreferencesTab.VISUAL );
     preferencesModel.supportsAudioPreferences() && audioManager.supportsAudio && supportedTabs.push( PreferencesTab.AUDIO );
     preferencesModel.supportsInputPreferences() && supportedTabs.push( PreferencesTab.INPUT );
+    preferencesModel.supportsLocalizationPreferences() && supportedTabs.push( PreferencesTab.LOCALIZATION );
     assert && assert( supportedTabs.length > 0, 'Trying to create a PreferencesDialog with no tabs, check PreferencesConfiguration' );
 
     // the selected PreferencesTab, indicating which tab is visible in the Dialog

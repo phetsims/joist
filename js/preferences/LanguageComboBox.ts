@@ -24,7 +24,7 @@ import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 const languageString = 'Language';
 
 // A description of a supported locale for this ComboBox.
-type localeDescriptor = {
+type LocaleDescriptor = {
 
   // The locale to use.
   locale: string;
@@ -43,7 +43,7 @@ class LanguageComboBox extends ComboBox<string> {
    * @param localeDescriptors
    * @param [providedOptions?]
    */
-  public constructor( localeProperty: Property<string>, localeDescriptors: localeDescriptor[],
+  public constructor( localeProperty: Property<string>, localeDescriptors: LocaleDescriptor[],
                       providedOptions?: LanguageComboBoxOptions ) {
 
     const options = optionize<LanguageComboBoxOptions, SelfOptions, ComboBoxOptions>()( {
@@ -64,6 +64,7 @@ class LanguageComboBox extends ComboBox<string> {
       };
     } );
 
+    // TODO: We need another "layer node" to use for this component, see https://github.com/phetsims/joist/issues/814
     super( localeProperty, comboBoxItems, phet.joist.sim.topLayer, options );
   }
 }

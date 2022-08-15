@@ -20,6 +20,7 @@ import PreferencesDialog, { PreferencesTab } from './PreferencesDialog.js';
 import VisualPreferencesPanel from './VisualPreferencesPanel.js';
 import PreferencesModel from './PreferencesModel.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import LocalizationPreferencesPanel from './LocalizationPreferencesPanel.js';
 
 type SelfOptions = EmptySelfOptions;
 type PreferencesPanelsOptions = SelfOptions & NodeOptions;
@@ -87,12 +88,20 @@ class PreferencesPanels extends Node {
       this.content.push( new PreferencesPanelContainer( inputPreferencesPanel, PreferencesDialog.PreferencesTab.INPUT ) );
     }
 
+    let localizationPreferencesPanel: Node | null = null;
+    if ( supportedTabs.includes( PreferencesDialog.PreferencesTab.LOCALIZATION ) ) {
+      localizationPreferencesPanel = new LocalizationPreferencesPanel( preferencesModel.localizationModel );
+      this.addChild( localizationPreferencesPanel );
+      this.content.push( new PreferencesPanelContainer( localizationPreferencesPanel, PreferencesDialog.PreferencesTab.LOCALIZATION ) );
+    }
+
     // display the selected panel
     selectedTabProperty.link( tab => {
       generalPreferencesPanel && ( generalPreferencesPanel.visible = tab === PreferencesDialog.PreferencesTab.GENERAL );
       visualPreferencesPanel && ( visualPreferencesPanel.visible = tab === PreferencesDialog.PreferencesTab.VISUAL );
       audioPreferencesPanel && ( audioPreferencesPanel.visible = tab === PreferencesDialog.PreferencesTab.AUDIO );
       inputPreferencesPanel && ( inputPreferencesPanel.visible = tab === PreferencesDialog.PreferencesTab.INPUT );
+      localizationPreferencesPanel && ( localizationPreferencesPanel.visible = tab === PreferencesDialog.PreferencesTab.LOCALIZATION );
     } );
 
     this.disposePreferencesPanel = () => {
@@ -102,6 +111,7 @@ class PreferencesPanels extends Node {
       visualPreferencesPanel && visualPreferencesPanel.dispose();
       audioPreferencesPanel && audioPreferencesPanel.dispose();
       inputPreferencesPanel && inputPreferencesPanel.dispose();
+      localizationPreferencesPanel && localizationPreferencesPanel.dispose();
     };
   }
 

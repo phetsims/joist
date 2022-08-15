@@ -19,6 +19,7 @@ import SimControlsPanelSection from './SimControlsPanelSection.js';
 import { GeneralModel } from './PreferencesModel.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import PreferencesPanelSection from './PreferencesPanelSection.js';
 
 // constants
 const accessibilityIntroString = joistStrings.preferences.tabs.general.accessibilityIntro;
@@ -37,7 +38,7 @@ class GeneralPreferencesPanel extends VBox {
   public constructor( generalModel: GeneralModel, providedOptions?: GeneralPreferencesPanelOptions ) {
     const options = optionize<GeneralPreferencesPanelOptions, SelfOptions, VBoxOptions>()( {
       align: 'left',
-      spacing: 20,
+      spacing: PreferencesPanelSection.DEFAULT_ITEM_SPACING,
 
       // pdom
       tagName: 'section',

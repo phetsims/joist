@@ -13,12 +13,13 @@ import joist from '../joist.js';
 import PreferencesStorage from './PreferencesStorage.js';
 import soundManager from '../../../tambo/js/soundManager.js';
 import audioManager from '../audioManager.js';
-import PreferencesConfiguration, { AudioPreferencesOptions, GeneralPreferencesOptions, InputPreferencesOptions, VisualPreferencesOptions } from './PreferencesConfiguration.js';
+import PreferencesConfiguration, { AudioPreferencesOptions, GeneralPreferencesOptions, InputPreferencesOptions, LocalizationPreferencesOptions, VisualPreferencesOptions } from './PreferencesConfiguration.js';
 import Property from '../../../axon/js/Property.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import localizationManager from './localizationManager.js';
 
 export type GeneralModel = Required<GeneralPreferencesOptions>;
 
@@ -54,6 +55,15 @@ export type InputModel = {
 
 } & Required<InputPreferencesOptions>;
 
+export type LocalizationModel = {
+
+  // The selected language for the sim when the sim supports language switching
+  languageProperty: Property<string>;
+
+  // The selected character artwork to use when the sim supports culture and region switching.
+  characterProperty: Property<number>;
+} & Required<LocalizationPreferencesOptions>;
+
 type PreferencesModelOptions = PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 class PreferencesModel extends PhetioObject {
@@ -66,6 +76,7 @@ class PreferencesModel extends PhetioObject {
   public readonly visualModel: VisualModel;
   public readonly audioModel: AudioModel;
   public readonly inputModel: InputModel;
+  public readonly localizationModel: LocalizationModel;
 
   public constructor( preferencesConfiguration: PreferencesConfiguration, providedOptions: PreferencesModelOptions ) {
 
@@ -106,6 +117,17 @@ class PreferencesModel extends PhetioObject {
       voicePitchProperty: voicingManager.voicePitchProperty,
       voiceRateProperty: voicingManager.voiceRateProperty,
       voiceProperty: voicingManager.voiceProperty
+    };
+
+    this.localizationModel = {
+
+      // TODO: Also check for the all build here? See https://github.com/phetsims/joist/issues/814
+      supportsLanguageSwitching: preferencesConfiguration.localizationOptions.supportsLanguageSwitching,
+      languageProperty: localizationManager.languageProperty,
+
+      characterProperty: localizationManager.characterProperty,
+      supportsCharacterSwitching: preferencesConfiguration.localizationOptions.supportsCharacterSwitching,
+      characterDescriptors: preferencesConfiguration.localizationOptions.characterDescriptors
     };
 
     // Provide linked elements for already instrumented Properties to make PreferencesModel a one-stop shop to view preferences.
@@ -163,7 +185,8 @@ class PreferencesModel extends PhetioObject {
   }
 
   public supportsVisualPreferences(): boolean {
-    return this.visualModel.supportsInteractiveHighlights || this.visualModel.supportsProjectorMode;
+    return this.visualModel.supportsInteractiveHighlights ||
+           this.visualModel.supportsProjectorMode;
   }
 
   public supportsAudioPreferences(): boolean {
@@ -174,6 +197,11 @@ class PreferencesModel extends PhetioObject {
 
   public supportsInputPreferences(): boolean {
     return this.inputModel.supportsGestureControl;
+  }
+
+  public supportsLocalizationPreferences(): boolean {
+    return this.localizationModel.supportsLanguageSwitching ||
+           this.localizationModel.supportsCharacterSwitching;
   }
 }
 
