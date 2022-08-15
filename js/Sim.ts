@@ -70,6 +70,7 @@ import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import Combination from '../../dot/js/Combination.js';
 import Permutation from '../../dot/js/Permutation.js';
 import ArrayIO from '../../tandem/js/types/ArrayIO.js';
+import IProperty from '../../axon/js/IProperty.js';
 
 // constants
 const PROGRESS_BAR_WIDTH = 273;
@@ -114,7 +115,7 @@ export type SimOptions = SelfOptions & PickOptional<PhetioObject, 'phetioDesigne
 export default class Sim extends PhetioObject {
 
   // (joist-internal)
-  public readonly simNameProperty: TReadOnlyProperty<string>;
+  public readonly simNameProperty: IProperty<string>;
   public readonly createOptionsDialogContent: ( ( t: Tandem ) => Node ) | null;
 
   // Indicates sim construction completed, and that all screen models and views have been created.

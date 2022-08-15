@@ -104,7 +104,7 @@ class PhetMenu extends Node {
     // AboutDialog is created lazily (so that Sim bounds are valid), then reused.
     // Since AboutDialog is instrumented for PhET-iO, this lazy creation requires use of PhetioCapsule.
     const aboutDialogCapsule = new PhetioCapsule( tandem => {
-      return new AboutDialog( sim.simNameProperty.value, sim.version, sim.credits, sim.locale, {
+      return new AboutDialog( sim.simNameProperty, sim.version, sim.credits, sim.locale, {
         tandem: tandem,
         focusOnHideNode: this.focusOnHideNode
       } );

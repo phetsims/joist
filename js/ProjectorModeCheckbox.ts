@@ -18,8 +18,6 @@ import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import OptionsDialog from './OptionsDialog.js';
 
-const projectorModeString = joistStrings.projectorMode;
-
 type SelfOptions = {
   font?: Font;
   maxTextWidth?: number;
@@ -51,9 +49,10 @@ class ProjectorModeCheckbox extends Checkbox {
     // Identify the non-projector color profile that this checkbox sets.
     const otherColorProfile = phet.chipper.colorProfiles.find( ( colorProfile: string ) => colorProfile !== SceneryConstants.PROJECTOR_COLOR_PROFILE );
 
-    const labelNode = new Text( projectorModeString, {
+    const labelNode = new Text( joistStrings.projectorMode, {
       font: options.font,
-      maxWidth: options.maxTextWidth
+      maxWidth: options.maxTextWidth,
+      textProperty: joistStrings.projectorModeProperty
     } );
 
     // Internal adapter Property, to map between the string value needed by colorProfileProperty
