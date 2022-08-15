@@ -28,7 +28,7 @@ type SelfOptions = EmptySelfOptions;
 type CharacterSetComboBoxOptions = SelfOptions & StrictOmit<ComboBoxOptions, 'labelNode' | 'tandem'>;
 
 // TODO: Create a consistent type for this Property/ComboBox, see https://github.com/phetsims/joist/issues/814
-class CharacterSetComboBox extends ComboBox<number> {
+class RegionAndCultureComboBox extends ComboBox<number> {
 
   /**
    * @param characterSetProperty - Number indicating a selected Character set. Map the value to particular set of
@@ -66,5 +66,5 @@ class CharacterSetComboBox extends ComboBox<number> {
   }
 }
 
-joist.register( 'CharacterSetComboBox', CharacterSetComboBox );
-export default CharacterSetComboBox;
+joist.register( 'RegionAndCultureComboBox', RegionAndCultureComboBox );
+export default RegionAndCultureComboBox;

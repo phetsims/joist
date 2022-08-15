@@ -48,7 +48,7 @@ class LanguageComboBox extends ComboBox<string> {
 
     const options = optionize<LanguageComboBoxOptions, SelfOptions, ComboBoxOptions>()( {
 
-      // A bit smaller than default to match the CharacterSetComboBox, which is often used with localization controls
+      // A bit smaller than default to match the RegionAndCultureComboBox, which is often used with localization controls
       yMargin: 6,
 
       // phet-io

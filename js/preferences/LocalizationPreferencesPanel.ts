@@ -15,7 +15,7 @@ import joist from '../joist.js';
 import { LocalizationModel } from './PreferencesModel.js';
 import LanguageComboBox from './LanguageComboBox.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
-import CharacterSetComboBox from './CharacterSetComboBox.js';
+import RegionAndCultureComboBox from './RegionAndCultureComboBox.js';
 
 class LocalizationPreferencesPanel extends Node {
   public constructor( localizationModel: LocalizationModel ) {
@@ -40,7 +40,7 @@ class LocalizationPreferencesPanel extends Node {
     }
 
     if ( localizationModel.supportsCharacterSwitching ) {
-      contentNode.addChild( new CharacterSetComboBox( localizationModel.characterProperty, localizationModel.characterDescriptors ) );
+      contentNode.addChild( new RegionAndCultureComboBox( localizationModel.characterProperty, localizationModel.characterDescriptors ) );
     }
 
     const panelSection = new PreferencesPanelSection( {
