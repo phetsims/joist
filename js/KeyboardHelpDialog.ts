@@ -8,7 +8,7 @@
 
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import KeyboardHelpSection from '../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
+import KeyboardHelpSectionRow from '../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
 import TextKeyNode from '../../scenery-phet/js/keyboard/TextKeyNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import { HBox, Node, NodeOptions, PDOMPeer, ReadingBlock, ReadingBlockOptions, VBox, VoicingText } from '../../scenery/js/imports.js';
@@ -110,7 +110,7 @@ class TabHintLine extends ReadingBlock( Node ) {
     super();
 
     // a line to say "tab to get started" below the "Keyboard Shortcuts" 'title'
-    const labelWithIcon = KeyboardHelpSection.labelWithIcon( joistStrings.keyboardShortcuts.toGetStarted,
+    const labelWithIcon = KeyboardHelpSectionRow.labelWithIcon( joistStrings.keyboardShortcuts.toGetStarted,
       TextKeyNode.tab(), {
         labelInnerContent: tabToGetStartedString,
         iconOptions: {
