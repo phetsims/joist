@@ -3,8 +3,6 @@
 /**
  * A ComboBox that lets you change a character or character set in a simulation to match a particular culture or region.
  *
- * TODO: Rename this, it may be for more than "character sets". Maybe a single character or other artwork. See #814.
- *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
@@ -16,29 +14,26 @@ import Property from '../../../axon/js/Property.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import { CharacterDescriptor } from './localizationManager.js';
+import { RegionAndCultureDescriptor } from './localizationManager.js';
 
 // constants
 // Not translatable until design is complete, see https://github.com/phetsims/joist/issues/814
 const regionAndCultureString = 'Region and Culture';
 
 type SelfOptions = EmptySelfOptions;
+type RegionAndCultureComboBoxOptions = SelfOptions & StrictOmit<ComboBoxOptions, 'labelNode' | 'tandem'>;
 
-// CharacterSetComboBoxOptions sets the labelNode
-type CharacterSetComboBoxOptions = SelfOptions & StrictOmit<ComboBoxOptions, 'labelNode' | 'tandem'>;
-
-// TODO: Create a consistent type for this Property/ComboBox, see https://github.com/phetsims/joist/issues/814
 class RegionAndCultureComboBox extends ComboBox<number> {
 
   /**
-   * @param characterSetProperty - Number indicating a selected Character set. Map the value to particular set of
-   *                               images that you want to use (you may want to use a number of images per character).
-   * @param characterSets - Collection of data used to create ComboBoxItems for each supported character set.
+   * @param regionAndCultureProperty - Number indicating a selected region/culture. Map the value to particular set of
+   *                                   representations (you may want to use a number of images per character).
+   * @param regionAndCultureDescriptors - Collection of data used to create ComboBoxItems for each supported character set.
    * @param [providedOptions?]
    */
-  public constructor( characterSetProperty: Property<number>, characterSets: CharacterDescriptor[], providedOptions?: CharacterSetComboBoxOptions ) {
+  public constructor( regionAndCultureProperty: Property<number>, regionAndCultureDescriptors: RegionAndCultureDescriptor[], providedOptions?: RegionAndCultureComboBoxOptions ) {
 
-    const options = optionize<CharacterSetComboBoxOptions, SelfOptions, ComboBoxOptions>()( {
+    const options = optionize<RegionAndCultureComboBoxOptions, SelfOptions, ComboBoxOptions>()( {
 
       // default yMargin is a bit smaller so that there is less white space around the character set icon
       yMargin: 3,
@@ -49,9 +44,9 @@ class RegionAndCultureComboBox extends ComboBox<number> {
 
     options.labelNode = new Text( regionAndCultureString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
 
-    const comboBoxItems = characterSets.map( ( characterSetDescriptor, index ) => {
+    const comboBoxItems = regionAndCultureDescriptors.map( ( descriptor, index ) => {
       const itemContent = new HBox( {
-        children: [ characterSetDescriptor.characterIcon, new Text( characterSetDescriptor.label, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ) ],
+        children: [ descriptor.icon, new Text( descriptor.label, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ) ],
         spacing: 10
       } );
 
@@ -62,7 +57,7 @@ class RegionAndCultureComboBox extends ComboBox<number> {
     } );
 
     // TODO: Need a different top layer node for ComboBox here. See https://github.com/phetsims/joist/issues/814
-    super( characterSetProperty, comboBoxItems, phet.joist.sim.topLayer, options );
+    super( regionAndCultureProperty, comboBoxItems, phet.joist.sim.topLayer, options );
   }
 }
 

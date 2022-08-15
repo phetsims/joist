@@ -39,8 +39,8 @@ class LocalizationPreferencesPanel extends Node {
       ) );
     }
 
-    if ( localizationModel.supportsCharacterSwitching ) {
-      contentNode.addChild( new RegionAndCultureComboBox( localizationModel.characterProperty, localizationModel.characterDescriptors ) );
+    if ( localizationModel.supportsRegionAndCultureSwitching ) {
+      contentNode.addChild( new RegionAndCultureComboBox( localizationModel.regionAndCultureProperty, localizationModel.regionAndCultureDescriptors ) );
     }
 
     const panelSection = new PreferencesPanelSection( {

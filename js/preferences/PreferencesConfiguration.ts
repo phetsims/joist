@@ -13,7 +13,7 @@ import { Node } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import SpeechSynthesisAnnouncer from '../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import joist from '../joist.js';
-import { CharacterDescriptor } from './localizationManager.js';
+import { RegionAndCultureDescriptor } from './localizationManager.js';
 
 export type GeneralPreferencesOptions = {
 
@@ -62,11 +62,12 @@ export type LocalizationPreferencesOptions = {
 
   // Whether to include a ComboBox that controls character artwork so that it can be changed to appear more like a
   // particular culture or region.
-  supportsCharacterSwitching?: boolean;
+  supportsRegionAndCultureSwitching?: boolean;
 
-  // Describes the available artwork that can be used for character switching. If supportsCharacterSwitching is true,
-  // characterDescriptors must be provided. Contains information for the UI component to provide character choices.
-  characterDescriptors?: CharacterDescriptor[];
+  // Describes the available artwork that can be used for character switching. If supportsRegionAndCultureSwitching is true,
+  // RegionAndCultureDescriptors must be provided. Contains information for the UI component to provide character
+  // choices.
+  regionAndCultureDescriptors?: RegionAndCultureDescriptor[];
 };
 
 export type PreferencesConfigurationOptions = {
@@ -124,17 +125,17 @@ class PreferencesConfiguration {
       },
       localizationOptions: {
         supportsLanguageSwitching: false,
-        supportsCharacterSwitching: false,
-        characterDescriptors: []
+        supportsRegionAndCultureSwitching: false,
+        regionAndCultureDescriptors: []
       }
     }, providedOptions );
 
     if ( initialOptions.audioOptions.supportsExtraSound ) {
       assert && assert( initialOptions.audioOptions.supportsSound, 'supportsSound must be true to also support extraSound' );
     }
-    if ( initialOptions.localizationOptions.supportsCharacterSwitching ) {
-      assert && assert( initialOptions.localizationOptions.characterDescriptors && initialOptions.localizationOptions.characterDescriptors.length > 0,
-        'Must provide characterDescriptors if you support characterSwitching' );
+    if ( initialOptions.localizationOptions.supportsRegionAndCultureSwitching ) {
+      assert && assert( initialOptions.localizationOptions.regionAndCultureDescriptors && initialOptions.localizationOptions.regionAndCultureDescriptors.length > 0,
+        'Must provide regionAndCultureDescriptors if you support region and culture switching' );
     }
 
     // We know that defaults are populated after the optionize call.

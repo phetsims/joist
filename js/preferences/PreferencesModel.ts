@@ -61,7 +61,7 @@ export type LocalizationModel = {
   languageProperty: Property<string>;
 
   // The selected character artwork to use when the sim supports culture and region switching.
-  characterProperty: Property<number>;
+  regionAndCultureProperty: Property<number>;
 } & Required<LocalizationPreferencesOptions>;
 
 type PreferencesModelOptions = PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
@@ -125,9 +125,9 @@ class PreferencesModel extends PhetioObject {
       supportsLanguageSwitching: preferencesConfiguration.localizationOptions.supportsLanguageSwitching,
       languageProperty: localizationManager.languageProperty,
 
-      characterProperty: localizationManager.characterProperty,
-      supportsCharacterSwitching: preferencesConfiguration.localizationOptions.supportsCharacterSwitching,
-      characterDescriptors: preferencesConfiguration.localizationOptions.characterDescriptors
+      regionAndCultureProperty: localizationManager.regionAndCultureProperty,
+      supportsRegionAndCultureSwitching: preferencesConfiguration.localizationOptions.supportsRegionAndCultureSwitching,
+      regionAndCultureDescriptors: preferencesConfiguration.localizationOptions.regionAndCultureDescriptors
     };
 
     // Provide linked elements for already instrumented Properties to make PreferencesModel a one-stop shop to view preferences.
@@ -201,7 +201,7 @@ class PreferencesModel extends PhetioObject {
 
   public supportsLocalizationPreferences(): boolean {
     return this.localizationModel.supportsLanguageSwitching ||
-           this.localizationModel.supportsCharacterSwitching;
+           this.localizationModel.supportsRegionAndCultureSwitching;
   }
 }
 

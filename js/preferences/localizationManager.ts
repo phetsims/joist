@@ -14,17 +14,17 @@ import Property from '../../../axon/js/Property.js';
 import joist from '../joist.js';
 import { Node } from '../../../scenery/js/imports.js';
 
-// A type that describes the possible values for characterProperty so that different artwork can be selected from
+// A type that describes the possible values for regionAndCultureProperty so that different artwork can be selected from
 // by the user to match a particular region or culture.
-export type CharacterDescriptor = {
+export type RegionAndCultureDescriptor = {
 
   // Icon for the UI to select this artwork.
-  characterIcon: Node;
+  icon: Node;
 
   // Label string describing the region or culture in words.
   label: string;
 
-  // TODO: Is this value still necessary now that characterProperty is of type number? See https://github.com/phetsims/joist/issues/814
+  // TODO: Is this value still necessary now that regionAndCultureProperty is of type number? See https://github.com/phetsims/joist/issues/814
   // Value for the descriptor so that the sim can implement a particular set of artwork for this selected descriptor.
   value: number;
 };
@@ -32,15 +32,15 @@ export type CharacterDescriptor = {
 class LocalizationManager {
 
   // An index describing the selected artwork for the simulation to display a particular region and culture.
-  // Only relevant if the sim supports characterSwitching. See PreferencesConfiguration.localizationModel.
-  public readonly characterProperty: Property<number>;
+  // Only relevant if the sim supports `regionAndCultureSwitching`. See PreferencesConfiguration.localizationModel.
+  public readonly regionAndCultureProperty: Property<number>;
 
   // A Property controlling the active language for the simulation. Only relevant if the sim supports language
   // switching and is running in the "_all" version so that we have access to translated strings.
   public readonly languageProperty: Property<string>;
 
   public constructor() {
-    this.characterProperty = new NumberProperty( 0 );
+    this.regionAndCultureProperty = new NumberProperty( 0 );
 
     // TODO: Where do valid and initial values come from? see https://github.com/phetsims/joist/issues/814
     this.languageProperty = new Property<string>( 'en' );
