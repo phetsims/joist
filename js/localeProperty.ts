@@ -11,7 +11,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
 
 const localeProperty = new StringProperty( phet.chipper.locale || 'en', {
-  tandem: Tandem.GENERAL_VIEW.createTandem( 'localeProperty' ),
+  tandem: Tandem.GENERAL_MODEL.createTandem( 'localeProperty' ),
   phetioFeatured: true,
   validValues: Object.keys( phet.chipper.strings ).sort()
 } );
