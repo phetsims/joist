@@ -168,7 +168,7 @@ class Screen<M extends TModel = TModel, V extends ScreenView = ScreenView> exten
     validateIconSize( options.navigationBarIcon, MINIMUM_NAVBAR_ICON_SIZE, NAVBAR_ICON_ASPECT_RATIO, 'navigationBarIcon' );
 
     if ( assert && this.isPhetioInstrumented() ) {
-      assert && assert( _.endsWith( options.tandem.phetioID, 'Screen' ), 'Screen tandems should end with Screen suffix' );
+      assert && assert( _.endsWith( options.tandem.phetioID, Tandem.SCREEN_TANDEM_NAME_SUFFIX ), 'Screen tandems should end with Screen suffix' );
     }
 
     this.backgroundColorProperty = options.backgroundColorProperty;
