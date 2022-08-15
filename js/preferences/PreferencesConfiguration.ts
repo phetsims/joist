@@ -60,13 +60,9 @@ export type LocalizationPreferencesOptions = {
   // access to strings of multiple languages.
   supportsLanguageSwitching?: boolean;
 
-  // Whether to include a ComboBox that controls character artwork so that it can be changed to appear more like a
-  // particular culture or region.
-  supportsRegionAndCultureSwitching?: boolean;
-
-  // Describes the available artwork that can be used for character switching. If supportsRegionAndCultureSwitching is true,
-  // RegionAndCultureDescriptors must be provided. Contains information for the UI component to provide character
-  // choices.
+  // Describes the available artwork that can be used for different regions and cultures. If any descriptors are
+  // provided, the Localization tab will include a UI component to swap out pieces of artwork to match the selected
+  // region and culture. RegionAndCultureDescriptors contains information for the UI component to describe each choice.
   regionAndCultureDescriptors?: RegionAndCultureDescriptor[];
 };
 
@@ -125,17 +121,12 @@ class PreferencesConfiguration {
       },
       localizationOptions: {
         supportsLanguageSwitching: false,
-        supportsRegionAndCultureSwitching: false,
         regionAndCultureDescriptors: []
       }
     }, providedOptions );
 
     if ( initialOptions.audioOptions.supportsExtraSound ) {
       assert && assert( initialOptions.audioOptions.supportsSound, 'supportsSound must be true to also support extraSound' );
-    }
-    if ( initialOptions.localizationOptions.supportsRegionAndCultureSwitching ) {
-      assert && assert( initialOptions.localizationOptions.regionAndCultureDescriptors && initialOptions.localizationOptions.regionAndCultureDescriptors.length > 0,
-        'Must provide regionAndCultureDescriptors if you support region and culture switching' );
     }
 
     // We know that defaults are populated after the optionize call.

@@ -39,7 +39,7 @@ class LocalizationPreferencesPanel extends Node {
       ) );
     }
 
-    if ( localizationModel.supportsRegionAndCultureSwitching ) {
+    if ( localizationModel.regionAndCultureDescriptors.length > 0 ) {
       contentNode.addChild( new RegionAndCultureComboBox( localizationModel.regionAndCultureProperty, localizationModel.regionAndCultureDescriptors ) );
     }
 

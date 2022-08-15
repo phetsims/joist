@@ -126,7 +126,6 @@ class PreferencesModel extends PhetioObject {
       languageProperty: localizationManager.languageProperty,
 
       regionAndCultureProperty: localizationManager.regionAndCultureProperty,
-      supportsRegionAndCultureSwitching: preferencesConfiguration.localizationOptions.supportsRegionAndCultureSwitching,
       regionAndCultureDescriptors: preferencesConfiguration.localizationOptions.regionAndCultureDescriptors
     };
 
@@ -201,7 +200,7 @@ class PreferencesModel extends PhetioObject {
 
   public supportsLocalizationPreferences(): boolean {
     return this.localizationModel.supportsLanguageSwitching ||
-           this.localizationModel.supportsRegionAndCultureSwitching;
+           this.localizationModel.regionAndCultureDescriptors.length > 0;
   }
 }
 
