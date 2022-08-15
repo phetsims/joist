@@ -23,10 +23,6 @@ export type RegionAndCultureDescriptor = {
 
   // Label string describing the region or culture in words.
   label: string;
-
-  // TODO: Is this value still necessary now that regionAndCultureProperty is of type number? See https://github.com/phetsims/joist/issues/814
-  // Value for the descriptor so that the sim can implement a particular set of artwork for this selected descriptor.
-  value: number;
 };
 
 class LocalizationManager {
