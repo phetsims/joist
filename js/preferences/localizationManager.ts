@@ -27,8 +27,9 @@ export type RegionAndCultureDescriptor = {
 
 class LocalizationManager {
 
-  // An index describing the selected artwork for the simulation to display a particular region and culture.
-  // Only relevant if the sim supports `regionAndCultureSwitching`. See PreferencesConfiguration.localizationModel.
+  // An index describing the selected artwork for the simulation to display a particular region and culture. From this
+  // value the simulation can implement different artwork to match the selected region and culture. Only relevant if
+  // the sim supports `regionAndCultureSwitching`. See PreferencesConfiguration.localizationModel.
   public readonly regionAndCultureProperty: Property<number>;
 
   // A Property controlling the active language for the simulation. Only relevant if the sim supports language
