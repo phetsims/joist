@@ -319,6 +319,7 @@ const createCheckbox = ( labelString: string, property: Property<boolean>, check
     // voicing
     voicingNameResponse: labelString,
     voicingIgnoreVoicingManagerProperties: true,
+    voiceNameResponseOnSelection: false,
 
     // both pdom and voicing
     checkedContextResponse: checkedContextResponse,
