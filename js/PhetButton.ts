@@ -55,8 +55,8 @@ class PhetButton extends JoistButton {
     // Sim.js handles scaling the popup menu.  This code sets the position of the popup menu.
     // sim.bounds are null on init, but we will get the callback when it is sized for the first time
     // Does not need to be unlinked or disposed because PhetButton persists for the lifetime of the sim
-    Multilink.multilink( [ sim.boundsProperty, sim.screenBoundsProperty, sim.scaleProperty ],
-      ( bounds, screenBounds, scale ) => {
+    Multilink.multilink( [ sim.boundsProperty, sim.screenBoundsProperty, sim.scaleProperty, phetMenu.localBoundsProperty ],
+      ( bounds, screenBounds, scale, phetMenuLocalBounds ) => {
         if ( bounds && screenBounds && scale ) {
           phetMenu.setScaleMagnitude( scale );
           phetMenu.right = bounds.right - 2;

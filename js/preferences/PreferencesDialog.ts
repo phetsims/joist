@@ -28,8 +28,6 @@ import PreferencesTabs from './PreferencesTabs.js';
 import PreferencesTabSwitchSoundGenerator from './PreferencesTabSwitchSoundGenerator.js';
 
 // constants
-const preferencesTitleString = joistStrings.preferences.title;
-
 const TITLE_FONT = new PhetFont( { size: 24, weight: 'bold' } );
 
 const TAB_FONT = new PhetFont( 20 );
@@ -73,12 +71,16 @@ class PreferencesDialog extends Dialog {
 
   public constructor( preferencesModel: PreferencesModel, providedOptions?: PreferencesDialogOptions ) {
 
-    const titleText = new Text( preferencesTitleString, {
+    const titleText = new Text( joistStrings.preferences.title, {
       font: TITLE_FONT,
 
       // pdom
       tagName: 'h1',
-      innerContent: preferencesTitleString
+      textProperty: joistStrings.preferences.titleProperty
+    } );
+    const titleProperty = joistStrings.preferences.titleProperty;
+    titleProperty.link( titleString => {
+      titleText.innerContent = titleString;
     } );
 
     const options = optionize<PreferencesDialogOptions, EmptySelfOptions, DialogOptions>()( {
@@ -89,7 +91,7 @@ class PreferencesDialog extends Dialog {
       phetioDynamicElement: true,
       tandem: Tandem.REQUIRED,
 
-      closeButtonVoicingDialogTitle: preferencesTitleString,
+      closeButtonVoicingDialogTitle: joistStrings.preferences.titleProperty,
 
       // pdom
       positionInPDOM: true

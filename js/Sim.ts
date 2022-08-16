@@ -70,6 +70,7 @@ import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import Combination from '../../dot/js/Combination.js';
 import Permutation from '../../dot/js/Permutation.js';
 import ArrayIO from '../../tandem/js/types/ArrayIO.js';
+import IProperty from '../../axon/js/IProperty.js';
 
 // constants
 const PROGRESS_BAR_WIDTH = 273;
@@ -114,7 +115,7 @@ export type SimOptions = SelfOptions & PickOptional<PhetioObject, 'phetioDesigne
 export default class Sim extends PhetioObject {
 
   // (joist-internal)
-  public readonly simNameProperty: TReadOnlyProperty<string>;
+  public readonly simNameProperty: IProperty<string>;
   public readonly createOptionsDialogContent: ( ( t: Tandem ) => Node ) | null;
 
   // Indicates sim construction completed, and that all screen models and views have been created.
@@ -240,7 +241,8 @@ export default class Sim extends PhetioObject {
     } );
 
   // layer for popups, dialogs, and their backgrounds and barriers
-  private readonly topLayer: TopLayerNode = new Node( {
+  // TODO: How should we handle the popup for navigation? Can we set this to private once https://github.com/phetsims/chipper/issues/1302 is complete?
+  public readonly topLayer: TopLayerNode = new Node( {
     children: [ this.barrierRectangle ]
   } );
 
@@ -261,7 +263,7 @@ export default class Sim extends PhetioObject {
    * @param allSimScreens - the possible screens for the sim in order of declaration (does not include the home screen)
    * @param [providedOptions] - see below for options
    */
-  public constructor( name: string, allSimScreens: Screen[], providedOptions?: SimOptions ) {
+  public constructor( name: string | TReadOnlyProperty<string>, allSimScreens: Screen[], providedOptions?: SimOptions ) {
 
     window.phetSplashScreenDownloadComplete();
 
@@ -312,12 +314,18 @@ export default class Sim extends PhetioObject {
 
     this.createOptionsDialogContent = options.createOptionsDialogContent;
 
-    this.simNameProperty = new StringProperty( name, {
+    this.simNameProperty = new StringProperty( typeof name === 'string' ? name : name.value, {
       tandem: Tandem.GENERAL_MODEL.createTandem( 'simNameProperty' ),
       phetioFeatured: true,
       phetioDocumentation: 'The name of the sim. Changing this value will update the title text on the navigation bar ' +
                            'and the title text on the home screen, if it exists.'
     } );
+    if ( typeof name !== 'string' ) {
+      name.lazyLink( nameString => {
+        // @ts-ignore Ignoring readonly for now
+        this.simNameProperty.value = nameString;
+      } );
+    }
 
     // playbackModeEnabledProperty cannot be changed after Sim construction has begun, hence this listener is added before
     // anything else is done, see https://github.com/phetsims/phet-io/issues/1146
@@ -628,9 +636,9 @@ export default class Sim extends PhetioObject {
 
     // If the locale query parameter was specified, then we may be running the all.html file, so adjust the title.
     // See https://github.com/phetsims/chipper/issues/510
-    if ( QueryStringMachine.containsKey( 'locale' ) ) {
-      $( 'title' ).html( name );
-    }
+    this.simNameProperty.link( simName => {
+      $( 'title' ).html( simName );
+    } );
 
     if ( options.preferencesConfiguration ) {
 

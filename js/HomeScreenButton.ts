@@ -107,7 +107,7 @@ class HomeScreenButton extends Voicing( VBox ) {
     assert && assert( screen.nameProperty.value, 'name is required for screen.' );
 
     // text for the button
-    const text = new Text( screen.nameProperty.value!, {
+    const text = new Text( screen.nameProperty.value, {
       tandem: options.tandem.createTandem( 'text' ),
       textPropertyOptions: { phetioReadOnly: true } // text is updated via screen.nameProperty
     } );

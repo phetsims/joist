@@ -9,6 +9,8 @@
 
 import IProperty from '../../../axon/js/IProperty.js';
 import Multilink from '../../../axon/js/Multilink.js';
+import TinyProperty from '../../../axon/js/TinyProperty.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import { FocusHighlightPath, KeyboardUtils, Line, Node, NodeOptions, PressListener, Rectangle, SceneryEvent, Text, Voicing } from '../../../scenery/js/imports.js';
@@ -16,17 +18,6 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog, { PreferencesTab } from './PreferencesDialog.js';
-
-// constants
-const generalTitleString = joistStrings.preferences.tabs.general.title;
-const visualTitleString = joistStrings.preferences.tabs.visual.title;
-const audioTitleString = joistStrings.preferences.tabs.audio.title;
-const preferencesTabResponsePatternString = joistStrings.a11y.preferences.tabs.tabResponsePattern;
-
-// These strings are NOT translatable yet because they do not appear in any published sim. So they should not be
-// available for translators.
-const inputTitleString = 'Input';
-const localizationTitleString = 'Localization';
 
 type PreferencesTabsOptions = NodeOptions;
 
@@ -53,14 +44,17 @@ class PreferencesTabs extends Node {
 
     this.selectedPanelProperty = selectedPanelProperty;
 
-    const addTabIfSupported = ( preferenceTab: PreferencesTab, titleString: string ) => {
+    const addTabIfSupported = ( preferenceTab: PreferencesTab, titleString: TReadOnlyProperty<string> ) => {
       _.includes( supportedTabs, preferenceTab ) && this.content.push( new Tab( titleString, selectedPanelProperty, preferenceTab ) );
     };
-    addTabIfSupported( PreferencesDialog.PreferencesTab.GENERAL, generalTitleString );
-    addTabIfSupported( PreferencesDialog.PreferencesTab.VISUAL, visualTitleString );
-    addTabIfSupported( PreferencesDialog.PreferencesTab.AUDIO, audioTitleString );
-    addTabIfSupported( PreferencesDialog.PreferencesTab.INPUT, inputTitleString );
-    addTabIfSupported( PreferencesDialog.PreferencesTab.LOCALIZATION, localizationTitleString );
+    addTabIfSupported( PreferencesDialog.PreferencesTab.GENERAL, joistStrings.preferences.tabs.general.titleProperty );
+    addTabIfSupported( PreferencesDialog.PreferencesTab.VISUAL, joistStrings.preferences.tabs.visual.titleProperty );
+    addTabIfSupported( PreferencesDialog.PreferencesTab.AUDIO, joistStrings.preferences.tabs.audio.titleProperty );
+    // TODO https://github.com/phetsims/chipper/issues/1302: i11y?
+    // These strings are NOT translatable yet because they do not appear in any published sim. So they should not be
+    // available for translators.
+    addTabIfSupported( PreferencesDialog.PreferencesTab.INPUT, new TinyProperty( 'Input' ) );
+    addTabIfSupported( PreferencesDialog.PreferencesTab.LOCALIZATION, new TinyProperty( 'Localization' ) );
 
     for ( let i = 0; i < this.content.length; i++ ) {
       this.addChild( this.content[ i ] );
@@ -155,19 +149,25 @@ class Tab extends Voicing( Node ) {
    * @param property
    * @param value - PreferencesTab shown when this tab is selected
    */
-  public constructor( label: string, property: IProperty<PreferencesTab>, value: PreferencesTab ) {
+  public constructor( label: TReadOnlyProperty<string>, property: IProperty<PreferencesTab>, value: PreferencesTab ) {
 
     const textNode = new Text( label, PreferencesDialog.TAB_OPTIONS );
 
     // background Node behind the Text for layout spacing, and to increase the clickable area of the tab
-    const backgroundNode = new Rectangle( textNode.bounds.dilatedXY( 15, 10 ), {
+    const backgroundNode = new Rectangle( {
       children: [ textNode ]
     } );
+    textNode.boundsProperty.link( textBounds => {
+      backgroundNode.rectBounds = textBounds.dilatedXY( 15, 10 );
+    } );
 
-    const underlineNode = new Line( 0, 0, textNode.width, 0, {
+    const underlineNode = new Line( 0, 0, 0, 0, {
       stroke: FocusHighlightPath.INNER_FOCUS_COLOR,
-      lineWidth: 5,
-      centerTop: textNode.centerBottom.plusXY( 0, 5 )
+      lineWidth: 5
+    } );
+    textNode.boundsProperty.link( textBounds => {
+      underlineNode.x2 = textBounds.width;
+      underlineNode.centerTop = textBounds.centerBottom.plusXY( 0, 5 );
     } );
 
     super( {
@@ -176,16 +176,21 @@ class Tab extends Voicing( Node ) {
 
       // pdom
       tagName: 'button',
-      innerContent: label,
       ariaRole: 'tab',
       focusable: true,
       containerTagName: 'li'
     } );
 
+    label.link( string => {
+      this.innerContent = string;
+    } );
+
     this.value = value;
 
-    this.voicingNameResponse = StringUtils.fillIn( preferencesTabResponsePatternString, {
-      title: label
+    const voicingMultilink = Multilink.multilink( [ joistStrings.a11y.preferences.tabs.tabResponsePatternProperty, label ], ( pattern, labelString ) => {
+      this.voicingNameResponse = StringUtils.fillIn( pattern, {
+        title: labelString
+      } );
     } );
 
     const pressListener = new PressListener( {
@@ -212,6 +217,7 @@ class Tab extends Voicing( Node ) {
 
     this.disposeTab = () => {
       pressListener.dispose();
+      voicingMultilink.dispose();
     };
   }
 

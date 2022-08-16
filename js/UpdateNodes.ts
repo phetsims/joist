@@ -18,15 +18,7 @@ import joistStrings from './joistStrings.js';
 import updateCheck from './updateCheck.js';
 import UpdateState from './UpdateState.js';
 import UpdateDialog from './UpdateDialog.js';
-
-const updatesCheckingString = joistStrings.updates.checking;
-const updatesGetUpdateString = joistStrings.updates.getUpdate;
-const updatesNewVersionAvailableString = joistStrings.updates.newVersionAvailable;
-const updatesNoThanksString = joistStrings.updates.noThanks;
-const updatesOfflineString = joistStrings.updates.offline;
-const updatesOutOfDateString = joistStrings.updates.outOfDate;
-const updatesUpToDateString = joistStrings.updates.upToDate;
-const updatesYourCurrentVersionString = joistStrings.updates.yourCurrentVersion;
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
 
 // constants
 const UPDATE_TEXT_FONT = new PhetFont( 14 );
@@ -63,7 +55,7 @@ const UpdateNodes = {
       maxWidth: MAX_WIDTH,
       children: [
         spinningIndicatorNode,
-        new VoicingText( updatesCheckingString, {
+        new VoicingText( joistStrings.updates.checkingProperty, {
           font: new PhetFont( options.big ? 16 : 14 ),
           fontWeight: options.big ? 'bold' : 'normal'
         } )
@@ -100,7 +92,7 @@ const UpdateNodes = {
             } )
           ]
         } ),
-        new VoicingText( updatesUpToDateString, {
+        new VoicingText( joistStrings.updates.upToDateProperty, {
           font: new PhetFont( options.big ? 16 : 14 ),
           fontWeight: options.big ? 'bold' : 'normal'
         } )
@@ -114,11 +106,18 @@ const UpdateNodes = {
    * (joist-internal)
    */
   createOutOfDateAboutNode: function( options: Options ): Node {
-    const text = phet.chipper.queryParameters.allowLinks ? `<a href="{{url}}">${updatesOutOfDateString}</a>` : updatesOutOfDateString;
+    const textProperty = new DerivedProperty( [ joistStrings.updates.outOfDateProperty ], outOfDateString => {
+      if ( phet.chipper.queryParameters.allowLinks ) {
+        return `<a href="{{url}}">${outOfDateString}</a>`;
+      }
+      else {
+        return outOfDateString;
+      }
+    } );
 
     const links: RichTextLinks = phet.chipper.queryParameters.allowLinks ? { url: updateCheck.updateURL } : {};
 
-    const linkNode = new RichText( text, {
+    const linkNode = new RichText( textProperty, {
       links: links,
       font: UPDATE_TEXT_FONT
     } );
@@ -146,28 +145,36 @@ const UpdateNodes = {
    * (joist-internal)
    */
   createOutOfDateDialogNode: function( dialog: UpdateDialog, ourVersionString: string, latestVersionString: string, options: Options ): Node {
+
+    const latestVersionStringProperty = new DerivedProperty( [ joistStrings.updates.newVersionAvailableProperty ], string => {
+      return StringUtils.format( string, latestVersionString );
+    } );
+    const ourVersionStringProperty = new DerivedProperty( [ joistStrings.updates.yourCurrentVersionProperty ], string => {
+      return StringUtils.format( string, ourVersionString );
+    } );
+
     return new VBox( merge( {
       spacing: 15,
       maxWidth: MAX_WIDTH,
       children: [
         new VBox( {
           spacing: 5, align: 'left', children: [
-            new VoicingText( StringUtils.format( updatesNewVersionAvailableString, latestVersionString ), {
+            new VoicingText( latestVersionStringProperty, {
               font: new PhetFont( 16 ), fontWeight: 'bold'
             } ),
-            new VoicingText( StringUtils.format( updatesYourCurrentVersionString, ourVersionString ), {
+            new VoicingText( ourVersionStringProperty, {
               font: UPDATE_TEXT_FONT
             } )
           ]
         } ),
         new HBox( {
           spacing: 25, children: [
-            new TextPushButton( updatesGetUpdateString, {
+            new TextPushButton( joistStrings.updates.getUpdateProperty, {
               baseColor: '#6f6', font: UPDATE_TEXT_FONT, listener: function() {
                 openPopup( updateCheck.updateURL ); // open in a new window/tab
               }
             } ),
-            new TextPushButton( updatesNoThanksString, {
+            new TextPushButton( joistStrings.updates.noThanksProperty, {
               baseColor: '#ddd', font: UPDATE_TEXT_FONT, listener: function() {
                 dialog.hide();
 
@@ -191,7 +198,7 @@ const UpdateNodes = {
       maxWidth: MAX_WIDTH,
       children: [
         new VStrut( 20 ), // spacer to match layout of other nodes
-        new VoicingText( updatesOfflineString, {
+        new VoicingText( joistStrings.updates.offlineProperty, {
           font: new PhetFont( options.big ? 16 : 14 ),
           fontWeight: options.big ? 'bold' : 'normal'
         } )

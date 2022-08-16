@@ -102,7 +102,7 @@ class NavigationBarScreenButton extends Voicing( Node ) {
     } );
 
     assert && assert( screen.nameProperty.value, 'screen name should be defined' );
-    const text = new Text( screen.nameProperty.value!, {
+    const text = new Text( screen.nameProperty.value, {
       font: new PhetFont( 10 ),
       tandem: options.tandem.createTandem( 'text' ),
 

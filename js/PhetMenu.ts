@@ -8,6 +8,8 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import TinyProperty from '../../axon/js/TinyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import { Shape } from '../../kite/js/imports.js';
 import gracefulBind from '../../phet-core/js/gracefulBind.js';
 import openPopup from '../../phet-core/js/openPopup.js';
@@ -15,10 +17,8 @@ import optionize from '../../phet-core/js/optionize.js';
 import platform from '../../phet-core/js/platform.js';
 import stripEmbeddingMarks from '../../phet-core/js/stripEmbeddingMarks.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
-import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { Focus, FocusManager, FullScreen, KeyboardUtils, Node, NodeOptions, Path, PDOMUtils, Rectangle, SceneryEvent, Text } from '../../scenery/js/imports.js';
+import { Focus, FocusManager, FullScreen, KeyboardUtils, Node, NodeOptions, Path, PDOMUtils, SceneryEvent, VBox, VDivider } from '../../scenery/js/imports.js';
 import Dialog from '../../sun/js/Dialog.js';
-import HSeparator from '../../sun/js/HSeparator.js';
 import MenuItem, { MenuItemOptions } from '../../sun/js/MenuItem.js';
 import { PopupableNode } from '../../sun/js/Popupable.js';
 import soundManager from '../../tambo/js/soundManager.js';
@@ -35,25 +35,12 @@ import updateCheck from './updateCheck.js';
 import UpdateDialog from './UpdateDialog.js';
 import UpdateState from './UpdateState.js';
 
-const menuItemAboutString = joistStrings.menuItem.about;
-const menuItemExtraSoundString = joistStrings.menuItem.enhancedSound;
-const menuItemFullscreenString = joistStrings.menuItem.fullscreen;
-const menuItemGetUpdateString = joistStrings.menuItem.getUpdate;
-const menuItemOptionsString = joistStrings.menuItem.options;
-const menuItemPhetWebsiteString = joistStrings.menuItem.phetWebsite;
-const menuItemReportAProblemString = joistStrings.menuItem.reportAProblem;
-const menuItemScreenshotString = joistStrings.menuItem.screenshot;
-
-// constants
-const FONT_SIZE = 18;
-const MAX_ITEM_WIDTH = 400;
-
 // the supported keys allowed in each itemDescriptor for a MenuItem
 const allowedItemDescriptorKeys = [ 'text', 'callback', 'present', 'options' ];
 
 type PopupToggler = ( popup: PopupableNode, isModal: boolean ) => void;
 type MenuItemDescriptor = {
-  text: string;
+  text: TReadOnlyProperty<string>;
   present: boolean;
   callback: () => void;
   separatorBefore?: boolean;
@@ -117,7 +104,7 @@ class PhetMenu extends Node {
     // AboutDialog is created lazily (so that Sim bounds are valid), then reused.
     // Since AboutDialog is instrumented for PhET-iO, this lazy creation requires use of PhetioCapsule.
     const aboutDialogCapsule = new PhetioCapsule( tandem => {
-      return new AboutDialog( sim.simNameProperty.value, sim.version, sim.credits, sim.locale, {
+      return new AboutDialog( sim.simNameProperty, sim.version, sim.credits, sim.locale, {
         tandem: tandem,
         focusOnHideNode: this.focusOnHideNode
       } );
@@ -151,7 +138,7 @@ class PhetMenu extends Node {
      */
     const itemDescriptors: MenuItemDescriptor[] = [
       {
-        text: menuItemOptionsString,
+        text: joistStrings.menuItem.optionsProperty,
         present: !!sim.createOptionsDialogContent,
         callback: () => optionsDialogCapsule!.getElement().show(),
         options: {
@@ -161,7 +148,7 @@ class PhetMenu extends Node {
         }
       },
       {
-        text: menuItemPhetWebsiteString,
+        text: joistStrings.menuItem.phetWebsiteProperty,
         present: isPhETBrand,
         callback: () => {
           if ( !phet.chipper.isFuzzEnabled() ) {
@@ -175,7 +162,7 @@ class PhetMenu extends Node {
         }
       },
       {
-        text: menuItemReportAProblemString,
+        text: joistStrings.menuItem.reportAProblemProperty,
         present: isPhETBrand && !isApp,
         callback: () => {
           if ( !phet.chipper.isFuzzEnabled() ) {
@@ -193,7 +180,7 @@ class PhetMenu extends Node {
         }
       },
       {
-        text: 'QR code',
+        text: new TinyProperty( 'QR code' ),
         present: phet.chipper.queryParameters.qrCode,
         callback: () => {
           if ( !phet.chipper.isFuzzEnabled() ) {
@@ -205,7 +192,7 @@ class PhetMenu extends Node {
         }
       },
       {
-        text: menuItemGetUpdateString,
+        text: joistStrings.menuItem.getUpdateProperty,
         present: updateCheck.areUpdatesChecked,
         callback: () => {
           if ( !updateDialog ) {
@@ -224,7 +211,7 @@ class PhetMenu extends Node {
 
       // "Screenshot" Menu item
       {
-        text: menuItemScreenshotString,
+        text: joistStrings.menuItem.screenshotProperty,
         present: !isApp, // Not supported by IE9, see https://github.com/phetsims/joist/issues/212
         callback: () => {
           const dataURL = ScreenshotGenerator.generateScreenshot( sim );
@@ -269,7 +256,7 @@ class PhetMenu extends Node {
 
       // "Extra Sound" menu item
       {
-        text: menuItemExtraSoundString,
+        text: joistStrings.menuItem.enhancedSoundProperty,
 
         // if the sim has a PreferencesConfiguration the control for extra sounds will be in the Dialog
         present: audioManager.supportsExtraSound && !sim.preferencesModel,
@@ -290,7 +277,7 @@ class PhetMenu extends Node {
 
       // "Full Screen" menu item
       {
-        text: menuItemFullscreenString,
+        text: joistStrings.menuItem.fullscreenProperty,
         present: FullScreen.isFullScreenEnabled() && !isApp && !platform.mobileSafari && !phet.chipper.queryParameters.preventFullScreen,
         callback: () => {
           if ( !phet.chipper.isFuzzEnabled() ) {
@@ -310,7 +297,7 @@ class PhetMenu extends Node {
 
       // About dialog button
       {
-        text: menuItemAboutString,
+        text: joistStrings.menuItem.aboutProperty,
         present: true,
         callback: () => aboutDialogCapsule.getElement().show(),
         options: {
@@ -324,7 +311,7 @@ class PhetMenu extends Node {
       }
     ];
 
-    const keepItemDescriptors = _.filter( itemDescriptors, itemDescriptor => {
+    const keepItemDescriptors = itemDescriptors.filter( itemDescriptor => {
       if ( assert ) {
         const descriptorKeys = Object.keys( itemDescriptor );
         assert && assert( descriptorKeys.length === _.intersection( descriptorKeys, allowedItemDescriptorKeys ).length,
@@ -335,23 +322,9 @@ class PhetMenu extends Node {
       return itemDescriptor.present || ( itemDescriptor.options && itemDescriptor.options.tandem );
     } );
 
-    // Menu items have uniform size, so compute the max text dimensions.  These are only used for sizing and thus don't
-    // need to be PhET-iO instrumented.
-    const textNodes = _.map( keepItemDescriptors, ( item: MenuItemDescriptor ) => {
-      return new Text( item.present ? item.text : ' ', { // don't count items that will just be ignored.
-        font: new PhetFont( FONT_SIZE ),
-        maxWidth: MAX_ITEM_WIDTH
-      } );
-    } ) as unknown as Text[];
-
-    const maxTextWidth = _.maxBy( textNodes, ( node: Node ) => node.width )!.width;
-    const maxTextHeight = _.maxBy( textNodes, ( node: Node ) => node.height )!.height;
-
     // Create the menu items.
-    const unfilteredItems = _.map( keepItemDescriptors, ( itemDescriptor: MenuItemDescriptor ) => {
+    const unfilteredItems = keepItemDescriptors.map( itemDescriptor => {
         return new MenuItem(
-          maxTextWidth,
-          maxTextHeight,
           options.closeCallback,
           itemDescriptor.text,
           itemDescriptor.callback,
@@ -360,43 +333,37 @@ class PhetMenu extends Node {
         );
       }
     );
-    const items = _.filter( unfilteredItems, ( item: MenuItemDescriptor ) => item.present ) as unknown as MenuItem[];
+    const items = unfilteredItems.filter( item => item.present );
 
     // Some items that aren't present were created just to maintain a consistent PhET-iO API across all
     // runtimes, we can ignore those now.
     this.items = items;
-    const separatorWidth = _.maxBy( items, ( item: Node ) => item.width )!.width;
-    const itemHeight = _.maxBy( items, ( item: Node ) => item.height )!.height;
-    const content = new Node();
-    let y = 0;
-    const ySpacing = 2;
-    let separator;
-    _.each( items, item => {
 
-      // Don't add a separator for the first item
-      if ( item.separatorBefore && items[ 0 ] !== item ) {
-        y += ySpacing;
-        separator = new HSeparator( separatorWidth, {
-          stroke: 'gray',
-          y: y
-        } );
-        content.addChild( separator );
-        y = y + separator.height + ySpacing;
-      }
-      item.top = y;
-      content.addChild( item );
-      y += itemHeight;
+    const content = new VBox( {
+      stretch: true,
+      spacing: 2,
+      children: _.flatten( items.map( item => {
+        return item.separatorBefore ? [ new VDivider( { stroke: 'gray' } ), item ] : [ item ];
+      } ) )
     } );
 
     // Create a comic-book-style bubble.
     const X_MARGIN = 5;
     const Y_MARGIN = 5;
-    const bubble = createBubble( content.width + X_MARGIN + X_MARGIN, content.height + Y_MARGIN + Y_MARGIN );
+    const bubble = new Path( null, {
+      fill: 'white',
+      stroke: 'black'
+    } );
+    content.localBoundsProperty.link( () => {
+      content.left = X_MARGIN;
+      content.top = Y_MARGIN;
+    } );
+    content.boundsProperty.link( bounds => {
+      bubble.shape = createBubbleShape( bounds.width + 2 * X_MARGIN, bounds.height + 2 * Y_MARGIN );
+    } );
 
     this.addChild( bubble );
     this.addChild( content );
-    content.left = X_MARGIN;
-    content.top = Y_MARGIN;
 
     // pdom - add the keydown listener, handling arrow, escape, and tab keys
     // When using the arrow keys, we prevent the virtual cursor from moving in VoiceOver
@@ -505,30 +472,14 @@ class PhetMenu extends Node {
   } );
 }
 
-// Creates a comic-book style bubble.
-const createBubble = function( width: number, height: number ): Node {
-
-  const rectangle = new Rectangle( 0, 0, width, height, 8, 8, { fill: 'white', lineWidth: 1, stroke: 'black' } );
-
-  const tail = new Shape();
-  tail.moveTo( width - 20, height - 2 );
-  tail.lineToRelative( 0, 20 );
-  tail.lineToRelative( -20, -20 );
-  tail.close();
-
-  const tailOutline = new Shape();
-  tailOutline.moveTo( width - 20, height );
-  tailOutline.lineToRelative( 0, 20 - 2 );
-  tailOutline.lineToRelative( -18, -18 );
-
-  const bubble = new Node();
-  bubble.addChild( rectangle );
-  bubble.addChild( new Path( tail, { fill: 'white' } ) );
-  bubble.addChild( new Path( tailOutline, { stroke: 'black', lineWidth: 1 } ) );
-
-  return bubble;
+const createBubbleShape = ( width: number, height: number ): Shape => {
+  const tail = new Shape()
+    .moveTo( width - 20, height )
+    .lineToRelative( 0, 20 )
+    .lineToRelative( -20, -20 )
+    .close();
+  return Shape.roundRect( 0, 0, width, height, 8, 8 ).shapeUnion( tail );
 };
-
 
 joist.register( 'PhetMenu', PhetMenu );
 export default PhetMenu;

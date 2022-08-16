@@ -21,10 +21,6 @@ import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js'
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
 
-// constants
-const accessibilityIntroString = joistStrings.preferences.tabs.general.accessibilityIntro;
-const moreAccessibilityString = joistStrings.preferences.tabs.general.moreAccessibility;
-
 type SelfOptions = EmptySelfOptions;
 type GeneralPreferencesPanelOptions = SelfOptions & VBoxOptions & PickRequired<VBoxOptions, 'tandem'>;
 
@@ -66,12 +62,8 @@ class GeneralPreferencesPanel extends VBox {
       tagName: 'p'
     } );
     introParagraphs.children = [
-      new VoicingRichText( accessibilityIntroString, merge( {
-        innerContent: accessibilityIntroString
-      }, introTextOptions ) ),
-      new VoicingRichText( moreAccessibilityString, merge( {
-        innerContent: moreAccessibilityString
-      }, introTextOptions ) )
+      new VoicingRichText( joistStrings.preferences.tabs.general.accessibilityIntroProperty, introTextOptions ),
+      new VoicingRichText( joistStrings.preferences.tabs.general.moreAccessibilityProperty, introTextOptions )
     ];
 
     // Just the provided panel content with its own spacing
