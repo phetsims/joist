@@ -25,7 +25,7 @@ import SimDisplay from './SimDisplay.js';
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import Checkbox, { CheckboxOptions } from '../../sun/js/Checkbox.js';
 import ScreenView from './ScreenView.js';
-import IProperty from '../../axon/js/IProperty.js';
+import TProperty from '../../axon/js/TProperty.js';
 import inheritance from '../../phet-core/js/inheritance.js';
 import Property from '../../axon/js/Property.js';
 import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
@@ -74,7 +74,7 @@ export default class Helper {
   public pointerAreaTypeProperty: Property<PointerAreaType>;
 
   // Whether the helper is visible (active) or not
-  public activeProperty: IProperty<boolean>;
+  public activeProperty: TProperty<boolean>;
 
   public visualTreeVisibleProperty: Property<boolean>;
   public pdomTreeVisibleProperty: Property<boolean>;
@@ -92,16 +92,16 @@ export default class Helper {
   public helperVisibleProperty: Property<boolean>;
 
   // Where the current pointer is
-  public pointerPositionProperty: IProperty<Vector2>;
+  public pointerPositionProperty: TProperty<Vector2>;
 
   // Whether the pointer is over the UI interface
   public overInterfaceProperty: Property<boolean>;
 
   // If the user has clicked on a Trail and selected it
-  public selectedTrailProperty: IProperty<Trail | null>;
+  public selectedTrailProperty: TProperty<Trail | null>;
 
   // What Trail the user is over in the tree UI
-  public treeHoverTrailProperty: IProperty<Trail | null>;
+  public treeHoverTrailProperty: TProperty<Trail | null>;
 
   // What Trail the pointer is over right now
   public pointerTrailProperty: TReadOnlyProperty<Trail | null>;
@@ -115,10 +115,10 @@ export default class Helper {
   // The global shape of what is selected
   public previewShapeProperty: TReadOnlyProperty<Shape | null>;
 
-  public screenViewProperty: IProperty<ScreenView | null>;
+  public screenViewProperty: TProperty<ScreenView | null>;
 
   // ImageData from the sim
-  public imageDataProperty: IProperty<ImageData | null>;
+  public imageDataProperty: TProperty<ImageData | null>;
 
   // The pixel color under the pointer
   public colorProperty: TReadOnlyProperty<Color>;
@@ -1002,7 +1002,7 @@ type CollapsibleTreeNodeOptions<T> = CollapsibleTreeNodeSelfOptions<T> & NodeOpt
 class CollapsibleTreeNode<T extends PDOMTreeNode | VisualTreeNode> extends Node {
 
   public selfNode: Node;
-  public expandedProperty: IProperty<boolean>;
+  public expandedProperty: TProperty<boolean>;
   public childTreeNodes: ObservableArray<T>;
   public expandCollapseButton: Node;
 
@@ -1314,7 +1314,7 @@ class TreeNode<T extends ( VisualTreeNode | PDOMTreeNode )> extends Rectangle {
   public treeNode?: T;
   public helper: Helper;
 
-  public constructor( visibleProperty: IProperty<boolean>, helper: Helper, createTreeNode: () => T ) {
+  public constructor( visibleProperty: TProperty<boolean>, helper: Helper, createTreeNode: () => T ) {
     super( {
       fill: 'rgba(255,255,255,0.85)',
       stroke: 'black',

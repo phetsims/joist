@@ -7,7 +7,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import IProperty from '../../../axon/js/IProperty.js';
+import TProperty from '../../../axon/js/TProperty.js';
 import Multilink from '../../../axon/js/Multilink.js';
 import TinyProperty from '../../../axon/js/TinyProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
@@ -27,11 +27,11 @@ class PreferencesTabs extends Node {
   //  A reference to the selected and focusable tab content so that we can determine which
   // tab is next in order when cycling through with alternative input.
   private selectedButton: Node | null = null;
-  private readonly selectedPanelProperty: IProperty<PreferencesTab>;
+  private readonly selectedPanelProperty: TProperty<PreferencesTab>;
   private readonly content: Tab[] = [];
   private readonly disposePreferencesTabs: () => void;
 
-  public constructor( supportedTabs: PreferencesTab[], selectedPanelProperty: IProperty<PreferencesTab>, providedOptions?: PreferencesTabsOptions ) {
+  public constructor( supportedTabs: PreferencesTab[], selectedPanelProperty: TProperty<PreferencesTab>, providedOptions?: PreferencesTabsOptions ) {
     const options = optionize<PreferencesTabsOptions, EmptySelfOptions, NodeOptions>()( {
 
       // pdom
@@ -149,7 +149,7 @@ class Tab extends Voicing( Node ) {
    * @param property
    * @param value - PreferencesTab shown when this tab is selected
    */
-  public constructor( label: TReadOnlyProperty<string>, property: IProperty<PreferencesTab>, value: PreferencesTab ) {
+  public constructor( label: TReadOnlyProperty<string>, property: TProperty<PreferencesTab>, value: PreferencesTab ) {
 
     const textNode = new Text( label, PreferencesDialog.TAB_OPTIONS );
 

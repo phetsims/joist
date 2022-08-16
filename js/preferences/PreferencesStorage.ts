@@ -9,7 +9,7 @@
  * author
  */
 
-import IProperty from '../../../axon/js/IProperty.js';
+import TProperty from '../../../axon/js/TProperty.js';
 import joist from '../joist.js';
 import IntentionalAny from '../../../phet-core/js/types/IntentionalAny.js';
 
@@ -22,7 +22,7 @@ class PreferencesStorage {
   private enabled = true;
 
   // for debugging
-  private readonly registedProperties: IProperty<unknown>[] = [];
+  private readonly registedProperties: TProperty<unknown>[] = [];
 
   public constructor() {
 
@@ -48,7 +48,7 @@ class PreferencesStorage {
     }
   }
 
-  private registerToLocalStorage( property: IProperty<unknown>, name: string ): void {
+  private registerToLocalStorage( property: TProperty<unknown>, name: string ): void {
     const key = `${PREFERENCES_KEY}${name}`;
     if ( window.localStorage.getItem( key ) ) {
       property.value = JSON.parse( window.localStorage.getItem( key )! );
@@ -59,7 +59,7 @@ class PreferencesStorage {
     this.registedProperties.push( property );
   }
 
-  public static register( property: IProperty<unknown>, name: string ): IProperty<unknown> {
+  public static register( property: TProperty<unknown>, name: string ): TProperty<unknown> {
     if ( !phet.chipper.queryParameters.preferencesStorage ) {
       return property;
     }

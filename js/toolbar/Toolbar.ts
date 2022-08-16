@@ -14,7 +14,7 @@
 
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
-import IProperty from '../../../axon/js/IProperty.js';
+import TProperty from '../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import stepTimer from '../../../axon/js/stepTimer.js';
@@ -58,7 +58,7 @@ class Toolbar extends Node {
 
   // The position of the right edge of the backgroundRectangle in local coordinates.
   // This is what controls the position of the Toolbar as it is open/closed/removed/animating.
-  public readonly rightPositionProperty: IProperty<number>;
+  public readonly rightPositionProperty: TProperty<number>;
 
   // The target position for the rightPositionProperty, to support animation. In step,
   // the rightPositionProperty will be changed until the rightPositionProperty equals the rightDestinationPosition.
