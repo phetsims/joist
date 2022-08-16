@@ -49,10 +49,9 @@ class ProjectorModeCheckbox extends Checkbox {
     // Identify the non-projector color profile that this checkbox sets.
     const otherColorProfile = phet.chipper.colorProfiles.find( ( colorProfile: string ) => colorProfile !== SceneryConstants.PROJECTOR_COLOR_PROFILE );
 
-    const labelNode = new Text( joistStrings.projectorMode, {
+    const labelNode = new Text( joistStrings.projectorModeProperty, {
       font: options.font,
-      maxWidth: options.maxTextWidth,
-      textProperty: joistStrings.projectorModeProperty
+      maxWidth: options.maxTextWidth
     } );
 
     // Internal adapter Property, to map between the string value needed by colorProfileProperty

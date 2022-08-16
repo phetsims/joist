@@ -6,9 +6,9 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import IProperty from '../../axon/js/IProperty.js';
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import stepTimer from '../../axon/js/stepTimer.js';
-import TinyProperty from '../../axon/js/TinyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import TBrand from '../../brand/js/TBrand.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
@@ -49,7 +49,7 @@ export default class AboutDialog extends Dialog {
    * @param locale - locale string
    * @param [providedOptions]
    */
-  public constructor( name: IProperty<string>, version: string, credits: CreditsData, locale: string, providedOptions?: AboutDialogOptions ) {
+  public constructor( name: TReadOnlyProperty<string>, version: string, credits: CreditsData, locale: string, providedOptions?: AboutDialogOptions ) {
 
     const options = optionize<AboutDialogOptions, SelfOptions, DialogOptions>()( {
       xSpacing: 26,
@@ -74,10 +74,8 @@ export default class AboutDialog extends Dialog {
     } );
     children.push( titleText );
 
-    const versionStringProperty = new TinyProperty( '' );
-    const versionPatternProperty = joistStrings.versionPatternProperty;
-    versionPatternProperty.link( versionPattern => {
-      versionStringProperty.value = StringUtils.format( versionPattern, version );
+    const versionStringProperty = new DerivedProperty( [ joistStrings.versionPatternProperty ], versionPattern => {
+      return StringUtils.format( versionPattern, version );
     } );
     children.push( new VoicingText( versionStringProperty, {
       font: new PhetFont( NOMINAL_FONT_SIZE ),

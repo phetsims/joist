@@ -8,8 +8,8 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import IProperty from '../../axon/js/IProperty.js';
 import TinyProperty from '../../axon/js/TinyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import { Shape } from '../../kite/js/imports.js';
 import gracefulBind from '../../phet-core/js/gracefulBind.js';
 import openPopup from '../../phet-core/js/openPopup.js';
@@ -40,7 +40,7 @@ const allowedItemDescriptorKeys = [ 'text', 'callback', 'present', 'options' ];
 
 type PopupToggler = ( popup: PopupableNode, isModal: boolean ) => void;
 type MenuItemDescriptor = {
-  text: IProperty<string>;
+  text: TReadOnlyProperty<string>;
   present: boolean;
   callback: () => void;
   separatorBefore?: boolean;

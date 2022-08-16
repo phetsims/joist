@@ -241,6 +241,7 @@ export default class Sim extends PhetioObject {
     } );
 
   // layer for popups, dialogs, and their backgrounds and barriers
+  // TODO: How should we handle the popup for navigation? Can we set this to private once https://github.com/phetsims/chipper/issues/1302 is complete?
   public readonly topLayer: TopLayerNode = new Node( {
     children: [ this.barrierRectangle ]
   } );

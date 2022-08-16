@@ -10,6 +10,7 @@
 import IProperty from '../../../axon/js/IProperty.js';
 import Multilink from '../../../axon/js/Multilink.js';
 import TinyProperty from '../../../axon/js/TinyProperty.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import { FocusHighlightPath, KeyboardUtils, Line, Node, NodeOptions, PressListener, Rectangle, SceneryEvent, Text, Voicing } from '../../../scenery/js/imports.js';
@@ -43,7 +44,7 @@ class PreferencesTabs extends Node {
 
     this.selectedPanelProperty = selectedPanelProperty;
 
-    const addTabIfSupported = ( preferenceTab: PreferencesTab, titleString: IProperty<string> ) => {
+    const addTabIfSupported = ( preferenceTab: PreferencesTab, titleString: TReadOnlyProperty<string> ) => {
       _.includes( supportedTabs, preferenceTab ) && this.content.push( new Tab( titleString, selectedPanelProperty, preferenceTab ) );
     };
     addTabIfSupported( PreferencesDialog.PreferencesTab.GENERAL, joistStrings.preferences.tabs.general.titleProperty );
@@ -145,9 +146,9 @@ class Tab extends Voicing( Node ) {
    * @param property
    * @param value - PreferencesTab shown when this tab is selected
    */
-  public constructor( label: IProperty<string>, property: IProperty<PreferencesTab>, value: PreferencesTab ) {
+  public constructor( label: TReadOnlyProperty<string>, property: IProperty<PreferencesTab>, value: PreferencesTab ) {
 
-    const textNode = new Text( label.value, { ...PreferencesDialog.TAB_OPTIONS, textProperty: label } );
+    const textNode = new Text( label, PreferencesDialog.TAB_OPTIONS );
 
     // background Node behind the Text for layout spacing, and to increase the clickable area of the tab
     const backgroundNode = new Rectangle( {
@@ -183,7 +184,7 @@ class Tab extends Voicing( Node ) {
 
     this.value = value;
 
-    Multilink.multilink( [ joistStrings.a11y.preferences.tabs.tabResponsePatternProperty, label ], ( pattern, labelString ) => {
+    const voicingMultilink = Multilink.multilink( [ joistStrings.a11y.preferences.tabs.tabResponsePatternProperty, label ], ( pattern, labelString ) => {
       this.voicingNameResponse = StringUtils.fillIn( pattern, {
         title: labelString
       } );
@@ -213,6 +214,7 @@ class Tab extends Voicing( Node ) {
 
     this.disposeTab = () => {
       pressListener.dispose();
+      voicingMultilink.dispose();
     };
   }
 

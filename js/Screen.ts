@@ -53,7 +53,7 @@ assert && assert( Math.abs( HOME_SCREEN_ICON_ASPECT_RATIO - HOME_SCREEN_ICON_ASP
 
 // Documentation is by the defaults
 type SelfOptions = {
-  name?: string | ReadOnlyProperty<string> | null;
+  name?: string | TReadOnlyProperty<string> | null;
   instrumentNameProperty?: boolean;
 
   // It would be preferable to support Property<Color | string> solely, but many subtypes are hardcoded to be Color only

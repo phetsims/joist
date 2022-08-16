@@ -18,7 +18,7 @@ import joistStrings from './joistStrings.js';
 import updateCheck from './updateCheck.js';
 import UpdateState from './UpdateState.js';
 import UpdateDialog from './UpdateDialog.js';
-import TinyProperty from '../../axon/js/TinyProperty.js';
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
 
 // constants
 const UPDATE_TEXT_FONT = new PhetFont( 14 );
@@ -106,23 +106,20 @@ const UpdateNodes = {
    * (joist-internal)
    */
   createOutOfDateAboutNode: function( options: Options ): Node {
-    const textProperty = new TinyProperty( '' );
-    const outOfDateProperty = joistStrings.updates.outOfDateProperty;
-    outOfDateProperty.link( outOfDateString => {
+    const textProperty = new DerivedProperty( [ joistStrings.updates.outOfDateProperty ], outOfDateString => {
       if ( phet.chipper.queryParameters.allowLinks ) {
-        textProperty.value = `<a href="{{url}}">${outOfDateString}</a>`;
+        return `<a href="{{url}}">${outOfDateString}</a>`;
       }
       else {
-        textProperty.value = outOfDateString;
+        return outOfDateString;
       }
     } );
 
     const links: RichTextLinks = phet.chipper.queryParameters.allowLinks ? { url: updateCheck.updateURL } : {};
 
-    const linkNode = new RichText( textProperty.value, {
+    const linkNode = new RichText( textProperty, {
       links: links,
-      font: UPDATE_TEXT_FONT,
-      textProperty: textProperty
+      font: UPDATE_TEXT_FONT
     } );
     return new HBox( merge( {
       spacing: 8,
@@ -149,17 +146,11 @@ const UpdateNodes = {
    */
   createOutOfDateDialogNode: function( dialog: UpdateDialog, ourVersionString: string, latestVersionString: string, options: Options ): Node {
 
-    const latestVersionStringProperty = new TinyProperty( '' );
-    const ourVersionStringProperty = new TinyProperty( '' );
-
-    const newVersionAvailableProperty = joistStrings.updates.newVersionAvailableProperty;
-    newVersionAvailableProperty.link( string => {
-      latestVersionStringProperty.value = StringUtils.format( string, latestVersionString );
+    const latestVersionStringProperty = new DerivedProperty( [ joistStrings.updates.newVersionAvailableProperty ], string => {
+      return StringUtils.format( string, latestVersionString );
     } );
-
-    const yourCurrentVersionProperty = joistStrings.updates.yourCurrentVersionProperty;
-    yourCurrentVersionProperty.link( string => {
-      ourVersionStringProperty.value = StringUtils.format( string, ourVersionString );
+    const ourVersionStringProperty = new DerivedProperty( [ joistStrings.updates.yourCurrentVersionProperty ], string => {
+      return StringUtils.format( string, ourVersionString );
     } );
 
     return new VBox( merge( {

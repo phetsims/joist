@@ -9,8 +9,8 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import IProperty from '../../axon/js/IProperty.js';
-import TinyProperty from '../../axon/js/TinyProperty.js';
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
@@ -65,13 +65,10 @@ export default class CreditsNode extends VBox {
       tagName: 'h2'
     } ) );
 
-    const formatStringProperty = ( stringProperty: IProperty<string>, innerString: string ): IProperty<string> => {
-      // Can't use DerivedProperty, see https://github.com/phetsims/chipper/issues/1302
-      const property = new TinyProperty( '' );
-      stringProperty.link( string => {
-        property.value = StringUtils.format( string, `\u202a${innerString}\u202c` );
+    const formatStringProperty = ( stringProperty: TReadOnlyProperty<string>, innerString: string ): TReadOnlyProperty<string> => {
+      return new DerivedProperty( [ stringProperty ], string => {
+        return StringUtils.format( string, `\u202a${innerString}\u202c` );
       } );
-      return property;
     };
 
     // Primary HTML5 designer first, followed by contributing designers (HTML5 and legacy) in alphabetical order.

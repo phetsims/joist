@@ -133,6 +133,7 @@ class NavigationBar extends Node {
     );
     this.barContents.addChild( phetButton );
 
+    // TODO: Remove as part of https://github.com/phetsims/chipper/issues/1302 work
     if ( localeProperty.validValues!.length > 1 ) {
       this.localeNode = new Path( globeAmericasSolidShape, {
         scale: 0.04,
@@ -168,8 +169,14 @@ class NavigationBar extends Node {
                   localeProperty.value = locale;
                   localePopup.visible = false;
                 },
-            tandem: Tandem.OPT_OUT
-              } )
+                tandem: Tandem.OPT_OUT
+              } ),
+              {
+                move: () => {
+                  localeProperty.value = locale;
+                }
+              }
+
             ]
           } );
         } )
