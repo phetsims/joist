@@ -24,7 +24,7 @@ import Screen from './Screen.js';
 import packageJSON from './packageJSON.js';
 import Sim from './Sim.js';
 
-type ScreenState = {
+export type ScreenState = {
   name: string;
   phetioID?: string;
 };
