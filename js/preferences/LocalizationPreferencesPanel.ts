@@ -15,10 +15,7 @@ import joist from '../joist.js';
 import { LocalizationModel } from './PreferencesModel.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
 import RegionAndCultureComboBox from './RegionAndCultureComboBox.js';
-import LocaleDialog from './LocaleDialog.js';
-import TextPushButton from '../../../sun/js/buttons/TextPushButton.js';
-import PreferencesDialog from './PreferencesDialog.js';
-import Tandem from '../../../tandem/js/Tandem.js';
+import LocalePanel from './LocalePanel.js';
 
 class LocalizationPreferencesPanel extends Node {
   public constructor( localizationModel: LocalizationModel ) {
@@ -30,20 +27,8 @@ class LocalizationPreferencesPanel extends Node {
     } );
 
     if ( localizationModel.supportsMultipleLocales ) {
-      const localePopup = new LocaleDialog();
-      const localeButton = new TextPushButton( 'Language', {
-        font: PreferencesDialog.CONTENT_FONT,
-        listener: () => {
-          localePopup.isShowingProperty.value = true;
-        },
-
-        // TODO: PhET-iO instrumentation, see https://github.com/phetsims/joist/issues/814
-        tandem: Tandem.OPT_OUT
-      } );
-      contentNode.addChild( localeButton );
-
-      // @ts-ignore
-      window.localePopup = localePopup;
+      const localePopup = new LocalePanel();
+      contentNode.addChild( localePopup );
     }
 
     if ( localizationModel.regionAndCultureDescriptors.length > 0 ) {
@@ -51,7 +36,10 @@ class LocalizationPreferencesPanel extends Node {
     }
 
     const panelSection = new PreferencesPanelSection( {
-      contentNode: contentNode
+      contentNode: contentNode,
+
+      // Without a title no indentation is necessary
+      contentLeftMargin: 0
     } );
 
     this.children = [ panelSection ];

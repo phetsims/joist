@@ -84,14 +84,16 @@ class PreferencesPanels extends Node {
     let inputPreferencesPanel: Node | null = null;
     if ( supportedTabs.includes( PreferencesDialog.PreferencesTab.INPUT ) ) {
       inputPreferencesPanel = new InputPreferencesPanel( preferencesModel.inputModel );
-      this.addChild( inputPreferencesPanel );
+      const inputBox = panelAlignGroup.createBox( inputPreferencesPanel );
+      this.addChild( inputBox );
       this.content.push( new PreferencesPanelContainer( inputPreferencesPanel, PreferencesDialog.PreferencesTab.INPUT ) );
     }
 
     let localizationPreferencesPanel: Node | null = null;
     if ( supportedTabs.includes( PreferencesDialog.PreferencesTab.LOCALIZATION ) ) {
       localizationPreferencesPanel = new LocalizationPreferencesPanel( preferencesModel.localizationModel );
-      this.addChild( localizationPreferencesPanel );
+      const localizationBox = panelAlignGroup.createBox( localizationPreferencesPanel );
+      this.addChild( localizationBox );
       this.content.push( new PreferencesPanelContainer( localizationPreferencesPanel, PreferencesDialog.PreferencesTab.LOCALIZATION ) );
     }
 
