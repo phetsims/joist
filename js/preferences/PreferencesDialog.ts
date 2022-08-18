@@ -191,16 +191,18 @@ class PreferencesDialog extends Dialog {
 
   public static PreferencesTab = PreferencesTab;
 
-  public static TAB_FONT = TAB_FONT;
-  public static TAB_OPTIONS = TAB_OPTIONS;
+  public static readonly TAB_FONT = TAB_FONT;
+  public static readonly TAB_OPTIONS = TAB_OPTIONS;
 
-  public static CONTENT_FONT = CONTENT_FONT;
-  public static CONTENT_MAX_WIDTH = CONTENT_MAX_WIDTH;
-  public static PANEL_SECTION_CONTENT_OPTIONS = PANEL_SECTION_CONTENT_OPTIONS;
+  public static readonly TITLE_FONT = TITLE_FONT;
 
-  public static PANEL_SECTION_LABEL_FONT = PANEL_SECTION_LABEL_FONT;
-  public static PANEL_SECTION_LABEL_MAX_WIDTH = PANEL_SECTION_LABEL_MAX_WIDTH;
-  public static PANEL_SECTION_LABEL_OPTIONS = PANEL_SECTION_LABEL_OPTIONS;
+  public static readonly CONTENT_FONT = CONTENT_FONT;
+  public static readonly CONTENT_MAX_WIDTH = CONTENT_MAX_WIDTH;
+  public static readonly PANEL_SECTION_CONTENT_OPTIONS = PANEL_SECTION_CONTENT_OPTIONS;
+
+  public static readonly PANEL_SECTION_LABEL_FONT = PANEL_SECTION_LABEL_FONT;
+  public static readonly PANEL_SECTION_LABEL_MAX_WIDTH = PANEL_SECTION_LABEL_MAX_WIDTH;
+  public static readonly PANEL_SECTION_LABEL_OPTIONS = PANEL_SECTION_LABEL_OPTIONS;
 }
 
 joist.register( 'PreferencesDialog', PreferencesDialog );

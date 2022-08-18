@@ -13,30 +13,37 @@
 import { Node, VBox } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import { LocalizationModel } from './PreferencesModel.js';
-import LanguageComboBox from './LanguageComboBox.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
 import RegionAndCultureComboBox from './RegionAndCultureComboBox.js';
+import LocaleDialog from './LocaleDialog.js';
+import TextPushButton from '../../../sun/js/buttons/TextPushButton.js';
+import PreferencesDialog from './PreferencesDialog.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 
 class LocalizationPreferencesPanel extends Node {
   public constructor( localizationModel: LocalizationModel ) {
+    super();
 
     const contentNode = new VBox( {
       align: 'left',
       spacing: PreferencesPanelSection.DEFAULT_ITEM_SPACING
     } );
 
-    if ( localizationModel.supportsLanguageSwitching ) {
-      contentNode.addChild( new LanguageComboBox(
-        localizationModel.languageProperty,
+    if ( localizationModel.supportsMultipleLocales ) {
+      const localePopup = new LocaleDialog();
+      const localeButton = new TextPushButton( 'Language', {
+        font: PreferencesDialog.CONTENT_FONT,
+        listener: () => {
+          localePopup.isShowingProperty.value = true;
+        },
 
-        // TODO: Where will this information live and come from, see https://github.com/phetsims/joist/issues/814
-        [
-          {
-            locale: 'en',
-            localeLabel: 'English'
-          }
-        ]
-      ) );
+        // TODO: PhET-iO instrumentation, see https://github.com/phetsims/joist/issues/814
+        tandem: Tandem.OPT_OUT
+      } );
+      contentNode.addChild( localeButton );
+
+      // @ts-ignore
+      window.localePopup = localePopup;
     }
 
     if ( localizationModel.regionAndCultureDescriptors.length > 0 ) {
@@ -47,9 +54,7 @@ class LocalizationPreferencesPanel extends Node {
       contentNode: contentNode
     } );
 
-    super( {
-      children: [ panelSection ]
-    } );
+    this.children = [ panelSection ];
   }
 }
 

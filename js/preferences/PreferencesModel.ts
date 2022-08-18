@@ -57,9 +57,6 @@ export type InputModel = {
 
 export type LocalizationModel = {
 
-  // The selected language for the sim when the sim supports language switching
-  languageProperty: Property<string>;
-
   // The selected character artwork to use when the sim supports culture and region switching.
   regionAndCultureProperty: Property<number>;
 } & Required<LocalizationPreferencesOptions>;
@@ -120,10 +117,7 @@ class PreferencesModel extends PhetioObject {
     };
 
     this.localizationModel = {
-
-      // TODO: Also check for the all build here? See https://github.com/phetsims/joist/issues/814
-      supportsLanguageSwitching: preferencesConfiguration.localizationOptions.supportsLanguageSwitching,
-      languageProperty: localizationManager.languageProperty,
+      supportsMultipleLocales: preferencesConfiguration.localizationOptions.supportsMultipleLocales,
 
       regionAndCultureProperty: localizationManager.regionAndCultureProperty,
       regionAndCultureDescriptors: preferencesConfiguration.localizationOptions.regionAndCultureDescriptors
@@ -199,7 +193,7 @@ class PreferencesModel extends PhetioObject {
   }
 
   public supportsLocalizationPreferences(): boolean {
-    return this.localizationModel.supportsLanguageSwitching ||
+    return this.localizationModel.supportsMultipleLocales ||
            this.localizationModel.regionAndCultureDescriptors.length > 0;
   }
 }

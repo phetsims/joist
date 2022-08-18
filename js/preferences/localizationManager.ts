@@ -32,15 +32,8 @@ class LocalizationManager {
   // the sim supports `regionAndCultureSwitching`. See PreferencesConfiguration.localizationModel.
   public readonly regionAndCultureProperty: Property<number>;
 
-  // A Property controlling the active language for the simulation. Only relevant if the sim supports language
-  // switching and is running in the "_all" version so that we have access to translated strings.
-  public readonly languageProperty: Property<string>;
-
   public constructor() {
     this.regionAndCultureProperty = new NumberProperty( 0 );
-
-    // TODO: Where do valid and initial values come from? see https://github.com/phetsims/joist/issues/814
-    this.languageProperty = new Property<string>( 'en' );
   }
 }
 

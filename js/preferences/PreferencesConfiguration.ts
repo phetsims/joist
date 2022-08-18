@@ -14,6 +14,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import SpeechSynthesisAnnouncer from '../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import joist from '../joist.js';
 import { RegionAndCultureDescriptor } from './localizationManager.js';
+import localeProperty from '../localeProperty.js';
 
 export type GeneralPreferencesOptions = {
 
@@ -55,10 +56,9 @@ export type InputPreferencesOptions = {
 
 export type LocalizationPreferencesOptions = {
 
-  // Whether to include a ComboBox that controls the language. The combo box will only be available if opted in with
-  // PreferencesConfiguration and the sim is running in the _all HTML file because that is the only way we will have
-  // access to strings of multiple languages.
-  supportsLanguageSwitching?: boolean;
+  // Whether to include a UI component that changes the sim language. Default for this in phetFeatures is true. But it
+  // is still only available when localeProperty indicates that more than one locale is available.
+  supportsMultipleLocales?: boolean;
 
   // Describes the available artwork that can be used for different regions and cultures. If any descriptors are
   // provided, the Localization tab will include a UI component to swap out pieces of artwork to match the selected
@@ -120,13 +120,18 @@ class PreferencesConfiguration {
         supportsGestureControl: phetFeatures.supportsGestureControl
       },
       localizationOptions: {
-        supportsLanguageSwitching: false,
+        supportsMultipleLocales: localeProperty.validValues && localeProperty.validValues.length > 1,
         regionAndCultureDescriptors: []
       }
     }, providedOptions );
 
     if ( initialOptions.audioOptions.supportsExtraSound ) {
       assert && assert( initialOptions.audioOptions.supportsSound, 'supportsSound must be true to also support extraSound' );
+    }
+
+    // The query parameter will always override the PreferencesConfiguration option.
+    if ( QueryStringMachine.containsKey( 'supportsMultipleLocales' ) ) {
+      initialOptions.localizationOptions.supportsMultipleLocales = phetFeatures.supportsMultipleLocales;
     }
 
     // We know that defaults are populated after the optionize call.
