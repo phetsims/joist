@@ -12,7 +12,6 @@ import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import { Color, Image, Node } from '../../scenery/js/imports.js';
 import Dialog from '../../sun/js/Dialog.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
-import PhetioObject from '../../tandem/js/PhetioObject.js';
 import keyboardIconOnWhite_png from '../images/keyboardIconOnWhite_png.js'; // on a white navbar
 import keyboardIcon_png from '../images/keyboardIcon_png.js'; // on a black navbar
 import joist from './joist.js';
@@ -61,13 +60,12 @@ class KeyboardHelpButton extends JoistButton {
       voicingNameResponse: keyboardShortcutsString
     }, providedOptions );
 
-    let keyboardHelpDialogCapsule: PhetioCapsule<PhetioObject> | null = null; // set after calling super
+    let keyboardHelpDialogCapsule: PhetioCapsule<KeyboardHelpDialog> | null = null; // set after calling super
     options.listener = () => {
+      assert && assert( keyboardHelpDialogCapsule );
 
-      // @ts-ignore
-      const keyboardHelpDialog = keyboardHelpDialogCapsule.getElement();
+      const keyboardHelpDialog = keyboardHelpDialogCapsule!.getElement();
 
-      // @ts-ignore
       keyboardHelpDialog.show();
     };
 
@@ -86,8 +84,7 @@ class KeyboardHelpButton extends JoistButton {
       content.children = [ screen.keyboardHelpNode! ];
     } );
 
-    // @ts-ignore
-    keyboardHelpDialogCapsule = new PhetioCapsule<PhetioObject>( tandem => {
+    keyboardHelpDialogCapsule = new PhetioCapsule<KeyboardHelpDialog>( tandem => {
 
       // Wrap in a node to prevent DAG problems if archetypes are also created
       return new KeyboardHelpDialog( new Node( { children: [ content ] } ), {

@@ -106,7 +106,6 @@ class EngagementMetrics {
       // Handle the case if the event signifies engagement with the simulation.
       this.isEngagedEvent( event ) && currentScreenEntry.onEngagedEvent( event, this.startTimestamp );
 
-      // @ts-ignore
       if ( event.phetioID === sim.stepSimulationAction.tandem.phetioID ) {
 
         // TODO: counted even when not in the active browser tab, perhaps we need to use browserTabVisibleProperty, https://github.com/phetsims/joist/issues/553

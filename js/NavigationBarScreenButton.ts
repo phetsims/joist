@@ -49,8 +49,8 @@ class NavigationBarScreenButton extends Voicing( Node ) {
    * @param [providedOptions]
    */
   public constructor( navigationBarFillProperty: TReadOnlyProperty<Color>, screenProperty: Property<Screen<IntentionalAny>>,
-               screen: Screen<IntentionalAny>, simScreenIndex: number, navBarHeight: number,
-               providedOptions: NavigationBarScreenButtonOptions ) {
+                      screen: Screen<IntentionalAny>, simScreenIndex: number, navBarHeight: number,
+                      providedOptions: NavigationBarScreenButtonOptions ) {
 
     assert && assert( screen.nameProperty.value, `name is required for screen ${simScreenIndex}` );
     assert && assert( screen.navigationBarIcon, `navigationBarIcon is required for screen ${screen.nameProperty.value}` );
@@ -105,8 +105,6 @@ class NavigationBarScreenButton extends Voicing( Node ) {
     const text = new Text( screen.nameProperty.value, {
       font: new PhetFont( 10 ),
       tandem: options.tandem.createTandem( 'text' ),
-
-      // @ts-ignore
       textPropertyOptions: { phetioReadOnly: true } // text is updated via screen.nameProperty
     } );
 
@@ -158,10 +156,7 @@ class NavigationBarScreenButton extends Voicing( Node ) {
 
     // Hook up the input listener
     const pressListener = this.buttonModel.createPressListener( {
-      tandem: options.tandem.createTandem( 'pressListener' ),
-
-      // @ts-ignore
-      phetioDocumentation: 'Indicates when the screen button has been pressed or released'
+      tandem: options.tandem.createTandem( 'pressListener' )
     } );
     this.addInputListener( pressListener );
 
@@ -188,10 +183,7 @@ class NavigationBarScreenButton extends Voicing( Node ) {
         text.fill = selected ? selectedTextColor : unselectedTextColor;
         iconAndText.opacity = selected ? 1.0 : ( looksPressed ? 0.65 : 0.5 );
 
-        // @ts-ignore
         brightenHighlight.visible = !useDarkenHighlights && enabled && ( looksOver || looksPressed );
-
-        // @ts-ignore
         darkenHighlight.visible = useDarkenHighlights && enabled && ( looksOver || looksPressed );
 
         // Put a frame around the screen icon, depending on the navigation bar background color.
@@ -209,8 +201,6 @@ class NavigationBarScreenButton extends Voicing( Node ) {
 
     // Keep the cursor in sync with if the button is enabled. This doesn't need to be disposed.
     this.buttonModel.enabledProperty.link( enabled => {
-
-      // @ts-ignore
       this.cursor = enabled ? options.cursor : null;
     } );
 
@@ -230,8 +220,6 @@ class NavigationBarScreenButton extends Voicing( Node ) {
 
     // Update the button's text and layout when the screen name changes
     screen.nameProperty.link( name => {
-
-      // @ts-ignore
       text.text = name;
     } );
     iconAndText.boundsProperty.lazyLink( updateLayout );
@@ -248,9 +236,7 @@ class NavigationBarScreenButton extends Voicing( Node ) {
 
     // Constrain text and icon width, if necessary
     if ( needsIconMaxWidth ) {
-
-      // @ts-ignore
-      text.maxWidth = icon.maxWidth = options.maxButtonWidth - ( this.width - iconAndText.width );
+      text.maxWidth = icon.maxWidth = options.maxButtonWidth! - ( this.width - iconAndText.width );
     }
     else {
       // Don't allow the text to grow larger than the icon if changed later on using PhET-iO, see #438
@@ -258,8 +244,7 @@ class NavigationBarScreenButton extends Voicing( Node ) {
       text.maxWidth = this.width;
     }
 
-    // @ts-ignore
-    needsIconMaxWidth && assert && assert( Utils.toFixed( this.width, 0 ) === Utils.toFixed( options.maxButtonWidth, 0 ),
+    needsIconMaxWidth && assert && assert( Utils.toFixed( this.width, 0 ) === Utils.toFixed( options.maxButtonWidth!, 0 ),
       `this.width ${this.width} !== options.maxButtonWidth ${options.maxButtonWidth}` );
 
     // pdom - Pass a shape to the focusHighlight to prevent dilation, then tweak the top up just a hair.

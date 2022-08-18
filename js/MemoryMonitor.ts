@@ -47,12 +47,12 @@ class MemoryMonitor {
    */
   public measure(): void {
 
-    // @ts-ignore Until we make typescript know about preformance.memory
+    // @ts-ignore Until we make typescript know about performance.memory
     if ( !window.performance || !window.performance.memory || !window.performance.memory.usedJSHeapSize ) {
       return;
     }
 
-    // @ts-ignore Until we make typescript know about preformance.memory
+    // @ts-ignore Until we make typescript know about performance.memory
     const currentMemory = window.performance.memory.usedJSHeapSize;
     this.lastMemory = currentMemory;
     const averageMemory = this.runningAverage.updateRunningAverage( currentMemory );

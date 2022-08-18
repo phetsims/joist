@@ -31,11 +31,7 @@ class NavigationBarPreferencesButton extends JoistButton {
 
       listener: () => {
         const preferencesDialog = preferencesDialogCapsule.getElement();
-
-        // @ts-ignore
         preferencesDialog.show();
-
-        // @ts-ignore
         preferencesDialog.focusSelectedTab();
       },
       highlightExtensionWidth: 5,
@@ -60,8 +56,7 @@ class NavigationBarPreferencesButton extends JoistButton {
 
     super( icon, backgroundColorProperty, options );
 
-    // @ts-ignore TODO https://github.com/phetsims/joist/issues/795 - until Popupable is in Typescript, TS doesn't know about the hierarchy it seems.
-    const preferencesDialogCapsule = new PhetioCapsule( tandem => {
+    const preferencesDialogCapsule = new PhetioCapsule<PreferencesDialog>( tandem => {
       return new PreferencesDialog( preferencesModel, {
         tandem: tandem,
         focusOnHideNode: this

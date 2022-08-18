@@ -70,7 +70,6 @@ export default class UpdateDialog extends Dialog {
 
     updateOutOfDateNode();
 
-    // @ts-ignore UpdateNodes needs to be converted to .ts
     this.updateStepListener = checkingNode.stepListener;
 
     this.updateVisibilityListener = state => {

@@ -152,7 +152,7 @@ export default class Sim extends PhetioObject {
   // Steps the simulation. This Action is implemented so it can be automatically
   // played back for PhET-iO record/playback.  Listen to this Action if you have an action that happens during the
   // simulation step.
-  private readonly stepSimulationAction: PhetioAction<[ number ]>;
+  public readonly stepSimulationAction: PhetioAction<[ number ]>;
 
   // the ordered list of sim-specific screens that appear in this runtime of the sim
   public readonly simScreens: Screen[];
@@ -322,7 +322,6 @@ export default class Sim extends PhetioObject {
     } );
     if ( typeof name !== 'string' ) {
       name.lazyLink( nameString => {
-        // @ts-ignore Ignoring readonly for now
         this.simNameProperty.value = nameString;
       } );
     }
