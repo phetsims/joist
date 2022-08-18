@@ -12,8 +12,9 @@ import Multilink from '../../../axon/js/Multilink.js';
 import TinyProperty from '../../../axon/js/TinyProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import globeSolidShape from '../../../sherpa/js/fontawesome-5/globeSolidShape.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { FocusHighlightPath, KeyboardUtils, Line, Node, NodeOptions, PressListener, Rectangle, SceneryEvent, Text, Voicing } from '../../../scenery/js/imports.js';
+import { FocusHighlightPath, HBox, KeyboardUtils, Line, Node, NodeOptions, Path, PressListener, Rectangle, SceneryEvent, Text, Voicing } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
@@ -44,17 +45,37 @@ class PreferencesTabs extends Node {
 
     this.selectedPanelProperty = selectedPanelProperty;
 
-    const addTabIfSupported = ( preferenceTab: PreferencesTab, titleString: TReadOnlyProperty<string> ) => {
-      _.includes( supportedTabs, preferenceTab ) && this.content.push( new Tab( titleString, selectedPanelProperty, preferenceTab ) );
-    };
-    addTabIfSupported( PreferencesDialog.PreferencesTab.GENERAL, joistStrings.preferences.tabs.general.titleProperty );
-    addTabIfSupported( PreferencesDialog.PreferencesTab.VISUAL, joistStrings.preferences.tabs.visual.titleProperty );
-    addTabIfSupported( PreferencesDialog.PreferencesTab.AUDIO, joistStrings.preferences.tabs.audio.titleProperty );
-    // TODO https://github.com/phetsims/chipper/issues/1302: i11y?
-    // These strings are NOT translatable yet because they do not appear in any published sim. So they should not be
-    // available for translators.
-    addTabIfSupported( PreferencesDialog.PreferencesTab.INPUT, new TinyProperty( 'Input' ) );
-    addTabIfSupported( PreferencesDialog.PreferencesTab.LOCALIZATION, new TinyProperty( 'Localization' ) );
+    const isTabSupported = ( preferencesTab: PreferencesTab ) => _.includes( supportedTabs, preferencesTab );
+
+    if ( isTabSupported( PreferencesDialog.PreferencesTab.GENERAL ) ) {
+      this.content.push( new Tab( joistStrings.preferences.tabs.general.titleProperty, selectedPanelProperty, PreferencesDialog.PreferencesTab.GENERAL ) );
+    }
+    if ( isTabSupported( PreferencesDialog.PreferencesTab.VISUAL ) ) {
+      this.content.push( new Tab( joistStrings.preferences.tabs.visual.titleProperty, selectedPanelProperty, PreferencesDialog.PreferencesTab.VISUAL ) );
+    }
+    if ( isTabSupported( PreferencesDialog.PreferencesTab.AUDIO ) ) {
+      this.content.push( new Tab( joistStrings.preferences.tabs.audio.titleProperty, selectedPanelProperty, PreferencesDialog.PreferencesTab.AUDIO ) );
+    }
+    if ( isTabSupported( PreferencesDialog.PreferencesTab.INPUT ) ) {
+
+      // NOT translatable yet because these are not in any published sim and not viewable in-sim by translators.
+      // When ready to publish, move to translatable strings.
+      this.content.push( new Tab( new TinyProperty( 'Input' ), selectedPanelProperty, PreferencesDialog.PreferencesTab.INPUT ) );
+    }
+    if ( isTabSupported( PreferencesDialog.PreferencesTab.LOCALIZATION ) ) {
+
+      // NOT translatable yet because these are not in any published sim and not viewable in-sim by translators.
+      // When ready to publish, move to translatable strings.
+      this.content.push( new Tab( new TinyProperty( 'Localization' ), selectedPanelProperty, PreferencesDialog.PreferencesTab.LOCALIZATION, {
+
+        // Display a globe icon next to the localization label
+        iconNode: new Path( globeSolidShape, {
+          scale: 1 / 25,
+          stroke: 'black',
+          lineWidth: 25
+        } )
+      } ) );
+    }
 
     for ( let i = 0; i < this.content.length; i++ ) {
       this.addChild( this.content[ i ] );
@@ -135,6 +156,12 @@ class PreferencesTabs extends Node {
   }
 }
 
+type TabOptions = {
+
+  // An additional icon to display to the right of the label text for this tab.
+  iconNode: Node | null;
+};
+
 /**
  * Inner class, a single tab for the list of tabs.
  * @mixes Voicing
@@ -148,26 +175,41 @@ class Tab extends Voicing( Node ) {
    * @param label - text label for the tab
    * @param property
    * @param value - PreferencesTab shown when this tab is selected
+   * @param providedOptions
    */
-  public constructor( label: TReadOnlyProperty<string>, property: TProperty<PreferencesTab>, value: PreferencesTab ) {
+  public constructor( label: TReadOnlyProperty<string>, property: TProperty<PreferencesTab>, value: PreferencesTab, providedOptions?: TabOptions ) {
 
+    const options = optionize<TabOptions>()( {
+      iconNode: null
+    }, providedOptions );
+
+    // Visual contents for the tab, label Text and optional icon Node
     const textNode = new Text( label, PreferencesDialog.TAB_OPTIONS );
+    const tabContents: Node[] = [ textNode ];
+    if ( options.iconNode ) {
+      tabContents.push( options.iconNode );
+    }
+    const contentsLayoutBox = new HBox( {
+      children: tabContents,
+      spacing: 8
+    } );
 
-    // background Node behind the Text for layout spacing, and to increase the clickable area of the tab
+    // background Node behind the tab contents for layout spacing and to increase the clickable area of the tab
     const backgroundNode = new Rectangle( {
-      children: [ textNode ]
+      children: [ contentsLayoutBox ]
     } );
-    textNode.boundsProperty.link( textBounds => {
-      backgroundNode.rectBounds = textBounds.dilatedXY( 15, 10 );
+    contentsLayoutBox.boundsProperty.link( bounds => {
+      backgroundNode.rectBounds = bounds.dilatedXY( 15, 10 );
     } );
 
+    // Pink underline Node to indicate which tab is selected
     const underlineNode = new Line( 0, 0, 0, 0, {
       stroke: FocusHighlightPath.INNER_FOCUS_COLOR,
       lineWidth: 5
     } );
-    textNode.boundsProperty.link( textBounds => {
-      underlineNode.x2 = textBounds.width;
-      underlineNode.centerTop = textBounds.centerBottom.plusXY( 0, 5 );
+    contentsLayoutBox.boundsProperty.link( bounds => {
+      underlineNode.x2 = bounds.width;
+      underlineNode.centerTop = bounds.centerBottom.plusXY( 0, 5 );
     } );
 
     super( {
@@ -207,9 +249,9 @@ class Tab extends Voicing( Node ) {
     this.addInputListener( pressListener );
 
     Multilink.multilink( [ property, pressListener.isOverProperty ], ( selectedTab, isOver ) => {
-      textNode.opacity = selectedTab === value ? 1 :
-                         isOver ? 0.8 :
-                         0.6;
+      backgroundNode.opacity = selectedTab === value ? 1 :
+                               isOver ? 0.8 :
+                               0.6;
 
       this.focusable = selectedTab === value;
       underlineNode.visible = selectedTab === value;
