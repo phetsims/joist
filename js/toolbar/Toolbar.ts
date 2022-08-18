@@ -114,9 +114,6 @@ class Toolbar extends Node {
       fill: sim.lookAndFeel.navigationBarFillProperty
     } );
 
-    this.rightPositionProperty = new NumberProperty( 0 );
-    this.rightDestinationPosition = 0;
-
     this.openProperty = new BooleanProperty( true );
 
     this.isShowingProperty = DerivedProperty.and( [ this.isEnabledProperty, voicingManager.enabledProperty, audioManager.audioEnabledProperty ] );
@@ -142,6 +139,14 @@ class Toolbar extends Node {
     this.contentWidth = this.menuContent.localBounds.width;
 
     this.contentMargin = this.openButton.localBounds.width;
+
+    // The position of the right edge of the backgroundRectangle in local coordinates.
+    // This is what controls the position of the Toolbar as it is open/closed/removed/animating.
+    this.rightPositionProperty = new NumberProperty( this.getHiddenPosition() );
+
+    // The target position for the rightPositionProperty, to support animation. In step,
+    // the rightPositionProperty will be changed until the rightPositionProperty equals the rightDestinationPosition.
+    this.rightDestinationPosition = 0;
 
     // a parent for all Nodes of the toolbar, so we can set visibility of this group internally when
     // the isShowingProperty changes
@@ -204,6 +209,11 @@ class Toolbar extends Node {
     return this.rightPositionProperty.value * this.layoutScale + this.openButton.width / 2;
   }
 
+  private getHiddenPosition(): number {
+    assert && assert( typeof this.contentMargin === 'number' );
+    return -this.contentMargin / 2;
+  }
+
   /**
    * Update rightDestinationPosition so that the Toolbar will animate towards opening, closing, or being removed
    * entirely from view.
@@ -215,7 +225,7 @@ class Toolbar extends Node {
     }
     else {
       // no aspect of the menu should be visible
-      this.rightDestinationPosition = -this.contentMargin / 2;
+      this.rightDestinationPosition = this.getHiddenPosition();
     }
   }
 
