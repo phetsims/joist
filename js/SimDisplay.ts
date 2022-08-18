@@ -11,6 +11,8 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../axon/js/BooleanProperty.js';
+import TProperty from '../../axon/js/TProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
 import { animatedPanZoomSingleton, Display, DisplayOptions, InputFuzzer, KeyboardFuzzer, Node, RendererType, scenery, Utils } from '../../scenery/js/imports.js';
 import '../../sherpa/lib/game-up-camera-1.0.0.js';
@@ -33,6 +35,8 @@ export default class SimDisplay extends Display {
   public readonly simulationRoot = new Node();
   private readonly inputFuzzer: InputFuzzer;
   private readonly keyboardFuzzer: KeyboardFuzzer;
+
+  private readonly supportsPanAndZoomProperty: TProperty<boolean>;
 
   // Add a listener to the Display that controls visibility of various highlights in response to user input.
   private readonly highlightVisibilityController: HighlightVisibilityController;
@@ -118,6 +122,10 @@ export default class SimDisplay extends Display {
     this.inputFuzzer = new InputFuzzer( this, fuzzerSeed );
     this.keyboardFuzzer = new KeyboardFuzzer( this, fuzzerSeed );
 
+    this.supportsPanAndZoomProperty = new BooleanProperty( phet.chipper.queryParameters.supportsPanAndZoom, {
+      tandem: options.tandem.createTandem( 'supportsPanAndZoomProperty' )
+    } );
+
     this.domElement.id = 'sim';
 
     if ( phet.chipper.queryParameters.supportsInteractiveDescription ) {
@@ -159,9 +167,17 @@ export default class SimDisplay extends Display {
     animatedPanZoomSingleton.initialize( this.simulationRoot, {
       tandem: Tandem.GENERAL_VIEW.createTandem( 'panZoomListener' )
     } );
-    if ( phet.chipper.queryParameters.supportsPanAndZoom ) {
-      this.addInputListener( animatedPanZoomSingleton.listener! );
-    }
+
+    const animatedPanZoomListener = animatedPanZoomSingleton.listener!;
+
+    this.supportsPanAndZoomProperty.link( supported => {
+      if ( supported ) {
+        this.addInputListener( animatedPanZoomListener );
+      }
+      else if ( this.hasInputListener( animatedPanZoomListener ) ) {
+        this.removeInputListener( animatedPanZoomListener );
+      }
+    } );
 
     // If the page is loaded from the back-forward cache, then reload the page to avoid bugginess,
     // see https://github.com/phetsims/joist/issues/448
@@ -195,6 +211,14 @@ export default class SimDisplay extends Display {
     if ( phet.chipper.queryParameters.fuzzBoard && document.hasFocus() ) {
       assert && assert( phet.chipper.queryParameters.supportsInteractiveDescription, 'fuzzBoard can only run with interactive description enabled.' );
       this.keyboardFuzzer.fuzzBoardEvents( phet.chipper.queryParameters.fuzzRate );
+    }
+  }
+
+  public step( dt: number ): void {
+    if ( this.supportsPanAndZoomProperty.value ) {
+
+      // animate the PanZoomListener, for smooth panning/scaling
+      animatedPanZoomSingleton.listener!.step( dt );
     }
   }
 }

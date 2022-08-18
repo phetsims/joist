@@ -457,12 +457,7 @@ export default class Sim extends PhetioObject {
         window.TWEEN.update( phet.joist.elapsedTime );
       }
 
-      if ( phet.chipper.queryParameters.supportsPanAndZoom ) {
-
-        // animate the PanZoomListener, for smooth panning/scaling
-        // REVIEW: Since SimDisplay initializes this, perhaps simDisplay should override updateDisplay and call step there?
-        animatedPanZoomSingleton.listener!.step( dt );
-      }
+      this.display.step( dt );
 
       // View step is the last thing before updateDisplay(), so we can do paint updates there.
       // See https://github.com/phetsims/joist/issues/401.
