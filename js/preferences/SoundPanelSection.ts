@@ -83,6 +83,7 @@ class SoundPanelSection extends PreferencesPanelSection {
         // voicing
         voicingNameResponse: extraSoundsLabelString,
         voicingIgnoreVoicingManagerProperties: true, // Always speak Preferences responses so control function is clear
+        voiceNameResponseOnSelection: false,
 
         // both voicing and pdom
         checkedContextResponse: extraSoundsOnString,
