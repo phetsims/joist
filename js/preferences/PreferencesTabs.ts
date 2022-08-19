@@ -70,9 +70,8 @@ class PreferencesTabs extends Node {
 
         // Display a globe icon next to the localization label
         iconNode: new Path( globeSolidShape, {
-          scale: 1 / 25,
-          stroke: 'black',
-          lineWidth: 25
+          scale: 1 / 25, // by inspection
+          fill: 'black'
         } )
       } ) );
     }
