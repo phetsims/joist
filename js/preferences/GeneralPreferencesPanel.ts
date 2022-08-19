@@ -13,7 +13,6 @@ import HSeparator from '../../../sun/js/HSeparator.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
-import LocalizationControlsPanelSection from './LocalizationControlsPanelSection.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import SimControlsPanelSection from './SimControlsPanelSection.js';
 import { GeneralModel } from './PreferencesModel.js';
@@ -71,19 +70,12 @@ class GeneralPreferencesPanel extends VBox {
 
     // references to the controls and sections kept so that they can be disposed if necessary (mostly for phet-io)
     let simControls: Node | null = null;
-    let localizationControls: Node | null = null;
     let simControlsPanelSection: Node | null = null;
-    let localizationControlsPanelSection: Node | null = null;
 
     if ( generalModel.createSimControls ) {
       simControls = generalModel.createSimControls( options.tandem );
       simControlsPanelSection = new SimControlsPanelSection( simControls );
       providedChildren.push( simControlsPanelSection );
-    }
-    if ( generalModel.createLocalizationControls ) {
-      localizationControls = generalModel.createLocalizationControls( options.tandem );
-      localizationControlsPanelSection = new LocalizationControlsPanelSection( localizationControls );
-      providedChildren.push( localizationControlsPanelSection );
     }
 
     if ( providedChildren.length > 0 ) {
@@ -100,10 +92,7 @@ class GeneralPreferencesPanel extends VBox {
 
     this.disposeGeneralPreferencesPanel = () => {
       simControls && simControls.dispose();
-      localizationControls && localizationControls.dispose();
-
       simControlsPanelSection && simControlsPanelSection.dispose();
-      localizationControlsPanelSection && localizationControlsPanelSection.dispose();
     };
   }
 

@@ -20,9 +20,6 @@ export type GeneralPreferencesOptions = {
 
   // Creates any Node you would like under the "Simulation specific controls" section of the General tab.
   createSimControls?: ( ( tandem: Tandem ) => Node ) | null;
-
-  // Creates any Node you would like under the "Localization" section of the General tab.
-  createLocalizationControls?: ( ( tandem: Tandem ) => Node ) | null;
 };
 
 export type VisualPreferencesOptions = {
@@ -105,8 +102,7 @@ class PreferencesConfiguration {
 
     const initialOptions = optionize<PreferencesConfigurationOptions>()( {
       generalOptions: {
-        createSimControls: null,
-        createLocalizationControls: null
+        createSimControls: null
       },
       visualOptions: {
         supportsInteractiveHighlights: phetFeatures.supportsInteractiveHighlights
