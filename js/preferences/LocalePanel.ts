@@ -11,42 +11,99 @@
 
 import joist from '../joist.js';
 import Panel from '../../../sun/js/Panel.js';
-import { FireListener, GridBox, Text } from '../../../scenery/js/imports.js';
+import { FireListener, GridBox, HighlightOverlay, Rectangle, Text } from '../../../scenery/js/imports.js';
 import localeInfoModule from '../../../chipper/js/data/localeInfoModule.js';
 import localeProperty from '../localeProperty.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import PreferencesDialog from './PreferencesDialog.js';
+import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 
 class LocalePanel extends Panel {
   public constructor() {
 
     // All available locales aligned into a grid
     const content = new GridBox( {
-      xMargin: 10,
-      yMargin: 3,
+      xMargin: 5,
       xAlign: 'left',
       autoRows: 15,
+
+      // By inspection, safety net in case there are too many languages. Will scale down this panel without
+      // the entire PreferencesDialog scaling down.
+      maxWidth: 1000,
+
+      // We don't want the GridBox to resize as selection highlights update with input
+      resize: false,
       children: localeProperty.validValues!.map( locale => {
 
         // @ts-ignore - "Element implicitly has any type" because string cannot be used to access a type
-        return new Text( localeInfoModule[ locale ].localizedName, {
-          font: PreferencesDialog.CONTENT_FONT,
-          cursor: 'pointer',
-          inputListeners: [
-            new FireListener( {
-              fire: () => {
-                localeProperty.value = locale;
-              },
-
-              // TODO: PhET-iO instrumentation? https://github.com/phetsims/joist/issues/814
-              tandem: Tandem.OPT_OUT
-            } )
-          ]
-        } );
+        return new LanguageSelectionNode( locale );
       } )
     } );
 
     super( content );
+  }
+}
+
+/**
+ * Inner class for items of the Panel. Locales shown in their localized name wrapped in a Rectangle for highlighting
+ * and input listeners.
+ */
+class LanguageSelectionNode extends Rectangle {
+  private readonly disposeLanguageSelectionNode: () => void;
+
+  /**
+   * @param locale - locale code
+   */
+  public constructor( locale: string ) {
+
+    // @ts-ignore - "Element implicitly has any type" because string cannot be used to access a type
+    const text = new Text( localeInfoModule[ locale ].localizedName, {
+      font: PreferencesDialog.CONTENT_FONT
+    } );
+
+    super( text.bounds.dilated( 5 ), {
+      cursor: 'pointer',
+
+      // So that the item is tab-navigable and can be activated with the FireListener
+      tagName: 'button'
+    } );
+    text.center = this.center;
+    this.addChild( text );
+
+    const fireListener = new FireListener( {
+      fire: () => {
+        localeProperty.value = locale;
+      },
+
+      // TODO: PhET-iO instrumentation? https://github.com/phetsims/joist/issues/814
+      tandem: Tandem.OPT_OUT
+    } );
+    this.addInputListener( fireListener );
+
+    // Will be unlinked with FireListener disposal
+    fireListener.isOverProperty.link( isOver => {
+
+      // makes the mouse interactive
+      this.stroke = isOver ? HighlightOverlay.getInnerGroupHighlightColor() : null;
+    } );
+
+    const localeListener = ( selectedLocale: string ) => {
+
+      // identifies the selected locale
+      this.fill = selectedLocale === locale ? PhetColorScheme.PHET_LOGO_BLUE : null;
+    };
+    localeProperty.link( localeListener );
+
+    this.disposeLanguageSelectionNode = () => {
+      localeProperty.unlink( localeListener );
+      this.removeInputListener( fireListener );
+      fireListener.dispose();
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeLanguageSelectionNode();
+    super.dispose();
   }
 }
 
