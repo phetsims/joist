@@ -19,7 +19,6 @@ import Dialog, { DialogOptions } from '../../../sun/js/Dialog.js';
 import HSeparator from '../../../sun/js/HSeparator.js';
 import soundManager from '../../../tambo/js/soundManager.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import audioManager from '../audioManager.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesModel from './PreferencesModel.js';
@@ -101,7 +100,7 @@ class PreferencesDialog extends Dialog {
     const supportedTabs = [];
     supportedTabs.push( PreferencesTab.GENERAL ); // There is always a "General" tab
     preferencesModel.supportsVisualPreferences() && supportedTabs.push( PreferencesTab.VISUAL );
-    preferencesModel.supportsAudioPreferences() && audioManager.supportsAudio && supportedTabs.push( PreferencesTab.AUDIO );
+    preferencesModel.supportsAudioPreferences() && supportedTabs.push( PreferencesTab.AUDIO );
     preferencesModel.supportsInputPreferences() && supportedTabs.push( PreferencesTab.INPUT );
     preferencesModel.supportsLocalizationPreferences() && supportedTabs.push( PreferencesTab.LOCALIZATION );
     assert && assert( supportedTabs.length > 0, 'Trying to create a PreferencesDialog with no tabs, check PreferencesConfiguration' );

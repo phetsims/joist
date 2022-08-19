@@ -95,10 +95,12 @@ class PreferencesModel extends PhetioObject {
       } )
     };
 
+    // audioManager must support audio for any of the sub-features of audio to be supported
+    const supportsAudio = audioManager.supportsAudio;
     this.audioModel = {
-      supportsVoicing: preferencesConfiguration.audioOptions.supportsVoicing,
-      supportsSound: preferencesConfiguration.audioOptions.supportsSound,
-      supportsExtraSound: preferencesConfiguration.audioOptions.supportsExtraSound,
+      supportsVoicing: preferencesConfiguration.audioOptions.supportsVoicing && supportsAudio,
+      supportsSound: preferencesConfiguration.audioOptions.supportsSound && supportsAudio,
+      supportsExtraSound: preferencesConfiguration.audioOptions.supportsExtraSound && supportsAudio,
 
       simSoundEnabledProperty: audioManager.audioEnabledProperty,
       soundEnabledProperty: soundManager.enabledProperty,
