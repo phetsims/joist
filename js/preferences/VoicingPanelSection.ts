@@ -95,10 +95,9 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
   /**
    * @param audioModel - configuration for audio settings, see PreferencesModel
-   * @param toolbarEnabledProperty - whether the Toolbar is enabled for use
    * @param [providedOptions]
    */
-  public constructor( audioModel: AudioModel, toolbarEnabledProperty: Property<boolean>, providedOptions?: VoicingPanelSectionOptions ) {
+  public constructor( audioModel: AudioModel, providedOptions?: VoicingPanelSectionOptions ) {
 
     // the checkbox is the title for the section and totally enables/disables the feature
     const voicingLabel = new Text( voicingLabelString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
@@ -115,7 +114,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
     // checkbox for the toolbar
     const quickAccessLabel = new Text( toolbarLabelString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
-    const toolbarEnabledSwitch = new PreferencesToggleSwitch<boolean>( toolbarEnabledProperty, false, true, {
+    const toolbarEnabledSwitch = new PreferencesToggleSwitch<boolean>( audioModel.toolbarEnabledProperty, false, true, {
       labelNode: quickAccessLabel,
       a11yLabel: toolbarLabelString,
       leftValueContextResponse: toolbarRemovedString,

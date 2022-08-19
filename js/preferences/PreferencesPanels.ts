@@ -75,7 +75,7 @@ class PreferencesPanels extends Node {
 
     let audioPreferencesPanel: Node | null = null;
     if ( supportedTabs.includes( PreferencesDialog.PreferencesTab.AUDIO ) ) {
-      audioPreferencesPanel = new AudioPreferencesPanel( preferencesModel.audioModel, preferencesModel.toolbarEnabledProperty );
+      audioPreferencesPanel = new AudioPreferencesPanel( preferencesModel.audioModel );
       const audioBox = panelAlignGroup.createBox( audioPreferencesPanel );
       this.addChild( audioBox );
       this.content.push( new PreferencesPanelContainer( audioPreferencesPanel, PreferencesDialog.PreferencesTab.AUDIO ) );

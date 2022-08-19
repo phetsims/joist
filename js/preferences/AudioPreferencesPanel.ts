@@ -6,7 +6,6 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import Property from '../../../axon/js/Property.js';
 import { HBox, Node, Text, VBox, VBoxOptions } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
@@ -24,15 +23,14 @@ class AudioPreferencesTabPanel extends VBox {
 
   /**
    * @param audioModel - configuration for audio settings, see PreferencesModel
-   * @param enableToolbarProperty - whether the Toolbar is enabled
    * @param [providedOptions]
    */
-  public constructor( audioModel: AudioModel, enableToolbarProperty: Property<boolean>, providedOptions?: VBoxOptions ) {
+  public constructor( audioModel: AudioModel, providedOptions?: VBoxOptions ) {
 
     const panelChildren: Node[] = [];
 
     if ( audioModel.supportsVoicing ) {
-      panelChildren.push( new VoicingPanelSection( audioModel, enableToolbarProperty ) );
+      panelChildren.push( new VoicingPanelSection( audioModel ) );
     }
 
     if ( audioModel.supportsSound ) {

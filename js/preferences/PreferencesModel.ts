@@ -43,6 +43,9 @@ export type AudioModel = {
   voicePitchProperty: NumberProperty;
   voiceRateProperty: NumberProperty;
   voiceProperty: Property<null | SpeechSynthesisVoice>;
+
+  // Whether the Sim Toolbar is enabled, which gives quick access to Voicing controls and features.
+  toolbarEnabledProperty: Property<boolean>;
 } & Required<AudioPreferencesOptions>;
 
 export type InputModel = {
@@ -64,11 +67,6 @@ export type LocalizationModel = {
 type PreferencesModelOptions = PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 class PreferencesModel extends PhetioObject {
-
-  // Whether the Sim Toolbar is enabled, which gives quick access to various controls for the simulation or
-  // active screen.
-  public readonly toolbarEnabledProperty = new BooleanProperty( true );
-
   public readonly generalModel: GeneralModel;
   public readonly visualModel: VisualModel;
   public readonly audioModel: AudioModel;
@@ -113,7 +111,9 @@ class PreferencesModel extends PhetioObject {
       voicingHintResponsesEnabledProperty: responseCollector.hintResponsesEnabledProperty,
       voicePitchProperty: voicingManager.voicePitchProperty,
       voiceRateProperty: voicingManager.voiceRateProperty,
-      voiceProperty: voicingManager.voiceProperty
+      voiceProperty: voicingManager.voiceProperty,
+
+      toolbarEnabledProperty: new BooleanProperty( true )
     };
 
     this.localizationModel = {
