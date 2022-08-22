@@ -12,9 +12,8 @@
 import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { KeyboardUtils, Node, Text } from '../../../scenery/js/imports.js';
+import { KeyboardUtils, Text, VBox, VDivider } from '../../../scenery/js/imports.js';
 import Dialog, { DialogOptions } from '../../../sun/js/Dialog.js';
-import HSeparator from '../../../sun/js/HSeparator.js';
 import soundManager from '../../../tambo/js/soundManager.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
@@ -110,15 +109,19 @@ class PreferencesDialog extends Dialog {
     } );
 
     // visual separator between tabs and panels - as long as the widest separated content, which may change with i18n
-    const tabPanelSeparator = new HSeparator( Math.max( preferencesPanels.width, preferencesTabs.width ), { lineWidth: 1 } );
 
-    const content = new Node( {
-      children: [ preferencesTabs, tabPanelSeparator, preferencesPanels ]
+    const content = new VBox( {
+      children: [
+        preferencesTabs,
+        new VDivider( {
+          layoutOptions: {
+            bottomMargin: 20,
+            stretch: true
+          }
+        } ),
+        preferencesPanels
+      ]
     } );
-
-    // layout
-    tabPanelSeparator.centerTop = preferencesTabs.centerBottom;
-    preferencesPanels.centerTop = tabPanelSeparator.centerBottom.plusXY( 0, 20 );
 
     // sound generation for tab switching
     const tabSwitchSoundGenerator = new PreferencesTabSwitchSoundGenerator( selectedTabProperty, {

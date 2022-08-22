@@ -14,16 +14,18 @@ import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import globeSolidShape from '../../../sherpa/js/fontawesome-5/globeSolidShape.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { FocusHighlightPath, HBox, KeyboardUtils, Line, Node, NodeOptions, Path, PressListener, Rectangle, SceneryEvent, Text, Voicing } from '../../../scenery/js/imports.js';
+import { FocusHighlightPath, HBox, HBoxOptions, KeyboardUtils, Line, Node, Path, PressListener, Rectangle, SceneryEvent, Text, Voicing } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesType from './PreferencesType.js';
 
-type PreferencesTabsOptions = NodeOptions;
+type SelfOptions = EmptySelfOptions;
 
-class PreferencesTabs extends Node {
+export type PreferencesTabsOptions = HBoxOptions;
+
+class PreferencesTabs extends HBox {
 
 
   //  A reference to the selected and focusable tab content so that we can determine which
@@ -34,12 +36,13 @@ class PreferencesTabs extends Node {
   private readonly disposePreferencesTabs: () => void;
 
   public constructor( supportedTabs: PreferencesType[], selectedPanelProperty: TProperty<PreferencesType>, providedOptions?: PreferencesTabsOptions ) {
-    const options = optionize<PreferencesTabsOptions, EmptySelfOptions, NodeOptions>()( {
+    const options = optionize<PreferencesTabsOptions, SelfOptions, HBoxOptions>()( {
 
       // pdom
       tagName: 'ul',
       ariaRole: 'tablist',
-      groupFocusHighlight: true
+      groupFocusHighlight: true,
+      spacing: 10
     }, providedOptions );
 
     super( options );
@@ -77,12 +80,7 @@ class PreferencesTabs extends Node {
       } ) );
     }
 
-    for ( let i = 0; i < this.content.length; i++ ) {
-      this.addChild( this.content[ i ] );
-      if ( this.content[ i - 1 ] ) {
-        this.content[ i ].leftCenter = this.content[ i - 1 ].rightCenter.plusXY( 10, 0 );
-      }
-    }
+    this.children = this.content;
 
     // pdom - keyboard support to move through tabs with arrow keys
     const keyboardListener = {

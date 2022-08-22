@@ -15,15 +15,11 @@ import joistStrings from '../joistStrings.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-
-// constants
-const projectorModeString = joistStrings.projectorMode;
-const labelledDescriptionPatternString = joistStrings.a11y.preferences.tabs.labelledDescriptionPattern;
-const projectorModeDescriptionString = joistStrings.preferences.tabs.visual.projectorModeDescription;
+import Multilink from '../../../axon/js/Multilink.js';
 
 type SelfOptions = EmptySelfOptions;
 type ParentOptions = PreferencesToggleSwitchOptions;
-type ProjectorModeToggleSwitchOptions = SelfOptions & StrictOmit<ParentOptions, 'labelNode' | 'descriptionNode'>;
+export type ProjectorModeToggleSwitchOptions = SelfOptions & StrictOmit<ParentOptions, 'labelNode' | 'descriptionNode'>;
 
 class ProjectorModeToggleSwitch extends PreferencesToggleSwitch<string> {
   public constructor( providedOptions?: ProjectorModeToggleSwitchOptions ) {
@@ -34,11 +30,17 @@ class ProjectorModeToggleSwitch extends PreferencesToggleSwitch<string> {
     phet.chipper.colorProfiles[ 0 ] !== phet.chipper.colorProfiles[ 1 ],
       'ProjectorModeToggleSwitch requires sims that support the projector color profile and one other color profile' );
 
-    const projectorModeLabel = new VoicingText( projectorModeString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
-    const projectorModeDescription = new VoicingText( projectorModeDescriptionString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
-    projectorModeDescription.readingBlockNameResponse = StringUtils.fillIn( labelledDescriptionPatternString, {
-      label: projectorModeString,
-      description: projectorModeDescriptionString
+    const projectorModeLabel = new VoicingText( joistStrings.projectorModeProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
+    const projectorModeDescription = new VoicingText( joistStrings.preferences.tabs.visual.projectorModeDescriptionProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
+    Multilink.multilink( [
+      joistStrings.a11y.preferences.tabs.labelledDescriptionPatternProperty,
+      joistStrings.projectorModeProperty,
+      joistStrings.preferences.tabs.visual.projectorModeDescriptionProperty
+    ], ( labelledDescriptionPatternString, projectorModeString, projectorModeDescriptionString ) => {
+      projectorModeDescription.readingBlockNameResponse = StringUtils.fillIn( labelledDescriptionPatternString, {
+        label: projectorModeString,
+        description: projectorModeDescriptionString
+      } );
     } );
 
     const options = optionize<ProjectorModeToggleSwitchOptions, SelfOptions, ParentOptions>()( {
