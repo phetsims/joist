@@ -27,7 +27,7 @@ export type VisualPreferencesOptions = {
   // Whether the sim supports projector mode and a toggle switch to enable it in the PreferencesDialog.
   supportsProjectorMode?: boolean;
 
-  // whether or not the sim supports the "Interactive Highlights" feature, and checkbox to enable in the
+  // whether the sim supports the "Interactive Highlights" feature, and checkbox to enable in the
   // Preferences Dialog
   supportsInteractiveHighlights?: boolean;
 };
@@ -39,7 +39,7 @@ export type AudioPreferencesOptions = {
   // when running with english locales, accessibility strings are not made available for translation yet.
   supportsVoicing?: boolean;
 
-  // Whether or not to include checkboxes related to sound and extra sound. supportsExtraSound can only be
+  // Whether to include checkboxes related to sound and extra sound. supportsExtraSound can only be
   // included if supportsSound is also true.
   supportsSound?: boolean;
   supportsExtraSound?: boolean;
@@ -47,7 +47,7 @@ export type AudioPreferencesOptions = {
 
 export type InputPreferencesOptions = {
 
-  // Whether or not to include "gesture" controls
+  // Whether to include "gesture" controls
   supportsGestureControl?: boolean;
 };
 

@@ -86,7 +86,7 @@ class PhetMenu extends Node {
         phetioReadOnly: true
       },
 
-      // pdom, tagname and role for content in the menu
+      // pdom, tagName and role for content in the menu
       tagName: 'ul',
       ariaRole: 'menu'
     }, providedOptions );
@@ -376,7 +376,7 @@ class PhetMenu extends Node {
 
         const key = KeyboardUtils.getEventCode( domEvent );
 
-        // this attempts to prevents the scren reader's virtual cursor from also moving with the arrow keys
+        // this attempts to prevent the screen reader's virtual cursor from also moving with the arrow keys
         if ( KeyboardUtils.isArrowKey( domEvent ) ) {
           domEvent!.preventDefault();
         }

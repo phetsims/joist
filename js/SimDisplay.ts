@@ -56,7 +56,7 @@ export default class SimDisplay extends Display {
       webgl: SimDisplay.DEFAULT_WEBGL,
 
       // {boolean} - Whether to allow WebGL 2x scaling when antialiasing is detected. If running out of memory on
-      // things like iPad 2s (e.g. https://github.com/phetsims/scenery/issues/859), this can be turned to false to help.
+      // things like iPad 2s (e.g. https://github.com/phetsims/scenery/issues/859), this can be turned to false.
       allowBackingScaleAntialiasing: true,
 
       // prevent overflow that can cause iOS bugginess, see https://github.com/phetsims/phet-io/issues/341
@@ -116,7 +116,7 @@ export default class SimDisplay extends Display {
     this.simulationRoot = new Node();
     this.rootNode.addChild( this.simulationRoot );
 
-    // Seeding by default a random value for reproducable fuzzes if desired
+    // Seeding by default a random value for reproducible fuzzes if desired
     const fuzzerSeed = phet.chipper.queryParameters.randomSeed * Math.PI;
 
     this.inputFuzzer = new InputFuzzer( this, fuzzerSeed );
