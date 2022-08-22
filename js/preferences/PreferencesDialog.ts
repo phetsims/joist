@@ -10,8 +10,6 @@
  */
 
 import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
-import Enumeration from '../../../phet-core/js/Enumeration.js';
-import EnumerationValue from '../../../phet-core/js/EnumerationValue.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { KeyboardUtils, Node, Text } from '../../../scenery/js/imports.js';
@@ -25,6 +23,7 @@ import PreferencesModel from './PreferencesModel.js';
 import PreferencesPanels from './PreferencesPanels.js';
 import PreferencesTabs from './PreferencesTabs.js';
 import PreferencesTabSwitchSoundGenerator from './PreferencesTabSwitchSoundGenerator.js';
+import PreferencesType from './PreferencesType.js';
 
 // constants
 const TITLE_FONT = new PhetFont( { size: 24, weight: 'bold' } );
@@ -49,17 +48,6 @@ const PANEL_SECTION_LABEL_OPTIONS = {
   font: PANEL_SECTION_LABEL_FONT,
   maxWidth: PANEL_SECTION_LABEL_MAX_WIDTH
 };
-
-// tabs available in this Dialog
-export class PreferencesTab extends EnumerationValue {
-  public static GENERAL = new PreferencesTab();
-  public static VISUAL = new PreferencesTab();
-  public static AUDIO = new PreferencesTab();
-  public static INPUT = new PreferencesTab();
-  public static LOCALIZATION = new PreferencesTab();
-
-  public static enumeration = new Enumeration( PreferencesTab );
-}
 
 type PreferencesDialogOptions = DialogOptions;
 
@@ -98,15 +86,15 @@ class PreferencesDialog extends Dialog {
 
     // determine which tabs will be supported in this Dialog, true if any entry in a configuration has content
     const supportedTabs = [];
-    supportedTabs.push( PreferencesTab.GENERAL ); // There is always a "General" tab
-    preferencesModel.supportsVisualPreferences() && supportedTabs.push( PreferencesTab.VISUAL );
-    preferencesModel.supportsAudioPreferences() && supportedTabs.push( PreferencesTab.AUDIO );
-    preferencesModel.supportsInputPreferences() && supportedTabs.push( PreferencesTab.INPUT );
-    preferencesModel.supportsLocalizationPreferences() && supportedTabs.push( PreferencesTab.LOCALIZATION );
+    supportedTabs.push( PreferencesType.GENERAL ); // There is always a "General" tab
+    preferencesModel.supportsVisualPreferences() && supportedTabs.push( PreferencesType.VISUAL );
+    preferencesModel.supportsAudioPreferences() && supportedTabs.push( PreferencesType.AUDIO );
+    preferencesModel.supportsInputPreferences() && supportedTabs.push( PreferencesType.INPUT );
+    preferencesModel.supportsLocalizationPreferences() && supportedTabs.push( PreferencesType.LOCALIZATION );
     assert && assert( supportedTabs.length > 0, 'Trying to create a PreferencesDialog with no tabs, check PreferencesModel' );
 
-    // the selected PreferencesTab, indicating which tab is visible in the Dialog
-    const selectedTabProperty = new EnumerationProperty( PreferencesTab.GENERAL, {
+    // the selected PreferencesType, indicating which tab is visible in the Dialog
+    const selectedTabProperty = new EnumerationProperty( PreferencesType.GENERAL, {
       validValues: supportedTabs,
       tandem: options.tandem.createTandem( 'selectedTabProperty' ),
       phetioState: false,
@@ -187,8 +175,6 @@ class PreferencesDialog extends Dialog {
     this.disposePreferencesDialog();
     super.dispose();
   }
-
-  public static PreferencesTab = PreferencesTab;
 
   public static readonly TAB_FONT = TAB_FONT;
   public static readonly TAB_OPTIONS = TAB_OPTIONS;

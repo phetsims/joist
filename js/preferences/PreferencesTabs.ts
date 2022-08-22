@@ -18,7 +18,8 @@ import { FocusHighlightPath, HBox, KeyboardUtils, Line, Node, NodeOptions, Path,
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
-import PreferencesDialog, { PreferencesTab } from './PreferencesDialog.js';
+import PreferencesDialog from './PreferencesDialog.js';
+import PreferencesType from './PreferencesType.js';
 
 type PreferencesTabsOptions = NodeOptions;
 
@@ -28,11 +29,11 @@ class PreferencesTabs extends Node {
   //  A reference to the selected and focusable tab content so that we can determine which
   // tab is next in order when cycling through with alternative input.
   private selectedButton: Node | null = null;
-  private readonly selectedPanelProperty: TProperty<PreferencesTab>;
+  private readonly selectedPanelProperty: TProperty<PreferencesType>;
   private readonly content: Tab[] = [];
   private readonly disposePreferencesTabs: () => void;
 
-  public constructor( supportedTabs: PreferencesTab[], selectedPanelProperty: TProperty<PreferencesTab>, providedOptions?: PreferencesTabsOptions ) {
+  public constructor( supportedTabs: PreferencesType[], selectedPanelProperty: TProperty<PreferencesType>, providedOptions?: PreferencesTabsOptions ) {
     const options = optionize<PreferencesTabsOptions, EmptySelfOptions, NodeOptions>()( {
 
       // pdom
@@ -45,28 +46,28 @@ class PreferencesTabs extends Node {
 
     this.selectedPanelProperty = selectedPanelProperty;
 
-    const isTabSupported = ( preferencesTab: PreferencesTab ) => _.includes( supportedTabs, preferencesTab );
+    const isTabSupported = ( preferencesType: PreferencesType ) => _.includes( supportedTabs, preferencesType );
 
-    if ( isTabSupported( PreferencesDialog.PreferencesTab.GENERAL ) ) {
-      this.content.push( new Tab( joistStrings.preferences.tabs.general.titleProperty, selectedPanelProperty, PreferencesDialog.PreferencesTab.GENERAL ) );
+    if ( isTabSupported( PreferencesType.GENERAL ) ) {
+      this.content.push( new Tab( joistStrings.preferences.tabs.general.titleProperty, selectedPanelProperty, PreferencesType.GENERAL ) );
     }
-    if ( isTabSupported( PreferencesDialog.PreferencesTab.VISUAL ) ) {
-      this.content.push( new Tab( joistStrings.preferences.tabs.visual.titleProperty, selectedPanelProperty, PreferencesDialog.PreferencesTab.VISUAL ) );
+    if ( isTabSupported( PreferencesType.VISUAL ) ) {
+      this.content.push( new Tab( joistStrings.preferences.tabs.visual.titleProperty, selectedPanelProperty, PreferencesType.VISUAL ) );
     }
-    if ( isTabSupported( PreferencesDialog.PreferencesTab.AUDIO ) ) {
-      this.content.push( new Tab( joistStrings.preferences.tabs.audio.titleProperty, selectedPanelProperty, PreferencesDialog.PreferencesTab.AUDIO ) );
+    if ( isTabSupported( PreferencesType.AUDIO ) ) {
+      this.content.push( new Tab( joistStrings.preferences.tabs.audio.titleProperty, selectedPanelProperty, PreferencesType.AUDIO ) );
     }
-    if ( isTabSupported( PreferencesDialog.PreferencesTab.INPUT ) ) {
-
-      // NOT translatable yet because these are not in any published sim and not viewable in-sim by translators.
-      // When ready to publish, move to translatable strings.
-      this.content.push( new Tab( new TinyProperty( 'Input' ), selectedPanelProperty, PreferencesDialog.PreferencesTab.INPUT ) );
-    }
-    if ( isTabSupported( PreferencesDialog.PreferencesTab.LOCALIZATION ) ) {
+    if ( isTabSupported( PreferencesType.INPUT ) ) {
 
       // NOT translatable yet because these are not in any published sim and not viewable in-sim by translators.
       // When ready to publish, move to translatable strings.
-      this.content.push( new Tab( new TinyProperty( 'Localization' ), selectedPanelProperty, PreferencesDialog.PreferencesTab.LOCALIZATION, {
+      this.content.push( new Tab( new TinyProperty( 'Input' ), selectedPanelProperty, PreferencesType.INPUT ) );
+    }
+    if ( isTabSupported( PreferencesType.LOCALIZATION ) ) {
+
+      // NOT translatable yet because these are not in any published sim and not viewable in-sim by translators.
+      // When ready to publish, move to translatable strings.
+      this.content.push( new Tab( new TinyProperty( 'Localization' ), selectedPanelProperty, PreferencesType.LOCALIZATION, {
 
         // Display a globe icon next to the localization label
         iconNode: new Path( globeSolidShape, {
@@ -167,16 +168,16 @@ type TabOptions = {
  */
 class Tab extends Voicing( Node ) {
 
-  public readonly value: PreferencesTab;
+  public readonly value: PreferencesType;
   private readonly disposeTab: () => void;
 
   /**
    * @param label - text label for the tab
    * @param property
-   * @param value - PreferencesTab shown when this tab is selected
+   * @param value - PreferencesType shown when this tab is selected
    * @param providedOptions
    */
-  public constructor( label: TReadOnlyProperty<string>, property: TProperty<PreferencesTab>, value: PreferencesTab, providedOptions?: TabOptions ) {
+  public constructor( label: TReadOnlyProperty<string>, property: TProperty<PreferencesType>, value: PreferencesType, providedOptions?: TabOptions ) {
 
     const options = optionize<TabOptions>()( {
       iconNode: null

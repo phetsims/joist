@@ -16,11 +16,11 @@ import joist from '../joist.js';
 import AudioPreferencesPanel from './AudioPreferencesPanel.js';
 import GeneralPreferencesPanel from './GeneralPreferencesPanel.js';
 import InputPreferencesPanel from './InputPreferencesPanel.js';
-import PreferencesDialog, { PreferencesTab } from './PreferencesDialog.js';
 import VisualPreferencesPanel from './VisualPreferencesPanel.js';
 import PreferencesModel from './PreferencesModel.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import LocalizationPreferencesPanel from './LocalizationPreferencesPanel.js';
+import PreferencesType from './PreferencesType.js';
 
 type SelfOptions = EmptySelfOptions;
 type PreferencesPanelsOptions = SelfOptions & NodeOptions;
@@ -31,7 +31,7 @@ class PreferencesPanels extends Node {
   private readonly content: PreferencesPanelContainer[] = [];
 
   // Property controlling the selected tab, so we can control which panel should be visible.
-  private readonly selectedTabProperty: TReadOnlyProperty<PreferencesTab>;
+  private readonly selectedTabProperty: TReadOnlyProperty<PreferencesType>;
 
   private readonly disposePreferencesPanel: () => void;
 
@@ -41,7 +41,7 @@ class PreferencesPanels extends Node {
    * @param selectedTabProperty
    * @param [providedOptions]
    */
-  public constructor( preferencesModel: PreferencesModel, supportedTabs: PreferencesTab[], selectedTabProperty: TReadOnlyProperty<PreferencesTab>, providedOptions?: PreferencesPanelsOptions ) {
+  public constructor( preferencesModel: PreferencesModel, supportedTabs: PreferencesType[], selectedTabProperty: TReadOnlyProperty<PreferencesType>, providedOptions?: PreferencesPanelsOptions ) {
     const options = optionize<PreferencesPanelsOptions, SelfOptions, NodeOptions>()( {
       tandem: Tandem.REQUIRED, // To support the general tab
       phetioVisiblePropertyInstrumented: false
@@ -56,54 +56,54 @@ class PreferencesPanels extends Node {
     } );
 
     let generalPreferencesPanel: Node | null = null;
-    if ( supportedTabs.includes( PreferencesDialog.PreferencesTab.GENERAL ) ) {
+    if ( supportedTabs.includes( PreferencesType.GENERAL ) ) {
       generalPreferencesPanel = new GeneralPreferencesPanel( preferencesModel.generalModel, {
         tandem: options.tandem.createTandem( 'generalPreferencesPanel' )
       } );
       const generalBox = panelAlignGroup.createBox( generalPreferencesPanel );
       this.addChild( generalBox );
-      this.content.push( new PreferencesPanelContainer( generalPreferencesPanel, PreferencesDialog.PreferencesTab.GENERAL ) );
+      this.content.push( new PreferencesPanelContainer( generalPreferencesPanel, PreferencesType.GENERAL ) );
     }
 
     let visualPreferencesPanel: Node | null = null;
-    if ( supportedTabs.includes( PreferencesDialog.PreferencesTab.VISUAL ) ) {
+    if ( supportedTabs.includes( PreferencesType.VISUAL ) ) {
       visualPreferencesPanel = new VisualPreferencesPanel( preferencesModel.visualModel );
       const visualBox = panelAlignGroup.createBox( visualPreferencesPanel );
       this.addChild( visualBox );
-      this.content.push( new PreferencesPanelContainer( visualPreferencesPanel, PreferencesDialog.PreferencesTab.VISUAL ) );
+      this.content.push( new PreferencesPanelContainer( visualPreferencesPanel, PreferencesType.VISUAL ) );
     }
 
     let audioPreferencesPanel: Node | null = null;
-    if ( supportedTabs.includes( PreferencesDialog.PreferencesTab.AUDIO ) ) {
+    if ( supportedTabs.includes( PreferencesType.AUDIO ) ) {
       audioPreferencesPanel = new AudioPreferencesPanel( preferencesModel.audioModel );
       const audioBox = panelAlignGroup.createBox( audioPreferencesPanel );
       this.addChild( audioBox );
-      this.content.push( new PreferencesPanelContainer( audioPreferencesPanel, PreferencesDialog.PreferencesTab.AUDIO ) );
+      this.content.push( new PreferencesPanelContainer( audioPreferencesPanel, PreferencesType.AUDIO ) );
     }
 
     let inputPreferencesPanel: Node | null = null;
-    if ( supportedTabs.includes( PreferencesDialog.PreferencesTab.INPUT ) ) {
+    if ( supportedTabs.includes( PreferencesType.INPUT ) ) {
       inputPreferencesPanel = new InputPreferencesPanel( preferencesModel.inputModel );
       const inputBox = panelAlignGroup.createBox( inputPreferencesPanel );
       this.addChild( inputBox );
-      this.content.push( new PreferencesPanelContainer( inputPreferencesPanel, PreferencesDialog.PreferencesTab.INPUT ) );
+      this.content.push( new PreferencesPanelContainer( inputPreferencesPanel, PreferencesType.INPUT ) );
     }
 
     let localizationPreferencesPanel: Node | null = null;
-    if ( supportedTabs.includes( PreferencesDialog.PreferencesTab.LOCALIZATION ) ) {
+    if ( supportedTabs.includes( PreferencesType.LOCALIZATION ) ) {
       localizationPreferencesPanel = new LocalizationPreferencesPanel( preferencesModel.localizationModel );
       const localizationBox = panelAlignGroup.createBox( localizationPreferencesPanel );
       this.addChild( localizationBox );
-      this.content.push( new PreferencesPanelContainer( localizationPreferencesPanel, PreferencesDialog.PreferencesTab.LOCALIZATION ) );
+      this.content.push( new PreferencesPanelContainer( localizationPreferencesPanel, PreferencesType.LOCALIZATION ) );
     }
 
     // display the selected panel
     selectedTabProperty.link( tab => {
-      generalPreferencesPanel && ( generalPreferencesPanel.visible = tab === PreferencesDialog.PreferencesTab.GENERAL );
-      visualPreferencesPanel && ( visualPreferencesPanel.visible = tab === PreferencesDialog.PreferencesTab.VISUAL );
-      audioPreferencesPanel && ( audioPreferencesPanel.visible = tab === PreferencesDialog.PreferencesTab.AUDIO );
-      inputPreferencesPanel && ( inputPreferencesPanel.visible = tab === PreferencesDialog.PreferencesTab.INPUT );
-      localizationPreferencesPanel && ( localizationPreferencesPanel.visible = tab === PreferencesDialog.PreferencesTab.LOCALIZATION );
+      generalPreferencesPanel && ( generalPreferencesPanel.visible = tab === PreferencesType.GENERAL );
+      visualPreferencesPanel && ( visualPreferencesPanel.visible = tab === PreferencesType.VISUAL );
+      audioPreferencesPanel && ( audioPreferencesPanel.visible = tab === PreferencesType.AUDIO );
+      inputPreferencesPanel && ( inputPreferencesPanel.visible = tab === PreferencesType.INPUT );
+      localizationPreferencesPanel && ( localizationPreferencesPanel.visible = tab === PreferencesType.LOCALIZATION );
     } );
 
     this.disposePreferencesPanel = () => {
@@ -123,8 +123,8 @@ class PreferencesPanels extends Node {
   }
 
   /**
-   * Returns the visible content panel Node for the selected PreferencesTab.
-   * NOTE: Loop shouldn't be necessary, create a map that goes from PreferencesTab -> content.
+   * Returns the visible content panel Node for the selected PreferencesType.
+   * NOTE: Loop shouldn't be necessary, create a map that goes from PreferencesType -> content.
    */
   private getSelectedContent(): PreferencesPanelContainer | null {
     for ( let i = 0; i < this.content.length; i++ ) {
@@ -164,9 +164,9 @@ class PreferencesPanels extends Node {
  */
 class PreferencesPanelContainer extends Node {
   public readonly panelContent: Node;
-  public readonly selectedTabValue: PreferencesTab;
+  public readonly selectedTabValue: PreferencesType;
 
-  public constructor( panelContent: Node, selectedTabValue: PreferencesTab ) {
+  public constructor( panelContent: Node, selectedTabValue: PreferencesType ) {
     super();
 
     this.panelContent = panelContent;
