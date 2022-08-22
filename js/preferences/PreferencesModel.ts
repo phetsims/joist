@@ -6,22 +6,86 @@
  * @author Jesse Greenberg
  */
 
-import { voicingManager, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
+import { Node, voicingManager, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
 import responseCollector from '../../../utterance-queue/js/responseCollector.js';
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import joist from '../joist.js';
 import PreferencesStorage from './PreferencesStorage.js';
 import soundManager from '../../../tambo/js/soundManager.js';
 import audioManager from '../audioManager.js';
-import PreferencesConfiguration, { AudioPreferencesOptions, GeneralPreferencesOptions, InputPreferencesOptions, LocalizationPreferencesOptions, VisualPreferencesOptions } from './PreferencesConfiguration.js';
 import Property from '../../../axon/js/Property.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
-import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import localizationManager from './localizationManager.js';
+import localizationManager, { RegionAndCultureDescriptor } from './localizationManager.js';
 import SpeechSynthesisAnnouncer from '../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import localeProperty from '../localeProperty.js';
+
+type GeneralPreferencesOptions = {
+
+  // Creates any Node you would like on the "General" tab.
+  createSimControls?: ( ( tandem: Tandem ) => Node ) | null;
+};
+
+type VisualPreferencesOptions = {
+
+  // Whether the sim supports projector mode and a toggle switch to enable it in the PreferencesDialog.
+  supportsProjectorMode?: boolean;
+
+  // whether the sim supports the "Interactive Highlights" feature, and checkbox to enable in the
+  // Preferences Dialog
+  supportsInteractiveHighlights?: boolean;
+};
+
+type AudioPreferencesOptions = {
+
+  // The entry point for Voicing, and if true the sim will support Voicing and Voicing options in Preferences.
+  // The feature is only available on platforms where SpeechSynthesis is supported. For now, it is only available
+  // when running with english locales, accessibility strings are not made available for translation yet.
+  supportsVoicing?: boolean;
+
+  // Whether to include checkboxes related to sound and extra sound. supportsExtraSound can only be
+  // included if supportsSound is also true.
+  supportsSound?: boolean;
+  supportsExtraSound?: boolean;
+};
+
+type InputPreferencesOptions = {
+
+  // Whether to include "gesture" controls
+  supportsGestureControl?: boolean;
+};
+
+type LocalizationPreferencesOptions = {
+
+  // Whether to include a UI component that changes the sim language. Default for this in phetFeatures is true. But it
+  // is still only available when localeProperty indicates that more than one locale is available.
+  supportsMultipleLocales?: boolean;
+
+  // Describes the available artwork that can be used for different regions and cultures. If any descriptors are
+  // provided, the Localization tab will include a UI component to swap out pieces of artwork to match the selected
+  // region and culture. RegionAndCultureDescriptors contains information for the UI component to describe each choice.
+  regionAndCultureDescriptors?: RegionAndCultureDescriptor[];
+};
+
+type PreferencesModelSelfOptions = {
+
+  // configuration for controls in the "General" tab of the PreferencesDialog
+  generalOptions?: GeneralPreferencesOptions;
+
+  // configuration for controls in the "Visual" tab of the PreferencesDialog
+  visualOptions?: VisualPreferencesOptions;
+
+  // configuration for controls in the "Audio" tab of the PreferencesDialog
+  audioOptions?: AudioPreferencesOptions;
+
+  // configuration for controls in the "Input" tab of the PreferencesDialog
+  inputOptions?: InputPreferencesOptions;
+
+  // configuration for controls in the "Localization" tab of the PreferencesDialog
+  localizationOptions?: LocalizationPreferencesOptions;
+};
 
 export type GeneralModel = Required<GeneralPreferencesOptions>;
 
@@ -69,31 +133,64 @@ export type LocalizationModel = {
   regionAndCultureProperty: Property<number>;
 } & Required<LocalizationPreferencesOptions>;
 
-type PreferencesModelOptions = PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+export type PreferencesModelOptions = PreferencesModelSelfOptions & PhetioObjectOptions;
 
-class PreferencesModel extends PhetioObject {
+export default class PreferencesModel extends PhetioObject {
   public readonly generalModel: GeneralModel;
   public readonly visualModel: VisualModel;
   public readonly audioModel: AudioModel;
   public readonly inputModel: InputModel;
   public readonly localizationModel: LocalizationModel;
 
-  public constructor( preferencesConfiguration: PreferencesConfiguration, providedOptions?: PreferencesModelOptions ) {
+  public constructor( providedOptions?: PreferencesModelOptions ) {
+    providedOptions = providedOptions || {};
 
-    const options = optionize<PreferencesModelOptions, EmptySelfOptions, PhetioObjectOptions>()( {
-      tandem: Tandem.GENERAL_MODEL.createTandem( 'preferencesModel' ),
-      phetioState: false,
-      phetioReadOnly: true
-    }, providedOptions );
+    // initialize-globals uses package.json to determine defaults for features enabled by the sim and those defaults
+    // can be overwritten by query parameter.  So phet.chipper.queryParameters contains an accurate representation of
+    // which features are required.
+    const phetFeatures = phet.chipper.queryParameters;
+
+    // Multiple optionize calls + spread in one initialization site so that TypeScript has the correct type for nested
+    // options immediately, and we don't need multiple variables to achieve it.
+    const options = {
+
+      // Put the spread first so that nested options' defaults will correctly override
+      ...( optionize<PreferencesModelOptions, EmptySelfOptions, PhetioObjectOptions>()( {
+
+        // phet-io
+        tandem: Tandem.GENERAL_MODEL.createTandem( 'preferencesModel' ),
+        phetioState: false,
+        phetioReadOnly: true
+      }, providedOptions ) ),
+      generalOptions: optionize<GeneralPreferencesOptions>()( {
+        createSimControls: null
+      }, providedOptions.generalOptions ),
+      visualOptions: optionize<VisualPreferencesOptions>()( {
+        supportsProjectorMode: false,
+        supportsInteractiveHighlights: phetFeatures.supportsInteractiveHighlights
+      }, providedOptions.visualOptions ),
+      audioOptions: optionize<AudioPreferencesOptions>()( {
+        supportsVoicing: phetFeatures.supportsVoicing,
+        supportsSound: phetFeatures.supportsSound,
+        supportsExtraSound: phetFeatures.supportsExtraSound
+      }, providedOptions.audioOptions ),
+      inputOptions: optionize<InputPreferencesOptions>()( {
+        supportsGestureControl: phetFeatures.supportsGestureControl
+      }, providedOptions.inputOptions ),
+      localizationOptions: optionize<LocalizationPreferencesOptions>()( {
+        supportsMultipleLocales: !!localeProperty.validValues && localeProperty.validValues.length > 1,
+        regionAndCultureDescriptors: []
+      }, providedOptions.localizationOptions )
+    };
 
     super( options );
 
-    this.generalModel = preferencesConfiguration.generalOptions;
+    this.generalModel = options.generalOptions;
 
     const visualTandem = options.tandem.createTandem( 'visualModel' );
     this.visualModel = {
-      supportsInteractiveHighlights: preferencesConfiguration.visualOptions.supportsInteractiveHighlights,
-      supportsProjectorMode: preferencesConfiguration.visualOptions.supportsProjectorMode,
+      supportsInteractiveHighlights: options.visualOptions.supportsInteractiveHighlights,
+      supportsProjectorMode: options.visualOptions.supportsProjectorMode,
       interactiveHighlightsEnabledProperty: new BooleanProperty( false, {
         tandem: visualTandem.createTandem( 'interactiveHighlightsEnabledProperty' ),
         phetioState: false,
@@ -104,7 +201,7 @@ class PreferencesModel extends PhetioObject {
     // For now, the Voicing feature is only available when we are running in the english locale, accessibility
     // strings are not made available for translation.
     const simLocale = phet.chipper.locale || 'en';
-    const supportsVoicing = preferencesConfiguration.audioOptions.supportsVoicing && SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() && simLocale === 'en';
+    const supportsVoicing = options.audioOptions.supportsVoicing && SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() && simLocale === 'en';
 
     // Audio can be disabled explicitly via query parameter
     const audioEnabled = phet.chipper.queryParameters.audio !== 'disabled';
@@ -112,8 +209,8 @@ class PreferencesModel extends PhetioObject {
     this.audioModel = {
       supportsVoicing: supportsVoicing && audioEnabled,
 
-      supportsSound: preferencesConfiguration.audioOptions.supportsSound && audioEnabled,
-      supportsExtraSound: preferencesConfiguration.audioOptions.supportsExtraSound && audioEnabled,
+      supportsSound: options.audioOptions.supportsSound && audioEnabled,
+      supportsExtraSound: options.audioOptions.supportsExtraSound && audioEnabled,
 
       simSoundEnabledProperty: audioManager.audioEnabledProperty,
       soundEnabledProperty: soundManager.enabledProperty,
@@ -131,12 +228,27 @@ class PreferencesModel extends PhetioObject {
       toolbarEnabledProperty: new BooleanProperty( true )
     };
 
+    const inputTandem = options.tandem.createTandem( 'inputModel' );
+    this.inputModel = {
+      supportsGestureControl: options.inputOptions.supportsGestureControl,
+      gestureControlsEnabledProperty: new BooleanProperty( false, {
+        tandem: inputTandem.createTandem( 'gestureControlsEnabledProperty' ),
+        phetioState: false,
+        phetioReadOnly: true
+      } )
+    };
+
     this.localizationModel = {
-      supportsMultipleLocales: preferencesConfiguration.localizationOptions.supportsMultipleLocales,
+      supportsMultipleLocales: options.localizationOptions.supportsMultipleLocales,
 
       regionAndCultureProperty: localizationManager.regionAndCultureProperty,
-      regionAndCultureDescriptors: preferencesConfiguration.localizationOptions.regionAndCultureDescriptors
+      regionAndCultureDescriptors: options.localizationOptions.regionAndCultureDescriptors
     };
+
+
+    if ( this.audioModel.supportsExtraSound ) {
+      assert && assert( this.audioModel.supportsSound, 'supportsSound must be true to also support extraSound' );
+    }
 
     // Provide linked elements for already instrumented Properties to make PreferencesModel a one-stop shop to view preferences.
     const audioTandem = options.tandem.createTandem( 'audioModel' );
@@ -151,16 +263,6 @@ class PreferencesModel extends PhetioObject {
     this.addLinkedElement( this.audioModel.voicePitchProperty, { tandem: audioTandem.createTandem( 'voicePitchProperty' ) } );
     this.addLinkedElement( this.audioModel.voiceRateProperty, { tandem: audioTandem.createTandem( 'voiceRateProperty' ) } );
     this.addLinkedElement( this.audioModel.voiceProperty, { tandem: audioTandem.createTandem( 'voiceProperty' ) } );
-
-    const inputTandem = options.tandem.createTandem( 'inputModel' );
-    this.inputModel = {
-      supportsGestureControl: preferencesConfiguration.inputOptions.supportsGestureControl,
-      gestureControlsEnabledProperty: new BooleanProperty( false, {
-        tandem: inputTandem.createTandem( 'gestureControlsEnabledProperty' ),
-        phetioState: false,
-        phetioReadOnly: true
-      } )
-    };
 
     // Since voicingManager in Scenery can not use initialize-globals, set the initial value for whether Voicing is
     // enabled here in the PreferencesModel.
@@ -185,6 +287,11 @@ class PreferencesModel extends PhetioObject {
 
     if ( phet.chipper.queryParameters.printVoicingResponses ) {
       voicingManager.startSpeakingEmitter.addListener( text => console.log( text ) );
+    }
+
+    // The query parameter will always override the PreferencesModel option.
+    if ( QueryStringMachine.containsKey( 'supportsMultipleLocales' ) ) {
+      this.localizationModel.supportsMultipleLocales = phetFeatures.supportsMultipleLocales;
     }
 
     this.registerPreferencesStorage();
@@ -271,4 +378,3 @@ class PreferencesModel extends PhetioObject {
 }
 
 joist.register( 'PreferencesModel', PreferencesModel );
-export default PreferencesModel;

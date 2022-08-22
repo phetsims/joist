@@ -103,7 +103,7 @@ class PreferencesDialog extends Dialog {
     preferencesModel.supportsAudioPreferences() && supportedTabs.push( PreferencesTab.AUDIO );
     preferencesModel.supportsInputPreferences() && supportedTabs.push( PreferencesTab.INPUT );
     preferencesModel.supportsLocalizationPreferences() && supportedTabs.push( PreferencesTab.LOCALIZATION );
-    assert && assert( supportedTabs.length > 0, 'Trying to create a PreferencesDialog with no tabs, check PreferencesConfiguration' );
+    assert && assert( supportedTabs.length > 0, 'Trying to create a PreferencesDialog with no tabs, check PreferencesModel' );
 
     // the selected PreferencesTab, indicating which tab is visible in the Dialog
     const selectedTabProperty = new EnumerationProperty( PreferencesTab.GENERAL, {

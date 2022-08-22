@@ -60,7 +60,6 @@ import SimInfo from './SimInfo.js';
 import LegendsOfLearningSupport from './thirdPartySupport/LegendsOfLearningSupport.js';
 import Toolbar from './toolbar/Toolbar.js';
 import updateCheck from './updateCheck.js';
-import PreferencesConfiguration from './preferences/PreferencesConfiguration.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import { CreditsData } from './CreditsNode.js';
 import { PopupableNode } from '../../sun/js/Popupable.js';
@@ -102,9 +101,9 @@ type SelfOptions = {
   // content. This content is specific to each screen, see Screen.keyboardHelpNode for more info.
   hasKeyboardHelpContent?: boolean;
 
-  // The PreferencesConfiguration defines the available features for the simulation that are controllable
+  // The PreferencesModel defines the available features for the simulation that are controllable
   // through the Preferences Dialog.
-  preferencesConfiguration?: PreferencesConfiguration;
+  preferencesModel?: PreferencesModel;
 
   // Passed to SimDisplay, but a top level option for API ease.
   webgl?: boolean;
@@ -220,11 +219,11 @@ export default class Sim extends PhetioObject {
   private readonly simInfo: SimInfo;
   public readonly display: SimDisplay;
 
-  // The Toolbar is not created unless requested with a PreferencesConfiguration.
+  // The Toolbar is not created unless requested with a PreferencesModel.
   private readonly toolbar: Toolbar | null = null;
 
   // Manages state related to preferences. Enabled features for preferences are provided through the
-  // PreferencesConfiguration.
+  // PreferencesModel.
   public readonly preferencesModel: PreferencesModel;
 
   // list of nodes that are "modal" and hence block input with the barrierRectangle.  Used by modal dialogs
@@ -282,10 +281,10 @@ export default class Sim extends PhetioObject {
       // content. This content is specific to each screen, see Screen.keyboardHelpNode for more info.
       hasKeyboardHelpContent: false,
 
-      // If a PreferencesConfiguration supports any preferences, the sim will include the PreferencesDialog and a
+      // If a PreferencesModel supports any preferences, the sim will include the PreferencesDialog and a
       // button in the NavigationBar to open it. Simulation conditions (like what locales are available) might enable
-      // a PreferencesDialog by default. But PreferencesConfiguration has many options you can provide.
-      preferencesConfiguration: new PreferencesConfiguration(),
+      // a PreferencesDialog by default. But PreferencesModel has many options you can provide.
+      preferencesModel: new PreferencesModel(),
 
       // Passed to SimDisplay, but a top level option for API ease.
       webgl: SimDisplay.DEFAULT_WEBGL,
@@ -612,8 +611,8 @@ export default class Sim extends PhetioObject {
     //   this.engagementMetrics = new EngagementMetrics( this );
     // }
 
-    this.preferencesModel = new PreferencesModel( options.preferencesConfiguration );
-    simDisplayOptions.preferencesModel = this.preferencesModel;
+    this.preferencesModel = options.preferencesModel;
+    simDisplayOptions.preferencesModel = options.preferencesModel;
 
     // initialize audio and audio subcomponents
     audioManager.initialize( this );
