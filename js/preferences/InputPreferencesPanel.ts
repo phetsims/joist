@@ -56,29 +56,36 @@ class InputPreferencesPanel extends VBox {
 
     const disposeEmitter = new Emitter();
 
-    const gestureControlsEnabledSwitch = new PreferencesToggleSwitch( inputModel.gestureControlsEnabledProperty, false, true, {
-      labelNode: new Text( gestureControlsString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ),
-      descriptionNode: new VoicingRichText( gestureControlsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
-        lineWrap: 350,
+    if ( inputModel.supportsGestureControl ) {
 
-        readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternString, {
-          label: gestureControlsString,
-          description: gestureControlsDescriptionString
-        } )
-      } ) ),
+      const gestureControlsEnabledSwitch = new PreferencesToggleSwitch( inputModel.gestureControlsEnabledProperty, false, true, {
+        labelNode: new Text( gestureControlsString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ),
+        descriptionNode: new VoicingRichText( gestureControlsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
+          lineWrap: 350,
 
-      // a11y
-      a11yLabel: gestureControlsString,
-      leftValueContextResponse: gestureControlDisabledAlertString,
-      rightValueContextResponse: gestureControlEnabledAlertString
-    } );
+          readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternString, {
+            label: gestureControlsString,
+            description: gestureControlsDescriptionString
+          } )
+        } ) ),
 
-    const gesturePanelSection = new PreferencesPanelSection( {
-      titleNode: gestureControlsEnabledSwitch,
-      contentLeftMargin: 0
-    } );
+        // a11y
+        a11yLabel: gestureControlsString,
+        leftValueContextResponse: gestureControlDisabledAlertString,
+        rightValueContextResponse: gestureControlEnabledAlertString
+      } );
 
-    this.addChild( gesturePanelSection );
+      const gesturePanelSection = new PreferencesPanelSection( {
+        titleNode: gestureControlsEnabledSwitch,
+        contentLeftMargin: 0
+      } );
+
+      this.addChild( gesturePanelSection );
+      disposeEmitter.addListener( () => {
+        gesturePanelSection.dispose();
+        gestureControlsEnabledSwitch.dispose();
+      } );
+    }
 
     const contentNode = new VBox( {
       spacing: PreferencesPanelSection.DEFAULT_ITEM_SPACING,
@@ -101,10 +108,8 @@ class InputPreferencesPanel extends VBox {
 
     this.disposeInputPreferencesPanel = () => {
       disposeEmitter.emit();
-      gesturePanelSection.dispose();
       customPanelSection.dispose();
       contentNode.children.forEach( child => child.dispose() );
-      gestureControlsEnabledSwitch.dispose();
     };
   }
 
