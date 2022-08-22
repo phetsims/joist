@@ -123,7 +123,8 @@ export default class SimDisplay extends Display {
     this.keyboardFuzzer = new KeyboardFuzzer( this, fuzzerSeed );
 
     this.supportsPanAndZoomProperty = new BooleanProperty( phet.chipper.queryParameters.supportsPanAndZoom, {
-      tandem: options.tandem.createTandem( 'supportsPanAndZoomProperty' )
+      tandem: options.tandem.createTandem( 'supportsPanAndZoomProperty' ),
+      phetioFeatured: true
     } );
 
     this.domElement.id = 'sim';
