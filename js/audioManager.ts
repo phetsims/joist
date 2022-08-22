@@ -21,30 +21,15 @@
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import { Display, voicingManager, voicingUtteranceQueue } from '../../scenery/js/imports.js';
+import { Display, voicingManager } from '../../scenery/js/imports.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import responseCollector from '../../utterance-queue/js/responseCollector.js';
-import SpeechSynthesisAnnouncer from '../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import joist from './joist.js';
 import Sim from './Sim.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 
 class AudioManager extends PhetioObject {
-
-  // (joist-internal) - true if sound is supported and enabled
-  public readonly supportsSound: boolean;
-
-  // (joist-internal) - true if extraSound is supported, cannot support enhanced without supporting sound in general
-  public readonly supportsExtraSound: boolean;
-
-  // (joist-internal) - True if "Voicing" features or speech synthesis is supported, and we need to initialize the
-  // voicingManager for SpeechSynthesis.
-  public readonly supportsVoicing: boolean;
-
-  // (joist-internal) - True if any form of Audio is enabled in the simulation.
-  public readonly supportsAudio: boolean;
 
   // Whether or not all features involving audio are enabled (including sound, extra sound, and voicing). When false,
   // everything should be totally silent.
@@ -72,11 +57,6 @@ class AudioManager extends PhetioObject {
                            'do not support these features, this element and its children can be ignored.'
     } );
 
-    this.supportsSound = phet.chipper.queryParameters.supportsSound;
-    this.supportsExtraSound = this.supportsSound && phet.chipper.queryParameters.supportsExtraSound;
-    this.supportsVoicing = SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() && phet.chipper.queryParameters.supportsVoicing;
-    this.supportsAudio = phet.chipper.queryParameters.audio !== 'disabled' && ( this.supportsSound || this.supportsVoicing );
-
     this.audioEnabledProperty = new BooleanProperty( phet.chipper.queryParameters.audio === 'enabled', {
       tandem: tandem.createTandem( 'audioEnabledProperty' ),
       phetioFeatured: true,
@@ -99,31 +79,6 @@ class AudioManager extends PhetioObject {
         return audioEnabled && anySubcomponentEnabled;
       }
     );
-
-    // Since voicingManager in Scenery can not use initialize-globals,set the initial
-    // value for whether Voicing is enabled here in the audioManager
-    if ( this.supportsVoicing ) {
-      voicingManager.enabledProperty.value = phet.chipper.queryParameters.voicingInitiallyEnabled;
-
-      // The default utteranceQueue will be used for voicing of simulation components, and it is enabled when the
-      // voicingManager is fully enabled (voicingManager is enabled and the voicing is enabled for the "main window"
-      // sim screens)
-      voicingManager.enabledProperty.link( enabled => {
-        voicingUtteranceQueue.enabled = enabled;
-        !enabled && voicingUtteranceQueue.clear();
-      } );
-
-      // If initially enabled, then apply all responses on startup, can (and should) be overwritten by PreferencesStorage.
-      if ( phet.chipper.queryParameters.voicingInitiallyEnabled ) {
-        responseCollector.objectResponsesEnabledProperty.value = true;
-        responseCollector.contextResponsesEnabledProperty.value = true;
-        responseCollector.hintResponsesEnabledProperty.value = true;
-      }
-    }
-
-    if ( phet.chipper.queryParameters.printVoicingResponses ) {
-      voicingManager.startSpeakingEmitter.addListener( text => console.log( text ) );
-    }
   }
 
   /**
@@ -131,7 +86,7 @@ class AudioManager extends PhetioObject {
    */
   public initialize( sim: Sim ): void {
 
-    if ( this.supportsSound ) {
+    if ( sim.preferencesModel.audioModel.supportsSound ) {
       soundManager.initialize(
         sim.isConstructionCompleteProperty,
         this.audioEnabledProperty,
@@ -141,7 +96,7 @@ class AudioManager extends PhetioObject {
       );
     }
 
-    if ( this.supportsVoicing ) {
+    if ( sim.preferencesModel.audioModel.supportsVoicing ) {
       voicingManager.initialize( Display.userGestureEmitter, {
 
         // specify the Properties that control whether or not output is allowed from voicingManager

@@ -102,9 +102,9 @@ type SelfOptions = {
   // content. This content is specific to each screen, see Screen.keyboardHelpNode for more info.
   hasKeyboardHelpContent?: boolean;
 
-  // {PreferencesConfiguration|null} - If a PreferencesConfiguration is provided the sim will
-  // include the PreferencesDialog and a button in the NavigationBar to open it.
-  preferencesConfiguration?: PreferencesConfiguration | null;
+  // The PreferencesConfiguration defines the available features for the simulation that are controllable
+  // through the Preferences Dialog.
+  preferencesConfiguration?: PreferencesConfiguration;
 
   // Passed to SimDisplay, but a top level option for API ease.
   webgl?: boolean;
@@ -221,12 +221,11 @@ export default class Sim extends PhetioObject {
   public readonly display: SimDisplay;
 
   // The Toolbar is not created unless requested with a PreferencesConfiguration.
-  private readonly toolbar: Toolbar | null;
+  private readonly toolbar: Toolbar | null = null;
 
-  // If Preferences are available through a PreferencesConfiguration,
-  // this type will be added to the Sim to manage the state of features that can be enabled/disabled
-  // through user preferences.
-  public readonly preferencesModel: PreferencesModel | null;
+  // Manages state related to preferences. Enabled features for preferences are provided through the
+  // PreferencesConfiguration.
+  public readonly preferencesModel: PreferencesModel;
 
   // list of nodes that are "modal" and hence block input with the barrierRectangle.  Used by modal dialogs
   // and the PhetMenu
@@ -283,9 +282,10 @@ export default class Sim extends PhetioObject {
       // content. This content is specific to each screen, see Screen.keyboardHelpNode for more info.
       hasKeyboardHelpContent: false,
 
-      // {PreferencesConfiguration|null} - If a PreferencesConfiguration is provided the sim will
-      // include the PreferencesDialog and a button in the NavigationBar to open it.
-      preferencesConfiguration: null,
+      // If a PreferencesConfiguration supports any preferences, the sim will include the PreferencesDialog and a
+      // button in the NavigationBar to open it. Simulation conditions (like what locales are available) might enable
+      // a PreferencesDialog by default. But PreferencesConfiguration has many options you can provide.
+      preferencesConfiguration: new PreferencesConfiguration(),
 
       // Passed to SimDisplay, but a top level option for API ease.
       webgl: SimDisplay.DEFAULT_WEBGL,
@@ -612,11 +612,14 @@ export default class Sim extends PhetioObject {
     //   this.engagementMetrics = new EngagementMetrics( this );
     // }
 
+    this.preferencesModel = new PreferencesModel( options.preferencesConfiguration );
+    simDisplayOptions.preferencesModel = this.preferencesModel;
+
     // initialize audio and audio subcomponents
     audioManager.initialize( this );
 
     // hook up sound generation for screen changes
-    if ( audioManager.supportsSound ) {
+    if ( this.preferencesModel.audioModel.supportsSound ) {
       soundManager.addSoundGenerator(
         new ScreenSelectionSoundGenerator( this.selectedScreenProperty, this.homeScreen, { initialOutputLevel: 0.5 } ),
         {
@@ -634,14 +637,8 @@ export default class Sim extends PhetioObject {
       $( 'title' ).html( simName );
     } );
 
-    if ( options.preferencesConfiguration ) {
-
-      this.preferencesModel = new PreferencesModel( options.preferencesConfiguration, {
-        tandem: Tandem.GENERAL_MODEL.createTandem( 'preferencesModel' )
-      } );
-
-      simDisplayOptions.preferencesModel = this.preferencesModel;
-
+    // For now the Toolbar only includes controls for Voicing and is only constructed when that feature is supported.
+    if ( this.preferencesModel.audioModel.supportsVoicing ) {
       this.toolbar = new Toolbar( this, {
         tandem: Tandem.GENERAL_VIEW.createTandem( 'toolbar' )
       } );
@@ -650,10 +647,6 @@ export default class Sim extends PhetioObject {
       this.toolbar.rightPositionProperty.lazyLink( () => {
         this.resize( this.boundsProperty.value!.width, this.boundsProperty.value!.height );
       } );
-    }
-    else {
-      this.preferencesModel = null;
-      this.toolbar = null;
     }
 
     this.display = new SimDisplay( simDisplayOptions );

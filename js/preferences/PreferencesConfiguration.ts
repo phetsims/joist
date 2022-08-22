@@ -5,20 +5,22 @@
  * therefore have a corresponding entry in the PreferencesDialog to enable/disable the feature. This is passed in
  * as an option to Sim.js.
  *
+ * Many defaults for options in this configuration comes from query parameters. If you provide values in a
+ * PreferencesConfiguration, it will override query parameters.
+ *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import optionize from '../../../phet-core/js/optionize.js';
 import { Node } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import SpeechSynthesisAnnouncer from '../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import joist from '../joist.js';
 import { RegionAndCultureDescriptor } from './localizationManager.js';
 import localeProperty from '../localeProperty.js';
 
 export type GeneralPreferencesOptions = {
 
-  // Creates any Node you would like under the "Simulation specific controls" section of the General tab.
+  // Creates any Node you would like on the "General" tab.
   createSimControls?: ( ( tandem: Tandem ) => Node ) | null;
 };
 
@@ -96,10 +98,6 @@ class PreferencesConfiguration {
     // which features are required.
     const phetFeatures = phet.chipper.queryParameters;
 
-    // For now, the Voicing feature is only available when we are running in the english locale, accessibility
-    // strings are not made available for translation.
-    const simLocale = phet.chipper.locale || 'en';
-
     const initialOptions = optionize<PreferencesConfigurationOptions>()( {
       generalOptions: {
         createSimControls: null
@@ -108,7 +106,7 @@ class PreferencesConfiguration {
         supportsInteractiveHighlights: phetFeatures.supportsInteractiveHighlights
       },
       audioOptions: {
-        supportsVoicing: phetFeatures.supportsVoicing && SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() && simLocale === 'en',
+        supportsVoicing: phetFeatures.supportsVoicing,
         supportsSound: phetFeatures.supportsSound,
         supportsExtraSound: phetFeatures.supportsExtraSound
       },

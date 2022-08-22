@@ -6,7 +6,7 @@
  * @author Jesse Greenberg
  */
 
-import { voicingManager } from '../../../scenery/js/imports.js';
+import { voicingManager, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
 import responseCollector from '../../../utterance-queue/js/responseCollector.js';
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import joist from '../joist.js';
@@ -20,6 +20,8 @@ import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObje
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import localizationManager from './localizationManager.js';
+import SpeechSynthesisAnnouncer from '../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 
 export type GeneralModel = Required<GeneralPreferencesOptions>;
 
@@ -58,6 +60,9 @@ export type InputModel = {
 
 } & Required<InputPreferencesOptions>;
 
+// Any of the sub-models of the PreferencesModel
+// type FeatureModel = GeneralModel | VisualModel | AudioModel | InputModel | LocalizationModel;
+
 export type LocalizationModel = {
 
   // The selected character artwork to use when the sim supports culture and region switching.
@@ -73,9 +78,10 @@ class PreferencesModel extends PhetioObject {
   public readonly inputModel: InputModel;
   public readonly localizationModel: LocalizationModel;
 
-  public constructor( preferencesConfiguration: PreferencesConfiguration, providedOptions: PreferencesModelOptions ) {
+  public constructor( preferencesConfiguration: PreferencesConfiguration, providedOptions?: PreferencesModelOptions ) {
 
     const options = optionize<PreferencesModelOptions, EmptySelfOptions, PhetioObjectOptions>()( {
+      tandem: Tandem.GENERAL_MODEL.createTandem( 'preferencesModel' ),
       phetioState: false,
       phetioReadOnly: true
     }, providedOptions );
@@ -95,12 +101,19 @@ class PreferencesModel extends PhetioObject {
       } )
     };
 
-    // audioManager must support audio for any of the sub-features of audio to be supported
-    const supportsAudio = audioManager.supportsAudio;
+    // For now, the Voicing feature is only available when we are running in the english locale, accessibility
+    // strings are not made available for translation.
+    const simLocale = phet.chipper.locale || 'en';
+    const supportsVoicing = preferencesConfiguration.audioOptions.supportsVoicing && SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() && simLocale === 'en';
+
+    // Audio can be disabled explicitly via query parameter
+    const audioEnabled = phet.chipper.queryParameters.audio !== 'disabled';
+
     this.audioModel = {
-      supportsVoicing: preferencesConfiguration.audioOptions.supportsVoicing && supportsAudio,
-      supportsSound: preferencesConfiguration.audioOptions.supportsSound && supportsAudio,
-      supportsExtraSound: preferencesConfiguration.audioOptions.supportsExtraSound && supportsAudio,
+      supportsVoicing: supportsVoicing && audioEnabled,
+
+      supportsSound: preferencesConfiguration.audioOptions.supportsSound && audioEnabled,
+      supportsExtraSound: preferencesConfiguration.audioOptions.supportsExtraSound && audioEnabled,
 
       simSoundEnabledProperty: audioManager.audioEnabledProperty,
       soundEnabledProperty: soundManager.enabledProperty,
@@ -149,6 +162,31 @@ class PreferencesModel extends PhetioObject {
       } )
     };
 
+    // Since voicingManager in Scenery can not use initialize-globals, set the initial value for whether Voicing is
+    // enabled here in the PreferencesModel.
+    if ( supportsVoicing ) {
+      voicingManager.enabledProperty.value = phet.chipper.queryParameters.voicingInitiallyEnabled;
+
+      // The default utteranceQueue will be used for voicing of simulation components, and it is enabled when the
+      // voicingManager is fully enabled (voicingManager is enabled and the voicing is enabled for the "main window"
+      // sim screens)
+      voicingManager.enabledProperty.link( enabled => {
+        voicingUtteranceQueue.enabled = enabled;
+        !enabled && voicingUtteranceQueue.clear();
+      } );
+
+      // If initially enabled, then apply all responses on startup, can (and should) be overwritten by PreferencesStorage.
+      if ( phet.chipper.queryParameters.voicingInitiallyEnabled ) {
+        responseCollector.objectResponsesEnabledProperty.value = true;
+        responseCollector.contextResponsesEnabledProperty.value = true;
+        responseCollector.hintResponsesEnabledProperty.value = true;
+      }
+    }
+
+    if ( phet.chipper.queryParameters.printVoicingResponses ) {
+      voicingManager.startSpeakingEmitter.addListener( text => console.log( text ) );
+    }
+
     this.registerPreferencesStorage();
   }
 
@@ -179,24 +217,56 @@ class PreferencesModel extends PhetioObject {
     }
   }
 
+  /**
+   * Returns true if the GeneralModel supports any preferences that can be changed.
+   */
+  public supportsGeneralPreferences(): boolean {
+    return !!this.generalModel.createSimControls;
+  }
+
+  /**
+   * Returns true if the VisualModel has any preferences that can be changed.
+   */
   public supportsVisualPreferences(): boolean {
     return this.visualModel.supportsInteractiveHighlights ||
            this.visualModel.supportsProjectorMode;
   }
 
+  /**
+   * Returns true if the AudioModel has any preferences that can be changed.
+   */
   public supportsAudioPreferences(): boolean {
     return this.audioModel.supportsVoicing ||
            this.audioModel.supportsSound ||
            this.audioModel.supportsExtraSound;
   }
 
+  /**
+   * Returns true if the InputModel has any preferences that can be changed.
+   */
   public supportsInputPreferences(): boolean {
     return this.inputModel.supportsGestureControl;
   }
 
+  /**
+   * Returns true if the LocalizationModel has any preferences that can be changed.
+   */
   public supportsLocalizationPreferences(): boolean {
     return this.localizationModel.supportsMultipleLocales ||
            this.localizationModel.regionAndCultureDescriptors.length > 0;
+  }
+
+  /**
+   * Returns true if this model supports any controllable preferences but MORE than basic sound. If enabling sound
+   * is the only preference then we don't want to let the user access the Preferences dialog because there is already
+   * a sound control in the navigation bar. The PreferencesDialog is not useful in that case.
+   */
+  public shouldShowDialog(): boolean {
+    return this.supportsGeneralPreferences() || this.supportsVisualPreferences() ||
+           this.supportsInputPreferences() || this.supportsLocalizationPreferences() ||
+
+           // TODO: Create an option in supportsAudioPreferences to exclude supportsSound so we can still use that function? see https://github.com/phetsims/joist/issues/834
+           this.audioModel.supportsVoicing || this.audioModel.supportsExtraSound;
   }
 }
 

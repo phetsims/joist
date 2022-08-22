@@ -37,7 +37,7 @@ class A11yButtonsHBox extends HBox {
     // list of optional buttons added for a11y
     const a11yButtons = [];
 
-    if ( sim.preferencesModel ) {
+    if ( sim.preferencesModel.shouldShowDialog() ) {
 
       const preferencesButton = new NavigationBarPreferencesButton( sim.preferencesModel, backgroundColorProperty, {
         tandem: options.tandem.createTandem( 'preferencesButton' )
@@ -53,7 +53,7 @@ class A11yButtonsHBox extends HBox {
     } );
 
     // only put the sound on/off button on the nav bar if the sound library is enabled
-    if ( audioManager.supportsAudio ) {
+    if ( sim.preferencesModel.supportsAudioPreferences() ) {
       a11yButtons.push( audioToggleButton );
     }
 

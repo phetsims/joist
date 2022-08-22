@@ -21,11 +21,9 @@ import { Focus, FocusManager, FullScreen, KeyboardUtils, Node, NodeOptions, Path
 import Dialog from '../../sun/js/Dialog.js';
 import MenuItem, { MenuItemOptions } from '../../sun/js/MenuItem.js';
 import { PopupableNode } from '../../sun/js/Popupable.js';
-import soundManager from '../../tambo/js/soundManager.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import AboutDialog from './AboutDialog.js';
-import audioManager from './audioManager.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 import OptionsDialog from './OptionsDialog.js';
@@ -247,27 +245,6 @@ class PhetMenu extends Node {
         options: {
           tandem: options.tandem.createTandem( 'screenshotMenuItem' ),
           phetioDocumentation: 'This menu item captures a screenshot from the simulation and saves it to the file system.',
-          visiblePropertyOptions: { phetioFeatured: true },
-
-          // pdom
-          handleFocusCallback: restoreFocusCallback
-        }
-      },
-
-      // "Extra Sound" menu item
-      {
-        text: joistStrings.menuItem.enhancedSoundProperty,
-
-        // if the sim has a PreferencesConfiguration the control for extra sounds will be in the Dialog
-        present: audioManager.supportsExtraSound && !sim.preferencesModel,
-        callback: () => {
-          soundManager.extraSoundEnabledProperty.set( !soundManager.extraSoundEnabledProperty.get() );
-        },
-        options: {
-          checkedProperty: soundManager.extraSoundEnabledProperty,
-          tandem: options.tandem.createTandem( 'extraSoundMenuItem' ),
-          phetioDocumentation: 'This menu item toggles between basic and extra sound modes. This will only be ' +
-                               'displayed if the simulation supports extra sounds.',
           visiblePropertyOptions: { phetioFeatured: true },
 
           // pdom

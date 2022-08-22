@@ -108,7 +108,7 @@ class Toolbar extends Node {
     super( options );
 
     assert && assert( sim.preferencesModel, 'cannot have a toolbar without a PreferencesModel' );
-    this.isEnabledProperty = sim.preferencesModel!.audioModel.toolbarEnabledProperty;
+    this.isEnabledProperty = sim.preferencesModel.audioModel.toolbarEnabledProperty;
 
     this.backgroundRectangle = new Rectangle( 0, 0, 0, 0, {
       fill: sim.lookAndFeel.navigationBarFillProperty
