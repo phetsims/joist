@@ -67,7 +67,9 @@ class PreferencesPanels extends Node {
 
     let visualPreferencesPanel: Node | null = null;
     if ( supportedTabs.includes( PreferencesType.VISUAL ) ) {
-      visualPreferencesPanel = new VisualPreferencesPanel( preferencesModel.visualModel );
+      visualPreferencesPanel = new VisualPreferencesPanel( preferencesModel.visualModel, {
+        tandem: options.tandem.createTandem( 'visualPreferencesPanel' )
+      } );
       const visualBox = panelAlignGroup.createBox( visualPreferencesPanel );
       this.addChild( visualBox );
       this.content.push( new PreferencesPanelContainer( visualPreferencesPanel, PreferencesType.VISUAL ) );
@@ -75,7 +77,9 @@ class PreferencesPanels extends Node {
 
     let audioPreferencesPanel: Node | null = null;
     if ( supportedTabs.includes( PreferencesType.AUDIO ) ) {
-      audioPreferencesPanel = new AudioPreferencesPanel( preferencesModel.audioModel );
+      audioPreferencesPanel = new AudioPreferencesPanel( preferencesModel.audioModel, {
+        tandem: options.tandem.createTandem( 'audioPreferencesPanel' )
+      } );
       const audioBox = panelAlignGroup.createBox( audioPreferencesPanel );
       this.addChild( audioBox );
       this.content.push( new PreferencesPanelContainer( audioPreferencesPanel, PreferencesType.AUDIO ) );
@@ -83,7 +87,9 @@ class PreferencesPanels extends Node {
 
     let inputPreferencesPanel: Node | null = null;
     if ( supportedTabs.includes( PreferencesType.INPUT ) ) {
-      inputPreferencesPanel = new InputPreferencesPanel( preferencesModel.inputModel );
+      inputPreferencesPanel = new InputPreferencesPanel( preferencesModel.inputModel, {
+        tandem: options.tandem.createTandem( 'inputPreferencesPanel' )
+      } );
       const inputBox = panelAlignGroup.createBox( inputPreferencesPanel );
       this.addChild( inputBox );
       this.content.push( new PreferencesPanelContainer( inputPreferencesPanel, PreferencesType.INPUT ) );
@@ -91,7 +97,9 @@ class PreferencesPanels extends Node {
 
     let localizationPreferencesPanel: Node | null = null;
     if ( supportedTabs.includes( PreferencesType.LOCALIZATION ) ) {
-      localizationPreferencesPanel = new LocalizationPreferencesPanel( preferencesModel.localizationModel );
+      localizationPreferencesPanel = new LocalizationPreferencesPanel( preferencesModel.localizationModel, {
+        tandem: options.tandem.createTandem( 'localizationPreferencesPanel' )
+      } );
       const localizationBox = panelAlignGroup.createBox( localizationPreferencesPanel );
       this.addChild( localizationBox );
       this.content.push( new PreferencesPanelContainer( localizationPreferencesPanel, PreferencesType.LOCALIZATION ) );

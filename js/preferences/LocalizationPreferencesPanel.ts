@@ -10,16 +10,24 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import { Node, VBox } from '../../../scenery/js/imports.js';
+import { Node, VBox, VBoxOptions } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import { LocalizationModel } from './PreferencesModel.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
 import RegionAndCultureComboBox from './RegionAndCultureComboBox.js';
 import LocalePanel from './LocalePanel.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import Emitter from '../../../axon/js/Emitter.js';
+
+type LocalizationPreferencesPanelOptions = PickRequired<VBoxOptions, 'tandem'>;
 
 class LocalizationPreferencesPanel extends Node {
-  public constructor( localizationModel: LocalizationModel ) {
+  private readonly disposeLocalizationPreferencesPanel: () => void;
+
+  public constructor( localizationModel: LocalizationModel, providedOptions: LocalizationPreferencesPanelOptions ) {
     super();
+
+    const disposeEmitter = new Emitter();
 
     const contentNode = new VBox( {
       align: 'left',
@@ -35,6 +43,14 @@ class LocalizationPreferencesPanel extends Node {
       contentNode.addChild( new RegionAndCultureComboBox( localizationModel.regionAndCultureProperty, localizationModel.regionAndCultureDescriptors ) );
     }
 
+    localizationModel.customPreferences.forEach( customPreference => {
+      const customContent = customPreference.createContent( providedOptions.tandem );
+      disposeEmitter.addListener( () => customContent.dispose() );
+      contentNode.addChild( new Node( {
+        children: [ customContent ]
+      } ) );
+    } );
+
     const panelSection = new PreferencesPanelSection( {
       contentNode: contentNode,
 
@@ -43,6 +59,16 @@ class LocalizationPreferencesPanel extends Node {
     } );
 
     this.children = [ panelSection ];
+
+    this.disposeLocalizationPreferencesPanel = () => {
+      disposeEmitter.emit();
+      contentNode.children.forEach( child => child.dispose() );
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeLocalizationPreferencesPanel();
+    super.dispose();
   }
 }
 

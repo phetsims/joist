@@ -6,7 +6,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import { HBox, Node, Text, VBox, VBoxOptions } from '../../../scenery/js/imports.js';
+import { HBox, Text, VBox, VBoxOptions } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
@@ -14,23 +14,32 @@ import { AudioModel } from './PreferencesModel.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 import SoundPanelSection from './SoundPanelSection.js';
 import VoicingPanelSection from './VoicingPanelSection.js';
+import PreferencesPanelSection from './PreferencesPanelSection.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import Emitter from '../../../axon/js/Emitter.js';
 
 // constants
 const audioFeaturesString = joistStrings.preferences.tabs.audio.audioFeatures.title;
+
+type AudioPreferencesPanelOptions = PickRequired<VBoxOptions, 'tandem'>;
 
 class AudioPreferencesTabPanel extends VBox {
   private readonly disposeAudioPreferencesPanel: () => void;
 
   /**
    * @param audioModel - configuration for audio settings, see PreferencesModel
-   * @param [providedOptions]
+   * @param providedOptions
    */
-  public constructor( audioModel: AudioModel, providedOptions?: VBoxOptions ) {
+  public constructor( audioModel: AudioModel, providedOptions: AudioPreferencesPanelOptions ) {
 
-    const panelChildren: Node[] = [];
+    const contentOptions: VBoxOptions = { align: 'left', spacing: PreferencesPanelSection.DEFAULT_ITEM_SPACING };
+    const leftContent = new VBox( contentOptions );
+    const rightContent = new VBox( contentOptions );
+
+    const disposeEmitter = new Emitter();
 
     if ( audioModel.supportsVoicing ) {
-      panelChildren.push( new VoicingPanelSection( audioModel ) );
+      leftContent.addChild( new VoicingPanelSection( audioModel ) );
     }
 
     if ( audioModel.supportsSound ) {
@@ -40,14 +49,26 @@ class AudioPreferencesTabPanel extends VBox {
       // through the "Audio Features" toggle only.
       const hideSoundToggle = audioModel.supportsVoicing !== audioModel.supportsSound;
 
-      panelChildren.push( new SoundPanelSection( audioModel, {
+      rightContent.addChild( new SoundPanelSection( audioModel, {
         includeTitleToggleSwitch: !hideSoundToggle
       } ) );
     }
 
     const sections = new HBox( {
       align: 'top',
-      children: panelChildren
+      children: [ leftContent, rightContent ]
+    } );
+
+    audioModel.customPreferences.forEach( ( customPreference, i ) => {
+      const container = i % 2 === 0 ? leftContent : rightContent;
+      const customContent = customPreference.createContent( providedOptions.tandem );
+      disposeEmitter.addListener( () => customContent.dispose() );
+      container.addChild(
+        new PreferencesPanelSection( {
+          contentNode: customContent,
+          contentLeftMargin: 0
+        } )
+      );
     } );
 
     const allAudioSwitch = new PreferencesToggleSwitch( audioModel.simSoundEnabledProperty, false, true, {
@@ -73,8 +94,10 @@ class AudioPreferencesTabPanel extends VBox {
     } );
 
     this.disposeAudioPreferencesPanel = () => {
-      panelChildren.forEach( child => child.dispose() );
+      leftContent.children.forEach( child => child.dispose() );
+      rightContent.children.forEach( child => child.dispose() );
       allAudioSwitch.dispose();
+      disposeEmitter.emit();
       audioModel.simSoundEnabledProperty.unlink( soundEnabledListener );
     };
   }

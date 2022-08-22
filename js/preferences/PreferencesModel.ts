@@ -22,11 +22,19 @@ import SpeechSynthesisAnnouncer from '../../../utterance-queue/js/SpeechSynthesi
 import Tandem from '../../../tandem/js/Tandem.js';
 import localeProperty from '../localeProperty.js';
 
+type CustomPreference = {
+  createContent: ( parentTandem: Tandem ) => Node;
+};
+
+type CustomPreferencesOptions = {
+  customPreferences?: CustomPreference[];
+};
+
 type GeneralPreferencesOptions = {
 
   // Creates any Node you would like on the "General" tab.
   createSimControls?: ( ( tandem: Tandem ) => Node ) | null;
-};
+} & CustomPreferencesOptions;
 
 type VisualPreferencesOptions = {
 
@@ -36,7 +44,7 @@ type VisualPreferencesOptions = {
   // whether the sim supports the "Interactive Highlights" feature, and checkbox to enable in the
   // Preferences Dialog
   supportsInteractiveHighlights?: boolean;
-};
+} & CustomPreferencesOptions;
 
 type AudioPreferencesOptions = {
 
@@ -49,13 +57,13 @@ type AudioPreferencesOptions = {
   // included if supportsSound is also true.
   supportsSound?: boolean;
   supportsExtraSound?: boolean;
-};
+} & CustomPreferencesOptions;
 
 type InputPreferencesOptions = {
 
   // Whether to include "gesture" controls
   supportsGestureControl?: boolean;
-};
+} & CustomPreferencesOptions;
 
 type LocalizationPreferencesOptions = {
 
@@ -67,7 +75,7 @@ type LocalizationPreferencesOptions = {
   // provided, the Localization tab will include a UI component to swap out pieces of artwork to match the selected
   // region and culture. RegionAndCultureDescriptors contains information for the UI component to describe each choice.
   regionAndCultureDescriptors?: RegionAndCultureDescriptor[];
-};
+} & CustomPreferencesOptions;
 
 type PreferencesModelSelfOptions = {
 
@@ -163,23 +171,28 @@ export default class PreferencesModel extends PhetioObject {
         phetioReadOnly: true
       }, providedOptions ) ),
       generalOptions: optionize<GeneralPreferencesOptions>()( {
-        createSimControls: null
+        createSimControls: null,
+        customPreferences: []
       }, providedOptions.generalOptions ),
       visualOptions: optionize<VisualPreferencesOptions>()( {
         supportsProjectorMode: false,
-        supportsInteractiveHighlights: phetFeatures.supportsInteractiveHighlights
+        supportsInteractiveHighlights: phetFeatures.supportsInteractiveHighlights,
+        customPreferences: []
       }, providedOptions.visualOptions ),
       audioOptions: optionize<AudioPreferencesOptions>()( {
         supportsVoicing: phetFeatures.supportsVoicing,
         supportsSound: phetFeatures.supportsSound,
-        supportsExtraSound: phetFeatures.supportsExtraSound
+        supportsExtraSound: phetFeatures.supportsExtraSound,
+        customPreferences: []
       }, providedOptions.audioOptions ),
       inputOptions: optionize<InputPreferencesOptions>()( {
-        supportsGestureControl: phetFeatures.supportsGestureControl
+        supportsGestureControl: phetFeatures.supportsGestureControl,
+        customPreferences: []
       }, providedOptions.inputOptions ),
       localizationOptions: optionize<LocalizationPreferencesOptions>()( {
         supportsMultipleLocales: !!localeProperty.validValues && localeProperty.validValues.length > 1,
-        regionAndCultureDescriptors: []
+        regionAndCultureDescriptors: [],
+        customPreferences: []
       }, providedOptions.localizationOptions )
     };
 
@@ -195,7 +208,8 @@ export default class PreferencesModel extends PhetioObject {
         tandem: visualTandem.createTandem( 'interactiveHighlightsEnabledProperty' ),
         phetioState: false,
         phetioReadOnly: true
-      } )
+      } ),
+      customPreferences: options.visualOptions.customPreferences
     };
 
     // For now, the Voicing feature is only available when we are running in the english locale, accessibility
@@ -225,7 +239,9 @@ export default class PreferencesModel extends PhetioObject {
       voiceRateProperty: voicingManager.voiceRateProperty,
       voiceProperty: voicingManager.voiceProperty,
 
-      toolbarEnabledProperty: new BooleanProperty( true )
+      toolbarEnabledProperty: new BooleanProperty( true ),
+
+      customPreferences: options.audioOptions.customPreferences
     };
 
     const inputTandem = options.tandem.createTandem( 'inputModel' );
@@ -235,14 +251,17 @@ export default class PreferencesModel extends PhetioObject {
         tandem: inputTandem.createTandem( 'gestureControlsEnabledProperty' ),
         phetioState: false,
         phetioReadOnly: true
-      } )
+      } ),
+      customPreferences: options.inputOptions.customPreferences
     };
 
     this.localizationModel = {
       supportsMultipleLocales: options.localizationOptions.supportsMultipleLocales,
 
       regionAndCultureProperty: localizationManager.regionAndCultureProperty,
-      regionAndCultureDescriptors: options.localizationOptions.regionAndCultureDescriptors
+      regionAndCultureDescriptors: options.localizationOptions.regionAndCultureDescriptors,
+
+      customPreferences: options.localizationOptions.customPreferences
     };
 
 
@@ -324,11 +343,15 @@ export default class PreferencesModel extends PhetioObject {
     }
   }
 
+  public preferenceModelHasCustom( preferenceModel: Required<CustomPreferencesOptions> ): boolean {
+    return preferenceModel.customPreferences.length > 0;
+  }
+
   /**
    * Returns true if the GeneralModel supports any preferences that can be changed.
    */
   public supportsGeneralPreferences(): boolean {
-    return !!this.generalModel.createSimControls;
+    return !!this.generalModel.createSimControls || this.preferenceModelHasCustom( this.generalModel );
   }
 
   /**
@@ -336,7 +359,8 @@ export default class PreferencesModel extends PhetioObject {
    */
   public supportsVisualPreferences(): boolean {
     return this.visualModel.supportsInteractiveHighlights ||
-           this.visualModel.supportsProjectorMode;
+           this.visualModel.supportsProjectorMode ||
+           this.preferenceModelHasCustom( this.visualModel );
   }
 
   /**
@@ -345,14 +369,15 @@ export default class PreferencesModel extends PhetioObject {
   public supportsAudioPreferences(): boolean {
     return this.audioModel.supportsVoicing ||
            this.audioModel.supportsSound ||
-           this.audioModel.supportsExtraSound;
+           this.audioModel.supportsExtraSound ||
+           this.preferenceModelHasCustom( this.audioModel );
   }
 
   /**
    * Returns true if the InputModel has any preferences that can be changed.
    */
   public supportsInputPreferences(): boolean {
-    return this.inputModel.supportsGestureControl;
+    return this.inputModel.supportsGestureControl || this.preferenceModelHasCustom( this.inputModel );
   }
 
   /**
@@ -360,7 +385,8 @@ export default class PreferencesModel extends PhetioObject {
    */
   public supportsLocalizationPreferences(): boolean {
     return this.localizationModel.supportsMultipleLocales ||
-           this.localizationModel.regionAndCultureDescriptors.length > 0;
+           this.localizationModel.regionAndCultureDescriptors.length > 0 ||
+           this.preferenceModelHasCustom( this.localizationModel );
   }
 
   /**

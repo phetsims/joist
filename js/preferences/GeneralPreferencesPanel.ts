@@ -19,6 +19,7 @@ import { GeneralModel } from './PreferencesModel.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
+import Emitter from '../../../axon/js/Emitter.js';
 
 type SelfOptions = EmptySelfOptions;
 type GeneralPreferencesPanelOptions = SelfOptions & VBoxOptions & PickRequired<VBoxOptions, 'tandem'>;
@@ -72,6 +73,18 @@ class GeneralPreferencesPanel extends VBox {
     let simControls: Node | null = null;
     let simControlsPanelSection: Node | null = null;
 
+    const disposeEmitter = new Emitter();
+    generalModel.customPreferences.forEach( customPreference => {
+      const contentNode = customPreference.createContent( options.tandem );
+      const preferencesPanelSection = new PreferencesPanelSection( { contentNode: contentNode } );
+      disposeEmitter.addListener( () => {
+        preferencesPanelSection.dispose();
+        contentNode.dispose();
+      } );
+      providedChildren.push( preferencesPanelSection );
+    } );
+
+    // TODO: delete! https://github.com/phetsims/joist/issues/835
     if ( generalModel.createSimControls ) {
       simControls = generalModel.createSimControls( options.tandem );
       simControlsPanelSection = new SimControlsPanelSection( simControls );
@@ -91,6 +104,7 @@ class GeneralPreferencesPanel extends VBox {
     this.children = panelContent;
 
     this.disposeGeneralPreferencesPanel = () => {
+      disposeEmitter.emit();
       simControls && simControls.dispose();
       simControlsPanelSection && simControlsPanelSection.dispose();
     };

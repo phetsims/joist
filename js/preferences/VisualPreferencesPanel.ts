@@ -18,6 +18,8 @@ import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 import { VisualModel } from './PreferencesModel.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import ProjectorModeToggleSwitch from './ProjectorModeToggleSwitch.js';
+import Tandem from '../../../tandem/js/Tandem.js';
+import Emitter from '../../../axon/js/Emitter.js';
 
 // constants
 const interactiveHighlightsString = joistStrings.preferences.tabs.visual.interactiveHighlights;
@@ -32,6 +34,7 @@ class VisualPreferencesPanel extends Node {
   public constructor( visualModel: VisualModel, providedOptions?: NodeOptions ) {
 
     const options = optionize<NodeOptions, EmptySelfOptions, NodeOptions>()( {
+      tandem: Tandem.OPTIONAL,
 
       // pdom
       tagName: 'div',
@@ -39,7 +42,11 @@ class VisualPreferencesPanel extends Node {
       labelContent: 'Visual'
     }, providedOptions );
 
+    const tandem = options.tandem;
+    options.tandem = Tandem.OPTIONAL;
     super( options );
+
+    const disposeEmitter = new Emitter();
 
     const contentNode = new VBox( {
       spacing: PreferencesPanelSection.DEFAULT_ITEM_SPACING,
@@ -70,6 +77,14 @@ class VisualPreferencesPanel extends Node {
       contentNode.addChild( interactiveHighlightsEnabledSwitch );
     }
 
+    visualModel.customPreferences.forEach( customPreference => {
+      const customContent = customPreference.createContent( tandem );
+      disposeEmitter.addListener( () => customContent.dispose() );
+      contentNode.addChild( new Node( {
+        children: [ customContent ]
+      } ) );
+    } );
+
     const panelSection = new PreferencesPanelSection( {
       contentNode: contentNode,
 
@@ -80,11 +95,10 @@ class VisualPreferencesPanel extends Node {
 
     this.disposeVisualPreferencesPanel = () => {
       panelSection.dispose();
+      disposeEmitter.emit();
 
       // Dispose each PreferencesToggleSwitch
-      contentNode.children.forEach( child => {
-        child.dispose();
-      } );
+      contentNode.children.forEach( child => child.dispose() );
       contentNode.dispose();
     };
   }

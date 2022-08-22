@@ -102,8 +102,8 @@ type SelfOptions = {
   hasKeyboardHelpContent?: boolean;
 
   // The PreferencesModel defines the available features for the simulation that are controllable
-  // through the Preferences Dialog.
-  preferencesModel?: PreferencesModel;
+  // through the Preferences Dialog. Will not be null! This is a workaround to prevent creating a "default" PreferencesModel
+  preferencesModel?: PreferencesModel | null;
 
   // Passed to SimDisplay, but a top level option for API ease.
   webgl?: boolean;
@@ -284,7 +284,7 @@ export default class Sim extends PhetioObject {
       // If a PreferencesModel supports any preferences, the sim will include the PreferencesDialog and a
       // button in the NavigationBar to open it. Simulation conditions (like what locales are available) might enable
       // a PreferencesDialog by default. But PreferencesModel has many options you can provide.
-      preferencesModel: new PreferencesModel(),
+      preferencesModel: null,
 
       // Passed to SimDisplay, but a top level option for API ease.
       webgl: SimDisplay.DEFAULT_WEBGL,
@@ -294,6 +294,10 @@ export default class Sim extends PhetioObject {
       phetioReadOnly: true,
       tandem: Tandem.ROOT
     }, providedOptions );
+
+    if ( !options.preferencesModel ) {
+      options.preferencesModel = new PreferencesModel();
+    }
 
     // Some options are used by sim and SimDisplay. Promote webgl to top level sim option out of API ease, but it is
     // passed to the SimDisplay.
