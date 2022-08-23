@@ -302,11 +302,6 @@ export default class PreferencesModel extends PhetioObject {
       voicingManager.startSpeakingEmitter.addListener( text => console.log( text ) );
     }
 
-    // The query parameter will always override the PreferencesModel option.
-    if ( QueryStringMachine.containsKey( 'supportsMultipleLocales' ) ) {
-      this.localizationModel.supportsMultipleLocales = phetFeatures.supportsMultipleLocales;
-    }
-
     this.registerPreferencesStorage();
   }
 
