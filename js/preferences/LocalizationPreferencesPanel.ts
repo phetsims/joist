@@ -35,8 +35,9 @@ class LocalizationPreferencesPanel extends Node {
     } );
 
     if ( localizationModel.supportsMultipleLocales ) {
-      const localePopup = new LocalePanel();
-      contentNode.addChild( localePopup );
+      const localePanel = new LocalePanel();
+      contentNode.addChild( localePanel );
+      disposeEmitter.addListener( () => localePanel.dispose() );
     }
 
     if ( localizationModel.regionAndCultureDescriptors.length > 0 ) {
@@ -62,7 +63,6 @@ class LocalizationPreferencesPanel extends Node {
 
     this.disposeLocalizationPreferencesPanel = () => {
       disposeEmitter.emit();
-      contentNode.children.forEach( child => child.dispose() );
     };
   }
 
