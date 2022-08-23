@@ -259,7 +259,6 @@ export default class PreferencesModel extends PhetioObject {
       customPreferences: options.localizationOptions.customPreferences
     };
 
-
     if ( this.audioModel.supportsExtraSound ) {
       assert && assert( this.audioModel.supportsSound, 'supportsSound must be true to also support extraSound' );
     }
@@ -360,12 +359,17 @@ export default class PreferencesModel extends PhetioObject {
 
   /**
    * Returns true if the AudioModel has any preferences that can be changed.
+   * @param [checkSupportsSound] - If true, audioModel.supportsSound is included in the check for whether the model
+   *                               supports any audio preferences. There are cases where that needs to be excluded
+   *                               (see shouldShowDialog()).
    */
-  public supportsAudioPreferences(): boolean {
-    return this.audioModel.supportsVoicing ||
-           this.audioModel.supportsSound ||
-           this.audioModel.supportsExtraSound ||
-           this.preferenceModelHasCustom( this.audioModel );
+  public supportsAudioPreferences( checkSupportsSound = true ): boolean {
+    let supportsAudioPreferences = this.audioModel.supportsVoicing ||
+                                   this.audioModel.supportsExtraSound ||
+                                   this.preferenceModelHasCustom( this.audioModel );
+
+    supportsAudioPreferences = checkSupportsSound ? ( supportsAudioPreferences || this.audioModel.supportsSound ) : supportsAudioPreferences;
+    return supportsAudioPreferences;
   }
 
   /**
@@ -392,9 +396,7 @@ export default class PreferencesModel extends PhetioObject {
   public shouldShowDialog(): boolean {
     return this.supportsGeneralPreferences() || this.supportsVisualPreferences() ||
            this.supportsInputPreferences() || this.supportsLocalizationPreferences() ||
-
-           // TODO: Create an option in supportsAudioPreferences to exclude supportsSound so we can still use that function? see https://github.com/phetsims/joist/issues/834
-           this.audioModel.supportsVoicing || this.audioModel.supportsExtraSound;
+           this.supportsAudioPreferences( false );
   }
 }
 
