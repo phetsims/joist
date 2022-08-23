@@ -14,7 +14,6 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
-import SimControlsPanelSection from './SimControlsPanelSection.js';
 import { GeneralModel } from './PreferencesModel.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
@@ -67,11 +66,7 @@ class GeneralPreferencesPanel extends VBox {
     ];
 
     // Just the provided panel content with its own spacing
-    const providedChildren = [];
-
-    // references to the controls and sections kept so that they can be disposed if necessary (mostly for phet-io)
-    let simControls: Node | null = null;
-    let simControlsPanelSection: Node | null = null;
+    const providedChildren: Node[] = [];
 
     const disposeEmitter = new Emitter();
     generalModel.customPreferences.forEach( customPreference => {
@@ -83,13 +78,6 @@ class GeneralPreferencesPanel extends VBox {
       } );
       providedChildren.push( preferencesPanelSection );
     } );
-
-    // TODO: delete! https://github.com/phetsims/joist/issues/835
-    if ( generalModel.createSimControls ) {
-      simControls = generalModel.createSimControls( options.tandem );
-      simControlsPanelSection = new SimControlsPanelSection( simControls );
-      providedChildren.push( simControlsPanelSection );
-    }
 
     if ( providedChildren.length > 0 ) {
       const providedContent = new VBox( { spacing: 30, align: 'left', children: providedChildren } );
@@ -105,8 +93,6 @@ class GeneralPreferencesPanel extends VBox {
 
     this.disposeGeneralPreferencesPanel = () => {
       disposeEmitter.emit();
-      simControls && simControls.dispose();
-      simControlsPanelSection && simControlsPanelSection.dispose();
     };
   }
 

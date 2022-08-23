@@ -30,11 +30,7 @@ type CustomPreferencesOptions = {
   customPreferences?: CustomPreference[];
 };
 
-type GeneralPreferencesOptions = {
-
-  // Creates any Node you would like on the "General" tab.
-  createSimControls?: ( ( tandem: Tandem ) => Node ) | null;
-} & CustomPreferencesOptions;
+type GeneralPreferencesOptions = CustomPreferencesOptions;
 
 type VisualPreferencesOptions = {
 
@@ -171,7 +167,6 @@ export default class PreferencesModel extends PhetioObject {
         phetioReadOnly: true
       }, providedOptions ) ),
       generalOptions: optionize<GeneralPreferencesOptions>()( {
-        createSimControls: null,
         customPreferences: []
       }, providedOptions.generalOptions ),
       visualOptions: optionize<VisualPreferencesOptions>()( {
@@ -351,7 +346,7 @@ export default class PreferencesModel extends PhetioObject {
    * Returns true if the GeneralModel supports any preferences that can be changed.
    */
   public supportsGeneralPreferences(): boolean {
-    return !!this.generalModel.createSimControls || this.preferenceModelHasCustom( this.generalModel );
+    return this.preferenceModelHasCustom( this.generalModel );
   }
 
   /**
