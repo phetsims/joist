@@ -11,6 +11,7 @@ import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { AlignGroup, Node, VBox, VBoxOptions } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
+import PreferencesDialog from './PreferencesDialog.js';
 
 type SelfOptions = {
 
@@ -31,7 +32,7 @@ class PreferencesPanelSection extends VBox {
 
   public constructor( providedOptions?: PreferencesPanelSectionOptions ) {
     const options = optionize<PreferencesPanelSectionOptions, SelfOptions, VBoxOptions>()( {
-      spacing: PreferencesPanelSection.DEFAULT_ITEM_SPACING,
+      spacing: PreferencesDialog.CONTENT_SPACING,
       titleNode: null,
       contentNode: null,
       contentLeftMargin: 30
@@ -68,9 +69,6 @@ class PreferencesPanelSection extends VBox {
     this.disposePreferencesPanelSection();
     super.dispose();
   }
-
-  // Default spacing used for content items within a PreferencesPanelSection
-  public static readonly DEFAULT_ITEM_SPACING = 20;
 }
 
 joist.register( 'PreferencesPanelSection', PreferencesPanelSection );

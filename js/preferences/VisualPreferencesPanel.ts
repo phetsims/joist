@@ -49,7 +49,7 @@ class VisualPreferencesPanel extends Node {
     const disposeEmitter = new Emitter();
 
     const contentNode = new VBox( {
-      spacing: PreferencesPanelSection.DEFAULT_ITEM_SPACING,
+      spacing: PreferencesDialog.CONTENT_SPACING,
       align: 'left'
     } );
 

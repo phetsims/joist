@@ -18,6 +18,7 @@ import RegionAndCultureComboBox from './RegionAndCultureComboBox.js';
 import LocalePanel from './LocalePanel.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import Emitter from '../../../axon/js/Emitter.js';
+import PreferencesDialog from './PreferencesDialog.js';
 
 type LocalizationPreferencesPanelOptions = PickRequired<VBoxOptions, 'tandem'>;
 
@@ -30,7 +31,7 @@ class LocalizationPreferencesPanel extends Node {
     const disposeEmitter = new Emitter();
 
     const contentNode = new VBox( {
-      spacing: PreferencesPanelSection.DEFAULT_ITEM_SPACING
+      spacing: PreferencesDialog.CONTENT_SPACING
     } );
 
     if ( localizationModel.supportsMultipleLocales ) {

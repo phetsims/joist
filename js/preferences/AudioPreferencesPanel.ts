@@ -32,7 +32,7 @@ class AudioPreferencesTabPanel extends VBox {
    */
   public constructor( audioModel: AudioModel, providedOptions: AudioPreferencesPanelOptions ) {
 
-    const contentOptions: VBoxOptions = { align: 'left', spacing: PreferencesPanelSection.DEFAULT_ITEM_SPACING };
+    const contentOptions: VBoxOptions = { align: 'left', spacing: PreferencesDialog.CONTENT_SPACING };
     const leftContent = new VBox( contentOptions );
     const rightContent = new VBox( contentOptions );
 

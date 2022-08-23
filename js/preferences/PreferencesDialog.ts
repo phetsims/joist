@@ -191,6 +191,9 @@ class PreferencesDialog extends Dialog {
   public static readonly PANEL_SECTION_LABEL_FONT = PANEL_SECTION_LABEL_FONT;
   public static readonly PANEL_SECTION_LABEL_MAX_WIDTH = PANEL_SECTION_LABEL_MAX_WIDTH;
   public static readonly PANEL_SECTION_LABEL_OPTIONS = PANEL_SECTION_LABEL_OPTIONS;
+
+  // Default spacing between items in a preferences dialog
+  public static readonly CONTENT_SPACING = 20;
 }
 
 joist.register( 'PreferencesDialog', PreferencesDialog );

@@ -37,7 +37,7 @@ class InputPreferencesPanel extends VBox {
 
   public constructor( inputModel: InputModel, providedOptions?: InputPreferencesPanelOptions ) {
     const options = optionize<InputPreferencesPanelOptions, SelfOptions, VBoxOptions>()( {
-      spacing: PreferencesPanelSection.DEFAULT_ITEM_SPACING,
+      spacing: PreferencesDialog.CONTENT_SPACING,
       align: 'left',
 
       // phet-io
@@ -88,7 +88,7 @@ class InputPreferencesPanel extends VBox {
     }
 
     const contentNode = new VBox( {
-      spacing: PreferencesPanelSection.DEFAULT_ITEM_SPACING,
+      spacing: PreferencesDialog.CONTENT_SPACING,
       align: 'left'
     } );
 

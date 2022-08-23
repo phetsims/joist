@@ -33,7 +33,7 @@ class GeneralPreferencesPanel extends VBox {
   public constructor( generalModel: GeneralModel, providedOptions?: GeneralPreferencesPanelOptions ) {
     const options = optionize<GeneralPreferencesPanelOptions, SelfOptions, VBoxOptions>()( {
       align: 'left',
-      spacing: PreferencesPanelSection.DEFAULT_ITEM_SPACING,
+      spacing: PreferencesDialog.CONTENT_SPACING,
 
       // pdom
       tagName: 'section',
