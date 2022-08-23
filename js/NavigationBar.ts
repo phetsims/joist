@@ -28,7 +28,7 @@ import StringProperty from '../../axon/js/StringProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { AlignBox, Color, FireListener, GridBox, HBox, ManualConstraint, Node, Path, PDOMPeer, Rectangle, RelaxedManualConstraint, Text } from '../../scenery/js/imports.js';
+import { AlignBox, Color, HBox, ManualConstraint, Node, PDOMPeer, Rectangle, RelaxedManualConstraint, Text } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import A11yButtonsHBox from './A11yButtonsHBox.js';
 import HomeButton from './HomeButton.js';
@@ -43,10 +43,6 @@ import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Screen from './Screen.js';
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
-import localeInfoModule from '../../chipper/js/data/localeInfoModule.js';
-import localeProperty from './localeProperty.js';
-import globeAmericasSolidShape from '../../sherpa/js/fontawesome-5/globeAmericasSolidShape.js';
-import Panel from '../../sun/js/Panel.js';
 
 // constants
 // for layout of the NavigationBar, used in the following way:
@@ -132,63 +128,6 @@ class NavigationBar extends Node {
       tandem.createTandem( 'phetButton' )
     );
     this.barContents.addChild( phetButton );
-
-    // TODO: Remove as part of https://github.com/phetsims/chipper/issues/1302 work
-    if ( localeProperty.validValues!.length > 1 ) {
-      this.localeNode = new Path( globeAmericasSolidShape, {
-        scale: 0.04,
-        fill: new DerivedProperty( [ this.navigationBarFillProperty ], color => {
-          return color.equals( Color.BLACK ) ? 'white' : 'black';
-        } ),
-        inputListeners: [
-          new FireListener( {
-            fire: () => {
-              localePopup.visible = !localePopup.visible;
-            },
-            tandem: Tandem.OPT_OUT
-          } )
-        ],
-        cursor: 'pointer'
-      } );
-      this.localeNode.mouseArea = this.localeNode.localBounds.dilated( 5 );
-      this.localeNode.touchArea = this.localeNode.localBounds.dilated( 5 );
-
-      const localePopup = new Panel( new GridBox( {
-        xMargin: 10,
-        yMargin: 3,
-        xAlign: 'left',
-        autoRows: 15,
-        children: localeProperty.validValues!.map( locale => {
-          // @ts-ignore
-          return new Text( localeInfoModule[ locale ].localizedName, {
-            font: new PhetFont( 14 ),
-            cursor: 'pointer',
-            inputListeners: [
-              new FireListener( {
-                fire: () => {
-                  localeProperty.value = locale;
-                  localePopup.visible = false;
-                },
-                tandem: Tandem.OPT_OUT
-              } ),
-              {
-                move: () => {
-                  localeProperty.value = locale;
-                }
-              }
-
-            ]
-          } );
-        } )
-      } ), {
-        visible: false
-      } );
-      sim.topLayer.addChild( localePopup );
-
-      ManualConstraint.create( sim.rootNode, [ this.localeNode, localePopup ], ( localeNodeProxy, popupProxy ) => {
-        popupProxy.rightBottom = localeNodeProxy.rightTop;
-      } );
-    }
 
     // a11y HBox, button fills determined by state of navigationBarFillProperty
     this.a11yButtonsHBox = new A11yButtonsHBox(
