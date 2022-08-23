@@ -30,7 +30,6 @@ class LocalizationPreferencesPanel extends Node {
     const disposeEmitter = new Emitter();
 
     const contentNode = new VBox( {
-      align: 'left',
       spacing: PreferencesPanelSection.DEFAULT_ITEM_SPACING
     } );
 
@@ -41,7 +40,9 @@ class LocalizationPreferencesPanel extends Node {
     }
 
     if ( localizationModel.regionAndCultureDescriptors.length > 0 ) {
-      contentNode.addChild( new RegionAndCultureComboBox( localizationModel.regionAndCultureProperty, localizationModel.regionAndCultureDescriptors ) );
+      const comboBox = new RegionAndCultureComboBox( localizationModel.regionAndCultureProperty, localizationModel.regionAndCultureDescriptors );
+      contentNode.addChild( comboBox );
+      disposeEmitter.addListener( () => comboBox.dispose() );
     }
 
     localizationModel.customPreferences.forEach( customPreference => {
@@ -52,6 +53,9 @@ class LocalizationPreferencesPanel extends Node {
       } ) );
     } );
 
+    // center align within this content if there is only one item, otherwise left align all items
+    contentNode.align = contentNode.children.length > 1 ? 'left' : 'center';
+
     const panelSection = new PreferencesPanelSection( {
       contentNode: contentNode,
 
@@ -59,7 +63,7 @@ class LocalizationPreferencesPanel extends Node {
       contentLeftMargin: 0
     } );
 
-    this.children = [ panelSection ];
+    this.addChild( panelSection );
 
     this.disposeLocalizationPreferencesPanel = () => {
       disposeEmitter.emit();
