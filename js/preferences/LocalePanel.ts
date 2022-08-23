@@ -19,6 +19,8 @@ import PreferencesDialog from './PreferencesDialog.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 
 class LocalePanel extends Panel {
+  private readonly disposeLocalePanel: () => void;
+
   public constructor() {
 
     // All available locales aligned into a grid
@@ -41,6 +43,18 @@ class LocalePanel extends Panel {
     } );
 
     super( content );
+
+    this.disposeLocalePanel = () => {
+      content.children.forEach( languageSelectionNode => {
+        languageSelectionNode.dispose();
+      } );
+      content.dispose();
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeLocalePanel();
+    super.dispose();
   }
 }
 
