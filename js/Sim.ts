@@ -91,9 +91,6 @@ type SelfOptions = {
 
   credits?: CreditsData;
 
-  // {null|function(tandem:Tandem):Node} creates the content for the Options dialog
-  createOptionsDialogContent?: null | ( ( t: Tandem ) => Node );
-
   // a {Node} placed onto the home screen (if available)
   homeScreenWarningNode?: null | Node;
 
@@ -115,7 +112,6 @@ export default class Sim extends PhetioObject {
 
   // (joist-internal)
   public readonly simNameProperty: TProperty<string>;
-  public readonly createOptionsDialogContent: ( ( t: Tandem ) => Node ) | null;
 
   // Indicates sim construction completed, and that all screen models and views have been created.
   // This was added for PhET-iO but can be used by any client. This does not coincide with the end of the Sim
@@ -271,9 +267,6 @@ export default class Sim extends PhetioObject {
 
       credits: {},
 
-      // {null|function(tandem:Tandem):Node} creates the content for the Options dialog
-      createOptionsDialogContent: null,
-
       // a {Node} placed onto the home screen (if available)
       homeScreenWarningNode: null,
 
@@ -314,8 +307,6 @@ export default class Sim extends PhetioObject {
     super( options );
 
     this.credits = options.credits;
-
-    this.createOptionsDialogContent = options.createOptionsDialogContent;
 
     this.simNameProperty = new StringProperty( typeof name === 'string' ? name : name.value, {
       tandem: Tandem.GENERAL_MODEL.createTandem( 'simNameProperty' ),

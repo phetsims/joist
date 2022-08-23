@@ -26,7 +26,6 @@ import IOType from '../../tandem/js/types/IOType.js';
 import AboutDialog from './AboutDialog.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
-import OptionsDialog from './OptionsDialog.js';
 import ScreenshotGenerator from './ScreenshotGenerator.js';
 import Sim from './Sim.js';
 import updateCheck from './updateCheck.js';
@@ -111,21 +110,6 @@ class PhetMenu extends Node {
       phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )
     } );
 
-    // If content was provided, OptionsDialog is created lazily (so that Sim bounds are valid), then reused.
-    // Since OptionsDialog is instrumented for PhET-iO, this lazy creation requires use of PhetioCapsule.
-    let optionsDialogCapsule: PhetioCapsule<OptionsDialog> | null = null;
-    if ( sim.createOptionsDialogContent ) {
-      optionsDialogCapsule = new PhetioCapsule( tandem => {
-        return new OptionsDialog( sim.createOptionsDialogContent!, {
-          tandem: tandem,
-          focusOnHideNode: this.focusOnHideNode
-        } );
-      }, [], {
-        tandem: options.tandem.createTandem( 'optionsDialogCapsule' ),
-        phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )
-      } );
-    }
-
     const restoreFocusCallback = () => this.restoreFocus();
 
     // Update dialog is created lazily (so that Sim bounds are valid), then reused.
@@ -135,16 +119,6 @@ class PhetMenu extends Node {
      * Description of the items in the menu. See Menu Item for a list of properties for each itemDescriptor
      */
     const itemDescriptors: MenuItemDescriptor[] = [
-      {
-        text: joistStrings.menuItem.optionsProperty,
-        present: !!sim.createOptionsDialogContent,
-        callback: () => optionsDialogCapsule!.getElement().show(),
-        options: {
-          tandem: options.tandem.createTandem( 'optionsMenuItem' ),
-          visiblePropertyOptions: { phetioFeatured: true },
-          phetioDocumentation: 'This menu item shows an options dialog.'
-        }
-      },
       {
         text: joistStrings.menuItem.phetWebsiteProperty,
         present: isPhETBrand,
