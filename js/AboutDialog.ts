@@ -13,7 +13,7 @@ import TBrand from '../../brand/js/TBrand.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { Node, PDOMPeer, RichText, VBox, VoicingRichText, VoicingText, VStrut } from '../../scenery/js/imports.js';
+import { allowLinksProperty, Node, PDOMPeer, RichText, VBox, VoicingRichText, VoicingText, VStrut } from '../../scenery/js/imports.js';
 import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import CreditsNode, { CreditsData } from './CreditsNode.js';
@@ -213,7 +213,7 @@ export default class AboutDialog extends Dialog {
         const link = links[ i ];
 
         // If links are allowed, use hyperlinks. Otherwise, just output the URL. This doesn't need to be internationalized.
-        const text = phet.chipper.queryParameters.allowLinks ? `<a href="{{url}}">${link.text}</a>` : `${link.text}: ${link.url}`;
+        const text = allowLinksProperty.value ? `<a href="{{url}}">${link.text}</a>` : `${link.text}: ${link.url}`;
 
         // This is PhET-iO instrumented because it is a keyboard navigation focusable element.
         linksChildren.push( new RichText( text, {

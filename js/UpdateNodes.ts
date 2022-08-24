@@ -5,11 +5,10 @@
  */
 
 import merge from '../../phet-core/js/merge.js';
-import openPopup from '../../phet-core/js/openPopup.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import SpinningIndicatorNode from '../../scenery-phet/js/SpinningIndicatorNode.js';
-import { HBox, Node, Path, Rectangle, RichText, RichTextLinks, VBox, VoicingText, VStrut } from '../../scenery/js/imports.js';
+import { allowLinksProperty, HBox, Node, openPopup, Path, Rectangle, RichText, RichTextLinks, VBox, VoicingText, VStrut } from '../../scenery/js/imports.js';
 import checkSolidShape from '../../sherpa/js/fontawesome-5/checkSolidShape.js';
 import exclamationTriangleSolidShape from '../../sherpa/js/fontawesome-5/exclamationTriangleSolidShape.js';
 import TextPushButton from '../../sun/js/buttons/TextPushButton.js';
@@ -107,7 +106,7 @@ const UpdateNodes = {
    */
   createOutOfDateAboutNode: function( options: Options ): Node {
     const textProperty = new DerivedProperty( [ joistStrings.updates.outOfDateProperty ], outOfDateString => {
-      if ( phet.chipper.queryParameters.allowLinks ) {
+      if ( allowLinksProperty.value ) {
         return `<a href="{{url}}">${outOfDateString}</a>`;
       }
       else {
@@ -115,7 +114,7 @@ const UpdateNodes = {
       }
     } );
 
-    const links: RichTextLinks = phet.chipper.queryParameters.allowLinks ? { url: updateCheck.updateURL } : {};
+    const links: RichTextLinks = allowLinksProperty.value ? { url: updateCheck.updateURL } : {};
 
     const linkNode = new RichText( textProperty, {
       links: links,
@@ -123,7 +122,7 @@ const UpdateNodes = {
     } );
     return new HBox( merge( {
       spacing: 8,
-      cursor: phet.chipper.queryParameters.allowLinks ? 'pointer' : null,
+      cursor: allowLinksProperty.value ? 'pointer' : null,
       maxWidth: MAX_WIDTH,
       children: [
         new Path( exclamationTriangleSolidShape, {
