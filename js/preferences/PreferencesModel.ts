@@ -23,6 +23,8 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import localeProperty from '../localeProperty.js';
 
 type CustomPreference = {
+
+  // Content should create a child tandem called 'simPreferences'
   createContent: ( parentTandem: Tandem ) => Node;
 };
 
