@@ -213,10 +213,12 @@ export default class AboutDialog extends Dialog {
         const link = links[ i ];
 
         // If links are allowed, use hyperlinks. Otherwise, just output the URL. This doesn't need to be internationalized.
-        const text = allowLinksProperty.value ? `<a href="{{url}}">${link.text}</a>` : `${link.text}: ${link.url}`;
+        const textProperty = new DerivedProperty( [ allowLinksProperty ], allowLinks => {
+          return allowLinks ? `<a href="{{url}}">${link.text}</a>` : `${link.text}: ${link.url}`;
+        } );
 
         // This is PhET-iO instrumented because it is a keyboard navigation focusable element.
-        linksChildren.push( new RichText( text, {
+        linksChildren.push( new RichText( textProperty, {
           links: { url: link.url }, // RichText must fill in URL for link
           font: new PhetFont( NOMINAL_FONT_SIZE ),
           tandem: options.tandem.createTandem( link.tandemName ),

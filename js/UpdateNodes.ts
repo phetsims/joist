@@ -105,16 +105,11 @@ const UpdateNodes = {
    * (joist-internal)
    */
   createOutOfDateAboutNode: function( options: Options ): Node {
-    const textProperty = new DerivedProperty( [ joistStrings.updates.outOfDateProperty ], outOfDateString => {
-      if ( allowLinksProperty.value ) {
-        return `<a href="{{url}}">${outOfDateString}</a>`;
-      }
-      else {
-        return outOfDateString;
-      }
+    const textProperty = new DerivedProperty( [ joistStrings.updates.outOfDateProperty, allowLinksProperty ], ( outOfDateString, allowLinks ) => {
+      return allowLinks ? `<a href="{{url}}">${outOfDateString}</a>` : outOfDateString;
     } );
 
-    const links: RichTextLinks = allowLinksProperty.value ? { url: updateCheck.updateURL } : {};
+    const links: RichTextLinks = { url: updateCheck.updateURL };
 
     const linkNode = new RichText( textProperty, {
       links: links,
@@ -122,7 +117,6 @@ const UpdateNodes = {
     } );
     return new HBox( merge( {
       spacing: 8,
-      cursor: allowLinksProperty.value ? 'pointer' : null,
       maxWidth: MAX_WIDTH,
       children: [
         new Path( exclamationTriangleSolidShape, {
