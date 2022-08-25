@@ -43,13 +43,13 @@ export default class AboutDialog extends Dialog {
   private readonly disposeAboutDialog: () => void;
 
   /**
-   * @param name - name of the simulation
+   * @param nameStringProperty - name of the simulation
    * @param version - version of the simulation
    * @param credits - credits for the simulation
    * @param locale - locale string
    * @param [providedOptions]
    */
-  public constructor( name: TReadOnlyProperty<string>, version: string, credits: CreditsData, locale: string, providedOptions?: AboutDialogOptions ) {
+  public constructor( nameStringProperty: TReadOnlyProperty<string>, version: string, credits: CreditsData, locale: string, providedOptions?: AboutDialogOptions ) {
 
     const options = optionize<AboutDialogOptions, SelfOptions, DialogOptions>()( {
       xSpacing: 26,
@@ -67,7 +67,7 @@ export default class AboutDialog extends Dialog {
 
     let children = [];
 
-    const titleText = new VoicingText( name, {
+    const titleText = new VoicingText( nameStringProperty, {
       font: new PhetFont( 2 * NOMINAL_FONT_SIZE ),
       maxWidth: MAX_WIDTH,
       tagName: 'h1'
@@ -213,8 +213,8 @@ export default class AboutDialog extends Dialog {
         const link = links[ i ];
 
         // If links are allowed, use hyperlinks. Otherwise, just output the URL. This doesn't need to be internationalized.
-        const textProperty = new DerivedProperty( [ allowLinksProperty ], allowLinks => {
-          return allowLinks ? `<a href="{{url}}">${link.text}</a>` : `${link.text}: ${link.url}`;
+        const textProperty = new DerivedProperty( [ allowLinksProperty, link.text ], ( allowLinks, linkText ) => {
+          return allowLinks ? `<a href="{{url}}">${linkText}</a>` : `${linkText}: ${link.url}`;
         } );
 
         // This is PhET-iO instrumented because it is a keyboard navigation focusable element.
