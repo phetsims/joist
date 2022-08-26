@@ -6,7 +6,7 @@
  * @author Jesse Greenberg
  */
 
-import { Node, voicingManager, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
+import { colorProfileProperty, Node, voicingManager, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
 import responseCollector from '../../../utterance-queue/js/responseCollector.js';
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import joist from '../joist.js';
@@ -123,6 +123,9 @@ export type VisualModel = BaseModelType & {
   // focusable components with 'over' events, and persist around the focused element even with mouse and touch
   // interaction.
   interactiveHighlightsEnabledProperty: Property<boolean>;
+
+  // The current colorProfile of the Simulation
+  colorProfileProperty: Property<string>;
 } & Required<VisualPreferencesOptions>;
 
 export type AudioModel = BaseModelType & {
@@ -229,7 +232,8 @@ export default class PreferencesModel extends PhetioObject {
         tandem: visualTandem.createTandem( 'interactiveHighlightsEnabledProperty' ),
         phetioState: false,
         phetioReadOnly: true
-      } )
+      } ),
+      colorProfileProperty: colorProfileProperty
     }, options.visualOptions );
 
     // For now, the Voicing feature is only available when we are running in the english locale, accessibility
@@ -289,8 +293,9 @@ export default class PreferencesModel extends PhetioObject {
 
     this.addPhetioLinkedElementsForModel( options.tandem, this.generalModel );
 
-    // TODO: link colorProfileProperty and pass through the model, https://github.com/phetsims/joist/issues/840
-    this.addPhetioLinkedElementsForModel( options.tandem, this.visualModel );
+    this.addPhetioLinkedElementsForModel( options.tandem, this.visualModel, [
+      { property: this.visualModel.colorProfileProperty }
+    ] );
 
     this.addPhetioLinkedElementsForModel( options.tandem, this.audioModel, [
       { property: this.audioModel.simSoundEnabledProperty, tandemName: 'simSoundEnabledProperty' },

@@ -54,7 +54,7 @@ class VisualPreferencesPanel extends Node {
     } );
 
     if ( visualModel.supportsProjectorMode ) {
-      const projectorModeSwitch = new ProjectorModeToggleSwitch();
+      const projectorModeSwitch = new ProjectorModeToggleSwitch( visualModel.colorProfileProperty );
       contentNode.addChild( projectorModeSwitch );
     }
 
