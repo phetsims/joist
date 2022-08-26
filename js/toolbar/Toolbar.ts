@@ -29,9 +29,10 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import audioManager from '../audioManager.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
-import Sim from '../Sim.js';
 import VoicingToolbarAlertManager from './VoicingToolbarAlertManager.js';
 import VoicingToolbarItem from './VoicingToolbarItem.js';
+import LookAndFeel from '../LookAndFeel.js';
+import Screen from '../Screen.js';
 
 // constants
 const MAX_ANIMATION_SPEED = 250; // in view coordinates per second, assuming 60 fps
@@ -90,7 +91,8 @@ class Toolbar extends Node {
   private readonly contentMargin: number;
   private readonly disposeToolbar: () => void;
 
-  public constructor( sim: Sim, providedOptions?: ToolbarOptions ) {
+  public constructor( enabledProperty: TReadOnlyProperty<boolean>, selectedScreenProperty: TReadOnlyProperty<Screen>,
+                      lookAndFeel: LookAndFeel, providedOptions?: ToolbarOptions ) {
 
     const options = combineOptions<ToolbarOptions>( {
 
@@ -107,19 +109,21 @@ class Toolbar extends Node {
 
     super( options );
 
-    assert && assert( sim.preferencesModel, 'cannot have a toolbar without a PreferencesModel' );
-    this.isEnabledProperty = sim.preferencesModel.audioModel.toolbarEnabledProperty;
+    this.isEnabledProperty = enabledProperty;
 
     this.backgroundRectangle = new Rectangle( 0, 0, 0, 0, {
-      fill: sim.lookAndFeel.navigationBarFillProperty
+      fill: lookAndFeel.navigationBarFillProperty
     } );
 
     this.openProperty = new BooleanProperty( true );
 
-    this.isShowingProperty = DerivedProperty.and( [ this.isEnabledProperty, voicingManager.enabledProperty, audioManager.audioEnabledProperty ] );
+    this.isShowingProperty = DerivedProperty.and( [
+      this.isEnabledProperty,
+      voicingManager.enabledProperty,
+      audioManager.audioEnabledProperty ] );
 
-    const voicingAlertManager = new VoicingToolbarAlertManager( sim.selectedScreenProperty );
-    this.menuContent = new VoicingToolbarItem( voicingAlertManager, sim.lookAndFeel, {
+    const voicingAlertManager = new VoicingToolbarAlertManager( selectedScreenProperty );
+    this.menuContent = new VoicingToolbarItem( voicingAlertManager, lookAndFeel, {
       tandem: options.tandem.createTandem( 'menuContent' )
     } );
 
