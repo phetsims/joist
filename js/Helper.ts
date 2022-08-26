@@ -15,7 +15,7 @@ import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import MeasuringTapeNode from '../../scenery-phet/js/MeasuringTapeNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { CanvasNode, Circle, Color, Display, DOM, DragListener, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, TColor, Image, TPaint, LayoutNode, Line, LinearGradient, mixesHeightSizable, mixesWidthSizable, Node, NodeOptions, NodePattern, Paint, Path, Pattern, PDOMInstance, PressListener, RadialGradient, Rectangle, RichText, RichTextOptions, SceneryEvent, Spacer, Text, TextOptions, Trail, VBox, VDivider, WebGLNode } from '../../scenery/js/imports.js';
+import { CanvasNode, Circle, Color, Display, DOM, DragListener, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, Image, LayoutNode, Line, LinearGradient, mixesHeightSizable, mixesWidthSizable, Node, NodeOptions, NodePattern, Paint, Path, Pattern, PDOMInstance, PressListener, RadialGradient, Rectangle, RichText, RichTextOptions, SceneryEvent, Spacer, TColor, Text, TextOptions, TPaint, Trail, VBox, VDivider, WebGLNode } from '../../scenery/js/imports.js';
 import Panel from '../../sun/js/Panel.js';
 import AquaRadioButtonGroup from '../../sun/js/AquaRadioButtonGroup.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -309,9 +309,8 @@ export default class Helper {
         }
       }
     } );
-    const positionText = new RichText( positionTextProperty.value, {
-      font: new PhetFont( 12 ),
-      textProperty: positionTextProperty
+    const positionText = new RichText( positionTextProperty, {
+      font: new PhetFont( 12 )
     } );
 
     const colorTextMap = ( color: Color ) => {
@@ -322,9 +321,8 @@ export default class Helper {
       bidirectional: true,
       map: colorTextMap
     } );
-    const colorText = new RichText( colorTextMap( this.colorProperty.value ), {
-      font: new PhetFont( 12 ),
-      textProperty: colorTextProperty
+    const colorText = new RichText( colorTextProperty, {
+      font: new PhetFont( 12 )
     } );
     this.colorProperty.link( color => {
       colorText.fill = Color.getLuminance( color ) > 128 ? Color.BLACK : Color.WHITE;

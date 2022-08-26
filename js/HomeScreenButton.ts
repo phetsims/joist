@@ -104,10 +104,8 @@ class HomeScreenButton extends Voicing( VBox ) {
       pdomVisible: false
     } );
 
-    assert && assert( screen.nameProperty.value, 'name is required for screen.' );
-
     // text for the button
-    const text = new Text( screen.nameProperty.value, {
+    const text = new Text( screen.nameProperty, {
       tandem: options.tandem.createTandem( 'text' ),
       textPropertyOptions: { phetioReadOnly: true } // text is updated via screen.nameProperty
     } );
@@ -161,13 +159,6 @@ class HomeScreenButton extends Voicing( VBox ) {
       largeFrame.setHighlighted( isHighlighted );
       setOpacityAndFill();
     } );
-
-    // update the text when the screen name changes
-    screen.nameProperty.link( name => {
-      assert && assert( name, 'name cannot be null.' );
-      text.text = name!;
-    } );
-
 
     // Create a new Utterance that isn't registered through Voicing so that it isn't silenced when the
     // home screen is hidden upon selection. (invisible nodes have their voicing silenced).

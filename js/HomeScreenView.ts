@@ -75,7 +75,7 @@ class HomeScreenView extends ScreenView {
 
     this.selectedScreenProperty = model.selectedScreenProperty;
 
-    const titleText = new Text( simNameProperty.value, {
+    const titleText = new Text( simNameProperty, {
       font: new PhetFont( {
         size: 52,
         family: HomeScreenView.TITLE_FONT_FAMILY
@@ -134,9 +134,6 @@ class HomeScreenView extends ScreenView {
     }
 
     simNameProperty.link( simTitle => {
-
-      // update the titleText when the sim name changes
-      titleText.setText( simTitle );
 
       this.homeScreenScreenSummaryIntro = StringUtils.fillIn( homeScreenDescriptionPatternString, {
         name: simNameProperty.value,

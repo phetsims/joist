@@ -100,7 +100,7 @@ class NavigationBar extends Node {
     this.barContents = new Node();
     this.addChild( this.barContents );
 
-    const titleText = new Text( sim.displayedSimNameProperty.value, {
+    const titleText = new Text( sim.displayedSimNameProperty, {
       font: new PhetFont( 16 ),
       fill: sim.lookAndFeel.navigationBarTextFillProperty,
       tandem: tandem.createTandem( 'titleText' ),
@@ -116,10 +116,6 @@ class NavigationBar extends Node {
       visibleProperty: new DerivedProperty( [ sim.selectedScreenProperty ], screen => screen !== sim.homeScreen )
     } );
     this.barContents.addChild( titleContainerNode );
-
-    sim.displayedSimNameProperty.link( title => {
-      titleText.setText( title );
-    } );
 
     // PhET button, fill determined by state of navigationBarFillProperty
     const phetButton = new PhetButton(

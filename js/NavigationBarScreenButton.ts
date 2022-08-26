@@ -101,8 +101,7 @@ class NavigationBarScreenButton extends Voicing( Node ) {
       children: [ icon, iconFrame ]
     } );
 
-    assert && assert( screen.nameProperty.value, 'screen name should be defined' );
-    const text = new Text( screen.nameProperty.value, {
+    const text = new Text( screen.nameProperty, {
       font: new PhetFont( 10 ),
       tandem: options.tandem.createTandem( 'text' ),
       textPropertyOptions: { phetioReadOnly: true } // text is updated via screen.nameProperty
@@ -218,10 +217,7 @@ class NavigationBarScreenButton extends Voicing( Node ) {
       brightenHighlight.center = darkenHighlight.center = iconAndText.center;
     };
 
-    // Update the button's text and layout when the screen name changes
-    screen.nameProperty.link( name => {
-      text.text = name;
-    } );
+    // Update the button's layout when the screen name changes
     iconAndText.boundsProperty.lazyLink( updateLayout );
     text.boundsProperty.link( updateLayout );
 
