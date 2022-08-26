@@ -180,6 +180,8 @@ class ScreenView extends Node {
    */
   public override setChildren( children: Node[] ): this {
     Node.prototype.setChildren.call( this, children );
+
+    // mutate may call setChildren before pdomParentNode is constructed
     if ( this.pdomParentNode && !this.hasChild( this.pdomParentNode ) ) {
       this.addChild( this.pdomParentNode );
       this.pdomParentNode.moveToBack();
