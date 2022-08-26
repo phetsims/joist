@@ -70,6 +70,7 @@ import Combination from '../../dot/js/Combination.js';
 import Permutation from '../../dot/js/Permutation.js';
 import ArrayIO from '../../tandem/js/types/ArrayIO.js';
 import TProperty from '../../axon/js/TProperty.js';
+import StringIO from '../../tandem/js/types/StringIO.js';
 
 // constants
 const PROGRESS_BAR_WIDTH = 273;
@@ -570,6 +571,9 @@ export default class Sim extends PhetioObject {
         else {
           return simName;
         }
+      }, {
+        tandem: Tandem.GENERAL_MODEL.createTandem( 'displayedSimNameProperty' ),
+        phetioValueType: StringIO
       } );
 
     // Local variable is settable...
