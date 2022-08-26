@@ -7,7 +7,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import { colorProfileProperty, SceneryConstants, VoicingText } from '../../../scenery/js/imports.js';
+import { SceneryConstants, VoicingText } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesToggleSwitch, { PreferencesToggleSwitchOptions } from './PreferencesToggleSwitch.js';
@@ -16,13 +16,14 @@ import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js'
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import Multilink from '../../../axon/js/Multilink.js';
+import Property from '../../../axon/js/Property.js';
 
 type SelfOptions = EmptySelfOptions;
 type ParentOptions = PreferencesToggleSwitchOptions;
 export type ProjectorModeToggleSwitchOptions = SelfOptions & StrictOmit<ParentOptions, 'labelNode' | 'descriptionNode'>;
 
 class ProjectorModeToggleSwitch extends PreferencesToggleSwitch<string> {
-  public constructor( providedOptions?: ProjectorModeToggleSwitchOptions ) {
+  public constructor( colorProfileProperty: Property<string>, providedOptions?: ProjectorModeToggleSwitchOptions ) {
     assert && assert(
     phet.chipper.colorProfiles[ 0 ] !== SceneryConstants.PROJECTOR_COLOR_PROFILE &&
     phet.chipper.colorProfiles.includes( SceneryConstants.PROJECTOR_COLOR_PROFILE ) &&
