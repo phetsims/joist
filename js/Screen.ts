@@ -20,7 +20,7 @@ import Dimension2 from '../../dot/js/Dimension2.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
-import { Color, Node, Path, Rectangle } from '../../scenery/js/imports.js';
+import { Color, Node, Path, PDOMValueType, Rectangle } from '../../scenery/js/imports.js';
 import PhetioObject, { PhetioObjectOptions } from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
@@ -65,7 +65,7 @@ type SelfOptions = {
   showScreenIconFrameForNavigationBarFill?: string | null;
   maxDT?: number;
   keyboardHelpNode?: Node | null;
-  descriptionContent?: string | null;
+  descriptionContent?: PDOMValueType | null;
 };
 export type ScreenOptions = SelfOptions & PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
@@ -80,7 +80,7 @@ class Screen<M extends TModel = TModel, V extends ScreenView = ScreenView> exten
 
   public readonly maxDT: number;
   public readonly activeProperty: BooleanProperty;
-  public readonly descriptionContent: string;
+  public readonly descriptionContent: PDOMValueType;
   public readonly nameProperty: Property<string>;
 
   public readonly showScreenIconFrameForNavigationBarFill: string | null;
