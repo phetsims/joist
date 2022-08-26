@@ -21,11 +21,11 @@ import localizationManager, { RegionAndCultureDescriptor } from './localizationM
 import SpeechSynthesisAnnouncer from '../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import localeProperty from '../localeProperty.js';
-import IntentionalAny from '../../../phet-core/js/types/IntentionalAny.js';
 import merge from '../../../phet-core/js/merge.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 
 type LinkedModelProperties = {
-  property: Property<IntentionalAny>;
+  property: TReadOnlyProperty<unknown> & PhetioObject;
   tandemName?: string; // if blank, will use the tandem.name of the Property.
 };
 
