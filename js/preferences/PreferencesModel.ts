@@ -21,16 +21,29 @@ import localizationManager, { RegionAndCultureDescriptor } from './localizationM
 import SpeechSynthesisAnnouncer from '../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import localeProperty from '../localeProperty.js';
+import IntentionalAny from '../../../phet-core/js/types/IntentionalAny.js';
+import merge from '../../../phet-core/js/merge.js';
+
+type LinkedModelProperties = {
+  property: Property<IntentionalAny>;
+  tandemName?: string; // if blank, will use the tandem.name of the Property.
+};
 
 type CustomPreference = {
 
   // Content should create a child tandem called 'simPreferences'
   createContent: ( parentTandem: Tandem ) => Node;
+
+  // Each will have a PhET-iO LinkedElement added to the model for each of them.
+  linkedModelProperties?: LinkedModelProperties[];
 };
 
 type CustomPreferencesOptions = {
   customPreferences?: CustomPreference[];
 };
+
+///////////////////////////////////////////
+// Options types
 
 type GeneralPreferencesOptions = CustomPreferencesOptions;
 
@@ -93,9 +106,18 @@ type PreferencesModelSelfOptions = {
   localizationOptions?: LocalizationPreferencesOptions;
 };
 
-export type GeneralModel = Required<GeneralPreferencesOptions>;
+export type PreferencesModelOptions = PreferencesModelSelfOptions & PhetioObjectOptions;
 
-export type VisualModel = {
+/////////////////////////////////////
+// Model types
+
+type BaseModelType = {
+  tandemName: string; // tandem name of the model, like "audioModel"
+};
+
+export type GeneralModel = BaseModelType & Required<GeneralPreferencesOptions>;
+
+export type VisualModel = BaseModelType & {
 
   // Whether "Interactive Highlights" are enabled for the simulation. If enabled, focus highlights will appear around
   // focusable components with 'over' events, and persist around the focused element even with mouse and touch
@@ -103,7 +125,7 @@ export type VisualModel = {
   interactiveHighlightsEnabledProperty: Property<boolean>;
 } & Required<VisualPreferencesOptions>;
 
-export type AudioModel = {
+export type AudioModel = BaseModelType & {
   simSoundEnabledProperty: Property<boolean>;
   soundEnabledProperty: Property<boolean>;
   extraSoundEnabledProperty: Property<boolean>;
@@ -120,7 +142,7 @@ export type AudioModel = {
   toolbarEnabledProperty: Property<boolean>;
 } & Required<AudioPreferencesOptions>;
 
-export type InputModel = {
+export type InputModel = BaseModelType & {
 
   // Whether "Gesture Controls" are enabled for the simulation. If enabled, touch screen input will change to work
   // like a screen reader. Horizontal swipes across the screen will move focus, double-taps will activate the
@@ -130,10 +152,7 @@ export type InputModel = {
 
 } & Required<InputPreferencesOptions>;
 
-// Any of the sub-models of the PreferencesModel
-// type FeatureModel = GeneralModel | VisualModel | AudioModel | InputModel | LocalizationModel;
-
-export type LocalizationModel = {
+export type LocalizationModel = BaseModelType & {
 
   // The selected character artwork to use when the sim supports culture and region switching.
   regionAndCultureProperty: Property<number>;
@@ -141,7 +160,7 @@ export type LocalizationModel = {
   localeProperty: Property<string>;
 } & Required<LocalizationPreferencesOptions>;
 
-export type PreferencesModelOptions = PreferencesModelSelfOptions & PhetioObjectOptions;
+type FeatureModel = GeneralModel | AudioModel | VisualModel | InputModel | LocalizationModel;
 
 export default class PreferencesModel extends PhetioObject {
   public readonly generalModel: GeneralModel;
@@ -170,25 +189,30 @@ export default class PreferencesModel extends PhetioObject {
         phetioState: false,
         phetioReadOnly: true
       }, providedOptions ) ),
-      generalOptions: optionize<GeneralPreferencesOptions>()( {
+      generalOptions: optionize<GeneralPreferencesOptions, GeneralPreferencesOptions, BaseModelType>()( {
+        tandemName: 'generalModel',
         customPreferences: []
       }, providedOptions.generalOptions ),
-      visualOptions: optionize<VisualPreferencesOptions>()( {
+      visualOptions: optionize<VisualPreferencesOptions, VisualPreferencesOptions, BaseModelType>()( {
+        tandemName: 'visualModel',
         supportsProjectorMode: false,
         supportsInteractiveHighlights: phetFeatures.supportsInteractiveHighlights,
         customPreferences: []
       }, providedOptions.visualOptions ),
-      audioOptions: optionize<AudioPreferencesOptions>()( {
+      audioOptions: optionize<AudioPreferencesOptions, AudioPreferencesOptions, BaseModelType>()( {
+        tandemName: 'audioModel',
         supportsVoicing: phetFeatures.supportsVoicing,
         supportsSound: phetFeatures.supportsSound,
         supportsExtraSound: phetFeatures.supportsExtraSound,
         customPreferences: []
       }, providedOptions.audioOptions ),
-      inputOptions: optionize<InputPreferencesOptions>()( {
+      inputOptions: optionize<InputPreferencesOptions, InputPreferencesOptions, BaseModelType>()( {
+        tandemName: 'inputModel',
         supportsGestureControl: phetFeatures.supportsGestureControl,
         customPreferences: []
       }, providedOptions.inputOptions ),
-      localizationOptions: optionize<LocalizationPreferencesOptions>()( {
+      localizationOptions: optionize<LocalizationPreferencesOptions, LocalizationPreferencesOptions, BaseModelType>()( {
+        tandemName: 'localizationModel',
         supportsMultipleLocales: !!localeProperty.validValues && localeProperty.validValues.length > 1,
         regionAndCultureDescriptors: [],
         customPreferences: []
@@ -200,16 +224,13 @@ export default class PreferencesModel extends PhetioObject {
     this.generalModel = options.generalOptions;
 
     const visualTandem = options.tandem.createTandem( 'visualModel' );
-    this.visualModel = {
-      supportsInteractiveHighlights: options.visualOptions.supportsInteractiveHighlights,
-      supportsProjectorMode: options.visualOptions.supportsProjectorMode,
+    this.visualModel = merge( {
       interactiveHighlightsEnabledProperty: new BooleanProperty( false, {
         tandem: visualTandem.createTandem( 'interactiveHighlightsEnabledProperty' ),
         phetioState: false,
         phetioReadOnly: true
-      } ),
-      customPreferences: options.visualOptions.customPreferences
-    };
+      } )
+    }, options.visualOptions );
 
     // For now, the Voicing feature is only available when we are running in the english locale, accessibility
     // strings are not made available for translation.
@@ -244,50 +265,50 @@ export default class PreferencesModel extends PhetioObject {
         phetioReadOnly: true
       } ),
 
-      customPreferences: options.audioOptions.customPreferences
+      customPreferences: options.audioOptions.customPreferences,
+      tandemName: options.audioOptions.tandemName
     };
 
     const inputTandem = options.tandem.createTandem( 'inputModel' );
-    this.inputModel = {
-      supportsGestureControl: options.inputOptions.supportsGestureControl,
+    this.inputModel = merge( {
       gestureControlsEnabledProperty: new BooleanProperty( false, {
         tandem: inputTandem.createTandem( 'gestureControlsEnabledProperty' ),
         phetioState: false,
         phetioReadOnly: true
-      } ),
-      customPreferences: options.inputOptions.customPreferences
-    };
+      } )
+    }, options.inputOptions );
 
-    this.localizationModel = {
-      supportsMultipleLocales: options.localizationOptions.supportsMultipleLocales,
-
+    this.localizationModel = merge( {
       localeProperty: localeProperty,
-      regionAndCultureProperty: localizationManager.regionAndCultureProperty,
-      regionAndCultureDescriptors: options.localizationOptions.regionAndCultureDescriptors,
-
-      customPreferences: options.localizationOptions.customPreferences
-    };
+      regionAndCultureProperty: localizationManager.regionAndCultureProperty
+    }, options.localizationOptions );
 
     if ( this.audioModel.supportsExtraSound ) {
       assert && assert( this.audioModel.supportsSound, 'supportsSound must be true to also support extraSound' );
     }
 
-    // Provide linked elements for already instrumented Properties to make PreferencesModel a one-stop shop to view preferences.
-    const audioTandem = options.tandem.createTandem( 'audioModel' );
-    this.addLinkedElement( this.audioModel.simSoundEnabledProperty, { tandem: audioTandem.createTandem( 'simSoundEnabledProperty' ) } );
-    this.addLinkedElement( this.audioModel.soundEnabledProperty, { tandem: audioTandem.createTandem( 'soundEnabledProperty' ) } );
-    this.addLinkedElement( this.audioModel.extraSoundEnabledProperty, { tandem: audioTandem.createTandem( 'extraSoundEnabledProperty' ) } );
-    this.addLinkedElement( this.audioModel.voicingEnabledProperty, { tandem: audioTandem.createTandem( 'voicingEnabledProperty' ) } );
-    this.addLinkedElement( this.audioModel.voicingMainWindowVoicingEnabledProperty, { tandem: audioTandem.createTandem( 'voicingMainWindowVoicingEnabledProperty' ) } );
-    this.addLinkedElement( this.audioModel.voicingObjectResponsesEnabledProperty, { tandem: audioTandem.createTandem( 'voicingObjectResponsesEnabledProperty' ) } );
-    this.addLinkedElement( this.audioModel.voicingContextResponsesEnabledProperty, { tandem: audioTandem.createTandem( 'voicingContextResponsesEnabledProperty' ) } );
-    this.addLinkedElement( this.audioModel.voicingHintResponsesEnabledProperty, { tandem: audioTandem.createTandem( 'voicingHintResponsesEnabledProperty' ) } );
-    this.addLinkedElement( this.audioModel.voicePitchProperty, { tandem: audioTandem.createTandem( 'voicePitchProperty' ) } );
-    this.addLinkedElement( this.audioModel.voiceRateProperty, { tandem: audioTandem.createTandem( 'voiceRateProperty' ) } );
-    this.addLinkedElement( this.audioModel.voiceProperty, { tandem: audioTandem.createTandem( 'voiceProperty' ) } );
+    this.addPhetioLinkedElementsForModel( options.tandem, this.generalModel );
 
-    const localizationTandem = options.tandem.createTandem( 'localizationModel' );
-    this.addLinkedElement( this.localizationModel.localeProperty, { tandem: localizationTandem.createTandem( 'localeProperty' ) } );
+    // TODO: link colorProfileProperty and pass through the model, https://github.com/phetsims/joist/issues/840
+    this.addPhetioLinkedElementsForModel( options.tandem, this.visualModel );
+
+    this.addPhetioLinkedElementsForModel( options.tandem, this.audioModel, [
+      { property: this.audioModel.simSoundEnabledProperty, tandemName: 'simSoundEnabledProperty' },
+      { property: this.audioModel.soundEnabledProperty, tandemName: 'soundEnabledProperty' },
+      { property: this.audioModel.extraSoundEnabledProperty, tandemName: 'extraSoundEnabledProperty' },
+      { property: this.audioModel.voicingEnabledProperty, tandemName: 'voicingEnabledProperty' },
+      { property: this.audioModel.voicingMainWindowVoicingEnabledProperty, tandemName: 'voicingMainWindowVoicingEnabledProperty' },
+      { property: this.audioModel.voicingObjectResponsesEnabledProperty, tandemName: 'voicingObjectResponsesEnabledProperty' },
+      { property: this.audioModel.voicingContextResponsesEnabledProperty, tandemName: 'voicingContextResponsesEnabledProperty' },
+      { property: this.audioModel.voicingHintResponsesEnabledProperty, tandemName: 'voicingHintResponsesEnabledProperty' },
+      { property: this.audioModel.voicePitchProperty, tandemName: 'voicePitchProperty' },
+      { property: this.audioModel.voiceRateProperty, tandemName: 'voiceRateProperty' },
+      { property: this.audioModel.voiceProperty, tandemName: 'voiceProperty' }
+    ] );
+    this.addPhetioLinkedElementsForModel( options.tandem, this.inputModel );
+    this.addPhetioLinkedElementsForModel( options.tandem, this.localizationModel, [
+      { property: this.localizationModel.localeProperty, tandemName: 'localeProperty' }
+    ] );
 
     // Since voicingManager in Scenery can not use initialize-globals, set the initial value for whether Voicing is
     // enabled here in the PreferencesModel.
@@ -341,6 +362,21 @@ export default class PreferencesModel extends PhetioObject {
 
     if ( this.inputModel.supportsGestureControl ) {
       PreferencesStorage.register( this.inputModel.gestureControlsEnabledProperty, 'gestureControlsEnabledProperty' );
+    }
+  }
+
+  private addPhetioLinkedElementsForModel( parentTandem: Tandem, featureModel: FeatureModel, additionalProperties: Array<LinkedModelProperties> = [] ): void {
+    const tandem = parentTandem.createTandem( featureModel.tandemName );
+    const propertiesToLink = additionalProperties;
+    for ( let i = 0; i < featureModel.customPreferences.length; i++ ) {
+      const customPreference = featureModel.customPreferences[ i ];
+      customPreference.linkedModelProperties && propertiesToLink.push( ...customPreference.linkedModelProperties );
+    }
+
+    for ( let j = 0; j < propertiesToLink.length; j++ ) {
+      const modelPropertyObject = propertiesToLink[ j ];
+      const tandemName = modelPropertyObject.tandemName || modelPropertyObject.property.tandem.name;
+      this.addLinkedElement( modelPropertyObject.property, { tandem: tandem.createTandem( tandemName ) } );
     }
   }
 
