@@ -236,7 +236,11 @@ export default class PreferencesModel extends PhetioObject {
       voiceRateProperty: voicingManager.voiceRateProperty,
       voiceProperty: voicingManager.voiceProperty,
 
-      toolbarEnabledProperty: new BooleanProperty( true ),
+      toolbarEnabledProperty: new BooleanProperty( true, {
+        tandem: visualTandem.createTandem( 'toolbarEnabledProperty' ),
+        phetioState: false,
+        phetioReadOnly: true
+      } ),
 
       customPreferences: options.audioOptions.customPreferences
     };
