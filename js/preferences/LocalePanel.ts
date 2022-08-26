@@ -13,7 +13,6 @@ import joist from '../joist.js';
 import Panel from '../../../sun/js/Panel.js';
 import { FireListener, GridBox, HighlightOverlay, Rectangle, Text } from '../../../scenery/js/imports.js';
 import localeInfoModule from '../../../chipper/js/data/localeInfoModule.js';
-import localeProperty from '../localeProperty.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
@@ -66,10 +65,7 @@ class LocalePanel extends Panel {
 class LanguageSelectionNode extends Rectangle {
   private readonly disposeLanguageSelectionNode: () => void;
 
-  /**
-   * @param locale - locale code
-   */
-  public constructor( localProperty: Property<string>, locale: string ) {
+  public constructor( localeProperty: Property<string>, locale: string ) {
 
     // @ts-ignore - "Element implicitly has any type" because string cannot be used to access a type
     const text = new Text( localeInfoModule[ locale ].localizedName, {
