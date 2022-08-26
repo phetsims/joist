@@ -69,7 +69,6 @@ import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import Combination from '../../dot/js/Combination.js';
 import Permutation from '../../dot/js/Permutation.js';
 import ArrayIO from '../../tandem/js/types/ArrayIO.js';
-import TProperty from '../../axon/js/TProperty.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
 
 // constants
@@ -112,7 +111,7 @@ export type SimOptions = SelfOptions & PickOptional<PhetioObject, 'phetioDesigne
 export default class Sim extends PhetioObject {
 
   // (joist-internal)
-  public readonly simNameProperty: TProperty<string>;
+  public readonly simNameProperty: TReadOnlyProperty<string>;
 
   // Indicates sim construction completed, and that all screen models and views have been created.
   // This was added for PhET-iO but can be used by any client. This does not coincide with the end of the Sim
@@ -309,17 +308,15 @@ export default class Sim extends PhetioObject {
 
     this.credits = options.credits;
 
-    this.simNameProperty = new StringProperty( typeof name === 'string' ? name : name.value, {
+    const stringTitleDependency = typeof name === 'string' ? new StringProperty( name ) : name;
+
+    this.simNameProperty = new DerivedProperty( [ stringTitleDependency ], dep => dep, {
       tandem: Tandem.GENERAL_MODEL.createTandem( 'simNameProperty' ),
+      phetioValueType: StringIO,
       phetioFeatured: true,
-      phetioDocumentation: 'The name of the sim. Changing this value will update the title text on the navigation bar ' +
+      phetioDocumentation: 'The name of the sim, shown in the navigation bar ' +
                            'and the title text on the home screen, if it exists.'
     } );
-    if ( typeof name !== 'string' ) {
-      name.lazyLink( nameString => {
-        this.simNameProperty.value = nameString;
-      } );
-    }
 
     // playbackModeEnabledProperty cannot be changed after Sim construction has begun, hence this listener is added before
     // anything else is done, see https://github.com/phetsims/phet-io/issues/1146
