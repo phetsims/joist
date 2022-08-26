@@ -17,11 +17,12 @@ import localeProperty from '../localeProperty.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
+import Property from '../../../axon/js/Property.js';
 
 class LocalePanel extends Panel {
   private readonly disposeLocalePanel: () => void;
 
-  public constructor() {
+  public constructor( localeProperty: Property<string> ) {
 
     // All available locales aligned into a grid
     const content = new GridBox( {
@@ -38,7 +39,7 @@ class LocalePanel extends Panel {
       children: localeProperty.validValues!.map( locale => {
 
         // @ts-ignore - "Element implicitly has any type" because string cannot be used to access a type
-        return new LanguageSelectionNode( locale );
+        return new LanguageSelectionNode( localeProperty, locale );
       } )
     } );
 
@@ -68,7 +69,7 @@ class LanguageSelectionNode extends Rectangle {
   /**
    * @param locale - locale code
    */
-  public constructor( locale: string ) {
+  public constructor( localProperty: Property<string>, locale: string ) {
 
     // @ts-ignore - "Element implicitly has any type" because string cannot be used to access a type
     const text = new Text( localeInfoModule[ locale ].localizedName, {

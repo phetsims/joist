@@ -137,6 +137,8 @@ export type LocalizationModel = {
 
   // The selected character artwork to use when the sim supports culture and region switching.
   regionAndCultureProperty: Property<number>;
+
+  localeProperty: Property<string>;
 } & Required<LocalizationPreferencesOptions>;
 
 export type PreferencesModelOptions = PreferencesModelSelfOptions & PhetioObjectOptions;
@@ -259,6 +261,7 @@ export default class PreferencesModel extends PhetioObject {
     this.localizationModel = {
       supportsMultipleLocales: options.localizationOptions.supportsMultipleLocales,
 
+      localeProperty: localeProperty,
       regionAndCultureProperty: localizationManager.regionAndCultureProperty,
       regionAndCultureDescriptors: options.localizationOptions.regionAndCultureDescriptors,
 
@@ -282,6 +285,9 @@ export default class PreferencesModel extends PhetioObject {
     this.addLinkedElement( this.audioModel.voicePitchProperty, { tandem: audioTandem.createTandem( 'voicePitchProperty' ) } );
     this.addLinkedElement( this.audioModel.voiceRateProperty, { tandem: audioTandem.createTandem( 'voiceRateProperty' ) } );
     this.addLinkedElement( this.audioModel.voiceProperty, { tandem: audioTandem.createTandem( 'voiceProperty' ) } );
+
+    const localizationTandem = options.tandem.createTandem( 'localizationModel' );
+    this.addLinkedElement( this.localizationModel.localeProperty, { tandem: localizationTandem.createTandem( 'localeProperty' ) } );
 
     // Since voicingManager in Scenery can not use initialize-globals, set the initial value for whether Voicing is
     // enabled here in the PreferencesModel.

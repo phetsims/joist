@@ -35,7 +35,7 @@ class LocalizationPreferencesPanel extends Node {
     } );
 
     if ( localizationModel.supportsMultipleLocales ) {
-      const localePanel = new LocalePanel();
+      const localePanel = new LocalePanel( localizationModel.localeProperty );
       contentNode.addChild( localePanel );
       disposeEmitter.addListener( () => localePanel.dispose() );
     }
