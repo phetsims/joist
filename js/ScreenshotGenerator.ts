@@ -14,20 +14,13 @@ import Sim from './Sim.js';
 
 class ScreenshotGenerator {
 
-  /**
-   * Given a sim, generate a screenshot as a data url
-   * @param sim
-   * @param mimeType - String for the image mimeType, defaults to 'image/png'
-   * @returns dataURL
-   */
-  public static generateScreenshot( sim: Sim, mimeType = 'image/png' ): string {
-
+  private static generateScreenshotAtIncreasedResolution( sim: Sim, scale: number ): HTMLCanvasElement {
     // set up our Canvas with the correct background color
     const canvas = document.createElement( 'canvas' );
     const context = canvas.getContext( '2d' )!;
 
     assert && assert( context );
-    const backingScale = Utils.backingScale( context );
+    const backingScale = Utils.backingScale( context ) * scale;
     canvas.width = sim.display.width * backingScale;
     canvas.height = sim.display.height * backingScale;
 
@@ -38,8 +31,28 @@ class ScreenshotGenerator {
 
     sim.rootNode.renderToCanvasSubtree( wrapper, Matrix3.scaling( backingScale ) );
 
+    return canvas;
+  }
+
+  private static renderAtScale( raster: HTMLCanvasElement, scale: number ): HTMLCanvasElement {
+    const canvas = document.createElement( 'canvas' );
+    const context = canvas.getContext( '2d' )!;
+
+    canvas.width = raster.width * scale;
+    canvas.height = raster.height * scale;
+
+    context.scale( scale, scale );
+    context.drawImage( raster, 0, 0 );
+    return canvas;
+  }
+
+  // Default to PNG
+  public static generateScreenshot( sim: Sim, mimeType = 'image/png' ): string {
+    const res2x = ScreenshotGenerator.generateScreenshotAtIncreasedResolution( sim, 2 );
+    const res1x = ScreenshotGenerator.renderAtScale( res2x, 1 / 2 );
+
     // get the data URL in PNG format
-    return canvas.toDataURL( mimeType );
+    return res1x.toDataURL( mimeType );
   }
 }
 
