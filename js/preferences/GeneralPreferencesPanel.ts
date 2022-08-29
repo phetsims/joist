@@ -61,8 +61,8 @@ class GeneralPreferencesPanel extends VBox {
       tagName: 'p'
     } );
     introParagraphs.children = [
-      new VoicingRichText( joistStrings.preferences.tabs.general.accessibilityIntroProperty, introTextOptions ),
-      new VoicingRichText( joistStrings.preferences.tabs.general.moreAccessibilityProperty, introTextOptions )
+      new VoicingRichText( joistStrings.preferences.tabs.general.accessibilityIntroStringProperty, introTextOptions ),
+      new VoicingRichText( joistStrings.preferences.tabs.general.moreAccessibilityStringProperty, introTextOptions )
     ];
 
     // Just the provided panel content with its own spacing

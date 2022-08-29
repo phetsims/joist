@@ -54,7 +54,7 @@ const UpdateNodes = {
       maxWidth: MAX_WIDTH,
       children: [
         spinningIndicatorNode,
-        new VoicingText( joistStrings.updates.checkingProperty, {
+        new VoicingText( joistStrings.updates.checkingStringProperty, {
           font: new PhetFont( options.big ? 16 : 14 ),
           fontWeight: options.big ? 'bold' : 'normal'
         } )
@@ -91,7 +91,7 @@ const UpdateNodes = {
             } )
           ]
         } ),
-        new VoicingText( joistStrings.updates.upToDateProperty, {
+        new VoicingText( joistStrings.updates.upToDateStringProperty, {
           font: new PhetFont( options.big ? 16 : 14 ),
           fontWeight: options.big ? 'bold' : 'normal'
         } )
@@ -105,7 +105,7 @@ const UpdateNodes = {
    * (joist-internal)
    */
   createOutOfDateAboutNode: function( options: Options ): Node {
-    const textProperty = new DerivedProperty( [ joistStrings.updates.outOfDateProperty, allowLinksProperty ], ( outOfDateString, allowLinks ) => {
+    const textProperty = new DerivedProperty( [ joistStrings.updates.outOfDateStringProperty, allowLinksProperty ], ( outOfDateString, allowLinks ) => {
       return allowLinks ? `<a href="{{url}}">${outOfDateString}</a>` : outOfDateString;
     } );
 
@@ -139,10 +139,10 @@ const UpdateNodes = {
    */
   createOutOfDateDialogNode: function( dialog: UpdateDialog, ourVersionString: string, latestVersionString: string, options: Options ): Node {
 
-    const latestVersionStringProperty = new DerivedProperty( [ joistStrings.updates.newVersionAvailableProperty ], string => {
+    const latestVersionStringProperty = new DerivedProperty( [ joistStrings.updates.newVersionAvailableStringProperty ], string => {
       return StringUtils.format( string, latestVersionString );
     } );
-    const ourVersionStringProperty = new DerivedProperty( [ joistStrings.updates.yourCurrentVersionProperty ], string => {
+    const ourVersionStringProperty = new DerivedProperty( [ joistStrings.updates.yourCurrentVersionStringProperty ], string => {
       return StringUtils.format( string, ourVersionString );
     } );
 
@@ -162,12 +162,12 @@ const UpdateNodes = {
         } ),
         new HBox( {
           spacing: 25, children: [
-            new TextPushButton( joistStrings.updates.getUpdateProperty, {
+            new TextPushButton( joistStrings.updates.getUpdateStringProperty, {
               baseColor: '#6f6', font: UPDATE_TEXT_FONT, listener: function() {
                 openPopup( updateCheck.updateURL ); // open in a new window/tab
               }
             } ),
-            new TextPushButton( joistStrings.updates.noThanksProperty, {
+            new TextPushButton( joistStrings.updates.noThanksStringProperty, {
               baseColor: '#ddd', font: UPDATE_TEXT_FONT, listener: function() {
                 dialog.hide();
 
@@ -191,7 +191,7 @@ const UpdateNodes = {
       maxWidth: MAX_WIDTH,
       children: [
         new VStrut( 20 ), // spacer to match layout of other nodes
-        new VoicingText( joistStrings.updates.offlineProperty, {
+        new VoicingText( joistStrings.updates.offlineStringProperty, {
           font: new PhetFont( options.big ? 16 : 14 ),
           fontWeight: options.big ? 'bold' : 'normal'
         } )

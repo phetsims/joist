@@ -62,9 +62,9 @@ class PreferencesDialog extends Dialog {
 
       // pdom
       tagName: 'h1',
-      textProperty: joistStrings.preferences.titleProperty
+      textProperty: joistStrings.preferences.titleStringProperty
     } );
-    const titleProperty = joistStrings.preferences.titleProperty;
+    const titleProperty = joistStrings.preferences.titleStringProperty;
     titleProperty.link( titleString => {
       titleText.innerContent = titleString;
     } );
@@ -77,7 +77,7 @@ class PreferencesDialog extends Dialog {
       phetioDynamicElement: true,
       tandem: Tandem.REQUIRED,
 
-      closeButtonVoicingDialogTitle: joistStrings.preferences.titleProperty,
+      closeButtonVoicingDialogTitle: joistStrings.preferences.titleStringProperty,
 
       // pdom
       positionInPDOM: true

@@ -74,7 +74,7 @@ export default class AboutDialog extends Dialog {
     } );
     children.push( titleText );
 
-    const versionStringProperty = new DerivedProperty( [ joistStrings.versionPatternProperty ], versionPattern => {
+    const versionStringProperty = new DerivedProperty( [ joistStrings.versionPatternStringProperty ], versionPattern => {
       return StringUtils.format( versionPattern, version );
     } );
     children.push( new VoicingText( versionStringProperty, {

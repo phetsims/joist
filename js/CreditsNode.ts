@@ -58,7 +58,7 @@ export default class CreditsNode extends VBox {
     const children: Node[] = [];
 
     // Credits
-    children.push( new VoicingText( joistStrings.credits.titleProperty, {
+    children.push( new VoicingText( joistStrings.credits.titleStringProperty, {
       font: options.titleFont,
 
       // pdom
@@ -73,50 +73,50 @@ export default class CreditsNode extends VBox {
 
     // Primary HTML5 designer first, followed by contributing designers (HTML5 and legacy) in alphabetical order.
     if ( credits.leadDesign ) {
-      const designString = formatStringProperty( joistStrings.credits.leadDesignProperty, credits.leadDesign );
+      const designString = formatStringProperty( joistStrings.credits.leadDesignStringProperty, credits.leadDesign );
       children.push( new VoicingRichText( designString, richTextOptions ) );
     }
 
     // Primary HTML5 developer first, followed by contributing developers (HTML5 and legacy) in alphabetical order.
     if ( credits.softwareDevelopment ) {
-      const developmentString = formatStringProperty( joistStrings.credits.softwareDevelopmentProperty, credits.softwareDevelopment );
+      const developmentString = formatStringProperty( joistStrings.credits.softwareDevelopmentStringProperty, credits.softwareDevelopment );
       children.push( new VoicingRichText( developmentString, richTextOptions ) );
     }
 
     // In alphabetical order (includes HTML5 and legacy team members)
     if ( credits.team ) {
-      const teamString = formatStringProperty( joistStrings.credits.teamProperty, credits.team );
+      const teamString = formatStringProperty( joistStrings.credits.teamStringProperty, credits.team );
       children.push( new VoicingRichText( teamString, richTextOptions ) );
     }
 
     // In alphabetical order (this field is new for HTML5 sims)
     if ( credits.contributors ) {
-      const contributorsString = formatStringProperty( joistStrings.credits.contributorsProperty, credits.contributors );
+      const contributorsString = formatStringProperty( joistStrings.credits.contributorsStringProperty, credits.contributors );
       children.push( new VoicingRichText( contributorsString, richTextOptions ) );
     }
 
     // In alphabetical order (this field is new for HTML5 sims)
     if ( credits.qualityAssurance ) {
-      const qualityAssuranceString = formatStringProperty( joistStrings.credits.qualityAssuranceProperty, credits.qualityAssurance );
+      const qualityAssuranceString = formatStringProperty( joistStrings.credits.qualityAssuranceStringProperty, credits.qualityAssurance );
       children.push( new VoicingRichText( qualityAssuranceString, richTextOptions ) );
     }
 
     // In alphabetical order (this field is new for HTML5 sims)
     if ( credits.graphicArts ) {
-      const graphicArtsString = formatStringProperty( joistStrings.credits.graphicArtsProperty, credits.graphicArts );
+      const graphicArtsString = formatStringProperty( joistStrings.credits.graphicArtsStringProperty, credits.graphicArts );
       children.push( new VoicingRichText( graphicArtsString, richTextOptions ) );
     }
 
     // In alphabetical order (this field is new for HTML5 sims)
     if ( credits.soundDesign ) {
-      const soundDesignString = formatStringProperty( joistStrings.credits.soundDesignProperty, credits.soundDesign );
+      const soundDesignString = formatStringProperty( joistStrings.credits.soundDesignStringProperty, credits.soundDesign );
       children.push( new VoicingRichText( soundDesignString, richTextOptions ) );
     }
 
     // Thanks
     if ( credits.thanks ) {
       if ( children.length > 0 ) { children.push( new VStrut( 13 ) ); }
-      children.push( new VoicingText( joistStrings.credits.thanksProperty, {
+      children.push( new VoicingText( joistStrings.credits.thanksStringProperty, {
         font: options.titleFont,
         tagName: 'h2'
       } ) );

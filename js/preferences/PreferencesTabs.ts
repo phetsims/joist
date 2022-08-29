@@ -52,13 +52,13 @@ class PreferencesTabs extends HBox {
     const isTabSupported = ( preferencesType: PreferencesType ) => _.includes( supportedTabs, preferencesType );
 
     if ( isTabSupported( PreferencesType.GENERAL ) ) {
-      this.content.push( new Tab( joistStrings.preferences.tabs.general.titleProperty, selectedPanelProperty, PreferencesType.GENERAL ) );
+      this.content.push( new Tab( joistStrings.preferences.tabs.general.titleStringProperty, selectedPanelProperty, PreferencesType.GENERAL ) );
     }
     if ( isTabSupported( PreferencesType.VISUAL ) ) {
-      this.content.push( new Tab( joistStrings.preferences.tabs.visual.titleProperty, selectedPanelProperty, PreferencesType.VISUAL ) );
+      this.content.push( new Tab( joistStrings.preferences.tabs.visual.titleStringProperty, selectedPanelProperty, PreferencesType.VISUAL ) );
     }
     if ( isTabSupported( PreferencesType.AUDIO ) ) {
-      this.content.push( new Tab( joistStrings.preferences.tabs.audio.titleProperty, selectedPanelProperty, PreferencesType.AUDIO ) );
+      this.content.push( new Tab( joistStrings.preferences.tabs.audio.titleStringProperty, selectedPanelProperty, PreferencesType.AUDIO ) );
     }
     if ( isTabSupported( PreferencesType.INPUT ) ) {
 
@@ -227,7 +227,7 @@ class Tab extends Voicing( Node ) {
 
     this.value = value;
 
-    const voicingMultilink = Multilink.multilink( [ joistStrings.a11y.preferences.tabs.tabResponsePatternProperty, label ], ( pattern, labelString ) => {
+    const voicingMultilink = Multilink.multilink( [ joistStrings.a11y.preferences.tabs.tabResponsePatternStringProperty, label ], ( pattern, labelString ) => {
       this.voicingNameResponse = StringUtils.fillIn( pattern, {
         title: labelString
       } );

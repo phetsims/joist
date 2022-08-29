@@ -31,12 +31,12 @@ class ProjectorModeToggleSwitch extends PreferencesToggleSwitch<string> {
     phet.chipper.colorProfiles[ 0 ] !== phet.chipper.colorProfiles[ 1 ],
       'ProjectorModeToggleSwitch requires sims that support the projector color profile and one other color profile' );
 
-    const projectorModeLabel = new VoicingText( joistStrings.projectorModeProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
-    const projectorModeDescription = new VoicingText( joistStrings.preferences.tabs.visual.projectorModeDescriptionProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
+    const projectorModeLabel = new VoicingText( joistStrings.projectorModeStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
+    const projectorModeDescription = new VoicingText( joistStrings.preferences.tabs.visual.projectorModeDescriptionStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
     Multilink.multilink( [
-      joistStrings.a11y.preferences.tabs.labelledDescriptionPatternProperty,
-      joistStrings.projectorModeProperty,
-      joistStrings.preferences.tabs.visual.projectorModeDescriptionProperty
+      joistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty,
+      joistStrings.projectorModeStringProperty,
+      joistStrings.preferences.tabs.visual.projectorModeDescriptionStringProperty
     ], ( labelledDescriptionPatternString, projectorModeString, projectorModeDescriptionString ) => {
       projectorModeDescription.readingBlockNameResponse = StringUtils.fillIn( labelledDescriptionPatternString, {
         label: projectorModeString,

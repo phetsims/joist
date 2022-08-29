@@ -119,7 +119,7 @@ class PhetMenu extends Node {
      */
     const itemDescriptors: MenuItemDescriptor[] = [
       {
-        text: joistStrings.menuItem.phetWebsiteProperty,
+        text: joistStrings.menuItem.phetWebsiteStringProperty,
         present: isPhETBrand,
         callback: () => {
           if ( !phet.chipper.isFuzzEnabled() ) {
@@ -133,7 +133,7 @@ class PhetMenu extends Node {
         }
       },
       {
-        text: joistStrings.menuItem.reportAProblemProperty,
+        text: joistStrings.menuItem.reportAProblemStringProperty,
         present: isPhETBrand && !isApp,
         callback: () => {
           if ( !phet.chipper.isFuzzEnabled() ) {
@@ -163,7 +163,7 @@ class PhetMenu extends Node {
         }
       },
       {
-        text: joistStrings.menuItem.getUpdateProperty,
+        text: joistStrings.menuItem.getUpdateStringProperty,
         present: updateCheck.areUpdatesChecked,
         callback: () => {
           if ( !updateDialog ) {
@@ -182,7 +182,7 @@ class PhetMenu extends Node {
 
       // "Screenshot" Menu item
       {
-        text: joistStrings.menuItem.screenshotProperty,
+        text: joistStrings.menuItem.screenshotStringProperty,
         present: !isApp, // Not supported by IE9, see https://github.com/phetsims/joist/issues/212
         callback: () => {
           const dataURL = ScreenshotGenerator.generateScreenshot( sim );
@@ -227,7 +227,7 @@ class PhetMenu extends Node {
 
       // "Full Screen" menu item
       {
-        text: joistStrings.menuItem.fullscreenProperty,
+        text: joistStrings.menuItem.fullscreenStringProperty,
         present: FullScreen.isFullScreenEnabled() && !isApp && !platform.mobileSafari && !phet.chipper.queryParameters.preventFullScreen,
         callback: () => {
           if ( !phet.chipper.isFuzzEnabled() ) {
@@ -247,7 +247,7 @@ class PhetMenu extends Node {
 
       // About dialog button
       {
-        text: joistStrings.menuItem.aboutProperty,
+        text: joistStrings.menuItem.aboutStringProperty,
         present: true,
         callback: () => aboutDialogCapsule.getElement().show(),
         options: {
