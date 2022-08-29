@@ -18,9 +18,7 @@ const localeProperty = new StringProperty( phet.chipper.locale || 'en', {
   validValues: locales
 } );
 
-// ?stringTest=keyboardShortcutLocaleSwitcher adds keyboard shortcuts for cycling
-// through the available locales
-if ( phet.chipper.queryParameters.stringTest === 'keyboardShortcutLocaleSwitcher' ) {
+if ( phet.chipper.queryParameters.localeKeyboardSwitcher ) {
 
   // Support qwerty and dvorak.  u (back) and i (forward) on the physical keyboard
   const forwardKeys = [ 'c', 'i' ];
