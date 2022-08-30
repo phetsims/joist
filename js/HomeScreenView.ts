@@ -20,13 +20,10 @@ import Screen from './Screen.js';
 import HomeScreenModel from './HomeScreenModel.js';
 import Property from '../../axon/js/Property.js';
 import optionize from '../../phet-core/js/optionize.js';
-import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 
 const homeScreenDescriptionPatternString = joistStrings.a11y.homeScreenDescriptionPattern;
-
-type GeneralScreen = Screen<IntentionalAny>;
 
 type SelfOptions = {
 
@@ -39,7 +36,7 @@ type HomeScreenViewOptions = SelfOptions & PickRequired<ScreenViewOptions, 'tand
 class HomeScreenView extends ScreenView {
 
   private homeScreenScreenSummaryIntro!: string;
-  private selectedScreenProperty: Property<GeneralScreen>;
+  private selectedScreenProperty: Property<Screen>;
   public screenButtons: HomeScreenButton[];
 
   // NOTE: In https://github.com/phetsims/joist/issues/640, we attempted to use ScreenView.DEFAULT_LAYOUT_BOUNDS here.
@@ -95,7 +92,7 @@ class HomeScreenView extends ScreenView {
 
     const buttonGroupTandem = options.tandem.createTandem( 'buttonGroup' );
 
-    this.screenButtons = _.map( model.simScreens, ( screen: GeneralScreen ) => {
+    this.screenButtons = _.map( model.simScreens, ( screen: Screen ) => {
 
       assert && assert( screen.nameProperty.value, `name is required for screen ${model.simScreens.indexOf( screen )}` );
       assert && assert( screen.homeScreenIcon, `homeScreenIcon is required for screen ${screen.nameProperty.value}` );

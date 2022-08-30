@@ -26,7 +26,6 @@
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import StringProperty from '../../axon/js/StringProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
-import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import { AlignBox, Color, HBox, ManualConstraint, Node, PDOMPeer, Rectangle, RelaxedManualConstraint, Text } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -245,7 +244,7 @@ class NavigationBar extends Node {
       } )!.width );
       const maxScreenButtonHeight = _.maxBy( screenButtons, button => button.height )!.height;
 
-      const screenButtonMap = new Map<Screen<IntentionalAny>, Node>();
+      const screenButtonMap = new Map<Screen, Node>();
       screenButtons.forEach( screenButton => {
         screenButtonMap.set( screenButton.screen, new AlignBox( screenButton, {
           excludeInvisibleChildrenFromBounds: true,

@@ -32,6 +32,7 @@ import joistStrings from './joistStrings.js';
 import ScreenIcon from './ScreenIcon.js';
 import ScreenView from './ScreenView.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
+import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import Multilink from '../../axon/js/Multilink.js';
 import TModel from './TModel.js';
 import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
@@ -70,11 +71,11 @@ type SelfOptions = {
 export type ScreenOptions = SelfOptions & PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 // Accept any subtype of TModel (defaults to supertype), and any subtype of ScreenView (defaults to subtype).
-// @ts-ignore
-type CreateView<out M extends TModel, V> = ( model: M ) => V;
+type CreateView<M extends TModel, V> = ( model: M ) => V;
 
 // Parameterized on M=Model and V=View
-class Screen<M extends TModel = TModel, V extends ScreenView = ScreenView> extends PhetioObject {
+// The IntentionalAny in the model type is due to https://github.com/phetsims/joist/issues/783#issuecomment-1231017213
+class Screen<M extends TModel = IntentionalAny, V extends ScreenView = ScreenView> extends PhetioObject {
 
   public backgroundColorProperty: Property<Color> | Property<string> | Property<Color | string>;
 

@@ -15,7 +15,6 @@ import Property from '../../axon/js/Property.js';
 import Utils from '../../dot/js/Utils.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
-import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import { Color, FocusHighlightPath, Node, NodeOptions, Rectangle, Text, VBox, Voicing, VoicingOptions } from '../../scenery/js/imports.js';
@@ -38,7 +37,7 @@ type NavigationBarScreenButtonOptions = SelfOptions & ParentOptions;
 class NavigationBarScreenButton extends Voicing( Node ) {
   private readonly buttonModel: PushButtonModel;
 
-  public readonly screen: Screen<IntentionalAny>;
+  public readonly screen: Screen;
 
   /**
    * @param navigationBarFillProperty - the color of the navbar, as a string.
@@ -48,8 +47,8 @@ class NavigationBarScreenButton extends Voicing( Node ) {
    * @param navBarHeight
    * @param [providedOptions]
    */
-  public constructor( navigationBarFillProperty: TReadOnlyProperty<Color>, screenProperty: Property<Screen<IntentionalAny>>,
-                      screen: Screen<IntentionalAny>, simScreenIndex: number, navBarHeight: number,
+  public constructor( navigationBarFillProperty: TReadOnlyProperty<Color>, screenProperty: Property<Screen>,
+                      screen: Screen, simScreenIndex: number, navBarHeight: number,
                       providedOptions: NavigationBarScreenButtonOptions ) {
 
     assert && assert( screen.nameProperty.value, `name is required for screen ${simScreenIndex}` );

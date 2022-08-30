@@ -16,9 +16,9 @@ import joist from './joist.js';
 import Screen from './Screen.js';
 
 class HomeScreenModel {
-  public simScreens: Screen<IntentionalAny>[]; // screens in the simulations that are not the HomeScreen
-  public screenProperty: Property<Screen<IntentionalAny>>;
-  public selectedScreenProperty: Property<Screen<IntentionalAny>>;
+  public simScreens: Screen[]; // screens in the simulations that are not the HomeScreen
+  public screenProperty: Property<Screen>;
+  public selectedScreenProperty: Property<Screen>;
   public readonly activeSimScreensProperty: ReadOnlyProperty<Screen[]>;
 
   /**
