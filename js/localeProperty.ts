@@ -18,7 +18,7 @@ const localeProperty = new StringProperty( phet.chipper.locale || 'en', {
   validValues: locales
 } );
 
-if ( phet.chipper.queryParameters.localeKeyboardSwitcher ) {
+if ( phet.chipper.queryParameters.keyboardLocaleSwitcher ) {
 
   // Support qwerty and dvorak.  u (back) and i (forward) on the physical keyboard
   const forwardKeys = [ 'c', 'i' ];
