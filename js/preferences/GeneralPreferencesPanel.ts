@@ -19,6 +19,7 @@ import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js'
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
 import Emitter from '../../../axon/js/Emitter.js';
+import isLeftToRightProperty from '../isLeftToRightProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 type GeneralPreferencesPanelOptions = SelfOptions & VBoxOptions & PickRequired<VBoxOptions, 'tandem'>;
@@ -52,7 +53,6 @@ class GeneralPreferencesPanel extends VBox {
     // All panel content collected in this final array
     const panelContent = [];
 
-    const introParagraphs = new VBox( { spacing: 10, align: 'left' } );
     const introTextOptions = merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
 
       // using lineWrap instead of default maxWidth for content
@@ -60,10 +60,20 @@ class GeneralPreferencesPanel extends VBox {
       lineWrap: 600,
       tagName: 'p'
     } );
-    introParagraphs.children = [
+    const introParagraphsTexts = [
       new VoicingRichText( joistStrings.preferences.tabs.general.accessibilityIntroStringProperty, introTextOptions ),
       new VoicingRichText( joistStrings.preferences.tabs.general.moreAccessibilityStringProperty, introTextOptions )
     ];
+
+    const introParagraphs = new VBox( { spacing: 10, children: introParagraphsTexts } );
+
+    isLeftToRightProperty.link( isLTR => {
+      introParagraphsTexts.forEach( text => {
+        const align = isLTR ? 'left' : 'right';
+        text.align = align;
+        introParagraphs.align = align;
+      } );
+    } );
 
     // Just the provided panel content with its own spacing
     const providedChildren: Node[] = [];
