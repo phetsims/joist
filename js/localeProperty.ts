@@ -7,6 +7,7 @@
  */
 
 import StringProperty from '../../axon/js/StringProperty.js';
+import { globalKeyStateTracker, KeyboardUtils } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
 
@@ -20,13 +21,16 @@ const localeProperty = new StringProperty( phet.chipper.locale || 'en', {
 
 if ( phet.chipper.queryParameters.keyboardLocaleSwitcher ) {
 
-  // Support qwerty and dvorak.  u (back) and i (forward) on the physical keyboard
-  const forwardKeys = [ 'c', 'i' ];
-  const backwardKeys = [ 'g', 'u' ];
+  const FORWARD_KEY = KeyboardUtils.KEY_I;
+  const BACKWARD_KEY = KeyboardUtils.KEY_U;
 
-  document.addEventListener( 'keydown', ( event: KeyboardEvent ) => {
+  globalKeyStateTracker.keydownEmitter.addListener( ( event: KeyboardEvent ) => {
 
     const bump = ( delta: number ) => {
+
+      // Ctrl + u in Chrome on Windows is "view source" in a new tab
+      event.preventDefault();
+
       const index = locales.indexOf( localeProperty.value );
       const nextIndex = ( index + delta + locales.length ) % locales.length;
       localeProperty.value = locales[ nextIndex ];
@@ -35,10 +39,10 @@ if ( phet.chipper.queryParameters.keyboardLocaleSwitcher ) {
       console.log( localeProperty.value );
     };
 
-    if ( event.ctrlKey && forwardKeys.includes( event.key ) ) {
+    if ( event.ctrlKey && KeyboardUtils.isKeyEvent( event, FORWARD_KEY ) ) {
       bump( +1 );
     }
-    else if ( event.ctrlKey && backwardKeys.includes( event.key ) ) {
+    else if ( event.ctrlKey && KeyboardUtils.isKeyEvent( event, BACKWARD_KEY ) ) {
       bump( -1 );
     }
   } );
