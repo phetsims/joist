@@ -15,10 +15,10 @@ import fallbackLocalesProperty from './fallbackLocalesProperty.js';
 const FALLBACK_LOCALE = 'en';
 
 const localeOrderProperty = new DerivedProperty( [ localeProperty, fallbackLocalesProperty ], ( locale, fallbackLocales ) => {
-  const localeOrder = [
+  const localeOrder = _.uniq( [
     locale,
     ...fallbackLocales
-  ];
+  ] );
 
   // attempt to fill in language reductions if they are not explicitly included, e.g. 'zh_CN' => 'zh'
   localeOrder.forEach( locale => {
@@ -33,7 +33,11 @@ const localeOrderProperty = new DerivedProperty( [ localeProperty, fallbackLocal
     localeOrder.push( FALLBACK_LOCALE );
   }
 
-  return localeOrder;
+  const fallbackIndex = localeOrder.indexOf( FALLBACK_LOCALE );
+  assert && assert( fallbackIndex >= 0 );
+
+  // Ignore locales past our fallback
+  return localeOrder.slice( 0, fallbackIndex + 1 );
 } );
 
 joist.register( 'localeOrderProperty', localeOrderProperty );
