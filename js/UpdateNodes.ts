@@ -163,6 +163,7 @@ const UpdateNodes = {
         new HBox( {
           spacing: 25, children: [
             new TextPushButton( joistStrings.updates.getUpdateStringProperty, {
+              visibleProperty: allowLinksProperty,
               baseColor: '#6f6', font: UPDATE_TEXT_FONT, listener: function() {
                 openPopup( updateCheck.updateURL ); // open in a new window/tab
               }

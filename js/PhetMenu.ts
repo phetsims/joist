@@ -31,13 +31,12 @@ import updateCheck from './updateCheck.js';
 import UpdateDialog from './UpdateDialog.js';
 import UpdateState from './UpdateState.js';
 
-// the supported keys allowed in each itemDescriptor for a MenuItem
-const allowedItemDescriptorKeys = [ 'text', 'callback', 'present', 'options' ];
-
 type PopupToggler = ( popup: PopupableNode, isModal: boolean ) => void;
+
 type MenuItemDescriptor = {
   text: TReadOnlyProperty<string>;
   present: boolean;
+  shouldBeHiddenWhenLinksAreNotAllowed: boolean;
   callback: () => void;
   separatorBefore?: boolean;
   options?: MenuItemOptions;
@@ -121,6 +120,7 @@ class PhetMenu extends Node {
       {
         text: joistStrings.menuItem.phetWebsiteStringProperty,
         present: isPhETBrand,
+        shouldBeHiddenWhenLinksAreNotAllowed: true,
         callback: () => {
           if ( !phet.chipper.isFuzzEnabled() ) {
 
@@ -135,6 +135,7 @@ class PhetMenu extends Node {
       {
         text: joistStrings.menuItem.reportAProblemStringProperty,
         present: isPhETBrand && !isApp,
+        shouldBeHiddenWhenLinksAreNotAllowed: true,
         callback: () => {
           if ( !phet.chipper.isFuzzEnabled() ) {
             const url = `${'https://phet.colorado.edu/files/troubleshooting/' +
@@ -153,6 +154,7 @@ class PhetMenu extends Node {
       {
         text: new TinyProperty( 'QR code' ),
         present: phet.chipper.queryParameters.qrCode,
+        shouldBeHiddenWhenLinksAreNotAllowed: true,
         callback: () => {
           if ( !phet.chipper.isFuzzEnabled() ) {
             openPopup( `http://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent( window.location.href )}&size=220x220&margin=0` );
@@ -165,6 +167,7 @@ class PhetMenu extends Node {
       {
         text: joistStrings.menuItem.getUpdateStringProperty,
         present: updateCheck.areUpdatesChecked,
+        shouldBeHiddenWhenLinksAreNotAllowed: true,
         callback: () => {
           if ( !updateDialog ) {
             updateDialog = new UpdateDialog( {
@@ -184,6 +187,7 @@ class PhetMenu extends Node {
       {
         text: joistStrings.menuItem.screenshotStringProperty,
         present: !isApp, // Not supported by IE9, see https://github.com/phetsims/joist/issues/212
+        shouldBeHiddenWhenLinksAreNotAllowed: true,
         callback: () => {
           const dataURL = ScreenshotGenerator.generateScreenshot( sim );
 
@@ -229,6 +233,7 @@ class PhetMenu extends Node {
       {
         text: joistStrings.menuItem.fullscreenStringProperty,
         present: FullScreen.isFullScreenEnabled() && !isApp && !platform.mobileSafari && !phet.chipper.queryParameters.preventFullScreen,
+        shouldBeHiddenWhenLinksAreNotAllowed: true,
         callback: () => {
           if ( !phet.chipper.isFuzzEnabled() ) {
             FullScreen.toggleFullScreen( sim.display );
@@ -249,6 +254,7 @@ class PhetMenu extends Node {
       {
         text: joistStrings.menuItem.aboutStringProperty,
         present: true,
+        shouldBeHiddenWhenLinksAreNotAllowed: false,
         callback: () => aboutDialogCapsule.getElement().show(),
         options: {
           separatorBefore: isPhETBrand,
@@ -262,11 +268,6 @@ class PhetMenu extends Node {
     ];
 
     const keepItemDescriptors = itemDescriptors.filter( itemDescriptor => {
-      if ( assert ) {
-        const descriptorKeys = Object.keys( itemDescriptor );
-        assert && assert( descriptorKeys.length === _.intersection( descriptorKeys, allowedItemDescriptorKeys ).length,
-          `unexpected key provided in itemDescriptor; one of: ${descriptorKeys}` );
-      }
 
       // If there is a tandem, then we need to create the MenuItem to have a consistent API.
       return itemDescriptor.present || ( itemDescriptor.options && itemDescriptor.options.tandem );
@@ -279,6 +280,7 @@ class PhetMenu extends Node {
           itemDescriptor.text,
           itemDescriptor.callback,
           itemDescriptor.present,
+          itemDescriptor.shouldBeHiddenWhenLinksAreNotAllowed,
           itemDescriptor.options
         );
       }
