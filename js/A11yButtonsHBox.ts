@@ -28,7 +28,7 @@ class A11yButtonsHBox extends HBox {
 
     const options = optionize<A11yButtonsHBoxOptions, SelfOptions, HBoxOptions>()( {
       align: 'center',
-      spacing: 6,
+      spacing: 2,
 
       // This Node is not instrumented! This tandem is instead just used to instrument child elements.
       tandem: Tandem.REQUIRED
