@@ -192,7 +192,8 @@ class LabelButtonRow {
           // Stale alerts may be in the queue waiting for the toolbar button content to finish. Only clear if we did not
           // receive an interruption event because we need to hear responses related to the users interaction
           // which is likely still in the queue. Note that means that the queue is not cleared if the user taps the
-          // screen without interacting with something but I (@jessegreenberg) think that is acceptable.
+          // screen without interacting with something. That is acceptable because we want to hear the latest
+          // information in the queue if the toolbar button is interrupted.
           voicingUtteranceQueue.clear();
         }
       }
