@@ -42,7 +42,7 @@ class KeyboardHelpButton extends JoistButton {
                       providedOptions: KeyboardHelpButtonOptions ) {
 
     const options = optionize<KeyboardHelpButtonOptions, SelfOptions, JoistButtonOptions>()( {
-      highlightExtensionWidth: 5,
+      highlightExtensionWidth: 5 + 3.6,
       highlightExtensionHeight: 10,
 
       // The keyboard button is not vertically symmetric, due to the cable on the top.
@@ -70,7 +70,7 @@ class KeyboardHelpButton extends JoistButton {
     };
 
     const icon = new Image( keyboardIcon_png, {
-      scale: HELP_BUTTON_SCALE / keyboardIcon_png.height * HELP_BUTTON_HEIGHT,
+      scale: HELP_BUTTON_SCALE / keyboardIcon_png.height * HELP_BUTTON_HEIGHT * 0.85,
       pickable: false
     } );
 

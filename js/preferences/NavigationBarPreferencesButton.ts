@@ -34,7 +34,7 @@ class NavigationBarPreferencesButton extends JoistButton {
         preferencesDialog.show();
         preferencesDialog.focusSelectedTab();
       },
-      highlightExtensionWidth: 5,
+      highlightExtensionWidth: 5 + 3.6,
       highlightExtensionHeight: 10,
 
       // pdom
@@ -47,11 +47,10 @@ class NavigationBarPreferencesButton extends JoistButton {
       visiblePropertyOptions: {
         phetioFeatured: true
       }
-
     }, providedOptions );
 
     const icon = new Path( userCogSolidShape, {
-      maxWidth: 25
+      maxWidth: 25 * 0.85
     } );
 
     super( icon, backgroundColorProperty, options );

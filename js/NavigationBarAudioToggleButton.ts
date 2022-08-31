@@ -61,7 +61,7 @@ class NavigationBarAudioToggleButton extends JoistButton {
     const options = optionize<NavigationBarAudioToggleButtonOptions, EmptySelfOptions, JoistButtonOptions>()( {
 
       // JoistButton options
-      highlightExtensionWidth: 5,
+      highlightExtensionWidth: 5 + 3.6,
       highlightExtensionHeight: 10,
       highlightCenterOffsetY: 0,
 
@@ -150,7 +150,7 @@ class NavigationBarAudioToggleButton extends JoistButton {
         { value: true, node: soundOnNode },
         { value: false, node: soundOffNode }
       ],
-      { maxHeight: NODE_HEIGHT }
+      { maxHeight: NODE_HEIGHT * 0.85 }
     );
 
     super( toggleNode, backgroundColorProperty, options );

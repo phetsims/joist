@@ -55,10 +55,10 @@ export default class HomeButton extends JoistButton {
     const homeIcon = new Path( homeSolidShape );
 
     // scale so that the icon is slightly taller than screen button icons, value determined empirically, see joist#127
-    homeIcon.setScaleMagnitude( 0.48 * navBarHeight / homeIcon.height );
+    homeIcon.setScaleMagnitude( 0.48 * navBarHeight / homeIcon.height * 0.85 );
 
     // transparent background, size determined empirically so that highlight is the same size as highlight on screen buttons
-    const background = new Rectangle( 0, 0, homeIcon.width + 12, navBarHeight );
+    const background = new Rectangle( 0, 0, homeIcon.width / 0.85 + 12, navBarHeight );
     homeIcon.center = background.center;
 
     const content = new Node( { children: [ background, homeIcon ] } );
