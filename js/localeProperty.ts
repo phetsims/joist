@@ -40,11 +40,13 @@ if ( phet.chipper.queryParameters.keyboardLocaleSwitcher ) {
       console.log( localeProperty.value );
     };
 
-    if ( event.ctrlKey && KeyboardUtils.isKeyEvent( event, FORWARD_KEY ) ) {
-      bump( +1 );
-    }
-    else if ( event.ctrlKey && KeyboardUtils.isKeyEvent( event, BACKWARD_KEY ) ) {
-      bump( -1 );
+    if ( event.ctrlKey && !event.shiftKey && !event.metaKey && !event.altKey ) {
+      if ( KeyboardUtils.isKeyEvent( event, FORWARD_KEY ) ) {
+        bump( +1 );
+      }
+      else if ( KeyboardUtils.isKeyEvent( event, BACKWARD_KEY ) ) {
+        bump( -1 );
+      }
     }
   } );
 }
