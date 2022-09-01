@@ -172,8 +172,7 @@ export default class PreferencesModel extends PhetioObject {
   public readonly inputModel: InputModel;
   public readonly localizationModel: LocalizationModel;
 
-  public constructor( providedOptions?: PreferencesModelOptions ) {
-    providedOptions = providedOptions || {};
+  public constructor( providedOptions: PreferencesModelOptions = {} ) {
 
     // initialize-globals uses package.json to determine defaults for features enabled by the sim and those defaults
     // can be overwritten by query parameter.  So phet.chipper.queryParameters contains an accurate representation of
