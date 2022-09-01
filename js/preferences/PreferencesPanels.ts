@@ -14,7 +14,7 @@ import { AlignGroup, Node, NodeOptions } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import AudioPreferencesPanel from './AudioPreferencesPanel.js';
-import GeneralPreferencesPanel from './GeneralPreferencesPanel.js';
+import SimulationPreferencesPanel from './SimulationPreferencesPanel.js';
 import InputPreferencesPanel from './InputPreferencesPanel.js';
 import VisualPreferencesPanel from './VisualPreferencesPanel.js';
 import PreferencesModel from './PreferencesModel.js';
@@ -66,7 +66,7 @@ class PreferencesPanels extends Node {
 
     let generalPreferencesPanel: Node | null = null;
     if ( supportedTabs.includes( PreferencesType.SIMULATION ) ) {
-      generalPreferencesPanel = new GeneralPreferencesPanel( preferencesModel.generalModel, {
+      generalPreferencesPanel = new SimulationPreferencesPanel( preferencesModel.generalModel, {
         tandem: options.tandem.createTandem( 'generalPreferencesPanel' )
       } );
       const generalBox = panelAlignGroup.createBox( generalPreferencesPanel );

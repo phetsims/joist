@@ -20,7 +20,7 @@ import Emitter from '../../../axon/js/Emitter.js';
 type SelfOptions = EmptySelfOptions;
 type GeneralPreferencesPanelOptions = SelfOptions & VBoxOptions & PickRequired<VBoxOptions, 'tandem'>;
 
-class GeneralPreferencesPanel extends VBox {
+class SimulationPreferencesPanel extends VBox {
   private readonly disposeGeneralPreferencesPanel: () => void;
 
   /**
@@ -73,5 +73,5 @@ class GeneralPreferencesPanel extends VBox {
   }
 }
 
-joist.register( 'GeneralPreferencesPanel', GeneralPreferencesPanel );
-export default GeneralPreferencesPanel;
+joist.register( 'SimulationPreferencesPanel', SimulationPreferencesPanel );
+export default SimulationPreferencesPanel;
