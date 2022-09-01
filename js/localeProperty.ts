@@ -21,6 +21,7 @@ const localeProperty = new StringProperty( phet.chipper.locale || 'en', {
 
 if ( phet.chipper.queryParameters.keyboardLocaleSwitcher ) {
 
+  // DUPLICATION ALERT: don't change these without consulting PHET_IO_WRAPPERS/Client.wireUpKeyboardLocaleSwitcher()
   const FORWARD_KEY = KeyboardUtils.KEY_I;
   const BACKWARD_KEY = KeyboardUtils.KEY_U;
 
