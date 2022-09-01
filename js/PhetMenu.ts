@@ -187,7 +187,7 @@ class PhetMenu extends Node {
       {
         text: joistStrings.menuItem.screenshotStringProperty,
         present: !isApp, // Not supported by IE9, see https://github.com/phetsims/joist/issues/212
-        shouldBeHiddenWhenLinksAreNotAllowed: true,
+        shouldBeHiddenWhenLinksAreNotAllowed: false,
         callback: () => {
           const dataURL = ScreenshotGenerator.generateScreenshot( sim );
 
@@ -216,7 +216,7 @@ class PhetMenu extends Node {
             }
           }
           else if ( !phet.chipper.isFuzzEnabled() ) {
-            openPopup( dataURL );
+            openPopup( dataURL, true );
           }
         },
         options: {
