@@ -185,6 +185,12 @@
   "preferences.tabs.audio.sounds.extraSounds.description": {
     "value": "Play additional sound that may be helpful for some learners."
   },
+  "preferences.tabs.input.title": {
+    "value": "Input"
+  },
+  "preferences.tabs.localization.title": {
+    "value": "Localization"
+  },
   "a11y": {
     "keyboardHelp": {
       "keyboardShortcuts": {

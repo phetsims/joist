@@ -45,6 +45,7 @@ type CustomPreferencesOptions = {
 ///////////////////////////////////////////
 // Options types
 
+// preferences that are simulation-specific
 type SimulationPreferencesOptions = CustomPreferencesOptions;
 
 type VisualPreferencesOptions = {

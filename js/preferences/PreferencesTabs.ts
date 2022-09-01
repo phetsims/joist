@@ -9,7 +9,6 @@
 
 import TProperty from '../../../axon/js/TProperty.js';
 import Multilink from '../../../axon/js/Multilink.js';
-import TinyProperty from '../../../axon/js/TinyProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import globeSolidShape from '../../../sherpa/js/fontawesome-5/globeSolidShape.js';
@@ -67,13 +66,13 @@ class PreferencesTabs extends HBox {
 
       // NOT translatable yet because these are not in any published sim and not viewable in-sim by translators.
       // When ready to publish, move to translatable strings.
-      this.content.push( new Tab( new TinyProperty( 'Input' ), selectedPanelProperty, PreferencesType.INPUT ) );
+      this.content.push( new Tab( joistStrings.preferences.tabs.input.titleStringProperty, selectedPanelProperty, PreferencesType.INPUT ) );
     }
     if ( isTabSupported( PreferencesType.LOCALIZATION ) ) {
 
       // NOT translatable yet because these are not in any published sim and not viewable in-sim by translators.
       // When ready to publish, move to translatable strings.
-      this.content.push( new Tab( new TinyProperty( 'Localization' ), selectedPanelProperty, PreferencesType.LOCALIZATION, {
+      this.content.push( new Tab( joistStrings.preferences.tabs.localization.titleStringProperty, selectedPanelProperty, PreferencesType.LOCALIZATION, {
 
         // Display a globe icon next to the localization label
         iconNode: new Path( globeSolidShape, {

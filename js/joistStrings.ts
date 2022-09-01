@@ -176,6 +176,14 @@ type StringsType = {
           'title': string;
           'titleStringProperty': TReadOnlyProperty<string>;
         }
+      };
+      'input': {
+        'title': string;
+        'titleStringProperty': TReadOnlyProperty<string>;
+      };
+      'localization': {
+        'title': string;
+        'titleStringProperty': TReadOnlyProperty<string>;
       }
     }
   };
