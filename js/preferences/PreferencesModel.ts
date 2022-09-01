@@ -45,7 +45,7 @@ type CustomPreferencesOptions = {
 ///////////////////////////////////////////
 // Options types
 
-type GeneralPreferencesOptions = CustomPreferencesOptions;
+type SimulationPreferencesOptions = CustomPreferencesOptions;
 
 type VisualPreferencesOptions = {
 
@@ -90,8 +90,8 @@ type LocalizationPreferencesOptions = {
 
 type PreferencesModelSelfOptions = {
 
-  // configuration for controls in the "General" tab of the PreferencesDialog
-  generalOptions?: GeneralPreferencesOptions;
+  // configuration for controls in the "Simulation" tab of the PreferencesDialog
+  simulationOptions?: SimulationPreferencesOptions;
 
   // configuration for controls in the "Visual" tab of the PreferencesDialog
   visualOptions?: VisualPreferencesOptions;
@@ -115,7 +115,7 @@ type BaseModelType = {
   tandemName: string; // tandem name of the model, like "audioModel"
 };
 
-export type GeneralModel = BaseModelType & Required<GeneralPreferencesOptions>;
+export type SimulationModel = BaseModelType & Required<SimulationPreferencesOptions>;
 
 export type VisualModel = BaseModelType & {
 
@@ -163,10 +163,10 @@ export type LocalizationModel = BaseModelType & {
   localeProperty: Property<string>;
 } & Required<LocalizationPreferencesOptions>;
 
-type FeatureModel = GeneralModel | AudioModel | VisualModel | InputModel | LocalizationModel;
+type FeatureModel = SimulationModel | AudioModel | VisualModel | InputModel | LocalizationModel;
 
 export default class PreferencesModel extends PhetioObject {
-  public readonly generalModel: GeneralModel;
+  public readonly simulationModel: SimulationModel;
   public readonly visualModel: VisualModel;
   public readonly audioModel: AudioModel;
   public readonly inputModel: InputModel;
@@ -191,10 +191,10 @@ export default class PreferencesModel extends PhetioObject {
         phetioState: false,
         phetioReadOnly: true
       }, providedOptions ) ),
-      generalOptions: optionize<GeneralPreferencesOptions, GeneralPreferencesOptions, BaseModelType>()( {
-        tandemName: 'generalModel',
+      simulationOptions: optionize<SimulationPreferencesOptions, SimulationPreferencesOptions, BaseModelType>()( {
+        tandemName: 'simulationModel',
         customPreferences: []
-      }, providedOptions.generalOptions ),
+      }, providedOptions.simulationOptions ),
       visualOptions: optionize<VisualPreferencesOptions, VisualPreferencesOptions, BaseModelType>()( {
         tandemName: 'visualModel',
         supportsProjectorMode: false,
@@ -223,7 +223,7 @@ export default class PreferencesModel extends PhetioObject {
 
     super( options );
 
-    this.generalModel = options.generalOptions;
+    this.simulationModel = options.simulationOptions;
 
     const visualTandem = options.tandem.createTandem( 'visualModel' );
     this.visualModel = merge( {
@@ -290,7 +290,7 @@ export default class PreferencesModel extends PhetioObject {
       assert && assert( this.audioModel.supportsSound, 'supportsSound must be true to also support extraSound' );
     }
 
-    this.addPhetioLinkedElementsForModel( options.tandem, this.generalModel );
+    this.addPhetioLinkedElementsForModel( options.tandem, this.simulationModel );
 
     this.addPhetioLinkedElementsForModel( options.tandem, this.visualModel, [
       { property: this.visualModel.colorProfileProperty }
@@ -389,10 +389,10 @@ export default class PreferencesModel extends PhetioObject {
   }
 
   /**
-   * Returns true if the GeneralModel supports any preferences that can be changed.
+   * Returns true if the SimulationModel supports any preferences that can be changed.
    */
   public supportsSimulationPreferences(): boolean {
-    return this.preferenceModelHasCustom( this.generalModel );
+    return this.preferenceModelHasCustom( this.simulationModel );
   }
 
   /**

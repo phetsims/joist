@@ -27,6 +27,9 @@ class OverviewPreferencesPanel extends VBox {
     } );
 
     const introParagraphsTexts = [
+
+      // These string keys go through preferences.tabs.general because they used to
+      // live in that tab. But now we cannot rename the string keys.
       new VoicingRichText( joistStrings.preferences.tabs.general.accessibilityIntroStringProperty, introTextOptions ),
       new VoicingRichText( joistStrings.preferences.tabs.general.moreAccessibilityStringProperty, introTextOptions )
     ];

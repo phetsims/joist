@@ -44,7 +44,7 @@ class PreferencesPanels extends Node {
    */
   public constructor( preferencesModel: PreferencesModel, supportedTabs: PreferencesType[], selectedTabProperty: TReadOnlyProperty<PreferencesType>, providedOptions?: PreferencesPanelsOptions ) {
     const options = optionize<PreferencesPanelsOptions, SelfOptions, NodeOptions>()( {
-      tandem: Tandem.REQUIRED, // To support the general tab
+      tandem: Tandem.REQUIRED,
       phetioVisiblePropertyInstrumented: false
     }, providedOptions );
 
@@ -64,14 +64,14 @@ class PreferencesPanels extends Node {
       this.content.push( new PreferencesPanelContainer( overviewPreferencesPanel, PreferencesType.OVERVIEW ) );
     }
 
-    let generalPreferencesPanel: Node | null = null;
+    let simulationPreferencesPanel: Node | null = null;
     if ( supportedTabs.includes( PreferencesType.SIMULATION ) ) {
-      generalPreferencesPanel = new SimulationPreferencesPanel( preferencesModel.generalModel, {
-        tandem: options.tandem.createTandem( 'generalPreferencesPanel' )
+      simulationPreferencesPanel = new SimulationPreferencesPanel( preferencesModel.simulationModel, {
+        tandem: options.tandem.createTandem( 'simulationPreferencesPanel' )
       } );
-      const generalBox = panelAlignGroup.createBox( generalPreferencesPanel );
-      this.addChild( generalBox );
-      this.content.push( new PreferencesPanelContainer( generalPreferencesPanel, PreferencesType.SIMULATION ) );
+      const simulationBox = panelAlignGroup.createBox( simulationPreferencesPanel );
+      this.addChild( simulationBox );
+      this.content.push( new PreferencesPanelContainer( simulationPreferencesPanel, PreferencesType.SIMULATION ) );
     }
 
     let visualPreferencesPanel: Node | null = null;
@@ -117,7 +117,7 @@ class PreferencesPanels extends Node {
     // display the selected panel
     selectedTabProperty.link( tab => {
       overviewPreferencesPanel && ( overviewPreferencesPanel.visible = tab === PreferencesType.OVERVIEW );
-      generalPreferencesPanel && ( generalPreferencesPanel.visible = tab === PreferencesType.SIMULATION );
+      simulationPreferencesPanel && ( simulationPreferencesPanel.visible = tab === PreferencesType.SIMULATION );
       visualPreferencesPanel && ( visualPreferencesPanel.visible = tab === PreferencesType.VISUAL );
       audioPreferencesPanel && ( audioPreferencesPanel.visible = tab === PreferencesType.AUDIO );
       inputPreferencesPanel && ( inputPreferencesPanel.visible = tab === PreferencesType.INPUT );
@@ -128,7 +128,7 @@ class PreferencesPanels extends Node {
       panelAlignGroup.dispose();
 
       overviewPreferencesPanel && overviewPreferencesPanel.dispose();
-      generalPreferencesPanel && generalPreferencesPanel.dispose();
+      simulationPreferencesPanel && simulationPreferencesPanel.dispose();
       visualPreferencesPanel && visualPreferencesPanel.dispose();
       audioPreferencesPanel && audioPreferencesPanel.dispose();
       inputPreferencesPanel && inputPreferencesPanel.dispose();
