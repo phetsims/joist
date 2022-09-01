@@ -65,13 +65,13 @@ class PreferencesPanels extends Node {
     }
 
     let generalPreferencesPanel: Node | null = null;
-    if ( supportedTabs.includes( PreferencesType.GENERAL ) ) {
+    if ( supportedTabs.includes( PreferencesType.SIMULATION ) ) {
       generalPreferencesPanel = new GeneralPreferencesPanel( preferencesModel.generalModel, {
         tandem: options.tandem.createTandem( 'generalPreferencesPanel' )
       } );
       const generalBox = panelAlignGroup.createBox( generalPreferencesPanel );
       this.addChild( generalBox );
-      this.content.push( new PreferencesPanelContainer( generalPreferencesPanel, PreferencesType.GENERAL ) );
+      this.content.push( new PreferencesPanelContainer( generalPreferencesPanel, PreferencesType.SIMULATION ) );
     }
 
     let visualPreferencesPanel: Node | null = null;
@@ -117,7 +117,7 @@ class PreferencesPanels extends Node {
     // display the selected panel
     selectedTabProperty.link( tab => {
       overviewPreferencesPanel && ( overviewPreferencesPanel.visible = tab === PreferencesType.OVERVIEW );
-      generalPreferencesPanel && ( generalPreferencesPanel.visible = tab === PreferencesType.GENERAL );
+      generalPreferencesPanel && ( generalPreferencesPanel.visible = tab === PreferencesType.SIMULATION );
       visualPreferencesPanel && ( visualPreferencesPanel.visible = tab === PreferencesType.VISUAL );
       audioPreferencesPanel && ( audioPreferencesPanel.visible = tab === PreferencesType.AUDIO );
       inputPreferencesPanel && ( inputPreferencesPanel.visible = tab === PreferencesType.INPUT );

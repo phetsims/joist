@@ -139,6 +139,14 @@ type StringsType = {
         'moreAccessibility': string;
         'moreAccessibilityStringProperty': TReadOnlyProperty<string>;
       };
+      'overview': {
+        'title': string;
+        'titleStringProperty': TReadOnlyProperty<string>;
+      };
+      'simulation': {
+        'title': string;
+        'titleStringProperty': TReadOnlyProperty<string>;
+      };
       'visual': {
         'title': string;
         'titleStringProperty': TReadOnlyProperty<string>;

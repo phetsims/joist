@@ -391,7 +391,7 @@ export default class PreferencesModel extends PhetioObject {
   /**
    * Returns true if the GeneralModel supports any preferences that can be changed.
    */
-  public supportsGeneralPreferences(): boolean {
+  public supportsSimulationPreferences(): boolean {
     return this.preferenceModelHasCustom( this.generalModel );
   }
 
@@ -441,7 +441,7 @@ export default class PreferencesModel extends PhetioObject {
    * a sound control in the navigation bar. The PreferencesDialog is not useful in that case.
    */
   public shouldShowDialog(): boolean {
-    return this.supportsGeneralPreferences() || this.supportsVisualPreferences() ||
+    return this.supportsSimulationPreferences() || this.supportsVisualPreferences() ||
            this.supportsInputPreferences() || this.supportsLocalizationPreferences() ||
            this.supportsAudioPreferences( false );
   }

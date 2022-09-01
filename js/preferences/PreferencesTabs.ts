@@ -56,8 +56,8 @@ class PreferencesTabs extends HBox {
       // TODO: i18n, see https://github.com/phetsims/joist/issues/838
       this.content.push( new Tab( new TinyProperty( 'Overview' ), selectedPanelProperty, PreferencesType.OVERVIEW ) );
     }
-    if ( isTabSupported( PreferencesType.GENERAL ) ) {
-      this.content.push( new Tab( joistStrings.preferences.tabs.general.titleStringProperty, selectedPanelProperty, PreferencesType.GENERAL ) );
+    if ( isTabSupported( PreferencesType.SIMULATION ) ) {
+      this.content.push( new Tab( joistStrings.preferences.tabs.simulation.titleStringProperty, selectedPanelProperty, PreferencesType.SIMULATION ) );
     }
     if ( isTabSupported( PreferencesType.VISUAL ) ) {
       this.content.push( new Tab( joistStrings.preferences.tabs.visual.titleStringProperty, selectedPanelProperty, PreferencesType.VISUAL ) );
