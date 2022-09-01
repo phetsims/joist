@@ -11,6 +11,7 @@ import EnumerationValue from '../../../phet-core/js/EnumerationValue.js';
 import joist from '../joist.js';
 
 export default class PreferencesType extends EnumerationValue {
+  public static OVERVIEW = new PreferencesType();
   public static GENERAL = new PreferencesType();
   public static VISUAL = new PreferencesType();
   public static AUDIO = new PreferencesType();

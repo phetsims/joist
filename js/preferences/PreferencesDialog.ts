@@ -85,7 +85,8 @@ class PreferencesDialog extends Dialog {
 
     // determine which tabs will be supported in this Dialog, true if any entry in a configuration has content
     const supportedTabs = [];
-    supportedTabs.push( PreferencesType.GENERAL ); // There is always a "General" tab
+    supportedTabs.push( PreferencesType.OVERVIEW ); // There is always an "Overview" tab
+    preferencesModel.supportsGeneralPreferences() && supportedTabs.push( PreferencesType.GENERAL ); // There is always a "General" tab
     preferencesModel.supportsVisualPreferences() && supportedTabs.push( PreferencesType.VISUAL );
     preferencesModel.supportsAudioPreferences() && supportedTabs.push( PreferencesType.AUDIO );
     preferencesModel.supportsInputPreferences() && supportedTabs.push( PreferencesType.INPUT );
@@ -93,7 +94,7 @@ class PreferencesDialog extends Dialog {
     assert && assert( supportedTabs.length > 0, 'Trying to create a PreferencesDialog with no tabs, check PreferencesModel' );
 
     // the selected PreferencesType, indicating which tab is visible in the Dialog
-    const selectedTabProperty = new EnumerationProperty( PreferencesType.GENERAL, {
+    const selectedTabProperty = new EnumerationProperty( PreferencesType.OVERVIEW, {
       validValues: supportedTabs,
       tandem: options.tandem.createTandem( 'selectedTabProperty' ),
       phetioState: false,

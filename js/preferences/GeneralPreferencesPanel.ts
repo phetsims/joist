@@ -1,25 +1,21 @@
 // Copyright 2021-2022, University of Colorado Boulder
 
 /**
- * The content for the "General" tab in the PreferencesDialog. This is always present. Contains an introductory
- * sentence about accessibility features, and any simulation-specific settings if provided.
+ * The content for the "General" tab in the PreferencesDialog. This is always present. Contains any simulation-specific
+ * settings if provided.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import merge from '../../../phet-core/js/merge.js';
-import { Node, VBox, VBoxOptions, VoicingRichText } from '../../../scenery/js/imports.js';
-import HSeparator from '../../../sun/js/HSeparator.js';
+import { Node, VBox, VBoxOptions } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
-import joistStrings from '../joistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import { GeneralModel } from './PreferencesModel.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
 import Emitter from '../../../axon/js/Emitter.js';
-import isLeftToRightProperty from '../isLeftToRightProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 type GeneralPreferencesPanelOptions = SelfOptions & VBoxOptions & PickRequired<VBoxOptions, 'tandem'>;
@@ -50,31 +46,6 @@ class GeneralPreferencesPanel extends VBox {
 
     super( options );
 
-    // All panel content collected in this final array
-    const panelContent = [];
-
-    const introTextOptions = merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
-
-      // using lineWrap instead of default maxWidth for content
-      maxWidth: null,
-      lineWrap: 600,
-      tagName: 'p'
-    } );
-    const introParagraphsTexts = [
-      new VoicingRichText( joistStrings.preferences.tabs.general.accessibilityIntroStringProperty, introTextOptions ),
-      new VoicingRichText( joistStrings.preferences.tabs.general.moreAccessibilityStringProperty, introTextOptions )
-    ];
-
-    const introParagraphs = new VBox( { spacing: 10, children: introParagraphsTexts } );
-
-    isLeftToRightProperty.link( isLTR => {
-      introParagraphsTexts.forEach( text => {
-        const align = isLTR ? 'left' : 'right';
-        text.align = align;
-        introParagraphs.align = align;
-      } );
-    } );
-
     // Just the provided panel content with its own spacing
     const providedChildren: Node[] = [];
 
@@ -89,17 +60,7 @@ class GeneralPreferencesPanel extends VBox {
       providedChildren.push( preferencesPanelSection );
     } );
 
-    if ( providedChildren.length > 0 ) {
-      const providedContent = new VBox( { spacing: 30, align: 'left', children: providedChildren } );
-      panelContent.push( providedContent );
-
-      // If there was provided content for this panel, separate from intro statements
-      panelContent.push( new HSeparator( introParagraphs.width ) );
-    }
-
-    panelContent.push( introParagraphs );
-
-    this.children = panelContent;
+    this.children = providedChildren;
 
     this.disposeGeneralPreferencesPanel = () => {
       disposeEmitter.emit();

@@ -21,6 +21,7 @@ import PreferencesModel from './PreferencesModel.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import LocalizationPreferencesPanel from './LocalizationPreferencesPanel.js';
 import PreferencesType from './PreferencesType.js';
+import OverviewPreferencesPanel from './OverviewPreferencesPanel.js';
 
 type SelfOptions = EmptySelfOptions;
 type PreferencesPanelsOptions = SelfOptions & NodeOptions;
@@ -54,6 +55,14 @@ class PreferencesPanels extends Node {
     const panelAlignGroup = new AlignGroup( {
       matchVertical: false
     } );
+
+    let overviewPreferencesPanel: Node | null = null;
+    if ( supportedTabs.includes( PreferencesType.OVERVIEW ) ) {
+      overviewPreferencesPanel = new OverviewPreferencesPanel();
+      const overviewBox = panelAlignGroup.createBox( overviewPreferencesPanel );
+      this.addChild( overviewBox );
+      this.content.push( new PreferencesPanelContainer( overviewPreferencesPanel, PreferencesType.OVERVIEW ) );
+    }
 
     let generalPreferencesPanel: Node | null = null;
     if ( supportedTabs.includes( PreferencesType.GENERAL ) ) {
@@ -107,6 +116,7 @@ class PreferencesPanels extends Node {
 
     // display the selected panel
     selectedTabProperty.link( tab => {
+      overviewPreferencesPanel && ( overviewPreferencesPanel.visible = tab === PreferencesType.OVERVIEW );
       generalPreferencesPanel && ( generalPreferencesPanel.visible = tab === PreferencesType.GENERAL );
       visualPreferencesPanel && ( visualPreferencesPanel.visible = tab === PreferencesType.VISUAL );
       audioPreferencesPanel && ( audioPreferencesPanel.visible = tab === PreferencesType.AUDIO );
@@ -117,6 +127,7 @@ class PreferencesPanels extends Node {
     this.disposePreferencesPanel = () => {
       panelAlignGroup.dispose();
 
+      overviewPreferencesPanel && overviewPreferencesPanel.dispose();
       generalPreferencesPanel && generalPreferencesPanel.dispose();
       visualPreferencesPanel && visualPreferencesPanel.dispose();
       audioPreferencesPanel && audioPreferencesPanel.dispose();
