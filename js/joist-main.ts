@@ -14,7 +14,7 @@ import Screen from './Screen.js';
 import Sim, { SimOptions } from './Sim.js';
 import simLauncher from './simLauncher.js';
 
-const joistTitleString = joistStrings.joist.title;
+const joistTitleStringProperty = joistStrings.joist.titleStringProperty;
 
 const simOptions: SimOptions = {
   credits: {
@@ -38,5 +38,5 @@ simLauncher.launch( () => {
       } )
   ];
 
-  new Sim( joistTitleString, screens, simOptions ).start();
+  new Sim( joistTitleStringProperty, screens, simOptions ).start();
 } );

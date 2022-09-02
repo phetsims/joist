@@ -21,7 +21,6 @@ import Emitter from '../../axon/js/Emitter.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
 import Property from '../../axon/js/Property.js';
 import stepTimer from '../../axon/js/stepTimer.js';
-import StringProperty from '../../axon/js/StringProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Random from '../../dot/js/Random.js';
@@ -253,11 +252,11 @@ export default class Sim extends PhetioObject {
   public readonly credits: CreditsData;
 
   /**
-   * @param name - the name of the simulation, to be displayed in the navbar and homescreen
+   * @param simNameProperty - the name of the simulation, to be displayed in the navbar and homescreen
    * @param allSimScreens - the possible screens for the sim in order of declaration (does not include the home screen)
    * @param [providedOptions] - see below for options
    */
-  public constructor( name: string | TReadOnlyProperty<string>, allSimScreens: Screen[], providedOptions?: SimOptions ) {
+  public constructor( simNameProperty: TReadOnlyProperty<string>, allSimScreens: Screen[], providedOptions?: SimOptions ) {
 
     window.phetSplashScreenDownloadComplete();
 
@@ -308,15 +307,7 @@ export default class Sim extends PhetioObject {
 
     this.credits = options.credits;
 
-    const stringTitleDependency = typeof name === 'string' ? new StringProperty( name ) : name;
-
-    this.simNameProperty = new DerivedProperty( [ stringTitleDependency ], dep => dep, {
-      tandem: Tandem.GENERAL_MODEL.createTandem( 'simNameProperty' ),
-      phetioValueType: StringIO,
-      phetioFeatured: true,
-      phetioDocumentation: 'The name of the sim, shown in the navigation bar ' +
-                           'and the title text on the home screen, if it exists.'
-    } );
+    this.simNameProperty = simNameProperty;
 
     // playbackModeEnabledProperty cannot be changed after Sim construction has begun, hence this listener is added before
     // anything else is done, see https://github.com/phetsims/phet-io/issues/1146
