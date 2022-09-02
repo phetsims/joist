@@ -22,11 +22,11 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import Emitter from '../../../axon/js/Emitter.js';
 
 // constants
-const interactiveHighlightsString = joistStrings.preferences.tabs.visual.interactiveHighlights;
-const interactiveHighlightsDescriptionString = joistStrings.preferences.tabs.visual.interactiveHighlightsDescription;
-const interactiveHighlightsEnabledAlertString = joistStrings.a11y.preferences.tabs.visual.interactiveHighlights.enabledAlert;
-const interactiveHighlightsDisabledAlertString = joistStrings.a11y.preferences.tabs.visual.interactiveHighlights.disabledAlert;
-const labelledDescriptionPatternString = joistStrings.a11y.preferences.tabs.labelledDescriptionPattern;
+const interactiveHighlightsString = joistStrings.preferences.tabs.visual.interactiveHighlightsStringProperty;
+const interactiveHighlightsDescriptionString = joistStrings.preferences.tabs.visual.interactiveHighlightsDescriptionStringProperty;
+const interactiveHighlightsEnabledAlertString = joistStrings.a11y.preferences.tabs.visual.interactiveHighlights.enabledAlertStringProperty;
+const interactiveHighlightsDisabledAlertString = joistStrings.a11y.preferences.tabs.visual.interactiveHighlights.disabledAlertStringProperty;
+const labelledDescriptionPatternString = joistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
 
 class VisualPreferencesPanel extends Node {
   private readonly disposeVisualPreferencesPanel: () => void;
