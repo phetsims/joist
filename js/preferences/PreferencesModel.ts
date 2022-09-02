@@ -24,7 +24,7 @@ import localeProperty from '../localeProperty.js';
 import merge from '../../../phet-core/js/merge.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 
-type LinkedModelProperties = {
+type ModelPropertyLinkable = {
   property: TReadOnlyProperty<unknown> & PhetioObject;
   tandemName?: string; // if blank, will use the tandem.name of the Property.
 };
@@ -35,7 +35,7 @@ type CustomPreference = {
   createContent: ( parentTandem: Tandem ) => Node;
 
   // Each will have a PhET-iO LinkedElement added to the model for each of them.
-  linkedModelProperties?: LinkedModelProperties[];
+  modelLinkables?: ModelPropertyLinkable[];
 };
 
 type CustomPreferencesOptions = {
@@ -370,12 +370,12 @@ export default class PreferencesModel extends PhetioObject {
     }
   }
 
-  private addPhetioLinkedElementsForModel( parentTandem: Tandem, featureModel: FeatureModel, additionalProperties: Array<LinkedModelProperties> = [] ): void {
+  private addPhetioLinkedElementsForModel( parentTandem: Tandem, featureModel: FeatureModel, additionalProperties: Array<ModelPropertyLinkable> = [] ): void {
     const tandem = parentTandem.createTandem( featureModel.tandemName );
     const propertiesToLink = additionalProperties;
     for ( let i = 0; i < featureModel.customPreferences.length; i++ ) {
       const customPreference = featureModel.customPreferences[ i ];
-      customPreference.linkedModelProperties && propertiesToLink.push( ...customPreference.linkedModelProperties );
+      customPreference.modelLinkables && propertiesToLink.push( ...customPreference.modelLinkables );
     }
 
     for ( let j = 0; j < propertiesToLink.length; j++ ) {
