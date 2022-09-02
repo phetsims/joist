@@ -12,7 +12,7 @@ import Dimension2 from '../../../dot/js/Dimension2.js';
 import merge from '../../../phet-core/js/merge.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import { Node, NodeOptions, PDOMValueType } from '../../../scenery/js/imports.js';
+import { GridBox, Node, NodeOptions, PDOMValueType } from '../../../scenery/js/imports.js';
 import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import Utterance, { TAlertable } from '../../../utterance-queue/js/Utterance.js';
@@ -129,38 +129,41 @@ class PreferencesToggleSwitch<T> extends Node {
     };
     property.lazyLink( valueListener );
 
-    this.addChild( toggleSwitch );
-    options.descriptionNode && this.addChild( options.descriptionNode );
-    options.labelNode && this.addChild( options.labelNode );
+    // Layout using GridBox and layoutOptions will accomplish the following when all components are available.
+    // [[labelNode]]         [[ToggleSwitch]]
+    // [[descriptionNode                   ]]
+    const gridBox = new GridBox( {
+      ySpacing: options.descriptionSpacing
+    } );
+    this.addChild( gridBox );
 
-    // layout code, dependent on which components are available
-    if ( options.descriptionNode && options.labelNode ) {
+    toggleSwitch.layoutOptions = {
+      row: 0,
+      column: 1,
+      xAlign: 'right'
+    };
+    gridBox.addChild( toggleSwitch );
 
-      options.descriptionNode.leftTop = options.labelNode.leftBottom.plusXY( 0, options.descriptionSpacing );
-      toggleSwitch.centerY = options.labelNode.centerY;
-
-      if ( options.descriptionNode.right - options.labelNode.right < toggleSwitch.width + options.labelSpacing ) {
-
-        // right-aligning the toggleSwitch with the description would result in the toggleSwitch and label overlapping,
-        // put the toggleSwitch to the right of the label
-        toggleSwitch.left = options.labelNode.right + options.labelSpacing;
-      }
-      else {
-
-        // the description extends far enough to the right of the label that the toggleSwitch should be right-aligned
-        // with it
-        toggleSwitch.right = options.descriptionNode.right;
-      }
+    if ( options.labelNode ) {
+      assert && assert( options.labelNode.layoutOptions === null, 'PreferencesToggleSwitch will control layout' );
+      options.labelNode.layoutOptions = {
+        row: 0,
+        column: 0,
+        xAlign: 'left',
+        rightMargin: options.labelSpacing
+      };
+      gridBox.addChild( options.labelNode );
     }
-    else if ( options.descriptionNode ) {
 
-      // only a description node, right align with the toggle switch
-      options.descriptionNode.rightTop = toggleSwitch.rightBottom.plusXY( 0, options.descriptionSpacing );
-    }
-    else if ( options.labelNode ) {
-
-      // only a label node, it goes to the left of the toggleSwitch
-      options.labelNode.rightCenter = toggleSwitch.leftCenter.minusXY( options.labelSpacing, 0 );
+    if ( options.descriptionNode ) {
+      assert && assert( options.descriptionNode.layoutOptions === null, 'PreferencesToggleSwitch will control layout' );
+      options.descriptionNode.layoutOptions = {
+        row: 1,
+        column: 0,
+        width: 2,
+        xAlign: 'left'
+      };
+      gridBox.addChild( options.descriptionNode );
     }
 
     this.disposePreferencesToggleSwitch = () => {
