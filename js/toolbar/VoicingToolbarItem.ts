@@ -20,23 +20,24 @@ import VoicingToolbarAlertManager from './VoicingToolbarAlertManager.js';
 import LookAndFeel from '../LookAndFeel.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 
 // constants
 const CONTENT_VERTICAL_SPACING = 10;
 const QUICK_INFO = 20;
 
 // strings
-const titleString = joistStrings.a11y.toolbar.voicing.title;
-const quickInfoString = joistStrings.a11y.toolbar.voicing.quickInfo;
-const simVoicingOnString = joistStrings.a11y.toolbar.voicing.simVoicingOnAlert;
-const simVoicingOffString = joistStrings.a11y.toolbar.voicing.simVoicingOffAlert;
-const toolbarString = joistStrings.a11y.toolbar.title;
-const playOverviewString = joistStrings.a11y.toolbar.voicing.playOverviewLabel;
-const playDetailsString = joistStrings.a11y.toolbar.voicing.playDetailsLabel;
-const playHintString = joistStrings.a11y.toolbar.voicing.playHintLabel;
-const overviewString = joistStrings.a11y.toolbar.voicing.overviewLabel;
-const detailsString = joistStrings.a11y.toolbar.voicing.detailsLabel;
-const hintString = joistStrings.a11y.toolbar.voicing.hintLabel;
+const titleString = joistStrings.a11y.toolbar.voicing.titleStringProperty;
+const quickInfoString = joistStrings.a11y.toolbar.voicing.quickInfoStringProperty;
+const simVoicingOnString = joistStrings.a11y.toolbar.voicing.simVoicingOnAlertStringProperty;
+const simVoicingOffString = joistStrings.a11y.toolbar.voicing.simVoicingOffAlertStringProperty;
+const toolbarString = joistStrings.a11y.toolbar.titleStringProperty;
+const playOverviewString = joistStrings.a11y.toolbar.voicing.playOverviewLabelStringProperty;
+const playDetailsString = joistStrings.a11y.toolbar.voicing.playDetailsLabelStringProperty;
+const playHintString = joistStrings.a11y.toolbar.voicing.playHintLabelStringProperty;
+const overviewString = joistStrings.a11y.toolbar.voicing.overviewLabelStringProperty;
+const detailsString = joistStrings.a11y.toolbar.voicing.detailsLabelStringProperty;
+const hintString = joistStrings.a11y.toolbar.voicing.hintLabelStringProperty;
 
 type SelfOptions = EmptySelfOptions;
 export type VoicingToolbarItemOptions = SelfOptions & NodeOptions & PickRequired<NodeOptions, 'tandem'>;
@@ -144,7 +145,7 @@ class LabelButtonRow {
    * @param lookAndFeel
    * @param createAlert - function that creates the alert when the button is pressed
    */
-  public constructor( labelString: string, a11yLabel: string, labelAlignGroup: AlignGroup, inputAlignGroup: AlignGroup, lookAndFeel: LookAndFeel, createAlert: () => string ) {
+  public constructor( labelString: TReadOnlyProperty<string>, a11yLabel: TReadOnlyProperty<string>, labelAlignGroup: AlignGroup, inputAlignGroup: AlignGroup, lookAndFeel: LookAndFeel, createAlert: () => string ) {
 
     this.lookAndFeel = lookAndFeel;
     this.objectResponseUtterance = new Utterance();

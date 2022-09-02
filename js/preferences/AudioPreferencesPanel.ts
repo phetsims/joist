@@ -19,7 +19,7 @@ import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import Emitter from '../../../axon/js/Emitter.js';
 
 // constants
-const audioFeaturesString = joistStrings.preferences.tabs.audio.audioFeatures.title;
+const audioFeaturesString = joistStrings.preferences.tabs.audio.audioFeatures.titleStringProperty;
 
 type AudioPreferencesPanelOptions = PickRequired<VBoxOptions, 'tandem'>;
 

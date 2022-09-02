@@ -12,11 +12,10 @@ import Dimension2 from '../../../dot/js/Dimension2.js';
 import merge from '../../../phet-core/js/merge.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import { Node, NodeOptions } from '../../../scenery/js/imports.js';
+import { Node, NodeOptions, PDOMValueType } from '../../../scenery/js/imports.js';
 import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import { ResolvedResponse } from '../../../utterance-queue/js/ResponsePacket.js';
-import Utterance from '../../../utterance-queue/js/Utterance.js';
+import Utterance, { TAlertable } from '../../../utterance-queue/js/Utterance.js';
 import joist from '../joist.js';
 
 // This ToggleSwitch is not
@@ -48,14 +47,14 @@ type SelfOptions = {
   // Sets both the inner content and the voicing response for the toggle switch on focus.
   // NOTE?: Seeing more overlap like this between PDOM and voicing (which is good) but not sure how it will
   // all work yet. This option is the first of its kind.
-  a11yLabel?: null | string;
+  a11yLabel?: null | PDOMValueType;
 
   // a11y
   // If provided, these responses will be spoken to describe the change in simulation context
   // for both Voicing and Interactive Description features when the value changes to either leftValue or
   // rightValue.
-  leftValueContextResponse?: ResolvedResponse;
-  rightValueContextResponse?: ResolvedResponse;
+  leftValueContextResponse?: TAlertable;
+  rightValueContextResponse?: TAlertable;
 
   // options passed to the actual ToggleSwitch
   toggleSwitchOptions?: ConstrainedToggleSwitchOptions;

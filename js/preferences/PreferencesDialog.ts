@@ -57,7 +57,7 @@ class PreferencesDialog extends Dialog {
 
   public constructor( preferencesModel: PreferencesModel, providedOptions?: PreferencesDialogOptions ) {
 
-    const titleText = new Text( joistStrings.preferences.title, {
+    const titleText = new Text( joistStrings.preferences.titleStringProperty, {
       font: TITLE_FONT,
 
       // pdom

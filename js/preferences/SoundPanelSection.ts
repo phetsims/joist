@@ -20,15 +20,15 @@ import PreferencesPanelSection, { PreferencesPanelSectionOptions } from './Prefe
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 
 // constants
-const soundsLabelString = joistStrings.preferences.tabs.audio.sounds.title;
-const extraSoundsLabelString = joistStrings.preferences.tabs.audio.sounds.extraSounds.title;
-const soundDescriptionString = joistStrings.preferences.tabs.audio.sounds.description;
-const extraSoundsDescriptionString = joistStrings.preferences.tabs.audio.sounds.extraSounds.description;
-const soundsOnString = joistStrings.a11y.preferences.tabs.audio.sounds.soundsOn;
-const soundsOffString = joistStrings.a11y.preferences.tabs.audio.sounds.soundsOff;
-const extraSoundsOnString = joistStrings.a11y.preferences.tabs.audio.sounds.extraSounds.extraSoundsOn;
-const extraSoundsOffString = joistStrings.a11y.preferences.tabs.audio.sounds.extraSounds.extraSoundsOff;
-const labelledDescriptionPatternString = joistStrings.a11y.preferences.tabs.labelledDescriptionPattern;
+const soundsLabelString = joistStrings.preferences.tabs.audio.sounds.titleStringProperty;
+const extraSoundsLabelString = joistStrings.preferences.tabs.audio.sounds.extraSounds.titleStringProperty;
+const soundDescriptionString = joistStrings.preferences.tabs.audio.sounds.descriptionStringProperty;
+const extraSoundsDescriptionString = joistStrings.preferences.tabs.audio.sounds.extraSounds.descriptionStringProperty;
+const soundsOnString = joistStrings.a11y.preferences.tabs.audio.sounds.soundsOnStringProperty;
+const soundsOffString = joistStrings.a11y.preferences.tabs.audio.sounds.soundsOffStringProperty;
+const extraSoundsOnString = joistStrings.a11y.preferences.tabs.audio.sounds.extraSounds.extraSoundsOnStringProperty;
+const extraSoundsOffString = joistStrings.a11y.preferences.tabs.audio.sounds.extraSounds.extraSoundsOffStringProperty;
+const labelledDescriptionPatternString = joistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
 
 type SelfOptions = {
 
