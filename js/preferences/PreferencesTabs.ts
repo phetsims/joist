@@ -63,15 +63,9 @@ class PreferencesTabs extends HBox {
       this.content.push( new Tab( joistStrings.preferences.tabs.audio.titleStringProperty, selectedPanelProperty, PreferencesType.AUDIO ) );
     }
     if ( isTabSupported( PreferencesType.INPUT ) ) {
-
-      // NOT translatable yet because these are not in any published sim and not viewable in-sim by translators.
-      // When ready to publish, move to translatable strings.
       this.content.push( new Tab( joistStrings.preferences.tabs.input.titleStringProperty, selectedPanelProperty, PreferencesType.INPUT ) );
     }
     if ( isTabSupported( PreferencesType.LOCALIZATION ) ) {
-
-      // NOT translatable yet because these are not in any published sim and not viewable in-sim by translators.
-      // When ready to publish, move to translatable strings.
       this.content.push( new Tab( joistStrings.preferences.tabs.localization.titleStringProperty, selectedPanelProperty, PreferencesType.LOCALIZATION, {
 
         // Display a globe icon next to the localization label
