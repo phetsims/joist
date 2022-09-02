@@ -283,8 +283,6 @@ class VoicingPanelSection extends PreferencesPanelSection {
     voiceOptionsOpenProperty.lazyLink( open => {
       const alert = open ? customizeVoiceExpandedString : customizeVoiceCollapsedString;
       expandCollapseButton.voicingSpeakContextResponse( {
-
-        // @ts-ignore see https://github.com/phetsims/joist/issues/851
         contextResponse: alert
       } );
       this.alertDescriptionUtterance( alert );
