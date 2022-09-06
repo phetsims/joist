@@ -339,6 +339,8 @@ const createCheckbox = ( labelString: TReadOnlyProperty<string>, property: Prope
  * @param voiceRateProperty
  */
 class VoiceRateNumberControl extends NumberControl {
+  private readonly disposeVoiceRateNumberControl: () => void;
+
   public constructor( labelString: TReadOnlyProperty<string>, a11yLabelString: TReadOnlyProperty<string>, voiceRateProperty: NumberProperty ) {
 
     assert && assert( voiceRateProperty.range, 'Range is required on the property for the control.' );
@@ -364,7 +366,12 @@ class VoiceRateNumberControl extends NumberControl {
 
         // pdom
         labelTagName: 'label',
-        labelContent: a11yLabelString
+        labelContent: a11yLabelString,
+
+        // voicing
+        voicingOnEndResponseOptions: {
+          withNameResponse: true
+        }
       },
 
       // phet-io
@@ -377,6 +384,15 @@ class VoiceRateNumberControl extends NumberControl {
     // ignore the selections of Preferences menu, we always want to hear all responses
     // that happen when changing the voice attributes
     this.slider.voicingIgnoreVoicingManagerProperties = true;
+
+    const voiceRateListener = ( voiceRate: number ) => {
+      this.slider.voicingObjectResponse = this.getRateDescriptionString( voiceRate );
+    };
+    voiceRateProperty.link( voiceRateListener );
+
+    this.disposeVoiceRateNumberControl = () => {
+      voiceRateProperty.unlink( voiceRateListener );
+    };
   }
 
   /**
@@ -386,6 +402,11 @@ class VoiceRateNumberControl extends NumberControl {
     return rate === 1 ? voiceRateNormalString.value : StringUtils.fillIn( voiceRateDescriptionPatternString, {
       value: rate
     } );
+  }
+
+  public override dispose(): void {
+    this.disposeVoiceRateNumberControl();
+    super.dispose();
   }
 }
 
