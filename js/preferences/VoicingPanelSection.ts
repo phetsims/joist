@@ -338,9 +338,7 @@ const createCheckbox = ( labelString: TReadOnlyProperty<string>, property: Prope
  * @param a11yLabelString - label for both PDOM and Voicing content
  * @param voiceRateProperty
  */
-class VoiceRateNumberControl extends Voicing( NumberControl ) {
-  private readonly disposeVoiceRateSlider: () => void;
-
+class VoiceRateNumberControl extends NumberControl {
   public constructor( labelString: TReadOnlyProperty<string>, a11yLabelString: TReadOnlyProperty<string>, voiceRateProperty: NumberProperty ) {
 
     assert && assert( voiceRateProperty.range, 'Range is required on the property for the control.' );
@@ -373,22 +371,6 @@ class VoiceRateNumberControl extends Voicing( NumberControl ) {
       tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
     } );
 
-    this.slider.addInputListener( {
-      focus: event => {
-        this.voicingSpeakFullResponse();
-      }
-    } );
-
-    const voiceRateListener = ( rate: number, previousValue: number | null ) => {
-      this.voicingObjectResponse = this.getRateDescriptionString( rate );
-      if ( previousValue !== null ) {
-
-        // every change read the name and object response for the slider
-        this.voicingSpeakFullResponse();
-      }
-    };
-    voiceRateProperty.link( voiceRateListener );
-
     this.mutate( {
 
       // @ts-ignore - mutate only supports NodeOptions currently, but this key is Voicing mutator keys,
@@ -399,15 +381,6 @@ class VoiceRateNumberControl extends Voicing( NumberControl ) {
       // that happen when changing the voice attributes
       voicingIgnoreVoicingManagerProperties: true
     } );
-
-    this.disposeVoiceRateSlider = () => {
-      voiceRateProperty.unlink( voiceRateListener );
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeVoiceRateSlider();
-    super.dispose();
   }
 
   /**
