@@ -56,7 +56,7 @@ class PhetButton extends JoistButton {
     // sim.bounds are null on init, but we will get the callback when it is sized for the first time
     // Does not need to be unlinked or disposed because PhetButton persists for the lifetime of the sim
     Multilink.multilink( [ sim.boundsProperty, sim.screenBoundsProperty, sim.scaleProperty, phetMenu.localBoundsProperty ],
-      ( bounds, screenBounds, scale, phetMenuLocalBounds ) => {
+      ( bounds, screenBounds, scale ) => {
         if ( bounds && screenBounds && scale ) {
           phetMenu.setScaleMagnitude( scale );
           phetMenu.right = bounds.right - 2;
