@@ -18,7 +18,7 @@ import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js'
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import NumberControl from '../../../scenery-phet/js/NumberControl.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { FocusHighlightFromNode, Node, PressListener, Text, VBox, Voicing, voicingManager, VoicingText } from '../../../scenery/js/imports.js';
+import { FocusHighlightFromNode, Node, PressListener, Text, VBox, voicingManager, VoicingText } from '../../../scenery/js/imports.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import ComboBox, { ComboBoxOptions } from '../../../sun/js/ComboBox.js';
 import ExpandCollapseButton from '../../../sun/js/ExpandCollapseButton.js';
@@ -472,7 +472,7 @@ class VoiceComboBox extends ComboBox<SpeechSynthesisVoice | null> {
 /**
  * A slider with labels and tick marks used to control voice rate of web speech synthesis.
  */
-class VoicingPitchSlider extends Voicing( VBox ) {
+class VoicingPitchSlider extends VBox {
   private readonly disposeVoicePitchSlider: () => void;
 
   public constructor( labelString: TReadOnlyProperty<string>, voicePitchProperty: NumberProperty ) {
@@ -499,6 +499,9 @@ class VoicingPitchSlider extends Voicing( VBox ) {
       // voicing
       voicingNameResponse: labelString,
 
+      // Voicing controls should not respect voicing response controls so user always hears information about them
+      voicingIgnoreVoicingManagerProperties: true,
+
       // phet-io
       tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
     } );
@@ -511,20 +514,9 @@ class VoicingPitchSlider extends Voicing( VBox ) {
 
     super();
 
-    slider.addInputListener( {
-      focus: event => {
-        this.voicingSpeakFullResponse();
-      }
-    } );
-
     // voicing
     const voicePitchListener = ( pitch: number, previousValue: number | null ) => {
-      this.voicingObjectResponse = this.getPitchDescriptionString( pitch );
-
-      // alert made lazily so it is not heard on construction, speak the name and object response every change
-      if ( previousValue !== null ) {
-        this.voicingSpeakFullResponse();
-      }
+      slider.voicingObjectResponse = this.getPitchDescriptionString( pitch );
     };
     voicePitchProperty.link( voicePitchListener );
 
@@ -533,14 +525,7 @@ class VoicingPitchSlider extends Voicing( VBox ) {
 
       // @ts-ignore mutate doesn't work when the subclass changes mutator keys,
       // see https://github.com/phetsims/scenery/issues/1433
-      spacing: 5,
-
-      // voicing
-      voicingNameResponse: labelString,
-
-      // ignore the selections of Preferences menu, we always want to hear all responses
-      // that happen when changing the voice attributes
-      voicingIgnoreVoicingManagerProperties: true
+      spacing: 5
     } );
 
     this.disposeVoicePitchSlider = () => {
