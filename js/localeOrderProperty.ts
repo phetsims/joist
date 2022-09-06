@@ -20,7 +20,7 @@ const localeOrderProperty = new DerivedProperty( [ localeProperty, fallbackLocal
     ...fallbackLocales
   ] );
 
-  // attempt to fill in language reductions if they are not explicitly included, e.g. 'zh_CN' => 'zh'
+  // Attempt to fill in language reductions if they are not explicitly included, e.g. 'zh_CN' => 'zh'
   localeOrder.forEach( locale => {
     const shortLocale = locale.slice( 0, 2 );
     if ( locale !== shortLocale && !localeOrder.includes( shortLocale ) ) {
@@ -34,9 +34,9 @@ const localeOrderProperty = new DerivedProperty( [ localeProperty, fallbackLocal
   }
 
   const fallbackIndex = localeOrder.indexOf( FALLBACK_LOCALE );
-  assert && assert( fallbackIndex >= 0 );
+  assert && assert( fallbackIndex >= 0, `Required local in localeOrderProperty: ${FALLBACK_LOCALE}` );
 
-  // Ignore locales past our fallback
+  // Optimization: Ignore locales past our fallback, because it will include a value for every single key.
   return localeOrder.slice( 0, fallbackIndex + 1 );
 } );
 
