@@ -371,16 +371,12 @@ class VoiceRateNumberControl extends NumberControl {
       tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
     } );
 
-    this.mutate( {
+    // Voicing goes through the NumberControl slider through AccessibleValueHandler
+    this.slider.voicingNameResponse = a11yLabelString;
 
-      // @ts-ignore - mutate only supports NodeOptions currently, but this key is Voicing mutator keys,
-      // see https://github.com/phetsims/scenery/issues/1433
-      voicingNameResponse: a11yLabelString,
-
-      // ignore the selections of Preferences menu, we always want to hear all responses
-      // that happen when changing the voice attributes
-      voicingIgnoreVoicingManagerProperties: true
-    } );
+    // ignore the selections of Preferences menu, we always want to hear all responses
+    // that happen when changing the voice attributes
+    this.slider.voicingIgnoreVoicingManagerProperties = true;
   }
 
   /**
