@@ -16,7 +16,7 @@ import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import { Node, VBox, VBoxOptions, VoicingRichText, VoicingText, VStrut } from '../../scenery/js/imports.js';
 import joist from './joist.js';
-import joistStrings from './joistStrings.js';
+import JoistStrings from './JoistStrings.js';
 
 type SelfOptions = {
   titleFont?: PhetFont;
@@ -58,7 +58,7 @@ export default class CreditsNode extends VBox {
     const children: Node[] = [];
 
     // Credits
-    children.push( new VoicingText( joistStrings.credits.titleStringProperty, {
+    children.push( new VoicingText( JoistStrings.credits.titleStringProperty, {
       font: options.titleFont,
 
       // pdom
@@ -73,50 +73,50 @@ export default class CreditsNode extends VBox {
 
     // Primary HTML5 designer first, followed by contributing designers (HTML5 and legacy) in alphabetical order.
     if ( credits.leadDesign ) {
-      const designString = formatStringProperty( joistStrings.credits.leadDesignStringProperty, credits.leadDesign );
+      const designString = formatStringProperty( JoistStrings.credits.leadDesignStringProperty, credits.leadDesign );
       children.push( new VoicingRichText( designString, richTextOptions ) );
     }
 
     // Primary HTML5 developer first, followed by contributing developers (HTML5 and legacy) in alphabetical order.
     if ( credits.softwareDevelopment ) {
-      const developmentString = formatStringProperty( joistStrings.credits.softwareDevelopmentStringProperty, credits.softwareDevelopment );
+      const developmentString = formatStringProperty( JoistStrings.credits.softwareDevelopmentStringProperty, credits.softwareDevelopment );
       children.push( new VoicingRichText( developmentString, richTextOptions ) );
     }
 
     // In alphabetical order (includes HTML5 and legacy team members)
     if ( credits.team ) {
-      const teamString = formatStringProperty( joistStrings.credits.teamStringProperty, credits.team );
+      const teamString = formatStringProperty( JoistStrings.credits.teamStringProperty, credits.team );
       children.push( new VoicingRichText( teamString, richTextOptions ) );
     }
 
     // In alphabetical order (this field is new for HTML5 sims)
     if ( credits.contributors ) {
-      const contributorsString = formatStringProperty( joistStrings.credits.contributorsStringProperty, credits.contributors );
+      const contributorsString = formatStringProperty( JoistStrings.credits.contributorsStringProperty, credits.contributors );
       children.push( new VoicingRichText( contributorsString, richTextOptions ) );
     }
 
     // In alphabetical order (this field is new for HTML5 sims)
     if ( credits.qualityAssurance ) {
-      const qualityAssuranceString = formatStringProperty( joistStrings.credits.qualityAssuranceStringProperty, credits.qualityAssurance );
+      const qualityAssuranceString = formatStringProperty( JoistStrings.credits.qualityAssuranceStringProperty, credits.qualityAssurance );
       children.push( new VoicingRichText( qualityAssuranceString, richTextOptions ) );
     }
 
     // In alphabetical order (this field is new for HTML5 sims)
     if ( credits.graphicArts ) {
-      const graphicArtsString = formatStringProperty( joistStrings.credits.graphicArtsStringProperty, credits.graphicArts );
+      const graphicArtsString = formatStringProperty( JoistStrings.credits.graphicArtsStringProperty, credits.graphicArts );
       children.push( new VoicingRichText( graphicArtsString, richTextOptions ) );
     }
 
     // In alphabetical order (this field is new for HTML5 sims)
     if ( credits.soundDesign ) {
-      const soundDesignString = formatStringProperty( joistStrings.credits.soundDesignStringProperty, credits.soundDesign );
+      const soundDesignString = formatStringProperty( JoistStrings.credits.soundDesignStringProperty, credits.soundDesign );
       children.push( new VoicingRichText( soundDesignString, richTextOptions ) );
     }
 
     // Thanks
     if ( credits.thanks ) {
       if ( children.length > 0 ) { children.push( new VStrut( 13 ) ); }
-      children.push( new VoicingText( joistStrings.credits.thanksStringProperty, {
+      children.push( new VoicingText( JoistStrings.credits.thanksStringProperty, {
         font: options.titleFont,
         tagName: 'h2'
       } ) );

@@ -11,7 +11,7 @@ import merge from '../../../phet-core/js/merge.js';
 import { VBox, VoicingRichText } from '../../../scenery/js/imports.js';
 import isLeftToRightProperty from '../isLeftToRightProperty.js';
 import joist from '../joist.js';
-import joistStrings from '../joistStrings.js';
+import JoistStrings from '../JoistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
 
 class OverviewPreferencesPanel extends VBox {
@@ -30,8 +30,8 @@ class OverviewPreferencesPanel extends VBox {
 
       // These string keys go through preferences.tabs.general because they used to
       // live in that tab. But now we cannot rename the string keys.
-      new VoicingRichText( joistStrings.preferences.tabs.general.accessibilityIntroStringProperty, introTextOptions ),
-      new VoicingRichText( joistStrings.preferences.tabs.general.moreAccessibilityStringProperty, introTextOptions )
+      new VoicingRichText( JoistStrings.preferences.tabs.general.accessibilityIntroStringProperty, introTextOptions ),
+      new VoicingRichText( JoistStrings.preferences.tabs.general.moreAccessibilityStringProperty, introTextOptions )
     ];
 
     super( { spacing: 10, children: introParagraphsTexts } );

@@ -28,7 +28,7 @@ import RoundPushButton from '../../../sun/js/buttons/RoundPushButton.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import audioManager from '../audioManager.js';
 import joist from '../joist.js';
-import joistStrings from '../joistStrings.js';
+import JoistStrings from '../JoistStrings.js';
 import VoicingToolbarAlertManager from './VoicingToolbarAlertManager.js';
 import VoicingToolbarItem from './VoicingToolbarItem.js';
 import LookAndFeel from '../LookAndFeel.js';
@@ -39,12 +39,12 @@ const MAX_ANIMATION_SPEED = 250; // in view coordinates per second, assuming 60 
 const CONTENT_TOP_MARGIN = 15; // margin between top of Toolbar and contents
 
 // constants
-const openToolbarString = joistStrings.a11y.toolbar.openToolbar;
-const closeToolbarString = joistStrings.a11y.toolbar.closeToolbar;
-const hideToolbarString = joistStrings.a11y.toolbar.hideToolbar;
-const showToolbarString = joistStrings.a11y.toolbar.showToolbar;
-const toolbarShownString = joistStrings.a11y.toolbar.toolbarShown;
-const toolbarHiddenString = joistStrings.a11y.toolbar.toolbarHidden;
+const openToolbarString = JoistStrings.a11y.toolbar.openToolbar;
+const closeToolbarString = JoistStrings.a11y.toolbar.closeToolbar;
+const hideToolbarString = JoistStrings.a11y.toolbar.hideToolbar;
+const showToolbarString = JoistStrings.a11y.toolbar.showToolbar;
+const toolbarShownString = JoistStrings.a11y.toolbar.toolbarShown;
+const toolbarHiddenString = JoistStrings.a11y.toolbar.toolbarHidden;
 
 type ToolbarOptions = NodeOptions & PickRequired<NodeOptions, 'tandem'>;
 

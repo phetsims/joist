@@ -11,7 +11,7 @@ import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import { Node, NodeOptions, Text, VBox, VoicingText } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
-import joistStrings from '../joistStrings.js';
+import JoistStrings from '../JoistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
@@ -22,11 +22,11 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import Emitter from '../../../axon/js/Emitter.js';
 
 // constants
-const interactiveHighlightsString = joistStrings.preferences.tabs.visual.interactiveHighlightsStringProperty;
-const interactiveHighlightsDescriptionString = joistStrings.preferences.tabs.visual.interactiveHighlightsDescriptionStringProperty;
-const interactiveHighlightsEnabledAlertString = joistStrings.a11y.preferences.tabs.visual.interactiveHighlights.enabledAlertStringProperty;
-const interactiveHighlightsDisabledAlertString = joistStrings.a11y.preferences.tabs.visual.interactiveHighlights.disabledAlertStringProperty;
-const labelledDescriptionPatternString = joistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
+const interactiveHighlightsString = JoistStrings.preferences.tabs.visual.interactiveHighlightsStringProperty;
+const interactiveHighlightsDescriptionString = JoistStrings.preferences.tabs.visual.interactiveHighlightsDescriptionStringProperty;
+const interactiveHighlightsEnabledAlertString = JoistStrings.a11y.preferences.tabs.visual.interactiveHighlights.enabledAlertStringProperty;
+const interactiveHighlightsDisabledAlertString = JoistStrings.a11y.preferences.tabs.visual.interactiveHighlights.disabledAlertStringProperty;
+const labelledDescriptionPatternString = JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
 
 class VisualPreferencesPanel extends Node {
   private readonly disposeVisualPreferencesPanel: () => void;

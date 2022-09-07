@@ -14,7 +14,7 @@ import soundManager from '../../tambo/js/soundManager.js';
 import HomeScreenButton from './HomeScreenButton.js';
 import HomeScreenSoundGenerator from './HomeScreenSoundGenerator.js';
 import joist from './joist.js';
-import joistStrings from './joistStrings.js';
+import JoistStrings from './JoistStrings.js';
 import ScreenView, { ScreenViewOptions } from './ScreenView.js';
 import Screen from './Screen.js';
 import HomeScreenModel from './HomeScreenModel.js';
@@ -23,7 +23,7 @@ import optionize from '../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 
-const homeScreenDescriptionPatternString = joistStrings.a11y.homeScreenDescriptionPattern;
+const homeScreenDescriptionPatternString = JoistStrings.a11y.homeScreenDescriptionPattern;
 
 type SelfOptions = {
 
@@ -138,9 +138,9 @@ class HomeScreenView extends ScreenView {
       } );
 
       // Add the home screen description, since there are no PDOM container Nodes for this ScreenView
-      homeScreenPDOMNode.innerContent = StringUtils.fillIn( joistStrings.a11y.homeScreenIntroPattern, {
+      homeScreenPDOMNode.innerContent = StringUtils.fillIn( JoistStrings.a11y.homeScreenIntroPattern, {
         description: this.homeScreenScreenSummaryIntro,
-        hint: joistStrings.a11y.homeScreenHint
+        hint: JoistStrings.a11y.homeScreenHint
       } );
 
       this.screenButtons.forEach( screenButton => {
@@ -212,7 +212,7 @@ class HomeScreenView extends ScreenView {
       if ( details !== '' ) {
         details += ' ';
       }
-      details += StringUtils.fillIn( joistStrings.a11y.homeScreenButtonDetailsPattern, {
+      details += StringUtils.fillIn( JoistStrings.a11y.homeScreenButtonDetailsPattern, {
         name: screenButton.screen.pdomDisplayNameProperty.value,
         screenHint: screenButton.screen.descriptionContent
       } );
@@ -224,7 +224,7 @@ class HomeScreenView extends ScreenView {
    * To support voicing.
    */
   public override getVoicingHintContent(): string {
-    return joistStrings.a11y.homeScreenHint;
+    return JoistStrings.a11y.homeScreenHint;
   }
 }
 

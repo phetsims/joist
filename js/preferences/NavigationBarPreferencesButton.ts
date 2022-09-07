@@ -13,7 +13,7 @@ import Dialog from '../../../sun/js/Dialog.js';
 import PhetioCapsule from '../../../tandem/js/PhetioCapsule.js';
 import joist from '../joist.js';
 import JoistButton, { JoistButtonOptions } from '../JoistButton.js';
-import joistStrings from '../joistStrings.js';
+import JoistStrings from '../JoistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesModel from './PreferencesModel.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
@@ -38,11 +38,11 @@ class NavigationBarPreferencesButton extends JoistButton {
       highlightExtensionHeight: 10,
 
       // pdom
-      innerContent: joistStrings.preferences.titleStringProperty,
+      innerContent: JoistStrings.preferences.titleStringProperty,
       positionInPDOM: true,
 
       // voicing
-      voicingNameResponse: joistStrings.preferences.titleStringProperty,
+      voicingNameResponse: JoistStrings.preferences.titleStringProperty,
 
       visiblePropertyOptions: {
         phetioFeatured: true

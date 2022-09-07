@@ -12,11 +12,11 @@ import OopsDialog, { OopsDialogOptions } from '../../scenery-phet/js/OopsDialog.
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import { Text } from '../../scenery/js/imports.js';
 import joist from './joist.js';
-import joistStrings from './joistStrings.js';
+import JoistStrings from './JoistStrings.js';
 
-const queryParametersWarningDialogInvalidQueryParametersString = joistStrings.queryParametersWarningDialog.invalidQueryParameters;
-const queryParametersWarningDialogOneOrMoreQueryParametersString = joistStrings.queryParametersWarningDialog.oneOrMoreQueryParameters;
-const queryParametersWarningDialogTheSimulationWillStartString = joistStrings.queryParametersWarningDialog.theSimulationWillStart;
+const queryParametersWarningDialogInvalidQueryParametersString = JoistStrings.queryParametersWarningDialog.invalidQueryParameters;
+const queryParametersWarningDialogOneOrMoreQueryParametersString = JoistStrings.queryParametersWarningDialog.oneOrMoreQueryParameters;
+const queryParametersWarningDialogTheSimulationWillStartString = JoistStrings.queryParametersWarningDialog.theSimulationWillStart;
 
 type SelfOptions = EmptySelfOptions;
 export type QueryParametersWarningDialogOptions = SelfOptions & OopsDialogOptions;

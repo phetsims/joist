@@ -24,7 +24,7 @@ import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import AboutDialog from './AboutDialog.js';
 import joist from './joist.js';
-import joistStrings from './joistStrings.js';
+import JoistStrings from './JoistStrings.js';
 import ScreenshotGenerator from './ScreenshotGenerator.js';
 import Sim from './Sim.js';
 import updateCheck from './updateCheck.js';
@@ -118,7 +118,7 @@ class PhetMenu extends Node {
      */
     const itemDescriptors: MenuItemDescriptor[] = [
       {
-        text: joistStrings.menuItem.phetWebsiteStringProperty,
+        text: JoistStrings.menuItem.phetWebsiteStringProperty,
         present: isPhETBrand,
         shouldBeHiddenWhenLinksAreNotAllowed: true,
         callback: () => {
@@ -133,7 +133,7 @@ class PhetMenu extends Node {
         }
       },
       {
-        text: joistStrings.menuItem.reportAProblemStringProperty,
+        text: JoistStrings.menuItem.reportAProblemStringProperty,
         present: isPhETBrand && !isApp,
         shouldBeHiddenWhenLinksAreNotAllowed: true,
         callback: () => {
@@ -165,7 +165,7 @@ class PhetMenu extends Node {
         }
       },
       {
-        text: joistStrings.menuItem.getUpdateStringProperty,
+        text: JoistStrings.menuItem.getUpdateStringProperty,
         present: updateCheck.areUpdatesChecked,
         shouldBeHiddenWhenLinksAreNotAllowed: true,
         callback: () => {
@@ -185,7 +185,7 @@ class PhetMenu extends Node {
 
       // "Screenshot" Menu item
       {
-        text: joistStrings.menuItem.screenshotStringProperty,
+        text: JoistStrings.menuItem.screenshotStringProperty,
         present: !isApp, // Not supported by IE9, see https://github.com/phetsims/joist/issues/212
         shouldBeHiddenWhenLinksAreNotAllowed: false,
         callback: () => {
@@ -231,7 +231,7 @@ class PhetMenu extends Node {
 
       // "Full Screen" menu item
       {
-        text: joistStrings.menuItem.fullscreenStringProperty,
+        text: JoistStrings.menuItem.fullscreenStringProperty,
         present: FullScreen.isFullScreenEnabled() && !isApp && !platform.mobileSafari && !phet.chipper.queryParameters.preventFullScreen,
         shouldBeHiddenWhenLinksAreNotAllowed: false,
         callback: () => {
@@ -252,7 +252,7 @@ class PhetMenu extends Node {
 
       // About dialog button
       {
-        text: joistStrings.menuItem.aboutStringProperty,
+        text: JoistStrings.menuItem.aboutStringProperty,
         present: true,
         shouldBeHiddenWhenLinksAreNotAllowed: false,
         callback: () => aboutDialogCapsule.getElement().show(),

@@ -13,7 +13,7 @@ import checkSolidShape from '../../sherpa/js/fontawesome-5/checkSolidShape.js';
 import exclamationTriangleSolidShape from '../../sherpa/js/fontawesome-5/exclamationTriangleSolidShape.js';
 import TextPushButton from '../../sun/js/buttons/TextPushButton.js';
 import joist from './joist.js';
-import joistStrings from './joistStrings.js';
+import JoistStrings from './JoistStrings.js';
 import updateCheck from './updateCheck.js';
 import UpdateState from './UpdateState.js';
 import UpdateDialog from './UpdateDialog.js';
@@ -54,7 +54,7 @@ const UpdateNodes = {
       maxWidth: MAX_WIDTH,
       children: [
         spinningIndicatorNode,
-        new VoicingText( joistStrings.updates.checkingStringProperty, {
+        new VoicingText( JoistStrings.updates.checkingStringProperty, {
           font: new PhetFont( options.big ? 16 : 14 ),
           fontWeight: options.big ? 'bold' : 'normal'
         } )
@@ -91,7 +91,7 @@ const UpdateNodes = {
             } )
           ]
         } ),
-        new VoicingText( joistStrings.updates.upToDateStringProperty, {
+        new VoicingText( JoistStrings.updates.upToDateStringProperty, {
           font: new PhetFont( options.big ? 16 : 14 ),
           fontWeight: options.big ? 'bold' : 'normal'
         } )
@@ -105,7 +105,7 @@ const UpdateNodes = {
    * (joist-internal)
    */
   createOutOfDateAboutNode: function( options: Options ): Node {
-    const textProperty = new DerivedProperty( [ joistStrings.updates.outOfDateStringProperty, allowLinksProperty ], ( outOfDateString, allowLinks ) => {
+    const textProperty = new DerivedProperty( [ JoistStrings.updates.outOfDateStringProperty, allowLinksProperty ], ( outOfDateString, allowLinks ) => {
       return allowLinks ? `<a href="{{url}}">${outOfDateString}</a>` : outOfDateString;
     } );
 
@@ -139,10 +139,10 @@ const UpdateNodes = {
    */
   createOutOfDateDialogNode: function( dialog: UpdateDialog, ourVersionString: string, latestVersionString: string, options: Options ): Node {
 
-    const latestVersionStringProperty = new DerivedProperty( [ joistStrings.updates.newVersionAvailableStringProperty ], string => {
+    const latestVersionStringProperty = new DerivedProperty( [ JoistStrings.updates.newVersionAvailableStringProperty ], string => {
       return StringUtils.format( string, latestVersionString );
     } );
-    const ourVersionStringProperty = new DerivedProperty( [ joistStrings.updates.yourCurrentVersionStringProperty ], string => {
+    const ourVersionStringProperty = new DerivedProperty( [ JoistStrings.updates.yourCurrentVersionStringProperty ], string => {
       return StringUtils.format( string, ourVersionString );
     } );
 
@@ -162,13 +162,13 @@ const UpdateNodes = {
         } ),
         new HBox( {
           spacing: 25, children: [
-            new TextPushButton( joistStrings.updates.getUpdateStringProperty, {
+            new TextPushButton( JoistStrings.updates.getUpdateStringProperty, {
               visibleProperty: allowLinksProperty,
               baseColor: '#6f6', font: UPDATE_TEXT_FONT, listener: function() {
                 openPopup( updateCheck.updateURL ); // open in a new window/tab
               }
             } ),
-            new TextPushButton( joistStrings.updates.noThanksStringProperty, {
+            new TextPushButton( JoistStrings.updates.noThanksStringProperty, {
               baseColor: '#ddd', font: UPDATE_TEXT_FONT, listener: function() {
                 dialog.hide();
 
@@ -192,7 +192,7 @@ const UpdateNodes = {
       maxWidth: MAX_WIDTH,
       children: [
         new VStrut( 20 ), // spacer to match layout of other nodes
-        new VoicingText( joistStrings.updates.offlineStringProperty, {
+        new VoicingText( JoistStrings.updates.offlineStringProperty, {
           font: new PhetFont( options.big ? 16 : 14 ),
           fontWeight: options.big ? 'bold' : 'normal'
         } )

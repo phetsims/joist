@@ -15,11 +15,11 @@ import HomeScreenKeyboardHelpContent from './HomeScreenKeyboardHelpContent.js';
 import HomeScreenModel from './HomeScreenModel.js';
 import HomeScreenView from './HomeScreenView.js';
 import joist from './joist.js';
-import joistStrings from './joistStrings.js';
+import JoistStrings from './JoistStrings.js';
 import Screen, { ScreenOptions } from './Screen.js';
 
 // constants
-const homeString = joistStrings.a11y.home;
+const homeString = JoistStrings.a11y.home;
 const BACKGROUND_COLOR = Color.BLACK;
 
 type SelfOptions = {

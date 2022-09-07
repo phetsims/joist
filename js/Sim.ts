@@ -42,7 +42,7 @@ import Helper from './Helper.js';
 import HomeScreen from './HomeScreen.js';
 import HomeScreenView from './HomeScreenView.js';
 import joist from './joist.js';
-import joistStrings from './joistStrings.js';
+import JoistStrings from './JoistStrings.js';
 import LookAndFeel from './LookAndFeel.js';
 import MemoryMonitor from './MemoryMonitor.js';
 import NavigationBar from './NavigationBar.js';
@@ -548,7 +548,7 @@ export default class Sim extends PhetioObject {
 
           // If the 'screens' query parameter selects only 1 screen and both the sim and screen name are not the empty
           // string, then update the nav bar title to include a hyphen and the screen name after the sim name.
-          return StringUtils.fillIn( joistStrings.simTitleWithScreenNamePattern, {
+          return StringUtils.fillIn( JoistStrings.simTitleWithScreenNamePattern, {
             simName: simName,
             screenName: screenName
           } );

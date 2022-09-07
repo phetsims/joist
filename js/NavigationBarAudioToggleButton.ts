@@ -24,7 +24,7 @@ import ActivationUtterance from '../../utterance-queue/js/ActivationUtterance.js
 import audioManager from './audioManager.js';
 import joist from './joist.js';
 import JoistButton, { JoistButtonOptions } from './JoistButton.js';
-import joistStrings from './joistStrings.js';
+import JoistStrings from './JoistStrings.js';
 
 // constants for node background
 const NODE_HEIGHT = 22.0;
@@ -71,10 +71,10 @@ class NavigationBarAudioToggleButton extends JoistButton {
       visiblePropertyOptions: { phetioFeatured: true },
 
       // pdom
-      innerContent: joistStrings.a11y.soundToggle.label,
+      innerContent: JoistStrings.a11y.soundToggle.label,
 
       // voicing
-      voicingNameResponse: joistStrings.a11y.soundToggle.label
+      voicingNameResponse: JoistStrings.a11y.soundToggle.label
     }, providedOptions );
 
     assert && assert( options.listener === undefined, 'NavigationBarAudioToggleButton sets listener' );
@@ -166,8 +166,8 @@ class NavigationBarAudioToggleButton extends JoistButton {
     const pressedListener = ( value: boolean ) => {
       this.setPDOMAttribute( 'aria-pressed', value );
 
-      soundUtterance.alert = value ? joistStrings.a11y.soundToggle.alert.simSoundOn
-                                   : joistStrings.a11y.soundToggle.alert.simSoundOff;
+      soundUtterance.alert = value ? JoistStrings.a11y.soundToggle.alert.simSoundOn
+                                   : JoistStrings.a11y.soundToggle.alert.simSoundOff;
       this.alertDescriptionUtterance( soundUtterance );
       if ( voicingManager.voicingFullyEnabledProperty.value ) {
         voicingManager.speakIgnoringEnabled( soundUtterance );

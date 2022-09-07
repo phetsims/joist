@@ -8,7 +8,7 @@
 
 import { HBox, Text, VBox, VBoxOptions } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
-import joistStrings from '../joistStrings.js';
+import JoistStrings from '../JoistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import { AudioModel } from './PreferencesModel.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
@@ -20,7 +20,7 @@ import Emitter from '../../../axon/js/Emitter.js';
 import localeProperty from '../localeProperty.js';
 
 // constants
-const audioFeaturesString = joistStrings.preferences.tabs.audio.audioFeatures.titleStringProperty;
+const audioFeaturesString = JoistStrings.preferences.tabs.audio.audioFeatures.titleStringProperty;
 
 type AudioPreferencesPanelOptions = PickRequired<VBoxOptions, 'tandem'>;
 

@@ -17,7 +17,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import joist from './joist.js';
 import JoistButton from './JoistButton.js';
-import joistStrings from './joistStrings.js';
+import JoistStrings from './JoistStrings.js';
 import KebabMenuIcon from './KebabMenuIcon.js';
 import PhetMenu from './PhetMenu.js';
 import Sim from './Sim.js';
@@ -118,10 +118,10 @@ class PhetButton extends JoistButton {
       },
 
       // pdom
-      innerContent: joistStrings.a11y.phetMenu,
+      innerContent: JoistStrings.a11y.phetMenu,
 
       // voicing
-      voicingNameResponse: joistStrings.a11y.phetMenu
+      voicingNameResponse: JoistStrings.a11y.phetMenu
     } );
 
     // Restore focus to PhetButton when the PhetMenu is closed.

@@ -26,7 +26,7 @@ import HSlider from '../../../sun/js/HSlider.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import Utterance from '../../../utterance-queue/js/Utterance.js';
 import joist from '../joist.js';
-import joistStrings from '../joistStrings.js';
+import JoistStrings from '../JoistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import { AudioModel } from './PreferencesModel.js';
 import PreferencesPanelSection, { PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
@@ -35,49 +35,49 @@ import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 // constants
 // none of the Voicing strings or feature is translatable yet, all strings in this file
 // are nested under the 'a11y' section to make sure that they are not translatable
-const voicingLabelString = joistStrings.a11y.preferences.tabs.audio.voicing.titleStringProperty;
-const voicingDescriptionString = joistStrings.a11y.preferences.tabs.audio.voicing.descriptionStringProperty;
-const toolbarLabelString = joistStrings.a11y.preferences.tabs.audio.voicing.toolbar.titleStringProperty;
-const rateString = joistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.titleStringProperty;
-const rateLabelString = joistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.labelStringStringProperty;
-const pitchString = joistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.pitch.titleStringProperty;
-const voicingEnabledString = joistStrings.a11y.preferences.tabs.audio.voicing.voicingOnStringProperty;
-const voicingDisabledString = joistStrings.a11y.preferences.tabs.audio.voicing.voicingOffStringProperty;
-const voiceVariablesPatternString = joistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.variablesPatternStringProperty;
-const customizeVoiceString = joistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.titleStringProperty;
+const voicingLabelString = JoistStrings.a11y.preferences.tabs.audio.voicing.titleStringProperty;
+const voicingDescriptionString = JoistStrings.a11y.preferences.tabs.audio.voicing.descriptionStringProperty;
+const toolbarLabelString = JoistStrings.a11y.preferences.tabs.audio.voicing.toolbar.titleStringProperty;
+const rateString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.titleStringProperty;
+const rateLabelString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.labelStringStringProperty;
+const pitchString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.pitch.titleStringProperty;
+const voicingEnabledString = JoistStrings.a11y.preferences.tabs.audio.voicing.voicingOnStringProperty;
+const voicingDisabledString = JoistStrings.a11y.preferences.tabs.audio.voicing.voicingOffStringProperty;
+const voiceVariablesPatternString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.variablesPatternStringProperty;
+const customizeVoiceString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.titleStringProperty;
 
-const toolbarRemovedString = joistStrings.a11y.preferences.tabs.audio.voicing.toolbar.toolbarRemovedStringProperty;
-const toolbarAddedString = joistStrings.a11y.preferences.tabs.audio.voicing.toolbar.toolbarAddedStringProperty;
+const toolbarRemovedString = JoistStrings.a11y.preferences.tabs.audio.voicing.toolbar.toolbarRemovedStringProperty;
+const toolbarAddedString = JoistStrings.a11y.preferences.tabs.audio.voicing.toolbar.toolbarAddedStringProperty;
 
-const simVoicingOptionsString = joistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.titleStringProperty;
-const simVoicingDescriptionString = joistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.descriptionStringProperty;
+const simVoicingOptionsString = JoistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.titleStringProperty;
+const simVoicingDescriptionString = JoistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.descriptionStringProperty;
 
-const objectDetailsLabelString = joistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.objectDetails.labelStringProperty;
-const contextChangesLabelString = joistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.contextChanges.labelStringProperty;
-const helpfulHintsLabelString = joistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.helpfulHints.labelStringProperty;
+const objectDetailsLabelString = JoistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.objectDetails.labelStringProperty;
+const contextChangesLabelString = JoistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.contextChanges.labelStringProperty;
+const helpfulHintsLabelString = JoistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.helpfulHints.labelStringProperty;
 
-const voicingObjectChangesString = joistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.objectDetails.enabledAlertStringProperty;
-const objectChangesMutedString = joistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.objectDetails.disabledAlertStringProperty;
-const voicingContextChangesString = joistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.contextChanges.enabledAlertStringProperty;
-const contextChangesMutedString = joistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.contextChanges.disabledAlertStringProperty;
-const voicingHintsString = joistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.helpfulHints.enabledAlertStringProperty;
-const hintsMutedString = joistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.helpfulHints.disabledAlertStringProperty;
+const voicingObjectChangesString = JoistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.objectDetails.enabledAlertStringProperty;
+const objectChangesMutedString = JoistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.objectDetails.disabledAlertStringProperty;
+const voicingContextChangesString = JoistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.contextChanges.enabledAlertStringProperty;
+const contextChangesMutedString = JoistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.contextChanges.disabledAlertStringProperty;
+const voicingHintsString = JoistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.helpfulHints.enabledAlertStringProperty;
+const hintsMutedString = JoistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.helpfulHints.disabledAlertStringProperty;
 
-const voiceLabelString = joistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.voice.titleStringProperty;
-const voiceTitlePatternLabelString = joistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.voice.titlePatternStringProperty;
-const noVoicesAvailableString = joistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.voice.noVoicesAvailableStringProperty;
+const voiceLabelString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.voice.titleStringProperty;
+const voiceTitlePatternLabelString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.voice.titlePatternStringProperty;
+const noVoicesAvailableString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.voice.noVoicesAvailableStringProperty;
 
-const customizeVoiceExpandedString = joistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.expandedAlertStringProperty;
-const customizeVoiceCollapsedString = joistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.collapsedAlertStringProperty;
+const customizeVoiceExpandedString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.expandedAlertStringProperty;
+const customizeVoiceCollapsedString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.collapsedAlertStringProperty;
 
-const voiceRateDescriptionPatternString = joistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.writtenVariablesPatternStringProperty;
-const labelledDescriptionPatternString = joistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
+const voiceRateDescriptionPatternString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.writtenVariablesPatternStringProperty;
+const labelledDescriptionPatternString = JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
 
-const voiceRateNormalString = joistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.rangeDescriptions.voiceRateNormalStringProperty;
-const inLowRangeString = joistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.rangeDescriptions.lowStringProperty;
-const inNormalRangeString = joistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.rangeDescriptions.normalStringProperty;
-const aboveNormalRangeString = joistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.rangeDescriptions.aboveNormalStringProperty;
-const inHighRangeString = joistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.rangeDescriptions.highStringProperty;
+const voiceRateNormalString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.rangeDescriptions.voiceRateNormalStringProperty;
+const inLowRangeString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.rangeDescriptions.lowStringProperty;
+const inNormalRangeString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.rangeDescriptions.normalStringProperty;
+const aboveNormalRangeString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.rangeDescriptions.aboveNormalStringProperty;
+const inHighRangeString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.rangeDescriptions.highStringProperty;
 
 const VOICE_PITCH_DESCRIPTION_MAP = new Map();
 VOICE_PITCH_DESCRIPTION_MAP.set( new Range( 0.5, 0.75 ), inLowRangeString );

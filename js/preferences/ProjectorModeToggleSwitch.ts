@@ -11,7 +11,7 @@ import { SceneryConstants, VoicingText } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesToggleSwitch, { PreferencesToggleSwitchOptions } from './PreferencesToggleSwitch.js';
-import joistStrings from '../joistStrings.js';
+import JoistStrings from '../JoistStrings.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
@@ -31,12 +31,12 @@ class ProjectorModeToggleSwitch extends PreferencesToggleSwitch<string> {
     phet.chipper.colorProfiles[ 0 ] !== phet.chipper.colorProfiles[ 1 ],
       'ProjectorModeToggleSwitch requires sims that support the projector color profile and one other color profile' );
 
-    const projectorModeLabel = new VoicingText( joistStrings.projectorModeStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
-    const projectorModeDescription = new VoicingText( joistStrings.preferences.tabs.visual.projectorModeDescriptionStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
+    const projectorModeLabel = new VoicingText( JoistStrings.projectorModeStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
+    const projectorModeDescription = new VoicingText( JoistStrings.preferences.tabs.visual.projectorModeDescriptionStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
     Multilink.multilink( [
-      joistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty,
-      joistStrings.projectorModeStringProperty,
-      joistStrings.preferences.tabs.visual.projectorModeDescriptionStringProperty
+      JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty,
+      JoistStrings.projectorModeStringProperty,
+      JoistStrings.preferences.tabs.visual.projectorModeDescriptionStringProperty
     ], ( labelledDescriptionPatternString, projectorModeString, projectorModeDescriptionString ) => {
       projectorModeDescription.readingBlockNameResponse = StringUtils.fillIn( labelledDescriptionPatternString, {
         label: projectorModeString,

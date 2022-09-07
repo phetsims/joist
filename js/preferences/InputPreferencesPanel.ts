@@ -13,16 +13,16 @@ import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import { Node, Text, VBox, VBoxOptions, VoicingRichText } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
-import joistStrings from '../joistStrings.js';
+import JoistStrings from '../JoistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import { InputModel } from './PreferencesModel.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 
 // constants
-const gestureControlEnabledAlertString = joistStrings.a11y.preferences.tabs.input.gestureControl.enabledAlertStringProperty;
-const gestureControlDisabledAlertString = joistStrings.a11y.preferences.tabs.input.gestureControl.disabledAlertStringProperty;
-const labelledDescriptionPatternString = joistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
+const gestureControlEnabledAlertString = JoistStrings.a11y.preferences.tabs.input.gestureControl.enabledAlertStringProperty;
+const gestureControlDisabledAlertString = JoistStrings.a11y.preferences.tabs.input.gestureControl.disabledAlertStringProperty;
+const labelledDescriptionPatternString = JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
 
 // NOT translatable yet because this tab does not appear in any published simulation.
 const inputTitleString = 'Input';

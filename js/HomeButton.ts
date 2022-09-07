@@ -15,12 +15,12 @@ import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.
 import Utterance from '../../utterance-queue/js/Utterance.js';
 import joist from './joist.js';
 import JoistButton, { JoistButtonOptions } from './JoistButton.js';
-import joistStrings from './joistStrings.js';
+import JoistStrings from './JoistStrings.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 
 // constants
-const homeScreenDescriptionString = joistStrings.a11y.homeScreenDescription;
+const homeScreenDescriptionString = JoistStrings.a11y.homeScreenDescription;
 
 type SelfOptions = EmptySelfOptions;
 type HomeButtonOptions = SelfOptions & JoistButtonOptions & PickRequired<JoistButtonOptions, 'listener' | 'tandem'>;

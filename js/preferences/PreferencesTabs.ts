@@ -16,7 +16,7 @@ import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import { FocusHighlightPath, HBox, HBoxOptions, KeyboardUtils, Line, Node, Path, PressListener, Rectangle, SceneryEvent, Text, Voicing } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
-import joistStrings from '../joistStrings.js';
+import JoistStrings from '../JoistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesType from './PreferencesType.js';
 
@@ -51,22 +51,22 @@ class PreferencesTabs extends HBox {
     const isTabSupported = ( preferencesType: PreferencesType ) => _.includes( supportedTabs, preferencesType );
 
     if ( isTabSupported( PreferencesType.OVERVIEW ) ) {
-      this.content.push( new Tab( joistStrings.preferences.tabs.overview.titleStringProperty, selectedPanelProperty, PreferencesType.OVERVIEW ) );
+      this.content.push( new Tab( JoistStrings.preferences.tabs.overview.titleStringProperty, selectedPanelProperty, PreferencesType.OVERVIEW ) );
     }
     if ( isTabSupported( PreferencesType.SIMULATION ) ) {
-      this.content.push( new Tab( joistStrings.preferences.tabs.simulation.titleStringProperty, selectedPanelProperty, PreferencesType.SIMULATION ) );
+      this.content.push( new Tab( JoistStrings.preferences.tabs.simulation.titleStringProperty, selectedPanelProperty, PreferencesType.SIMULATION ) );
     }
     if ( isTabSupported( PreferencesType.VISUAL ) ) {
-      this.content.push( new Tab( joistStrings.preferences.tabs.visual.titleStringProperty, selectedPanelProperty, PreferencesType.VISUAL ) );
+      this.content.push( new Tab( JoistStrings.preferences.tabs.visual.titleStringProperty, selectedPanelProperty, PreferencesType.VISUAL ) );
     }
     if ( isTabSupported( PreferencesType.AUDIO ) ) {
-      this.content.push( new Tab( joistStrings.preferences.tabs.audio.titleStringProperty, selectedPanelProperty, PreferencesType.AUDIO ) );
+      this.content.push( new Tab( JoistStrings.preferences.tabs.audio.titleStringProperty, selectedPanelProperty, PreferencesType.AUDIO ) );
     }
     if ( isTabSupported( PreferencesType.INPUT ) ) {
-      this.content.push( new Tab( joistStrings.preferences.tabs.input.titleStringProperty, selectedPanelProperty, PreferencesType.INPUT ) );
+      this.content.push( new Tab( JoistStrings.preferences.tabs.input.titleStringProperty, selectedPanelProperty, PreferencesType.INPUT ) );
     }
     if ( isTabSupported( PreferencesType.LOCALIZATION ) ) {
-      this.content.push( new Tab( joistStrings.preferences.tabs.localization.titleStringProperty, selectedPanelProperty, PreferencesType.LOCALIZATION, {
+      this.content.push( new Tab( JoistStrings.preferences.tabs.localization.titleStringProperty, selectedPanelProperty, PreferencesType.LOCALIZATION, {
 
         // Display a globe icon next to the localization label
         iconNode: new Path( globeSolidShape, {
@@ -223,7 +223,7 @@ class Tab extends Voicing( Node ) {
 
     this.value = value;
 
-    const voicingMultilink = Multilink.multilink( [ joistStrings.a11y.preferences.tabs.tabResponsePatternStringProperty, label ], ( pattern, labelString ) => {
+    const voicingMultilink = Multilink.multilink( [ JoistStrings.a11y.preferences.tabs.tabResponsePatternStringProperty, label ], ( pattern, labelString ) => {
       this.voicingNameResponse = StringUtils.fillIn( pattern, {
         title: labelString
       } );

@@ -18,7 +18,7 @@ import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import CreditsNode, { CreditsData } from './CreditsNode.js';
 import joist from './joist.js';
-import joistStrings from './joistStrings.js';
+import JoistStrings from './JoistStrings.js';
 import packageJSON from './packageJSON.js';
 import updateCheck from './updateCheck.js';
 import UpdateNodes from './UpdateNodes.js';
@@ -74,7 +74,7 @@ export default class AboutDialog extends Dialog {
     } );
     children.push( titleText );
 
-    const versionStringProperty = new DerivedProperty( [ joistStrings.versionPatternStringProperty ], versionPattern => {
+    const versionStringProperty = new DerivedProperty( [ JoistStrings.versionPatternStringProperty ], versionPattern => {
       return StringUtils.format( versionPattern, version );
     } );
     children.push( new VoicingText( versionStringProperty, {

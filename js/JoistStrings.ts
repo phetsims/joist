@@ -403,8 +403,8 @@ type StringsType = {
   }
 };
 
-const joistStrings = getStringModule( 'JOIST' ) as StringsType;
+const JoistStrings = getStringModule( 'JOIST' ) as StringsType;
 
-joist.register( 'joistStrings', joistStrings );
+joist.register( 'JoistStrings', JoistStrings );
 
-export default joistStrings;
+export default JoistStrings;

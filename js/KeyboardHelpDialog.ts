@@ -15,12 +15,12 @@ import { HBox, Node, NodeOptions, PDOMPeer, ReadingBlock, ReadingBlockOptions, V
 import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
-import joistStrings from './joistStrings.js';
+import JoistStrings from './JoistStrings.js';
 
 // constants
 const TITLE_MAX_WIDTH = 670;
 
-const tabToGetStartedString = joistStrings.a11y.keyboardHelp.tabToGetStarted;
+const tabToGetStartedString = JoistStrings.a11y.keyboardHelp.tabToGetStarted;
 
 type SelfOptions = EmptySelfOptions;
 
@@ -45,13 +45,13 @@ export default class KeyboardHelpDialog extends Dialog {
       phetioDynamicElement: true,
 
       // Append the title to the close button
-      closeButtonVoicingDialogTitle: joistStrings.keyboardShortcuts.title,
+      closeButtonVoicingDialogTitle: JoistStrings.keyboardShortcuts.title,
 
       // Because of the special titleNode, we set the aria-labelledby attribute manually; see below.
       addAriaLabelledByFromTitle: false
     }, providedOptions );
 
-    const shortcutsTitleText = new VoicingText( joistStrings.keyboardShortcuts.title, {
+    const shortcutsTitleText = new VoicingText( JoistStrings.keyboardShortcuts.title, {
       font: new PhetFont( {
         weight: 'bold',
         size: 24
@@ -60,7 +60,7 @@ export default class KeyboardHelpDialog extends Dialog {
 
       // pdom options
       tagName: 'h1',
-      innerContent: joistStrings.a11y.keyboardHelp.keyboardShortcuts
+      innerContent: JoistStrings.a11y.keyboardHelp.keyboardShortcuts
     } );
 
     // a 'tab to get started' hint
@@ -110,7 +110,7 @@ class TabHintLine extends ReadingBlock( Node ) {
     super();
 
     // a line to say "tab to get started" below the "Keyboard Shortcuts" 'title'
-    const labelWithIcon = KeyboardHelpSectionRow.labelWithIcon( joistStrings.keyboardShortcuts.toGetStarted,
+    const labelWithIcon = KeyboardHelpSectionRow.labelWithIcon( JoistStrings.keyboardShortcuts.toGetStarted,
       TextKeyNode.tab(), {
         labelInnerContent: tabToGetStartedString,
         iconOptions: {

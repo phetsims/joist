@@ -34,7 +34,7 @@ import HomeButton from './HomeButton.js';
 import HomeScreen from './HomeScreen.js';
 import HomeScreenView from './HomeScreenView.js';
 import joist from './joist.js';
-import joistStrings from './joistStrings.js';
+import JoistStrings from './JoistStrings.js';
 import NavigationBarScreenButton from './NavigationBarScreenButton.js';
 import PhetButton from './PhetButton.js';
 import Sim from './Sim.js';
@@ -171,7 +171,7 @@ class NavigationBar extends Node {
         tagName: 'ol',
         containerTagName: 'nav',
         labelTagName: 'h2',
-        labelContent: joistStrings.a11y.simScreens,
+        labelContent: JoistStrings.a11y.simScreens,
         visibleProperty: new DerivedProperty( [ sim.activeSimScreensProperty, sim.selectedScreenProperty, isUserNavigableProperty ], ( screens, screen, isUserNavigable ) => {
           return screen !== sim.homeScreen && screens.length > 1 && isUserNavigable;
         } )
@@ -329,7 +329,7 @@ class NavigationBar extends Node {
       tagName: 'div',
       containerTagName: 'section',
       labelTagName: 'h2',
-      labelContent: joistStrings.a11y.simResources,
+      labelContent: JoistStrings.a11y.simResources,
       pdomOrder: [
         this.a11yButtonsHBox,
         phetButton

@@ -16,14 +16,14 @@ import keyboardIconOnWhite_png from '../images/keyboardIconOnWhite_png.js'; // o
 import keyboardIcon_png from '../images/keyboardIcon_png.js'; // on a black navbar
 import joist from './joist.js';
 import JoistButton, { JoistButtonOptions } from './JoistButton.js';
-import joistStrings from './joistStrings.js';
+import JoistStrings from './JoistStrings.js';
 import KeyboardHelpDialog from './KeyboardHelpDialog.js';
 import Screen from './Screen.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 
 // constants
-const keyboardShortcutsString = joistStrings.a11y.keyboardHelp.keyboardShortcuts;
+const keyboardShortcutsString = JoistStrings.a11y.keyboardHelp.keyboardShortcuts;
 const HELP_BUTTON_HEIGHT = 67;
 const HELP_BUTTON_SCALE = 0.30; // scale applied to the icon
 

@@ -7,8 +7,8 @@
 import getStringModule from '../../chipper/js/getStringModule.js';
 import joist from './joist.js';
 
-const joistStrings = getStringModule( 'JOIST' );
+const JoistStrings = getStringModule( 'JOIST' );
 
-joist.register( 'joistStrings', joistStrings );
+joist.register( 'JoistStrings', JoistStrings );
 
-export default joistStrings;
+export default JoistStrings;

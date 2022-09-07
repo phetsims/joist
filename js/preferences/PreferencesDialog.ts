@@ -17,7 +17,7 @@ import Dialog, { DialogOptions } from '../../../sun/js/Dialog.js';
 import soundManager from '../../../tambo/js/soundManager.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
-import joistStrings from '../joistStrings.js';
+import JoistStrings from '../JoistStrings.js';
 import PreferencesModel from './PreferencesModel.js';
 import PreferencesPanels from './PreferencesPanels.js';
 import PreferencesTabs from './PreferencesTabs.js';
@@ -57,14 +57,14 @@ class PreferencesDialog extends Dialog {
 
   public constructor( preferencesModel: PreferencesModel, providedOptions?: PreferencesDialogOptions ) {
 
-    const titleText = new Text( joistStrings.preferences.titleStringProperty, {
+    const titleText = new Text( JoistStrings.preferences.titleStringProperty, {
       font: TITLE_FONT,
 
       // pdom
       tagName: 'h1',
-      textProperty: joistStrings.preferences.titleStringProperty
+      textProperty: JoistStrings.preferences.titleStringProperty
     } );
-    const titleProperty = joistStrings.preferences.titleStringProperty;
+    const titleProperty = JoistStrings.preferences.titleStringProperty;
     titleProperty.link( titleString => {
       titleText.innerContent = titleString;
     } );
@@ -77,7 +77,7 @@ class PreferencesDialog extends Dialog {
       phetioDynamicElement: true,
       tandem: Tandem.REQUIRED,
 
-      closeButtonVoicingDialogTitle: joistStrings.preferences.titleStringProperty,
+      closeButtonVoicingDialogTitle: JoistStrings.preferences.titleStringProperty,
 
       // pdom
       positionInPDOM: true
