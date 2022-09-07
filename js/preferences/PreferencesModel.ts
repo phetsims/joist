@@ -238,8 +238,7 @@ export default class PreferencesModel extends PhetioObject {
 
     // For now, the Voicing feature is only available when we are running in the english locale, accessibility
     // strings are not made available for translation.
-    const simLocale = phet.chipper.locale || 'en';
-    const supportsVoicing = options.audioOptions.supportsVoicing && SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() && simLocale === 'en';
+    const supportsVoicing = options.audioOptions.supportsVoicing && SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() && localeProperty.value === 'en';
 
     // Audio can be disabled explicitly via query parameter
     const audioEnabled = phet.chipper.queryParameters.audio !== 'disabled';
@@ -319,6 +318,14 @@ export default class PreferencesModel extends PhetioObject {
     // enabled here in the PreferencesModel.
     if ( supportsVoicing ) {
       voicingManager.enabledProperty.value = phet.chipper.queryParameters.voicingInitiallyEnabled;
+
+      // Voicing is only available in the 'en' locale currently. If the locale is changed away from english, Voicing is
+      // disabled.
+      localeProperty.link( locale => {
+        if ( voicingManager.enabledProperty.value ) {
+          voicingManager.enabledProperty.value = locale === 'en';
+        }
+      } );
 
       // The default utteranceQueue will be used for voicing of simulation components, and it is enabled when the
       // voicingManager is fully enabled (voicingManager is enabled and the voicing is enabled for the "main window"

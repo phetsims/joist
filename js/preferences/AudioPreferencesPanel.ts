@@ -17,6 +17,7 @@ import VoicingPanelSection from './VoicingPanelSection.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import Emitter from '../../../axon/js/Emitter.js';
+import localeProperty from '../localeProperty.js';
 
 // constants
 const audioFeaturesString = joistStrings.preferences.tabs.audio.audioFeatures.titleStringProperty;
@@ -39,7 +40,17 @@ class AudioPreferencesTabPanel extends VBox {
     const disposeEmitter = new Emitter();
 
     if ( audioModel.supportsVoicing ) {
-      leftContent.addChild( new VoicingPanelSection( audioModel ) );
+      const voicingPanelSection = new VoicingPanelSection( audioModel );
+      leftContent.addChild( voicingPanelSection );
+
+      // Voicing is only available in the 'en' locale. Strings for these controls are not translatable because the
+      // feature is not usable in other languages. If the locale is changed, Voicing is disabled and all related
+      // controls should be hidden. See https://github.com/phetsims/joist/issues/853.
+      const localeListener = ( locale: string ) => {
+        voicingPanelSection.visible = locale === 'en';
+      };
+      localeProperty.link( localeListener );
+      disposeEmitter.addListener( () => localeProperty.unlink( localeListener ) );
     }
 
     if ( audioModel.supportsSound ) {
