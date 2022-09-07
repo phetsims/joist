@@ -26,7 +26,10 @@ import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 const CONTENT_VERTICAL_SPACING = 10;
 const QUICK_INFO = 20;
 
-// strings
+// strings - Many of these strings are displayed visually but only when the sim is running in the english locale.
+// Voicing is only available in english so these contents are hidden because translators will not be able to test
+// them in a translated context. These strings are nested under the a11y key so that they are not available for
+// translation.
 const titleString = joistStrings.a11y.toolbar.voicing.titleStringProperty;
 const quickInfoString = joistStrings.a11y.toolbar.voicing.quickInfoStringProperty;
 const simVoicingOnString = joistStrings.a11y.toolbar.voicing.simVoicingOnAlertStringProperty;
