@@ -13,14 +13,14 @@ import Panel from '../../../sun/js/Panel.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import KeyboardHelpButton from '../KeyboardHelpButton.js';
-import ScreenView from '../ScreenView.js';
+import ScreenView, { ScreenViewOptions } from '../ScreenView.js';
 import Screen from '../Screen.js';
 import Sim from '../Sim.js';
 
 class DialogsScreenView extends ScreenView {
-  public constructor() {
+  public constructor( providedOptions: ScreenViewOptions ) {
 
-    super();
+    super( providedOptions );
 
     const sim = phet.joist.sim as Sim;
 

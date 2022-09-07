@@ -28,10 +28,12 @@ class DemoModel {
 
 simLauncher.launch( () => {
 
+  const dialogsScreenTandem = Tandem.ROOT.createTandem( 'dialogsScreen' );
+
   const screens = [
     new Screen(
       ( () => new DemoModel() ),
-      ( () => new DialogsScreenView() ), {
+      ( () => new DialogsScreenView( { tandem: dialogsScreenTandem.createTandem( 'view' ) } ) ), {
         name: 'Dialogs',
         backgroundColorProperty: new Property( 'white' ),
         tandem: Tandem.OPT_OUT
