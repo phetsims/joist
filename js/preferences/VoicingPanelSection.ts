@@ -246,7 +246,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
         // If locale changes, make sure to describe that Voicing has become disabled because Voicing is only available
         // in the English locale.
         voicingEnabledUtterance.alert = enabled ? voicingEnabledString :
-                                        ( localeProperty.value === 'en' ? voicingDisabledString : voicingOffOnlyAvailableInEnglishString );
+                                        ( localeProperty.value.startsWith( 'en' ) ? voicingDisabledString : voicingOffOnlyAvailableInEnglishString );
         voicingManager.speakIgnoringEnabled( voicingEnabledUtterance );
         this.alertDescriptionUtterance( voicingEnabledUtterance );
       }

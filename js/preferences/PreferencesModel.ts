@@ -238,7 +238,7 @@ export default class PreferencesModel extends PhetioObject {
 
     // For now, the Voicing feature is only available when we are running in the english locale, accessibility
     // strings are not made available for translation.
-    const supportsVoicing = options.audioOptions.supportsVoicing && SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() && localeProperty.value === 'en';
+    const supportsVoicing = options.audioOptions.supportsVoicing && SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() && localeProperty.value.startsWith( 'en' );
 
     // Audio can be disabled explicitly via query parameter
     const audioEnabled = phet.chipper.queryParameters.audio !== 'disabled';
