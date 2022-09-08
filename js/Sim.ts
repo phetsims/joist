@@ -490,8 +490,8 @@ export default class Sim extends PhetioObject {
           tandem: screensTandem.createTandem( 'availableScreensProperty' ),
           isValidValue: value => _.some( validValues, validValue => _.isEqual( value, validValue ) ),
           phetioFeatured: true,
-          phetioValueType: ArrayIO( NumberIO )
-          // TODO: phetioDocumentation, see https://github.com/phetsims/joist/issues/827
+          phetioValueType: ArrayIO( NumberIO ),
+          phetioDocumentation: 'Controls which screens are available, and the order they are displayed.'
         } );
 
         this.activeSimScreensProperty = new DerivedProperty( [ this.availableScreensProperty ], screenIndices => {

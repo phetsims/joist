@@ -162,8 +162,8 @@ class NavigationBar extends Node {
 
       const isUserNavigableProperty = new BooleanProperty( true, {
         tandem: Tandem.GENERAL_MODEL.createTandem( 'screens' ).createTandem( 'isUserNavigableProperty' ),
-        phetioFeatured: true
-        // TODO: phetioDocumentation, see https://github.com/phetsims/joist/issues/827
+        phetioFeatured: true,
+        phetioDocumentation: 'If the screens are user navigable, icons are displayed in the navigation bar and the user can switch between screens.'
       } );
 
       // pdom - container for the homeButton and all the screen buttons.
