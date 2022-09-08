@@ -264,12 +264,16 @@ type StringsType = {
           'voicing': {
             'title': string;
             'titleStringProperty': TReadOnlyProperty<string>;
+            'titleEnglishOnly': string;
+            'titleEnglishOnlyStringProperty': TReadOnlyProperty<string>;
             'description': string;
             'descriptionStringProperty': TReadOnlyProperty<string>;
             'voicingOn': string;
             'voicingOnStringProperty': TReadOnlyProperty<string>;
             'voicingOff': string;
             'voicingOffStringProperty': TReadOnlyProperty<string>;
+            'voicingOffOnlyAvailableInEnglish': string;
+            'voicingOffOnlyAvailableInEnglishStringProperty': TReadOnlyProperty<string>;
             'toolbar': {
               'title': string;
               'titleStringProperty': TReadOnlyProperty<string>;

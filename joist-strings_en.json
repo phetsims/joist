@@ -297,6 +297,9 @@
             "title": {
               "value": "Voicing"
             },
+            "titleEnglishOnly": {
+              "value": "Voicing (English Only)"
+            },
             "description": {
               "value": "Voice and highlight content as you interact."
             },
@@ -305,6 +308,9 @@
             },
             "voicingOff": {
               "value": "Voicing off."
+            },
+            "voicingOffOnlyAvailableInEnglish": {
+              "value": "Voicing off. Only available in English."
             },
             "toolbar": {
               "title": {

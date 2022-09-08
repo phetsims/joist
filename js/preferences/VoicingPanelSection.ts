@@ -31,11 +31,13 @@ import PreferencesDialog from './PreferencesDialog.js';
 import { AudioModel } from './PreferencesModel.js';
 import PreferencesPanelSection, { PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
+import localeProperty from '../localeProperty.js';
 
 // constants
 // none of the Voicing strings or feature is translatable yet, all strings in this file
 // are nested under the 'a11y' section to make sure that they are not translatable
 const voicingLabelString = JoistStrings.a11y.preferences.tabs.audio.voicing.titleStringProperty;
+const voicingEnglishOnlyLabelString = JoistStrings.a11y.preferences.tabs.audio.voicing.titleEnglishOnlyStringProperty;
 const voicingDescriptionString = JoistStrings.a11y.preferences.tabs.audio.voicing.descriptionStringProperty;
 const toolbarLabelString = JoistStrings.a11y.preferences.tabs.audio.voicing.toolbar.titleStringProperty;
 const rateString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.titleStringProperty;
@@ -43,6 +45,7 @@ const rateLabelString = JoistStrings.a11y.preferences.tabs.audio.voicing.customi
 const pitchString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.pitch.titleStringProperty;
 const voicingEnabledString = JoistStrings.a11y.preferences.tabs.audio.voicing.voicingOnStringProperty;
 const voicingDisabledString = JoistStrings.a11y.preferences.tabs.audio.voicing.voicingOffStringProperty;
+const voicingOffOnlyAvailableInEnglishString = JoistStrings.a11y.preferences.tabs.audio.voicing.voicingOffOnlyAvailableInEnglishStringProperty;
 const voiceVariablesPatternString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.variablesPatternStringProperty;
 const customizeVoiceString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.titleStringProperty;
 
@@ -100,17 +103,22 @@ class VoicingPanelSection extends PreferencesPanelSection {
    */
   public constructor( audioModel: AudioModel, providedOptions?: VoicingPanelSectionOptions ) {
 
+    // Voicing feature only works when running in English. If running in a version where you can change locale,
+    // indicate through the title that the feature will only work in English.
+    const titleString = ( localeProperty.validValues && localeProperty.validValues.length > 1 ) ?
+                          voicingEnglishOnlyLabelString : voicingLabelString;
+
     // the checkbox is the title for the section and totally enables/disables the feature
-    const voicingLabel = new Text( voicingLabelString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
+    const voicingLabel = new Text( titleString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
     const voicingEnabledSwitch = new PreferencesToggleSwitch<boolean>( audioModel.voicingEnabledProperty, false, true, {
       labelNode: voicingLabel,
       descriptionNode: new VoicingText( voicingDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternString, {
-          label: voicingLabelString,
+          label: titleString,
           description: voicingDescriptionString
         } )
       } ) ),
-      a11yLabel: voicingLabelString
+      a11yLabel: titleString
     } );
 
     // checkbox for the toolbar
@@ -234,7 +242,11 @@ class VoicingPanelSection extends PreferencesPanelSection {
       // only speak if "Sim Voicing" is on, all voicing should be disabled except for the Toolbar
       // buttons in this case
       if ( audioModel.voicingMainWindowVoicingEnabledProperty.value ) {
-        voicingEnabledUtterance.alert = enabled ? voicingEnabledString : voicingDisabledString;
+
+        // If locale changes, make sure to describe that Voicing has become disabled because Voicing is only available
+        // in the English locale.
+        voicingEnabledUtterance.alert = enabled ? voicingEnabledString :
+                                        ( localeProperty.value === 'en' ? voicingDisabledString : voicingOffOnlyAvailableInEnglishString );
         voicingManager.speakIgnoringEnabled( voicingEnabledUtterance );
         this.alertDescriptionUtterance( voicingEnabledUtterance );
       }
