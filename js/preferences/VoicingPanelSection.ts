@@ -106,7 +106,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
     // Voicing feature only works when running in English. If running in a version where you can change locale,
     // indicate through the title that the feature will only work in English.
     const titleString = ( localeProperty.validValues && localeProperty.validValues.length > 1 ) ?
-                          voicingEnglishOnlyLabelString : voicingLabelString;
+                        voicingEnglishOnlyLabelString : voicingLabelString;
 
     // the checkbox is the title for the section and totally enables/disables the feature
     const voicingLabel = new Text( titleString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
@@ -234,6 +234,11 @@ class VoicingPanelSection extends PreferencesPanelSection {
       content.visible = enabled;
     } );
 
+    const localeListener = ( locale: string ) => {
+      voicingEnabledSwitch.enabledProperty.value = locale.startsWith( 'en' );
+    };
+    localeProperty.link( localeListener );
+
     // Speak when voicing becomes initially enabled. First speech is done synchronously (not using utterance-queue)
     // in response to user input, otherwise all speech will be blocked on many platforms
     const voicingEnabledUtterance = new Utterance();
@@ -304,6 +309,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
       pitchSlider.dispose();
       rateSlider.dispose();
       audioModel.voicingEnabledProperty.unlink( voicingEnabledPropertyListener );
+      localeProperty.unlink( localeListener );
       voicingEnabledSwitch.dispose();
       expandCollapseButton.dispose();
       toolbarEnabledSwitch.dispose();
