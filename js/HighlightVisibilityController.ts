@@ -31,7 +31,7 @@ class HighlightVisibilityController {
   // coordinate frame.
   private relativePointerDistance = 0;
 
-  public constructor( display: Display, preferencesModel: PreferencesModel | null ) {
+  public constructor( display: Display, preferencesModel: PreferencesModel ) {
 
     // A reference to the Display whose FocusManager we will operate on to control the visibility of various kinds of highlights
     this.display = display;
@@ -61,41 +61,35 @@ class HighlightVisibilityController {
       }
     } );
 
-    if ( preferencesModel ) {
+    if ( preferencesModel.visualModel.supportsInteractiveHighlights ) {
 
-      // TODO: move this into the conditional below? https://github.com/phetsims/joist/issues/743
       preferencesModel.visualModel.interactiveHighlightsEnabledProperty.link( visible => {
         this.display.focusManager.interactiveHighlightsVisibleProperty.value = visible;
       } );
 
-      // If Interactive Highlights are supported add a listener that switch between using focus highlights and Interactive
-      // Highlights depending on the input received.
-      if ( preferencesModel.visualModel.supportsInteractiveHighlights ) {
+      // When both Interactive Highlights are enabled and the PDOM focus highlights are visible, add a listener that
+      // will make focus highlights invisible and interactive highlights visible if we receive a certain amount of
+      // mouse movement. The listener is removed as soon as PDOM focus highlights are made invisible or Interactive
+      // Highlights are disabled.
+      const interactiveHighlightsEnabledProperty = preferencesModel.visualModel.interactiveHighlightsEnabledProperty;
+      const pdomFocusHighlightsVisibleProperty = this.display.focusManager.pdomFocusHighlightsVisibleProperty;
+      Multilink.multilink(
+        [ interactiveHighlightsEnabledProperty, pdomFocusHighlightsVisibleProperty ],
+        ( interactiveHighlightsEnabled, pdomHighlightsVisible ) => {
+          if ( interactiveHighlightsEnabled && pdomHighlightsVisible ) {
+            this.display.addInputListener( moveListener );
 
-        // When both Interactive Highlights are enabled and the PDOM focus highlights are visible, add a listener that
-        // will make focus highlights invisible and interactive highlights visible if we receive a certain amount of
-        // mouse movement. The listener is removed as soon as PDOM focus highlights are made invisible or Interactive
-        // Highlights are disabled.
-        const interactiveHighlightsEnabledProperty = preferencesModel.visualModel.interactiveHighlightsEnabledProperty;
-        const pdomFocusHighlightsVisibleProperty = this.display.focusManager.pdomFocusHighlightsVisibleProperty;
-        Multilink.multilink(
-          [ interactiveHighlightsEnabledProperty, pdomFocusHighlightsVisibleProperty ],
-          ( interactiveHighlightsEnabled, pdomHighlightsVisible ) => {
-            if ( interactiveHighlightsEnabled && pdomHighlightsVisible ) {
-              this.display.addInputListener( moveListener );
+            // Setting to null indicates that we should store the Pointer.point as the initialPointerPoint on next move.
+            this.initialPointerPoint = null;
 
-              // Setting to null indicates that we should store the Pointer.point as the initialPointerPoint on next move.
-              this.initialPointerPoint = null;
-
-              // Reset distance of movement for the mouse pointer since we are looking for changes again.
-              this.relativePointerDistance = 0;
-            }
-            else {
-              this.display.hasInputListener( moveListener ) && this.display.removeInputListener( moveListener );
-            }
+            // Reset distance of movement for the mouse pointer since we are looking for changes again.
+            this.relativePointerDistance = 0;
           }
-        );
-      }
+          else {
+            this.display.hasInputListener( moveListener ) && this.display.removeInputListener( moveListener );
+          }
+        }
+      );
     }
 
     this.display.addInputListener( {

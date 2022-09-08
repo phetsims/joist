@@ -24,7 +24,7 @@ import PreferencesModel from './preferences/PreferencesModel.js';
 type SelfOptions = {
   webgl?: boolean;
   rootRenderer?: RendererType;
-  preferencesModel?: PreferencesModel | null;
+  preferencesModel: PreferencesModel;
 };
 export type SimDisplayOptions = SelfOptions & DisplayOptions;
 
@@ -65,9 +65,6 @@ export default class SimDisplay extends Display {
       // Indicate whether webgl is allowed to facilitate testing on non-webgl platforms, see https://github.com/phetsims/scenery/issues/289
       allowWebGL: phet.chipper.queryParameters.webgl,
       assumeFullWindow: true, // a bit faster if we can assume no coordinate translations are needed for the display.
-
-      // See Sim.js for full documentation
-      preferencesModel: null, // {PreferencesModel|null}
 
       // pdom accessibility (interactive description)
       accessibility: phet.chipper.queryParameters.supportsInteractiveDescription,
