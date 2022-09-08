@@ -33,7 +33,9 @@ class AudioPreferencesTabPanel extends VBox {
    */
   public constructor( audioModel: AudioModel, providedOptions: AudioPreferencesPanelOptions ) {
 
-    const contentOptions: VBoxOptions = { align: 'left', spacing: PreferencesDialog.CONTENT_SPACING };
+    // Some contents of this Dialog will be dynamically removed. Dont resize when this happens because we don't want
+    // to shift contents of the entire Preferences dialog.
+    const contentOptions: VBoxOptions = { align: 'left', spacing: PreferencesDialog.CONTENT_SPACING, excludeInvisibleChildrenFromBounds: false };
     const leftContent = new VBox( contentOptions );
     const rightContent = new VBox( contentOptions );
 
