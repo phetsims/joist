@@ -40,7 +40,9 @@ class A11yButtonsHBox extends HBox {
     if ( sim.preferencesModel.shouldShowDialog() ) {
 
       const preferencesButton = new NavigationBarPreferencesButton( sim.preferencesModel, backgroundColorProperty, {
-        tandem: options.tandem.createTandem( 'preferencesButton' )
+        tandem: options.tandem.createTandem( 'preferencesButton' ),
+        pointerAreaDilationX: 1,
+        pointerAreaDilationY: 1
       } );
 
       a11yButtons.push( preferencesButton );
@@ -49,7 +51,9 @@ class A11yButtonsHBox extends HBox {
     // For consistent PhET-iO support, we eagerly create the audio toggle button in every sim.  But it is only
     // added to the a11yButtons when sound is fully enabled in a sim runtime.
     const audioToggleButton = new NavigationBarAudioToggleButton( audioManager.audioEnabledProperty, backgroundColorProperty, {
-      tandem: options.tandem.createTandem( 'audioToggleButton' )
+      tandem: options.tandem.createTandem( 'audioToggleButton' ),
+      pointerAreaDilationX: 1,
+      pointerAreaDilationY: 0.15
     } );
 
     // only put the sound on/off button on the nav bar if the sound library is enabled
@@ -64,7 +68,9 @@ class A11yButtonsHBox extends HBox {
       // and the sim has supports Interactive Description. Eagerly create this to support a consistent PhET-iO API, but
       // only conditionally add it to the nav bar if in the proper runtime.
       const keyboardHelpButton = new KeyboardHelpButton( sim.selectedScreenProperty, backgroundColorProperty, {
-        tandem: options.tandem.createTandem( 'keyboardHelpButton' )
+        tandem: options.tandem.createTandem( 'keyboardHelpButton' ),
+        pointerAreaDilationX: 1,
+        pointerAreaDilationY: 1
       } );
 
       // only show the keyboard help button if the sim supports interactive description and we are not in mobile safari

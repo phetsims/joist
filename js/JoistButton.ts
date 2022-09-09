@@ -24,6 +24,8 @@ type SelfOptions = {
   highlightExtensionHeight?: number;
   highlightCenterOffsetX?: number;
   highlightCenterOffsetY?: number;
+  pointerAreaDilationX?: number;
+  pointerAreaDilationY?: number;
   listener?: ( () => void ) | null;
 };
 type ParentOptions = VoicingOptions & NodeOptions;
@@ -53,6 +55,9 @@ export default class JoistButton extends Voicing( Node ) {
       highlightExtensionHeight: 0,
       highlightCenterOffsetX: 0,
       highlightCenterOffsetY: 0,
+
+      pointerAreaDilationX: 0,
+      pointerAreaDilationY: 0,
 
       // JoistButtons by default do not have a featured enabledProperty
       enabledPropertyOptions: { phetioFeatured: false },
@@ -115,7 +120,7 @@ export default class JoistButton extends Voicing( Node ) {
     this.addInputListener( this._pressListener );
 
     // eliminate interactivity gap between label and button
-    this.mouseArea = this.touchArea = Shape.bounds( this.bounds );
+    this.mouseArea = this.touchArea = Shape.bounds( this.bounds.dilatedXY( options.pointerAreaDilationX, options.pointerAreaDilationY ) );
 
     // shift the focus highlight for the joist button so that the bottom is always on screen
     const highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );

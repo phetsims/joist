@@ -18,9 +18,10 @@ import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesModel from './PreferencesModel.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import PickOptional from '../../../phet-core/js/types/PickOptional.js';
 
 type SelfOptions = EmptySelfOptions;
-export type NavigationBarPreferencesButtonOptions = SelfOptions & PickRequired<JoistButtonOptions, 'tandem'>;
+export type NavigationBarPreferencesButtonOptions = SelfOptions & PickRequired<JoistButtonOptions, 'tandem'> & PickOptional<JoistButtonOptions, 'pointerAreaDilationX' | 'pointerAreaDilationY'>;
 
 class NavigationBarPreferencesButton extends JoistButton {
 
