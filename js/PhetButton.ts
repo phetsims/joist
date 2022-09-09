@@ -67,7 +67,7 @@ class PhetButton extends JoistButton {
 
     // PhET logo
     const logoImage = new Image( logoOnBlackBackground, {
-      scale: PHET_LOGO_SCALE / logoOnBlackBackground.height * PHET_LOGO_HEIGHT * ( Tandem.PHET_IO_ENABLED ? 0.85 : 1 ),
+      scale: PHET_LOGO_SCALE / logoOnBlackBackground.height * PHET_LOGO_HEIGHT * 0.85,
       pickable: false
     } );
 
