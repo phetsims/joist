@@ -73,6 +73,7 @@ class PhetButton extends JoistButton {
 
     // The menu icon, to the right of the logo
     const menuIcon = new KebabMenuIcon( {
+      scale: 0.85,
       left: logoImage.width + 8,
       bottom: logoImage.bottom - 0.5,
       pickable: false
