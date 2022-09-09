@@ -12,7 +12,7 @@ import Dimension2 from '../../../dot/js/Dimension2.js';
 import merge from '../../../phet-core/js/merge.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import { GridBox, Node, NodeOptions, PDOMValueType } from '../../../scenery/js/imports.js';
+import { GridBox, Node, NodeOptions, PDOMValueType, SceneryConstants } from '../../../scenery/js/imports.js';
 import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import Utterance, { TAlertable } from '../../../utterance-queue/js/Utterance.js';
@@ -128,6 +128,14 @@ class PreferencesToggleSwitch<T> extends Node {
       }
     };
     property.lazyLink( valueListener );
+
+    // This component manages disabledOpacity, we don't want it to compound over subcomponents.
+    toggleSwitch.disabledOpacity = 1;
+    this.disabledOpacity = SceneryConstants.DISABLED_OPACITY;
+
+    this.enabledProperty.link( enabled => {
+      toggleSwitch.enabled = enabled;
+    } );
 
     // Layout using GridBox and layoutOptions will accomplish the following when all components are available.
     // [[labelNode]]         [[ToggleSwitch]]

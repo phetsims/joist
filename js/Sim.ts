@@ -296,11 +296,11 @@ export default class Sim extends PhetioObject {
     const simDisplayOptions: {
       webgl: boolean;
       tandem: Tandem;
-      preferencesModel: PreferencesModel | null;
+      preferencesModel: PreferencesModel;
     } = {
       webgl: options.webgl,
       tandem: Tandem.GENERAL_VIEW.createTandem( 'display' ),
-      preferencesModel: null
+      preferencesModel: options.preferencesModel
     };
 
     super( options );
@@ -599,7 +599,6 @@ export default class Sim extends PhetioObject {
     // }
 
     this.preferencesModel = options.preferencesModel;
-    simDisplayOptions.preferencesModel = options.preferencesModel;
 
     // initialize audio and audio subcomponents
     audioManager.initialize( this );

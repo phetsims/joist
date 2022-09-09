@@ -320,10 +320,18 @@ export default class PreferencesModel extends PhetioObject {
       voicingManager.enabledProperty.value = phet.chipper.queryParameters.voicingInitiallyEnabled;
 
       // Voicing is only available in the 'en' locale currently. If the locale is changed away from english, Voicing is
-      // disabled.
+      // disabled. The next time Voicing returns to 'en', Voicing will be enabled again.
+      let voicingDisabledFromLocale = false;
       localeProperty.link( locale => {
+
+        const englishLocale = locale.startsWith( 'en' );
         if ( voicingManager.enabledProperty.value ) {
-          voicingManager.enabledProperty.value = locale === 'en';
+          voicingManager.enabledProperty.value = englishLocale;
+          voicingDisabledFromLocale = true;
+        }
+        else if ( voicingDisabledFromLocale && englishLocale ) {
+          voicingManager.enabledProperty.value = true;
+          voicingDisabledFromLocale = false;
         }
       } );
 

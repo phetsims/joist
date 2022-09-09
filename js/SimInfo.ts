@@ -35,7 +35,7 @@ export type SimInfoState = {
   repoName: string;
 
   screenPropertyValue: string;
-  wrapperMetadata: null | Record<string, IntentionalAny>; // TODO: structured clonable type, https://github.com/phetsims/phet-io/issues/1865
+  wrapperMetadata: null | Record<string, IntentionalAny>;
   dataStreamVersion: string;
   phetioCommandProcessorProtocol: string;
   simVersion: string | null;
