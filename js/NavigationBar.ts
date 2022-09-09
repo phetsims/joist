@@ -56,7 +56,6 @@ const TITLE_LEFT_MARGIN = 10;
 const TITLE_RIGHT_MARGIN = 25;
 const PHET_BUTTON_LEFT_MARGIN = 6;
 const PHET_BUTTON_RIGHT_MARGIN = 10;
-const PHET_BUTTON_BOTTOM_MARGIN = 0;
 const HOME_BUTTON_LEFT_MARGIN = 5;
 const HOME_BUTTON_RIGHT_MARGIN = HOME_BUTTON_LEFT_MARGIN;
 const SCREEN_BUTTON_SPACING = 0;
@@ -296,7 +295,7 @@ class NavigationBar extends Node {
     // initial layout (that doesn't need to change when we are re-laid out)
     titleText.left = TITLE_LEFT_MARGIN;
     titleText.centerY = NAVIGATION_BAR_SIZE.height / 2;
-    phetButton.bottom = NAVIGATION_BAR_SIZE.height - PHET_BUTTON_BOTTOM_MARGIN;
+    phetButton.centerY = NAVIGATION_BAR_SIZE.height / 2;
 
     ManualConstraint.create( this, [ this.background, phetButton ], ( backgroundProxy, phetButtonProxy ) => {
       phetButtonProxy.right = backgroundProxy.right - PHET_BUTTON_RIGHT_MARGIN;
