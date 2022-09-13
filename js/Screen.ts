@@ -35,7 +35,6 @@ import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import Multilink from '../../axon/js/Multilink.js';
 import TModel from './TModel.js';
-import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 
 const screenNamePatternString = JoistStrings.a11y.screenNamePattern;
 const screenSimPatternString = JoistStrings.a11y.screenSimPattern;
@@ -82,7 +81,7 @@ class Screen<M extends TModel = IntentionalAny, V extends ScreenView = ScreenVie
   public readonly maxDT: number;
   public readonly activeProperty: BooleanProperty;
   public readonly descriptionContent: PDOMValueType;
-  public readonly nameProperty: Property<string>;
+  public readonly nameProperty: TReadOnlyProperty<string>;
 
   public readonly showScreenIconFrameForNavigationBarFill: string | null;
   public readonly homeScreenIcon: Node | null;
@@ -179,18 +178,25 @@ class Screen<M extends TModel = IntentionalAny, V extends ScreenView = ScreenVie
     // This additional option is needed because designers requested the ability to not instrument a screen's nameProperty
     // even if it has a name, see https://github.com/phetsims/joist/issues/627 and https://github.com/phetsims/joist/issues/629.
     const instrumentNameProperty = options.instrumentNameProperty && options.name;
+    const namePropertyTandem = instrumentNameProperty ? options.tandem.createTandem( 'nameProperty' ) : Tandem.OPT_OUT;
 
-    // may be null for single-screen simulations
-    this.nameProperty = new Property( typeof options.name === 'string' ? options.name : ( options.name ? options.name.value : '' ), {
-      phetioValueType: NullableIO( StringIO ),
-      tandem: instrumentNameProperty ? options.tandem.createTandem( 'nameProperty' ) : Tandem.OPT_OUT,
-      phetioFeatured: true,
-      phetioDocumentation: 'The name of the screen. Changing this value will update the screen name for the screen\'s ' +
-                           'corresponding button on the navigation bar and home screen, if they exist.'
-    } );
-    if ( options.name instanceof ReadOnlyProperty ) {
-      options.name.link( name => {
-        this.nameProperty.value = name;
+    if ( options.name && typeof options.name !== 'string' ) {
+      this.nameProperty = options.name;
+
+      // @ts-ignore, need string Propety type to accept linkable, see https://github.com/phetsims/axon/issues/414
+      this.addLinkedElement( options.name, {
+        tandem: namePropertyTandem
+      } );
+    }
+    else {
+
+      // may be null for single-screen simulations
+      this.nameProperty = new Property( typeof options.name === 'string' ? options.name : '', {
+        phetioValueType: NullableIO( StringIO ),
+        tandem: namePropertyTandem,
+        phetioFeatured: true,
+        phetioDocumentation: 'The name of the screen. Changing this value will update the screen name for the screen\'s ' +
+                             'corresponding button on the navigation bar and home screen, if they exist.'
       } );
     }
 
