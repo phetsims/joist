@@ -6,10 +6,10 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import StringProperty from '../../axon/js/StringProperty.js';
-import { globalKeyStateTracker, KeyboardUtils } from '../../scenery/js/imports.js';
-import Tandem from '../../tandem/js/Tandem.js';
-import joist from './joist.js';
+import StringProperty from '../../../axon/js/StringProperty.js';
+import { globalKeyStateTracker, KeyboardUtils } from '../../../scenery/js/imports.js';
+import Tandem from '../../../tandem/js/Tandem.js';
+import joist from '../joist.js';
 
 const locales = Object.keys( phet.chipper.strings ).sort();
 

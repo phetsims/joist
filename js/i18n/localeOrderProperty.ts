@@ -7,8 +7,8 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import joist from './joist.js';
+import DerivedProperty from '../../../axon/js/DerivedProperty.js';
+import joist from '../joist.js';
 import localeProperty from './localeProperty.js';
 import fallbackLocalesProperty from './fallbackLocalesProperty.js';
 

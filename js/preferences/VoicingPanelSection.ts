@@ -31,7 +31,7 @@ import PreferencesDialog from './PreferencesDialog.js';
 import { AudioModel } from './PreferencesModel.js';
 import PreferencesPanelSection, { PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
-import localeProperty from '../localeProperty.js';
+import localeProperty from '../i18n/localeProperty.js';
 
 // constants
 // none of the Voicing strings or feature is translatable yet, all strings in this file

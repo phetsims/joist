@@ -7,9 +7,9 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import localeInfoModule from '../../chipper/js/data/localeInfoModule.js';
-import joist from './joist.js';
+import DerivedProperty from '../../../axon/js/DerivedProperty.js';
+import localeInfoModule from '../../../chipper/js/data/localeInfoModule.js';
+import joist from '../joist.js';
 import localeProperty from './localeProperty.js';
 
 const isLeftToRightProperty = new DerivedProperty( [ localeProperty ], locale => {

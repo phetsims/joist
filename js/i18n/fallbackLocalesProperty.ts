@@ -7,12 +7,12 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import Property from '../../axon/js/Property.js';
-import localeInfoModule from '../../chipper/js/data/localeInfoModule.js';
-import Tandem from '../../tandem/js/Tandem.js';
-import ArrayIO from '../../tandem/js/types/ArrayIO.js';
-import StringIO from '../../tandem/js/types/StringIO.js';
-import joist from './joist.js';
+import Property from '../../../axon/js/Property.js';
+import localeInfoModule from '../../../chipper/js/data/localeInfoModule.js';
+import Tandem from '../../../tandem/js/Tandem.js';
+import ArrayIO from '../../../tandem/js/types/ArrayIO.js';
+import StringIO from '../../../tandem/js/types/StringIO.js';
+import joist from '../joist.js';
 
 const fallbackLocalesProperty = new Property<string[]>( [], {
   tandem: Tandem.GENERAL_MODEL.createTandem( 'fallbackLocalesProperty' ),

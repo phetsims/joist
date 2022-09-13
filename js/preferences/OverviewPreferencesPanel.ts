@@ -9,7 +9,7 @@
 
 import merge from '../../../phet-core/js/merge.js';
 import { VBox, VoicingRichText } from '../../../scenery/js/imports.js';
-import isLeftToRightProperty from '../isLeftToRightProperty.js';
+import isLeftToRightProperty from '../i18n/isLeftToRightProperty.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';

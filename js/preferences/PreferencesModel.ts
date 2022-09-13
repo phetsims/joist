@@ -20,7 +20,7 @@ import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js'
 import localizationManager, { RegionAndCultureDescriptor } from './localizationManager.js';
 import SpeechSynthesisAnnouncer from '../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import localeProperty from '../localeProperty.js';
+import localeProperty from '../i18n/localeProperty.js';
 import merge from '../../../phet-core/js/merge.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 
