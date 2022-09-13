@@ -12,7 +12,7 @@
 import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { KeyboardUtils, Text, VBox, VDivider } from '../../../scenery/js/imports.js';
+import { KeyboardUtils, Text, VBox, HSeparator } from '../../../scenery/js/imports.js';
 import Dialog, { DialogOptions } from '../../../sun/js/Dialog.js';
 import soundManager from '../../../tambo/js/soundManager.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -113,7 +113,7 @@ class PreferencesDialog extends Dialog {
     const content = new VBox( {
       children: [
         preferencesTabs,
-        new VDivider( {
+        new HSeparator( {
           layoutOptions: {
             bottomMargin: 20,
             stretch: true
