@@ -34,7 +34,7 @@ simLauncher.launch( () => {
     new Screen(
       ( () => new DemoModel() ),
       ( () => new DialogsScreenView( { tandem: dialogsScreenTandem.createTandem( 'view' ) } ) ), {
-        name: 'Dialogs',
+        name: new Property( 'Dialogs' ),
         backgroundColorProperty: new Property( 'white' ),
         tandem: Tandem.OPT_OUT
       } )

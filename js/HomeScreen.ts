@@ -19,7 +19,7 @@ import JoistStrings from './JoistStrings.js';
 import Screen, { ScreenOptions } from './Screen.js';
 
 // constants
-const homeString = JoistStrings.a11y.home;
+const homeStringProperty = JoistStrings.a11y.homeStringProperty;
 const BACKGROUND_COLOR = Color.BLACK;
 
 type SelfOptions = {
@@ -43,7 +43,7 @@ class HomeScreen extends Screen<HomeScreenModel, HomeScreenView> {
       // TODO get this color from LookAndFeel, see https://github.com/phetsims/joist/issues/222
       backgroundColorProperty: new Property( BACKGROUND_COLOR ),
 
-      name: homeString,
+      name: homeStringProperty,
 
       keyboardHelpNode: new HomeScreenKeyboardHelpContent(),
 

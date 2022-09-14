@@ -24,9 +24,7 @@ import { Color, Node, Path, PDOMValueType, Rectangle } from '../../scenery/js/im
 import PhetioObject, { PhetioObjectOptions } from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
-import NullableIO from '../../tandem/js/types/NullableIO.js';
 import ReferenceIO from '../../tandem/js/types/ReferenceIO.js';
-import StringIO from '../../tandem/js/types/StringIO.js';
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
 import ScreenIcon from './ScreenIcon.js';
@@ -53,7 +51,7 @@ assert && assert( Math.abs( HOME_SCREEN_ICON_ASPECT_RATIO - HOME_SCREEN_ICON_ASP
 
 // Documentation is by the defaults
 type SelfOptions = {
-  name?: string | TReadOnlyProperty<string> | null;
+  name?: TReadOnlyProperty<string> | null;
   instrumentNameProperty?: boolean;
 
   // It would be preferable to support Property<Color | string> solely, but many subtypes are hardcoded to be Color only
@@ -103,7 +101,7 @@ class Screen<M extends TModel = IntentionalAny, V extends ScreenView = ScreenVie
 
     const options = optionize<ScreenOptions, SelfOptions, PhetioObjectOptions>()( {
 
-      // {string|null} name of the sim, as displayed to the user.
+      // {TProperty<string>|null} name of the sim, as displayed to the user.
       // For single-screen sims, there is no home screen or navigation bar, and null is OK.
       // For multi-screen sims, this must be provided.
       name: null,
@@ -149,6 +147,8 @@ class Screen<M extends TModel = IntentionalAny, V extends ScreenView = ScreenVie
     assert && assert( _.includes( [ 'black', 'white', null ], options.showScreenIconFrameForNavigationBarFill ),
       `invalid showScreenIconFrameForNavigationBarFill: ${options.showScreenIconFrameForNavigationBarFill}` );
 
+    assert && assert( typeof options.name !== 'string', 'Screen no longer supports a name string, instead it should be a Property<string>' );
+
     super( options );
 
     // Create a default homeScreenIcon, using the Screen's background color
@@ -174,30 +174,21 @@ class Screen<M extends TModel = IntentionalAny, V extends ScreenView = ScreenVie
 
     this.backgroundColorProperty = options.backgroundColorProperty;
 
-    // Don't instrument this.nameProperty if options.instrumentNameProperty is false or if options.name is not provided.
-    // This additional option is needed because designers requested the ability to not instrument a screen's nameProperty
-    // even if it has a name, see https://github.com/phetsims/joist/issues/627 and https://github.com/phetsims/joist/issues/629.
-    const instrumentNameProperty = options.instrumentNameProperty && options.name;
-    const namePropertyTandem = instrumentNameProperty ? options.tandem.createTandem( 'nameProperty' ) : Tandem.OPT_OUT;
-
-    if ( options.name && typeof options.name !== 'string' ) {
+    if ( options.name ) {
       this.nameProperty = options.name;
 
-      // @ts-ignore, need string Propety type to accept linkable, see https://github.com/phetsims/axon/issues/414
-      this.addLinkedElement( options.name, {
-        tandem: namePropertyTandem
+      // Don't instrument this.nameProperty if options.instrumentNameProperty is false or if options.name is not provided.
+      // This additional option is needed because designers requested the ability to not instrument a screen's nameProperty
+      // even if it has a name, see https://github.com/phetsims/joist/issues/627 and https://github.com/phetsims/joist/issues/629.
+      // @ts-ignore, need string Property type to accept linkable, see https://github.com/phetsims/axon/issues/414
+      options.instrumentNameProperty && this.addLinkedElement( options.name, {
+        tandem: options.tandem.createTandem( 'nameProperty' )
       } );
     }
     else {
 
-      // may be null for single-screen simulations
-      this.nameProperty = new Property( typeof options.name === 'string' ? options.name : '', {
-        phetioValueType: NullableIO( StringIO ),
-        tandem: namePropertyTandem,
-        phetioFeatured: true,
-        phetioDocumentation: 'The name of the screen. Changing this value will update the screen name for the screen\'s ' +
-                             'corresponding button on the navigation bar and home screen, if they exist.'
-      } );
+      // may be null for single-screen simulations, just make it blank
+      this.nameProperty = new Property( '' );
     }
 
     this.homeScreenIcon = options.homeScreenIcon;
