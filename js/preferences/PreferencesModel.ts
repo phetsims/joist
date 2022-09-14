@@ -228,7 +228,7 @@ export default class PreferencesModel extends PhetioObject {
 
     const visualTandem = options.tandem.createTandem( 'visualModel' );
     this.visualModel = merge( {
-      interactiveHighlightsEnabledProperty: new BooleanProperty( false, {
+      interactiveHighlightsEnabledProperty: new BooleanProperty( phet.chipper.queryParameters.interactiveHighlightsInitiallyEnabled, {
         tandem: visualTandem.createTandem( 'interactiveHighlightsEnabledProperty' ),
         phetioState: false,
         phetioReadOnly: true
