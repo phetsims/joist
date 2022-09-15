@@ -14,6 +14,7 @@
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import TProperty from '../../axon/js/TProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { animatedPanZoomSingleton, Display, DisplayOptions, InputFuzzer, KeyboardFuzzer, Node, RendererType, scenery, Utils } from '../../scenery/js/imports.js';
 import '../../sherpa/lib/game-up-camera-1.0.0.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -26,7 +27,7 @@ type SelfOptions = {
   rootRenderer?: RendererType;
   preferencesModel: PreferencesModel;
 };
-export type SimDisplayOptions = SelfOptions & DisplayOptions;
+export type SimDisplayOptions = SelfOptions & StrictOmit<DisplayOptions, 'supportsInteractiveHighlights'>;
 
 export default class SimDisplay extends Display {
 
@@ -72,6 +73,9 @@ export default class SimDisplay extends Display {
       // phet-io
       tandem: Tandem.REQUIRED
     }, providedOptions );
+
+    // Support for Interactive Highlights dictated by the preferences model.
+    options.supportsInteractiveHighlights = options.preferencesModel.visualModel.supportsInteractiveHighlights;
 
     // override rootRenderer using query parameter, see #221 and #184
     options.rootRenderer = phet.chipper.queryParameters.rootRenderer || options.rootRenderer;
