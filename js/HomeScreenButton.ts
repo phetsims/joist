@@ -106,7 +106,7 @@ class HomeScreenButton extends Voicing( VBox ) {
     // text for the button
     const text = new Text( screen.nameProperty, {
       tandem: options.tandem.createTandem( 'text' ),
-      textPropertyOptions: { phetioReadOnly: true } // text is updated via screen.nameProperty
+      stringPropertyOptions: { phetioReadOnly: true } // text is updated via screen.nameProperty
     } );
 
     super( merge( { children: [ nodeContainer, text ] }, options ) );

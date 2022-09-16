@@ -62,7 +62,7 @@ class PreferencesDialog extends Dialog {
 
       // pdom
       tagName: 'h1',
-      textProperty: JoistStrings.preferences.titleStringProperty
+      stringProperty: JoistStrings.preferences.titleStringProperty
     } );
     const titleProperty = JoistStrings.preferences.titleStringProperty;
     titleProperty.link( titleString => {

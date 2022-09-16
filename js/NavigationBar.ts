@@ -104,7 +104,7 @@ class NavigationBar extends Node {
       tandem: tandem.createTandem( 'titleText' ),
       phetioDocumentation: 'Displays the title of the simulation in the navigation bar (bottom left)',
       visiblePropertyOptions: { phetioFeatured: true },
-      textPropertyOptions: { phetioReadOnly: true }
+      stringPropertyOptions: { phetioReadOnly: true }
     } );
 
     // Container node so that the visibility of the Navigation Bar title text can be controlled

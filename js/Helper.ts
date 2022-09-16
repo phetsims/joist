@@ -295,7 +295,7 @@ export default class Helper {
       renderer: 'svg'
     } );
 
-    const positionTextProperty = new MappedProperty( this.pointerPositionProperty, {
+    const positionStringProperty = new MappedProperty( this.pointerPositionProperty, {
       tandem: Tandem.OPT_OUT,
       bidirectional: true,
       map: position => {
@@ -309,19 +309,19 @@ export default class Helper {
         }
       }
     } );
-    const positionText = new RichText( positionTextProperty, {
+    const positionText = new RichText( positionStringProperty, {
       font: new PhetFont( 12 )
     } );
 
     const colorTextMap = ( color: Color ) => {
       return `${color.toHexString()} ${color.toCSS()}`;
     };
-    const colorTextProperty = new MappedProperty( this.colorProperty, {
+    const colorStringProperty = new MappedProperty( this.colorProperty, {
       tandem: Tandem.OPT_OUT,
       bidirectional: true,
       map: colorTextMap
     } );
-    const colorText = new RichText( colorTextProperty, {
+    const colorText = new RichText( colorStringProperty, {
       font: new PhetFont( 12 )
     } );
     this.colorProperty.link( color => {

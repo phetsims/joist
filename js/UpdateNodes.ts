@@ -105,13 +105,13 @@ const UpdateNodes = {
    * (joist-internal)
    */
   createOutOfDateAboutNode: function( options: Options ): Node {
-    const textProperty = new DerivedProperty( [ JoistStrings.updates.outOfDateStringProperty, allowLinksProperty ], ( outOfDateString, allowLinks ) => {
+    const stringProperty = new DerivedProperty( [ JoistStrings.updates.outOfDateStringProperty, allowLinksProperty ], ( outOfDateString, allowLinks ) => {
       return allowLinks ? `<a href="{{url}}">${outOfDateString}</a>` : outOfDateString;
     } );
 
     const links: RichTextLinks = { url: updateCheck.updateURL };
 
-    const linkNode = new RichText( textProperty, {
+    const linkNode = new RichText( stringProperty, {
       links: links,
       font: UPDATE_TEXT_FONT
     } );
