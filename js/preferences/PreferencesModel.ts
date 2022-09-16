@@ -23,6 +23,8 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import localeProperty from '../i18n/localeProperty.js';
 import merge from '../../../phet-core/js/merge.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import IOType from '../../../tandem/js/types/IOType.js';
+import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
 
 type ModelPropertyLinkable = {
   property: TReadOnlyProperty<unknown> & PhetioObject;
@@ -189,6 +191,7 @@ export default class PreferencesModel extends PhetioObject {
 
         // phet-io
         tandem: Tandem.GENERAL_MODEL.createTandem( 'preferencesModel' ),
+        phetioType: PreferencesModel.PreferencesModelIO,
         phetioState: false,
         phetioReadOnly: true
       }, providedOptions ) ),
@@ -461,6 +464,45 @@ export default class PreferencesModel extends PhetioObject {
            this.supportsInputPreferences() || this.supportsLocalizationPreferences() ||
            this.supportsAudioPreferences( false );
   }
+
+  public static PreferencesModelIO = new IOType( 'PreferencesModelIO', {
+    valueType: PreferencesModel,
+
+    toStateObject: ( preferencesModel: PreferencesModel ) => {
+      return {
+        supportsProjectorMode: preferencesModel.visualModel.supportsProjectorMode,
+        supportsInteractiveHighlights: preferencesModel.visualModel.supportsInteractiveHighlights,
+        supportsVoicing: preferencesModel.audioModel.supportsVoicing,
+        supportsSound: preferencesModel.audioModel.supportsSound,
+        supportsExtraSound: preferencesModel.audioModel.supportsExtraSound,
+        supportsGestureControl: preferencesModel.inputModel.supportsGestureControl,
+        supportsMultipleLocales: preferencesModel.localizationModel.supportsMultipleLocales,
+
+        // Method-based
+        supportsAudioPreferences: preferencesModel.supportsAudioPreferences(),
+        supportsInputPreferences: preferencesModel.supportsInputPreferences(),
+        supportsLocalizationPreferences: preferencesModel.supportsLocalizationPreferences(),
+        supportsSimulationPreferences: preferencesModel.supportsSimulationPreferences(),
+        supportsVisualPreferences: preferencesModel.supportsVisualPreferences()
+      };
+    },
+    stateSchema: {
+      supportsProjectorMode: BooleanIO,
+      supportsInteractiveHighlights: BooleanIO,
+      supportsVoicing: BooleanIO,
+      supportsSound: BooleanIO,
+      supportsExtraSound: BooleanIO,
+      supportsGestureControl: BooleanIO,
+      supportsMultipleLocales: BooleanIO,
+
+      // Method-based
+      supportsAudioPreferences: BooleanIO,
+      supportsInputPreferences: BooleanIO,
+      supportsLocalizationPreferences: BooleanIO,
+      supportsSimulationPreferences: BooleanIO,
+      supportsVisualPreferences: BooleanIO
+    }
+  } );
 }
 
 joist.register( 'PreferencesModel', PreferencesModel );
