@@ -192,6 +192,7 @@ export default class PreferencesModel extends PhetioObject {
         // phet-io
         tandem: Tandem.GENERAL_MODEL.createTandem( 'preferencesModel' ),
         phetioType: PreferencesModel.PreferencesModelIO,
+        phetioFeatured: true,
         phetioState: false,
         phetioReadOnly: true
       }, providedOptions ) ),
