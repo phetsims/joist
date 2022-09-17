@@ -39,43 +39,82 @@
     "value": "Show Pointers"
   },
   "termsPrivacyAndLicensing": {
-    "value": "Terms, Privacy & Licensing"
+    "value": "Terms, Privacy & Licensing",
+    "metadata": {
+      "phetioReadOnly": true
+    }
   },
   "credits.title": {
-    "value": "Credits"
+    "value": "Credits",
+    "metadata": {
+      "phetioReadOnly": true
+    }
   },
   "credits.leadDesign": {
-    "value": "Lead Design: {0}"
+    "value": "Lead Design: {0}",
+    "metadata": {
+      "phetioReadOnly": true
+    }
   },
   "credits.softwareDevelopment": {
-    "value": "Software Development: {0}"
+    "value": "Software Development: {0}",
+    "metadata": {
+      "phetioReadOnly": true
+    }
   },
   "credits.team": {
-    "value": "Team: {0}"
+    "value": "Team: {0}",
+    "metadata": {
+      "phetioReadOnly": true
+    }
   },
   "credits.contributors": {
-    "value": "Contributors: {0}"
+    "value": "Contributors: {0}",
+    "metadata": {
+      "phetioReadOnly": true
+    }
   },
   "credits.qualityAssurance": {
-    "value": "Quality Assurance: {0}"
+    "value": "Quality Assurance: {0}",
+    "metadata": {
+      "phetioReadOnly": true
+    }
   },
   "credits.graphicArts": {
-    "value": "Graphic Arts: {0}"
+    "value": "Graphic Arts: {0}",
+    "metadata": {
+      "phetioReadOnly": true
+    }
   },
   "credits.soundDesign": {
-    "value": "Sound Design: {0}"
+    "value": "Sound Design: {0}",
+    "metadata": {
+      "phetioReadOnly": true
+    }
   },
   "credits.translation": {
-    "value": "Translation"
+    "value": "Translation",
+    "metadata": {
+      "phetioReadOnly": true
+    }
   },
   "credits.thanks": {
-    "value": "Thanks"
+    "value": "Thanks",
+    "metadata": {
+      "phetioReadOnly": true
+    }
   },
   "options.title": {
-    "value": "Options"
+    "value": "Options",
+    "metadata": {
+      "phetioReadOnly": true
+    }
   },
   "versionPattern": {
-    "value": "version {0}"
+    "value": "version {0}",
+    "metadata": {
+      "phetioReadOnly": true
+    }
   },
   "updates.upToDate": {
     "value": "This simulation is up to date."
@@ -102,10 +141,16 @@
     "value": "No Thanks"
   },
   "translation.credits.link": {
-    "value": "Translation Credits"
+    "value": "Translation Credits",
+    "metadata": {
+      "phetioReadOnly": true
+    }
   },
   "thirdParty.credits.link": {
-    "value": "Third-party Credits"
+    "value": "Third-party Credits",
+    "metadata": {
+      "phetioReadOnly": true
+    }
   },
   "keyboardShortcuts.title": {
     "value": "Keyboard Shortcuts"
