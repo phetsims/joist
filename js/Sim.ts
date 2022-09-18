@@ -539,30 +539,39 @@ export default class Sim extends PhetioObject {
       }
     } );
 
-    this.displayedSimNameProperty = new DerivedProperty( [ this.simNameProperty, this.simScreens[ 0 ].nameProperty ],
-      ( simName, screenName ) => {
-        const isMultiScreenSimDisplayingSingleScreen = this.simScreens.length === 1 && allSimScreens.length !== this.simScreens.length;
+    this.displayedSimNameProperty = new DerivedProperty( [
+      this.availableScreensProperty,
+      this.simNameProperty,
+      this.selectedScreenProperty,
+      JoistStrings.simTitleWithScreenNamePatternStringProperty,
 
-        // update the titleText based on values of the sim name and screen name
-        if ( isMultiScreenSimDisplayingSingleScreen && simName && screenName ) {
+      // We just need notifications on any of these changing, return args as a unique value to make sure listeners fire.
+      DerivedProperty.deriveAny( this.simScreens.map( screen => screen.nameProperty ), ( ...args ) => [ ...args ] )
+    ], ( availableScreens, simName, selectedScreen, titleWithScreenPattern ) => {
+      const screenName = selectedScreen.nameProperty.value;
 
-          // If the 'screens' query parameter selects only 1 screen and both the sim and screen name are not the empty
-          // string, then update the nav bar title to include a hyphen and the screen name after the sim name.
-          return StringUtils.fillIn( JoistStrings.simTitleWithScreenNamePattern, {
-            simName: simName,
-            screenName: screenName
-          } );
-        }
-        else if ( isMultiScreenSimDisplayingSingleScreen && screenName ) {
-          return screenName;
-        }
-        else {
-          return simName;
-        }
-      }, {
-        tandem: Tandem.GENERAL_MODEL.createTandem( 'displayedSimNameProperty' ),
-        phetioValueType: StringIO
-      } );
+      const isMultiScreenSimDisplayingSingleScreen = availableScreens.length === 1 && allSimScreens.length > 1;
+
+      // update the titleText based on values of the sim name and screen name
+      if ( isMultiScreenSimDisplayingSingleScreen && simName && screenName ) {
+
+        // If the 'screens' query parameter selects only 1 screen and both the sim and screen name are not the empty
+        // string, then update the nav bar title to include a hyphen and the screen name after the sim name.
+        return StringUtils.fillIn( titleWithScreenPattern, {
+          simName: simName,
+          screenName: screenName
+        } );
+      }
+      else if ( isMultiScreenSimDisplayingSingleScreen && screenName ) {
+        return screenName;
+      }
+      else {
+        return simName;
+      }
+    }, {
+      tandem: Tandem.GENERAL_MODEL.createTandem( 'displayedSimNameProperty' ),
+      phetioValueType: StringIO
+    } );
 
     // Local variable is settable...
     const browserTabVisibleProperty = new BooleanProperty( true, {
