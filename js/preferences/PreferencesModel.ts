@@ -234,8 +234,7 @@ export default class PreferencesModel extends PhetioObject {
     this.visualModel = merge( {
       interactiveHighlightsEnabledProperty: new BooleanProperty( phet.chipper.queryParameters.interactiveHighlightsInitiallyEnabled, {
         tandem: visualTandem.createTandem( 'interactiveHighlightsEnabledProperty' ),
-        phetioState: false,
-        phetioReadOnly: true
+        phetioState: false
       } ),
       colorProfileProperty: colorProfileProperty
     }, options.visualOptions );
@@ -268,8 +267,7 @@ export default class PreferencesModel extends PhetioObject {
 
       toolbarEnabledProperty: new BooleanProperty( true, {
         tandem: visualTandem.createTandem( 'toolbarEnabledProperty' ),
-        phetioState: false,
-        phetioReadOnly: true
+        phetioState: false
       } ),
 
       customPreferences: options.audioOptions.customPreferences,
@@ -280,8 +278,7 @@ export default class PreferencesModel extends PhetioObject {
     this.inputModel = merge( {
       gestureControlsEnabledProperty: new BooleanProperty( false, {
         tandem: inputTandem.createTandem( 'gestureControlsEnabledProperty' ),
-        phetioState: false,
-        phetioReadOnly: true
+        phetioState: false
       } )
     }, options.inputOptions );
 
