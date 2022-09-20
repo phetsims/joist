@@ -214,7 +214,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
       children: [ speechOutputContent, toolbarEnabledSwitch, voiceOptionsContainer, voiceOptionsContent ]
     } );
 
-    // layout for section content, custom rather than using a LayoutBox because the voice options label needs
+    // layout for section content, custom rather than using a FlowBox because the voice options label needs
     // to be left aligned with other labels, while the ExpandCollapseButton extends to the left
     toolbarEnabledSwitch.leftTop = speechOutputContent.leftBottom.plusXY( 0, 20 );
     voiceOptionsLabel.leftTop = toolbarEnabledSwitch.leftBottom.plusXY( 0, 20 );

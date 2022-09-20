@@ -107,8 +107,6 @@ class NavigationBarScreenButton extends Voicing( Node ) {
     } );
 
     // spacing set by Property link below
-    // NOTE: Using LayoutBox. The reentrancy actually causes the LayoutBox to have an incorrect padding currently
-    // (where FlowBox-based would have the correct padding applied).
     const iconAndText = new VBox( {
       children: [ iconAndFrame, text ],
       pickable: false,

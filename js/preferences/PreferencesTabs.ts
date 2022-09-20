@@ -183,16 +183,16 @@ class Tab extends Voicing( Node ) {
     if ( options.iconNode ) {
       tabContents.push( options.iconNode );
     }
-    const contentsLayoutBox = new HBox( {
+    const contentsBox = new HBox( {
       children: tabContents,
       spacing: 8
     } );
 
     // background Node behind the tab contents for layout spacing and to increase the clickable area of the tab
     const backgroundNode = new Rectangle( {
-      children: [ contentsLayoutBox ]
+      children: [ contentsBox ]
     } );
-    contentsLayoutBox.boundsProperty.link( bounds => {
+    contentsBox.boundsProperty.link( bounds => {
       backgroundNode.rectBounds = bounds.dilatedXY( 15, 10 );
     } );
 
@@ -201,7 +201,7 @@ class Tab extends Voicing( Node ) {
       stroke: FocusHighlightPath.INNER_FOCUS_COLOR,
       lineWidth: 5
     } );
-    contentsLayoutBox.boundsProperty.link( bounds => {
+    contentsBox.boundsProperty.link( bounds => {
       underlineNode.x2 = bounds.width;
       underlineNode.centerTop = bounds.centerBottom.plusXY( 0, 5 );
     } );
