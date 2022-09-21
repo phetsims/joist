@@ -7,13 +7,36 @@
  */
 
 import StringProperty from '../../../axon/js/StringProperty.js';
+import localeInfoModule from '../../../chipper/js/data/localeInfoModule.js';
 import { globalKeyStateTracker, KeyboardUtils } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 
 const locales = Object.keys( phet.chipper.strings ).sort();
 
-const localeProperty = new StringProperty( phet.chipper.locale || 'en', {
+// Start only with a valid locale, see https://github.com/phetsims/phet-io/issues/1882
+const isLocaleValid = ( locale?: string ) => {
+  return locale && localeInfoModule[ locale as keyof typeof localeInfoModule ];
+};
+
+// We might use a partial locale (e.g. 'en' instead of 'en_US'), so grab this if it exists. It might be the same as
+// phet.chipper.locale (that's OK).
+const partialLocale = typeof phet.chipper.locale === 'string' ? phet.chipper.locale.slice( 0, 2 ) : undefined;
+
+// Get the "most" valid locale, see https://github.com/phetsims/phet-io/issues/1882
+// 'ar_SA' would try 'ar_SA', 'ar', and 'en' (result: ar_SA)
+// 'ar_QP' would try 'ar_QP', 'ar', and 'en' (result: ar)
+// 'zx_ZX' would try 'zx_ZX', 'zx', and 'en' (result: en)
+// NOTE: If the locale doesn't actually have any strings: THAT IS OK! Our string system will use the appropriate
+// fallback strings.
+const validInitialLocale = isLocaleValid( phet.chipper.locale ) ? phet.chipper.locale :
+                           isLocaleValid( partialLocale ) ? partialLocale :
+                           'en';
+
+// Just in case we had an invalid locale, remap phet.chipper.locale to the "corrected" value
+phet.chipper.locale = validInitialLocale;
+
+const localeProperty = new StringProperty( validInitialLocale, {
   tandem: Tandem.GENERAL_MODEL.createTandem( 'localeProperty' ),
   phetioFeatured: true,
   validValues: locales
