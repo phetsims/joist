@@ -348,9 +348,6 @@
             "title": {
               "value": "Voicing"
             },
-            "titleEnglishOnly": {
-              "value": "Voicing (English Only)"
-            },
             "voicingOn": {
               "value": "Voicing on."
             },
