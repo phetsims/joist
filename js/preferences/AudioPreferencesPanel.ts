@@ -73,7 +73,7 @@ class AudioPreferencesTabPanel extends VBox {
       );
     } );
 
-    const allAudioSwitch = new PreferencesToggleSwitch( audioModel.simSoundEnabledProperty, false, true, {
+    const allAudioSwitch = new PreferencesToggleSwitch( audioModel.audioEnabledProperty, false, true, {
       labelNode: new Text( audioFeaturesString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ),
       a11yLabel: audioFeaturesString
     } );
@@ -82,7 +82,7 @@ class AudioPreferencesTabPanel extends VBox {
       sections.enabled = enabled;
     };
 
-    audioModel.simSoundEnabledProperty.link( soundEnabledListener );
+    audioModel.audioEnabledProperty.link( soundEnabledListener );
 
     super( {
       align: 'center',
@@ -100,7 +100,7 @@ class AudioPreferencesTabPanel extends VBox {
       rightContent.children.forEach( child => child.dispose() );
       allAudioSwitch.dispose();
       disposeEmitter.emit();
-      audioModel.simSoundEnabledProperty.unlink( soundEnabledListener );
+      audioModel.audioEnabledProperty.unlink( soundEnabledListener );
     };
   }
 

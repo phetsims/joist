@@ -138,7 +138,7 @@ export type AudioModel = BaseModelType & {
 
   // When false, no audio features are heard. See audioManager.ts for documentation about audio and sub features.
   // TODO: To be renamed to audioEnabledProperty, see https://github.com/phetsims/joist/issues/864
-  simSoundEnabledProperty: Property<boolean>;
+  audioEnabledProperty: Property<boolean>;
   soundEnabledProperty: Property<boolean>;
   extraSoundEnabledProperty: Property<boolean>;
   voicingEnabledProperty: Property<boolean>;
@@ -263,7 +263,7 @@ export default class PreferencesModel extends PhetioObject {
       supportsSound: options.audioOptions.supportsSound && audioEnabled,
       supportsExtraSound: options.audioOptions.supportsExtraSound && audioEnabled,
 
-      simSoundEnabledProperty: audioManager.audioEnabledProperty,
+      audioEnabledProperty: audioManager.audioEnabledProperty,
       soundEnabledProperty: soundManager.enabledProperty,
       extraSoundEnabledProperty: soundManager.extraSoundEnabledProperty,
 
@@ -309,7 +309,7 @@ export default class PreferencesModel extends PhetioObject {
     ] );
 
     this.addPhetioLinkedElementsForModel( options.tandem, this.audioModel, [
-      { property: this.audioModel.simSoundEnabledProperty, tandemName: 'simSoundEnabledProperty' },
+      { property: this.audioModel.audioEnabledProperty, tandemName: 'audioEnabledProperty' },
       { property: this.audioModel.soundEnabledProperty, tandemName: 'soundEnabledProperty' },
       { property: this.audioModel.extraSoundEnabledProperty, tandemName: 'extraSoundEnabledProperty' },
       { property: this.audioModel.voicingEnabledProperty, tandemName: 'voicingEnabledProperty' },
