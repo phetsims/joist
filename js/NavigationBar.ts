@@ -142,6 +142,8 @@ class NavigationBar extends Node {
 
     let buttons: Node;
 
+    const a11yButtonsWidth = ( this.a11yButtonsHBox.bounds.isValid() ? this.a11yButtonsHBox.width : 0 );
+
     // No potential for multiple screens if this is true
     if ( sim.simScreens.length === 1 ) {
 
@@ -149,7 +151,7 @@ class NavigationBar extends Node {
 
       // title can occupy all space to the left of the PhET button
       titleText.maxWidth = HomeScreenView.LAYOUT_BOUNDS.width - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN -
-                           PHET_BUTTON_LEFT_MARGIN - this.a11yButtonsHBox.width - ( this.localeNode ? this.localeNode.width : 0 ) - PHET_BUTTON_LEFT_MARGIN -
+                           PHET_BUTTON_LEFT_MARGIN - a11yButtonsWidth - ( this.localeNode ? this.localeNode.width : 0 ) - PHET_BUTTON_LEFT_MARGIN -
                            phetButton.width - PHET_BUTTON_RIGHT_MARGIN;
     }
     else {
@@ -213,7 +215,7 @@ class NavigationBar extends Node {
 
       // available width right of center
       const availableRight = ( HomeScreenView.LAYOUT_BOUNDS.width / 2 ) - PHET_BUTTON_LEFT_MARGIN -
-                             this.a11yButtonsHBox.width - ( this.localeNode ? this.localeNode.width : 0 ) - PHET_BUTTON_LEFT_MARGIN - phetButton.width -
+                             a11yButtonsWidth - ( this.localeNode ? this.localeNode.width : 0 ) - PHET_BUTTON_LEFT_MARGIN - phetButton.width -
                              PHET_BUTTON_RIGHT_MARGIN;
 
       // total available width for the screen buttons when they are centered
