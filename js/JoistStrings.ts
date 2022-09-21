@@ -160,6 +160,12 @@ type StringsType = {
       'audio': {
         'title': string;
         'titleStringProperty': TReadOnlyProperty<string>;
+        'voicing': {
+          'titleEnglishOnly': string;
+          'titleEnglishOnlyStringProperty': TReadOnlyProperty<string>;
+          'description': string;
+          'descriptionStringProperty': TReadOnlyProperty<string>;
+        };
         'sounds': {
           'title': string;
           'titleStringProperty': TReadOnlyProperty<string>;
@@ -266,8 +272,6 @@ type StringsType = {
             'titleStringProperty': TReadOnlyProperty<string>;
             'titleEnglishOnly': string;
             'titleEnglishOnlyStringProperty': TReadOnlyProperty<string>;
-            'description': string;
-            'descriptionStringProperty': TReadOnlyProperty<string>;
             'voicingOn': string;
             'voicingOnStringProperty': TReadOnlyProperty<string>;
             'voicingOff': string;

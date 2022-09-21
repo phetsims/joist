@@ -215,6 +215,12 @@
   "preferences.tabs.audio.title": {
     "value": "Audio"
   },
+  "preferences.tabs.audio.voicing.titleEnglishOnly": {
+    "value": "Voicing (English Only)"
+  },
+  "preferences.tabs.audio.voicing.description": {
+    "value": "Voice and highlight content as you interact."
+  },
   "preferences.tabs.audio.sounds.title": {
     "value": "Sounds"
   },
@@ -344,9 +350,6 @@
             },
             "titleEnglishOnly": {
               "value": "Voicing (English Only)"
-            },
-            "description": {
-              "value": "Voice and highlight content as you interact."
             },
             "voicingOn": {
               "value": "Voicing on."

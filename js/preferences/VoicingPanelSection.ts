@@ -37,8 +37,6 @@ import localeProperty from '../i18n/localeProperty.js';
 // none of the Voicing strings or feature is translatable yet, all strings in this file
 // are nested under the 'a11y' section to make sure that they are not translatable
 const voicingLabelString = JoistStrings.a11y.preferences.tabs.audio.voicing.titleStringProperty;
-const voicingEnglishOnlyLabelString = JoistStrings.a11y.preferences.tabs.audio.voicing.titleEnglishOnlyStringProperty;
-const voicingDescriptionString = JoistStrings.a11y.preferences.tabs.audio.voicing.descriptionStringProperty;
 const toolbarLabelString = JoistStrings.a11y.preferences.tabs.audio.voicing.toolbar.titleStringProperty;
 const rateString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.titleStringProperty;
 const rateLabelString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.labelStringStringProperty;
@@ -81,6 +79,11 @@ const inLowRangeString = JoistStrings.a11y.preferences.tabs.audio.voicing.custom
 const inNormalRangeString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.rangeDescriptions.normalStringProperty;
 const aboveNormalRangeString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.rangeDescriptions.aboveNormalStringProperty;
 const inHighRangeString = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.rangeDescriptions.highStringProperty;
+
+// Voicing can appear but become disabled when running with multiple locales. This translatable label is present for
+// translated sims in this case.
+const voicingEnglishOnlyLabelString = JoistStrings.preferences.tabs.audio.voicing.titleEnglishOnlyStringProperty;
+const voicingDescriptionString = JoistStrings.preferences.tabs.audio.voicing.descriptionStringProperty;
 
 const VOICE_PITCH_DESCRIPTION_MAP = new Map();
 VOICE_PITCH_DESCRIPTION_MAP.set( new Range( 0.5, 0.75 ), inLowRangeString );
