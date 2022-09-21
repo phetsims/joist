@@ -118,8 +118,10 @@ type BaseModelType = {
   tandemName: string; // tandem name of the model, like "audioModel"
 };
 
+// Model for controls that appear in the "Simulation" panel of preferences
 export type SimulationModel = BaseModelType & Required<SimulationPreferencesOptions>;
 
+// Model for controls that appear in the "Visual" panel of preferences
 export type VisualModel = BaseModelType & {
 
   // Whether "Interactive Highlights" are enabled for the simulation. If enabled, focus highlights will appear around
@@ -131,15 +133,24 @@ export type VisualModel = BaseModelType & {
   colorProfileProperty: Property<string>;
 } & Required<VisualPreferencesOptions>;
 
+// Model for controls that appear in the "Audio" panel of preferences
 export type AudioModel = BaseModelType & {
+
+  // When false, no audio features are heard. See audioManager.ts for documentation about audio and sub features.
+  // TODO: To be renamed to audioEnabledProperty, see https://github.com/phetsims/joist/issues/864
   simSoundEnabledProperty: Property<boolean>;
   soundEnabledProperty: Property<boolean>;
   extraSoundEnabledProperty: Property<boolean>;
   voicingEnabledProperty: Property<boolean>;
+
+  // Whether sub-features of Voicing are enabled. See voicingManager and responseCollector for documentation about
+  // each of these features.
   voicingMainWindowVoicingEnabledProperty: Property<boolean>;
   voicingObjectResponsesEnabledProperty: Property<boolean>;
   voicingContextResponsesEnabledProperty: Property<boolean>;
   voicingHintResponsesEnabledProperty: Property<boolean>;
+
+  // Controls for the voice of SpeechSynthesisAnnouncer.ts
   voicePitchProperty: NumberProperty;
   voiceRateProperty: NumberProperty;
   voiceProperty: Property<null | SpeechSynthesisVoice>;
