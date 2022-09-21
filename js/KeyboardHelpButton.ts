@@ -21,7 +21,6 @@ import KeyboardHelpDialog from './KeyboardHelpDialog.js';
 import Screen from './Screen.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
-import PickOptional from '../../phet-core/js/types/PickOptional.js';
 
 // constants
 const keyboardShortcutsString = JoistStrings.a11y.keyboardHelp.keyboardShortcuts;
@@ -29,7 +28,7 @@ const HELP_BUTTON_HEIGHT = 67;
 const HELP_BUTTON_SCALE = 0.30; // scale applied to the icon
 
 type SelfOptions = EmptySelfOptions;
-export type KeyboardHelpButtonOptions = SelfOptions & PickRequired<JoistButtonOptions, 'tandem'> & PickOptional<JoistButtonOptions, 'pointerAreaDilationX' | 'pointerAreaDilationY'>;
+export type KeyboardHelpButtonOptions = SelfOptions & PickRequired<JoistButtonOptions, 'tandem'> & Pick<JoistButtonOptions, 'pointerAreaDilationX' | 'pointerAreaDilationY'>;
 
 class KeyboardHelpButton extends JoistButton {
 
