@@ -9,7 +9,7 @@
 
 import merge from '../../../phet-core/js/merge.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { Node, NodeOptions, Text, VBox, VoicingText } from '../../../scenery/js/imports.js';
+import { Node, Text, VBox, VoicingText } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
@@ -20,6 +20,10 @@ import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js'
 import ProjectorModeToggleSwitch from './ProjectorModeToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import Emitter from '../../../axon/js/Emitter.js';
+import PreferencesPanel, { PreferencesPanelOptions } from './PreferencesPanel.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import PreferencesType from './PreferencesType.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 
 // constants
 const interactiveHighlightsString = JoistStrings.preferences.tabs.visual.interactiveHighlightsStringProperty;
@@ -28,23 +32,22 @@ const interactiveHighlightsEnabledAlertString = JoistStrings.a11y.preferences.ta
 const interactiveHighlightsDisabledAlertString = JoistStrings.a11y.preferences.tabs.visual.interactiveHighlights.disabledAlertStringProperty;
 const labelledDescriptionPatternString = JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
 
-class VisualPreferencesPanel extends Node {
+type VisualPreferencesPanelOptions = PickRequired<PreferencesPanelOptions, 'tandem'>;
+
+class VisualPreferencesPanel extends PreferencesPanel {
   private readonly disposeVisualPreferencesPanel: () => void;
 
-  public constructor( visualModel: VisualModel, providedOptions?: NodeOptions ) {
+  public constructor( visualModel: VisualModel, selectedTabProperty: TReadOnlyProperty<PreferencesType>, tabVisibleProperty: TReadOnlyProperty<boolean>, providedOptions?: VisualPreferencesPanelOptions ) {
 
-    const options = optionize<NodeOptions, EmptySelfOptions, NodeOptions>()( {
-      tandem: Tandem.OPTIONAL,
-
-      // pdom
-      tagName: 'div',
-      labelTagName: 'h2',
+    const options = optionize<PreferencesPanelOptions, EmptySelfOptions, PreferencesPanelOptions>()( {
       labelContent: 'Visual'
     }, providedOptions );
 
+    // Grab the required tandem for sub components but the tandem is NOT passed through to the super
     const tandem = options.tandem;
     options.tandem = Tandem.OPTIONAL;
-    super( options );
+
+    super( PreferencesType.VISUAL, selectedTabProperty, tabVisibleProperty, options );
 
     const disposeEmitter = new Emitter();
 

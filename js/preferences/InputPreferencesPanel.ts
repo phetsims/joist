@@ -7,17 +7,19 @@
  */
 
 import Emitter from '../../../axon/js/Emitter.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import merge from '../../../phet-core/js/merge.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { Node, Text, VBox, VBoxOptions, VoicingRichText } from '../../../scenery/js/imports.js';
-import Tandem from '../../../tandem/js/Tandem.js';
+import { Node, Text, VBox, VoicingRichText } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import { InputModel } from './PreferencesModel.js';
+import PreferencesPanel, { PreferencesPanelOptions } from './PreferencesPanel.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
+import PreferencesType from './PreferencesType.js';
 
 // constants
 const gestureControlEnabledAlertString = JoistStrings.a11y.preferences.tabs.input.gestureControl.enabledAlertStringProperty;
@@ -29,30 +31,23 @@ const inputTitleString = 'Input';
 const gestureControlsString = 'Gesture Control';
 const gestureControlsDescriptionString = 'Use touch with custom swipes and taps instead. No direct touch with gesture control enabled.';
 
-type SelfOptions = EmptySelfOptions;
-type InputPreferencesPanelOptions = SelfOptions & VBoxOptions;
+type InputPreferencesPanelOptions = PickRequired<PreferencesPanelOptions, 'tandem'>;
 
-class InputPreferencesPanel extends VBox {
+class InputPreferencesPanel extends PreferencesPanel {
   private readonly disposeInputPreferencesPanel: () => void;
 
-  public constructor( inputModel: InputModel, providedOptions?: InputPreferencesPanelOptions ) {
-    const options = optionize<InputPreferencesPanelOptions, SelfOptions, VBoxOptions>()( {
-      spacing: PreferencesDialog.CONTENT_SPACING,
-      align: 'left',
+  public constructor( inputModel: InputModel, selectedTabProperty: TReadOnlyProperty<PreferencesType>, tabVisibleProperty: TReadOnlyProperty<boolean>, providedOptions: InputPreferencesPanelOptions ) {
 
-      // phet-io
-      tandem: Tandem.OPTIONAL,
-
-      // a11y
-      tagName: 'div',
-      labelTagName: 'h2',
+    super( PreferencesType.INPUT, selectedTabProperty, tabVisibleProperty, {
       labelContent: inputTitleString
-    }, providedOptions );
+    } );
 
-    const tandem = options.tandem;
-    options.tandem = Tandem.OPTIONAL;
-
-    super( options );
+    // children are filled in later depending on what is supported in the InputModel
+    const contentVBox = new VBox( {
+      spacing: PreferencesDialog.CONTENT_SPACING,
+      align: 'left'
+    } );
+    this.addChild( contentVBox );
 
     const disposeEmitter = new Emitter();
 
@@ -80,7 +75,7 @@ class InputPreferencesPanel extends VBox {
         contentLeftMargin: 0
       } );
 
-      this.addChild( gesturePanelSection );
+      contentVBox.addChild( gesturePanelSection );
       disposeEmitter.addListener( () => {
         gesturePanelSection.dispose();
         gestureControlsEnabledSwitch.dispose();
@@ -93,7 +88,7 @@ class InputPreferencesPanel extends VBox {
     } );
 
     inputModel.customPreferences.forEach( customPreference => {
-      const customContent = customPreference.createContent( tandem );
+      const customContent = customPreference.createContent( providedOptions.tandem );
       disposeEmitter.addListener( () => customContent.dispose() );
       contentNode.addChild(
         new Node( { children: [ customContent ] } )
@@ -104,7 +99,7 @@ class InputPreferencesPanel extends VBox {
       contentNode: contentNode,
       contentLeftMargin: 0
     } );
-    this.addChild( customPanelSection );
+    contentVBox.addChild( customPanelSection );
 
     this.disposeInputPreferencesPanel = () => {
       disposeEmitter.emit();

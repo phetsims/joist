@@ -22,6 +22,7 @@ import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import LocalizationPreferencesPanel from './LocalizationPreferencesPanel.js';
 import PreferencesType from './PreferencesType.js';
 import OverviewPreferencesPanel from './OverviewPreferencesPanel.js';
+import PreferencesTabs from './PreferencesTabs.js';
 
 type SelfOptions = EmptySelfOptions;
 type PreferencesPanelsOptions = SelfOptions & NodeOptions;
@@ -40,9 +41,10 @@ class PreferencesPanels extends Node {
    * @param preferencesModel
    * @param supportedTabs - list of Tabs supported by this Dialog
    * @param selectedTabProperty
+   * @param preferencesTabs
    * @param [providedOptions]
    */
-  public constructor( preferencesModel: PreferencesModel, supportedTabs: PreferencesType[], selectedTabProperty: TReadOnlyProperty<PreferencesType>, providedOptions?: PreferencesPanelsOptions ) {
+  public constructor( preferencesModel: PreferencesModel, supportedTabs: PreferencesType[], selectedTabProperty: TReadOnlyProperty<PreferencesType>, preferencesTabs: PreferencesTabs, providedOptions?: PreferencesPanelsOptions ) {
     const options = optionize<PreferencesPanelsOptions, SelfOptions, NodeOptions>()( {
       tandem: Tandem.REQUIRED,
       phetioVisiblePropertyInstrumented: false
@@ -58,7 +60,7 @@ class PreferencesPanels extends Node {
 
     let overviewPreferencesPanel: Node | null = null;
     if ( supportedTabs.includes( PreferencesType.OVERVIEW ) ) {
-      overviewPreferencesPanel = new OverviewPreferencesPanel();
+      overviewPreferencesPanel = new OverviewPreferencesPanel( selectedTabProperty, preferencesTabs.getTabVisibleProperty( PreferencesType.OVERVIEW ) );
       const overviewBox = panelAlignGroup.createBox( overviewPreferencesPanel );
       this.addChild( overviewBox );
       this.content.push( new PreferencesPanelContainer( overviewPreferencesPanel, PreferencesType.OVERVIEW ) );
@@ -66,9 +68,10 @@ class PreferencesPanels extends Node {
 
     let simulationPreferencesPanel: Node | null = null;
     if ( supportedTabs.includes( PreferencesType.SIMULATION ) ) {
-      simulationPreferencesPanel = new SimulationPreferencesPanel( preferencesModel.simulationModel, {
-        tandem: options.tandem.createTandem( 'simulationPreferencesPanel' )
-      } );
+      simulationPreferencesPanel = new SimulationPreferencesPanel(
+        preferencesModel.simulationModel, selectedTabProperty, preferencesTabs.getTabVisibleProperty( PreferencesType.SIMULATION ), {
+          tandem: options.tandem.createTandem( 'simulationPreferencesPanel' )
+        } );
       const simulationBox = panelAlignGroup.createBox( simulationPreferencesPanel );
       this.addChild( simulationBox );
       this.content.push( new PreferencesPanelContainer( simulationPreferencesPanel, PreferencesType.SIMULATION ) );
@@ -76,9 +79,12 @@ class PreferencesPanels extends Node {
 
     let visualPreferencesPanel: Node | null = null;
     if ( supportedTabs.includes( PreferencesType.VISUAL ) ) {
-      visualPreferencesPanel = new VisualPreferencesPanel( preferencesModel.visualModel, {
-        tandem: options.tandem.createTandem( 'visualPreferencesPanel' )
-      } );
+      visualPreferencesPanel = new VisualPreferencesPanel(
+        preferencesModel.visualModel,
+        selectedTabProperty,
+        preferencesTabs.getTabVisibleProperty( PreferencesType.VISUAL ), {
+          tandem: options.tandem.createTandem( 'visualPreferencesPanel' )
+        } );
       const visualBox = panelAlignGroup.createBox( visualPreferencesPanel );
       this.addChild( visualBox );
       this.content.push( new PreferencesPanelContainer( visualPreferencesPanel, PreferencesType.VISUAL ) );
@@ -86,9 +92,12 @@ class PreferencesPanels extends Node {
 
     let audioPreferencesPanel: Node | null = null;
     if ( supportedTabs.includes( PreferencesType.AUDIO ) ) {
-      audioPreferencesPanel = new AudioPreferencesPanel( preferencesModel.audioModel, {
-        tandem: options.tandem.createTandem( 'audioPreferencesPanel' )
-      } );
+      audioPreferencesPanel = new AudioPreferencesPanel(
+        preferencesModel.audioModel,
+        selectedTabProperty,
+        preferencesTabs.getTabVisibleProperty( PreferencesType.AUDIO ), {
+          tandem: options.tandem.createTandem( 'audioPreferencesPanel' )
+        } );
       const audioBox = panelAlignGroup.createBox( audioPreferencesPanel );
       this.addChild( audioBox );
       this.content.push( new PreferencesPanelContainer( audioPreferencesPanel, PreferencesType.AUDIO ) );
@@ -96,9 +105,13 @@ class PreferencesPanels extends Node {
 
     let inputPreferencesPanel: Node | null = null;
     if ( supportedTabs.includes( PreferencesType.INPUT ) ) {
-      inputPreferencesPanel = new InputPreferencesPanel( preferencesModel.inputModel, {
-        tandem: options.tandem.createTandem( 'inputPreferencesPanel' )
-      } );
+      inputPreferencesPanel = new InputPreferencesPanel(
+        preferencesModel.inputModel,
+        selectedTabProperty,
+        preferencesTabs.getTabVisibleProperty( PreferencesType.INPUT ), {
+          tandem: options.tandem.createTandem( 'inputPreferencesPanel' )
+        }
+      );
       const inputBox = panelAlignGroup.createBox( inputPreferencesPanel );
       this.addChild( inputBox );
       this.content.push( new PreferencesPanelContainer( inputPreferencesPanel, PreferencesType.INPUT ) );
@@ -106,23 +119,17 @@ class PreferencesPanels extends Node {
 
     let localizationPreferencesPanel: Node | null = null;
     if ( supportedTabs.includes( PreferencesType.LOCALIZATION ) ) {
-      localizationPreferencesPanel = new LocalizationPreferencesPanel( preferencesModel.localizationModel, {
-        tandem: options.tandem.createTandem( 'localizationPreferencesPanel' )
-      } );
+      localizationPreferencesPanel = new LocalizationPreferencesPanel(
+        preferencesModel.localizationModel,
+        selectedTabProperty,
+        preferencesTabs.getTabVisibleProperty( PreferencesType.LOCALIZATION ),
+        {
+          tandem: options.tandem.createTandem( 'localizationPreferencesPanel' )
+        } );
       const localizationBox = panelAlignGroup.createBox( localizationPreferencesPanel );
       this.addChild( localizationBox );
       this.content.push( new PreferencesPanelContainer( localizationPreferencesPanel, PreferencesType.LOCALIZATION ) );
     }
-
-    // display the selected panel
-    selectedTabProperty.link( tab => {
-      overviewPreferencesPanel && ( overviewPreferencesPanel.visible = tab === PreferencesType.OVERVIEW );
-      simulationPreferencesPanel && ( simulationPreferencesPanel.visible = tab === PreferencesType.SIMULATION );
-      visualPreferencesPanel && ( visualPreferencesPanel.visible = tab === PreferencesType.VISUAL );
-      audioPreferencesPanel && ( audioPreferencesPanel.visible = tab === PreferencesType.AUDIO );
-      inputPreferencesPanel && ( inputPreferencesPanel.visible = tab === PreferencesType.INPUT );
-      localizationPreferencesPanel && ( localizationPreferencesPanel.visible = tab === PreferencesType.LOCALIZATION );
-    } );
 
     this.disposePreferencesPanel = () => {
       panelAlignGroup.dispose();

@@ -12,7 +12,7 @@
 import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { KeyboardUtils, Text, VBox, HSeparator } from '../../../scenery/js/imports.js';
+import { HSeparator, KeyboardUtils, Text, VBox } from '../../../scenery/js/imports.js';
 import Dialog, { DialogOptions } from '../../../sun/js/Dialog.js';
 import soundManager from '../../../tambo/js/soundManager.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -104,7 +104,7 @@ class PreferencesDialog extends Dialog {
     const preferencesTabs = new PreferencesTabs( supportedTabs, selectedTabProperty );
 
     // the panels of content with UI components to select preferences, only one is displayed at a time
-    const preferencesPanels = new PreferencesPanels( preferencesModel, supportedTabs, selectedTabProperty, {
+    const preferencesPanels = new PreferencesPanels( preferencesModel, supportedTabs, selectedTabProperty, preferencesTabs, {
       tandem: options.tandem.createTandem( 'preferencesPanels' )
     } );
 

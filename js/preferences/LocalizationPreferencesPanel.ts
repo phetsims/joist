@@ -19,14 +19,22 @@ import LocalePanel from './LocalePanel.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import Emitter from '../../../axon/js/Emitter.js';
 import PreferencesDialog from './PreferencesDialog.js';
+import PreferencesPanel from './PreferencesPanel.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import PreferencesType from './PreferencesType.js';
+import JoistStrings from '../JoistStrings.js';
+
+const localizationTitleString = JoistStrings.preferences.tabs.localization.titleStringProperty;
 
 type LocalizationPreferencesPanelOptions = PickRequired<VBoxOptions, 'tandem'>;
 
-class LocalizationPreferencesPanel extends Node {
+class LocalizationPreferencesPanel extends PreferencesPanel {
   private readonly disposeLocalizationPreferencesPanel: () => void;
 
-  public constructor( localizationModel: LocalizationModel, providedOptions: LocalizationPreferencesPanelOptions ) {
-    super();
+  public constructor( localizationModel: LocalizationModel, selectedTabProperty: TReadOnlyProperty<PreferencesType>, tabVisibleProperty: TReadOnlyProperty<boolean>, providedOptions: LocalizationPreferencesPanelOptions ) {
+    super( PreferencesType.LOCALIZATION, selectedTabProperty, tabVisibleProperty, {
+      labelContent: localizationTitleString
+    } );
 
     const disposeEmitter = new Emitter();
 

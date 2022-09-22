@@ -17,20 +17,28 @@ import VoicingPanelSection from './VoicingPanelSection.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import Emitter from '../../../axon/js/Emitter.js';
+import PreferencesPanel, { PreferencesPanelOptions } from './PreferencesPanel.js';
+import PreferencesType from './PreferencesType.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 
 // constants
 const audioFeaturesString = JoistStrings.preferences.tabs.audio.audioFeatures.titleStringProperty;
 
-type AudioPreferencesPanelOptions = PickRequired<VBoxOptions, 'tandem'>;
+type AudioPreferencesPanelOptions = PickRequired<PreferencesPanelOptions, 'tandem'>;
 
-class AudioPreferencesTabPanel extends VBox {
+class AudioPreferencesTabPanel extends PreferencesPanel {
   private readonly disposeAudioPreferencesPanel: () => void;
 
   /**
    * @param audioModel - configuration for audio settings, see PreferencesModel
+   * @param selectedTabProperty
+   * @param tabVisibleProperty
    * @param providedOptions
    */
-  public constructor( audioModel: AudioModel, providedOptions: AudioPreferencesPanelOptions ) {
+  public constructor( audioModel: AudioModel, selectedTabProperty: TReadOnlyProperty<PreferencesType>, tabVisibleProperty: TReadOnlyProperty<boolean>, providedOptions: AudioPreferencesPanelOptions ) {
+    super( PreferencesType.AUDIO, selectedTabProperty, tabVisibleProperty, {
+      labelContent: audioFeaturesString
+    } );
 
     // Some contents of this Dialog will be dynamically removed. Dont resize when this happens because we don't want
     // to shift contents of the entire Preferences dialog.
@@ -84,16 +92,12 @@ class AudioPreferencesTabPanel extends VBox {
 
     audioModel.audioEnabledProperty.link( soundEnabledListener );
 
-    super( {
+    const panelContent = new VBox( {
       align: 'center',
       spacing: 25,
-      children: [ allAudioSwitch, sections ],
-
-      // pdom
-      tagName: 'div',
-      labelTagName: 'h2',
-      labelContent: audioFeaturesString
+      children: [ allAudioSwitch, sections ]
     } );
+    this.addChild( panelContent );
 
     this.disposeAudioPreferencesPanel = () => {
       leftContent.children.forEach( child => child.dispose() );

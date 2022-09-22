@@ -134,6 +134,16 @@ class PreferencesTabs extends HBox {
   }
 
   /**
+   * Returns the visibleProperty for the Tab associated with the PreferencesType. PreferencesTabs need to be hidden
+   * if the Tab becomes invisible (mostly needed for PhET-iO).
+   */
+  public getTabVisibleProperty( preferencesType: PreferencesType ): TReadOnlyProperty<boolean> {
+    const tab = _.find( this.content, content => content.value === preferencesType );
+    assert && assert( tab, `tab not found for PreferencesType, ${preferencesType.name}` );
+    return tab!.visibleProperty;
+  }
+
+  /**
    * Move focus to the selected tab. Useful when the Preferences dialog is opened.
    */
   public focusSelectedTab(): void {

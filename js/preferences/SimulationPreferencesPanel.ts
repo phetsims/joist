@@ -16,25 +16,24 @@ import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js'
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
 import Emitter from '../../../axon/js/Emitter.js';
+import PreferencesType from './PreferencesType.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import PreferencesPanel, { PreferencesPanelOptions } from './PreferencesPanel.js';
 
 type SelfOptions = EmptySelfOptions;
-type SimulationPreferencesPanelOptions = SelfOptions & VBoxOptions & PickRequired<VBoxOptions, 'tandem'>;
+type SimulationPreferencesPanelOptions = SelfOptions & PreferencesPanelOptions & PickRequired<PreferencesPanelOptions, 'tandem'>;
 
-class SimulationPreferencesPanel extends VBox {
+class SimulationPreferencesPanel extends PreferencesPanel {
   private readonly disposeSimulationPreferencesPanel: () => void;
 
   /**
    * @param simulationModel - configuration for the Tab, see PreferencesModel for entries
+   * @param selectedTabProperty
+   * @param tabVisibleProperty
    * @param [providedOptions]
    */
-  public constructor( simulationModel: SimulationModel, providedOptions?: SimulationPreferencesPanelOptions ) {
+  public constructor( simulationModel: SimulationModel, selectedTabProperty: TReadOnlyProperty<PreferencesType>, tabVisibleProperty: TReadOnlyProperty<boolean>, providedOptions?: SimulationPreferencesPanelOptions ) {
     const options = optionize<SimulationPreferencesPanelOptions, SelfOptions, VBoxOptions>()( {
-      align: 'left',
-      spacing: PreferencesDialog.CONTENT_SPACING,
-
-      // pdom
-      tagName: 'section',
-      labelTagName: 'h2',
       labelContent: 'Simulation',
 
       // phet-io
@@ -44,7 +43,13 @@ class SimulationPreferencesPanel extends VBox {
       phetioVisiblePropertyInstrumented: false
     }, providedOptions );
 
-    super( options );
+    super( PreferencesType.SIMULATION, selectedTabProperty, tabVisibleProperty, options );
+
+    const panelContent = new VBox( {
+      align: 'left',
+      spacing: PreferencesDialog.CONTENT_SPACING
+    } );
+    this.addChild( panelContent );
 
     // Just the provided panel content with its own spacing
     const providedChildren: Node[] = [];
@@ -60,7 +65,7 @@ class SimulationPreferencesPanel extends VBox {
       providedChildren.push( preferencesPanelSection );
     } );
 
-    this.children = providedChildren;
+    panelContent.children = providedChildren;
 
     this.disposeSimulationPreferencesPanel = () => {
       disposeEmitter.emit();
