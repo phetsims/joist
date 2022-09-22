@@ -44,6 +44,10 @@ type CustomPreferencesOptions = {
   customPreferences?: CustomPreference[];
 };
 
+const AUDIO_MODEL_TANDEM = 'audioModel';
+const VISUAL_MODEL_TANDEM = 'visualModel';
+const INPUT_MODEL_TANDEM = 'inputModel';
+
 ///////////////////////////////////////////
 // Options types
 
@@ -212,20 +216,20 @@ export default class PreferencesModel extends PhetioObject {
         customPreferences: []
       }, providedOptions.simulationOptions ),
       visualOptions: optionize<VisualPreferencesOptions, VisualPreferencesOptions, BaseModelType>()( {
-        tandemName: 'visualModel',
+        tandemName: VISUAL_MODEL_TANDEM,
         supportsProjectorMode: false,
         supportsInteractiveHighlights: phetFeatures.supportsInteractiveHighlights,
         customPreferences: []
       }, providedOptions.visualOptions ),
       audioOptions: optionize<AudioPreferencesOptions, AudioPreferencesOptions, BaseModelType>()( {
-        tandemName: 'audioModel',
+        tandemName: AUDIO_MODEL_TANDEM,
         supportsVoicing: phetFeatures.supportsVoicing,
         supportsSound: phetFeatures.supportsSound,
         supportsExtraSound: phetFeatures.supportsExtraSound,
         customPreferences: []
       }, providedOptions.audioOptions ),
       inputOptions: optionize<InputPreferencesOptions, InputPreferencesOptions, BaseModelType>()( {
-        tandemName: 'inputModel',
+        tandemName: INPUT_MODEL_TANDEM,
         supportsGestureControl: phetFeatures.supportsGestureControl,
         customPreferences: []
       }, providedOptions.inputOptions ),
@@ -241,7 +245,7 @@ export default class PreferencesModel extends PhetioObject {
 
     this.simulationModel = options.simulationOptions;
 
-    const visualTandem = options.tandem.createTandem( 'visualModel' );
+    const visualTandem = options.tandem.createTandem( VISUAL_MODEL_TANDEM );
     this.visualModel = merge( {
       interactiveHighlightsEnabledProperty: new BooleanProperty( phet.chipper.queryParameters.interactiveHighlightsInitiallyEnabled, {
         tandem: visualTandem.createTandem( 'interactiveHighlightsEnabledProperty' ),
@@ -280,7 +284,7 @@ export default class PreferencesModel extends PhetioObject {
       voiceProperty: voicingManager.voiceProperty,
 
       toolbarEnabledProperty: new BooleanProperty( true, {
-        tandem: visualTandem.createTandem( 'toolbarEnabledProperty' ),
+        tandem: options.tandem.createTandem( AUDIO_MODEL_TANDEM ).createTandem( 'toolbarEnabledProperty' ),
         phetioState: false
       } ),
 
@@ -288,7 +292,7 @@ export default class PreferencesModel extends PhetioObject {
       tandemName: options.audioOptions.tandemName
     };
 
-    const inputTandem = options.tandem.createTandem( 'inputModel' );
+    const inputTandem = options.tandem.createTandem( INPUT_MODEL_TANDEM );
     this.inputModel = merge( {
       gestureControlsEnabledProperty: new BooleanProperty( false, {
         tandem: inputTandem.createTandem( 'gestureControlsEnabledProperty' ),
