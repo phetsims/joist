@@ -36,7 +36,20 @@ const validInitialLocale = isLocaleValid( phet.chipper.locale ) ? phet.chipper.l
 // Just in case we had an invalid locale, remap phet.chipper.locale to the "corrected" value
 phet.chipper.locale = validInitialLocale;
 
-const localeProperty = new StringProperty( validInitialLocale, {
+class LocaleProperty extends StringProperty {
+  protected override unguardedSet( value: string ): void {
+    if ( locales.includes( value ) ) {
+      super.unguardedSet( value );
+    }
+    else {
+      assert && assert( false, 'Unsupported locale: ' + value );
+
+      // Do not try to set if the value was invalid
+    }
+  }
+}
+
+const localeProperty = new LocaleProperty( validInitialLocale, {
   tandem: Tandem.GENERAL_MODEL.createTandem( 'localeProperty' ),
   phetioFeatured: true,
   validValues: locales
