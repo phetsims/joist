@@ -31,8 +31,11 @@ type ParentOptions = NodeOptions & VoicingOptions;
 
 class PreferencesTab extends Voicing( Node ) {
 
+  // The value of this tab, when this tab is Pressed, the panel of this PreferencesType will be displayed.
   public readonly value: PreferencesType;
-  private readonly disposeTab: () => void;
+
+  // garbage collection
+  private readonly disposePreferencesTab: () => void;
 
   /**
    * @param label - text label for the tab
@@ -121,14 +124,14 @@ class PreferencesTab extends Voicing( Node ) {
       underlineNode.visible = selectedTab === value;
     } );
 
-    this.disposeTab = () => {
+    this.disposePreferencesTab = () => {
       pressListener.dispose();
       voicingMultilink.dispose();
     };
   }
 
   public override dispose(): void {
-    this.disposeTab();
+    this.disposePreferencesTab();
     super.dispose();
   }
 }
