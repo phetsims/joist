@@ -17,6 +17,7 @@ import JoistStrings from '../JoistStrings.js';
 import PreferencesType from './PreferencesType.js';
 import PreferencesTab from './PreferencesTab.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import Multilink from '../../../axon/js/Multilink.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -86,6 +87,23 @@ class PreferencesTabs extends HBox {
     }
 
     this.children = this.content;
+
+    // If the currently selected tab is hidden via phet-io, then select the first visible tab (if there is one)
+    Multilink.multilinkAny( [ selectedPanelProperty, ...this.content.map( tab => tab.visibleProperty ) ], () => {
+
+      // Find the tab corresponding to the current selection
+      const tab = this.content.find( tab => tab.value === selectedPanelProperty.value )!;
+
+      // If the selected tab is not showing...
+      if ( !tab.visibleProperty.value ) {
+
+        // Find the leftmost tab that is showing (if there are any showing tabs)
+        const firstShowingTab = this.content.find( tab => tab.visibleProperty.value );
+        if ( firstShowingTab ) {
+          selectedPanelProperty.value = firstShowingTab.value;
+        }
+      }
+    } );
 
     // pdom - keyboard support to move through tabs with arrow keys
     const keyboardListener = {
