@@ -8,33 +8,30 @@
  */
 
 import TProperty from '../../../axon/js/TProperty.js';
-import Multilink from '../../../axon/js/Multilink.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import globeSolidShape from '../../../sherpa/js/fontawesome-5/globeSolidShape.js';
-import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { FocusHighlightPath, HBox, HBoxOptions, KeyboardUtils, Line, Node, Path, PressListener, Rectangle, SceneryEvent, Text, Voicing } from '../../../scenery/js/imports.js';
-import Tandem from '../../../tandem/js/Tandem.js';
+import { HBox, HBoxOptions, KeyboardUtils, Node, Path, SceneryEvent } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
-import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesType from './PreferencesType.js';
+import PreferencesTab from './PreferencesTab.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 
 type SelfOptions = EmptySelfOptions;
 
-export type PreferencesTabsOptions = HBoxOptions;
+export type PreferencesTabsOptions = HBoxOptions & PickRequired<HBoxOptions, 'tandem'>;
 
 class PreferencesTabs extends HBox {
-
 
   //  A reference to the selected and focusable tab content so that we can determine which
   // tab is next in order when cycling through with alternative input.
   private selectedButton: Node | null = null;
   private readonly selectedPanelProperty: TProperty<PreferencesType>;
-  private readonly content: Tab[] = [];
+  private readonly content: PreferencesTab[] = [];
   private readonly disposePreferencesTabs: () => void;
 
-  public constructor( supportedTabs: PreferencesType[], selectedPanelProperty: TProperty<PreferencesType>, providedOptions?: PreferencesTabsOptions ) {
+  public constructor( supportedTabs: PreferencesType[], selectedPanelProperty: TProperty<PreferencesType>, providedOptions: PreferencesTabsOptions ) {
     const options = optionize<PreferencesTabsOptions, SelfOptions, HBoxOptions>()( {
 
       // pdom
@@ -51,28 +48,40 @@ class PreferencesTabs extends HBox {
     const isTabSupported = ( preferencesType: PreferencesType ) => _.includes( supportedTabs, preferencesType );
 
     if ( isTabSupported( PreferencesType.OVERVIEW ) ) {
-      this.content.push( new Tab( JoistStrings.preferences.tabs.overview.titleStringProperty, selectedPanelProperty, PreferencesType.OVERVIEW ) );
+      this.content.push( new PreferencesTab( JoistStrings.preferences.tabs.overview.titleStringProperty, selectedPanelProperty, PreferencesType.OVERVIEW, {
+        tandem: options.tandem.createTandem( 'overviewTab' )
+      } ) );
     }
     if ( isTabSupported( PreferencesType.SIMULATION ) ) {
-      this.content.push( new Tab( JoistStrings.preferences.tabs.simulation.titleStringProperty, selectedPanelProperty, PreferencesType.SIMULATION ) );
+      this.content.push( new PreferencesTab( JoistStrings.preferences.tabs.simulation.titleStringProperty, selectedPanelProperty, PreferencesType.SIMULATION, {
+        tandem: options.tandem.createTandem( 'simulationTab' )
+      } ) );
     }
     if ( isTabSupported( PreferencesType.VISUAL ) ) {
-      this.content.push( new Tab( JoistStrings.preferences.tabs.visual.titleStringProperty, selectedPanelProperty, PreferencesType.VISUAL ) );
+      this.content.push( new PreferencesTab( JoistStrings.preferences.tabs.visual.titleStringProperty, selectedPanelProperty, PreferencesType.VISUAL, {
+        tandem: options.tandem.createTandem( 'visualTab' )
+      } ) );
     }
     if ( isTabSupported( PreferencesType.AUDIO ) ) {
-      this.content.push( new Tab( JoistStrings.preferences.tabs.audio.titleStringProperty, selectedPanelProperty, PreferencesType.AUDIO ) );
+      this.content.push( new PreferencesTab( JoistStrings.preferences.tabs.audio.titleStringProperty, selectedPanelProperty, PreferencesType.AUDIO, {
+        tandem: options.tandem.createTandem( 'audioTab' )
+      } ) );
     }
     if ( isTabSupported( PreferencesType.INPUT ) ) {
-      this.content.push( new Tab( JoistStrings.preferences.tabs.input.titleStringProperty, selectedPanelProperty, PreferencesType.INPUT ) );
+      this.content.push( new PreferencesTab( JoistStrings.preferences.tabs.input.titleStringProperty, selectedPanelProperty, PreferencesType.INPUT, {
+        tandem: options.tandem.createTandem( 'inputTab' )
+      } ) );
     }
     if ( isTabSupported( PreferencesType.LOCALIZATION ) ) {
-      this.content.push( new Tab( JoistStrings.preferences.tabs.localization.titleStringProperty, selectedPanelProperty, PreferencesType.LOCALIZATION, {
+      this.content.push( new PreferencesTab( JoistStrings.preferences.tabs.localization.titleStringProperty, selectedPanelProperty, PreferencesType.LOCALIZATION, {
 
         // Display a globe icon next to the localization label
         iconNode: new Path( globeSolidShape, {
           scale: 1 / 25, // by inspection
           fill: 'black'
-        } )
+        } ),
+
+        tandem: options.tandem.createTandem( 'localizationTab' )
       } ) );
     }
 
@@ -156,119 +165,6 @@ class PreferencesTabs extends HBox {
 
   public override dispose(): void {
     this.disposePreferencesTabs();
-    super.dispose();
-  }
-}
-
-type TabOptions = {
-
-  // An additional icon to display to the right of the label text for this tab.
-  iconNode: Node | null;
-};
-
-/**
- * Inner class, a single tab for the list of tabs.
- * @mixes Voicing
- */
-class Tab extends Voicing( Node ) {
-
-  public readonly value: PreferencesType;
-  private readonly disposeTab: () => void;
-
-  /**
-   * @param label - text label for the tab
-   * @param property
-   * @param value - PreferencesType shown when this tab is selected
-   * @param providedOptions
-   */
-  public constructor( label: TReadOnlyProperty<string>, property: TProperty<PreferencesType>, value: PreferencesType, providedOptions?: TabOptions ) {
-
-    const options = optionize<TabOptions>()( {
-      iconNode: null
-    }, providedOptions );
-
-    // Visual contents for the tab, label Text and optional icon Node
-    const textNode = new Text( label, PreferencesDialog.TAB_OPTIONS );
-    const tabContents: Node[] = [ textNode ];
-    if ( options.iconNode ) {
-      tabContents.push( options.iconNode );
-    }
-    const contentsBox = new HBox( {
-      children: tabContents,
-      spacing: 8
-    } );
-
-    // background Node behind the tab contents for layout spacing and to increase the clickable area of the tab
-    const backgroundNode = new Rectangle( {
-      children: [ contentsBox ]
-    } );
-    contentsBox.boundsProperty.link( bounds => {
-      backgroundNode.rectBounds = bounds.dilatedXY( 15, 10 );
-    } );
-
-    // Pink underline Node to indicate which tab is selected
-    const underlineNode = new Line( 0, 0, 0, 0, {
-      stroke: FocusHighlightPath.INNER_FOCUS_COLOR,
-      lineWidth: 5
-    } );
-    contentsBox.boundsProperty.link( bounds => {
-      underlineNode.x2 = bounds.width;
-      underlineNode.centerTop = bounds.centerBottom.plusXY( 0, 5 );
-    } );
-
-    super( {
-      children: [ backgroundNode, underlineNode ],
-      cursor: 'pointer',
-
-      // pdom
-      tagName: 'button',
-      ariaRole: 'tab',
-      focusable: true,
-      containerTagName: 'li'
-    } );
-
-    label.link( string => {
-      this.innerContent = string;
-    } );
-
-    this.value = value;
-
-    const voicingMultilink = Multilink.multilink( [ JoistStrings.a11y.preferences.tabs.tabResponsePatternStringProperty, label ], ( pattern, labelString ) => {
-      this.voicingNameResponse = StringUtils.fillIn( pattern, {
-        title: labelString
-      } );
-    } );
-
-    const pressListener = new PressListener( {
-      press: () => {
-        property.set( value );
-
-        // speak the object response on activation
-        this.voicingSpeakNameResponse();
-      },
-
-      // phet-io
-      tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
-    } );
-    this.addInputListener( pressListener );
-
-    Multilink.multilink( [ property, pressListener.isOverProperty ], ( selectedTab, isOver ) => {
-      backgroundNode.opacity = selectedTab === value ? 1 :
-                               isOver ? 0.8 :
-                               0.6;
-
-      this.focusable = selectedTab === value;
-      underlineNode.visible = selectedTab === value;
-    } );
-
-    this.disposeTab = () => {
-      pressListener.dispose();
-      voicingMultilink.dispose();
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeTab();
     super.dispose();
   }
 }
