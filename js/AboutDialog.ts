@@ -96,7 +96,6 @@ export default class AboutDialog extends Dialog {
     let updateStepListener: ( ( dt: number ) => void ) | null = null;
     let updateVisibilityListener: ( ( state: UpdateState ) => void ) | null = null;
     let updatePanel: Node | null = null;
-    let updatePanelAllowLinksListener: ( ( allowLinks: boolean ) => void ) | null = null;
 
     // brand=phet versions that are not running in the phet-app should check update status.
     if ( updateCheck.areUpdatesChecked ) {
@@ -130,13 +129,10 @@ export default class AboutDialog extends Dialog {
           outOfDateNode,
           offlineNode
         ],
-        maxWidth: MAX_WIDTH
+        maxWidth: MAX_WIDTH,
+        visibleProperty: allowLinksProperty
       } );
 
-      updatePanelAllowLinksListener = allowLinks => {
-        updatePanel!.visible = allowLinks;
-      };
-      allowLinksProperty.link( updatePanelAllowLinksListener );
       children.push( updatePanel );
     }
 
