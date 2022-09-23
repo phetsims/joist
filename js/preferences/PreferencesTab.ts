@@ -53,6 +53,7 @@ class PreferencesTab extends Voicing( Node ) {
 
       // pdom
       tagName: 'button',
+      innerContent: label,
       ariaRole: 'tab',
       focusable: true,
       containerTagName: 'li'
@@ -90,10 +91,6 @@ class PreferencesTab extends Voicing( Node ) {
     super( options );
     this.children = [ backgroundNode, underlineNode ];
 
-    label.link( string => {
-      this.innerContent = string;
-    } );
-
     this.value = value;
 
     const voicingMultilink = Multilink.multilink( [ JoistStrings.a11y.preferences.tabs.tabResponsePatternStringProperty, label ], ( pattern, labelString ) => {
@@ -115,7 +112,7 @@ class PreferencesTab extends Voicing( Node ) {
     } );
     this.addInputListener( pressListener );
 
-    Multilink.multilink( [ property, pressListener.isOverProperty ], ( selectedTab, isOver ) => {
+    const tabInputMultilink = Multilink.multilink( [ property, pressListener.isOverProperty ], ( selectedTab, isOver ) => {
       backgroundNode.opacity = selectedTab === value ? 1 :
                                isOver ? 0.8 :
                                0.6;
@@ -125,6 +122,7 @@ class PreferencesTab extends Voicing( Node ) {
     } );
 
     this.disposePreferencesTab = () => {
+      tabInputMultilink.dispose();
       pressListener.dispose();
       voicingMultilink.dispose();
     };

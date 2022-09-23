@@ -15,7 +15,6 @@ import JoistStrings from '../JoistStrings.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import Multilink from '../../../axon/js/Multilink.js';
 import Property from '../../../axon/js/Property.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -33,15 +32,10 @@ class ProjectorModeToggleSwitch extends PreferencesToggleSwitch<string> {
 
     const projectorModeLabel = new VoicingText( JoistStrings.projectorModeStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
     const projectorModeDescription = new VoicingText( JoistStrings.preferences.tabs.visual.projectorModeDescriptionStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
-    Multilink.multilink( [
-      JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty,
-      JoistStrings.projectorModeStringProperty,
-      JoistStrings.preferences.tabs.visual.projectorModeDescriptionStringProperty
-    ], ( labelledDescriptionPatternString, projectorModeString, projectorModeDescriptionString ) => {
-      projectorModeDescription.readingBlockNameResponse = StringUtils.fillIn( labelledDescriptionPatternString, {
-        label: projectorModeString,
-        description: projectorModeDescriptionString
-      } );
+
+    projectorModeDescription.readingBlockNameResponse = StringUtils.fillIn( JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty, {
+      label: JoistStrings.projectorModeStringProperty,
+      description: JoistStrings.preferences.tabs.visual.projectorModeDescriptionStringProperty
     } );
 
     const options = optionize<ProjectorModeToggleSwitchOptions, SelfOptions, ParentOptions>()( {

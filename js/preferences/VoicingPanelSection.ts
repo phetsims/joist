@@ -233,9 +233,10 @@ class VoicingPanelSection extends PreferencesPanelSection {
       contentNode: content
     } );
 
-    audioModel.voicingEnabledProperty.link( enabled => {
+    const contentVisibilityListener = ( enabled: boolean ) => {
       content.visible = enabled;
-    } );
+    };
+    audioModel.voicingEnabledProperty.link( contentVisibilityListener );
 
     const localeListener = ( locale: string ) => {
       voicingEnabledSwitch.enabledProperty.value = locale.startsWith( 'en' );
@@ -312,6 +313,8 @@ class VoicingPanelSection extends PreferencesPanelSection {
       pitchSlider.dispose();
       rateSlider.dispose();
       audioModel.voicingEnabledProperty.unlink( voicingEnabledPropertyListener );
+      audioModel.voicingEnabledProperty.unlink( contentVisibilityListener );
+      voicingManager.voicesChangedEmitter.removeListener( voicesChangedListener );
       localeProperty.unlink( localeListener );
       voicingEnabledSwitch.dispose();
       expandCollapseButton.dispose();

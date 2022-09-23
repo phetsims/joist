@@ -72,6 +72,7 @@ class SoundPanelSection extends PreferencesPanelSection {
 
     let extraSoundContent: Node | null = null;
     let extraSoundCheckbox: Node | null = null;
+    let extraSoundEnabledListener: ( ( enabled: boolean ) => void ) | null = null;
     if ( audioModel.supportsExtraSound ) {
       const enahncedSoundLabel = new Text( extraSoundsLabelString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
       extraSoundCheckbox = new Checkbox( audioModel.extraSoundEnabledProperty, enahncedSoundLabel, {
@@ -107,9 +108,10 @@ class SoundPanelSection extends PreferencesPanelSection {
         spacing: 5
       } );
 
-      audioModel.soundEnabledProperty.link( enabled => {
+      extraSoundEnabledListener = ( enabled: boolean ) => {
         extraSoundContent!.enabled = enabled;
-      } );
+      };
+      audioModel.soundEnabledProperty.link( extraSoundEnabledListener );
     }
 
     super( {
@@ -118,6 +120,7 @@ class SoundPanelSection extends PreferencesPanelSection {
     } );
 
     this.disposeSoundPanelSection = () => {
+      extraSoundEnabledListener && audioModel.soundEnabledProperty.unlink( extraSoundEnabledListener );
       soundEnabledSwitch.dispose();
       extraSoundCheckbox && extraSoundCheckbox.dispose();
     };

@@ -62,11 +62,8 @@ class PreferencesDialog extends Dialog {
 
       // pdom
       tagName: 'h1',
+      innerContent: JoistStrings.preferences.titleStringProperty,
       stringProperty: JoistStrings.preferences.titleStringProperty
-    } );
-    const titleProperty = JoistStrings.preferences.titleStringProperty;
-    titleProperty.link( titleString => {
-      titleText.innerContent = titleString;
     } );
 
     const options = optionize<PreferencesDialogOptions, EmptySelfOptions, DialogOptions>()( {
@@ -156,6 +153,8 @@ class PreferencesDialog extends Dialog {
     } );
 
     this.disposePreferencesDialog = () => {
+      soundManager.removeSoundGenerator( tabSwitchSoundGenerator );
+      tabSwitchSoundGenerator.dispose();
       preferencesTabs.dispose();
       selectedTabProperty.dispose();
       preferencesPanels.dispose();
