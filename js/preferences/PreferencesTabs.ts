@@ -89,7 +89,7 @@ class PreferencesTabs extends HBox {
     this.children = this.content;
 
     // If the currently selected tab is hidden via phet-io, then select the first visible tab (if there is one)
-    Multilink.multilinkAny( [ selectedPanelProperty, ...this.content.map( tab => tab.visibleProperty ) ], () => {
+    const visibilityMultilink = Multilink.multilinkAny( [ selectedPanelProperty, ...this.content.map( tab => tab.visibleProperty ) ], () => {
 
       // Find the tab corresponding to the current selection
       const tab = this.content.find( tab => tab.value === selectedPanelProperty.value )!;
@@ -156,6 +156,7 @@ class PreferencesTabs extends HBox {
     this.disposePreferencesTabs = () => {
       this.removeInputListener( keyboardListener );
       selectedPanelProperty.unlink( selectedPanelListener );
+      Multilink.unmultilink( visibilityMultilink );
       this.content.forEach( tab => tab.dispose() );
     };
   }
