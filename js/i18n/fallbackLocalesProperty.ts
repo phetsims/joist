@@ -18,6 +18,7 @@ const fallbackLocalesProperty = new Property<string[]>( [], {
   tandem: Tandem.GENERAL_MODEL.createTandem( 'fallbackLocalesProperty' ),
   phetioDocumentation: 'an ordered list of locales to fall back on, for example: ["es", "de", "en"]. The list MUST end in "en".',
   phetioFeatured: true,
+  phetioReadOnly: true,
   isValidValue: locales => {
     return _.every( locales, locale => !!localeInfoModule[ locale as keyof typeof localeInfoModule ] );
   },
