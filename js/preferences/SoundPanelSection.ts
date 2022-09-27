@@ -20,15 +20,15 @@ import PreferencesPanelSection, { PreferencesPanelSectionOptions } from './Prefe
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 
 // constants
-const soundsLabelString = JoistStrings.preferences.tabs.audio.sounds.titleStringProperty;
-const extraSoundsLabelString = JoistStrings.preferences.tabs.audio.sounds.extraSounds.titleStringProperty;
-const soundDescriptionString = JoistStrings.preferences.tabs.audio.sounds.descriptionStringProperty;
-const extraSoundsDescriptionString = JoistStrings.preferences.tabs.audio.sounds.extraSounds.descriptionStringProperty;
-const soundsOnString = JoistStrings.a11y.preferences.tabs.audio.sounds.soundsOnStringProperty;
-const soundsOffString = JoistStrings.a11y.preferences.tabs.audio.sounds.soundsOffStringProperty;
-const extraSoundsOnString = JoistStrings.a11y.preferences.tabs.audio.sounds.extraSounds.extraSoundsOnStringProperty;
-const extraSoundsOffString = JoistStrings.a11y.preferences.tabs.audio.sounds.extraSounds.extraSoundsOffStringProperty;
-const labelledDescriptionPatternString = JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
+const soundsLabelStringProperty = JoistStrings.preferences.tabs.audio.sounds.titleStringProperty;
+const extraSoundsLabelStringProperty = JoistStrings.preferences.tabs.audio.sounds.extraSounds.titleStringProperty;
+const soundDescriptionStringProperty = JoistStrings.preferences.tabs.audio.sounds.descriptionStringProperty;
+const extraSoundsDescriptionStringProperty = JoistStrings.preferences.tabs.audio.sounds.extraSounds.descriptionStringProperty;
+const soundsOnStringProperty = JoistStrings.a11y.preferences.tabs.audio.sounds.soundsOnStringProperty;
+const soundsOffStringProperty = JoistStrings.a11y.preferences.tabs.audio.sounds.soundsOffStringProperty;
+const extraSoundsOnStringProperty = JoistStrings.a11y.preferences.tabs.audio.sounds.extraSounds.extraSoundsOnStringProperty;
+const extraSoundsOffStringProperty = JoistStrings.a11y.preferences.tabs.audio.sounds.extraSounds.extraSoundsOffStringProperty;
+const labelledDescriptionPatternStringProperty = JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
 
 type SelfOptions = {
 
@@ -52,53 +52,53 @@ class SoundPanelSection extends PreferencesPanelSection {
       includeTitleToggleSwitch: true
     }, providedOptions );
 
-    const soundLabel = new Text( soundsLabelString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
+    const soundLabel = new Text( soundsLabelStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
 
     const soundEnabledSwitch = new PreferencesToggleSwitch( audioModel.soundEnabledProperty, false, true, {
       labelNode: soundLabel,
-      descriptionNode: new VoicingText( soundDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
-        readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternString, {
-          label: soundsLabelString,
-          description: soundDescriptionString
+      descriptionNode: new VoicingText( soundDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
+        readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternStringProperty, {
+          label: soundsLabelStringProperty,
+          description: soundDescriptionStringProperty
         } )
       } ) ),
       toggleSwitchOptions: {
         visible: options.includeTitleToggleSwitch
       },
-      a11yLabel: soundsLabelString,
-      leftValueContextResponse: soundsOffString,
-      rightValueContextResponse: soundsOnString
+      a11yLabel: soundsLabelStringProperty,
+      leftValueContextResponse: soundsOffStringProperty,
+      rightValueContextResponse: soundsOnStringProperty
     } );
 
     let extraSoundContent: Node | null = null;
     let extraSoundCheckbox: Node | null = null;
     let extraSoundEnabledListener: ( ( enabled: boolean ) => void ) | null = null;
     if ( audioModel.supportsExtraSound ) {
-      const enahncedSoundLabel = new Text( extraSoundsLabelString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
+      const enahncedSoundLabel = new Text( extraSoundsLabelStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
       extraSoundCheckbox = new Checkbox( audioModel.extraSoundEnabledProperty, enahncedSoundLabel, {
 
         // pdom
         labelTagName: 'label',
-        labelContent: extraSoundsLabelString,
+        labelContent: extraSoundsLabelStringProperty,
 
         // voicing
-        voicingNameResponse: extraSoundsLabelString,
+        voicingNameResponse: extraSoundsLabelStringProperty,
         voicingIgnoreVoicingManagerProperties: true, // Always speak Preferences responses so control function is clear
         voiceNameResponseOnSelection: false,
 
         // both voicing and pdom
-        checkedContextResponse: extraSoundsOnString,
-        uncheckedContextResponse: extraSoundsOffString,
+        checkedContextResponse: extraSoundsOnStringProperty,
+        uncheckedContextResponse: extraSoundsOffStringProperty,
 
         // phet-io
         tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
       } );
 
-      const extraSoundDescription = new VoicingRichText( extraSoundsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
+      const extraSoundDescription = new VoicingRichText( extraSoundsDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         lineWrap: 300,
-        readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternString, {
-          label: extraSoundsLabelString,
-          description: extraSoundsDescriptionString
+        readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternStringProperty, {
+          label: extraSoundsLabelStringProperty,
+          description: extraSoundsDescriptionStringProperty
         } )
       } ) );
 

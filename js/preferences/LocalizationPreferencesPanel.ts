@@ -24,7 +24,7 @@ import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import PreferencesType from './PreferencesType.js';
 import JoistStrings from '../JoistStrings.js';
 
-const localizationTitleString = JoistStrings.preferences.tabs.localization.titleStringProperty;
+const localizationTitleStringProperty = JoistStrings.preferences.tabs.localization.titleStringProperty;
 
 type LocalizationPreferencesPanelOptions = PickRequired<VBoxOptions, 'tandem'>;
 
@@ -33,7 +33,7 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
 
   public constructor( localizationModel: LocalizationModel, selectedTabProperty: TReadOnlyProperty<PreferencesType>, tabVisibleProperty: TReadOnlyProperty<boolean>, providedOptions: LocalizationPreferencesPanelOptions ) {
     super( PreferencesType.LOCALIZATION, selectedTabProperty, tabVisibleProperty, {
-      labelContent: localizationTitleString
+      labelContent: localizationTitleStringProperty
     } );
 
     const disposeEmitter = new Emitter();

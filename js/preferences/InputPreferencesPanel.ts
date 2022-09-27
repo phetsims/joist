@@ -22,9 +22,9 @@ import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 import PreferencesType from './PreferencesType.js';
 
 // constants
-const gestureControlEnabledAlertString = JoistStrings.a11y.preferences.tabs.input.gestureControl.enabledAlertStringProperty;
-const gestureControlDisabledAlertString = JoistStrings.a11y.preferences.tabs.input.gestureControl.disabledAlertStringProperty;
-const labelledDescriptionPatternString = JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
+const gestureControlEnabledAlertStringProperty = JoistStrings.a11y.preferences.tabs.input.gestureControl.enabledAlertStringProperty;
+const gestureControlDisabledAlertStringProperty = JoistStrings.a11y.preferences.tabs.input.gestureControl.disabledAlertStringProperty;
+const labelledDescriptionPatternStringProperty = JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
 
 // NOT translatable yet because this tab does not appear in any published simulation.
 const inputTitleString = 'Input';
@@ -58,7 +58,7 @@ class InputPreferencesPanel extends PreferencesPanel {
         descriptionNode: new VoicingRichText( gestureControlsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
           lineWrap: 350,
 
-          readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternString, {
+          readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternStringProperty, {
             label: gestureControlsString,
             description: gestureControlsDescriptionString
           } )
@@ -66,8 +66,8 @@ class InputPreferencesPanel extends PreferencesPanel {
 
         // a11y
         a11yLabel: gestureControlsString,
-        leftValueContextResponse: gestureControlDisabledAlertString,
-        rightValueContextResponse: gestureControlEnabledAlertString
+        leftValueContextResponse: gestureControlDisabledAlertStringProperty,
+        rightValueContextResponse: gestureControlEnabledAlertStringProperty
       } );
 
       const gesturePanelSection = new PreferencesPanelSection( {

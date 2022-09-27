@@ -26,11 +26,11 @@ import PreferencesType from './PreferencesType.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 
 // constants
-const interactiveHighlightsString = JoistStrings.preferences.tabs.visual.interactiveHighlightsStringProperty;
-const interactiveHighlightsDescriptionString = JoistStrings.preferences.tabs.visual.interactiveHighlightsDescriptionStringProperty;
-const interactiveHighlightsEnabledAlertString = JoistStrings.a11y.preferences.tabs.visual.interactiveHighlights.enabledAlertStringProperty;
-const interactiveHighlightsDisabledAlertString = JoistStrings.a11y.preferences.tabs.visual.interactiveHighlights.disabledAlertStringProperty;
-const labelledDescriptionPatternString = JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
+const interactiveHighlightsStringProperty = JoistStrings.preferences.tabs.visual.interactiveHighlightsStringProperty;
+const interactiveHighlightsDescriptionStringProperty = JoistStrings.preferences.tabs.visual.interactiveHighlightsDescriptionStringProperty;
+const interactiveHighlightsEnabledAlertStringProperty = JoistStrings.a11y.preferences.tabs.visual.interactiveHighlights.enabledAlertStringProperty;
+const interactiveHighlightsDisabledAlertStringProperty = JoistStrings.a11y.preferences.tabs.visual.interactiveHighlights.disabledAlertStringProperty;
+const labelledDescriptionPatternStringProperty = JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
 
 type VisualPreferencesPanelOptions = PickRequired<PreferencesPanelOptions, 'tandem'>;
 
@@ -63,18 +63,18 @@ class VisualPreferencesPanel extends PreferencesPanel {
 
     if ( visualModel.supportsInteractiveHighlights ) {
 
-      const label = new Text( interactiveHighlightsString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
+      const label = new Text( interactiveHighlightsStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
       const interactiveHighlightsEnabledSwitch = new PreferencesToggleSwitch( visualModel.interactiveHighlightsEnabledProperty, false, true, {
         labelNode: label,
-        descriptionNode: new VoicingText( interactiveHighlightsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
-          readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternString, {
-            label: interactiveHighlightsString,
-            description: interactiveHighlightsDescriptionString
+        descriptionNode: new VoicingText( interactiveHighlightsDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
+          readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternStringProperty, {
+            label: interactiveHighlightsStringProperty,
+            description: interactiveHighlightsDescriptionStringProperty
           } )
         } ) ),
-        a11yLabel: interactiveHighlightsString,
-        leftValueContextResponse: interactiveHighlightsDisabledAlertString,
-        rightValueContextResponse: interactiveHighlightsEnabledAlertString
+        a11yLabel: interactiveHighlightsStringProperty,
+        leftValueContextResponse: interactiveHighlightsDisabledAlertStringProperty,
+        rightValueContextResponse: interactiveHighlightsEnabledAlertStringProperty
       } );
 
       contentNode.addChild( interactiveHighlightsEnabledSwitch );

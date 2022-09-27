@@ -22,7 +22,7 @@ import PreferencesType from './PreferencesType.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 
 // constants
-const audioFeaturesString = JoistStrings.preferences.tabs.audio.audioFeatures.titleStringProperty;
+const audioFeaturesStringProperty = JoistStrings.preferences.tabs.audio.audioFeatures.titleStringProperty;
 
 type AudioPreferencesPanelOptions = PickRequired<PreferencesPanelOptions, 'tandem'>;
 
@@ -37,7 +37,7 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
    */
   public constructor( audioModel: AudioModel, selectedTabProperty: TReadOnlyProperty<PreferencesType>, tabVisibleProperty: TReadOnlyProperty<boolean>, providedOptions: AudioPreferencesPanelOptions ) {
     super( PreferencesType.AUDIO, selectedTabProperty, tabVisibleProperty, {
-      labelContent: audioFeaturesString
+      labelContent: audioFeaturesStringProperty
     } );
 
     // Some contents of this Dialog will be dynamically removed. Dont resize when this happens because we don't want
@@ -82,8 +82,8 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
     } );
 
     const allAudioSwitch = new PreferencesToggleSwitch( audioModel.audioEnabledProperty, false, true, {
-      labelNode: new Text( audioFeaturesString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ),
-      a11yLabel: audioFeaturesString
+      labelNode: new Text( audioFeaturesStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ),
+      a11yLabel: audioFeaturesStringProperty
     } );
 
     const soundEnabledListener = ( enabled: boolean ) => {

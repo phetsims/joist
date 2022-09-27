@@ -30,17 +30,17 @@ const QUICK_INFO = 20;
 // Voicing is only available in english so these contents are hidden because translators will not be able to test
 // them in a translated context. These strings are nested under the a11y key so that they are not available for
 // translation.
-const titleString = JoistStrings.a11y.toolbar.voicing.titleStringProperty;
-const quickInfoString = JoistStrings.a11y.toolbar.voicing.quickInfoStringProperty;
-const simVoicingOnString = JoistStrings.a11y.toolbar.voicing.simVoicingOnAlertStringProperty;
-const simVoicingOffString = JoistStrings.a11y.toolbar.voicing.simVoicingOffAlertStringProperty;
-const toolbarString = JoistStrings.a11y.toolbar.titleStringProperty;
-const playOverviewString = JoistStrings.a11y.toolbar.voicing.playOverviewLabelStringProperty;
-const playDetailsString = JoistStrings.a11y.toolbar.voicing.playDetailsLabelStringProperty;
-const playHintString = JoistStrings.a11y.toolbar.voicing.playHintLabelStringProperty;
-const overviewString = JoistStrings.a11y.toolbar.voicing.overviewLabelStringProperty;
-const detailsString = JoistStrings.a11y.toolbar.voicing.detailsLabelStringProperty;
-const hintString = JoistStrings.a11y.toolbar.voicing.hintLabelStringProperty;
+const titleStringProperty = JoistStrings.a11y.toolbar.voicing.titleStringProperty;
+const quickInfoStringProperty = JoistStrings.a11y.toolbar.voicing.quickInfoStringProperty;
+const simVoicingOnStringProperty = JoistStrings.a11y.toolbar.voicing.simVoicingOnAlertStringProperty;
+const simVoicingOffStringProperty = JoistStrings.a11y.toolbar.voicing.simVoicingOffAlertStringProperty;
+const toolbarStringProperty = JoistStrings.a11y.toolbar.titleStringProperty;
+const playOverviewStringProperty = JoistStrings.a11y.toolbar.voicing.playOverviewLabelStringProperty;
+const playDetailsStringProperty = JoistStrings.a11y.toolbar.voicing.playDetailsLabelStringProperty;
+const playHintStringProperty = JoistStrings.a11y.toolbar.voicing.playHintLabelStringProperty;
+const overviewStringProperty = JoistStrings.a11y.toolbar.voicing.overviewLabelStringProperty;
+const detailsStringProperty = JoistStrings.a11y.toolbar.voicing.detailsLabelStringProperty;
+const hintStringProperty = JoistStrings.a11y.toolbar.voicing.hintLabelStringProperty;
 
 type SelfOptions = EmptySelfOptions;
 export type VoicingToolbarItemOptions = SelfOptions & NodeOptions & PickRequired<NodeOptions, 'tandem'>;
@@ -53,7 +53,7 @@ class VoicingToolbarItem extends Node {
       // pdom
       tagName: 'section',
       labelTagName: 'h2',
-      labelContent: toolbarString,
+      labelContent: toolbarStringProperty,
 
       // phet-io
       tandem: Tandem.REQUIRED,
@@ -70,8 +70,8 @@ class VoicingToolbarItem extends Node {
       maxWidth: 90 // i18n, by inspection
     };
 
-    const titleText = new Text( titleString, titleTextOptions );
-    const quickInfoText = new VoicingText( quickInfoString, titleTextOptions );
+    const titleText = new Text( titleStringProperty, titleTextOptions );
+    const quickInfoText = new VoicingText( quickInfoStringProperty, titleTextOptions );
     quickInfoText.focusHighlight = new ReadingBlockHighlight( quickInfoText, {
 
       // the inner stroke is white since the toolbar is on a black background
@@ -80,9 +80,9 @@ class VoicingToolbarItem extends Node {
 
     const muteSpeechSwitch = new PreferencesToggleSwitch( voicingManager.mainWindowVoicingEnabledProperty, false, true, {
       labelNode: titleText,
-      a11yLabel: titleString,
-      rightValueContextResponse: simVoicingOnString,
-      leftValueContextResponse: simVoicingOffString,
+      a11yLabel: titleStringProperty,
+      rightValueContextResponse: simVoicingOnStringProperty,
+      leftValueContextResponse: simVoicingOffStringProperty,
       tandem: options.tandem.createTandem( 'muteSpeechSwitch' )
     } );
 
@@ -90,9 +90,9 @@ class VoicingToolbarItem extends Node {
     const labelAlignGroup = new AlignGroup();
     const inputAlignGroup = new AlignGroup();
 
-    const overviewRow = new LabelButtonRow( overviewString, playOverviewString, labelAlignGroup, inputAlignGroup, lookAndFeel, alertManager.createOverviewContent.bind( alertManager ) );
-    const detailsRow = new LabelButtonRow( detailsString, playDetailsString, labelAlignGroup, inputAlignGroup, lookAndFeel, alertManager.createDetailsContent.bind( alertManager ) );
-    const hintRow = new LabelButtonRow( hintString, playHintString, labelAlignGroup, inputAlignGroup, lookAndFeel, alertManager.createHintContent.bind( alertManager ) );
+    const overviewRow = new LabelButtonRow( overviewStringProperty, playOverviewStringProperty, labelAlignGroup, inputAlignGroup, lookAndFeel, alertManager.createOverviewContent.bind( alertManager ) );
+    const detailsRow = new LabelButtonRow( detailsStringProperty, playDetailsStringProperty, labelAlignGroup, inputAlignGroup, lookAndFeel, alertManager.createDetailsContent.bind( alertManager ) );
+    const hintRow = new LabelButtonRow( hintStringProperty, playHintStringProperty, labelAlignGroup, inputAlignGroup, lookAndFeel, alertManager.createHintContent.bind( alertManager ) );
 
     this.children = [ muteSpeechSwitch, quickInfoText, overviewRow.content, detailsRow.content, hintRow.content ];
 
