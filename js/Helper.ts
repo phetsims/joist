@@ -434,15 +434,15 @@ export default class Helper {
     const pointerAreaTypeRadioButtonGroup = new AquaRadioButtonGroup<PointerAreaType>( this.pointerAreaTypeProperty, [
       {
         value: PointerAreaType.MOUSE,
-        node: new Text( 'Mouse', { fontSize: 12 } )
+        createNode: ( tandem: Tandem ) => new Text( 'Mouse', { fontSize: 12 } )
       },
       {
         value: PointerAreaType.TOUCH,
-        node: new Text( 'Touch', { fontSize: 12 } )
+        createNode: ( tandem: Tandem ) => new Text( 'Touch', { fontSize: 12 } )
       },
       {
         value: PointerAreaType.NONE,
-        node: new Text( 'None', { fontSize: 12 } )
+        createNode: ( tandem: Tandem ) => new Text( 'None', { fontSize: 12 } )
       }
     ], {
       orientation: 'horizontal',
