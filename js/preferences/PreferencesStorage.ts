@@ -37,7 +37,7 @@ class PreferencesStorage {
       if ( e instanceof Error ) {
         const safari = window.navigator.userAgent.includes( 'Safari' ) && !window.navigator.userAgent.includes( 'Chrome' );
 
-        if ( safari && e.toString().includes( 'QuotaExceededError' ) ) {
+        if ( safari && e.message.includes( 'QuotaExceededError' ) ) {
           console.log( 'It looks like you are browsing with private mode in Safari. ' +
                        'Please turn that setting off if you want to use PreferencesStorage' );
         }
