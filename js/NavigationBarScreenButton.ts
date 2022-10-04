@@ -204,7 +204,7 @@ class NavigationBarScreenButton extends Voicing( Node ) {
     const updateLayout = () => {
 
       // adjust the vertical space between icon and text, see https://github.com/phetsims/joist/issues/143
-      iconAndText.spacing = Math.max( 0, 12 - text.height );
+      iconAndText.spacing = Utils.clamp( 12 - text.height, 0, 3 );
 
       // adjust the overlay
       overlay.setRectBounds( iconAndText.bounds );
