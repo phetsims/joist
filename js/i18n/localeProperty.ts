@@ -12,6 +12,8 @@ import { globalKeyStateTracker, KeyboardUtils } from '../../../scenery/js/import
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 
+const FALLBACK_LOCALE = 'en';
+
 const locales = Object.keys( phet.chipper.strings ).sort();
 
 // Start only with a valid locale, see https://github.com/phetsims/phet-io/issues/1882
@@ -31,7 +33,7 @@ const partialLocale = typeof phet.chipper.locale === 'string' ? phet.chipper.loc
 // fallback strings.
 const validInitialLocale = isLocaleValid( phet.chipper.locale ) ? phet.chipper.locale :
                            isLocaleValid( partialLocale ) ? partialLocale :
-                           'en';
+                           FALLBACK_LOCALE;
 
 // Just in case we had an invalid locale, remap phet.chipper.locale to the "corrected" value
 phet.chipper.locale = validInitialLocale;
