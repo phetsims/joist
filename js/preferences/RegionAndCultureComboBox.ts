@@ -17,7 +17,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import { RegionAndCultureDescriptor } from './localizationManager.js';
 
 // constants
-// Not translatable until design is complete, see https://github.com/phetsims/joist/issues/814
+// Not translatable until design is complete, see https://github.com/phetsims/energy-skate-park/issues/345
 const regionAndCultureString = 'Region and Culture';
 
 type SelfOptions = EmptySelfOptions;
