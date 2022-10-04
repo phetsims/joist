@@ -1,10 +1,11 @@
 // Copyright 2022, University of Colorado Boulder
 
 /**
- * A Dialog that allows you to change language of the simulation at runtime by controlling the localeProperty.
+ * A UI component that allows you to change language of the simulation at runtime by controlling the localeProperty.
+ * It appears in the "Localization" tab of the Preferences dialog.
  *
- * This is a prototype and the UI for this is still being designed. See https://github.com/phetsims/joist/issues/814
- * for more information.
+ * This is a first iteration of this UI component. It may be improved in the future. See
+ * https://github.com/phetsims/joist/issues/814 for more history.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
@@ -86,7 +87,7 @@ class LanguageSelectionNode extends Rectangle {
         localeProperty.value = locale;
       },
 
-      // TODO: PhET-iO instrumentation? https://github.com/phetsims/joist/issues/814
+      // Preferences components are not instrumented, see https://github.com/phetsims/joist/issues/744
       tandem: Tandem.OPT_OUT
     } );
     this.addInputListener( fireListener );

@@ -4,8 +4,6 @@
  * A container managing global Properties for simulation localization controls. Contains
  * Properties for characteristics such as selected language or artwork.
  *
- * TODO: It is not clear how this will work exactly with the sim, see https://github.com/phetsims/joist/issues/814.
- *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
