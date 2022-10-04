@@ -141,7 +141,6 @@ export type VisualModel = BaseModelType & {
 export type AudioModel = BaseModelType & {
 
   // When false, no audio features are heard. See audioManager.ts for documentation about audio and sub features.
-  // TODO: To be renamed to audioEnabledProperty, see https://github.com/phetsims/joist/issues/864
   audioEnabledProperty: Property<boolean>;
   soundEnabledProperty: Property<boolean>;
   extraSoundEnabledProperty: Property<boolean>;
