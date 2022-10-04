@@ -16,7 +16,7 @@ import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import { Shape } from '../../kite/js/imports.js';
-import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
+import optionize from '../../phet-core/js/optionize.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import { Color, Node, Path, Rectangle, voicingManager } from '../../scenery/js/imports.js';
 import ToggleNode from '../../sun/js/ToggleNode.js';
@@ -49,7 +49,11 @@ const MIN_CURVE_RADIUS = MED_CURVE_RADIUS - RADIUS_STEPPER;
 const CURVE_ANGLE = Math.PI / 2.7;
 const NEG_CURVE_ANGLE = CURVE_ANGLE * -1.0;
 
-type SelfOptions = EmptySelfOptions;
+type SelfOptions = {
+
+  // This button is always created for a consistent PhET-iO API, but has limited functionality if audio is not supported.
+  supportsAudioPreferences: boolean;
+};
 type NavigationBarAudioToggleButtonOptions = SelfOptions & PickRequired<JoistButtonOptions, 'tandem'> & Pick<JoistButtonOptions, 'pointerAreaDilationX' | 'pointerAreaDilationY'>;
 
 class NavigationBarAudioToggleButton extends JoistButton {
@@ -58,7 +62,7 @@ class NavigationBarAudioToggleButton extends JoistButton {
                       backgroundColorProperty: TReadOnlyProperty<Color>,
                       providedOptions: NavigationBarAudioToggleButtonOptions ) {
 
-    const options = optionize<NavigationBarAudioToggleButtonOptions, EmptySelfOptions, JoistButtonOptions>()( {
+    const options = optionize<NavigationBarAudioToggleButtonOptions, SelfOptions, JoistButtonOptions>()( {
 
       // JoistButton options
       highlightExtensionWidth: 5 + 3.6,
@@ -163,17 +167,19 @@ class NavigationBarAudioToggleButton extends JoistButton {
     // pdom attribute lets user know when the toggle is pressed, linked lazily so that an alert isn't triggered
     // on construction and must be unlinked in dispose
     const soundUtterance = new ActivationUtterance();
-    const pressedListener = ( value: boolean ) => {
-      this.setPDOMAttribute( 'aria-pressed', value );
+    const enabledListener = ( enabled: boolean ) => {
+      if ( options.supportsAudioPreferences ) {
+        this.setPDOMAttribute( 'aria-pressed', enabled );
 
-      soundUtterance.alert = value ? JoistStrings.a11y.soundToggle.alert.simSoundOn
-                                   : JoistStrings.a11y.soundToggle.alert.simSoundOff;
-      this.alertDescriptionUtterance( soundUtterance );
-      if ( voicingManager.voicingFullyEnabledProperty.value ) {
-        voicingManager.speakIgnoringEnabled( soundUtterance );
+        soundUtterance.alert = enabled ? JoistStrings.a11y.soundToggle.alert.simSoundOn
+                                       : JoistStrings.a11y.soundToggle.alert.simSoundOff;
+        this.alertDescriptionUtterance( soundUtterance );
+        if ( voicingManager.voicingFullyEnabledProperty.value ) {
+          voicingManager.speakIgnoringEnabled( soundUtterance );
+        }
       }
     };
-    soundEnabledProperty.lazyLink( pressedListener );
+    soundEnabledProperty.lazyLink( enabledListener );
     this.setPDOMAttribute( 'aria-pressed', soundEnabledProperty.get() );
 
     // If no subcomponents of the audioManager that are enabled disable this button
