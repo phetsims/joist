@@ -56,7 +56,7 @@ class RegionAndCultureComboBox extends ComboBox<number> {
       };
     } );
 
-    // TODO: Need a different top layer node for ComboBox here. See https://github.com/phetsims/joist/issues/814
+    // TODO: Need a different top layer node for ComboBox here. See https://github.com/phetsims/energy-skate-park/issues/345
     super( regionAndCultureProperty, comboBoxItems, phet.joist.sim.topLayer, options );
   }
 }
