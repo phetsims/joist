@@ -440,17 +440,12 @@ export default class PreferencesModel extends PhetioObject {
 
   /**
    * Returns true if the AudioModel has any preferences that can be changed.
-   * @param [checkSupportsSound] - If true, audioModel.supportsSound is included in the check for whether the model
-   *                               supports any audio preferences. There are cases where that needs to be excluded
-   *                               (see shouldShowDialog()).
    */
-  public supportsAudioPreferences( checkSupportsSound = true ): boolean {
-    let supportsAudioPreferences = this.audioModel.supportsVoicing ||
-                                   this.audioModel.supportsExtraSound ||
-                                   this.preferenceModelHasCustom( this.audioModel );
-
-    supportsAudioPreferences = checkSupportsSound ? ( supportsAudioPreferences || this.audioModel.supportsSound ) : supportsAudioPreferences;
-    return supportsAudioPreferences;
+  public supportsAudioPreferences(): boolean {
+    return this.audioModel.supportsSound ||
+           this.audioModel.supportsExtraSound ||
+           this.audioModel.supportsVoicing ||
+           this.preferenceModelHasCustom( this.audioModel );
   }
 
   /**
@@ -477,7 +472,7 @@ export default class PreferencesModel extends PhetioObject {
   public shouldShowDialog(): boolean {
     return this.supportsSimulationPreferences() || this.supportsVisualPreferences() ||
            this.supportsInputPreferences() || this.supportsLocalizationPreferences() ||
-           this.supportsAudioPreferences( false );
+           this.supportsAudioPreferences();
   }
 
   public static PreferencesModelIO = new IOType( 'PreferencesModelIO', {
