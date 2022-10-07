@@ -736,9 +736,10 @@ export default class Sim extends PhetioObject {
     } );
     this.display.simulationRoot.addChild( this.navigationBar );
 
-    if ( this.toolbar ) {
-      this.display.simulationRoot.addChild( this.toolbar );
-      this.display.simulationRoot.pdomOrder = [ this.toolbar ];
+    if ( this.preferencesModel.audioModel.supportsVoicing ) {
+      assert && assert( this.toolbar, 'toolbar should exist for voicing' );
+      this.display.simulationRoot.addChild( this.toolbar! );
+      this.display.simulationRoot.pdomOrder = [ this.toolbar! ];
 
       // If Voicing is not "fully" enabled, only the toolbar is able to produce Voicing output.
       // All other simulation components should not voice anything. This must be called only after
