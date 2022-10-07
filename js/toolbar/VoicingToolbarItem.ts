@@ -205,6 +205,9 @@ class LabelButtonRow {
       if ( endedUtterance === this.objectResponseUtterance ) {
         this.playingProperty.set( false );
 
+        // There is a bug where this code could clear the "more important" response where sim voicing is toggled. So
+        // keep track of that case here, locally, and add it back in. This workaround was much, much nicer than other
+        // solutions discussed in https://github.com/phetsims/joist/issues/846
         const hasMuteSwitchUtterance = voicingUtteranceQueue.hasUtterance( muteSwitchUtterance );
 
         // clear the voicingUtteranceQueue because stale alerts may have collected while the quick info button announced
