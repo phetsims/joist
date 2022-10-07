@@ -186,6 +186,7 @@
     "value": "Preferences"
   },
   "preferences.tabs.general.title": {
+    "_comment": "Must stick around, though unused, because it is in previously published i18n-supported sims.",
     "value": "General"
   },
   "preferences.tabs.overview.title": {
