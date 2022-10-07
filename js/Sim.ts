@@ -820,6 +820,12 @@ export default class Sim extends PhetioObject {
     if ( isModal ) {
       this.rootNode.interruptSubtreeInput();
       this.modalNodeStack.push( popup );
+
+      // pdom - modal dialogs should be the only readable content in the sim
+      this.setPDOMViewsVisible( false );
+
+      // voicing - responses from Nodes hidden by the modal dialog should not voice.
+      this.setNonModalVoicingVisible( false );
     }
     if ( popup.layout ) {
       popup.layout( this.screenBoundsProperty.value! );
@@ -837,6 +843,12 @@ export default class Sim extends PhetioObject {
     assert && assert( this.topLayer.hasChild( popup ), 'popup was not shown' );
     if ( isModal ) {
       this.modalNodeStack.remove( popup );
+      if ( this.modalNodeStack.length === 0 ) {
+        this.setNonModalVoicingVisible( true );
+
+        // pdom - when the dialog is hidden, make all ScreenView content visible to assistive technology
+        this.setPDOMViewsVisible( true );
+      }
     }
     this.topLayer.removeChild( popup );
   }
@@ -1024,7 +1036,7 @@ export default class Sim extends PhetioObject {
    * remain visible, but not be tab navigable or readable with a screen reader. This is generally useful when
    * displaying a pop up or modal dialog.
    */
-  public setAccessibleViewsVisible( visible: boolean ): void {
+  public setPDOMViewsVisible( visible: boolean ): void {
     for ( let i = 0; i < this.screens.length; i++ ) {
       this.screens[ i ].view.pdomVisible = visible;
     }
@@ -1041,13 +1053,21 @@ export default class Sim extends PhetioObject {
    * only Toolbar content is announced.
    */
   public setSimVoicingVisible( visible: boolean ): void {
+    this.setNonModalVoicingVisible( visible );
+    this.topLayer && this.topLayer.setVoicingVisible( visible );
+  }
+
+  /**
+   * Sets voicingVisible on all elements "behind" the modal node stack. In this case, voicing should not work for those
+   * components when set to false.
+   * @param visible
+   */
+  public setNonModalVoicingVisible( visible: boolean ): void {
     for ( let i = 0; i < this.screens.length; i++ ) {
-      this.screens[ i ].view.voicingVisible = visible;
+      this.screens[ i ].view.voicingVisible = visible; // home screen is the first item, if created
     }
 
     this.navigationBar.voicingVisible = visible;
-    this.topLayer && this.topLayer.setVoicingVisible( visible );
-    this.homeScreen && this.homeScreen.view.setVoicingVisible( visible );
   }
 }
 
