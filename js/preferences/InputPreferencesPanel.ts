@@ -57,6 +57,7 @@ class InputPreferencesPanel extends PreferencesPanel {
         labelNode: new Text( gestureControlsString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ),
         descriptionNode: new VoicingRichText( gestureControlsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
           lineWrap: 350,
+          maxHeight: 100,
 
           readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternStringProperty, {
             label: gestureControlsString,

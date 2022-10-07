@@ -28,6 +28,7 @@ class OverviewPreferencesPanel extends PreferencesPanel {
       // using lineWrap instead of default maxWidth for content
       maxWidth: null,
       lineWrap: 600,
+      maxHeight: 600,
       tagName: 'p'
     } );
 

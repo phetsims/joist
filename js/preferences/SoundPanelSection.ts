@@ -96,6 +96,7 @@ class SoundPanelSection extends PreferencesPanelSection {
 
       const extraSoundDescription = new VoicingRichText( extraSoundsDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         lineWrap: 300,
+        maxHeight: 100,
         readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternStringProperty, {
           label: extraSoundsLabelStringProperty,
           description: extraSoundsDescriptionStringProperty
