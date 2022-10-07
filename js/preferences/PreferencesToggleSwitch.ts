@@ -64,6 +64,7 @@ export type PreferencesToggleSwitchOptions = SelfOptions & NodeOptions;
 
 class PreferencesToggleSwitch<T> extends Node {
   private readonly disposePreferencesToggleSwitch: () => void;
+  public readonly toggleSwitch: ToggleSwitch<T>;
 
   public constructor( property: Property<T>, leftValue: T, rightValue: T, providedOptions?: PreferencesToggleSwitchOptions ) {
     const options = optionize<PreferencesToggleSwitchOptions, SelfOptions, NodeOptions>()( {
@@ -88,7 +89,7 @@ class PreferencesToggleSwitch<T> extends Node {
 
     super( options );
 
-    const toggleSwitch = new ToggleSwitch( property, leftValue, rightValue, merge( options.toggleSwitchOptions, {
+    this.toggleSwitch = new ToggleSwitch( property, leftValue, rightValue, merge( options.toggleSwitchOptions, {
 
       // enabled:true by default, but disable if fuzzing when supporting voicing
       enabled: !( phet.chipper.isFuzzEnabled() && phet.chipper.queryParameters.supportsVoicing ),
@@ -105,14 +106,14 @@ class PreferencesToggleSwitch<T> extends Node {
     } ) );
 
     if ( options.leftValueLabel ) {
-      options.leftValueLabel.right = toggleSwitch.left - options.valueLabelXSpacing;
-      options.leftValueLabel.centerY = toggleSwitch.centerY;
-      toggleSwitch.addChild( options.leftValueLabel );
+      options.leftValueLabel.right = this.toggleSwitch.left - options.valueLabelXSpacing;
+      options.leftValueLabel.centerY = this.toggleSwitch.centerY;
+      this.toggleSwitch.addChild( options.leftValueLabel );
     }
     if ( options.rightValueLabel ) {
-      options.rightValueLabel.left = toggleSwitch.right + options.valueLabelXSpacing;
-      options.rightValueLabel.centerY = toggleSwitch.centerY;
-      toggleSwitch.addChild( options.rightValueLabel );
+      options.rightValueLabel.left = this.toggleSwitch.right + options.valueLabelXSpacing;
+      options.rightValueLabel.centerY = this.toggleSwitch.centerY;
+      this.toggleSwitch.addChild( options.rightValueLabel );
     }
 
     // a11y - Describe the change in value if context responses were provided in options. Listener needs to be
@@ -122,7 +123,7 @@ class PreferencesToggleSwitch<T> extends Node {
 
       if ( alert ) {
         this.alertDescriptionUtterance( alert );
-        toggleSwitch.voicingSpeakResponse( {
+        this.toggleSwitch.voicingSpeakResponse( {
           contextResponse: Utterance.alertableToText( alert )
         } );
       }
@@ -130,11 +131,11 @@ class PreferencesToggleSwitch<T> extends Node {
     property.lazyLink( valueListener );
 
     // This component manages disabledOpacity, we don't want it to compound over subcomponents.
-    toggleSwitch.disabledOpacity = 1;
+    this.toggleSwitch.disabledOpacity = 1;
     this.disabledOpacity = SceneryConstants.DISABLED_OPACITY;
 
     this.enabledProperty.link( enabled => {
-      toggleSwitch.enabled = enabled;
+      this.toggleSwitch.enabled = enabled;
     } );
 
     // Layout using GridBox and layoutOptions will accomplish the following when all components are available.
@@ -145,12 +146,12 @@ class PreferencesToggleSwitch<T> extends Node {
     } );
     this.addChild( gridBox );
 
-    toggleSwitch.layoutOptions = {
+    this.toggleSwitch.layoutOptions = {
       row: 0,
       column: 1,
       xAlign: 'right'
     };
-    gridBox.addChild( toggleSwitch );
+    gridBox.addChild( this.toggleSwitch );
 
     if ( options.labelNode ) {
       assert && assert( options.labelNode.layoutOptions === null, 'PreferencesToggleSwitch will control layout' );
@@ -176,7 +177,7 @@ class PreferencesToggleSwitch<T> extends Node {
 
     this.disposePreferencesToggleSwitch = () => {
       property.unlink( valueListener );
-      toggleSwitch.dispose();
+      this.toggleSwitch.dispose();
     };
   }
 

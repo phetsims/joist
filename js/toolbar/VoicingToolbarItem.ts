@@ -10,7 +10,7 @@
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import PlayStopButton from '../../../scenery-phet/js/buttons/PlayStopButton.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { AlignGroup, Display, HBox, Node, NodeOptions, ReadingBlockHighlight, SceneryEvent, Text, voicingManager, VoicingText, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
+import { AlignGroup, Display, HBox, Node, NodeOptions, ReadingBlockHighlight, SceneryEvent, Text, Voicing, voicingManager, VoicingText, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import Utterance from '../../../utterance-queue/js/Utterance.js';
 import joist from '../joist.js';
@@ -21,6 +21,7 @@ import LookAndFeel from '../LookAndFeel.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import animationFrameTimer from '../../../axon/js/animationFrameTimer.js';
 
 // constants
 const CONTENT_VERTICAL_SPACING = 10;
@@ -86,13 +87,19 @@ class VoicingToolbarItem extends Node {
       tandem: options.tandem.createTandem( 'muteSpeechSwitch' )
     } );
 
+    // We don't care about description for this Utterance because it fixes a voicing specific bug.
+    const toggleSwitchUtterance = muteSpeechSwitch.toggleSwitch.voicingUtterance;
+
     // layout
     const labelAlignGroup = new AlignGroup();
     const inputAlignGroup = new AlignGroup();
 
-    const overviewRow = new LabelButtonRow( overviewStringProperty, playOverviewStringProperty, labelAlignGroup, inputAlignGroup, lookAndFeel, alertManager.createOverviewContent.bind( alertManager ) );
-    const detailsRow = new LabelButtonRow( detailsStringProperty, playDetailsStringProperty, labelAlignGroup, inputAlignGroup, lookAndFeel, alertManager.createDetailsContent.bind( alertManager ) );
-    const hintRow = new LabelButtonRow( hintStringProperty, playHintStringProperty, labelAlignGroup, inputAlignGroup, lookAndFeel, alertManager.createHintContent.bind( alertManager ) );
+    const overviewRow = new LabelButtonRow( overviewStringProperty, playOverviewStringProperty, labelAlignGroup, inputAlignGroup,
+      lookAndFeel, alertManager.createOverviewContent.bind( alertManager ), toggleSwitchUtterance );
+    const detailsRow = new LabelButtonRow( detailsStringProperty, playDetailsStringProperty, labelAlignGroup, inputAlignGroup,
+      lookAndFeel, alertManager.createDetailsContent.bind( alertManager ), toggleSwitchUtterance );
+    const hintRow = new LabelButtonRow( hintStringProperty, playHintStringProperty, labelAlignGroup, inputAlignGroup,
+      lookAndFeel, alertManager.createHintContent.bind( alertManager ), toggleSwitchUtterance );
 
     this.children = [ muteSpeechSwitch, quickInfoText, overviewRow.content, detailsRow.content, hintRow.content ];
 
@@ -147,8 +154,17 @@ class LabelButtonRow {
    * @param inputAlignGroup - To align all inputs in the VoicingToolbarItem
    * @param lookAndFeel
    * @param createAlert - function that creates the alert when the button is pressed
+   * @param muteSwitchUtterance
    */
-  public constructor( labelString: TReadOnlyProperty<string>, a11yLabel: TReadOnlyProperty<string>, labelAlignGroup: AlignGroup, inputAlignGroup: AlignGroup, lookAndFeel: LookAndFeel, createAlert: () => string ) {
+  public constructor(
+    labelString: TReadOnlyProperty<string>,
+    a11yLabel: TReadOnlyProperty<string>,
+    labelAlignGroup: AlignGroup,
+    inputAlignGroup: AlignGroup,
+    lookAndFeel: LookAndFeel,
+    createAlert: () => string,
+    muteSwitchUtterance: Utterance
+  ) {
 
     this.lookAndFeel = lookAndFeel;
     this.objectResponseUtterance = new Utterance();
@@ -189,8 +205,16 @@ class LabelButtonRow {
       if ( endedUtterance === this.objectResponseUtterance ) {
         this.playingProperty.set( false );
 
+        const hasMuteSwitchUtterance = voicingUtteranceQueue.hasUtterance( muteSwitchUtterance );
+
         // clear the voicingUtteranceQueue because stale alerts may have collected while the quick info button announced
         voicingUtteranceQueue.clear();
+
+        // We don't want to trigger an utteranceQueue change in response to an utterance change---it results in
+        // an infinite loop.
+        hasMuteSwitchUtterance && animationFrameTimer.runOnNextTick( () => {
+          Voicing.alertUtterance( muteSwitchUtterance );
+        } );
 
         // Remove if listener wasn't interrupted by Display input.
         if ( Display.inputListeners.includes( displayListener ) ) {
