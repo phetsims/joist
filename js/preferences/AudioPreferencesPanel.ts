@@ -66,6 +66,7 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
 
     const sections = new HBox( {
       align: 'top',
+      spacing: 10,
       children: [ leftContent, rightContent ]
     } );
 
