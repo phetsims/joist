@@ -465,9 +465,8 @@ export default class PreferencesModel extends PhetioObject {
   }
 
   /**
-   * Returns true if this model supports any controllable preferences but MORE than basic sound. If enabling sound
-   * is the only preference then we don't want to let the user access the Preferences dialog because there is already
-   * a sound control in the navigation bar. The PreferencesDialog is not useful in that case.
+   * Returns true if this model supports any controllable preferences for the dialog. Returns false when the dialog
+   * would have nothing to display.
    */
   public shouldShowDialog(): boolean {
     return this.supportsSimulationPreferences() || this.supportsVisualPreferences() ||
