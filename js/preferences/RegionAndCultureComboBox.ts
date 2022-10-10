@@ -8,7 +8,7 @@
 
 import ComboBox, { ComboBoxOptions } from '../../../sun/js/ComboBox.js';
 import joist from '../joist.js';
-import { HBox, Text } from '../../../scenery/js/imports.js';
+import { HBox, Node, Text } from '../../../scenery/js/imports.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import Property from '../../../axon/js/Property.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
@@ -45,8 +45,11 @@ class RegionAndCultureComboBox extends ComboBox<number> {
     options.labelNode = new Text( regionAndCultureString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
 
     const comboBoxItems = regionAndCultureDescriptors.map( ( descriptor, index ) => {
+
+      // Since we don't own the Node, wrap in a container for PhET-iO DAG cases and I think archetypes?
+      const wrappedIconNode = new Node( { children: [ descriptor.icon ] } );
       const itemContent = new HBox( {
-        children: [ descriptor.icon, new Text( descriptor.label, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ) ],
+        children: [ wrappedIconNode, new Text( descriptor.label, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ) ],
         spacing: 10
       } );
 
