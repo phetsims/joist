@@ -169,7 +169,7 @@ class PreferencesToggleSwitch<T> extends Node {
       options.descriptionNode.layoutOptions = {
         row: 1,
         column: 0,
-        width: 2,
+        horizontalSpan: 2,
         xAlign: 'left'
       };
       gridBox.addChild( options.descriptionNode );
