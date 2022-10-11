@@ -405,7 +405,7 @@ class VoiceRateNumberControl extends NumberControl {
     // Voicing goes through the NumberControl slider through AccessibleValueHandler
     this.slider.voicingNameResponse = a11yLabelString;
 
-    // ignore the selections of Preferences menu, we always want to hear all responses
+    // ignore the selections of the PreferencesDialog, we always want to hear all responses
     // that happen when changing the voice attributes
     this.slider.voicingIgnoreVoicingManagerProperties = true;
 
