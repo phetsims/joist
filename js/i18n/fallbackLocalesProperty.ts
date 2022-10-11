@@ -16,9 +16,10 @@ import joist from '../joist.js';
 
 const fallbackLocalesProperty = new Property<string[]>( [], {
   tandem: Tandem.GENERAL_MODEL.createTandem( 'fallbackLocalesProperty' ),
-  phetioDocumentation: 'an ordered list of locales to fall back on, for example: ["es", "de", "en"]. The list MUST end in "en".',
+  phetioDocumentation: 'An ordered list of locales to "fall back" on when a translation is missing for the selected ' +
+                       'locale, for example: ["es", "de" ]. "en" will always be added to the end of this, because it has' +
+                       'guaranteed full coverage of all translated keys.',
   phetioFeatured: true,
-  phetioReadOnly: true,
   isValidValue: locales => {
     return _.every( locales, locale => !!localeInfoModule[ locale as keyof typeof localeInfoModule ] );
   },
