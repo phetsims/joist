@@ -108,20 +108,20 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
     // Voicing feature only works when running in English. If running in a version where you can change locale,
     // indicate through the title that the feature will only work in English.
-    const titleString = ( localeProperty.validValues && localeProperty.validValues.length > 1 ) ?
+    const titleStringProperty = ( localeProperty.validValues && localeProperty.validValues.length > 1 ) ?
                         voicingEnglishOnlyLabelStringProperty : voicingLabelStringProperty;
 
     // the checkbox is the title for the section and totally enables/disables the feature
-    const voicingLabel = new Text( titleString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
+    const voicingLabel = new Text( titleStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
     const voicingEnabledSwitch = new PreferencesToggleSwitch<boolean>( audioModel.voicingEnabledProperty, false, true, {
       labelNode: voicingLabel,
       descriptionNode: new VoicingText( voicingDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternStringProperty, {
-          label: titleString,
+          label: titleStringProperty,
           description: voicingDescriptionStringProperty
         } )
       } ) ),
-      a11yLabel: titleString
+      a11yLabel: titleStringProperty
     } );
 
     // checkbox for the toolbar
@@ -302,11 +302,11 @@ class VoicingPanelSection extends PreferencesPanelSection {
     voicesChangedListener();
 
     voiceOptionsOpenProperty.lazyLink( open => {
-      const alert = open ? customizeVoiceExpandedStringProperty : customizeVoiceCollapsedStringProperty;
+      const alertStringProperty = open ? customizeVoiceExpandedStringProperty : customizeVoiceCollapsedStringProperty;
       expandCollapseButton.voicingSpeakContextResponse( {
-        contextResponse: alert
+        contextResponse: alertStringProperty
       } );
-      this.alertDescriptionUtterance( alert );
+      this.alertDescriptionUtterance( alertStringProperty );
     } );
 
     this.disposeVoicingPanelSection = () => {
