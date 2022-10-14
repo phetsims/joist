@@ -257,7 +257,11 @@ class VoicingPanelSection extends PreferencesPanelSection {
         // in the English locale.
         voicingEnabledUtterance.alert = enabled ? voicingEnabledStringProperty :
                                         ( localeProperty.value.startsWith( 'en' ) ? voicingDisabledStringProperty : voicingOffOnlyAvailableInEnglishStringProperty );
-        voicingManager.speakIgnoringEnabled( voicingEnabledUtterance );
+
+        // PhET-iO Archetypes should never voice responses.
+        if ( !this.isInsidePhetioArchetype() ) {
+          voicingManager.speakIgnoringEnabled( voicingEnabledUtterance );
+        }
         this.alertDescriptionUtterance( voicingEnabledUtterance );
       }
     };
