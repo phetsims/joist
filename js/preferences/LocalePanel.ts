@@ -60,10 +60,10 @@ class LocalePanel extends Panel {
 }
 
 /**
- * Inner class for items of the Panel. Locales shown in their localized name wrapped in a Rectangle for highlighting
+ * Class for items of the Panel. Locales shown in their localized name wrapped in a Rectangle for highlighting
  * and input listeners.
  */
-class LanguageSelectionNode extends Rectangle {
+export class LanguageSelectionNode extends Rectangle {
   private readonly disposeLanguageSelectionNode: () => void;
 
   public constructor( localeProperty: Property<string>, locale: string ) {
