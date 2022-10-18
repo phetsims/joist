@@ -126,7 +126,9 @@ class PreferencesDialog extends Dialog {
     const tabSwitchSoundGenerator = new PreferencesTabSwitchSoundGenerator( selectedTabProperty, {
       initialOutputLevel: 0.2
     } );
-    soundManager.addSoundGenerator( tabSwitchSoundGenerator );
+    soundManager.addSoundGenerator( tabSwitchSoundGenerator, {
+      categoryName: 'user-interface'
+    } );
 
     super( content, options );
 

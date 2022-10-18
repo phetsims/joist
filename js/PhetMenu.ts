@@ -34,7 +34,7 @@ import UpdateState from './UpdateState.js';
 type PopupToggler = ( popup: PopupableNode, isModal: boolean ) => void;
 
 type MenuItemDescriptor = {
-  text: TReadOnlyProperty<string>;
+  textStringProperty: TReadOnlyProperty<string>;
   present: boolean;
   shouldBeHiddenWhenLinksAreNotAllowed: boolean;
   callback: () => void;
@@ -118,7 +118,7 @@ class PhetMenu extends Node {
      */
     const itemDescriptors: MenuItemDescriptor[] = [
       {
-        text: JoistStrings.menuItem.phetWebsiteStringProperty,
+        textStringProperty: JoistStrings.menuItem.phetWebsiteStringProperty,
         present: isPhETBrand,
         shouldBeHiddenWhenLinksAreNotAllowed: true,
         callback: () => {
@@ -133,7 +133,7 @@ class PhetMenu extends Node {
         }
       },
       {
-        text: JoistStrings.menuItem.reportAProblemStringProperty,
+        textStringProperty: JoistStrings.menuItem.reportAProblemStringProperty,
         present: isPhETBrand && !isApp,
         shouldBeHiddenWhenLinksAreNotAllowed: true,
         callback: () => {
@@ -152,7 +152,7 @@ class PhetMenu extends Node {
         }
       },
       {
-        text: new TinyProperty( 'QR code' ),
+        textStringProperty: new TinyProperty( 'QR code' ),
         present: phet.chipper.queryParameters.qrCode,
         shouldBeHiddenWhenLinksAreNotAllowed: true,
         callback: () => {
@@ -165,7 +165,7 @@ class PhetMenu extends Node {
         }
       },
       {
-        text: JoistStrings.menuItem.getUpdateStringProperty,
+        textStringProperty: JoistStrings.menuItem.getUpdateStringProperty,
         present: updateCheck.areUpdatesChecked,
         shouldBeHiddenWhenLinksAreNotAllowed: true,
         callback: () => {
@@ -185,7 +185,7 @@ class PhetMenu extends Node {
 
       // "Screenshot" Menu item
       {
-        text: JoistStrings.menuItem.screenshotStringProperty,
+        textStringProperty: JoistStrings.menuItem.screenshotStringProperty,
         present: !isApp, // Not supported by IE9, see https://github.com/phetsims/joist/issues/212
         shouldBeHiddenWhenLinksAreNotAllowed: false,
         callback: () => {
@@ -231,7 +231,7 @@ class PhetMenu extends Node {
 
       // "Full Screen" menu item
       {
-        text: JoistStrings.menuItem.fullscreenStringProperty,
+        textStringProperty: JoistStrings.menuItem.fullscreenStringProperty,
         present: FullScreen.isFullScreenEnabled() && !isApp && !platform.mobileSafari && !phet.chipper.queryParameters.preventFullScreen,
         shouldBeHiddenWhenLinksAreNotAllowed: false,
         callback: () => {
@@ -252,7 +252,7 @@ class PhetMenu extends Node {
 
       // About dialog button
       {
-        text: JoistStrings.menuItem.aboutStringProperty,
+        textStringProperty: JoistStrings.menuItem.aboutStringProperty,
         present: true,
         shouldBeHiddenWhenLinksAreNotAllowed: false,
         callback: () => aboutDialogCapsule.getElement().show(),
@@ -277,7 +277,7 @@ class PhetMenu extends Node {
     const unfilteredItems = keepItemDescriptors.map( itemDescriptor => {
         return new MenuItem(
           options.closeCallback,
-          itemDescriptor.text,
+          itemDescriptor.textStringProperty,
           itemDescriptor.callback,
           itemDescriptor.present,
           itemDescriptor.shouldBeHiddenWhenLinksAreNotAllowed,

@@ -217,7 +217,7 @@ export default class AboutDialog extends Dialog {
         const link = links[ i ];
 
         // If links are allowed, use hyperlinks. Otherwise, just output the URL. This doesn't need to be internationalized.
-        const stringProperty = new DerivedProperty( [ allowLinksProperty, link.text ], ( allowLinks, linkText ) => {
+        const stringProperty = new DerivedProperty( [ allowLinksProperty, link.textStringProperty ], ( allowLinks, linkText ) => {
           return allowLinks ? `<a href="{{url}}">${linkText}</a>` : `${linkText}: ${link.url}`;
         } );
 

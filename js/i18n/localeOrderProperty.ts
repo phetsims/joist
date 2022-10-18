@@ -14,21 +14,26 @@ import fallbackLocalesProperty from './fallbackLocalesProperty.js';
 
 const FALLBACK_LOCALE = 'en';
 
-const localeOrderProperty = new DerivedProperty( [ localeProperty, fallbackLocalesProperty ], ( locale, fallbackLocales ) => {
-  const localeOrder = _.uniq( [
-    locale,
-    ...fallbackLocales
-  ] );
+const localeOrderProperty = new DerivedProperty( [ localeProperty, fallbackLocalesProperty ],
+  ( locale, fallbackLocales ) => {
 
-  // Attempt to fill in language reductions if they are not explicitly included, e.g. 'zh_CN' => 'zh'
-  localeOrder.forEach( locale => {
-    const shortLocale = locale.slice( 0, 2 );
-    if ( locale !== shortLocale && !localeOrder.includes( shortLocale ) ) {
-      localeOrder.push( shortLocale );
+  const localeOrder = [ locale ];
+
+  // Attempt to fill in a language reduction for the selected locale, e.g. 'zh_CN' => 'zh'
+  const shortLocale = locale.slice( 0, 2 );
+  if ( locale !== shortLocale && !localeOrder.includes( shortLocale ) ) {
+    localeOrder.push( shortLocale );
+  }
+
+  // Add custom fallback locales if not already in the order
+  for ( let i = 0; i < fallbackLocales.length; i++ ) {
+    const fallbackLocale = fallbackLocales[ i ];
+    if ( !localeOrder.includes( fallbackLocale ) ) {
+      localeOrder.push( fallbackLocale );
     }
-  } );
+  }
 
-  // attempt our guaranteed fallback locale at the very end (if not included)
+  // Guaranteed fallback locale at the very end (if not already included)
   if ( !localeOrder.includes( FALLBACK_LOCALE ) ) {
     localeOrder.push( FALLBACK_LOCALE );
   }

@@ -32,6 +32,7 @@ import { AudioModel } from './PreferencesModel.js';
 import PreferencesPanelSection, { PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 import localeProperty from '../i18n/localeProperty.js';
+import platform from '../../../phet-core/js/platform.js';
 
 // constants
 // none of the Voicing strings or feature is translatable yet, all strings in this file
@@ -108,20 +109,20 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
     // Voicing feature only works when running in English. If running in a version where you can change locale,
     // indicate through the title that the feature will only work in English.
-    const titleString = ( localeProperty.validValues && localeProperty.validValues.length > 1 ) ?
-                        voicingEnglishOnlyLabelStringProperty : voicingLabelStringProperty;
+    const titleStringProperty = ( localeProperty.validValues && localeProperty.validValues.length > 1 ) ?
+                                voicingEnglishOnlyLabelStringProperty : voicingLabelStringProperty;
 
     // the checkbox is the title for the section and totally enables/disables the feature
-    const voicingLabel = new Text( titleString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
+    const voicingLabel = new Text( titleStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
     const voicingEnabledSwitch = new PreferencesToggleSwitch<boolean>( audioModel.voicingEnabledProperty, false, true, {
       labelNode: voicingLabel,
       descriptionNode: new VoicingText( voicingDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternStringProperty, {
-          label: titleString,
+          label: titleStringProperty,
           description: voicingDescriptionStringProperty
         } )
       } ) ),
-      a11yLabel: titleString
+      a11yLabel: titleStringProperty
     } );
 
     // checkbox for the toolbar
@@ -256,7 +257,11 @@ class VoicingPanelSection extends PreferencesPanelSection {
         // in the English locale.
         voicingEnabledUtterance.alert = enabled ? voicingEnabledStringProperty :
                                         ( localeProperty.value.startsWith( 'en' ) ? voicingDisabledStringProperty : voicingOffOnlyAvailableInEnglishStringProperty );
-        voicingManager.speakIgnoringEnabled( voicingEnabledUtterance );
+
+        // PhET-iO Archetypes should never voice responses.
+        if ( !this.isInsidePhetioArchetype() ) {
+          voicingManager.speakIgnoringEnabled( voicingEnabledUtterance );
+        }
         this.alertDescriptionUtterance( voicingEnabledUtterance );
       }
     };
@@ -293,8 +298,11 @@ class VoicingPanelSection extends PreferencesPanelSection {
       // phet-io - for when creating the Archetype for the Capsule housing the preferencesDialog, we don't have a sim global.
       const parent = phet.joist.sim.topLayer || new Node();
 
-      voiceComboBox = new VoiceComboBox( audioModel.voiceProperty, voiceList, parent );
-      voiceOptionsContent.addChild( voiceComboBox );
+      // Bug on mobile safari where it isn't actually supported to change the voices (though you get the list of voices), see https://github.com/phetsims/utterance-queue/issues/74
+      if ( !platform.mobileSafari ) {
+        voiceComboBox = new VoiceComboBox( audioModel.voiceProperty, voiceList, parent );
+        voiceOptionsContent.addChild( voiceComboBox );
+      }
     };
     voicingManager.voicesChangedEmitter.addListener( voicesChangedListener );
 
@@ -302,11 +310,11 @@ class VoicingPanelSection extends PreferencesPanelSection {
     voicesChangedListener();
 
     voiceOptionsOpenProperty.lazyLink( open => {
-      const alert = open ? customizeVoiceExpandedStringProperty : customizeVoiceCollapsedStringProperty;
+      const alertStringProperty = open ? customizeVoiceExpandedStringProperty : customizeVoiceCollapsedStringProperty;
       expandCollapseButton.voicingSpeakContextResponse( {
-        contextResponse: alert
+        contextResponse: alertStringProperty
       } );
-      this.alertDescriptionUtterance( alert );
+      this.alertDescriptionUtterance( alertStringProperty );
     } );
 
     this.disposeVoicingPanelSection = () => {

@@ -5,357 +5,355 @@
  */
 /* eslint-disable */
 import getStringModule from '../../chipper/js/getStringModule.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import LinkableProperty from '../../axon/js/LinkableProperty.js';
 import joist from './joist.js';
 
 type StringsType = {
   'joist': {
     'title': string;
-    'titleStringProperty': TReadOnlyProperty<string>;
+    'titleStringProperty': LinkableProperty<string>;
   };
   'done': string;
-  'doneStringProperty': TReadOnlyProperty<string>;
+  'doneStringProperty': LinkableProperty<string>;
   'menuItem': {
     'options': string;
-    'optionsStringProperty': TReadOnlyProperty<string>;
+    'optionsStringProperty': LinkableProperty<string>;
     'about': string;
-    'aboutStringProperty': TReadOnlyProperty<string>;
+    'aboutStringProperty': LinkableProperty<string>;
     'outputLog': string;
-    'outputLogStringProperty': TReadOnlyProperty<string>;
+    'outputLogStringProperty': LinkableProperty<string>;
     'phetWebsite': string;
-    'phetWebsiteStringProperty': TReadOnlyProperty<string>;
+    'phetWebsiteStringProperty': LinkableProperty<string>;
     'reportAProblem': string;
-    'reportAProblemStringProperty': TReadOnlyProperty<string>;
+    'reportAProblemStringProperty': LinkableProperty<string>;
     'screenshot': string;
-    'screenshotStringProperty': TReadOnlyProperty<string>;
+    'screenshotStringProperty': LinkableProperty<string>;
     'fullscreen': string;
-    'fullscreenStringProperty': TReadOnlyProperty<string>;
+    'fullscreenStringProperty': LinkableProperty<string>;
     'getUpdate': string;
-    'getUpdateStringProperty': TReadOnlyProperty<string>;
+    'getUpdateStringProperty': LinkableProperty<string>;
     'enhancedSound': string;
-    'enhancedSoundStringProperty': TReadOnlyProperty<string>;
+    'enhancedSoundStringProperty': LinkableProperty<string>;
   };
   'title': {
     'settings': string;
-    'settingsStringProperty': TReadOnlyProperty<string>;
+    'settingsStringProperty': LinkableProperty<string>;
   };
   'showPointers': string;
-  'showPointersStringProperty': TReadOnlyProperty<string>;
+  'showPointersStringProperty': LinkableProperty<string>;
   'termsPrivacyAndLicensing': string;
-  'termsPrivacyAndLicensingStringProperty': TReadOnlyProperty<string>;
+  'termsPrivacyAndLicensingStringProperty': LinkableProperty<string>;
   'credits': {
     'title': string;
-    'titleStringProperty': TReadOnlyProperty<string>;
+    'titleStringProperty': LinkableProperty<string>;
     'leadDesign': string;
-    'leadDesignStringProperty': TReadOnlyProperty<string>;
+    'leadDesignStringProperty': LinkableProperty<string>;
     'softwareDevelopment': string;
-    'softwareDevelopmentStringProperty': TReadOnlyProperty<string>;
+    'softwareDevelopmentStringProperty': LinkableProperty<string>;
     'team': string;
-    'teamStringProperty': TReadOnlyProperty<string>;
+    'teamStringProperty': LinkableProperty<string>;
     'contributors': string;
-    'contributorsStringProperty': TReadOnlyProperty<string>;
+    'contributorsStringProperty': LinkableProperty<string>;
     'qualityAssurance': string;
-    'qualityAssuranceStringProperty': TReadOnlyProperty<string>;
+    'qualityAssuranceStringProperty': LinkableProperty<string>;
     'graphicArts': string;
-    'graphicArtsStringProperty': TReadOnlyProperty<string>;
+    'graphicArtsStringProperty': LinkableProperty<string>;
     'soundDesign': string;
-    'soundDesignStringProperty': TReadOnlyProperty<string>;
+    'soundDesignStringProperty': LinkableProperty<string>;
     'translation': string;
-    'translationStringProperty': TReadOnlyProperty<string>;
+    'translationStringProperty': LinkableProperty<string>;
     'thanks': string;
-    'thanksStringProperty': TReadOnlyProperty<string>;
+    'thanksStringProperty': LinkableProperty<string>;
   };
   'options': {
     'title': string;
-    'titleStringProperty': TReadOnlyProperty<string>;
+    'titleStringProperty': LinkableProperty<string>;
   };
   'versionPattern': string;
-  'versionPatternStringProperty': TReadOnlyProperty<string>;
+  'versionPatternStringProperty': LinkableProperty<string>;
   'updates': {
     'upToDate': string;
-    'upToDateStringProperty': TReadOnlyProperty<string>;
+    'upToDateStringProperty': LinkableProperty<string>;
     'outOfDate': string;
-    'outOfDateStringProperty': TReadOnlyProperty<string>;
+    'outOfDateStringProperty': LinkableProperty<string>;
     'checking': string;
-    'checkingStringProperty': TReadOnlyProperty<string>;
+    'checkingStringProperty': LinkableProperty<string>;
     'offline': string;
-    'offlineStringProperty': TReadOnlyProperty<string>;
+    'offlineStringProperty': LinkableProperty<string>;
     'newVersionAvailable': string;
-    'newVersionAvailableStringProperty': TReadOnlyProperty<string>;
+    'newVersionAvailableStringProperty': LinkableProperty<string>;
     'yourCurrentVersion': string;
-    'yourCurrentVersionStringProperty': TReadOnlyProperty<string>;
+    'yourCurrentVersionStringProperty': LinkableProperty<string>;
     'getUpdate': string;
-    'getUpdateStringProperty': TReadOnlyProperty<string>;
+    'getUpdateStringProperty': LinkableProperty<string>;
     'noThanks': string;
-    'noThanksStringProperty': TReadOnlyProperty<string>;
+    'noThanksStringProperty': LinkableProperty<string>;
   };
   'translation': {
     'credits': {
       'link': string;
-      'linkStringProperty': TReadOnlyProperty<string>;
+      'linkStringProperty': LinkableProperty<string>;
     }
   };
   'thirdParty': {
     'credits': {
       'link': string;
-      'linkStringProperty': TReadOnlyProperty<string>;
+      'linkStringProperty': LinkableProperty<string>;
     }
   };
   'keyboardShortcuts': {
     'title': string;
-    'titleStringProperty': TReadOnlyProperty<string>;
+    'titleStringProperty': LinkableProperty<string>;
     'toGetStarted': string;
-    'toGetStartedStringProperty': TReadOnlyProperty<string>;
+    'toGetStartedStringProperty': LinkableProperty<string>;
   };
   'simTitleWithScreenNamePattern': string;
-  'simTitleWithScreenNamePatternStringProperty': TReadOnlyProperty<string>;
+  'simTitleWithScreenNamePatternStringProperty': LinkableProperty<string>;
   'projectorMode': string;
-  'projectorModeStringProperty': TReadOnlyProperty<string>;
+  'projectorModeStringProperty': LinkableProperty<string>;
   'queryParametersWarningDialog': {
     'invalidQueryParameters': string;
-    'invalidQueryParametersStringProperty': TReadOnlyProperty<string>;
+    'invalidQueryParametersStringProperty': LinkableProperty<string>;
     'oneOrMoreQueryParameters': string;
-    'oneOrMoreQueryParametersStringProperty': TReadOnlyProperty<string>;
+    'oneOrMoreQueryParametersStringProperty': LinkableProperty<string>;
     'theSimulationWillStart': string;
-    'theSimulationWillStartStringProperty': TReadOnlyProperty<string>;
+    'theSimulationWillStartStringProperty': LinkableProperty<string>;
   };
   'ieErrorPage': {
     'platformError': string;
-    'platformErrorStringProperty': TReadOnlyProperty<string>;
+    'platformErrorStringProperty': LinkableProperty<string>;
     'ieIsNotSupported': string;
-    'ieIsNotSupportedStringProperty': TReadOnlyProperty<string>;
+    'ieIsNotSupportedStringProperty': LinkableProperty<string>;
     'useDifferentBrowser': string;
-    'useDifferentBrowserStringProperty': TReadOnlyProperty<string>;
+    'useDifferentBrowserStringProperty': LinkableProperty<string>;
   };
   'preferences': {
     'title': string;
-    'titleStringProperty': TReadOnlyProperty<string>;
+    'titleStringProperty': LinkableProperty<string>;
     'tabs': {
       'general': {
         'title': string;
-        'titleStringProperty': TReadOnlyProperty<string>;
+        'titleStringProperty': LinkableProperty<string>;
         'accessibilityIntro': string;
-        'accessibilityIntroStringProperty': TReadOnlyProperty<string>;
+        'accessibilityIntroStringProperty': LinkableProperty<string>;
         'moreAccessibility': string;
-        'moreAccessibilityStringProperty': TReadOnlyProperty<string>;
+        'moreAccessibilityStringProperty': LinkableProperty<string>;
       };
       'overview': {
         'title': string;
-        'titleStringProperty': TReadOnlyProperty<string>;
+        'titleStringProperty': LinkableProperty<string>;
       };
       'simulation': {
         'title': string;
-        'titleStringProperty': TReadOnlyProperty<string>;
+        'titleStringProperty': LinkableProperty<string>;
       };
       'visual': {
         'title': string;
-        'titleStringProperty': TReadOnlyProperty<string>;
+        'titleStringProperty': LinkableProperty<string>;
         'interactiveHighlights': string;
-        'interactiveHighlightsStringProperty': TReadOnlyProperty<string>;
+        'interactiveHighlightsStringProperty': LinkableProperty<string>;
         'interactiveHighlightsDescription': string;
-        'interactiveHighlightsDescriptionStringProperty': TReadOnlyProperty<string>;
+        'interactiveHighlightsDescriptionStringProperty': LinkableProperty<string>;
         'projectorModeDescription': string;
-        'projectorModeDescriptionStringProperty': TReadOnlyProperty<string>;
+        'projectorModeDescriptionStringProperty': LinkableProperty<string>;
       };
       'audio': {
         'title': string;
-        'titleStringProperty': TReadOnlyProperty<string>;
+        'titleStringProperty': LinkableProperty<string>;
         'voicing': {
           'titleEnglishOnly': string;
-          'titleEnglishOnlyStringProperty': TReadOnlyProperty<string>;
+          'titleEnglishOnlyStringProperty': LinkableProperty<string>;
           'description': string;
-          'descriptionStringProperty': TReadOnlyProperty<string>;
+          'descriptionStringProperty': LinkableProperty<string>;
         };
         'sounds': {
           'title': string;
-          'titleStringProperty': TReadOnlyProperty<string>;
+          'titleStringProperty': LinkableProperty<string>;
           'extraSounds': {
             'title': string;
-            'titleStringProperty': TReadOnlyProperty<string>;
+            'titleStringProperty': LinkableProperty<string>;
             'description': string;
-            'descriptionStringProperty': TReadOnlyProperty<string>;
+            'descriptionStringProperty': LinkableProperty<string>;
           };
           'description': string;
-          'descriptionStringProperty': TReadOnlyProperty<string>;
+          'descriptionStringProperty': LinkableProperty<string>;
         };
         'audioFeatures': {
           'title': string;
-          'titleStringProperty': TReadOnlyProperty<string>;
+          'titleStringProperty': LinkableProperty<string>;
         }
       };
       'input': {
         'title': string;
-        'titleStringProperty': TReadOnlyProperty<string>;
+        'titleStringProperty': LinkableProperty<string>;
       };
       'localization': {
         'title': string;
-        'titleStringProperty': TReadOnlyProperty<string>;
+        'titleStringProperty': LinkableProperty<string>;
       }
     }
   };
   'a11y': {
     'keyboardHelp': {
       'keyboardShortcuts': string;
-      'keyboardShortcutsStringProperty': TReadOnlyProperty<string>;
+      'keyboardShortcutsStringProperty': LinkableProperty<string>;
       'tabToGetStarted': string;
-      'tabToGetStartedStringProperty': TReadOnlyProperty<string>;
+      'tabToGetStartedStringProperty': LinkableProperty<string>;
     };
     'playArea': string;
-    'playAreaStringProperty': TReadOnlyProperty<string>;
+    'playAreaStringProperty': LinkableProperty<string>;
     'controlArea': string;
-    'controlAreaStringProperty': TReadOnlyProperty<string>;
+    'controlAreaStringProperty': LinkableProperty<string>;
     'simScreens': string;
-    'simScreensStringProperty': TReadOnlyProperty<string>;
+    'simScreensStringProperty': LinkableProperty<string>;
     'simScreen': string;
-    'simScreenStringProperty': TReadOnlyProperty<string>;
+    'simScreenStringProperty': LinkableProperty<string>;
     'screenNamePattern': string;
-    'screenNamePatternStringProperty': TReadOnlyProperty<string>;
+    'screenNamePatternStringProperty': LinkableProperty<string>;
     'screenSimPattern': string;
-    'screenSimPatternStringProperty': TReadOnlyProperty<string>;
+    'screenSimPatternStringProperty': LinkableProperty<string>;
     'home': string;
-    'homeStringProperty': TReadOnlyProperty<string>;
+    'homeStringProperty': LinkableProperty<string>;
     'homeScreenDescription': string;
-    'homeScreenDescriptionStringProperty': TReadOnlyProperty<string>;
+    'homeScreenDescriptionStringProperty': LinkableProperty<string>;
     'homeScreenDescriptionPattern': string;
-    'homeScreenDescriptionPatternStringProperty': TReadOnlyProperty<string>;
+    'homeScreenDescriptionPatternStringProperty': LinkableProperty<string>;
     'homeScreenHint': string;
-    'homeScreenHintStringProperty': TReadOnlyProperty<string>;
+    'homeScreenHintStringProperty': LinkableProperty<string>;
     'homeScreenIntroPattern': string;
-    'homeScreenIntroPatternStringProperty': TReadOnlyProperty<string>;
+    'homeScreenIntroPatternStringProperty': LinkableProperty<string>;
     'homeScreenButtonDetailsPattern': string;
-    'homeScreenButtonDetailsPatternStringProperty': TReadOnlyProperty<string>;
+    'homeScreenButtonDetailsPatternStringProperty': LinkableProperty<string>;
     'simResources': string;
-    'simResourcesStringProperty': TReadOnlyProperty<string>;
+    'simResourcesStringProperty': LinkableProperty<string>;
     'soundToggle': {
       'alert': {
         'simSoundOn': string;
-        'simSoundOnStringProperty': TReadOnlyProperty<string>;
+        'simSoundOnStringProperty': LinkableProperty<string>;
         'simSoundOff': string;
-        'simSoundOffStringProperty': TReadOnlyProperty<string>;
+        'simSoundOffStringProperty': LinkableProperty<string>;
       };
       'label': string;
-      'labelStringProperty': TReadOnlyProperty<string>;
+      'labelStringProperty': LinkableProperty<string>;
     };
     'checkOutShortcuts': string;
-    'checkOutShortcutsStringProperty': TReadOnlyProperty<string>;
+    'checkOutShortcutsStringProperty': LinkableProperty<string>;
     'phetMenu': string;
-    'phetMenuStringProperty': TReadOnlyProperty<string>;
+    'phetMenuStringProperty': LinkableProperty<string>;
     'preferences': {
       'tabs': {
         'labelledDescriptionPattern': string;
-        'labelledDescriptionPatternStringProperty': TReadOnlyProperty<string>;
+        'labelledDescriptionPatternStringProperty': LinkableProperty<string>;
         'tabResponsePattern': string;
-        'tabResponsePatternStringProperty': TReadOnlyProperty<string>;
+        'tabResponsePatternStringProperty': LinkableProperty<string>;
         'visual': {
           'interactiveHighlights': {
             'enabledAlert': string;
-            'enabledAlertStringProperty': TReadOnlyProperty<string>;
+            'enabledAlertStringProperty': LinkableProperty<string>;
             'disabledAlert': string;
-            'disabledAlertStringProperty': TReadOnlyProperty<string>;
+            'disabledAlertStringProperty': LinkableProperty<string>;
           }
         };
         'audio': {
           'sounds': {
             'soundsOn': string;
-            'soundsOnStringProperty': TReadOnlyProperty<string>;
+            'soundsOnStringProperty': LinkableProperty<string>;
             'soundsOff': string;
-            'soundsOffStringProperty': TReadOnlyProperty<string>;
+            'soundsOffStringProperty': LinkableProperty<string>;
             'extraSounds': {
               'extraSoundsOn': string;
-              'extraSoundsOnStringProperty': TReadOnlyProperty<string>;
+              'extraSoundsOnStringProperty': LinkableProperty<string>;
               'extraSoundsOff': string;
-              'extraSoundsOffStringProperty': TReadOnlyProperty<string>;
+              'extraSoundsOffStringProperty': LinkableProperty<string>;
             }
           };
           'voicing': {
             'title': string;
-            'titleStringProperty': TReadOnlyProperty<string>;
-            'titleEnglishOnly': string;
-            'titleEnglishOnlyStringProperty': TReadOnlyProperty<string>;
+            'titleStringProperty': LinkableProperty<string>;
             'voicingOn': string;
-            'voicingOnStringProperty': TReadOnlyProperty<string>;
+            'voicingOnStringProperty': LinkableProperty<string>;
             'voicingOff': string;
-            'voicingOffStringProperty': TReadOnlyProperty<string>;
+            'voicingOffStringProperty': LinkableProperty<string>;
             'voicingOffOnlyAvailableInEnglish': string;
-            'voicingOffOnlyAvailableInEnglishStringProperty': TReadOnlyProperty<string>;
+            'voicingOffOnlyAvailableInEnglishStringProperty': LinkableProperty<string>;
             'toolbar': {
               'title': string;
-              'titleStringProperty': TReadOnlyProperty<string>;
+              'titleStringProperty': LinkableProperty<string>;
               'toolbarAdded': string;
-              'toolbarAddedStringProperty': TReadOnlyProperty<string>;
+              'toolbarAddedStringProperty': LinkableProperty<string>;
               'toolbarRemoved': string;
-              'toolbarRemovedStringProperty': TReadOnlyProperty<string>;
+              'toolbarRemovedStringProperty': LinkableProperty<string>;
             };
             'simVoicingOptions': {
               'title': string;
-              'titleStringProperty': TReadOnlyProperty<string>;
+              'titleStringProperty': LinkableProperty<string>;
               'description': string;
-              'descriptionStringProperty': TReadOnlyProperty<string>;
+              'descriptionStringProperty': LinkableProperty<string>;
               'objectDetails': {
                 'label': string;
-                'labelStringProperty': TReadOnlyProperty<string>;
+                'labelStringProperty': LinkableProperty<string>;
                 'enabledAlert': string;
-                'enabledAlertStringProperty': TReadOnlyProperty<string>;
+                'enabledAlertStringProperty': LinkableProperty<string>;
                 'disabledAlert': string;
-                'disabledAlertStringProperty': TReadOnlyProperty<string>;
+                'disabledAlertStringProperty': LinkableProperty<string>;
               };
               'contextChanges': {
                 'label': string;
-                'labelStringProperty': TReadOnlyProperty<string>;
+                'labelStringProperty': LinkableProperty<string>;
                 'enabledAlert': string;
-                'enabledAlertStringProperty': TReadOnlyProperty<string>;
+                'enabledAlertStringProperty': LinkableProperty<string>;
                 'disabledAlert': string;
-                'disabledAlertStringProperty': TReadOnlyProperty<string>;
+                'disabledAlertStringProperty': LinkableProperty<string>;
               };
               'helpfulHints': {
                 'label': string;
-                'labelStringProperty': TReadOnlyProperty<string>;
+                'labelStringProperty': LinkableProperty<string>;
                 'enabledAlert': string;
-                'enabledAlertStringProperty': TReadOnlyProperty<string>;
+                'enabledAlertStringProperty': LinkableProperty<string>;
                 'disabledAlert': string;
-                'disabledAlertStringProperty': TReadOnlyProperty<string>;
+                'disabledAlertStringProperty': LinkableProperty<string>;
               }
             };
             'customizeVoice': {
               'title': string;
-              'titleStringProperty': TReadOnlyProperty<string>;
+              'titleStringProperty': LinkableProperty<string>;
               'expandedAlert': string;
-              'expandedAlertStringProperty': TReadOnlyProperty<string>;
+              'expandedAlertStringProperty': LinkableProperty<string>;
               'collapsedAlert': string;
-              'collapsedAlertStringProperty': TReadOnlyProperty<string>;
+              'collapsedAlertStringProperty': LinkableProperty<string>;
               'variablesPattern': string;
-              'variablesPatternStringProperty': TReadOnlyProperty<string>;
+              'variablesPatternStringProperty': LinkableProperty<string>;
               'writtenVariablesPattern': string;
-              'writtenVariablesPatternStringProperty': TReadOnlyProperty<string>;
+              'writtenVariablesPatternStringProperty': LinkableProperty<string>;
               'voice': {
                 'title': string;
-                'titleStringProperty': TReadOnlyProperty<string>;
+                'titleStringProperty': LinkableProperty<string>;
                 'titlePattern': string;
-                'titlePatternStringProperty': TReadOnlyProperty<string>;
+                'titlePatternStringProperty': LinkableProperty<string>;
                 'noVoicesAvailable': string;
-                'noVoicesAvailableStringProperty': TReadOnlyProperty<string>;
+                'noVoicesAvailableStringProperty': LinkableProperty<string>;
               };
               'rate': {
                 'title': string;
-                'titleStringProperty': TReadOnlyProperty<string>;
+                'titleStringProperty': LinkableProperty<string>;
                 'labelString': string;
-                'labelStringStringProperty': TReadOnlyProperty<string>;
+                'labelStringStringProperty': LinkableProperty<string>;
                 'rangeDescriptions': {
                   'low': string;
-                  'lowStringProperty': TReadOnlyProperty<string>;
+                  'lowStringProperty': LinkableProperty<string>;
                   'normal': string;
-                  'normalStringProperty': TReadOnlyProperty<string>;
+                  'normalStringProperty': LinkableProperty<string>;
                   'aboveNormal': string;
-                  'aboveNormalStringProperty': TReadOnlyProperty<string>;
+                  'aboveNormalStringProperty': LinkableProperty<string>;
                   'high': string;
-                  'highStringProperty': TReadOnlyProperty<string>;
+                  'highStringProperty': LinkableProperty<string>;
                   'voiceRateNormal': string;
-                  'voiceRateNormalStringProperty': TReadOnlyProperty<string>;
+                  'voiceRateNormalStringProperty': LinkableProperty<string>;
                 }
               };
               'pitch': {
                 'title': string;
-                'titleStringProperty': TReadOnlyProperty<string>;
+                'titleStringProperty': LinkableProperty<string>;
               }
             }
           }
@@ -363,49 +361,49 @@ type StringsType = {
         'input': {
           'gestureControl': {
             'enabledAlert': string;
-            'enabledAlertStringProperty': TReadOnlyProperty<string>;
+            'enabledAlertStringProperty': LinkableProperty<string>;
             'disabledAlert': string;
-            'disabledAlertStringProperty': TReadOnlyProperty<string>;
+            'disabledAlertStringProperty': LinkableProperty<string>;
           }
         }
       }
     };
     'toolbar': {
       'title': string;
-      'titleStringProperty': TReadOnlyProperty<string>;
+      'titleStringProperty': LinkableProperty<string>;
       'openToolbar': string;
-      'openToolbarStringProperty': TReadOnlyProperty<string>;
+      'openToolbarStringProperty': LinkableProperty<string>;
       'closeToolbar': string;
-      'closeToolbarStringProperty': TReadOnlyProperty<string>;
+      'closeToolbarStringProperty': LinkableProperty<string>;
       'hideToolbar': string;
-      'hideToolbarStringProperty': TReadOnlyProperty<string>;
+      'hideToolbarStringProperty': LinkableProperty<string>;
       'showToolbar': string;
-      'showToolbarStringProperty': TReadOnlyProperty<string>;
+      'showToolbarStringProperty': LinkableProperty<string>;
       'toolbarShown': string;
-      'toolbarShownStringProperty': TReadOnlyProperty<string>;
+      'toolbarShownStringProperty': LinkableProperty<string>;
       'toolbarHidden': string;
-      'toolbarHiddenStringProperty': TReadOnlyProperty<string>;
+      'toolbarHiddenStringProperty': LinkableProperty<string>;
       'voicing': {
         'title': string;
-        'titleStringProperty': TReadOnlyProperty<string>;
+        'titleStringProperty': LinkableProperty<string>;
         'quickInfo': string;
-        'quickInfoStringProperty': TReadOnlyProperty<string>;
+        'quickInfoStringProperty': LinkableProperty<string>;
         'playOverviewLabel': string;
-        'playOverviewLabelStringProperty': TReadOnlyProperty<string>;
+        'playOverviewLabelStringProperty': LinkableProperty<string>;
         'playDetailsLabel': string;
-        'playDetailsLabelStringProperty': TReadOnlyProperty<string>;
+        'playDetailsLabelStringProperty': LinkableProperty<string>;
         'playHintLabel': string;
-        'playHintLabelStringProperty': TReadOnlyProperty<string>;
+        'playHintLabelStringProperty': LinkableProperty<string>;
         'overviewLabel': string;
-        'overviewLabelStringProperty': TReadOnlyProperty<string>;
+        'overviewLabelStringProperty': LinkableProperty<string>;
         'detailsLabel': string;
-        'detailsLabelStringProperty': TReadOnlyProperty<string>;
+        'detailsLabelStringProperty': LinkableProperty<string>;
         'hintLabel': string;
-        'hintLabelStringProperty': TReadOnlyProperty<string>;
+        'hintLabelStringProperty': LinkableProperty<string>;
         'simVoicingOnAlert': string;
-        'simVoicingOnAlertStringProperty': TReadOnlyProperty<string>;
+        'simVoicingOnAlertStringProperty': LinkableProperty<string>;
         'simVoicingOffAlert': string;
-        'simVoicingOffAlertStringProperty': TReadOnlyProperty<string>;
+        'simVoicingOffAlertStringProperty': LinkableProperty<string>;
       }
     }
   }

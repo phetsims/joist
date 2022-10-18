@@ -565,11 +565,11 @@ export default class Helper {
       }
     } );
 
-    const highlightFill = new DerivedProperty( [ highlightBaseColorProperty ], color => color.withAlpha( 0.2 ), { tandem: Tandem.OPT_OUT } );
+    const highlightFillProperty = new DerivedProperty( [ highlightBaseColorProperty ], color => color.withAlpha( 0.2 ), { tandem: Tandem.OPT_OUT } );
     const highlightPath = new Path( null, {
       stroke: highlightBaseColorProperty,
       lineDash: [ 2, 2 ],
-      fill: highlightFill,
+      fill: highlightFillProperty,
       visibleProperty: this.highlightVisibleProperty
     } );
     this.previewShapeProperty.link( shape => {
