@@ -280,6 +280,8 @@ class VoicingPanelSection extends PreferencesPanelSection {
       // Only get the prioritized and pruned list of voices if the VoicingManager has voices
       // available, otherwise wait until the next voicesChangedEmitter message. If there are no voices
       // available VoiceComboBox will handle that gracefully.
+      // Voice changing is not (as of this writing) available on MacOS or iOS, but we hope they fix that bug soon. Perhaps
+      // next time someone is working in this area, they can check and see if it is working, https://github.com/phetsims/utterance-queue/issues/74
       if ( voicingManager.voices.length > 0 ) {
         const prioritizedVoices = voicingManager.getPrioritizedVoices();
 
