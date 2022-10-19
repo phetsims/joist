@@ -22,6 +22,7 @@ import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js'
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import animationFrameTimer from '../../../axon/js/animationFrameTimer.js';
+import { SpeakableResolvedResponse } from '../../../utterance-queue/js/ResponsePacket.js';
 
 // constants
 const CONTENT_VERTICAL_SPACING = 10;
@@ -138,7 +139,7 @@ class LabelButtonRow {
   // A unique Utterance for the object response so that it can be independently cancelled and have a dynamic Priority
   // depending on interaction with the screen.
   private readonly objectResponseUtterance: Utterance;
-  private readonly createAlert: () => string;
+  private readonly createAlert: () => SpeakableResolvedResponse;
   private readonly playStopButton: PlayStopButton;
 
   // Whether the PlayStopButton has been pressed and the voicingManager is actively speaking this content
@@ -162,7 +163,7 @@ class LabelButtonRow {
     labelAlignGroup: AlignGroup,
     inputAlignGroup: AlignGroup,
     lookAndFeel: LookAndFeel,
-    createAlert: () => string,
+    createAlert: () => SpeakableResolvedResponse,
     muteSwitchUtterance: Utterance
   ) {
 

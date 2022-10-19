@@ -9,6 +9,7 @@
  */
 
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import { SpeakableResolvedResponse } from '../../../utterance-queue/js/ResponsePacket.js';
 import joist from '../joist.js';
 import Screen from '../Screen.js';
 
@@ -27,7 +28,7 @@ class VoicingToolbarAlertManager {
   /**
    * Create the alert content for the simulation overview for the "Overview" button.
    */
-  public createOverviewContent(): string {
+  public createOverviewContent(): SpeakableResolvedResponse {
     const screenView = this.screenProperty.value.view;
     assert && assert( screenView, 'view needs to be inititalized for voicing toolbar content' );
     return screenView.getVoicingOverviewContent();
@@ -37,7 +38,7 @@ class VoicingToolbarAlertManager {
    * Creates the alert content for the simulation details when the "Current Details"
    * button is pressed.
    */
-  public createDetailsContent(): string {
+  public createDetailsContent(): SpeakableResolvedResponse {
     const screenView = this.screenProperty.value.view;
     assert && assert( screenView, 'view needs to be inititalized for voicing toolbar content' );
     return screenView.getVoicingDetailsContent();
@@ -46,7 +47,7 @@ class VoicingToolbarAlertManager {
   /**
    * Creates the alert content for an interaction hint when the "Hint" button is pressed.
    */
-  public createHintContent(): string {
+  public createHintContent(): SpeakableResolvedResponse {
     const screenView = this.screenProperty.value.view;
     assert && assert( screenView, 'view needs to be inititalized for voicing toolbar content' );
     return this.screenProperty.value.view.getVoicingHintContent();
