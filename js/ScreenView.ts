@@ -28,6 +28,7 @@ import { Node, NodeOptions } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
+import { SpeakableResolvedResponse } from '../../utterance-queue/js/ResponsePacket.js';
 
 /*
  * Default width and height for iPad2, iPad3, iPad4 running Safari with default tabs and decorations
@@ -237,7 +238,7 @@ class ScreenView extends Node {
    * is pressed.
    * Must be implemented if supporting voicing in your ScreenView.
    */
-  public getVoicingOverviewContent(): string {
+  public getVoicingOverviewContent(): SpeakableResolvedResponse {
     throw new Error( 'The ScreenView should implement getVoicingOverviewContent if Voicing is enabled' );
   }
 
@@ -246,7 +247,7 @@ class ScreenView extends Node {
    * pressed.
    * Must be implemented if supporting voicing in your ScreenView.
    */
-  public getVoicingDetailsContent(): string {
+  public getVoicingDetailsContent(): SpeakableResolvedResponse {
     throw new Error( 'The ScreenView should implement getVoicingDetailsContent when the Voicing feature is enabled.' );
   }
 
@@ -254,7 +255,7 @@ class ScreenView extends Node {
    * Create the alert content for this ScreenView when the Voicing feature is enabled and the "Hint" button is pressed.
    * Must be implemented if supporting voicing in your ScreenView.
    */
-  public getVoicingHintContent(): string {
+  public getVoicingHintContent(): SpeakableResolvedResponse {
     throw new Error( 'The ScreenView should implement getVoicingHintContent when Voicing is enabled.' );
   }
 
