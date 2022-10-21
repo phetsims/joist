@@ -11,7 +11,7 @@ import TProperty from '../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import globeSolidShape from '../../../sherpa/js/fontawesome-5/globeSolidShape.js';
-import { HBox, HBoxOptions, KeyboardUtils, Node, Path, SceneryEvent } from '../../../scenery/js/imports.js';
+import { HBox, HBoxOptions, KeyboardUtils, Node, Path, TInputListener } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesType from './PreferencesType.js';
@@ -106,13 +106,13 @@ class PreferencesTabs extends HBox {
     } );
 
     // pdom - keyboard support to move through tabs with arrow keys
-    const keyboardListener = {
-      keydown: ( event: SceneryEvent ) => {
+    const keyboardListener: TInputListener = {
+      keydown: event => {
 
         // reserve keyboard events for dragging to prevent default panning behavior with zoom features
         event.pointer.reserveForKeyboardDrag();
       },
-      keyup: ( event: SceneryEvent ) => {
+      keyup: event => {
         if ( ( KeyboardUtils.isAnyKeyEvent( event.domEvent, [ KeyboardUtils.KEY_RIGHT_ARROW, KeyboardUtils.KEY_LEFT_ARROW ] ) ) ) {
 
           // prevent "native" behavior so that Safari doesn't make an error sound with arrow keys in full screen mode
