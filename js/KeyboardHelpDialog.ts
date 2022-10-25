@@ -6,6 +6,8 @@
  * @author Jesse Greenberg
  */
 
+import Multilink from '../../axon/js/Multilink.js';
+import Property from '../../axon/js/Property.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import KeyboardHelpSectionRow from '../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
@@ -16,6 +18,7 @@ import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
+import Screen from './Screen.js';
 
 // constants
 const TITLE_MAX_WIDTH = 670;
@@ -28,11 +31,7 @@ export type KeyboardHelpDialogOptions = SelfOptions & StrictOmit<DialogOptions, 
 
 export default class KeyboardHelpDialog extends Dialog {
 
-  /**
-   * @param helpContent - a Node containing the sim specific keyboard help content
-   * @param [providedOptions]
-   */
-  public constructor( helpContent: Node, providedOptions?: KeyboardHelpDialogOptions ) {
+  public constructor( screens: Screen[], screenProperty: Property<Screen>, providedOptions?: KeyboardHelpDialogOptions ) {
 
     const options = optionize<KeyboardHelpDialogOptions, SelfOptions, DialogOptions>()( {
       titleAlign: 'center',
@@ -50,6 +49,22 @@ export default class KeyboardHelpDialog extends Dialog {
       // Because of the special titleNode, we set the aria-labelledby attribute manually; see below.
       addAriaLabelledByFromTitle: false
     }, providedOptions );
+
+    const content = new Node( {
+      tagName: 'div'
+    } );
+
+    const contentTandem = options.tandem.createTandem( 'content' );
+    const screenContentNodes: Array<Node | null> = [];
+    screens.forEach( screen => {
+      if ( !screen.createKeyboardHelpNode ) {
+        screenContentNodes.push( null );
+      }
+      else {
+        const screenTandem = contentTandem.createTandem( screen.tandem.name );
+        screenContentNodes.push( screen.createKeyboardHelpNode( screenTandem ) );
+      }
+    } );
 
     const shortcutsTitleText = new VoicingText( JoistStrings.keyboardShortcuts.title, {
       font: new PhetFont( {
@@ -78,9 +93,17 @@ export default class KeyboardHelpDialog extends Dialog {
     );
 
     // help content surrounded by a div unless already specified, so that all content is read when dialog opens
-    helpContent.tagName = helpContent.tagName || 'div';
 
-    super( helpContent, options );
+    super( content, options );
+
+    // When the screen changes, swap out keyboard help content to the selected screen's content
+
+    Multilink.multilink( [ screenProperty, this.isShowingProperty ], ( screen, isShowing ) => {
+      assert && assert( screens.includes( screen ), 'double check that this is an expected screen' );
+      const currentContentNode = screenContentNodes[ screens.indexOf( screen ) ]!;
+      assert && isShowing && assert( currentContentNode, 'a displayed KeyboardHelpButton for a screen should have content' );
+      content.children = [ currentContentNode ];
+    } );
 
     // (a11y) Make sure that the title passed to the Dialog has an accessible name.
     this.addAriaLabelledbyAssociation( {

@@ -62,7 +62,7 @@ type SelfOptions = {
   navigationBarIcon?: ScreenIcon | null;
   showScreenIconFrameForNavigationBarFill?: string | null;
   maxDT?: number;
-  keyboardHelpNode?: Node | null;
+  createKeyboardHelpNode?: null | ( ( tandem: Tandem ) => Node );
   descriptionContent?: PDOMValueType | null;
 };
 export type ScreenOptions = SelfOptions & PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
@@ -85,7 +85,7 @@ class Screen<M extends TModel = IntentionalAny, V extends ScreenView = ScreenVie
   public readonly homeScreenIcon: Node | null;
   public navigationBarIcon: Node | null;
   public readonly showUnselectedHomeScreenIconFrame: boolean;
-  public readonly keyboardHelpNode: Node | null; // joist-internal
+  public readonly createKeyboardHelpNode: null | ( ( tandem: Tandem ) => Node ); // joist-internal
   public readonly pdomDisplayNameProperty: TReadOnlyProperty<string | null>;
   private readonly createModel: () => M;
   private readonly createView: CreateView<M, V>;
@@ -128,9 +128,9 @@ class Screen<M extends TModel = IntentionalAny, V extends ScreenView = ScreenVie
       // dt cap in seconds, see https://github.com/phetsims/joist/issues/130
       maxDT: 0.5,
 
-      // a {Node|null} placed into the keyboard help dialog that can be opened from the navigation bar when this
+      // a {null|function():Node} placed into the keyboard help dialog that can be opened from the navigation bar when this
       // screen is selected
-      keyboardHelpNode: null,
+      createKeyboardHelpNode: null,
 
       // pdom/voicing - The description that is used when interacting with screen icons/buttons in joist (and home screen).
       // This is often a full but short sentence with a period at the end of it. This is also used for voicing this screen
@@ -195,7 +195,7 @@ class Screen<M extends TModel = IntentionalAny, V extends ScreenView = ScreenVie
     this.navigationBarIcon = options.navigationBarIcon;
     this.showUnselectedHomeScreenIconFrame = options.showUnselectedHomeScreenIconFrame;
     this.showScreenIconFrameForNavigationBarFill = options.showScreenIconFrameForNavigationBarFill;
-    this.keyboardHelpNode = options.keyboardHelpNode;
+    this.createKeyboardHelpNode = options.createKeyboardHelpNode;
 
     // may be null for single-screen simulations
     this.pdomDisplayNameProperty = new DerivedProperty( [ this.nameProperty ], name => {

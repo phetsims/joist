@@ -9,7 +9,7 @@
 
 import Property from '../../axon/js/Property.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
-import { Color, Image, Node } from '../../scenery/js/imports.js';
+import { Color, Image } from '../../scenery/js/imports.js';
 import Dialog from '../../sun/js/Dialog.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
 import keyboardIconOnWhite_png from '../images/keyboardIconOnWhite_png.js'; // on a white navbar
@@ -32,12 +32,7 @@ export type KeyboardHelpButtonOptions = SelfOptions & PickRequired<JoistButtonOp
 
 class KeyboardHelpButton extends JoistButton {
 
-  /**
-   * @param screenProperty - Property that holds an object that stores keyboardHelpNode on it
-   * @param backgroundColorProperty
-   * @param [providedOptions]
-   */
-  public constructor( screenProperty: Property<Screen>,
+  public constructor( screens: Screen[], screenProperty: Property<Screen>,
                       backgroundColorProperty: TReadOnlyProperty<Color>,
                       providedOptions: KeyboardHelpButtonOptions ) {
 
@@ -76,18 +71,10 @@ class KeyboardHelpButton extends JoistButton {
 
     super( icon, backgroundColorProperty, options );
 
-    const content = new Node();
-
-    // When the screen changes, swap out keyboard help content to the selected screen's content
-    screenProperty.link( screen => {
-      assert && assert( screen.keyboardHelpNode, 'screen should have keyboardHelpNode' );
-      content.children = [ screen.keyboardHelpNode! ];
-    } );
-
     keyboardHelpDialogCapsule = new PhetioCapsule<KeyboardHelpDialog>( tandem => {
 
       // Wrap in a node to prevent DAG problems if archetypes are also created
-      return new KeyboardHelpDialog( new Node( { children: [ content ] } ), {
+      return new KeyboardHelpDialog( screens, screenProperty, {
         tandem: tandem,
         focusOnHideNode: this
       } );

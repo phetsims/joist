@@ -26,8 +26,10 @@ class DialogsScreenView extends ScreenView {
 
     const keyboardHelpDialogContent = new BasicActionsKeyboardHelpSection();
 
+    const fakeScreen = { createKeyboardHelpNode: () => keyboardHelpDialogContent, tandem: Tandem.OPTIONAL } as unknown as Screen;
     const keyboardHelpButton = new KeyboardHelpButton(
-      new Property( { keyboardHelpNode: keyboardHelpDialogContent } as unknown as Screen ),
+      [ fakeScreen ],
+      new Property( fakeScreen ),
       sim.lookAndFeel.navigationBarFillProperty, {
         tandem: Tandem.GENERAL_VIEW.createTandem( 'keyboardHelpButton' )
       } );

@@ -45,7 +45,7 @@ class HomeScreen extends Screen<HomeScreenModel, HomeScreenView> {
 
       name: homeStringProperty,
 
-      keyboardHelpNode: new HomeScreenKeyboardHelpContent(),
+      createKeyboardHelpNode: () => new HomeScreenKeyboardHelpContent(),
 
       // phet-io
       instrumentNameProperty: false // requested by designers, see https://github.com/phetsims/joist/issues/627
