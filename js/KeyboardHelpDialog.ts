@@ -30,6 +30,7 @@ type SelfOptions = EmptySelfOptions;
 export type KeyboardHelpDialogOptions = SelfOptions & StrictOmit<DialogOptions, 'title'>;
 
 export default class KeyboardHelpDialog extends Dialog {
+  private readonly disposeKeyboardHelpDialog: () => void;
 
   public constructor( screens: Screen[], screenProperty: Property<Screen>, providedOptions?: KeyboardHelpDialogOptions ) {
 
@@ -101,8 +102,10 @@ export default class KeyboardHelpDialog extends Dialog {
     Multilink.multilink( [ screenProperty, this.isShowingProperty ], ( screen, isShowing ) => {
       assert && assert( screens.includes( screen ), 'double check that this is an expected screen' );
       const currentContentNode = screenContentNodes[ screens.indexOf( screen ) ]!;
-      assert && isShowing && assert( currentContentNode, 'a displayed KeyboardHelpButton for a screen should have content' );
-      content.children = [ currentContentNode ];
+      if ( isShowing ) {
+        assert && assert( currentContentNode, 'a displayed KeyboardHelpButton for a screen should have content' );
+        content.children = [ currentContentNode ];
+      }
     } );
 
     // (a11y) Make sure that the title passed to the Dialog has an accessible name.
@@ -111,6 +114,16 @@ export default class KeyboardHelpDialog extends Dialog {
       otherNode: shortcutsTitleText,
       otherElementName: PDOMPeer.PRIMARY_SIBLING
     } );
+
+    this.disposeKeyboardHelpDialog = () => {
+      screenContentNodes.forEach( node => node && node.dispose() );
+      content.dispose();
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeKeyboardHelpDialog();
+    super.dispose();
   }
 }
 
