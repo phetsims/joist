@@ -93,10 +93,6 @@ type SelfOptions = {
   // a {Node} placed onto the home screen (if available)
   homeScreenWarningNode?: null | Node;
 
-  // {boolean} - true when this sim supports a keyboard help button on the navigation bar that shows keyboard help
-  // content. This content is specific to each screen, see Screen.keyboardHelpNode for more info.
-  hasKeyboardHelpContent?: boolean;
-
   // The PreferencesModel defines the available features for the simulation that are controllable
   // through the Preferences Dialog. Will not be null! This is a workaround to prevent creating a "default" PreferencesModel
   preferencesModel?: PreferencesModel | null;
@@ -192,6 +188,8 @@ export default class Sim extends PhetioObject {
 
   // public (read-only) {boolean} - if true, add support specific to accessible technology that work with touch devices.
   private readonly supportsGestureDescription: boolean;
+
+  // If any sim screen has keyboard help content, trigger creation of a keyboard help button.
   public readonly hasKeyboardHelpContent: boolean;
 
   // if PhET-iO is currently setting the state of the simulation. See PhetioStateEngine for details. This must be
@@ -268,10 +266,6 @@ export default class Sim extends PhetioObject {
 
       // a {Node} placed onto the home screen (if available)
       homeScreenWarningNode: null,
-
-      // {boolean} - true when this sim supports a keyboard help button on the navigation bar that shows keyboard help
-      // content. This content is specific to each screen, see Screen.keyboardHelpNode for more info.
-      hasKeyboardHelpContent: false,
 
       // If a PreferencesModel supports any preferences, the sim will include the PreferencesDialog and a
       // button in the NavigationBar to open it. Simulation conditions (like what locales are available) might enable
@@ -593,7 +587,7 @@ export default class Sim extends PhetioObject {
                                                       'see https://github.com/phetsims/joist/issues/142' );
 
     this.supportsGestureDescription = phet.chipper.queryParameters.supportsInteractiveDescription && SUPPORTS_GESTURE_DESCRIPTION;
-    this.hasKeyboardHelpContent = options.hasKeyboardHelpContent;
+    this.hasKeyboardHelpContent = _.some( this.simScreens, simScreen => !!simScreen.createKeyboardHelpNode );
 
     assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
     window.phet.joist.sim = this;
