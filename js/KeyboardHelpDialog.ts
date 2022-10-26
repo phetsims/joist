@@ -56,15 +56,12 @@ export default class KeyboardHelpDialog extends Dialog {
     } );
 
     const contentTandem = options.tandem.createTandem( 'content' );
-    const screenContentNodes: Array<Node | null> = [];
+    const screenContentNodes: Node[] = [];
     screens.forEach( screen => {
-      if ( !screen.createKeyboardHelpNode ) {
-        screenContentNodes.push( null );
-      }
-      else {
-        const screenTandem = contentTandem.createTandem( screen.tandem.name );
-        screenContentNodes.push( screen.createKeyboardHelpNode( screenTandem ) );
-      }
+      assert && assert( screen.createKeyboardHelpNode, 'if any screen has keyboard help content, then all screens need content' );
+      const screenTandem = contentTandem.createTandem( screen.tandem.name );
+      const keyboardHelpNode = screen.createKeyboardHelpNode!( screenTandem );
+      screenContentNodes.push( keyboardHelpNode );
     } );
 
     const shortcutsTitleText = new VoicingText( JoistStrings.keyboardShortcuts.title, {
@@ -116,7 +113,7 @@ export default class KeyboardHelpDialog extends Dialog {
     } );
 
     this.disposeKeyboardHelpDialog = () => {
-      screenContentNodes.forEach( node => node && node.dispose() );
+      screenContentNodes.forEach( node => node.dispose() );
       content.dispose();
     };
   }
