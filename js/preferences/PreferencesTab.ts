@@ -49,6 +49,10 @@ class PreferencesTab extends Voicing( Node ) {
       iconNode: null,
 
       tandem: Tandem.REQUIRED,
+      phetioFeatured: true,
+      visiblePropertyOptions: {
+        phetioFeatured: true
+      },
       cursor: 'pointer',
 
       // pdom
