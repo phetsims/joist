@@ -34,9 +34,9 @@ import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import Multilink from '../../axon/js/Multilink.js';
 import TModel from './TModel.js';
 
-const screenNamePatternString = JoistStrings.a11y.screenNamePattern;
-const screenSimPatternString = JoistStrings.a11y.screenSimPattern;
-const simScreenString = JoistStrings.a11y.simScreen;
+const screenNamePatternStringProperty = JoistStrings.a11y.screenNamePatternStringProperty;
+const screenSimPatternStringProperty = JoistStrings.a11y.screenSimPatternStringProperty;
+const simScreenStringProperty = JoistStrings.a11y.simScreenStringProperty;
 
 // constants
 const MINIMUM_HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 );
@@ -86,7 +86,7 @@ class Screen<M extends TModel = IntentionalAny, V extends ScreenView = ScreenVie
   public navigationBarIcon: Node | null;
   public readonly showUnselectedHomeScreenIconFrame: boolean;
   public readonly createKeyboardHelpNode: null | ( ( tandem: Tandem ) => Node ); // joist-internal
-  public readonly pdomDisplayNameProperty: TReadOnlyProperty<string | null>;
+  public readonly pdomDisplayNameProperty: TReadOnlyProperty<string>;
   private readonly createModel: () => M;
   private readonly createView: CreateView<M, V>;
   private _model: M | null;
@@ -199,7 +199,7 @@ class Screen<M extends TModel = IntentionalAny, V extends ScreenView = ScreenVie
 
     // may be null for single-screen simulations
     this.pdomDisplayNameProperty = new DerivedProperty( [ this.nameProperty ], name => {
-      return name === null ? null : StringUtils.fillIn( screenNamePatternString, {
+      return name === null ? '' : StringUtils.fillIn( screenNamePatternStringProperty, {
         name: name
       } );
     } );
@@ -232,12 +232,12 @@ class Screen<M extends TModel = IntentionalAny, V extends ScreenView = ScreenVie
       this.descriptionContent = options.descriptionContent;
     }
     else if ( this.nameProperty.value ) {
-      this.descriptionContent = StringUtils.fillIn( screenNamePatternString, {
+      this.descriptionContent = StringUtils.fillIn( screenNamePatternStringProperty, {
         name: this.nameProperty.value
       } );
     }
     else {
-      this.descriptionContent = simScreenString; // fall back on generic name
+      this.descriptionContent = simScreenStringProperty; // fall back on generic name
     }
 
     assert && this.activeProperty.lazyLink( () => {
@@ -310,6 +310,7 @@ class Screen<M extends TModel = IntentionalAny, V extends ScreenView = ScreenVie
     }
 
     // Set the accessible label for the screen.
+    // TODO: Should use PatternStringProperty, see https://github.com/phetsims/joist/issues/873
     Multilink.multilink( [ displayedSimNameProperty, simNameProperty, this.pdomDisplayNameProperty ],
       ( displayedName, simName, pdomDisplayName ) => {
 
@@ -327,7 +328,7 @@ class Screen<M extends TModel = IntentionalAny, V extends ScreenView = ScreenVie
         else {
 
           // initialize proper PDOM labelling for ScreenView
-          titleString = StringUtils.fillIn( screenSimPatternString, {
+          titleString = StringUtils.fillIn( screenSimPatternStringProperty, {
             screenName: pdomDisplayName,
             simName: simName
           } );

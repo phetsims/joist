@@ -20,7 +20,7 @@ import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 
 // constants
-const homeScreenDescriptionString = JoistStrings.a11y.homeScreenDescription;
+const homeScreenDescriptionStringProperty = JoistStrings.a11y.homeScreenDescriptionStringProperty;
 
 type SelfOptions = EmptySelfOptions;
 type HomeButtonOptions = SelfOptions & JoistButtonOptions & PickRequired<JoistButtonOptions, 'listener' | 'tandem'>;
@@ -46,10 +46,10 @@ export default class HomeButton extends JoistButton {
 
       // pdom,
       containerTagName: 'li',
-      descriptionContent: homeScreenDescriptionString,
+      descriptionContent: homeScreenDescriptionStringProperty,
       appendDescription: true,
 
-      voicingHintResponse: homeScreenDescriptionString
+      voicingHintResponse: homeScreenDescriptionStringProperty
     }, providedOptions );
 
     const homeIcon = new Path( homeSolidShape );

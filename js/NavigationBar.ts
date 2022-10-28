@@ -172,7 +172,7 @@ class NavigationBar extends Node {
         tagName: 'ol',
         containerTagName: 'nav',
         labelTagName: 'h2',
-        labelContent: JoistStrings.a11y.simScreens,
+        labelContent: JoistStrings.a11y.simScreensStringProperty,
         visibleProperty: new DerivedProperty( [ sim.activeSimScreensProperty, sim.selectedScreenProperty, isUserNavigableProperty ], ( screens, screen, isUserNavigable ) => {
           return screen !== sim.homeScreen && screens.length > 1 && isUserNavigable;
         } )
@@ -330,7 +330,7 @@ class NavigationBar extends Node {
       tagName: 'div',
       containerTagName: 'section',
       labelTagName: 'h2',
-      labelContent: JoistStrings.a11y.simResources,
+      labelContent: JoistStrings.a11y.simResourcesStringProperty,
       pdomOrder: [
         this.a11yButtonsHBox,
         phetButton

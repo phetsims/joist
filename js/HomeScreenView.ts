@@ -22,8 +22,7 @@ import Property from '../../axon/js/Property.js';
 import optionize from '../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
-
-const homeScreenDescriptionPatternString = JoistStrings.a11y.homeScreenDescriptionPattern;
+import PatternStringProperty from '../../axon/js/PatternStringProperty.js';
 
 type SelfOptions = {
 
@@ -35,7 +34,7 @@ type HomeScreenViewOptions = SelfOptions & PickRequired<ScreenViewOptions, 'tand
 
 class HomeScreenView extends ScreenView {
 
-  private homeScreenScreenSummaryIntro!: string;
+  private homeScreenScreenSummaryIntroProperty!: TReadOnlyProperty<string>;
   private selectedScreenProperty: Property<Screen>;
   public screenButtons: HomeScreenButton[];
 
@@ -112,10 +111,8 @@ class HomeScreenView extends ScreenView {
           tandem: buttonGroupTandem.createTandem( `${screen.tandem.name}Button` )
         } );
 
-      screen.pdomDisplayNameProperty.link( screenName => {
-        homeScreenButton.innerContent = screenName;
-        homeScreenButton.voicingNameResponse = screenName;
-      } );
+      homeScreenButton.voicingNameResponse = screen.pdomDisplayNameProperty;
+      homeScreenButton.innerContent = screen.pdomDisplayNameProperty;
 
       return homeScreenButton;
     } );
@@ -130,22 +127,20 @@ class HomeScreenView extends ScreenView {
       spacing = 20;
     }
 
-    simNameProperty.link( simTitle => {
+    this.homeScreenScreenSummaryIntroProperty = new PatternStringProperty( JoistStrings.a11y.homeScreenDescriptionPatternStringProperty, {
+      name: simNameProperty,
+      screens: model.simScreens.length
+    } );
 
-      this.homeScreenScreenSummaryIntro = StringUtils.fillIn( homeScreenDescriptionPatternString, {
-        name: simNameProperty.value,
-        screens: model.simScreens.length
-      } );
 
-      // Add the home screen description, since there are no PDOM container Nodes for this ScreenView
-      homeScreenPDOMNode.innerContent = StringUtils.fillIn( JoistStrings.a11y.homeScreenIntroPattern, {
-        description: this.homeScreenScreenSummaryIntro,
-        hint: JoistStrings.a11y.homeScreenHint
-      } );
+    // Add the home screen description, since there are no PDOM container Nodes for this ScreenView
+    homeScreenPDOMNode.innerContent = new PatternStringProperty( JoistStrings.a11y.homeScreenIntroPatternStringProperty, {
+      description: this.homeScreenScreenSummaryIntroProperty,
+      hint: JoistStrings.a11y.homeScreenHintStringProperty
+    } );
 
-      this.screenButtons.forEach( screenButton => {
-        screenButton.voicingContextResponse = simTitle;
-      } );
+    this.screenButtons.forEach( screenButton => {
+      screenButton.voicingContextResponse = simNameProperty;
     } );
 
     const buttonBox = new HBox( {
@@ -196,8 +191,8 @@ class HomeScreenView extends ScreenView {
   /**
    * To support voicing.
    */
-  public override getVoicingOverviewContent(): string {
-    return this.homeScreenScreenSummaryIntro;
+  public override getVoicingOverviewContent(): TReadOnlyProperty<string> {
+    return this.homeScreenScreenSummaryIntroProperty;
   }
 
   /**
@@ -223,8 +218,8 @@ class HomeScreenView extends ScreenView {
   /**
    * To support voicing.
    */
-  public override getVoicingHintContent(): string {
-    return JoistStrings.a11y.homeScreenHint;
+  public override getVoicingHintContent(): TReadOnlyProperty<string> {
+    return JoistStrings.a11y.homeScreenHintStringProperty;
   }
 }
 

@@ -229,6 +229,7 @@ class ScreenView extends Node {
    * (joist-internal)
    */
   public setScreenSummaryIntroAndTitle( simName: string, screenDisplayName: string | null, simTitle: string, isMultiScreen: boolean ): void {
+    // TODO: Should use PatternStringProperty, see https://github.com/phetsims/joist/issues/873
     this.pdomScreenSummaryNode.setIntroString( simName, screenDisplayName, isMultiScreen );
     this.pdomTitleNode.innerContent = simTitle;
   }

@@ -23,7 +23,7 @@ import Screen from './Screen.js';
 // constants
 const TITLE_MAX_WIDTH = 670;
 
-const tabToGetStartedString = JoistStrings.a11y.keyboardHelp.tabToGetStarted;
+const tabToGetStartedStringProperty = JoistStrings.a11y.keyboardHelp.tabToGetStartedStringProperty;
 
 type SelfOptions = EmptySelfOptions;
 
@@ -45,7 +45,7 @@ export default class KeyboardHelpDialog extends Dialog {
       phetioDynamicElement: true,
 
       // Append the title to the close button
-      closeButtonVoicingDialogTitle: JoistStrings.keyboardShortcuts.title,
+      closeButtonVoicingDialogTitle: JoistStrings.keyboardShortcuts.titleStringProperty,
 
       // Because of the special titleNode, we set the aria-labelledby attribute manually; see below.
       addAriaLabelledByFromTitle: false
@@ -64,7 +64,7 @@ export default class KeyboardHelpDialog extends Dialog {
       screenContentNodes.push( keyboardHelpNode );
     } );
 
-    const shortcutsTitleText = new VoicingText( JoistStrings.keyboardShortcuts.title, {
+    const shortcutsTitleText = new VoicingText( JoistStrings.keyboardShortcuts.titleStringProperty, {
       font: new PhetFont( {
         weight: 'bold',
         size: 24
@@ -73,7 +73,7 @@ export default class KeyboardHelpDialog extends Dialog {
 
       // pdom options
       tagName: 'h1',
-      innerContent: JoistStrings.a11y.keyboardHelp.keyboardShortcuts
+      innerContent: JoistStrings.a11y.keyboardHelp.keyboardShortcutsStringProperty
     } );
 
     // a 'tab to get started' hint
@@ -137,15 +137,15 @@ class TabHintLine extends ReadingBlock( Node ) {
   public constructor( providedOptions?: TabHintLineOptions ) {
 
     const options = optionize<TabHintLineOptions, TabHintLineSelfOptions, ReadingBlockOptions>()( {
-      readingBlockNameResponse: tabToGetStartedString
+      readingBlockNameResponse: tabToGetStartedStringProperty
     }, providedOptions );
 
     super();
 
     // a line to say "tab to get started" below the "Keyboard Shortcuts" 'title'
-    const labelWithIcon = KeyboardHelpSectionRow.labelWithIcon( JoistStrings.keyboardShortcuts.toGetStarted,
+    const labelWithIcon = KeyboardHelpSectionRow.labelWithIcon( JoistStrings.keyboardShortcuts.toGetStartedStringProperty,
       TextKeyNode.tab(), {
-        labelInnerContent: tabToGetStartedString,
+        labelInnerContent: tabToGetStartedStringProperty,
         iconOptions: {
           tagName: 'p' // because there is only one, and the default is an li tag
         }

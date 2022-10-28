@@ -39,12 +39,12 @@ const MAX_ANIMATION_SPEED = 250; // in view coordinates per second, assuming 60 
 const CONTENT_TOP_MARGIN = 15; // margin between top of Toolbar and contents
 
 // constants
-const openToolbarString = JoistStrings.a11y.toolbar.openToolbar;
-const closeToolbarString = JoistStrings.a11y.toolbar.closeToolbar;
-const hideToolbarString = JoistStrings.a11y.toolbar.hideToolbar;
-const showToolbarString = JoistStrings.a11y.toolbar.showToolbar;
-const toolbarShownString = JoistStrings.a11y.toolbar.toolbarShown;
-const toolbarHiddenString = JoistStrings.a11y.toolbar.toolbarHidden;
+const openToolbarStringProperty = JoistStrings.a11y.toolbar.openToolbarStringProperty;
+const closeToolbarStringProperty = JoistStrings.a11y.toolbar.closeToolbarStringProperty;
+const hideToolbarStringProperty = JoistStrings.a11y.toolbar.hideToolbarStringProperty;
+const showToolbarStringProperty = JoistStrings.a11y.toolbar.showToolbarStringProperty;
+const toolbarShownStringProperty = JoistStrings.a11y.toolbar.toolbarShownStringProperty;
+const toolbarHiddenStringProperty = JoistStrings.a11y.toolbar.toolbarHiddenStringProperty;
 
 type ToolbarOptions = NodeOptions & PickRequired<NodeOptions, 'tandem'>;
 
@@ -173,18 +173,18 @@ class Toolbar extends Node {
       // when closed, menu content should be hidden from screen readers and the navigation order
       this.menuContent.pdomVisible = open;
 
-      this.openButton.innerContent = open ? closeToolbarString : openToolbarString;
-      this.openButton.voicingNameResponse = open ? hideToolbarString : showToolbarString;
+      this.openButton.innerContent = open ? closeToolbarStringProperty : openToolbarStringProperty;
+      this.openButton.voicingNameResponse = open ? hideToolbarStringProperty : showToolbarStringProperty;
 
       this.updateDestinationPosition();
 
       if ( oldValue !== null ) {
-        const alert = open ? toolbarShownString : toolbarHiddenString;
+        const alertProperty = open ? toolbarShownStringProperty : toolbarHiddenStringProperty;
         this.openButton.voicingSpeakContextResponse( {
-          contextResponse: alert
+          contextResponse: alertProperty
         } );
 
-        this.alertDescriptionUtterance( alert );
+        this.alertDescriptionUtterance( alertProperty );
       }
     };
     this.openProperty.link( isOpenListener );

@@ -23,7 +23,7 @@ import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 
 // constants
-const keyboardShortcutsString = JoistStrings.a11y.keyboardHelp.keyboardShortcuts;
+const keyboardShortcutsStringProperty = JoistStrings.a11y.keyboardHelp.keyboardShortcutsStringProperty;
 const HELP_BUTTON_HEIGHT = 67;
 const HELP_BUTTON_SCALE = 0.30; // scale applied to the icon
 
@@ -49,10 +49,10 @@ class KeyboardHelpButton extends JoistButton {
       visiblePropertyOptions: { phetioFeatured: true },
 
       // pdom
-      innerContent: keyboardShortcutsString,
+      innerContent: keyboardShortcutsStringProperty,
 
       // voicing
-      voicingNameResponse: keyboardShortcutsString
+      voicingNameResponse: keyboardShortcutsStringProperty
     }, providedOptions );
 
     let keyboardHelpDialogCapsule: PhetioCapsule<KeyboardHelpDialog> | null = null; // set after calling super

@@ -14,10 +14,6 @@ import { Text } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
 
-const queryParametersWarningDialogInvalidQueryParametersString = JoistStrings.queryParametersWarningDialog.invalidQueryParameters;
-const queryParametersWarningDialogOneOrMoreQueryParametersString = JoistStrings.queryParametersWarningDialog.oneOrMoreQueryParameters;
-const queryParametersWarningDialogTheSimulationWillStartString = JoistStrings.queryParametersWarningDialog.theSimulationWillStart;
-
 type SelfOptions = EmptySelfOptions;
 export type QueryParametersWarningDialogOptions = SelfOptions & OopsDialogOptions;
 
@@ -40,18 +36,18 @@ class QueryParametersWarningDialog extends OopsDialog {
       richTextOptions: {
         font: new PhetFont( 16 )
       },
-      title: new Text( queryParametersWarningDialogInvalidQueryParametersString, {
+      title: new Text( JoistStrings.queryParametersWarningDialog.invalidQueryParametersStringProperty, {
         font: new PhetFont( 28 )
       } )
 
     }, providedOptions );
 
     // add warnings to generic message
-    let message = `${queryParametersWarningDialogOneOrMoreQueryParametersString}<br><br>`;
+    let message = `${JoistStrings.queryParametersWarningDialog.oneOrMoreQueryParametersStringProperty.value}<br><br>`;
     warnings.forEach( warning => {
       message += `${warning.key}=${warning.value}<br>`;
     } );
-    message += `<br>${queryParametersWarningDialogTheSimulationWillStartString}`;
+    message += `<br>${JoistStrings.queryParametersWarningDialog.theSimulationWillStartStringProperty.value}`;
 
     super( message, options );
   }
