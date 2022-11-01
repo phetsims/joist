@@ -78,9 +78,6 @@ class PreferencesTab extends Voicing( Node ) {
     const backgroundNode = new Rectangle( {
       children: [ contentsBox ]
     } );
-    contentsBox.boundsProperty.link( bounds => {
-      backgroundNode.rectBounds = bounds.dilatedXY( 15, 10 );
-    } );
 
     // Pink underline Node to indicate which tab is selected
     const underlineNode = new Line( 0, 0, 0, 0, {
@@ -88,6 +85,8 @@ class PreferencesTab extends Voicing( Node ) {
       lineWidth: 5
     } );
     contentsBox.boundsProperty.link( bounds => {
+      backgroundNode.rectBounds = bounds.dilatedXY( 15, 10 );
+
       underlineNode.x2 = bounds.width;
       underlineNode.centerTop = bounds.centerBottom.plusXY( 0, 5 );
     } );
@@ -129,6 +128,9 @@ class PreferencesTab extends Voicing( Node ) {
       tabInputMultilink.dispose();
       pressListener.dispose();
       voicingMultilink.dispose();
+      contentsBox.dispose();
+      backgroundNode.dispose();
+      textNode.dispose();
     };
   }
 

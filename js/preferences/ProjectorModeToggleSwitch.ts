@@ -22,6 +22,9 @@ type ParentOptions = PreferencesToggleSwitchOptions;
 export type ProjectorModeToggleSwitchOptions = SelfOptions & StrictOmit<ParentOptions, 'labelNode' | 'descriptionNode'>;
 
 class ProjectorModeToggleSwitch extends PreferencesToggleSwitch<string> {
+
+  private readonly disposeProjectorModeToggleSwitch: () => void;
+
   public constructor( colorProfileProperty: Property<string>, providedOptions?: ProjectorModeToggleSwitchOptions ) {
     assert && assert(
     phet.chipper.colorProfiles[ 0 ] !== SceneryConstants.PROJECTOR_COLOR_PROFILE &&
@@ -47,6 +50,16 @@ class ProjectorModeToggleSwitch extends PreferencesToggleSwitch<string> {
     const otherColorProfile = phet.chipper.colorProfiles.find( ( colorProfile: string ) => colorProfile !== SceneryConstants.PROJECTOR_COLOR_PROFILE );
 
     super( colorProfileProperty, otherColorProfile, SceneryConstants.PROJECTOR_COLOR_PROFILE, options );
+
+    this.disposeProjectorModeToggleSwitch = () => {
+      projectorModeLabel.dispose();
+      projectorModeDescription.dispose();
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeProjectorModeToggleSwitch();
+    super.dispose();
   }
 }
 

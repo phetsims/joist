@@ -178,6 +178,7 @@ class PreferencesToggleSwitch<T> extends Node {
     this.disposePreferencesToggleSwitch = () => {
       property.unlink( valueListener );
       this.toggleSwitch.dispose();
+      gridBox.dispose();
     };
   }
 

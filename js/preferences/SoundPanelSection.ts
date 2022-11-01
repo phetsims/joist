@@ -6,6 +6,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
 import merge from '../../../phet-core/js/merge.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
@@ -54,14 +55,16 @@ class SoundPanelSection extends PreferencesPanelSection {
 
     const soundLabel = new Text( soundsLabelStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
 
+    const soundEnabledStringProperty = new PatternStringProperty( labelledDescriptionPatternStringProperty, {
+      label: soundsLabelStringProperty,
+      description: soundDescriptionStringProperty
+    } );
+    const soundEnabledVoicingText = new VoicingText( soundDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
+      readingBlockNameResponse: soundEnabledStringProperty
+    } ) );
     const soundEnabledSwitch = new PreferencesToggleSwitch( audioModel.soundEnabledProperty, false, true, {
       labelNode: soundLabel,
-      descriptionNode: new VoicingText( soundDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
-        readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternStringProperty, {
-          label: soundsLabelStringProperty,
-          description: soundDescriptionStringProperty
-        } )
-      } ) ),
+      descriptionNode: soundEnabledVoicingText,
       toggleSwitchOptions: {
         visible: options.includeTitleToggleSwitch
       },
@@ -124,6 +127,8 @@ class SoundPanelSection extends PreferencesPanelSection {
       extraSoundEnabledListener && audioModel.soundEnabledProperty.unlink( extraSoundEnabledListener );
       soundEnabledSwitch.dispose();
       extraSoundCheckbox && extraSoundCheckbox.dispose();
+      soundEnabledVoicingText.dispose();
+      soundEnabledStringProperty.dispose();
     };
   }
 

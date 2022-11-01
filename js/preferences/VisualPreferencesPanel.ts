@@ -61,17 +61,20 @@ class VisualPreferencesPanel extends PreferencesPanel {
       contentNode.addChild( projectorModeSwitch );
     }
 
+    let interactiveHighlightsEnabledSwitchVoicingText: VoicingText | null = null;
+
     if ( visualModel.supportsInteractiveHighlights ) {
 
       const label = new Text( interactiveHighlightsStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
+      interactiveHighlightsEnabledSwitchVoicingText = new VoicingText( interactiveHighlightsDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
+        readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternStringProperty, {
+          label: interactiveHighlightsStringProperty,
+          description: interactiveHighlightsDescriptionStringProperty
+        } )
+      } ) );
       const interactiveHighlightsEnabledSwitch = new PreferencesToggleSwitch( visualModel.interactiveHighlightsEnabledProperty, false, true, {
         labelNode: label,
-        descriptionNode: new VoicingText( interactiveHighlightsDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
-          readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternStringProperty, {
-            label: interactiveHighlightsStringProperty,
-            description: interactiveHighlightsDescriptionStringProperty
-          } )
-        } ) ),
+        descriptionNode: interactiveHighlightsEnabledSwitchVoicingText,
         a11yLabel: interactiveHighlightsStringProperty,
         leftValueContextResponse: interactiveHighlightsDisabledAlertStringProperty,
         rightValueContextResponse: interactiveHighlightsEnabledAlertStringProperty
@@ -103,6 +106,8 @@ class VisualPreferencesPanel extends PreferencesPanel {
       // Dispose each PreferencesToggleSwitch
       contentNode.children.forEach( child => child.dispose() );
       contentNode.dispose();
+
+      interactiveHighlightsEnabledSwitchVoicingText && interactiveHighlightsEnabledSwitchVoicingText.dispose();
     };
   }
 

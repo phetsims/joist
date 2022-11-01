@@ -113,14 +113,15 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
     // the checkbox is the title for the section and totally enables/disables the feature
     const voicingLabel = new Text( titleStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
+    const voicingEnabledSwitchVoicingText = new VoicingText( voicingDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
+      readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternStringProperty, {
+        label: titleStringProperty,
+        description: voicingDescriptionStringProperty
+      } )
+    } ) );
     const voicingEnabledSwitch = new PreferencesToggleSwitch<boolean>( audioModel.voicingEnabledProperty, false, true, {
       labelNode: voicingLabel,
-      descriptionNode: new VoicingText( voicingDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
-        readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternStringProperty, {
-          label: titleStringProperty,
-          description: voicingDescriptionStringProperty
-        } )
-      } ) ),
+      descriptionNode: voicingEnabledSwitchVoicingText,
       a11yLabel: titleStringProperty
     } );
 
@@ -326,6 +327,9 @@ class VoicingPanelSection extends PreferencesPanelSection {
       expandCollapseButton.dispose();
       toolbarEnabledSwitch.dispose();
       speechOutputCheckboxes.children.forEach( child => child.dispose() );
+
+      voicingEnabledSwitchVoicingText.dispose();
+      speechOutputDescription.dispose();
     };
   }
 

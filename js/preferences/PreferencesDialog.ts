@@ -155,11 +155,13 @@ class PreferencesDialog extends Dialog {
     } );
 
     this.disposePreferencesDialog = () => {
+
       soundManager.removeSoundGenerator( tabSwitchSoundGenerator );
       tabSwitchSoundGenerator.dispose();
       preferencesTabs.dispose();
       selectedTabProperty.dispose();
       preferencesPanels.dispose();
+      titleText.dispose();
     };
   }
 

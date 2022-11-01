@@ -49,6 +49,8 @@ export type VoicingToolbarItemOptions = SelfOptions & NodeOptions & PickRequired
 
 class VoicingToolbarItem extends Node {
 
+  private readonly disposeVoicingToolbarItem: () => void;
+
   public constructor( alertManager: VoicingToolbarAlertManager, lookAndFeel: LookAndFeel, providedOptions?: VoicingToolbarItemOptions ) {
     const options = optionize<VoicingToolbarItemOptions, SelfOptions, NodeOptions>()( {
 
@@ -118,11 +120,17 @@ class VoicingToolbarItem extends Node {
         row.playContent( playingProperties );
       } );
     } );
+
+    this.disposeVoicingToolbarItem = () => {
+      quickInfoText.dispose();
+      titleText.dispose();
+    };
   }
 
   /**
    */
   public override dispose(): void {
+    this.disposeVoicingToolbarItem();
     super.dispose();
   }
 }
