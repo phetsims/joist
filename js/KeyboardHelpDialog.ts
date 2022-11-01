@@ -113,6 +113,7 @@ export default class KeyboardHelpDialog extends Dialog {
     } );
 
     this.disposeKeyboardHelpDialog = () => {
+      shortcutsTitleText.dispose();
       screenContentNodes.forEach( node => node.dispose() );
       content.dispose();
     };
@@ -133,6 +134,7 @@ type TabHintLineSelfOptions = EmptySelfOptions;
 type TabHintLineOptions = TabHintLineSelfOptions & NodeOptions & ReadingBlockOptions;
 
 class TabHintLine extends ReadingBlock( Node ) {
+  private readonly disposeTabHintLine: () => void;
 
   public constructor( providedOptions?: TabHintLineOptions ) {
 
@@ -155,6 +157,15 @@ class TabHintLine extends ReadingBlock( Node ) {
     this.addChild( new HBox( { children: [ labelWithIcon.icon, labelWithIcon.label ], spacing: 4 } ) );
 
     this.mutate( options );
+
+    this.disposeTabHintLine = () => {
+      labelWithIcon.dispose();
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeTabHintLine();
+    super.dispose();
   }
 }
 
