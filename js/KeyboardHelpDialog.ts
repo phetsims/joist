@@ -81,7 +81,7 @@ export default class KeyboardHelpDialog extends Dialog {
 
     // stack the two items with a bit of spacing
     assert && assert( !options.title, 'KeyboardHelpDialog sets title' );
-    options.title = new VBox( {
+    const titleVBox = new VBox( {
         children: [ shortcutsTitleText, tabHintLine ],
         spacing: 5,
 
@@ -89,6 +89,7 @@ export default class KeyboardHelpDialog extends Dialog {
         tagName: 'div'
       }
     );
+    options.title = titleVBox;
 
     // help content surrounded by a div unless already specified, so that all content is read when dialog opens
 
@@ -113,6 +114,7 @@ export default class KeyboardHelpDialog extends Dialog {
     } );
 
     this.disposeKeyboardHelpDialog = () => {
+      titleVBox.dispose();
       childSwitcherMultilink.dispose();
       tabHintLine.dispose();
       shortcutsTitleText.dispose();

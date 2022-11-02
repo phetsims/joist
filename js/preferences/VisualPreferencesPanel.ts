@@ -90,10 +90,12 @@ class VisualPreferencesPanel extends PreferencesPanel {
 
     visualModel.customPreferences.forEach( customPreference => {
       const customContent = customPreference.createContent( tandem );
-      disposeEmitter.addListener( () => customContent.dispose() );
-      contentNode.addChild( new Node( {
-        children: [ customContent ]
-      } ) );
+      const node = new Node( { children: [ customContent ] } );
+      contentNode.addChild( node );
+      disposeEmitter.addListener( () => {
+        customContent.dispose();
+        node.dispose();
+      } );
     } );
 
     const panelSection = new PreferencesPanelSection( {
@@ -107,9 +109,6 @@ class VisualPreferencesPanel extends PreferencesPanel {
     this.disposeVisualPreferencesPanel = () => {
       panelSection.dispose();
       disposeEmitter.emit();
-
-      // Dispose each PreferencesToggleSwitch
-      contentNode.children.forEach( child => child.dispose() );
       contentNode.dispose();
     };
   }
