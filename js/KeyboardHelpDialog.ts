@@ -96,7 +96,7 @@ export default class KeyboardHelpDialog extends Dialog {
 
     // When the screen changes, swap out keyboard help content to the selected screen's content
 
-    Multilink.multilink( [ screenProperty, this.isShowingProperty ], ( screen, isShowing ) => {
+    const childSwitcherMultilink = Multilink.multilink( [ screenProperty, this.isShowingProperty ], ( screen, isShowing ) => {
       assert && assert( screens.includes( screen ), 'double check that this is an expected screen' );
       const currentContentNode = screenContentNodes[ screens.indexOf( screen ) ]!;
       if ( isShowing ) {
@@ -113,8 +113,11 @@ export default class KeyboardHelpDialog extends Dialog {
     } );
 
     this.disposeKeyboardHelpDialog = () => {
+      childSwitcherMultilink.dispose();
+      tabHintLine.dispose();
       shortcutsTitleText.dispose();
       screenContentNodes.forEach( node => node.dispose() );
+      screenContentNodes.length = 0;
       content.dispose();
     };
   }
@@ -145,8 +148,10 @@ class TabHintLine extends ReadingBlock( Node ) {
     super();
 
     // a line to say "tab to get started" below the "Keyboard Shortcuts" 'title'
+    const tabKeyNode = TextKeyNode.tab();
+
     const labelWithIcon = KeyboardHelpSectionRow.labelWithIcon( JoistStrings.keyboardShortcuts.toGetStartedStringProperty,
-      TextKeyNode.tab(), {
+      tabKeyNode, {
         labelInnerContent: tabToGetStartedStringProperty,
         iconOptions: {
           tagName: 'p' // because there is only one, and the default is an li tag
@@ -154,11 +159,15 @@ class TabHintLine extends ReadingBlock( Node ) {
       } );
 
     // labelWithIcon is meant to be passed to KeyboardHelpSection, so we have to hack a bit here
-    this.addChild( new HBox( { children: [ labelWithIcon.icon, labelWithIcon.label ], spacing: 4 } ) );
+    const hBox = new HBox( { children: [ labelWithIcon.icon, labelWithIcon.label ], spacing: 4 } );
+
+    this.addChild( hBox );
 
     this.mutate( options );
 
     this.disposeTabHintLine = () => {
+      hBox.dispose();
+      tabKeyNode.dispose();
       labelWithIcon.dispose();
     };
   }

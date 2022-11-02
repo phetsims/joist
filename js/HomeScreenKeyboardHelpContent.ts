@@ -10,11 +10,22 @@ import { Node } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 
 class HomeScreenKeyboardHelpContent extends Node {
+  private readonly disposeHomeScreenKeyboardHelpContent: () => void;
 
   public constructor() {
+    const basicActionsKeyboardHelpSection = new BasicActionsKeyboardHelpSection();
     super( {
-      children: [ new BasicActionsKeyboardHelpSection() ]
+      children: [ basicActionsKeyboardHelpSection ]
     } );
+
+    this.disposeHomeScreenKeyboardHelpContent = () => {
+      basicActionsKeyboardHelpSection.dispose();
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeHomeScreenKeyboardHelpContent();
+    super.dispose();
   }
 }
 
