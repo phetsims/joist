@@ -54,17 +54,18 @@ class InputPreferencesPanel extends PreferencesPanel {
     if ( inputModel.supportsGestureControl ) {
 
       const gestureControlText = new Text( gestureControlsString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
+      const gestureControlDescriptionNode = new VoicingRichText( gestureControlsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
+        lineWrap: 350,
+        maxHeight: 100,
+
+        readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternStringProperty, {
+          label: gestureControlsString,
+          description: gestureControlsDescriptionString
+        } )
+      } ) );
       const gestureControlsEnabledSwitch = new PreferencesToggleSwitch( inputModel.gestureControlsEnabledProperty, false, true, {
         labelNode: gestureControlText,
-        descriptionNode: new VoicingRichText( gestureControlsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
-          lineWrap: 350,
-          maxHeight: 100,
-
-          readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternStringProperty, {
-            label: gestureControlsString,
-            description: gestureControlsDescriptionString
-          } )
-        } ) ),
+        descriptionNode: gestureControlDescriptionNode,
 
         // a11y
         a11yLabel: gestureControlsString,
@@ -82,6 +83,7 @@ class InputPreferencesPanel extends PreferencesPanel {
         gestureControlText.dispose();
         gesturePanelSection.dispose();
         gestureControlsEnabledSwitch.dispose();
+        gestureControlDescriptionNode.dispose();
       } );
     }
 

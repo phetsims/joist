@@ -133,6 +133,7 @@ class PreferencesPanels extends Node {
 
     this.disposePreferencesPanel = () => {
       panelAlignGroup.dispose();
+      this.content.forEach( panelContent => panelContent.dispose() );
 
       overviewPreferencesPanel && overviewPreferencesPanel.dispose();
       simulationPreferencesPanel && simulationPreferencesPanel.dispose();
