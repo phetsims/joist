@@ -68,6 +68,7 @@ class SimulationPreferencesPanel extends PreferencesPanel {
     panelContent.children = providedChildren;
 
     this.disposeSimulationPreferencesPanel = () => {
+      panelContent.dispose();
       disposeEmitter.emit();
     };
   }

@@ -64,8 +64,8 @@ class PreferencesTab extends Voicing( Node ) {
     }, providedOptions );
 
     // Visual contents for the tab, label Text and optional icon Node
-    const textNode = new Text( label, PreferencesDialog.TAB_OPTIONS );
-    const tabContents: Node[] = [ textNode ];
+    const text = new Text( label, PreferencesDialog.TAB_OPTIONS );
+    const tabContents: Node[] = [ text ];
     if ( options.iconNode ) {
       tabContents.push( options.iconNode );
     }
@@ -130,7 +130,7 @@ class PreferencesTab extends Voicing( Node ) {
       voicingMultilink.dispose();
       contentsBox.dispose();
       backgroundNode.dispose();
-      textNode.dispose();
+      text.dispose();
     };
   }
 

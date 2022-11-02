@@ -43,7 +43,7 @@ class VisualPreferencesPanel extends PreferencesPanel {
       labelContent: 'Visual'
     }, providedOptions );
 
-    // Grab the required tandem for sub components but the tandem is NOT passed through to the super
+    // Grab the required tandem for subcomponents but the tandem is NOT passed through to the super
     const tandem = options.tandem;
     options.tandem = Tandem.OPTIONAL;
 
@@ -59,14 +59,14 @@ class VisualPreferencesPanel extends PreferencesPanel {
     if ( visualModel.supportsProjectorMode ) {
       const projectorModeSwitch = new ProjectorModeToggleSwitch( visualModel.colorProfileProperty );
       contentNode.addChild( projectorModeSwitch );
+      disposeEmitter.addListener( () => projectorModeSwitch.dispose() );
     }
 
-    let interactiveHighlightsEnabledSwitchVoicingText: VoicingText | null = null;
 
     if ( visualModel.supportsInteractiveHighlights ) {
 
       const label = new Text( interactiveHighlightsStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
-      interactiveHighlightsEnabledSwitchVoicingText = new VoicingText( interactiveHighlightsDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
+      const interactiveHighlightsEnabledSwitchVoicingText = new VoicingText( interactiveHighlightsDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternStringProperty, {
           label: interactiveHighlightsStringProperty,
           description: interactiveHighlightsDescriptionStringProperty
@@ -81,6 +81,11 @@ class VisualPreferencesPanel extends PreferencesPanel {
       } );
 
       contentNode.addChild( interactiveHighlightsEnabledSwitch );
+      disposeEmitter.addListener( () => {
+        label.dispose();
+        interactiveHighlightsEnabledSwitchVoicingText.dispose();
+        interactiveHighlightsEnabledSwitch.dispose();
+      } );
     }
 
     visualModel.customPreferences.forEach( customPreference => {
@@ -106,8 +111,6 @@ class VisualPreferencesPanel extends PreferencesPanel {
       // Dispose each PreferencesToggleSwitch
       contentNode.children.forEach( child => child.dispose() );
       contentNode.dispose();
-
-      interactiveHighlightsEnabledSwitchVoicingText && interactiveHighlightsEnabledSwitchVoicingText.dispose();
     };
   }
 

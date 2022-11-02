@@ -53,8 +53,9 @@ class InputPreferencesPanel extends PreferencesPanel {
 
     if ( inputModel.supportsGestureControl ) {
 
+      const gestureControlText = new Text( gestureControlsString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
       const gestureControlsEnabledSwitch = new PreferencesToggleSwitch( inputModel.gestureControlsEnabledProperty, false, true, {
-        labelNode: new Text( gestureControlsString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ),
+        labelNode: gestureControlText,
         descriptionNode: new VoicingRichText( gestureControlsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
           lineWrap: 350,
           maxHeight: 100,
@@ -78,6 +79,7 @@ class InputPreferencesPanel extends PreferencesPanel {
 
       contentVBox.addChild( gesturePanelSection );
       disposeEmitter.addListener( () => {
+        gestureControlText.dispose();
         gesturePanelSection.dispose();
         gestureControlsEnabledSwitch.dispose();
       } );
@@ -103,9 +105,11 @@ class InputPreferencesPanel extends PreferencesPanel {
     contentVBox.addChild( customPanelSection );
 
     this.disposeInputPreferencesPanel = () => {
+      contentVBox.dispose();
       disposeEmitter.emit();
       customPanelSection.dispose();
       contentNode.children.forEach( child => child.dispose() );
+      contentNode.dispose();
     };
   }
 

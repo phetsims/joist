@@ -54,6 +54,7 @@ class OverviewPreferencesPanel extends PreferencesPanel {
 
     this.disposeOverviewPreferencesPanel = () => {
       isLeftToRightProperty.unlink( leftToRightListener );
+      panelContent.dispose();
       introParagraphsTexts.forEach( introParagraphsText => introParagraphsText.dispose() );
     };
   }

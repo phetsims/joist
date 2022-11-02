@@ -49,7 +49,9 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
     const disposeEmitter = new Emitter();
 
     if ( audioModel.supportsVoicing ) {
-      leftContent.addChild( new VoicingPanelSection( audioModel ) );
+      const voicingPanelSection = new VoicingPanelSection( audioModel );
+      leftContent.addChild( voicingPanelSection );
+      disposeEmitter.addListener( () => voicingPanelSection.dispose() );
     }
 
     if ( audioModel.supportsSound ) {
@@ -59,9 +61,11 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
       // through the "Audio Features" toggle only.
       const hideSoundToggle = audioModel.supportsVoicing !== audioModel.supportsSound;
 
-      rightContent.addChild( new SoundPanelSection( audioModel, {
+      const soundPanelSection = new SoundPanelSection( audioModel, {
         includeTitleToggleSwitch: !hideSoundToggle
-      } ) );
+      } );
+      rightContent.addChild( soundPanelSection );
+      disposeEmitter.addListener( () => soundPanelSection.dispose() );
     }
 
     const sections = new HBox( {
@@ -73,17 +77,21 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
     audioModel.customPreferences.forEach( ( customPreference, i ) => {
       const container = i % 2 === 0 ? leftContent : rightContent;
       const customContent = customPreference.createContent( providedOptions.tandem );
-      disposeEmitter.addListener( () => customContent.dispose() );
-      container.addChild(
-        new PreferencesPanelSection( {
-          contentNode: customContent,
-          contentLeftMargin: 0
-        } )
-      );
+      const preferencesPanelSection = new PreferencesPanelSection( {
+        contentNode: customContent,
+        contentLeftMargin: 0
+      } );
+      container.addChild( preferencesPanelSection );
+      disposeEmitter.addListener( () => {
+        customContent.dispose();
+        preferencesPanelSection.dispose();
+      } );
+
     } );
 
+    const audioFeaturesText = new Text( audioFeaturesStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
     const allAudioSwitch = new PreferencesToggleSwitch( audioModel.audioEnabledProperty, false, true, {
-      labelNode: new Text( audioFeaturesStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ),
+      labelNode: audioFeaturesText,
       a11yLabel: audioFeaturesStringProperty
     } );
 
@@ -101,11 +109,14 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
     this.addChild( panelContent );
 
     this.disposeAudioPreferencesPanel = () => {
-      leftContent.children.forEach( child => child.dispose() );
-      rightContent.children.forEach( child => child.dispose() );
+      leftContent.dispose();
+      rightContent.dispose();
       allAudioSwitch.dispose();
-      disposeEmitter.emit();
+      audioFeaturesText.dispose();
+      sections.dispose();
+      panelContent.dispose();
       audioModel.audioEnabledProperty.unlink( soundEnabledListener );
+      disposeEmitter.emit();
     };
   }
 

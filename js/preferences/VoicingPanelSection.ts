@@ -20,7 +20,7 @@ import NumberControl from '../../../scenery-phet/js/NumberControl.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { FocusHighlightFromNode, Node, PressListener, Text, VBox, voicingManager, VoicingText } from '../../../scenery/js/imports.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
-import ComboBox, { ComboBoxOptions } from '../../../sun/js/ComboBox.js';
+import ComboBox, { ComboBoxItem, ComboBoxOptions } from '../../../sun/js/ComboBox.js';
 import ExpandCollapseButton from '../../../sun/js/ExpandCollapseButton.js';
 import HSlider from '../../../sun/js/HSlider.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -317,6 +317,12 @@ class VoicingPanelSection extends PreferencesPanelSection {
     } );
 
     this.disposeVoicingPanelSection = () => {
+      quickAccessLabel.dispose();
+      speechOutputLabel.dispose();
+      speechOutputContent.dispose();
+      voiceOptionsContent.dispose();
+      voiceOptionsLabel.dispose();
+      voicingLabel.dispose();
       pitchSlider.dispose();
       rateSlider.dispose();
       audioModel.voicingEnabledProperty.unlink( voicingEnabledPropertyListener );
@@ -327,9 +333,11 @@ class VoicingPanelSection extends PreferencesPanelSection {
       expandCollapseButton.dispose();
       toolbarEnabledSwitch.dispose();
       speechOutputCheckboxes.children.forEach( child => child.dispose() );
+      voicingEnabledUtterance.dispose();
 
       voicingEnabledSwitchVoicingText.dispose();
       speechOutputDescription.dispose();
+      voiceComboBox && voiceComboBox.dispose();
     };
   }
 
@@ -453,6 +461,7 @@ type VoiceComboBoxOptions = VoiceComboBoxSelfOptions & ComboBoxOptions;
  * use.
  */
 class VoiceComboBox extends ComboBox<SpeechSynthesisVoice | null> {
+  private readonly disposeVoiceComboBox: () => void;
 
   /**
    * @param  voiceProperty
@@ -472,7 +481,7 @@ class VoiceComboBox extends ComboBox<SpeechSynthesisVoice | null> {
       tandem: Tandem.OPT_OUT
     }, providedOptions );
 
-    const items = [];
+    const items: ComboBoxItem<SpeechSynthesisVoice | null>[] = [];
 
     if ( voices.length === 0 ) {
       items.push( {
@@ -500,6 +509,17 @@ class VoiceComboBox extends ComboBox<SpeechSynthesisVoice | null> {
     // responses. As of 10/29/21, ComboBox will only read the name response (which are always read regardless)
     // so this isn't really necessary but it is prudent to include it anyway.
     this.button.voicingIgnoreVoicingManagerProperties = true;
+    this.disposeVoiceComboBox = () => {
+      items.forEach( item => {
+        item.node.dispose();
+        item.value = null;
+      } );
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeVoiceComboBox();
+    super.dispose();
   }
 }
 
@@ -563,6 +583,10 @@ class VoicingPitchSlider extends VBox {
     } );
 
     this.disposeVoicePitchSlider = () => {
+      label.dispose();
+      slider.dispose();
+      lowLabel.dispose();
+      highLabel.dispose();
       voicePitchProperty.unlink( voicePitchListener );
     };
   }

@@ -7,6 +7,7 @@
  */
 
 import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
+import Emitter from '../../../axon/js/Emitter.js';
 import merge from '../../../phet-core/js/merge.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
@@ -53,6 +54,8 @@ class SoundPanelSection extends PreferencesPanelSection {
       includeTitleToggleSwitch: true
     }, providedOptions );
 
+    const disposeEmitter = new Emitter();
+
     const soundLabel = new Text( soundsLabelStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
 
     const soundEnabledStringProperty = new PatternStringProperty( labelledDescriptionPatternStringProperty, {
@@ -74,11 +77,9 @@ class SoundPanelSection extends PreferencesPanelSection {
     } );
 
     let extraSoundContent: Node | null = null;
-    let extraSoundCheckbox: Node | null = null;
-    let extraSoundEnabledListener: ( ( enabled: boolean ) => void ) | null = null;
     if ( audioModel.supportsExtraSound ) {
-      const enahncedSoundLabel = new Text( extraSoundsLabelStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
-      extraSoundCheckbox = new Checkbox( audioModel.extraSoundEnabledProperty, enahncedSoundLabel, {
+      const enhancedSoundLabel = new Text( extraSoundsLabelStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
+      const extraSoundCheckbox = new Checkbox( audioModel.extraSoundEnabledProperty, enhancedSoundLabel, {
 
         // pdom
         labelTagName: 'label',
@@ -112,10 +113,16 @@ class SoundPanelSection extends PreferencesPanelSection {
         spacing: 5
       } );
 
-      extraSoundEnabledListener = ( enabled: boolean ) => {
+      const extraSoundEnabledListener = ( enabled: boolean ) => {
         extraSoundContent!.enabled = enabled;
       };
       audioModel.soundEnabledProperty.link( extraSoundEnabledListener );
+      disposeEmitter.addListener( () => {
+        enhancedSoundLabel.dispose();
+        extraSoundCheckbox.dispose();
+        extraSoundDescription.dispose();
+        audioModel.soundEnabledProperty.unlink( extraSoundEnabledListener );
+      } );
     }
 
     super( {
@@ -124,11 +131,11 @@ class SoundPanelSection extends PreferencesPanelSection {
     } );
 
     this.disposeSoundPanelSection = () => {
-      extraSoundEnabledListener && audioModel.soundEnabledProperty.unlink( extraSoundEnabledListener );
+      soundLabel.dispose();
       soundEnabledSwitch.dispose();
-      extraSoundCheckbox && extraSoundCheckbox.dispose();
       soundEnabledVoicingText.dispose();
       soundEnabledStringProperty.dispose();
+      disposeEmitter.emit();
     };
   }
 

@@ -59,6 +59,7 @@ export default class LanguageSelectionNode extends Rectangle {
     localeProperty.link( localeListener );
 
     this.disposeLanguageSelectionNode = () => {
+      text.dispose();
       localeProperty.unlink( localeListener );
       this.removeInputListener( fireListener );
       fireListener.dispose();
