@@ -114,7 +114,6 @@ export default class KeyboardHelpDialog extends Dialog {
     } );
 
     this.disposeKeyboardHelpDialog = () => {
-      titleVBox.dispose();
       childSwitcherMultilink.dispose();
       tabHintLine.dispose();
       shortcutsTitleText.dispose();

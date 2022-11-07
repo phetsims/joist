@@ -358,8 +358,6 @@ class VoicingPanelSection extends PreferencesPanelSection {
     this.disposeVoicingPanelSection = () => {
       quickAccessLabel.dispose();
       speechOutputLabel.dispose();
-      speechOutputContent.dispose();
-      voiceOptionsContent.dispose();
       voiceOptionsLabel.dispose();
       voicingLabel.dispose();
       pitchSlider.dispose();
