@@ -92,9 +92,7 @@ class PreferencesDialog extends Dialog {
     // the selected PreferencesType, indicating which tab is visible in the Dialog
     const selectedTabProperty = new EnumerationProperty( PreferencesType.OVERVIEW, {
       validValues: supportedTabs,
-      tandem: options.tandem.createTandem( 'selectedTabProperty' ),
-      phetioState: false,
-      phetioReadOnly: true
+      tandem: options.tandem.createTandem( 'selectedTabProperty' )
     } );
 
     // the set of tabs you can click to activate a tab panel
