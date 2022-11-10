@@ -17,7 +17,6 @@ import PreferencesPanelSection from './PreferencesPanelSection.js';
 import RegionAndCultureComboBox from './RegionAndCultureComboBox.js';
 import LocalePanel from './LocalePanel.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
-import Emitter from '../../../axon/js/Emitter.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesPanel from './PreferencesPanel.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
@@ -29,14 +28,11 @@ const localizationTitleStringProperty = JoistStrings.preferences.tabs.localizati
 type LocalizationPreferencesPanelOptions = PickRequired<VBoxOptions, 'tandem'>;
 
 class LocalizationPreferencesPanel extends PreferencesPanel {
-  private readonly disposeLocalizationPreferencesPanel: () => void;
 
   public constructor( localizationModel: LocalizationModel, selectedTabProperty: TReadOnlyProperty<PreferencesType>, tabVisibleProperty: TReadOnlyProperty<boolean>, providedOptions: LocalizationPreferencesPanelOptions ) {
     super( PreferencesType.LOCALIZATION, selectedTabProperty, tabVisibleProperty, {
       labelContent: localizationTitleStringProperty
     } );
-
-    const disposeEmitter = new Emitter();
 
     const contentNode = new VBox( {
       spacing: PreferencesDialog.CONTENT_SPACING
@@ -45,18 +41,18 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
     if ( localizationModel.supportsMultipleLocales ) {
       const localePanel = new LocalePanel( localizationModel.localeProperty );
       contentNode.addChild( localePanel );
-      disposeEmitter.addListener( () => localePanel.dispose() );
+      this.disposeEmitter.addListener( () => localePanel.dispose() );
     }
 
     if ( localizationModel.regionAndCultureDescriptors.length > 0 ) {
       const comboBox = new RegionAndCultureComboBox( localizationModel.regionAndCultureProperty, localizationModel.regionAndCultureDescriptors );
       contentNode.addChild( comboBox );
-      disposeEmitter.addListener( () => comboBox.dispose() );
+      this.disposeEmitter.addListener( () => comboBox.dispose() );
     }
 
     localizationModel.customPreferences.forEach( customPreference => {
       const customContent = customPreference.createContent( providedOptions.tandem );
-      disposeEmitter.addListener( () => customContent.dispose() );
+      this.disposeEmitter.addListener( () => customContent.dispose() );
       contentNode.addChild( new Node( {
         children: [ customContent ]
       } ) );
@@ -73,15 +69,6 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
     } );
 
     this.addChild( panelSection );
-
-    this.disposeLocalizationPreferencesPanel = () => {
-      disposeEmitter.emit();
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeLocalizationPreferencesPanel();
-    super.dispose();
   }
 }
 

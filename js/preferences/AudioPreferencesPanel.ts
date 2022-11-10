@@ -16,7 +16,6 @@ import SoundPanelSection from './SoundPanelSection.js';
 import VoicingPanelSection from './VoicingPanelSection.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
-import Emitter from '../../../axon/js/Emitter.js';
 import PreferencesPanel, { PreferencesPanelOptions } from './PreferencesPanel.js';
 import PreferencesType from './PreferencesType.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
@@ -46,12 +45,10 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
     const leftContent = new VBox( contentOptions );
     const rightContent = new VBox( contentOptions );
 
-    const disposeEmitter = new Emitter();
-
     if ( audioModel.supportsVoicing ) {
       const voicingPanelSection = new VoicingPanelSection( audioModel );
       leftContent.addChild( voicingPanelSection );
-      disposeEmitter.addListener( () => voicingPanelSection.dispose() );
+      this.disposeEmitter.addListener( () => voicingPanelSection.dispose() );
     }
 
     if ( audioModel.supportsSound ) {
@@ -65,7 +62,7 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
         includeTitleToggleSwitch: !hideSoundToggle
       } );
       rightContent.addChild( soundPanelSection );
-      disposeEmitter.addListener( () => soundPanelSection.dispose() );
+      this.disposeEmitter.addListener( () => soundPanelSection.dispose() );
     }
 
     const sections = new HBox( {
@@ -82,7 +79,7 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
         contentLeftMargin: 0
       } );
       container.addChild( preferencesPanelSection );
-      disposeEmitter.addListener( () => {
+      this.disposeEmitter.addListener( () => {
         customContent.dispose();
         preferencesPanelSection.dispose();
       } );
@@ -116,7 +113,6 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
       sections.dispose();
       panelContent.dispose();
       audioModel.audioEnabledProperty.unlink( soundEnabledListener );
-      disposeEmitter.emit();
     };
   }
 

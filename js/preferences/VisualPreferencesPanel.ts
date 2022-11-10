@@ -19,7 +19,6 @@ import { VisualModel } from './PreferencesModel.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import ProjectorModeToggleSwitch from './ProjectorModeToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import Emitter from '../../../axon/js/Emitter.js';
 import PreferencesPanel, { PreferencesPanelOptions } from './PreferencesPanel.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import PreferencesType from './PreferencesType.js';
@@ -49,8 +48,6 @@ class VisualPreferencesPanel extends PreferencesPanel {
 
     super( PreferencesType.VISUAL, selectedTabProperty, tabVisibleProperty, options );
 
-    const disposeEmitter = new Emitter();
-
     const contentNode = new VBox( {
       spacing: PreferencesDialog.CONTENT_SPACING,
       align: 'left'
@@ -59,7 +56,7 @@ class VisualPreferencesPanel extends PreferencesPanel {
     if ( visualModel.supportsProjectorMode ) {
       const projectorModeSwitch = new ProjectorModeToggleSwitch( visualModel.colorProfileProperty );
       contentNode.addChild( projectorModeSwitch );
-      disposeEmitter.addListener( () => projectorModeSwitch.dispose() );
+      this.disposeEmitter.addListener( () => projectorModeSwitch.dispose() );
     }
 
 
@@ -81,7 +78,7 @@ class VisualPreferencesPanel extends PreferencesPanel {
       } );
 
       contentNode.addChild( interactiveHighlightsEnabledSwitch );
-      disposeEmitter.addListener( () => {
+      this.disposeEmitter.addListener( () => {
         label.dispose();
         interactiveHighlightsEnabledSwitchVoicingText.dispose();
         interactiveHighlightsEnabledSwitch.dispose();
@@ -92,7 +89,7 @@ class VisualPreferencesPanel extends PreferencesPanel {
       const customContent = customPreference.createContent( tandem );
       const node = new Node( { children: [ customContent ] } );
       contentNode.addChild( node );
-      disposeEmitter.addListener( () => {
+      this.disposeEmitter.addListener( () => {
         customContent.dispose();
         node.dispose();
       } );
@@ -108,7 +105,6 @@ class VisualPreferencesPanel extends PreferencesPanel {
 
     this.disposeVisualPreferencesPanel = () => {
       panelSection.dispose();
-      disposeEmitter.emit();
       contentNode.dispose();
     };
   }

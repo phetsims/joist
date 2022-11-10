@@ -6,7 +6,6 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import Emitter from '../../../axon/js/Emitter.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import merge from '../../../phet-core/js/merge.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
@@ -49,8 +48,6 @@ class InputPreferencesPanel extends PreferencesPanel {
     } );
     this.addChild( contentVBox );
 
-    const disposeEmitter = new Emitter();
-
     if ( inputModel.supportsGestureControl ) {
 
       const gestureControlText = new Text( gestureControlsString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
@@ -79,7 +76,7 @@ class InputPreferencesPanel extends PreferencesPanel {
       } );
 
       contentVBox.addChild( gesturePanelSection );
-      disposeEmitter.addListener( () => {
+      this.disposeEmitter.addListener( () => {
         gestureControlText.dispose();
         gesturePanelSection.dispose();
         gestureControlsEnabledSwitch.dispose();
@@ -94,7 +91,7 @@ class InputPreferencesPanel extends PreferencesPanel {
 
     inputModel.customPreferences.forEach( customPreference => {
       const customContent = customPreference.createContent( providedOptions.tandem );
-      disposeEmitter.addListener( () => customContent.dispose() );
+      this.disposeEmitter.addListener( () => customContent.dispose() );
       contentNode.addChild(
         new Node( { children: [ customContent ] } )
       );
@@ -108,7 +105,6 @@ class InputPreferencesPanel extends PreferencesPanel {
 
     this.disposeInputPreferencesPanel = () => {
       contentVBox.dispose();
-      disposeEmitter.emit();
       customPanelSection.dispose();
       contentNode.children.forEach( child => child.dispose() );
       contentNode.dispose();

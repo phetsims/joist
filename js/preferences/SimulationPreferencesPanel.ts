@@ -15,7 +15,6 @@ import { SimulationModel } from './PreferencesModel.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
-import Emitter from '../../../axon/js/Emitter.js';
 import PreferencesType from './PreferencesType.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import PreferencesPanel, { PreferencesPanelOptions } from './PreferencesPanel.js';
@@ -54,11 +53,10 @@ class SimulationPreferencesPanel extends PreferencesPanel {
     // Just the provided panel content with its own spacing
     const providedChildren: Node[] = [];
 
-    const disposeEmitter = new Emitter();
     simulationModel.customPreferences.forEach( customPreference => {
       const contentNode = customPreference.createContent( options.tandem );
       const preferencesPanelSection = new PreferencesPanelSection( { contentNode: contentNode } );
-      disposeEmitter.addListener( () => {
+      this.disposeEmitter.addListener( () => {
         preferencesPanelSection.dispose();
         contentNode.dispose();
       } );
@@ -69,7 +67,6 @@ class SimulationPreferencesPanel extends PreferencesPanel {
 
     this.disposeSimulationPreferencesPanel = () => {
       panelContent.dispose();
-      disposeEmitter.emit();
     };
   }
 

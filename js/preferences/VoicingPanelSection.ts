@@ -32,7 +32,7 @@ import { AudioModel } from './PreferencesModel.js';
 import PreferencesPanelSection, { PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 import localeProperty from '../i18n/localeProperty.js';
-import Emitter from '../../../axon/js/Emitter.js';
+import { Disposer } from '../../../axon/js/Disposable.js';
 
 // constants
 // none of the Voicing strings or feature is translatable yet, all strings in this file
@@ -107,8 +107,6 @@ class VoicingPanelSection extends PreferencesPanelSection {
    */
   public constructor( audioModel: AudioModel, providedOptions?: VoicingPanelSectionOptions ) {
 
-    const disposeEmitter = new Emitter();
-
     // Voicing feature only works when running in English. If running in a version where you can change locale,
     // indicate through the title that the feature will only work in English.
     const titleStringProperty = ( localeProperty.validValues && localeProperty.validValues.length > 1 ) ?
@@ -151,12 +149,11 @@ class VoicingPanelSection extends PreferencesPanelSection {
       } )
     } ) );
 
-
     /**
      * Create a checkbox for the features of voicing content with a label.
      */
     const createCheckbox = ( labelString: TReadOnlyProperty<string>, property: Property<boolean>,
-                             checkedContextResponse: TReadOnlyProperty<string>, uncheckedContextResponse: TReadOnlyProperty<string> ): Checkbox => {
+                             checkedContextResponse: TReadOnlyProperty<string>, uncheckedContextResponse: TReadOnlyProperty<string>, disposer: Disposer ): Checkbox => {
       const labelNode = new Text( labelString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
       const checkbox = new Checkbox( property, labelNode, {
 
@@ -173,38 +170,34 @@ class VoicingPanelSection extends PreferencesPanelSection {
         checkedContextResponse: checkedContextResponse,
         uncheckedContextResponse: uncheckedContextResponse,
 
+        disposer: disposer,
+
         // phet-io
         tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
       } );
-
-      disposeEmitter.addListener( () => {
-        labelNode.dispose();
-        checkbox.dispose();
-      } );
-
+      labelNode.disposer = checkbox;
       return checkbox;
     };
 
+    const speechOutputContent = new Node();
 
     const speechOutputCheckboxes = new VBox( {
       align: 'left',
       spacing: 5,
       children: [
         createCheckbox( objectDetailsLabelStringProperty, audioModel.voicingObjectResponsesEnabledProperty,
-          voicingObjectChangesStringProperty, objectChangesMutedStringProperty
+          voicingObjectChangesStringProperty, objectChangesMutedStringProperty, speechOutputContent
         ),
         createCheckbox( contextChangesLabelStringProperty, audioModel.voicingContextResponsesEnabledProperty,
-          voicingContextChangesStringProperty, contextChangesMutedStringProperty
+          voicingContextChangesStringProperty, contextChangesMutedStringProperty, speechOutputContent
         ),
         createCheckbox( helpfulHintsLabelStringProperty, audioModel.voicingHintResponsesEnabledProperty,
-          voicingHintsStringProperty, hintsMutedStringProperty
+          voicingHintsStringProperty, hintsMutedStringProperty, speechOutputContent
         )
       ]
     } );
 
-    const speechOutputContent = new Node( {
-      children: [ speechOutputLabel, speechOutputDescription, speechOutputCheckboxes ]
-    } );
+    speechOutputContent.children = [ speechOutputLabel, speechOutputDescription, speechOutputCheckboxes ];
     speechOutputDescription.leftTop = speechOutputLabel.leftBottom.plusXY( 0, 5 );
     speechOutputCheckboxes.leftTop = speechOutputDescription.leftBottom.plusXY( 15, 5 );
 
@@ -375,7 +368,6 @@ class VoicingPanelSection extends PreferencesPanelSection {
       voicingEnabledSwitchVoicingText.dispose();
       speechOutputDescription.dispose();
       voiceComboBox && voiceComboBox.dispose();
-      disposeEmitter.emit();
     };
   }
 

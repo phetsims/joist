@@ -7,7 +7,6 @@
  */
 
 import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
-import Emitter from '../../../axon/js/Emitter.js';
 import merge from '../../../phet-core/js/merge.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
@@ -53,8 +52,6 @@ class SoundPanelSection extends PreferencesPanelSection {
     const options = optionize<SoundPanelSectionOptions, SelfOptions, PreferencesPanelSectionOptions>()( {
       includeTitleToggleSwitch: true
     }, providedOptions );
-
-    const disposeEmitter = new Emitter();
 
     const soundLabel = new Text( soundsLabelStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
 
@@ -117,7 +114,7 @@ class SoundPanelSection extends PreferencesPanelSection {
         extraSoundContent!.enabled = enabled;
       };
       audioModel.soundEnabledProperty.link( extraSoundEnabledListener );
-      disposeEmitter.addListener( () => {
+      extraSoundContent.disposeEmitter.addListener( () => {
         enhancedSoundLabel.dispose();
         extraSoundCheckbox.dispose();
         extraSoundDescription.dispose();
@@ -135,7 +132,7 @@ class SoundPanelSection extends PreferencesPanelSection {
       soundEnabledSwitch.dispose();
       soundEnabledVoicingText.dispose();
       soundEnabledStringProperty.dispose();
-      disposeEmitter.emit();
+      extraSoundContent && extraSoundContent.dispose();
     };
   }
 
