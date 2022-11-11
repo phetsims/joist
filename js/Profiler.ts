@@ -55,7 +55,7 @@ class Profiler {
     }
 
     // this is where the profiler displays its output
-    $( 'body' ).append( '<div style="z-index: 99999999;position: absolute;color:red" id="phetProfiler" ></div>' );
+    $( 'body' ).append( '<div style="z-index: 99999999;position: absolute;color:red; left: 10px;" id="phetProfiler" ></div>' );
   }
 
   public static start( sim: Sim ): void {
