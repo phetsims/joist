@@ -13,6 +13,7 @@
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import TProperty from '../../axon/js/TProperty.js';
+import DynamicStringTest from './DynamicStringTest.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { animatedPanZoomSingleton, Display, DisplayOptions, InputFuzzer, KeyboardFuzzer, Node, RendererType, scenery, Utils } from '../../scenery/js/imports.js';
@@ -149,6 +150,11 @@ export default class SimDisplay extends Display {
 
       // @ts-ignore
       scenery.switchLogToString();
+    }
+
+    if ( phet.chipper.queryParameters.stringTest === 'dynamic' ) {
+
+      DynamicStringTest.init();
     }
 
     this.initializeEvents( {
