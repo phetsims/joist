@@ -35,7 +35,6 @@ type PhetioEvent = {
 };
 ////////////////////////////////
 
-
 type ScreenDataType = {
   name: string;
   totalTime: number;
