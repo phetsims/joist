@@ -1,6 +1,7 @@
 // Copyright 2022, University of Colorado Boulder
 
 import { localizedStrings } from '../../chipper/js/getStringModule.js';
+import Utils from '../../dot/js/Utils.js';
 
 /**
  * For testing dynamic layout in sims that may not yet have submitted translations, enabled via ?stringTest=dynamic.
@@ -34,7 +35,11 @@ export default class DynamicStringTest {
       // check if the keyboard event is a left arrow key
       if ( event.keyCode === 37 ) {
         localizedStrings.forEach( localizedString => {
-          localizedString.property.value = localizedString.property.value.substring( 0, localizedString.property.value.length / 2 );
+
+          // TODO: Figure out how to filter out directional codes, see: https://github.com/phetsims/chipper/issues/1319
+          const strippedString = localizedString.property.value.replace( /['‪]/, '' );
+          const stringLength = Utils.toFixedNumber( strippedString.length / 2 + 1, 0 );
+          localizedString.property.value = localizedString.property.value.substring( 0, stringLength );
         } );
       }
 
