@@ -1731,7 +1731,7 @@ const createInfo = ( trail: Trail ): Node[] => {
   }
 
   if ( node instanceof RichText ) {
-    addSimple( 'text', node.text );
+    addSimple( 'text', node.string );
     addSimple( 'font', node.font instanceof Font ? node.font.getFont() : node.font );
     addPaint( 'fill', node.fill );
     addPaint( 'stroke', node.stroke );
