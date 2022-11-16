@@ -36,8 +36,8 @@ export default class DynamicStringTest {
       if ( event.keyCode === 37 ) {
         localizedStrings.forEach( localizedString => {
 
-          // TODO: Figure out how to filter out directional codes, see: https://github.com/phetsims/chipper/issues/1319
-          const strippedString = localizedString.property.value.replace( /['‪]/, '' );
+          // Strip out all RTL (U+202A), LTR  (U+202B), and PDF  (U+202C) characters from string.
+          const strippedString = localizedString.property.value.replace( /[\u202A\u202B\u202C]/g, '' );
           const stringLength = Utils.toFixedNumber( strippedString.length / 2 + 1, 0 );
           localizedString.property.value = localizedString.property.value.substring( 0, stringLength );
         } );
