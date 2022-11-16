@@ -23,6 +23,15 @@ export default class DynamicStringTest {
                        'The slings and arrows of antidisestablishmentarianism fortune ' +
                        'Or to take Incomprehensibility against a sea of Floccinaucinihilipilification';
     const words = wordSource.split( ' ' );
+
+    function setStride( newStride: number ): void {
+      stride = newStride;
+      console.log( 'stride = ' + stride );
+      localizedStrings.forEach( ( localizedString, index ) => {
+        localizedString.property.value = words[ ( index + stride ) % words.length ];
+      } );
+    }
+
     window.addEventListener( 'keydown', event => {
 
       // check if the keyboard event is a right arrow key
@@ -33,7 +42,7 @@ export default class DynamicStringTest {
       }
 
       // check if the keyboard event is a left arrow key
-      if ( event.keyCode === 37 ) {
+      else if ( event.keyCode === 37 ) {
         localizedStrings.forEach( localizedString => {
 
           // Strip out all RTL (U+202A), LTR  (U+202B), and PDF  (U+202C) characters from string.
@@ -43,28 +52,20 @@ export default class DynamicStringTest {
         } );
       }
 
-      function setStride( newStride: number ): void {
-        stride = newStride;
-        console.log( 'stride = ' + stride );
-        localizedStrings.forEach( ( localizedString, index ) => {
-          localizedString.property.value = words[ ( index + stride ) % words.length ];
-        } );
-      }
-
       // Check if the user press the spacebar
-      if ( event.keyCode === 32 ) {
+      else if ( event.keyCode === 32 ) {
         stride = 0;
         console.log( 'stride = ' + stride );
         localizedStrings.forEach( localizedString => localizedString.restoreInitialValue( 'en' ) );
       }
 
       // Check if the keyboard event is an up arrow key
-      if ( event.keyCode === 38 ) {
+      else if ( event.keyCode === 38 ) {
         setStride( stride + 1 );
       }
 
       // Check if the keyboard event is an down arrow key
-      if ( event.keyCode === 40 ) {
+      else if ( event.keyCode === 40 ) {
         let newStride = stride - 1;
         if ( newStride < 0 ) {
           newStride = words.length - 1;
