@@ -12,7 +12,7 @@ import Property from '../../../axon/js/Property.js';
 import joist from '../joist.js';
 import { Node } from '../../../scenery/js/imports.js';
 
-// A type that describes the possible values for regionAndCultureProperty so that different artwork can be selected from
+// A type that describes the possible values for regionAndCultureProperty so that different artwork can be selected
 // by the user to match a particular region or culture.
 export type RegionAndCultureDescriptor = {
 
