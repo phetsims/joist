@@ -1,8 +1,8 @@
 // Copyright 2022, University of Colorado Boulder
 
 /**
- * A container managing global Properties for simulation localization controls. Contains
- * Properties for characteristics such as selected language or artwork.
+ * A container managing global Properties for simulation region and culture. Contains Properties for characteristics
+ * such as selected language or artwork.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
@@ -23,7 +23,7 @@ export type RegionAndCultureDescriptor = {
   label: string;
 };
 
-class LocalizationManager {
+class RegionAndCultureManager {
 
   // An index describing the selected artwork for the simulation to display a particular region and culture. From this
   // value the simulation can implement different artwork to match the selected region and culture.
@@ -34,7 +34,7 @@ class LocalizationManager {
   }
 }
 
-const localizationManager = new LocalizationManager();
+const regionAndCultureManager = new RegionAndCultureManager();
 
-joist.register( 'localizationManager', localizationManager );
-export default localizationManager;
+joist.register( 'regionAndCultureManager', regionAndCultureManager );
+export default regionAndCultureManager;

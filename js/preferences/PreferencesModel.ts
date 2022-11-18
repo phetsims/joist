@@ -17,7 +17,7 @@ import Property from '../../../axon/js/Property.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import localizationManager, { RegionAndCultureDescriptor } from './localizationManager.js';
+import regionAndCultureManager, { RegionAndCultureDescriptor } from './regionAndCultureManager.js';
 import SpeechSynthesisAnnouncer from '../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import localeProperty from '../i18n/localeProperty.js';
@@ -301,7 +301,7 @@ export default class PreferencesModel extends PhetioObject {
 
     this.localizationModel = merge( {
       localeProperty: localeProperty,
-      regionAndCultureProperty: localizationManager.regionAndCultureProperty
+      regionAndCultureProperty: regionAndCultureManager.regionAndCultureProperty
     }, options.localizationOptions );
 
     if ( this.audioModel.supportsExtraSound ) {

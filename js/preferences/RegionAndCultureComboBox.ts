@@ -14,7 +14,7 @@ import Property from '../../../axon/js/Property.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import { RegionAndCultureDescriptor } from './localizationManager.js';
+import { RegionAndCultureDescriptor } from './regionAndCultureManager.js';
 
 // constants
 // Not translatable until design is complete, see https://github.com/phetsims/energy-skate-park/issues/345
