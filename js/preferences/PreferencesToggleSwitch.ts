@@ -5,6 +5,7 @@
  * PreferencesDialog.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
+ * @author Marla Schulz (PhET Interactive Simulations)
  */
 
 import Property from '../../../axon/js/Property.js';
@@ -44,6 +45,10 @@ type SelfOptions = {
   // vertical spacing between ToggleSwitch and description Node
   descriptionSpacing?: 5;
 
+  controlNode?: null | Node;
+
+  nestedContent?: Array<Node>;
+
   // a11y
   // If provided, these responses will be spoken to describe the change in simulation context
   // for both Voicing and Interactive Description features when the value changes to either leftValue or
@@ -70,6 +75,8 @@ class PreferencesToggleSwitch<T> extends Node {
       valueLabelXSpacing: 8,
       descriptionNode: null,
       descriptionSpacing: 5,
+      controlNode: null,
+      nestedContent: [],
       leftValueContextResponse: null,
       rightValueContextResponse: null,
       toggleSwitchOptions: {
@@ -91,17 +98,6 @@ class PreferencesToggleSwitch<T> extends Node {
       // phet-io
       tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
     } ) );
-
-    if ( options.leftValueLabel ) {
-      options.leftValueLabel.right = this.toggleSwitch.left - options.valueLabelXSpacing;
-      options.leftValueLabel.centerY = this.toggleSwitch.centerY;
-      this.toggleSwitch.addChild( options.leftValueLabel );
-    }
-    if ( options.rightValueLabel ) {
-      options.rightValueLabel.left = this.toggleSwitch.right + options.valueLabelXSpacing;
-      options.rightValueLabel.centerY = this.toggleSwitch.centerY;
-      this.toggleSwitch.addChild( options.rightValueLabel );
-    }
 
     // a11y - Describe the change in value if context responses were provided in options. Listener needs to be
     // removed on dispose.
@@ -140,6 +136,16 @@ class PreferencesToggleSwitch<T> extends Node {
     };
     gridBox.addChild( this.toggleSwitch );
 
+    if ( options.controlNode ) {
+      assert && assert( options.controlNode.layoutOptions === null, 'PreferencesToggleSwitch will control layout' );
+      options.controlNode.layoutOptions = {
+        row: 0,
+        column: 1,
+        xAlign: 'right'
+      };
+      gridBox.addChild( options.controlNode );
+    }
+
     if ( options.labelNode ) {
       assert && assert( options.labelNode.layoutOptions === null, 'PreferencesToggleSwitch will control layout' );
       options.labelNode.layoutOptions = {
@@ -151,12 +157,25 @@ class PreferencesToggleSwitch<T> extends Node {
       gridBox.addChild( options.labelNode );
     }
 
-    if ( options.descriptionNode ) {
+    // descriptionNode will be in the second row if a labelNode is provided.
+    if ( options.descriptionNode && options.labelNode ) {
       assert && assert( options.descriptionNode.layoutOptions === null, 'PreferencesToggleSwitch will control layout' );
       options.descriptionNode.layoutOptions = {
         row: 1,
         column: 0,
         horizontalSpan: 2,
+        xAlign: 'left'
+      };
+      gridBox.addChild( options.descriptionNode );
+    }
+
+
+    // descriptionNode will be in the first row if labelNode is not provided.
+    else if ( options.descriptionNode ) {
+      assert && assert( options.descriptionNode.layoutOptions === null, 'PreferencesToggleSwitch will control layout' );
+      options.descriptionNode.layoutOptions = {
+        row: 0,
+        column: 0,
         xAlign: 'left'
       };
       gridBox.addChild( options.descriptionNode );
