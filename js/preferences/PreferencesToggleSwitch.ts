@@ -16,7 +16,6 @@ import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { GridBox, Node, NodeOptions, SceneryConstants } from '../../../scenery/js/imports.js';
 import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import Utterance, { TAlertable } from '../../../utterance-queue/js/Utterance.js';
 import joist from '../joist.js';
 
 // This ToggleSwitch is not
@@ -49,13 +48,6 @@ type SelfOptions = {
 
   nestedContent?: Array<Node>;
 
-  // a11y
-  // If provided, these responses will be spoken to describe the change in simulation context
-  // for both Voicing and Interactive Description features when the value changes to either leftValue or
-  // rightValue.
-  leftValueContextResponse?: TAlertable;
-  rightValueContextResponse?: TAlertable;
-
   // options passed to the actual ToggleSwitch
   toggleSwitchOptions?: ConstrainedToggleSwitchOptions;
 };
@@ -77,8 +69,6 @@ class PreferencesToggleSwitch<T> extends Node {
       descriptionSpacing: 5,
       controlNode: null,
       nestedContent: [],
-      leftValueContextResponse: null,
-      rightValueContextResponse: null,
       toggleSwitchOptions: {
         size: new Dimension2( 36, 18 ),
         trackFillRight: '#64bd5a'
@@ -99,19 +89,16 @@ class PreferencesToggleSwitch<T> extends Node {
       tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
     } ) );
 
-    // a11y - Describe the change in value if context responses were provided in options. Listener needs to be
-    // removed on dispose.
-    const valueListener = ( value: T ) => {
-      const alert = value === rightValue ? options.rightValueContextResponse : options.leftValueContextResponse;
-
-      if ( alert ) {
-        this.alertDescriptionUtterance( alert );
-        this.toggleSwitch.voicingSpeakResponse( {
-          contextResponse: Utterance.alertableToText( alert )
-        } );
-      }
-    };
-    property.lazyLink( valueListener );
+    if ( options.leftValueLabel ) {
+      options.leftValueLabel.right = this.toggleSwitch.left - options.valueLabelXSpacing;
+      options.leftValueLabel.centerY = this.toggleSwitch.centerY;
+      this.toggleSwitch.addChild( options.leftValueLabel );
+    }
+    if ( options.rightValueLabel ) {
+      options.rightValueLabel.left = this.toggleSwitch.right + options.valueLabelXSpacing;
+      options.rightValueLabel.centerY = this.toggleSwitch.centerY;
+      this.toggleSwitch.addChild( options.rightValueLabel );
+    }
 
     // This component manages disabledOpacity, we don't want it to compound over subcomponents.
     this.toggleSwitch.disabledOpacity = 1;
@@ -182,7 +169,6 @@ class PreferencesToggleSwitch<T> extends Node {
     }
 
     this.disposePreferencesToggleSwitch = () => {
-      property.unlink( valueListener );
       this.toggleSwitch.dispose();
       gridBox.dispose();
     };

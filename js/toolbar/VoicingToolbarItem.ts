@@ -85,10 +85,10 @@ class VoicingToolbarItem extends Node {
     const muteSpeechSwitch = new PreferencesToggleSwitch( voicingManager.mainWindowVoicingEnabledProperty, false, true, {
       labelNode: titleText,
       toggleSwitchOptions: {
-        a11yLabel: titleStringProperty
+        a11yLabel: titleStringProperty,
+        rightValueContextResponse: simVoicingOnStringProperty,
+        leftValueContextResponse: simVoicingOffStringProperty
       },
-      rightValueContextResponse: simVoicingOnStringProperty,
-      leftValueContextResponse: simVoicingOffStringProperty,
       tandem: options.tandem.createTandem( 'muteSpeechSwitch' )
     } );
 

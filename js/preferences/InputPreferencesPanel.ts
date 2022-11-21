@@ -64,12 +64,10 @@ class InputPreferencesPanel extends PreferencesPanel {
         labelNode: gestureControlText,
         descriptionNode: gestureControlDescriptionNode,
         toggleSwitchOptions: {
-          a11yLabel: gestureControlsString
-        },
-
-        // a11y
-        leftValueContextResponse: gestureControlDisabledAlertStringProperty,
-        rightValueContextResponse: gestureControlEnabledAlertStringProperty
+          a11yLabel: gestureControlsString,
+          leftValueContextResponse: gestureControlDisabledAlertStringProperty,
+          rightValueContextResponse: gestureControlEnabledAlertStringProperty
+        }
       } );
 
       const gesturePanelSection = new PreferencesPanelSection( {

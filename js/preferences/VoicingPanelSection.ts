@@ -133,10 +133,10 @@ class VoicingPanelSection extends PreferencesPanelSection {
     const toolbarEnabledSwitch = new PreferencesToggleSwitch<boolean>( audioModel.toolbarEnabledProperty, false, true, {
       labelNode: quickAccessLabel,
       toggleSwitchOptions: {
-        a11yLabel: toolbarLabelStringProperty
-      },
-      leftValueContextResponse: toolbarRemovedStringProperty,
-      rightValueContextResponse: toolbarAddedStringProperty
+        a11yLabel: toolbarLabelStringProperty,
+        leftValueContextResponse: toolbarRemovedStringProperty,
+        rightValueContextResponse: toolbarAddedStringProperty
+      }
     } );
 
     // Speech output levels

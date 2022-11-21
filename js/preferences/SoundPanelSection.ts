@@ -67,10 +67,10 @@ class SoundPanelSection extends PreferencesPanelSection {
       descriptionNode: soundEnabledVoicingText,
       toggleSwitchOptions: {
         visible: options.includeTitleToggleSwitch,
-        a11yLabel: soundsLabelStringProperty
-      },
-      leftValueContextResponse: soundsOffStringProperty,
-      rightValueContextResponse: soundsOnStringProperty
+        a11yLabel: soundsLabelStringProperty,
+        leftValueContextResponse: soundsOffStringProperty,
+        rightValueContextResponse: soundsOnStringProperty
+      }
     } );
 
     let extraSoundContent: Node | null = null;

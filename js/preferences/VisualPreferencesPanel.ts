@@ -72,10 +72,10 @@ class VisualPreferencesPanel extends PreferencesPanel {
       const interactiveHighlightsEnabledSwitch = new PreferencesToggleSwitch( visualModel.interactiveHighlightsEnabledProperty, false, true, {
         labelNode: label,
         descriptionNode: interactiveHighlightsEnabledSwitchVoicingText,
-        leftValueContextResponse: interactiveHighlightsDisabledAlertStringProperty,
-        rightValueContextResponse: interactiveHighlightsEnabledAlertStringProperty,
         toggleSwitchOptions: {
-          a11yLabel: interactiveHighlightsStringProperty
+          a11yLabel: interactiveHighlightsStringProperty,
+          leftValueContextResponse: interactiveHighlightsDisabledAlertStringProperty,
+          rightValueContextResponse: interactiveHighlightsEnabledAlertStringProperty
         }
       } );
 
