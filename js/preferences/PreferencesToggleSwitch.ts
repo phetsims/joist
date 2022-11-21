@@ -12,7 +12,7 @@ import Dimension2 from '../../../dot/js/Dimension2.js';
 import merge from '../../../phet-core/js/merge.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import { GridBox, Node, NodeOptions, PDOMValueType, SceneryConstants } from '../../../scenery/js/imports.js';
+import { GridBox, Node, NodeOptions, SceneryConstants } from '../../../scenery/js/imports.js';
 import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import Utterance, { TAlertable } from '../../../utterance-queue/js/Utterance.js';
@@ -44,11 +44,6 @@ type SelfOptions = {
   // vertical spacing between ToggleSwitch and description Node
   descriptionSpacing?: 5;
 
-  // Sets both the inner content and the voicing response for the toggle switch on focus.
-  // NOTE?: Seeing more overlap like this between PDOM and voicing (which is good) but not sure how it will
-  // all work yet. This option is the first of its kind.
-  a11yLabel?: null | PDOMValueType;
-
   // a11y
   // If provided, these responses will be spoken to describe the change in simulation context
   // for both Voicing and Interactive Description features when the value changes to either leftValue or
@@ -75,7 +70,6 @@ class PreferencesToggleSwitch<T> extends Node {
       valueLabelXSpacing: 8,
       descriptionNode: null,
       descriptionSpacing: 5,
-      a11yLabel: null,
       leftValueContextResponse: null,
       rightValueContextResponse: null,
       toggleSwitchOptions: {
@@ -91,12 +85,8 @@ class PreferencesToggleSwitch<T> extends Node {
       // enabled:true by default, but disable if fuzzing when supporting voicing
       enabled: !( phet.chipper.isFuzzEnabled() && phet.chipper.queryParameters.supportsVoicing ),
 
-      // pdom
-      innerContent: options.a11yLabel,
-
       // voicing
       voicingIgnoreVoicingManagerProperties: true,
-      voicingNameResponse: options.a11yLabel,
 
       // phet-io
       tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362

@@ -123,14 +123,18 @@ class VoicingPanelSection extends PreferencesPanelSection {
     const voicingEnabledSwitch = new PreferencesToggleSwitch<boolean>( audioModel.voicingEnabledProperty, false, true, {
       labelNode: voicingLabel,
       descriptionNode: voicingEnabledSwitchVoicingText,
-      a11yLabel: titleStringProperty
+      toggleSwitchOptions: {
+        a11yLabel: titleStringProperty
+      }
     } );
 
     // checkbox for the toolbar
     const quickAccessLabel = new Text( toolbarLabelStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
     const toolbarEnabledSwitch = new PreferencesToggleSwitch<boolean>( audioModel.toolbarEnabledProperty, false, true, {
       labelNode: quickAccessLabel,
-      a11yLabel: toolbarLabelStringProperty,
+      toggleSwitchOptions: {
+        a11yLabel: toolbarLabelStringProperty
+      },
       leftValueContextResponse: toolbarRemovedStringProperty,
       rightValueContextResponse: toolbarAddedStringProperty
     } );

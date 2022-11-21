@@ -63,9 +63,11 @@ class InputPreferencesPanel extends PreferencesPanel {
       const gestureControlsEnabledSwitch = new PreferencesToggleSwitch( inputModel.gestureControlsEnabledProperty, false, true, {
         labelNode: gestureControlText,
         descriptionNode: gestureControlDescriptionNode,
+        toggleSwitchOptions: {
+          a11yLabel: gestureControlsString
+        },
 
         // a11y
-        a11yLabel: gestureControlsString,
         leftValueContextResponse: gestureControlDisabledAlertStringProperty,
         rightValueContextResponse: gestureControlEnabledAlertStringProperty
       } );
