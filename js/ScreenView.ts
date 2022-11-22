@@ -62,7 +62,7 @@ class ScreenView extends Node {
   private screenSummaryContent: Node | null;
   private readonly pdomParentNode: Node;
 
-  public static DEFAULT_LAYOUT_BOUNDS: Bounds2;
+  public static readonly DEFAULT_LAYOUT_BOUNDS = DEFAULT_LAYOUT_BOUNDS;
 
   public constructor( providedOptions: ScreenViewOptions ) {
 
@@ -309,8 +309,6 @@ class ScreenView extends Node {
     // See subclass for implementation
   }
 }
-
-ScreenView.DEFAULT_LAYOUT_BOUNDS = DEFAULT_LAYOUT_BOUNDS;
 
 joist.register( 'ScreenView', ScreenView );
 export default ScreenView;

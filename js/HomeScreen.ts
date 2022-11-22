@@ -28,7 +28,7 @@ type SelfOptions = {
 type HomeScreenOptions = SelfOptions & ScreenOptions;
 
 class HomeScreen extends Screen<HomeScreenModel, HomeScreenView> {
-  public static BACKGROUND_COLOR: Color;
+  public static readonly BACKGROUND_COLOR = BACKGROUND_COLOR;
 
   public constructor(
     simNameProperty: TReadOnlyProperty<string>,
@@ -63,9 +63,6 @@ class HomeScreen extends Screen<HomeScreenModel, HomeScreenView> {
     );
   }
 }
-
-// (read-only)
-HomeScreen.BACKGROUND_COLOR = BACKGROUND_COLOR;
 
 joist.register( 'HomeScreen', HomeScreen );
 

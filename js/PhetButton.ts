@@ -33,7 +33,15 @@ const PHET_LOGO_HEIGHT = 108;
 const PHET_LOGO_SCALE = 0.28; // scale applied to the PhET logo
 
 class PhetButton extends JoistButton {
-  public static PhetButtonIO: IOType;
+  /**
+   * IO Type for PhetButton, to interface with PhET-iO API.  The PhetButtonIO acts as the main phet-io branding/logo in
+   * the sim. It doesn't inherit from NodeIO because we neither need all of NodeIO's API methods, nor do we want to
+   * support maintaining overriding no-ops in this file see https://github.com/phetsims/scenery/issues/711 for more info.
+   */
+  public static readonly PhetButtonIO = new IOType( 'PhetButtonIO', {
+    valueType: PhetButton,
+    documentation: 'The PhET Button in the bottom right of the screen'
+  } );
 
   public constructor( sim: Sim, backgroundFillProperty: TReadOnlyProperty<Color>, tandem: Tandem ) {
 
@@ -147,16 +155,6 @@ class PhetButton extends JoistButton {
     AriaHasPopUpMutator.mutateNode( this, true );
   }
 }
-
-/**
- * IO Type for PhetButton, to interface with PhET-iO API.  The PhetButtonIO acts as the main phet-io branding/logo in
- * the sim. It doesn't inherit from NodeIO because we neither need all of NodeIO's API methods, nor do we want to
- * support maintaining overriding no-ops in this file see https://github.com/phetsims/scenery/issues/711 for more info.
- */
-PhetButton.PhetButtonIO = new IOType( 'PhetButtonIO', {
-  valueType: PhetButton,
-  documentation: 'The PhET Button in the bottom right of the screen'
-} );
 
 joist.register( 'PhetButton', PhetButton );
 export default PhetButton;

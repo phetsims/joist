@@ -92,10 +92,14 @@ class Screen<M extends TModel = IntentionalAny, V extends ScreenView = ScreenVie
   private _model: M | null;
   private _view: V | null;
 
-  public static HOME_SCREEN_ICON_ASPECT_RATIO: number;
-  public static MINIMUM_HOME_SCREEN_ICON_SIZE: Dimension2;
-  public static MINIMUM_NAVBAR_ICON_SIZE: Dimension2;
-  public static ScreenIO: IOType;
+  public static readonly HOME_SCREEN_ICON_ASPECT_RATIO = HOME_SCREEN_ICON_ASPECT_RATIO;
+  public static readonly MINIMUM_HOME_SCREEN_ICON_SIZE = MINIMUM_HOME_SCREEN_ICON_SIZE;
+  public static readonly MINIMUM_NAVBAR_ICON_SIZE = MINIMUM_NAVBAR_ICON_SIZE;
+  public static readonly ScreenIO = new IOType( 'ScreenIO', {
+    valueType: Screen,
+    supertype: ReferenceIO( IOType.ObjectIO ),
+    documentation: 'Section of a simulation which has its own model and view.'
+  } );
 
   public constructor( createModel: () => M, createView: CreateView<M, V>, providedOptions: ScreenOptions ) {
 
@@ -386,16 +390,6 @@ function devCreateVisibleBoundsNode( screenView: ScreenView ): Node {
   } );
   return path;
 }
-
-Screen.HOME_SCREEN_ICON_ASPECT_RATIO = HOME_SCREEN_ICON_ASPECT_RATIO;
-Screen.MINIMUM_HOME_SCREEN_ICON_SIZE = MINIMUM_HOME_SCREEN_ICON_SIZE;
-Screen.MINIMUM_NAVBAR_ICON_SIZE = MINIMUM_NAVBAR_ICON_SIZE;
-
-Screen.ScreenIO = new IOType( 'ScreenIO', {
-  valueType: Screen,
-  supertype: ReferenceIO( IOType.ObjectIO ),
-  documentation: 'Section of a simulation which has its own model and view.'
-} );
 
 joist.register( 'Screen', Screen );
 export default Screen;
