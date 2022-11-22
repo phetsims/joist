@@ -15,7 +15,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import Utterance from '../../../utterance-queue/js/Utterance.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
-import PreferencesToggleSwitch from '../preferences/PreferencesToggleSwitch.js';
+import PreferencesControl from '../preferences/PreferencesControl.js';
 import VoicingToolbarAlertManager from './VoicingToolbarAlertManager.js';
 import LookAndFeel from '../LookAndFeel.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../phet-core/js/optionize.js';
@@ -90,7 +90,7 @@ class VoicingToolbarItem extends Node {
       leftValueContextResponse: simVoicingOffStringProperty,
       tandem: options.tandem.createTandem( 'muteSpeechSwitch' )
     }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
-    const muteSpeechControl = new PreferencesToggleSwitch( {
+    const muteSpeechControl = new PreferencesControl( {
       labelNode: titleText,
       controlNode: muteSpeechSwitch,
       tandem: options.tandem.createTandem( 'muteSpeechControl' )

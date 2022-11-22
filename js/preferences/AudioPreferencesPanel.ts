@@ -11,7 +11,7 @@ import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import { AudioModel } from './PreferencesModel.js';
-import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
+import PreferencesControl from './PreferencesControl.js';
 import SoundPanelSection from './SoundPanelSection.js';
 import VoicingPanelSection from './VoicingPanelSection.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
@@ -93,7 +93,7 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
     const audioFeaturesSwitch = new ToggleSwitch( audioModel.audioEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
       a11yLabel: audioFeaturesStringProperty
     }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
-    const allAudioSwitch = new PreferencesToggleSwitch( {
+    const allAudioSwitch = new PreferencesControl( {
       labelNode: audioFeaturesText,
       controlNode: audioFeaturesSwitch
     } );

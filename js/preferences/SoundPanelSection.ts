@@ -19,7 +19,7 @@ import JoistStrings from '../JoistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import { AudioModel } from './PreferencesModel.js';
 import PreferencesPanelSection, { PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
-import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
+import PreferencesControl from './PreferencesControl.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 
 // constants
@@ -70,7 +70,7 @@ class SoundPanelSection extends PreferencesPanelSection {
       leftValueContextResponse: soundsOffStringProperty,
       rightValueContextResponse: soundsOnStringProperty
     }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
-    const soundEnabledControl = new PreferencesToggleSwitch( {
+    const soundEnabledControl = new PreferencesControl( {
       labelNode: soundLabel,
       descriptionNode: soundEnabledVoicingText,
       controlNode: soundEnabledSwitch

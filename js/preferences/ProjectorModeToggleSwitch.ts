@@ -10,7 +10,7 @@
 import { SceneryConstants, VoicingText } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import PreferencesDialog from './PreferencesDialog.js';
-import PreferencesToggleSwitch, { PreferencesToggleSwitchOptions } from './PreferencesToggleSwitch.js';
+import PreferencesControl, { PreferencesToggleSwitchOptions } from './PreferencesControl.js';
 import JoistStrings from '../JoistStrings.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
@@ -23,7 +23,7 @@ type SelfOptions = EmptySelfOptions;
 type ParentOptions = PreferencesToggleSwitchOptions;
 export type ProjectorModeToggleSwitchOptions = SelfOptions & StrictOmit<ParentOptions, 'labelNode' | 'descriptionNode'>;
 
-class ProjectorModeToggleSwitch extends PreferencesToggleSwitch {
+class ProjectorModeToggleSwitch extends PreferencesControl {
 
   private readonly disposeProjectorModeToggleSwitch: () => void;
 

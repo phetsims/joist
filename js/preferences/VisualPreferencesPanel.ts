@@ -14,7 +14,7 @@ import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
-import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
+import PreferencesControl from './PreferencesControl.js';
 import { VisualModel } from './PreferencesModel.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import ProjectorModeToggleSwitch from './ProjectorModeToggleSwitch.js';
@@ -77,7 +77,7 @@ class VisualPreferencesPanel extends PreferencesPanel {
         rightValueContextResponse: interactiveHighlightsEnabledAlertStringProperty
       }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
 
-      const interactiveHighlightsEnabledControl = new PreferencesToggleSwitch( {
+      const interactiveHighlightsEnabledControl = new PreferencesControl( {
         labelNode: label,
         descriptionNode: interactiveHighlightsEnabledSwitchVoicingText,
         controlNode: interactiveHighlightsEnabledSwitch

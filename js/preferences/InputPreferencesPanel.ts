@@ -18,7 +18,7 @@ import PreferencesDialog from './PreferencesDialog.js';
 import { InputModel } from './PreferencesModel.js';
 import PreferencesPanel, { PreferencesPanelOptions } from './PreferencesPanel.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
-import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
+import PreferencesControl from './PreferencesControl.js';
 import PreferencesType from './PreferencesType.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
@@ -68,7 +68,7 @@ class InputPreferencesPanel extends PreferencesPanel {
         leftValueContextResponse: gestureControlDisabledAlertStringProperty,
         rightValueContextResponse: gestureControlEnabledAlertStringProperty
       }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
-      const gestureControlsControl = new PreferencesToggleSwitch( {
+      const gestureControlsControl = new PreferencesControl( {
         labelNode: gestureControlText,
         descriptionNode: gestureControlDescriptionNode,
         controlNode: gestureControlsEnabledSwitch

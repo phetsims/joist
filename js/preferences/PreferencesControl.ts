@@ -44,7 +44,7 @@ type SelfOptions = {
 
 export type PreferencesToggleSwitchOptions = SelfOptions & NodeOptions;
 
-class PreferencesToggleSwitch extends Node {
+class PreferencesControl extends Node {
   private readonly disposePreferencesToggleSwitch: () => void;
 
   public constructor( providedOptions?: PreferencesToggleSwitchOptions ) {
@@ -135,5 +135,5 @@ class PreferencesToggleSwitch extends Node {
   }
 }
 
-joist.register( 'PreferencesToggleSwitch', PreferencesToggleSwitch );
-export default PreferencesToggleSwitch;
+joist.register( 'PreferencesControl', PreferencesControl );
+export default PreferencesControl;

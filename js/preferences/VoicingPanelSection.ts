@@ -30,7 +30,7 @@ import JoistStrings from '../JoistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import { AudioModel } from './PreferencesModel.js';
 import PreferencesPanelSection, { PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
-import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
+import PreferencesControl from './PreferencesControl.js';
 import localeProperty from '../i18n/localeProperty.js';
 import { Disposer } from '../../../axon/js/Disposable.js';
 import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
@@ -125,7 +125,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
     const voicingToggleSwitch = new ToggleSwitch( audioModel.voicingEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
       a11yLabel: titleStringProperty
     }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
-    const voicingEnabledSwitch = new PreferencesToggleSwitch( {
+    const voicingEnabledSwitch = new PreferencesControl( {
       labelNode: voicingLabel,
       descriptionNode: voicingEnabledSwitchVoicingText,
       controlNode: voicingToggleSwitch
@@ -138,7 +138,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
       leftValueContextResponse: toolbarRemovedStringProperty,
       rightValueContextResponse: toolbarAddedStringProperty
     }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
-    const toolbarEnabledSwitch = new PreferencesToggleSwitch( {
+    const toolbarEnabledSwitch = new PreferencesControl( {
       labelNode: quickAccessLabel,
       controlNode: toolbarToggleSwitch
     } );
