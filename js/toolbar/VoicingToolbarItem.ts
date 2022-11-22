@@ -113,7 +113,7 @@ class VoicingToolbarItem extends Node {
     this.children = [ muteSpeechControl, quickInfoText, overviewRow.content, detailsRow.content, hintRow.content ];
 
     // layout
-    quickInfoText.leftTop = muteSpeechSwitch.leftBottom.plusXY( 0, CONTENT_VERTICAL_SPACING );
+    quickInfoText.leftTop = muteSpeechControl.leftBottom.plusXY( 0, CONTENT_VERTICAL_SPACING );
     overviewRow.content.leftTop = quickInfoText.leftBottom.plusXY( QUICK_INFO, CONTENT_VERTICAL_SPACING );
     detailsRow.content.leftTop = overviewRow.content.leftBottom.plusXY( 0, CONTENT_VERTICAL_SPACING );
     hintRow.content.leftTop = detailsRow.content.leftBottom.plusXY( 0, CONTENT_VERTICAL_SPACING );
