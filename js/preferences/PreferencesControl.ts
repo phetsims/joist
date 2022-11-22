@@ -9,6 +9,7 @@
  */
 
 import optionize from '../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { GridBox, Node, NodeOptions, SceneryConstants } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 
@@ -17,7 +18,7 @@ import joist from '../joist.js';
 type SelfOptions = {
 
   // if provided, a label Node to the left of the toggle switch control
-  labelNode?: null | Node;
+  labelNode?: Node;
 
   // horizontal spacing between label for the component and toggle switch IF there is no descriptionNode.
   // If a descriptionNode is provided, layout of the labelNode will be relative to the description.
@@ -32,12 +33,12 @@ type SelfOptions = {
   valueLabelXSpacing?: 8;
 
   // if provided, a Node under the ToggleSwitch and label that is meant to describe the purpose of the switch
-  descriptionNode?: null | Node;
+  descriptionNode?: Node;
 
   // vertical spacing between ToggleSwitch and description Node
   descriptionSpacing?: 5;
 
-  controlNode?: null | Node;
+  controlNode?: Node;
 
   nestedContent?: Array<Node>;
 };
@@ -48,15 +49,12 @@ class PreferencesControl extends Node {
   private readonly disposePreferencesToggleSwitch: () => void;
 
   public constructor( providedOptions?: PreferencesToggleSwitchOptions ) {
-    const options = optionize<PreferencesToggleSwitchOptions, SelfOptions, NodeOptions>()( {
-      labelNode: null,
+    const options = optionize<PreferencesToggleSwitchOptions, StrictOmit<SelfOptions, 'labelNode' | 'descriptionNode' | 'controlNode'>, NodeOptions>()( {
       labelSpacing: 10,
       leftValueLabel: null,
       rightValueLabel: null,
       valueLabelXSpacing: 8,
-      descriptionNode: null,
       descriptionSpacing: 5,
-      controlNode: null,
       nestedContent: []
     }, providedOptions );
 
