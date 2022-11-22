@@ -14,7 +14,7 @@ import Dimension2 from '../../../dot/js/Dimension2.js';
 import Range from '../../../dot/js/Range.js';
 import Utils from '../../../dot/js/Utils.js';
 import merge from '../../../phet-core/js/merge.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import optionize, { combineOptions, EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import NumberControl from '../../../scenery-phet/js/NumberControl.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
@@ -33,6 +33,8 @@ import PreferencesPanelSection, { PreferencesPanelSectionOptions } from './Prefe
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 import localeProperty from '../i18n/localeProperty.js';
 import { Disposer } from '../../../axon/js/Disposable.js';
+import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
+import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 
 // constants
 // none of the Voicing strings or feature is translatable yet, all strings in this file
@@ -120,23 +122,25 @@ class VoicingPanelSection extends PreferencesPanelSection {
         description: voicingDescriptionStringProperty
       } )
     } ) );
-    const voicingEnabledSwitch = new PreferencesToggleSwitch<boolean>( audioModel.voicingEnabledProperty, false, true, {
+    const voicingToggleSwitch = new ToggleSwitch( audioModel.voicingEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
+      a11yLabel: titleStringProperty
+    }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
+    const voicingEnabledSwitch = new PreferencesToggleSwitch( {
       labelNode: voicingLabel,
       descriptionNode: voicingEnabledSwitchVoicingText,
-      toggleSwitchOptions: {
-        a11yLabel: titleStringProperty
-      }
+      controlNode: voicingToggleSwitch
     } );
 
     // checkbox for the toolbar
     const quickAccessLabel = new Text( toolbarLabelStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
-    const toolbarEnabledSwitch = new PreferencesToggleSwitch<boolean>( audioModel.toolbarEnabledProperty, false, true, {
+    const toolbarToggleSwitch = new ToggleSwitch( audioModel.toolbarEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
+      a11yLabel: toolbarLabelStringProperty,
+      leftValueContextResponse: toolbarRemovedStringProperty,
+      rightValueContextResponse: toolbarAddedStringProperty
+    }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
+    const toolbarEnabledSwitch = new PreferencesToggleSwitch( {
       labelNode: quickAccessLabel,
-      toggleSwitchOptions: {
-        a11yLabel: toolbarLabelStringProperty,
-        leftValueContextResponse: toolbarRemovedStringProperty,
-        rightValueContextResponse: toolbarAddedStringProperty
-      }
+      controlNode: toolbarToggleSwitch
     } );
 
     // Speech output levels

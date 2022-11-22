@@ -8,10 +8,11 @@
 
 import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
 import merge from '../../../phet-core/js/merge.js';
-import optionize from '../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import { Node, Text, VBox, VoicingRichText, VoicingText } from '../../../scenery/js/imports.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
+import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
@@ -19,6 +20,7 @@ import PreferencesDialog from './PreferencesDialog.js';
 import { AudioModel } from './PreferencesModel.js';
 import PreferencesPanelSection, { PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
+import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 
 // constants
 const soundsLabelStringProperty = JoistStrings.preferences.tabs.audio.sounds.titleStringProperty;
@@ -62,15 +64,16 @@ class SoundPanelSection extends PreferencesPanelSection {
     const soundEnabledVoicingText = new VoicingText( soundDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
       readingBlockNameResponse: soundEnabledStringProperty
     } ) );
-    const soundEnabledSwitch = new PreferencesToggleSwitch( audioModel.soundEnabledProperty, false, true, {
+    const soundEnabledSwitch = new ToggleSwitch( audioModel.soundEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
+      visible: options.includeTitleToggleSwitch,
+      a11yLabel: soundsLabelStringProperty,
+      leftValueContextResponse: soundsOffStringProperty,
+      rightValueContextResponse: soundsOnStringProperty
+    }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
+    const soundEnabledControl = new PreferencesToggleSwitch( {
       labelNode: soundLabel,
       descriptionNode: soundEnabledVoicingText,
-      toggleSwitchOptions: {
-        visible: options.includeTitleToggleSwitch,
-        a11yLabel: soundsLabelStringProperty,
-        leftValueContextResponse: soundsOffStringProperty,
-        rightValueContextResponse: soundsOnStringProperty
-      }
+      controlNode: soundEnabledSwitch
     } );
 
     let extraSoundContent: Node | null = null;
@@ -123,7 +126,7 @@ class SoundPanelSection extends PreferencesPanelSection {
     }
 
     super( {
-      titleNode: soundEnabledSwitch,
+      titleNode: soundEnabledControl,
       contentNode: extraSoundContent
     } );
 

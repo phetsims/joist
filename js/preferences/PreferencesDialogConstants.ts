@@ -29,7 +29,7 @@ const PreferencesDialogConstants = {
     // phet-io
     tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
   },
-  CONTROL_TITLE_OPTIONS: {
+  CONTROL_LABEL_OPTIONS: {
     font: TITLE_FONT,
     maxWidth: 360
   },

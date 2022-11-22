@@ -16,12 +16,14 @@ import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js'
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import Property from '../../../axon/js/Property.js';
+import ToggleSwitch from '../../../sun/js/ToggleSwitch.js';
+import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 
 type SelfOptions = EmptySelfOptions;
 type ParentOptions = PreferencesToggleSwitchOptions;
 export type ProjectorModeToggleSwitchOptions = SelfOptions & StrictOmit<ParentOptions, 'labelNode' | 'descriptionNode'>;
 
-class ProjectorModeToggleSwitch extends PreferencesToggleSwitch<string> {
+class ProjectorModeToggleSwitch extends PreferencesToggleSwitch {
 
   private readonly disposeProjectorModeToggleSwitch: () => void;
 
@@ -36,6 +38,10 @@ class ProjectorModeToggleSwitch extends PreferencesToggleSwitch<string> {
     const projectorModeLabel = new VoicingText( JoistStrings.projectorModeStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
     const projectorModeDescription = new VoicingText( JoistStrings.preferences.tabs.visual.projectorModeDescriptionStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
 
+    // Identify the non-projector color profile that this checkbox sets.
+    const otherColorProfile = phet.chipper.colorProfiles.find( ( colorProfile: string ) => colorProfile !== SceneryConstants.PROJECTOR_COLOR_PROFILE );
+    const projectorModeSwitch = new ToggleSwitch( colorProfileProperty, otherColorProfile, SceneryConstants.PROJECTOR_COLOR_PROFILE, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS );
+
     projectorModeDescription.readingBlockNameResponse = StringUtils.fillIn( JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty, {
       label: JoistStrings.projectorModeStringProperty,
       description: JoistStrings.preferences.tabs.visual.projectorModeDescriptionStringProperty
@@ -43,17 +49,16 @@ class ProjectorModeToggleSwitch extends PreferencesToggleSwitch<string> {
 
     const options = optionize<ProjectorModeToggleSwitchOptions, SelfOptions, ParentOptions>()( {
       labelNode: projectorModeLabel,
-      descriptionNode: projectorModeDescription
+      descriptionNode: projectorModeDescription,
+      controlNode: projectorModeSwitch
     }, providedOptions );
 
-    // Identify the non-projector color profile that this checkbox sets.
-    const otherColorProfile = phet.chipper.colorProfiles.find( ( colorProfile: string ) => colorProfile !== SceneryConstants.PROJECTOR_COLOR_PROFILE );
-
-    super( colorProfileProperty, otherColorProfile, SceneryConstants.PROJECTOR_COLOR_PROFILE, options );
+    super( options );
 
     this.disposeProjectorModeToggleSwitch = () => {
       projectorModeLabel.dispose();
       projectorModeDescription.dispose();
+      projectorModeSwitch.dispose();
     };
   }
 

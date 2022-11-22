@@ -18,11 +18,13 @@ import JoistStrings from '../JoistStrings.js';
 import PreferencesToggleSwitch from '../preferences/PreferencesToggleSwitch.js';
 import VoicingToolbarAlertManager from './VoicingToolbarAlertManager.js';
 import LookAndFeel from '../LookAndFeel.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import optionize, { combineOptions, EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import animationFrameTimer from '../../../axon/js/animationFrameTimer.js';
 import { SpeakableResolvedResponse } from '../../../utterance-queue/js/ResponsePacket.js';
+import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
+import PreferencesDialogConstants from '../preferences/PreferencesDialogConstants.js';
 
 // constants
 const CONTENT_VERTICAL_SPACING = 10;
@@ -82,18 +84,20 @@ class VoicingToolbarItem extends Node {
       innerStroke: 'white'
     } );
 
-    const muteSpeechSwitch = new PreferencesToggleSwitch( voicingManager.mainWindowVoicingEnabledProperty, false, true, {
-      labelNode: titleText,
-      toggleSwitchOptions: {
-        a11yLabel: titleStringProperty,
-        rightValueContextResponse: simVoicingOnStringProperty,
-        leftValueContextResponse: simVoicingOffStringProperty
-      },
+    const muteSpeechSwitch = new ToggleSwitch( voicingManager.mainWindowVoicingEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
+      a11yLabel: titleStringProperty,
+      rightValueContextResponse: simVoicingOnStringProperty,
+      leftValueContextResponse: simVoicingOffStringProperty,
       tandem: options.tandem.createTandem( 'muteSpeechSwitch' )
+    }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
+    const muteSpeechControl = new PreferencesToggleSwitch( {
+      labelNode: titleText,
+      controlNode: muteSpeechSwitch,
+      tandem: options.tandem.createTandem( 'muteSpeechControl' )
     } );
 
     // We don't care about description for this Utterance because it fixes a voicing specific bug.
-    const toggleSwitchUtterance = muteSpeechSwitch.toggleSwitch.voicingUtterance;
+    const toggleSwitchUtterance = muteSpeechSwitch.voicingUtterance;
 
     // layout
     const labelAlignGroup = new AlignGroup();
@@ -106,7 +110,7 @@ class VoicingToolbarItem extends Node {
     const hintRow = new LabelButtonRow( hintStringProperty, playHintStringProperty, labelAlignGroup, inputAlignGroup,
       lookAndFeel, alertManager.createHintContent.bind( alertManager ), toggleSwitchUtterance );
 
-    this.children = [ muteSpeechSwitch, quickInfoText, overviewRow.content, detailsRow.content, hintRow.content ];
+    this.children = [ muteSpeechControl, quickInfoText, overviewRow.content, detailsRow.content, hintRow.content ];
 
     // layout
     quickInfoText.leftTop = muteSpeechSwitch.leftBottom.plusXY( 0, CONTENT_VERTICAL_SPACING );

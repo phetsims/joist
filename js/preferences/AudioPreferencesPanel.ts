@@ -19,6 +19,9 @@ import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import PreferencesPanel, { PreferencesPanelOptions } from './PreferencesPanel.js';
 import PreferencesType from './PreferencesType.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
+import { combineOptions } from '../../../phet-core/js/optionize.js';
+import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 
 // constants
 const audioFeaturesStringProperty = JoistStrings.preferences.tabs.audio.audioFeatures.titleStringProperty;
@@ -87,11 +90,12 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
     } );
 
     const audioFeaturesText = new Text( audioFeaturesStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
-    const allAudioSwitch = new PreferencesToggleSwitch( audioModel.audioEnabledProperty, false, true, {
+    const audioFeaturesSwitch = new ToggleSwitch( audioModel.audioEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
+      a11yLabel: audioFeaturesStringProperty
+    }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
+    const allAudioSwitch = new PreferencesToggleSwitch( {
       labelNode: audioFeaturesText,
-      toggleSwitchOptions: {
-        a11yLabel: audioFeaturesStringProperty
-      }
+      controlNode: audioFeaturesSwitch
     } );
 
     const soundEnabledListener = ( enabled: boolean ) => {

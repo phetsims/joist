@@ -8,18 +8,11 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import Property from '../../../axon/js/Property.js';
-import Dimension2 from '../../../dot/js/Dimension2.js';
-import merge from '../../../phet-core/js/merge.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { GridBox, Node, NodeOptions, SceneryConstants } from '../../../scenery/js/imports.js';
-import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
-import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 
 // This ToggleSwitch is not
-type ConstrainedToggleSwitchOptions = StrictOmit<ToggleSwitchOptions, 'innerContent' | 'voicingIgnoreVoicingManagerProperties'>;
 
 type SelfOptions = {
 
@@ -47,18 +40,14 @@ type SelfOptions = {
   controlNode?: null | Node;
 
   nestedContent?: Array<Node>;
-
-  // options passed to the actual ToggleSwitch
-  toggleSwitchOptions?: ConstrainedToggleSwitchOptions;
 };
 
 export type PreferencesToggleSwitchOptions = SelfOptions & NodeOptions;
 
-class PreferencesToggleSwitch<T> extends Node {
+class PreferencesToggleSwitch extends Node {
   private readonly disposePreferencesToggleSwitch: () => void;
-  public readonly toggleSwitch: ToggleSwitch<T>;
 
-  public constructor( property: Property<T>, leftValue: T, rightValue: T, providedOptions?: PreferencesToggleSwitchOptions ) {
+  public constructor( providedOptions?: PreferencesToggleSwitchOptions ) {
     const options = optionize<PreferencesToggleSwitchOptions, SelfOptions, NodeOptions>()( {
       labelNode: null,
       labelSpacing: 10,
@@ -68,45 +57,13 @@ class PreferencesToggleSwitch<T> extends Node {
       descriptionNode: null,
       descriptionSpacing: 5,
       controlNode: null,
-      nestedContent: [],
-      toggleSwitchOptions: {
-        size: new Dimension2( 36, 18 ),
-        trackFillRight: '#64bd5a'
-      }
+      nestedContent: []
     }, providedOptions );
 
     super( options );
 
-    this.toggleSwitch = new ToggleSwitch( property, leftValue, rightValue, merge( options.toggleSwitchOptions, {
-
-      // enabled:true by default, but disable if fuzzing when supporting voicing
-      enabled: !( phet.chipper.isFuzzEnabled() && phet.chipper.queryParameters.supportsVoicing ),
-
-      // voicing
-      voicingIgnoreVoicingManagerProperties: true,
-
-      // phet-io
-      tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
-    } ) );
-
-    if ( options.leftValueLabel ) {
-      options.leftValueLabel.right = this.toggleSwitch.left - options.valueLabelXSpacing;
-      options.leftValueLabel.centerY = this.toggleSwitch.centerY;
-      this.toggleSwitch.addChild( options.leftValueLabel );
-    }
-    if ( options.rightValueLabel ) {
-      options.rightValueLabel.left = this.toggleSwitch.right + options.valueLabelXSpacing;
-      options.rightValueLabel.centerY = this.toggleSwitch.centerY;
-      this.toggleSwitch.addChild( options.rightValueLabel );
-    }
-
     // This component manages disabledOpacity, we don't want it to compound over subcomponents.
-    this.toggleSwitch.disabledOpacity = 1;
     this.disabledOpacity = SceneryConstants.DISABLED_OPACITY;
-
-    this.enabledProperty.link( enabled => {
-      this.toggleSwitch.enabled = enabled;
-    } );
 
     // Layout using GridBox and layoutOptions will accomplish the following when all components are available.
     // [[labelNode]]         [[ToggleSwitch]]
@@ -116,20 +73,18 @@ class PreferencesToggleSwitch<T> extends Node {
     } );
     this.addChild( gridBox );
 
-    this.toggleSwitch.layoutOptions = {
-      row: 0,
-      column: 1,
-      xAlign: 'right'
-    };
-    gridBox.addChild( this.toggleSwitch );
-
     if ( options.controlNode ) {
       assert && assert( options.controlNode.layoutOptions === null, 'PreferencesToggleSwitch will control layout' );
+      this.enabledProperty.link( enabled => {
+        options.controlNode!.enabled = enabled;
+      } );
+
       options.controlNode.layoutOptions = {
         row: 0,
         column: 1,
         xAlign: 'right'
       };
+
       gridBox.addChild( options.controlNode );
     }
 
@@ -169,7 +124,7 @@ class PreferencesToggleSwitch<T> extends Node {
     }
 
     this.disposePreferencesToggleSwitch = () => {
-      this.toggleSwitch.dispose();
+      options.controlNode && options.controlNode.dispose();
       gridBox.dispose();
     };
   }

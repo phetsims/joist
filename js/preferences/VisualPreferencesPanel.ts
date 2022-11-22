@@ -1,7 +1,7 @@
 // Copyright 2021-2022, University of Colorado Boulder
 
 /**
- * A panel for the PreferencesDialog with controls for visual preferences. Includes freatures such as
+ * A panel for the PreferencesDialog with controls for visual preferences. Includes features such as
  * "Interactive Highlights" and perhaps others in the future.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
@@ -16,13 +16,15 @@ import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 import { VisualModel } from './PreferencesModel.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import optionize, { combineOptions, EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import ProjectorModeToggleSwitch from './ProjectorModeToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import PreferencesPanel, { PreferencesPanelOptions } from './PreferencesPanel.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import PreferencesType from './PreferencesType.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
+import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 
 // constants
 const interactiveHighlightsStringProperty = JoistStrings.preferences.tabs.visual.interactiveHighlightsStringProperty;
@@ -69,21 +71,24 @@ class VisualPreferencesPanel extends PreferencesPanel {
           description: interactiveHighlightsDescriptionStringProperty
         } )
       } ) );
-      const interactiveHighlightsEnabledSwitch = new PreferencesToggleSwitch( visualModel.interactiveHighlightsEnabledProperty, false, true, {
+      const interactiveHighlightsEnabledSwitch = new ToggleSwitch( visualModel.interactiveHighlightsEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
+        a11yLabel: interactiveHighlightsStringProperty,
+        leftValueContextResponse: interactiveHighlightsDisabledAlertStringProperty,
+        rightValueContextResponse: interactiveHighlightsEnabledAlertStringProperty
+      }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
+
+      const interactiveHighlightsEnabledControl = new PreferencesToggleSwitch( {
         labelNode: label,
         descriptionNode: interactiveHighlightsEnabledSwitchVoicingText,
-        toggleSwitchOptions: {
-          a11yLabel: interactiveHighlightsStringProperty,
-          leftValueContextResponse: interactiveHighlightsDisabledAlertStringProperty,
-          rightValueContextResponse: interactiveHighlightsEnabledAlertStringProperty
-        }
+        controlNode: interactiveHighlightsEnabledSwitch
       } );
 
-      contentNode.addChild( interactiveHighlightsEnabledSwitch );
+      contentNode.addChild( interactiveHighlightsEnabledControl );
       this.disposeEmitter.addListener( () => {
         label.dispose();
         interactiveHighlightsEnabledSwitchVoicingText.dispose();
         interactiveHighlightsEnabledSwitch.dispose();
+        interactiveHighlightsEnabledControl.dispose();
       } );
     }
 

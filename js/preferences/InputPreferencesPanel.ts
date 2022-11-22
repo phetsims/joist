@@ -11,6 +11,7 @@ import merge from '../../../phet-core/js/merge.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import { Node, Text, VBox, VoicingRichText } from '../../../scenery/js/imports.js';
+import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
@@ -19,6 +20,8 @@ import PreferencesPanel, { PreferencesPanelOptions } from './PreferencesPanel.js
 import PreferencesPanelSection from './PreferencesPanelSection.js';
 import PreferencesToggleSwitch from './PreferencesToggleSwitch.js';
 import PreferencesType from './PreferencesType.js';
+import PreferencesDialogConstants from './PreferencesDialogConstants.js';
+import { combineOptions } from '../../../phet-core/js/optionize.js';
 
 // constants
 const gestureControlEnabledAlertStringProperty = JoistStrings.a11y.preferences.tabs.input.gestureControl.enabledAlertStringProperty;
@@ -60,18 +63,19 @@ class InputPreferencesPanel extends PreferencesPanel {
           description: gestureControlsDescriptionString
         } )
       } ) );
-      const gestureControlsEnabledSwitch = new PreferencesToggleSwitch( inputModel.gestureControlsEnabledProperty, false, true, {
+      const gestureControlsEnabledSwitch = new ToggleSwitch( inputModel.gestureControlsEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
+        a11yLabel: gestureControlsString,
+        leftValueContextResponse: gestureControlDisabledAlertStringProperty,
+        rightValueContextResponse: gestureControlEnabledAlertStringProperty
+      }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
+      const gestureControlsControl = new PreferencesToggleSwitch( {
         labelNode: gestureControlText,
         descriptionNode: gestureControlDescriptionNode,
-        toggleSwitchOptions: {
-          a11yLabel: gestureControlsString,
-          leftValueContextResponse: gestureControlDisabledAlertStringProperty,
-          rightValueContextResponse: gestureControlEnabledAlertStringProperty
-        }
+        controlNode: gestureControlsEnabledSwitch
       } );
 
       const gesturePanelSection = new PreferencesPanelSection( {
-        titleNode: gestureControlsEnabledSwitch,
+        titleNode: gestureControlsControl,
         contentLeftMargin: 0
       } );
 
@@ -80,6 +84,7 @@ class InputPreferencesPanel extends PreferencesPanel {
         gestureControlText.dispose();
         gesturePanelSection.dispose();
         gestureControlsEnabledSwitch.dispose();
+        gestureControlsControl.dispose();
         gestureControlDescriptionNode.dispose();
       } );
     }
