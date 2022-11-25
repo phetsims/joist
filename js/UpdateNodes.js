@@ -105,8 +105,10 @@ define( function( require ) {
         ] } ),
         new HBox( { spacing: 25, children: [
           new TextPushButton( updatesGetUpdateString, { baseColor: '#6f6', font: updateTextFont, listener: function() {
-            var newWindow = window.open( UpdateCheck.updateURL, '_blank' ); // open in a new window/tab
-            newWindow && newWindow.focus();
+            if ( !window.phet || !phet.chipper || phet.chipper.getQueryParameter( 'allowLinks' ) !== 'false' ) {
+              var newWindow = window.open( UpdateCheck.updateURL, '_blank' ); // open in a new window/tab
+              newWindow && newWindow.focus();
+            }
           } } ),
           new TextPushButton( updatesNoThanksString, { baseColor: '#ddd', font: updateTextFont, listener: function() {
             // Closing the dialog is handled by the Dialog listener itself, no need to add code to close it here.
