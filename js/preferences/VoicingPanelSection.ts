@@ -15,7 +15,6 @@ import Range from '../../../dot/js/Range.js';
 import Utils from '../../../dot/js/Utils.js';
 import merge from '../../../phet-core/js/merge.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import NumberControl from '../../../scenery-phet/js/NumberControl.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { FocusHighlightFromNode, Node, PressListener, Text, VBox, voicingManager, VoicingText } from '../../../scenery/js/imports.js';
@@ -35,6 +34,8 @@ import localeProperty from '../i18n/localeProperty.js';
 import { Disposer } from '../../../axon/js/Disposable.js';
 import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
+import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
+import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 
 // constants
 // none of the Voicing strings or feature is translatable yet, all strings in this file
@@ -116,11 +117,12 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
     // the checkbox is the title for the section and totally enables/disables the feature
     const voicingLabel = new Text( titleStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
+    const voicingEnabledReadingBlockNameResponsePatternStringProperty = new PatternStringProperty( labelledDescriptionPatternStringProperty, {
+      label: titleStringProperty,
+      description: voicingDescriptionStringProperty
+    } );
     const voicingEnabledSwitchVoicingText = new VoicingText( voicingDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
-      readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternStringProperty, {
-        label: titleStringProperty,
-        description: voicingDescriptionStringProperty
-      } )
+      readingBlockNameResponse: voicingEnabledReadingBlockNameResponsePatternStringProperty
     } ) );
     const voicingToggleSwitch = new ToggleSwitch( audioModel.voicingEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
       a11yLabel: titleStringProperty
@@ -150,11 +152,12 @@ class VoicingPanelSection extends PreferencesPanelSection {
       tagName: 'h3',
       innerContent: simVoicingOptionsStringProperty
     } ) );
+    const speechOutputReadingBlockNameResponsePatternStringProperty = new PatternStringProperty( labelledDescriptionPatternStringProperty, {
+      label: simVoicingOptionsStringProperty,
+      description: simVoicingDescriptionStringProperty
+    } );
     const speechOutputDescription = new VoicingText( simVoicingDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
-      readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternStringProperty, {
-        label: simVoicingOptionsStringProperty,
-        description: simVoicingDescriptionStringProperty
-      } )
+      readingBlockNameResponse: speechOutputReadingBlockNameResponsePatternStringProperty
     } ) );
 
     /**
@@ -375,6 +378,10 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
       voicingEnabledSwitchVoicingText.dispose();
       speechOutputDescription.dispose();
+
+      voicingEnabledReadingBlockNameResponsePatternStringProperty.dispose();
+      speechOutputReadingBlockNameResponsePatternStringProperty.dispose();
+
       voiceComboBox && voiceComboBox.dispose();
     };
   }
@@ -439,23 +446,22 @@ class VoiceRateNumberControl extends NumberControl {
     // that happen when changing the voice attributes
     this.slider.voicingIgnoreVoicingManagerProperties = true;
 
-    const voiceRateListener = ( voiceRate: number ) => {
-      this.slider.voicingObjectResponse = this.getRateDescriptionString( voiceRate );
-    };
-    voiceRateProperty.link( voiceRateListener );
+    const voiceRateNonNormalPatternStringProperty = new PatternStringProperty( voiceRateDescriptionPatternStringProperty, {
+      value: voiceRateProperty
+    } );
+
+    const voiceRateResponseProperty = new DerivedProperty( [
+      voiceRateProperty, voiceRateNormalStringProperty, voiceRateNonNormalPatternStringProperty
+    ], ( rate, normal, nonNormal ) => {
+      return rate === 1 ? normal : nonNormal;
+    } );
+
+    this.slider.voicingObjectResponse = voiceRateResponseProperty;
 
     this.disposeVoiceRateNumberControl = () => {
-      voiceRateProperty.unlink( voiceRateListener );
+      voiceRateResponseProperty.dispose();
+      voiceRateNonNormalPatternStringProperty.dispose();
     };
-  }
-
-  /**
-   * Returns a description of the voice rate.
-   */
-  public getRateDescriptionString( rate: number ): string {
-    return rate === 1 ? voiceRateNormalStringProperty.value : StringUtils.fillIn( voiceRateDescriptionPatternStringProperty, {
-      value: rate
-    } );
   }
 
   public override dispose(): void {

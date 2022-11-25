@@ -9,7 +9,6 @@
 import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
 import merge from '../../../phet-core/js/merge.js';
 import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
-import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import { Node, Text, VBox, VoicingRichText, VoicingText } from '../../../scenery/js/imports.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
@@ -98,13 +97,14 @@ class SoundPanelSection extends PreferencesPanelSection {
         tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
       } );
 
+      const extraSoundReadingBlockNameResponsePatternStringProperty = new PatternStringProperty( labelledDescriptionPatternStringProperty, {
+        label: extraSoundsLabelStringProperty,
+        description: extraSoundsDescriptionStringProperty
+      } );
       const extraSoundDescription = new VoicingRichText( extraSoundsDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         lineWrap: 300,
         maxHeight: 100,
-        readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternStringProperty, {
-          label: extraSoundsLabelStringProperty,
-          description: extraSoundsDescriptionStringProperty
-        } )
+        readingBlockNameResponse: extraSoundReadingBlockNameResponsePatternStringProperty
       } ) );
 
       extraSoundContent = new VBox( {
@@ -121,6 +121,7 @@ class SoundPanelSection extends PreferencesPanelSection {
         enhancedSoundLabel.dispose();
         extraSoundCheckbox.dispose();
         extraSoundDescription.dispose();
+        extraSoundReadingBlockNameResponsePatternStringProperty.dispose();
         audioModel.soundEnabledProperty.unlink( extraSoundEnabledListener );
       } );
     }

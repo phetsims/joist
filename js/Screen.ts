@@ -33,6 +33,7 @@ import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import Multilink from '../../axon/js/Multilink.js';
 import TModel from './TModel.js';
+import PatternStringProperty from '../../axon/js/PatternStringProperty.js';
 
 const screenNamePatternStringProperty = JoistStrings.a11y.screenNamePatternStringProperty;
 const screenSimPatternStringProperty = JoistStrings.a11y.screenSimPatternStringProperty;
@@ -236,8 +237,8 @@ class Screen<M extends TModel = IntentionalAny, V extends ScreenView = ScreenVie
       this.descriptionContent = options.descriptionContent;
     }
     else if ( this.nameProperty.value ) {
-      this.descriptionContent = StringUtils.fillIn( screenNamePatternStringProperty, {
-        name: this.nameProperty.value
+      this.descriptionContent = new PatternStringProperty( screenNamePatternStringProperty, {
+        name: this.nameProperty
       } );
     }
     else {

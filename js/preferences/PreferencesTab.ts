@@ -16,11 +16,11 @@ import optionize from '../../../phet-core/js/optionize.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import Multilink from '../../../axon/js/Multilink.js';
 import JoistStrings from '../JoistStrings.js';
-import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 
+import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
 type SelfOptions = {
 
   // An additional icon to display to the right of the label text for this tab.
@@ -38,12 +38,12 @@ class PreferencesTab extends Voicing( Node ) {
   private readonly disposePreferencesTab: () => void;
 
   /**
-   * @param label - text label for the tab
+   * @param labelProperty - text label for the tab
    * @param property
    * @param value - PreferencesType shown when this tab is selected
    * @param providedOptions
    */
-  public constructor( label: TReadOnlyProperty<string>, property: TProperty<PreferencesType>, value: PreferencesType, providedOptions: PreferencesTabOptions ) {
+  public constructor( labelProperty: TReadOnlyProperty<string>, property: TProperty<PreferencesType>, value: PreferencesType, providedOptions: PreferencesTabOptions ) {
 
     const options = optionize<PreferencesTabOptions, SelfOptions, ParentOptions>()( {
       iconNode: null,
@@ -57,14 +57,14 @@ class PreferencesTab extends Voicing( Node ) {
 
       // pdom
       tagName: 'button',
-      innerContent: label,
+      innerContent: labelProperty,
       ariaRole: 'tab',
       focusable: true,
       containerTagName: 'li'
     }, providedOptions );
 
     // Visual contents for the tab, label Text and optional icon Node
-    const text = new Text( label, PreferencesDialog.TAB_OPTIONS );
+    const text = new Text( labelProperty, PreferencesDialog.TAB_OPTIONS );
     const tabContents: Node[] = [ text ];
     if ( options.iconNode ) {
       tabContents.push( options.iconNode );
@@ -96,11 +96,10 @@ class PreferencesTab extends Voicing( Node ) {
 
     this.value = value;
 
-    const voicingMultilink = Multilink.multilink( [ JoistStrings.a11y.preferences.tabs.tabResponsePatternStringProperty, label ], ( pattern, labelString ) => {
-      this.voicingNameResponse = StringUtils.fillIn( pattern, {
-        title: labelString
-      } );
+    const voicingPatternStringProperty = new PatternStringProperty( JoistStrings.a11y.preferences.tabs.tabResponsePatternStringProperty, {
+      title: labelProperty
     } );
+    this.voicingNameResponse = voicingPatternStringProperty;
 
     const pressListener = new PressListener( {
       press: () => {
@@ -127,7 +126,7 @@ class PreferencesTab extends Voicing( Node ) {
     this.disposePreferencesTab = () => {
       tabInputMultilink.dispose();
       pressListener.dispose();
-      voicingMultilink.dispose();
+      voicingPatternStringProperty.dispose();
       contentsBox.dispose();
       backgroundNode.dispose();
       text.dispose();

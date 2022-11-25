@@ -14,10 +14,10 @@ import PreferencesControl, { PreferencesToggleSwitchOptions } from './Preference
 import JoistStrings from '../JoistStrings.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import Property from '../../../axon/js/Property.js';
 import ToggleSwitch from '../../../sun/js/ToggleSwitch.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
+import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 type ParentOptions = PreferencesToggleSwitchOptions;
@@ -42,10 +42,11 @@ class ProjectorModeToggleSwitch extends PreferencesControl {
     const otherColorProfile = phet.chipper.colorProfiles.find( ( colorProfile: string ) => colorProfile !== SceneryConstants.PROJECTOR_COLOR_PROFILE );
     const projectorModeSwitch = new ToggleSwitch( colorProfileProperty, otherColorProfile, SceneryConstants.PROJECTOR_COLOR_PROFILE, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS );
 
-    projectorModeDescription.readingBlockNameResponse = StringUtils.fillIn( JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty, {
+    const projectorModePatternStringProperty = new PatternStringProperty( JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty, {
       label: JoistStrings.projectorModeStringProperty,
       description: JoistStrings.preferences.tabs.visual.projectorModeDescriptionStringProperty
     } );
+    projectorModeDescription.readingBlockNameResponse = projectorModePatternStringProperty;
 
     const options = optionize<ProjectorModeToggleSwitchOptions, SelfOptions, ParentOptions>()( {
       labelNode: projectorModeLabel,
@@ -59,6 +60,7 @@ class ProjectorModeToggleSwitch extends PreferencesControl {
       projectorModeLabel.dispose();
       projectorModeDescription.dispose();
       projectorModeSwitch.dispose();
+      projectorModePatternStringProperty.dispose();
     };
   }
 

@@ -8,7 +8,6 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
-import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import { Node, Text, VBox, VoicingText } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
@@ -25,6 +24,7 @@ import PreferencesType from './PreferencesType.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
+import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
 
 // constants
 const interactiveHighlightsStringProperty = JoistStrings.preferences.tabs.visual.interactiveHighlightsStringProperty;
@@ -65,11 +65,12 @@ class VisualPreferencesPanel extends PreferencesPanel {
     if ( visualModel.supportsInteractiveHighlights ) {
 
       const label = new Text( interactiveHighlightsStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
+      const highlightsReadingBlockNameResponsePatternStringProperty = new PatternStringProperty( labelledDescriptionPatternStringProperty, {
+        label: interactiveHighlightsStringProperty,
+        description: interactiveHighlightsDescriptionStringProperty
+      } );
       const interactiveHighlightsEnabledSwitchVoicingText = new VoicingText( interactiveHighlightsDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
-        readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternStringProperty, {
-          label: interactiveHighlightsStringProperty,
-          description: interactiveHighlightsDescriptionStringProperty
-        } )
+        readingBlockNameResponse: highlightsReadingBlockNameResponsePatternStringProperty
       } ) );
       const interactiveHighlightsEnabledSwitch = new ToggleSwitch( visualModel.interactiveHighlightsEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
         a11yLabel: interactiveHighlightsStringProperty,
@@ -87,6 +88,7 @@ class VisualPreferencesPanel extends PreferencesPanel {
       this.disposeEmitter.addListener( () => {
         label.dispose();
         interactiveHighlightsEnabledSwitchVoicingText.dispose();
+        highlightsReadingBlockNameResponsePatternStringProperty.dispose();
         interactiveHighlightsEnabledSwitch.dispose();
         interactiveHighlightsEnabledControl.dispose();
       } );
