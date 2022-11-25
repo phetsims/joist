@@ -259,8 +259,10 @@ define( function( require ) {
         callback: function() {
           if ( !fuzzMouse ) {
             // Open locale-specific PhET home page. If there is no website translation for locale, fallback will be handled by server. See joist#97.
-            var phetWindow = window.open( 'http://phet.colorado.edu/' + sim.locale, '_blank' );
-            phetWindow && phetWindow.focus();
+            if ( !window.phet || !phet.chipper || !phet.chipper.queryParameters || phet.chipper.queryParameters.allowLinks ) {
+              var phetWindow = window.open( 'http://phet.colorado.edu/' + sim.locale, '_blank' );
+              phetWindow && phetWindow.focus();
+            }
           }
         }
       },
@@ -310,8 +312,10 @@ define( function( require ) {
                     '&dependencies=' + encodeURIComponent( JSON.stringify( dependenciesCopy ) );
 
           if ( !fuzzMouse ) {
-            var reportWindow = window.open( url, '_blank' );
-            reportWindow && reportWindow.focus();
+            if ( !window.phet || !phet.chipper || !phet.chipper.queryParameters || phet.chipper.queryParameters.allowLinks ) {
+              var reportWindow = window.open( url, '_blank' );
+              reportWindow && reportWindow.focus();
+            }
           }
         },
         tandem: tandem.createTandem( 'reportAProblemButton' )
