@@ -136,8 +136,10 @@ define( function( require ) {
           ] } ),
           new HBox( { spacing: 25, children: [
             new TextPushButton( updatesGetUpdateString, { baseColor: '#6f6', font: updateTextFont, listener: function() {
-              var newWindow = window.open( UpdateCheck.updateURL, '_blank' ); // open in a new window/tab
-              newWindow && newWindow.focus();
+              if ( !window.phet || !phet.chipper || !phet.chipper.queryParameters || phet.chipper.queryParameters.allowLinks ) {
+                var newWindow = window.open( UpdateCheck.updateURL, '_blank' ); // open in a new window/tab
+                newWindow && newWindow.focus();
+              }
             } } ),
             new TextPushButton( updatesNoThanksString, { baseColor: '#ddd', font: updateTextFont, listener: function() {
               dialog.hide();
