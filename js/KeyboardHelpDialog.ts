@@ -138,7 +138,6 @@ type TabHintLineSelfOptions = EmptySelfOptions;
 type TabHintLineOptions = TabHintLineSelfOptions & NodeOptions & ReadingBlockOptions;
 
 class TabHintLine extends ReadingBlock( Node ) {
-  private readonly disposeTabHintLine: () => void;
 
   public constructor( providedOptions?: TabHintLineOptions ) {
 
@@ -149,33 +148,24 @@ class TabHintLine extends ReadingBlock( Node ) {
     super();
 
     // a line to say "tab to get started" below the "Keyboard Shortcuts" 'title'
-    const tabKeyNode = TextKeyNode.tab();
-
     const labelWithIcon = KeyboardHelpSectionRow.labelWithIcon( JoistStrings.keyboardShortcuts.toGetStartedStringProperty,
-      tabKeyNode, {
+      TextKeyNode.tab( { disposer: this } ), {
         labelInnerContent: tabToGetStartedStringProperty,
         iconOptions: {
           tagName: 'p' // because there is only one, and the default is an li tag
         }
       } );
+    labelWithIcon.disposer = this;
 
     // labelWithIcon is meant to be passed to KeyboardHelpSection, so we have to hack a bit here
-    const hBox = new HBox( { children: [ labelWithIcon.icon, labelWithIcon.label ], spacing: 4 } );
+    const hBox = new HBox( {
+      children: [ labelWithIcon.icon, labelWithIcon.label ],
+      spacing: 4,
+      disposer: this
+    } );
 
     this.addChild( hBox );
-
     this.mutate( options );
-
-    this.disposeTabHintLine = () => {
-      hBox.dispose();
-      tabKeyNode.dispose();
-      labelWithIcon.dispose();
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeTabHintLine();
-    super.dispose();
   }
 }
 
