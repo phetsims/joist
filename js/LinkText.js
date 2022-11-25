@@ -43,8 +43,10 @@ define( function( require ) {
     this.addInputListener( new ButtonListener( {
       fire: function( event ) {
         options.handleEvent && event.handle();
-        var newWindow = window.open( url, '_blank' ); // open in a new window/tab
-        newWindow.focus();
+        if ( !window.phet || !phet.chipper || phet.chipper.getQueryParameter( 'allowLinks' ) !== 'false' ) {
+          var newWindow = window.open( url, '_blank' ); // open in a new window/tab
+          newWindow.focus();
+        }
       }
     } ) );
   }

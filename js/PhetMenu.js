@@ -228,8 +228,10 @@ define( function( require ) {
         present: isPhETBrand,
         callback: function() {
           // Open locale-specific PhET home page. If there is no website translation for locale, fallback will be handled by server. See joist#97.
-          var phetWindow = window.open( 'http://phet.colorado.edu/' + sim.locale, '_blank' );
-          phetWindow && phetWindow.focus();
+          if ( !window.phet || !phet.chipper || phet.chipper.getQueryParameter( 'allowLinks' ) !== 'false' ) {
+            var phetWindow = window.open( 'http://phet.colorado.edu/' + sim.locale, '_blank' );
+            phetWindow && phetWindow.focus();
+          }
         }
       },
       {
@@ -292,8 +294,10 @@ define( function( require ) {
                     ( phet.chipper.buildTimestamp ? phet.chipper.buildTimestamp : '(require.js)' ) ) +
                     '&url=' + encodeURIComponent( window.location.href ) +
                     '&dependencies=' + encodeURIComponent( JSON.stringify( dependenciesCopy ) );
-          var reportWindow = window.open( url, '_blank' );
-          reportWindow && reportWindow.focus();
+          if ( !window.phet || !phet.chipper || phet.chipper.getQueryParameter( 'allowLinks' ) !== 'false' ) {
+            var reportWindow = window.open( url, '_blank' );
+            reportWindow && reportWindow.focus();
+          }
         },
         tandem: options.tandem && options.tandem.createTandem( 'reportAProblemButton' )
       },
