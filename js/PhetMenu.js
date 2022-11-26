@@ -246,7 +246,7 @@ class PhetMenu extends Node {
             }
           }
           else if ( !fuzzes ) {
-            openPopup( dataURL );
+            openPopup( dataURL, true );
           }
         },
         options: {
