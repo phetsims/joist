@@ -274,7 +274,7 @@ class PhetMenu extends Node {
             }
           }
           else if ( !phet.chipper.isFuzzEnabled() ) {
-            openPopup( dataURL );
+            openPopup( dataURL, true );
           }
         },
         options: {
