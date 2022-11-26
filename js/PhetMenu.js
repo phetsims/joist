@@ -270,7 +270,7 @@ define( require => {
             }
           }
           else if ( !fuzzes ) {
-            openPopup( dataURL );
+            openPopup( dataURL, true );
           }
         },
         options: {
