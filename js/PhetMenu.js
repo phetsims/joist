@@ -270,7 +270,7 @@ function PhetMenu( sim, phetButton, tandem, options ) {
           }
         }
         else if ( !fuzzes ) {
-          openPopup( dataURL );
+          openPopup( dataURL, true );
         }
       },
       options: {
