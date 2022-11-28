@@ -15,6 +15,7 @@ import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js'
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import { RegionAndCultureDescriptor } from './regionAndCultureManager.js';
+import CharacterSet from './CharacterSet.js';
 
 // constants
 // Not translatable until design is complete, see https://github.com/phetsims/energy-skate-park/issues/345
@@ -23,7 +24,7 @@ const regionAndCultureString = 'Region and Culture';
 type SelfOptions = EmptySelfOptions;
 type RegionAndCultureComboBoxOptions = SelfOptions & StrictOmit<ComboBoxOptions, 'labelNode' | 'tandem'>;
 
-class RegionAndCultureComboBox extends ComboBox<number> {
+class RegionAndCultureComboBox extends ComboBox<CharacterSet> {
 
   /**
    * @param regionAndCultureProperty - Number indicating a selected region/culture. Map the value to particular set of
@@ -31,7 +32,7 @@ class RegionAndCultureComboBox extends ComboBox<number> {
    * @param regionAndCultureDescriptors - Collection of data used to create ComboBoxItems for each supported character set.
    * @param [providedOptions?]
    */
-  public constructor( regionAndCultureProperty: Property<number>, regionAndCultureDescriptors: RegionAndCultureDescriptor[], providedOptions?: RegionAndCultureComboBoxOptions ) {
+  public constructor( regionAndCultureProperty: Property<CharacterSet>, regionAndCultureDescriptors: RegionAndCultureDescriptor[], providedOptions?: RegionAndCultureComboBoxOptions ) {
 
     const options = optionize<RegionAndCultureComboBoxOptions, SelfOptions, ComboBoxOptions>()( {
 
@@ -54,7 +55,7 @@ class RegionAndCultureComboBox extends ComboBox<number> {
       } );
 
       return {
-        value: index,
+        value: descriptor.characterSet,
         node: itemContent
       };
     } );

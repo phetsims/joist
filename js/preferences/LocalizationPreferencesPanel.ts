@@ -44,7 +44,7 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
       this.disposeEmitter.addListener( () => localePanel.dispose() );
     }
 
-    if ( localizationModel.regionAndCultureDescriptors.length > 0 ) {
+    if ( localizationModel.regionAndCultureDescriptors.length > 0 && localizationModel.regionAndCultureProperty ) {
       const comboBox = new RegionAndCultureComboBox( localizationModel.regionAndCultureProperty, localizationModel.regionAndCultureDescriptors );
       contentNode.addChild( comboBox );
       this.disposeEmitter.addListener( () => comboBox.dispose() );

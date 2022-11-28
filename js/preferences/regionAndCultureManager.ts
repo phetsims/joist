@@ -7,10 +7,10 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import NumberProperty from '../../../axon/js/NumberProperty.js';
 import Property from '../../../axon/js/Property.js';
 import joist from '../joist.js';
 import { Node } from '../../../scenery/js/imports.js';
+import CharacterSet from './CharacterSet.js';
 
 // A type that describes the possible values for regionAndCultureProperty so that different artwork can be selected
 // by the user to match a particular region or culture.
@@ -21,16 +21,18 @@ export type RegionAndCultureDescriptor = {
 
   // Label string describing the region or culture in words.
   label: string;
+
+  characterSet: CharacterSet;
 };
 
 class RegionAndCultureManager {
 
   // An index describing the selected artwork for the simulation to display a particular region and culture. From this
   // value the simulation can implement different artwork to match the selected region and culture.
-  public readonly regionAndCultureProperty: Property<number>;
+  public readonly regionAndCultureProperty: Property<CharacterSet> | Property<null>;
 
   public constructor() {
-    this.regionAndCultureProperty = new NumberProperty( 0 );
+    this.regionAndCultureProperty = new Property( null );
   }
 }
 

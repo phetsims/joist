@@ -25,6 +25,7 @@ import merge from '../../../phet-core/js/merge.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import IOType from '../../../tandem/js/types/IOType.js';
 import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
+import CharacterSet from './CharacterSet.js';
 
 type ModelPropertyLinkable = {
   property: TReadOnlyProperty<unknown> & PhetioObject;
@@ -175,7 +176,7 @@ export type InputModel = BaseModelType & {
 export type LocalizationModel = BaseModelType & {
 
   // The selected character artwork to use when the sim supports culture and region switching.
-  regionAndCultureProperty: Property<number>;
+  regionAndCultureProperty?: Property<CharacterSet>;
 
   localeProperty: Property<string>;
 } & Required<LocalizationPreferencesOptions>;
@@ -300,9 +301,20 @@ export default class PreferencesModel extends PhetioObject {
     }, options.inputOptions );
 
     this.localizationModel = merge( {
-      localeProperty: localeProperty,
-      regionAndCultureProperty: regionAndCultureManager.regionAndCultureProperty
+      localeProperty: localeProperty
     }, options.localizationOptions );
+
+    if ( options.localizationOptions.regionAndCultureDescriptors.length > 0 ) {
+
+      // default is the first set in the descriptors.
+      regionAndCultureManager.regionAndCultureProperty.value = options.localizationOptions.regionAndCultureDescriptors[ 0 ].characterSet;
+
+      assert && assert( regionAndCultureManager.regionAndCultureProperty.value !== null, 'We have at least one descriptor, so regionAndCultureProperty should not be null.' );
+
+      // @ts-ignore, regionAndCultureProperty.value cannot be null since there is at least one descriptor provided.
+      this.localizationModel.regionAndCultureProperty = regionAndCultureManager.regionAndCultureProperty;
+    }
+
 
     if ( this.audioModel.supportsExtraSound ) {
       assert && assert( this.audioModel.supportsSound, 'supportsSound must be true to also support extraSound' );
