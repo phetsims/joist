@@ -396,13 +396,13 @@ class VoicingPanelSection extends PreferencesPanelSection {
  * Create a NumberControl for one of the voice parameters of voicing (pitch/rate).
  *
  * @param labelString - label for the NumberControl
- * @param a11yLabelString - label for both PDOM and Voicing content
+ * @param a11yNameString - label for both PDOM and Voicing content
  * @param voiceRateProperty
  */
 class VoiceRateNumberControl extends NumberControl {
   private readonly disposeVoiceRateNumberControl: () => void;
 
-  public constructor( labelString: TReadOnlyProperty<string>, a11yLabelString: TReadOnlyProperty<string>, voiceRateProperty: NumberProperty ) {
+  public constructor( labelString: TReadOnlyProperty<string>, a11yNameString: TReadOnlyProperty<string>, voiceRateProperty: NumberProperty ) {
 
     assert && assert( voiceRateProperty.range, 'Range is required on the property for the control.' );
     super( labelString, voiceRateProperty, voiceRateProperty.range!, {
@@ -427,7 +427,7 @@ class VoiceRateNumberControl extends NumberControl {
 
         // pdom
         labelTagName: 'label',
-        labelContent: a11yLabelString,
+        labelContent: a11yNameString,
 
         // voicing
         voicingOnEndResponseOptions: {
@@ -440,7 +440,7 @@ class VoiceRateNumberControl extends NumberControl {
     } );
 
     // Voicing goes through the NumberControl slider through AccessibleValueHandler
-    this.slider.voicingNameResponse = a11yLabelString;
+    this.slider.voicingNameResponse = a11yNameString;
 
     // ignore the selections of the PreferencesDialog, we always want to hear all responses
     // that happen when changing the voice attributes

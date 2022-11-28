@@ -164,7 +164,7 @@ class LabelButtonRow {
 
   /**
    * @param labelString - the visually rendered Text label for the button
-   * @param a11yLabel - the string read in the PDOM and with the Voicing feature that labels this Button
+   * @param a11yName - the string read in the PDOM and with the Voicing feature that labels this Button
    * @param labelAlignGroup - To align all labels in the VoicingToolbarItem
    * @param inputAlignGroup - To align all inputs in the VoicingToolbarItem
    * @param lookAndFeel
@@ -173,7 +173,7 @@ class LabelButtonRow {
    */
   public constructor(
     labelString: TReadOnlyProperty<string>,
-    a11yLabel: TReadOnlyProperty<string>,
+    a11yName: TReadOnlyProperty<string>,
     labelAlignGroup: AlignGroup,
     inputAlignGroup: AlignGroup,
     lookAndFeel: LookAndFeel,
@@ -193,10 +193,10 @@ class LabelButtonRow {
     } );
 
     this.playStopButton = new PlayStopButton( this.playingProperty, {
-      startPlayingLabel: a11yLabel,
+      startPlayingLabel: a11yName,
 
       // voicing
-      voicingNameResponse: a11yLabel,
+      voicingNameResponse: a11yName,
       voicingIgnoreVoicingManagerProperties: true,
 
       radius: 12,
