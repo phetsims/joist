@@ -22,12 +22,7 @@ type SelfOptions = {
 
   // horizontal spacing between label for the component and toggle switch IF there is no descriptionNode.
   // If a descriptionNode is provided, layout of the labelNode will be relative to the description.
-  // If there is a leftValueLabel it will be the horizontal spacing between the labelNode and the leftValueLabel.
   labelSpacing?: number;
-
-  // if provided, a label to the left and right of the switch describing the state values
-  leftValueLabel?: null | Node;
-  rightValueLabel?: null | Node;
 
   // horizontal spacing between the toggle switch and left/right value labels
   valueLabelXSpacing?: 8;
@@ -51,8 +46,6 @@ class PreferencesControl extends Node {
   public constructor( providedOptions?: PreferencesToggleSwitchOptions ) {
     const options = optionize<PreferencesToggleSwitchOptions, StrictOmit<SelfOptions, 'labelNode' | 'descriptionNode' | 'controlNode'>, NodeOptions>()( {
       labelSpacing: 10,
-      leftValueLabel: null,
-      rightValueLabel: null,
       valueLabelXSpacing: 8,
       descriptionSpacing: 5,
       nestedContent: []
