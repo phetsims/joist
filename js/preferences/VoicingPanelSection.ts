@@ -505,7 +505,7 @@ class VoiceComboBox extends ComboBox<SpeechSynthesisVoice | null> {
       items.push( {
         value: null,
         node: new Text( noVoicesAvailableStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ),
-        a11yLabel: noVoicesAvailableStringProperty
+        a11yName: noVoicesAvailableStringProperty
       } );
     }
 
@@ -513,7 +513,7 @@ class VoiceComboBox extends ComboBox<SpeechSynthesisVoice | null> {
       items.push( {
         value: voice,
         node: new Text( voice.name, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ),
-        a11yLabel: voice.name
+        a11yName: voice.name
       } );
     } );
 
