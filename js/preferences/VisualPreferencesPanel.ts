@@ -73,7 +73,7 @@ class VisualPreferencesPanel extends PreferencesPanel {
         readingBlockNameResponse: highlightsReadingBlockNameResponsePatternStringProperty
       } ) );
       const interactiveHighlightsEnabledSwitch = new ToggleSwitch( visualModel.interactiveHighlightsEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
-        a11yLabel: interactiveHighlightsStringProperty,
+        a11yName: interactiveHighlightsStringProperty,
         leftValueContextResponse: interactiveHighlightsDisabledAlertStringProperty,
         rightValueContextResponse: interactiveHighlightsEnabledAlertStringProperty
       }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
