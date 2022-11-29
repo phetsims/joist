@@ -27,7 +27,7 @@ import ScreenSummaryNode from '../../scenery-phet/js/accessibility/nodes/ScreenS
 import { Node, NodeOptions } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
-import PickRequired from '../../phet-core/js/types/PickRequired.js';
+import WithRequired from '../../phet-core/js/types/WithRequired.js';
 import { SpeakableResolvedResponse } from '../../utterance-queue/js/ResponsePacket.js';
 
 /*
@@ -49,8 +49,7 @@ type SelfOptions = {
   screenSummaryContent?: Node | null;
   includePDOMNodes?: boolean;
 };
-export type ScreenViewOptions = SelfOptions & NodeOptions & PickRequired<NodeOptions, 'tandem'>;
-
+export type ScreenViewOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'>;
 
 class ScreenView extends Node {
   public readonly layoutBounds: Bounds2;
