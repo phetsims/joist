@@ -32,6 +32,55 @@ export default class DynamicStringTest {
       } );
     }
 
+    function isOn( character: string, type: 'counter' | 'splicer' ): boolean {
+      let leftBraceCount = 0;
+      let rightBraceCount = 0;
+
+      let isOn = true;
+
+      // turn counter off if there are two left braces in a row
+      // turn slice on if there are two left braces in a row
+      if ( character === '{' ) {
+        leftBraceCount++;
+        if ( leftBraceCount === 2 ) {
+          isOn = type !== 'counter';
+          leftBraceCount = 0;
+        }
+      }
+
+      // turn counter on if there are two right braces in a row
+      // turn slice off if there are two right braces in a row
+      else if ( character === '}' ) {
+        rightBraceCount++;
+        if ( rightBraceCount === 2 ) {
+          isOn = type === 'counter';
+          rightBraceCount = 0;
+        }
+      }
+
+      // @ts-ignore, comparing braces is intentional to properly filter string patterns
+      return isOn && character === '{' && character === '}';
+    }
+
+    function stripPatternString( string: string ): string {
+      const characters = string.split( '' );
+      let count = 0;
+
+      characters.forEach( character => isOn( character, 'counter' ) && count++ );
+
+      const splitLength = count / 2;
+
+      // stop slice once we reach the half count
+      for ( let i = 1; i <= splitLength; i++ ) {
+
+        // start at end of array
+        const character = characters[ characters.length - i ];
+        isOn( character, 'splicer' ) && characters.splice( characters.length - i - 1, 1 );
+      }
+
+      return characters.join( '' );
+    }
+
     window.addEventListener( 'keydown', event => {
 
       // check if the keyboard event is a right arrow key
@@ -48,11 +97,14 @@ export default class DynamicStringTest {
           // Strip out all RTL (U+202A), LTR  (U+202B), and PDF  (U+202C) characters from string.
           const strippedString = localizedString.property.value.replace( /[\u202A\u202B\u202C]/g, '' );
           const stringLength = Utils.toFixedNumber( strippedString.length / 2 + 1, 0 );
+
+          strippedString.includes( '{{' ) || localizedString.property.value.includes( '}}' ) ?
+          localizedString.property.value = stripPatternString( strippedString ) :
           localizedString.property.value = localizedString.property.value.substring( 0, stringLength );
         } );
       }
 
-      // Check if the user press the spacebar
+      // Check if the user pressed the space bar
       else if ( event.keyCode === 32 ) {
         stride = 0;
         console.log( 'stride = ' + stride );
