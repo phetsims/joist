@@ -58,8 +58,7 @@ export default class DynamicStringTest {
         }
       }
 
-      // @ts-ignore, comparing braces is intentional to properly filter string patterns
-      return isOn && character === '{' && character === '}';
+      return isOn && character === '{';
     }
 
     function stripPatternString( string: string ): string {
