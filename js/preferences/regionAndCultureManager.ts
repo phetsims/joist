@@ -27,12 +27,11 @@ export type RegionAndCultureDescriptor = {
 
 class RegionAndCultureManager {
 
-  // An index describing the selected artwork for the simulation to display a particular region and culture. From this
-  // value the simulation can implement different artwork to match the selected region and culture.
-  public readonly regionAndCultureProperty: Property<CharacterSet> | Property<null>;
+  // A character set that the simulation can implement different artwork to match the selected region and culture.
+  public readonly regionAndCultureProperty: Property<CharacterSet | null>;
 
   public constructor() {
-    this.regionAndCultureProperty = new Property( null );
+    this.regionAndCultureProperty = new Property<CharacterSet | null>( null );
   }
 }
 

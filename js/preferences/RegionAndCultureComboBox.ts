@@ -24,15 +24,14 @@ const regionAndCultureString = 'Region and Culture';
 type SelfOptions = EmptySelfOptions;
 type RegionAndCultureComboBoxOptions = SelfOptions & StrictOmit<ComboBoxOptions, 'labelNode' | 'tandem'>;
 
-class RegionAndCultureComboBox extends ComboBox<CharacterSet> {
+class RegionAndCultureComboBox extends ComboBox<CharacterSet | null> {
 
   /**
-   * @param regionAndCultureProperty - Number indicating a selected region/culture. Map the value to particular set of
-   *                                   representations (you may want to use a number of images per character).
+   * @param regionAndCultureProperty - CharacterSet indicating a selected region/culture that is connected to a particular set of representations
    * @param regionAndCultureDescriptors - Collection of data used to create ComboBoxItems for each supported character set.
    * @param [providedOptions?]
    */
-  public constructor( regionAndCultureProperty: Property<CharacterSet>, regionAndCultureDescriptors: RegionAndCultureDescriptor[], providedOptions?: RegionAndCultureComboBoxOptions ) {
+  public constructor( regionAndCultureProperty: Property<CharacterSet | null>, regionAndCultureDescriptors: RegionAndCultureDescriptor[], providedOptions?: RegionAndCultureComboBoxOptions ) {
 
     const options = optionize<RegionAndCultureComboBoxOptions, SelfOptions, ComboBoxOptions>()( {
 
