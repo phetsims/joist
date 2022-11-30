@@ -14,7 +14,6 @@ import Property from '../../../axon/js/Property.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import { RegionAndCultureDescriptor } from './regionAndCultureManager.js';
 import CharacterSet from './CharacterSet.js';
 
 // constants
@@ -28,10 +27,10 @@ class RegionAndCultureComboBox extends ComboBox<CharacterSet | null> {
 
   /**
    * @param regionAndCultureProperty - CharacterSet indicating a selected region/culture that is connected to a particular set of representations
-   * @param regionAndCultureDescriptors - Collection of data used to create ComboBoxItems for each supported character set.
+   * @param characterSets - The CharacterSet list, one for each region/culture.
    * @param [providedOptions?]
    */
-  public constructor( regionAndCultureProperty: Property<CharacterSet | null>, regionAndCultureDescriptors: RegionAndCultureDescriptor[], providedOptions?: RegionAndCultureComboBoxOptions ) {
+  public constructor( regionAndCultureProperty: Property<CharacterSet | null>, characterSets: CharacterSet[], providedOptions?: RegionAndCultureComboBoxOptions ) {
 
     const options = optionize<RegionAndCultureComboBoxOptions, SelfOptions, ComboBoxOptions>()( {
 
@@ -44,17 +43,17 @@ class RegionAndCultureComboBox extends ComboBox<CharacterSet | null> {
 
     options.labelNode = new Text( regionAndCultureString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
 
-    const comboBoxItems = regionAndCultureDescriptors.map( ( descriptor, index ) => {
+    const comboBoxItems = characterSets.map( ( characterSet, index ) => {
 
       // Since we don't own the Node, wrap in a container for PhET-iO DAG cases and I think archetypes?
-      const wrappedIconNode = new Node( { children: [ descriptor.icon ] } );
+      const wrappedIconNode = new Node( { children: [ characterSet.icon ] } );
       const itemContent = new HBox( {
-        children: [ wrappedIconNode, new Text( descriptor.label, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ) ],
+        children: [ wrappedIconNode, new Text( characterSet.label, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ) ],
         spacing: 10
       } );
 
       return {
-        value: descriptor.characterSet,
+        value: characterSet,
         node: itemContent
       };
     } );

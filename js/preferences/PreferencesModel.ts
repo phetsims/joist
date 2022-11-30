@@ -17,7 +17,7 @@ import Property from '../../../axon/js/Property.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import regionAndCultureManager, { RegionAndCultureDescriptor } from './regionAndCultureManager.js';
+import regionAndCultureManager from './regionAndCultureManager.js';
 import SpeechSynthesisAnnouncer from '../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import localeProperty from '../i18n/localeProperty.js';
@@ -90,10 +90,10 @@ type LocalizationPreferencesOptions = {
   // is still only available when localeProperty indicates that more than one locale is available.
   supportsMultipleLocales?: boolean;
 
-  // Describes the available artwork that can be used for different regions and cultures. If any descriptors are
+  // Describes the available artwork that can be used for different regions and cultures. If any sets are
   // provided, the Localization tab will include a UI component to swap out pieces of artwork to match the selected
-  // region and culture. RegionAndCultureDescriptors contains information for the UI component to describe each choice.
-  regionAndCultureDescriptors?: RegionAndCultureDescriptor[];
+  // region and culture. CharacterSets contains information for the UI component to describe each choice.
+  characterSets?: CharacterSet[];
 } & CustomPreferencesOptions;
 
 type PreferencesModelSelfOptions = {
@@ -236,7 +236,7 @@ export default class PreferencesModel extends PhetioObject {
       localizationOptions: optionize<LocalizationPreferencesOptions, LocalizationPreferencesOptions, BaseModelType>()( {
         tandemName: 'localizationModel',
         supportsMultipleLocales: !!localeProperty.validValues && localeProperty.validValues.length > 1,
-        regionAndCultureDescriptors: [],
+        characterSets: [],
         customPreferences: []
       }, providedOptions.localizationOptions )
     };
@@ -305,10 +305,10 @@ export default class PreferencesModel extends PhetioObject {
       regionAndCultureProperty: regionAndCultureManager.regionAndCultureProperty
     }, options.localizationOptions );
 
-    if ( options.localizationOptions.regionAndCultureDescriptors.length > 0 ) {
+    if ( options.localizationOptions.characterSets.length > 0 ) {
 
-      // default is the first set in the descriptors.
-      regionAndCultureManager.regionAndCultureProperty.value = options.localizationOptions.regionAndCultureDescriptors[ 0 ].characterSet;
+      // default is the first set
+      regionAndCultureManager.regionAndCultureProperty.value = options.localizationOptions.characterSets[ 0 ];
 
       assert && assert( regionAndCultureManager.regionAndCultureProperty.value !== null, 'We have at least one descriptor, so regionAndCultureProperty should not be null.' );
       this.localizationModel.regionAndCultureProperty = regionAndCultureManager.regionAndCultureProperty;
@@ -471,7 +471,7 @@ export default class PreferencesModel extends PhetioObject {
    */
   public supportsLocalizationPreferences(): boolean {
     return this.localizationModel.supportsMultipleLocales ||
-           this.localizationModel.regionAndCultureDescriptors.length > 0 ||
+           this.localizationModel.characterSets.length > 0 ||
            this.preferenceModelHasCustom( this.localizationModel );
   }
 

@@ -7,20 +7,18 @@
  *
  */
 
-import { Image } from '../../../scenery/js/imports.js';
-
-type CharacterImageSet = {
-  characterImage?: Image;
-  headshotImage: Image;
-  leftImage?: Image;
-  rightImage?: Image;
-};
+import { Node } from '../../../scenery/js/imports.js';
 
 export default class CharacterSet {
 
-  public readonly imageSets: Array<CharacterImageSet>;
+  // Icon for the UI component that would select this character set
+  public readonly icon: Node;
 
-  public constructor() {
-    this.imageSets = [];
+  // Label string for the UI component that will select this character set
+  public readonly label: string;
+
+  public constructor( icon: Node, label: string ) {
+    this.icon = icon;
+    this.label = label;
   }
 }

@@ -40,7 +40,7 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
 
     // regionAndCultureProperty value only gets set in PreferencesModel if there is at least one descriptor.
     if ( localizationModel.regionAndCultureProperty.value ) {
-      const comboBox = new RegionAndCultureComboBox( localizationModel.regionAndCultureProperty, localizationModel.regionAndCultureDescriptors );
+      const comboBox = new RegionAndCultureComboBox( localizationModel.regionAndCultureProperty, localizationModel.characterSets );
       contentNode.addChild( comboBox );
       this.disposeEmitter.addListener( () => comboBox.dispose() );
     }
