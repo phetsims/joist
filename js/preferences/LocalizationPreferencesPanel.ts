@@ -38,17 +38,17 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
       spacing: PreferencesDialog.CONTENT_SPACING
     } );
 
-    if ( localizationModel.supportsMultipleLocales ) {
-      const localePanel = new LocalePanel( localizationModel.localeProperty );
-      contentNode.addChild( localePanel );
-      this.disposeEmitter.addListener( () => localePanel.dispose() );
-    }
-
     // regionAndCultureProperty value only gets set in PreferencesModel if there is at least one descriptor.
     if ( localizationModel.regionAndCultureProperty.value ) {
       const comboBox = new RegionAndCultureComboBox( localizationModel.regionAndCultureProperty, localizationModel.regionAndCultureDescriptors );
       contentNode.addChild( comboBox );
       this.disposeEmitter.addListener( () => comboBox.dispose() );
+    }
+
+    if ( localizationModel.supportsMultipleLocales ) {
+      const localePanel = new LocalePanel( localizationModel.localeProperty );
+      contentNode.addChild( localePanel );
+      this.disposeEmitter.addListener( () => localePanel.dispose() );
     }
 
     localizationModel.customPreferences.forEach( customPreference => {
