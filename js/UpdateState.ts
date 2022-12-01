@@ -14,21 +14,21 @@ import joist from './joist.js';
 export default class UpdateState extends EnumerationValue {
 
   // Simulation version is equal to or greater than the currently published version.
-  public static UP_TO_DATE = new UpdateState();
+  public static readonly UP_TO_DATE = new UpdateState();
 
   // Simulation version is less than currently published version (or equal but has a suffix)
-  public static OUT_OF_DATE = new UpdateState();
+  public static readonly OUT_OF_DATE = new UpdateState();
 
   // Request to server sent out, has not processed reply yet.
-  public static CHECKING = new UpdateState();
+  public static readonly CHECKING = new UpdateState();
 
   // Last attempt to check failed, most likely offline
-  public static OFFLINE = new UpdateState();
+  public static readonly OFFLINE = new UpdateState();
 
   // No attempt as been made to check the version against the latest online.
-  public static UNCHECKED = new UpdateState();
+  public static readonly UNCHECKED = new UpdateState();
 
-  public static enumeration = new Enumeration( UpdateState, {
+  public static readonly enumeration = new Enumeration( UpdateState, {
     phetioDocumentation: 'Describes the states that can occur during an Update check'
   } );
 }

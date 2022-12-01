@@ -16,9 +16,9 @@ import Enumeration from '../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../phet-core/js/EnumerationValue.js';
 
 class SoundType extends EnumerationValue {
-  public static HOME_SCREEN_SELECTED = new SoundType();
-  public static DIFFERENT_ICON_SELECTED = new SoundType();
-  public static enumeration = new Enumeration( SoundType );
+  public static readonly HOME_SCREEN_SELECTED = new SoundType();
+  public static readonly DIFFERENT_ICON_SELECTED = new SoundType();
+  public static readonly enumeration = new Enumeration( SoundType );
 }
 
 class HomeScreenSoundGenerator extends MultiClip<SoundType> {

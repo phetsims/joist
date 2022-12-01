@@ -11,14 +11,14 @@ import EnumerationValue from '../../../phet-core/js/EnumerationValue.js';
 import joist from '../joist.js';
 
 export default class PreferencesType extends EnumerationValue {
-  public static OVERVIEW = new PreferencesType();
-  public static SIMULATION = new PreferencesType();
-  public static VISUAL = new PreferencesType();
-  public static AUDIO = new PreferencesType();
-  public static INPUT = new PreferencesType();
-  public static LOCALIZATION = new PreferencesType();
+  public static readonly OVERVIEW = new PreferencesType();
+  public static readonly SIMULATION = new PreferencesType();
+  public static readonly VISUAL = new PreferencesType();
+  public static readonly AUDIO = new PreferencesType();
+  public static readonly INPUT = new PreferencesType();
+  public static readonly LOCALIZATION = new PreferencesType();
 
-  public static enumeration = new Enumeration( PreferencesType );
+  public static readonly enumeration = new Enumeration( PreferencesType );
 }
 
 joist.register( 'PreferencesType', PreferencesType );

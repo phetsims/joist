@@ -357,7 +357,7 @@ class NavigationBar extends Node {
     this.barContents.setScaleMagnitude( scale );
   }
 
-  public static NAVIGATION_BAR_SIZE = NAVIGATION_BAR_SIZE;
+  public static readonly NAVIGATION_BAR_SIZE = NAVIGATION_BAR_SIZE;
 }
 
 joist.register( 'NavigationBar', NavigationBar );
