@@ -46,11 +46,11 @@ import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 const round = ( n: number, places = 2 ) => Utils.toFixed( n, places );
 
 class PointerAreaType extends EnumerationValue {
-  public static MOUSE = new PointerAreaType();
-  public static TOUCH = new PointerAreaType();
-  public static NONE = new PointerAreaType();
+  public static readonly MOUSE = new PointerAreaType();
+  public static readonly TOUCH = new PointerAreaType();
+  public static readonly NONE = new PointerAreaType();
 
-  public static enumeration = new Enumeration( PointerAreaType );
+  public static readonly enumeration = new Enumeration( PointerAreaType );
 }
 
 type HelperCompatibleNode = {
