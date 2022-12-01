@@ -311,9 +311,9 @@ class VoicingPanelSection extends PreferencesPanelSection {
     audioModel.voicingEnabledProperty.lazyLink( voicingEnabledPropertyListener );
 
     // when the list of voices for the ComboBox changes, create a new ComboBox that includes the supported
-    // voices
+    // voices. Eagerly create the first ComboBox, even if no voices are available.
     let voiceComboBox: VoiceComboBox | null = null;
-    const voicesChangedListener = () => {
+    const voicesChangedListener = ( voices: SpeechSynthesisVoice[] ) => {
       if ( voiceComboBox ) {
         voiceOptionsContent.removeChild( voiceComboBox );
         voiceComboBox.dispose();
@@ -322,11 +322,11 @@ class VoicingPanelSection extends PreferencesPanelSection {
       let voiceList: SpeechSynthesisVoice[] = [];
 
       // Only get the prioritized and pruned list of voices if the VoicingManager has voices
-      // available, otherwise wait until the next voicesChangedEmitter message. If there are no voices
-      // available VoiceComboBox will handle that gracefully.
+      // available, otherwise wait until they are available. If there are no voices available VoiceComboBox will handle
+      // that gracefully.
       // Voice changing is not (as of this writing) available on MacOS or iOS, but we hope they fix that bug soon. Perhaps
       // next time someone is working in this area, they can check and see if it is working, https://github.com/phetsims/utterance-queue/issues/74
-      if ( voicingManager.voices.length > 0 ) {
+      if ( voices.length > 0 ) {
         const prioritizedVoices = voicingManager.getPrioritizedVoices();
 
         // for now, only english voices are available because the Voicing feature is not translatable
@@ -346,10 +346,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
       voiceComboBox = new VoiceComboBox( audioModel.voiceProperty, voiceList, parent );
       voiceOptionsContent.addChild( voiceComboBox );
     };
-    voicingManager.voicesChangedEmitter.addListener( voicesChangedListener );
-
-    // eagerly create the first ComboBox, even if no voices are available
-    voicesChangedListener();
+    voicingManager.voicesProperty.link( voicesChangedListener );
 
     voiceOptionsOpenProperty.lazyLink( open => {
       const alertStringProperty = open ? customizeVoiceExpandedStringProperty : customizeVoiceCollapsedStringProperty;
@@ -368,7 +365,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
       rateSlider.dispose();
       audioModel.voicingEnabledProperty.unlink( voicingEnabledPropertyListener );
       audioModel.voicingEnabledProperty.unlink( contentVisibilityListener );
-      voicingManager.voicesChangedEmitter.removeListener( voicesChangedListener );
+      voicingManager.voicesProperty.unlink( voicesChangedListener );
       localeProperty.unlink( localeListener );
       voicingEnabledSwitch.dispose();
       voiceOptionsOpenProperty.dispose();
