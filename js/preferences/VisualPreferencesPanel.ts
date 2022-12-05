@@ -65,33 +65,31 @@ class VisualPreferencesPanel extends PreferencesPanel {
     if ( visualModel.supportsInteractiveHighlights ) {
 
       const label = new Text( interactiveHighlightsStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
+      label.disposer = this;
+
       const highlightsReadingBlockNameResponsePatternStringProperty = new PatternStringProperty( labelledDescriptionPatternStringProperty, {
         label: interactiveHighlightsStringProperty,
         description: interactiveHighlightsDescriptionStringProperty
-      } );
+      }, { disposer: this } );
       const interactiveHighlightsEnabledSwitchVoicingText = new VoicingText( interactiveHighlightsDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
-        readingBlockNameResponse: highlightsReadingBlockNameResponsePatternStringProperty
+        readingBlockNameResponse: highlightsReadingBlockNameResponsePatternStringProperty,
+        disposer: this
       } ) );
       const interactiveHighlightsEnabledSwitch = new ToggleSwitch( visualModel.interactiveHighlightsEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
         a11yName: interactiveHighlightsStringProperty,
         leftValueContextResponse: interactiveHighlightsDisabledAlertStringProperty,
-        rightValueContextResponse: interactiveHighlightsEnabledAlertStringProperty
+        rightValueContextResponse: interactiveHighlightsEnabledAlertStringProperty,
+        disposer: this
       }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
 
       const interactiveHighlightsEnabledControl = new PreferencesControl( {
         labelNode: label,
         descriptionNode: interactiveHighlightsEnabledSwitchVoicingText,
-        controlNode: interactiveHighlightsEnabledSwitch
+        controlNode: interactiveHighlightsEnabledSwitch,
+        disposer: this
       } );
 
       contentNode.addChild( interactiveHighlightsEnabledControl );
-      this.disposeEmitter.addListener( () => {
-        label.dispose();
-        interactiveHighlightsEnabledSwitchVoicingText.dispose();
-        highlightsReadingBlockNameResponsePatternStringProperty.dispose();
-        interactiveHighlightsEnabledSwitch.dispose();
-        interactiveHighlightsEnabledControl.dispose();
-      } );
     }
 
     visualModel.customPreferences.forEach( customPreference => {

@@ -115,7 +115,6 @@ class PreferencesControl extends Node {
     }
 
     this.disposePreferencesToggleSwitch = () => {
-      options.controlNode && options.controlNode.dispose();
       gridBox.dispose();
     };
   }
