@@ -197,13 +197,13 @@ class VoicingPanelSection extends PreferencesPanelSection {
       spacing: 5,
       children: [
         createCheckbox( objectDetailsLabelStringProperty, audioModel.voicingObjectResponsesEnabledProperty,
-          voicingObjectChangesStringProperty, objectChangesMutedStringProperty, speechOutputContent
+          voicingObjectChangesStringProperty, objectChangesMutedStringProperty, speechOutputLabel
         ),
         createCheckbox( contextChangesLabelStringProperty, audioModel.voicingContextResponsesEnabledProperty,
-          voicingContextChangesStringProperty, contextChangesMutedStringProperty, speechOutputContent
+          voicingContextChangesStringProperty, contextChangesMutedStringProperty, speechOutputLabel
         ),
         createCheckbox( helpfulHintsLabelStringProperty, audioModel.voicingHintResponsesEnabledProperty,
-          voicingHintsStringProperty, hintsMutedStringProperty, speechOutputContent
+          voicingHintsStringProperty, hintsMutedStringProperty, speechOutputLabel
         )
       ]
     } );
