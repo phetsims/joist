@@ -737,7 +737,6 @@ export default class Helper {
     helperRoot.addChild( visualTreeNode );
     helperRoot.addChild( pdomTreeNode );
 
-    // @ts-ignore MeasuringTapeNode
     const measuringTapeNode = new MeasuringTapeNode( measuringTapeUnitsProperty, {
       visibleProperty: measuringTapeVisibleProperty,
       textBackgroundColor: 'rgba(0,0,0,0.5)'

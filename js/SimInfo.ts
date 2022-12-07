@@ -85,10 +85,10 @@ class SimInfo extends PhetioObject {
 
     const flags = [];
 
-    // @ts-ignore
+    // @ts-expect-error
     if ( window.navigator.pointerEnabled ) { flags.push( 'pointerEnabled' ); }
 
-    // @ts-ignore
+    // @ts-expect-error
     if ( window.navigator.msPointerEnabled ) { flags.push( 'msPointerEnabled' ); }
     if ( !window.navigator.onLine ) { flags.push( 'offline' ); }
 
@@ -137,7 +137,7 @@ class SimInfo extends PhetioObject {
     }
     assert && assert( !this.info.hasOwnProperty( key ), `key already defined: ${key}` );
 
-    // @ts-ignore I don't know how to ensure the correct value, just the key
+    // @ts-expect-error I don't know how to ensure the correct value, just the key
     this.info[ key ] = value;
   }
 

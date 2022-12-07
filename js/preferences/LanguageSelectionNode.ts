@@ -20,7 +20,7 @@ export default class LanguageSelectionNode extends Rectangle {
 
   public constructor( localeProperty: Property<string>, locale: string ) {
 
-    // @ts-ignore - "Element implicitly has any type" because string cannot be used to access a type
+    // @ts-expect-error - "Element implicitly has any type" because string cannot be used to access a type
     const text = new Text( localeInfoModule[ locale ].localizedName, {
       font: PreferencesDialog.CONTENT_FONT
     } );

@@ -592,7 +592,7 @@ class VoicingPitchSlider extends VBox {
     this.mutate( {
       children: [ label, slider ],
 
-      // @ts-ignore mutate doesn't work when the subclass changes mutator keys,
+      // @ts-expect-error mutate doesn't work when the subclass changes mutator keys,
       // see https://github.com/phetsims/scenery/issues/1433
       spacing: 5
     } );

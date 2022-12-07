@@ -34,8 +34,6 @@ class LocalePanel extends Panel {
       // We don't want the GridBox to resize as selection highlights update with input
       resize: false,
       children: localeProperty.validValues!.map( locale => {
-
-        // @ts-ignore - "Element implicitly has any type" because string cannot be used to access a type
         return new LanguageSelectionNode( localeProperty, locale );
       } )
     } );

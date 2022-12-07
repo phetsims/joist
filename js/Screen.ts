@@ -185,7 +185,7 @@ class Screen<M extends TModel = IntentionalAny, V extends ScreenView = ScreenVie
       // Don't instrument this.nameProperty if options.instrumentNameProperty is false or if options.name is not provided.
       // This additional option is needed because designers requested the ability to not instrument a screen's nameProperty
       // even if it has a name, see https://github.com/phetsims/joist/issues/627 and https://github.com/phetsims/joist/issues/629.
-      // @ts-ignore, need string Property type to accept linkable, see https://github.com/phetsims/axon/issues/414
+      // @ts-expect-error, need string Property type to accept linkable, see https://github.com/phetsims/axon/issues/414
       options.instrumentNameProperty && this.addLinkedElement( options.name, {
         tandem: options.tandem.createTandem( 'nameProperty' )
       } );

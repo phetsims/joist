@@ -211,7 +211,7 @@ class PhetMenu extends Node {
 
             if ( !phet.chipper.isFuzzEnabled() ) {
 
-              // @ts-ignore when typescript knows anything about window. . ..
+              // @ts-expect-error when typescript knows anything about window. . ..
               window.saveAs( blob, filename );
             }
           }

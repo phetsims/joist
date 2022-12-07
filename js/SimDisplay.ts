@@ -91,7 +91,7 @@ export default class SimDisplay extends Display {
     // override window.open with a semi-API-compatible function, so fuzzing doesn't open new windows.
     if ( phet.chipper.isFuzzEnabled() ) {
 
-      // @ts-ignore
+      // @ts-expect-error
       window.open = function() {
         return {
           focus: _.noop,
@@ -142,13 +142,13 @@ export default class SimDisplay extends Display {
 
     if ( phet.chipper.queryParameters.sceneryLog ) {
 
-      // @ts-ignore
+      // @ts-expect-error
       scenery.enableLogging( phet.chipper.queryParameters.sceneryLog );
     }
 
     if ( phet.chipper.queryParameters.sceneryStringLog ) {
 
-      // @ts-ignore
+      // @ts-expect-error
       scenery.switchLogToString();
     }
 
