@@ -13,8 +13,6 @@ import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { GridBox, Node, NodeOptions, SceneryConstants } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 
-// This ToggleSwitch is not
-
 type SelfOptions = {
 
   // if provided, a label Node to the left of the toggle switch control
@@ -41,7 +39,7 @@ type SelfOptions = {
 export type PreferencesControlOptions = SelfOptions & NodeOptions;
 
 class PreferencesControl extends Node {
-  private readonly disposePreferencesToggleSwitch: () => void;
+  private readonly disposePreferencesControl: () => void;
 
   public constructor( providedOptions?: PreferencesControlOptions ) {
     const options = optionize<PreferencesControlOptions, StrictOmit<SelfOptions, 'labelNode' | 'descriptionNode' | 'controlNode'>, NodeOptions>()( {
@@ -65,7 +63,7 @@ class PreferencesControl extends Node {
     this.addChild( gridBox );
 
     if ( options.controlNode ) {
-      assert && assert( options.controlNode.layoutOptions === null, 'PreferencesToggleSwitch will control layout' );
+      assert && assert( options.controlNode.layoutOptions === null, 'PreferencesControl will control layout' );
       this.enabledProperty.link( enabled => {
         options.controlNode!.enabled = enabled;
       } );
@@ -80,7 +78,7 @@ class PreferencesControl extends Node {
     }
 
     if ( options.labelNode ) {
-      assert && assert( options.labelNode.layoutOptions === null, 'PreferencesToggleSwitch will control layout' );
+      assert && assert( options.labelNode.layoutOptions === null, 'PreferencesControl will control layout' );
       options.labelNode.layoutOptions = {
         row: 0,
         column: 0,
@@ -92,7 +90,7 @@ class PreferencesControl extends Node {
 
     // descriptionNode will be in the second row if a labelNode is provided.
     if ( options.descriptionNode && options.labelNode ) {
-      assert && assert( options.descriptionNode.layoutOptions === null, 'PreferencesToggleSwitch will control layout' );
+      assert && assert( options.descriptionNode.layoutOptions === null, 'PreferencesControl will control layout' );
       options.descriptionNode.layoutOptions = {
         row: 1,
         column: 0,
@@ -105,7 +103,7 @@ class PreferencesControl extends Node {
 
     // descriptionNode will be in the first row if labelNode is not provided.
     else if ( options.descriptionNode ) {
-      assert && assert( options.descriptionNode.layoutOptions === null, 'PreferencesToggleSwitch will control layout' );
+      assert && assert( options.descriptionNode.layoutOptions === null, 'PreferencesControl will control layout' );
       options.descriptionNode.layoutOptions = {
         row: 0,
         column: 0,
@@ -114,13 +112,13 @@ class PreferencesControl extends Node {
       gridBox.addChild( options.descriptionNode );
     }
 
-    this.disposePreferencesToggleSwitch = () => {
+    this.disposePreferencesControl = () => {
       gridBox.dispose();
     };
   }
 
   public override dispose(): void {
-    this.disposePreferencesToggleSwitch();
+    this.disposePreferencesControl();
     super.dispose();
   }
 }
