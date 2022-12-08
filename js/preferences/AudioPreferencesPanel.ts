@@ -91,7 +91,8 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
 
     const audioFeaturesText = new Text( audioFeaturesStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
     const audioFeaturesSwitch = new ToggleSwitch( audioModel.audioEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
-      a11yName: audioFeaturesStringProperty
+      a11yName: audioFeaturesStringProperty,
+      disposer: this
     }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
     const allAudioSwitch = new PreferencesControl( {
       labelNode: audioFeaturesText,

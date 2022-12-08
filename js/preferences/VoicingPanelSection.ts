@@ -371,8 +371,10 @@ class VoicingPanelSection extends PreferencesPanelSection {
       voiceOptionsOpenProperty.dispose();
       expandCollapseButton.dispose();
       toolbarEnabledSwitch.dispose();
+      toolbarToggleSwitch.dispose();
       voicingEnabledUtterance.dispose();
 
+      voicingToggleSwitch.dispose();
       voicingEnabledSwitchVoicingText.dispose();
       speechOutputDescription.dispose();
 
