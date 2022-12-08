@@ -2,6 +2,7 @@
 
 import { localizedStrings } from '../../chipper/js/getStringModule.js';
 import Utils from '../../dot/js/Utils.js';
+import joist from './joist.js';
 
 /**
  * For testing dynamic layout in sims that may not yet have submitted translations, enabled via ?stringTest=dynamic.
@@ -85,3 +86,5 @@ export default class DynamicStringTest {
     } );
   }
 }
+
+joist.register( 'DynamicStringTest', DynamicStringTest );

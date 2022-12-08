@@ -8,6 +8,7 @@
  */
 
 import { Node } from '../../../scenery/js/imports.js';
+import joist from '../joist.js';
 
 export default class CharacterSet {
 
@@ -22,3 +23,5 @@ export default class CharacterSet {
     this.label = label;
   }
 }
+
+joist.register( 'CharacterSet', CharacterSet );
