@@ -45,7 +45,7 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
       this.disposeEmitter.addListener( () => comboBox.dispose() );
     }
 
-    if ( localizationModel.supportsMultipleLocales ) {
+    if ( localizationModel.supportsDynamicLocales ) {
       const localePanel = new LocalePanel( localizationModel.localeProperty );
       contentNode.addChild( localePanel );
       this.disposeEmitter.addListener( () => localePanel.dispose() );

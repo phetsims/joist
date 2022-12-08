@@ -88,7 +88,7 @@ type LocalizationPreferencesOptions = {
 
   // Whether to include a UI component that changes the sim language. Default for this in phetFeatures is true. But it
   // is still only available when localeProperty indicates that more than one locale is available.
-  supportsMultipleLocales?: boolean;
+  supportsDynamicLocales?: boolean;
 
   // Describes the available artwork that can be used for different regions and cultures. If any sets are
   // provided, the Localization tab will include a UI component to swap out pieces of artwork to match the selected
@@ -235,7 +235,7 @@ export default class PreferencesModel extends PhetioObject {
       }, providedOptions.inputOptions ),
       localizationOptions: optionize<LocalizationPreferencesOptions, LocalizationPreferencesOptions, BaseModelType>()( {
         tandemName: 'localizationModel',
-        supportsMultipleLocales: !!localeProperty.validValues && localeProperty.validValues.length > 1,
+        supportsDynamicLocales: !!localeProperty.validValues && localeProperty.validValues.length > 1,
         characterSets: [],
         customPreferences: []
       }, providedOptions.localizationOptions )
@@ -470,7 +470,7 @@ export default class PreferencesModel extends PhetioObject {
    * Returns true if the LocalizationModel has any preferences that can be changed.
    */
   public supportsLocalizationPreferences(): boolean {
-    return this.localizationModel.supportsMultipleLocales ||
+    return this.localizationModel.supportsDynamicLocales ||
            this.localizationModel.characterSets.length > 0 ||
            this.preferenceModelHasCustom( this.localizationModel );
   }
@@ -496,7 +496,7 @@ export default class PreferencesModel extends PhetioObject {
         supportsSound: preferencesModel.audioModel.supportsSound,
         supportsExtraSound: preferencesModel.audioModel.supportsExtraSound,
         supportsGestureControl: preferencesModel.inputModel.supportsGestureControl,
-        supportsMultipleLocales: preferencesModel.localizationModel.supportsMultipleLocales,
+        supportsMultipleLocales: preferencesModel.localizationModel.supportsDynamicLocales,
 
         // Method-based
         supportsAudioPreferences: preferencesModel.supportsAudioPreferences(),
