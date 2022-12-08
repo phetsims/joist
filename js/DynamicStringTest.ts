@@ -12,10 +12,10 @@ import joist from './joist.js';
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 export default class DynamicStringTest {
-
   public static init(): void {
 
     let stride = 0;
+    let stringFactor = 1;
 
     // Random words of different lengths that can be cycled through
     const wordSource = 'Sometimes when Hippopotomonstrosesquippedaliophobia want lyrics you turn to Shakespeare like the following text copied from some work ' +
@@ -33,33 +33,46 @@ export default class DynamicStringTest {
       } );
     }
 
-    function reduceString( string: string ): string {
+    // Double the string based on the string factor
+    function doubleString( string: string, factor: number ): string {
+      let growingString = string;
+      while ( factor > 1 ) {
+        growingString += string;
+        factor -= 1;
+      }
+      return growingString;
+    }
 
+    // Return a string with its length based on the string factor
+    function handleStringFactor( string: string ): string {
+
+      // Create an array of all pattern sections in string
       // Will return an empty array if no match is found.
       const curlyBraces = string.match( /{{(.+?)}}/g ) || [];
-      const noPatternString = string.replace( /{{(.+?)}}/g, '' );
-      const stringLength = Utils.toFixedNumber( noPatternString.length / 2 + 1, 0 );
-      const halvedString = noPatternString.substring( 0, stringLength );
 
-      return halvedString + curlyBraces.join( '' );
+      // Remove all pattern sections from string
+      const noPatternString = string.replace( /{{(.+?)}}/g, '' );
+      const stringLength = Utils.toFixedNumber( noPatternString.length * stringFactor + 1, 0 );
+      const newString = stringFactor > 1 ? doubleString( noPatternString, stringFactor ) : noPatternString.substring( 0, stringLength );
+
+      // Add back on string pattern sections. Will add nothing if curlyBraces is empty
+      return newString + curlyBraces.join( '' );
     }
 
     window.addEventListener( 'keydown', event => {
 
-      // check if the keyboard event is a right arrow key
-      if ( event.keyCode === 39 ) {
-        localizedStrings.forEach( localizedString => {
-          localizedString.property.value = localizedString.property.value + localizedString.property.value;
-        } );
-      }
+      // check if the keyboard event is a left or right arrow key
+      if ( event.keyCode === 37 || event.keyCode === 39 ) {
 
-      // check if the keyboard event is a left arrow key
-      else if ( event.keyCode === 37 ) {
+        // Set the string factor based on left (halve) or right (double) arrow keys.
+        stringFactor = event.keyCode === 37 ? Math.max( stringFactor * 0.5, 0.01 ) : stringFactor * 2;
+
         localizedStrings.forEach( localizedString => {
+          localizedString.restoreInitialValue( 'en' );
 
           // Strip out all RTL (U+202A), LTR  (U+202B), and PDF  (U+202C) characters from string.
           const strippedString = localizedString.property.value.replace( /[\u202A\u202B\u202C]/g, '' );
-          localizedString.property.value = reduceString( strippedString );
+          localizedString.property.value = handleStringFactor( strippedString );
         } );
       }
 
@@ -75,7 +88,7 @@ export default class DynamicStringTest {
         setStride( stride + 1 );
       }
 
-      // Check if the keyboard event is an down arrow key
+      // Check if the keyboard event is a down arrow key
       else if ( event.keyCode === 40 ) {
         let newStride = stride - 1;
         if ( newStride < 0 ) {
