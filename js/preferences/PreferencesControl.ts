@@ -38,13 +38,13 @@ type SelfOptions = {
   nestedContent?: Array<Node>;
 };
 
-export type PreferencesToggleSwitchOptions = SelfOptions & NodeOptions;
+export type PreferencesControlOptions = SelfOptions & NodeOptions;
 
 class PreferencesControl extends Node {
   private readonly disposePreferencesToggleSwitch: () => void;
 
-  public constructor( providedOptions?: PreferencesToggleSwitchOptions ) {
-    const options = optionize<PreferencesToggleSwitchOptions, StrictOmit<SelfOptions, 'labelNode' | 'descriptionNode' | 'controlNode'>, NodeOptions>()( {
+  public constructor( providedOptions?: PreferencesControlOptions ) {
+    const options = optionize<PreferencesControlOptions, StrictOmit<SelfOptions, 'labelNode' | 'descriptionNode' | 'controlNode'>, NodeOptions>()( {
       labelSpacing: 10,
       valueLabelXSpacing: 8,
       descriptionSpacing: 5,
