@@ -56,7 +56,6 @@ class NavigationBarPreferencesButton extends JoistButton {
     super( icon, backgroundColorProperty, options );
 
     const preferencesDialogCapsule = new PhetioCapsule<PreferencesDialog>( tandem => {
-      console.log( 'sup' );
       return new PreferencesDialog( preferencesModel, {
         tandem: tandem,
         focusOnHideNode: this
@@ -76,12 +75,6 @@ class NavigationBarPreferencesButton extends JoistButton {
     // The result was that one press would open the dialog and the second buggy press would immediately close it.
     // Make sure that the dialog can be opened on iOS Safari before removing this.
     this.setPDOMAttribute( 'aria-haspopup', true );
-
-
-    for ( let i = 0; i < 50; i++ ) {
-      preferencesDialogCapsule.getElement();
-      preferencesDialogCapsule.disposeElement();
-    }
   }
 }
 
