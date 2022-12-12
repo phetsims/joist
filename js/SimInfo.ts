@@ -88,7 +88,7 @@ class SimInfo extends PhetioObject {
     // @ts-expect-error - pointerEnabled isn't included in the Typescript definition of window.navigator
     if ( window.navigator.pointerEnabled ) { flags.push( 'pointerEnabled' ); }
 
-    // @ts-expect-error
+    // @ts-expect-error - msPointerEnabled isn't included in the Typescript definition of window.navigator
     if ( window.navigator.msPointerEnabled ) { flags.push( 'msPointerEnabled' ); }
     if ( !window.navigator.onLine ) { flags.push( 'offline' ); }
 
