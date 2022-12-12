@@ -91,7 +91,7 @@ export default class SimDisplay extends Display {
     // override window.open with a semi-API-compatible function, so fuzzing doesn't open new windows.
     if ( phet.chipper.isFuzzEnabled() ) {
 
-      // @ts-expect-error
+      // @ts-expect-error - it isn't yet clear how to define objects to window just yet
       window.open = function() {
         return {
           focus: _.noop,
@@ -142,13 +142,13 @@ export default class SimDisplay extends Display {
 
     if ( phet.chipper.queryParameters.sceneryLog ) {
 
-      // @ts-expect-error
+      // @ts-expect-error - until scenery.js is converted to typescript, which is non-trivial (I tried)
       scenery.enableLogging( phet.chipper.queryParameters.sceneryLog );
     }
 
     if ( phet.chipper.queryParameters.sceneryStringLog ) {
 
-      // @ts-expect-error
+      // @ts-expect-error - until scenery.js is converted to typescript, which is non-trivial (I tried)
       scenery.switchLogToString();
     }
 

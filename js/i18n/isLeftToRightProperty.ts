@@ -13,7 +13,6 @@ import joist from '../joist.js';
 import localeProperty from './localeProperty.js';
 
 const isLeftToRightProperty = new DerivedProperty( [ localeProperty ], locale => {
-  // @ts-expect-error keyof localeInfoModule not helping here.
   return localeInfoModule[ locale ].direction === 'ltr';
 } );
 
