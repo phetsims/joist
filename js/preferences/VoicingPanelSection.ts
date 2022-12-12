@@ -30,7 +30,7 @@ import PreferencesDialog from './PreferencesDialog.js';
 import { AudioModel } from './PreferencesModel.js';
 import PreferencesPanelSection, { PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
 import PreferencesControl from './PreferencesControl.js';
-import localeProperty from '../i18n/localeProperty.js';
+import localeProperty, { Locale } from '../i18n/localeProperty.js';
 import { Disposer } from '../../../axon/js/Disposable.js';
 import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
@@ -282,7 +282,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
     };
     audioModel.voicingEnabledProperty.link( contentVisibilityListener );
 
-    const localeListener = ( locale: string ) => {
+    const localeListener = ( locale: Locale ) => {
       voicingEnabledSwitch.enabledProperty.value = locale.startsWith( 'en' );
     };
     localeProperty.link( localeListener );

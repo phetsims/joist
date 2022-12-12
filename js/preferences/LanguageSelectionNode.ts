@@ -14,13 +14,12 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import Property from '../../../axon/js/Property.js';
+import { Locale } from '../i18n/localeProperty.js';
 
 export default class LanguageSelectionNode extends Rectangle {
   private readonly disposeLanguageSelectionNode: () => void;
 
-  public constructor( localeProperty: Property<string>, locale: string ) {
-
-    // @ts-expect-error - "Element implicitly has any type" because string cannot be used to access a type
+  public constructor( localeProperty: Property<Locale>, locale: Locale ) {
     const text = new Text( localeInfoModule[ locale ].localizedName, {
       font: PreferencesDialog.CONTENT_FONT
     } );

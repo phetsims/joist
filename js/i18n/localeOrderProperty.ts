@@ -9,7 +9,7 @@
 
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import joist from '../joist.js';
-import localeProperty from './localeProperty.js';
+import localeProperty, { Locale } from './localeProperty.js';
 import fallbackLocalesProperty from './fallbackLocalesProperty.js';
 
 const FALLBACK_LOCALE = 'en';
@@ -20,7 +20,7 @@ const localeOrderProperty = new DerivedProperty( [ localeProperty, fallbackLocal
   const localeOrder = [ locale ];
 
   // Attempt to fill in a language reduction for the selected locale, e.g. 'zh_CN' => 'zh'
-  const shortLocale = locale.slice( 0, 2 );
+  const shortLocale = locale.slice( 0, 2 ) as Locale;
   if ( locale !== shortLocale && !localeOrder.includes( shortLocale ) ) {
     localeOrder.push( shortLocale );
   }

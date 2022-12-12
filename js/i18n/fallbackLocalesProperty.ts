@@ -13,15 +13,16 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../tandem/js/types/ArrayIO.js';
 import StringIO from '../../../tandem/js/types/StringIO.js';
 import joist from '../joist.js';
+import { Locale } from './localeProperty.js';
 
-const fallbackLocalesProperty = new Property<string[]>( [], {
+const fallbackLocalesProperty = new Property<Locale[]>( [], {
   tandem: Tandem.GENERAL_MODEL.createTandem( 'fallbackLocalesProperty' ),
   phetioDocumentation: 'An ordered list of locales to "fall back" on when a translation is missing for the selected ' +
                        'locale, for example: ["es", "de" ]. "en" will always be added to the end of this, because it has' +
                        'guaranteed full coverage of all translated keys.',
   phetioFeatured: true,
   isValidValue: locales => {
-    return _.every( locales, locale => !!localeInfoModule[ locale as keyof typeof localeInfoModule ] );
+    return _.every( locales, locale => !!localeInfoModule[ locale ] );
   },
   phetioValueType: ArrayIO( StringIO )
 } );

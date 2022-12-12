@@ -17,6 +17,7 @@ import { allowLinksProperty, Node, PDOMPeer, RichText, VBox, VoicingRichText, Vo
 import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import CreditsNode, { CreditsData } from './CreditsNode.js';
+import { Locale } from './i18n/localeProperty.js';
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
 import packageJSON from './packageJSON.js';
@@ -49,7 +50,7 @@ export default class AboutDialog extends Dialog {
    * @param locale - locale string
    * @param [providedOptions]
    */
-  public constructor( nameStringProperty: TReadOnlyProperty<string>, version: string, credits: CreditsData, locale: string, providedOptions?: AboutDialogOptions ) {
+  public constructor( nameStringProperty: TReadOnlyProperty<string>, version: string, credits: CreditsData, locale: Locale, providedOptions?: AboutDialogOptions ) {
 
     const options = optionize<AboutDialogOptions, SelfOptions, DialogOptions>()( {
       xSpacing: 26,

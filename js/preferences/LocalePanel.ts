@@ -15,11 +15,12 @@ import Panel from '../../../sun/js/Panel.js';
 import { GridBox } from '../../../scenery/js/imports.js';
 import Property from '../../../axon/js/Property.js';
 import LanguageSelectionNode from './LanguageSelectionNode.js';
+import { Locale } from '../i18n/localeProperty.js';
 
 class LocalePanel extends Panel {
   private readonly disposeLocalePanel: () => void;
 
-  public constructor( localeProperty: Property<string> ) {
+  public constructor( localeProperty: Property<Locale> ) {
 
     // All available locales aligned into a grid
     const content = new GridBox( {

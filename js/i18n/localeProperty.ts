@@ -6,19 +6,23 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import StringProperty from '../../../axon/js/StringProperty.js';
+import Property from '../../../axon/js/Property.js';
 import localeInfoModule from '../../../chipper/js/data/localeInfoModule.js';
 import { globalKeyStateTracker, KeyboardUtils } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import StringIO from '../../../tandem/js/types/StringIO.js';
 import joist from '../joist.js';
 
 const FALLBACK_LOCALE = 'en';
 
-const locales = Object.keys( phet.chipper.strings ).sort();
+export type Locale = keyof typeof localeInfoModule;
+
+const locales = Object.keys( phet.chipper.strings ).sort() as Locale[];
+
 
 // Start only with a valid locale, see https://github.com/phetsims/phet-io/issues/1882
-const isLocaleValid = ( locale?: string ) => {
-  return locale && localeInfoModule[ locale as keyof typeof localeInfoModule ];
+const isLocaleValid = ( locale?: Locale ) => {
+  return locale && localeInfoModule[ locale ];
 };
 
 // We might use a partial locale (e.g. 'en' instead of 'en_US'), so grab this if it exists. It might be the same as
@@ -38,8 +42,8 @@ const validInitialLocale = isLocaleValid( phet.chipper.locale ) ? phet.chipper.l
 // Just in case we had an invalid locale, remap phet.chipper.locale to the "corrected" value
 phet.chipper.locale = validInitialLocale;
 
-class LocaleProperty extends StringProperty {
-  protected override unguardedSet( value: string ): void {
+class LocaleProperty extends Property<Locale> {
+  protected override unguardedSet( value: Locale ): void {
     if ( locales.includes( value ) ) {
       super.unguardedSet( value );
     }
@@ -54,6 +58,7 @@ class LocaleProperty extends StringProperty {
 const localeProperty = new LocaleProperty( validInitialLocale, {
   tandem: Tandem.GENERAL_MODEL.createTandem( 'localeProperty' ),
   phetioFeatured: true,
+  phetioValueType: StringIO,
   validValues: locales
 } );
 

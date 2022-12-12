@@ -69,6 +69,7 @@ import Combination from '../../dot/js/Combination.js';
 import Permutation from '../../dot/js/Permutation.js';
 import ArrayIO from '../../tandem/js/types/ArrayIO.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
+import { Locale } from './i18n/localeProperty.js';
 
 // constants
 const PROGRESS_BAR_WIDTH = 273;
@@ -206,7 +207,7 @@ export default class Sim extends PhetioObject {
   private resizePending = true;
 
   // Make our locale available
-  public readonly locale = phet.chipper.locale || 'en';
+  public readonly locale: Locale = phet.chipper.locale || 'en';
 
   // create this only after all other members have been set on Sim
   private readonly simInfo: SimInfo;

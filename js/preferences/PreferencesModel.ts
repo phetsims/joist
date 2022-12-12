@@ -20,7 +20,7 @@ import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js'
 import regionAndCultureManager from './regionAndCultureManager.js';
 import SpeechSynthesisAnnouncer from '../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import localeProperty from '../i18n/localeProperty.js';
+import localeProperty, { Locale } from '../i18n/localeProperty.js';
 import merge from '../../../phet-core/js/merge.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import IOType from '../../../tandem/js/types/IOType.js';
@@ -178,7 +178,7 @@ export type LocalizationModel = BaseModelType & {
   // The selected character artwork to use when the sim supports culture and region switching.
   regionAndCultureProperty: Property<CharacterSet | null>;
 
-  localeProperty: Property<string>;
+  localeProperty: Property<Locale>;
 } & Required<LocalizationPreferencesOptions>;
 
 type FeatureModel = SimulationModel | AudioModel | VisualModel | InputModel | LocalizationModel;
