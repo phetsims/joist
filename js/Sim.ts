@@ -839,7 +839,10 @@ export default class Sim extends PhetioObject {
     if ( isModal ) {
       this.modalNodeStack.remove( popup );
       if ( this.modalNodeStack.length === 0 ) {
-        this.setNonModalVoicingVisible( true );
+
+        // After hiding all popups, Voicing becomes enabled for components in the simulation window only if
+        // "Sim Voicing" switch is on.
+        this.setNonModalVoicingVisible( voicingManager.voicingFullyEnabledProperty.value );
 
         // pdom - when the dialog is hidden, make all ScreenView content visible to assistive technology
         this.setPDOMViewsVisible( true );
