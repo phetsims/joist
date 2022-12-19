@@ -422,7 +422,7 @@ export default class Sim extends PhetioObject {
       // Note that this is vital to support Interactive Description and the utterance queue.
       stepTimer.emit( dt );
 
-      // If the DT is 0, we will skip the model step (see https://github.com/phetsims/joist/issues/171)
+      // If the dt is 0, we will skip the model step (see https://github.com/phetsims/joist/issues/171)
       if ( screen.model.step && dt ) {
         screen.model.step( dt );
       }
