@@ -496,7 +496,7 @@ export default class PreferencesModel extends PhetioObject {
         supportsSound: preferencesModel.audioModel.supportsSound,
         supportsExtraSound: preferencesModel.audioModel.supportsExtraSound,
         supportsGestureControl: preferencesModel.inputModel.supportsGestureControl,
-        supportsMultipleLocales: preferencesModel.localizationModel.supportsDynamicLocales,
+        supportsDynamicLocales: preferencesModel.localizationModel.supportsDynamicLocales,
 
         // Method-based
         supportsAudioPreferences: preferencesModel.supportsAudioPreferences(),
@@ -513,7 +513,7 @@ export default class PreferencesModel extends PhetioObject {
       supportsSound: BooleanIO,
       supportsExtraSound: BooleanIO,
       supportsGestureControl: BooleanIO,
-      supportsMultipleLocales: BooleanIO,
+      supportsDynamicLocales: BooleanIO,
 
       // Method-based
       supportsAudioPreferences: BooleanIO,
