@@ -10,7 +10,7 @@
 
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import { GridBox, Node, NodeOptions, SceneryConstants } from '../../../scenery/js/imports.js';
+import { GridBox, GridBoxOptions, Node, SceneryConstants } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 
 type SelfOptions = {
@@ -29,38 +29,33 @@ type SelfOptions = {
   descriptionNode?: Node;
 
   // vertical spacing between ToggleSwitch and description Node
-  descriptionSpacing?: 5;
+  ySpacing?: 5;
 
   controlNode?: Node;
 
   nestedContent?: Array<Node>;
 };
 
-export type PreferencesControlOptions = SelfOptions & NodeOptions;
+export type PreferencesControlOptions = SelfOptions & GridBoxOptions;
 
-class PreferencesControl extends Node {
-  private readonly disposePreferencesControl: () => void;
+// Layout using GridBox and layoutOptions will accomplish the following when all components are available.
+// [[labelNode]]         [[ToggleSwitch]]
+// [[descriptionNode                   ]]
+class PreferencesControl extends GridBox {
 
   public constructor( providedOptions?: PreferencesControlOptions ) {
-    const options = optionize<PreferencesControlOptions, StrictOmit<SelfOptions, 'labelNode' | 'descriptionNode' | 'controlNode'>, NodeOptions>()( {
+    const options = optionize<PreferencesControlOptions, StrictOmit<SelfOptions, 'labelNode' | 'descriptionNode' | 'controlNode'>, GridBoxOptions>()( {
       labelSpacing: 10,
       valueLabelXSpacing: 8,
-      descriptionSpacing: 5,
-      nestedContent: []
+      ySpacing: 5,
+      nestedContent: [],
+      grow: 1,
+      layoutOptions: {
+        stretch: true
+      }
     }, providedOptions );
 
     super( options );
-
-    // This component manages disabledOpacity, we don't want it to compound over subcomponents.
-    this.disabledOpacity = SceneryConstants.DISABLED_OPACITY;
-
-    // Layout using GridBox and layoutOptions will accomplish the following when all components are available.
-    // [[labelNode]]         [[ToggleSwitch]]
-    // [[descriptionNode                   ]]
-    const gridBox = new GridBox( {
-      ySpacing: options.descriptionSpacing
-    } );
-    this.addChild( gridBox );
 
     if ( options.controlNode ) {
       assert && assert( options.controlNode.layoutOptions === null, 'PreferencesControl will control layout' );
@@ -74,7 +69,7 @@ class PreferencesControl extends Node {
         xAlign: 'right'
       };
 
-      gridBox.addChild( options.controlNode );
+      this.addChild( options.controlNode );
     }
 
     if ( options.labelNode ) {
@@ -85,7 +80,7 @@ class PreferencesControl extends Node {
         xAlign: 'left',
         rightMargin: options.labelSpacing
       };
-      gridBox.addChild( options.labelNode );
+      this.addChild( options.labelNode );
     }
 
     // descriptionNode will be in the second row if a labelNode is provided.
@@ -97,7 +92,7 @@ class PreferencesControl extends Node {
         horizontalSpan: 2,
         xAlign: 'left'
       };
-      gridBox.addChild( options.descriptionNode );
+      this.addChild( options.descriptionNode );
     }
 
 
@@ -109,17 +104,11 @@ class PreferencesControl extends Node {
         column: 0,
         xAlign: 'left'
       };
-      gridBox.addChild( options.descriptionNode );
+      this.addChild( options.descriptionNode );
     }
 
-    this.disposePreferencesControl = () => {
-      gridBox.dispose();
-    };
-  }
-
-  public override dispose(): void {
-    this.disposePreferencesControl();
-    super.dispose();
+    // This component manages disabledOpacity, we don't want it to compound over subcomponents.
+    this.disabledOpacity = SceneryConstants.DISABLED_OPACITY;
   }
 }
 
