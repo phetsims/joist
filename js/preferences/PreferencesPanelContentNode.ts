@@ -23,7 +23,10 @@ export default class PreferencesPanelContentNode extends Panel {
   public constructor( providedOptions: PreferencesPanelContentNodeOptions ) {
 
     const options = optionize<PreferencesPanelContentNodeOptions, SelfOptions, PanelOptions>()( {
-      fill: '#B2B2B2'
+      fill: '#E8E8E8',
+      stroke: null,
+      xMargin: 10,
+      yMargin: 10
     }, providedOptions );
 
     const contentVBox = new VBox( { children: options.content, spacing: 10 } );
