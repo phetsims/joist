@@ -35,7 +35,8 @@ const PreferencesDialogConstants = {
   },
   CONTROL_DESCRIPTION_OPTIONS: {
     font: DESCRIPTION_FONT,
-    maxWidth: 500
+    maxWidth: 500,
+    lineWrap: 480
   }
 
 };
