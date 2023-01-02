@@ -403,7 +403,6 @@ class VoiceRateNumberControl extends NumberControl {
 
   public constructor( labelString: TReadOnlyProperty<string>, a11yNameString: TReadOnlyProperty<string>, voiceRateProperty: NumberProperty ) {
 
-    assert && assert( voiceRateProperty.range, 'Range is required on the property for the control.' );
     super( labelString, voiceRateProperty, voiceRateProperty.range, {
       includeArrowButtons: false,
       layoutFunction: NumberControl.createLayoutFunction4(),
@@ -549,7 +548,6 @@ class VoicingPitchSlider extends VBox {
   public constructor( labelString: TReadOnlyProperty<string>, voicePitchProperty: NumberProperty ) {
     const label = new Text( labelString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
 
-    assert && assert( voicePitchProperty.range, 'Range is required for the voice pitch slider.' );
     const voicePitchRange = voicePitchProperty.range;
 
     const slider = new HSlider( voicePitchProperty, voicePitchRange, {
