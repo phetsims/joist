@@ -110,7 +110,8 @@ class SoundPanelSection extends PreferencesPanelSection {
       extraSoundContent = new VBox( {
         children: [ extraSoundCheckbox, extraSoundDescription ],
         align: 'left',
-        spacing: 5
+        spacing: 5,
+        tagName: 'div' // Must have PDOM content to support toggling enabled in the PDOM. Could be removed after https://github.com/phetsims/scenery/issues/1514
       } );
 
       const extraSoundEnabledListener = ( enabled: boolean ) => {

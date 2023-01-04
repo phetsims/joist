@@ -71,7 +71,8 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
     const sections = new HBox( {
       align: 'top',
       spacing: 10,
-      children: [ leftContent, rightContent ]
+      children: [ leftContent, rightContent ],
+      tagName: 'div' // Must have PDOM content to support toggling enabled in the PDOM. Could be removed after https://github.com/phetsims/scenery/issues/1514
     } );
 
     audioModel.customPreferences.forEach( ( customPreference, i ) => {
@@ -100,11 +101,11 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
       headingControl: true
     } );
 
-    const soundEnabledListener = ( enabled: boolean ) => {
+    const audioEnabledListener = ( enabled: boolean ) => {
       sections.enabled = enabled;
     };
 
-    audioModel.audioEnabledProperty.link( soundEnabledListener );
+    audioModel.audioEnabledProperty.link( audioEnabledListener );
 
     const panelContent = new VBox( {
       align: 'center',
@@ -120,7 +121,7 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
       audioFeaturesText.dispose();
       sections.dispose();
       panelContent.dispose();
-      audioModel.audioEnabledProperty.unlink( soundEnabledListener );
+      audioModel.audioEnabledProperty.unlink( audioEnabledListener );
     };
   }
 
