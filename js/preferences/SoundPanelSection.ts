@@ -110,7 +110,8 @@ class SoundPanelSection extends PreferencesPanelSection {
       extraSoundContent = new VBox( {
         children: [ extraSoundCheckbox, extraSoundDescription ],
         align: 'left',
-        spacing: 5
+        spacing: 5,
+        tagName: 'div' // Must have PDOM content to support toggling enabled in the PDOM. Could be removed if
       } );
 
       const extraSoundEnabledListener = ( enabled: boolean ) => {
