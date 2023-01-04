@@ -96,7 +96,8 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
     }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
     const allAudioSwitch = new PreferencesControl( {
       labelNode: audioFeaturesText,
-      controlNode: audioFeaturesSwitch
+      controlNode: audioFeaturesSwitch,
+      headingControl: true
     } );
 
     const soundEnabledListener = ( enabled: boolean ) => {

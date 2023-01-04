@@ -34,6 +34,8 @@ type SelfOptions = {
   controlNode?: Node;
 
   nestedContent?: Array<Node>;
+
+  headingControl?: boolean;
 };
 
 export type PreferencesControlOptions = SelfOptions & GridBoxOptions;
@@ -45,13 +47,14 @@ class PreferencesControl extends GridBox {
 
   public constructor( providedOptions?: PreferencesControlOptions ) {
     const options = optionize<PreferencesControlOptions, StrictOmit<SelfOptions, 'labelNode' | 'descriptionNode' | 'controlNode'>, GridBoxOptions>()( {
+      headingControl: false,
       labelSpacing: 10,
       valueLabelXSpacing: 8,
       ySpacing: 5,
       nestedContent: [],
       grow: 1,
       layoutOptions: {
-        stretch: true
+        stretch: !providedOptions?.headingControl
       }
     }, providedOptions );
 
