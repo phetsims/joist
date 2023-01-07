@@ -8,7 +8,7 @@
  */
 
 import joist from '../joist.js';
-import { FireListener, HighlightOverlay, Rectangle, Text } from '../../../scenery/js/imports.js';
+import { Color, FireListener, HighlightOverlay, Rectangle, Text } from '../../../scenery/js/imports.js';
 import localeInfoModule from '../../../chipper/js/data/localeInfoModule.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import PreferencesDialog from './PreferencesDialog.js';
@@ -46,8 +46,8 @@ export default class LanguageSelectionNode extends Rectangle {
     // Will be unlinked with FireListener disposal
     fireListener.isOverProperty.link( isOver => {
 
-      // makes the mouse interactive
-      this.stroke = isOver ? HighlightOverlay.getInnerGroupHighlightColor() : null;
+      // makes the mouse interactive, keep the same dimensions so the layout will not change
+      this.stroke = isOver ? HighlightOverlay.getInnerGroupHighlightColor() : Color.TRANSPARENT;
     } );
 
     const localeListener = ( selectedLocale: string ) => {
