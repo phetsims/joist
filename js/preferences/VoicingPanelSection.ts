@@ -210,7 +210,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
     speechOutputContent.children = [ speechOutputLabel, speechOutputDescription, speechOutputCheckboxes ];
     speechOutputDescription.leftTop = speechOutputLabel.leftBottom.plusXY( 0, 5 );
-    speechOutputCheckboxes.leftTop = speechOutputDescription.leftBottom.plusXY( 15, 5 );
+    speechOutputCheckboxes.leftTop = speechOutputDescription.leftBottom.plusXY( PreferencesDialog.CONTENT_INDENTATION_SPACING, 5 );
 
     const rateSlider = new VoiceRateNumberControl( rateStringProperty, rateLabelStringProperty, audioModel.voiceRateProperty );
     const pitchSlider = new VoicingPitchSlider( pitchStringProperty, audioModel.voicePitchProperty );
