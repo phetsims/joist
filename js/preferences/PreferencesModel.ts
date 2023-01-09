@@ -69,7 +69,7 @@ type AudioPreferencesOptions = {
 
   // The entry point for Voicing, and if true the sim will support Voicing and Voicing options in Preferences.
   // The feature is only available on platforms where SpeechSynthesis is supported. For now, it is only available
-  // when running with english locales, accessibility strings are not made available for translation yet.
+  // when running with English locales, accessibility strings are not made available for translation yet.
   supportsVoicing?: boolean;
 
   // Whether to include checkboxes related to sound and extra sound. supportsExtraSound can only be
@@ -254,9 +254,9 @@ export default class PreferencesModel extends PhetioObject {
       colorProfileProperty: colorProfileProperty
     }, options.visualOptions );
 
-    // For now, the Voicing feature is only available when we are running in the english locale, accessibility
+    // For now, the Voicing feature is only available when we are running in the English locale, accessibility
     // strings are not made available for translation. When running with multiple locales, the voicing feature
-    // is supported if english is available, but not enabled until english becomes the running locale.
+    // is supported if English is available, but not enabled until English becomes the running locale.
     const supportsVoicing = options.audioOptions.supportsVoicing &&
                             SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() &&
                             _.some( localeProperty.validValues, value => value.startsWith( 'en' ) );
@@ -348,7 +348,7 @@ export default class PreferencesModel extends PhetioObject {
     if ( supportsVoicing ) {
       voicingManager.enabledProperty.value = phet.chipper.queryParameters.voicingInitiallyEnabled;
 
-      // Voicing is only available in the 'en' locale currently. If the locale is changed away from english, Voicing is
+      // Voicing is only available in the 'en' locale currently. If the locale is changed away from English, Voicing is
       // disabled. The next time Voicing returns to 'en', Voicing will be enabled again.
       let voicingDisabledFromLocale = false;
       localeProperty.link( locale => {

@@ -133,7 +133,7 @@ export default class SimDisplay extends Display {
 
     if ( phet.chipper.queryParameters.supportsInteractiveDescription ) {
 
-      // for now interactive description is only in english
+      // for now interactive description is only in English
       // NOTE: When translatable this will need to update with language, change to phet.chipper.local
       this.pdomRootElement!.lang = 'en';
     }

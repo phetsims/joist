@@ -31,7 +31,7 @@ const CONTENT_VERTICAL_SPACING = 10;
 const QUICK_INFO = 20;
 
 // strings - Many of these strings are displayed visually but only when the sim is running in the english locale.
-// Voicing is only available in english so these contents are hidden because translators will not be able to test
+// Voicing is only available in English so these contents are hidden because translators will not be able to test
 // them in a translated context. These strings are nested under the a11y key so that they are not available for
 // translation.
 const titleStringProperty = JoistStrings.a11y.toolbar.voicing.titleStringProperty;

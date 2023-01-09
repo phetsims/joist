@@ -329,7 +329,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
       if ( voices.length > 0 ) {
         const prioritizedVoices = voicingManager.getPrioritizedVoices();
 
-        // for now, only english voices are available because the Voicing feature is not translatable
+        // for now, only English voices are available because the Voicing feature is not translatable
         const englishVoices = _.filter( prioritizedVoices, voice => {
 
           // most browsers use dashes to separate the local, Android uses underscore
