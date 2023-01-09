@@ -203,6 +203,7 @@ class PreferencesDialog extends Dialog {
   // Default spacing between items in a preferences dialog
   public static readonly CONTENT_SPACING = 20;
 
+  // Content or UI component intendentation under a PreferencesPanelSection title.
   public static readonly CONTENT_INDENTATION_SPACING = 15;
 
   // Default vertical spacing between a label and its collection of contents for a control in the dialog.
