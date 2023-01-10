@@ -15,10 +15,10 @@ import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js'
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import CharacterSet from './CharacterSet.js';
+import JoistStrings from '../JoistStrings.js';
 
 // constants
-// Not translatable until design is complete, see https://github.com/phetsims/energy-skate-park/issues/345
-const regionAndCultureString = 'Region and Culture';
+const regionAndCultureStringProperty = JoistStrings.preferences.tabs.localization.regionAndCulture.titleStringProperty;
 
 type SelfOptions = EmptySelfOptions;
 type RegionAndCultureComboBoxOptions = SelfOptions & StrictOmit<ComboBoxOptions, 'labelNode' | 'tandem'>;
@@ -41,7 +41,7 @@ class RegionAndCultureComboBox extends ComboBox<CharacterSet | null> {
       tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
     }, providedOptions );
 
-    options.labelNode = new Text( regionAndCultureString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
+    options.labelNode = new Text( regionAndCultureStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
 
     const comboBoxItems = characterSets.map( ( characterSet, index ) => {
 
