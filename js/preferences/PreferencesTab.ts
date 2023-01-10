@@ -21,6 +21,7 @@ import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 
 import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
+
 type SelfOptions = {
 
   // An additional icon to display to the right of the label text for this tab.
@@ -48,7 +49,6 @@ class PreferencesTab extends Voicing( Node ) {
     const options = optionize<PreferencesTabOptions, SelfOptions, ParentOptions>()( {
       iconNode: null,
 
-      tandem: Tandem.REQUIRED,
       phetioFeatured: true,
       visiblePropertyOptions: {
         phetioFeatured: true

@@ -19,10 +19,10 @@ import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import { Color, FocusHighlightPath, Node, NodeOptions, Rectangle, Text, VBox, Voicing, VoicingOptions } from '../../scenery/js/imports.js';
 import PushButtonModel from '../../sun/js/buttons/PushButtonModel.js';
-import Tandem from '../../tandem/js/Tandem.js';
 import HighlightNode from './HighlightNode.js';
 import joist from './joist.js';
 import Screen from './Screen.js';
+import PickRequired from '../../phet-core/js/types/PickRequired.js';
 
 // constants
 const HIGHLIGHT_SPACING = 4;
@@ -32,7 +32,7 @@ type SelfOptions = {
   maxButtonWidth?: number | null;
 };
 type ParentOptions = VoicingOptions & NodeOptions;
-type NavigationBarScreenButtonOptions = SelfOptions & ParentOptions;
+type NavigationBarScreenButtonOptions = SelfOptions & ParentOptions & PickRequired<ParentOptions, 'tandem'>;
 
 class NavigationBarScreenButton extends Voicing( Node ) {
   private readonly buttonModel: PushButtonModel;
@@ -56,7 +56,6 @@ class NavigationBarScreenButton extends Voicing( Node ) {
 
     const options = optionize<NavigationBarScreenButtonOptions, SelfOptions, ParentOptions>()( {
       cursor: 'pointer',
-      tandem: Tandem.REQUIRED,
       phetioDocumentation: `Button in the navigation bar that selects the '${screen.tandem.name}' screen`,
       maxButtonWidth: null, // {number|null} the maximum width of the button, causes text and/or icon to be scaled down if necessary
 

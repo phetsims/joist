@@ -62,7 +62,6 @@ class VoicingToolbarItem extends Node {
       labelContent: toolbarStringProperty,
 
       // phet-io
-      tandem: Tandem.REQUIRED,
       visiblePropertyOptions: {
         phetioReadOnly: true
       }

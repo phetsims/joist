@@ -144,7 +144,8 @@ class Screen<M extends TModel = IntentionalAny, V extends ScreenView = ScreenVie
       descriptionContent: null,
 
       // phet-io
-      tandem: Tandem.REQUIRED, // include a default for un-instrumented, JavaScript sims
+      // @ts-expect-error include a default for un-instrumented, JavaScript sims
+      tandem: Tandem.REQUIRED,
       phetioType: Screen.ScreenIO,
       phetioState: false,
       phetioFeatured: true

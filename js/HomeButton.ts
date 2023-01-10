@@ -42,7 +42,6 @@ export default class HomeButton extends JoistButton {
 
     const options = optionize<HomeButtonOptions, SelfOptions, JoistButtonOptions>()( {
       highlightExtensionWidth: 4,
-      listener: null,
 
       // pdom,
       containerTagName: 'li',

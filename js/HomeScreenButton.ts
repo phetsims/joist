@@ -19,12 +19,12 @@ import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import { FireListener, Node, PDOMPeer, Rectangle, Text, VBox, VBoxOptions, Voicing, VoicingOptions } from '../../scenery/js/imports.js';
 import EventType from '../../tandem/js/EventType.js';
-import Tandem from '../../tandem/js/Tandem.js';
 import Frame from './Frame.js';
 import HomeScreenModel from './HomeScreenModel.js';
 import joist from './joist.js';
 import Screen from './Screen.js';
 import Utterance from '../../utterance-queue/js/Utterance.js';
+import PickRequired from '../../phet-core/js/types/PickRequired.js';
 
 // constants
 const LARGE_ICON_HEIGHT = 140;
@@ -33,7 +33,7 @@ type SelfOptions = {
   showUnselectedHomeScreenIconFrame?: boolean;
 };
 type ParentOptions = VoicingOptions & VBoxOptions;
-export type HomeScreenButtonOptions = SelfOptions & ParentOptions;
+export type HomeScreenButtonOptions = SelfOptions & ParentOptions & PickRequired<ParentOptions, 'tandem'>;
 
 class HomeScreenButton extends Voicing( VBox ) {
   public readonly screen: Screen;
@@ -50,7 +50,6 @@ class HomeScreenButton extends Voicing( VBox ) {
       containerTagName: 'li',
 
       // phet-io
-      tandem: Tandem.REQUIRED,
       phetioEventType: EventType.USER,
       phetioDocumentation: 'A button on the home screen for choosing a simulation screen'
     }, providedOptions );
