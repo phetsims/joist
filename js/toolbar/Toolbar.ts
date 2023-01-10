@@ -99,9 +99,6 @@ class Toolbar extends Node {
       // pdom
       tagName: 'div',
 
-      // phet-io
-      tandem: Tandem.REQUIRED,
-
       visiblePropertyOptions: {
         phetioReadOnly: true
       }

@@ -11,7 +11,6 @@
 
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import { AlignGroup, Node, NodeOptions } from '../../../scenery/js/imports.js';
-import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import AudioPreferencesPanel from './AudioPreferencesPanel.js';
 import SimulationPreferencesPanel from './SimulationPreferencesPanel.js';
@@ -23,9 +22,10 @@ import LocalizationPreferencesPanel from './LocalizationPreferencesPanel.js';
 import PreferencesType from './PreferencesType.js';
 import OverviewPreferencesPanel from './OverviewPreferencesPanel.js';
 import PreferencesTabs from './PreferencesTabs.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 
 type SelfOptions = EmptySelfOptions;
-type PreferencesPanelsOptions = SelfOptions & NodeOptions;
+type PreferencesPanelsOptions = SelfOptions & NodeOptions & PickRequired<NodeOptions, 'tandem'>;
 
 class PreferencesPanels extends Node {
 
@@ -46,7 +46,6 @@ class PreferencesPanels extends Node {
    */
   public constructor( preferencesModel: PreferencesModel, supportedTabs: PreferencesType[], selectedTabProperty: TReadOnlyProperty<PreferencesType>, preferencesTabs: PreferencesTabs, providedOptions?: PreferencesPanelsOptions ) {
     const options = optionize<PreferencesPanelsOptions, SelfOptions, NodeOptions>()( {
-      tandem: Tandem.REQUIRED,
       phetioVisiblePropertyInstrumented: false
     }, providedOptions );
 

@@ -11,11 +11,11 @@
 
 import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { HSeparator, KeyboardUtils, Text, VBox } from '../../../scenery/js/imports.js';
 import Dialog, { DialogOptions } from '../../../sun/js/Dialog.js';
 import soundManager from '../../../tambo/js/soundManager.js';
-import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesModel from './PreferencesModel.js';
@@ -48,7 +48,7 @@ const PANEL_SECTION_LABEL_OPTIONS = {
   maxWidth: PANEL_SECTION_LABEL_MAX_WIDTH
 };
 
-type PreferencesDialogOptions = DialogOptions;
+type PreferencesDialogOptions = DialogOptions & PickRequired<DialogOptions, 'tandem'>;
 
 class PreferencesDialog extends Dialog {
   private readonly preferencesTabs: PreferencesTabs;
@@ -72,7 +72,6 @@ class PreferencesDialog extends Dialog {
 
       // phet-io
       phetioDynamicElement: true,
-      tandem: Tandem.REQUIRED,
 
       closeButtonVoicingDialogTitle: JoistStrings.preferences.titleStringProperty,
 
@@ -203,6 +202,7 @@ class PreferencesDialog extends Dialog {
   // Default spacing between items in a preferences dialog
   public static readonly CONTENT_SPACING = 20;
 
+  // Content or UI component intendentation under a PreferencesPanelSection title.
   public static readonly CONTENT_INDENTATION_SPACING = 15;
 
   // Default vertical spacing between a label and its collection of contents for a control in the dialog.

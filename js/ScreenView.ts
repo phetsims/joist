@@ -40,7 +40,7 @@ import { SpeakableResolvedResponse } from '../../utterance-queue/js/ResponsePack
 const DEFAULT_LAYOUT_BOUNDS = new Bounds2( 0, 0, 1024, 618 );
 
 type GetLayoutMatrixOptions = {
-  verticalAlign: 'center' | 'bottom';
+  verticalAlign?: 'center' | 'bottom';
 };
 
 // Documented where the defaults are defined
@@ -74,8 +74,9 @@ class ScreenView extends Node {
       layerSplit: true, // so we're not in the same layer as the navbar, etc.
       excludeInvisible: true, // so we don't keep invisible screens in the SVG tree
 
-      // phet-io options
-      tandem: Tandem.REQUIRED, // include a default for un-instrumented, JavaScript sims
+      // phet-io
+      // @ts-expect-error include a default for un-instrumented, JavaScript sims
+      tandem: Tandem.REQUIRED,
       visiblePropertyOptions: {
         phetioState: false,
         phetioReadOnly: true
