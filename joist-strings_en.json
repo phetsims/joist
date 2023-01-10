@@ -243,6 +243,9 @@
   "preferences.tabs.localization.title": {
     "value": "Localization"
   },
+  "preferences.tabs.localization.regionAndCulture.title": {
+    "value": "Region and Culture"
+  },
   "a11y": {
     "keyboardHelp": {
       "keyboardShortcuts": {

@@ -190,6 +190,10 @@ type StringsType = {
       'localization': {
         'title': string;
         'titleStringProperty': LinkableProperty<string>;
+        'regionAndCulture': {
+          'title': string;
+          'titleStringProperty': LinkableProperty<string>;
+        }
       }
     }
   };
