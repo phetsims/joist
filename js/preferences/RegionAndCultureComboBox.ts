@@ -54,7 +54,7 @@ class RegionAndCultureComboBox extends ComboBox<CharacterSet | null> {
 
       return {
         value: characterSet,
-        node: itemContent
+        createNode: ( tandem: Tandem ) => itemContent
       };
     } );
 

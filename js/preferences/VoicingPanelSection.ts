@@ -502,7 +502,7 @@ class VoiceComboBox extends ComboBox<SpeechSynthesisVoice | null> {
     if ( voices.length === 0 ) {
       items.push( {
         value: null,
-        node: new Text( noVoicesAvailableStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ),
+        createNode: ( tandem: Tandem ) => new Text( noVoicesAvailableStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ),
         a11yName: noVoicesAvailableStringProperty
       } );
     }
@@ -510,7 +510,7 @@ class VoiceComboBox extends ComboBox<SpeechSynthesisVoice | null> {
     voices.forEach( voice => {
       items.push( {
         value: voice,
-        node: new Text( voice.name, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ),
+        createNode: ( tandem: Tandem ) => new Text( voice.name, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ),
         a11yName: voice.name
       } );
     } );
@@ -527,7 +527,6 @@ class VoiceComboBox extends ComboBox<SpeechSynthesisVoice | null> {
     this.button.voicingIgnoreVoicingManagerProperties = true;
     this.disposeVoiceComboBox = () => {
       items.forEach( item => {
-        item.node.dispose();
         item.value = null;
       } );
     };
