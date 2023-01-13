@@ -151,8 +151,8 @@ class NavigationBarAudioToggleButton extends JoistButton {
     // show the "sound off" icon because there will be no output, even if "Audio" is enabled.
     const toggleNode = new ToggleNode( audioManager.anyOutputEnabledProperty,
       [
-        { value: true, createNode: tandem => soundOnNode },
-        { value: false, createNode: tandem => soundOffNode }
+        { value: true, createNode: () => soundOnNode },
+        { value: false, createNode: () => soundOffNode }
       ],
       { maxHeight: NODE_HEIGHT * 0.85 }
     );
