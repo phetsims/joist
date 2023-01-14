@@ -17,8 +17,8 @@ const FALLBACK_LOCALE = 'en';
 
 export type Locale = keyof typeof localeInfoModule;
 
-const locales = Object.keys( phet.chipper.strings ).sort() as Locale[];
-
+// All available locales for the runtime
+export const availableRuntimeLocales = Object.keys( phet.chipper.strings ).sort() as Locale[];
 
 // Start only with a valid locale, see https://github.com/phetsims/phet-io/issues/1882
 const isLocaleValid = ( locale?: Locale ): boolean => {
@@ -44,7 +44,7 @@ phet.chipper.locale = validInitialLocale;
 
 class LocaleProperty extends Property<Locale> {
   protected override unguardedSet( value: Locale ): void {
-    if ( locales.includes( value ) ) {
+    if ( availableRuntimeLocales.includes( value ) ) {
       super.unguardedSet( value );
     }
     else {
@@ -59,7 +59,7 @@ const localeProperty = new LocaleProperty( validInitialLocale, {
   tandem: Tandem.GENERAL_MODEL.createTandem( 'localeProperty' ),
   phetioFeatured: true,
   phetioValueType: StringIO,
-  validValues: locales
+  validValues: availableRuntimeLocales
 } );
 
 if ( phet.chipper.queryParameters.keyboardLocaleSwitcher ) {
@@ -75,9 +75,9 @@ if ( phet.chipper.queryParameters.keyboardLocaleSwitcher ) {
       // Ctrl + u in Chrome on Windows is "view source" in a new tab
       event.preventDefault();
 
-      const index = locales.indexOf( localeProperty.value );
-      const nextIndex = ( index + delta + locales.length ) % locales.length;
-      localeProperty.value = locales[ nextIndex ];
+      const index = availableRuntimeLocales.indexOf( localeProperty.value );
+      const nextIndex = ( index + delta + availableRuntimeLocales.length ) % availableRuntimeLocales.length;
+      localeProperty.value = availableRuntimeLocales[ nextIndex ];
 
       // Indicate the new locale on the console
       console.log( localeProperty.value );
