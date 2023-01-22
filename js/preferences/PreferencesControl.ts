@@ -23,13 +23,13 @@ type SelfOptions = {
   labelSpacing?: number;
 
   // horizontal spacing between the toggle switch and left/right value labels
-  valueLabelXSpacing?: 8;
+  valueLabelXSpacing?: number;
 
   // if provided, a Node under the ToggleSwitch and label that is meant to describe the purpose of the switch
   descriptionNode?: Node;
 
   // vertical spacing between ToggleSwitch and description Node
-  ySpacing?: 5;
+  ySpacing?: number;
 
   controlNode?: Node;
 
