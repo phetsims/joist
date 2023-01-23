@@ -1,9 +1,5 @@
 // Copyright 2022, University of Colorado Boulder
 
-import { localizedStrings } from '../../chipper/js/getStringModule.js';
-import Utils from '../../dot/js/Utils.js';
-import joist from './joist.js';
-
 /**
  * For testing dynamic layout in sims that may not yet have submitted translations, enabled via ?stringTest=dynamic.
  * Please see initialize-globals for the hotkeys.
@@ -11,6 +7,11 @@ import joist from './joist.js';
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Marla Schulz (PhET Interactive Simulations)
  */
+
+import { localizedStrings } from '../../chipper/js/getStringModule.js';
+import Utils from '../../dot/js/Utils.js';
+import joist from './joist.js';
+
 export default class DynamicStringTest {
   public static init(): void {
 
