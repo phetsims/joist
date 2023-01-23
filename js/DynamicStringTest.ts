@@ -12,19 +12,20 @@ import { localizedStrings } from '../../chipper/js/getStringModule.js';
 import Utils from '../../dot/js/Utils.js';
 import joist from './joist.js';
 
+// Random words of different lengths that can be cycled through
+const WORD_SOURCE = 'Sometimes when Hippopotomonstrosesquippedaliophobia want lyrics you turn to Shakespeare like ' +
+                    'the following text copied from some work ' +
+                    'To be or not to be that is the question ' +
+                    'Supercalifragilisticexpeladocious tis nobler in the mind to suffer ' +
+                    'The slings and arrows of antidisestablishmentarianism fortune ' +
+                    'Or to take Incomprehensibility against a sea of Floccinaucinihilipilification';
+
 export default class DynamicStringTest {
   public static init(): void {
 
     let stride = 0;
     let stringFactor = 1;
-
-    // Random words of different lengths that can be cycled through
-    const wordSource = 'Sometimes when Hippopotomonstrosesquippedaliophobia want lyrics you turn to Shakespeare like the following text copied from some work ' +
-                       'To be or not to be that is the question ' +
-                       'Supercalifragilisticexpeladocious tis nobler in the mind to suffer ' +
-                       'The slings and arrows of antidisestablishmentarianism fortune ' +
-                       'Or to take Incomprehensibility against a sea of Floccinaucinihilipilification';
-    const words = wordSource.split( ' ' );
+    const words = WORD_SOURCE.split( ' ' );
 
     function setStride( newStride: number ): void {
       stride = newStride;
