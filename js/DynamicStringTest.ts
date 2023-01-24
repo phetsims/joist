@@ -30,6 +30,7 @@ const WORD_SOURCE = 'Sometimes when Hippopotomonstrosesquippedaliophobia want ly
 export default class DynamicStringTest {
   public static init(): void {
 
+    // How much to increase or decrease the length of the string
     let stringFactor = 1;
     let stride = 0;
     const words = WORD_SOURCE.split( ' ' );
@@ -50,6 +51,7 @@ export default class DynamicStringTest {
 
         // Set the string factor based on left (halve) or right (double) arrow keys.
         stringFactor = event.keyCode === LEFT_ARROW ? Math.max( stringFactor * 0.5, 0.01 ) : stringFactor * 2;
+        console.log( `stringFactor = ${stringFactor}` );
 
         localizedStrings.forEach( localizedString => {
           localizedString.restoreInitialValue( 'en' );
@@ -63,17 +65,22 @@ export default class DynamicStringTest {
       // Space Bar: reset
       else if ( event.keyCode === SPACE_BAR ) {
         stringFactor = 1;
+        console.log( `stringFactor = ${stringFactor}` );
         stride = 0;
-        console.log( 'stride = ' + stride );
+        console.log( `stride = ${stride}` );
         localizedStrings.forEach( localizedString => localizedString.restoreInitialValue( 'en' ) );
       }
 
-      // Up Arrow: increase stride
+      // Up Arrow: increase stride, with wraparound
       else if ( event.keyCode === UP_ARROW ) {
-        setStride( stride + 1 );
+        let newStride = stride + 1;
+        if ( newStride > words.length - 1 ) {
+          newStride = 0;
+        }
+        setStride( newStride );
       }
 
-      // Down Arrow: decrease stride
+      // Down Arrow: decrease stride, with wraparound
       else if ( event.keyCode === DOWN_ARROW ) {
         let newStride = stride - 1;
         if ( newStride < 0 ) {
