@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2022-2023, University of Colorado Boulder
 
 /**
  * For testing dynamic layout in sims that may not yet have submitted translations, enabled via ?stringTest=dynamic.

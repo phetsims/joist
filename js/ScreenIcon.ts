@@ -1,4 +1,4 @@
-// Copyright 2015-2022, University of Colorado Boulder
+// Copyright 2015-2023, University of Colorado Boulder
 
 /**
  * ScreenIcon is an icon that is suitable for one of the screen-selection buttons on the home screen or navigation bar.
