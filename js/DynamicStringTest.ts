@@ -35,32 +35,6 @@ export default class DynamicStringTest {
       } );
     }
 
-    // Double the string based on the string factor
-    function doubleString( string: string, factor: number ): string {
-      let growingString = string;
-      while ( factor > 1 ) {
-        growingString += string;
-        factor -= 1;
-      }
-      return growingString;
-    }
-
-    // Return a string with its length based on the string factor
-    function handleStringFactor( string: string ): string {
-
-      // Create an array of all pattern sections in string
-      // Will return an empty array if no match is found.
-      const curlyBraces = string.match( /{{(.+?)}}/g ) || [];
-
-      // Remove all pattern sections from string
-      const noPatternString = string.replace( /{{(.+?)}}/g, '' );
-      const stringLength = Utils.toFixedNumber( noPatternString.length * stringFactor + 1, 0 );
-      const newString = stringFactor > 1 ? doubleString( noPatternString, stringFactor ) : noPatternString.substring( 0, stringLength );
-
-      // Add back on string pattern sections. Will add nothing if curlyBraces is empty
-      return newString + curlyBraces.join( '' );
-    }
-
     window.addEventListener( 'keydown', event => {
 
       // check if the keyboard event is a left or right arrow key
@@ -74,7 +48,7 @@ export default class DynamicStringTest {
 
           // Strip out all RTL (U+202A), LTR  (U+202B), and PDF  (U+202C) characters from string.
           const strippedString = localizedString.property.value.replace( /[\u202A\u202B\u202C]/g, '' );
-          localizedString.property.value = handleStringFactor( strippedString );
+          localizedString.property.value = applyStringFactor( strippedString, stringFactor );
         } );
       }
 
@@ -100,6 +74,37 @@ export default class DynamicStringTest {
       }
     } );
   }
+}
+
+/**
+ * Returns a string with its length based on the string factor.
+ */
+function applyStringFactor( string: string, factor: number ): string {
+
+  // Create an array of all pattern sections in string.
+  // This will be an empty array if no match is found.
+  const patternSections = string.match( /{{(.+?)}}/g ) || [];
+
+  // Remove all pattern sections from string.
+  const noPatternString = string.replace( /{{(.+?)}}/g, '' );
+  const stringLength = Utils.toFixedNumber( noPatternString.length * factor + 1, 0 );
+  const newString = factor > 1 ? doubleString( noPatternString, factor ) : noPatternString.substring( 0, stringLength );
+
+  // Append the pattern sections. This will add nothing if patternSections is empty.
+  return newString + patternSections.join( '' );
+}
+
+/**
+ * Doubles a string n times.
+ */
+function doubleString( string: string, n: number ): string {
+  assert && assert( n > 1 && Number.isInteger( n ), `expected an integer greater than 1, n=${n}` );
+  let growingString = string;
+  while ( n > 1 ) {
+    growingString += string;
+    n -= 1;
+  }
+  return growingString;
 }
 
 joist.register( 'DynamicStringTest', DynamicStringTest );
