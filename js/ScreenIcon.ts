@@ -27,6 +27,8 @@ export type ScreenIconOptions = SelfOptions & StrictOmit<NodeOptions, 'children'
 
 export default class ScreenIcon extends Node {
 
+  private readonly disposeScreenIcon: () => void;
+
   public constructor( iconNode: Node, providedOptions?: ScreenIconOptions ) {
 
     const options = optionize<ScreenIconOptions, SelfOptions, NodeOptions>()( {
@@ -51,18 +53,30 @@ export default class ScreenIcon extends Node {
 
     // iconNode may have a dynamic size - for example, if it involves a string Property.
     // So if it's size changes, adjust its scale and re-center.
-    iconNode.localBoundsProperty.link( () => {
+    const localBoundsListener = () => {
       iconNode.setScaleMagnitude( 1 );
       iconNode.setScaleMagnitude( Math.min(
         options.maxIconWidthProportion * background.width / iconNode.width,
         options.maxIconHeightProportion * background.height / iconNode.height
       ) );
       iconNode.center = background.center;
-    } );
+    };
+    iconNode.localBoundsProperty.link( localBoundsListener );
 
     options.children = [ background, iconNode ];
 
     super( options );
+
+    this.disposeScreenIcon = () => {
+      if ( iconNode.localBoundsProperty.hasListener( localBoundsListener ) ) {
+        iconNode.localBoundsProperty.unlink( localBoundsListener );
+      }
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeScreenIcon();
+    super.dispose();
   }
 }
 
