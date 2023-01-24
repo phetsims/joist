@@ -30,8 +30,8 @@ const WORD_SOURCE = 'Sometimes when Hippopotomonstrosesquippedaliophobia want ly
 export default class DynamicStringTest {
   public static init(): void {
 
-    let stride = 0;
     let stringFactor = 1;
+    let stride = 0;
     const words = WORD_SOURCE.split( ' ' );
 
     function setStride( newStride: number ): void {
@@ -62,6 +62,7 @@ export default class DynamicStringTest {
 
       // Space Bar: reset
       else if ( event.keyCode === SPACE_BAR ) {
+        stringFactor = 1;
         stride = 0;
         console.log( 'stride = ' + stride );
         localizedStrings.forEach( localizedString => localizedString.restoreInitialValue( 'en' ) );
