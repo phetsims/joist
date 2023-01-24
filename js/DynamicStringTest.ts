@@ -12,6 +12,13 @@ import { localizedStrings } from '../../chipper/js/getStringModule.js';
 import Utils from '../../dot/js/Utils.js';
 import joist from './joist.js';
 
+// key codes
+const LEFT_ARROW = 37;
+const UP_ARROW = 38;
+const RIGHT_ARROW = 39;
+const DOWN_ARROW = 40;
+const SPACE_BAR = 32;
+
 // Random words of different lengths that can be cycled through
 const WORD_SOURCE = 'Sometimes when Hippopotomonstrosesquippedaliophobia want lyrics you turn to Shakespeare like ' +
                     'the following text copied from some work ' +
@@ -37,11 +44,12 @@ export default class DynamicStringTest {
 
     window.addEventListener( 'keydown', event => {
 
-      // check if the keyboard event is a left or right arrow key
-      if ( event.keyCode === 37 || event.keyCode === 39 ) {
+      // Left Arrow: halve string
+      // Right Arrow: double string
+      if ( event.keyCode === LEFT_ARROW || event.keyCode === RIGHT_ARROW ) {
 
         // Set the string factor based on left (halve) or right (double) arrow keys.
-        stringFactor = event.keyCode === 37 ? Math.max( stringFactor * 0.5, 0.01 ) : stringFactor * 2;
+        stringFactor = event.keyCode === LEFT_ARROW ? Math.max( stringFactor * 0.5, 0.01 ) : stringFactor * 2;
 
         localizedStrings.forEach( localizedString => {
           localizedString.restoreInitialValue( 'en' );
@@ -52,20 +60,20 @@ export default class DynamicStringTest {
         } );
       }
 
-      // Check if the user pressed the space bar
-      else if ( event.keyCode === 32 ) {
+      // Space Bar: reset
+      else if ( event.keyCode === SPACE_BAR ) {
         stride = 0;
         console.log( 'stride = ' + stride );
         localizedStrings.forEach( localizedString => localizedString.restoreInitialValue( 'en' ) );
       }
 
-      // Check if the keyboard event is an up arrow key
-      else if ( event.keyCode === 38 ) {
+      // Up Arrow: increase stride
+      else if ( event.keyCode === UP_ARROW ) {
         setStride( stride + 1 );
       }
 
-      // Check if the keyboard event is a down arrow key
-      else if ( event.keyCode === 40 ) {
+      // Down Arrow: decrease stride
+      else if ( event.keyCode === DOWN_ARROW ) {
         let newStride = stride - 1;
         if ( newStride < 0 ) {
           newStride = words.length - 1;
