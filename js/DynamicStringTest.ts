@@ -89,18 +89,27 @@ export default class DynamicStringTest {
  * Returns a string with its length based on the string factor.
  */
 function applyStringFactor( string: string, factor: number ): string {
+  assert && assert( factor > 0, `factor must be > 0: ${factor}` );
 
-  // Create an array of all pattern sections in string.
-  // This will be an empty array if no match is found.
-  const patternSections = string.match( /{{(.+?)}}/g ) || [];
+  if ( factor > 1 ) {
+    return doubleString( string, factor );
+  }
+  else {
 
-  // Remove all pattern sections from string.
-  const noPatternString = string.replace( /{{(.+?)}}/g, '' );
-  const stringLength = Utils.toFixedNumber( noPatternString.length * factor + 1, 0 );
-  const newString = factor > 1 ? doubleString( noPatternString, factor ) : noPatternString.substring( 0, stringLength );
+    // Create an array of all placeholders that are present in the string. These are strings surrounded by 2 sets of
+    // curly braces, like '{{value}}'. This will be an empty array if no match is found.
+    const placeholders = string.match( /{{(.+?)}}/g ) || [];
 
-  // Append the pattern sections. This will add nothing if patternSections is empty.
-  return newString + patternSections.join( '' );
+    // Remove all placeholders from the string.
+    const noPlaceholdersString = string.replace( /{{(.+?)}}/g, '' );
+
+    // Reduce the length of the string.
+    const stringLength = Utils.toFixedNumber( noPlaceholdersString.length * factor + 1, 0 );
+    const reducedString = noPlaceholdersString.substring( 0, stringLength );
+
+    // Append placeholders to the end of the reduced string. This will add nothing if placeholders is empty.
+    return reducedString + placeholders.join( '' );
+  }
 }
 
 /**
