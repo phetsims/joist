@@ -9,10 +9,11 @@
  */
 
 import optionize from '../../phet-core/js/optionize.js';
-import { TColor, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
+import { Node, NodeOptions, Rectangle, TColor } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 import Screen from './Screen.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = {
   size?: Dimension2; // size of the background
@@ -22,7 +23,7 @@ type SelfOptions = {
   stroke?: TColor; // {Color|string} background stroke
 };
 
-export type ScreenIconOptions = SelfOptions & NodeOptions;
+export type ScreenIconOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
 export default class ScreenIcon extends Node {
 
@@ -31,11 +32,11 @@ export default class ScreenIcon extends Node {
     const options = optionize<ScreenIconOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
-      size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE, // {Dimension2} size of the background
-      maxIconWidthProportion: 0.85, // max proportion of the background width occupied by iconNode, (0,1]
-      maxIconHeightProportion: 0.85, // max proportion of the background height occupied by iconNode, (0,1]
-      fill: 'white', // {Color|string} background fill
-      stroke: null // {Color|string} background stroke
+      size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE,
+      maxIconWidthProportion: 0.85,
+      maxIconHeightProportion: 0.85,
+      fill: 'white',
+      stroke: null
     }, providedOptions );
 
     assert && assert( options.maxIconWidthProportion > 0 && options.maxIconWidthProportion <= 1 );
@@ -46,14 +47,19 @@ export default class ScreenIcon extends Node {
       stroke: options.stroke
     } );
 
-    iconNode.setScaleMagnitude( Math.min(
-      options.maxIconWidthProportion * background.width / iconNode.width,
-      options.maxIconHeightProportion * background.height / iconNode.height
-    ) );
-    iconNode.center = background.center;
     iconNode.pickable = false;
 
-    assert && assert( !options.children, 'ScreenIcon sets children' );
+    // iconNode may have a dynamic size - for example, if it involves a string Property.
+    // So if it's size changes, adjust its scale and re-center.
+    iconNode.localBoundsProperty.link( () => {
+      iconNode.setScaleMagnitude( 1 );
+      iconNode.setScaleMagnitude( Math.min(
+        options.maxIconWidthProportion * background.width / iconNode.width,
+        options.maxIconHeightProportion * background.height / iconNode.height
+      ) );
+      iconNode.center = background.center;
+    } );
+
     options.children = [ background, iconNode ];
 
     super( options );
