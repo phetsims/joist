@@ -31,7 +31,10 @@ const WORD_SOURCE = 'Sometimes when Hippopotomonstrosesquippedaliophobia want ly
 
 export default class DynamicStringTest {
 
-  // How much to increase or decrease the length of the string
+  // How much to increase or decrease the length of the string.
+  // Its value must be > 0.
+  // If stringFactor > 0 and < 1, it can be floating point.
+  // If stringFactor >= 1, it must be an integer.
   private stringFactor = 1;
 
   // An integer used to create an index into WORDS.
