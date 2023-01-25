@@ -152,6 +152,7 @@ export default class SimDisplay extends Display {
       scenery.switchLogToString();
     }
 
+    // See https://github.com/phetsims/chipper/issues/1319
     if ( phet.chipper.queryParameters.stringTest === 'dynamic' ) {
       const dynamicStringTest = new DynamicStringTest();
       window.addEventListener( 'keydown', event => dynamicStringTest.handleEvent( event ) );

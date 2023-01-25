@@ -3,6 +3,7 @@
 /**
  * DynamicStringTest is a handler for KeyboardEvents. It's used for testing dynamic layout in sims that may not yet
  * have submitted translations, and is enabled via ?stringTest=dynamic. Please see initialize-globals for the hotkeys.
+ * See https://github.com/phetsims/chipper/issues/1319 for history.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Marla Schulz (PhET Interactive Simulations)
