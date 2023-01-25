@@ -21,6 +21,11 @@ const RIGHT_ARROW = 39;
 const DOWN_ARROW = 40;
 const SPACE_BAR = 32;
 
+const INITIAL_STRING_FACTOR = 1;
+const MAX_STRING_FACTOR = 8; // so that the sim and/or browser doesn't lock up when strings get excessively long
+const MIN_STRING_FACTOR = 0.01;
+const INITIAL_STRIDE = 0;
+
 // Source of 'random' words
 const WORD_SOURCE = 'Sometimes when Hippopotomonstrosesquippedaliophobia want lyrics you turn to Shakespeare like ' +
                     'the following text copied from some work ' +
@@ -32,10 +37,10 @@ const WORD_SOURCE = 'Sometimes when Hippopotomonstrosesquippedaliophobia want ly
 export default class DynamicStringTest {
 
   // How much to increase or decrease the length of the string. Its value must be > 0.
-  private stringFactor = 1;
+  private stringFactor = INITIAL_STRING_FACTOR;
 
   // Non-negative integer used to create an index into WORDS.
-  private stride = 0;
+  private stride = INITIAL_STRIDE;
 
   // Words of different lengths that can be cycled through by changing stride
   private static readonly WORDS = WORD_SOURCE.split( ' ' );
@@ -65,14 +70,14 @@ export default class DynamicStringTest {
    * Doubles the length of all strings.
    */
   private doubleStrings(): void {
-    this.setStringFactor( this.stringFactor * 2 );
+    this.setStringFactor( Math.min( this.stringFactor * 2, MAX_STRING_FACTOR ) );
   }
 
   /**
    * Halves the length of all strings.
    */
   private halveStrings(): void {
-    this.setStringFactor( Math.max( this.stringFactor * 0.5, 0.01 ) );
+    this.setStringFactor( Math.max( this.stringFactor * 0.5, MIN_STRING_FACTOR ) );
   }
 
   /**
@@ -115,8 +120,8 @@ export default class DynamicStringTest {
    * Resets stride and stringFactor.
    */
   private reset(): void {
-    this.setStride( 0 );
-    this.setStringFactor( 1 ); // reset stringFactor last, so that strings are reset to initial values
+    this.setStride( INITIAL_STRIDE );
+    this.setStringFactor( INITIAL_STRING_FACTOR ); // reset stringFactor last, so that strings are reset to initial values
   }
 }
 
