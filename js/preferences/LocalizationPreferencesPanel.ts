@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2022-2023, University of Colorado Boulder
 
 /**
  * The content for the "Localization" tab in the PreferencesDialog.
@@ -10,7 +10,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import { Node, VBox, VBoxOptions } from '../../../scenery/js/imports.js';
+import { HBox, Node, Text, VBox, VBoxOptions } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import { LocalizationModel } from './PreferencesModel.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
@@ -23,7 +23,9 @@ import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import PreferencesType from './PreferencesType.js';
 import JoistStrings from '../JoistStrings.js';
 
+// constants
 const localizationTitleStringProperty = JoistStrings.preferences.tabs.localization.titleStringProperty;
+const regionAndCultureStringProperty = JoistStrings.preferences.tabs.localization.regionAndCulture.titleStringProperty;
 
 type LocalizationPreferencesPanelOptions = PickRequired<VBoxOptions, 'tandem'>;
 
@@ -41,7 +43,13 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
     // regionAndCultureProperty value only gets set in PreferencesModel if there is at least one descriptor.
     if ( localizationModel.regionAndCultureProperty.value ) {
       const comboBox = new RegionAndCultureComboBox( localizationModel.regionAndCultureProperty, localizationModel.characterSets );
-      contentNode.addChild( comboBox );
+      contentNode.addChild( new HBox( {
+        spacing: 10,
+        children: [
+          new Text( regionAndCultureStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ),
+          comboBox
+        ]
+      } ) );
       this.disposeEmitter.addListener( () => comboBox.dispose() );
     }
 

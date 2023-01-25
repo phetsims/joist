@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2022-2023, University of Colorado Boulder
 
 /**
  * Class for items of a LocalePanel. Locales shown in their localized name wrapped in a Rectangle for highlighting
@@ -17,6 +17,8 @@ import Property from '../../../axon/js/Property.js';
 import { Locale } from '../i18n/localeProperty.js';
 
 export default class LanguageSelectionNode extends Rectangle {
+
+  public readonly locale: Locale; // locale associated with this Node
   private readonly disposeLanguageSelectionNode: () => void;
 
   public constructor( localeProperty: Property<Locale>, locale: Locale ) {
@@ -32,6 +34,8 @@ export default class LanguageSelectionNode extends Rectangle {
     } );
     text.center = this.center;
     this.addChild( text );
+
+    this.locale = locale;
 
     const fireListener = new FireListener( {
       fire: () => {

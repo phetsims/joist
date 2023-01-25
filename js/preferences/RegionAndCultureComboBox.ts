@@ -15,13 +15,9 @@ import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js'
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import CharacterSet from './CharacterSet.js';
-import JoistStrings from '../JoistStrings.js';
-
-// constants
-const regionAndCultureStringProperty = JoistStrings.preferences.tabs.localization.regionAndCulture.titleStringProperty;
 
 type SelfOptions = EmptySelfOptions;
-type RegionAndCultureComboBoxOptions = SelfOptions & StrictOmit<ComboBoxOptions, 'labelNode' | 'tandem'>;
+type RegionAndCultureComboBoxOptions = SelfOptions & StrictOmit<ComboBoxOptions, 'tandem'>;
 
 class RegionAndCultureComboBox extends ComboBox<CharacterSet | null> {
 
@@ -41,8 +37,6 @@ class RegionAndCultureComboBox extends ComboBox<CharacterSet | null> {
       tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
     }, providedOptions );
 
-    options.labelNode = new Text( regionAndCultureStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
-
     const comboBoxItems = characterSets.map( ( characterSet, index ) => {
 
       // Since we don't own the Node, wrap in a container for PhET-iO DAG cases and I think archetypes?
@@ -54,7 +48,7 @@ class RegionAndCultureComboBox extends ComboBox<CharacterSet | null> {
 
       return {
         value: characterSet,
-        node: itemContent
+        createNode: ( tandem: Tandem ) => itemContent
       };
     } );
 
