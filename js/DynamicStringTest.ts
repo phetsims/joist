@@ -90,7 +90,7 @@ export default class DynamicStringTest {
    * Sets a new stride value, and causes strings to be set to values from the WORDS array.
    */
   private setStride( newStride: number ): void {
-    assert && assert( Number.isInteger( newStride ), `newString must be an integer: ${newStride}` );
+    assert && assert( Number.isInteger( newStride ), `newStride must be an integer: ${newStride}` );
 
     const words = DynamicStringTest.WORDS;
 
