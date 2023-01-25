@@ -31,13 +31,10 @@ const WORD_SOURCE = 'Sometimes when Hippopotomonstrosesquippedaliophobia want ly
 
 export default class DynamicStringTest {
 
-  // How much to increase or decrease the length of the string.
-  // Its value must be > 0.
-  // If stringFactor > 0 and < 1, it can be floating point.
-  // If stringFactor >= 1, it must be an integer.
+  // How much to increase or decrease the length of the string. Its value must be > 0.
   private stringFactor = 1;
 
-  // An integer used to create an index into WORDS.
+  // Non-negative integer used to create an index into WORDS.
   private stride = 0;
 
   // Words of different lengths that can be cycled through by changing stride
@@ -83,8 +80,6 @@ export default class DynamicStringTest {
    */
   private setStringFactor( stringFactor: number ): void {
     assert && assert( stringFactor > 0, `stringFactor must be > 0: ${stringFactor}` );
-    assert && assert( stringFactor <= 1 || Number.isInteger( stringFactor ),
-      `stringFactor values greater than 1 must be integers: ${stringFactor}` );
 
     this.stringFactor = stringFactor;
     console.log( `stringFactor = ${this.stringFactor}` );
@@ -174,7 +169,6 @@ function applyToString( stringFactor: number, string: string ): string {
  * Doubles a string n times.
  */
 function doubleString( string: string, n: number ): string {
-  assert && assert( n > 1 && Number.isInteger( n ), `expected an integer greater than 1, n=${n}` );
   let growingString = string;
   while ( n > 1 ) {
     growingString += string;
