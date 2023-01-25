@@ -1,8 +1,8 @@
 // Copyright 2022-2023, University of Colorado Boulder
 
 /**
- * For testing dynamic layout in sims that may not yet have submitted translations, enabled via ?stringTest=dynamic.
- * Please see initialize-globals for the hotkeys.
+ * DynamicStringTest is a handler for KeyboardEvents. It's used for testing dynamic layout in sims that may not yet
+ * have submitted translations, and is enabled via ?stringTest=dynamic. Please see initialize-globals for the hotkeys.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Marla Schulz (PhET Interactive Simulations)
@@ -20,7 +20,7 @@ const RIGHT_ARROW = 39;
 const DOWN_ARROW = 40;
 const SPACE_BAR = 32;
 
-// Words of different lengths that can be cycled through
+// Source of 'random' words
 const WORD_SOURCE = 'Sometimes when Hippopotomonstrosesquippedaliophobia want lyrics you turn to Shakespeare like ' +
                     'the following text copied from some work ' +
                     'To be or not to be that is the question ' +
@@ -29,71 +29,95 @@ const WORD_SOURCE = 'Sometimes when Hippopotomonstrosesquippedaliophobia want ly
                     'Or to take Incomprehensibility against a sea of Floccinaucinihilipilification';
 
 export default class DynamicStringTest {
-  public static init(): void {
 
-    const words = WORD_SOURCE.split( ' ' );
+  // How much to increase or decrease the length of the string
+  private stringFactor = 1;
 
-    // How much to increase or decrease the length of the string
-    let stringFactor = 1;
+  // An integer used to create an index into WORDS.
+  private stride = 0;
 
-    // An integer that assists in indexing into words.
-    let stride = 0;
+  // Words of different lengths that can be cycled through by changing stride
+  private static readonly WORDS = WORD_SOURCE.split( ' ' );
 
-    function doubleStrings(): void {
-      stringFactor = stringFactor * 2;
-      applyToAllStrings( stringFactor );
+  /**
+   * Handles a KeyboardEvent.
+   */
+  public handleEvent( event: KeyboardEvent ): void {
+    if ( event.keyCode === LEFT_ARROW ) {
+      this.halveStrings();
+    }
+    else if ( event.keyCode === RIGHT_ARROW ) {
+      this.doubleStrings();
+    }
+    else if ( event.keyCode === UP_ARROW ) {
+      this.setStride( this.stride + 1 );
+    }
+    else if ( event.keyCode === DOWN_ARROW ) {
+      this.setStride( this.stride - 1 );
+    }
+    else if ( event.keyCode === SPACE_BAR ) {
+      this.reset();
+    }
+  }
+
+  /**
+   * Doubles the length of all strings.
+   */
+  private doubleStrings(): void {
+    this.setStringFactor( this.stringFactor * 2 );
+  }
+
+  /**
+   * Halves the length of all strings.
+   */
+  private halveStrings(): void {
+    this.setStringFactor( Math.max( this.stringFactor * 0.5, 0.01 ) );
+  }
+
+  /**
+   * Sets a new stringFactor, and applies that stringFactor to all strings.
+   */
+  private setStringFactor( stringFactor: number ): void {
+    assert && assert( stringFactor > 0, `stringFactor must be > 0: ${stringFactor}` );
+    assert && assert( stringFactor <= 1 || Number.isInteger( stringFactor ),
+      `stringFactor values greater than 1 must be integers: ${stringFactor}` );
+
+    this.stringFactor = stringFactor;
+    console.log( `stringFactor = ${this.stringFactor}` );
+    applyToAllStrings( this.stringFactor );
+  }
+
+  /**
+   * Sets a new stride value, and causes strings to be set to values from the WORDS array.
+   */
+  private setStride( newStride: number ): void {
+    assert && assert( Number.isInteger( newStride ), `newString must be an integer: ${newStride}` );
+
+    const words = DynamicStringTest.WORDS;
+
+    // Handle wraparound.
+    if ( newStride > words.length - 1 ) {
+      newStride = 0;
+    }
+    else if ( newStride < 0 ) {
+      newStride = words.length - 1;
     }
 
-    function halveStrings(): void {
-      stringFactor = Math.max( stringFactor * 0.5, 0.01 );
-      applyToAllStrings( stringFactor );
-    }
+    this.stride = newStride;
+    console.log( `stride = ${this.stride}` );
 
-    function setStride( newStride: number ): void {
-
-      // Handle wraparound.
-      if ( newStride > words.length - 1 ) {
-        newStride = 0;
-      }
-      else if ( newStride < 0 ) {
-        newStride = words.length - 1;
-      }
-
-      stride = newStride;
-      console.log( `stride = ${stride}` );
-
-      localizedStrings.forEach( ( localizedString, index ) => {
-        localizedString.property.value = words[ ( index + stride ) % words.length ];
-      } );
-    }
-
-    function reset(): void {
-
-      stringFactor = 1;
-      console.log( `stringFactor = ${stringFactor}` );
-      applyToAllStrings( stringFactor );
-
-      stride = 0;
-      console.log( `stride = ${stride}` );
-    }
-
-    window.addEventListener( 'keydown', event => {
-      if ( event.keyCode === LEFT_ARROW ) {
-        halveStrings();
-      }
-      else if ( event.keyCode === RIGHT_ARROW ) {
-        doubleStrings();
-      }
-      else if ( event.keyCode === UP_ARROW ) {
-        setStride( stride + 1 );
-      }
-      else if ( event.keyCode === DOWN_ARROW ) {
-        setStride( stride - 1 );
-      }
-      else if ( event.keyCode === SPACE_BAR ) {
-        reset();
-      }
+    // Set each string to a word from WORDS.
+    localizedStrings.forEach( ( localizedString, index ) => {
+      localizedString.property.value = words[ ( index + this.stride ) % words.length ];
     } );
+  }
+
+  /**
+   * Resets stride and stringFactor.
+   */
+  private reset(): void {
+    this.setStride( 0 );
+    this.setStringFactor( 1 ); // reset stringFactor last, so that strings are reset to initial values
   }
 }
 

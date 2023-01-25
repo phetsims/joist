@@ -153,8 +153,8 @@ export default class SimDisplay extends Display {
     }
 
     if ( phet.chipper.queryParameters.stringTest === 'dynamic' ) {
-
-      DynamicStringTest.init();
+      const dynamicStringTest = new DynamicStringTest();
+      window.addEventListener( 'keydown', event => dynamicStringTest.handleEvent( event ) );
     }
 
     this.initializeEvents( {
