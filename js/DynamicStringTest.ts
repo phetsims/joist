@@ -84,14 +84,14 @@ export default class DynamicStringTest {
       else if ( event.keyCode === RIGHT_ARROW ) {
         doubleStrings();
       }
-      else if ( event.keyCode === SPACE_BAR ) {
-        reset();
-      }
       else if ( event.keyCode === UP_ARROW ) {
         setStride( stride + 1 );
       }
       else if ( event.keyCode === DOWN_ARROW ) {
         setStride( stride - 1 );
+      }
+      else if ( event.keyCode === SPACE_BAR ) {
+        reset();
       }
     } );
   }
