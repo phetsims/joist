@@ -36,66 +36,78 @@ export default class DynamicStringTest {
     const words = WORD_SOURCE.split( ' ' );
 
     function setStride( newStride: number ): void {
+
+      // Handle wraparound.
+      if ( newStride > words.length - 1 ) {
+        newStride = 0;
+      }
+      else if ( newStride < 0 ) {
+        newStride = words.length - 1;
+      }
+
       stride = newStride;
       console.log( 'stride = ' + stride );
+
       localizedStrings.forEach( ( localizedString, index ) => {
         localizedString.property.value = words[ ( index + stride ) % words.length ];
       } );
     }
 
+    function doubleStrings(): void {
+      stringFactor = stringFactor * 2;
+      applyToStrings( stringFactor );
+    }
+
+    function halveStrings(): void {
+      stringFactor = Math.max( stringFactor * 0.5, 0.01 );
+      applyToStrings( stringFactor );
+    }
+
+    function reset(): void {
+      stringFactor = 1;
+      console.log( `stringFactor = ${stringFactor}` );
+      stride = 0;
+      console.log( `stride = ${stride}` );
+      localizedStrings.forEach( localizedString => localizedString.restoreInitialValue( 'en' ) );
+    }
+
     window.addEventListener( 'keydown', event => {
-
-      // Left Arrow: halve string
-      // Right Arrow: double string
-      if ( event.keyCode === LEFT_ARROW || event.keyCode === RIGHT_ARROW ) {
-
-        // Set the string factor based on left (halve) or right (double) arrow keys.
-        stringFactor = event.keyCode === LEFT_ARROW ? Math.max( stringFactor * 0.5, 0.01 ) : stringFactor * 2;
-        console.log( `stringFactor = ${stringFactor}` );
-
-        localizedStrings.forEach( localizedString => {
-          localizedString.restoreInitialValue( 'en' );
-
-          // Strip out all RTL (U+202A), LTR  (U+202B), and PDF  (U+202C) characters from string.
-          const strippedString = localizedString.property.value.replace( /[\u202A\u202B\u202C]/g, '' );
-          localizedString.property.value = applyStringFactor( strippedString, stringFactor );
-        } );
+      if ( event.keyCode === LEFT_ARROW ) {
+        halveStrings();
       }
-
-      // Space Bar: reset
+      else if ( event.keyCode === RIGHT_ARROW ) {
+        doubleStrings();
+      }
       else if ( event.keyCode === SPACE_BAR ) {
-        stringFactor = 1;
-        console.log( `stringFactor = ${stringFactor}` );
-        stride = 0;
-        console.log( `stride = ${stride}` );
-        localizedStrings.forEach( localizedString => localizedString.restoreInitialValue( 'en' ) );
+        reset();
       }
-
-      // Up Arrow: increase stride, with wraparound
       else if ( event.keyCode === UP_ARROW ) {
-        let newStride = stride + 1;
-        if ( newStride > words.length - 1 ) {
-          newStride = 0;
-        }
-        setStride( newStride );
+        setStride( stride + 1 );
       }
-
-      // Down Arrow: decrease stride, with wraparound
       else if ( event.keyCode === DOWN_ARROW ) {
-        let newStride = stride - 1;
-        if ( newStride < 0 ) {
-          newStride = words.length - 1;
-        }
-        setStride( newStride );
+        setStride( stride - 1 );
       }
     } );
   }
 }
 
 /**
- * Returns a string with its length based on the string factor.
+ * Applies the string factor to all strings.
  */
-function applyStringFactor( string: string, factor: number ): string {
+function applyToStrings( factor: number ): void {
+  localizedStrings.forEach( localizedString => {
+    localizedString.restoreInitialValue( 'en' );
+
+    // Strip out all RTL (U+202A), LTR (U+202B), and PDF (U+202C) characters from string.
+    const strippedString = localizedString.property.value.replace( /[\u202A\u202B\u202C]/g, '' );
+    localizedString.property.value = applyToString( strippedString, factor );
+  } );
+}
+
+/**
+ * Applies the string factor to one string.
+ */
+function applyToString( string: string, factor: number ): string {
   assert && assert( factor > 0, `factor must be > 0: ${factor}` );
 
   if ( factor > 1 ) {
