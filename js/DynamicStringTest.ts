@@ -14,13 +14,6 @@ import { localizedStrings } from '../../chipper/js/getStringModule.js';
 import Utils from '../../dot/js/Utils.js';
 import joist from './joist.js';
 
-// keyCodes
-const LEFT_ARROW = 37;
-const UP_ARROW = 38;
-const RIGHT_ARROW = 39;
-const DOWN_ARROW = 40;
-const SPACE_BAR = 32;
-
 const INITIAL_STRING_FACTOR = 1;
 const MAX_STRING_FACTOR = 8; // so that the sim and/or browser doesn't lock up when strings get excessively long
 const MIN_STRING_FACTOR = 0.01;
@@ -49,19 +42,19 @@ export default class DynamicStringTest {
    * Handles a KeyboardEvent.
    */
   public handleEvent( event: KeyboardEvent ): void {
-    if ( event.keyCode === LEFT_ARROW ) {
+    if ( event.code === 'ArrowLeft' ) {
       this.halveStrings();
     }
-    else if ( event.keyCode === RIGHT_ARROW ) {
+    else if ( event.code === 'ArrowRight' ) {
       this.doubleStrings();
     }
-    else if ( event.keyCode === UP_ARROW ) {
+    else if ( event.code === 'ArrowUp' ) {
       this.setStride( this.stride + 1 );
     }
-    else if ( event.keyCode === DOWN_ARROW ) {
+    else if ( event.code === 'ArrowDown' ) {
       this.setStride( this.stride - 1 );
     }
-    else if ( event.keyCode === SPACE_BAR ) {
+    else if ( event.code === 'Space' ) {
       this.reset();
     }
   }
