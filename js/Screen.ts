@@ -84,8 +84,8 @@ class Screen<M extends TModel = IntentionalAny, V extends ScreenView = ScreenVie
   public readonly nameProperty: TReadOnlyProperty<string>;
 
   public readonly showScreenIconFrameForNavigationBarFill: string | null;
-  public readonly homeScreenIcon: Node | null;
-  public navigationBarIcon: Node | null;
+  public readonly homeScreenIcon: ScreenIcon | null;
+  public navigationBarIcon: ScreenIcon | null;
   public readonly showUnselectedHomeScreenIconFrame: boolean;
   public readonly createKeyboardHelpNode: null | ( ( tandem: Tandem ) => Node ); // joist-internal
   public readonly pdomDisplayNameProperty: TReadOnlyProperty<string>;
@@ -160,9 +160,11 @@ class Screen<M extends TModel = IntentionalAny, V extends ScreenView = ScreenVie
 
     // Create a default homeScreenIcon, using the Screen's background color
     if ( !options.homeScreenIcon ) {
-      options.homeScreenIcon = new Rectangle( 0, 0, MINIMUM_HOME_SCREEN_ICON_SIZE.width, MINIMUM_HOME_SCREEN_ICON_SIZE.height, {
+      const iconNode = new Rectangle( 0, 0, MINIMUM_HOME_SCREEN_ICON_SIZE.width, MINIMUM_HOME_SCREEN_ICON_SIZE.height );
+      options.homeScreenIcon = new ScreenIcon( iconNode, {
         fill: options.backgroundColorProperty.value,
-        stroke: 'black'
+        maxIconWidthProportion: 1,
+        maxIconHeightProportion: 1
       } );
     }
 

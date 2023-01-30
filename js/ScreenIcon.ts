@@ -1,4 +1,4 @@
-// Copyright 2015-2022, University of Colorado Boulder
+// Copyright 2015-2023, University of Colorado Boulder
 
 /**
  * ScreenIcon is an icon that is suitable for one of the screen-selection buttons on the home screen or navigation bar.
@@ -9,10 +9,11 @@
  */
 
 import optionize from '../../phet-core/js/optionize.js';
-import { TColor, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
+import { Node, NodeOptions, Rectangle, TColor } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 import Screen from './Screen.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = {
   size?: Dimension2; // size of the background
@@ -22,20 +23,22 @@ type SelfOptions = {
   stroke?: TColor; // {Color|string} background stroke
 };
 
-export type ScreenIconOptions = SelfOptions & NodeOptions;
+export type ScreenIconOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
 export default class ScreenIcon extends Node {
+
+  private readonly disposeScreenIcon: () => void;
 
   public constructor( iconNode: Node, providedOptions?: ScreenIconOptions ) {
 
     const options = optionize<ScreenIconOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
-      size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE, // {Dimension2} size of the background
-      maxIconWidthProportion: 0.85, // max proportion of the background width occupied by iconNode, (0,1]
-      maxIconHeightProportion: 0.85, // max proportion of the background height occupied by iconNode, (0,1]
-      fill: 'white', // {Color|string} background fill
-      stroke: null // {Color|string} background stroke
+      size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE,
+      maxIconWidthProportion: 0.85,
+      maxIconHeightProportion: 0.85,
+      fill: 'white',
+      stroke: null
     }, providedOptions );
 
     assert && assert( options.maxIconWidthProportion > 0 && options.maxIconWidthProportion <= 1 );
@@ -46,17 +49,34 @@ export default class ScreenIcon extends Node {
       stroke: options.stroke
     } );
 
-    iconNode.setScaleMagnitude( Math.min(
-      options.maxIconWidthProportion * background.width / iconNode.width,
-      options.maxIconHeightProportion * background.height / iconNode.height
-    ) );
-    iconNode.center = background.center;
     iconNode.pickable = false;
 
-    assert && assert( !options.children, 'ScreenIcon sets children' );
+    // iconNode may have a dynamic size - for example, if it involves a string Property.
+    // So if it's size changes, adjust its scale and re-center.
+    const localBoundsListener = () => {
+      iconNode.setScaleMagnitude( 1 );
+      iconNode.setScaleMagnitude( Math.min(
+        options.maxIconWidthProportion * background.width / iconNode.width,
+        options.maxIconHeightProportion * background.height / iconNode.height
+      ) );
+      iconNode.center = background.center;
+    };
+    iconNode.localBoundsProperty.link( localBoundsListener );
+
     options.children = [ background, iconNode ];
 
     super( options );
+
+    this.disposeScreenIcon = () => {
+      if ( iconNode.localBoundsProperty.hasListener( localBoundsListener ) ) {
+        iconNode.localBoundsProperty.unlink( localBoundsListener );
+      }
+    };
+  }
+
+  public override dispose(): void {
+    this.disposeScreenIcon();
+    super.dispose();
   }
 }
 
