@@ -197,6 +197,11 @@ export default class Sim extends PhetioObject {
   // declared before soundManager.initialized is called.
   public readonly isSettingPhetioStateProperty: TReadOnlyProperty<boolean>;
 
+  // if PhET-iO is currently setting the state of the simulation and in the process of clearing dynamic elements as a
+  // precursor to setting the state of those elements. See PhetioStateEngine for details. This must be
+  // declared before soundManager.initialized is called.
+  public readonly isClearingPhetioDynamicElementsProperty: TReadOnlyProperty<boolean>;
+
   // (joist-internal)
   public readonly version: string = packageJSON.version;
 
@@ -595,6 +600,10 @@ export default class Sim extends PhetioObject {
 
     this.isSettingPhetioStateProperty = Tandem.PHET_IO_ENABLED ?
                                         phet.phetio.phetioEngine.phetioStateEngine.isSettingStateProperty :
+                                        new BooleanProperty( false );
+
+    this.isClearingPhetioDynamicElementsProperty = Tandem.PHET_IO_ENABLED ?
+                                        phet.phetio.phetioEngine.phetioStateEngine.isClearingDynamicElementsProperty :
                                         new BooleanProperty( false );
 
     // commented out because https://github.com/phetsims/joist/issues/553 is deferred for after GQIO-oneone
