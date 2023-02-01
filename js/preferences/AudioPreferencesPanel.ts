@@ -84,6 +84,9 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
       const customContent = customPreference.createContent( providedOptions.tandem );
       const preferencesPanelSection = new PreferencesPanelSection( {
         contentNode: customContent,
+        contentNodeOptions: {
+          excludeInvisibleChildrenFromBounds: true
+        },
         contentLeftMargin: 0
       } );
       container.addChild( preferencesPanelSection );
