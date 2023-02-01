@@ -377,6 +377,13 @@ export default class PreferencesModel extends PhetioObject {
         responseCollector.objectResponsesEnabledProperty.value = true;
         responseCollector.contextResponsesEnabledProperty.value = true;
         responseCollector.hintResponsesEnabledProperty.value = true;
+
+        // Set the first voice according to PhET's preferred english voices
+        voicingManager.voicesProperty.link( voices => {
+          if ( voices.length > 0 ) {
+            voicingManager.voiceProperty.value = voicingManager.getEnglishPrioritizedVoices()[ 0 ];
+          }
+        } );
       }
     }
 
