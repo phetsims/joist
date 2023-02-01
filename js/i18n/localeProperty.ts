@@ -21,8 +21,8 @@ const locales = Object.keys( phet.chipper.strings ).sort() as Locale[];
 
 
 // Start only with a valid locale, see https://github.com/phetsims/phet-io/issues/1882
-const isLocaleValid = ( locale?: Locale ) => {
-  return locale && localeInfoModule[ locale ];
+const isLocaleValid = ( locale?: Locale ): boolean => {
+  return !!( locale && availableRuntimeLocales.includes( locale ) );
 };
 
 // We might use a partial locale (e.g. 'en' instead of 'en_US'), so grab this if it exists. It might be the same as
