@@ -320,7 +320,7 @@ export default class Sim extends PhetioObject {
     } );
 
     const dimensionProperty = new Property( new Dimension2( 0, 0 ), {
-      useDeepEquality: true
+      valueComparisonStrategy: 'equalsFunction'
     } );
 
     // Note: the public API is TReadOnlyProperty
