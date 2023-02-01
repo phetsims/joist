@@ -44,7 +44,11 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
 
     // Some contents of this Dialog will be dynamically removed. Dont resize when this happens because we don't want
     // to shift contents of the entire Preferences dialog.
-    const contentOptions: VBoxOptions = { align: 'left', spacing: PreferencesDialog.CONTENT_SPACING, excludeInvisibleChildrenFromBounds: false };
+    const contentOptions: VBoxOptions = {
+      align: 'left',
+      spacing: PreferencesDialog.CONTENT_SPACING,
+      excludeInvisibleChildrenFromBounds: false
+    };
     const leftContent = new VBox( contentOptions );
     const rightContent = new VBox( contentOptions );
 
@@ -80,6 +84,9 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
       const customContent = customPreference.createContent( providedOptions.tandem );
       const preferencesPanelSection = new PreferencesPanelSection( {
         contentNode: customContent,
+        contentNodeOptions: {
+          excludeInvisibleChildrenFromBounds: true
+        },
         contentLeftMargin: 0
       } );
       container.addChild( preferencesPanelSection );

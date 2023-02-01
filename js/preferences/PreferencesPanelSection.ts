@@ -7,9 +7,9 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import optionize from '../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import { AlignGroup, Node, VBox, VBoxOptions } from '../../../scenery/js/imports.js';
+import { AlignGroup, Node, NodeOptions, VBox, VBoxOptions } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import PreferencesDialog from './PreferencesDialog.js';
 
@@ -21,6 +21,8 @@ type SelfOptions = {
 
   // if provided, the content for the section which will be nested under the titleNode
   contentNode?: Node | null;
+
+  contentNodeOptions?: StrictOmit<NodeOptions, 'children'>;
 
   // indentation for the contentNode (if provided) for layout as it is nested under the titleNode
   contentLeftMargin?: number;
@@ -35,6 +37,7 @@ class PreferencesPanelSection extends VBox {
       spacing: PreferencesDialog.CONTENT_SPACING,
       titleNode: null,
       contentNode: null,
+      contentNodeOptions: {},
       contentLeftMargin: 30
     }, providedOptions );
 
@@ -48,7 +51,8 @@ class PreferencesPanelSection extends VBox {
       } ) );
     }
     if ( options.contentNode ) {
-      sectionChildren.push( sectionAlignGroup.createBox( new Node( { children: [ options.contentNode ] } ), {
+      const contentNodeOptions = combineOptions<NodeOptions>( { children: [ options.contentNode ] }, options.contentNodeOptions );
+      sectionChildren.push( sectionAlignGroup.createBox( new Node( contentNodeOptions ), {
         leftMargin: options.contentLeftMargin,
         xAlign: 'left'
       } ) );

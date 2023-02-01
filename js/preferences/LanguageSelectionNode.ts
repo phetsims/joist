@@ -22,7 +22,13 @@ export default class LanguageSelectionNode extends Rectangle {
   private readonly disposeLanguageSelectionNode: () => void;
 
   public constructor( localeProperty: Property<Locale>, locale: Locale ) {
-    const text = new Text( localeInfoModule[ locale ].localizedName, {
+
+    // Include the locale code when running with ?dev.
+    const string = phet.chipper.queryParameters.dev ?
+                   `${localeInfoModule[ locale ].localizedName} (${locale})` :
+                   localeInfoModule[ locale ].localizedName;
+
+    const text = new Text( string, {
       font: PreferencesDialog.CONTENT_FONT
     } );
 
