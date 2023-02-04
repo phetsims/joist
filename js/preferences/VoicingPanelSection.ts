@@ -327,17 +327,12 @@ class VoicingPanelSection extends PreferencesPanelSection {
       // Voice changing is not (as of this writing) available on MacOS or iOS, but we hope they fix that bug soon. Perhaps
       // next time someone is working in this area, they can check and see if it is working, https://github.com/phetsims/utterance-queue/issues/74
       if ( voices.length > 0 ) {
-        const prioritizedVoices = voicingManager.getPrioritizedVoices();
 
-        // for now, only English voices are available because the Voicing feature is not translatable
-        const englishVoices = _.filter( prioritizedVoices, voice => {
-
-          // most browsers use dashes to separate the local, Android uses underscore
-          return voice.lang === 'en-US' || voice.lang === 'en_US';
-        } );
+        // For now, only English voices are available because the Voicing feature is not translatable.
+        const prioritizedVoices = voicingManager.getEnglishPrioritizedVoices();
 
         // limit the voices for now to keep the size of the ComboBox manageable
-        voiceList = englishVoices.slice( 0, 12 );
+        voiceList = prioritizedVoices.slice( 0, 12 );
       }
 
       // phet-io - for when creating the Archetype for the Capsule housing the preferencesDialog, we don't have a sim global.
