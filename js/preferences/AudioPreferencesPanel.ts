@@ -37,7 +37,10 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
    * @param tabVisibleProperty
    * @param providedOptions
    */
-  public constructor( audioModel: AudioModel, selectedTabProperty: TReadOnlyProperty<PreferencesType>, tabVisibleProperty: TReadOnlyProperty<boolean>, providedOptions: AudioPreferencesPanelOptions ) {
+  public constructor( audioModel: AudioModel,
+                      selectedTabProperty: TReadOnlyProperty<PreferencesType>,
+                      tabVisibleProperty: TReadOnlyProperty<boolean>,
+                      providedOptions: AudioPreferencesPanelOptions ) {
     super( PreferencesType.AUDIO, selectedTabProperty, tabVisibleProperty, {
       labelContent: audioFeaturesStringProperty
     } );
@@ -63,10 +66,10 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
       // If only one of the audio features are in use, do not include the toggle switch to
       // enable/disable that feature because the control is redundant. The audio output should go
       // through the "Audio Features" toggle only.
-      const hideSoundToggle = audioModel.supportsVoicing !== audioModel.supportsSound;
+      const showSoundToggle = ( audioModel.supportsVoicing === audioModel.supportsSound ) || audioModel.includeSoundsToggleSwitch;
 
       const soundPanelSection = new SoundPanelSection( audioModel, {
-        includeTitleToggleSwitch: !hideSoundToggle
+        includeTitleToggleSwitch: showSoundToggle
       } );
       rightContent.addChild( soundPanelSection );
       this.disposeEmitter.addListener( () => soundPanelSection.dispose() );
