@@ -60,7 +60,8 @@ class PreferencesTab extends Voicing( Node ) {
       innerContent: labelProperty,
       ariaRole: 'tab',
       focusable: true,
-      containerTagName: 'li'
+      containerTagName: 'li',
+      containerAriaRole: 'presentation'
     }, providedOptions );
 
     // Visual contents for the tab, label Text and optional icon Node
