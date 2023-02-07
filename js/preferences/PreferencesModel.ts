@@ -76,9 +76,6 @@ type AudioPreferencesOptions = {
   // included if supportsSound is also true.
   supportsSound?: boolean;
   supportsExtraSound?: boolean;
-
-  // Include the toggle switch for the 'Sounds' control.
-  includeSoundsToggleSwitch?: boolean;
 } & CustomPreferencesOptions;
 
 type InputPreferencesOptions = {
@@ -164,7 +161,6 @@ export type AudioModel = BaseModelType & {
 
   // Whether the Sim Toolbar is enabled, which gives quick access to Voicing controls and features.
   toolbarEnabledProperty: Property<boolean>;
-
 } & Required<AudioPreferencesOptions>;
 
 export type InputModel = BaseModelType & {
@@ -230,8 +226,7 @@ export default class PreferencesModel extends PhetioObject {
         supportsVoicing: phetFeatures.supportsVoicing,
         supportsSound: phetFeatures.supportsSound,
         supportsExtraSound: phetFeatures.supportsExtraSound,
-        customPreferences: [],
-        includeSoundsToggleSwitch: false
+        customPreferences: []
       }, providedOptions.audioOptions ),
       inputOptions: optionize<InputPreferencesOptions, InputPreferencesOptions, BaseModelType>()( {
         tandemName: INPUT_MODEL_TANDEM,
@@ -294,8 +289,7 @@ export default class PreferencesModel extends PhetioObject {
       } ),
 
       customPreferences: options.audioOptions.customPreferences,
-      tandemName: options.audioOptions.tandemName,
-      includeSoundsToggleSwitch: options.audioOptions.includeSoundsToggleSwitch
+      tandemName: options.audioOptions.tandemName
     };
 
     const inputTandem = options.tandem.createTandem( INPUT_MODEL_TANDEM );
