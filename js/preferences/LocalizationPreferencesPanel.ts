@@ -10,7 +10,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import { HBox, Node, Text, VBox, VBoxOptions } from '../../../scenery/js/imports.js';
+import { HBox, Node, Text, VBox } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import { LocalizationModel } from './PreferencesModel.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
@@ -18,23 +18,32 @@ import RegionAndCultureComboBox from './RegionAndCultureComboBox.js';
 import LocalePanel from './LocalePanel.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import PreferencesDialog from './PreferencesDialog.js';
-import PreferencesPanel from './PreferencesPanel.js';
+import PreferencesPanel, { PreferencesPanelOptions } from './PreferencesPanel.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import PreferencesType from './PreferencesType.js';
 import JoistStrings from '../JoistStrings.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 
 // constants
 const localizationTitleStringProperty = JoistStrings.preferences.tabs.localization.titleStringProperty;
 const regionAndCultureStringProperty = JoistStrings.preferences.tabs.localization.regionAndCulture.titleStringProperty;
 
-type LocalizationPreferencesPanelOptions = PickRequired<VBoxOptions, 'tandem'>;
+type SelfOptions = EmptySelfOptions;
+
+type LocalizationPreferencesPanelOptions = SelfOptions & PickRequired<PreferencesPanelOptions, 'tandem'>;
 
 class LocalizationPreferencesPanel extends PreferencesPanel {
 
-  public constructor( localizationModel: LocalizationModel, selectedTabProperty: TReadOnlyProperty<PreferencesType>, tabVisibleProperty: TReadOnlyProperty<boolean>, providedOptions: LocalizationPreferencesPanelOptions ) {
-    super( PreferencesType.LOCALIZATION, selectedTabProperty, tabVisibleProperty, {
+  public constructor( localizationModel: LocalizationModel,
+                      selectedTabProperty: TReadOnlyProperty<PreferencesType>,
+                      tabVisibleProperty: TReadOnlyProperty<boolean>,
+                      providedOptions: LocalizationPreferencesPanelOptions ) {
+
+    const options = optionize<LocalizationPreferencesPanelOptions, SelfOptions, PreferencesPanelOptions>()( {
       labelContent: localizationTitleStringProperty
-    } );
+    }, providedOptions );
+
+    super( PreferencesType.LOCALIZATION, selectedTabProperty, tabVisibleProperty, options );
 
     const contentNode = new VBox( {
       spacing: PreferencesDialog.CONTENT_SPACING
