@@ -20,7 +20,7 @@ import Dimension2 from '../../dot/js/Dimension2.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
-import { Color, Node, Path, PDOMValueType, Rectangle } from '../../scenery/js/imports.js';
+import { Color, Node, Path, PDOMValueType, ProfileColorProperty, Rectangle } from '../../scenery/js/imports.js';
 import PhetioObject, { PhetioObjectOptions } from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
@@ -58,7 +58,7 @@ type SelfOptions = {
 
   // It would be preferable to support Property<Color | string> solely, but many subtypes are hardcoded to be Color only
   // or string only, so we support this polymorphic form
-  backgroundColorProperty?: Property<Color | string> | Property<Color> | Property<string>;
+  backgroundColorProperty?: Property<Color | string> | Property<Color> | Property<string> | ProfileColorProperty;
   homeScreenIcon?: ScreenIcon | null;
   showUnselectedHomeScreenIconFrame?: boolean;
   navigationBarIcon?: ScreenIcon | null;
