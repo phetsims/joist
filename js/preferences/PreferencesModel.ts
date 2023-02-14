@@ -94,6 +94,11 @@ type LocalizationPreferencesOptions = {
   // provided, the Localization tab will include a UI component to swap out pieces of artwork to match the selected
   // region and culture. CharacterSets contains information for the UI component to describe each choice.
   characterSets?: CharacterSet[];
+
+  // Whether to include the default LocalePanel for selecting locale. This was added to allow sims like
+  // Number Play and Number Compare to substitute their own custom controls.
+  // See https://github.com/phetsims/number-suite-common/issues/47.
+  includeLocalePanel?: boolean;
 } & CustomPreferencesOptions;
 
 type PreferencesModelSelfOptions = {
@@ -237,7 +242,8 @@ export default class PreferencesModel extends PhetioObject {
         tandemName: 'localizationModel',
         supportsDynamicLocales: !!localeProperty.validValues && localeProperty.validValues.length > 1,
         characterSets: [],
-        customPreferences: []
+        customPreferences: [],
+        includeLocalePanel: true
       }, providedOptions.localizationOptions )
     };
 
