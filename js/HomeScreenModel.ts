@@ -14,8 +14,9 @@ import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
 import Screen from './Screen.js';
+import TModel from './TModel.js';
 
-class HomeScreenModel {
+class HomeScreenModel implements TModel {
   public simScreens: Screen[]; // screens in the simulations that are not the HomeScreen
   public screenProperty: Property<Screen>;
   public selectedScreenProperty: Property<Screen>;
