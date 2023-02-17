@@ -261,11 +261,16 @@ export default class PreferencesModel extends PhetioObject {
     }, options.visualOptions );
 
     // For now, the Voicing feature is only available when we are running in the English locale, accessibility
-    // strings are not made available for translation. When running with multiple locales, the voicing feature
-    // is supported if English is available, but not enabled until English becomes the running locale.
+    // strings are not made available for translation. When running with dynamic locales, the voicing feature
+    // is supported if English is available, but will be disabled until English is selected.
     const supportsVoicing = options.audioOptions.supportsVoicing &&
                             SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() &&
-                            _.some( localeProperty.validValues, value => value.startsWith( 'en' ) );
+                            (
+                              // Running with english locale OR an environment where locale switching is supported and
+                              // english is one of the available languages.
+                              phet.chipper.locale.startsWith( 'en' ) ||
+                              ( phet.chipper.allowLocaleSwitching && _.some( localeProperty.validValues, value => value.startsWith( 'en' ) ) )
+                            );
 
     // Audio can be disabled explicitly via query parameter
     const audioEnabled = phet.chipper.queryParameters.audio !== 'disabled';
