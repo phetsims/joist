@@ -9,12 +9,12 @@
 
 import joist from '../joist.js';
 import { Color, FireListener, HighlightOverlay, Rectangle, Text } from '../../../scenery/js/imports.js';
-import localeInfoModule from '../../../chipper/js/data/localeInfoModule.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import Property from '../../../axon/js/Property.js';
 import { Locale } from '../i18n/localeProperty.js';
+import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 
 export default class LanguageSelectionNode extends Rectangle {
 
@@ -23,10 +23,13 @@ export default class LanguageSelectionNode extends Rectangle {
 
   public constructor( localeProperty: Property<Locale>, locale: Locale ) {
 
+    // Wrap it with embedding marks to ensure it displays correctly, see https://github.com/phetsims/chipper/issues/1379
+    const wrappedLocaleString = StringUtils.localeToLocalizedName( locale );
+
     // Include the locale code when running with ?dev.
     const string = phet.chipper.queryParameters.dev ?
-                   `${localeInfoModule[ locale ].localizedName} (${locale})` :
-                   localeInfoModule[ locale ].localizedName;
+                   StringUtils.wrapLTR( `${wrappedLocaleString} (${locale})` ) :
+                   wrappedLocaleString;
 
     const text = new Text( string, {
       font: PreferencesDialog.CONTENT_FONT
