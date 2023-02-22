@@ -16,7 +16,6 @@ import NumberControl from '../../../scenery-phet/js/NumberControl.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import FocusHighlightFromNode from '../../../scenery/js/accessibility/FocusHighlightFromNode.js';
 import VoicingText from '../../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
-import responseCollector from '../../../utterance-queue/js/responseCollector.js';
 import Voicing from '../../../scenery/js/accessibility/voicing/Voicing.js';
 import voicingManager from '../../../scenery/js/accessibility/voicing/voicingManager.js';
 import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
@@ -30,6 +29,7 @@ import ComboBoxItem from '../../../sun/js/ComboBoxItem.js';
 import ExpandCollapseButton from '../../../sun/js/ExpandCollapseButton.js';
 import HSlider from '../../../sun/js/HSlider.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import responseCollector from '../../../utterance-queue/js/responseCollector.js';
 import Utterance from '../../../utterance-queue/js/Utterance.js';
 import joist from '../joist.js';
 import joistStrings from '../joistStrings.js';
@@ -91,6 +91,34 @@ VOICE_PITCH_DESCRIPTION_MAP.set( new Range( 1.5, 2 ), inHighRangeString );
 
 const THUMB_SIZE = new Dimension2( 13, 26 );
 const TRACK_SIZE = new Dimension2( 100, 5 );
+
+// A list of "novelty" voices made available by the operating system...for some reason. There is nothing special about
+// these novelty SpeechSynthesisVoices to exclude them. So having a list to exclude by name and maintining over time
+// is the best we can do.
+const NOVELTY_VOICES = [
+  'Albert',
+  'Bad News',
+  'Bahh',
+  'Bells',
+  'Boing',
+  'Bubbles',
+  'Cellos',
+  'Good News',
+  'Jester',
+  'Organ',
+  'Superstar',
+  'Trinoids',
+  'Whisper',
+  'Wobble',
+  'Zarvox',
+
+  // not technically "novelty" but still sound too bad and would be distracting to users, see
+  // https://github.com/phetsims/utterance-queue/issues/93#issuecomment-1303901484
+  'Flo',
+  'Grandma',
+  'Grandpa',
+  'Junior'
+];
 
 class VoicingPanelSection extends PreferencesPanelSection {
 
@@ -239,8 +267,18 @@ class VoicingPanelSection extends PreferencesPanelSection {
         voiceComboBox.dispose();
       }
 
+      const allVoices = voicingManager.voices.slice();
+
+      // exclude "novelty" voices that are included by the operating system but marked as English.
+      const voicesWithoutNovelty = _.filter( allVoices, voice => {
+
+        // Remove the voice if the SpeechSynthesisVoice.name includes a substring of the entry in our list (the browser
+        // might include more information in the name than we maintain, like locale info or something else).
+        return !_.some( NOVELTY_VOICES, noveltyVoice => voice.name.includes( noveltyVoice ) );
+      } );
+
       // for now, only english voices are available because the Voicing feature is not translatable
-      const englishVoices = _.filter( voicingManager.voices, voice => {
+      const englishVoices = _.filter( voicesWithoutNovelty, voice => {
 
         // most browsers use dashes to separate the local, Android uses underscore
         return voice.lang === 'en-US' || voice.lang === 'en_US';
