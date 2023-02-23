@@ -40,7 +40,8 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
                       providedOptions: LocalizationPreferencesPanelOptions ) {
 
     const options = optionize<LocalizationPreferencesPanelOptions, SelfOptions, PreferencesPanelOptions>()( {
-      labelContent: localizationTitleStringProperty
+      labelContent: localizationTitleStringProperty,
+      phetioVisiblePropertyInstrumented: false
     }, providedOptions );
 
     super( PreferencesType.LOCALIZATION, selectedTabProperty, tabVisibleProperty, options );
