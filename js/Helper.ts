@@ -925,7 +925,7 @@ class HelperCheckbox extends Checkbox {
 //
 //     this[ this.primaryRectName ] = 2;
 //
-//     var dragListener = new scenery.DragListener( {
+//     var dragListener = new phet.scenery.DragListener( {
 //       drag: event => {
 //         this.separatorLocation = dragListener.parentPoint[ this.primaryCoordinate ];
 //         this.layout();
