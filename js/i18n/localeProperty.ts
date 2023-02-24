@@ -59,7 +59,8 @@ const localeProperty = new LocaleProperty( validInitialLocale, {
   tandem: Tandem.GENERAL_MODEL.createTandem( 'localeProperty' ),
   phetioFeatured: true,
   phetioValueType: StringIO,
-  validValues: availableRuntimeLocales
+  validValues: availableRuntimeLocales,
+  phetioDocumentation: 'Specifies language currently displayed in the simulation'
 } );
 
 if ( phet.chipper.queryParameters.keyboardLocaleSwitcher ) {

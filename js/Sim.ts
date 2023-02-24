@@ -133,11 +133,11 @@ export default class Sim extends PhetioObject {
   // performed before the step begins.
   public readonly frameStartedEmitter = new Emitter();
 
-  // Indicates when a frame ends.  Listen to this Emitter if you have an action that must be
-  // performed after the step completes.
   public readonly frameEndedEmitter = new Emitter( {
     tandem: Tandem.GENERAL_MODEL.createTandem( 'frameEndedEmitter' ),
-    phetioHighFrequency: true
+    phetioHighFrequency: true,
+    phetioDocumentation: 'Indicates when a frame ends. Listen to this Emitter if you have an action that must be ' +
+                         'performed after the model and view step completes.'
   } );
 
   // Steps the simulation. This Action is implemented so it can be automatically
