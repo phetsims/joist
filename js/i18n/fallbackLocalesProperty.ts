@@ -18,7 +18,7 @@ import { Locale } from './localeProperty.js';
 const fallbackLocalesProperty = new Property<Locale[]>( [], {
   tandem: Tandem.GENERAL_MODEL.createTandem( 'fallbackLocalesProperty' ),
   phetioDocumentation: 'An ordered list of locales to "fall back" on when a translation is missing for the selected ' +
-                       'locale, for example: ["es", "de" ]. "en" will always be added to the end of this, because it has' +
+                       'locale, for example: ["es", "de" ]. "en" will always be added to the end of this, because it has ' +
                        'guaranteed full coverage of all translated keys.',
   phetioFeatured: true,
   isValidValue: locales => {
