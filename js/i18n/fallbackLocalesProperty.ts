@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2022-2023, University of Colorado Boulder
 
 /**
  * A Property that stores "backup" locales to be used for translations, if the translation of a string is not available
