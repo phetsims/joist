@@ -60,7 +60,7 @@ class AudioManager extends PhetioObject {
     this.audioEnabledProperty = new BooleanProperty( phet.chipper.queryParameters.audio === 'enabled', {
       tandem: tandem.createTandem( 'audioEnabledProperty' ),
       phetioFeatured: true,
-      phetioDocumentation: 'determines whether audio features are enabled for this simulation'
+      phetioDocumentation: 'toggles all audio features on and off; supported only if this sim supports audio features.'
     } );
 
     this.audioAndSoundEnabledProperty = DerivedProperty.and( [ this.audioEnabledProperty, soundManager.enabledProperty ] );
