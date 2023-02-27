@@ -32,7 +32,7 @@ export type SimDisplayOptions = SelfOptions & StrictOmit<DisplayOptions, 'suppor
 
 export default class SimDisplay extends Display {
 
-  // root for the simulation and the target for MultiListener to support magnification since the Display rootNode
+  // root for the simulation and the target for AnimatedPanZoomListener to support magnification since the Display rootNode
   // cannot be transformed
   public readonly simulationRoot = new Node();
   private readonly inputFuzzer: InputFuzzer;
