@@ -159,7 +159,10 @@
     "value": "to get started"
   },
   "simTitleWithScreenNamePattern": {
-    "value": "{{simName}} \u2014 {{screenName}}"
+    "value": "{{simName}} \u2014 {{screenName}}",
+    "metadata": {
+      "phetioDocumentation": "This pattern is used when a multi-screen simulation is only displaying one screen."
+    }
   },
   "projectorMode": {
     "value": "Projector Mode"

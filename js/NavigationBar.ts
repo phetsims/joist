@@ -102,6 +102,7 @@ class NavigationBar extends Node {
       font: new PhetFont( 16 ),
       fill: sim.lookAndFeel.navigationBarTextFillProperty,
       tandem: tandem.createTandem( 'titleText' ),
+      phetioFeatured: true,
       phetioDocumentation: 'Displays the title of the simulation in the navigation bar (bottom left)',
       visiblePropertyOptions: { phetioFeatured: true },
       stringPropertyOptions: { phetioReadOnly: true }

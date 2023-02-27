@@ -570,7 +570,9 @@ export default class Sim extends PhetioObject {
       }
     }, {
       tandem: Tandem.GENERAL_MODEL.createTandem( 'displayedSimNameProperty' ),
-      phetioValueType: StringIO
+      phetioFeatured: true,
+      phetioValueType: StringIO,
+      phetioDocumentation: 'Customize this string by editing its dependencies.'
     } );
 
     // Local variable is settable...
