@@ -162,7 +162,7 @@ export type AudioModel = BaseModelType & {
   // Controls for the voice of SpeechSynthesisAnnouncer.ts
   voicePitchProperty: NumberProperty;
   voiceRateProperty: NumberProperty;
-  voiceProperty: Property<null | SpeechSynthesisVoice>;
+  voiceProperty: Property<null | SpeechSynthesisVoice>; // Not a PhET-iO linked element because it can't be customized through the API.
 
   // Whether the Sim Toolbar is enabled, which gives quick access to Voicing controls and features.
   toolbarEnabledProperty: Property<boolean>;
@@ -346,8 +346,7 @@ export default class PreferencesModel extends PhetioObject {
       { property: this.audioModel.voicingContextResponsesEnabledProperty, tandemName: 'voicingContextResponsesEnabledProperty' },
       { property: this.audioModel.voicingHintResponsesEnabledProperty, tandemName: 'voicingHintResponsesEnabledProperty' },
       { property: this.audioModel.voicePitchProperty, tandemName: 'voicePitchProperty' },
-      { property: this.audioModel.voiceRateProperty, tandemName: 'voiceRateProperty' },
-      { property: this.audioModel.voiceProperty, tandemName: 'voiceProperty' }
+      { property: this.audioModel.voiceRateProperty, tandemName: 'voiceRateProperty' }
     ] );
     this.addPhetioLinkedElementsForModel( options.tandem, this.inputModel );
     this.addPhetioLinkedElementsForModel( options.tandem, this.localizationModel, [
