@@ -1,4 +1,4 @@
-// Copyright 2021-2022, University of Colorado Boulder
+// Copyright 2021-2023, University of Colorado Boulder
 
 /**
  * A manager that controls whether all audio is enabled and whether each auditory feature is enabled. Has flags that
