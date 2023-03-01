@@ -62,8 +62,7 @@ class PreferencesDialog extends Dialog {
 
       // pdom
       tagName: 'h1',
-      innerContent: JoistStrings.preferences.titleStringProperty,
-      stringProperty: JoistStrings.preferences.titleStringProperty
+      innerContent: JoistStrings.preferences.titleStringProperty
     } );
 
     const options = optionize<PreferencesDialogOptions, EmptySelfOptions, DialogOptions>()( {
