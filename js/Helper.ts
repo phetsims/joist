@@ -1127,7 +1127,7 @@ class VisualTreeNode extends CollapsibleTreeNode<VisualTreeNode> {
       } ) );
     }
     if ( node instanceof Text ) {
-      nameNode.addChild( new Text( '"' + node.text + '"', {
+      nameNode.addChild( new Text( '"' + node.string + '"', {
         font: TREE_FONT,
         pickable: false,
         fill: '#666'
@@ -1722,7 +1722,7 @@ const createInfo = ( trail: Trail ): Node[] => {
   }
 
   if ( node instanceof Text ) {
-    addSimple( 'text', node.text );
+    addSimple( 'text', node.string );
     addSimple( 'font', node.font );
     if ( node.boundsMethod !== 'hybrid' ) {
       addSimple( 'boundsMethod', node.boundsMethod );
