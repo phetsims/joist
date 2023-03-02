@@ -119,7 +119,8 @@ class PhetButton extends JoistButton {
 
       // This is the primary way to prevent learners from accessing the PhET menu in PhET-iO, so feature it.
       enabledPropertyOptions: {
-        phetioFeatured: true
+        phetioFeatured: true,
+        phetioDocumentation: 'When disabled, the (three dots) are hidden and the button cannot be pressed, hiding the PhET menu.'
       },
 
       visiblePropertyOptions: {

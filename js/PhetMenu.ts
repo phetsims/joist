@@ -16,7 +16,7 @@ import optionize from '../../phet-core/js/optionize.js';
 import platform from '../../phet-core/js/platform.js';
 import stripEmbeddingMarks from '../../phet-core/js/stripEmbeddingMarks.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
-import { Focus, FocusManager, FullScreen, KeyboardUtils, Node, NodeOptions, openPopup, Path, PDOMUtils, SceneryEvent, VBox, HSeparator } from '../../scenery/js/imports.js';
+import { Focus, FocusManager, FullScreen, HSeparator, KeyboardUtils, Node, NodeOptions, openPopup, Path, PDOMUtils, SceneryEvent, VBox } from '../../scenery/js/imports.js';
 import Dialog from '../../sun/js/Dialog.js';
 import MenuItem, { MenuItemOptions } from '../../sun/js/MenuItem.js';
 import { PopupableNode } from '../../sun/js/Popupable.js';
@@ -77,9 +77,7 @@ class PhetMenu extends Node {
       phetioState: false,
       phetioDocumentation: 'This menu is displayed when the PhET button is pressed.',
 
-      visiblePropertyOptions: {
-        phetioReadOnly: true
-      },
+      phetioVisiblePropertyInstrumented: false,
 
       // pdom, tagName and role for content in the menu
       tagName: 'ul',
