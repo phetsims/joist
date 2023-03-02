@@ -23,6 +23,7 @@ import HighlightNode from './HighlightNode.js';
 import joist from './joist.js';
 import Screen from './Screen.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
+import Tandem from '../../tandem/js/Tandem.js';
 
 // constants
 const HIGHLIGHT_SPACING = 4;
@@ -85,7 +86,6 @@ class NavigationBarScreenButton extends Voicing( Node ) {
     const icon = new Node( {
       children: [ screen.navigationBarIcon! ], // wrap in case this icon is used in multiple place (eg, home screen and navbar)
       maxHeight: 0.625 * navBarHeight,
-      tandem: options.tandem.createTandem( 'icon' ),
 
       // pdom - the icon may have focusable components in its graphic, but they should be invisible for Interactive
       // Description, all accessibility should go through this button
@@ -136,14 +136,13 @@ class NavigationBarScreenButton extends Voicing( Node ) {
     this.buttonModel = new PushButtonModel( {
       listener: () => {
 
-
         screenProperty.value !== screen && this.voicingSpeakFullResponse( {
           objectResponse: null,
           hintResponse: null
         } );
         screenProperty.value = screen;
       },
-      tandem: options.tandem,
+      tandem: Tandem.OPT_OUT,
 
       // Navigation bar screen buttons by default do not have a featured enabledProperty.
       enabledPropertyOptions: { phetioFeatured: false }
