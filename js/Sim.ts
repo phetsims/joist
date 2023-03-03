@@ -231,11 +231,7 @@ export default class Sim extends PhetioObject {
 
   // (joist-internal) Semi-transparent black barrier used to block input events when a dialog (or other popup)
   // is present, and fade out the background.
-  private readonly barrierRectangle = new BarrierRectangle(
-    this.modalNodeStack, {
-      tandem: Tandem.GENERAL_VIEW.createTandem( 'barrierRectangle' ),
-      phetioDocumentation: 'Semi-transparent barrier used to block input events when a dialog is shown, also fades out the background'
-    } );
+  private readonly barrierRectangle = new BarrierRectangle( this.modalNodeStack );
 
   // layer for popups, dialogs, and their backgrounds and barriers
   // TODO: How should we handle the popup for navigation? Can we set this to private? https://github.com/phetsims/joist/issues/841
@@ -605,8 +601,8 @@ export default class Sim extends PhetioObject {
                                         new BooleanProperty( false );
 
     this.isClearingPhetioDynamicElementsProperty = Tandem.PHET_IO_ENABLED ?
-                                        phet.phetio.phetioEngine.phetioStateEngine.isClearingDynamicElementsProperty :
-                                        new BooleanProperty( false );
+                                                   phet.phetio.phetioEngine.phetioStateEngine.isClearingDynamicElementsProperty :
+                                                   new BooleanProperty( false );
 
     // commented out because https://github.com/phetsims/joist/issues/553 is deferred for after GQIO-oneone
     // if ( PHET_IO_ENABLED ) {
