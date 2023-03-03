@@ -123,9 +123,7 @@ class PhetButton extends JoistButton {
         phetioDocumentation: 'When disabled, the (three dots) are hidden and the button cannot be pressed, hiding the PhET menu.'
       },
 
-      visiblePropertyOptions: {
-        phetioReadOnly: true
-      },
+      phetioVisiblePropertyInstrumented: false, // This button is our branding, don't ever hide it.
 
       // pdom
       innerContent: JoistStrings.a11y.phetMenuStringProperty,
