@@ -132,7 +132,7 @@ class AudioManager extends PhetioObject {
   }
 }
 
-const audioManager = new AudioManager( Tandem.GENERAL_VIEW_AUDIO.createTandem( 'audioManager' ) );
+const audioManager = new AudioManager( Tandem.GENERAL_VIEW.createTandem( 'audioManager' ) );
 
 joist.register( 'audioManager', audioManager );
 export default audioManager;
