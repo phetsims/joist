@@ -210,7 +210,7 @@ export default class PreferencesModel extends PhetioObject {
       ...( optionize<PreferencesModelOptions, EmptySelfOptions, PhetioObjectOptions>()( {
 
         // phet-io
-        tandem: Tandem.GENERAL_MODEL.createTandem( 'preferencesModel' ),
+        tandem: Tandem.OPTIONAL,
         phetioType: PreferencesModel.PreferencesModelIO,
         phetioFeatured: true,
         phetioState: false,
