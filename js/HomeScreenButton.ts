@@ -198,7 +198,7 @@ class HomeScreenButton extends Voicing( VBox ) {
 
     const fireListener = new FireListener( {
       fire: buttonFired,
-      tandem: options.tandem.createTandem( 'inputListener' )
+      tandem: options.tandem.createTandem( 'fireListener' )
     } );
     this.addInputListener( fireListener );
     this.addInputListener( { focus: event => { !isSelectedProperty.value && fireListener.fire( event ); } } );
