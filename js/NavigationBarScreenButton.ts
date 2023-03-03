@@ -23,7 +23,6 @@ import HighlightNode from './HighlightNode.js';
 import joist from './joist.js';
 import Screen from './Screen.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
-import Tandem from '../../tandem/js/Tandem.js';
 
 // constants
 const HIGHLIGHT_SPACING = 4;
@@ -142,10 +141,8 @@ class NavigationBarScreenButton extends Voicing( Node ) {
         } );
         screenProperty.value = screen;
       },
-      tandem: Tandem.OPT_OUT,
-
-      // Navigation bar screen buttons by default do not have a featured enabledProperty.
-      enabledPropertyOptions: { phetioFeatured: false }
+      tandem: options.tandem,
+      phetioEnabledPropertyInstrumented: false
     } );
 
     // Hook up the input listener
