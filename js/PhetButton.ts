@@ -55,23 +55,6 @@ class PhetButton extends JoistButton {
     const logoOnBlackBackground = Brand.logoOnBlackBackground;
     const logoOnWhiteBackground = Brand.logoOnWhiteBackground;
 
-    const phetMenu: PhetMenu = new PhetMenu( sim, {
-      tandem: tandem.createTandem( 'phetMenu' )
-    } );
-
-    // Sim.js handles scaling the popup menu.  This code sets the position of the popup menu.
-    // sim.bounds are null on init, but we will get the callback when it is sized for the first time
-    // Does not need to be unlinked or disposed because PhetButton persists for the lifetime of the sim
-    Multilink.multilink( [ sim.boundsProperty, sim.screenBoundsProperty, sim.scaleProperty, phetMenu.localBoundsProperty ],
-      ( bounds, screenBounds, scale ) => {
-        if ( bounds && screenBounds && scale ) {
-          phetMenu.setScaleMagnitude( scale );
-          phetMenu.right = bounds.right - 2;
-          const navBarHeight = bounds.height - screenBounds.height;
-          phetMenu.bottom = screenBounds.bottom + navBarHeight / 2;
-        }
-      } );
-
     // PhET logo
     const logoImage = new Image( logoOnBlackBackground, {
       scale: PHET_LOGO_SCALE / logoOnBlackBackground.height * PHET_LOGO_HEIGHT * 0.85,
@@ -131,9 +114,24 @@ class PhetButton extends JoistButton {
       voicingNameResponse: JoistStrings.a11y.phetMenuStringProperty
     } );
 
-    // Restore focus to PhetButton when the PhetMenu is closed.
-    // TODO: inline this and move phetMenu to created after super(), https://github.com/phetsims/joist/issues/913
-    phetMenu.setFocusOnHideNode( this );
+    const phetMenu: PhetMenu = new PhetMenu( sim, {
+      tandem: tandem.createTandem( 'phetMenu' ),
+      focusOnHideNode: this
+    } );
+
+    // Sim.js handles scaling the popup menu.  This code sets the position of the popup menu.
+    // sim.bounds are null on init, but we will get the callback when it is sized for the first time
+    // Does not need to be unlinked or disposed because PhetButton persists for the lifetime of the sim
+    Multilink.multilink( [ sim.boundsProperty, sim.screenBoundsProperty, sim.scaleProperty, phetMenu.localBoundsProperty ],
+      ( bounds, screenBounds, scale ) => {
+        if ( bounds && screenBounds && scale ) {
+          phetMenu.setScaleMagnitude( scale );
+          phetMenu.right = bounds.right - 2;
+          const navBarHeight = bounds.height - screenBounds.height;
+          phetMenu.bottom = screenBounds.bottom + navBarHeight / 2;
+        }
+      } );
+
 
     // No need to unlink, as the PhetButton exists for the lifetime of the sim
     Multilink.multilink( [ backgroundFillProperty, sim.selectedScreenProperty, updateCheck.stateProperty ],
