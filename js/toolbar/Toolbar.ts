@@ -65,7 +65,7 @@ class Toolbar extends Node {
   // the rightPositionProperty will be changed until the rightPositionProperty equals the rightDestinationPosition.
   private rightDestinationPosition: number;
 
-  // Whether or not the Toolbar is open or closed. This is different from whether or not it is showing.
+  // Whether the Toolbar is open or closed. This is different from whether or not it is showing.
   private readonly openProperty: BooleanProperty;
 
   //  Whether the Toolbar is shown to the user. At this time,

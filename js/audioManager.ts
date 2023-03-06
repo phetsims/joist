@@ -33,7 +33,7 @@ const ANY_AUDIO_SUPPORTED = phet.chipper.queryParameters.supportsVoicing || phet
 
 class AudioManager extends PhetioObject {
 
-  // Whether or not all features involving audio are enabled (including sound, extra sound, and voicing). When false,
+  // Whether all features involving audio are enabled (including sound, extra sound, and voicing). When false,
   // everything should be totally silent.
   public readonly audioEnabledProperty: BooleanProperty;
 
