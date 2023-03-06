@@ -11,15 +11,14 @@ import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import TinyProperty from '../../axon/js/TinyProperty.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import { Shape } from '../../kite/js/imports.js';
-import gracefulBind from '../../phet-core/js/gracefulBind.js';
-import optionize from '../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import platform from '../../phet-core/js/platform.js';
 import stripEmbeddingMarks from '../../phet-core/js/stripEmbeddingMarks.js';
-import PickRequired from '../../phet-core/js/types/PickRequired.js';
-import { Focus, FocusManager, FullScreen, HSeparator, KeyboardUtils, Node, NodeOptions, openPopup, Path, PDOMUtils, SceneryEvent, VBox } from '../../scenery/js/imports.js';
+import WithRequired from '../../phet-core/js/types/WithRequired.js';
+import { FullScreen, HSeparator, KeyboardUtils, Node, NodeOptions, openPopup, Path, PDOMUtils, SceneryEvent, VBox } from '../../scenery/js/imports.js';
 import Dialog from '../../sun/js/Dialog.js';
 import MenuItem, { MenuItemOptions } from '../../sun/js/MenuItem.js';
-import { PopupableNode } from '../../sun/js/Popupable.js';
+import Popupable, { PopupableOptions } from '../../sun/js/Popupable.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import AboutDialog from './AboutDialog.js';
@@ -31,8 +30,6 @@ import updateCheck from './updateCheck.js';
 import UpdateDialog from './UpdateDialog.js';
 import UpdateState from './UpdateState.js';
 
-type PopupToggler = ( popup: PopupableNode, isModal: boolean ) => void;
-
 type MenuItemDescriptor = {
   textStringProperty: TReadOnlyProperty<string>;
   present: boolean;
@@ -42,20 +39,12 @@ type MenuItemDescriptor = {
   options?: MenuItemOptions;
 };
 
-type SelfOptions = {
-  showPopup?: PopupToggler;
-  hidePopup?: PopupToggler;
-  closeCallback: () => void;
-};
-type PhetMenuOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'>;
+type SelfOptions = EmptySelfOptions;
 
-class PhetMenu extends Node {
-  private focusOnHideNode: Node | null;
-  private readonly showPopup: PopupToggler;
-  private readonly hidePopup: PopupToggler;
+type ParentOptions = PopupableOptions & WithRequired<NodeOptions, 'tandem'>;
+type PhetMenuOptions = SelfOptions & ParentOptions;
 
-  // whether the PhetMenu is showing
-  private isShowing = false;
+class PhetMenu extends Popupable( Node, 0 ) {
 
   // The items that will actually be shown in this runtime
   public readonly items: MenuItem[];
@@ -68,10 +57,7 @@ class PhetMenu extends Node {
     const isPhETBrand = phet.chipper.brand === 'phet';
     const isApp = phet.chipper.isApp;
 
-    const options = optionize<PhetMenuOptions, SelfOptions, NodeOptions>()( {
-
-      showPopup: gracefulBind( 'phet.joist.sim.showPopup' ) as unknown as PopupToggler,
-      hidePopup: gracefulBind( 'phet.joist.sim.hidePopup' ) as unknown as PopupToggler,
+    const options = optionize<PhetMenuOptions, SelfOptions, ParentOptions>()( {
 
       phetioType: PhetMenu.PhetMenuIO,
       phetioState: false,
@@ -84,29 +70,19 @@ class PhetMenu extends Node {
       ariaRole: 'menu'
     }, providedOptions );
 
-    assert && assert( typeof options.showPopup === 'function', 'showPopup is required, and must be provided if phet.joist.sim is not available.' );
-    assert && assert( typeof options.hidePopup === 'function', 'hidePopup is required, and must be provided if phet.joist.sim is not available.' );
-
-    super();
-
-    // (a11y) {Node|null} see setFocusOnHideNode
-    this.focusOnHideNode = null;
-    this.showPopup = options.showPopup;
-    this.hidePopup = options.hidePopup;
+    super( options );
 
     // AboutDialog is created lazily (so that Sim bounds are valid), then reused.
     // Since AboutDialog is instrumented for PhET-iO, this lazy creation requires use of PhetioCapsule.
     const aboutDialogCapsule = new PhetioCapsule( tandem => {
       return new AboutDialog( sim.simNameProperty, sim.version, sim.credits, sim.locale, {
         tandem: tandem,
-        focusOnHideNode: this.focusOnHideNode
+        focusOnHideNode: this._focusOnHideNode
       } );
     }, [], {
       tandem: options.tandem.createTandem( 'aboutDialogCapsule' ),
       phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )
     } );
-
-    const restoreFocusCallback = () => this.restoreFocus();
 
     // Update dialog is created lazily (so that Sim bounds are valid), then reused.
     let updateDialog: UpdateDialog | null = null;
@@ -125,9 +101,6 @@ class PhetMenu extends Node {
             // Open locale-specific PhET home page. If there is no website translation for locale, fallback will be handled by server. See joist#97.
             openPopup( `https://phet.colorado.edu/${sim.locale}` );
           }
-        },
-        options: {
-          handleFocusCallback: restoreFocusCallback
         }
       },
       {
@@ -144,9 +117,6 @@ class PhetMenu extends Node {
             }&dependencies=${encodeURIComponent( JSON.stringify( {} ) )}`;
             openPopup( url );
           }
-        },
-        options: {
-          handleFocusCallback: restoreFocusCallback
         }
       },
       {
@@ -157,9 +127,6 @@ class PhetMenu extends Node {
           if ( !phet.chipper.isFuzzEnabled() ) {
             openPopup( `http://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent( window.location.href )}&size=220x220&margin=0` );
           }
-        },
-        options: {
-          handleFocusCallback: restoreFocusCallback
         }
       },
       {
@@ -169,7 +136,7 @@ class PhetMenu extends Node {
         callback: () => {
           if ( !updateDialog ) {
             updateDialog = new UpdateDialog( {
-              focusOnHideNode: this.focusOnHideNode
+              focusOnHideNode: this._focusOnHideNode
             } );
           }
           updateDialog.show();
@@ -220,10 +187,7 @@ class PhetMenu extends Node {
         options: {
           tandem: options.tandem.createTandem( 'screenshotMenuItem' ),
           phetioDocumentation: 'This menu item captures a screenshot from the simulation and saves it to the file system.',
-          visiblePropertyOptions: { phetioFeatured: true },
-
-          // pdom
-          handleFocusCallback: restoreFocusCallback
+          visiblePropertyOptions: { phetioFeatured: true }
         }
       },
 
@@ -241,10 +205,7 @@ class PhetMenu extends Node {
           checkedProperty: FullScreen.isFullScreenProperty,
           tandem: options.tandem.createTandem( 'fullScreenMenuItem' ),
           phetioDocumentation: 'This menu item requests full-screen access for the simulation display.',
-          visiblePropertyOptions: { phetioFeatured: true },
-
-          // pdom
-          handleFocusCallback: restoreFocusCallback
+          visiblePropertyOptions: { phetioFeatured: true }
         }
       },
 
@@ -274,7 +235,7 @@ class PhetMenu extends Node {
     // Create the menu items.
     const unfilteredItems = keepItemDescriptors.map( itemDescriptor => {
         return new MenuItem(
-          options.closeCallback,
+          () => this.hide(),
           itemDescriptor.textStringProperty,
           itemDescriptor.callback,
           itemDescriptor.present,
@@ -319,7 +280,7 @@ class PhetMenu extends Node {
     // When using the arrow keys, we prevent the virtual cursor from moving in VoiceOver
     const keydownListener = {
       keydown: ( event: SceneryEvent ) => {
-        const domEvent = event.domEvent;
+        const domEvent = event.domEvent!;
 
         const firstItem = this.items[ 0 ];
         const lastItem = this.items[ this.items.length - 1 ];
@@ -327,8 +288,8 @@ class PhetMenu extends Node {
         const key = KeyboardUtils.getEventCode( domEvent );
 
         // this attempts to prevent the screen reader's virtual cursor from also moving with the arrow keys
-        if ( KeyboardUtils.isArrowKey( domEvent ) ) {
-          domEvent!.preventDefault();
+        if ( KeyboardUtils.isArrowKey( domEvent ) || key === KeyboardUtils.KEY_ESCAPE ) {
+          domEvent.preventDefault();
         }
 
         if ( key === KeyboardUtils.KEY_DOWN_ARROW ) {
@@ -346,8 +307,7 @@ class PhetMenu extends Node {
         else if ( key === KeyboardUtils.KEY_ESCAPE || key === KeyboardUtils.KEY_TAB ) {
 
           // On escape or tab, close the menu and restore focus to the element that had focus before the menu was opened.
-          options.closeCallback();
-          this.restoreFocus();
+          this.hide();
         }
 
         event.pointer.reserveForKeyboardDrag();
@@ -355,38 +315,9 @@ class PhetMenu extends Node {
     };
     this.addInputListener( keydownListener );
 
-    // pdom - if the focus goes to something outside of the PhET menu, close it
-    const focusListener = ( focus: Focus | null ) => {
-      if ( focus && !_.includes( focus.trail.nodes, this ) ) {
-        this.hide();
-      }
-    };
-    FocusManager.pdomFocusProperty.lazyLink( focusListener );
-
-    this.mutate( options );
-
     this.disposePhetMenu = () => {
       this.removeInputListener( keydownListener );
-      FocusManager.pdomFocusProperty.unlink( focusListener );
     };
-  }
-
-  public show(): void {
-    if ( !this.isShowing ) {
-
-      // make sure that any previously focused elements no longer have focus
-      FocusManager.pdomFocus = null;
-
-      this.showPopup( this as unknown as PopupableNode, true );
-      this.isShowing = true;
-    }
-  }
-
-  public hide(): void {
-    if ( this.isShowing ) {
-      this.isShowing = false;
-      this.hidePopup( this as unknown as PopupableNode, true );
-    }
   }
 
   /**
@@ -396,24 +327,6 @@ class PhetMenu extends Node {
     this.disposePhetMenu();
     _.each( this.items, item => item.dispose() );
     super.dispose();
-  }
-
-  /**
-   * Sets the Node that receives focus when the menu is closed. If null, focus returns to the element that had focus
-   * when the menu was opened.
-   */
-  public setFocusOnHideNode( node: Node | null ): void {
-    this.focusOnHideNode = node;
-  }
-
-  /**
-   * Restores focus to either focusOnHideNode, or the element that had focus when the menu was opened.
-   */
-  private restoreFocus(): void {
-    const focusNode = this.focusOnHideNode || FocusManager.pdomFocusedNode;
-    if ( focusNode ) {
-      focusNode.focus();
-    }
   }
 
   public static PhetMenuIO = new IOType( 'PhetMenuIO', {

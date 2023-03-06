@@ -56,7 +56,6 @@ class PhetButton extends JoistButton {
     const logoOnWhiteBackground = Brand.logoOnWhiteBackground;
 
     const phetMenu: PhetMenu = new PhetMenu( sim, {
-      closeCallback: () => phetMenu.hide(),
       tandem: tandem.createTandem( 'phetMenu' )
     } );
 
@@ -133,6 +132,7 @@ class PhetButton extends JoistButton {
     } );
 
     // Restore focus to PhetButton when the PhetMenu is closed.
+    // TODO: inline this and move phetMenu to created after super(), https://github.com/phetsims/joist/issues/913
     phetMenu.setFocusOnHideNode( this );
 
     // No need to unlink, as the PhetButton exists for the lifetime of the sim
