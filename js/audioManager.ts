@@ -29,6 +29,8 @@ import joist from './joist.js';
 import Sim from './Sim.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 
+const ANY_AUDIO_SUPPORTED = phet.chipper.queryParameters.supportsVoicing || phet.chipper.queryParameters.supportsSound;
+
 class AudioManager extends PhetioObject {
 
   // Whether or not all features involving audio are enabled (including sound, extra sound, and voicing). When false,
@@ -132,7 +134,7 @@ class AudioManager extends PhetioObject {
   }
 }
 
-const audioManager = new AudioManager( Tandem.GENERAL_VIEW.createTandem( 'audioManager' ) );
+const audioManager = new AudioManager( ANY_AUDIO_SUPPORTED ? Tandem.GENERAL_VIEW.createTandem( 'audioManager' ) : Tandem.OPT_OUT );
 
 joist.register( 'audioManager', audioManager );
 export default audioManager;
