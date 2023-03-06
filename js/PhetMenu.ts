@@ -63,7 +63,7 @@ class PhetMenu extends Popupable( Node, 0 ) {
       phetioState: false,
       phetioDocumentation: 'This menu is displayed when the PhET button is pressed.',
 
-      phetioVisiblePropertyInstrumented: false,
+      phetioVisiblePropertyInstrumented: false, // visible isn't toggled when showing a PhetMenu
 
       // pdom, tagName and role for content in the menu
       tagName: 'ul',
