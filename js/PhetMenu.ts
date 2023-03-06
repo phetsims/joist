@@ -77,7 +77,7 @@ class PhetMenu extends Popupable( Node, 0 ) {
     const aboutDialogCapsule = new PhetioCapsule( tandem => {
       return new AboutDialog( sim.simNameProperty, sim.version, sim.credits, sim.locale, {
         tandem: tandem,
-        focusOnHideNode: this._focusOnHideNode
+        focusOnHideNode: this.focusOnHideNode
       } );
     }, [], {
       tandem: options.tandem.createTandem( 'aboutDialogCapsule' ),
@@ -136,7 +136,7 @@ class PhetMenu extends Popupable( Node, 0 ) {
         callback: () => {
           if ( !updateDialog ) {
             updateDialog = new UpdateDialog( {
-              focusOnHideNode: this._focusOnHideNode
+              focusOnHideNode: this.focusOnHideNode
             } );
           }
           updateDialog.show();
