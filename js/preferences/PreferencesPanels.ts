@@ -23,6 +23,7 @@ import PreferencesType from './PreferencesType.js';
 import OverviewPreferencesPanel from './OverviewPreferencesPanel.js';
 import PreferencesTabs from './PreferencesTabs.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 
 type SelfOptions = EmptySelfOptions;
 type PreferencesPanelsOptions = SelfOptions & NodeOptions & PickRequired<NodeOptions, 'tandem'>;
@@ -44,10 +45,17 @@ class PreferencesPanels extends Node {
    * @param preferencesTabs
    * @param [providedOptions]
    */
-  public constructor( preferencesModel: PreferencesModel, supportedTabs: PreferencesType[], selectedTabProperty: TReadOnlyProperty<PreferencesType>, preferencesTabs: PreferencesTabs, providedOptions?: PreferencesPanelsOptions ) {
+  public constructor( preferencesModel: PreferencesModel, supportedTabs: PreferencesType[],
+                      selectedTabProperty: TReadOnlyProperty<PreferencesType>, preferencesTabs: PreferencesTabs,
+                      providedOptions?: PreferencesPanelsOptions ) {
     const options = optionize<PreferencesPanelsOptions, SelfOptions, NodeOptions>()( {
       phetioVisiblePropertyInstrumented: false
     }, providedOptions );
+
+    const tandem = options.tandem;
+
+    // Don't instrument the actual PreferencesPanels Node. Then if it doesn't have any children, it won't be in the Studio Tree)
+    options.tandem = Tandem.OPT_OUT;
 
     super( options );
 
@@ -69,7 +77,7 @@ class PreferencesPanels extends Node {
     if ( supportedTabs.includes( PreferencesType.SIMULATION ) ) {
       simulationPreferencesPanel = new SimulationPreferencesPanel(
         preferencesModel.simulationModel, selectedTabProperty, preferencesTabs.getTabVisibleProperty( PreferencesType.SIMULATION ), {
-          tandem: options.tandem.createTandem( 'simulationPreferencesPanel' )
+          tandem: tandem.createTandem( 'simulationPreferencesPanel' )
         } );
       const simulationBox = panelAlignGroup.createBox( simulationPreferencesPanel );
       this.addChild( simulationBox );
@@ -82,7 +90,7 @@ class PreferencesPanels extends Node {
         preferencesModel.visualModel,
         selectedTabProperty,
         preferencesTabs.getTabVisibleProperty( PreferencesType.VISUAL ), {
-          tandem: options.tandem.createTandem( 'visualPreferencesPanel' )
+          tandem: tandem.createTandem( 'visualPreferencesPanel' )
         } );
       const visualBox = panelAlignGroup.createBox( visualPreferencesPanel );
       this.addChild( visualBox );
@@ -95,7 +103,7 @@ class PreferencesPanels extends Node {
         preferencesModel.audioModel,
         selectedTabProperty,
         preferencesTabs.getTabVisibleProperty( PreferencesType.AUDIO ), {
-          tandem: options.tandem.createTandem( 'audioPreferencesPanel' )
+          tandem: tandem.createTandem( 'audioPreferencesPanel' )
         } );
       const audioBox = panelAlignGroup.createBox( audioPreferencesPanel );
       this.addChild( audioBox );
@@ -108,7 +116,7 @@ class PreferencesPanels extends Node {
         preferencesModel.inputModel,
         selectedTabProperty,
         preferencesTabs.getTabVisibleProperty( PreferencesType.INPUT ), {
-          tandem: options.tandem.createTandem( 'inputPreferencesPanel' )
+          tandem: tandem.createTandem( 'inputPreferencesPanel' )
         }
       );
       const inputBox = panelAlignGroup.createBox( inputPreferencesPanel );
@@ -123,7 +131,7 @@ class PreferencesPanels extends Node {
         selectedTabProperty,
         preferencesTabs.getTabVisibleProperty( PreferencesType.LOCALIZATION ),
         {
-          tandem: options.tandem.createTandem( 'localizationPreferencesPanel' )
+          tandem: tandem.createTandem( 'localizationPreferencesPanel' )
         } );
       const localizationBox = panelAlignGroup.createBox( localizationPreferencesPanel );
       this.addChild( localizationBox );

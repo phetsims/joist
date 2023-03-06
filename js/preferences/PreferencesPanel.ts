@@ -38,6 +38,8 @@ class PreferencesPanel extends Node {
       tandem: Tandem.OPTIONAL
     }, providedOptions );
 
+    options.tandem = Tandem.OPTIONAL; // don't instrument the Panel Node itself
+
     super( options );
 
     // This panel is only visible when selected tab is this preferencesType, but it can also be hidden explicitly by
