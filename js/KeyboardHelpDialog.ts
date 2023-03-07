@@ -116,7 +116,9 @@ export default class KeyboardHelpDialog extends Dialog {
       childSwitcherMultilink.dispose();
       tabHintLine.dispose();
       shortcutsTitleText.dispose();
-      screenContentNodes.forEach( node => node.dispose() );
+
+      // Graceful in case multiple screens reuse the same content.
+      screenContentNodes.forEach( node => !node.isDisposed && node.dispose() );
       screenContentNodes.length = 0;
       content.dispose();
     };
