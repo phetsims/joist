@@ -20,8 +20,7 @@ import NumberProperty from '../../../axon/js/NumberProperty.js';
 import stepTimer from '../../../axon/js/stepTimer.js';
 import Matrix3 from '../../../dot/js/Matrix3.js';
 import { Shape } from '../../../kite/js/imports.js';
-import { combineOptions } from '../../../phet-core/js/optionize.js';
-import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import { Node, NodeOptions, Path, Rectangle, voicingManager } from '../../../scenery/js/imports.js';
 import ButtonNode from '../../../sun/js/buttons/ButtonNode.js';
 import RoundPushButton from '../../../sun/js/buttons/RoundPushButton.js';
@@ -46,7 +45,8 @@ const showToolbarStringProperty = JoistStrings.a11y.toolbar.showToolbarStringPro
 const toolbarShownStringProperty = JoistStrings.a11y.toolbar.toolbarShownStringProperty;
 const toolbarHiddenStringProperty = JoistStrings.a11y.toolbar.toolbarHiddenStringProperty;
 
-type ToolbarOptions = NodeOptions & PickRequired<NodeOptions, 'tandem'>;
+type SelfOptions = EmptySelfOptions;
+type ToolbarOptions = EmptySelfOptions & NodeOptions;
 
 class Toolbar extends Node {
 
@@ -94,11 +94,13 @@ class Toolbar extends Node {
   public constructor( enabledProperty: TReadOnlyProperty<boolean>, selectedScreenProperty: TReadOnlyProperty<Screen>,
                       lookAndFeel: LookAndFeel, providedOptions?: ToolbarOptions ) {
 
-    const options = combineOptions<ToolbarOptions>( {
+    const options = optionize<ToolbarOptions, SelfOptions, NodeOptions>()( {
 
       // pdom
       tagName: 'div',
 
+      // phet-io
+      tandem: Tandem.OPTIONAL,
       visiblePropertyOptions: {
         phetioReadOnly: true
       }

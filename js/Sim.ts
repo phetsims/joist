@@ -636,9 +636,7 @@ export default class Sim extends PhetioObject {
     // For now the Toolbar only includes controls for Voicing and is only constructed when that feature is supported.
     if ( this.preferencesModel.audioModel.supportsVoicing ) {
       this.toolbar = new Toolbar( this.preferencesModel.audioModel.toolbarEnabledProperty, this.selectedScreenProperty,
-        this.lookAndFeel, {
-          tandem: Tandem.GENERAL_VIEW.createTandem( 'toolbar' )
-        } );
+        this.lookAndFeel );
 
       // when the Toolbar positions update, resize the sim to fit in the available space
       this.toolbar.rightPositionProperty.lazyLink( () => {
