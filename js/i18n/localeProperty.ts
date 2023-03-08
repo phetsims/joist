@@ -8,6 +8,7 @@
 
 import Property from '../../../axon/js/Property.js';
 import localeInfoModule from '../../../chipper/js/data/localeInfoModule.js';
+import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import { globalKeyStateTracker, KeyboardUtils } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import StringIO from '../../../tandem/js/types/StringIO.js';
@@ -18,7 +19,8 @@ const FALLBACK_LOCALE = 'en';
 export type Locale = keyof typeof localeInfoModule;
 
 // All available locales for the runtime
-export const availableRuntimeLocales = Object.keys( phet.chipper.strings ).sort() as Locale[];
+export const availableRuntimeLocales =
+  _.sortBy( Object.keys( phet.chipper.strings ), locale => StringUtils.localeToLocalizedName( locale ).toLowerCase() ) as Locale[];
 
 // Start only with a valid locale, see https://github.com/phetsims/phet-io/issues/1882
 const isLocaleValid = ( locale?: Locale ): boolean => {
