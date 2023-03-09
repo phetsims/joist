@@ -19,8 +19,9 @@ const FALLBACK_LOCALE = 'en';
 export type Locale = keyof typeof localeInfoModule;
 
 // All available locales for the runtime
-export const availableRuntimeLocales =
-  _.sortBy( Object.keys( phet.chipper.strings ), locale => StringUtils.localeToLocalizedName( locale ).toLowerCase() ) as Locale[];
+export const availableRuntimeLocales = _.sortBy( Object.keys( phet.chipper.strings ), locale => {
+  return StringUtils.localeToLocalizedName( locale ).toLowerCase();
+} ) as Locale[];
 
 // Start only with a valid locale, see https://github.com/phetsims/phet-io/issues/1882
 const isLocaleValid = ( locale?: Locale ): boolean => {
