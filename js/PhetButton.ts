@@ -114,7 +114,7 @@ class PhetButton extends JoistButton {
       voicingNameResponse: JoistStrings.a11y.phetMenuStringProperty
     } );
 
-    const phetMenu: PhetMenu = new PhetMenu( sim, {
+    const phetMenu = new PhetMenu( sim, {
       tandem: tandem.createTandem( 'phetMenu' ),
       focusOnHideNode: this
     } );
