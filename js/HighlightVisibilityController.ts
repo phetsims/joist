@@ -9,7 +9,7 @@
 
 import Multilink from '../../axon/js/Multilink.js';
 import Vector2 from '../../dot/js/Vector2.js';
-import { Display, FocusManager, globalKeyStateTracker, TInputListener, KeyboardUtils, SceneryEvent } from '../../scenery/js/imports.js';
+import { Display, FocusManager, globalKeyStateTracker, KeyboardUtils, SceneryEvent, TInputListener } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 import PreferencesModel from './preferences/PreferencesModel.js';
 
