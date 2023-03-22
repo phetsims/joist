@@ -146,7 +146,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
     } );
 
     // Speech output levels
-    const speechOutputLabel = new Text( simVoicingOptionsStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS, {
+    const speechOutputLabel = new VoicingText( simVoicingOptionsStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS, {
 
       // pdom
       tagName: 'h3',
@@ -194,7 +194,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
     const speechOutputCheckboxes = new VBox( {
       align: 'left',
-      spacing: 5,
+      spacing: PreferencesDialog.VERTICAL_CONTENT_SPACING,
       children: [
         createCheckbox( objectDetailsLabelStringProperty, audioModel.voicingObjectResponsesEnabledProperty,
           voicingObjectChangesStringProperty, objectChangesMutedStringProperty, speechOutputLabel
@@ -209,13 +209,13 @@ class VoicingPanelSection extends PreferencesPanelSection {
     } );
 
     speechOutputContent.children = [ speechOutputLabel, speechOutputDescription, speechOutputCheckboxes ];
-    speechOutputDescription.leftTop = speechOutputLabel.leftBottom.plusXY( 0, 5 );
-    speechOutputCheckboxes.leftTop = speechOutputDescription.leftBottom.plusXY( PreferencesDialog.CONTENT_INDENTATION_SPACING, 5 );
+    speechOutputDescription.leftTop = speechOutputLabel.leftBottom.plusXY( 0, PreferencesDialog.VERTICAL_CONTENT_SPACING );
+    speechOutputCheckboxes.leftTop = speechOutputDescription.leftBottom.plusXY( PreferencesDialog.CONTENT_INDENTATION_SPACING, PreferencesDialog.VERTICAL_CONTENT_SPACING );
 
     const rateSlider = new VoiceRateNumberControl( rateStringProperty, rateLabelStringProperty, audioModel.voiceRateProperty );
     const pitchSlider = new VoicingPitchSlider( pitchStringProperty, audioModel.voicePitchProperty );
     const voiceOptionsContent = new VBox( {
-      spacing: 5,
+      spacing: PreferencesDialog.VERTICAL_CONTENT_SPACING,
       align: 'left',
       children: [
         rateSlider,

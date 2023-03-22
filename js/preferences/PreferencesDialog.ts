@@ -198,8 +198,11 @@ class PreferencesDialog extends Dialog {
   public static readonly PANEL_SECTION_LABEL_MAX_WIDTH = PANEL_SECTION_LABEL_MAX_WIDTH;
   public static readonly PANEL_SECTION_LABEL_OPTIONS = PANEL_SECTION_LABEL_OPTIONS;
 
-  // Default spacing between items in a preferences dialog
+  // Default spacing between unique items in a preferences dialog
   public static readonly CONTENT_SPACING = 20;
+
+  // Default vertical spacing between grouped items (radio buttons, vertical checkboxes, ...)
+  public static readonly VERTICAL_CONTENT_SPACING = 5;
 
   // Content or UI component intendentation under a PreferencesPanelSection title.
   public static readonly CONTENT_INDENTATION_SPACING = 15;
