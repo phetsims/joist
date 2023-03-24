@@ -153,9 +153,7 @@ class PreferencesDialog extends Dialog {
     this.disposePreferencesDialog = () => {
       content.dispose();
 
-      // soundManager throws a warning if sound is not initialized in the sim, see
-      // https://github.com/phetsims/phet-io-wrappers/issues/490
-      soundManager.initialized && soundManager.removeSoundGenerator( tabSwitchSoundGenerator );
+      soundManager.removeSoundGenerator( tabSwitchSoundGenerator );
       tabSwitchSoundGenerator.dispose();
       preferencesTabs.dispose();
       selectedTabProperty.dispose();
