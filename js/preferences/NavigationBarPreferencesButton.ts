@@ -9,6 +9,8 @@
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import { Color, Path } from '../../../scenery/js/imports.js';
 import userCogSolidShape from '../../../sherpa/js/fontawesome-5/userCogSolidShape.js';
+import cogSolidShape from '../../../sherpa/js/fontawesome-5/cogSolidShape.js';
+import wrenchSolidShape from '../../../sherpa/js/fontawesome-5/wrenchSolidShape.js';
 import Dialog from '../../../sun/js/Dialog.js';
 import PhetioCapsule from '../../../tandem/js/PhetioCapsule.js';
 import joist from '../joist.js';
@@ -49,7 +51,12 @@ class NavigationBarPreferencesButton extends JoistButton {
       }
     }, providedOptions );
 
-    const icon = new Path( userCogSolidShape, {
+    // Temporary, for https://github.com/phetsims/calculus-grapher/issues/324
+    const iconShape = ( phet.chipper.queryParameters.icon === 'userCog' ) ? userCogSolidShape :
+                      ( phet.chipper.queryParameters.icon === 'cog' ) ? cogSolidShape :
+                      wrenchSolidShape;
+
+    const icon = new Path( iconShape, {
       maxWidth: 25 * 0.85
     } );
 
