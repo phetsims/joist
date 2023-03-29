@@ -87,11 +87,8 @@ class PreferencesDialog extends Dialog {
     preferencesModel.supportsLocalizationPreferences() && supportedTabs.push( PreferencesType.LOCALIZATION );
     assert && assert( supportedTabs.length > 0, 'Trying to create a PreferencesDialog with no tabs, check PreferencesModel' );
 
-    // Temporary, for https://github.com/phetsims/calculus-grapher/issues/324
-    const initialTab = phet.chipper.queryParameters.tab === 'overview' ? PreferencesType.OVERVIEW : PreferencesType.SIMULATION;
-
     // the selected PreferencesType, indicating which tab is visible in the Dialog
-    const selectedTabProperty = new EnumerationProperty( initialTab, {
+    const selectedTabProperty = new EnumerationProperty( PreferencesType.OVERVIEW, {
       validValues: supportedTabs,
       tandem: options.tandem.createTandem( 'selectedTabProperty' )
     } );
