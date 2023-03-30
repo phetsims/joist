@@ -26,6 +26,7 @@ import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import IOType from '../../../tandem/js/types/IOType.js';
 import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
 import CharacterSet from './CharacterSet.js';
+import Multilink from '../../../axon/js/Multilink.js';
 
 type ModelPropertyLinkable = {
   property: TReadOnlyProperty<unknown> & PhetioObject;
@@ -389,11 +390,15 @@ export default class PreferencesModel extends PhetioObject {
         responseCollector.hintResponsesEnabledProperty.value = true;
 
         // Set the first voice according to PhET's preferred english voices
-        voicingManager.voicesProperty.link( voices => {
-          if ( voices.length > 0 ) {
-            voicingManager.voiceProperty.value = voicingManager.getEnglishPrioritizedVoices()[ 0 ];
+        const voicesMultilink = Multilink.multilink(
+          [ voicingManager.voicesProperty, voicingManager.isInitializedProperty ],
+          ( voices, initialized ) => {
+            if ( initialized && voices.length > 0 ) {
+              voicingManager.voiceProperty.value = voicingManager.getEnglishPrioritizedVoices()[ 0 ];
+              Multilink.unmultilink( voicesMultilink );
+            }
           }
-        } );
+        );
       }
     }
 
