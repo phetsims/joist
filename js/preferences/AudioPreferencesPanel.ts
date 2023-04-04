@@ -99,14 +99,15 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
 
     const audioFeaturesText = new Text( audioFeaturesStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
     const audioFeaturesSwitch = new ToggleSwitch( audioModel.audioEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
-      a11yName: audioFeaturesStringProperty,
-      disposer: this
+      a11yName: audioFeaturesStringProperty
     }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
     const allAudioSwitch = new PreferencesControl( {
       labelNode: audioFeaturesText,
       controlNode: audioFeaturesSwitch,
       headingControl: true
     } );
+
+    this.disposeEmitter.addListener( () => audioFeaturesSwitch.dispose() );
 
     const audioEnabledListener = ( enabled: boolean ) => {
       sections.enabled = enabled;

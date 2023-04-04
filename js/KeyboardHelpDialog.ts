@@ -148,21 +148,26 @@ class TabHintLine extends ReadingBlock( Node ) {
 
     super();
 
+    const tabIcon = TextKeyNode.tab();
+
     // a line to say "tab to get started" below the "Keyboard Shortcuts" 'title'
     const labelWithIcon = KeyboardHelpSectionRow.labelWithIcon( JoistStrings.keyboardShortcuts.toGetStartedStringProperty,
-      TextKeyNode.tab( { disposer: this } ), {
+      tabIcon, {
         labelInnerContent: tabToGetStartedStringProperty,
         iconOptions: {
           tagName: 'p' // because there is only one, and the default is an li tag
         }
       } );
-    labelWithIcon.disposer = this;
 
     // labelWithIcon is meant to be passed to KeyboardHelpSection, so we have to hack a bit here
     const hBox = new HBox( {
       children: [ labelWithIcon.icon, labelWithIcon.label ],
-      spacing: 4,
-      disposer: this
+      spacing: 4
+    } );
+    this.disposeEmitter.addListener( () => {
+      hBox.dispose();
+      labelWithIcon.dispose();
+      tabIcon.dispose();
     } );
 
     this.addChild( hBox );

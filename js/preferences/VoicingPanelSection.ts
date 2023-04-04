@@ -31,11 +31,11 @@ import { AudioModel } from './PreferencesModel.js';
 import PreferencesPanelSection, { PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
 import PreferencesControl from './PreferencesControl.js';
 import localeProperty, { Locale } from '../i18n/localeProperty.js';
-import { Disposer } from '../../../axon/js/Disposable.js';
 import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
+import type Disposable from '../../../axon/js/Disposable.js';
 
 // constants
 // none of the Voicing strings or feature is translatable yet, all strings in this file
@@ -164,7 +164,8 @@ class VoicingPanelSection extends PreferencesPanelSection {
      * Create a checkbox for the features of voicing content with a label.
      */
     const createCheckbox = ( labelString: TReadOnlyProperty<string>, property: Property<boolean>,
-                             checkedContextResponse: TReadOnlyProperty<string>, uncheckedContextResponse: TReadOnlyProperty<string>, disposer: Disposer ): Checkbox => {
+                             checkedContextResponse: TReadOnlyProperty<string>,
+                             uncheckedContextResponse: TReadOnlyProperty<string>, disposable: Disposable ): Checkbox => {
       const labelNode = new Text( labelString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
       const checkbox = new Checkbox( property, labelNode, {
 
@@ -181,12 +182,14 @@ class VoicingPanelSection extends PreferencesPanelSection {
         checkedContextResponse: checkedContextResponse,
         uncheckedContextResponse: uncheckedContextResponse,
 
-        disposer: disposer,
-
         // phet-io
         tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
       } );
-      labelNode.disposer = checkbox;
+      disposable.disposeEmitter.addListener( () => {
+        labelNode.dispose();
+        checkbox.dispose();
+      } );
+
       return checkbox;
     };
 

@@ -53,12 +53,11 @@ class InputPreferencesPanel extends PreferencesPanel {
 
     if ( inputModel.supportsGestureControl ) {
 
-      const gestureControlText = new Text( gestureControlsString, merge( { disposer: this }, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS ) );
+      const gestureControlText = new Text( gestureControlsString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
       const gestureControlDescriptionNode = new VoicingRichText( gestureControlsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         lineWrap: 350,
         maxHeight: 100,
 
-        disposer: this,
         readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternStringProperty, {
           label: gestureControlsString,
           description: gestureControlsDescriptionString
@@ -67,23 +66,28 @@ class InputPreferencesPanel extends PreferencesPanel {
       const gestureControlsEnabledSwitch = new ToggleSwitch( inputModel.gestureControlsEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
         a11yName: gestureControlsString,
         leftValueContextResponse: gestureControlDisabledAlertStringProperty,
-        rightValueContextResponse: gestureControlEnabledAlertStringProperty,
-        disposer: this
+        rightValueContextResponse: gestureControlEnabledAlertStringProperty
       }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
       const gestureControlsControl = new PreferencesControl( {
         labelNode: gestureControlText,
         descriptionNode: gestureControlDescriptionNode,
-        controlNode: gestureControlsEnabledSwitch,
-        disposer: this
+        controlNode: gestureControlsEnabledSwitch
       } );
 
       const gesturePanelSection = new PreferencesPanelSection( {
         titleNode: gestureControlsControl,
-        contentLeftMargin: 0,
-        disposer: this
+        contentLeftMargin: 0
       } );
 
       contentVBox.addChild( gesturePanelSection );
+
+      this.disposeEmitter.addListener( () => {
+        gesturePanelSection.dispose();
+        gestureControlsControl.dispose();
+        gestureControlsEnabledSwitch.dispose();
+        gestureControlDescriptionNode.dispose();
+        gestureControlText.dispose();
+      } );
     }
 
     const contentNode = new VBox( {
