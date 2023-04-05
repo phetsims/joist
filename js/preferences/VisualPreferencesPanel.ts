@@ -1,4 +1,4 @@
-// Copyright 2021-2022, University of Colorado Boulder
+// Copyright 2021-2023, University of Colorado Boulder
 
 /**
  * A panel for the PreferencesDialog with controls for visual preferences. Includes features such as
