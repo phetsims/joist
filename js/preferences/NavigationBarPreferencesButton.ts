@@ -7,8 +7,9 @@
  */
 
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import { Color, Path } from '../../../scenery/js/imports.js';
-import userCogSolidShape from '../../../sherpa/js/fontawesome-5/userCogSolidShape.js';
+import { Color, Image } from '../../../scenery/js/imports.js';
+import preferencesIconOnWhite_png from '../../images/preferencesIconOnWhite_png.js'; // on a white navbar
+import preferencesIcon_png from '../../images/preferencesIcon_png.js'; // on a black navbar
 import Dialog from '../../../sun/js/Dialog.js';
 import PhetioCapsule from '../../../tandem/js/PhetioCapsule.js';
 import joist from '../joist.js';
@@ -49,8 +50,9 @@ class NavigationBarPreferencesButton extends JoistButton {
       }
     }, providedOptions );
 
-    const icon = new Path( userCogSolidShape, {
-      maxWidth: 25 * 0.85
+    const icon = new Image( preferencesIcon_png, {
+      scale: 0.145, // empirically determined to match the height of the P in PhET button, see https://github.com/phetsims/joist/issues/919
+      pickable: false
     } );
 
     super( icon, backgroundColorProperty, options );
@@ -67,7 +69,7 @@ class NavigationBarPreferencesButton extends JoistButton {
 
     // change the icon so that it is visible when the background changes from dark to light
     backgroundColorProperty.link( backgroundColor => {
-      icon.fill = backgroundColor.equals( Color.BLACK ) ? 'white' : 'black';
+      icon.image = backgroundColor.equals( Color.BLACK ) ? preferencesIcon_png : preferencesIconOnWhite_png;
     } );
 
     // pdom - Signal to screen readers that the button will open a dialog. For some reason, this also seems to
