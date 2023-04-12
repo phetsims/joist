@@ -24,8 +24,7 @@ import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 
 // constants
 const keyboardShortcutsStringProperty = JoistStrings.a11y.keyboardHelp.keyboardShortcutsStringProperty;
-const HELP_BUTTON_HEIGHT = 67;
-const HELP_BUTTON_SCALE = 0.30; // scale applied to the icon
+const ICON_DESIRED_HEIGHT = 17.085; // empirically determined
 
 type SelfOptions = EmptySelfOptions;
 export type KeyboardHelpButtonOptions = SelfOptions & PickRequired<JoistButtonOptions, 'tandem'> & Pick<JoistButtonOptions, 'pointerAreaDilationX' | 'pointerAreaDilationY'>;
@@ -65,7 +64,7 @@ class KeyboardHelpButton extends JoistButton {
     };
 
     const icon = new Image( keyboardIcon_png, {
-      scale: HELP_BUTTON_SCALE / keyboardIcon_png.height * HELP_BUTTON_HEIGHT * 0.85,
+      scale: ICON_DESIRED_HEIGHT / keyboardIcon_png.height,
       pickable: false
     } );
 
