@@ -86,9 +86,13 @@ class PreferencesTab extends Voicing( Node ) {
       lineWidth: 5
     } );
     contentsBox.boundsProperty.link( bounds => {
+
+      // margin around the tabContents
       backgroundNode.rectBounds = bounds.dilatedXY( 15, 10 );
 
       underlineNode.x2 = bounds.width;
+
+      // spacing between the underline and the tabContents
       underlineNode.centerTop = bounds.centerBottom.plusXY( 0, 5 );
     } );
 

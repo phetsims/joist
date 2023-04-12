@@ -39,7 +39,8 @@ class PreferencesTabs extends HBox {
       tagName: 'ul',
       ariaRole: 'tablist',
       groupFocusHighlight: true,
-      spacing: 10
+      spacing: 10,
+      align: 'bottom'
     }, providedOptions );
 
     super( options );
