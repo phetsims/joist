@@ -23,6 +23,9 @@ import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 type SelfOptions = EmptySelfOptions;
 export type NavigationBarPreferencesButtonOptions = SelfOptions & PickRequired<JoistButtonOptions, 'tandem'> & Pick<JoistButtonOptions, 'pointerAreaDilationX' | 'pointerAreaDilationY'>;
 
+// // empirically determined to similarly match the height of the P in PhET button, see https://github.com/phetsims/joist/issues/919
+const DESIRED_ICON_HEIGHT = 18.85;
+
 class NavigationBarPreferencesButton extends JoistButton {
 
   public constructor( preferencesModel: PreferencesModel, backgroundColorProperty: TReadOnlyProperty<Color>,
@@ -51,7 +54,7 @@ class NavigationBarPreferencesButton extends JoistButton {
     }, providedOptions );
 
     const icon = new Image( preferencesIcon_png, {
-      scale: 0.145, // empirically determined to match the height of the P in PhET button, see https://github.com/phetsims/joist/issues/919
+      scale: DESIRED_ICON_HEIGHT / preferencesIcon_png.height,
       pickable: false
     } );
 

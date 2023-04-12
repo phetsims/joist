@@ -339,6 +339,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
       }
 
       // phet-io - for when creating the Archetype for the Capsule housing the preferencesDialog, we don't have a sim global.
+      // TODO: topLayer should be private, see https://github.com/phetsims/joist/issues/841
       const parent = phet.joist.sim.topLayer || new Node();
 
       voiceComboBox = new VoiceComboBox( audioModel.voiceProperty, voiceList, parent );
