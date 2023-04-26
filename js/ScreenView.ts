@@ -206,8 +206,8 @@ class ScreenView extends Node {
    * @param viewBounds - desired bounds for the view
    * (joist-internal)
    */
-  public layout( viewBounds: Bounds2 ): void {
-    this.matrix = ScreenView.getLayoutMatrix( this.layoutBounds, viewBounds );
+  public layout( viewBounds: Bounds2, layoutMatrixOptions?: GetLayoutMatrixOptions ): void {
+    this.matrix = ScreenView.getLayoutMatrix( this.layoutBounds, viewBounds, layoutMatrixOptions );
     this.visibleBoundsProperty.value = this.parentToLocalBounds( viewBounds );
   }
 
