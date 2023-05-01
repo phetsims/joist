@@ -18,7 +18,7 @@ import { HBox, Node, NodeOptions, PDOMPeer, ReadingBlock, ReadingBlockOptions, V
 import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
-import Screen from './Screen.js';
+import { AnyScreen } from './Screen.js';
 
 // constants
 const TITLE_MAX_WIDTH = 670;
@@ -32,7 +32,7 @@ export type KeyboardHelpDialogOptions = SelfOptions & StrictOmit<DialogOptions, 
 export default class KeyboardHelpDialog extends Dialog {
   private readonly disposeKeyboardHelpDialog: () => void;
 
-  public constructor( screens: Screen[], screenProperty: Property<Screen>, providedOptions?: KeyboardHelpDialogOptions ) {
+  public constructor( screens: AnyScreen[], screenProperty: Property<AnyScreen>, providedOptions?: KeyboardHelpDialogOptions ) {
 
     const options = optionize<KeyboardHelpDialogOptions, SelfOptions, DialogOptions>()( {
       titleAlign: 'center',

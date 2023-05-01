@@ -17,6 +17,7 @@ import HomeScreenView from './HomeScreenView.js';
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
 import Screen, { ScreenOptions } from './Screen.js';
+import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 
 // constants
 const homeStringProperty = JoistStrings.a11y.homeStringProperty;
@@ -32,9 +33,9 @@ class HomeScreen extends Screen<HomeScreenModel, HomeScreenView> {
 
   public constructor(
     simNameProperty: TReadOnlyProperty<string>,
-    getScreenProperty: () => Property<Screen>,
-    simScreens: Screen[],
-    activeSimScreensProperty: ReadOnlyProperty<Screen[]>,
+    getScreenProperty: () => Property<Screen<IntentionalAny, IntentionalAny>>,
+    simScreens: Screen<IntentionalAny, IntentionalAny>[],
+    activeSimScreensProperty: ReadOnlyProperty<Screen<IntentionalAny, IntentionalAny>[]>,
     providedOptions: HomeScreenOptions
   ) {
 

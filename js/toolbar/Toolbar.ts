@@ -31,7 +31,7 @@ import JoistStrings from '../JoistStrings.js';
 import VoicingToolbarAlertManager from './VoicingToolbarAlertManager.js';
 import VoicingToolbarItem from './VoicingToolbarItem.js';
 import LookAndFeel from '../LookAndFeel.js';
-import Screen from '../Screen.js';
+import { AnyScreen } from '../Screen.js';
 
 // constants
 const MAX_ANIMATION_SPEED = 250; // in view coordinates per second, assuming 60 fps
@@ -91,7 +91,7 @@ class Toolbar extends Node {
   private readonly contentMargin: number;
   private readonly disposeToolbar: () => void;
 
-  public constructor( enabledProperty: TReadOnlyProperty<boolean>, selectedScreenProperty: TReadOnlyProperty<Screen>,
+  public constructor( enabledProperty: TReadOnlyProperty<boolean>, selectedScreenProperty: TReadOnlyProperty<AnyScreen>,
                       lookAndFeel: LookAndFeel, providedOptions?: ToolbarOptions ) {
 
     const options = optionize<ToolbarOptions, SelfOptions, NodeOptions>()( {

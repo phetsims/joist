@@ -40,7 +40,7 @@ import PhetButton from './PhetButton.js';
 import Sim from './Sim.js';
 import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
-import Screen from './Screen.js';
+import { AnyScreen } from './Screen.js';
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 
 // constants
@@ -246,7 +246,7 @@ class NavigationBar extends Node {
       } )!.width );
       const maxScreenButtonHeight = _.maxBy( screenButtons, button => button.height )!.height;
 
-      const screenButtonMap = new Map<Screen, Node>();
+      const screenButtonMap = new Map<AnyScreen, Node>();
       screenButtons.forEach( screenButton => {
         screenButtonMap.set( screenButton.screen, new AlignBox( screenButton, {
           excludeInvisibleChildrenFromBounds: true,

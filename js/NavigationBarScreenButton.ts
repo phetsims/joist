@@ -21,7 +21,7 @@ import { Color, FocusHighlightPath, Node, NodeOptions, Rectangle, Text, VBox, Vo
 import PushButtonModel from '../../sun/js/buttons/PushButtonModel.js';
 import HighlightNode from './HighlightNode.js';
 import joist from './joist.js';
-import Screen from './Screen.js';
+import { AnyScreen } from './Screen.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 
 // constants
@@ -37,7 +37,7 @@ type NavigationBarScreenButtonOptions = SelfOptions & ParentOptions & PickRequir
 class NavigationBarScreenButton extends Voicing( Node ) {
   private readonly buttonModel: PushButtonModel;
 
-  public readonly screen: Screen;
+  public readonly screen: AnyScreen;
 
   /**
    * @param navigationBarFillProperty - the color of the navbar, as a string.
@@ -47,8 +47,8 @@ class NavigationBarScreenButton extends Voicing( Node ) {
    * @param navBarHeight
    * @param [providedOptions]
    */
-  public constructor( navigationBarFillProperty: TReadOnlyProperty<Color>, screenProperty: Property<Screen>,
-                      screen: Screen, simScreenIndex: number, navBarHeight: number,
+  public constructor( navigationBarFillProperty: TReadOnlyProperty<Color>, screenProperty: Property<AnyScreen>,
+                      screen: AnyScreen, simScreenIndex: number, navBarHeight: number,
                       providedOptions: NavigationBarScreenButtonOptions ) {
 
     assert && assert( screen.nameProperty.value, `name is required for screen ${simScreenIndex}` );

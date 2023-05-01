@@ -20,7 +20,7 @@ import NumberIO from '../../tandem/js/types/NumberIO.js';
 import ObjectLiteralIO from '../../tandem/js/types/ObjectLiteralIO.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
 import joist from './joist.js';
-import Screen from './Screen.js';
+import { AnyScreen } from './Screen.js';
 import packageJSON from './packageJSON.js';
 import Sim from './Sim.js';
 
@@ -110,7 +110,7 @@ class SimInfo extends PhetioObject {
     this.putInfo( 'simName', sim.simNameProperty.value );
     this.putInfo( 'simVersion', sim.version );
     this.putInfo( 'repoName', packageJSON.name );
-    this.putInfo( 'screens', sim.screens.map( ( screen: Screen ) => {
+    this.putInfo( 'screens', sim.screens.map( ( screen: AnyScreen ) => {
       const screenObject: ScreenState = {
 
         // likely null for single screen sims, so use the sim name as a default

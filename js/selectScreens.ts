@@ -1,13 +1,13 @@
 // Copyright 2020-2022, University of Colorado Boulder
 import joist from './joist.js';
 import HomeScreen from './HomeScreen.js';
-import Screen from './Screen.js';
+import { AnyScreen } from './Screen.js';
 
 export type ScreenReturnType = {
   homeScreen: HomeScreen | null;
-  initialScreen: Screen;
-  selectedSimScreens: Screen[];
-  screens: Screen[];
+  initialScreen: AnyScreen;
+  selectedSimScreens: AnyScreen[];
+  screens: AnyScreen[];
   allScreensCreated: boolean;
 };
 
@@ -33,15 +33,15 @@ export type ScreenReturnType = {
  * @returns - duck-typed for tests
  * @throws Error if incompatible data is provided
  */
-export default function selectScreens( allSimScreens: Screen[],
+export default function selectScreens( allSimScreens: AnyScreen[],
                                        homeScreenQueryParameter: boolean,
                                        homeScreenQueryParameterProvided: boolean,
                                        initialScreenIndex: number,
                                        initialScreenQueryParameterProvided: boolean,
                                        screensQueryParameter: number[],
                                        screensQueryParameterProvided: boolean,
-                                       setupScreens: ( screens: Screen[] ) => void,
-                                       createHomeScreen: ( screens: Screen[] ) => HomeScreen ): ScreenReturnType {
+                                       setupScreens: ( screens: AnyScreen[] ) => void,
+                                       createHomeScreen: ( screens: AnyScreen[] ) => HomeScreen ): ScreenReturnType {
 
   if ( allSimScreens.length === 1 && homeScreenQueryParameterProvided && homeScreenQueryParameter ) {
     const errorMessage = 'cannot specify homeScreen=true for single-screen sims';

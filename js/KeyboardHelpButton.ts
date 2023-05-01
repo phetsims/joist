@@ -18,7 +18,7 @@ import joist from './joist.js';
 import JoistButton, { JoistButtonOptions } from './JoistButton.js';
 import JoistStrings from './JoistStrings.js';
 import KeyboardHelpDialog from './KeyboardHelpDialog.js';
-import Screen from './Screen.js';
+import { AnyScreen } from './Screen.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 
@@ -31,7 +31,7 @@ export type KeyboardHelpButtonOptions = SelfOptions & PickRequired<JoistButtonOp
 
 class KeyboardHelpButton extends JoistButton {
 
-  public constructor( screens: Screen[], screenProperty: Property<Screen>,
+  public constructor( screens: AnyScreen[], screenProperty: Property<AnyScreen>,
                       backgroundColorProperty: TReadOnlyProperty<Color>,
                       providedOptions: KeyboardHelpButtonOptions ) {
 

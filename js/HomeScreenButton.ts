@@ -15,6 +15,7 @@ import Utils from '../../dot/js/Utils.js';
 import { Shape } from '../../kite/js/imports.js';
 import merge from '../../phet-core/js/merge.js';
 import optionize from '../../phet-core/js/optionize.js';
+import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import { FireListener, Node, PDOMPeer, Rectangle, Text, VBox, VBoxOptions, Voicing, VoicingOptions } from '../../scenery/js/imports.js';
@@ -36,9 +37,9 @@ type ParentOptions = VoicingOptions & VBoxOptions;
 export type HomeScreenButtonOptions = SelfOptions & ParentOptions & PickRequired<ParentOptions, 'tandem'>;
 
 class HomeScreenButton extends Voicing( VBox ) {
-  public readonly screen: Screen;
+  public readonly screen: Screen<IntentionalAny, IntentionalAny>;
 
-  public constructor( screen: Screen, homeScreenModel: HomeScreenModel, providedOptions?: HomeScreenButtonOptions ) {
+  public constructor( screen: Screen<IntentionalAny, IntentionalAny>, homeScreenModel: HomeScreenModel, providedOptions?: HomeScreenButtonOptions ) {
 
     const options = optionize<HomeScreenButtonOptions, SelfOptions, ParentOptions>()( {
       cursor: 'pointer',

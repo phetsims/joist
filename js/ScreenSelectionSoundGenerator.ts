@@ -11,12 +11,12 @@ import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import SoundClip, { SoundClipOptions } from '../../tambo/js/sound-generators/SoundClip.js';
 import screenSelection_mp3 from '../sounds/screenSelection_mp3.js';
 import joist from './joist.js';
-import Screen from './Screen.js';
+import { AnyScreen } from './Screen.js';
 import HomeScreen from './HomeScreen.js';
 
 class ScreenSelectionSoundGenerator extends SoundClip {
 
-  public constructor( screenProperty: ReadOnlyProperty<Screen>, homeScreen: HomeScreen | null, options?: SoundClipOptions ) {
+  public constructor( screenProperty: ReadOnlyProperty<AnyScreen>, homeScreen: HomeScreen | null, options?: SoundClipOptions ) {
 
     super( screenSelection_mp3, options );
 

@@ -16,7 +16,7 @@ import HomeScreenSoundGenerator from './HomeScreenSoundGenerator.js';
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
 import ScreenView, { ScreenViewOptions } from './ScreenView.js';
-import Screen from './Screen.js';
+import { AnyScreen } from './Screen.js';
 import HomeScreenModel from './HomeScreenModel.js';
 import Property from '../../axon/js/Property.js';
 import optionize from '../../phet-core/js/optionize.js';
@@ -35,7 +35,7 @@ type HomeScreenViewOptions = SelfOptions & PickRequired<ScreenViewOptions, 'tand
 class HomeScreenView extends ScreenView {
 
   private homeScreenScreenSummaryIntroProperty!: TReadOnlyProperty<string>;
-  private selectedScreenProperty: Property<Screen>;
+  private selectedScreenProperty: Property<AnyScreen>;
   public screenButtons: HomeScreenButton[];
 
   // NOTE: In https://github.com/phetsims/joist/issues/640, we attempted to use ScreenView.DEFAULT_LAYOUT_BOUNDS here.
@@ -91,7 +91,7 @@ class HomeScreenView extends ScreenView {
 
     const buttonGroupTandem = options.tandem.createTandem( 'buttonGroup' );
 
-    this.screenButtons = _.map( model.simScreens, ( screen: Screen ) => {
+    this.screenButtons = _.map( model.simScreens, ( screen: AnyScreen ) => {
 
       assert && assert( screen.nameProperty.value, `name is required for screen ${model.simScreens.indexOf( screen )}` );
       assert && assert( screen.homeScreenIcon, `homeScreenIcon is required for screen ${screen.nameProperty.value}` );

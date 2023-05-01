@@ -50,7 +50,7 @@ import packageJSON from './packageJSON.js';
 import PreferencesModel from './preferences/PreferencesModel.js';
 import Profiler from './Profiler.js';
 import QueryParametersWarningDialog from './QueryParametersWarningDialog.js';
-import Screen from './Screen.js';
+import Screen, { AnyScreen } from './Screen.js';
 import ScreenSelectionSoundGenerator from './ScreenSelectionSoundGenerator.js';
 import ScreenshotGenerator from './ScreenshotGenerator.js';
 import selectScreens from './selectScreens.js';
@@ -146,20 +146,20 @@ export default class Sim extends PhetioObject {
   public readonly stepSimulationAction: PhetioAction<[ number ]>;
 
   // the ordered list of sim-specific screens that appear in this runtime of the sim
-  public readonly simScreens: Screen[];
+  public readonly simScreens: AnyScreen[];
 
   // all screens that appear in the runtime of this sim, with the homeScreen first if it was created
-  public readonly screens: Screen[];
+  public readonly screens: AnyScreen[];
 
   // the displayed name in the sim. This depends on what screens are shown this runtime (effected by query parameters).
   public readonly displayedSimNameProperty: TReadOnlyProperty<string>;
-  public readonly selectedScreenProperty: Property<Screen>;
+  public readonly selectedScreenProperty: Property<AnyScreen>;
 
   // true if all possible screens are present (order-independent)
   private readonly allScreensCreated: boolean;
 
   private availableScreensProperty!: Property<number[]>;
-  public activeSimScreensProperty!: ReadOnlyProperty<Screen[]>;
+  public activeSimScreensProperty!: ReadOnlyProperty<AnyScreen[]>;
 
   // When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.
   // Set to false for when the sim will be paused.
@@ -256,7 +256,7 @@ export default class Sim extends PhetioObject {
    * @param allSimScreens - the possible screens for the sim in order of declaration (does not include the home screen)
    * @param [providedOptions] - see below for options
    */
-  public constructor( simNameProperty: TReadOnlyProperty<string>, allSimScreens: Screen[], providedOptions?: SimOptions ) {
+  public constructor( simNameProperty: TReadOnlyProperty<string>, allSimScreens: AnyScreen[], providedOptions?: SimOptions ) {
 
     window.phetSplashScreenDownloadComplete();
 
@@ -507,7 +507,7 @@ export default class Sim extends PhetioObject {
     this.screens = screenData.screens;
     this.allScreensCreated = screenData.allScreensCreated;
 
-    this.selectedScreenProperty = new Property<Screen>( screenData.initialScreen, {
+    this.selectedScreenProperty = new Property<AnyScreen>( screenData.initialScreen, {
       tandem: screensTandem.createTandem( 'selectedScreenProperty' ),
       phetioFeatured: true,
       phetioDocumentation: 'Determines which screen is selected in the simulation',
@@ -728,7 +728,7 @@ export default class Sim extends PhetioObject {
     animationFrameTimer.runOnNextTick( () => phet.joist.display.updateDisplay() );
   }
 
-  private finishInit( screens: Screen[] ): void {
+  private finishInit( screens: AnyScreen[] ): void {
 
     _.each( screens, screen => {
       screen.view.layerSplit = true;

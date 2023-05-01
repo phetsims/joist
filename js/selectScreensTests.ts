@@ -9,13 +9,13 @@
  */
 
 import selectScreens, { ScreenReturnType } from './selectScreens.js';
-import Screen from './Screen.js';
+import { AnyScreen } from './Screen.js';
 import HomeScreen from './HomeScreen.js';
 
 // test screen constants. Since these are tests, it is actually more valuable to typecast instead of making these actual screens.
-const a = 'a' as unknown as Screen;
-const b = 'b' as unknown as Screen;
-const c = 'c' as unknown as Screen;
+const a = 'a' as unknown as AnyScreen;
+const b = 'b' as unknown as AnyScreen;
+const c = 'c' as unknown as AnyScreen;
 const hs = 'hs' as unknown as HomeScreen;
 
 const getQueryParameterValues = ( queryString: string ) => {
@@ -56,7 +56,7 @@ const formatMessage = ( key: keyof ScreenReturnType, expectedResult: ScreenRetur
 /**
  * Format the query string + all sim screens to uniquely identify the test.
  */
-const getDescription = ( queryString: string, allSimScreens: Screen[] ): string => `${queryString} ${JSON.stringify( allSimScreens )}`;
+const getDescription = ( queryString: string, allSimScreens: AnyScreen[] ): string => `${queryString} ${JSON.stringify( allSimScreens )}`;
 
 QUnit.test( 'valid selectScreens', async assert => {
 
@@ -64,7 +64,7 @@ QUnit.test( 'valid selectScreens', async assert => {
    * Tests a valid combination of allSimScreens and screens-related query parameters, where the expectedResult should
    * equal the result returned from ScreenSelector.select
    */
-  const testValidScreenSelector = ( queryString: string, allSimScreens: Screen[], expectedResult: ScreenReturnType ) => {
+  const testValidScreenSelector = ( queryString: string, allSimScreens: AnyScreen[], expectedResult: ScreenReturnType ) => {
     const queryParameterValues = getQueryParameterValues( queryString );
 
     const result = selectScreens(
@@ -228,7 +228,7 @@ QUnit.test( 'invalid selectScreens', async assert => {
    * Tests an invalid combination of allSimScreens and screens-related query parameters, where selectScreens should
    * throw an error
    */
-  const testInvalidScreenSelector = ( queryString: string, allSimScreens: Screen[] ) => {
+  const testInvalidScreenSelector = ( queryString: string, allSimScreens: AnyScreen[] ) => {
     const queryParameterValues = getQueryParameterValues( queryString );
     const description = getDescription( queryString, allSimScreens );
 

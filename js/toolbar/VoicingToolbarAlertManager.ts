@@ -11,17 +11,17 @@
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import { SpeakableResolvedResponse } from '../../../utterance-queue/js/ResponsePacket.js';
 import joist from '../joist.js';
-import Screen from '../Screen.js';
+import { AnyScreen } from '../Screen.js';
 
 class VoicingToolbarAlertManager {
 
   // The active Screen for the simulation, to generate Voicing descriptions that are related to the active screen.
-  private readonly screenProperty: TReadOnlyProperty<Screen>;
+  private readonly screenProperty: TReadOnlyProperty<AnyScreen>;
 
   /**
    * @param screenProperty - indicates the active screen
    */
-  public constructor( screenProperty: TReadOnlyProperty<Screen> ) {
+  public constructor( screenProperty: TReadOnlyProperty<AnyScreen> ) {
     this.screenProperty = screenProperty;
   }
 

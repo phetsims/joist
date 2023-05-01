@@ -14,7 +14,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import KeyboardHelpButton from '../KeyboardHelpButton.js';
 import ScreenView, { ScreenViewOptions } from '../ScreenView.js';
-import Screen from '../Screen.js';
+import { AnyScreen } from '../Screen.js';
 import Sim from '../Sim.js';
 import NavigationBarPreferencesButton from '../preferences/NavigationBarPreferencesButton.js';
 import PreferencesModel from '../preferences/PreferencesModel.js';
@@ -29,7 +29,7 @@ class DialogsScreenView extends ScreenView {
 
     const keyboardHelpDialogContent = new BasicActionsKeyboardHelpSection();
 
-    const fakeScreen = { createKeyboardHelpNode: () => keyboardHelpDialogContent, tandem: Tandem.OPTIONAL } as unknown as Screen;
+    const fakeScreen = { createKeyboardHelpNode: () => keyboardHelpDialogContent, tandem: Tandem.OPTIONAL } as unknown as AnyScreen;
     const keyboardHelpButton = new KeyboardHelpButton(
       [ fakeScreen ],
       new Property( fakeScreen ),

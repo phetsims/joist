@@ -13,14 +13,14 @@ import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
-import Screen from './Screen.js';
+import Screen, { AnyScreen } from './Screen.js';
 import TModel from './TModel.js';
 
 class HomeScreenModel implements TModel {
-  public simScreens: Screen[]; // screens in the simulations that are not the HomeScreen
-  public screenProperty: Property<Screen>;
-  public selectedScreenProperty: Property<Screen>;
-  public readonly activeSimScreensProperty: ReadOnlyProperty<Screen[]>;
+  public simScreens: AnyScreen[]; // screens in the simulations that are not the HomeScreen
+  public screenProperty: Property<AnyScreen>;
+  public selectedScreenProperty: Property<AnyScreen>;
+  public readonly activeSimScreensProperty: ReadOnlyProperty<AnyScreen[]>;
 
   /**
    * @param screenProperty - the screen that is displayed to the user in the main area above the
@@ -28,7 +28,7 @@ class HomeScreenModel implements TModel {
    * @param simScreens
    * @param tandem
    */
-  public constructor( screenProperty: Property<Screen<IntentionalAny, IntentionalAny>>, simScreens: Screen<IntentionalAny, IntentionalAny>[], activeSimScreensProperty: ReadOnlyProperty<Screen[]>, tandem: Tandem ) {
+  public constructor( screenProperty: Property<Screen<IntentionalAny, IntentionalAny>>, simScreens: Screen<IntentionalAny, IntentionalAny>[], activeSimScreensProperty: ReadOnlyProperty<AnyScreen[]>, tandem: Tandem ) {
 
     this.simScreens = simScreens;
     this.screenProperty = screenProperty;

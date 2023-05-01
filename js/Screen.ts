@@ -72,9 +72,11 @@ export type ScreenOptions = SelfOptions & PhetioObjectOptions & PickRequired<Phe
 // Accept any subtype of TModel (defaults to supertype), and any subtype of ScreenView (defaults to subtype).
 type CreateView<M extends TModel, V> = ( model: M ) => V;
 
-// Parameterized on M=Model and V=View
 // The IntentionalAny in the model type is due to https://github.com/phetsims/joist/issues/783#issuecomment-1231017213
-class Screen<M extends TModel = IntentionalAny, V extends ScreenView = ScreenView> extends PhetioObject {
+export type AnyScreen = Screen<IntentionalAny, ScreenView>;
+
+// Parameterized on M=Model and V=View
+class Screen<M extends TModel, V extends ScreenView> extends PhetioObject {
 
   public backgroundColorProperty: Property<Color> | Property<string> | Property<Color | string>;
 
