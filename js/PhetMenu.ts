@@ -96,11 +96,9 @@ class PhetMenu extends Popupable( Node, 0 ) {
         present: isPhETBrand,
         shouldBeHiddenWhenLinksAreNotAllowed: true,
         callback: () => {
-          if ( !phet.chipper.isFuzzEnabled() ) {
 
-            // Open locale-specific PhET home page. If there is no website translation for locale, fallback will be handled by server. See joist#97.
-            openPopup( `https://phet.colorado.edu/${sim.locale}` );
-          }
+          // Open locale-specific PhET home page. If there is no website translation for locale, fallback will be handled by server. See joist#97.
+          openPopup( `https://phet.colorado.edu/${sim.locale}` );
         }
       },
       {
@@ -108,15 +106,13 @@ class PhetMenu extends Popupable( Node, 0 ) {
         present: isPhETBrand && !isApp,
         shouldBeHiddenWhenLinksAreNotAllowed: true,
         callback: () => {
-          if ( !phet.chipper.isFuzzEnabled() ) {
-            const url = `${'https://phet.colorado.edu/files/troubleshooting/' +
-                           '?sim='}${encodeURIComponent( sim.simNameProperty.value )
-            }&version=${encodeURIComponent( `${sim.version} ${
-              phet.chipper.buildTimestamp ? phet.chipper.buildTimestamp : '(unbuilt)'}` )
-            }&url=${encodeURIComponent( window.location.href )
-            }&dependencies=${encodeURIComponent( JSON.stringify( {} ) )}`;
-            openPopup( url );
-          }
+          const url = `${'https://phet.colorado.edu/files/troubleshooting/' +
+                         '?sim='}${encodeURIComponent( sim.simNameProperty.value )
+          }&version=${encodeURIComponent( `${sim.version} ${
+            phet.chipper.buildTimestamp ? phet.chipper.buildTimestamp : '(unbuilt)'}` )
+          }&url=${encodeURIComponent( window.location.href )
+          }&dependencies=${encodeURIComponent( JSON.stringify( {} ) )}`;
+          openPopup( url );
         }
       },
       {
@@ -124,9 +120,7 @@ class PhetMenu extends Popupable( Node, 0 ) {
         present: phet.chipper.queryParameters.qrCode,
         shouldBeHiddenWhenLinksAreNotAllowed: true,
         callback: () => {
-          if ( !phet.chipper.isFuzzEnabled() ) {
-            openPopup( `http://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent( window.location.href )}&size=220x220&margin=0` );
-          }
+          openPopup( `http://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent( window.location.href )}&size=220x220&margin=0` );
         }
       },
       {
@@ -180,7 +174,7 @@ class PhetMenu extends Popupable( Node, 0 ) {
               window.saveAs( blob, filename );
             }
           }
-          else if ( !phet.chipper.isFuzzEnabled() ) {
+          else {
             openPopup( dataURL, true );
           }
         },
