@@ -320,7 +320,6 @@ class Screen<M extends TModel, V extends ScreenView> extends PhetioObject {
     }
 
     // Set the accessible label for the screen.
-    // TODO: Should use PatternStringProperty, see https://github.com/phetsims/joist/issues/873
     Multilink.multilink( [ displayedSimNameProperty, simNameProperty, this.pdomDisplayNameProperty ],
       ( displayedName, simName, pdomDisplayName ) => {
 
