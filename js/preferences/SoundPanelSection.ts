@@ -117,7 +117,7 @@ class SoundPanelSection extends PreferencesPanelSection {
       const extraSoundEnabledListener = ( enabled: boolean ) => {
         extraSoundContent!.enabled = enabled;
 
-        // TODO: Workaround for now, see https://github.com/phetsims/joist/issues/895. PDOM does not
+        // TODO: Workaround for now, see https://github.com/phetsims/scenery/issues/1514. PDOM does not
         //       correctly propagate enabled state to descendants when ancestor becomes disabled.
         extraSoundCheckbox.inputEnabled = enabled;
       };
