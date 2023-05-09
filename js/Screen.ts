@@ -69,10 +69,9 @@ type SelfOptions = {
 };
 export type ScreenOptions = SelfOptions & PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
-// Accept any subtype of TModel (defaults to supertype), and any subtype of ScreenView (defaults to subtype).
-type CreateView<M extends TModel, V> = ( model: M ) => V;
-
-// The IntentionalAny in the model type is due to https://github.com/phetsims/joist/issues/783#issuecomment-1231017213
+// @joist-internal - This type is uses IntentionalAny to break the contravariance dependency that the createView function
+// has on Screen. Ideally we could use TModel instead, but that would involve a rewrite of how we pass closures into
+// Screen instead of the already created Model/View themselves. See https://github.com/phetsims/joist/issues/783#issuecomment-1231017213
 export type AnyScreen = Screen<IntentionalAny, ScreenView>;
 
 // Parameterized on M=Model and V=View
@@ -92,7 +91,7 @@ class Screen<M extends TModel, V extends ScreenView> extends PhetioObject {
   public readonly createKeyboardHelpNode: null | ( ( tandem: Tandem ) => Node ); // joist-internal
   public readonly pdomDisplayNameProperty: TReadOnlyProperty<string>;
   private readonly createModel: () => M;
-  private readonly createView: CreateView<M, V>;
+  private readonly createView: ( model: M ) => V;
   private _model: M | null;
   private _view: V | null;
 
@@ -105,7 +104,7 @@ class Screen<M extends TModel, V extends ScreenView> extends PhetioObject {
     documentation: 'Section of a simulation which has its own model and view.'
   } );
 
-  public constructor( createModel: () => M, createView: CreateView<M, V>, providedOptions: ScreenOptions ) {
+  public constructor( createModel: () => M, createView: ( model: M ) => V, providedOptions: ScreenOptions ) {
 
     const options = optionize<ScreenOptions, SelfOptions, PhetioObjectOptions>()( {
 
