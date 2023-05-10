@@ -21,6 +21,7 @@ import Emitter from '../../axon/js/Emitter.js';
 import NumberProperty from '../../axon/js/NumberProperty.js';
 import Property from '../../axon/js/Property.js';
 import stepTimer from '../../axon/js/stepTimer.js';
+import LocalizedStringProperty from '../../chipper/js/LocalizedStringProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Random from '../../dot/js/Random.js';
@@ -705,6 +706,8 @@ export default class Sim extends PhetioObject {
 
     // Third party support
     phet.chipper.queryParameters.legendsOfLearning && new LegendsOfLearningSupport( this ).start();
+
+    assert && this.auditScreenNameKeys();
   }
 
   /**
@@ -1072,6 +1075,22 @@ export default class Sim extends PhetioObject {
     }
 
     this.navigationBar.voicingVisible = visible;
+  }
+
+  /**
+   * Checks for whether multi-screen sims have screen names that are in phet.screenNameKeys within package.json,
+   * see https://github.com/phetsims/chipper/issues/1367
+   */
+  private auditScreenNameKeys(): void {
+    if ( this.screens.length >= 2 ) {
+      this.screens.forEach( screen => {
+        if ( !( screen instanceof HomeScreen ) && screen.nameProperty instanceof LocalizedStringProperty ) {
+          const stringKey = screen.nameProperty.stringKey;
+          assert && assert( packageJSON.phet.screenNameKeys.includes( stringKey ),
+            `For a multi-screen sim, the string key (${JSON.stringify( stringKey )}) should be in phet.screenNameKeys within package.json` );
+        }
+      } );
+    }
   }
 }
 
