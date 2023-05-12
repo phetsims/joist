@@ -30,7 +30,6 @@ type SelfOptions = EmptySelfOptions;
 export type KeyboardHelpDialogOptions = SelfOptions & StrictOmit<DialogOptions, 'title'> & PickRequired<DialogOptions, 'tandem'>;
 
 export default class KeyboardHelpDialog extends Dialog {
-  private readonly disposeKeyboardHelpDialog: () => void;
 
   public constructor( screens: AnyScreen[], screenProperty: Property<AnyScreen>, providedOptions?: KeyboardHelpDialogOptions ) {
 
@@ -95,8 +94,7 @@ export default class KeyboardHelpDialog extends Dialog {
     super( content, options );
 
     // When the screen changes, swap out keyboard help content to the selected screen's content
-
-    const childSwitcherMultilink = Multilink.multilink( [ screenProperty, this.isShowingProperty ], ( screen, isShowing ) => {
+    Multilink.multilink( [ screenProperty, this.isShowingProperty ], ( screen, isShowing ) => {
       assert && assert( screens.includes( screen ), 'double check that this is an expected screen' );
       const currentContentNode = screenContentNodes[ screens.indexOf( screen ) ]!;
       if ( isShowing ) {
@@ -111,18 +109,6 @@ export default class KeyboardHelpDialog extends Dialog {
       otherNode: shortcutsTitleText,
       otherElementName: PDOMPeer.PRIMARY_SIBLING
     } );
-
-    // TODO: delete this non-disposable dispose method https://github.com/phetsims/phet-io/issues/1810
-    this.disposeKeyboardHelpDialog = () => {
-      childSwitcherMultilink.dispose();
-      tabHintLine.dispose();
-      shortcutsTitleText.dispose();
-
-      // Graceful in case multiple screens reuse the same content.
-      screenContentNodes.forEach( node => !node.isDisposed && node.dispose() );
-      screenContentNodes.length = 0;
-      content.dispose();
-    };
   }
 
   public override dispose(): void {
@@ -163,11 +149,6 @@ class TabHintLine extends ReadingBlock( Node ) {
     const hBox = new HBox( {
       children: [ labelWithIcon.icon, labelWithIcon.label ],
       spacing: 4
-    } );
-    this.disposeEmitter.addListener( () => {
-      hBox.dispose();
-      labelWithIcon.dispose();
-      tabIcon.dispose();
     } );
 
     this.addChild( hBox );
