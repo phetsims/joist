@@ -30,7 +30,6 @@ class PreferencesTabs extends HBox {
   private selectedButton: Node | null = null;
   private readonly selectedPanelProperty: TProperty<PreferencesType>;
   private readonly content: PreferencesTab[] = [];
-  private readonly disposePreferencesTabs: () => void;
 
   public constructor( supportedTabs: PreferencesType[], selectedPanelProperty: TProperty<PreferencesType>, providedOptions: PreferencesTabsOptions ) {
     const options = optionize<PreferencesTabsOptions, SelfOptions, HBoxOptions>()( {
@@ -90,7 +89,7 @@ class PreferencesTabs extends HBox {
     this.children = this.content;
 
     // If the currently selected tab is hidden via phet-io, then select the first visible tab (if there is one)
-    const visibilityMultilink = Multilink.multilinkAny( [ selectedPanelProperty, ...this.content.map( tab => tab.visibleProperty ) ], () => {
+    Multilink.multilinkAny( [ selectedPanelProperty, ...this.content.map( tab => tab.visibleProperty ) ], () => {
 
       // Find the tab corresponding to the current selection
       const tab = this.content.find( tab => tab.value === selectedPanelProperty.value )!;
@@ -153,13 +152,6 @@ class PreferencesTabs extends HBox {
       this.focusable = false;
       this.inputEnabledProperty.value = false;
     }
-
-    this.disposePreferencesTabs = () => {
-      this.removeInputListener( keyboardListener );
-      selectedPanelProperty.unlink( selectedPanelListener );
-      Multilink.unmultilink( visibilityMultilink );
-      this.content.forEach( tab => tab.dispose() );
-    };
   }
 
   /**
@@ -184,8 +176,7 @@ class PreferencesTabs extends HBox {
   }
 
   public override dispose(): void {
-    this.disposePreferencesTabs();
-    super.dispose();
+    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
   }
 }
 

@@ -36,8 +36,6 @@ class PreferencesPanels extends Node {
   // Property controlling the selected tab, so we can control which panel should be visible.
   private readonly selectedTabProperty: TReadOnlyProperty<PreferencesType>;
 
-  private readonly disposePreferencesPanel: () => void;
-
   /**
    * @param preferencesModel
    * @param supportedTabs - list of Tabs supported by this Dialog
@@ -137,23 +135,10 @@ class PreferencesPanels extends Node {
       this.addChild( localizationBox );
       this.content.push( new PreferencesPanelContainer( localizationPreferencesPanel, PreferencesType.LOCALIZATION ) );
     }
-
-    this.disposePreferencesPanel = () => {
-      panelAlignGroup.dispose();
-      this.content.forEach( panelContent => panelContent.dispose() );
-
-      overviewPreferencesPanel && overviewPreferencesPanel.dispose();
-      simulationPreferencesPanel && simulationPreferencesPanel.dispose();
-      visualPreferencesPanel && visualPreferencesPanel.dispose();
-      audioPreferencesPanel && audioPreferencesPanel.dispose();
-      inputPreferencesPanel && inputPreferencesPanel.dispose();
-      localizationPreferencesPanel && localizationPreferencesPanel.dispose();
-    };
   }
 
   public override dispose(): void {
-    this.disposePreferencesPanel();
-    super.dispose();
+    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
   }
 
   /**

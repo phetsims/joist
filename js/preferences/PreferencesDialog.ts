@@ -53,7 +53,6 @@ type PreferencesDialogOptions = DialogOptions & PickRequired<DialogOptions, 'tan
 class PreferencesDialog extends Dialog {
   private readonly preferencesTabs: PreferencesTabs;
   private readonly preferencesPanels: PreferencesPanels;
-  private readonly disposePreferencesDialog: () => void;
 
   public constructor( preferencesModel: PreferencesModel, providedOptions?: PreferencesDialogOptions ) {
 
@@ -150,18 +149,6 @@ class PreferencesDialog extends Dialog {
         }
       }
     } );
-
-    // TODO: delete this non-disposable dispose method https://github.com/phetsims/phet-io/issues/1810
-    this.disposePreferencesDialog = () => {
-      content.dispose();
-
-      soundManager.removeSoundGenerator( tabSwitchSoundGenerator );
-      tabSwitchSoundGenerator.dispose();
-      preferencesTabs.dispose();
-      selectedTabProperty.dispose();
-      preferencesPanels.dispose();
-      titleText.dispose();
-    };
   }
 
   /**
@@ -179,8 +166,7 @@ class PreferencesDialog extends Dialog {
   }
 
   public override dispose(): void {
-    this.disposePreferencesDialog();
-    super.dispose();
+    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
   }
 
   // Font and options for the text that labels a tab in the dialog.

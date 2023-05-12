@@ -8,8 +8,6 @@ import PreferencesType from './PreferencesType.js';
 
 class PreferencesTabSwitchSoundGenerator extends SoundClip {
 
-  private readonly disposePreferencesTabSwitchSoundGenerator: () => void;
-
   public constructor( selectedTabProperty: EnumerationProperty<PreferencesType>, options: SoundClipOptions ) {
 
     super( cardFlip_mp3, options );
@@ -17,18 +15,10 @@ class PreferencesTabSwitchSoundGenerator extends SoundClip {
     const playSound = () => { this.play(); };
 
     selectedTabProperty.lazyLink( playSound );
-
-    this.disposePreferencesTabSwitchSoundGenerator = () => {
-      selectedTabProperty.unlink( playSound );
-    };
   }
 
-  /**
-   * Release any memory references to avoid memory leaks.
-   */
   public override dispose(): void {
-    this.disposePreferencesTabSwitchSoundGenerator();
-    super.dispose();
+    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
   }
 }
 
