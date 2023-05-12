@@ -112,6 +112,7 @@ export default class KeyboardHelpDialog extends Dialog {
       otherElementName: PDOMPeer.PRIMARY_SIBLING
     } );
 
+    // TODO: delete this non-disposable dispose method https://github.com/phetsims/phet-io/issues/1810
     this.disposeKeyboardHelpDialog = () => {
       childSwitcherMultilink.dispose();
       tabHintLine.dispose();
@@ -125,8 +126,7 @@ export default class KeyboardHelpDialog extends Dialog {
   }
 
   public override dispose(): void {
-    this.disposeKeyboardHelpDialog();
-    super.dispose();
+    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
   }
 }
 

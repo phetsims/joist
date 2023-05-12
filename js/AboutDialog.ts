@@ -261,6 +261,7 @@ export default class AboutDialog extends Dialog {
       otherNode: titleText
     } );
 
+    // TODO: delete this non-disposable dispose method https://github.com/phetsims/phet-io/issues/1810
     this.disposeAboutDialog = () => {
       creditsNode && creditsNode.dispose();
       additionalLicenseStatement && additionalLicenseStatement.dispose();
@@ -302,8 +303,7 @@ export default class AboutDialog extends Dialog {
   }
 
   public override dispose(): void {
-    this.disposeAboutDialog();
-    super.dispose();
+    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
   }
 }
 

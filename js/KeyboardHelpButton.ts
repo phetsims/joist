@@ -71,15 +71,14 @@ class KeyboardHelpButton extends JoistButton {
     super( icon, backgroundColorProperty, options );
 
     keyboardHelpDialogCapsule = new PhetioCapsule<KeyboardHelpDialog>( tandem => {
-
-      // Wrap in a node to prevent DAG problems if archetypes are also created
       return new KeyboardHelpDialog( screens, screenProperty, {
         tandem: tandem,
         focusOnHideNode: this
       } );
     }, [], {
       tandem: options.tandem.createTandem( 'keyboardHelpDialogCapsule' ),
-      phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )
+      phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO ),
+      isElementDisposable: false
     } );
 
     // change the icon so that it is visible when the background changes from dark to light

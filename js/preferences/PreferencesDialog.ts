@@ -151,6 +151,7 @@ class PreferencesDialog extends Dialog {
       }
     } );
 
+    // TODO: delete this non-disposable dispose method https://github.com/phetsims/phet-io/issues/1810
     this.disposePreferencesDialog = () => {
       content.dispose();
 

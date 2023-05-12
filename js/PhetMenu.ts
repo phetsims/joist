@@ -81,7 +81,8 @@ class PhetMenu extends Popupable( Node, 0 ) {
       } );
     }, [], {
       tandem: options.tandem.createTandem( 'aboutDialogCapsule' ),
-      phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )
+      phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO ),
+      isElementDisposable: false
     } );
 
     // Update dialog is created lazily (so that Sim bounds are valid), then reused.
