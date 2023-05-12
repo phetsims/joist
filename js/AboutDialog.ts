@@ -41,8 +41,6 @@ export default class AboutDialog extends Dialog {
   // Listener that should be called whenever our update state changes (while we are displayed)
   private readonly updateVisibilityListener: ( ( state: UpdateState ) => void ) | null;
 
-  private readonly disposeAboutDialog: () => void;
-
   /**
    * @param nameStringProperty - name of the simulation
    * @param version - version of the simulation
@@ -260,13 +258,6 @@ export default class AboutDialog extends Dialog {
       otherElementName: PDOMPeer.PRIMARY_SIBLING,
       otherNode: titleText
     } );
-
-    // TODO: delete this non-disposable dispose method https://github.com/phetsims/phet-io/issues/1810
-    this.disposeAboutDialog = () => {
-      creditsNode && creditsNode.dispose();
-      additionalLicenseStatement && additionalLicenseStatement.dispose();
-      linksChildren.forEach( child => child.dispose && child.dispose() );
-    };
   }
 
   /**
