@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2022-2023, University of Colorado Boulder
 
 import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
 import SoundClip, { SoundClipOptions } from '../../../tambo/js/sound-generators/SoundClip.js';
