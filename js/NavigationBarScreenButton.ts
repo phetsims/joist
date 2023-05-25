@@ -235,9 +235,12 @@ class NavigationBarScreenButton extends Voicing( Node ) {
     needsIconMaxWidth && assert && assert( Utils.toFixed( this.width, 0 ) === Utils.toFixed( options.maxButtonWidth!, 0 ),
       `this.width ${this.width} !== options.maxButtonWidth ${options.maxButtonWidth}` );
 
-    // pdom - Pass a shape to the focusHighlight to prevent dilation, then tweak the top up just a hair.
-    const highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );
-    this.focusHighlight = Shape.bounds( this.bounds.withMinY( this.bounds.minY - highlightLineWidth / 2 ) );
+    // A custom focus highlight so that the bottom of the highlight does not get cut-off below the navigation bar.
+    // Shape updates with changing bounds to support dynamic layout.
+    this.localBoundsProperty.link( localBounds => {
+      const highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );
+      this.focusHighlight = Shape.bounds( localBounds.withMaxY( iconAndText.bounds.maxY + highlightLineWidth / 2 ) );
+    } );
 
     this.mutate( options );
   }
