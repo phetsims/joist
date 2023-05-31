@@ -28,6 +28,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
 import Sim from './Sim.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import isSettingPhetioStateProperty from '../../tandem/js/isSettingPhetioStateProperty.js';
 
 const ANY_AUDIO_SUPPORTED = phet.chipper.queryParameters.supportsVoicing || phet.chipper.queryParameters.supportsSound;
 
@@ -94,7 +95,7 @@ class AudioManager extends PhetioObject {
         this.audioEnabledProperty,
         sim.browserTabVisibleProperty,
         sim.activeProperty,
-        sim.isSettingPhetioStateProperty
+        isSettingPhetioStateProperty
       );
     }
 
@@ -106,7 +107,7 @@ class AudioManager extends PhetioObject {
           sim.isConstructionCompleteProperty,
           sim.browserTabVisibleProperty,
           sim.activeProperty,
-          sim.isSettingPhetioStateProperty,
+          isSettingPhetioStateProperty,
           this.audioEnabledProperty
         ], ( simConstructionComplete, simVisible, simActive, simSettingPhetioState, audioEnabled ) => {
           return simConstructionComplete && simVisible && simActive && !simSettingPhetioState && audioEnabled;

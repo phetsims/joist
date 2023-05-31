@@ -71,6 +71,7 @@ import Permutation from '../../dot/js/Permutation.js';
 import ArrayIO from '../../tandem/js/types/ArrayIO.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
 import { Locale } from './i18n/localeProperty.js';
+import isSettingPhetioStateProperty from '../../tandem/js/isSettingPhetioStateProperty.js';
 
 // constants
 const PROGRESS_BAR_WIDTH = 273;
@@ -193,10 +194,6 @@ export default class Sim extends PhetioObject {
 
   // If any sim screen has keyboard help content, trigger creation of a keyboard help button.
   public readonly hasKeyboardHelpContent: boolean;
-
-  // if PhET-iO is currently setting the state of the simulation. See PhetioStateEngine for details. This must be
-  // declared before soundManager.initialized is called.
-  public readonly isSettingPhetioStateProperty: TReadOnlyProperty<boolean>;
 
   // if PhET-iO is currently setting the state of the simulation and in the process of clearing dynamic elements as a
   // precursor to setting the state of those elements. See PhetioStateEngine for details. This must be
@@ -597,10 +594,6 @@ export default class Sim extends PhetioObject {
     assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
     window.phet.joist.sim = this;
 
-    this.isSettingPhetioStateProperty = Tandem.PHET_IO_ENABLED ?
-                                        phet.phetio.phetioEngine.phetioStateEngine.isSettingStateProperty :
-                                        new BooleanProperty( false );
-
     this.isClearingPhetioDynamicElementsProperty = Tandem.PHET_IO_ENABLED ?
                                                    phet.phetio.phetioEngine.phetioStateEngine.isClearingDynamicElementsProperty :
                                                    new BooleanProperty( false );
@@ -696,7 +689,7 @@ export default class Sim extends PhetioObject {
       this.display
     );
 
-    this.isSettingPhetioStateProperty.lazyLink( isSettingState => {
+    isSettingPhetioStateProperty.lazyLink( isSettingState => {
       if ( !isSettingState ) {
         this.updateViews();
       }
@@ -768,7 +761,7 @@ export default class Sim extends PhetioObject {
       } );
       this.updateBackground();
 
-      if ( !this.isSettingPhetioStateProperty.value ) {
+      if ( !isSettingPhetioStateProperty.value ) {
 
         // Zoom out again after changing screens so we don't pan to the center of the focused ScreenView,
         // and so user has an overview of the new screen, see https://github.com/phetsims/joist/issues/682.
