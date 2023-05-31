@@ -18,6 +18,7 @@ import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import joist from './joist.js';
 import Sim from './Sim.js';
 import TemporalCounter from './TemporalCounter.js';
+import { PhetioID } from '../../tandem/js/TandemConstants.js';
 
 /////////////////////////////////
 // TODO: Duplication alert! MK doesn't want to import from phet-io into joist, so we will just duplicate the type for now. https://github.com/phetsims/joist/issues/553
@@ -26,7 +27,7 @@ type PhetioEvent = {
   index: number;
   time: number;
   type: string;
-  phetioID: string;
+  phetioID: PhetioID;
   name: string;
   componentType: string;
   children?: PhetioEvent[];
