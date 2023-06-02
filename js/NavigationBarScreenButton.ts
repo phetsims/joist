@@ -17,7 +17,7 @@ import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { Color, FocusHighlightPath, Node, NodeOptions, Rectangle, Text, VBox, Voicing, VoicingOptions } from '../../scenery/js/imports.js';
+import { Color, Node, NodeOptions, Rectangle, Text, VBox, Voicing, VoicingOptions } from '../../scenery/js/imports.js';
 import PushButtonModel from '../../sun/js/buttons/PushButtonModel.js';
 import HighlightNode from './HighlightNode.js';
 import joist from './joist.js';
@@ -236,10 +236,10 @@ class NavigationBarScreenButton extends Voicing( Node ) {
       `this.width ${this.width} !== options.maxButtonWidth ${options.maxButtonWidth}` );
 
     // A custom focus highlight so that the bottom of the highlight does not get cut-off below the navigation bar.
-    // Shape updates with changing bounds to support dynamic layout.
+    // Setting to the localBounds directly prevents the default dilation of the highlight. Shape updates with changing
+    // bounds to support dynamic layout.
     this.localBoundsProperty.link( localBounds => {
-      const highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );
-      this.focusHighlight = Shape.bounds( localBounds.withMaxY( iconAndText.bounds.maxY + highlightLineWidth / 2 ) );
+      this.focusHighlight = Shape.bounds( localBounds );
     } );
 
     this.mutate( options );
