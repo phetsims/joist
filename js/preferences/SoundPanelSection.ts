@@ -59,7 +59,7 @@ class SoundPanelSection extends PreferencesPanelSection {
     const soundEnabledStringProperty = new PatternStringProperty( labelledDescriptionPatternStringProperty, {
       label: soundsLabelStringProperty,
       description: soundDescriptionStringProperty
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
     const soundEnabledVoicingText = new VoicingText( soundDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
       readingBlockNameResponse: soundEnabledStringProperty
     } ) );
@@ -100,7 +100,7 @@ class SoundPanelSection extends PreferencesPanelSection {
       const extraSoundReadingBlockNameResponsePatternStringProperty = new PatternStringProperty( labelledDescriptionPatternStringProperty, {
         label: extraSoundsLabelStringProperty,
         description: extraSoundsDescriptionStringProperty
-      } );
+      }, { tandem: Tandem.OPT_OUT } );
       const extraSoundDescription = new VoicingRichText( extraSoundsDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         lineWrap: 300,
         maxHeight: 100,

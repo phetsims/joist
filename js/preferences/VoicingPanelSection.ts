@@ -120,7 +120,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
     const voicingEnabledReadingBlockNameResponsePatternStringProperty = new PatternStringProperty( labelledDescriptionPatternStringProperty, {
       label: titleStringProperty,
       description: voicingDescriptionStringProperty
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
     const voicingEnabledSwitchVoicingText = new VoicingText( voicingDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
       readingBlockNameResponse: voicingEnabledReadingBlockNameResponsePatternStringProperty
     } ) );
@@ -155,7 +155,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
     const speechOutputReadingBlockNameResponsePatternStringProperty = new PatternStringProperty( labelledDescriptionPatternStringProperty, {
       label: simVoicingOptionsStringProperty,
       description: simVoicingDescriptionStringProperty
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
     const speechOutputDescription = new VoicingText( simVoicingDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
       readingBlockNameResponse: speechOutputReadingBlockNameResponsePatternStringProperty
     } ) );
@@ -445,7 +445,7 @@ class VoiceRateNumberControl extends NumberControl {
 
     const voiceRateNonNormalPatternStringProperty = new PatternStringProperty( voiceRateDescriptionPatternStringProperty, {
       value: voiceRateProperty
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
 
     const voiceRateResponseProperty = new DerivedProperty( [
       voiceRateProperty, voiceRateNormalStringProperty, voiceRateNonNormalPatternStringProperty

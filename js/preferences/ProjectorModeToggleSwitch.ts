@@ -18,6 +18,7 @@ import Property from '../../../axon/js/Property.js';
 import ToggleSwitch from '../../../sun/js/ToggleSwitch.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 
 type SelfOptions = EmptySelfOptions;
 type ParentOptions = PreferencesControlOptions;
@@ -45,7 +46,7 @@ class ProjectorModeToggleSwitch extends PreferencesControl {
     const projectorModePatternStringProperty = new PatternStringProperty( JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty, {
       label: JoistStrings.projectorModeStringProperty,
       description: JoistStrings.preferences.tabs.visual.projectorModeDescriptionStringProperty
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
     projectorModeDescription.readingBlockNameResponse = projectorModePatternStringProperty;
 
     const options = optionize<ProjectorModeToggleSwitchOptions, SelfOptions, ParentOptions>()( {

@@ -23,6 +23,7 @@ import optionize from '../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import PatternStringProperty from '../../axon/js/PatternStringProperty.js';
+import Tandem from '../../tandem/js/Tandem.js';
 
 type SelfOptions = {
 
@@ -130,14 +131,14 @@ class HomeScreenView extends ScreenView {
     this.homeScreenScreenSummaryIntroProperty = new PatternStringProperty( JoistStrings.a11y.homeScreenDescriptionPatternStringProperty, {
       name: simNameProperty,
       screens: model.simScreens.length
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
 
 
     // Add the home screen description, since there are no PDOM container Nodes for this ScreenView
     homeScreenPDOMNode.innerContent = new PatternStringProperty( JoistStrings.a11y.homeScreenIntroPatternStringProperty, {
       description: this.homeScreenScreenSummaryIntroProperty,
       hint: JoistStrings.a11y.homeScreenHintStringProperty
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
 
     this.screenButtons.forEach( screenButton => {
       screenButton.voicingContextResponse = simNameProperty;

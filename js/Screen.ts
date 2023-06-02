@@ -243,7 +243,7 @@ class Screen<M extends TModel, V extends ScreenView> extends PhetioObject {
     else if ( this.nameProperty.value ) {
       this.descriptionContent = new PatternStringProperty( screenNamePatternStringProperty, {
         name: this.nameProperty
-      } );
+      }, { tandem: Tandem.OPT_OUT } );
     }
     else {
       this.descriptionContent = simScreenStringProperty; // fall back on generic name

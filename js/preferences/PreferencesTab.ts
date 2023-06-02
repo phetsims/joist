@@ -103,7 +103,7 @@ class PreferencesTab extends Voicing( Node ) {
 
     const voicingPatternStringProperty = new PatternStringProperty( JoistStrings.a11y.preferences.tabs.tabResponsePatternStringProperty, {
       title: labelProperty
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
     this.voicingNameResponse = voicingPatternStringProperty;
 
     const pressListener = new PressListener( {

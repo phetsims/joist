@@ -69,7 +69,7 @@ class VisualPreferencesPanel extends PreferencesPanel {
       const highlightsReadingBlockNameResponsePatternStringProperty = new PatternStringProperty( labelledDescriptionPatternStringProperty, {
         label: interactiveHighlightsStringProperty,
         description: interactiveHighlightsDescriptionStringProperty
-      } );
+      }, { tandem: Tandem.OPT_OUT } );
       const interactiveHighlightsEnabledSwitchVoicingText = new VoicingText( interactiveHighlightsDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         readingBlockNameResponse: highlightsReadingBlockNameResponsePatternStringProperty
       } ) );
