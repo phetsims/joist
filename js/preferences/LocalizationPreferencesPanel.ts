@@ -60,18 +60,15 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
           comboBox
         ]
       } ) );
-      this.disposeEmitter.addListener( () => comboBox.dispose() );
     }
 
     if ( localizationModel.supportsDynamicLocales && localizationModel.includeLocalePanel ) {
       const localePanel = new LocalePanel( localizationModel.localeProperty );
       contentNode.addChild( localePanel );
-      this.disposeEmitter.addListener( () => localePanel.dispose() );
     }
 
     localizationModel.customPreferences.forEach( customPreference => {
       const customContent = customPreference.createContent( providedOptions.tandem );
-      this.disposeEmitter.addListener( () => customContent.dispose() );
       contentNode.addChild( new Node( {
         children: [ customContent ]
       } ) );

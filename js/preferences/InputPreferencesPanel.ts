@@ -36,7 +36,6 @@ const gestureControlsDescriptionString = 'Use touch with custom swipes and taps 
 type InputPreferencesPanelOptions = PickRequired<PreferencesPanelOptions, 'tandem'>;
 
 class InputPreferencesPanel extends PreferencesPanel {
-  private readonly disposeInputPreferencesPanel: () => void;
 
   public constructor( inputModel: InputModel, selectedTabProperty: TReadOnlyProperty<PreferencesType>, tabVisibleProperty: TReadOnlyProperty<boolean>, providedOptions: InputPreferencesPanelOptions ) {
 
@@ -80,14 +79,6 @@ class InputPreferencesPanel extends PreferencesPanel {
       } );
 
       contentVBox.addChild( gesturePanelSection );
-
-      this.disposeEmitter.addListener( () => {
-        gesturePanelSection.dispose();
-        gestureControlsControl.dispose();
-        gestureControlsEnabledSwitch.dispose();
-        gestureControlDescriptionNode.dispose();
-        gestureControlText.dispose();
-      } );
     }
 
     const contentNode = new VBox( {
@@ -97,7 +88,6 @@ class InputPreferencesPanel extends PreferencesPanel {
 
     inputModel.customPreferences.forEach( customPreference => {
       const customContent = customPreference.createContent( providedOptions.tandem );
-      this.disposeEmitter.addListener( () => customContent.dispose() );
       contentNode.addChild(
         new Node( { children: [ customContent ] } )
       );
@@ -108,18 +98,6 @@ class InputPreferencesPanel extends PreferencesPanel {
       contentLeftMargin: 0
     } );
     contentVBox.addChild( customPanelSection );
-
-    this.disposeInputPreferencesPanel = () => {
-      contentVBox.dispose();
-      customPanelSection.dispose();
-      contentNode.children.forEach( child => child.dispose() );
-      contentNode.dispose();
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeInputPreferencesPanel();
-    super.dispose();
   }
 }
 

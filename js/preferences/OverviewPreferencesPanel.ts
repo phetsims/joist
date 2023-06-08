@@ -18,8 +18,6 @@ import PreferencesPanel from './PreferencesPanel.js';
 import PreferencesType from './PreferencesType.js';
 
 class OverviewPreferencesPanel extends PreferencesPanel {
-  private readonly disposeOverviewPreferencesPanel: () => void;
-
   public constructor( selectedTabProperty: TReadOnlyProperty<PreferencesType>, tabVisibleProperty: TReadOnlyProperty<boolean> ) {
     super( PreferencesType.OVERVIEW, selectedTabProperty, tabVisibleProperty );
 
@@ -51,17 +49,6 @@ class OverviewPreferencesPanel extends PreferencesPanel {
       } );
     };
     isLeftToRightProperty.link( leftToRightListener );
-
-    this.disposeOverviewPreferencesPanel = () => {
-      isLeftToRightProperty.unlink( leftToRightListener );
-      panelContent.dispose();
-      introParagraphsTexts.forEach( introParagraphsText => introParagraphsText.dispose() );
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeOverviewPreferencesPanel();
-    super.dispose();
   }
 }
 

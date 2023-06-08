@@ -29,7 +29,6 @@ const audioFeaturesStringProperty = JoistStrings.preferences.tabs.audio.audioFea
 type AudioPreferencesPanelOptions = PickRequired<PreferencesPanelOptions, 'tandem'>;
 
 class AudioPreferencesTabPanel extends PreferencesPanel {
-  private readonly disposeAudioPreferencesPanel: () => void;
 
   /**
    * @param audioModel - configuration for audio settings, see PreferencesModel
@@ -55,7 +54,6 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
     if ( audioModel.supportsVoicing ) {
       const voicingPanelSection = new VoicingPanelSection( audioModel );
       leftContent.addChild( voicingPanelSection );
-      this.disposeEmitter.addListener( () => voicingPanelSection.dispose() );
     }
 
     if ( audioModel.supportsSound ) {
@@ -69,7 +67,6 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
         includeTitleToggleSwitch: !hideSoundToggle
       } );
       rightContent.addChild( soundPanelSection );
-      this.disposeEmitter.addListener( () => soundPanelSection.dispose() );
     }
 
     const sections = new HBox( {
@@ -90,11 +87,6 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
         contentLeftMargin: 0
       } );
       container.addChild( preferencesPanelSection );
-      this.disposeEmitter.addListener( () => {
-        customContent.dispose();
-        preferencesPanelSection.dispose();
-      } );
-
     } );
 
     const audioFeaturesText = new Text( audioFeaturesStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
@@ -106,8 +98,6 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
       controlNode: audioFeaturesSwitch,
       headingControl: true
     } );
-
-    this.disposeEmitter.addListener( () => audioFeaturesSwitch.dispose() );
 
     const audioEnabledListener = ( enabled: boolean ) => {
       sections.enabled = enabled;
@@ -121,21 +111,6 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
       children: [ allAudioSwitch, sections ]
     } );
     this.addChild( panelContent );
-
-    this.disposeAudioPreferencesPanel = () => {
-      leftContent.dispose();
-      rightContent.dispose();
-      allAudioSwitch.dispose();
-      audioFeaturesText.dispose();
-      sections.dispose();
-      panelContent.dispose();
-      audioModel.audioEnabledProperty.unlink( audioEnabledListener );
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeAudioPreferencesPanel();
-    super.dispose();
   }
 }
 

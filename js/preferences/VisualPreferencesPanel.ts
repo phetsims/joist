@@ -36,7 +36,6 @@ const labelledDescriptionPatternStringProperty = JoistStrings.a11y.preferences.t
 type VisualPreferencesPanelOptions = PickRequired<PreferencesPanelOptions, 'tandem'>;
 
 class VisualPreferencesPanel extends PreferencesPanel {
-  private readonly disposeVisualPreferencesPanel: () => void;
 
   public constructor( visualModel: VisualModel, selectedTabProperty: TReadOnlyProperty<PreferencesType>, tabVisibleProperty: TReadOnlyProperty<boolean>, providedOptions?: VisualPreferencesPanelOptions ) {
 
@@ -58,7 +57,6 @@ class VisualPreferencesPanel extends PreferencesPanel {
     if ( visualModel.supportsProjectorMode ) {
       const projectorModeSwitch = new ProjectorModeToggleSwitch( visualModel.colorProfileProperty );
       contentNode.addChild( projectorModeSwitch );
-      this.disposeEmitter.addListener( () => projectorModeSwitch.dispose() );
     }
 
 
@@ -86,24 +84,12 @@ class VisualPreferencesPanel extends PreferencesPanel {
       } );
 
       contentNode.addChild( interactiveHighlightsEnabledControl );
-
-      this.disposeEmitter.addListener( () => {
-        interactiveHighlightsEnabledControl.dispose();
-        interactiveHighlightsEnabledSwitch.dispose();
-        interactiveHighlightsEnabledSwitchVoicingText.dispose();
-        highlightsReadingBlockNameResponsePatternStringProperty.dispose();
-        label.dispose();
-      } );
     }
 
     visualModel.customPreferences.forEach( customPreference => {
       const customContent = customPreference.createContent( tandem );
       const node = new Node( { children: [ customContent ] } );
       contentNode.addChild( node );
-      this.disposeEmitter.addListener( () => {
-        customContent.dispose();
-        node.dispose();
-      } );
     } );
 
     const panelSection = new PreferencesPanelSection( {
@@ -113,16 +99,6 @@ class VisualPreferencesPanel extends PreferencesPanel {
       contentLeftMargin: 0
     } );
     this.addChild( panelSection );
-
-    this.disposeVisualPreferencesPanel = () => {
-      panelSection.dispose();
-      contentNode.dispose();
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeVisualPreferencesPanel();
-    super.dispose();
   }
 }
 

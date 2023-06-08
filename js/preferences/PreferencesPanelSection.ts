@@ -30,8 +30,6 @@ type SelfOptions = {
 export type PreferencesPanelSectionOptions = SelfOptions & StrictOmit<VBoxOptions, 'children'>;
 
 class PreferencesPanelSection extends VBox {
-  private readonly disposePreferencesPanelSection: () => void;
-
   public constructor( providedOptions?: PreferencesPanelSectionOptions ) {
     const options = optionize<PreferencesPanelSectionOptions, SelfOptions, VBoxOptions>()( {
       spacing: PreferencesDialog.CONTENT_SPACING,
@@ -60,18 +58,6 @@ class PreferencesPanelSection extends VBox {
 
     options.children = sectionChildren;
     super( options );
-
-    this.disposePreferencesPanelSection = () => {
-      sectionAlignGroup.dispose();
-    };
-  }
-
-  /**
-   * Disposal is necessary because this component uses AlignGroup.
-   */
-  public override dispose(): void {
-    this.disposePreferencesPanelSection();
-    super.dispose();
   }
 }
 

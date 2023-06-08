@@ -35,9 +35,6 @@ class PreferencesTab extends Voicing( Node ) {
   // The value of this tab, when this tab is Pressed, the panel of this PreferencesType will be displayed.
   public readonly value: PreferencesType;
 
-  // garbage collection
-  private readonly disposePreferencesTab: () => void;
-
   /**
    * @param labelProperty - text label for the tab
    * @param property
@@ -119,7 +116,7 @@ class PreferencesTab extends Voicing( Node ) {
     } );
     this.addInputListener( pressListener );
 
-    const tabInputMultilink = Multilink.multilink( [ property, pressListener.isOverProperty ], ( selectedTab, isOver ) => {
+    Multilink.multilink( [ property, pressListener.isOverProperty ], ( selectedTab, isOver ) => {
       backgroundNode.opacity = selectedTab === value ? 1 :
                                isOver ? 0.8 :
                                0.6;
@@ -127,20 +124,6 @@ class PreferencesTab extends Voicing( Node ) {
       this.focusable = selectedTab === value;
       underlineNode.visible = selectedTab === value;
     } );
-
-    this.disposePreferencesTab = () => {
-      tabInputMultilink.dispose();
-      pressListener.dispose();
-      voicingPatternStringProperty.dispose();
-      contentsBox.dispose();
-      backgroundNode.dispose();
-      text.dispose();
-    };
-  }
-
-  public override dispose(): void {
-    this.disposePreferencesTab();
-    super.dispose();
   }
 }
 

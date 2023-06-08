@@ -19,7 +19,6 @@ type SelfOptions = EmptySelfOptions;
 export type PreferencesPanelOptions = StrictOmit<NodeOptions, 'tagName' | 'labelTagName'>;
 
 class PreferencesPanel extends Node {
-  private readonly disposePreferencesPanel: () => void;
 
   /**
    * @param preferencesType - PreferencesType for this panel
@@ -44,18 +43,9 @@ class PreferencesPanel extends Node {
 
     // This panel is only visible when selected tab is this preferencesType, but it can also be hidden explicitly by
     // PhET-iO.
-    const visibilityMultilink = Multilink.multilink( [ selectedTabProperty, tabVisibleProperty ], ( selectedTab, tabVisible ) => {
+    Multilink.multilink( [ selectedTabProperty, tabVisibleProperty ], ( selectedTab, tabVisible ) => {
       this.visible = selectedTab === preferencesType && tabVisible;
     } );
-
-    this.disposePreferencesPanel = () => {
-      Multilink.unmultilink( visibilityMultilink );
-    };
-  }
-
-  public override dispose(): void {
-    this.disposePreferencesPanel();
-    super.dispose();
   }
 }
 

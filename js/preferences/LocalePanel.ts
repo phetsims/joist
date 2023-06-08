@@ -18,8 +18,6 @@ import LanguageSelectionNode from './LanguageSelectionNode.js';
 import { Locale } from '../i18n/localeProperty.js';
 
 class LocalePanel extends Panel {
-  private readonly disposeLocalePanel: () => void;
-
   public constructor( localeProperty: Property<Locale> ) {
 
     // All available locales aligned into a grid
@@ -40,18 +38,6 @@ class LocalePanel extends Panel {
     } );
 
     super( content );
-
-    this.disposeLocalePanel = () => {
-      content.children.forEach( languageSelectionNode => {
-        languageSelectionNode.dispose();
-      } );
-      content.dispose();
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeLocalePanel();
-    super.dispose();
   }
 }
 

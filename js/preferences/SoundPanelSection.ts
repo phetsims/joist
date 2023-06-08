@@ -43,7 +43,6 @@ type SelfOptions = {
 type SoundPanelSectionOptions = SelfOptions & PreferencesPanelSectionOptions;
 
 class SoundPanelSection extends PreferencesPanelSection {
-  private readonly disposeSoundPanelSection: () => void;
 
   /**
    * @param audioModel - configuration for audio preferences, see PreferencesModel
@@ -122,32 +121,12 @@ class SoundPanelSection extends PreferencesPanelSection {
         extraSoundCheckbox.inputEnabled = enabled;
       };
       audioModel.soundEnabledProperty.link( extraSoundEnabledListener );
-      extraSoundContent.disposeEmitter.addListener( () => {
-        enhancedSoundLabel.dispose();
-        extraSoundCheckbox.dispose();
-        extraSoundDescription.dispose();
-        extraSoundReadingBlockNameResponsePatternStringProperty.dispose();
-        audioModel.soundEnabledProperty.unlink( extraSoundEnabledListener );
-      } );
     }
 
     super( {
       titleNode: soundEnabledControl,
       contentNode: extraSoundContent
     } );
-
-    this.disposeSoundPanelSection = () => {
-      soundLabel.dispose();
-      soundEnabledSwitch.dispose();
-      soundEnabledVoicingText.dispose();
-      soundEnabledStringProperty.dispose();
-      extraSoundContent && extraSoundContent.dispose();
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeSoundPanelSection();
-    super.dispose();
   }
 }
 

@@ -27,7 +27,6 @@ type SimulationPreferencesPanelOptions = SelfOptions &
   PickRequired<PreferencesPanelOptions, 'tandem'>;
 
 class SimulationPreferencesPanel extends PreferencesPanel {
-  private readonly disposeSimulationPreferencesPanel: () => void;
 
   /**
    * @param simulationModel - configuration for the Tab, see PreferencesModel for entries
@@ -57,23 +56,10 @@ class SimulationPreferencesPanel extends PreferencesPanel {
     simulationModel.customPreferences.forEach( customPreference => {
       const contentNode = customPreference.createContent( options.tandem );
       const preferencesPanelSection = new PreferencesPanelSection( { contentNode: contentNode } );
-      this.disposeEmitter.addListener( () => {
-        preferencesPanelSection.dispose();
-        contentNode.dispose();
-      } );
       providedChildren.push( preferencesPanelSection );
     } );
 
     panelContent.children = providedChildren;
-
-    this.disposeSimulationPreferencesPanel = () => {
-      panelContent.dispose();
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeSimulationPreferencesPanel();
-    super.dispose();
   }
 }
 

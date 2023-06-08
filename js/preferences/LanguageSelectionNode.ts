@@ -19,7 +19,6 @@ import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 export default class LanguageSelectionNode extends Rectangle {
 
   public readonly locale: Locale; // locale associated with this Node
-  private readonly disposeLanguageSelectionNode: () => void;
 
   public constructor( localeProperty: Property<Locale>, locale: Locale ) {
 
@@ -56,7 +55,6 @@ export default class LanguageSelectionNode extends Rectangle {
     } );
     this.addInputListener( fireListener );
 
-    // Will be unlinked with FireListener disposal
     fireListener.isOverProperty.link( isOver => {
 
       // makes the mouse interactive, keep the same dimensions so the layout will not change
@@ -69,18 +67,6 @@ export default class LanguageSelectionNode extends Rectangle {
       this.fill = selectedLocale === locale ? PhetColorScheme.PHET_LOGO_BLUE : null;
     };
     localeProperty.link( localeListener );
-
-    this.disposeLanguageSelectionNode = () => {
-      text.dispose();
-      localeProperty.unlink( localeListener );
-      this.removeInputListener( fireListener );
-      fireListener.dispose();
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeLanguageSelectionNode();
-    super.dispose();
   }
 }
 

@@ -102,7 +102,6 @@ type SelfOptions = EmptySelfOptions;
 type VoicingPanelSectionOptions = SelfOptions & PreferencesPanelSectionOptions;
 
 class VoicingPanelSection extends PreferencesPanelSection {
-  private readonly disposeVoicingPanelSection: () => void;
 
   /**
    * @param audioModel - configuration for audio settings, see PreferencesModel
@@ -184,10 +183,6 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
         // phet-io
         tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
-      } );
-      disposable.disposeEmitter.addListener( () => {
-        labelNode.dispose();
-        checkbox.dispose();
       } );
 
       return checkbox;
@@ -319,6 +314,8 @@ class VoicingPanelSection extends PreferencesPanelSection {
     const voicesChangedListener = ( voices: SpeechSynthesisVoice[] ) => {
       if ( voiceComboBox ) {
         voiceOptionsContent.removeChild( voiceComboBox );
+
+        // Disposal is required before creating a new one when available voices change
         voiceComboBox.dispose();
       }
 
@@ -354,39 +351,6 @@ class VoicingPanelSection extends PreferencesPanelSection {
       } );
       this.alertDescriptionUtterance( alertStringProperty );
     } );
-
-    this.disposeVoicingPanelSection = () => {
-      quickAccessLabel.dispose();
-      speechOutputLabel.dispose();
-      voiceOptionsLabel.dispose();
-      voicingLabel.dispose();
-      pitchSlider.dispose();
-      rateSlider.dispose();
-      audioModel.voicingEnabledProperty.unlink( voicingEnabledPropertyListener );
-      audioModel.voicingEnabledProperty.unlink( contentVisibilityListener );
-      voicingManager.voicesProperty.unlink( voicesChangedListener );
-      localeProperty.unlink( localeListener );
-      voicingEnabledSwitch.dispose();
-      voiceOptionsOpenProperty.dispose();
-      expandCollapseButton.dispose();
-      toolbarEnabledSwitch.dispose();
-      toolbarToggleSwitch.dispose();
-      voicingEnabledUtterance.dispose();
-
-      voicingToggleSwitch.dispose();
-      voicingEnabledSwitchVoicingText.dispose();
-      speechOutputDescription.dispose();
-
-      voicingEnabledReadingBlockNameResponsePatternStringProperty.dispose();
-      speechOutputReadingBlockNameResponsePatternStringProperty.dispose();
-
-      voiceComboBox && voiceComboBox.dispose();
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeVoicingPanelSection();
-    super.dispose();
   }
 }
 
@@ -398,7 +362,6 @@ class VoicingPanelSection extends PreferencesPanelSection {
  * @param voiceRateProperty
  */
 class VoiceRateNumberControl extends NumberControl {
-  private readonly disposeVoiceRateNumberControl: () => void;
 
   public constructor( labelString: TReadOnlyProperty<string>, a11yNameString: TReadOnlyProperty<string>, voiceRateProperty: NumberProperty ) {
 
@@ -454,16 +417,6 @@ class VoiceRateNumberControl extends NumberControl {
     } );
 
     this.slider.voicingObjectResponse = voiceRateResponseProperty;
-
-    this.disposeVoiceRateNumberControl = () => {
-      voiceRateResponseProperty.dispose();
-      voiceRateNonNormalPatternStringProperty.dispose();
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeVoiceRateNumberControl();
-    super.dispose();
   }
 }
 
@@ -541,8 +494,6 @@ class VoiceComboBox extends ComboBox<SpeechSynthesisVoice | null> {
  * A slider with labels and tick marks used to control voice rate of web speech synthesis.
  */
 class VoicingPitchSlider extends VBox {
-  private readonly disposeVoicePitchSlider: () => void;
-
   public constructor( labelString: TReadOnlyProperty<string>, voicePitchProperty: NumberProperty ) {
     const label = new Text( labelString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
 
@@ -593,19 +544,6 @@ class VoicingPitchSlider extends VBox {
       // see https://github.com/phetsims/scenery/issues/1433
       spacing: 5
     } );
-
-    this.disposeVoicePitchSlider = () => {
-      label.dispose();
-      slider.dispose();
-      lowLabel.dispose();
-      highLabel.dispose();
-      voicePitchProperty.unlink( voicePitchListener );
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeVoicePitchSlider();
-    super.dispose();
   }
 
   /**
