@@ -78,7 +78,7 @@ class KeyboardHelpButton extends JoistButton {
     }, [], {
       tandem: options.tandem.createTandem( 'keyboardHelpDialogCapsule' ),
       phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO ),
-      isElementDisposable: false
+      disposeOnClear: false
     } );
 
     // change the icon so that it is visible when the background changes from dark to light
