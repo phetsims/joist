@@ -208,6 +208,7 @@ export default class PreferencesModel extends PhetioObject {
     const options = {
 
       // Put the spread first so that nested options' defaults will correctly override
+      // eslint-disable-next-line no-object-spread-on-non-literals
       ...( optionize<PreferencesModelOptions, EmptySelfOptions, PhetioObjectOptions>()( {
 
         // phet-io
