@@ -16,6 +16,7 @@ import { GridBox } from '../../../scenery/js/imports.js';
 import Property from '../../../axon/js/Property.js';
 import LanguageSelectionNode from './LanguageSelectionNode.js';
 import { Locale } from '../i18n/localeProperty.js';
+import JoistStrings from '../JoistStrings.js';
 
 class LocalePanel extends Panel {
   public constructor( localeProperty: Property<Locale> ) {
@@ -37,7 +38,15 @@ class LocalePanel extends Panel {
       } )
     } );
 
-    super( content );
+    super( content, {
+
+      // pdom
+      tagName: 'div',
+      labelTagName: 'h3',
+      labelContent: JoistStrings.a11y.preferences.tabs.localization.languageSelection.labelStringProperty,
+      descriptionTagName: 'p',
+      descriptionContent: JoistStrings.a11y.preferences.tabs.localization.languageSelection.descriptionStringProperty
+    } );
   }
 }
 

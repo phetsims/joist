@@ -369,6 +369,14 @@ type StringsType = {
             'disabledAlert': string;
             'disabledAlertStringProperty': LinkableProperty<string>;
           }
+        };
+        'localization': {
+          'languageSelection': {
+            'label': string;
+            'labelStringProperty': LinkableProperty<string>;
+            'description': string;
+            'descriptionStringProperty': LinkableProperty<string>;
+          }
         }
       }
     };

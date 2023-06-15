@@ -37,8 +37,9 @@ export default class LanguageSelectionNode extends Rectangle {
     super( text.bounds.dilated( 5 ), {
       cursor: 'pointer',
 
-      // So that the item is tab-navigable and can be activated with the FireListener
-      tagName: 'button'
+      // pdom
+      tagName: 'button',
+      innerContent: string
     } );
     text.center = this.center;
     this.addChild( text );

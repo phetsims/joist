@@ -485,6 +485,16 @@
               "value": "Custom taps and swipes off."
             }
           }
+        },
+        "localization": {
+          "languageSelection": {
+            "label": {
+              "value": "Language"
+            },
+            "description": {
+              "value": "Localization only changes on-screen text. Description features, when present, remain in English."
+            }
+          }
         }
       }
     },
