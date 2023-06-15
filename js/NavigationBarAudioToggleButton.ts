@@ -161,7 +161,7 @@ class NavigationBarAudioToggleButton extends JoistButton {
 
     // must be after the button is instrumented
     this.addLinkedElement( soundEnabledProperty, {
-      tandem: options.tandem.createTandem( 'property' )
+      tandemName: 'property'
     } );
 
     // pdom attribute lets user know when the toggle is pressed, linked lazily so that an alert isn't triggered

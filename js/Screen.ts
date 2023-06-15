@@ -191,7 +191,7 @@ class Screen<M extends TModel, V extends ScreenView> extends PhetioObject {
       // This additional option is needed because designers requested the ability to not instrument a screen's nameProperty
       // even if it has a name, see https://github.com/phetsims/joist/issues/627 and https://github.com/phetsims/joist/issues/629.
       options.instrumentNameProperty && this.addLinkedElement( options.name, {
-        tandem: options.tandem.createTandem( 'nameProperty' )
+        tandemName: 'nameProperty'
       } );
     }
     else {
