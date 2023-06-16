@@ -104,7 +104,7 @@ type SelfOptions = {
   webgl?: boolean;
 };
 
-export type SimOptions = SelfOptions & PickOptional<PhetioObject, 'phetioDesigned'>;
+export type SimOptions = SelfOptions & PickOptional<PhetioObjectOptions, 'phetioDesigned'>;
 
 export default class Sim extends PhetioObject {
 
