@@ -489,10 +489,10 @@
         "localization": {
           "languageSelection": {
             "label": {
-              "value": "Language"
+              "value": "Languages"
             },
             "description": {
-              "value": "Localization only changes on-screen text. Description features, when present, remain in English."
+              "value": "Change language to translate on-screen text. Description features, when present, remain in English."
             }
           }
         }
