@@ -492,7 +492,10 @@
               "value": "Languages"
             },
             "description": {
-              "value": "Change language to translate on-screen text. Description features, when present, remain in English."
+              "value": "Change language to translate on-screen text. Additional descriptions, when present, remain in English."
+            },
+            "languageChangeResponsePattern": {
+              "value": "On-screen text now in {{language}}"
             }
           }
         }

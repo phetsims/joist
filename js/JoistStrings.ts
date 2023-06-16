@@ -376,6 +376,8 @@ type StringsType = {
             'labelStringProperty': LinkableProperty<string>;
             'description': string;
             'descriptionStringProperty': LinkableProperty<string>;
+            'languageChangeResponsePattern': string;
+            'languageChangeResponsePatternStringProperty': LinkableProperty<string>;
           }
         }
       }

@@ -15,6 +15,8 @@ import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import Property from '../../../axon/js/Property.js';
 import { Locale } from '../i18n/localeProperty.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
+import pushButtonSoundPlayer from '../../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
+import JoistStrings from '../JoistStrings.js';
 
 export default class LanguageSelectionNode extends Rectangle {
 
@@ -49,6 +51,13 @@ export default class LanguageSelectionNode extends Rectangle {
     const fireListener = new FireListener( {
       fire: () => {
         localeProperty.value = locale;
+
+        pushButtonSoundPlayer.play();
+        this.alertDescriptionUtterance( StringUtils.fillIn(
+          JoistStrings.a11y.preferences.tabs.localization.languageSelection.languageChangeResponsePatternStringProperty, {
+            language: string
+          } )
+        );
       },
 
       // Preferences components are not instrumented, see https://github.com/phetsims/joist/issues/744
