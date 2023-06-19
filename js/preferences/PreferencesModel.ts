@@ -212,7 +212,7 @@ export default class PreferencesModel extends PhetioObject {
       ...( optionize<PreferencesModelOptions, EmptySelfOptions, PhetioObjectOptions>()( {
 
         // phet-io
-        tandem: Tandem.OPTIONAL,
+        tandem: Tandem.OPTIONAL, // Uninstrumented for now, but keep the file's instrumentation just in case, see https://github.com/phetsims/phet-io/issues/1913
         phetioType: PreferencesModel.PreferencesModelIO,
         phetioFeatured: true,
         phetioState: false,
