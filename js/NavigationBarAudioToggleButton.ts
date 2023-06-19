@@ -73,6 +73,7 @@ class NavigationBarAudioToggleButton extends JoistButton {
       enabled: !( phet.chipper.isFuzzEnabled() && phet.chipper.queryParameters.supportsVoicing ),
 
       visiblePropertyOptions: { phetioFeatured: true },
+      phetioFeatured: true,
 
       // pdom
       innerContent: JoistStrings.a11y.soundToggle.labelStringProperty,
