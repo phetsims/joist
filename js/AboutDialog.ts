@@ -24,6 +24,7 @@ import packageJSON from './packageJSON.js';
 import updateCheck from './updateCheck.js';
 import UpdateNodes from './UpdateNodes.js';
 import UpdateState from './UpdateState.js';
+import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
 
 // constants
 const MAX_WIDTH = 550; // Maximum width of elements in the dialog
@@ -216,16 +217,14 @@ export default class AboutDialog extends Dialog {
         const link = links[ i ];
 
         // If links are allowed, use hyperlinks. Otherwise, just output the URL. This doesn't need to be internationalized.
-        const stringProperty = new DerivedProperty( [ allowLinksProperty, link.textStringProperty ], ( allowLinks, linkText ) => {
+        const stringProperty = new DerivedStringProperty( [ allowLinksProperty, link.textStringProperty ], ( allowLinks, linkText ) => {
           return allowLinks ? `<a href="{{url}}">${linkText}</a>` : `${linkText}: ${link.url}`;
-        } );
+        }, { tandem: options.tandem.createTandem( `${link.tandemName}StringProperty` ) } );
 
         // This is PhET-iO instrumented because it is a keyboard navigation focusable element.
         linksChildren.push( new RichText( stringProperty, {
           links: { url: link.url }, // RichText must fill in URL for link
-          font: new PhetFont( NOMINAL_FONT_SIZE ),
-          tandem: options.tandem.createTandem( link.tandemName ),
-          phetioReadOnly: true
+          font: new PhetFont( NOMINAL_FONT_SIZE )
         } ) );
       }
 
