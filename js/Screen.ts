@@ -34,7 +34,7 @@ import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import Multilink from '../../axon/js/Multilink.js';
 import TModel from './TModel.js';
 import PatternStringProperty from '../../axon/js/PatternStringProperty.js';
-import LinkableProperty from '../../axon/js/LinkableProperty.js';
+import PhetioProperty from '../../axon/js/PhetioProperty.js';
 
 const screenNamePatternStringProperty = JoistStrings.a11y.screenNamePatternStringProperty;
 const screenSimPatternStringProperty = JoistStrings.a11y.screenSimPatternStringProperty;
@@ -53,7 +53,7 @@ assert && assert( Math.abs( HOME_SCREEN_ICON_ASPECT_RATIO - HOME_SCREEN_ICON_ASP
 
 // Documentation is by the defaults
 type SelfOptions = {
-  name?: LinkableProperty<string> | null;
+  name?: PhetioProperty<string> | null;
   instrumentNameProperty?: boolean;
 
   // It would be preferable to support Property<Color | string> solely, but many subtypes are hardcoded to be Color only
