@@ -62,7 +62,7 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
       } ) );
     }
 
-    if ( localizationModel.supportsDynamicLocales && localizationModel.includeLocalePanel ) {
+    if ( localizationModel.supportsDynamicLocale && localizationModel.includeLocalePanel ) {
       const localePanel = new LocalePanel( localizationModel.localeProperty );
       contentNode.addChild( localePanel );
     }

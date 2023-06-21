@@ -89,7 +89,7 @@ type LocalizationPreferencesOptions = {
 
   // Whether to include a UI component that changes the sim language. Default for this in phetFeatures is true. But it
   // is still only available when localeProperty indicates that more than one locale is available.
-  supportsDynamicLocales?: boolean;
+  supportsDynamicLocale?: boolean;
 
   // Describes the available artwork that can be used for different regions and cultures. If any sets are
   // provided, the Localization tab will include a UI component to swap out pieces of artwork to match the selected
@@ -242,7 +242,7 @@ export default class PreferencesModel extends PhetioObject {
       }, providedOptions.inputOptions ),
       localizationOptions: optionize<LocalizationPreferencesOptions, LocalizationPreferencesOptions, BaseModelType>()( {
         tandemName: 'localizationModel',
-        supportsDynamicLocales: !!localeProperty.validValues && localeProperty.validValues.length > 1 && phet.chipper.allowLocaleSwitching,
+        supportsDynamicLocale: !!localeProperty.validValues && localeProperty.validValues.length > 1 && phet.chipper.queryParameters.supportsDynamicLocale,
         characterSets: [],
         customPreferences: [],
         includeLocalePanel: true
@@ -271,7 +271,7 @@ export default class PreferencesModel extends PhetioObject {
                               // Running with english locale OR an environment where locale switching is supported and
                               // english is one of the available languages.
                               phet.chipper.locale.startsWith( 'en' ) ||
-                              ( phet.chipper.allowLocaleSwitching && _.some( localeProperty.validValues, value => value.startsWith( 'en' ) ) )
+                              ( phet.chipper.queryParameters.supportsDynamicLocale && _.some( localeProperty.validValues, value => value.startsWith( 'en' ) ) )
                             );
 
     // Audio can be disabled explicitly via query parameter
@@ -493,7 +493,7 @@ export default class PreferencesModel extends PhetioObject {
    * Returns true if the LocalizationModel has any preferences that can be changed.
    */
   public supportsLocalizationPreferences(): boolean {
-    return this.localizationModel.supportsDynamicLocales ||
+    return this.localizationModel.supportsDynamicLocale ||
            this.localizationModel.characterSets.length > 0 ||
            this.preferenceModelHasCustom( this.localizationModel );
   }
@@ -519,7 +519,7 @@ export default class PreferencesModel extends PhetioObject {
         supportsSound: preferencesModel.audioModel.supportsSound,
         supportsExtraSound: preferencesModel.audioModel.supportsExtraSound,
         supportsGestureControl: preferencesModel.inputModel.supportsGestureControl,
-        supportsDynamicLocales: preferencesModel.localizationModel.supportsDynamicLocales,
+        supportsDynamicLocale: preferencesModel.localizationModel.supportsDynamicLocale,
 
         // Method-based
         supportsAudioPreferences: preferencesModel.supportsAudioPreferences(),
@@ -536,7 +536,7 @@ export default class PreferencesModel extends PhetioObject {
       supportsSound: BooleanIO,
       supportsExtraSound: BooleanIO,
       supportsGestureControl: BooleanIO,
-      supportsDynamicLocales: BooleanIO,
+      supportsDynamicLocale: BooleanIO,
 
       // Method-based
       supportsAudioPreferences: BooleanIO,
