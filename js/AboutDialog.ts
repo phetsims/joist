@@ -6,6 +6,8 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+
+import Disposable from '../../axon/js/Disposable.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import stepTimer from '../../axon/js/stepTimer.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
@@ -293,7 +295,7 @@ export default class AboutDialog extends Dialog {
   }
 
   public override dispose(): void {
-    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+    Disposable.assertNotDisposable();
   }
 }
 

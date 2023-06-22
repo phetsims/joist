@@ -9,6 +9,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import Disposable from '../../../axon/js/Disposable.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import { AlignGroup, Node, NodeOptions } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
@@ -138,7 +139,7 @@ class PreferencesPanels extends Node {
   }
 
   public override dispose(): void {
-    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+    Disposable.assertNotDisposable();
   }
 
   /**

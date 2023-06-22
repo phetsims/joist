@@ -9,6 +9,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import Disposable from '../../../axon/js/Disposable.js';
 import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
@@ -166,7 +167,7 @@ class PreferencesDialog extends Dialog {
   }
 
   public override dispose(): void {
-    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+    Disposable.assertNotDisposable();
   }
 
   // Font and options for the text that labels a tab in the dialog.

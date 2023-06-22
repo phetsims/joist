@@ -1,5 +1,6 @@
 // Copyright 2022-2023, University of Colorado Boulder
 
+import Disposable from '../../../axon/js/Disposable.js';
 import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
 import SoundClip, { SoundClipOptions } from '../../../tambo/js/sound-generators/SoundClip.js';
 import cardFlip_mp3 from '../../sounds/cardFlip_mp3.js';
@@ -18,7 +19,7 @@ class PreferencesTabSwitchSoundGenerator extends SoundClip {
   }
 
   public override dispose(): void {
-    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+    Disposable.assertNotDisposable();
   }
 }
 

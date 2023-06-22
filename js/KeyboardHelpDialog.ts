@@ -6,6 +6,7 @@
  * @author Jesse Greenberg
  */
 
+import Disposable from '../../axon/js/Disposable.js';
 import Multilink from '../../axon/js/Multilink.js';
 import Property from '../../axon/js/Property.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
@@ -112,7 +113,7 @@ export default class KeyboardHelpDialog extends Dialog {
   }
 
   public override dispose(): void {
-    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+    Disposable.assertNotDisposable();
   }
 }
 

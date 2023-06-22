@@ -7,6 +7,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import Disposable from '../../../axon/js/Disposable.js';
 import TProperty from '../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
@@ -176,7 +177,7 @@ class PreferencesTabs extends HBox {
   }
 
   public override dispose(): void {
-    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+    Disposable.assertNotDisposable();
   }
 }
 
