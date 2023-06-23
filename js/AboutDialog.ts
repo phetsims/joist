@@ -7,7 +7,6 @@
  */
 
 
-import Disposable from '../../axon/js/Disposable.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import stepTimer from '../../axon/js/stepTimer.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
@@ -60,6 +59,7 @@ export default class AboutDialog extends Dialog {
       leftMargin: 26,
       phetioReadOnly: true, // the AboutDialog should not be settable
       phetioDynamicElement: true,
+      isDisposable: false,
       tandem: Tandem.REQUIRED
     }, providedOptions );
 
@@ -292,10 +292,6 @@ export default class AboutDialog extends Dialog {
         this.updateStepListener && stepTimer.removeListener( this.updateStepListener );
       }
     }
-  }
-
-  public override dispose(): void {
-    Disposable.assertNotDisposable();
   }
 }
 

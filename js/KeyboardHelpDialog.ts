@@ -6,7 +6,6 @@
  * @author Jesse Greenberg
  */
 
-import Disposable from '../../axon/js/Disposable.js';
 import Multilink from '../../axon/js/Multilink.js';
 import Property from '../../axon/js/Property.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
@@ -45,6 +44,7 @@ export default class KeyboardHelpDialog extends Dialog {
 
       // Append the title to the close button
       closeButtonVoicingDialogTitle: JoistStrings.keyboardShortcuts.titleStringProperty,
+      isDisposable: false,
 
       // Because of the special titleNode, we set the aria-labelledby attribute manually; see below.
       addAriaLabelledByFromTitle: false
@@ -110,10 +110,6 @@ export default class KeyboardHelpDialog extends Dialog {
       otherNode: shortcutsTitleText,
       otherElementName: PDOMPeer.PRIMARY_SIBLING
     } );
-  }
-
-  public override dispose(): void {
-    Disposable.assertNotDisposable();
   }
 }
 

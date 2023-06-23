@@ -9,7 +9,6 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import Disposable from '../../../axon/js/Disposable.js';
 import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
@@ -69,6 +68,7 @@ class PreferencesDialog extends Dialog {
     const options = optionize<PreferencesDialogOptions, EmptySelfOptions, DialogOptions>()( {
       titleAlign: 'center',
       title: titleText,
+      isDisposable: false,
 
       // phet-io
       phetioDynamicElement: true,
@@ -164,10 +164,6 @@ class PreferencesDialog extends Dialog {
    */
   private focusSelectedPanel(): void {
     this.preferencesPanels.focusSelectedPanel();
-  }
-
-  public override dispose(): void {
-    Disposable.assertNotDisposable();
   }
 
   // Font and options for the text that labels a tab in the dialog.

@@ -7,7 +7,6 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import Disposable from '../../../axon/js/Disposable.js';
 import TProperty from '../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
@@ -34,7 +33,7 @@ class PreferencesTabs extends HBox {
 
   public constructor( supportedTabs: PreferencesType[], selectedPanelProperty: TProperty<PreferencesType>, providedOptions: PreferencesTabsOptions ) {
     const options = optionize<PreferencesTabsOptions, SelfOptions, HBoxOptions>()( {
-
+      isDisposable: false,
       // pdom
       tagName: 'ul',
       ariaRole: 'tablist',
@@ -174,10 +173,6 @@ class PreferencesTabs extends HBox {
         content.focus();
       }
     } );
-  }
-
-  public override dispose(): void {
-    Disposable.assertNotDisposable();
   }
 }
 

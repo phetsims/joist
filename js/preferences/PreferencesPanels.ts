@@ -9,7 +9,6 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import Disposable from '../../../axon/js/Disposable.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import { AlignGroup, Node, NodeOptions } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
@@ -48,7 +47,8 @@ class PreferencesPanels extends Node {
                       selectedTabProperty: TReadOnlyProperty<PreferencesType>, preferencesTabs: PreferencesTabs,
                       providedOptions?: PreferencesPanelsOptions ) {
     const options = optionize<PreferencesPanelsOptions, SelfOptions, NodeOptions>()( {
-      phetioVisiblePropertyInstrumented: false
+      phetioVisiblePropertyInstrumented: false,
+      isDisposable: false
     }, providedOptions );
 
     const tandem = options.tandem;
@@ -136,10 +136,6 @@ class PreferencesPanels extends Node {
       this.addChild( localizationBox );
       this.content.push( new PreferencesPanelContainer( localizationPreferencesPanel, PreferencesType.LOCALIZATION ) );
     }
-  }
-
-  public override dispose(): void {
-    Disposable.assertNotDisposable();
   }
 
   /**
