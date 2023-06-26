@@ -86,12 +86,12 @@ class VoicingToolbarItem extends Node {
       a11yName: titleStringProperty,
       rightValueContextResponse: simVoicingOnStringProperty,
       leftValueContextResponse: simVoicingOffStringProperty,
-      tandem: options.tandem.createTandem( 'muteSpeechSwitch' )
+      tandem: options.tandem?.createTandem( 'muteSpeechSwitch' )
     }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
     const muteSpeechControl = new PreferencesControl( {
       labelNode: titleText,
       controlNode: muteSpeechSwitch,
-      tandem: options.tandem.createTandem( 'muteSpeechControl' )
+      tandem: options.tandem?.createTandem( 'muteSpeechControl' )
     } );
 
     // layout
