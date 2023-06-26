@@ -17,6 +17,7 @@ import { Locale } from '../i18n/localeProperty.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import pushButtonSoundPlayer from '../../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
 import JoistStrings from '../JoistStrings.js';
+import localeInfoModule from '../../../chipper/js/data/localeInfoModule.js';
 
 export default class LanguageSelectionNode extends Rectangle {
 
@@ -32,6 +33,12 @@ export default class LanguageSelectionNode extends Rectangle {
                    StringUtils.wrapLTR( `${wrappedLocaleString} (${locale})` ) :
                    wrappedLocaleString;
 
+    // The english name of the locale is reported for accessibility because PDOM strings are not translatable.
+    // If you use the localized name, it might change the screen reader voice.
+    const localeInfo = localeInfoModule[ locale ];
+    assert && assert( localeInfo, `No localeInfo for ${locale}` );
+    const englishLocaleString = localeInfo.name;
+
     const text = new Text( string, {
       font: PreferencesDialog.CONTENT_FONT
     } );
@@ -41,7 +48,7 @@ export default class LanguageSelectionNode extends Rectangle {
 
       // pdom
       tagName: 'button',
-      innerContent: string
+      innerContent: englishLocaleString
     } );
     text.center = this.center;
     this.addChild( text );
@@ -55,7 +62,7 @@ export default class LanguageSelectionNode extends Rectangle {
         pushButtonSoundPlayer.play();
         this.alertDescriptionUtterance( StringUtils.fillIn(
           JoistStrings.a11y.preferences.tabs.localization.languageSelection.languageChangeResponsePatternStringProperty, {
-            language: string
+            language: englishLocaleString
           } )
         );
       },
