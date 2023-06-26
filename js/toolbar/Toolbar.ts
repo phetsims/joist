@@ -100,7 +100,6 @@ class Toolbar extends Node {
       tagName: 'div',
 
       // phet-io
-      tandem: Tandem.OPTIONAL,
       visiblePropertyOptions: {
         phetioReadOnly: true
       }
@@ -123,7 +122,7 @@ class Toolbar extends Node {
 
     const voicingAlertManager = new VoicingToolbarAlertManager( selectedScreenProperty );
     this.menuContent = new VoicingToolbarItem( voicingAlertManager, lookAndFeel, {
-      tandem: options.tandem.createTandem( 'menuContent' )
+      tandem: options.tandem?.createTandem( 'menuContent' )
     } );
 
     // icon for the openButton
