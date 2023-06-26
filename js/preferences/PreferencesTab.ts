@@ -26,6 +26,9 @@ type SelfOptions = {
 
   // An additional icon to display to the right of the label text for this tab.
   iconNode?: Node | null;
+
+  // X dilation for tab pointer areas
+  pointerAreaXDilation?: number;
 };
 type PreferencesTabOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
 type ParentOptions = NodeOptions & VoicingOptions;
@@ -45,6 +48,7 @@ class PreferencesTab extends Voicing( Node ) {
 
     const options = optionize<PreferencesTabOptions, SelfOptions, ParentOptions>()( {
       iconNode: null,
+      pointerAreaXDilation: 0,
 
       phetioFeatured: true,
       visiblePropertyOptions: {
@@ -82,6 +86,10 @@ class PreferencesTab extends Voicing( Node ) {
       stroke: FocusHighlightPath.INNER_FOCUS_COLOR,
       lineWidth: 5
     } );
+
+    super( options );
+    this.children = [ backgroundNode, underlineNode ];
+
     contentsBox.boundsProperty.link( bounds => {
 
       // margin around the tabContents
@@ -91,10 +99,10 @@ class PreferencesTab extends Voicing( Node ) {
 
       // spacing between the underline and the tabContents
       underlineNode.centerTop = bounds.centerBottom.plusXY( 0, 5 );
-    } );
 
-    super( options );
-    this.children = [ backgroundNode, underlineNode ];
+      this.mouseArea = this.localBounds.dilatedX( options.pointerAreaXDilation );
+      this.touchArea = this.mouseArea;
+    } );
 
     this.value = value;
 

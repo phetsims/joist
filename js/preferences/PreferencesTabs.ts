@@ -23,6 +23,8 @@ type SelfOptions = EmptySelfOptions;
 
 export type PreferencesTabsOptions = HBoxOptions & PickRequired<HBoxOptions, 'tandem'>;
 
+const DEFAULT_TAB_SPACING = 10;
+
 class PreferencesTabs extends HBox {
 
   //  A reference to the selected and focusable tab content so that we can determine which
@@ -38,7 +40,7 @@ class PreferencesTabs extends HBox {
       tagName: 'ul',
       ariaRole: 'tablist',
       groupFocusHighlight: true,
-      spacing: 10,
+      spacing: DEFAULT_TAB_SPACING,
       align: 'bottom'
     }, providedOptions );
 
@@ -48,33 +50,42 @@ class PreferencesTabs extends HBox {
 
     const isTabSupported = ( preferencesType: PreferencesType ) => _.includes( supportedTabs, preferencesType );
 
+    // A dilation of the pointer areas makes it so that highlights that sorround the tabs are flush against eachother
+    // which looks better, see https://github.com/phetsims/joist/issues/932
+    const dilation = options.spacing / 2;
     if ( isTabSupported( PreferencesType.OVERVIEW ) ) {
       this.content.push( new PreferencesTab( JoistStrings.preferences.tabs.overview.titleStringProperty, selectedPanelProperty, PreferencesType.OVERVIEW, {
+        pointerAreaXDilation: dilation,
         tandem: options.tandem.createTandem( 'overviewTab' )
       } ) );
     }
     if ( isTabSupported( PreferencesType.SIMULATION ) ) {
       this.content.push( new PreferencesTab( JoistStrings.preferences.tabs.simulation.titleStringProperty, selectedPanelProperty, PreferencesType.SIMULATION, {
+        pointerAreaXDilation: dilation,
         tandem: options.tandem.createTandem( 'simulationTab' )
       } ) );
     }
     if ( isTabSupported( PreferencesType.VISUAL ) ) {
       this.content.push( new PreferencesTab( JoistStrings.preferences.tabs.visual.titleStringProperty, selectedPanelProperty, PreferencesType.VISUAL, {
+        pointerAreaXDilation: dilation,
         tandem: options.tandem.createTandem( 'visualTab' )
       } ) );
     }
     if ( isTabSupported( PreferencesType.AUDIO ) ) {
       this.content.push( new PreferencesTab( JoistStrings.preferences.tabs.audio.titleStringProperty, selectedPanelProperty, PreferencesType.AUDIO, {
+        pointerAreaXDilation: dilation,
         tandem: options.tandem.createTandem( 'audioTab' )
       } ) );
     }
     if ( isTabSupported( PreferencesType.INPUT ) ) {
       this.content.push( new PreferencesTab( JoistStrings.preferences.tabs.input.titleStringProperty, selectedPanelProperty, PreferencesType.INPUT, {
+        pointerAreaXDilation: dilation,
         tandem: options.tandem.createTandem( 'inputTab' )
       } ) );
     }
     if ( isTabSupported( PreferencesType.LOCALIZATION ) ) {
       this.content.push( new PreferencesTab( JoistStrings.preferences.tabs.localization.titleStringProperty, selectedPanelProperty, PreferencesType.LOCALIZATION, {
+        pointerAreaXDilation: dilation,
 
         // Display a globe icon next to the localization label
         iconNode: new Path( globeSolidShape, {
