@@ -365,7 +365,7 @@ export default class PreferencesModel extends PhetioObject {
       let voicingDisabledFromLocale = false;
       localeProperty.link( locale => {
 
-        const englishLocale = locale.startsWith( 'en' );
+        const englishLocale = voicingManager.voicingSupportedForLocale( locale );
         if ( voicingManager.enabledProperty.value ) {
           voicingManager.enabledProperty.value = englishLocale;
           voicingDisabledFromLocale = true;
