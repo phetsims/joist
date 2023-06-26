@@ -55,7 +55,7 @@ import Screen, { AnyScreen } from './Screen.js';
 import ScreenSelectionSoundGenerator from './ScreenSelectionSoundGenerator.js';
 import ScreenshotGenerator from './ScreenshotGenerator.js';
 import selectScreens from './selectScreens.js';
-import SimDisplay from './SimDisplay.js';
+import SimDisplay, { SimDisplayOptions } from './SimDisplay.js';
 import SimInfo from './SimInfo.js';
 import LegendsOfLearningSupport from './thirdPartySupport/LegendsOfLearningSupport.js';
 import Toolbar from './toolbar/Toolbar.js';
@@ -282,11 +282,7 @@ export default class Sim extends PhetioObject {
 
     // Some options are used by sim and SimDisplay. Promote webgl to top level sim option out of API ease, but it is
     // passed to the SimDisplay.
-    const simDisplayOptions: {
-      webgl: boolean;
-      tandem: Tandem;
-      preferencesModel: PreferencesModel;
-    } = {
+    const simDisplayOptions: SimDisplayOptions = {
       webgl: options.webgl,
       tandem: Tandem.GENERAL_VIEW.createTandem( 'display' ),
       preferencesModel: options.preferencesModel
