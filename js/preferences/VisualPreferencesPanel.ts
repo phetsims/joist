@@ -45,7 +45,7 @@ class VisualPreferencesPanel extends PreferencesPanel {
 
     // Grab the required tandem for subcomponents but the tandem is NOT passed through to the super
     const tandem = options.tandem;
-    options.tandem = Tandem.OPTIONAL;
+    options.tandem = Tandem.OPT_OUT;
 
     super( PreferencesType.VISUAL, selectedTabProperty, tabVisibleProperty, options );
 

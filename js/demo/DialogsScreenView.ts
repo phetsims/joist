@@ -29,7 +29,7 @@ class DialogsScreenView extends ScreenView {
 
     const keyboardHelpDialogContent = new BasicActionsKeyboardHelpSection();
 
-    const fakeScreen = { createKeyboardHelpNode: () => keyboardHelpDialogContent, tandem: Tandem.OPTIONAL } as unknown as AnyScreen;
+    const fakeScreen = { createKeyboardHelpNode: () => keyboardHelpDialogContent, tandem: Tandem.OPT_OUT } as unknown as AnyScreen;
     const keyboardHelpButton = new KeyboardHelpButton(
       [ fakeScreen ],
       new Property( fakeScreen ),

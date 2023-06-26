@@ -31,13 +31,11 @@ class PreferencesPanel extends Node {
 
       // pdom
       tagName: 'div',
-      labelTagName: 'h2',
-
-      // phet-io - Many PreferencesPanels do not need a Tandem, but some subclasses make it required for sub components
-      tandem: Tandem.OPTIONAL
+      labelTagName: 'h2'
     }, providedOptions );
 
-    options.tandem = Tandem.OPTIONAL; // don't instrument the Panel Node itself
+    // don't instrument the Panel Node itself, though many subclasses make it required for subcomponents
+    options.tandem = Tandem.OPT_OUT;
 
     super( options );
 
