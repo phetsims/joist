@@ -7,15 +7,15 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import { SceneryConstants, VoicingText } from '../../../scenery/js/imports.js';
+import { SceneryConstants, VoicingText, Text } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesControl, { PreferencesControlOptions } from './PreferencesControl.js';
 import JoistStrings from '../JoistStrings.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import optionize, { combineOptions, EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import Property from '../../../axon/js/Property.js';
-import ToggleSwitch from '../../../sun/js/ToggleSwitch.js';
+import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -33,12 +33,14 @@ class ProjectorModeToggleSwitch extends PreferencesControl {
     phet.chipper.colorProfiles[ 0 ] !== phet.chipper.colorProfiles[ 1 ],
       'ProjectorModeToggleSwitch requires sims that support the projector color profile and one other color profile' );
 
-    const projectorModeLabel = new VoicingText( JoistStrings.projectorModeStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
+    const projectorModeLabel = new Text( JoistStrings.projectorModeStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
     const projectorModeDescription = new VoicingText( JoistStrings.preferences.tabs.visual.projectorModeDescriptionStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
 
     // Identify the non-projector color profile that this checkbox sets.
     const otherColorProfile = phet.chipper.colorProfiles.find( ( colorProfile: string ) => colorProfile !== SceneryConstants.PROJECTOR_COLOR_PROFILE );
-    const projectorModeSwitch = new ToggleSwitch( colorProfileProperty, otherColorProfile, SceneryConstants.PROJECTOR_COLOR_PROFILE, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS );
+    const projectorModeSwitch = new ToggleSwitch( colorProfileProperty, otherColorProfile, SceneryConstants.PROJECTOR_COLOR_PROFILE, combineOptions<ToggleSwitchOptions>( {
+      a11yName: JoistStrings.projectorModeStringProperty
+    }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
 
     const projectorModePatternStringProperty = new PatternStringProperty( JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty, {
       label: JoistStrings.projectorModeStringProperty,
