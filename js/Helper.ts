@@ -15,7 +15,7 @@ import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import MeasuringTapeNode from '../../scenery-phet/js/MeasuringTapeNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { CanvasNode, Circle, Color, Display, DOM, DragListener, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, Image, LayoutNode, Line, LinearGradient, extendsHeightSizable, extendsWidthSizable, Node, NodeOptions, NodePattern, Paint, Path, Pattern, PDOMInstance, PressListener, RadialGradient, Rectangle, RichText, RichTextOptions, SceneryEvent, Spacer, TColor, Text, TextOptions, TPaint, Trail, VBox, HSeparator, WebGLNode } from '../../scenery/js/imports.js';
+import { CanvasNode, Circle, Color, Display, DOM, DragListener, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, Image, LayoutNode, Line, LinearGradient, extendsHeightSizable, extendsWidthSizable, Node, NodeOptions, NodePattern, Paint, Path, Pattern, PDOMInstance, PressListener, RadialGradient, Rectangle, RichText, RichTextOptions, SceneryEvent, Spacer, TColor, Text, TextOptions, TPaint, Trail, VBox, HSeparator, WebGLNode, imageBitmapToCanvas } from '../../scenery/js/imports.js';
 import Panel from '../../sun/js/Panel.js';
 import AquaRadioButtonGroup from '../../sun/js/AquaRadioButtonGroup.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -1599,7 +1599,7 @@ const createInfo = ( trail: Trail ): Node[] => {
           spacing: 3,
           children: [
             new Text( 'Pattern', { fontSize: 12 } ),
-            new Image( paint.image, { maxWidth: 10, maxHeight: 10 } )
+            new Image( paint.image instanceof ImageBitmap ? imageBitmapToCanvas( paint.image ) : paint.image, { maxWidth: 10, maxHeight: 10 } )
           ]
         } ) );
       }
