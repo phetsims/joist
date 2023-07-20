@@ -15,7 +15,7 @@ import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import platform from '../../phet-core/js/platform.js';
 import stripEmbeddingMarks from '../../phet-core/js/stripEmbeddingMarks.js';
 import WithRequired from '../../phet-core/js/types/WithRequired.js';
-import { FullScreen, HSeparator, KeyboardUtils, Node, NodeOptions, openPopup, Path, PDOMUtils, SceneryEvent, VBox } from '../../scenery/js/imports.js';
+import { FullScreen, HSeparator, KeyboardListener, Node, NodeOptions, openPopup, Path, PDOMUtils, VBox } from '../../scenery/js/imports.js';
 import Dialog from '../../sun/js/Dialog.js';
 import MenuItem, { MenuItemOptions } from '../../sun/js/MenuItem.js';
 import Popupable, { PopupableOptions } from '../../sun/js/Popupable.js';
@@ -271,47 +271,49 @@ class PhetMenu extends Popupable( Node, 0 ) {
     this.addChild( bubble );
     this.addChild( content );
 
-    // pdom - add the keydown listener, handling arrow, escape, and tab keys
-    // When using the arrow keys, we prevent the virtual cursor from moving in VoiceOver
-    const keydownListener = {
-      keydown: ( event: SceneryEvent ) => {
-        const domEvent = event.domEvent!;
-
+    // pdom - handles navigation of items and closing with escape
+    const keyboardListener = new KeyboardListener( {
+      keys: [ 'escape', 'arrowDown', 'arrowUp' ],
+      callback: ( event, listener ) => {
         const firstItem = this.items[ 0 ];
         const lastItem = this.items[ this.items.length - 1 ];
 
-        const key = KeyboardUtils.getEventCode( domEvent );
+        if ( event && event.domEvent ) {
+          if ( event.domEvent ) {
 
-        // this attempts to prevent the screen reader's virtual cursor from also moving with the arrow keys
-        if ( KeyboardUtils.isArrowKey( domEvent ) || key === KeyboardUtils.KEY_ESCAPE ) {
-          domEvent.preventDefault();
+            // this attempts to prevent the screen reader's virtual cursor from also moving with the arrow keys
+            event.domEvent.preventDefault();
+          }
+
+          // Do not allow pan/zoom to occur while navigating items.
+          event.pointer.reserveForKeyboardDrag();
         }
 
-        if ( key === KeyboardUtils.KEY_DOWN_ARROW ) {
+        if ( listener.keysPressed === 'arrowDown' ) {
 
           // On down arrow, focus next item in the list, or wrap up to the first item if focus is at the end
           const nextFocusable = lastItem.focused ? firstItem : PDOMUtils.getNextFocusable();
           nextFocusable.focus();
         }
-        else if ( key === KeyboardUtils.KEY_UP_ARROW ) {
+        else if ( listener.keysPressed === 'arrowUp' ) {
 
           // On up arrow, focus previous item in the list, or wrap back to the last item if focus is on first item
           const previousFocusable = firstItem.focused ? lastItem : PDOMUtils.getPreviousFocusable();
           previousFocusable.focus();
         }
-        else if ( key === KeyboardUtils.KEY_ESCAPE || key === KeyboardUtils.KEY_TAB ) {
+        else if ( listener.keysPressed === 'escape' ) {
 
-          // On escape or tab, close the menu and restore focus to the element that had focus before the menu was opened.
+          // On escape or tab, close the menu and restore focus to the element that had focus before the menu was
+          // opened.
           this.hide();
         }
-
-        event.pointer.reserveForKeyboardDrag();
       }
-    };
-    this.addInputListener( keydownListener );
+    } );
+    this.addInputListener( keyboardListener );
 
     this.disposePhetMenu = () => {
-      this.removeInputListener( keydownListener );
+      this.removeInputListener( keyboardListener );
+      keyboardListener.dispose();
     };
   }
 
