@@ -13,7 +13,7 @@ import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { HSeparator, KeyboardUtils, Text, VBox } from '../../../scenery/js/imports.js';
+import { HSeparator, KeyboardListener, Text, VBox } from '../../../scenery/js/imports.js';
 import Dialog, { DialogOptions } from '../../../sun/js/Dialog.js';
 import soundManager from '../../../tambo/js/soundManager.js';
 import joist from '../joist.js';
@@ -133,23 +133,20 @@ class PreferencesDialog extends Dialog {
     this.preferencesPanels = preferencesPanels;
 
     // pdom - When the "down" arrow is pressed on the group of tabs, move focus to the selected panel
-    preferencesTabs.addInputListener( {
-      keydown: event => {
-        if ( KeyboardUtils.isKeyEvent( event.domEvent, KeyboardUtils.KEY_DOWN_ARROW ) ) {
-          this.focusSelectedPanel();
-        }
+    preferencesTabs.addInputListener( new KeyboardListener( {
+      keys: [ 'arrowDown' ],
+      callback: () => {
+        this.focusSelectedPanel();
       }
-    } );
-    content.addInputListener( {
-      keydown: event => {
-
-        // components within the content may need to respond to input themselves, only focus tabs if container has focus
-        if ( KeyboardUtils.isKeyEvent( event.domEvent, KeyboardUtils.KEY_UP_ARROW ) &&
-             this.preferencesPanels.isFocusableSelectedContent( event.target ) ) {
+    } ) );
+    content.addInputListener( new KeyboardListener( {
+      keys: [ 'arrowUp' ],
+      callback: event => {
+        if ( event && this.preferencesPanels.isFocusableSelectedContent( event.target ) ) {
           this.focusSelectedTab();
         }
       }
-    } );
+    } ) );
   }
 
   /**
