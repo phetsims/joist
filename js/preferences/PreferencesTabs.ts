@@ -11,7 +11,7 @@ import TProperty from '../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import globeSolidShape from '../../../sherpa/js/fontawesome-5/globeSolidShape.js';
-import { HBox, HBoxOptions, KeyboardUtils, Node, Path, TInputListener } from '../../../scenery/js/imports.js';
+import { HBox, HBoxOptions, KeyboardListener, Node, Path } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesType from './PreferencesType.js';
@@ -36,6 +36,7 @@ class PreferencesTabs extends HBox {
   public constructor( supportedTabs: PreferencesType[], selectedPanelProperty: TProperty<PreferencesType>, providedOptions: PreferencesTabsOptions ) {
     const options = optionize<PreferencesTabsOptions, SelfOptions, HBoxOptions>()( {
       isDisposable: false,
+
       // pdom
       tagName: 'ul',
       ariaRole: 'tablist',
@@ -117,19 +118,25 @@ class PreferencesTabs extends HBox {
     } );
 
     // pdom - keyboard support to move through tabs with arrow keys
-    const keyboardListener: TInputListener = {
-      keydown: event => {
+    const keyboardListener = new KeyboardListener( {
+      keys: [ 'arrowRight', 'arrowLeft', 'arrowUp', 'arrowDown' ],
+      callback: ( event, listener ) => {
+        assert && assert( event, 'event is required for this listener' );
+        const sceneryEvent = event!;
 
-        // reserve keyboard events for dragging to prevent default panning behavior with zoom features
-        event.pointer.reserveForKeyboardDrag();
-      },
-      keyup: event => {
-        if ( ( KeyboardUtils.isAnyKeyEvent( event.domEvent, [ KeyboardUtils.KEY_RIGHT_ARROW, KeyboardUtils.KEY_LEFT_ARROW ] ) ) ) {
+        if ( listener.keysDown ) {
+
+          // reserve keyboard events for dragging to prevent default panning behavior with zoom features, prevented
+          // for all arrow keys even though only the left/right keys navigate tabs
+          sceneryEvent.pointer.reserveForKeyboardDrag();
+        }
+        else if ( listener.keysPressed === 'arrowRight' || listener.keysPressed === 'arrowLeft' ) {
 
           // prevent "native" behavior so that Safari doesn't make an error sound with arrow keys in full screen mode
-          event.domEvent!.preventDefault();
+          assert && assert( sceneryEvent.domEvent, 'domEvent is required for this listener' );
+          sceneryEvent.domEvent!.preventDefault();
 
-          const direction = KeyboardUtils.isKeyEvent( event.domEvent, KeyboardUtils.KEY_RIGHT_ARROW ) ? 1 : -1;
+          const direction = listener.keysPressed === 'arrowRight' ? 1 : -1;
           for ( let i = 0; i < this.content.length; i++ ) {
             if ( this.selectedButton === this.content[ i ] ) {
               const nextButtonContent = this.content[ i + direction ];
@@ -145,8 +152,11 @@ class PreferencesTabs extends HBox {
             }
           }
         }
-      }
-    };
+      },
+
+      // this listener responds to both key down and key up events
+      listenerFireTrigger: 'both'
+    } );
     this.addInputListener( keyboardListener );
 
     const selectedPanelListener = () => {
