@@ -9,6 +9,7 @@
 
 import { Node } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
+import LocalizedStringProperty from '../../../chipper/js/LocalizedStringProperty.js';
 
 export default class CharacterSet {
 
@@ -16,11 +17,11 @@ export default class CharacterSet {
   public readonly icon: Node;
 
   // Label string for the UI component that will select this character set
-  public readonly label: string;
+  public readonly labelProperty: LocalizedStringProperty;
 
-  public constructor( icon: Node, label: string ) {
+  public constructor( icon: Node, label: LocalizedStringProperty ) {
     this.icon = icon;
-    this.label = label;
+    this.labelProperty = label;
   }
 }
 

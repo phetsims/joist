@@ -42,7 +42,7 @@ class RegionAndCultureComboBox extends ComboBox<CharacterSet | null> {
       // Since we don't own the Node, wrap in a container for PhET-iO DAG cases and I think archetypes?
       const wrappedIconNode = new Node( { children: [ characterSet.icon ] } );
       const itemContent = new HBox( {
-        children: [ wrappedIconNode, new Text( characterSet.label, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ) ],
+        children: [ wrappedIconNode, new Text( characterSet.labelProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ) ],
         spacing: 10
       } );
 
