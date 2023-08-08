@@ -18,6 +18,7 @@ import EnumerationValue from '../../phet-core/js/EnumerationValue.js';
 class SoundType extends EnumerationValue {
   public static readonly HOME_SCREEN_SELECTED = new SoundType();
   public static readonly DIFFERENT_ICON_SELECTED = new SoundType();
+
   public static readonly enumeration = new Enumeration( SoundType );
 }
 
