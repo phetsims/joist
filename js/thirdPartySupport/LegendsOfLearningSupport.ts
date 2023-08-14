@@ -4,7 +4,7 @@
  * Support for Legends of Learning platform. Sends init message after sim is constructed and supports pause/resume.
  *
  * To test this class, follow the 'Legends of Learning Test' instructions at
- * https://github.com/phetsims/QA/blob/master/documentation/qa-book.md#legends-of-learning-test
+ * https://github.com/phetsims/QA/blob/main/documentation/qa-book.md#legends-of-learning-test
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
