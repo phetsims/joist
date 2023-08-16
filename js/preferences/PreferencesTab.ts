@@ -8,7 +8,7 @@
  */
 
 import joist from '../joist.js';
-import { FocusHighlightPath, HBox, Line, Node, NodeOptions, PressListener, Rectangle, Text, Voicing, VoicingOptions } from '../../../scenery/js/imports.js';
+import { HighlightPath, HBox, Line, Node, NodeOptions, PressListener, Rectangle, Text, Voicing, VoicingOptions } from '../../../scenery/js/imports.js';
 import PreferencesType from './PreferencesType.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import TProperty from '../../../axon/js/TProperty.js';
@@ -83,7 +83,7 @@ class PreferencesTab extends Voicing( Node ) {
 
     // Pink underline Node to indicate which tab is selected
     const underlineNode = new Line( 0, 0, 0, 0, {
-      stroke: FocusHighlightPath.INNER_FOCUS_COLOR,
+      stroke: HighlightPath.INNER_FOCUS_COLOR,
       lineWidth: 5
     } );
 

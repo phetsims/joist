@@ -12,7 +12,7 @@ import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import { Color, FocusHighlightPath, Node, NodeOptions, PressListener, SceneryConstants, Voicing, VoicingOptions } from '../../scenery/js/imports.js';
+import { Color, HighlightPath, Node, NodeOptions, PressListener, SceneryConstants, Voicing, VoicingOptions } from '../../scenery/js/imports.js';
 import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';
 import PushButtonInteractionStateProperty from '../../sun/js/buttons/PushButtonInteractionStateProperty.js';
 import PushButtonModel from '../../sun/js/buttons/PushButtonModel.js';
@@ -123,7 +123,7 @@ export default class JoistButton extends Voicing( Node ) {
     this.mouseArea = this.touchArea = Shape.bounds( this.bounds.dilatedXY( options.pointerAreaDilationX, options.pointerAreaDilationY ) );
 
     // shift the focus highlight for the joist button so that the bottom is always on screen
-    const highlightLineWidth = FocusHighlightPath.getOuterLineWidthFromNode( this );
+    const highlightLineWidth = HighlightPath.getOuterLineWidthFromNode( this );
     this.focusHighlight = Shape.bounds( this.bounds.shiftedY( -highlightLineWidth ) );
   }
 
