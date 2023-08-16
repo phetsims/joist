@@ -1,4 +1,4 @@
-// Copyright 2017-2022, University of Colorado Boulder
+// Copyright 2017-2023, University of Colorado Boulder
 
 /**
  * Support for Legends of Learning platform. Sends init message after sim is constructed and supports pause/resume.
