@@ -17,7 +17,7 @@ import merge from '../../../phet-core/js/merge.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import NumberControl from '../../../scenery-phet/js/NumberControl.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { FocusHighlightFromNode, Node, PressListener, Text, VBox, voicingManager, VoicingText } from '../../../scenery/js/imports.js';
+import { HighlightFromNode, Node, PressListener, Text, VBox, voicingManager, VoicingText } from '../../../scenery/js/imports.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import ComboBox, { ComboBoxItem, ComboBoxOptions } from '../../../sun/js/ComboBox.js';
 import ExpandCollapseButton from '../../../sun/js/ExpandCollapseButton.js';
@@ -268,7 +268,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
     voiceOptionsOpenProperty.link( open => { voiceOptionsContent.visible = open; } );
 
     // the focus highlight for the voice options expand collapse button should surround the label
-    expandCollapseButton.focusHighlight = new FocusHighlightFromNode( voiceOptionsContainer );
+    expandCollapseButton.focusHighlight = new HighlightFromNode( voiceOptionsContainer );
 
     super( {
       titleNode: voicingEnabledSwitch,
