@@ -99,9 +99,7 @@ class NavigationBarScreenButton extends Voicing( Node ) {
     } );
 
     const text = new Text( screen.nameProperty, {
-      font: new PhetFont( 10 ),
-      tandem: options.tandem.createTandem( 'text' ),
-      stringPropertyOptions: { phetioReadOnly: true } // text is updated via screen.nameProperty
+      font: new PhetFont( 10 )
     } );
 
     // spacing set by Property link below
