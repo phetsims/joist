@@ -221,7 +221,7 @@ export default class AboutDialog extends Dialog {
         // If links are allowed, use hyperlinks. Otherwise, just output the URL. This doesn't need to be internationalized.
         const stringProperty = new DerivedStringProperty( [ allowLinksProperty, link.textStringProperty ], ( allowLinks, linkText ) => {
           return allowLinks ? `<a href="{{url}}">${linkText}</a>` : `${linkText}: ${link.url}`;
-        }, { tandem: options.tandem.createTandem( `${link.tandemName}StringProperty` ) } );
+        } );
 
         // This is PhET-iO instrumented because it is a keyboard navigation focusable element.
         linksChildren.push( new RichText( stringProperty, {
