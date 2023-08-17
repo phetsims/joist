@@ -79,9 +79,7 @@ class HomeScreenView extends ScreenView {
       } ),
       fill: 'white',
       y: 130,
-      maxWidth: this.layoutBounds.width - 10, // To support PhET-iO Clients setting this
-      tandem: options.tandem.createTandem( 'titleText' ),
-      stringPropertyOptions: { phetioReadOnly: true }
+      maxWidth: this.layoutBounds.width - 10
     } );
 
     // Have this before adding the child to support the startup layout. Use `localBoundsProperty` to avoid an infinite loop.
