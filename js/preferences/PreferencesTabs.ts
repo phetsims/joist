@@ -120,7 +120,7 @@ class PreferencesTabs extends HBox {
     // pdom - keyboard support to move through tabs with arrow keys
     const keyboardListener = new KeyboardListener( {
       keys: [ 'arrowRight', 'arrowLeft', 'arrowUp', 'arrowDown' ],
-      callback: ( event, listener ) => {
+      callback: ( event, keysPressed, listener ) => {
         assert && assert( event, 'event is required for this listener' );
         const sceneryEvent = event!;
 
@@ -130,13 +130,13 @@ class PreferencesTabs extends HBox {
           // for all arrow keys even though only the left/right keys navigate tabs
           sceneryEvent.pointer.reserveForKeyboardDrag();
         }
-        else if ( listener.keysPressed === 'arrowRight' || listener.keysPressed === 'arrowLeft' ) {
+        else if ( keysPressed === 'arrowRight' || keysPressed === 'arrowLeft' ) {
 
           // prevent "native" behavior so that Safari doesn't make an error sound with arrow keys in full screen mode
           assert && assert( sceneryEvent.domEvent, 'domEvent is required for this listener' );
           sceneryEvent.domEvent!.preventDefault();
 
-          const direction = listener.keysPressed === 'arrowRight' ? 1 : -1;
+          const direction = keysPressed === 'arrowRight' ? 1 : -1;
           for ( let i = 0; i < this.content.length; i++ ) {
             if ( this.selectedButton === this.content[ i ] ) {
               const nextButtonContent = this.content[ i + direction ];
