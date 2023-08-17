@@ -105,7 +105,8 @@ class NavigationBar extends Node {
       phetioFeatured: true,
       phetioDocumentation: 'Displays the title of the simulation in the navigation bar (bottom left)',
       visiblePropertyOptions: { phetioFeatured: true },
-      stringPropertyOptions: { phetioReadOnly: true }
+      stringPropertyOptions: { phetioReadOnly: true },
+      phetioVisiblePropertyInstrumented: true
     } );
 
     // Container node so that the visibility of the Navigation Bar title text can be controlled
