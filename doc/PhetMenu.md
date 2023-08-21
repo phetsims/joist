@@ -1,37 +1,45 @@
 ## General Design Considerations
+
 ToDo
+
 * Here’s the when and why we use {{PhetMenu and PhetButton}} in simulation design.
 * PhET Menu Button is the last item in the simulation
 
-
 ## Aesthetic Considerations
+
 ToDo
+
 * List out any specific design considerations, e.g., space
 * **Note** that the JS files lists out how the design constraints are handled.
 
 ## Accessibility Considerations
-ToDo
-* List out any design considerations that impact accessible design, e.g., visibility of content, special keyboard focus highlights, etc.
 
+ToDo
+
+* List out any design considerations that impact accessible design, e.g., visibility of content, special keyboard focus
+  highlights, etc.
 
 ### Gesture Support
+
 ToDo
 
 ### Keyboard Support
+
 ToDo
-| Key        | Function |
+| Key | Function |
 | ------------- |-------------|
 
-
 ### Management of Role, Property, State, and Tabindex Attributes
+
 ToDo
 | Role | Attribute | Element | Usage |
 | ------------- |-------------| ------------- |-------------|
 
-
-
 ### Sample HTML for PhET Menu and PhET button
-This HTML smaple combines both the [PhetButton.js](../js/PhetButton.js) and [PhetMenu.js](../js/PhetMenu.js) interactions.
+
+This HTML smaple combines both the [PhetButton.js](../js/PhetButton.js) and [PhetMenu.js](../js/PhetMenu.js)
+interactions.
+
 ```html
 	    <!-- PhetMenu and PhetButton Wrapper-->
 	    <div class="phetMenuWrapper" aria-label="Teacher tools and links">
@@ -68,10 +76,13 @@ This HTML smaple combines both the [PhetButton.js](../js/PhetButton.js) and [Phe
 	  </div><!-- end phetMenuWrapper -->
 
 ```
+
 ### Supporting Accessibility Resources
+
 * Adapted from [ARIA Practices]()
 
 ### Design Doc Content Template Text
+
 **PhetButton and PhetMenu**
 Same pattern in all sims
 
