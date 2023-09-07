@@ -14,10 +14,10 @@ import RegionAndCulturePortrayal from './RegionAndCulturePortrayal.js';
 class RegionAndCultureManager {
 
   // A character set that the simulation can implement different artwork to match the selected region and culture.
-  public readonly regionAndCultureProperty: Property<RegionAndCulturePortrayal | null>;
+  public readonly regionAndCulturePortrayalProperty: Property<RegionAndCulturePortrayal | null>;
 
   public constructor() {
-    this.regionAndCultureProperty = new Property<RegionAndCulturePortrayal | null>( null );
+    this.regionAndCulturePortrayalProperty = new Property<RegionAndCulturePortrayal | null>( null );
   }
 }
 

@@ -50,7 +50,7 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
       spacing: PreferencesDialog.CONTENT_SPACING
     } );
 
-    // regionAndCultureProperty value only gets set in PreferencesModel if there is at least one descriptor.
+    // regionAndCulturePortrayalProperty value only gets set in PreferencesModel if there is at least one descriptor.
     if ( localizationModel.regionAndCultureProperty.value ) {
       const comboBox = new RegionAndCultureComboBox( localizationModel.regionAndCultureProperty, localizationModel.characterSets );
       contentNode.addChild( new HBox( {

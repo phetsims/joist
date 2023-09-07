@@ -27,6 +27,8 @@ import IOType from '../../../tandem/js/types/IOType.js';
 import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
 import RegionAndCulturePortrayal from './RegionAndCulturePortrayal.js';
 import Multilink from '../../../axon/js/Multilink.js';
+import DynamicProperty from '../../../axon/js/DynamicProperty.js';
+import NullableIO from '../../../tandem/js/types/NullableIO.js';
 
 type ModelPropertyLinkable = {
   property: TReadOnlyProperty<unknown> & PhetioObject;
@@ -315,16 +317,29 @@ export default class PreferencesModel extends PhetioObject {
 
     this.localizationModel = merge( {
       localeProperty: localeProperty,
-      regionAndCultureProperty: regionAndCultureManager.regionAndCultureProperty
+      regionAndCultureProperty: regionAndCultureManager.regionAndCulturePortrayalProperty
     }, options.localizationOptions );
 
     if ( options.localizationOptions.characterSets.length > 0 ) {
 
       // default is the first set
-      regionAndCultureManager.regionAndCultureProperty.value = options.localizationOptions.characterSets[ 0 ];
+      regionAndCultureManager.regionAndCulturePortrayalProperty.value = options.localizationOptions.characterSets[ 0 ];
 
-      assert && assert( regionAndCultureManager.regionAndCultureProperty.value !== null, 'We have at least one descriptor, so regionAndCultureProperty should not be null.' );
-      this.localizationModel.regionAndCultureProperty = regionAndCultureManager.regionAndCultureProperty;
+      const regionAndCultureDynamicProperty = new DynamicProperty( new Property( regionAndCultureManager.regionAndCulturePortrayalProperty ), {
+        bidirectional: true,
+        map: _.identity,
+        inverseMap: _.identity,
+        tandem: Tandem.GENERAL_MODEL.createTandem( 'regionAndCulturePortrayalProperty' ),
+        phetioFeatured: true,
+        phetioValueType: NullableIO( RegionAndCulturePortrayal.RegionAndCulturePortrayalIO ),
+        phetioDocumentation: 'Specifies the region and culture character portrayals in the simulation',
+        validValues: options.localizationOptions.characterSets
+      } );
+
+      console.log( regionAndCultureDynamicProperty );
+
+      assert && assert( regionAndCultureManager.regionAndCulturePortrayalProperty.value !== null, 'We have at least one descriptor, so regionAndCulturePortrayalProperty should not be null.' );
+      this.localizationModel.regionAndCultureProperty = regionAndCultureManager.regionAndCulturePortrayalProperty;
     }
 
 
