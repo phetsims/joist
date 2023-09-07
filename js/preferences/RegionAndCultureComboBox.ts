@@ -14,19 +14,19 @@ import Property from '../../../axon/js/Property.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import CharacterSet from './CharacterSet.js';
+import RegionAndCulturePortrayal from './RegionAndCulturePortrayal.js';
 
 type SelfOptions = EmptySelfOptions;
 type RegionAndCultureComboBoxOptions = SelfOptions & StrictOmit<ComboBoxOptions, 'tandem'>;
 
-class RegionAndCultureComboBox extends ComboBox<CharacterSet | null> {
+class RegionAndCultureComboBox extends ComboBox<RegionAndCulturePortrayal | null> {
 
   /**
-   * @param regionAndCultureProperty - CharacterSet indicating a selected region/culture that is connected to a particular set of representations
-   * @param characterSets - The CharacterSet list, one for each region/culture.
+   * @param regionAndCultureProperty - RegionAndCulturePortrayal indicating a selected region/culture that is connected to a particular set of representations
+   * @param characterSets - The RegionAndCulturePortrayal list, one for each region/culture.
    * @param [providedOptions?]
    */
-  public constructor( regionAndCultureProperty: Property<CharacterSet | null>, characterSets: CharacterSet[], providedOptions?: RegionAndCultureComboBoxOptions ) {
+  public constructor( regionAndCultureProperty: Property<RegionAndCulturePortrayal | null>, characterSets: RegionAndCulturePortrayal[], providedOptions?: RegionAndCultureComboBoxOptions ) {
 
     const options = optionize<RegionAndCultureComboBoxOptions, SelfOptions, ComboBoxOptions>()( {
 

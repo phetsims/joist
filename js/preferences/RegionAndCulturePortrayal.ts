@@ -11,7 +11,7 @@ import { Node } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import LocalizedStringProperty from '../../../chipper/js/LocalizedStringProperty.js';
 
-export default class CharacterSet {
+export default class RegionAndCulturePortrayal {
 
   // Icon for the UI component that would select this character set
   public readonly icon: Node;
@@ -25,4 +25,4 @@ export default class CharacterSet {
   }
 }
 
-joist.register( 'CharacterSet', CharacterSet );
+joist.register( 'RegionAndCulturePortrayal', RegionAndCulturePortrayal );

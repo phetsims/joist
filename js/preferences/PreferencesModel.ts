@@ -25,7 +25,7 @@ import merge from '../../../phet-core/js/merge.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import IOType from '../../../tandem/js/types/IOType.js';
 import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
-import CharacterSet from './CharacterSet.js';
+import RegionAndCulturePortrayal from './RegionAndCulturePortrayal.js';
 import Multilink from '../../../axon/js/Multilink.js';
 
 type ModelPropertyLinkable = {
@@ -94,7 +94,7 @@ type LocalizationPreferencesOptions = {
   // Describes the available artwork that can be used for different regions and cultures. If any sets are
   // provided, the Localization tab will include a UI component to swap out pieces of artwork to match the selected
   // region and culture. CharacterSets contains information for the UI component to describe each choice.
-  characterSets?: CharacterSet[];
+  characterSets?: RegionAndCulturePortrayal[];
 
   // Whether to include the default LocalePanel for selecting locale. This was added to allow sims like
   // Number Play and Number Compare to substitute their own custom controls.
@@ -182,7 +182,7 @@ export type InputModel = BaseModelType & {
 export type LocalizationModel = BaseModelType & {
 
   // The selected character artwork to use when the sim supports culture and region switching.
-  regionAndCultureProperty: Property<CharacterSet | null>;
+  regionAndCultureProperty: Property<RegionAndCulturePortrayal | null>;
 
   localeProperty: Property<Locale>;
 } & Required<LocalizationPreferencesOptions>;
