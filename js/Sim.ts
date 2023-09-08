@@ -941,7 +941,7 @@ export default class Sim extends PhetioObject {
               // Sanity check that there is no phetio object in phet brand, see https://github.com/phetsims/phet-io/issues/1229
               phet.chipper.brand === 'phet' && assert && assert( !Tandem.PHET_IO_ENABLED, 'window.phet.preloads.phetio should not exist for phet brand' );
 
-              // Communicate sim load (successfully) to joist/tests/test-sims.html
+              // Communicate sim load (successfully) to CT or other listening parent frames
               if ( phet.chipper.queryParameters.continuousTest ) {
                 phet.chipper.reportContinuousTestResult( {
                   type: 'continuous-test-load'
