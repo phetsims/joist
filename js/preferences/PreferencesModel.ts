@@ -17,7 +17,7 @@ import Property from '../../../axon/js/Property.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import regionAndCultureManager from './regionAndCultureManager.js';
+import RegionAndCultureManager from './RegionAndCultureManager.js';
 import SpeechSynthesisAnnouncer from '../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import localeProperty, { Locale } from '../i18n/localeProperty.js';
@@ -27,8 +27,6 @@ import IOType from '../../../tandem/js/types/IOType.js';
 import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
 import RegionAndCulturePortrayal from './RegionAndCulturePortrayal.js';
 import Multilink from '../../../axon/js/Multilink.js';
-import DynamicProperty from '../../../axon/js/DynamicProperty.js';
-import NullableIO from '../../../tandem/js/types/NullableIO.js';
 
 type ModelPropertyLinkable = {
   property: TReadOnlyProperty<unknown> & PhetioObject;
@@ -184,7 +182,7 @@ export type InputModel = BaseModelType & {
 export type LocalizationModel = BaseModelType & {
 
   // The selected character artwork to use when the sim supports culture and region switching.
-  regionAndCultureProperty: Property<RegionAndCulturePortrayal | null>;
+  regionAndCulturePortrayalProperty?: Property<RegionAndCulturePortrayal>;
 
   localeProperty: Property<Locale>;
 } & Required<LocalizationPreferencesOptions>;
@@ -316,30 +314,14 @@ export default class PreferencesModel extends PhetioObject {
     }, options.inputOptions );
 
     this.localizationModel = merge( {
-      localeProperty: localeProperty,
-      regionAndCultureProperty: regionAndCultureManager.regionAndCulturePortrayalProperty
+      localeProperty: localeProperty
     }, options.localizationOptions );
 
     if ( options.localizationOptions.characterSets.length > 0 ) {
+      const characterSets = options.localizationOptions.characterSets;
 
       // default is the first set
-      regionAndCultureManager.regionAndCulturePortrayalProperty.value = options.localizationOptions.characterSets[ 0 ];
-
-      const regionAndCultureDynamicProperty = new DynamicProperty( new Property( regionAndCultureManager.regionAndCulturePortrayalProperty ), {
-        bidirectional: true,
-        map: _.identity,
-        inverseMap: _.identity,
-        tandem: Tandem.GENERAL_MODEL.createTandem( 'regionAndCulturePortrayalProperty' ),
-        phetioFeatured: true,
-        phetioValueType: NullableIO( RegionAndCulturePortrayal.RegionAndCulturePortrayalIO ),
-        phetioDocumentation: 'Specifies the region and culture character portrayals in the simulation',
-        validValues: options.localizationOptions.characterSets
-      } );
-
-      console.log( regionAndCultureDynamicProperty );
-
-      assert && assert( regionAndCultureManager.regionAndCulturePortrayalProperty.value !== null, 'We have at least one descriptor, so regionAndCulturePortrayalProperty should not be null.' );
-      this.localizationModel.regionAndCultureProperty = regionAndCultureManager.regionAndCulturePortrayalProperty;
+      this.localizationModel.regionAndCulturePortrayalProperty = new RegionAndCultureManager( characterSets[ 0 ], characterSets ).regionAndCulturePortrayalProperty;
     }
 
 

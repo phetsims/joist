@@ -26,7 +26,7 @@ class RegionAndCultureComboBox extends ComboBox<RegionAndCulturePortrayal | null
    * @param characterSets - The RegionAndCulturePortrayal list, one for each region/culture.
    * @param [providedOptions?]
    */
-  public constructor( regionAndCultureProperty: Property<RegionAndCulturePortrayal | null>, characterSets: RegionAndCulturePortrayal[], providedOptions?: RegionAndCultureComboBoxOptions ) {
+  public constructor( regionAndCultureProperty: Property<RegionAndCulturePortrayal>, characterSets: RegionAndCulturePortrayal[], providedOptions?: RegionAndCultureComboBoxOptions ) {
 
     const options = optionize<RegionAndCultureComboBoxOptions, SelfOptions, ComboBoxOptions>()( {
 
