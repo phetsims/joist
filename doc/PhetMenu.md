@@ -26,12 +26,14 @@ ToDo
 ### Keyboard Support
 
 ToDo
+
 | Key | Function |
 | ------------- |-------------|
 
 ### Management of Role, Property, State, and Tabindex Attributes
 
 ToDo
+
 | Role | Attribute | Element | Usage |
 | ------------- |-------------| ------------- |-------------|
 
