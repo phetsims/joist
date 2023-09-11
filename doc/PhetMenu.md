@@ -28,14 +28,14 @@ ToDo
 ToDo
 
 | Key | Function |
-| ------------- |-------------|
+|-----|----------|
 
 ### Management of Role, Property, State, and Tabindex Attributes
 
 ToDo
 
 | Role | Attribute | Element | Usage |
-| ------------- |-------------| ------------- |-------------|
+|------|-----------|---------|-------|
 
 ### Sample HTML for PhET Menu and PhET button
 

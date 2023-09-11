@@ -363,8 +363,7 @@ ToDO. See Ratio and Proportion for a working example.
 ### Design Doc Content Template Text
 
 **Home Screen**
-Simulation name: defaults to h1 element
-Home screen intro sentence: defaults to p element
+Simulation name: defaults to h1 element Home screen intro sentence: defaults to p element
 
 **Screen Buttons and Descriptions**
 Screen 1 name:
