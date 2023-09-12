@@ -439,6 +439,9 @@ export default class PreferencesModel extends PhetioObject {
     const propertiesToLink = additionalProperties;
     for ( let i = 0; i < featureModel.customPreferences.length; i++ ) {
       const customPreference = featureModel.customPreferences[ i ];
+
+      //TODO https://github.com/phetsims/joist/issues/938 remove the modelLinkables options
+      assert && assert( !customPreference.modelLinkables, 'modelLinkables is not supported, see https://github.com/phetsims/joist/issues/938' );
       customPreference.modelLinkables && propertiesToLink.push( ...customPreference.modelLinkables );
     }
 
