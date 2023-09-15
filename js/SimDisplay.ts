@@ -176,8 +176,7 @@ export default class SimDisplay extends Display {
     animatedPanZoomSingleton.initialize( this.simulationRoot, {
       tandem: options.tandem.createTandem( 'panZoomListener' )
     } );
-
-    const animatedPanZoomListener = animatedPanZoomSingleton.listener!;
+    const animatedPanZoomListener = animatedPanZoomSingleton.listener;
 
     this.supportsPanAndZoomProperty.link( supported => {
       if ( supported ) {
@@ -227,7 +226,7 @@ export default class SimDisplay extends Display {
     if ( this.supportsPanAndZoomProperty.value ) {
 
       // animate the PanZoomListener, for smooth panning/scaling
-      animatedPanZoomSingleton.listener!.step( dt );
+      animatedPanZoomSingleton.listener.step( dt );
     }
   }
 }

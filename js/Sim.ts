@@ -358,14 +358,14 @@ export default class Sim extends PhetioObject {
 
       // set the scale describing the target Node, since scale from window resize is applied to each ScreenView,
       // (children of the PanZoomListener targetNode)
-      animatedPanZoomSingleton.listener!.setTargetScale( scale );
+      animatedPanZoomSingleton.listener.setTargetScale( scale );
 
       // set the bounds which accurately describe the panZoomListener targetNode, since it would otherwise be
       // inaccurate with the very large BarrierRectangle
-      animatedPanZoomSingleton.listener!.setTargetBounds( this.boundsProperty.value );
+      animatedPanZoomSingleton.listener.setTargetBounds( this.boundsProperty.value );
 
       // constrain the simulation pan bounds so that it cannot be moved off screen
-      animatedPanZoomSingleton.listener!.setPanBounds( this.boundsProperty.value );
+      animatedPanZoomSingleton.listener.setPanBounds( this.boundsProperty.value );
     }, {
       tandem: Tandem.GENERAL_MODEL.createTandem( 'resizeAction' ),
       parameters: [
@@ -751,7 +751,7 @@ export default class Sim extends PhetioObject {
 
         // Zoom out again after changing screens so we don't pan to the center of the focused ScreenView,
         // and so user has an overview of the new screen, see https://github.com/phetsims/joist/issues/682.
-        animatedPanZoomSingleton.listener!.resetTransform();
+        animatedPanZoomSingleton.listener.resetTransform();
       }
     } );
 
