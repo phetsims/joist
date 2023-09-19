@@ -28,6 +28,4 @@ export default class RegionAndCultureManager {
   }
 }
 
-// const regionAndCultureManager = new RegionAndCultureManager();
-
 joist.register( 'RegionAndCultureManager', RegionAndCultureManager );
