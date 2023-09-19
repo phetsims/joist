@@ -1,7 +1,7 @@
 // Copyright 2022-2023, University of Colorado Boulder
 
 /**
- * A base class for CharacterSets used in representing region and culture preferences
+ * A base class for animated character portrayals used in representing region and culture preferences
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
@@ -14,6 +14,8 @@ import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObje
 import IOType from '../../../tandem/js/types/IOType.js';
 import ReferenceIO, { ReferenceIOState } from '../../../tandem/js/types/ReferenceIO.js';
 import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import Property from '../../../axon/js/Property.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 
 type SelfOptions = EmptySelfOptions;
 export type RegionAndCulturePortrayalOptions = SelfOptions & PhetioObjectOptions;
@@ -32,6 +34,16 @@ export default class RegionAndCulturePortrayal extends PhetioObject {
 
     this.icon = icon;
     this.labelProperty = label;
+  }
+
+  public static createRegionAndCulturePortrayalProperty( regionAndCulturePortrayal: RegionAndCulturePortrayal, validValues: RegionAndCulturePortrayal[] ): Property<RegionAndCulturePortrayal> {
+    return new Property<RegionAndCulturePortrayal>( regionAndCulturePortrayal, {
+      tandem: Tandem.GENERAL_MODEL.createTandem( 'regionAndCulturePortrayalProperty' ),
+      phetioFeatured: true,
+      phetioValueType: RegionAndCulturePortrayal.RegionAndCulturePortrayalIO,
+      phetioDocumentation: 'Specifies the region and culture character portrayals in the simulation',
+      validValues: validValues
+    } );
   }
 
   /**

@@ -17,7 +17,6 @@ import Property from '../../../axon/js/Property.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import RegionAndCultureManager from './RegionAndCultureManager.js';
 import SpeechSynthesisAnnouncer from '../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import localeProperty, { Locale } from '../i18n/localeProperty.js';
@@ -321,7 +320,7 @@ export default class PreferencesModel extends PhetioObject {
       const characterSets = options.localizationOptions.characterSets;
 
       // default is the first set
-      this.localizationModel.regionAndCulturePortrayalProperty = new RegionAndCultureManager( characterSets[ 0 ], characterSets ).regionAndCulturePortrayalProperty;
+      this.localizationModel.regionAndCulturePortrayalProperty = RegionAndCulturePortrayal.createRegionAndCulturePortrayalProperty( characterSets[ 0 ], characterSets );
     }
 
 
