@@ -68,7 +68,7 @@ const localeProperty = new LocaleProperty( validInitialLocale, {
 
 if ( phet.chipper.queryParameters.keyboardLocaleSwitcher ) {
 
-  // DUPLICATION ALERT: don't change these without consulting PHET_IO_WRAPPERS/Client.wireUpKeyboardLocaleSwitcher()
+  // DUPLICATION ALERT: don't change these without consulting PHET_IO_WRAPPERS/PhetioClient.wireUpKeyboardLocaleSwitcher()
   const FORWARD_KEY = KeyboardUtils.KEY_I;
   const BACKWARD_KEY = KeyboardUtils.KEY_U;
 
