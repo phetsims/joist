@@ -36,9 +36,6 @@ type CustomPreference = {
 
   // Content should create a child tandem called 'simPreferences'
   createContent: ( parentTandem: Tandem ) => Node;
-
-  // Each will have a PhET-iO LinkedElement added to the model for each of them.
-  modelLinkables?: ModelPropertyLinkable[];
 };
 
 type CustomPreferencesOptions = {
@@ -436,13 +433,6 @@ export default class PreferencesModel extends PhetioObject {
   private addPhetioLinkedElementsForModel( parentTandem: Tandem, featureModel: FeatureModel, additionalProperties: Array<ModelPropertyLinkable> = [] ): void {
     const tandem = parentTandem.createTandem( featureModel.tandemName );
     const propertiesToLink = additionalProperties;
-    for ( let i = 0; i < featureModel.customPreferences.length; i++ ) {
-      const customPreference = featureModel.customPreferences[ i ];
-
-      //TODO https://github.com/phetsims/joist/issues/938 remove the modelLinkables options
-      assert && assert( !customPreference.modelLinkables, 'modelLinkables is not supported, see https://github.com/phetsims/joist/issues/938' );
-      customPreference.modelLinkables && propertiesToLink.push( ...customPreference.modelLinkables );
-    }
 
     for ( let j = 0; j < propertiesToLink.length; j++ ) {
       const modelPropertyObject = propertiesToLink[ j ];
