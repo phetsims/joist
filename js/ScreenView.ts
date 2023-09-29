@@ -261,6 +261,18 @@ class ScreenView extends Node {
   }
 
   /**
+   * Interrupts all input listeners that are attached to either this node, or a descendant node.
+   *
+   * Overridden here so we can interrupt all of the listeners in the Display, see
+   * https://github.com/phetsims/scenery/issues/1582.
+   */
+  public override interruptSubtreeInput(): this {
+    window.phet?.joist?.display?.interruptPointers();
+
+    return super.interruptSubtreeInput();
+  }
+
+  /**
    * Get the scale to use for laying out the sim components and the navigation bar, so its size will track
    * with the sim size
    */
