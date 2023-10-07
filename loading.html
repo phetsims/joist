@@ -19,10 +19,9 @@
   </svg>
 </div>
 <script>
-  var background = document.getElementById( 'progressBarBackground' );
-  var w = 3;
-  setInterval( function() {
-    background.style[ 'stroke-width' ] = (Math.sin( Date.now() / 1000 * 4 ) * 1.5 + 2).toFixed( 2 );
+  const background = document.getElementById( 'progressBarBackground' );
+  setInterval( () => {
+    background.style[ 'stroke-width' ] = ( Math.sin( Date.now() / 1000 * 4 ) * 1.5 + 2 ).toFixed( 2 );
   }, 16 );
 </script>
 </body>
