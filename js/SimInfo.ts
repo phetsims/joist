@@ -75,9 +75,7 @@ class SimInfo extends PhetioObject {
 
     // from Scenery Utils
     this.putInfo( 'checkIE11StencilSupport', Utils.checkIE11StencilSupport() );
-    if ( phet.chipper.queryParameters.webgl ) {
-      this.putInfo( 'isWebGLSupported', Utils.isWebGLSupported );
-    }
+    this.putInfo( 'isWebGLSupported', phet.chipper.queryParameters.webgl ? Utils.isWebGLSupported : false );
 
     let canvas: HTMLCanvasElement | null;
     let context: CanvasRenderingContext2D;
