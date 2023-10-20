@@ -267,7 +267,7 @@ class ScreenView extends Node {
    * https://github.com/phetsims/scenery/issues/1582.
    */
   public override interruptSubtreeInput(): this {
-    window.phet?.joist?.display?.interruptPointers();
+    window.phet?.joist?.display?.interruptOtherPointers();
 
     return super.interruptSubtreeInput();
   }
