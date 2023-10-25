@@ -165,7 +165,7 @@ export default class Sim extends PhetioObject {
 
   // When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.
   // Set to false for when the sim will be paused.
-  public readonly activeProperty: BooleanProperty = new BooleanProperty( true, {
+  public readonly activeProperty = new BooleanProperty( true, {
     tandem: Tandem.GENERAL_MODEL.createTandem( 'activeProperty' ),
     phetioFeatured: true,
     phetioDocumentation: 'Determines whether the entire simulation is running and processing user input. ' +
