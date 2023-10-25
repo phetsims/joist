@@ -738,6 +738,7 @@ export default class Helper {
     helperRoot.addChild( pdomTreeNode );
 
     const measuringTapeNode = new MeasuringTapeNode( measuringTapeUnitsProperty, {
+      tandem: Tandem.OPT_OUT,
       visibleProperty: measuringTapeVisibleProperty,
       textBackgroundColor: 'rgba(0,0,0,0.5)'
     } );
