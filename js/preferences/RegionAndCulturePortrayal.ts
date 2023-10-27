@@ -22,17 +22,17 @@ export type RegionAndCulturePortrayalOptions = SelfOptions & PhetioObjectOptions
 
 export default class RegionAndCulturePortrayal extends PhetioObject {
 
-  // Icon for the UI component that would select this character set
-  public readonly icon: Node;
 
   // Label string for the UI component that will select this character set
   public readonly labelProperty: LocalizedStringProperty;
 
-  public constructor( icon: Node, label: LocalizedStringProperty, providedOptions: RegionAndCulturePortrayalOptions ) {
+  public constructor( public readonly icon: Node, // Icon for the UI component that would select this character set
+                      label: LocalizedStringProperty,
+                      public readonly queryParameterValue: string, // Query parameter value attached to this character set
+                      providedOptions: RegionAndCulturePortrayalOptions ) {
 
     super( providedOptions );
 
-    this.icon = icon;
     this.labelProperty = label;
   }
 

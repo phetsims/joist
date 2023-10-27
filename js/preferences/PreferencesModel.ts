@@ -96,6 +96,8 @@ type LocalizationPreferencesOptions = {
   // Number Play and Number Compare to substitute their own custom controls.
   // See https://github.com/phetsims/number-suite-common/issues/47.
   includeLocalePanel?: boolean;
+
+  queryParameterValue?: string | null;
 } & CustomPreferencesOptions;
 
 type PreferencesModelSelfOptions = {
@@ -241,7 +243,8 @@ export default class PreferencesModel extends PhetioObject {
         supportsDynamicLocale: !!localeProperty.validValues && localeProperty.validValues.length > 1 && phet.chipper.queryParameters.supportsDynamicLocale,
         characterSets: [],
         customPreferences: [],
-        includeLocalePanel: true
+        includeLocalePanel: true,
+        queryParameterValue: null
       }, providedOptions.localizationOptions )
     };
 
@@ -317,7 +320,14 @@ export default class PreferencesModel extends PhetioObject {
       const characterSets = options.localizationOptions.characterSets;
 
       // default is the first set
-      this.localizationModel.regionAndCulturePortrayalProperty = RegionAndCulturePortrayal.createRegionAndCulturePortrayalProperty( characterSets[ 0 ], characterSets );
+      let defaultSet = characterSets[ 0 ];
+      if ( options.localizationOptions.queryParameterValue ) {
+        const queryParameterValue = options.localizationOptions.queryParameterValue;
+        defaultSet = characterSets.find( set => set.queryParameterValue === queryParameterValue )!;
+        assert && assert( defaultSet !== undefined,
+          `The regionAndCulture query parameter value cannot be found in the provided characterSets. Query Value: ${queryParameterValue}, Character Sets: ${characterSets}` );
+      }
+      this.localizationModel.regionAndCulturePortrayalProperty = RegionAndCulturePortrayal.createRegionAndCulturePortrayalProperty( defaultSet, characterSets );
     }
 
 
