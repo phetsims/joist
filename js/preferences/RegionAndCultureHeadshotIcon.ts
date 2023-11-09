@@ -29,7 +29,8 @@ export default class RegionAndCultureHeadshotIcon extends Image {
     const options = optionize<RegionAndCultureHeadshotIconOptions, SelfOptions, ImageOptions>()( {
       yClipAreaStart: 0,
       xClipAreaStart: 0,
-      headshotDimension: 40 // based off of a scale factor of 1
+      headshotDimension: 40, // based off of a scale factor of 1
+      renderer: 'canvas' //this is specifically addressing a Safari clip-area bug. https://github.com/phetsims/center-and-variability/issues/561
     }, providedOptions );
 
     const clipArea = Shape.rectangle( options.xClipAreaStart, options.yClipAreaStart,
