@@ -71,7 +71,7 @@ import Permutation from '../../dot/js/Permutation.js';
 import ArrayIO from '../../tandem/js/types/ArrayIO.js';
 import { Locale } from './i18n/localeProperty.js';
 import isSettingPhetioStateProperty from '../../tandem/js/isSettingPhetioStateProperty.js';
-import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
+import StringIO from '../../tandem/js/types/StringIO.js';
 
 // constants
 const PROGRESS_BAR_WIDTH = 273;
@@ -524,15 +524,19 @@ export default class Sim extends PhetioObject {
       }
     } );
 
-    this.displayedSimNameProperty = new DerivedStringProperty( [
+    this.displayedSimNameProperty = DerivedProperty.deriveAny( [
       this.availableScreensProperty,
       this.simNameProperty,
       this.selectedScreenProperty,
       JoistStrings.simTitleWithScreenNamePatternStringProperty,
+      ...this.screens.map( screen => screen.nameProperty )
 
       // We just need notifications on any of these changing, return args as a unique value to make sure listeners fire.
-      DerivedProperty.deriveAny( this.simScreens.map( screen => screen.nameProperty ), ( ...args ) => [ ...args ] )
-    ], ( availableScreens, simName, selectedScreen, titleWithScreenPattern ) => {
+    ], () => {
+      const availableScreens = this.availableScreensProperty.value;
+      const simName = this.simNameProperty.value;
+      const selectedScreen = this.selectedScreenProperty.value;
+      const titleWithScreenPattern = JoistStrings.simTitleWithScreenNamePatternStringProperty.value;
       const screenName = selectedScreen.nameProperty.value;
 
       const isMultiScreenSimDisplayingSingleScreen = availableScreens.length === 1 && allSimScreens.length > 1;
@@ -556,7 +560,9 @@ export default class Sim extends PhetioObject {
     }, {
       tandem: Tandem.GENERAL_MODEL.createTandem( 'displayedSimNameProperty' ),
       tandemNameSuffix: 'NameProperty',
-      phetioDocumentation: 'Customize this string by editing its dependencies.'
+      phetioDocumentation: 'Customize this string by editing its dependencies.',
+      phetioFeatured: true,
+      phetioValueType: StringIO
     } );
 
     // Local variable is settable...

@@ -207,7 +207,7 @@ class Screen<M extends TModel, V extends ScreenView> extends PhetioObject {
     this.createKeyboardHelpNode = options.createKeyboardHelpNode;
 
     // may be null for single-screen simulations
-    this.pdomDisplayNameProperty = new DerivedProperty( [ this.nameProperty ], name => {
+    this.pdomDisplayNameProperty = new DerivedProperty( [ this.nameProperty, screenNamePatternStringProperty ], name => {
       return name === null ? '' : StringUtils.fillIn( screenNamePatternStringProperty, {
         name: name
       } );
