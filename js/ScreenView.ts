@@ -58,8 +58,11 @@ class ScreenView extends Node {
   protected readonly pdomPlayAreaNode: PlayAreaNode;
   protected readonly pdomControlAreaNode: ControlAreaNode;
   private readonly pdomScreenSummaryNode: ScreenSummaryNode;
-  private screenSummaryContent: Node | null;
   private readonly pdomParentNode: Node;
+
+  // Keep track of the content added to the summary Node, so that if it is set more than once, the previous one can be
+  // removed. Supports an ES6 getter/setter for this.
+  private _screenSummaryContent: Node | null = null;
 
   public static readonly DEFAULT_LAYOUT_BOUNDS = DEFAULT_LAYOUT_BOUNDS;
 
@@ -117,10 +120,6 @@ class ScreenView extends Node {
 
     // This container has the intro "{{SIM}} is an interactive sim, it changes as you . . ."
     this.pdomScreenSummaryNode = new ScreenSummaryNode();
-
-    // keep track of the content added to the summary Node, so that if it is set more than once, the previous one can be
-    // removed.
-    this.screenSummaryContent = null;
 
     // at the Node from options in the same way that can be done at any time
     options.screenSummaryContent && this.setScreenSummaryContent( options.screenSummaryContent );
@@ -211,17 +210,28 @@ class ScreenView extends Node {
     this.visibleBoundsProperty.value = this.parentToLocalBounds( viewBounds );
   }
 
+  public get screenSummaryContent(): Node | null {
+    return this._screenSummaryContent;
+  }
+
+  public set screenSummaryContent( node: Node | null ) {
+    this.setScreenSummaryContent( node );
+  }
+
   /**
    * Set the screen summary Node for the PDOM of this Screen View. Prefer passing in a screen summary Node via
    * constructor options, but this method can be used directly when necessary.
    */
-  public setScreenSummaryContent( node: Node ): void {
-    assert && assert( node !== this.screenSummaryContent, 'this is already the screen summary Node content' );
+  public setScreenSummaryContent( node: Node | null ): void {
+    assert && assert( node !== this._screenSummaryContent, 'this is already the screen summary Node content' );
 
-    this.screenSummaryContent && this.pdomScreenSummaryNode.removeChild( this.screenSummaryContent );
+    this._screenSummaryContent && this.pdomScreenSummaryNode.removeChild( this._screenSummaryContent );
 
-    this.screenSummaryContent = node;
-    this.pdomScreenSummaryNode.addChild( node );
+    this._screenSummaryContent = node;
+
+    if ( node ) {
+      this.pdomScreenSummaryNode.addChild( node );
+    }
   }
 
   /**
