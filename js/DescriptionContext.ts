@@ -15,10 +15,10 @@ import TEmitter, { TEmitterListener } from '../../axon/js/TEmitter.js';
 import { Locale } from './i18n/localeProperty.js';
 import TinyProperty from '../../axon/js/TinyProperty.js';
 import localeOrderProperty from './i18n/localeOrderProperty.js';
+import Multilink, { UnknownMultilink } from '../../axon/js/Multilink.js';
 
 export type DescriptionStrings = {
   locale: Locale;
-  launch( context: DescriptionContext ): void;
 };
 
 export type DescriptionLogic = {
@@ -32,17 +32,10 @@ export default class DescriptionContext {
   private readonly links: Link[] = [];
   private readonly listens: Listen[] = [];
   private readonly assignments: Assignment[] = [];
+  private readonly multilinks: UnknownMultilink[] = [];
 
   public get( tandemID: string ): PhetioObject | null {
     return DescriptionRegistry.map.get( tandemID ) || null;
-  }
-
-  public getRequired( tandemID: string ): PhetioObject {
-    const obj = this.get( tandemID );
-
-    assert && assert( obj !== null );
-
-    return obj!;
   }
 
   public link( property: TReadOnlyProperty<unknown>, listener: PropertyLinkListener<unknown> ): void {
@@ -69,7 +62,13 @@ export default class DescriptionContext {
     this.links.splice( index, 1 );
   }
 
-  // TODO: support multilinks https://github.com/phetsims/joist/issues/941
+  public multilink( dependencies: Readonly<TReadOnlyProperty<unknown>[]>, callback: () => void ): UnknownMultilink {
+    const multilink = Multilink.multilinkAny( dependencies, callback );
+
+    this.multilinks.push( multilink );
+
+    return multilink;
+  }
 
   public addListener( emitter: TEmitter<unknown[]>, listener: TEmitterListener<unknown[]> ): void {
     emitter.addListener( listener );
@@ -123,21 +122,41 @@ export default class DescriptionContext {
         assignment.target[ assignment.property ] = assignment.initialValue;
       }
     }
+    while ( this.multilinks.length ) {
+      const multilink = this.multilinks.pop()!;
+
+      // @ts-expect-error TODO how to support this? https://github.com/phetsims/joist/issues/941
+      if ( !multilink.isDisposed ) {
+        multilink.dispose();
+      }
+    }
   }
 
   // What is available and registered
-  public static readonly stringsMap = new Map<Locale, DescriptionStrings>();
-  public static readonly logicProperty = new TinyProperty<DescriptionLogic | null>( null );
-  public static readonly isStartupCompleteProperty = new TinyProperty<boolean>( false );
-
-  public static readonly activeStringsProperty = new TinyProperty<DescriptionStrings | null>( null );
-  public static readonly activeContextProperty = new TinyProperty<DescriptionContext | null>( null );
+  private static readonly stringsMap = new Map<Locale, DescriptionStrings>();
+  private static readonly logicProperty = new TinyProperty<DescriptionLogic | null>( null );
+  private static readonly isStartupCompleteProperty = new TinyProperty<boolean>( false );
+  private static readonly activeContextProperty = new TinyProperty<DescriptionContext | null>( null );
 
   public static startupComplete(): void {
     DescriptionContext.isStartupCompleteProperty.value = true;
 
     localeOrderProperty.link( () => {
       this.reload();
+    } );
+
+    DescriptionRegistry.addedEmitter.addListener( ( tandemID, obj ) => {
+      const logic = this.logicProperty.value;
+      if ( this.activeContextProperty.value && logic ) {
+        logic.added( tandemID, obj );
+      }
+    } );
+
+    DescriptionRegistry.removedEmitter.addListener( ( tandemID, obj ) => {
+      const logic = this.logicProperty.value;
+      if ( this.activeContextProperty.value && logic ) {
+        logic.removed( tandemID, obj );
+      }
     } );
   }
 
@@ -158,18 +177,26 @@ export default class DescriptionContext {
 
     const locales = localeOrderProperty.value;
 
-    // Search in locale fallback order for the best description strings to use.
-    this.activeStringsProperty.value = null;
-    for ( const locale of locales ) {
-      if ( DescriptionContext.stringsMap.has( locale ) ) {
+    const strings: DescriptionStrings = {} as DescriptionStrings;
+    let addedStrings = false;
 
-        this.activeStringsProperty.value = DescriptionContext.stringsMap.get( locale )!;
-        break;
+    // Search in locale fallback order for the best description strings to use. We'll pull out each individual
+    // function with fallback.
+    for ( let i = locales.length - 1; i >= 0; i-- ) {
+      const locale = locales[ i ];
+
+      if ( DescriptionContext.stringsMap.has( locale ) ) {
+        addedStrings = true;
+
+        const localeStrings = DescriptionContext.stringsMap.get( locale )!;
+        for ( const key of Object.keys( localeStrings ) ) {
+          // @ts-expect-error
+          strings[ key ] = localeStrings[ key ];
+        }
       }
     }
 
-    const strings = this.activeStringsProperty.value;
-    if ( strings === null ) {
+    if ( !addedStrings ) {
       return;
     }
 
@@ -178,17 +205,8 @@ export default class DescriptionContext {
     logic.launch( this.activeContextProperty.value, strings );
   }
 
-  private static needsReloadForLocale( locale: Locale ): boolean {
-    if ( !DescriptionContext.stringsMap.has( locale ) ) {
-      // NOTE: We could check to see if it's a "better" locale than our current one
-      return localeOrderProperty.value.includes( locale );
-    }
-
-    return ( DescriptionContext.stringsMap.get( locale )! ) === this.activeStringsProperty.value;
-  }
-
   public static registerStrings( strings: DescriptionStrings ): DescriptionStrings {
-    const needsReload = DescriptionContext.needsReloadForLocale( strings.locale );
+    const needsReload = localeOrderProperty.value.includes( strings.locale );
 
     DescriptionContext.stringsMap.set( strings.locale, strings );
 
