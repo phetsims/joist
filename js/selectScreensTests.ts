@@ -21,6 +21,7 @@ const hs = 'hs' as unknown as HomeScreen;
 const getQueryParameterValues = ( queryString: string ) => {
 
   // TODO: Get schema from initialize-globals.js instead of duplicating here, see https://github.com/phetsims/chipper/issues/936
+  // For documentation, please see initialize-globals
   return QueryStringMachine.getAllForString( {
 
     homeScreen: {
