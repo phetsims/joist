@@ -16,6 +16,7 @@ import { Locale } from './i18n/localeProperty.js';
 import TinyProperty from '../../axon/js/TinyProperty.js';
 import localeOrderProperty from './i18n/localeOrderProperty.js';
 import Multilink, { UnknownMultilink } from '../../axon/js/Multilink.js';
+import dotRandom from '../../dot/js/dotRandom.js';
 
 export type DescriptionStrings = {
   locale: Locale;
@@ -223,6 +224,12 @@ export default class DescriptionContext {
     DescriptionContext.reload();
 
     return logic;
+  }
+
+  public static async externalLoad( str: string ): Promise<void> {
+    const dataURI = `data:text/javascript;base64,${btoa( `${dotRandom.nextDouble()};${str}` )}`;
+
+    ( await import( dataURI ) ).default();
   }
 }
 
