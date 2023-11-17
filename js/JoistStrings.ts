@@ -193,6 +193,8 @@ type StringsType = {
         'regionAndCulture': {
           'title': string;
           'titleStringProperty': LocalizedStringProperty;
+          'description': string;
+          'descriptionStringProperty': LocalizedStringProperty;
         }
       }
     }

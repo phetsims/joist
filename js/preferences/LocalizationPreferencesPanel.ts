@@ -10,7 +10,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import { HBox, Node, Text, VBox } from '../../../scenery/js/imports.js';
+import { Node, RichText, Text, VBox } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import { LocalizationModel } from './PreferencesModel.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
@@ -23,10 +23,13 @@ import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import PreferencesType from './PreferencesType.js';
 import JoistStrings from '../JoistStrings.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import PreferencesDialogConstants from './PreferencesDialogConstants.js';
+import PreferencesControl from './PreferencesControl.js';
 
 // constants
 const localizationTitleStringProperty = JoistStrings.preferences.tabs.localization.titleStringProperty;
-const regionAndCultureStringProperty = JoistStrings.preferences.tabs.localization.regionAndCulture.titleStringProperty;
+const regionAndCultureTitleStringProperty = JoistStrings.preferences.tabs.localization.regionAndCulture.titleStringProperty;
+const regionAndCultureDescriptionStringProperty = JoistStrings.preferences.tabs.localization.regionAndCulture.descriptionStringProperty;
 
 type SelfOptions = EmptySelfOptions;
 
@@ -53,12 +56,12 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
     // regionAndCulturePortrayalProperty only gets set in PreferencesModel if there is at least one descriptor.
     if ( localizationModel.regionAndCulturePortrayalProperty ) {
       const comboBox = new RegionAndCultureComboBox( localizationModel.regionAndCulturePortrayalProperty, localizationModel.characterSets );
-      contentNode.addChild( new HBox( {
-        spacing: 10,
-        children: [
-          new Text( regionAndCultureStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ),
-          comboBox
-        ]
+      const labelNode = new Text( regionAndCultureTitleStringProperty, PreferencesDialogConstants.CONTROL_LABEL_OPTIONS );
+      const descriptionNode = new RichText( regionAndCultureDescriptionStringProperty, PreferencesDialogConstants.CONTROL_DESCRIPTION_OPTIONS );
+      contentNode.addChild( new PreferencesControl( {
+        labelNode: labelNode,
+        controlNode: comboBox,
+        descriptionNode: descriptionNode
       } ) );
     }
 

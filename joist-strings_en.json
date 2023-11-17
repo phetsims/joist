@@ -249,6 +249,9 @@
   "preferences.tabs.localization.regionAndCulture.title": {
     "value": "Region and Culture"
   },
+  "preferences.tabs.localization.regionAndCulture.description": {
+    "value": "Select the portrayal of people, places, or objects in the sim. Images are not intended to represent the entire diversity of a region or culture."
+  },
   "a11y": {
     "keyboardHelp": {
       "keyboardShortcuts": {
