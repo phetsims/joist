@@ -7,7 +7,6 @@
  *
  */
 
-import { Node } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 import LocalizedStringProperty from '../../../chipper/js/LocalizedStringProperty.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
@@ -26,8 +25,7 @@ export default class RegionAndCulturePortrayal extends PhetioObject {
   // Label string for the UI component that will select this character set
   public readonly labelProperty: LocalizedStringProperty;
 
-  public constructor( public readonly icon: Node, // Icon for the UI component that would select this character set
-                      label: LocalizedStringProperty,
+  public constructor( label: LocalizedStringProperty,
                       public readonly queryParameterValue: string, // Query parameter value attached to this character set
                       providedOptions: RegionAndCulturePortrayalOptions ) {
 
