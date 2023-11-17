@@ -199,7 +199,7 @@ export default class PreferencesModel extends PhetioObject {
     // initialize-globals uses package.json to determine defaults for features enabled by the sim and those defaults
     // can be overwritten by query parameter.  So phet.chipper.queryParameters contains an accurate representation of
     // which features are required.
-    const phetFeatures = phet.chipper.queryParameters;
+    const phetFeaturesFromQueryParameters = phet.chipper.queryParameters;
 
     // Multiple optionize calls + spread in one initialization site so that TypeScript has the correct type for nested
     // options immediately, and we don't need multiple variables to achieve it.
@@ -223,19 +223,19 @@ export default class PreferencesModel extends PhetioObject {
       visualOptions: optionize<VisualPreferencesOptions, VisualPreferencesOptions, BaseModelType>()( {
         tandemName: VISUAL_MODEL_TANDEM,
         supportsProjectorMode: false,
-        supportsInteractiveHighlights: phetFeatures.supportsInteractiveHighlights,
+        supportsInteractiveHighlights: phetFeaturesFromQueryParameters.supportsInteractiveHighlights,
         customPreferences: []
       }, providedOptions.visualOptions ),
       audioOptions: optionize<AudioPreferencesOptions, AudioPreferencesOptions, BaseModelType>()( {
         tandemName: AUDIO_MODEL_TANDEM,
-        supportsVoicing: phetFeatures.supportsVoicing,
-        supportsSound: phetFeatures.supportsSound,
-        supportsExtraSound: phetFeatures.supportsExtraSound,
+        supportsVoicing: phetFeaturesFromQueryParameters.supportsVoicing,
+        supportsSound: phetFeaturesFromQueryParameters.supportsSound,
+        supportsExtraSound: phetFeaturesFromQueryParameters.supportsExtraSound,
         customPreferences: []
       }, providedOptions.audioOptions ),
       inputOptions: optionize<InputPreferencesOptions, InputPreferencesOptions, BaseModelType>()( {
         tandemName: INPUT_MODEL_TANDEM,
-        supportsGestureControl: phetFeatures.supportsGestureControl,
+        supportsGestureControl: phetFeaturesFromQueryParameters.supportsGestureControl,
         customPreferences: []
       }, providedOptions.inputOptions ),
       localizationOptions: optionize<LocalizationPreferencesOptions, LocalizationPreferencesOptions, BaseModelType>()( {
