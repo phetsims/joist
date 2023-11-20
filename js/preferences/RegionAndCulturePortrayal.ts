@@ -7,6 +7,8 @@
  *
  * // TODO: is this the right spot to include "how to add character sets to your sim" doc? https://github.com/phetsims/joist/issues/943
  *
+ * Note: To support PhET-iO and preferences correctly, RegionAndCulturePortayal instances should be created statically.
+ *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
  */
@@ -79,6 +81,7 @@ export default class RegionAndCulturePortrayal extends PhetioObject {
   }
 
   public static createRegionAndCulturePortrayalProperty( regionAndCulturePortrayal: RegionAndCulturePortrayal, validValues: RegionAndCulturePortrayal[] ): Property<RegionAndCulturePortrayal> {
+    // TODO: validate that provided validValues here are a subset of 1. SUPPORTED_REGIONS_AND_CULTURES, and 2. simFeatures packageJSON listing? https://github.com/phetsims/joist/issues/943
     return new Property<RegionAndCulturePortrayal>( regionAndCulturePortrayal, {
       tandem: Tandem.GENERAL_MODEL.createTandem( 'regionAndCulturePortrayalProperty' ),
       phetioFeatured: true,
