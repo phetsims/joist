@@ -244,7 +244,7 @@ export default class PreferencesModel extends PhetioObject {
         characterSets: [],
         customPreferences: [],
         includeLocalePanel: true,
-        queryParameterValue: null
+        queryParameterValue: phetFeaturesFromQueryParameters.regionAndCulture
       }, providedOptions.localizationOptions )
     };
 

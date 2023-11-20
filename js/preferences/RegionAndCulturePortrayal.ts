@@ -15,9 +15,49 @@ import ReferenceIO, { ReferenceIOState } from '../../../tandem/js/types/Referenc
 import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import Property from '../../../axon/js/Property.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import packageJSON from '../packageJSON.js';
 
 type SelfOptions = EmptySelfOptions;
 export type RegionAndCulturePortrayalOptions = SelfOptions & PhetioObjectOptions;
+
+// Constants used for each supported region/culture
+// TODO: Rename from "QUERY_VALUE" https://github.com/phetsims/joist/issues/943
+export const USA_QUERY_VALUE = 'usa';
+export const AFRICA_QUERY_VALUE = 'africa';
+export const AFRICA_MODEST_QUERY_VALUE = 'africaModest';
+export const ASIA_QUERY_VALUE = 'asia';
+export const LATIN_AMERICA_QUERY_VALUE = 'latinAmerica';
+export const OCEANIA_QUERY_VALUE = 'oceania';
+export const MULTICULTURAL_QUERY_VALUE = 'multi';
+
+// The superset list of all regions and cultures supported by any sim. ALL values used by any sim must be in this list.
+const SUPPORTED_REGIONS_AND_CULTURES = [
+  USA_QUERY_VALUE,
+  AFRICA_QUERY_VALUE,
+  AFRICA_MODEST_QUERY_VALUE,
+  ASIA_QUERY_VALUE,
+  LATIN_AMERICA_QUERY_VALUE,
+  OCEANIA_QUERY_VALUE,
+  MULTICULTURAL_QUERY_VALUE
+];
+
+const isSupportedRegionAndCulture = ( regionAndCulture: string ): boolean => SUPPORTED_REGIONS_AND_CULTURES.includes( regionAndCulture );
+
+
+// The value of the query parameter
+const regionAndCultureQueryParameter = window.phet.chipper.queryParameters.regionAndCulture;
+
+// Assert the query parameter before the simFeatures list because it is more contextual (since it was manually provided
+// in this runtime).
+assert && assert( regionAndCultureQueryParameter === null ||
+                  isSupportedRegionAndCulture( regionAndCultureQueryParameter ),
+  `invalid query parameter value for ?regionAndCulture: ${regionAndCultureQueryParameter}` );
+
+// The list of supported regions and cultures as defined in the `simFeatures` of the package.json.
+const simFeaturesSupportedRegionsAndCultures = packageJSON.phet?.simFeatures?.supportedRegionsAndCultures;
+assert && simFeaturesSupportedRegionsAndCultures && assert( _.every( simFeaturesSupportedRegionsAndCultures, isSupportedRegionAndCulture ),
+  `Invalid value in simFeatures.supportedRegionsAndCultures: ${simFeaturesSupportedRegionsAndCultures}. Check RegionAndCulturePortrayal.SUPPORTED_REGIONS_AND_CULTURES.` );
+
 
 export default class RegionAndCulturePortrayal extends PhetioObject {
 
