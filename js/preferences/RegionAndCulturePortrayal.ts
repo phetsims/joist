@@ -25,7 +25,7 @@ type SelfOptions = EmptySelfOptions;
 export type RegionAndCulturePortrayalOptions = SelfOptions & PhetioObjectOptions;
 
 // Constants used for each supported region/culture
-// TODO: Rename from "QUERY_VALUE" https://github.com/phetsims/joist/issues/943
+// TODO: Rename from "QUERY_VALUE", perhaps USE_REGION_AND_CULTURE_ID https://github.com/phetsims/joist/issues/943
 export const USA_QUERY_VALUE = 'usa';
 export const AFRICA_QUERY_VALUE = 'africa';
 export const AFRICA_MODEST_QUERY_VALUE = 'africaModest';
