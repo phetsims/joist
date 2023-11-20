@@ -1,7 +1,11 @@
 // Copyright 2022-2023, University of Colorado Boulder
 
 /**
- * A base class for animated character portrayals used in representing region and culture preferences
+ * A base class for animated character portrayals used in representing region and culture preferences. Region and culture
+ * is a preference supported by PreferencesModel and query parameters. The supported region and culture instances for a
+ * sim are defined by the package.json object for the sim.
+ *
+ * // TODO: is this the right spot to include "how to add character sets to your sim" doc? https://github.com/phetsims/joist/issues/943
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
