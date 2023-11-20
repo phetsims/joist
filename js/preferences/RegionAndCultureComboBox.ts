@@ -24,7 +24,7 @@ class RegionAndCultureComboBox extends ComboBox<RegionAndCulturePortrayal | null
   /**
    * @param regionAndCultureProperty - RegionAndCulturePortrayal indicating a selected region/culture that is connected to a particular set of representations
    * @param characterSets - The RegionAndCulturePortrayal list, one for each region/culture.
-   * @param [providedOptions?]
+   * @param [providedOptions]
    */
   public constructor( regionAndCultureProperty: Property<RegionAndCulturePortrayal>, characterSets: RegionAndCulturePortrayal[], providedOptions?: RegionAndCultureComboBoxOptions ) {
 
