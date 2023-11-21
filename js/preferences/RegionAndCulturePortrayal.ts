@@ -5,7 +5,19 @@
  * is a preference supported by PreferencesModel and query parameters. The supported region and culture instances for a
  * sim are defined by the package.json object for the sim.
  *
- * // TODO: is this the right spot to include "how to add character sets to your sim" doc? https://github.com/phetsims/joist/issues/943
+ * How to add character sets to your sim:
+ * 1. Add the supported regions and cultures to package.json. Ex. ( supportedRegionsAndCultures: [ 'usa', 'africa', 'asia' ] )
+ *    The first element in the array will be the default value of the query parameter.
+ * 2. Create a RegionAndCulturePortrayal instance for each supported region and culture. Generally a subclass is needed
+ *    to extend the RegionAndCulturePortrayal class in order to add full support for the types of characters or poses
+ *    each set may have.
+ * 3. All RegionAndCulturePortrayal instances should be gathered as an array and added to the PreferencesModel
+ *    localizationOptions.characterSets. The order of the array will be the display order of the regionsAndCultures
+ *    displayed in the comboBox. It is advised that your characterSets array matches the order of the
+ *    supportedRegionsAndCultures array.
+ * 4. Implement the character sets in the sim by listening to and using localizationModel.regionAndCulturePortrayalProperty
+ *    in your PreferencesModel instance. This step is dependent on the sim and how it uses character sets. There is
+ *    no "one size fits all" implementation.
  *
  * Note: To support PhET-iO and preferences correctly, RegionAndCulturePortayal instances should be created statically.
  *
