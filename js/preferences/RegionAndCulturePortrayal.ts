@@ -92,7 +92,10 @@ export default class RegionAndCulturePortrayal extends PhetioObject {
   }
 
   public static createRegionAndCulturePortrayalProperty( regionAndCulturePortrayal: RegionAndCulturePortrayal, validValues: RegionAndCulturePortrayal[] ): Property<RegionAndCulturePortrayal> {
-    // TODO: validate that provided validValues here are a subset of 1. SUPPORTED_REGIONS_AND_CULTURES, and 2. simFeatures packageJSON listing? https://github.com/phetsims/joist/issues/943
+    assert && assert( _.every( validValues, value => SUPPORTED_REGIONS_AND_CULTURES.includes( value.regionAndCultureID ) ),
+      `validValues regionAndCultureIDs must be a subset of RegionAndCulturePortrayal.SUPPORTED_REGIONS_AND_CULTURES, but was ${ validValues.map( value => value.regionAndCultureID ) }`
+    );
+
     return new Property<RegionAndCulturePortrayal>( regionAndCulturePortrayal, {
       tandem: Tandem.GENERAL_MODEL.createTandem( 'regionAndCulturePortrayalProperty' ),
       phetioFeatured: true,
