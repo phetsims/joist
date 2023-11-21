@@ -39,24 +39,23 @@ type SelfOptions = EmptySelfOptions;
 export type RegionAndCulturePortrayalOptions = SelfOptions & PhetioObjectOptions;
 
 // Constants used for each supported region/culture
-// TODO: Rename from "QUERY_VALUE", perhaps USE_REGION_AND_CULTURE_ID https://github.com/phetsims/joist/issues/943
-export const USA_QUERY_VALUE = 'usa';
-export const AFRICA_QUERY_VALUE = 'africa';
-export const AFRICA_MODEST_QUERY_VALUE = 'africaModest';
-export const ASIA_QUERY_VALUE = 'asia';
-export const LATIN_AMERICA_QUERY_VALUE = 'latinAmerica';
-export const OCEANIA_QUERY_VALUE = 'oceania';
-export const MULTICULTURAL_QUERY_VALUE = 'multi';
+export const USA_REGION_AND_CULTURE_ID = 'usa';
+export const AFRICA_REGION_AND_CULTURE_ID = 'africa';
+export const AFRICA_MODEST_REGION_AND_CULTURE_ID = 'africaModest';
+export const ASIA_REGION_AND_CULTURE_ID = 'asia';
+export const LATIN_AMERICA_REGION_AND_CULTURE_ID = 'latinAmerica';
+export const OCEANIA_REGION_AND_CULTURE_ID = 'oceania';
+export const MULTICULTURAL_REGION_AND_CULTURE_ID = 'multi';
 
 // The superset list of all regions and cultures supported by any sim. ALL values used by any sim must be in this list.
 const SUPPORTED_REGIONS_AND_CULTURES = [
-  USA_QUERY_VALUE,
-  AFRICA_QUERY_VALUE,
-  AFRICA_MODEST_QUERY_VALUE,
-  ASIA_QUERY_VALUE,
-  LATIN_AMERICA_QUERY_VALUE,
-  OCEANIA_QUERY_VALUE,
-  MULTICULTURAL_QUERY_VALUE
+  USA_REGION_AND_CULTURE_ID,
+  AFRICA_REGION_AND_CULTURE_ID,
+  AFRICA_MODEST_REGION_AND_CULTURE_ID,
+  ASIA_REGION_AND_CULTURE_ID,
+  LATIN_AMERICA_REGION_AND_CULTURE_ID,
+  OCEANIA_REGION_AND_CULTURE_ID,
+  MULTICULTURAL_REGION_AND_CULTURE_ID
 ];
 
 const isSupportedRegionAndCulture = ( regionAndCulture: string ): boolean => SUPPORTED_REGIONS_AND_CULTURES.includes( regionAndCulture );
@@ -84,7 +83,7 @@ export default class RegionAndCulturePortrayal extends PhetioObject {
   public readonly labelProperty: LocalizedStringProperty;
 
   public constructor( label: LocalizedStringProperty,
-                      public readonly queryParameterValue: string, // Query parameter value attached to this character set
+                      public readonly regionAndCultureID: string, // Query parameter value attached to this character set
                       providedOptions: RegionAndCulturePortrayalOptions ) {
 
     super( providedOptions );
