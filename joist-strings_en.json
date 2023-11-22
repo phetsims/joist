@@ -252,6 +252,27 @@
   "preferences.tabs.localization.regionAndCulture.description": {
     "value": "Select the portrayal of people, places, or objects in the sim. Images are not intended to represent the entire diversity of a region or culture."
   },
+  "preferences.tabs.localization.regionAndCulture.portrayalSets.unitedStatesOfAmerica": {
+    "value": "United States of America"
+  },
+  "preferences.tabs.localization.regionAndCulture.portrayalSets.multicultural": {
+    "value": "Multicultural"
+  },
+  "preferences.tabs.localization.regionAndCulture.portrayalSets.africa": {
+    "value": "Africa"
+  },
+  "preferences.tabs.localization.regionAndCulture.portrayalSets.africaModest": {
+    "value": "Africa Modest"
+  },
+  "preferences.tabs.localization.regionAndCulture.portrayalSets.asia": {
+    "value": "Asia"
+  },
+  "preferences.tabs.localization.regionAndCulture.portrayalSets.latinAmerica": {
+    "value": "Latin America"
+  },
+  "preferences.tabs.localization.regionAndCulture.portrayalSets.oceania": {
+    "value": "Oceania"
+  },
   "a11y": {
     "keyboardHelp": {
       "keyboardShortcuts": {

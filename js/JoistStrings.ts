@@ -195,6 +195,22 @@ type StringsType = {
           'titleStringProperty': LocalizedStringProperty;
           'description': string;
           'descriptionStringProperty': LocalizedStringProperty;
+          'portrayalSets': {
+            'unitedStatesOfAmerica': string;
+            'unitedStatesOfAmericaStringProperty': LocalizedStringProperty;
+            'multicultural': string;
+            'multiculturalStringProperty': LocalizedStringProperty;
+            'africa': string;
+            'africaStringProperty': LocalizedStringProperty;
+            'africaModest': string;
+            'africaModestStringProperty': LocalizedStringProperty;
+            'asia': string;
+            'asiaStringProperty': LocalizedStringProperty;
+            'latinAmerica': string;
+            'latinAmericaStringProperty': LocalizedStringProperty;
+            'oceania': string;
+            'oceaniaStringProperty': LocalizedStringProperty;
+          }
         }
       }
     }
