@@ -93,7 +93,9 @@ class PreferencesControl extends GridBox {
         row: 1,
         column: 0,
         horizontalSpan: 2,
-        xAlign: 'left'
+        xAlign: 'left',
+        stretch: true,
+        minContentWidth: 480
       };
       this.addChild( options.descriptionNode );
     }
