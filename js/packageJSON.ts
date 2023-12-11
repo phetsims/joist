@@ -8,9 +8,7 @@
 
 import joist from './joist.js';
 
-const packageString = JSON.stringify( ( window.phet && phet.chipper ) ? phet.chipper.packageObject : { name: 'placeholder' } );
-
-const packageJSON = JSON.parse( packageString );
+const packageJSON = ( window.phet && phet.chipper ) ? phet.chipper.packageObject : { name: 'placeholder' };
 
 joist.register( 'packageJSON', packageJSON );
 
