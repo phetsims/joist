@@ -27,7 +27,6 @@ import ScreenSummaryNode from '../../scenery-phet/js/accessibility/nodes/ScreenS
 import { Node, NodeOptions } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
-import WithRequired from '../../phet-core/js/types/WithRequired.js';
 import { SpeakableResolvedResponse } from '../../utterance-queue/js/ResponsePacket.js';
 
 /*
@@ -49,7 +48,7 @@ type SelfOptions = {
   screenSummaryContent?: Node | null;
   includePDOMNodes?: boolean;
 };
-export type ScreenViewOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'>;
+export type ScreenViewOptions = SelfOptions & NodeOptions;
 
 class ScreenView extends Node {
   public readonly layoutBounds: Bounds2;
@@ -66,7 +65,7 @@ class ScreenView extends Node {
 
   public static readonly DEFAULT_LAYOUT_BOUNDS = DEFAULT_LAYOUT_BOUNDS;
 
-  public constructor( providedOptions: ScreenViewOptions ) {
+  public constructor( providedOptions?: ScreenViewOptions ) {
 
     const options = optionize<ScreenViewOptions, SelfOptions, NodeOptions>()( {
 
@@ -78,7 +77,6 @@ class ScreenView extends Node {
       excludeInvisible: true, // so we don't keep invisible screens in the SVG tree
 
       // phet-io
-      // @ts-expect-error include a default for un-instrumented, JavaScript sims
       tandem: Tandem.REQUIRED,
       visiblePropertyOptions: {
         phetioState: false,
