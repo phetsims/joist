@@ -27,10 +27,10 @@
  *  Africa (Modest): Similar portrayals to the Africa option, with adjustments to clothing or garb that is representative
  *  of more modest cultures in the region.
  *
- *  Asia: Portrayals of people, places, or objects that are inspired by the images and dress of the Asian region
+ *  Asia: Portrayals of people, places, or objects that are inspired by the images and dress of the Asian region.
  *
  *  Latin America: Portrayals of people, places, or objects that are inspired by the images and dress of the Latin
- *  American region
+ *  American region.
  *
  *  Multicultural: This option selects a random region/culture at startup to display as the default option for the sim.
  *
