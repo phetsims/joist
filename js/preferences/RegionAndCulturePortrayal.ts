@@ -22,7 +22,7 @@
  * Note: To support PhET-iO and preferences correctly, RegionAndCulturePortrayal instances should be created statically.
  *
  * As of 12/2023 the following are supported Region and Culture options and short descriptions of each:
- *  Africa: Portrayals of people, places, or objects that are inspired by the images and dress of the African region
+ *  Africa: Portrayals of people, places, or objects that are inspired by the images and dress of the African region.
  *
  *  Africa (Modest): Similar portrayals to the Africa option, with adjustments to clothing or garb that is representative
  *  of more modest cultures in the region.
