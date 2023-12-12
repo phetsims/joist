@@ -19,9 +19,28 @@
  *    in your PreferencesModel instance. This step is dependent on the sim and how it uses character sets. There is
  *    no "one size fits all" implementation.
  *
- * Note: To support PhET-iO and preferences correctly, RegionAndCulturePortayal instances should be created statically.
+ * Note: To support PhET-iO and preferences correctly, RegionAndCulturePortrayal instances should be created statically.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
+ *
+ * As of 12/2023 the following are supported Region and Culture options and short descriptions of each:
+ *  Africa: Portrayals of people, places, or objects that are inspired by the images and dress of the African region
+ *
+ *  Africa (Modest): Similar portrayals to the Africa option, with adjustments to clothing or garb that is representative
+ *  of more modest cultures in the region.
+ *
+ *  Asia: Portrayals of people, places, or objects that are inspired by the images and dress of the Asian region
+ *
+ *  Latin America: Portrayals of people, places, or objects that are inspired by the images and dress of the Latin
+ *  American region
+ *
+ *  Multicultural: This option selects a random region/culture at startup to display as the default option for the sim.
+ *
+ *  United States of America: Portrayals of people, places, or objects inspired by the images and dress of the United
+ *  States of America. Although many other countries may also reflect this portrayal, as PhET being based in the USA, and
+ *  having difficulty finding language that appropriately reflects all the regions where portrayals may match it was
+ *  decided to keep "United States of America" as the descriptor with the understanding that other regions may see
+ *  themselves reflected in the portrayals.
  *
  */
 
