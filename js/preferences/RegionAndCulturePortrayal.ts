@@ -21,8 +21,6 @@
  *
  * Note: To support PhET-iO and preferences correctly, RegionAndCulturePortrayal instances should be created statically.
  *
- * @author Marla Schulz (PhET Interactive Simulations)
- *
  * As of 12/2023 the following are supported Region and Culture options and short descriptions of each:
  *  Africa: Portrayals of people, places, or objects that are inspired by the images and dress of the African region
  *
@@ -42,6 +40,7 @@
  *  decided to keep "United States of America" as the descriptor with the understanding that other regions may see
  *  themselves reflected in the portrayals.
  *
+ * @author Marla Schulz (PhET Interactive Simulations)
  */
 
 import joist from '../joist.js';
