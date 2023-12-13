@@ -33,6 +33,10 @@
  *  American region.
  *
  *  Multicultural: This option selects a random region/culture at startup to display as the default option for the sim.
+ *  This means that a different portrayal will be set as the default for each refresh, but will remain the same through
+ *  reset and any other sim interactions.
+ *
+ *  Oceania: Portrayals of people, places, or objects that are inspired by the images and dress of the Oceania region.
  *
  *  United States of America: Portrayals of people, places, or objects inspired by the images and dress of the United
  *  States of America. Although many other countries may also reflect this portrayal, as PhET being based in the USA, and
