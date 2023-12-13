@@ -90,7 +90,7 @@ type LocalizationPreferencesOptions = {
   // Describes the available artwork that can be used for different regions and cultures. If any sets are
   // provided, the Localization tab will include a UI component to swap out pieces of artwork to match the selected
   // region and culture. CharacterSets contains information for the UI component to describe each choice.
-  characterSets?: RegionAndCulturePortrayal[];
+  portrayals?: RegionAndCulturePortrayal[];
 
   // Whether to include the default LocalePanel for selecting locale. This was added to allow sims like
   // Number Play and Number Compare to substitute their own custom controls.
@@ -239,7 +239,7 @@ export default class PreferencesModel extends PhetioObject {
       localizationOptions: optionize<LocalizationPreferencesOptions, LocalizationPreferencesOptions, BaseModelType>()( {
         tandemName: 'localizationModel',
         supportsDynamicLocale: !!localeProperty.validValues && localeProperty.validValues.length > 1 && phet.chipper.queryParameters.supportsDynamicLocale,
-        characterSets: [],
+        portrayals: [],
         customPreferences: [],
         includeLocalePanel: true
       }, providedOptions.localizationOptions )
@@ -313,8 +313,8 @@ export default class PreferencesModel extends PhetioObject {
       localeProperty: localeProperty
     }, options.localizationOptions );
 
-    if ( options.localizationOptions.characterSets.length > 0 ) {
-      const characterSets = options.localizationOptions.characterSets;
+    if ( options.localizationOptions.portrayals.length > 0 ) {
+      const characterSets = options.localizationOptions.portrayals;
 
       // default is the first set
       let defaultSet = characterSets[ 0 ];
@@ -488,7 +488,7 @@ export default class PreferencesModel extends PhetioObject {
    */
   public supportsLocalizationPreferences(): boolean {
     return this.localizationModel.supportsDynamicLocale ||
-           this.localizationModel.characterSets.length > 0 ||
+           this.localizationModel.portrayals.length > 0 ||
            this.preferenceModelHasCustom( this.localizationModel );
   }
 

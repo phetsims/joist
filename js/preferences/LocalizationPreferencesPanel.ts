@@ -55,7 +55,7 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
 
     // regionAndCulturePortrayalProperty only gets set in PreferencesModel if there is at least one descriptor.
     if ( localizationModel.regionAndCulturePortrayalProperty ) {
-      const comboBox = new RegionAndCultureComboBox( localizationModel.regionAndCulturePortrayalProperty, localizationModel.characterSets );
+      const comboBox = new RegionAndCultureComboBox( localizationModel.regionAndCulturePortrayalProperty, localizationModel.portrayals );
       const labelNode = new Text( regionAndCultureTitleStringProperty, PreferencesDialogConstants.CONTROL_LABEL_OPTIONS );
       const descriptionNode = new RichText( regionAndCultureDescriptionStringProperty, PreferencesDialogConstants.CONTROL_DESCRIPTION_OPTIONS );
       contentNode.addChild( new PreferencesControl( {

@@ -12,8 +12,8 @@
  *    to extend the RegionAndCulturePortrayal class in order to add full support for the types of characters or poses
  *    each set may have.
  * 3. All RegionAndCulturePortrayal instances should be gathered as an array and added to the PreferencesModel
- *    localizationOptions.characterSets. The order of the array will be the display order of the regionsAndCultures
- *    displayed in the comboBox. It is advised that your characterSets array matches the order of the
+ *    localizationOptions.portrayals. The order of the array will be the display order of the regionsAndCultures
+ *    displayed in the comboBox. It is advised that your portrayals array matches the order of the
  *    supportedRegionsAndCultures array.
  * 4. Implement the character sets in the sim by listening to and using localizationModel.regionAndCulturePortrayalProperty
  *    in your PreferencesModel instance. This step is dependent on the sim and how it uses character sets. There is
