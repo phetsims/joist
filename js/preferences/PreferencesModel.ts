@@ -89,7 +89,7 @@ type LocalizationPreferencesOptions = {
 
   // Describes the available artwork that can be used for different regions and cultures. If any sets are
   // provided, the Localization tab will include a UI component to swap out pieces of artwork to match the selected
-  // region and culture. CharacterSets contains information for the UI component to describe each choice.
+  // region and culture. Portrayals contains information for the UI component to describe each choice.
   portrayals?: RegionAndCulturePortrayal[];
 
   // Whether to include the default LocalePanel for selecting locale. This was added to allow sims like
