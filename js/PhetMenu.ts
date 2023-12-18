@@ -273,7 +273,7 @@ class PhetMenu extends Popupable( Node, 0 ) {
 
     // pdom - handles navigation of items and closing with escape
     const keyboardListener = new KeyboardListener( {
-      keys: [ 'escape', 'arrowDown', 'arrowUp' ],
+      keys: [ 'escape', 'arrowDown', 'arrowUp', 'tab', 'shift+tab' ],
       callback: ( event, keysPressed ) => {
         const firstItem = this.items[ 0 ];
         const lastItem = this.items[ this.items.length - 1 ];
@@ -301,7 +301,7 @@ class PhetMenu extends Popupable( Node, 0 ) {
           const previousFocusable = firstItem.focused ? lastItem : PDOMUtils.getPreviousFocusable();
           previousFocusable.focus();
         }
-        else if ( keysPressed === 'escape' ) {
+        else if ( keysPressed === 'escape' || keysPressed === 'tab' || keysPressed === 'shift+tab' ) {
 
           // On escape or tab, close the menu and restore focus to the element that had focus before the menu was
           // opened.
