@@ -206,7 +206,7 @@ class HomeScreenView extends ScreenView {
       if ( details !== '' ) {
         details += ' ';
       }
-      details += StringUtils.fillIn( JoistStrings.a11y.homeScreenButtonDetailsPattern, {
+      details += StringUtils.fillIn( JoistStrings.a11y.homeScreenButtonDetailsPatternStringProperty, {
         name: screenButton.screen.pdomDisplayNameProperty.value,
         screenHint: screenButton.screen.descriptionContent
       } );
