@@ -13,6 +13,11 @@
     "requirejsNamespace": "JOIST",
     "runnable": true,
     "generatedUnitTests": true,
+    "simFeatures": {
+      "supportsInteractiveDescription": true,
+      "supportsDynamicLocale": true,
+      "supportsSound": true
+    },
     "supportedBrands": [
       "phet",
       "adapted-from-phet"
