@@ -1,9 +1,9 @@
 // Copyright 2022-2023, University of Colorado Boulder
 
 /**
- * A base class for animated character portrayals used in representing region and culture preferences. Region and culture
- * is a preference supported by PreferencesModel and query parameters. The supported region and culture instances for a
- * sim are defined by the package.json object for the sim.
+ * A base class for the portrayal of people, places, or objects in the sim. Region and culture is a preference supported
+ * by PreferencesModel and query parameters. The supported region and culture instances for a sim are defined by the
+ * package.json object for the sim.
  *
  * Using the `regionAndCulture` query parameter:
  * The sim will set the value of the query parameter as the selected region and culture in preferences as long as the
@@ -20,18 +20,18 @@
  *
  * Example: `?regionAndCulture=asia`
  *
- * How to add character sets to your sim:
+ * How to add portrayal sets to your sim:
  * 1. Add the supported regions and cultures to package.json. Ex. ( supportedRegionsAndCultures: [ 'usa', 'africa', 'asia' ] )
  *    The first element in the array will be the default value of the query parameter.
  * 2. Create a RegionAndCulturePortrayal instance for each supported region and culture. Generally a subclass is needed
- *    to extend the RegionAndCulturePortrayal class in order to add full support for the types of characters or poses
+ *    to extend the RegionAndCulturePortrayal class in order to add full support for the types of portrayals or poses
  *    each set may have.
  * 3. All RegionAndCulturePortrayal instances should be gathered as an array and added to the PreferencesModel
  *    localizationOptions.portrayals. The order of the array will be the display order of the regionsAndCultures
  *    displayed in the comboBox. It is advised that your portrayals array matches the order of the
  *    supportedRegionsAndCultures array.
- * 4. Implement the character sets in the sim by listening to and using localizationModel.regionAndCulturePortrayalProperty
- *    in your PreferencesModel instance. This step is dependent on the sim and how it uses character sets. There is
+ * 4. Implement the portrayal sets in the sim by listening to and using localizationModel.regionAndCulturePortrayalProperty
+ *    in your PreferencesModel instance. This step is dependent on the sim and how it uses each portrayal. There is
  *    no "one size fits all" implementation. Some sims that provide examples of implementation are: number-line-integers,
  *    energy-skate-park, and area-model-algebra.
  *
@@ -117,11 +117,11 @@ assert && simFeaturesSupportedRegionsAndCultures && assert( _.every( simFeatures
 export default class RegionAndCulturePortrayal extends PhetioObject {
 
 
-  // Label string for the UI component that will select this character set
+  // Label string for the UI component that will select this portrayal set
   public readonly labelProperty: LocalizedStringProperty;
 
   public constructor( label: LocalizedStringProperty,
-                      public readonly regionAndCultureID: string, // Query parameter value attached to this character set
+                      public readonly regionAndCultureID: string, // Query parameter value attached to this portrayal set
                       providedOptions: RegionAndCulturePortrayalOptions ) {
 
     super( providedOptions );
@@ -138,7 +138,7 @@ export default class RegionAndCulturePortrayal extends PhetioObject {
       tandem: Tandem.GENERAL_MODEL.createTandem( 'regionAndCulturePortrayalProperty' ),
       phetioFeatured: true,
       phetioValueType: RegionAndCulturePortrayal.RegionAndCulturePortrayalIO,
-      phetioDocumentation: 'Specifies the region and culture character portrayals in the simulation',
+      phetioDocumentation: 'Specifies the region and culture portrayals in the simulation',
       validValues: validValues
     } );
   }
@@ -151,7 +151,7 @@ export default class RegionAndCulturePortrayal extends PhetioObject {
   public static readonly RegionAndCulturePortrayalIO = new IOType<RegionAndCulturePortrayal, ReferenceIOState>( 'RegionAndCulturePortrayalIO', {
     valueType: RegionAndCulturePortrayal,
     supertype: ReferenceIO( IOType.ObjectIO ),
-    documentation: 'A RegionAndCulturePortrayal describes and holds the contents of how a region and culture will be portrayed through cartoon characters in the sim.'
+    documentation: 'A RegionAndCulturePortrayal describes and holds the contents of how a region and culture will be portrayed through artwork in the sim.'
   } );
 }
 
