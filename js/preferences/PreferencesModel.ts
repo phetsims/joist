@@ -314,14 +314,14 @@ export default class PreferencesModel extends PhetioObject {
     }, options.localizationOptions );
 
     if ( options.localizationOptions.portrayals.length > 0 ) {
-      const characterSets = options.localizationOptions.portrayals;
+      const portrayals = options.localizationOptions.portrayals;
 
       // default is the first set
-      let defaultSet = characterSets[ 0 ];
+      let defaultSet = portrayals[ 0 ];
       const regionAndCultureQueryParameter = phetFeaturesFromQueryParameters.regionAndCulture;
       if ( regionAndCultureQueryParameter ) {
-        defaultSet = characterSets.find( set => set.regionAndCultureID === regionAndCultureQueryParameter )!;
-        this.localizationModel.regionAndCulturePortrayalProperty = RegionAndCulturePortrayal.createRegionAndCulturePortrayalProperty( defaultSet, characterSets );
+        defaultSet = portrayals.find( set => set.regionAndCultureID === regionAndCultureQueryParameter )!;
+        this.localizationModel.regionAndCulturePortrayalProperty = RegionAndCulturePortrayal.createRegionAndCulturePortrayalProperty( defaultSet, portrayals );
       }
     }
 

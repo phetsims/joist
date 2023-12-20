@@ -1,7 +1,7 @@
 // Copyright 2022-2023, University of Colorado Boulder
 
 /**
- * A ComboBox that lets you change a character or character set in a simulation to match a particular culture or region.
+ * A ComboBox that lets you change a character or portrayal in a simulation to match a particular culture or region.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
@@ -23,25 +23,25 @@ class RegionAndCultureComboBox extends ComboBox<RegionAndCulturePortrayal | null
 
   /**
    * @param regionAndCultureProperty - RegionAndCulturePortrayal indicating a selected region/culture that is connected to a particular set of representations
-   * @param characterSets - The RegionAndCulturePortrayal list, one for each region/culture.
+   * @param portrayals - The RegionAndCulturePortrayal list, one for each region/culture.
    * @param [providedOptions]
    */
-  public constructor( regionAndCultureProperty: Property<RegionAndCulturePortrayal>, characterSets: RegionAndCulturePortrayal[], providedOptions?: RegionAndCultureComboBoxOptions ) {
+  public constructor( regionAndCultureProperty: Property<RegionAndCulturePortrayal>, portrayals: RegionAndCulturePortrayal[], providedOptions?: RegionAndCultureComboBoxOptions ) {
 
     const options = optionize<RegionAndCultureComboBoxOptions, SelfOptions, ComboBoxOptions>()( {
 
-      // default yMargin is a bit smaller so that there is less white space around the character set icon
+      // default yMargin is a bit smaller so that there is less white space around the portrayal icon
       yMargin: 3,
 
       // phet-io
       tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
     }, providedOptions );
 
-    const comboBoxItems = characterSets.map( ( characterSet, index ) => {
+    const comboBoxItems = portrayals.map( portrayal => {
 
       return {
-        value: characterSet,
-        createNode: () => new Text( characterSet.labelProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS )
+        value: portrayal,
+        createNode: () => new Text( portrayal.labelProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS )
       };
     } );
 
