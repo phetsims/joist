@@ -5,6 +5,21 @@
  * is a preference supported by PreferencesModel and query parameters. The supported region and culture instances for a
  * sim are defined by the package.json object for the sim.
  *
+ * Using the `regionAndCulture` query parameter:
+ * The sim will set the value of the query parameter as the selected region and culture in preferences as long as the
+ * option provided is supported by the sim. If the option provided is not supported by the sim a warning dialogue will
+ * be shown at start-up
+ * Options:
+ * - `africa`
+ * - `africaModest`
+ * - `asia`
+ * - `latinAmerica`
+ * - `multi`
+ * - `oceania`
+ * - `usa`
+ *
+ * Example: `?regionAndCulture=asia`
+ *
  * How to add character sets to your sim:
  * 1. Add the supported regions and cultures to package.json. Ex. ( supportedRegionsAndCultures: [ 'usa', 'africa', 'asia' ] )
  *    The first element in the array will be the default value of the query parameter.
