@@ -17,6 +17,7 @@ import TinyProperty from '../../axon/js/TinyProperty.js';
 import localeOrderProperty from './i18n/localeOrderProperty.js';
 import Multilink, { UnknownMultilink } from '../../axon/js/Multilink.js';
 import dotRandom from '../../dot/js/dotRandom.js';
+import TProperty from '../../axon/js/TProperty.js';
 
 export type DescriptionStrings = {
   locale: Locale;
@@ -33,6 +34,7 @@ export default class DescriptionContext {
   private readonly links: Link[] = [];
   private readonly listens: Listen[] = [];
   private readonly assignments: Assignment[] = [];
+  private readonly propertyAssignments: PropertyAssignment[] = [];
   private readonly multilinks: UnknownMultilink[] = [];
 
   public get( tandemID: string ): PhetioObject | null {
@@ -97,6 +99,15 @@ export default class DescriptionContext {
     node[ property ] = value;
   }
 
+  public propertySet( property: TProperty<unknown>, value: unknown ): void {
+    const index = this.propertyAssignments.findIndex( assignment => assignment.property === property );
+    if ( index < 0 ) {
+      this.propertyAssignments.push( new PropertyAssignment( property, property.value ) );
+    }
+
+    property.value = value;
+  }
+
   public dispose(): void {
     // NOTE: can links/listens be tied to a tandem/object? So that if we "remove" the object, we will assume it's disposed?
 
@@ -121,6 +132,13 @@ export default class DescriptionContext {
       if ( !assignment.target.isDisposed ) {
         // @ts-expect-error
         assignment.target[ assignment.property ] = assignment.initialValue;
+      }
+    }
+    while ( this.propertyAssignments.length ) {
+      const assignment = this.propertyAssignments.pop()!;
+
+      if ( !assignment.property.isDisposed ) {
+        assignment.property.value = assignment.initialValue;
       }
     }
     while ( this.multilinks.length ) {
@@ -252,6 +270,13 @@ class Assignment {
     public readonly target: Node,
     public readonly property: keyof Node,
     public readonly initialValue: string
+  ) {}
+}
+
+class PropertyAssignment {
+  public constructor(
+    public readonly property: TProperty<unknown>,
+    public readonly initialValue: unknown
   ) {}
 }
 
