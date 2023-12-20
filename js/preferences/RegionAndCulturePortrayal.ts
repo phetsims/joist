@@ -20,7 +20,7 @@
  *
  * Example: `?regionAndCulture=asia`
  *
- * How to add character sets to your sim:
+ * How to add portrayals to your sim:
  * 1. Add the supported regions and cultures to package.json. Ex. ( supportedRegionsAndCultures: [ 'usa', 'africa', 'asia' ] )
  *    The first element in the array will be the default value of the query parameter.
  * 2. Create a RegionAndCulturePortrayal instance for each supported region and culture. Generally a subclass is needed
@@ -30,8 +30,8 @@
  *    localizationOptions.portrayals. The order of the array will be the display order of the regionsAndCultures
  *    displayed in the comboBox. It is advised that your portrayals array matches the order of the
  *    supportedRegionsAndCultures array.
- * 4. Implement the character sets in the sim by listening to and using localizationModel.regionAndCulturePortrayalProperty
- *    in your PreferencesModel instance. This step is dependent on the sim and how it uses character sets. There is
+ * 4. Implement the portrayals in the sim by listening to and using localizationModel.regionAndCulturePortrayalProperty
+ *    in your PreferencesModel instance. This step is dependent on the sim and how it uses portrayals. There is
  *    no "one size fits all" implementation. Some sims that provide examples of implementation are: number-line-integers,
  *    energy-skate-park, and area-model-algebra.
  *
@@ -121,7 +121,7 @@ export default class RegionAndCulturePortrayal extends PhetioObject {
   public readonly labelProperty: LocalizedStringProperty;
 
   public constructor( label: LocalizedStringProperty,
-                      public readonly regionAndCultureID: string, // Query parameter value attached to this character set
+                      public readonly regionAndCultureID: string, // Query parameter value attached to this portrayals
                       providedOptions: RegionAndCulturePortrayalOptions ) {
 
     super( providedOptions );
