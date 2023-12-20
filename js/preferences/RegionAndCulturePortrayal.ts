@@ -17,7 +17,8 @@
  *    supportedRegionsAndCultures array.
  * 4. Implement the character sets in the sim by listening to and using localizationModel.regionAndCulturePortrayalProperty
  *    in your PreferencesModel instance. This step is dependent on the sim and how it uses character sets. There is
- *    no "one size fits all" implementation.
+ *    no "one size fits all" implementation. Some sims that provide examples of implementation are: number-line-integers,
+ *    energy-skate-park, and area-model-algebra.
  *
  * Note: To support PhET-iO and preferences correctly, RegionAndCulturePortrayal instances should be created statically.
  *
