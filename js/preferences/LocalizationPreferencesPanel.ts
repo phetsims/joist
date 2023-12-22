@@ -66,8 +66,25 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
     }
 
     if ( localizationModel.supportsDynamicLocale && localizationModel.includeLocalePanel ) {
+
+      // The language selection provided by LocalePanel does not follow the PreferencesControl pattern because it is a
+      // much larger custom UI component that does not fit in the standard PreferencesControl layout.
+      const localeLabel = new Text( JoistStrings.a11y.preferences.tabs.localization.languageSelection.labelStringProperty,
+        PreferencesDialogConstants.CONTROL_LABEL_OPTIONS );
+      const localeDescription = new RichText( JoistStrings.a11y.preferences.tabs.localization.languageSelection.descriptionStringProperty,
+        PreferencesDialogConstants.CONTROL_DESCRIPTION_OPTIONS );
       const localePanel = new LocalePanel( localizationModel.localeProperty );
-      contentNode.addChild( localePanel );
+
+      const localeVBox = new VBox( {
+        children: [ localeLabel, localeDescription, localePanel ],
+        align: 'left',
+        spacing: 5,
+        stretch: true,
+        layoutOptions: {
+          stretch: true
+        }
+      } );
+      contentNode.addChild( localeVBox );
     }
 
     localizationModel.customPreferences.forEach( customPreference => {
