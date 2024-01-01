@@ -216,7 +216,7 @@ export default class Helper {
     }, {
       tandem: Tandem.OPT_OUT,
       valueComparisonStrategy: 'equalsFunction',
-      accessNonDependencies: true
+      strictAxonDependencies: false
     } );
     this.previewTrailProperty = new DerivedProperty( [ this.selectedTrailProperty, this.treeHoverTrailProperty, this.pointerTrailProperty ], ( selected, treeHover, active ) => {
       return selected ? selected : ( treeHover ? treeHover : active );
