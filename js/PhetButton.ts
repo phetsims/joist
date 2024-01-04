@@ -1,4 +1,4 @@
-// Copyright 2013-2023, University of Colorado Boulder
+// Copyright 2013-2024, University of Colorado Boulder
 
 /**
  * The button that pops up the PhET menu, which appears in the bottom right of the home screen and on the right side
