@@ -36,6 +36,9 @@ const PreferencesDialogConstants = {
   CONTROL_DESCRIPTION_OPTIONS: {
     font: DESCRIPTION_FONT,
     lineWrap: 'stretch' as const
+  },
+  TOGGLE_SWITCH_LABEL_OPTIONS: {
+    font: DESCRIPTION_FONT
   }
 
 };
