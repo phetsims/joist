@@ -6,7 +6,7 @@
  *
  * NOTE: Property values are stringified, so don't try using this with something like `new StringProperty( 'true' )`
  *
- * author
+ * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
 import TProperty from '../../../axon/js/TProperty.js';

@@ -2,6 +2,7 @@
 
 /**
  * UI parts for update-related dialogs
+ * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
 import merge from '../../phet-core/js/merge.js';
