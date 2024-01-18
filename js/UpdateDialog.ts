@@ -96,6 +96,9 @@ export default class UpdateDialog extends Dialog {
    * (joist-internal)
    */
   public override show(): void {
+    if ( !this.shouldShowPopup() ) {
+      return;
+    }
     if ( updateCheck.areUpdatesChecked && !this.isShowingProperty.value ) {
       updateCheck.resetTimeout();
 

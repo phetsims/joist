@@ -265,6 +265,9 @@ export default class AboutDialog extends Dialog {
    * When the dialog is shown, add update listeners.
    */
   public override show(): void {
+    if ( !this.shouldShowPopup() ) {
+      return;
+    }
     if ( updateCheck.areUpdatesChecked && !this.isShowingProperty.value ) {
       updateCheck.resetTimeout();
 
