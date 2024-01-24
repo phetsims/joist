@@ -220,6 +220,8 @@ export default class Helper {
     } );
     this.previewTrailProperty = new DerivedProperty( [ this.selectedTrailProperty, this.treeHoverTrailProperty, this.pointerTrailProperty ], ( selected, treeHover, active ) => {
       return selected ? selected : ( treeHover ? treeHover : active );
+    }, {
+      strictAxonDependencies: false
     } );
 
     this.previewShapeProperty = new DerivedProperty( [ this.previewTrailProperty, this.inputBasedPickingProperty, this.pointerAreaTypeProperty ], ( previewTrail, inputBasedPicking, pointerAreaType ) => {
@@ -234,6 +236,8 @@ export default class Helper {
       else {
         return null;
       }
+    }, {
+      strictAxonDependencies: false
     } );
 
     this.helperNodeProperty = new DerivedProperty( [ this.selectedTrailProperty ], trail => {
@@ -249,6 +253,8 @@ export default class Helper {
       else {
         return null;
       }
+    }, {
+      strictAxonDependencies: false
     } );
 
     this.screenViewProperty = new TinyProperty<ScreenView | null>( null );
@@ -275,7 +281,8 @@ export default class Helper {
         imageData.data[ index + 3 ] / 255
       );
     }, {
-      tandem: Tandem.OPT_OUT
+      tandem: Tandem.OPT_OUT,
+      strictAxonDependencies: false
     } );
 
     const fuzzProperty = new BooleanProperty( phet.chipper.queryParameters.fuzz, {
@@ -351,7 +358,10 @@ export default class Helper {
       else {
         return nonInputBasedColor;
       }
-    }, { tandem: Tandem.OPT_OUT } );
+    }, {
+      tandem: Tandem.OPT_OUT,
+      strictAxonDependencies: false
+    } );
 
     const colorBackground = new Panel( colorText, {
       cornerRadius: 0,
@@ -566,7 +576,10 @@ export default class Helper {
       }
     } );
 
-    const highlightFillProperty = new DerivedProperty( [ highlightBaseColorProperty ], color => color.withAlpha( 0.2 ), { tandem: Tandem.OPT_OUT } );
+    const highlightFillProperty = new DerivedProperty( [ highlightBaseColorProperty ], color => color.withAlpha( 0.2 ), {
+      tandem: Tandem.OPT_OUT,
+      strictAxonDependencies: false
+    } );
     const highlightPath = new Path( null, {
       stroke: highlightBaseColorProperty,
       lineDash: [ 2, 2 ],
@@ -1150,7 +1163,8 @@ class VisualTreeNode extends CollapsibleTreeNode<VisualTreeNode> {
           return 'transparent';
         }
       }, {
-        tandem: Tandem.OPT_OUT
+        tandem: Tandem.OPT_OUT,
+        strictAxonDependencies: false
       } )
     } );
 
@@ -1260,7 +1274,8 @@ class PDOMTreeNode extends CollapsibleTreeNode<PDOMTreeNode> {
           return 'transparent';
         }
       }, {
-        tandem: Tandem.OPT_OUT
+        tandem: Tandem.OPT_OUT,
+        strictAxonDependencies: false
       } )
     } );
 
@@ -1428,6 +1443,8 @@ const createHeaderText = ( str: string, node?: Node, options?: TextOptions ) => 
     fontWeight: 'bold',
     visibleProperty: node ? new DerivedProperty( [ node.boundsProperty ], bounds => {
       return !bounds.isEmpty();
+    }, {
+      strictAxonDependencies: false
     } ) : new TinyProperty( true )
   }, options ) );
 };
