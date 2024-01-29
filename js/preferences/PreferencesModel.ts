@@ -26,12 +26,14 @@ import IOType from '../../../tandem/js/types/IOType.js';
 import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
 import RegionAndCulturePortrayal from './RegionAndCulturePortrayal.js';
 import Multilink from '../../../axon/js/Multilink.js';
+import packageJSON from '../packageJSON.js';
+
+const simFeatures = packageJSON?.phet?.simFeatures || {};
 
 type ModelPropertyLinkable = {
   property: TReadOnlyProperty<unknown> & PhetioObject;
   tandemName?: string; // if blank, will use the tandem.name of the Property.
 };
-
 type CustomPreference = {
 
   // Content should create a child tandem called 'simPreferences'
@@ -313,8 +315,21 @@ export default class PreferencesModel extends PhetioObject {
       localeProperty: localeProperty
     }, options.localizationOptions );
 
-    if ( options.localizationOptions.portrayals.length > 0 ) {
-      const portrayals = options.localizationOptions.portrayals;
+    const portrayals = options.localizationOptions.portrayals;
+    if ( portrayals.length > 0 ) {
+
+      if ( assert ) {
+        const providedPortrayalIDs = portrayals.map( portrayal => portrayal.regionAndCultureID );
+        const supportedRegionsAndCultures = simFeatures.supportedRegionsAndCultures;
+        assert && assert( _.every( providedPortrayalIDs, provided => supportedRegionsAndCultures.includes( provided ) ),
+          'Every provided RegionAndCulturePortrayal must be in the supportedRegionsAndCulture from package.json. Supported:', supportedRegionsAndCultures, 'Provided', providedPortrayalIDs );
+        assert && assert( _.every( supportedRegionsAndCultures, supported => providedPortrayalIDs.includes( supported ) ),
+          'Every supported RegionAndCultureID must be in the provided portrayals in preferences. Supported:', supportedRegionsAndCultures, 'Provided', providedPortrayalIDs );
+        assert && assert( supportedRegionsAndCultures.length === providedPortrayalIDs.length,
+          'number of supported regions and cultures should match the number of portrayals provided. Supported:', supportedRegionsAndCultures, 'Provided', providedPortrayalIDs );
+        assert && assert( _.uniq( supportedRegionsAndCultures ).length === _.uniq( providedPortrayalIDs ).length,
+          'No duplicates allowed in supported or provided regionAndCulture ids. Supported:', supportedRegionsAndCultures, 'Provided', providedPortrayalIDs );
+      }
 
       // default is the first set
       let defaultSet = portrayals[ 0 ];
