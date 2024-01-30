@@ -1,4 +1,4 @@
-// Copyright 2022-2023, University of Colorado Boulder
+// Copyright 2022-2024, University of Colorado Boulder
 
 /**
  * A base class for the portrayal of people, places, or objects in the sim. Region and culture is a preference supported
