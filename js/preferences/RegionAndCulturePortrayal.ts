@@ -124,7 +124,7 @@ export default class RegionAndCulturePortrayal extends PhetioObject {
   // Label string for the UI component that will select this portrayal set
   public readonly labelProperty: LocalizedStringProperty;
 
-  public constructor( label: LocalizedStringProperty,
+  public constructor( labelProperty: LocalizedStringProperty,
                       public readonly regionAndCultureID: RegionAndCultureID, // Query parameter value attached to this portrayal set
                       providedOptions?: RegionAndCulturePortrayalOptions ) {
 
@@ -137,7 +137,7 @@ export default class RegionAndCulturePortrayal extends PhetioObject {
     assert && this.tandem?.supplied && assert( SUPPORTED_REGIONS_AND_CULTURES.includes( this.tandem.name as RegionAndCultureID ),
       `RegionAndCulturePortrayal should have a tandem name that matches its portrayal name: ${this.tandem.name}` );
 
-    this.labelProperty = label;
+    this.labelProperty = labelProperty;
   }
 
   public static createRegionAndCulturePortrayalProperty( regionAndCulturePortrayal: RegionAndCulturePortrayal, validValues: RegionAndCulturePortrayal[] ): Property<RegionAndCulturePortrayal> {
