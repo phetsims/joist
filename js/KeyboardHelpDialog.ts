@@ -19,6 +19,7 @@ import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
 import { AnyScreen } from './Screen.js';
+import Tandem from '../../tandem/js/Tandem.js';
 
 // constants
 const TITLE_MAX_WIDTH = 670;
@@ -58,7 +59,7 @@ export default class KeyboardHelpDialog extends Dialog {
     const screenContentNodes: Node[] = [];
     screens.forEach( screen => {
       assert && assert( screen.createKeyboardHelpNode, 'if any screen has keyboard help content, then all screens need content' );
-      const screenTandem = contentTandem.createTandem( screen.tandem.name );
+      const screenTandem = screen.tandem.supplied ? contentTandem.createTandem( screen.tandem.name ) : Tandem.REQUIRED;
       const keyboardHelpNode = screen.createKeyboardHelpNode!( screenTandem );
       screenContentNodes.push( keyboardHelpNode );
     } );

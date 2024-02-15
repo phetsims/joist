@@ -107,7 +107,7 @@ class HomeScreenView extends ScreenView {
           voicingHintResponse: screen.descriptionContent,
 
           // phet-io
-          tandem: buttonGroupTandem.createTandem( `${screen.tandem.name}Button` )
+          tandem: screen.tandem.supplied ? buttonGroupTandem.createTandem( `${screen.tandem.name}Button` ) : Tandem.REQUIRED
         } );
 
       homeScreenButton.voicingNameResponse = screen.pdomDisplayNameProperty;

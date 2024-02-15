@@ -235,7 +235,7 @@ class NavigationBar extends Node {
           sim.simScreens.indexOf( screen ),
           NAVIGATION_BAR_SIZE.height, {
             maxButtonWidth: screenButtonWidth,
-            tandem: tandem.createTandem( `${screen.tandem.name}Button` )
+            tandem: screen.tandem.supplied ? tandem.createTandem( `${screen.tandem.name}Button` ) : Tandem.REQUIRED
           } );
       } );
       const allNavBarScreenButtons = [ this.homeButton, ...screenButtons ];
