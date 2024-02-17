@@ -15,7 +15,7 @@ import Utils from '../../dot/js/Utils.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import MeasuringTapeNode from '../../scenery-phet/js/MeasuringTapeNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { CanvasNode, Circle, Color, Display, DOM, DragListener, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, Image, LayoutNode, Line, LinearGradient, extendsHeightSizable, extendsWidthSizable, Node, NodeOptions, NodePattern, Paint, Path, Pattern, PDOMInstance, PressListener, RadialGradient, Rectangle, RichText, RichTextOptions, SceneryEvent, Spacer, TColor, Text, TextOptions, TPaint, Trail, VBox, HSeparator, WebGLNode } from '../../scenery/js/imports.js';
+import { CanvasNode, Circle, Color, Display, DOM, DragListener, extendsHeightSizable, extendsWidthSizable, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, HSeparator, Image, LayoutNode, Line, LinearGradient, Node, NodeOptions, NodePattern, Paint, Path, Pattern, PDOMInstance, PressListener, RadialGradient, Rectangle, RichText, RichTextOptions, SceneryEvent, Spacer, TColor, Text, TextOptions, TPaint, Trail, VBox, WebGLNode } from '../../scenery/js/imports.js';
 import Panel from '../../sun/js/Panel.js';
 import AquaRadioButtonGroup from '../../sun/js/AquaRadioButtonGroup.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -28,7 +28,6 @@ import ScreenView from './ScreenView.js';
 import TProperty from '../../axon/js/TProperty.js';
 import inheritance from '../../phet-core/js/inheritance.js';
 import Property from '../../axon/js/Property.js';
-import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import Matrix3 from '../../dot/js/Matrix3.js';
 import EnumerationValue from '../../phet-core/js/EnumerationValue.js';
 import Enumeration from '../../phet-core/js/Enumeration.js';
@@ -40,7 +39,7 @@ import ExpandCollapseButton from '../../sun/js/ExpandCollapseButton.js';
 import { default as createObservableArray, ObservableArray } from '../../axon/js/createObservableArray.js';
 import optionize from '../../phet-core/js/optionize.js';
 import Multilink from '../../axon/js/Multilink.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import TReadOnlyProperty, { isTReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 
 const round = ( n: number, places = 2 ) => Utils.toFixed( n, places );
@@ -1988,7 +1987,7 @@ const createInfo = ( trail: Trail ): Node[] => {
 };
 
 const iColorToColor = ( color: TColor ): Color | null => {
-  const nonProperty: Color | string | null = ( color instanceof ReadOnlyProperty || color instanceof TinyProperty ) ? color.value : color;
+  const nonProperty = ( isTReadOnlyProperty( color ) ) ? color.value : color;
   return nonProperty === null ? null : Color.toColor( nonProperty );
 };
 
