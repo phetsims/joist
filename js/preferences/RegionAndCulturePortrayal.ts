@@ -73,6 +73,7 @@ import Property from '../../../axon/js/Property.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import packageJSON from '../packageJSON.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import regionAndCultureProperty from '../i18n/regionAndCultureProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 type ParentOptions = StrictOmit<PhetioObjectOptions, 'tandem' | 'phetioState'>;
@@ -145,13 +146,28 @@ export default class RegionAndCulturePortrayal extends PhetioObject {
       `validValues regionAndCultureIDs must be a subset of RegionAndCulturePortrayal.SUPPORTED_REGIONS_AND_CULTURES, but was ${validValues.map( value => value.regionAndCultureID )}`
     );
 
-    return new Property<RegionAndCulturePortrayal>( regionAndCulturePortrayal, {
+    const regionAndCulturePortrayalProperty = new Property<RegionAndCulturePortrayal>( regionAndCulturePortrayal, {
       tandem: Tandem.GENERAL_MODEL.createTandem( 'regionAndCulturePortrayalProperty' ),
       phetioFeatured: true,
       phetioValueType: RegionAndCulturePortrayal.RegionAndCulturePortrayalIO,
       phetioDocumentation: 'Specifies the region and culture portrayals in the simulation',
       validValues: validValues
     } );
+
+    // NOTE: In the future, this (risky) bidirectional
+    regionAndCulturePortrayalProperty.link( regionAndCulturePortrayal => {
+      regionAndCultureProperty.value = regionAndCulturePortrayal.regionAndCultureID;
+    } );
+    regionAndCultureProperty.lazyLink( regionAndCulture => {
+      const portrayal = validValues.find( portrayal => portrayal.regionAndCultureID === regionAndCulture );
+
+      // NOTE: In the future, we shouldn't need this (being error-permissive here)
+      if ( portrayal ) {
+        regionAndCulturePortrayalProperty.value = portrayal;
+      }
+    } );
+
+    return regionAndCulturePortrayalProperty;
   }
 
   /**
