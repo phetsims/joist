@@ -154,6 +154,9 @@ export default class RegionAndCulturePortrayal extends PhetioObject {
       validValues: validValues
     } );
 
+    // TODO: This is a temporary solution to keep the two Properties in sync until we have finish porting
+    //  the regionAndCulturePortrayalProperty usages to the regionAndCultureProperty. These links can be removed
+    //  once the post is complete. https://github.com/phetsims/joist/issues/953
     // NOTE: In the future, this (risky) bidirectional
     regionAndCulturePortrayalProperty.link( regionAndCulturePortrayal => {
       regionAndCultureProperty.value = regionAndCulturePortrayal.regionAndCultureID;
