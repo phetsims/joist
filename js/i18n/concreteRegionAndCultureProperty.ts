@@ -15,12 +15,18 @@ export type ConcreteRegionAndCulture = Exclude<RegionAndCulture, 'multi'>;
 
 export const availableConcreteRegionAndCultures: ConcreteRegionAndCulture[] = availableRuntimeRegionAndCultures.filter( regionAndCulture => regionAndCulture !== 'multi' ) as ConcreteRegionAndCulture[];
 
+let lastConcreteRegionAndCulture: ConcreteRegionAndCulture | null = null;
+
 export const concreteRegionAndCultureProperty: TReadOnlyProperty<ConcreteRegionAndCulture> = new DerivedProperty( [
   regionAndCultureProperty
 ], ( regionAndCulture => {
-  return regionAndCulture === 'multi' ? dotRandom.sample( availableRuntimeRegionAndCultures.filter( regionAndCulture => {
-    return regionAndCulture !== 'multi' && regionAndCulture !== concreteRegionAndCultureProperty.value;
-  } ) ) : regionAndCulture;
+  const concreteRegionAndCulture = regionAndCulture === 'multi' ? dotRandom.sample( availableRuntimeRegionAndCultures.filter( regionAndCulture => {
+    return regionAndCulture !== 'multi' && regionAndCulture !== lastConcreteRegionAndCulture;
+  } ) ) as ConcreteRegionAndCulture : regionAndCulture;
+
+  lastConcreteRegionAndCulture = concreteRegionAndCulture;
+
+  return concreteRegionAndCulture;
 } ), {
   strictAxonDependencies: false
 } ) as TReadOnlyProperty<ConcreteRegionAndCulture>;

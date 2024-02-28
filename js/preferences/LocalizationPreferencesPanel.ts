@@ -55,7 +55,7 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
     } );
 
     // regionAndCulturePortrayalProperty only gets set in PreferencesModel if there is at least one descriptor.
-    if ( regionAndCultureProperty.validValues?.length ?? 0 > 1 ) {
+    if ( ( regionAndCultureProperty.validValues?.length ?? 0 ) > 1 ) {
       const comboBox = new RegionAndCultureComboBox();
       const labelNode = new Text( regionAndCultureTitleStringProperty, PreferencesDialogConstants.CONTROL_LABEL_OPTIONS );
       const descriptionNode = new RichText( regionAndCultureDescriptionStringProperty, PreferencesDialogConstants.CONTROL_DESCRIPTION_OPTIONS );

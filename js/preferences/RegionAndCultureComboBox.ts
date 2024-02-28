@@ -13,7 +13,7 @@ import PreferencesDialog from './PreferencesDialog.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import regionAndCultureProperty, { availableRegionAndCultures, RegionAndCulture, regionAndCultureStringPropertyMap } from '../i18n/regionAndCultureProperty.js';
+import regionAndCultureProperty, { availableRuntimeRegionAndCultures, RegionAndCulture, regionAndCultureStringPropertyMap } from '../i18n/regionAndCultureProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 type RegionAndCultureComboBoxOptions = SelfOptions & StrictOmit<ComboBoxOptions, 'tandem'>;
@@ -31,7 +31,7 @@ class RegionAndCultureComboBox extends ComboBox<RegionAndCulture> {
       tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
     }, providedOptions );
 
-    const comboBoxItems = availableRegionAndCultures.map( regionAndCulture => {
+    const comboBoxItems = availableRuntimeRegionAndCultures.map( regionAndCulture => {
 
       return {
         value: regionAndCulture,

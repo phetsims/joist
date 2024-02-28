@@ -63,15 +63,14 @@ export const availableRegionAndCultures = [
 export type RegionAndCulture = typeof availableRegionAndCultures[ number ];
 
 export const regionAndCultureStringPropertyMap: Record<RegionAndCulture, LocalizedStringProperty> = {
-  // TODO: get rid of the "portrayalSets" part of the key, see https://github.com/phetsims/joist/issues/953
-  // TODO: prefer usa: JoistStrings.preferences.tabs.localization.regionAndCulture.usaStringProperty, see https://github.com/phetsims/joist/issues/953
+  // TODO: get rid of the "portrayalSets" part of the key, and make sure they match the shorthand values,
+  // TODO: for 'usa', it should be 'usaStringProperty', and similarly for 'multi', see https://github.com/phetsims/joist/issues/953
   usa: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.unitedStatesOfAmericaStringProperty,
   africa: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.africaStringProperty,
   africaModest: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.africaModestStringProperty,
   asia: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.asiaStringProperty,
   latinAmerica: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.latinAmericaStringProperty,
   oceania: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.oceaniaStringProperty,
-  // TODO: prefer multi: JoistStrings.preferences.tabs.localization.regionAndCulture.multiStringProperty, see https://github.com/phetsims/joist/issues/953
   multi: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.multiculturalStringProperty
 };
 
