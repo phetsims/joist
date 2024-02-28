@@ -31,7 +31,19 @@ class RegionAndCultureComboBox extends ComboBox<RegionAndCulture> {
       tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
     }, providedOptions );
 
-    const comboBoxItems = availableRuntimeRegionAndCultures.map( regionAndCulture => {
+    // Sort the available region and culture options, with the default (initially loaded) region and culture at the top.
+    const localeCompare = new Intl.Collator( phet.chipper.locale ).compare;
+    const comboBoxItems = availableRuntimeRegionAndCultures.sort( ( a, b ) => {
+      if ( a === phet.chipper.regionAndCulture ) {
+        return -1;
+      }
+      else if ( b === phet.chipper.regionAndCulture ) {
+        return 1;
+      }
+      else {
+        return localeCompare( regionAndCultureStringPropertyMap[ a ].value, regionAndCultureStringPropertyMap[ b ].value );
+      }
+    } ).map( regionAndCulture => {
 
       return {
         value: regionAndCulture,
