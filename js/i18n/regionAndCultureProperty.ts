@@ -100,7 +100,7 @@ const regionAndCultureProperty = new RegionAndCultureProperty( initialRegionAndC
   phetioFeatured: isInstrumented,
   phetioValueType: StringIO,
   validValues: availableRuntimeRegionAndCultures,
-  phetioDocumentation: 'Specifies language currently displayed in the simulation'
+  phetioDocumentation: 'Describes how a region and culture will be portrayed in the sim.'
 } );
 
 joist.register( 'regionAndCultureProperty', regionAndCultureProperty );
