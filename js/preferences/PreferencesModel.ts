@@ -92,6 +92,7 @@ type LocalizationPreferencesOptions = {
   // Describes the available artwork that can be used for different regions and cultures. If any sets are
   // provided, the Localization tab will include a UI component to swap out pieces of artwork to match the selected
   // region and culture. Portrayals contains information for the UI component to describe each choice.
+  // TODO: remove this once we have removed portrayals from sims, see https://github.com/phetsims/joist/issues/953
   portrayals?: RegionAndCulturePortrayal[];
 
   // Whether to include the default LocalePanel for selecting locale. This was added to allow sims like
@@ -180,6 +181,7 @@ export type InputModel = BaseModelType & {
 export type LocalizationModel = BaseModelType & {
 
   // The selected character artwork to use when the sim supports culture and region switching.
+  // TODO: replace this with regionAndCultureProperty, see https://github.com/phetsims/joist/issues/953
   regionAndCulturePortrayalProperty?: Property<RegionAndCulturePortrayal>;
 
   localeProperty: Property<Locale>;
@@ -315,6 +317,7 @@ export default class PreferencesModel extends PhetioObject {
       localeProperty: localeProperty
     }, options.localizationOptions );
 
+    // TODO: remove/clean up this when we delete portrayals, see https://github.com/phetsims/joist/issues/953
     const portrayals = options.localizationOptions.portrayals;
     if ( portrayals.length > 0 ) {
 

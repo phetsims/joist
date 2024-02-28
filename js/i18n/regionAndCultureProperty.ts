@@ -45,6 +45,8 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import StringIO from '../../../tandem/js/types/StringIO.js';
 import joist from '../joist.js';
 import packageJSON from '../packageJSON.js';
+import JoistStrings from '../JoistStrings.js';
+import LocalizedStringProperty from '../../../chipper/js/LocalizedStringProperty.js';
 
 export const DEFAULT_REGION_AND_CULTURE = 'usa';
 
@@ -59,6 +61,19 @@ export const availableRegionAndCultures = [
   'multi'
 ] as const;
 export type RegionAndCulture = typeof availableRegionAndCultures[ number ];
+
+export const regionAndCultureStringPropertyMap: Record<RegionAndCulture, LocalizedStringProperty> = {
+  // TODO: get rid of the "portrayalSets" part of the key, see https://github.com/phetsims/joist/issues/953
+  // TODO: prefer usa: JoistStrings.preferences.tabs.localization.regionAndCulture.usaStringProperty, see https://github.com/phetsims/joist/issues/953
+  usa: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.unitedStatesOfAmericaStringProperty,
+  africa: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.africaStringProperty,
+  africaModest: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.africaModestStringProperty,
+  asia: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.asiaStringProperty,
+  latinAmerica: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.latinAmericaStringProperty,
+  oceania: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.oceaniaStringProperty,
+  // TODO: prefer multi: JoistStrings.preferences.tabs.localization.regionAndCulture.multiStringProperty, see https://github.com/phetsims/joist/issues/953
+  multi: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.multiculturalStringProperty
+};
 
 // All available region-and-cultures for the runtime
 export const availableRuntimeRegionAndCultures: RegionAndCulture[] = _.uniq( [

@@ -9,27 +9,27 @@
 import { DerivedProperty1 } from '../../../axon/js/DerivedProperty.js';
 import { ImageableImage } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
-import regionAndCultureProperty, { availableRegionAndCultures, availableRuntimeRegionAndCultures, RegionAndCulture } from './regionAndCultureProperty.js';
+import concreteRegionAndCultureProperty, { availableConcreteRegionAndCultures, ConcreteRegionAndCulture } from './concreteRegionAndCultureProperty.js';
 
-export default class LocalizedImageProperty extends DerivedProperty1<ImageableImage, RegionAndCulture> {
+export default class LocalizedImageProperty extends DerivedProperty1<ImageableImage, ConcreteRegionAndCulture> {
   public constructor(
     // The name of the image, for debugging purposes (from the ${repo}-images.json file)
     public readonly imageName: string,
 
     // Allow optional, so that we can support a subset of regionAndCultures.
     // BUT also require the usa regionAndCulture, so that we can always have a fallback.
-    private readonly imageMap: { [ regionAndCulture in RegionAndCulture ]?: ImageableImage } & { usa: ImageableImage }
+    private readonly imageMap: { [ regionAndCulture in ConcreteRegionAndCulture ]?: ImageableImage } & { usa: ImageableImage }
   ) {
     assert && Object.keys( imageMap ).forEach( regionAndCulture => {
-      assert && assert( availableRegionAndCultures.includes( regionAndCulture as RegionAndCulture ),
+      assert && assert( availableConcreteRegionAndCultures.includes( regionAndCulture as ConcreteRegionAndCulture ),
         `Invalid regionAndCulture provided to LocalizedImageProperty: ${regionAndCulture}, either fix or update availableRegionAndCultures` );
     } );
 
-    assert && availableRuntimeRegionAndCultures.forEach( regionAndCulture => {
+    assert && availableConcreteRegionAndCultures.forEach( regionAndCulture => {
       assert && assert( regionAndCulture in imageMap, `Missing image for regionAndCulture: ${regionAndCulture}` );
     } );
 
-    super( [ regionAndCultureProperty ], ( regionAndCulture: RegionAndCulture ) => {
+    super( [ concreteRegionAndCultureProperty ], ( regionAndCulture: ConcreteRegionAndCulture ) => {
       const image = imageMap[ regionAndCulture ]!;
       assert && assert( image );
 

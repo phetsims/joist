@@ -10,23 +10,17 @@ import ComboBox, { ComboBoxOptions } from '../../../sun/js/ComboBox.js';
 import joist from '../joist.js';
 import { Text } from '../../../scenery/js/imports.js';
 import PreferencesDialog from './PreferencesDialog.js';
-import Property from '../../../axon/js/Property.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import RegionAndCulturePortrayal from './RegionAndCulturePortrayal.js';
+import regionAndCultureProperty, { availableRegionAndCultures, RegionAndCulture, regionAndCultureStringPropertyMap } from '../i18n/regionAndCultureProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 type RegionAndCultureComboBoxOptions = SelfOptions & StrictOmit<ComboBoxOptions, 'tandem'>;
 
-class RegionAndCultureComboBox extends ComboBox<RegionAndCulturePortrayal | null> {
+class RegionAndCultureComboBox extends ComboBox<RegionAndCulture> {
 
-  /**
-   * @param regionAndCultureProperty - RegionAndCulturePortrayal indicating a selected region/culture that is connected to a particular set of representations
-   * @param portrayals - The RegionAndCulturePortrayal list, one for each region/culture.
-   * @param [providedOptions]
-   */
-  public constructor( regionAndCultureProperty: Property<RegionAndCulturePortrayal>, portrayals: RegionAndCulturePortrayal[], providedOptions?: RegionAndCultureComboBoxOptions ) {
+  public constructor( providedOptions?: ComboBoxOptions ) {
 
     const options = optionize<RegionAndCultureComboBoxOptions, SelfOptions, ComboBoxOptions>()( {
 
@@ -37,11 +31,11 @@ class RegionAndCultureComboBox extends ComboBox<RegionAndCulturePortrayal | null
       tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
     }, providedOptions );
 
-    const comboBoxItems = portrayals.map( portrayal => {
+    const comboBoxItems = availableRegionAndCultures.map( regionAndCulture => {
 
       return {
-        value: portrayal,
-        createNode: () => new Text( portrayal.labelProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS )
+        value: regionAndCulture,
+        createNode: () => new Text( regionAndCultureStringPropertyMap[ regionAndCulture ], PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS )
       };
     } );
 

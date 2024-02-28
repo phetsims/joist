@@ -25,6 +25,7 @@ import JoistStrings from '../JoistStrings.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import PreferencesControl from './PreferencesControl.js';
+import regionAndCultureProperty from '../i18n/regionAndCultureProperty.js';
 
 // constants
 const localizationTitleStringProperty = JoistStrings.preferences.tabs.localization.titleStringProperty;
@@ -54,8 +55,8 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
     } );
 
     // regionAndCulturePortrayalProperty only gets set in PreferencesModel if there is at least one descriptor.
-    if ( localizationModel.regionAndCulturePortrayalProperty ) {
-      const comboBox = new RegionAndCultureComboBox( localizationModel.regionAndCulturePortrayalProperty, localizationModel.portrayals );
+    if ( regionAndCultureProperty.validValues?.length ?? 0 > 1 ) {
+      const comboBox = new RegionAndCultureComboBox();
       const labelNode = new Text( regionAndCultureTitleStringProperty, PreferencesDialogConstants.CONTROL_LABEL_OPTIONS );
       const descriptionNode = new RichText( regionAndCultureDescriptionStringProperty, PreferencesDialogConstants.CONTROL_DESCRIPTION_OPTIONS );
       contentNode.addChild( new PreferencesControl( {
