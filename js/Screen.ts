@@ -35,6 +35,7 @@ import Multilink from '../../axon/js/Multilink.js';
 import TModel from './TModel.js';
 import PatternStringProperty from '../../axon/js/PatternStringProperty.js';
 import PhetioProperty from '../../axon/js/PhetioProperty.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 
 const screenNamePatternStringProperty = JoistStrings.a11y.screenNamePatternStringProperty;
 const screenSimPatternStringProperty = JoistStrings.a11y.screenSimPatternStringProperty;
@@ -67,7 +68,9 @@ type SelfOptions = {
   createKeyboardHelpNode?: null | ( ( tandem: Tandem ) => Node );
   descriptionContent?: PDOMValueType | null;
 };
-export type ScreenOptions = SelfOptions & PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+export type ScreenOptions = SelfOptions &
+  StrictOmit<PhetioObjectOptions, 'tandemNameSuffix'> & // Tandem.RootTandem.createTandem requires that the suffix is Tandem.SCREEN_TANDEM_NAME_SUFFIX.
+  PickRequired<PhetioObjectOptions, 'tandem'>;
 
 // @joist-internal - This type is uses IntentionalAny to break the contravariance dependency that the createView function
 // has on Screen. Ideally we could use TModel instead, but that would involve a rewrite of how we pass closures into
