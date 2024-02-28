@@ -147,6 +147,7 @@ class Screen<M extends TModel, V extends ScreenView> extends PhetioObject {
       // phet-io
       // @ts-expect-error include a default for un-instrumented, JavaScript sims
       tandem: Tandem.REQUIRED,
+      tandemNameSuffix: Tandem.SCREEN_TANDEM_NAME_SUFFIX,
       phetioType: Screen.ScreenIO,
       phetioState: false,
       phetioFeatured: true
@@ -177,10 +178,6 @@ class Screen<M extends TModel, V extends ScreenView> extends PhetioObject {
     // Validate icon sizes
     validateIconSize( options.homeScreenIcon, MINIMUM_HOME_SCREEN_ICON_SIZE, HOME_SCREEN_ICON_ASPECT_RATIO, 'homeScreenIcon' );
     validateIconSize( options.navigationBarIcon, MINIMUM_NAVBAR_ICON_SIZE, NAVBAR_ICON_ASPECT_RATIO, 'navigationBarIcon' );
-
-    if ( assert && this.isPhetioInstrumented() ) {
-      assert && assert( _.endsWith( options.tandem.phetioID, Tandem.SCREEN_TANDEM_NAME_SUFFIX ), 'Screen tandems should end with Screen suffix' );
-    }
 
     this.backgroundColorProperty = options.backgroundColorProperty;
 
