@@ -1,4 +1,4 @@
-// Copyright 2022-2024, University of Colorado Boulder
+// Copyright 2024, University of Colorado Boulder
 
 /**
  * A universal region-and-culture Property that is accessible independently of the running Sim instance.
