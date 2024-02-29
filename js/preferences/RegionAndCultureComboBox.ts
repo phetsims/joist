@@ -1,4 +1,4 @@
-// Copyright 2022-2023, University of Colorado Boulder
+// Copyright 2022-2024, University of Colorado Boulder
 
 /**
  * A ComboBox that lets you change a character or portrayal in a simulation to match a particular culture or region.
