@@ -27,7 +27,7 @@ import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
 import RegionAndCulturePortrayal from './RegionAndCulturePortrayal.js';
 import Multilink from '../../../axon/js/Multilink.js';
 import packageJSON from '../packageJSON.js';
-import { availableRuntimeRegionAndCultures } from '../i18n/regionAndCultureProperty.js';
+import { supportedRegionAndCultureValues } from '../i18n/regionAndCultureProperty.js';
 
 const simFeatures = packageJSON?.phet?.simFeatures || {};
 
@@ -507,7 +507,7 @@ export default class PreferencesModel extends PhetioObject {
    */
   public supportsLocalizationPreferences(): boolean {
     return this.localizationModel.supportsDynamicLocale ||
-           availableRuntimeRegionAndCultures.length > 1 ||
+           supportedRegionAndCultureValues.length > 1 ||
            this.preferenceModelHasCustom( this.localizationModel );
   }
 

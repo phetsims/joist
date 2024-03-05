@@ -9,7 +9,7 @@
 import { DerivedProperty1 } from '../../../axon/js/DerivedProperty.js';
 import { ImageableImage } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
-import concreteRegionAndCultureProperty, { availableConcreteRegionAndCultures, ConcreteRegionAndCulture } from './concreteRegionAndCultureProperty.js';
+import concreteRegionAndCultureProperty, { concreteRegionAndCultureValues, ConcreteRegionAndCulture } from './concreteRegionAndCultureProperty.js';
 
 export default class LocalizedImageProperty extends DerivedProperty1<ImageableImage, ConcreteRegionAndCulture> {
   public constructor(
@@ -21,11 +21,11 @@ export default class LocalizedImageProperty extends DerivedProperty1<ImageableIm
     private readonly imageMap: { [ regionAndCulture in ConcreteRegionAndCulture ]?: ImageableImage } & { usa: ImageableImage }
   ) {
     assert && Object.keys( imageMap ).forEach( regionAndCulture => {
-      assert && assert( availableConcreteRegionAndCultures.includes( regionAndCulture as ConcreteRegionAndCulture ),
-        `Invalid regionAndCulture provided to LocalizedImageProperty: ${regionAndCulture}, either fix or update availableRegionAndCultures` );
+      assert && assert( concreteRegionAndCultureValues.includes( regionAndCulture as ConcreteRegionAndCulture ),
+        `Unsupported regionAndCulture provided to LocalizedImageProperty: ${regionAndCulture}` );
     } );
 
-    assert && availableConcreteRegionAndCultures.forEach( regionAndCulture => {
+    assert && concreteRegionAndCultureValues.forEach( regionAndCulture => {
       assert && assert( regionAndCulture in imageMap, `Missing image for regionAndCulture: ${regionAndCulture}` );
     } );
 

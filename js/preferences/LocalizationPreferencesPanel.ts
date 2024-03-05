@@ -25,7 +25,7 @@ import JoistStrings from '../JoistStrings.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import PreferencesControl from './PreferencesControl.js';
-import { availableRuntimeRegionAndCultures } from '../i18n/regionAndCultureProperty.js';
+import { supportedRegionAndCultureValues } from '../i18n/regionAndCultureProperty.js';
 
 // constants
 const localizationTitleStringProperty = JoistStrings.preferences.tabs.localization.titleStringProperty;
@@ -55,7 +55,7 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
     } );
 
     // Add 'Region and Culture' combo box if there are at least 2 values.
-    if ( availableRuntimeRegionAndCultures.length > 1 ) {
+    if ( supportedRegionAndCultureValues.length > 1 ) {
       const comboBox = new RegionAndCultureComboBox();
       const labelNode = new Text( regionAndCultureTitleStringProperty, PreferencesDialogConstants.CONTROL_LABEL_OPTIONS );
       const descriptionNode = new RichText( regionAndCultureDescriptionStringProperty, PreferencesDialogConstants.CONTROL_DESCRIPTION_OPTIONS );

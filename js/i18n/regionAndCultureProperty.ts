@@ -38,6 +38,7 @@
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import Property from '../../../axon/js/Property.js';
@@ -50,8 +51,8 @@ import LocalizedStringProperty from '../../../chipper/js/LocalizedStringProperty
 
 export const DEFAULT_REGION_AND_CULTURE = 'usa';
 
-export const availableRegionAndCultures = [
-  // raw list, because we have this strongly typed
+// The complete set of valid values.
+const RegionAndCultureValues = [
   'usa',
   'africa',
   'africaModest',
@@ -60,11 +61,12 @@ export const availableRegionAndCultures = [
   'oceania',
   'multi'
 ] as const;
-export type RegionAndCulture = typeof availableRegionAndCultures[ number ];
+export type RegionAndCulture = typeof RegionAndCultureValues[ number ];
 
+// Maps a RegionAndCulture value to a StringProperty to display in the UI, e.g. in RegionAndCultureComboBox.
 export const regionAndCultureStringPropertyMap: Record<RegionAndCulture, LocalizedStringProperty> = {
-  // TODO: get rid of the "portrayalSets" part of the key, and make sure they match the shorthand values,
-  // TODO: for 'usa', it should be 'usaStringProperty', and similarly for 'multi', see https://github.com/phetsims/joist/issues/953
+  //TODO https://github.com/phetsims/joist/issues/953 Remove the "portrayalSets" part of the key.
+  //TODO https://github.com/phetsims/joist/issues/953 'unitedStatesOfAmericaStringProperty' => 'usaStringProperty', 'multiculturalStringProperty' => 'multiStringProperty'
   usa: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.unitedStatesOfAmericaStringProperty,
   africa: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.africaStringProperty,
   africaModest: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.africaModestStringProperty,
@@ -74,29 +76,27 @@ export const regionAndCultureStringPropertyMap: Record<RegionAndCulture, Localiz
   multi: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.multiculturalStringProperty
 };
 
-// All available region-and-cultures for the runtime
-export const availableRuntimeRegionAndCultures: RegionAndCulture[] = _.uniq( [
-  // Always available, since it is our fallback
-  DEFAULT_REGION_AND_CULTURE,
-
+// The subset of RegionAndCultureValues that is supported by the sim, specified via "supportedRegionsAndCultures" in package.json.
+export const supportedRegionAndCultureValues: RegionAndCulture[] = _.uniq( [
+  DEFAULT_REGION_AND_CULTURE, // Always supported, since it is our fallback.
   ...( packageJSON?.phet?.simFeatures?.supportedRegionsAndCultures || [] )
-].filter( regionAndCulture => availableRegionAndCultures.includes( regionAndCulture ) ) );
+].filter( regionAndCulture => RegionAndCultureValues.includes( regionAndCulture ) ) );
 
-const isRegionAndCultureValid = ( regionAndCulture?: RegionAndCulture ): boolean => {
-  return !!( regionAndCulture && availableRuntimeRegionAndCultures.includes( regionAndCulture ) );
+// Is the specified regionAndCulture supported at runtime?
+const isSupportedRegionAndCulture = ( regionAndCulture?: RegionAndCulture ): boolean => {
+  return !!( regionAndCulture && supportedRegionAndCultureValues.includes( regionAndCulture ) );
 };
 
 const initialRegionAndCulture: RegionAndCulture = window.phet.chipper.queryParameters.regionAndCulture;
+assert && assert( isSupportedRegionAndCulture( initialRegionAndCulture ),
+  `Unsupported value for query parameter ?regionAndCulture: ${initialRegionAndCulture}` );
 
-assert && assert( isRegionAndCultureValid( initialRegionAndCulture ),
-  `invalid query parameter value for ?regionAndCulture: ${initialRegionAndCulture}` );
-
-// Tagging similar to phet.chipper.locale, for things that might read this (e.g. from puppeteer in the future)
+// Globally available, similar to phet.chipper.locale, for things that might read this (e.g. from puppeteer in the future).
 phet.chipper.regionAndCulture = initialRegionAndCulture;
 
 class RegionAndCultureProperty extends Property<RegionAndCulture> {
   protected override unguardedSet( value: RegionAndCulture ): void {
-    if ( availableRuntimeRegionAndCultures.includes( value ) ) {
+    if ( supportedRegionAndCultureValues.includes( value ) ) {
       super.unguardedSet( value );
     }
     else {
@@ -107,13 +107,13 @@ class RegionAndCultureProperty extends Property<RegionAndCulture> {
   }
 }
 
-const isInstrumented = availableRuntimeRegionAndCultures.length > 1;
+const isInstrumented = supportedRegionAndCultureValues.length > 1;
 
 const regionAndCultureProperty = new RegionAndCultureProperty( initialRegionAndCulture, {
   tandem: isInstrumented ? Tandem.GENERAL_MODEL.createTandem( 'regionAndCultureProperty' ) : Tandem.OPT_OUT,
   phetioFeatured: isInstrumented,
   phetioValueType: StringIO,
-  validValues: availableRuntimeRegionAndCultures,
+  validValues: supportedRegionAndCultureValues,
   phetioDocumentation: 'Describes how a region and culture will be portrayed in the sim.'
 } );
 
