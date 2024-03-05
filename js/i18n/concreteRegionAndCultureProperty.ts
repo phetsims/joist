@@ -8,8 +8,9 @@
 
 import joist from '../joist.js';
 import regionAndCultureProperty, { availableRuntimeRegionAndCultures, RegionAndCulture } from './regionAndCultureProperty.js';
-import { DerivedProperty, TReadOnlyProperty } from '../../../axon/js/imports.js';
-import { dotRandom } from '../../../dot/js/imports.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import DerivedProperty from '../../../axon/js/DerivedProperty.js';
+import dotRandom from '../../../dot/js/dotRandom.js';
 
 export type ConcreteRegionAndCulture = Exclude<RegionAndCulture, 'multi'>;
 
