@@ -13,7 +13,22 @@ import PreferencesDialog from './PreferencesDialog.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import regionAndCultureProperty, { supportedRegionAndCultureValues, RegionAndCulture, regionAndCultureStringPropertyMap } from '../i18n/regionAndCultureProperty.js';
+import regionAndCultureProperty, { RegionAndCulture, supportedRegionAndCultureValues } from '../i18n/regionAndCultureProperty.js';
+import LocalizedStringProperty from '../../../chipper/js/LocalizedStringProperty.js';
+import JoistStrings from '../JoistStrings.js';
+
+// Maps a RegionAndCulture value to a StringProperty to display in the UI, e.g. in RegionAndCultureComboBox.
+const STRING_PROPERTY_MAP: Record<RegionAndCulture, LocalizedStringProperty> = {
+  //TODO https://github.com/phetsims/joist/issues/953 Remove the "portrayalSets" part of the key.
+  //TODO https://github.com/phetsims/joist/issues/953 'unitedStatesOfAmericaStringProperty' => 'usaStringProperty', 'multiculturalStringProperty' => 'multiStringProperty'
+  usa: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.unitedStatesOfAmericaStringProperty,
+  africa: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.africaStringProperty,
+  africaModest: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.africaModestStringProperty,
+  asia: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.asiaStringProperty,
+  latinAmerica: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.latinAmericaStringProperty,
+  oceania: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.oceaniaStringProperty,
+  multi: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.multiculturalStringProperty
+};
 
 type SelfOptions = EmptySelfOptions;
 type RegionAndCultureComboBoxOptions = SelfOptions & StrictOmit<ComboBoxOptions, 'tandem'>;
@@ -31,7 +46,7 @@ class RegionAndCultureComboBox extends ComboBox<RegionAndCulture> {
       tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
     }, providedOptions );
 
-    // Sort the available region and culture options, with the default (initially loaded) region and culture at the top.
+    // Sort the region and culture choices, with the default (initially loaded) at the top.
     const localeCompare = new Intl.Collator( phet.chipper.locale ).compare;
     const comboBoxItems = supportedRegionAndCultureValues.sort( ( a, b ) => {
       if ( a === phet.chipper.regionAndCulture ) {
@@ -41,13 +56,13 @@ class RegionAndCultureComboBox extends ComboBox<RegionAndCulture> {
         return 1;
       }
       else {
-        return localeCompare( regionAndCultureStringPropertyMap[ a ].value, regionAndCultureStringPropertyMap[ b ].value );
+        return localeCompare( STRING_PROPERTY_MAP[ a ].value, STRING_PROPERTY_MAP[ b ].value );
       }
     } ).map( regionAndCulture => {
 
       return {
         value: regionAndCulture,
-        createNode: () => new Text( regionAndCultureStringPropertyMap[ regionAndCulture ], PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS )
+        createNode: () => new Text( STRING_PROPERTY_MAP[ regionAndCulture ], PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS )
       };
     } );
 

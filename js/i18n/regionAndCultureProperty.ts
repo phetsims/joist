@@ -46,8 +46,6 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import StringIO from '../../../tandem/js/types/StringIO.js';
 import joist from '../joist.js';
 import packageJSON from '../packageJSON.js';
-import JoistStrings from '../JoistStrings.js';
-import LocalizedStringProperty from '../../../chipper/js/LocalizedStringProperty.js';
 
 export const DEFAULT_REGION_AND_CULTURE = 'usa';
 
@@ -62,19 +60,6 @@ const RegionAndCultureValues = [
   'multi'
 ] as const;
 export type RegionAndCulture = typeof RegionAndCultureValues[ number ];
-
-// Maps a RegionAndCulture value to a StringProperty to display in the UI, e.g. in RegionAndCultureComboBox.
-export const regionAndCultureStringPropertyMap: Record<RegionAndCulture, LocalizedStringProperty> = {
-  //TODO https://github.com/phetsims/joist/issues/953 Remove the "portrayalSets" part of the key.
-  //TODO https://github.com/phetsims/joist/issues/953 'unitedStatesOfAmericaStringProperty' => 'usaStringProperty', 'multiculturalStringProperty' => 'multiStringProperty'
-  usa: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.unitedStatesOfAmericaStringProperty,
-  africa: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.africaStringProperty,
-  africaModest: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.africaModestStringProperty,
-  asia: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.asiaStringProperty,
-  latinAmerica: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.latinAmericaStringProperty,
-  oceania: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.oceaniaStringProperty,
-  multi: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.multiculturalStringProperty
-};
 
 // The subset of RegionAndCultureValues that is supported by the sim, specified via "supportedRegionsAndCultures" in package.json.
 export const supportedRegionAndCultureValues: RegionAndCulture[] = _.uniq( [
