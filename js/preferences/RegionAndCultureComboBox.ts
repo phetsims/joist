@@ -17,10 +17,9 @@ import regionAndCultureProperty, { RegionAndCulture, supportedRegionAndCultureVa
 import LocalizedStringProperty from '../../../chipper/js/LocalizedStringProperty.js';
 import JoistStrings from '../JoistStrings.js';
 
-// Maps a RegionAndCulture value to a StringProperty to display in the UI, e.g. in RegionAndCultureComboBox.
+// Maps a RegionAndCulture value to a StringProperty.
 const STRING_PROPERTY_MAP: Record<RegionAndCulture, LocalizedStringProperty> = {
-  //TODO https://github.com/phetsims/joist/issues/953 Remove the "portrayalSets" part of the key.
-  //TODO https://github.com/phetsims/joist/issues/953 'unitedStatesOfAmericaStringProperty' => 'usaStringProperty', 'multiculturalStringProperty' => 'multiStringProperty'
+  //TODO https://github.com/phetsims/joist/issues/953 Revise string keys to remove "portrayalSets".
   usa: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.unitedStatesOfAmericaStringProperty,
   africa: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.africaStringProperty,
   africaModest: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.africaModestStringProperty,
