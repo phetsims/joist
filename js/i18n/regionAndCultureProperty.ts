@@ -1,40 +1,19 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * A universal region-and-culture Property that is accessible independently of the running Sim instance.
+ * In this file:
  *
- * Region and culture is a preference supported by PreferencesModel and query parameters. The supported region and
- * cultures for a sim are defined by the package.json object for the sim.
+ * regionAndCultureProperty is a global Property used to set aspects of i18n that are related to region and/or culture,
+ * but that do not pertain to language (see localeProperty for language).
  *
- * Using the `regionAndCulture` query parameter:
- * The sim will set the value of the query parameter as the selected region and culture in preferences as long as the
- * option provided is supported by the sim. If the option provided is not supported by the sim a warning dialogue will
- * be shown at start-up. The available option are defined in code below.
+ * The type RegionAndCulture defines the complete set of choices for regionAndCultureProperty. The choices supported by
+ * a sim are defined in package.json via "supportedRegionsAndCultures", and determines the value of
+ * supportedRegionAndCultureValues. Whether included explicitly or implicitly, 'usa' is always choice, because it
+ * is the fallback.
  *
- *   Example: `?regionAndCulture=asia`
- *
- * As of 12/2023 the following are supported Region and Culture options and short descriptions of each:
- *  Africa: Portrayals of people, places, or objects that are inspired by the images and dress of the African region.
- *
- *  Africa (Modest): Similar portrayals to the Africa option, with adjustments to clothing or garb that is representative
- *  of more modest cultures in the region.
- *
- *  Asia: Portrayals of people, places, or objects that are inspired by the images and dress of the Asian region.
- *
- *  Latin America: Portrayals of people, places, or objects that are inspired by the images and dress of the Latin
- *  American region.
- *
- *  Multicultural: This option selects a random region/culture at startup to display as the default option for the sim.
- *  This means that a different portrayal will be set as the default for each refresh, but will remain the same through
- *  reset and any other sim interactions.
- *
- *  Oceania: Portrayals of people, places, or objects that are inspired by the images and dress of the Oceania region.
- *
- *  United States of America: Portrayals of people, places, or objects inspired by the images and dress of the United
- *  States of America. Although many other countries may also reflect this portrayal, as PhET being based in the USA, and
- *  having difficulty finding language that appropriately reflects all the regions where portrayals may match it was
- *  decided to keep "United States of America" as the descriptor with the understanding that other regions may see
- *  themselves reflected in the portrayals.
+ * The initial value of regionAndCultureProperty can be specified in package.json and via a query parameter.
+ * In package.json, "defaultRegionAndCulture" identifies the initial choice, and defaults to 'usa'.
+ * Use the ?regionAndCulture query parameter to override the default, for example ?regionAndCulture=asia
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
@@ -51,13 +30,32 @@ export const DEFAULT_REGION_AND_CULTURE = 'usa';
 
 // The complete set of valid values.
 const RegionAndCultureValues = [
+
+  // Inspired by the images and dress of the USA. Although many other countries may also identify with this choice,
+  // as PhET being based in the USA, and having difficulty finding language that appropriately reflects all the regions
+  // where that may match this value, it was decided to keep "United States of America" as the descriptor with the
+  // understanding that other regions may identify with this choice.
   'usa',
+
+  // Inspired by the images and dress of Africa.
   'africa',
+
+  // Similar to 'africa', with adjustments to clothing or garb that is representative of more modest cultures.
   'africaModest',
+
+  // Inspired by the images and dress of Asia.
   'asia',
+
+  // Inspired by the images and dress of Latin America.
   'latinAmerica',
+
+  // Inspired by the images and dress of Oceania.
   'oceania',
+
+  // This choice selects one of the other choices at random. The name is a bit of a misnomer; the sim will NOT display
+  // a multicultural selection from the other choices.
   'multi'
+
 ] as const;
 export type RegionAndCulture = typeof RegionAndCultureValues[ number ];
 
