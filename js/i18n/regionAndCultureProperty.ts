@@ -40,7 +40,7 @@ const RegionAndCultureValues = [
   // Inspired by the images and dress of Africa.
   'africa',
 
-  // Similar to 'africa', with adjustments to clothing or garb that is representative of more modest cultures.
+  // Similar to 'africa', with adjustments to dress that is representative of more modest cultures.
   'africaModest',
 
   // Inspired by the images and dress of Asia.
