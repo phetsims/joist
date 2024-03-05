@@ -201,9 +201,11 @@ class HomeScreenButton extends Voicing( VBox ) {
     this.addInputListener( fireListener );
     this.addInputListener( { focus: event => { !isSelectedProperty.value && fireListener.fire( event ); } } );
 
-    // when a screen reader is in use, the button may be selected with the virtual cursor
-    // without focus landing on the button - toggle focus (and therefore size) in this case
-    this.addInputListener( { click: () => this.focus() } );
+    // When a screen reader is in use, the button may be selected with the virtual cursor
+    // without focus landing on the button - toggle focus (and therefore selection) in this case.
+    this.addInputListener( {
+      click: () => !isSelectedProperty.value && this.focus()
+    } );
 
     this.addInputListener( {
       focus: () => isHighlightedProperty.set( true ),
