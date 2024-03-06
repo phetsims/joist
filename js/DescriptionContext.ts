@@ -11,7 +11,7 @@ import joist from './joist.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import DescriptionRegistry from '../../tandem/js/DescriptionRegistry.js';
 import TReadOnlyProperty, { PropertyLazyLinkListener, PropertyLinkListener, PropertyListener } from '../../axon/js/TReadOnlyProperty.js';
-import TEmitter, { TEmitterListener } from '../../axon/js/TEmitter.js';
+import TEmitter, { TEmitterListener, TReadOnlyEmitter } from '../../axon/js/TEmitter.js';
 import { Locale } from './i18n/localeProperty.js';
 import TinyProperty from '../../axon/js/TinyProperty.js';
 import localeOrderProperty from './i18n/localeOrderProperty.js';
@@ -73,7 +73,7 @@ export default class DescriptionContext {
     return multilink;
   }
 
-  public addListener( emitter: TEmitter<unknown[]>, listener: TEmitterListener<unknown[]> ): void {
+  public addListener( emitter: TReadOnlyEmitter<unknown[]>, listener: TEmitterListener<unknown[]> ): void {
     emitter.addListener( listener );
 
     this.listens.push( new Listen( emitter, listener ) );
@@ -260,7 +260,7 @@ class Link {
 
 class Listen {
   public constructor(
-    public readonly emitter: TEmitter<unknown[]>,
+    public readonly emitter: TReadOnlyEmitter<unknown[]>,
     public readonly listener: TEmitterListener<unknown[]>
   ) {}
 }
