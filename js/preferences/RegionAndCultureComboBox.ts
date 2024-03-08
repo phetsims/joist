@@ -45,20 +45,12 @@ class RegionAndCultureComboBox extends ComboBox<RegionAndCulture> {
       tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
     }, providedOptions );
 
-    // Sort the region and culture choices, with the default (initially loaded) at the top.
-    const localeCompare = new Intl.Collator( phet.chipper.locale ).compare;
-    const comboBoxItems = supportedRegionAndCultureValues.sort( ( a, b ) => {
-      if ( a === phet.chipper.regionAndCulture ) {
-        return -1;
-      }
-      else if ( b === phet.chipper.regionAndCulture ) {
-        return 1;
-      }
-      else {
-        return localeCompare( STRING_PROPERTY_MAP[ a ].value, STRING_PROPERTY_MAP[ b ].value );
-      }
-    } ).map( regionAndCulture => {
-
+    // Sort the region and culture choices. We are sorting on RegionAndCulture tokens, rather than translated strings,
+    // because ComboBox does not have an API for changing the order of items in its listbox. Since there are a
+    // relatively small number of items here, we felt that having a consistent order here was sufficient, and that
+    // the effort to dynamically put the items in alphabetical order was not warranted.
+    // See https://github.com/phetsims/joist/issues/955
+    const comboBoxItems = supportedRegionAndCultureValues.slice().sort().map( regionAndCulture => {
       return {
         value: regionAndCulture,
         createNode: () => new Text( STRING_PROPERTY_MAP[ regionAndCulture ], PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS )

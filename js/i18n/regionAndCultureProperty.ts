@@ -93,10 +93,12 @@ class RegionAndCultureProperty extends Property<RegionAndCulture> {
 const isInstrumented = supportedRegionAndCultureValues.length > 1;
 
 const regionAndCultureProperty = new RegionAndCultureProperty( initialRegionAndCulture, {
+
+  // Sorted so that changing the order of "supportedRegionsAndCultures" in package.json does not change the PhET-iO API.
+  validValues: supportedRegionAndCultureValues.sort(),
   tandem: isInstrumented ? Tandem.GENERAL_MODEL.createTandem( 'regionAndCultureProperty' ) : Tandem.OPT_OUT,
   phetioFeatured: isInstrumented,
   phetioValueType: StringIO,
-  validValues: supportedRegionAndCultureValues,
   phetioDocumentation: 'Describes how a region and culture will be portrayed in the sim.'
 } );
 
