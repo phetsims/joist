@@ -86,7 +86,7 @@ export const AFRICA_MODEST_REGION_AND_CULTURE_ID = 'africaModest';
 export const ASIA_REGION_AND_CULTURE_ID = 'asia';
 export const LATIN_AMERICA_REGION_AND_CULTURE_ID = 'latinAmerica';
 export const OCEANIA_REGION_AND_CULTURE_ID = 'oceania';
-export const MULTICULTURAL_REGION_AND_CULTURE_ID = 'multi';
+export const RANDOM_REGION_AND_CULTURE_ID = 'random';
 
 // The superset list of all regions and cultures supported by any sim. ALL values used by any sim must be in this list.
 const SUPPORTED_REGIONS_AND_CULTURES = [
@@ -96,7 +96,7 @@ const SUPPORTED_REGIONS_AND_CULTURES = [
   ASIA_REGION_AND_CULTURE_ID,
   LATIN_AMERICA_REGION_AND_CULTURE_ID,
   OCEANIA_REGION_AND_CULTURE_ID,
-  MULTICULTURAL_REGION_AND_CULTURE_ID
+  RANDOM_REGION_AND_CULTURE_ID
 ] as const;
 
 export type RegionAndCultureID = typeof SUPPORTED_REGIONS_AND_CULTURES[number];

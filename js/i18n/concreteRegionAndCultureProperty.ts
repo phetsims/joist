@@ -9,26 +9,27 @@
  */
 
 import joist from '../joist.js';
-import regionAndCultureProperty, { supportedRegionAndCultureValues, RegionAndCulture } from './regionAndCultureProperty.js';
+import regionAndCultureProperty, { RegionAndCulture, supportedRegionAndCultureValues } from './regionAndCultureProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import dotRandom from '../../../dot/js/dotRandom.js';
 
-// The complete set of RegionAndCulture values, minus 'multi'.
-export type ConcreteRegionAndCulture = Exclude<RegionAndCulture, 'multi'>;
+// The complete set of RegionAndCulture values, minus 'random'.
+export type ConcreteRegionAndCulture = Exclude<RegionAndCulture, 'random'>;
 
-// The values supported by the sim at runtime, minus 'multi'.
-export const concreteRegionAndCultureValues: ConcreteRegionAndCulture[] = supportedRegionAndCultureValues.filter( regionAndCulture => regionAndCulture !== 'multi' ) as ConcreteRegionAndCulture[];
+// The values supported by the sim at runtime, minus 'random'.
+export const concreteRegionAndCultureValues: ConcreteRegionAndCulture[] =
+  supportedRegionAndCultureValues.filter( regionAndCulture => regionAndCulture !== 'random' ) as ConcreteRegionAndCulture[];
 
 // The previous value of concreteRegionAndCultureProperty.
 let previousConcreteRegionAndCulture: ConcreteRegionAndCulture | null = null;
 
-// When 'multi' is selected, randomly map it to one of the other choices, but not the previous choice.
+// When 'random' is selected, randomly select one of the other choices, but not the previous choice.
 export const concreteRegionAndCultureProperty: TReadOnlyProperty<ConcreteRegionAndCulture> = new DerivedProperty(
   [ regionAndCultureProperty ], ( regionAndCulture => {
 
-  const concreteRegionAndCulture = regionAndCulture === 'multi' ? dotRandom.sample( supportedRegionAndCultureValues.filter( regionAndCulture => {
-    return regionAndCulture !== 'multi' && regionAndCulture !== previousConcreteRegionAndCulture;
+  const concreteRegionAndCulture = regionAndCulture === 'random' ? dotRandom.sample( supportedRegionAndCultureValues.filter( regionAndCulture => {
+    return regionAndCulture !== 'random' && regionAndCulture !== previousConcreteRegionAndCulture;
   } ) ) as ConcreteRegionAndCulture : regionAndCulture;
 
   previousConcreteRegionAndCulture = concreteRegionAndCulture;

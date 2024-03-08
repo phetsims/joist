@@ -129,7 +129,7 @@ type StringsType = {
           'descriptionStringProperty': LocalizedStringProperty;
           'portrayalSets': {
             'unitedStatesOfAmericaStringProperty': LocalizedStringProperty;
-            'multiculturalStringProperty': LocalizedStringProperty;
+            'randomStringProperty': LocalizedStringProperty;
             'africaStringProperty': LocalizedStringProperty;
             'africaModestStringProperty': LocalizedStringProperty;
             'asiaStringProperty': LocalizedStringProperty;

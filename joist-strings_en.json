@@ -255,8 +255,8 @@
   "preferences.tabs.localization.regionAndCulture.portrayalSets.unitedStatesOfAmerica": {
     "value": "United States of America"
   },
-  "preferences.tabs.localization.regionAndCulture.portrayalSets.multicultural": {
-    "value": "Multicultural"
+  "preferences.tabs.localization.regionAndCulture.portrayalSets.random": {
+    "value": "Random"
   },
   "preferences.tabs.localization.regionAndCulture.portrayalSets.africa": {
     "value": "Africa"

@@ -52,9 +52,8 @@ const RegionAndCultureValues = [
   // Inspired by the images and dress of Oceania.
   'oceania',
 
-  // This choice selects one of the other choices at random. The name is a bit of a misnomer; the sim will NOT display
-  // a multicultural selection from the other choices.
-  'multi'
+  // Randomly selects one of the other choices, but not the current choice.
+  'random'
 
 ] as const;
 export type RegionAndCulture = typeof RegionAndCultureValues[ number ];
