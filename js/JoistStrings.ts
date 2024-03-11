@@ -127,15 +127,13 @@ type StringsType = {
         'regionAndCulture': {
           'titleStringProperty': LocalizedStringProperty;
           'descriptionStringProperty': LocalizedStringProperty;
-          'portrayalSets': {
-            'unitedStatesOfAmericaStringProperty': LocalizedStringProperty;
-            'randomStringProperty': LocalizedStringProperty;
-            'africaStringProperty': LocalizedStringProperty;
-            'africaModestStringProperty': LocalizedStringProperty;
-            'asiaStringProperty': LocalizedStringProperty;
-            'latinAmericaStringProperty': LocalizedStringProperty;
-            'oceaniaStringProperty': LocalizedStringProperty;
-          }
+          'africaStringProperty': LocalizedStringProperty;
+          'africaModestStringProperty': LocalizedStringProperty;
+          'asiaStringProperty': LocalizedStringProperty;
+          'latinAmericaStringProperty': LocalizedStringProperty;
+          'oceaniaStringProperty': LocalizedStringProperty;
+          'randomStringProperty': LocalizedStringProperty;
+          'unitedStatesOfAmericaStringProperty': LocalizedStringProperty;
         }
       }
     }

@@ -323,12 +323,12 @@ export default class PreferencesModel extends PhetioObject {
     if ( portrayals.length > 0 ) {
 
       if ( assert ) {
-        const providedPortrayalIDs = portrayals.map( portrayal => portrayal.regionAndCultureID );
+        const providedPortrayalIDs = portrayals.map( portrayal => portrayal.regionAndCulture );
         const supportedRegionsAndCultures = simFeatures.supportedRegionsAndCultures;
         assert && assert( _.every( providedPortrayalIDs, provided => supportedRegionsAndCultures.includes( provided ) ),
           'Every provided RegionAndCulturePortrayal must be in the supportedRegionsAndCulture from package.json. Supported:', supportedRegionsAndCultures, 'Provided', providedPortrayalIDs );
         assert && assert( _.every( supportedRegionsAndCultures, supported => providedPortrayalIDs.includes( supported ) ),
-          'Every supported RegionAndCultureID must be in the provided portrayals in preferences. Supported:', supportedRegionsAndCultures, 'Provided', providedPortrayalIDs );
+          'Every supported RegionAndCulture must be in the provided portrayals in preferences. Supported:', supportedRegionsAndCultures, 'Provided', providedPortrayalIDs );
         assert && assert( supportedRegionsAndCultures.length === providedPortrayalIDs.length,
           'number of supported regions and cultures should match the number of portrayals provided. Supported:', supportedRegionsAndCultures, 'Provided', providedPortrayalIDs );
         assert && assert( _.uniq( supportedRegionsAndCultures ).length === _.uniq( providedPortrayalIDs ).length,
@@ -339,7 +339,7 @@ export default class PreferencesModel extends PhetioObject {
       let defaultSet = portrayals[ 0 ];
       const regionAndCultureQueryParameter = phetFeaturesFromQueryParameters.regionAndCulture;
       if ( regionAndCultureQueryParameter ) {
-        defaultSet = portrayals.find( set => set.regionAndCultureID === regionAndCultureQueryParameter )!;
+        defaultSet = portrayals.find( set => set.regionAndCulture === regionAndCultureQueryParameter )!;
         this.localizationModel.regionAndCulturePortrayalProperty = RegionAndCulturePortrayal.createRegionAndCulturePortrayalProperty( defaultSet, portrayals );
       }
     }

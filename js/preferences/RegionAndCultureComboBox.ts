@@ -19,14 +19,13 @@ import JoistStrings from '../JoistStrings.js';
 
 // Maps a RegionAndCulture value to a StringProperty.
 const STRING_PROPERTY_MAP: Record<RegionAndCulture, LocalizedStringProperty> = {
-  //TODO https://github.com/phetsims/joist/issues/953 Revise string keys to remove "portrayalSets".
-  africa: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.africaStringProperty,
-  africaModest: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.africaModestStringProperty,
-  asia: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.asiaStringProperty,
-  latinAmerica: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.latinAmericaStringProperty,
-  oceania: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.oceaniaStringProperty,
-  random: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.randomStringProperty,
-  usa: JoistStrings.preferences.tabs.localization.regionAndCulture.portrayalSets.unitedStatesOfAmericaStringProperty
+  africa: JoistStrings.preferences.tabs.localization.regionAndCulture.africaStringProperty,
+  africaModest: JoistStrings.preferences.tabs.localization.regionAndCulture.africaModestStringProperty,
+  asia: JoistStrings.preferences.tabs.localization.regionAndCulture.asiaStringProperty,
+  latinAmerica: JoistStrings.preferences.tabs.localization.regionAndCulture.latinAmericaStringProperty,
+  oceania: JoistStrings.preferences.tabs.localization.regionAndCulture.oceaniaStringProperty,
+  random: JoistStrings.preferences.tabs.localization.regionAndCulture.randomStringProperty,
+  usa: JoistStrings.preferences.tabs.localization.regionAndCulture.unitedStatesOfAmericaStringProperty
 };
 
 type SelfOptions = EmptySelfOptions;

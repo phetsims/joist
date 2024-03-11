@@ -252,26 +252,26 @@
   "preferences.tabs.localization.regionAndCulture.description": {
     "value": "Select the portrayal of people, places, or objects in the sim. Images are not intended to represent the entire diversity of a region or culture."
   },
-  "preferences.tabs.localization.regionAndCulture.portrayalSets.unitedStatesOfAmerica": {
-    "value": "United States of America"
-  },
-  "preferences.tabs.localization.regionAndCulture.portrayalSets.random": {
-    "value": "Random"
-  },
-  "preferences.tabs.localization.regionAndCulture.portrayalSets.africa": {
+  "preferences.tabs.localization.regionAndCulture.africa": {
     "value": "Africa"
   },
-  "preferences.tabs.localization.regionAndCulture.portrayalSets.africaModest": {
+  "preferences.tabs.localization.regionAndCulture.africaModest": {
     "value": "Africa (Modest)"
   },
-  "preferences.tabs.localization.regionAndCulture.portrayalSets.asia": {
+  "preferences.tabs.localization.regionAndCulture.asia": {
     "value": "Asia"
   },
-  "preferences.tabs.localization.regionAndCulture.portrayalSets.latinAmerica": {
+  "preferences.tabs.localization.regionAndCulture.latinAmerica": {
     "value": "Latin America"
   },
-  "preferences.tabs.localization.regionAndCulture.portrayalSets.oceania": {
+  "preferences.tabs.localization.regionAndCulture.oceania": {
     "value": "Oceania"
+  },
+  "preferences.tabs.localization.regionAndCulture.random": {
+    "value": "Random"
+  },
+  "preferences.tabs.localization.regionAndCulture.unitedStatesOfAmerica": {
+    "value": "United States of America"
   },
   "a11y": {
     "keyboardHelp": {

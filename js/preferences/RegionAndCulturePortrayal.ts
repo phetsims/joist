@@ -71,79 +71,48 @@ import ReferenceIO, { ReferenceIOState } from '../../../tandem/js/types/Referenc
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import Property from '../../../axon/js/Property.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import packageJSON from '../packageJSON.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import regionAndCultureProperty from '../i18n/regionAndCultureProperty.js';
+import regionAndCultureProperty, { RegionAndCulture, supportedRegionAndCultureValues } from '../i18n/regionAndCultureProperty.js';
+import JoistStrings from '../JoistStrings.js';
 
 type SelfOptions = EmptySelfOptions;
 type ParentOptions = StrictOmit<PhetioObjectOptions, 'tandem' | 'phetioState'>;
 export type RegionAndCulturePortrayalOptions = SelfOptions & ParentOptions;
 
-// Constants used for each supported region/culture
-export const USA_REGION_AND_CULTURE_ID = 'usa';
-export const AFRICA_REGION_AND_CULTURE_ID = 'africa';
-export const AFRICA_MODEST_REGION_AND_CULTURE_ID = 'africaModest';
-export const ASIA_REGION_AND_CULTURE_ID = 'asia';
-export const LATIN_AMERICA_REGION_AND_CULTURE_ID = 'latinAmerica';
-export const OCEANIA_REGION_AND_CULTURE_ID = 'oceania';
-export const RANDOM_REGION_AND_CULTURE_ID = 'random';
-
-// The superset list of all regions and cultures supported by any sim. ALL values used by any sim must be in this list.
-const SUPPORTED_REGIONS_AND_CULTURES = [
-  USA_REGION_AND_CULTURE_ID,
-  AFRICA_REGION_AND_CULTURE_ID,
-  AFRICA_MODEST_REGION_AND_CULTURE_ID,
-  ASIA_REGION_AND_CULTURE_ID,
-  LATIN_AMERICA_REGION_AND_CULTURE_ID,
-  OCEANIA_REGION_AND_CULTURE_ID,
-  RANDOM_REGION_AND_CULTURE_ID
-] as const;
-
-export type RegionAndCultureID = typeof SUPPORTED_REGIONS_AND_CULTURES[number];
-
-const isSupportedRegionAndCulture = ( regionAndCulture: RegionAndCultureID ): boolean => SUPPORTED_REGIONS_AND_CULTURES.includes( regionAndCulture );
-
-
-// The value of the query parameter
-const regionAndCultureQueryParameter: RegionAndCultureID = window.phet.chipper.queryParameters.regionAndCulture;
-
-// Assert the query parameter before the simFeatures list because it is more contextual (since it was manually provided
-// in this runtime).
-assert && assert( regionAndCultureQueryParameter === null ||
-                  isSupportedRegionAndCulture( regionAndCultureQueryParameter ),
-  `invalid query parameter value for ?regionAndCulture: ${regionAndCultureQueryParameter}` );
-
-// The list of supported regions and cultures as defined in the `simFeatures` of the package.json.
-const simFeaturesSupportedRegionsAndCultures = packageJSON.phet?.simFeatures?.supportedRegionsAndCultures;
-assert && simFeaturesSupportedRegionsAndCultures && assert( _.every( simFeaturesSupportedRegionsAndCultures, isSupportedRegionAndCulture ),
-  `Invalid value in simFeatures.supportedRegionsAndCultures: ${simFeaturesSupportedRegionsAndCultures}. Check RegionAndCulturePortrayal.SUPPORTED_REGIONS_AND_CULTURES.` );
-
+const STRING_PROPERTY_MAP: Record<RegionAndCulture, LocalizedStringProperty> = {
+  africa: JoistStrings.preferences.tabs.localization.regionAndCulture.africaStringProperty,
+  africaModest: JoistStrings.preferences.tabs.localization.regionAndCulture.africaModestStringProperty,
+  asia: JoistStrings.preferences.tabs.localization.regionAndCulture.asiaStringProperty,
+  latinAmerica: JoistStrings.preferences.tabs.localization.regionAndCulture.latinAmericaStringProperty,
+  oceania: JoistStrings.preferences.tabs.localization.regionAndCulture.oceaniaStringProperty,
+  random: JoistStrings.preferences.tabs.localization.regionAndCulture.randomStringProperty,
+  usa: JoistStrings.preferences.tabs.localization.regionAndCulture.unitedStatesOfAmericaStringProperty
+};
 
 export default class RegionAndCulturePortrayal extends PhetioObject {
 
+  public readonly regionAndCulture: RegionAndCulture;
 
-  // Label string for the UI component that will select this portrayal set
+  // Label string for the UI component that will select this portrayal
   public readonly labelProperty: LocalizedStringProperty;
 
-  public constructor( labelProperty: LocalizedStringProperty,
-                      public readonly regionAndCultureID: RegionAndCultureID, // Query parameter value attached to this portrayal set
+  public constructor( regionAndCulture: RegionAndCulture,
                       providedOptions?: RegionAndCulturePortrayalOptions ) {
 
     const options = optionize<RegionAndCulturePortrayalOptions, SelfOptions, PhetioObjectOptions>()( {
-      tandem: Tandem.REGION_CULTURE_PORTRAYALS.createTandem( regionAndCultureID ),
+      tandem: Tandem.REGION_CULTURE_PORTRAYALS.createTandem( regionAndCulture ),
       phetioState: false
     }, providedOptions );
 
     super( options );
-    assert && this.tandem?.supplied && assert( SUPPORTED_REGIONS_AND_CULTURES.includes( this.tandem.name as RegionAndCultureID ),
-      `RegionAndCulturePortrayal should have a tandem name that matches its portrayal name: ${this.tandem.name}` );
 
-    this.labelProperty = labelProperty;
+    this.regionAndCulture = regionAndCulture;
+    this.labelProperty = STRING_PROPERTY_MAP[ regionAndCulture ];
   }
 
   public static createRegionAndCulturePortrayalProperty( regionAndCulturePortrayal: RegionAndCulturePortrayal, validValues: RegionAndCulturePortrayal[] ): Property<RegionAndCulturePortrayal> {
-    assert && assert( _.every( validValues, value => SUPPORTED_REGIONS_AND_CULTURES.includes( value.regionAndCultureID ) ),
-      `validValues regionAndCultureIDs must be a subset of RegionAndCulturePortrayal.SUPPORTED_REGIONS_AND_CULTURES, but was ${validValues.map( value => value.regionAndCultureID )}`
+    assert && assert( _.every( validValues, value => supportedRegionAndCultureValues.includes( value.regionAndCulture ) ),
+      `validValues must be a subset of RegionAndCulture values, but was ${validValues.map( value => value.regionAndCulture )}`
     );
 
     const regionAndCulturePortrayalProperty = new Property<RegionAndCulturePortrayal>( regionAndCulturePortrayal, {
@@ -159,10 +128,10 @@ export default class RegionAndCulturePortrayal extends PhetioObject {
     //  once the post is complete. https://github.com/phetsims/joist/issues/953
     // NOTE: In the future, this (risky) bidirectional
     regionAndCulturePortrayalProperty.link( regionAndCulturePortrayal => {
-      regionAndCultureProperty.value = regionAndCulturePortrayal.regionAndCultureID;
+      regionAndCultureProperty.value = regionAndCulturePortrayal.regionAndCulture;
     } );
     regionAndCultureProperty.lazyLink( regionAndCulture => {
-      const portrayal = validValues.find( portrayal => portrayal.regionAndCultureID === regionAndCulture );
+      const portrayal = validValues.find( portrayal => portrayal.regionAndCulture === regionAndCulture );
 
       // NOTE: In the future, we shouldn't need this (being error-permissive here)
       if ( portrayal ) {
