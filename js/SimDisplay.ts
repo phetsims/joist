@@ -68,6 +68,8 @@ export default class SimDisplay extends Display {
       allowWebGL: phet.chipper.queryParameters.webgl,
       assumeFullWindow: true, // a bit faster if we can assume no coordinate translations are needed for the display.
 
+      forceSVGRefresh: phet.chipper.queryParameters.forceSVGRefresh,
+
       // pdom accessibility (interactive description)
       accessibility: phet.chipper.queryParameters.supportsInteractiveDescription,
 
