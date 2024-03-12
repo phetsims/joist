@@ -1,5 +1,6 @@
 // Copyright 2022-2024, University of Colorado Boulder
 
+//TODO Delete this class after we have removed portrayals from sims, see https://github.com/phetsims/joist/issues/953
 /**
  * A base class for the portrayal of people, places, or objects in the sim. Region and culture is a preference supported
  * by PreferencesModel and query parameters. The supported region and culture instances for a sim are defined by the
@@ -111,10 +112,8 @@ export default class RegionAndCulturePortrayal extends PhetioObject {
       validValues: validValues
     } );
 
-    // TODO: This is a temporary solution to keep the two Properties in sync until we have finish porting
-    //  the regionAndCulturePortrayalProperty usages to the regionAndCultureProperty. These links can be removed
-    //  once the post is complete. https://github.com/phetsims/joist/issues/953
-    // NOTE: In the future, this (risky) bidirectional
+    //TODO https://github.com/phetsims/joist/issues/953 This is a temporary solution to keep the two Properties in
+    // sync until we have finish porting regionAndCulturePortrayalProperty usages to regionAndCultureProperty.
     regionAndCulturePortrayalProperty.link( regionAndCulturePortrayal => {
       regionAndCultureProperty.value = regionAndCulturePortrayal.regionAndCulture;
     } );
