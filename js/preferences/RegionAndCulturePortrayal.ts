@@ -66,11 +66,8 @@
 import joist from '../joist.js';
 import LocalizedStringProperty from '../../../chipper/js/LocalizedStringProperty.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
-import IOType from '../../../tandem/js/types/IOType.js';
-import ReferenceIO, { ReferenceIOState } from '../../../tandem/js/types/ReferenceIO.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import Property from '../../../axon/js/Property.js';
-import Tandem from '../../../tandem/js/Tandem.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import regionAndCultureProperty, { RegionAndCulture, supportedRegionAndCultureValues } from '../i18n/regionAndCultureProperty.js';
 import JoistStrings from '../JoistStrings.js';
@@ -99,12 +96,7 @@ export default class RegionAndCulturePortrayal extends PhetioObject {
   public constructor( regionAndCulture: RegionAndCulture,
                       providedOptions?: RegionAndCulturePortrayalOptions ) {
 
-    const options = optionize<RegionAndCulturePortrayalOptions, SelfOptions, PhetioObjectOptions>()( {
-      tandem: Tandem.REGION_CULTURE_PORTRAYALS.createTandem( regionAndCulture ),
-      phetioState: false
-    }, providedOptions );
-
-    super( options );
+    super( providedOptions );
 
     this.regionAndCulture = regionAndCulture;
     this.labelProperty = STRING_PROPERTY_MAP[ regionAndCulture ];
@@ -116,10 +108,6 @@ export default class RegionAndCulturePortrayal extends PhetioObject {
     );
 
     const regionAndCulturePortrayalProperty = new Property<RegionAndCulturePortrayal>( regionAndCulturePortrayal, {
-      tandem: Tandem.GENERAL_MODEL.createTandem( 'regionAndCulturePortrayalProperty' ),
-      phetioFeatured: true,
-      phetioValueType: RegionAndCulturePortrayal.RegionAndCulturePortrayalIO,
-      phetioDocumentation: 'Specifies the region and culture portrayals in the simulation',
       validValues: validValues
     } );
 
@@ -141,17 +129,6 @@ export default class RegionAndCulturePortrayal extends PhetioObject {
 
     return regionAndCulturePortrayalProperty;
   }
-
-  /**
-   * RegionAndCulturePortrayalIO handles PhET-iO serialization of RegionAndCulturePortrayal. Since all RegionAndCulturePortrayals are static instances,
-   * it implements 'Reference type serialization', as described in the Serialization section of
-   * https://github.com/phetsims/phet-io/blob/main/doc/phet-io-instrumentation-technical-guide.md#serialization
-   */
-  public static readonly RegionAndCulturePortrayalIO = new IOType<RegionAndCulturePortrayal, ReferenceIOState>( 'RegionAndCulturePortrayalIO', {
-    valueType: RegionAndCulturePortrayal,
-    supertype: ReferenceIO( IOType.ObjectIO ),
-    documentation: 'A RegionAndCulturePortrayal describes and holds the contents of how a region and culture will be portrayed through artwork in the sim.'
-  } );
 }
 
 joist.register( 'RegionAndCulturePortrayal', RegionAndCulturePortrayal );
