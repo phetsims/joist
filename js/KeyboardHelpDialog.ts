@@ -20,6 +20,7 @@ import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
 import { AnyScreen } from './Screen.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 
 // constants
 const TITLE_MAX_WIDTH = 670;
@@ -111,6 +112,14 @@ export default class KeyboardHelpDialog extends Dialog {
       otherNode: shortcutsTitleText,
       otherElementName: PDOMPeer.PRIMARY_SIBLING
     } );
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    if ( assert && phet?.chipper?.queryParameters?.binder ) {
+      screenContentNodes.forEach( node => {
+        content.children = [ node ];
+        InstanceRegistry.registerDataURL( 'joist', 'KeyboardHelpDialog', this );
+      } );
+    }
   }
 }
 

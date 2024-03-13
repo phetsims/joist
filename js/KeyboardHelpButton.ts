@@ -85,6 +85,9 @@ class KeyboardHelpButton extends JoistButton {
     backgroundColorProperty.link( backgroundColor => {
       icon.image = backgroundColor.equals( Color.BLACK ) ? keyboardIcon_png : keyboardIconOnWhite_png;
     } );
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet?.chipper?.queryParameters?.binder && keyboardHelpDialogCapsule.getElement();
   }
 }
 
