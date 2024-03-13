@@ -22,6 +22,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import HighlightVisibilityController from './HighlightVisibilityController.js';
 import joist from './joist.js';
 import PreferencesModel from './preferences/PreferencesModel.js';
+import platform from '../../phet-core/js/platform.js';
 
 type SelfOptions = {
   webgl?: boolean;
@@ -119,6 +120,14 @@ export default class SimDisplay extends Display {
 
     this.simulationRoot = new Node();
     this.rootNode.addChild( this.simulationRoot );
+
+    // Workaround for Chrome SVG bugs that seem to happen on pan-zoom, see https://github.com/phetsims/scenery/issues/1507
+    // Done here so that we don't require continual refreshes.
+    if ( platform.chromium ) {
+      this.simulationRoot.transformEmitter.addListener( () => {
+        this.refreshSVGOnNextFrame();
+      } );
+    }
 
     // Seeding by default a random value for reproducible fuzzes if desired
     const fuzzerSeed = phet.chipper.queryParameters.randomSeed * Math.PI;
