@@ -38,7 +38,7 @@ class UpdateCheck {
 
     // @public - Whether we actually allow checking for updates, or showing any update-related UIs.
     // If it's not PhET-branded OR if it is phet-io or in the phet-app, do not check for updates
-    this.areUpdatesChecked = phet.chipper.brand === 'phet' && !phet.chipper.isApp;
+    this.areUpdatesChecked = phet.chipper.brand === 'phet' && !phet.chipper.isApp && phet.chipper.queryParameters.yotta;
 
     // @public - The URL to be used for "New version available" clicks
     this.updateURL = `${'http://phet.colorado.edu/html-sim-update' +
