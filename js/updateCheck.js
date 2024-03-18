@@ -41,7 +41,7 @@ define( require => {
 
       // @public - Whether we actually allow checking for updates, or showing any update-related UIs.
       // If it's not PhET-branded OR if it is phet-io or in the phet-app, do not check for updates
-      this.areUpdatesChecked = Brand.id === 'phet' && !Brand.isPhetApp;
+      this.areUpdatesChecked = Brand.id === 'phet' && !Brand.isPhetApp && phet.chipper.queryParameters.yotta;
 
       // @public - The URL to be used for "New version available" clicks
       this.updateURL = 'http://phet.colorado.edu/html-sim-update' +
