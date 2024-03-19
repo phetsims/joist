@@ -62,6 +62,7 @@
  *  themselves reflected in the portrayals.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
+ * @deprecated Use LocalizedImageProperty, see https://github.com/phetsims/joist/issues/953
  */
 
 import joist from '../joist.js';
@@ -94,8 +95,10 @@ export default class RegionAndCulturePortrayal extends PhetioObject {
   // Label string for the UI component that will select this portrayal
   public readonly labelProperty: LocalizedStringProperty;
 
-  public constructor( regionAndCulture: RegionAndCulture,
-                      providedOptions?: RegionAndCulturePortrayalOptions ) {
+  /**
+   * @deprecated
+   */
+  protected constructor( regionAndCulture: RegionAndCulture, providedOptions?: RegionAndCulturePortrayalOptions ) {
 
     super( providedOptions );
 
@@ -103,6 +106,9 @@ export default class RegionAndCulturePortrayal extends PhetioObject {
     this.labelProperty = STRING_PROPERTY_MAP[ regionAndCulture ];
   }
 
+  /**
+   * @deprecated
+   */
   public static createRegionAndCulturePortrayalProperty( regionAndCulturePortrayal: RegionAndCulturePortrayal, validValues: RegionAndCulturePortrayal[] ): Property<RegionAndCulturePortrayal> {
     assert && assert( _.every( validValues, value => supportedRegionAndCultureValues.includes( value.regionAndCulture ) ),
       `validValues must be a subset of RegionAndCulture values, but was ${validValues.map( value => value.regionAndCulture )}`
