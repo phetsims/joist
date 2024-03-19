@@ -94,6 +94,7 @@ type LocalizationPreferencesOptions = {
   // provided, the Localization tab will include a UI component to swap out pieces of artwork to match the selected
   // region and culture. Portrayals contains information for the UI component to describe each choice.
   // TODO: remove this once we have removed portrayals from sims, see https://github.com/phetsims/joist/issues/953
+  // @deprecated See https://github.com/phetsims/joist/issues/953
   portrayals?: RegionAndCulturePortrayal[];
 
   // Whether to include the default LocalePanel for selecting locale. This was added to allow sims like
