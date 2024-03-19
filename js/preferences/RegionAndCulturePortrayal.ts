@@ -88,6 +88,9 @@ const STRING_PROPERTY_MAP: Record<RegionAndCulture, LocalizedStringProperty> = {
   usa: JoistStrings.preferences.tabs.localization.regionAndCulture.unitedStatesOfAmericaStringProperty
 };
 
+/**
+ * @deprecated
+ */
 export default class RegionAndCulturePortrayal extends PhetioObject {
 
   public readonly regionAndCulture: RegionAndCulture;
