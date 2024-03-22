@@ -9,7 +9,7 @@
 import { DerivedProperty1 } from '../../../axon/js/DerivedProperty.js';
 import { ImageableImage } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
-import concreteRegionAndCultureProperty, { concreteRegionAndCultureValues, ConcreteRegionAndCulture } from './concreteRegionAndCultureProperty.js';
+import concreteRegionAndCultureProperty, { ConcreteRegionAndCulture, concreteRegionAndCultureValues } from './concreteRegionAndCultureProperty.js';
 
 export default class LocalizedImageProperty extends DerivedProperty1<ImageableImage, ConcreteRegionAndCulture> {
   public constructor(

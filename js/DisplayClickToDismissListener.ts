@@ -9,7 +9,7 @@
  */
 
 import joist from './joist.js';
-import { TInputListener, Pointer, SceneryEvent, SceneryListenerFunction } from '../../scenery/js/imports.js';
+import { Pointer, SceneryEvent, SceneryListenerFunction, TInputListener } from '../../scenery/js/imports.js';
 import dotRandom from '../../dot/js/dotRandom.js';
 
 class DisplayClickToDismissListener {
