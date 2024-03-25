@@ -3,6 +3,7 @@
 import joist from './joist.js';
 import HomeScreen from './HomeScreen.js';
 import { AnyScreen } from './Screen.js';
+import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 
 export type ScreenReturnType = {
   homeScreen: HomeScreen | null;
@@ -45,22 +46,14 @@ export default function selectScreens( allSimScreens: AnyScreen[],
                                        createHomeScreen: ( screens: AnyScreen[] ) => HomeScreen ): ScreenReturnType {
 
   if ( allSimScreens.length === 1 && homeScreenQueryParameterProvided && homeScreenQueryParameter ) {
-    const errorMessage = 'cannot specify homeScreen=true for single-screen sims';
-
-    // handle gracefully when running without ?ea
-    QueryStringMachine.addWarning( 'homeScreen', homeScreenQueryParameter, errorMessage );
-
-    // to support expected failures in selectScreensTests.js unit tests
-    assert && assert( false, errorMessage );
+    gracefulAssert( 'homeScreen', homeScreenQueryParameter, 'cannot specify homeScreen=true for single-screen sims' );
   }
 
   // the ordered list of sim screens for this runtime
   let selectedSimScreens: AnyScreen[] = [];
 
   if ( screensQueryParameter.length === 0 ) {
-    const errorMessage = '"?screens" query parameter must have screen values';
-    QueryStringMachine.addWarning( 'screens', screensQueryParameter, errorMessage );
-    assert && assert( false, errorMessage );
+    gracefulAssert( 'screens', screensQueryParameter, '"?screens" query parameter must have screen values' );
     selectedSimScreens = allSimScreens;
   }
 
@@ -83,11 +76,8 @@ export default function selectScreens( allSimScreens: AnyScreen[],
       }
       else {
 
-        // index is invalid, handle gracefully when running without ?ea and set selectedSimScreens to default values,
-        // see https://github.com/phetsims/joist/issues/599
-        const errorMessage = `invalid value in screens query parameter: ${userIndex}`;
-        QueryStringMachine.addWarning( 'screens', screensQueryParameter, errorMessage );
-        assert && assert( false, errorMessage );
+        // index is invalid
+        gracefulAssert( 'screens', screensQueryParameter, `invalid value in screens query parameter: ${userIndex}` );
         selectedSimScreens = allSimScreens;
         break;
       }
@@ -105,25 +95,18 @@ export default function selectScreens( allSimScreens: AnyScreen[],
   if ( initialScreenQueryParameterProvided && initialScreenIndex === 0 && !homeScreenQueryParameter ) {
     const errorMessage = 'cannot specify initialScreen=0 when home screen is disabled with homeScreen=false';
 
-    // handle gracefully when running without ?ea
-    QueryStringMachine.addWarning( 'initialScreen', initialScreenIndex, errorMessage );
-    QueryStringMachine.addWarning( 'homeScreen', homeScreenQueryParameter, errorMessage );
-
-    // to support expected failures in selectScreensTests.js unit tests
-    assert && assert( false, errorMessage );
+    gracefulAssert( 'initialScreen', initialScreenIndex, errorMessage );
+    gracefulAssert( 'homeScreen', homeScreenQueryParameter, errorMessage );
   }
 
   // For a single screen simulation (whether the simulation only declares one screen, or whether the user has specified
   // a single screen via ?screens), there is no HomeScreen, and hence ?initialScreen=0 which requests to show the
   // HomeScreen on startup should fail.
   if ( initialScreenQueryParameterProvided && initialScreenIndex === 0 && selectedSimScreens.length === 1 ) {
-    const errorMessage = 'cannot specify initialScreen=0 for single-screen sims or when only one screen is loaded with screens=n';
 
     // handle gracefully when running without ?ea
-    QueryStringMachine.addWarning( 'initialScreen', initialScreenIndex, errorMessage );
-
-    // to support expected failures in selectScreensTests.js unit tests
-    assert && assert( false, errorMessage );
+    gracefulAssert( 'initialScreen', initialScreenIndex,
+      'cannot specify initialScreen=0 for single-screen sims or when only one screen is loaded with screens=n' );
   }
 
   const screens = selectedSimScreens.slice();
@@ -142,9 +125,7 @@ export default function selectScreens( allSimScreens: AnyScreen[],
                                                : allSimScreens[ initialScreenIndex - 1 ];
 
   if ( !screens.includes( initialScreen ) ) {
-    const errorMessage = `invalid initial screen: ${initialScreenIndex}`;
-    QueryStringMachine.addWarning( 'initialScreen', initialScreenIndex, errorMessage );
-    assert && assert( false, errorMessage );
+    gracefulAssert( 'initialScreen', initialScreenIndex, `invalid initial screen: ${initialScreenIndex}` );
     initialScreen = screens[ 0 ];
   }
 
@@ -158,6 +139,17 @@ export default function selectScreens( allSimScreens: AnyScreen[],
     screens: screens,
     allScreensCreated: allScreensCreated
   };
+}
+
+// handle gracefully when running without ?ea, and to support setting selectedSimScreens to default values,
+// see https://github.com/phetsims/joist/issues/599
+function gracefulAssert( key: string, value: IntentionalAny, message: string ): void {
+
+  // handle gracefully when running without ?ea
+  QueryStringMachine.addWarning( key, value, message );
+
+  // to support expected failures in selectScreensTests.js unit tests
+  assert && assert( false, message );
 }
 
 joist.register( 'selectScreens', selectScreens );
