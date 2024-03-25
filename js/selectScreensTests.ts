@@ -26,25 +26,29 @@ const getQueryParameterValues = ( queryString: string ) => {
 
     homeScreen: {
       type: 'boolean',
-      defaultValue: true
+      defaultValue: true,
+      public: true
     },
 
     initialScreen: {
       type: 'number',
-      defaultValue: 0
+      defaultValue: 0,
+      public: true
+
     },
 
     screens: {
       type: 'array',
       elementSchema: {
-        type: 'number'
+        type: 'number',
+        isValidValue: Number.isInteger
       },
-      defaultValue: [],
+      defaultValue: null,
       isValidValue: function( value ) {
-        return value === null || ( value.length === _.uniq( value ).length );
-      }
+        return value === null || ( value.length === _.uniq( value ).length && value.length > 0 );
+      },
+      public: true
     }
-
   }, queryString );
 };
 
@@ -460,6 +464,14 @@ QUnit.test( 'invalid selectScreens (grace without assertions)', async assert => 
       initialScreen: a,
       selectedSimScreens: [ a ],
       screens: [ a ],
+      allScreensCreated: true
+    } );
+
+    testValidScreenSelector( '?screens=1.2,Screen2', [ a, b, c ], assert, {
+      homeScreen: hs,
+      initialScreen: hs,
+      selectedSimScreens: [ a, b, c ],
+      screens: [ hs, a, b, c ],
       allScreensCreated: true
     } );
   }
