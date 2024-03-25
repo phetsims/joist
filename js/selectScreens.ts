@@ -54,7 +54,14 @@ export default function selectScreens( allSimScreens: AnyScreen[],
   }
 
   // the ordered list of sim screens for this runtime
-  let selectedSimScreens = [];
+  let selectedSimScreens: AnyScreen[] = [];
+
+  if ( screensQueryParameter.length === 0 ) {
+    const errorMessage = '"?screens" query parameter must have screen values';
+    QueryStringMachine.addWarning( 'screens', screensQueryParameter, errorMessage );
+    assert && assert( false, errorMessage );
+    selectedSimScreens = allSimScreens;
+  }
 
   // If a subset of screens was specified with the `screens` query parameter, add them to selectedSimScreens. Otherwise,
   // use all of the available sim screens as the default. Note that if the value of `screens` did not pass validation
@@ -62,7 +69,6 @@ export default function selectScreens( allSimScreens: AnyScreen[],
   // truthiness before attempting to use it. For `screens` documentation, see the schema at
   // phet.chipper.queryParameters.screens in initialize-globals.js.
   if ( screensQueryParameterProvided && screensQueryParameter ) {
-    assert && assert( screensQueryParameter.length > 0, 'Screens query parameter should have at least one value' );
 
     for ( let i = 0; i < screensQueryParameter.length; i++ ) {
 
