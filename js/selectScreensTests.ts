@@ -126,6 +126,13 @@ QUnit.test( 'valid selectScreens', async assert => {
     screens: [ hs, b, a ],
     allScreensCreated: true
   } );
+  testValidScreenSelector( '?initialScreen=2&homeScreen=false', [ a, b ], assert, {
+    homeScreen: null,
+    initialScreen: b,
+    selectedSimScreens: [ a, b ],
+    screens: [ a, b ],
+    allScreensCreated: false
+  } );
   testValidScreenSelector( '?homeScreen=false', [ a, b ], assert, {
     homeScreen: null,
     initialScreen: a,
@@ -455,5 +462,8 @@ QUnit.test( 'invalid selectScreens (grace without assertions)', async assert => 
       screens: [ a ],
       allScreensCreated: true
     } );
+  }
+  else {
+    assert.ok( true, 'cannot test for grace when assertions are enabled' );
   }
 } );

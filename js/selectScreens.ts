@@ -52,7 +52,7 @@ export default function selectScreens( allSimScreens: AnyScreen[],
   // the ordered list of sim screens for this runtime
   let selectedSimScreens: AnyScreen[] = [];
 
-  if ( screensQueryParameter.length === 0 ) {
+  if ( screensQueryParameterProvided && screensQueryParameter.length === 0 ) {
     gracefulAssert( 'screens', screensQueryParameter, '"?screens" query parameter must have screen values' );
     selectedSimScreens = allSimScreens;
   }
