@@ -1,4 +1,5 @@
 // Copyright 2020-2023, University of Colorado Boulder
+
 import joist from './joist.js';
 import HomeScreen from './HomeScreen.js';
 import { AnyScreen } from './Screen.js';
@@ -135,27 +136,16 @@ export default function selectScreens( allSimScreens: AnyScreen[],
     screens.unshift( homeScreen );
   }
 
-  // The first screen for the sim, can be the HomeScreen if applicable
-  let initialScreen;
-  if ( homeScreen && initialScreenIndex === 0 ) {
-
-    // If the home screen is supplied, then it is at index 0, so use the query parameter value directly (because the
-    // query parameter is 1-based). If `?initialScreen` is 0 then there is no offset to apply.
-    initialScreen = homeScreen;
-  }
-  else if ( initialScreenIndex === 0 ) {
-
-    // There is no home screen and the initialScreen query parameter was not supplied, so we select the first sim screen.
-    initialScreen = selectedSimScreens[ 0 ];
-  }
-  else {
-
-    // If the home screen is not supplied, then the first sim screen is at index 0, so subtract 1 from the query parameter.
-    initialScreen = allSimScreens[ initialScreenIndex - 1 ];
-  }
+  // Initial screen is 1-indexed, but taken from the 0-index list of allSimScreens. If the initial screen index is 0, then we need to consider if there is a
+  // home screen to show (which "screens" already does for us).
+  let initialScreen = initialScreenIndex === 0 ? screens[ 0 ]
+                                               : allSimScreens[ initialScreenIndex - 1 ];
 
   if ( !screens.includes( initialScreen ) ) {
-    throw new Error( `screen not found: ${initialScreenIndex}` );
+    const errorMessage = `invalid initial screen: ${initialScreenIndex}`;
+    QueryStringMachine.addWarning( 'initialScreen', initialScreenIndex, errorMessage );
+    assert && assert( false, errorMessage );
+    initialScreen = screens[ 0 ];
   }
 
   // {boolean} indicates whether all possible screens have been created (order-independent)
