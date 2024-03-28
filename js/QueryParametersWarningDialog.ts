@@ -13,6 +13,7 @@ import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import { Text } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
+import Tandem from '../../tandem/js/Tandem.js';
 
 type SelfOptions = EmptySelfOptions;
 export type QueryParametersWarningDialogOptions = SelfOptions & OopsDialogOptions;
@@ -38,8 +39,9 @@ class QueryParametersWarningDialog extends OopsDialog {
       },
       title: new Text( JoistStrings.queryParametersWarningDialog.invalidQueryParametersStringProperty, {
         font: new PhetFont( 28 )
-      } )
+      } ),
 
+      tandem: Tandem.OPT_OUT
     }, providedOptions );
 
     // add warnings to generic message
