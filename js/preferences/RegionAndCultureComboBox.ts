@@ -1,7 +1,7 @@
 // Copyright 2022-2024, University of Colorado Boulder
 
 /**
- * A ComboBox that lets you change a character or portrayal in a simulation to match a particular culture or region.
+ * RegionAndCultureComboBox is the combo box used to set 'Region and Culture' in Preferences > Localization.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
@@ -36,11 +36,6 @@ class RegionAndCultureComboBox extends ComboBox<RegionAndCulture> {
   public constructor( providedOptions?: ComboBoxOptions ) {
 
     const options = optionize<RegionAndCultureComboBoxOptions, SelfOptions, ComboBoxOptions>()( {
-
-      // default yMargin is a bit smaller so that there is less white space around the portrayal icon
-      yMargin: 3,
-
-      // phet-io
       tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
     }, providedOptions );
 
