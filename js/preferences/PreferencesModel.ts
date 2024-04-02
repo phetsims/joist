@@ -24,12 +24,8 @@ import merge from '../../../phet-core/js/merge.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import IOType from '../../../tandem/js/types/IOType.js';
 import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
-import RegionAndCulturePortrayal from './RegionAndCulturePortrayal.js';
 import Multilink from '../../../axon/js/Multilink.js';
-import packageJSON from '../packageJSON.js';
 import { supportedRegionAndCultureValues } from '../i18n/regionAndCultureProperty.js';
-
-const simFeatures = packageJSON?.phet?.simFeatures || {};
 
 type ModelPropertyLinkable = {
   property: TReadOnlyProperty<unknown> & PhetioObject;
@@ -89,13 +85,6 @@ type LocalizationPreferencesOptions = {
   // Whether to include a UI component that changes the sim language. Default for this in phetFeatures is true. But it
   // is still only available when localeProperty indicates that more than one locale is available.
   supportsDynamicLocale?: boolean;
-
-  // Describes the available artwork that can be used for different regions and cultures. If any sets are
-  // provided, the Localization tab will include a UI component to swap out pieces of artwork to match the selected
-  // region and culture. Portrayals contains information for the UI component to describe each choice.
-  // TODO: remove this once we have removed portrayals from sims, see https://github.com/phetsims/joist/issues/953
-  // @deprecated See https://github.com/phetsims/joist/issues/953
-  portrayals?: RegionAndCulturePortrayal[];
 
   // Whether to include the default LocalePanel for selecting locale. This was added to allow sims like
   // Number Play and Number Compare to substitute their own custom controls.
@@ -181,11 +170,6 @@ export type InputModel = BaseModelType & {
 } & Required<InputPreferencesOptions>;
 
 export type LocalizationModel = BaseModelType & {
-
-  // The selected character artwork to use when the sim supports culture and region switching.
-  // TODO: replace this with regionAndCultureProperty, see https://github.com/phetsims/joist/issues/953
-  regionAndCulturePortrayalProperty?: Property<RegionAndCulturePortrayal>;
-
   localeProperty: Property<Locale>;
 } & Required<LocalizationPreferencesOptions>;
 
@@ -245,7 +229,6 @@ export default class PreferencesModel extends PhetioObject {
       localizationOptions: optionize<LocalizationPreferencesOptions, LocalizationPreferencesOptions, BaseModelType>()( {
         tandemName: 'localizationModel',
         supportsDynamicLocale: !!localeProperty.validValues && localeProperty.validValues.length > 1 && phet.chipper.queryParameters.supportsDynamicLocale,
-        portrayals: [],
         customPreferences: [],
         includeLocalePanel: true
       }, providedOptions.localizationOptions )
@@ -318,33 +301,6 @@ export default class PreferencesModel extends PhetioObject {
     this.localizationModel = merge( {
       localeProperty: localeProperty
     }, options.localizationOptions );
-
-    // TODO: remove/clean up this when we delete portrayals, see https://github.com/phetsims/joist/issues/953
-    const portrayals = options.localizationOptions.portrayals;
-    if ( portrayals.length > 0 ) {
-
-      if ( assert ) {
-        const providedPortrayalIDs = portrayals.map( portrayal => portrayal.regionAndCulture );
-        const supportedRegionsAndCultures = simFeatures.supportedRegionsAndCultures;
-        assert && assert( _.every( providedPortrayalIDs, provided => supportedRegionsAndCultures.includes( provided ) ),
-          'Every provided RegionAndCulturePortrayal must be in the supportedRegionsAndCulture from package.json. Supported:', supportedRegionsAndCultures, 'Provided', providedPortrayalIDs );
-        assert && assert( _.every( supportedRegionsAndCultures, supported => providedPortrayalIDs.includes( supported ) ),
-          'Every supported RegionAndCulture must be in the provided portrayals in preferences. Supported:', supportedRegionsAndCultures, 'Provided', providedPortrayalIDs );
-        assert && assert( supportedRegionsAndCultures.length === providedPortrayalIDs.length,
-          'number of supported regions and cultures should match the number of portrayals provided. Supported:', supportedRegionsAndCultures, 'Provided', providedPortrayalIDs );
-        assert && assert( _.uniq( supportedRegionsAndCultures ).length === _.uniq( providedPortrayalIDs ).length,
-          'No duplicates allowed in supported or provided regionAndCulture ids. Supported:', supportedRegionsAndCultures, 'Provided', providedPortrayalIDs );
-      }
-
-      // default is the first set
-      let defaultSet = portrayals[ 0 ];
-      const regionAndCultureQueryParameter = phetFeaturesFromQueryParameters.regionAndCulture;
-      if ( regionAndCultureQueryParameter ) {
-        defaultSet = portrayals.find( set => set.regionAndCulture === regionAndCultureQueryParameter )!;
-        this.localizationModel.regionAndCulturePortrayalProperty = RegionAndCulturePortrayal.createRegionAndCulturePortrayalProperty( defaultSet, portrayals );
-      }
-    }
-
 
     if ( this.audioModel.supportsExtraSound ) {
       assert && assert( this.audioModel.supportsSound, 'supportsSound must be true to also support extraSound' );
