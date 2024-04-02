@@ -11,11 +11,11 @@ import joist from '../joist.js';
 import { Text } from '../../../scenery/js/imports.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import regionAndCultureProperty, { RegionAndCulture, supportedRegionAndCultureValues } from '../i18n/regionAndCultureProperty.js';
 import LocalizedStringProperty from '../../../chipper/js/LocalizedStringProperty.js';
 import JoistStrings from '../JoistStrings.js';
+import PickOptional from '../../../phet-core/js/types/PickOptional.js';
 
 // Maps a RegionAndCulture value to a StringProperty.
 const STRING_PROPERTY_MAP: Record<RegionAndCulture, LocalizedStringProperty> = {
@@ -29,14 +29,16 @@ const STRING_PROPERTY_MAP: Record<RegionAndCulture, LocalizedStringProperty> = {
 };
 
 type SelfOptions = EmptySelfOptions;
-type RegionAndCultureComboBoxOptions = SelfOptions & StrictOmit<ComboBoxOptions, 'tandem'>;
+type RegionAndCultureComboBoxOptions = SelfOptions & PickOptional<ComboBoxOptions, 'tandem'>;
 
 class RegionAndCultureComboBox extends ComboBox<RegionAndCulture> {
 
-  public constructor( providedOptions?: ComboBoxOptions ) {
+  public constructor( providedOptions?: RegionAndCultureComboBoxOptions ) {
 
     const options = optionize<RegionAndCultureComboBoxOptions, SelfOptions, ComboBoxOptions>()( {
-      tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
+
+      // For now, do not instrument Preferences elements, see https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
+      tandem: Tandem.OPT_OUT
     }, providedOptions );
 
     // Sort the region and culture choices. We are sorting on RegionAndCulture tokens, rather than translated strings,
