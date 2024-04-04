@@ -102,6 +102,12 @@ type SelfOptions = {
 
   // Passed to SimDisplay, but a top level option for API ease.
   webgl?: boolean;
+
+  // When false (default), all ScreenViews will be children (but only one will be visible). When true, only the selected
+  // ScreenView will be a child. This is useful for performance reasons, e.g. when using WebGL or wish to reduce memory
+  // costs. Setting this to true MAY increase the amount of time needed to switch screens.
+  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/153
+  detachInactiveScreenViews?: boolean;
 };
 
 export type SimOptions = SelfOptions & PickOptional<PhetioObjectOptions, 'phetioDesigned'>;
@@ -244,6 +250,9 @@ export default class Sim extends PhetioObject {
   private readonly updateBackground: () => void;
   public readonly credits: CreditsData;
 
+  // Stored option to control whether screen views are removed when not active
+  private readonly detachInactiveScreenViews: boolean;
+
   /**
    * @param simNameProperty - the name of the simulation, to be displayed in the navbar and homescreen
    * @param allSimScreens - the possible screens for the sim in order of declaration (does not include the home screen)
@@ -269,6 +278,7 @@ export default class Sim extends PhetioObject {
 
       // Passed to SimDisplay, but a top level option for API ease.
       webgl: SimDisplay.DEFAULT_WEBGL,
+      detachInactiveScreenViews: false,
 
       // phet-io
       phetioState: false,
@@ -291,6 +301,7 @@ export default class Sim extends PhetioObject {
     super( options );
 
     this.credits = options.credits;
+    this.detachInactiveScreenViews = options.detachInactiveScreenViews;
 
     this.simNameProperty = simNameProperty;
 
@@ -720,7 +731,9 @@ export default class Sim extends PhetioObject {
 
     _.each( screens, screen => {
       screen.view.layerSplit = true;
-      this.display.simulationRoot.addChild( screen.view );
+      if ( !this.detachInactiveScreenViews ) {
+        this.display.simulationRoot.addChild( screen.view );
+      }
     } );
     this.display.simulationRoot.addChild( this.navigationBar );
 
@@ -745,9 +758,17 @@ export default class Sim extends PhetioObject {
         // screen.isActiveProperty should change only while the screen is invisible, https://github.com/phetsims/joist/issues/418
         if ( visible ) {
           screen.activeProperty.set( visible );
+
+          if ( this.detachInactiveScreenViews && !this.display.simulationRoot.hasChild( screen.view ) ) {
+            this.display.simulationRoot.insertChild( 0, screen.view );
+          }
         }
         screen.view.setVisible( visible );
         if ( !visible ) {
+          if ( this.detachInactiveScreenViews && this.display.simulationRoot.hasChild( screen.view ) ) {
+            this.display.simulationRoot.removeChild( screen.view );
+          }
+
           screen.activeProperty.set( visible );
         }
       } );
