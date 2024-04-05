@@ -99,7 +99,7 @@ export default class KeyboardHelpDialog extends Dialog {
     // When the screen changes, swap out keyboard help content to the selected screen's content
     Multilink.multilink( [ screenProperty, this.isShowingProperty ], ( screen, isShowing ) => {
       assert && assert( screens.includes( screen ), 'double check that this is an expected screen' );
-      const currentContentNode = screenContentNodes[ screens.indexOf( screen ) ]!;
+      const currentContentNode = screenContentNodes[ screens.indexOf( screen ) ];
       if ( isShowing ) {
         assert && assert( currentContentNode, 'a displayed KeyboardHelpButton for a screen should have content' );
         content.children = [ currentContentNode ];

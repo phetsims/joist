@@ -2032,7 +2032,7 @@ const visualHitTest = ( node: Node, point: Vector2 ): Trail | null => {
       if ( isPaintNonTransparent( node.fill ) && node.getShape()!.containsPoint( localPoint ) ) {
         return new Trail( node );
       }
-      if ( isPaintNonTransparent( node.stroke ) && node.getStrokedShape()!.containsPoint( localPoint ) ) {
+      if ( isPaintNonTransparent( node.stroke ) && node.getStrokedShape().containsPoint( localPoint ) ) {
         return new Trail( node );
       }
     }
