@@ -1,8 +1,8 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * Like regionAndCultureProperty, but excludes the "multi" option, since it doesn't represent a concrete region and culture.
- * "multi" means to randomly select one of the other choices that is supported by the sim.
+ * Like regionAndCultureProperty, but excludes the "random" option, since it doesn't represent a concrete region and culture.
+ * "random" means to randomly select one of the other choices that is supported by the sim.
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  * @author Chris Malley (PixelZoom, Inc.)
