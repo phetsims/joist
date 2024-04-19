@@ -52,7 +52,10 @@ export type ScreenViewOptions = SelfOptions & NodeOptions;
 
 class ScreenView extends Node {
   public readonly layoutBounds: Bounds2;
-  public readonly visibleBoundsProperty: Property<Bounds2>; // Clients should not set this value
+
+  // The visible bounds of the ScreenView in ScreenView coordinates.  This includes top/bottom or left/right margins
+  // depending on the aspect ratio of the screen. Clients should not set this value
+  public readonly visibleBoundsProperty: Property<Bounds2>;
   private readonly pdomTitleNode: Node;
   protected readonly pdomPlayAreaNode: PlayAreaNode;
   protected readonly pdomControlAreaNode: ControlAreaNode;
@@ -104,9 +107,8 @@ class ScreenView extends Node {
     // the bounds the confine the layout of the view.
     this.layoutBounds = options.layoutBounds;
 
-    // The visible bounds of the ScreenView in ScreenView coordinates.  This includes top/bottom or left/right margins
-    // depending on the aspect ratio of the screen.
-    // Initialize to defaults, then update as soon as layout() is called, which is before the ScreenView is displayed
+    // Initialized to default layout bounds, then updated as soon as layout() is called, which is before the
+    // ScreenView is displayed.
     this.visibleBoundsProperty = new Property( options.layoutBounds );
 
     // this cannot be a label to this ScreenView, because it needs to be focusable.
