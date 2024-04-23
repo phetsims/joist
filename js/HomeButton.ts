@@ -9,7 +9,7 @@
 import Multilink from '../../axon/js/Multilink.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
-import { Color, HighlightPath, Node, Path, Rectangle } from '../../scenery/js/imports.js';
+import { Color, Node, Path, Rectangle } from '../../scenery/js/imports.js';
 import homeSolidShape from '../../sherpa/js/fontawesome-5/homeSolidShape.js';
 import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';
 import Utterance from '../../utterance-queue/js/Utterance.js';
@@ -81,8 +81,7 @@ export default class HomeButton extends JoistButton {
 
     // pdom - Pass a shape to the focusHighlight to prevent dilation, then tweak the bottom up just a hair so it
     // isn't off the screen.
-    const highlightLineWidth = HighlightPath.getOuterLineWidthFromNode( this );
-    this.focusHighlight = Shape.bounds( this.bounds.setMaxY( this.bounds.maxY - highlightLineWidth / 2 ) );
+    this.focusHighlight = Shape.bounds( this.bounds.setMaxY( this.bounds.maxY - 2 ) );
 
     Multilink.multilink( [ this.interactionStateProperty, navigationBarFillProperty ],
       ( interactionState, navigationBarFill ) => {

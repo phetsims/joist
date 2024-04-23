@@ -30,7 +30,7 @@ import platform from '../../phet-core/js/platform.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import BarrierRectangle from '../../scenery-phet/js/BarrierRectangle.js';
-import { animatedPanZoomSingleton, Color, globalKeyStateTracker, Node, Utils, voicingManager, voicingUtteranceQueue } from '../../scenery/js/imports.js';
+import { animatedPanZoomSingleton, Color, globalKeyStateTracker, HighlightPath, Node, Utils, voicingManager, voicingUtteranceQueue } from '../../scenery/js/imports.js';
 import '../../sherpa/lib/game-up-camera-1.0.0.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import PhetioAction from '../../tandem/js/PhetioAction.js';
@@ -377,6 +377,10 @@ export default class Sim extends PhetioObject {
 
       // constrain the simulation pan bounds so that it cannot be moved off screen
       animatedPanZoomSingleton.listener.setPanBounds( this.boundsProperty.value );
+
+      // Set a corrective scaling for all HighlightPaths, so that focus highlight line widths
+      // scale and look the same in view coordinates for all layout scales.
+      HighlightPath.layoutScale = scale;
     }, {
       tandem: Tandem.GENERAL_MODEL.createTandem( 'resizeAction' ),
       parameters: [
