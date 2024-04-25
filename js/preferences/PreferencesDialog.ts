@@ -13,7 +13,7 @@ import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { HSeparator, KeyboardListener, Text, VBox } from '../../../scenery/js/imports.js';
+import { FocusManager, HSeparator, KeyboardListener, Text, VBox } from '../../../scenery/js/imports.js';
 import Dialog, { DialogOptions } from '../../../sun/js/Dialog.js';
 import soundManager from '../../../tambo/js/soundManager.js';
 import joist from '../joist.js';
@@ -23,6 +23,7 @@ import PreferencesPanels from './PreferencesPanels.js';
 import PreferencesTabs from './PreferencesTabs.js';
 import PreferencesTabSwitchSoundGenerator from './PreferencesTabSwitchSoundGenerator.js';
 import PreferencesType from './PreferencesType.js';
+import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 
 // constants
 const TITLE_FONT = new PhetFont( { size: 24, weight: 'bold' } );
@@ -135,17 +136,28 @@ class PreferencesDialog extends Dialog {
     // pdom - When the "down" arrow is pressed on the group of tabs, move focus to the selected panel
     preferencesTabs.addInputListener( new KeyboardListener( {
       keys: [ 'arrowDown' ],
-      callback: () => {
+      fire: () => {
         this.focusSelectedPanel();
       }
     } ) );
     content.addInputListener( new KeyboardListener( {
       keys: [ 'arrowUp' ],
-      callback: event => {
-        if ( event && this.preferencesPanels.isFocusableSelectedContent( event.target ) ) {
-          this.focusSelectedTab();
-        }
-      }
+      fire: event => {
+        this.focusSelectedTab();
+      },
+
+      // This listener is only enabled when the focus is on the panel itself, not its children. Panel contents
+      // will often use arrow keys themselves, so this prevents an overlap.
+      enabledProperty: new DerivedProperty( [ FocusManager.pdomFocusProperty ], () => {
+        const pdomFocusedNode = FocusManager.getPDOMFocusedNode();
+        return !!pdomFocusedNode && this.preferencesPanels.isFocusableSelectedContent( pdomFocusedNode );
+      }, {
+
+        // The derivation uses methods on PreferencesPanels that use Properties in their implementation and so
+        // there is an assertion that they are not in the derivation. We do not need to recompute enabledProperty
+        // when those internal Properties change, tracking focus is enough.
+        strictAxonDependencies: false
+      } )
     } ) );
   }
 

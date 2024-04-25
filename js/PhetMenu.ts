@@ -274,19 +274,14 @@ class PhetMenu extends Popupable( Node, 0 ) {
     // pdom - handles navigation of items and closing with escape
     const keyboardListener = new KeyboardListener( {
       keys: [ 'escape', 'arrowDown', 'arrowUp', 'tab', 'shift+tab' ],
-      callback: ( event, keysPressed ) => {
+      fire: ( event, keysPressed ) => {
         const firstItem = this.items[ 0 ];
         const lastItem = this.items[ this.items.length - 1 ];
 
-        if ( event && event.domEvent ) {
-          if ( event.domEvent ) {
+        if ( event ) {
 
-            // this attempts to prevent the screen reader's virtual cursor from also moving with the arrow keys
-            event.domEvent.preventDefault();
-          }
-
-          // Do not allow pan/zoom to occur while navigating items.
-          event.pointer.reserveForKeyboardDrag();
+          // this attempts to prevent the screen reader's virtual cursor from also moving with the arrow keys
+          event.preventDefault();
         }
 
         if ( keysPressed === 'arrowDown' ) {
