@@ -9,7 +9,7 @@
 
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import joist from '../joist.js';
-import localeProperty, { Locale } from './localeProperty.js';
+import localeProperty from './localeProperty.js';
 import fallbackLocalesProperty from './fallbackLocalesProperty.js';
 
 const FALLBACK_LOCALE = 'en';
@@ -19,23 +19,24 @@ const localeOrderProperty = new DerivedProperty( [ localeProperty, fallbackLocal
 
   const localeOrder = [ locale ];
 
-  // Attempt to fill in a language reduction for the selected locale, e.g. 'zh_CN' => 'zh'
-  const shortLocale = locale.slice( 0, 2 ) as Locale;
-  if ( locale !== shortLocale && !localeOrder.includes( shortLocale ) ) {
-    localeOrder.push( shortLocale );
-  }
+  // Duplicates will be filtered out below
+  const potentialFallbackLocales = [
+    // custom fallback locales (e.g. from phet-io)
+    ...fallbackLocales,
 
-  // Add custom fallback locales if not already in the order
-  for ( let i = 0; i < fallbackLocales.length; i++ ) {
-    const fallbackLocale = fallbackLocales[ i ];
+    // standard fallback locales (defined by localeData)
+    ...phet.chipper.localeData[ locale ].fallbackLocales || [],
+
+    // always fall back to 'en'
+    FALLBACK_LOCALE
+  ];
+
+  // Add custom fallback locales (e.g. phet-io) if not already in the order
+  for ( let i = 0; i < potentialFallbackLocales.length; i++ ) {
+    const fallbackLocale = potentialFallbackLocales[ i ];
     if ( !localeOrder.includes( fallbackLocale ) ) {
       localeOrder.push( fallbackLocale );
     }
-  }
-
-  // Guaranteed fallback locale at the very end (if not already included)
-  if ( !localeOrder.includes( FALLBACK_LOCALE ) ) {
-    localeOrder.push( FALLBACK_LOCALE );
   }
 
   const fallbackIndex = localeOrder.indexOf( FALLBACK_LOCALE );

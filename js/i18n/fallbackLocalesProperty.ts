@@ -8,7 +8,6 @@
  */
 
 import Property from '../../../axon/js/Property.js';
-import localeInfoModule from '../../../chipper/js/data/localeInfoModule.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../tandem/js/types/ArrayIO.js';
 import StringIO from '../../../tandem/js/types/StringIO.js';
@@ -22,7 +21,7 @@ const fallbackLocalesProperty = new Property<Locale[]>( [], {
                        'guaranteed full coverage of all translated keys.',
   phetioFeatured: true,
   isValidValue: locales => {
-    return _.every( locales, locale => !!localeInfoModule[ locale ] );
+    return _.every( locales, locale => !!phet.chipper.localeData[ locale ] );
   },
   phetioValueType: ArrayIO( StringIO )
 } );
