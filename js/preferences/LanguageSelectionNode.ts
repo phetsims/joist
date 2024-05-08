@@ -1,4 +1,4 @@
-// Copyright 2022-2023, University of Colorado Boulder
+// Copyright 2022-2024, University of Colorado Boulder
 
 /**
  * Class for items of a LocalePanel. Locales shown in their localized name wrapped in a Rectangle for highlighting
