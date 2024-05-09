@@ -10,19 +10,15 @@
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import joist from '../joist.js';
 import localeProperty from './localeProperty.js';
-import fallbackLocalesProperty from './fallbackLocalesProperty.js';
 
 const FALLBACK_LOCALE = 'en';
 
-const localeOrderProperty = new DerivedProperty( [ localeProperty, fallbackLocalesProperty ],
-  ( locale, fallbackLocales ) => {
+const localeOrderProperty = new DerivedProperty( [ localeProperty ], locale => {
 
   const localeOrder = [ locale ];
 
   // Duplicates will be filtered out below
   const potentialFallbackLocales = [
-    // custom fallback locales (e.g. from phet-io)
-    ...fallbackLocales,
 
     // standard fallback locales (defined by localeData)
     ...phet.chipper.localeData[ locale ].fallbackLocales || [],
