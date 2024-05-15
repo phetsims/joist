@@ -15,11 +15,22 @@ import Panel from '../../../sun/js/Panel.js';
 import { GridBox } from '../../../scenery/js/imports.js';
 import Property from '../../../axon/js/Property.js';
 import LanguageSelectionNode from './LanguageSelectionNode.js';
+import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 
 class LocalePanel extends Panel {
   private readonly disposeLocalePanel: () => void;
 
   public constructor( localeProperty: Property<string> ) {
+
+    const locales = localeProperty.validValues!;
+
+    // Sort these properly by their localized name (without using _.sortBy, since string comparison does not provide
+    // a good sorting experience). See https://github.com/phetsims/joist/issues/965
+    const sortedLocalizedNameLocales = locales.slice().sort( ( a, b ) => {
+      const lowerCaseA = StringUtils.localeToLocalizedName( a ).toLowerCase();
+      const lowerCaseB = StringUtils.localeToLocalizedName( b ).toLowerCase();
+      return lowerCaseA.localeCompare( lowerCaseB, 'en-US', { sensitivity: 'base' } );
+    } );
 
     // All available locales aligned into a grid
     const content = new GridBox( {
@@ -33,7 +44,7 @@ class LocalePanel extends Panel {
 
       // We don't want the GridBox to resize as selection highlights update with input
       resize: false,
-      children: localeProperty.validValues!.map( locale => {
+      children: sortedLocalizedNameLocales.map( locale => {
 
         // @ts-ignore - "Element implicitly has any type" because string cannot be used to access a type
         return new LanguageSelectionNode( localeProperty, locale );
