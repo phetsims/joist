@@ -7,33 +7,35 @@
  */
 
 import StringProperty from '../../../axon/js/StringProperty.js';
-import localeInfoModule from '../../../chipper/js/data/localeInfoModule.js';
+import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import { globalKeyStateTracker, KeyboardUtils } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 
 const FALLBACK_LOCALE = 'en';
 
-const locales = Object.keys( phet.chipper.strings ).sort();
+export type Locale = string;
+
+// All available locales for the runtime
+export const availableRuntimeLocales = _.sortBy( Object.keys( phet.chipper.strings ), locale => {
+  return StringUtils.localeToLocalizedName( locale ).toLowerCase();
+} );
 
 // Start only with a valid locale, see https://github.com/phetsims/phet-io/issues/1882
 const isLocaleValid = ( locale?: string ) => {
   return locale && localeInfoModule[ locale as keyof typeof localeInfoModule ];
 };
 
-// We might use a partial locale (e.g. 'en' instead of 'en_US'), so grab this if it exists. It might be the same as
-// phet.chipper.locale (that's OK).
-const partialLocale = typeof phet.chipper.locale === 'string' ? phet.chipper.locale.slice( 0, 2 ) : undefined;
-
 // Get the "most" valid locale, see https://github.com/phetsims/phet-io/issues/1882
-// 'ar_SA' would try 'ar_SA', 'ar', and 'en' (result: ar_SA)
-// 'ar_QP' would try 'ar_QP', 'ar', and 'en' (result: ar)
-// 'zx_ZX' would try 'zx_ZX', 'zx', and 'en' (result: en)
+// As part of https://github.com/phetsims/joist/issues/963, this as changed. We check a specific fallback order based
+// on the locale. In general, it will usually try a prefix for xx_XX style locales, e.g. 'ar_SA' would try 'ar_SA', 'ar', 'en'
 // NOTE: If the locale doesn't actually have any strings: THAT IS OK! Our string system will use the appropriate
 // fallback strings.
-const validInitialLocale = isLocaleValid( phet.chipper.locale ) ? phet.chipper.locale :
-                           isLocaleValid( partialLocale ) ? partialLocale :
-                           FALLBACK_LOCALE;
+const validInitialLocale = [
+  phet.chipper.locale,
+  ...( phet.chipper.localeData[ phet.chipper.locale ]?.fallbackLocales ?? [] ),
+  FALLBACK_LOCALE
+].find( isLocaleValid );
 
 // Just in case we had an invalid locale, remap phet.chipper.locale to the "corrected" value
 phet.chipper.locale = validInitialLocale;
