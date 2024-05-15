@@ -17,7 +17,6 @@ import { Locale } from '../i18n/localeProperty.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import pushButtonSoundPlayer from '../../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
 import JoistStrings from '../JoistStrings.js';
-import localeInfoModule from '../../../chipper/js/data/localeInfoModule.js';
 
 export default class LanguageSelectionNode extends Rectangle {
 
@@ -35,9 +34,9 @@ export default class LanguageSelectionNode extends Rectangle {
 
     // The english name of the locale is reported for accessibility because PDOM strings are not translatable.
     // If you use the localized name, it might change the screen reader voice.
-    const localeInfo = localeInfoModule[ locale ];
-    assert && assert( localeInfo, `No localeInfo for ${locale}` );
-    const englishLocaleString = localeInfo.name;
+    const localeData = phet.chipper.localeData[ locale ];
+    assert && assert( localeData, `No localeData for ${locale}` );
+    const englishLocaleString = localeData.englishName;
 
     const text = new Text( string, {
       font: PreferencesDialog.CONTENT_FONT
