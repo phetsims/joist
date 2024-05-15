@@ -9,7 +9,6 @@
 
 import joist from '../joist.js';
 import { FireListener, HighlightOverlay, Rectangle, Text } from '../../../scenery/js/imports.js';
-import localeInfoModule from '../../../chipper/js/data/localeInfoModule.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
@@ -20,7 +19,7 @@ export default class LanguageSelectionNode extends Rectangle {
   private readonly disposeLanguageSelectionNode: () => void;
 
   public constructor( localeProperty: Property<Locale>, locale: Locale ) {
-    const text = new Text( localeInfoModule[ locale ].localizedName, {
+    const text = new Text( phet.chipper.localeData[ locale ].localizedName, {
       font: PreferencesDialog.CONTENT_FONT
     } );
 
