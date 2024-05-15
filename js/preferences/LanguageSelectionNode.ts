@@ -9,7 +9,6 @@
 
 import joist from '../joist.js';
 import { FireListener, HighlightOverlay, Rectangle, Text } from '../../../scenery/js/imports.js';
-import localeInfoModule from '../../../chipper/js/data/localeInfoModule.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
@@ -21,7 +20,7 @@ export default class LanguageSelectionNode extends Rectangle {
   public constructor( localeProperty: Property<string>, locale: string ) {
 
     // @ts-ignore - "Element implicitly has any type" because string cannot be used to access a type
-    const text = new Text( localeInfoModule[ locale ].localizedName, {
+    const text = new Text( phet.chipper.localeData[ locale ].localizedName, {
       font: PreferencesDialog.CONTENT_FONT
     } );
 
