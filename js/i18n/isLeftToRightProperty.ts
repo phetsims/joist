@@ -8,12 +8,11 @@
  */
 
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
-import localeInfoModule from '../../../chipper/js/data/localeInfoModule.js';
 import joist from '../joist.js';
 import localeProperty from './localeProperty.js';
 
 const isLeftToRightProperty = new DerivedProperty( [ localeProperty ], locale => {
-  return localeInfoModule[ locale ].direction === 'ltr';
+  return phet.chipper.localeData[ locale ].direction === 'ltr';
 } );
 
 joist.register( 'isLeftToRightProperty', isLeftToRightProperty );
