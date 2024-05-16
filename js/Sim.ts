@@ -72,6 +72,7 @@ import ArrayIO from '../../tandem/js/types/ArrayIO.js';
 import { Locale } from './i18n/localeProperty.js';
 import isSettingPhetioStateProperty from '../../tandem/js/isSettingPhetioStateProperty.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
+import dotRandom from '../../dot/js/dotRandom.js';
 
 // constants
 const PROGRESS_BAR_WIDTH = 273;
@@ -1101,6 +1102,16 @@ export default class Sim extends PhetioObject {
         }
       } );
     }
+  }
+
+  /**
+   * Get helpful information for replicating the bug when an assertion occurs.
+   */
+  public getAssertionDebugInfo(): object {
+    return {
+      seed: dotRandom.getSeed(),
+      currentScreenName: this.selectedScreenProperty?.value?.constructor.name
+    };
   }
 }
 
