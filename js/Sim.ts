@@ -64,6 +64,7 @@ import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import { CreditsData } from './CreditsNode.js';
 import { PopupableNode } from '../../sun/js/Popupable.js';
 import PickOptional from '../../phet-core/js/types/PickOptional.js';
+import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import Multilink from '../../axon/js/Multilink.js';
 import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import Combination from '../../dot/js/Combination.js';
@@ -1108,10 +1109,14 @@ export default class Sim extends PhetioObject {
    * Get helpful information for replicating the bug when an assertion occurs.
    */
   public getAssertionDebugInfo(): object {
-    return {
+    const info: Record<string, IntentionalAny> = {
       seed: dotRandom.getSeed(),
       currentScreenName: this.selectedScreenProperty?.value?.constructor.name
     };
+    if ( this.topLayer.children.length > 1 ) {
+      info.simTopLayer = this.topLayer.children.map( x => `${x.constructor.name}${x.constructor.name.includes( 'Parent' ) ? `: ${x.children.map( x => x.constructor.name )}` : ''}` );
+    }
+    return info;
   }
 }
 
