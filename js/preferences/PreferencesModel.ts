@@ -281,7 +281,8 @@ export default class PreferencesModel extends PhetioObject {
       voiceRateProperty: voicingManager.voiceRateProperty,
       voiceProperty: voicingManager.voiceProperty,
 
-      toolbarEnabledProperty: new BooleanProperty( true, {
+      // The toolbar is enabled by default, but can be initially disabled with a query parameter.
+      toolbarEnabledProperty: new BooleanProperty( !phet.chipper.queryParameters.voicingRemoveVoicingToolbar, {
         tandem: options.tandem.createTandem( AUDIO_MODEL_TANDEM ).createTandem( 'toolbarEnabledProperty' ),
         phetioState: false
       } ),
@@ -358,11 +359,8 @@ export default class PreferencesModel extends PhetioObject {
         !enabled && voicingUtteranceQueue.clear();
       } );
 
-      // If initially enabled, then apply all responses on startup, can (and should) be overwritten by PreferencesStorage.
+      // If initially enabled, apply a prioritized default voice.
       if ( phet.chipper.queryParameters.voicingInitiallyEnabled ) {
-        responseCollector.objectResponsesEnabledProperty.value = true;
-        responseCollector.contextResponsesEnabledProperty.value = true;
-        responseCollector.hintResponsesEnabledProperty.value = true;
 
         // Set the first voice according to PhET's preferred english voices
         const voicesMultilink = Multilink.multilink(
@@ -375,6 +373,12 @@ export default class PreferencesModel extends PhetioObject {
           }
         );
       }
+
+      // Feature specific query parameters set the initial state of the voicing features. These can (and should) be
+      // overwritten by PreferencesStorage.
+      responseCollector.objectResponsesEnabledProperty.value = !!phet.chipper.queryParameters.voicingAddObjectResponses;
+      responseCollector.contextResponsesEnabledProperty.value = !!phet.chipper.queryParameters.voicingAddContextResponses;
+      responseCollector.hintResponsesEnabledProperty.value = !!phet.chipper.queryParameters.voicingAddHintResponses;
     }
 
     if ( phet.chipper.queryParameters.printVoicingResponses ) {

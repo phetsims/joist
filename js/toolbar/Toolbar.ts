@@ -113,7 +113,8 @@ class Toolbar extends Node {
       fill: lookAndFeel.navigationBarFillProperty
     } );
 
-    this.openProperty = new BooleanProperty( true );
+    // The Voicing toolbar is initially open unless explicitly collapsed because of a query parameter.
+    this.openProperty = new BooleanProperty( !phet.chipper.queryParameters.voicingCollapseVoicingToolbar );
 
     this.isShowingProperty = DerivedProperty.and( [
       this.isEnabledProperty,
