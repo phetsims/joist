@@ -282,7 +282,7 @@ export default class PreferencesModel extends PhetioObject {
       voiceProperty: voicingManager.voiceProperty,
 
       // The toolbar is enabled by default, but can be initially disabled with a query parameter.
-      toolbarEnabledProperty: new BooleanProperty( !phet.chipper.queryParameters.voicingRemoveVoicingToolbar, {
+      toolbarEnabledProperty: new BooleanProperty( !phet.chipper.queryParameters.voicingRemoveToolbar, {
         tandem: options.tandem.createTandem( AUDIO_MODEL_TANDEM ).createTandem( 'toolbarEnabledProperty' ),
         phetioState: false
       } ),
