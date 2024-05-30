@@ -14,6 +14,7 @@ import PreferencesDialog from './PreferencesDialog.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import Property from '../../../axon/js/Property.js';
 import { Locale } from '../i18n/localeProperty.js';
+import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 
 export default class LanguageSelectionNode extends Rectangle {
 
@@ -24,8 +25,8 @@ export default class LanguageSelectionNode extends Rectangle {
 
     // Include the locale code when running with ?dev.
     const string = phet.chipper.queryParameters.dev ?
-                   `${phet.chipper.localeData[ locale ].localizedName} (${locale})` :
-                   phet.chipper.localeData[ locale ].localizedName;
+                   `${StringUtils.localeToLocalizedName( locale )} (${locale})` :
+                   StringUtils.localeToLocalizedName( locale );
 
     const text = new Text( string, {
       font: PreferencesDialog.CONTENT_FONT
