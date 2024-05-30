@@ -14,12 +14,13 @@ import PreferencesDialog from './PreferencesDialog.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import Property from '../../../axon/js/Property.js';
 import { Locale } from '../i18n/localeProperty.js';
+import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 
 export default class LanguageSelectionNode extends Rectangle {
   private readonly disposeLanguageSelectionNode: () => void;
 
   public constructor( localeProperty: Property<Locale>, locale: Locale ) {
-    const text = new Text( phet.chipper.localeData[ locale ].localizedName, {
+    const text = new Text( StringUtils.localeToLocalizedName( locale ), {
       font: PreferencesDialog.CONTENT_FONT
     } );
 
