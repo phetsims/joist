@@ -13,6 +13,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import Property from '../../../axon/js/Property.js';
+import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 
 export default class LanguageSelectionNode extends Rectangle {
   private readonly disposeLanguageSelectionNode: () => void;
@@ -20,7 +21,7 @@ export default class LanguageSelectionNode extends Rectangle {
   public constructor( localeProperty: Property<string>, locale: string ) {
 
     // @ts-ignore - "Element implicitly has any type" because string cannot be used to access a type
-    const text = new Text( phet.chipper.localeData[ locale ].localizedName, {
+    const text = new Text( StringUtils.localeToLocalizedName( locale ), {
       font: PreferencesDialog.CONTENT_FONT
     } );
 
