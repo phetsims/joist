@@ -546,7 +546,7 @@ export default class Sim extends PhetioObject {
       this.simNameProperty,
       this.selectedScreenProperty,
       JoistStrings.simTitleWithScreenNamePatternStringProperty,
-      ...this.screens.map( screen => screen.nameProperty )
+      ..._.uniq( this.screens.map( screen => screen.nameProperty ) ) // To support duplicate screens
 
       // We just need notifications on any of these changing, return args as a unique value to make sure listeners fire.
     ], () => {
