@@ -170,9 +170,16 @@ class ScreenView extends Node {
    * This method should not be called because ScreenView defines child Nodes that organize the PDOM structure of a
    * screen. See this.pdomScreenSummaryNode, this.pdomPlayAreaNode, and this.pdomControlAreaNode and set their accessible
    * order accordingly when adding accessible content to the PDOM for this screen.
+   *
+   * This makes sure that content will be under those Nodes, which are in the same order for all simulations. This
+   * creates a consistent experience for screen reader accessibility.
    */
   public override setPDOMOrder( pdomOrder: Array<Node | null> | null ): void {
-    throw new Error( 'should not need to set accessible order on a ScreenView' );
+    throw new Error( 'Do not set the pdomOrder on ScreenView directly. Order Nodes under the ' +
+                     '`pdomScreenSummaryNode, pdomPlayAreaNode, and pdomControlAreaNode instead. ' +
+                     'This ensures that sims have a consistent heading structure and content is under those ' +
+                     'sections which is important for screen reader accessibility.'
+    );
   }
 
   /**
