@@ -33,7 +33,7 @@ type ModelPropertyLinkable = {
 };
 type CustomPreference = {
 
-  // Content should create a child tandem called 'simPreferences'
+  // Content should NOT create a subtandem for structure, see https://github.com/phetsims/joist/issues/961
   createContent: ( parentTandem: Tandem ) => Node;
 };
 
