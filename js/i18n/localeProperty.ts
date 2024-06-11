@@ -13,53 +13,51 @@ import { globalKeyStateTracker, KeyboardUtils } from '../../../scenery/js/import
 import Tandem from '../../../tandem/js/Tandem.js';
 import StringIO from '../../../tandem/js/types/StringIO.js';
 import joist from '../joist.js';
-
-const FALLBACK_LOCALE = 'en';
+import { ReadOnlyPropertyState } from '../../../axon/js/ReadOnlyProperty.js';
 
 export type Locale = keyof typeof localeInfoModule;
 
+assert && assert( phet.chipper.locale, 'phet.chipper.locale global expected' );
+assert && assert( phet.chipper.localeData, 'phet.chipper.localeData global expected' );
+assert && assert( phet.chipper.strings, 'phet.chipper.strings global expected' );
+
 // All available locales for the runtime
-export const availableRuntimeLocales = _.sortBy( Object.keys( phet.chipper.strings ), locale => {
+const availableRuntimeLocales = _.sortBy( Object.keys( phet.chipper.strings ), locale => {
   return StringUtils.localeToLocalizedName( locale ).toLowerCase();
 } ) as Locale[];
 
-// Start only with a valid locale, see https://github.com/phetsims/phet-io/issues/1882
-const isLocaleValid = ( locale?: Locale ): boolean => {
-  return !!( locale && availableRuntimeLocales.includes( locale ) );
-};
+export class LocaleProperty extends Property<Locale> {
+  public readonly availableRuntimeLocales: Locale[] = availableRuntimeLocales;
 
-// Get the "most" valid locale, see https://github.com/phetsims/phet-io/issues/1882
-// As part of https://github.com/phetsims/joist/issues/963, this as changed. We check a specific fallback order based
-// on the locale. In general, it will usually try a prefix for xx_XX style locales, e.g. 'ar_SA' would try 'ar_SA', 'ar', 'en'
-// NOTE: If the locale doesn't actually have any strings: THAT IS OK! Our string system will use the appropriate
-// fallback strings.
-const validInitialLocale = [
-  phet.chipper.locale,
-  ...( phet.chipper.localeData[ phet.chipper.locale ]?.fallbackLocales ?? [] ),
-  FALLBACK_LOCALE
-].find( isLocaleValid );
-
-// Just in case we had an invalid locale, remap phet.chipper.locale to the "corrected" value
-phet.chipper.locale = validInitialLocale;
-
-class LocaleProperty extends Property<Locale> {
+  // Override to provide grace and support for the full definition of allowed locales (aligned with the query parameter
+  // schema). For example three letter values, and case insensitivity. See checkAndRemapLocale() for details. NOTE that
+  // this will assert if the locale doesn't match the right format.
   protected override unguardedSet( value: Locale ): void {
-    if ( availableRuntimeLocales.includes( value ) ) {
-      super.unguardedSet( value );
-    }
-    else {
-      assert && assert( false, 'Unsupported locale: ' + value );
 
-      // Do not try to set if the value was invalid
-    }
+    // NOTE: updates phet.chipper.locale as a side-effect
+    super.unguardedSet( phet.chipper.checkAndRemapLocale( value, true ) );
+  }
+
+  // This improves the PhET-iO Studio interface, by giving available values, without triggering validation if you want
+  // to use the more general locale schema (three digit/case-insensitive/etc).
+  protected override toStateObject<StateType>(): ReadOnlyPropertyState<StateType> {
+    const parentObject = super.toStateObject<StateType>();
+
+    // Provide via validValues without forcing validation assertions if a different value is set.
+    parentObject.validValues = this.availableRuntimeLocales as StateType[];
+    return parentObject;
+  }
+
+  protected override applyState<StateType>( stateObject: ReadOnlyPropertyState<StateType> ): void {
+    stateObject.validValues = null; // TODO: this should be removed in https://github.com/phetsims/axon/issues/453
+    super.applyState( stateObject );
   }
 }
 
-const localeProperty = new LocaleProperty( validInitialLocale, {
+const localeProperty = new LocaleProperty( phet.chipper.locale, {
   tandem: Tandem.GENERAL_MODEL.createTandem( 'localeProperty' ),
   phetioFeatured: true,
   phetioValueType: StringIO,
-  validValues: availableRuntimeLocales,
   phetioDocumentation: 'Specifies language currently displayed in the simulation'
 } );
 
