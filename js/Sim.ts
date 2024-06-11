@@ -266,6 +266,11 @@ export default class Sim extends PhetioObject {
 
     assert && assert( allSimScreens.length >= 1, 'at least one screen is required' );
 
+    // If an assertion fails while a Sim exists, add some helpful information about the context of the failure
+    window.assertions.assertionHooks.push( () => {
+      console.log( 'Debug info:', JSON.stringify( this.getAssertionDebugInfo(), null, 2 ) );
+    } );
+
     const options = optionize<SimOptions, SelfOptions, PhetioObjectOptions>()( {
 
       credits: {},
