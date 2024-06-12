@@ -20,7 +20,7 @@ import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js'
 import regionAndCultureManager from './regionAndCultureManager.js';
 import SpeechSynthesisAnnouncer from '../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import localeProperty, { Locale } from '../i18n/localeProperty.js';
+import localeProperty, { LocaleProperty } from '../i18n/localeProperty.js';
 import merge from '../../../phet-core/js/merge.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import IOType from '../../../tandem/js/types/IOType.js';
@@ -178,7 +178,7 @@ export type LocalizationModel = BaseModelType & {
   // The selected character artwork to use when the sim supports culture and region switching.
   regionAndCultureProperty: Property<CharacterSet | null>;
 
-  localeProperty: Property<Locale>;
+  localeProperty: LocaleProperty;
 } & Required<LocalizationPreferencesOptions>;
 
 type FeatureModel = SimulationModel | AudioModel | VisualModel | InputModel | LocalizationModel;
@@ -235,7 +235,7 @@ export default class PreferencesModel extends PhetioObject {
       }, providedOptions.inputOptions ),
       localizationOptions: optionize<LocalizationPreferencesOptions, LocalizationPreferencesOptions, BaseModelType>()( {
         tandemName: 'localizationModel',
-        supportsDynamicLocales: !!localeProperty.validValues && localeProperty.validValues.length > 1,
+        supportsDynamicLocales: !!localeProperty.availableRuntimeLocales && localeProperty.availableRuntimeLocales.length > 1,
         characterSets: [],
         customPreferences: []
       }, providedOptions.localizationOptions )
@@ -259,7 +259,7 @@ export default class PreferencesModel extends PhetioObject {
     // is supported if English is available, but not enabled until English becomes the running locale.
     const supportsVoicing = options.audioOptions.supportsVoicing &&
                             SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() &&
-                            _.some( localeProperty.validValues, value => value.startsWith( 'en' ) );
+                            _.some( localeProperty.availableRuntimeLocales, value => value.startsWith( 'en' ) );
 
     // Audio can be disabled explicitly via query parameter
     const audioEnabled = phet.chipper.queryParameters.audio !== 'disabled';
