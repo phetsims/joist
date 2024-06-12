@@ -19,7 +19,7 @@ import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObje
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import SpeechSynthesisAnnouncer from '../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import localeProperty, { Locale } from '../i18n/localeProperty.js';
+import localeProperty, { LocaleProperty } from '../i18n/localeProperty.js';
 import merge from '../../../phet-core/js/merge.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import IOType from '../../../tandem/js/types/IOType.js';
@@ -182,7 +182,7 @@ export type LocalizationModel = BaseModelType & {
   // The selected character artwork to use when the sim supports culture and region switching.
   regionAndCulturePortrayalProperty?: Property<RegionAndCulturePortrayal>;
 
-  localeProperty: Property<Locale>;
+  localeProperty: LocaleProperty;
 } & Required<LocalizationPreferencesOptions>;
 
 type FeatureModel = SimulationModel | AudioModel | VisualModel | InputModel | LocalizationModel;
@@ -240,7 +240,7 @@ export default class PreferencesModel extends PhetioObject {
       }, providedOptions.inputOptions ),
       localizationOptions: optionize<LocalizationPreferencesOptions, LocalizationPreferencesOptions, BaseModelType>()( {
         tandemName: 'localizationModel',
-        supportsDynamicLocale: !!localeProperty.validValues && localeProperty.validValues.length > 1 && phet.chipper.queryParameters.supportsDynamicLocale,
+        supportsDynamicLocale: !!localeProperty.availableRuntimeLocales && localeProperty.availableRuntimeLocales.length > 1 && phet.chipper.queryParameters.supportsDynamicLocale,
         portrayals: [],
         customPreferences: [],
         includeLocalePanel: true
@@ -269,7 +269,7 @@ export default class PreferencesModel extends PhetioObject {
                               // Running with english locale OR an environment where locale switching is supported and
                               // english is one of the available languages.
                               phet.chipper.locale.startsWith( 'en' ) ||
-                              ( phet.chipper.queryParameters.supportsDynamicLocale && _.some( localeProperty.validValues, value => value.startsWith( 'en' ) ) )
+                              ( phet.chipper.queryParameters.supportsDynamicLocale && _.some( localeProperty.availableRuntimeLocales, value => value.startsWith( 'en' ) ) )
                             );
 
     // Audio can be disabled explicitly via query parameter
