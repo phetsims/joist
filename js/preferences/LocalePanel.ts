@@ -13,16 +13,16 @@
 import joist from '../joist.js';
 import Panel from '../../../sun/js/Panel.js';
 import { GridBox } from '../../../scenery/js/imports.js';
-import Property from '../../../axon/js/Property.js';
 import LanguageSelectionNode from './LanguageSelectionNode.js';
+import { LocaleProperty } from '../i18n/localeProperty.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 
 class LocalePanel extends Panel {
   private readonly disposeLocalePanel: () => void;
 
-  public constructor( localeProperty: Property<string> ) {
+  public constructor( localeProperty: LocaleProperty ) {
 
-    const locales = localeProperty.validValues!;
+    const locales = localeProperty.availableRuntimeLocales;
 
     // Sort these properly by their localized name (without using _.sortBy, since string comparison does not provide
     // a good sorting experience). See https://github.com/phetsims/joist/issues/965
