@@ -7,7 +7,6 @@
  */
 
 import Property from '../../../axon/js/Property.js';
-import localeInfoModule from '../../../chipper/js/data/localeInfoModule.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import { globalKeyStateTracker, KeyboardUtils } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -15,7 +14,11 @@ import StringIO from '../../../tandem/js/types/StringIO.js';
 import joist from '../joist.js';
 import { ReadOnlyPropertyState } from '../../../axon/js/ReadOnlyProperty.js';
 
-export type Locale = keyof typeof localeInfoModule;
+// Hard coding a few locales here is better than relying on a generated output of the "ground truth" localeData in babel,
+// which could change at any time and cause a type error here (either on main or worse, in release branches). Also we
+// could reach the TypeScript maximum for number of string union entries, (see https://github.com/microsoft/TypeScript/issues/41160#issuecomment-1287271132).
+// Feel free to add any locale here as needed for the type.
+export type Locale = 'en' | 'de' | 'ot' | 'zh_CN' | 'zh_HK' | 'tl';
 
 assert && assert( phet.chipper.locale, 'phet.chipper.locale global expected' );
 assert && assert( phet.chipper.localeData, 'phet.chipper.localeData global expected' );
