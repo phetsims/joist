@@ -60,26 +60,6 @@ const remapLocale = ( locale: string ) => {
   const tripleRegex = /^[a-zA-Z]{3}$/;
   const doublePairRegex = /^[a-zA-Z]{2}[_-][a-zA-Z]{2}$/;
 
-  // Sanity checks for verifying localeData (so hopefully we don't commit bad data to localeData).
-  if ( assert ) {
-    for ( const locale of Object.keys( phet.chipper.localeData ) ) {
-      // Check the locale itself
-      assert( pairRegex.test( locale ) || doublePairRegex.test( locale ), `Invalid locale format: ${locale}` );
-
-      // Check locale3 (if it exists)
-      if ( phet.chipper.localeData[ locale ].locale3 ) {
-        assert( tripleRegex.test( phet.chipper.localeData[ locale ].locale3 ), `Invalid locale3 format: ${phet.chipper.localeData[ locale ].locale3}` );
-      }
-
-      // Check fallbackLocales (if it exists)
-      if ( phet.chipper.localeData[ locale ].fallbackLocales ) {
-        for ( const fallbackLocale of phet.chipper.localeData[ locale ].fallbackLocales ) {
-          assert( phet.chipper.localeData[ fallbackLocale ] );
-        }
-      }
-    }
-  }
-
   if ( !phet.chipper.localeData[ locale ] ) {
     const badLocale = inputValueLocale;
 
