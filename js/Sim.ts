@@ -1115,9 +1115,6 @@ export default class Sim extends PhetioObject {
    */
   public getAssertionDebugInfo(): object {
 
-    // An assert could happen from any spot, including during the derivation of a DerivedProperty, opt out of this check here. https://github.com/phetsims/aqua/issues/212
-    phet.chipper.queryParameters.strictAxonDependencies = false;
-
     const info: Record<string, IntentionalAny> = {
       seed: dotRandom.getSeed(),
       currentScreenName: this.selectedScreenProperty?.value?.constructor.name

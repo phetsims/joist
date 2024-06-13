@@ -35,9 +35,7 @@ export const concreteRegionAndCultureProperty: TReadOnlyProperty<ConcreteRegionA
   previousConcreteRegionAndCulture = concreteRegionAndCulture;
 
   return concreteRegionAndCulture;
-} ), {
-  strictAxonDependencies: false
-} );
+} ) );
 
 joist.register( 'concreteRegionAndCultureProperty', concreteRegionAndCultureProperty );
 

@@ -151,12 +151,6 @@ class PreferencesDialog extends Dialog {
       enabledProperty: new DerivedProperty( [ FocusManager.pdomFocusProperty ], () => {
         const pdomFocusedNode = FocusManager.getPDOMFocusedNode();
         return !!pdomFocusedNode && this.preferencesPanels.isFocusableSelectedContent( pdomFocusedNode );
-      }, {
-
-        // The derivation uses methods on PreferencesPanels that use Properties in their implementation and so
-        // there is an assertion that they are not in the derivation. We do not need to recompute enabledProperty
-        // when those internal Properties change, tracking focus is enough.
-        strictAxonDependencies: false
       } )
     } ) );
   }
