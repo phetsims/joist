@@ -50,11 +50,6 @@ export class LocaleProperty extends Property<Locale> {
     parentObject.validValues = this.availableRuntimeLocales as StateType[];
     return parentObject;
   }
-
-  protected override applyState<StateType>( stateObject: ReadOnlyPropertyState<StateType> ): void {
-    stateObject.validValues = null; // TODO: this should be removed in https://github.com/phetsims/axon/issues/453
-    super.applyState( stateObject );
-  }
 }
 
 const localeProperty = new LocaleProperty( phet.chipper.locale, {
