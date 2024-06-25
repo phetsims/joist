@@ -11,6 +11,7 @@ import merge from '../../phet-core/js/merge.js';
 import OopsDialog from '../../scenery-phet/js/OopsDialog.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import Text from '../../scenery/js/nodes/Text.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
 import joistStrings from './joistStrings.js';
 
@@ -38,8 +39,8 @@ class QueryParametersWarningDialog extends OopsDialog {
       // Dialog options
       title: new Text( queryParametersWarningDialogInvalidQueryParametersString, {
         font: new PhetFont( 28 )
-      } )
-
+      } ),
+      tandem: Tandem.OPT_OUT
     }, options );
 
     // add warnings to generic message
