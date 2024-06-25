@@ -145,10 +145,11 @@ export class LocaleProperty extends StringProperty {
   }
 }
 
-const localeProperty = new LocaleProperty( phet.chipper.locale, {
+const localeProperty = new LocaleProperty( FALLBACK_LOCALE, {
   tandem: Tandem.GENERAL_MODEL.createTandem( 'localeProperty' ),
   phetioFeatured: true
 } );
+localeProperty.value = phet.chipper.locale;
 
 if ( phet.chipper.queryParameters.keyboardLocaleSwitcher ) {
 
