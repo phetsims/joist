@@ -273,6 +273,34 @@
   "preferences.tabs.localization.regionAndCulture.unitedStatesOfAmerica": {
     "value": "United States of America"
   },
+  "preferences.tabs.localization.regionAndCulture.portrayalSets.africa": {
+    "value": "Africa",
+    "deprecated": true
+  },
+  "preferences.tabs.localization.regionAndCulture.portrayalSets.africaModest": {
+    "value": "Africa (Modest)",
+    "deprecated": true
+  },
+  "preferences.tabs.localization.regionAndCulture.portrayalSets.asia": {
+    "value": "Asia",
+    "deprecated": true
+  },
+  "preferences.tabs.localization.regionAndCulture.portrayalSets.latinAmerica": {
+    "value": "Latin America",
+    "deprecated": true
+  },
+  "preferences.tabs.localization.regionAndCulture.portrayalSets.oceania": {
+    "value": "Oceania",
+    "deprecated": true
+  },
+  "preferences.tabs.localization.regionAndCulture.portrayalSets.multicultural": {
+    "value": "Random",
+    "deprecated": true
+  },
+  "preferences.tabs.localization.regionAndCulture.portrayalSets.unitedStatesOfAmerica": {
+    "value": "United States of America",
+    "deprecated": true
+  },
   "a11y": {
     "keyboardHelp": {
       "keyboardShortcuts": {
