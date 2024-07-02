@@ -294,6 +294,10 @@
     "deprecated": true
   },
   "preferences.tabs.localization.regionAndCulture.portrayalSets.multicultural": {
+    "value": "Multicultural",
+    "deprecated": true
+  },
+  "preferences.tabs.localization.regionAndCulture.portrayalSets.random": {
     "value": "Random",
     "deprecated": true
   },
