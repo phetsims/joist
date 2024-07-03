@@ -297,10 +297,6 @@
     "value": "Multicultural",
     "deprecated": true
   },
-  "preferences.tabs.localization.regionAndCulture.portrayalSets.random": {
-    "value": "Random",
-    "deprecated": true
-  },
   "preferences.tabs.localization.regionAndCulture.portrayalSets.unitedStatesOfAmerica": {
     "value": "United States of America",
     "deprecated": true
