@@ -158,16 +158,16 @@ class LabelButtonRow {
   public readonly content: Node;
 
   /**
-   * @param labelString - the visually rendered Text label for the button
-   * @param a11yName - the string read in the PDOM and with the Voicing feature that labels this Button
+   * @param labelStringProperty - the visually rendered Text label for the button
+   * @param a11yNameStringProperty - the string read in the PDOM and with the Voicing feature that labels this Button
    * @param labelAlignGroup - To align all labels in the VoicingToolbarItem
    * @param inputAlignGroup - To align all inputs in the VoicingToolbarItem
    * @param lookAndFeel
    * @param createAlert - function that creates the alert when the button is pressed
    */
   public constructor(
-    labelString: TReadOnlyProperty<string>,
-    a11yName: TReadOnlyProperty<string>,
+    labelStringProperty: TReadOnlyProperty<string>,
+    a11yNameStringProperty: TReadOnlyProperty<string>,
     labelAlignGroup: AlignGroup,
     inputAlignGroup: AlignGroup,
     lookAndFeel: LookAndFeel,
@@ -186,10 +186,10 @@ class LabelButtonRow {
     } );
 
     this.playStopButton = new PlayStopButton( this.playingProperty, {
-      startPlayingLabel: a11yName,
+      startPlayingLabel: a11yNameStringProperty,
 
       // voicing
-      voicingNameResponse: a11yName,
+      voicingNameResponse: a11yNameStringProperty,
       voicingIgnoreVoicingManagerProperties: true,
 
       radius: 12,
@@ -198,7 +198,7 @@ class LabelButtonRow {
       tandem: Tandem.OPT_OUT
     } );
 
-    const textLabel = new Text( labelString, {
+    const textLabel = new Text( labelStringProperty, {
       font: new PhetFont( 12 ),
       fill: this.lookAndFeel.navigationBarTextFillProperty,
       maxWidth: 100 // i18n, by inspection
