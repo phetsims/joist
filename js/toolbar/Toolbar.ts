@@ -96,6 +96,7 @@ class Toolbar extends Node {
 
     const options = optionize<ToolbarOptions, SelfOptions, NodeOptions>()( {
 
+      // Only one instance is expected so dispose is not necessary.
       isDisposable: false,
 
       // pdom
