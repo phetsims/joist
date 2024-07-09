@@ -24,6 +24,7 @@ import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import { SpeakableResolvedResponse } from '../../../utterance-queue/js/ResponsePacket.js';
 import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import PreferencesDialogConstants from '../preferences/PreferencesDialogConstants.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 
 // constants
 const CONTENT_VERTICAL_SPACING = 10;
@@ -46,14 +47,15 @@ const detailsStringProperty = JoistStrings.a11y.toolbar.voicing.detailsLabelStri
 const hintStringProperty = JoistStrings.a11y.toolbar.voicing.hintLabelStringProperty;
 
 type SelfOptions = EmptySelfOptions;
-export type VoicingToolbarItemOptions = SelfOptions & NodeOptions & PickRequired<NodeOptions, 'tandem'>;
+export type VoicingToolbarItemOptions = SelfOptions & StrictOmit<NodeOptions, 'isDisposable'> & PickRequired<NodeOptions, 'tandem'>;
 
 class VoicingToolbarItem extends Node {
 
-  private readonly disposeVoicingToolbarItem: () => void;
-
   public constructor( alertManager: VoicingToolbarAlertManager, lookAndFeel: LookAndFeel, providedOptions?: VoicingToolbarItemOptions ) {
     const options = optionize<VoicingToolbarItemOptions, SelfOptions, NodeOptions>()( {
+
+      // This is intended to exist forever. It is not disposable.
+      isDisposable: false,
 
       // pdom
       tagName: 'section',
@@ -121,18 +123,6 @@ class VoicingToolbarItem extends Node {
         row.playContent( playingProperties );
       } );
     } );
-
-    this.disposeVoicingToolbarItem = () => {
-      quickInfoText.dispose();
-      titleText.dispose();
-    };
-  }
-
-  /**
-   */
-  public override dispose(): void {
-    this.disposeVoicingToolbarItem();
-    super.dispose();
   }
 }
 

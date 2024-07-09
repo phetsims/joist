@@ -32,6 +32,7 @@ import VoicingToolbarAlertManager from './VoicingToolbarAlertManager.js';
 import VoicingToolbarItem from './VoicingToolbarItem.js';
 import LookAndFeel from '../LookAndFeel.js';
 import { AnyScreen } from '../Screen.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 
 // constants
 const MAX_ANIMATION_SPEED = 250; // in view coordinates per second, assuming 60 fps
@@ -46,7 +47,7 @@ const toolbarShownStringProperty = JoistStrings.a11y.toolbar.toolbarShownStringP
 const toolbarHiddenStringProperty = JoistStrings.a11y.toolbar.toolbarHiddenStringProperty;
 
 type SelfOptions = EmptySelfOptions;
-type ToolbarOptions = EmptySelfOptions & NodeOptions;
+type ToolbarOptions = EmptySelfOptions & StrictOmit<NodeOptions, 'isDisposable'>;
 
 class Toolbar extends Node {
 
@@ -89,12 +90,13 @@ class Toolbar extends Node {
   // frame. Also used to determine the right position when closed. This is the width of the button so that when the
   // Toolbar is closed only the button is shown and all other content is hidden.
   private readonly contentMargin: number;
-  private readonly disposeToolbar: () => void;
 
   public constructor( enabledProperty: TReadOnlyProperty<boolean>, selectedScreenProperty: TReadOnlyProperty<AnyScreen>,
                       lookAndFeel: LookAndFeel, providedOptions?: ToolbarOptions ) {
 
     const options = optionize<ToolbarOptions, SelfOptions, NodeOptions>()( {
+
+      isDisposable: false,
 
       // pdom
       tagName: 'div',
@@ -197,11 +199,6 @@ class Toolbar extends Node {
       contentParent.pdomVisible = showing;
     };
     this.isShowingProperty.link( isShowingListener );
-
-    this.disposeToolbar = () => {
-      this.isShowingProperty.unlink( isShowingListener );
-      this.openProperty.unlink( isOpenListener );
-    };
   }
 
   /**
@@ -258,11 +255,6 @@ class Toolbar extends Node {
     this.backgroundRectangle.right = this.rightPositionProperty.value * scale;
     this.openButton.center = this.backgroundRectangle.rightCenter;
     this.menuContent.centerTop = this.backgroundRectangle.centerTop.plusXY( 0, CONTENT_TOP_MARGIN );
-  }
-
-  public override dispose(): void {
-    this.disposeToolbar();
-    super.dispose();
   }
 }
 
