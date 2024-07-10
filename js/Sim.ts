@@ -244,8 +244,8 @@ export default class Sim extends PhetioObject {
   public readonly rootNode: Node;
 
   // Keep track of the previous time for computing dt, and initially signify that time hasn't been recorded yet.
-  private lastStepTime = -1;
-  private lastAnimationFrameTime = -1;
+  private lastStepTime: number | null = null;
+  private lastAnimationFrameTime: number | null = null;
 
   // (joist-internal) Bind the animation loop so it can be called from requestAnimationFrame with the right this.
   private readonly boundRunAnimationLoop: () => void;
@@ -1138,13 +1138,14 @@ type TopLayerNode = {
 
 /**
  * Compute the dt since the last event
- * @param lastTime - milliseconds, time of the last event
+ * @param lastTime - milliseconds, time of the last event, null if there is no last event.
  * @param currentTime - milliseconds, current time.  Passed in instead of computed so there is no "slack" between measurements
  */
-function getDT( lastTime: number, currentTime: number ): number {
+function getDT( lastTime: number | null, currentTime: number ): number {
+  assert && lastTime && assert( lastTime > 0, 'time must be positive' );
 
   // Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
-  return ( lastTime === -1 ) ? 1 / 60 :
+  return ( lastTime === null ) ? 1 / 60 :
          ( currentTime - lastTime ) / 1000.0;
 }
 
