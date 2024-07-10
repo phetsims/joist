@@ -657,6 +657,14 @@ export default class Sim extends PhetioObject {
 
     Helper.initialize( this, this.display );
 
+    // Reset last event capture to prevent a maxDT "jump" when resuming, see https://github.com/phetsims/joist/issues/977
+    this.activeProperty.lazyLink( active => {
+      if ( active ) {
+        this.lastStepTime = null;
+        this.lastAnimationFrameTime = null;
+      }
+    } );
+
     Multilink.multilink( [ this.activeProperty, phet.joist.playbackModeEnabledProperty ], ( active, playbackModeEnabled: boolean ) => {
 
       // If in playbackMode is enabled, then the display must be interactive to support PDOM event listeners during
