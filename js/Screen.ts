@@ -64,6 +64,8 @@ type SelfOptions = {
   showUnselectedHomeScreenIconFrame?: boolean;
   navigationBarIcon?: ScreenIcon | null;
   showScreenIconFrameForNavigationBarFill?: string | null;
+
+  // dt cap in seconds, see https://github.com/phetsims/joist/issues/130
   maxDT?: number;
   createKeyboardHelpNode?: null | ( ( tandem: Tandem ) => Node );
   descriptionContent?: PDOMValueType | null;
@@ -82,6 +84,7 @@ class Screen<M extends TModel, V extends ScreenView> extends PhetioObject {
 
   public backgroundColorProperty: Property<Color> | Property<string> | Property<Color | string>;
 
+  // dt cap in seconds, see https://github.com/phetsims/joist/issues/130
   public readonly maxDT: number;
   public readonly activeProperty: BooleanProperty;
   public readonly descriptionContent: PDOMValueType;
@@ -135,7 +138,6 @@ class Screen<M extends TModel, V extends ScreenView> extends PhetioObject {
       // 'black', 'white', or null (no frame)
       showScreenIconFrameForNavigationBarFill: null,
 
-      // dt cap in seconds, see https://github.com/phetsims/joist/issues/130
       maxDT: 0.5,
 
       // a {null|function():Node} placed into the keyboard help dialog that can be opened from the navigation bar when this
