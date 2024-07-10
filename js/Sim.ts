@@ -1142,7 +1142,7 @@ type TopLayerNode = {
  * @param currentTime - milliseconds, current time.  Passed in instead of computed so there is no "slack" between measurements
  */
 function getDT( lastTime: number | null, currentTime: number ): number {
-  assert && lastTime && assert( lastTime > 0, 'time must be positive' );
+  assert && lastTime !== null && assert( lastTime > 0, 'time must be positive (it isn\'t 1970 anymore)' );
 
   // Compute the elapsed time since the last frame, or guess 1/60th of a second if it is the first frame
   return ( lastTime === null ) ? 1 / 60 :
