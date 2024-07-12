@@ -12,7 +12,6 @@ import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
 import TBrand from '../../brand/js/TBrand.js';
 import { AriaHasPopUpMutator, Color, Image, Line, Node } from '../../scenery/js/imports.js';
-import pushButtonSoundPlayer from '../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import joist from './joist.js';
@@ -23,6 +22,7 @@ import PhetMenu from './PhetMenu.js';
 import Sim from './Sim.js';
 import updateCheck from './updateCheck.js';
 import UpdateState from './UpdateState.js';
+import sharedSoundPlayers from '../../tambo/js/sharedSoundPlayers.js';
 
 // Accommodate logos of any height by scaling them down proportionately.
 // The primary logo is 108px high and we have been scaling it at 0.28 to make it look good even on higher resolution
@@ -84,6 +84,9 @@ class PhetButton extends JoistButton {
 
     // The icon combines the PhET logo and the menu icon
     const icon = new Node( { children: children } );
+
+    // Get the shared sound player.
+    const pushButtonSoundPlayer = sharedSoundPlayers.get( 'pushButton' );
 
     super( icon, backgroundFillProperty, {
       highlightExtensionWidth: 6,

@@ -15,8 +15,8 @@ import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import Property from '../../../axon/js/Property.js';
 import { Locale } from '../i18n/localeProperty.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import pushButtonSoundPlayer from '../../../tambo/js/shared-sound-players/pushButtonSoundPlayer.js';
 import JoistStrings from '../JoistStrings.js';
+import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 
 export default class LanguageSelectionNode extends Rectangle {
 
@@ -53,6 +53,7 @@ export default class LanguageSelectionNode extends Rectangle {
     this.addChild( text );
 
     this.locale = locale;
+    const pushButtonSoundPlayer = sharedSoundPlayers.get( 'pushButton' );
 
     const fireListener = new FireListener( {
       fire: () => {
