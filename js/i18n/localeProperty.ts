@@ -47,7 +47,7 @@ export class LocaleProperty extends Property<Locale> {
     const parentObject = super.toStateObject<StateType>();
 
     // Provide via validValues without forcing validation assertions if a different value is set.
-    parentObject.validValues = this.availableRuntimeLocales as StateType[];
+    parentObject.validValues = [ ...this.availableRuntimeLocales ].sort() as StateType[];
     return parentObject;
   }
 }
