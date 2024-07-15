@@ -12,12 +12,12 @@ import PhetioObject from '../../tandem/js/PhetioObject.js';
 import DescriptionRegistry from '../../tandem/js/DescriptionRegistry.js';
 import TReadOnlyProperty, { PropertyLazyLinkListener, PropertyLinkListener, PropertyListener } from '../../axon/js/TReadOnlyProperty.js';
 import TEmitter, { TEmitterListener, TReadOnlyEmitter } from '../../axon/js/TEmitter.js';
-import { Locale } from './i18n/localeProperty.js';
+import localeProperty, { Locale } from './i18n/localeProperty.js';
 import TinyProperty from '../../axon/js/TinyProperty.js';
-import localeOrderProperty from './i18n/localeOrderProperty.js';
 import Multilink, { UnknownMultilink } from '../../axon/js/Multilink.js';
 import dotRandom from '../../dot/js/dotRandom.js';
 import TProperty from '../../axon/js/TProperty.js';
+import LocalizedString from '../../chipper/js/LocalizedString.js';
 
 export type DescriptionStrings = {
   locale: Locale;
@@ -160,9 +160,7 @@ export default class DescriptionContext {
   public static startupComplete(): void {
     DescriptionContext.isStartupCompleteProperty.value = true;
 
-    localeOrderProperty.link( () => {
-      this.reload();
-    } );
+    localeProperty.link( () => this.reload() );
 
     DescriptionRegistry.addedEmitter.addListener( ( tandemID, obj ) => {
       const logic = this.logicProperty.value;
@@ -194,15 +192,15 @@ export default class DescriptionContext {
       return;
     }
 
-    const locales = localeOrderProperty.value;
+    const fallbackLocales = LocalizedString.getLocaleFallbacks();
 
     const strings: DescriptionStrings = {} as DescriptionStrings;
     let addedStrings = false;
 
     // Search in locale fallback order for the best description strings to use. We'll pull out each individual
     // function with fallback.
-    for ( let i = locales.length - 1; i >= 0; i-- ) {
-      const locale = locales[ i ];
+    for ( let i = fallbackLocales.length - 1; i >= 0; i-- ) {
+      const locale = fallbackLocales[ i ];
 
       if ( DescriptionContext.stringsMap.has( locale ) ) {
         addedStrings = true;
@@ -225,7 +223,7 @@ export default class DescriptionContext {
   }
 
   public static registerStrings( strings: DescriptionStrings ): DescriptionStrings {
-    const needsReload = localeOrderProperty.value.includes( strings.locale );
+    const needsReload = LocalizedString.getLocaleFallbacks().includes( strings.locale );
 
     DescriptionContext.stringsMap.set( strings.locale, strings );
 
