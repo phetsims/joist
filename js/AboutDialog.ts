@@ -242,7 +242,6 @@ export default class AboutDialog extends Dialog {
             font: new PhetFont( NOMINAL_FONT_SIZE )
           } );
           richText.disposeEmitter.addListener( () => {
-            console.log( 'disposing the old' )
             stringProperty.dispose();
           } );
           linksChildren.push( richText );
