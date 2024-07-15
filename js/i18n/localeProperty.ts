@@ -24,10 +24,13 @@ assert && assert( phet.chipper.locale, 'phet.chipper.locale global expected' );
 assert && assert( phet.chipper.localeData, 'phet.chipper.localeData global expected' );
 assert && assert( phet.chipper.strings, 'phet.chipper.strings global expected' );
 
-// All available locales for the runtime
-const availableRuntimeLocales = _.sortBy( Object.keys( phet.chipper.strings ), locale => {
-  return StringUtils.localeToLocalizedName( locale ).toLowerCase();
-} ) as Locale[];
+// Sort these properly by their localized name (without using _.sortBy, since string comparison does not provide
+// a good sorting experience). See https://github.com/phetsims/joist/issues/965
+const availableRuntimeLocales = ( Object.keys( phet.chipper.strings ) as Locale[] ).sort( ( a, b ) => {
+  const lowerCaseA = StringUtils.localeToLocalizedName( a ).toLowerCase();
+  const lowerCaseB = StringUtils.localeToLocalizedName( b ).toLowerCase();
+  return lowerCaseA.localeCompare( lowerCaseB, 'en-US', { sensitivity: 'base' } );
+} );
 
 export class LocaleProperty extends Property<Locale> {
   public readonly availableRuntimeLocales: Locale[] = availableRuntimeLocales;
@@ -49,6 +52,11 @@ export class LocaleProperty extends Property<Locale> {
     // Provide via validValues without forcing validation assertions if a different value is set.
     parentObject.validValues = [ ...this.availableRuntimeLocales ].sort() as StateType[];
     return parentObject;
+  }
+
+  // Dynamic local switching is not supported if there is only one available runtime locale
+  public get supportsDynamicLocale(): boolean {
+    return this.availableRuntimeLocales.length > 1;
   }
 }
 

@@ -111,7 +111,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
     // Voicing feature only works when running in English. If running in a version where you can change locale,
     // indicate through the title that the feature will only work in English.
-    const titleStringProperty = ( localeProperty.availableRuntimeLocales && localeProperty.availableRuntimeLocales.length > 1 ) ?
+    const titleStringProperty = ( localeProperty.availableRuntimeLocales && localeProperty.supportsDynamicLocale ) ?
                                 voicingEnglishOnlyLabelStringProperty : voicingLabelStringProperty;
 
     // the checkbox is the title for the section and totally enables/disables the feature

@@ -228,7 +228,7 @@ export default class PreferencesModel extends PhetioObject {
       }, providedOptions.inputOptions ),
       localizationOptions: optionize<LocalizationPreferencesOptions, LocalizationPreferencesOptions, BaseModelType>()( {
         tandemName: 'localizationModel',
-        supportsDynamicLocale: !!localeProperty.availableRuntimeLocales && localeProperty.availableRuntimeLocales.length > 1 && phet.chipper.queryParameters.supportsDynamicLocale,
+        supportsDynamicLocale: !!localeProperty.availableRuntimeLocales && localeProperty.supportsDynamicLocale && phet.chipper.queryParameters.supportsDynamicLocale,
         customPreferences: [],
         includeLocalePanel: true
       }, providedOptions.localizationOptions )
