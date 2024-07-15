@@ -18,7 +18,6 @@ import { allowLinksProperty, Node, PDOMPeer, RichText, VBox, VoicingRichText, Vo
 import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import CreditsNode, { CreditsData } from './CreditsNode.js';
-import { Locale } from './i18n/localeProperty.js';
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
 import packageJSON from './packageJSON.js';
@@ -26,6 +25,7 @@ import updateCheck from './updateCheck.js';
 import UpdateNodes from './UpdateNodes.js';
 import UpdateState from './UpdateState.js';
 import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
+import localeProperty from './i18n/localeProperty.js';
 
 // constants
 const MAX_WIDTH = 550; // Maximum width of elements in the dialog
@@ -47,10 +47,9 @@ export default class AboutDialog extends Dialog {
    * @param nameStringProperty - name of the simulation
    * @param version - version of the simulation
    * @param credits - credits for the simulation
-   * @param locale - locale string
    * @param [providedOptions]
    */
-  public constructor( nameStringProperty: TReadOnlyProperty<string>, version: string, credits: CreditsData, locale: Locale, providedOptions?: AboutDialogOptions ) {
+  public constructor( nameStringProperty: TReadOnlyProperty<string>, version: string, credits: CreditsData, providedOptions?: AboutDialogOptions ) {
 
     const options = optionize<AboutDialogOptions, SelfOptions, DialogOptions>()( {
       xSpacing: 26,
@@ -209,34 +208,48 @@ export default class AboutDialog extends Dialog {
     }
 
     // Show any links identified in the brand
-    const linksChildren: Node[] = [];
-    const links = Brand.getLinks( packageJSON.name, locale );
+    const links = Brand.getLinks( packageJSON.name, localeProperty.value );
     if ( links && links.length > 0 ) {
-
-      linksChildren.push( new VStrut( 15 ) );
-
-      for ( let i = 0; i < links.length; i++ ) {
-        const link = links[ i ];
-
-        // If links are allowed, use hyperlinks. Otherwise, just output the URL. This doesn't need to be internationalized.
-        const stringProperty = new DerivedStringProperty( [ allowLinksProperty, link.textStringProperty ], ( allowLinks, linkText ) => {
-          return allowLinks ? `<a href="{{url}}">${linkText}</a>` : `${linkText}: ${link.url}`;
-        } );
-
-        // This is PhET-iO instrumented because it is a keyboard navigation focusable element.
-        linksChildren.push( new RichText( stringProperty, {
-          links: { url: link.url }, // RichText must fill in URL for link
-          font: new PhetFont( NOMINAL_FONT_SIZE )
-        } ) );
-      }
 
       // Show the links in a separate VBox so they will have the same MAX_WIDTH and hence the same font size.
       const linksParent = new VBox( {
         spacing: 6,
         align: 'left',
-        children: linksChildren, maxWidth: MAX_WIDTH
+        maxWidth: MAX_WIDTH
       } );
       children.push( linksParent );
+
+      // Create new links whenever the locale changes, for an up to date translator URL.
+      localeProperty.link( locale => {
+        linksParent.children.forEach( child => child.dispose() );
+
+        const links = Brand.getLinks( packageJSON.name, locale );
+        const linksChildren: Node[] = [];
+
+        linksChildren.push( new VStrut( 15 ) );
+
+        for ( let i = 0; i < links.length; i++ ) {
+          const link = links[ i ];
+
+          // If links are allowed, use hyperlinks. Otherwise, just output the URL. This doesn't need to be internationalized.
+          const stringProperty = new DerivedStringProperty( [ allowLinksProperty, link.textStringProperty ], ( allowLinks, linkText ) => {
+            return allowLinks ? `<a href="{{url}}">${linkText}</a>` : `${linkText}: ${link.url}`;
+          } );
+
+          // This is PhET-iO instrumented because it is a keyboard navigation focusable element.
+          const richText = new RichText( stringProperty, {
+            links: { url: link.url }, // RichText must fill in URL for link
+            font: new PhetFont( NOMINAL_FONT_SIZE )
+          } );
+          richText.disposeEmitter.addListener( () => {
+            console.log( 'disposing the old' )
+            stringProperty.dispose();
+          } );
+          linksChildren.push( richText );
+        }
+
+        linksParent.children = linksChildren;
+      } );
     }
 
     const content = new VBox( {
