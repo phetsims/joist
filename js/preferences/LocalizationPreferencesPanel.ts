@@ -70,9 +70,9 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
 
       // The language selection provided by LocalePanel does not follow the PreferencesControl pattern because it is a
       // much larger custom UI component that does not fit in the standard PreferencesControl layout.
-      const localeLabel = new Text( JoistStrings.a11y.preferences.tabs.localization.languageSelection.labelStringProperty,
+      const localeLabel = new Text( JoistStrings.preferences.tabs.localization.languageSelection.titleStringProperty,
         PreferencesDialogConstants.CONTROL_LABEL_OPTIONS );
-      const localeDescription = new RichText( JoistStrings.a11y.preferences.tabs.localization.languageSelection.descriptionStringProperty,
+      const localeDescription = new RichText( JoistStrings.preferences.tabs.localization.languageSelection.descriptionStringProperty,
         PreferencesDialogConstants.CONTROL_DESCRIPTION_OPTIONS );
       const localePanel = new LocalePanel( localizationModel.localeProperty );
 
