@@ -246,6 +246,12 @@
   "preferences.tabs.localization.title": {
     "value": "Localization"
   },
+  "preferences.tabs.localization.languageSelection.title": {
+    "value": "Languages"
+  },
+  "preferences.tabs.localization.languageSelection.description": {
+    "value": "Change language to translate on-screen text. Additional descriptions, when present, remain in English."
+  },
   "preferences.tabs.localization.regionAndCulture.title": {
     "value": "Region and Culture"
   },
@@ -540,12 +546,6 @@
         },
         "localization": {
           "languageSelection": {
-            "label": {
-              "value": "Languages"
-            },
-            "description": {
-              "value": "Change language to translate on-screen text. Additional descriptions, when present, remain in English."
-            },
             "languageChangeResponsePattern": {
               "value": "On-screen text now in {{language}}."
             }
