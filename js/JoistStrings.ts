@@ -124,6 +124,10 @@ type StringsType = {
       };
       'localization': {
         'titleStringProperty': LocalizedStringProperty;
+        'languageSelection': {
+          'titleStringProperty': LocalizedStringProperty;
+          'descriptionStringProperty': LocalizedStringProperty;
+        };
         'regionAndCulture': {
           'titleStringProperty': LocalizedStringProperty;
           'descriptionStringProperty': LocalizedStringProperty;
@@ -251,8 +255,6 @@ type StringsType = {
         };
         'localization': {
           'languageSelection': {
-            'labelStringProperty': LocalizedStringProperty;
-            'descriptionStringProperty': LocalizedStringProperty;
             'languageChangeResponsePatternStringProperty': LocalizedStringProperty;
           }
         }
