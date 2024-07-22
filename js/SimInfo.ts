@@ -165,6 +165,10 @@ class SimInfo extends PhetioObject {
         flags: Tandem.API_GENERATION ? null : simInfo.info.flags || null
       };
     },
+
+    // Do not try to load in a SimInfo
+    applyState: _.noop,
+
     stateSchema: {
       simName: StringIO,
       screens: ArrayIO( ObjectLiteralIO ),
