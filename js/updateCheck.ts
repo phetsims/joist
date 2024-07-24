@@ -45,7 +45,7 @@ class UpdateCheck {
     // If it's not PhET-branded OR if it is phet-io or in the phet-app, do not check for updates
     this.areUpdatesChecked = phet.chipper.brand === 'phet' && !phet.chipper.isApp && phet.chipper.queryParameters.yotta;
 
-    this.updateURL = `${'http://phet.colorado.edu/html-sim-update' +
+    this.updateURL = `${'https://phet.colorado.edu/html-sim-update' +
                         '?simulation='}${encodeURIComponent( simName )
     }&version=${encodeURIComponent( simVersion.toString() )
     }&buildTimestamp=${encodeURIComponent( `${phet.chipper.buildTimestamp}` )}`;
