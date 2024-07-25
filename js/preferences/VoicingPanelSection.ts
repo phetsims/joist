@@ -129,6 +129,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
     const voicingEnabledSwitch = new PreferencesControl( {
       labelNode: voicingLabel,
       descriptionNode: voicingEnabledSwitchVoicingText,
+      allowDescriptionStretch: false,
       controlNode: voicingToggleSwitch
     } );
 

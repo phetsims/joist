@@ -80,6 +80,7 @@ class VisualPreferencesPanel extends PreferencesPanel {
       const interactiveHighlightsEnabledControl = new PreferencesControl( {
         labelNode: label,
         descriptionNode: interactiveHighlightsEnabledSwitchVoicingText,
+        allowDescriptionStretch: false,
         controlNode: interactiveHighlightsEnabledSwitch
       } );
 

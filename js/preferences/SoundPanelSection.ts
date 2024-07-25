@@ -71,6 +71,7 @@ class SoundPanelSection extends PreferencesPanelSection {
     const soundEnabledControl = new PreferencesControl( {
       labelNode: soundLabel,
       descriptionNode: soundEnabledVoicingText,
+      allowDescriptionStretch: false,
       controlNode: soundEnabledSwitch
     } );
 

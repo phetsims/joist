@@ -70,6 +70,7 @@ class InputPreferencesPanel extends PreferencesPanel {
       const gestureControlsControl = new PreferencesControl( {
         labelNode: gestureControlText,
         descriptionNode: gestureControlDescriptionNode,
+        allowDescriptionStretch: false,
         controlNode: gestureControlsEnabledSwitch
       } );
 

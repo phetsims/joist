@@ -10,7 +10,7 @@
 
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import { GridBox, GridBoxOptions, Node, SceneryConstants } from '../../../scenery/js/imports.js';
+import { GridBox, GridBoxOptions, Node, SceneryConstants, TLayoutOptions } from '../../../scenery/js/imports.js';
 import joist from '../joist.js';
 
 type SelfOptions = {
@@ -28,6 +28,11 @@ type SelfOptions = {
   // if provided, a Node under the ToggleSwitch and label that is meant to describe the purpose of the switch
   descriptionNode?: Node;
 
+  // If true, the description cell will stretch to a minimum content width, and the control will be pushed out to align
+  // with that width. This makes the control align with other controls in the dialog. Disable if you want the control
+  // to always be right aligned with the description.
+  allowDescriptionStretch?: boolean;
+
   // vertical spacing between ToggleSwitch and description Node
   ySpacing?: number;
 
@@ -44,11 +49,11 @@ export type PreferencesControlOptions = SelfOptions & GridBoxOptions;
 // [[labelNode]]         [[ToggleSwitch]]
 // [[descriptionNode                   ]]
 class PreferencesControl extends GridBox {
-
   public constructor( providedOptions?: PreferencesControlOptions ) {
     const options = optionize<PreferencesControlOptions, StrictOmit<SelfOptions, 'labelNode' | 'descriptionNode' | 'controlNode'>, GridBoxOptions>()( {
       headingControl: false,
       labelSpacing: 10,
+      allowDescriptionStretch: true,
       valueLabelXSpacing: 8,
       ySpacing: 5,
       nestedContent: [],
@@ -89,14 +94,21 @@ class PreferencesControl extends GridBox {
     // descriptionNode will be in the second row if a labelNode is provided.
     if ( options.descriptionNode && options.labelNode ) {
       assert && assert( options.descriptionNode.layoutOptions === null, 'PreferencesControl will control layout' );
-      options.descriptionNode.layoutOptions = {
+
+      const layoutOptions: TLayoutOptions = {
         row: 1,
         column: 0,
         horizontalSpan: 2,
-        xAlign: 'left',
-        stretch: true,
-        minContentWidth: 480
+        xAlign: 'left'
       };
+
+      // Allows the description to stretch and takes up a minimum width, so that the control aligns with other contents.
+      if ( options.allowDescriptionStretch ) {
+        layoutOptions.minContentWidth = 480;
+        layoutOptions.stretch = true;
+      }
+
+      options.descriptionNode.layoutOptions = layoutOptions;
       this.addChild( options.descriptionNode );
     }
 
