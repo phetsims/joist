@@ -541,8 +541,6 @@ class VoicingPitchSlider extends VBox {
 
     this.mutate( {
       children: [ label, slider ],
-
-      // see https://github.com/phetsims/scenery/issues/1433
       spacing: 5
     } );
   }
