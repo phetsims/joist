@@ -146,7 +146,7 @@ class PhetMenu extends Popupable( Node, 0 ) {
       // "Screenshot" Menu item
       {
         textStringProperty: JoistStrings.menuItem.screenshotStringProperty,
-        present: !isApp, // Not supported by IE9, see https://github.com/phetsims/joist/issues/212
+        present: !isApp && !phet.chipper.isFuzzEnabled(), // Not supported by IE9, see https://github.com/phetsims/joist/issues/212
         shouldBeHiddenWhenLinksAreNotAllowed: false,
         callback: () => {
           const dataURL = ScreenshotGenerator.generateScreenshot( sim );
