@@ -27,6 +27,7 @@ export type DescriptionLogic = {
   launch( context: DescriptionContext, strings: DescriptionStrings ): void;
   added( tandemID: string, obj: PhetioObject ): void;
   removed( tandemID: string, obj: PhetioObject ): void;
+  dispose(): void;
 };
 
 export default class DescriptionContext {
@@ -156,6 +157,7 @@ export default class DescriptionContext {
   private static readonly logicProperty = new TinyProperty<DescriptionLogic | null>( null );
   private static readonly isStartupCompleteProperty = new TinyProperty<boolean>( false );
   private static readonly activeContextProperty = new TinyProperty<DescriptionContext | null>( null );
+  private static activeLogic: DescriptionLogic | null = null; // so we can control disposal
 
   public static startupComplete(): void {
     DescriptionContext.isStartupCompleteProperty.value = true;
@@ -183,11 +185,17 @@ export default class DescriptionContext {
       return;
     }
 
+    if ( DescriptionContext.activeLogic ) {
+      DescriptionContext.activeLogic.dispose();
+      DescriptionContext.activeLogic = null;
+    }
+
     if ( this.activeContextProperty.value ) {
       this.activeContextProperty.value.dispose();
     }
 
     const logic = this.logicProperty.value;
+
     if ( logic === null ) {
       return;
     }
@@ -218,6 +226,7 @@ export default class DescriptionContext {
     }
 
     this.activeContextProperty.value = new DescriptionContext();
+    DescriptionContext.activeLogic = logic;
 
     logic.launch( this.activeContextProperty.value, strings );
   }
