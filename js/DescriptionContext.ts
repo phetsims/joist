@@ -18,6 +18,8 @@ import Multilink, { UnknownMultilink } from '../../axon/js/Multilink.js';
 import dotRandom from '../../dot/js/dotRandom.js';
 import TProperty from '../../axon/js/TProperty.js';
 import LocalizedString from '../../chipper/js/LocalizedString.js';
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import CallbackTimer, { CallbackTimerOptions } from '../../axon/js/CallbackTimer.js';
 
 export type DescriptionStrings = {
   locale: Locale;
@@ -37,6 +39,7 @@ export default class DescriptionContext {
   private readonly assignments: Assignment[] = [];
   private readonly propertyAssignments: PropertyAssignment[] = [];
   private readonly multilinks: UnknownMultilink[] = [];
+  private readonly disposables: { dispose(): void }[] = [];
 
   public get( tandemID: string ): PhetioObject | null {
     return DescriptionRegistry.map.get( tandemID ) || null;
@@ -64,6 +67,14 @@ export default class DescriptionContext {
     assert && assert( index >= 0 );
 
     this.links.splice( index, 1 );
+  }
+
+  public createDerivedProperty( dependencies: TReadOnlyProperty<unknown>[], derivation: ( ...args: unknown[] ) => unknown ): TReadOnlyProperty<unknown> {
+    const derivedProperty = DerivedProperty.deriveAny( dependencies, derivation );
+
+    this.disposables.push( derivedProperty );
+
+    return derivedProperty;
   }
 
   public multilink( dependencies: Readonly<TReadOnlyProperty<unknown>[]>, callback: () => void ): UnknownMultilink {
@@ -109,9 +120,22 @@ export default class DescriptionContext {
     property.value = value;
   }
 
+  public createCallbackTimer( options?: CallbackTimerOptions ): CallbackTimer {
+    const callbackTimer = new CallbackTimer( options );
+
+    this.disposables.push( callbackTimer );
+
+    return callbackTimer;
+  }
+
   public dispose(): void {
     // NOTE: can links/listens be tied to a tandem/object? So that if we "remove" the object, we will assume it's disposed?
 
+    while ( this.disposables.length ) {
+      const disposable = this.disposables.pop()!;
+
+      disposable.dispose();
+    }
     while ( this.links.length ) {
       const link = this.links.pop()!;
 
