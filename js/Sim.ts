@@ -74,6 +74,7 @@ import { Locale } from './i18n/localeProperty.js';
 import isSettingPhetioStateProperty from '../../tandem/js/isSettingPhetioStateProperty.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
 import dotRandom from '../../dot/js/dotRandom.js';
+import launchCounter from './launchCounter.js';
 
 // constants
 const PROGRESS_BAR_WIDTH = 273;
@@ -270,6 +271,10 @@ export default class Sim extends PhetioObject {
     window.assertions.assertionHooks.push( () => {
       console.log( 'Debug info:', JSON.stringify( this.getAssertionDebugInfo(), null, 2 ) );
     } );
+
+    if ( phet.chipper.queryParameters.launchCounter ) {
+      simNameProperty = launchCounter( simNameProperty );
+    }
 
     const options = optionize<SimOptions, SelfOptions, PhetioObjectOptions>()( {
 
