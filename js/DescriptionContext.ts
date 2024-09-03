@@ -6,7 +6,7 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import { Node } from '../../scenery/js/imports.js';
+import { Node, NodeOptions } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import DescriptionRegistry from '../../tandem/js/DescriptionRegistry.js';
@@ -20,6 +20,7 @@ import TProperty from '../../axon/js/TProperty.js';
 import LocalizedString from '../../chipper/js/LocalizedString.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import CallbackTimer, { CallbackTimerOptions } from '../../axon/js/CallbackTimer.js';
+import Utterance, { UtteranceOptions } from '../../utterance-queue/js/Utterance.js';
 
 export type DescriptionStrings = {
   locale: Locale;
@@ -128,14 +129,26 @@ export default class DescriptionContext {
     return callbackTimer;
   }
 
+  public createUtterance( options?: UtteranceOptions ): Utterance {
+    const utterance = new Utterance( options );
+    this.disposables.push( utterance );
+    return utterance;
+  }
+
+  /**
+   * Creates a Node through the context.
+   *
+   * TODO: Consider making the tagName required for this context?
+   */
+  public createNode( options?: NodeOptions ): Node {
+    const node = new Node( options );
+    this.disposables.push( node );
+    return node;
+  }
+
   public dispose(): void {
     // NOTE: can links/listens be tied to a tandem/object? So that if we "remove" the object, we will assume it's disposed?
 
-    while ( this.disposables.length ) {
-      const disposable = this.disposables.pop()!;
-
-      disposable.dispose();
-    }
     while ( this.links.length ) {
       const link = this.links.pop()!;
 
@@ -173,6 +186,13 @@ export default class DescriptionContext {
       if ( !multilink.isDisposed ) {
         multilink.dispose();
       }
+    }
+
+    // Dispose after disconnecting assignments so that everything is still usable when disconnecting.
+    while ( this.disposables.length ) {
+      const disposable = this.disposables.pop()!;
+
+      disposable.dispose();
     }
   }
 
