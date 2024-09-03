@@ -108,6 +108,7 @@ export default class DescriptionContext {
       this.assignments.push( new Assignment( node, property, node[ property ] ) );
     }
 
+    // eslint-disable-next-line no-simple-type-checking-assertions
     assert && assert( typeof property === 'string', 'Node property name for the set should be a string' );
 
     // @ts-expect-error
@@ -140,7 +141,7 @@ export default class DescriptionContext {
   /**
    * Creates a Node through the context.
    *
-   * TODO: Consider making the tagName required for this context?
+   * TODO: Consider making the tagName required for this context? See https://github.com/phetsims/joist/issues/941
    */
   public createNode( options?: NodeOptions ): Node {
     const node = new Node( options );
