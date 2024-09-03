@@ -108,6 +108,8 @@ export default class DescriptionContext {
       this.assignments.push( new Assignment( node, property, node[ property ] ) );
     }
 
+    assert && assert( typeof property === 'string', 'Node property name for the set should be a string' );
+
     // @ts-expect-error
     node[ property ] = value;
   }
