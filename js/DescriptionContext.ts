@@ -298,10 +298,48 @@ export default class DescriptionContext {
     return logic;
   }
 
-  public static async externalLoad( str: string ): Promise<void> {
+  public static async externalLoad( str: string ): Promise<Error | null> {
     const dataURI = `data:text/javascript;base64,${btoa( `${dotRandom.nextDouble()};${str}` )}`;
 
-    ( await import( dataURI ) ).default();
+    try {
+      ( await import( dataURI ) ).default();
+      return null;
+    }
+    catch( e ) {
+      return new ExternalLoadError( e as Error, dataURI );
+    }
+  }
+}
+
+export class ExternalLoadError extends Error {
+
+  public readonly line: number;
+  public readonly column: number;
+
+  public constructor( public readonly error: Error, dataURI: string ) {
+    // NOTE: this is a guard for the above cast to Error.
+    // eslint-disable-next-line no-simple-type-checking-assertions
+    assert && assert( error instanceof Error );
+
+    super( error.message );
+
+    let stack = error.stack;
+    let line = 0;
+    let column = 0;
+
+    if ( stack && stack.includes( dataURI ) ) {
+      stack = stack.slice( stack.indexOf( dataURI ) + dataURI.length );
+
+      // Parse the first two numbers out of the stack string. It will look like ":10:15)\n" or ":10:15\n", etc.
+      const match = stack.match( /:(\d+):(\d+)/ );
+      if ( match ) {
+        line = parseInt( match[ 1 ], 10 );
+        column = parseInt( match[ 2 ], 10 );
+      }
+    }
+
+    this.line = line;
+    this.column = column;
   }
 }
 
