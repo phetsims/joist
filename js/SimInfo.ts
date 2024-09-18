@@ -151,18 +151,18 @@ class SimInfo extends PhetioObject {
         dataStreamVersion: simInfo.info.dataStreamVersion,
         phetioCommandProcessorProtocol: simInfo.info.phetioCommandProcessorProtocol,
 
-        simVersion: Tandem.API_GENERATION ? null : simInfo.info.simVersion,
-        wrapperMetadata: Tandem.API_GENERATION ? null : simInfo.info.wrapperMetadata,
-        randomSeed: Tandem.API_GENERATION ? null : simInfo.info.randomSeed,
-        url: Tandem.API_GENERATION ? null : simInfo.info.url,
-        userAgent: Tandem.API_GENERATION ? null : simInfo.info.userAgent,
-        window: Tandem.API_GENERATION ? null : simInfo.info.window,
-        referrer: Tandem.API_GENERATION ? null : simInfo.info.referrer,
-        language: Tandem.API_GENERATION ? null : simInfo.info.language,
-        pixelRatio: Tandem.API_GENERATION ? null : simInfo.info.pixelRatio,
-        isWebGLSupported: Tandem.API_GENERATION ? null : simInfo.info.isWebGLSupported,
-        checkIE11StencilSupport: Tandem.API_GENERATION ? null : simInfo.info.checkIE11StencilSupport,
-        flags: Tandem.API_GENERATION ? null : simInfo.info.flags || null
+        simVersion: simInfo.info.simVersion,
+        wrapperMetadata: simInfo.info.wrapperMetadata,
+        randomSeed: simInfo.info.randomSeed,
+        url: simInfo.info.url,
+        userAgent: simInfo.info.userAgent,
+        window: simInfo.info.window,
+        referrer: simInfo.info.referrer,
+        language: simInfo.info.language,
+        pixelRatio: simInfo.info.pixelRatio,
+        isWebGLSupported: simInfo.info.isWebGLSupported,
+        checkIE11StencilSupport: simInfo.info.checkIE11StencilSupport,
+        flags: simInfo.info.flags || null
       };
     },
 
@@ -191,7 +191,13 @@ class SimInfo extends PhetioObject {
       isWebGLSupported: NullableIO( BooleanIO ),
       checkIE11StencilSupport: NullableIO( BooleanIO ),
       flags: NullableIO( StringIO )
-    }
+    },
+    apiStateKeys: [
+      'screens',
+      'repoName',
+      'dataStreamVersion',
+      'phetioCommandProcessorProtocol'
+    ]
   } );
 }
 
