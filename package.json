@@ -32,6 +32,18 @@
     },
     "rules": {
       "template-curly-spacing": "off"
-    }
+    },
+    "overrides": [
+      {
+        "files": [
+          "**/*.ts"
+        ],
+        "parserOptions": {
+          "project": [
+            "../joist/tsconfig.json"
+          ]
+        }
+      }
+    ]
   }
 }
