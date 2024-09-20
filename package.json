@@ -40,7 +40,7 @@
         ],
         "parserOptions": {
           "project": [
-            "../joist/tsconfig.json"
+            "../chipper/tsconfig/eslint-all/tsconfig.json"
           ]
         }
       }
