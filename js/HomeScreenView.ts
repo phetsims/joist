@@ -6,24 +6,24 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import PatternStringProperty from '../../axon/js/PatternStringProperty.js';
+import Property from '../../axon/js/Property.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
+import optionize from '../../phet-core/js/optionize.js';
+import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import { AlignBox, HBox, Node, Text } from '../../scenery/js/imports.js';
 import soundManager from '../../tambo/js/soundManager.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import HomeScreenButton from './HomeScreenButton.js';
+import HomeScreenModel from './HomeScreenModel.js';
 import HomeScreenSoundGenerator from './HomeScreenSoundGenerator.js';
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
-import ScreenView, { ScreenViewOptions } from './ScreenView.js';
 import { AnyScreen } from './Screen.js';
-import HomeScreenModel from './HomeScreenModel.js';
-import Property from '../../axon/js/Property.js';
-import optionize from '../../phet-core/js/optionize.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
-import PickRequired from '../../phet-core/js/types/PickRequired.js';
-import PatternStringProperty from '../../axon/js/PatternStringProperty.js';
-import Tandem from '../../tandem/js/Tandem.js';
+import ScreenView, { ScreenViewOptions } from './ScreenView.js';
 
 type SelfOptions = {
 

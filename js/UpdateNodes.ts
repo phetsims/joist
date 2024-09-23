@@ -5,6 +5,7 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import merge from '../../phet-core/js/merge.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
@@ -16,9 +17,8 @@ import TextPushButton from '../../sun/js/buttons/TextPushButton.js';
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
 import updateCheck from './updateCheck.js';
-import UpdateState from './UpdateState.js';
 import UpdateDialog from './UpdateDialog.js';
-import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import UpdateState from './UpdateState.js';
 
 // constants
 const UPDATE_TEXT_FONT = new PhetFont( 14 );

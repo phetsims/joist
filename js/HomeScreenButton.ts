@@ -16,16 +16,16 @@ import { Shape } from '../../kite/js/imports.js';
 import merge from '../../phet-core/js/merge.js';
 import optionize from '../../phet-core/js/optionize.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
+import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import { FireListener, Node, PDOMPeer, Rectangle, Text, VBox, VBoxOptions, Voicing, VoicingOptions } from '../../scenery/js/imports.js';
 import EventType from '../../tandem/js/EventType.js';
+import Utterance from '../../utterance-queue/js/Utterance.js';
 import Frame from './Frame.js';
 import HomeScreenModel from './HomeScreenModel.js';
 import joist from './joist.js';
 import Screen from './Screen.js';
-import Utterance from '../../utterance-queue/js/Utterance.js';
-import PickRequired from '../../phet-core/js/types/PickRequired.js';
 
 // constants
 const LARGE_ICON_HEIGHT = 140;

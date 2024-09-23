@@ -6,8 +6,8 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';

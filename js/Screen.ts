@@ -13,12 +13,18 @@
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import Multilink from '../../axon/js/Multilink.js';
+import PatternStringProperty from '../../axon/js/PatternStringProperty.js';
+import PhetioProperty from '../../axon/js/PhetioProperty.js';
 import Property from '../../axon/js/Property.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
+import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
+import PickRequired from '../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import { Color, Node, Path, PDOMValueType, ProfileColorProperty, Rectangle } from '../../scenery/js/imports.js';
 import PhetioObject, { PhetioObjectOptions } from '../../tandem/js/PhetioObject.js';
@@ -29,13 +35,7 @@ import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
 import ScreenIcon from './ScreenIcon.js';
 import ScreenView from './ScreenView.js';
-import PickRequired from '../../phet-core/js/types/PickRequired.js';
-import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
-import Multilink from '../../axon/js/Multilink.js';
 import TModel from './TModel.js';
-import PatternStringProperty from '../../axon/js/PatternStringProperty.js';
-import PhetioProperty from '../../axon/js/PhetioProperty.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 
 const screenNamePatternStringProperty = JoistStrings.a11y.screenNamePatternStringProperty;
 const screenSimPatternStringProperty = JoistStrings.a11y.screenSimPatternStringProperty;

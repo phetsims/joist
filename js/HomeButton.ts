@@ -7,8 +7,10 @@
  */
 
 import Multilink from '../../axon/js/Multilink.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
+import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import { Color, Node, Path, Rectangle } from '../../scenery/js/imports.js';
 import homeSolidShape from '../../sherpa/js/fontawesome-5/homeSolidShape.js';
 import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';
@@ -16,8 +18,6 @@ import Utterance from '../../utterance-queue/js/Utterance.js';
 import joist from './joist.js';
 import JoistButton, { JoistButtonOptions } from './JoistButton.js';
 import JoistStrings from './JoistStrings.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
-import PickRequired from '../../phet-core/js/types/PickRequired.js';
 
 // constants
 const homeScreenDescriptionStringProperty = JoistStrings.a11y.homeScreenDescriptionStringProperty;

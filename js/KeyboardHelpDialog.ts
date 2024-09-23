@@ -8,6 +8,7 @@
 
 import Multilink from '../../axon/js/Multilink.js';
 import Property from '../../axon/js/Property.js';
+import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
@@ -16,11 +17,10 @@ import TextKeyNode from '../../scenery-phet/js/keyboard/TextKeyNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import { HBox, Node, NodeOptions, PDOMPeer, ReadingBlock, ReadingBlockOptions, VBox, VoicingText } from '../../scenery/js/imports.js';
 import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
 import { AnyScreen } from './Screen.js';
-import Tandem from '../../tandem/js/Tandem.js';
-import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
 
 // constants
 const TITLE_MAX_WIDTH = 670;

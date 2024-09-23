@@ -9,12 +9,13 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
 import Property from '../../axon/js/Property.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Utils from '../../dot/js/Utils.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize from '../../phet-core/js/optionize.js';
+import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import { Color, Node, NodeOptions, Rectangle, Text, VBox, Voicing, VoicingOptions } from '../../scenery/js/imports.js';
@@ -22,7 +23,6 @@ import PushButtonModel from '../../sun/js/buttons/PushButtonModel.js';
 import HighlightNode from './HighlightNode.js';
 import joist from './joist.js';
 import { AnyScreen } from './Screen.js';
-import PickRequired from '../../phet-core/js/types/PickRequired.js';
 
 // constants
 const HIGHLIGHT_SPACING = 4;

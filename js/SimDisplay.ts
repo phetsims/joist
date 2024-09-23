@@ -13,16 +13,16 @@
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import TProperty from '../../axon/js/TProperty.js';
-import DynamicStringTest from './DynamicStringTest.js';
 import optionize from '../../phet-core/js/optionize.js';
+import platform from '../../phet-core/js/platform.js';
 import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { animatedPanZoomSingleton, Display, DisplayOptions, InputFuzzer, KeyboardFuzzer, Node, RendererType, scenery, Utils } from '../../scenery/js/imports.js';
 import '../../sherpa/lib/game-up-camera-1.0.0.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import DynamicStringTest from './DynamicStringTest.js';
 import HighlightVisibilityController from './HighlightVisibilityController.js';
 import joist from './joist.js';
 import PreferencesModel from './preferences/PreferencesModel.js';
-import platform from '../../phet-core/js/platform.js';
 
 type SelfOptions = {
   webgl?: boolean;

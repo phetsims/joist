@@ -8,6 +8,7 @@
 
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
 import stepTimer from '../../axon/js/stepTimer.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import TBrand from '../../brand/js/TBrand.js';
@@ -18,14 +19,13 @@ import { allowLinksProperty, Node, PDOMPeer, RichText, VBox, VoicingRichText, Vo
 import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import CreditsNode, { CreditsData } from './CreditsNode.js';
+import localeProperty from './i18n/localeProperty.js';
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
 import packageJSON from './packageJSON.js';
 import updateCheck from './updateCheck.js';
 import UpdateNodes from './UpdateNodes.js';
 import UpdateState from './UpdateState.js';
-import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
-import localeProperty from './i18n/localeProperty.js';
 
 // constants
 const MAX_WIDTH = 550; // Maximum width of elements in the dialog

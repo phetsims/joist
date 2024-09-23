@@ -6,7 +6,10 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import platform from '../../phet-core/js/platform.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import { Color, HBox, HBoxOptions } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import audioManager from './audioManager.js';
@@ -15,9 +18,6 @@ import KeyboardHelpButton from './KeyboardHelpButton.js';
 import NavigationBarAudioToggleButton from './NavigationBarAudioToggleButton.js';
 import NavigationBarPreferencesButton from './preferences/NavigationBarPreferencesButton.js';
 import Sim from './Sim.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
-import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = EmptySelfOptions;
 export type A11yButtonsHBoxOptions = SelfOptions & StrictOmit<HBoxOptions, 'children'>;

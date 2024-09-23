@@ -6,21 +6,21 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import { Node, NodeOptions } from '../../scenery/js/imports.js';
-import joist from './joist.js';
-import PhetioObject from '../../tandem/js/PhetioObject.js';
-import DescriptionRegistry from '../../tandem/js/DescriptionRegistry.js';
-import TReadOnlyProperty, { PropertyLazyLinkListener, PropertyLinkListener, PropertyListener } from '../../axon/js/TReadOnlyProperty.js';
-import TEmitter, { TEmitterListener, TReadOnlyEmitter } from '../../axon/js/TEmitter.js';
-import localeProperty, { Locale } from './i18n/localeProperty.js';
-import TinyProperty from '../../axon/js/TinyProperty.js';
-import Multilink, { UnknownMultilink } from '../../axon/js/Multilink.js';
-import dotRandom from '../../dot/js/dotRandom.js';
-import TProperty from '../../axon/js/TProperty.js';
-import LocalizedString from '../../chipper/js/LocalizedString.js';
-import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import CallbackTimer, { CallbackTimerOptions } from '../../axon/js/CallbackTimer.js';
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import Multilink, { UnknownMultilink } from '../../axon/js/Multilink.js';
+import TEmitter, { TEmitterListener, TReadOnlyEmitter } from '../../axon/js/TEmitter.js';
+import TinyProperty from '../../axon/js/TinyProperty.js';
+import TProperty from '../../axon/js/TProperty.js';
+import TReadOnlyProperty, { PropertyLazyLinkListener, PropertyLinkListener, PropertyListener } from '../../axon/js/TReadOnlyProperty.js';
+import LocalizedString from '../../chipper/js/LocalizedString.js';
+import dotRandom from '../../dot/js/dotRandom.js';
+import { Node, NodeOptions } from '../../scenery/js/imports.js';
+import DescriptionRegistry from '../../tandem/js/DescriptionRegistry.js';
+import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Utterance, { UtteranceOptions } from '../../utterance-queue/js/Utterance.js';
+import localeProperty, { Locale } from './i18n/localeProperty.js';
+import joist from './joist.js';
 
 export type DescriptionStrings = {
   locale: Locale;

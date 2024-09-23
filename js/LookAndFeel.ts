@@ -7,8 +7,8 @@
  */
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import { Color } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 

@@ -6,10 +6,11 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Property from '../../axon/js/Property.js';
 import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
+import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import { Color, Node } from '../../scenery/js/imports.js';
 import HomeScreenKeyboardHelpContent from './HomeScreenKeyboardHelpContent.js';
 import HomeScreenModel from './HomeScreenModel.js';
@@ -17,7 +18,6 @@ import HomeScreenView from './HomeScreenView.js';
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
 import Screen, { ScreenOptions } from './Screen.js';
-import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 
 // constants
 const homeStringProperty = JoistStrings.a11y.homeStringProperty;

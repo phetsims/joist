@@ -8,9 +8,9 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import selectScreens, { ScreenReturnType } from './selectScreens.js';
-import { AnyScreen } from './Screen.js';
 import HomeScreen from './HomeScreen.js';
+import { AnyScreen } from './Screen.js';
+import selectScreens, { ScreenReturnType } from './selectScreens.js';
 
 // test screen constants. Since these are tests, it is actually more valuable to typecast instead of making these actual screens.
 const a = 'a' as unknown as AnyScreen;

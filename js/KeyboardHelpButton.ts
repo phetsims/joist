@@ -8,19 +8,19 @@
  */
 
 import Property from '../../axon/js/Property.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
+import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import { Color, Image } from '../../scenery/js/imports.js';
 import Dialog from '../../sun/js/Dialog.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
-import keyboardIconOnWhite_png from '../images/keyboardIconOnWhite_png.js'; // on a white navbar
 import keyboardIcon_png from '../images/keyboardIcon_png.js'; // on a black navbar
+import keyboardIconOnWhite_png from '../images/keyboardIconOnWhite_png.js'; // on a white navbar
 import joist from './joist.js';
 import JoistButton, { JoistButtonOptions } from './JoistButton.js';
 import JoistStrings from './JoistStrings.js';
 import KeyboardHelpDialog from './KeyboardHelpDialog.js';
 import { AnyScreen } from './Screen.js';
-import PickRequired from '../../phet-core/js/types/PickRequired.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 
 // constants
 const keyboardShortcutsStringProperty = JoistStrings.a11y.keyboardHelp.keyboardShortcutsStringProperty;

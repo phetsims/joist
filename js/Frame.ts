@@ -8,7 +8,7 @@
 
 import Bounds2 from '../../dot/js/Bounds2.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { LinearGradient, Node, Rectangle, NodeOptions } from '../../scenery/js/imports.js';
+import { LinearGradient, Node, NodeOptions, Rectangle } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 
 type SelfOptions = {

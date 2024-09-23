@@ -8,10 +8,11 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
+import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import TBrand from '../../brand/js/TBrand.js';
 import { AriaHasPopUpMutator, Color, Image, Line, Node } from '../../scenery/js/imports.js';
+import sharedSoundPlayers from '../../tambo/js/sharedSoundPlayers.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import joist from './joist.js';
@@ -22,7 +23,6 @@ import PhetMenu from './PhetMenu.js';
 import Sim from './Sim.js';
 import updateCheck from './updateCheck.js';
 import UpdateState from './UpdateState.js';
-import sharedSoundPlayers from '../../tambo/js/sharedSoundPlayers.js';
 
 // Accommodate logos of any height by scaling them down proportionately.
 // The primary logo is 108px high and we have been scaling it at 0.28 to make it look good even on higher resolution

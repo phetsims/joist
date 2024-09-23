@@ -20,8 +20,8 @@ import NumberIO from '../../tandem/js/types/NumberIO.js';
 import ObjectLiteralIO from '../../tandem/js/types/ObjectLiteralIO.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
 import joist from './joist.js';
-import { AnyScreen } from './Screen.js';
 import packageJSON from './packageJSON.js';
+import { AnyScreen } from './Screen.js';
 import Sim from './Sim.js';
 
 export type ScreenState = {

@@ -26,8 +26,8 @@ import PlayAreaNode from '../../scenery-phet/js/accessibility/nodes/PlayAreaNode
 import ScreenSummaryNode from '../../scenery-phet/js/accessibility/nodes/ScreenSummaryNode.js';
 import { Node, NodeOptions } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import joist from './joist.js';
 import { SpeakableResolvedResponse } from '../../utterance-queue/js/ResponsePacket.js';
+import joist from './joist.js';
 
 /*
  * Default width and height for iPad2, iPad3, iPad4 running Safari with default tabs and decorations

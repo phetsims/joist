@@ -23,8 +23,11 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import StringProperty from '../../axon/js/StringProperty.js';
+import Bounds2 from '../../dot/js/Bounds2.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import { AlignBox, Color, HBox, ManualConstraint, Node, PDOMPeer, Rectangle, RelaxedManualConstraint, Text } from '../../scenery/js/imports.js';
@@ -37,11 +40,8 @@ import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
 import NavigationBarScreenButton from './NavigationBarScreenButton.js';
 import PhetButton from './PhetButton.js';
-import Sim from './Sim.js';
-import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
-import Bounds2 from '../../dot/js/Bounds2.js';
 import { AnyScreen } from './Screen.js';
-import BooleanProperty from '../../axon/js/BooleanProperty.js';
+import Sim from './Sim.js';
 
 // constants
 // for layout of the NavigationBar, used in the following way:

@@ -10,9 +10,9 @@
 import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import SoundClip, { SoundClipOptions } from '../../tambo/js/sound-generators/SoundClip.js';
 import screenSelection_mp3 from '../sounds/screenSelection_mp3.js';
+import HomeScreen from './HomeScreen.js';
 import joist from './joist.js';
 import { AnyScreen } from './Screen.js';
-import HomeScreen from './HomeScreen.js';
 
 class ScreenSelectionSoundGenerator extends SoundClip {
 
