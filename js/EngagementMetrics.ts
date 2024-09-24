@@ -1,4 +1,4 @@
-// Copyright 2019-2023, University of Colorado Boulder
+// Copyright 2019-2024, University of Colorado Boulder
 
 /**
  * Monitors the engagement as it relates to time spent on each screen of a sim. Mainly this is to provide this information
