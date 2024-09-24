@@ -26,24 +26,8 @@
   },
   "eslintConfig": {
     "extends": "../chipper/eslint/sim_eslintrc.js",
-    "parserOptions": {
-      "sourceType": "module",
-      "allowImportExportEverywhere": true
-    },
     "rules": {
       "template-curly-spacing": "off"
-    },
-    "overrides": [
-      {
-        "files": [
-          "**/*.ts"
-        ],
-        "parserOptions": {
-          "project": [
-            "../chipper/tsconfig/eslint-all/tsconfig.json"
-          ]
-        }
-      }
-    ]
+    }
   }
 }
