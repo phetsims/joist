@@ -59,8 +59,8 @@ class UpdateCheck {
   }
 
   //Sets our timeout listener.
-  private setTimeout(): void { // eslint-disable-line bad-sim-text
-    this.timeoutId = window.setTimeout( this.timeoutCallback, TIMEOUT_MILLISECONDS ); // eslint-disable-line bad-sim-text
+  private setTimeout(): void { // eslint-disable-line phet/bad-sim-text
+    this.timeoutId = window.setTimeout( this.timeoutCallback, TIMEOUT_MILLISECONDS ); // eslint-disable-line phet/bad-sim-text
   }
 
   // If we are checking, it resets our timeout timer to TIMEOUT_MILLISECONDS

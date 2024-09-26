@@ -31,7 +31,7 @@ import Dimension2 from '../../dot/js/Dimension2.js';
 import dotRandom from '../../dot/js/dotRandom.js';
 import Permutation from '../../dot/js/Permutation.js';
 import Random from '../../dot/js/Random.js';
-import DotUtils from '../../dot/js/Utils.js'; // eslint-disable-line default-import-match-filename
+import DotUtils from '../../dot/js/Utils.js'; // eslint-disable-line phet/default-import-match-filename
 import optionize from '../../phet-core/js/optionize.js';
 import platform from '../../phet-core/js/platform.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
@@ -892,7 +892,7 @@ export default class Sim extends PhetioObject {
 
   private resizeToWindow(): void {
     this.resizePending = false;
-    this.resize( window.innerWidth, window.innerHeight ); // eslint-disable-line bad-sim-text
+    this.resize( window.innerWidth, window.innerHeight ); // eslint-disable-line phet/bad-sim-text
   }
 
   private resize( width: number, height: number ): void {
@@ -922,7 +922,7 @@ export default class Sim extends PhetioObject {
 
     // loop to run startup items asynchronously so the DOM can be updated to show animation on the progress bar
     const runItem = ( i: number ) => {
-      setTimeout( // eslint-disable-line bad-sim-text
+      setTimeout( // eslint-disable-line phet/bad-sim-text
         () => {
           workItems[ i ]();
 
@@ -941,7 +941,7 @@ export default class Sim extends PhetioObject {
             runItem( i + 1 );
           }
           else {
-            setTimeout( () => { // eslint-disable-line bad-sim-text
+            setTimeout( () => { // eslint-disable-line phet/bad-sim-text
               this.finishInit( this.screens );
 
               // Make sure requestAnimationFrame is defined

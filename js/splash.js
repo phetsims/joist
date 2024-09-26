@@ -34,8 +34,8 @@
     const currentWidth = splashImageWidth;
     const currentHeight = splashImageHeight;
 
-    const availableHeight = window.innerHeight; // eslint-disable-line bad-sim-text
-    const availableWidth = window.innerWidth; // eslint-disable-line bad-sim-text
+    const availableHeight = window.innerHeight; // eslint-disable-line phet/bad-sim-text
+    const availableWidth = window.innerWidth; // eslint-disable-line phet/bad-sim-text
 
     const scaleX = availableWidth / currentWidth;
     const scaleY = availableHeight / currentHeight;
@@ -43,8 +43,8 @@
     const scale = Math.min( scaleX, scaleY ) * SCALE_FACTOR;
 
     // use Math.round because this is a preload
-    const translationX = Math.round( ( availableWidth - currentWidth * scale ) / 2 ); // eslint-disable-line bad-sim-text
-    const translationY = Math.round( ( availableHeight - currentHeight * scale ) * POSITION_Y ); // eslint-disable-line bad-sim-text
+    const translationX = Math.round( ( availableWidth - currentWidth * scale ) / 2 ); // eslint-disable-line phet/bad-sim-text
+    const translationY = Math.round( ( availableHeight - currentHeight * scale ) * POSITION_Y ); // eslint-disable-line phet/bad-sim-text
 
     // Position the div using CSS
     const transformString = `translate(${translationX}px, ${translationY}px) scale3d(${scale}, ${scale}, 1)`;
@@ -141,10 +141,10 @@
   svg.appendChild( progressBarForeground );
 
   // fade/glow the background of the loading bar
-  const phetSplashScreenAnimationInterval = setInterval( () => { // eslint-disable-line bad-sim-text
+  const phetSplashScreenAnimationInterval = setInterval( () => { // eslint-disable-line phet/bad-sim-text
 
     // use browser toFixed because this is a preload
-    progressBarBackground.style[ 'stroke-width' ] = ( Math.sin( Date.now() / 1000 * 4 ) * 0.55 + 1 ).toFixed( 2 ); // eslint-disable-line bad-sim-text
+    progressBarBackground.style[ 'stroke-width' ] = ( Math.sin( Date.now() / 1000 * 4 ) * 0.55 + 1 ).toFixed( 2 ); // eslint-disable-line phet/bad-sim-text
   }, 16 );
 
   // After download is complete, stop the animation of the background

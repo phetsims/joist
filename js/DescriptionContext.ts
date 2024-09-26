@@ -108,7 +108,7 @@ export default class DescriptionContext {
       this.assignments.push( new Assignment( node, property, node[ property ] ) );
     }
 
-    // eslint-disable-next-line no-simple-type-checking-assertions
+    // eslint-disable-next-line phet/no-simple-type-checking-assertions
     assert && assert( typeof property === 'string', 'Node property name for the set should be a string' );
 
     // @ts-expect-error
@@ -318,7 +318,7 @@ export class ExternalLoadError extends Error {
 
   public constructor( public readonly error: Error, dataURI: string ) {
     // NOTE: this is a guard for the above cast to Error.
-    // eslint-disable-next-line no-simple-type-checking-assertions
+    // eslint-disable-next-line phet/no-simple-type-checking-assertions
     assert && assert( error instanceof Error );
 
     super( error.message );

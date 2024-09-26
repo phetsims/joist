@@ -70,7 +70,7 @@ class SimInfo extends PhetioObject {
     this.putInfo( 'randomSeed', window.phet.chipper.queryParameters.randomSeed );
     this.putInfo( 'userAgent', window.navigator.userAgent );
     this.putInfo( 'language', window.navigator.language );
-    this.putInfo( 'window', `${window.innerWidth}x${window.innerHeight}` ); // eslint-disable-line bad-sim-text
+    this.putInfo( 'window', `${window.innerWidth}x${window.innerHeight}` ); // eslint-disable-line phet/bad-sim-text
     this.putInfo( 'referrer', document.referrer );
 
     // from Scenery Utils
