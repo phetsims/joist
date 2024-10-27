@@ -28,6 +28,7 @@ import { Node, NodeOptions } from '../../scenery/js/imports.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import { SpeakableResolvedResponse } from '../../utterance-queue/js/ResponsePacket.js';
 import joist from './joist.js';
+import ScreenSummaryContent from './ScreenSummaryContent.js';
 
 /*
  * Default width and height for iPad2, iPad3, iPad4 running Safari with default tabs and decorations
@@ -45,7 +46,7 @@ type GetLayoutMatrixOptions = {
 // Documented where the defaults are defined
 type SelfOptions = {
   layoutBounds?: Bounds2;
-  screenSummaryContent?: Node | null;
+  screenSummaryContent?: ScreenSummaryContent | null;
   includePDOMNodes?: boolean;
 };
 export type ScreenViewOptions = SelfOptions & NodeOptions;
