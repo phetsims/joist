@@ -26,8 +26,8 @@ export default class ScreenSummaryContent extends Node {
   private multiParagraphNode: Node = new Node();
 
   /**
-   * If provided content is a single item, it sets the content to be a single paragraph.
-   * If an array is provided, each item is added as its own paragraph to the `multiParagraphNode`.
+   * If provided content is a single item, it is added to the PDOM as a single paragraph.
+   * If provided content is an array, each item is added as its own paragraph.
    * If content is null, nothing is added.
    */
   public constructor( content: TReadOnlyProperty<string> | TReadOnlyProperty<string>[] | null, providedOptions?: ScreenSummaryContentOptions ) {
