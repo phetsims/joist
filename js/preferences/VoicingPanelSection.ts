@@ -456,7 +456,7 @@ class VoiceComboBox extends ComboBox<SpeechSynthesisVoice | null> {
       items.push( {
         value: null,
         createNode: ( tandem: Tandem ) => new Text( noVoicesAvailableStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ),
-        a11yName: noVoicesAvailableStringProperty
+        accessibleName: noVoicesAvailableStringProperty
       } );
     }
 
@@ -464,7 +464,7 @@ class VoiceComboBox extends ComboBox<SpeechSynthesisVoice | null> {
       items.push( {
         value: voice,
         createNode: ( tandem: Tandem ) => new Text( voice.name, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ),
-        a11yName: voice.name
+        accessibleName: voice.name
       } );
     } );
 
