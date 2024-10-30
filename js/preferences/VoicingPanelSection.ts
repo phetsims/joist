@@ -370,6 +370,7 @@ class VoiceRateNumberControl extends NumberControl {
       includeArrowButtons: false,
       layoutFunction: NumberControl.createLayoutFunction4(),
       delta: 0.25,
+      accessibleName: a11yNameString,
       titleNodeOptions: merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         maxWidth: 45
       } ),
@@ -385,10 +386,6 @@ class VoiceRateNumberControl extends NumberControl {
         trackSize: TRACK_SIZE,
         keyboardStep: 0.25,
         minorTickSpacing: 0.25,
-
-        // pdom
-        labelTagName: 'label',
-        labelContent: a11yNameString,
 
         // voicing
         voicingOnEndResponseOptions: {
