@@ -18,7 +18,7 @@ let phetioEngine: PhetioEngine | null = null;
 const unlockBrand = asyncLoader.createLock( { name: 'brand' } );
 import( /* webpackMode: "eager" */ `../../brand/${phet.chipper.brand}/js/Brand.js` )
   .then( module => unlockBrand() )
-  .catch( err => console.log( err ) );
+  .catch( err => assert && assert( false, err ) );
 
 if ( Tandem.PHET_IO_ENABLED ) {
   const unlockPhetioEngine = asyncLoader.createLock( { name: 'phetioEngine' } );
@@ -27,7 +27,7 @@ if ( Tandem.PHET_IO_ENABLED ) {
       phetioEngine = module.default;
       unlockPhetioEngine();
     } )
-    .catch( err => console.log( err ) );
+    .catch( err => assert && assert( false, err ) );
 }
 
 const unlockLaunch = asyncLoader.createLock( { name: 'launch' } );
