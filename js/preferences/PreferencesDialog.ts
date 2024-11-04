@@ -59,11 +59,7 @@ class PreferencesDialog extends Dialog {
 
     const titleText = new Text( JoistStrings.preferences.titleStringProperty, {
       font: TITLE_FONT,
-      maxWidth: CONTENT_MAX_WIDTH, // The width of the title should be the same max as for a panel section
-
-      // pdom
-      tagName: 'h1',
-      innerContent: JoistStrings.preferences.titleStringProperty
+      maxWidth: CONTENT_MAX_WIDTH // The width of the title should be the same max as for a panel section
     } );
 
     const options = optionize<PreferencesDialogOptions, EmptySelfOptions, DialogOptions>()( {

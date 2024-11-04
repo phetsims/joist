@@ -15,7 +15,7 @@ import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import KeyboardHelpSectionRow from '../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
 import TextKeyNode from '../../scenery-phet/js/keyboard/TextKeyNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { HBox, Node, NodeOptions, PDOMPeer, ReadingBlock, ReadingBlockOptions, VBox, VoicingText } from '../../scenery/js/imports.js';
+import { HBox, Node, NodeOptions, ReadingBlock, ReadingBlockOptions, VBox, VoicingText } from '../../scenery/js/imports.js';
 import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
@@ -46,10 +46,7 @@ export default class KeyboardHelpDialog extends Dialog {
 
       // Append the title to the close button
       closeButtonVoicingDialogTitle: JoistStrings.keyboardShortcuts.titleStringProperty,
-      isDisposable: false,
-
-      // Because of the special titleNode, we set the aria-labelledby attribute manually; see below.
-      addAriaLabelledByFromTitle: false
+      isDisposable: false
     }, providedOptions );
 
     const content = new Node( {
@@ -72,9 +69,7 @@ export default class KeyboardHelpDialog extends Dialog {
       } ),
       maxWidth: TITLE_MAX_WIDTH,
 
-      // pdom options
-      tagName: 'h1',
-      innerContent: JoistStrings.a11y.keyboardHelp.keyboardShortcutsStringProperty,
+      // voicing options
       readingBlockDisabledTagName: null
     } );
 
@@ -105,13 +100,6 @@ export default class KeyboardHelpDialog extends Dialog {
         assert && assert( currentContentNode, 'a displayed KeyboardHelpButton for a screen should have content' );
         content.children = [ currentContentNode ];
       }
-    } );
-
-    // (a11y) Make sure that the title passed to the Dialog has an accessible name.
-    this.addAriaLabelledbyAssociation( {
-      thisElementName: PDOMPeer.PRIMARY_SIBLING,
-      otherNode: shortcutsTitleText,
-      otherElementName: PDOMPeer.PRIMARY_SIBLING
     } );
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified

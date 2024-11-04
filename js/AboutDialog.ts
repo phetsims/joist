@@ -59,6 +59,7 @@ export default class AboutDialog extends Dialog {
       phetioReadOnly: true, // the AboutDialog should not be settable
       phetioDynamicElement: true,
       isDisposable: false,
+      accessibleName: nameStringProperty,
       tandem: Tandem.REQUIRED
     }, providedOptions );
 
