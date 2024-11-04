@@ -74,7 +74,8 @@ export default class KeyboardHelpDialog extends Dialog {
 
       // pdom options
       tagName: 'h1',
-      innerContent: JoistStrings.a11y.keyboardHelp.keyboardShortcutsStringProperty
+      innerContent: JoistStrings.a11y.keyboardHelp.keyboardShortcutsStringProperty,
+      readingBlockDisabledTagName: null
     } );
 
     // a 'tab to get started' hint

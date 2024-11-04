@@ -71,7 +71,7 @@ export default class AboutDialog extends Dialog {
     const titleText = new VoicingText( nameStringProperty, {
       font: new PhetFont( 2 * NOMINAL_FONT_SIZE ),
       maxWidth: MAX_WIDTH,
-      tagName: 'h1'
+      readingBlockDisabledTagName: null
     } );
     children.push( titleText );
 
