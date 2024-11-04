@@ -74,10 +74,7 @@ class PreferencesDialog extends Dialog {
       // phet-io
       phetioDynamicElement: true,
 
-      closeButtonVoicingDialogTitle: JoistStrings.preferences.titleStringProperty,
-
-      // pdom
-      positionInPDOM: true
+      closeButtonVoicingDialogTitle: JoistStrings.preferences.titleStringProperty
     }, providedOptions );
 
     // determine which tabs will be supported in this Dialog, true if any entry in a configuration has content
