@@ -91,6 +91,8 @@ class Screen<M extends TModel, V extends ScreenView> extends PhetioObject {
   // dt cap in seconds, see https://github.com/phetsims/joist/issues/130
   public readonly maxDT: number;
   public readonly activeProperty: BooleanProperty;
+
+  // Help text used on the screen buttons, see options above.
   public readonly screenButtonsHelpText: PDOMValueType;
   public readonly nameProperty: TReadOnlyProperty<string>;
 
@@ -237,6 +239,8 @@ class Screen<M extends TModel, V extends ScreenView> extends PhetioObject {
                            'simulations, there is only one screen and it is always active.'
     } );
 
+    // The helpText for the screen buttons uses the provided option, but creates reasonable defaults
+    // from the nameProperty otherwise.
     this.screenButtonsHelpText = '';
     if ( options.screenButtonsHelpText ) {
       this.screenButtonsHelpText = options.screenButtonsHelpText;
