@@ -68,7 +68,11 @@ type SelfOptions = {
   // dt cap in seconds, see https://github.com/phetsims/joist/issues/130
   maxDT?: number;
   createKeyboardHelpNode?: null | ( ( tandem: Tandem ) => Node );
-  descriptionContent?: PDOMValueType | null;
+
+  // Help text that will be added to the Home screen button and navigation bar button for this screen.
+  // This is often a full but short sentence with a period at the end of it. This is also used as the
+  // hint response for these buttons with the Voicing feature.
+  screenButtonsHelpText?: PDOMValueType | null;
 };
 export type ScreenOptions = SelfOptions &
   StrictOmit<PhetioObjectOptions, 'tandemNameSuffix'> & // Tandem.RootTandem.createTandem requires that the suffix is Tandem.SCREEN_TANDEM_NAME_SUFFIX.
@@ -87,7 +91,7 @@ class Screen<M extends TModel, V extends ScreenView> extends PhetioObject {
   // dt cap in seconds, see https://github.com/phetsims/joist/issues/130
   public readonly maxDT: number;
   public readonly activeProperty: BooleanProperty;
-  public readonly descriptionContent: PDOMValueType;
+  public readonly screenButtonsHelpText: PDOMValueType;
   public readonly nameProperty: TReadOnlyProperty<string>;
 
   public readonly showScreenIconFrameForNavigationBarFill: string | null;
@@ -144,10 +148,7 @@ class Screen<M extends TModel, V extends ScreenView> extends PhetioObject {
       // screen is selected
       createKeyboardHelpNode: null,
 
-      // pdom/voicing - The description that is used when interacting with screen icons/buttons in joist (and home screen).
-      // This is often a full but short sentence with a period at the end of it. This is also used for voicing this screen
-      // in the home screen.
-      descriptionContent: null,
+      screenButtonsHelpText: null,
 
       // phet-io
       // @ts-expect-error include a default for un-instrumented, JavaScript sims
@@ -236,19 +237,19 @@ class Screen<M extends TModel, V extends ScreenView> extends PhetioObject {
                            'simulations, there is only one screen and it is always active.'
     } );
 
-    // Used to set the ScreenView's descriptionContent. This is a bit of a misnomer because Screen is not a Node
-    // subtype, so this is a value property rather than a setter.
-    this.descriptionContent = '';
-    if ( options.descriptionContent ) {
-      this.descriptionContent = options.descriptionContent;
+    this.screenButtonsHelpText = '';
+    if ( options.screenButtonsHelpText ) {
+      this.screenButtonsHelpText = options.screenButtonsHelpText;
     }
     else if ( this.nameProperty.value ) {
-      this.descriptionContent = new PatternStringProperty( screenNamePatternStringProperty, {
+
+      // Fall back to "{{Screen Name}} Screen" as a default.
+      this.screenButtonsHelpText = new PatternStringProperty( screenNamePatternStringProperty, {
         name: this.nameProperty
       }, { tandem: Tandem.OPT_OUT } );
     }
     else {
-      this.descriptionContent = simScreenStringProperty; // fall back on generic name
+      this.screenButtonsHelpText = simScreenStringProperty; // fall back on generic name
     }
 
     assert && this.activeProperty.lazyLink( () => {

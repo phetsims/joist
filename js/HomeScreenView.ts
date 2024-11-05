@@ -101,10 +101,10 @@ class HomeScreenView extends ScreenView {
           showUnselectedHomeScreenIconFrame: screen.showUnselectedHomeScreenIconFrame,
 
           // pdom
-          descriptionContent: screen.descriptionContent,
+          descriptionContent: screen.screenButtonsHelpText,
 
           // voicing
-          voicingHintResponse: screen.descriptionContent,
+          voicingHintResponse: screen.screenButtonsHelpText,
 
           // phet-io
           tandem: screen.tandem.supplied ? buttonGroupTandem.createTandem( `${screen.tandem.name}Button` ) : Tandem.REQUIRED
@@ -208,7 +208,7 @@ class HomeScreenView extends ScreenView {
       }
       details += StringUtils.fillIn( JoistStrings.a11y.homeScreenButtonDetailsPatternStringProperty, {
         name: screenButton.screen.pdomDisplayNameProperty.value,
-        screenHint: screenButton.screen.descriptionContent
+        screenHint: screenButton.screen.screenButtonsHelpText
       } );
     } );
     return details;

@@ -62,11 +62,11 @@ class NavigationBarScreenButton extends Voicing( Node ) {
       // pdom
       tagName: 'button',
       containerTagName: 'li',
-      descriptionContent: screen.descriptionContent,
+      descriptionContent: screen.screenButtonsHelpText,
       appendDescription: true,
 
       // voicing
-      voicingHintResponse: screen.descriptionContent
+      voicingHintResponse: screen.screenButtonsHelpText
     }, providedOptions );
 
     assert && assert( !options.innerContent, 'NavigationBarScreenButton sets its own innerContent' );
