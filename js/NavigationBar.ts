@@ -194,11 +194,6 @@ class NavigationBar extends Node {
         sim.homeScreen ? sim.homeScreen.pdomDisplayNameProperty : new StringProperty( 'NO HOME SCREEN' ), {
           listener: () => {
             sim.selectedScreenProperty.value = sim.homeScreen!;
-
-            // only if fired from a11y
-            if ( this.homeButton!.isPDOMClicking() ) {
-              sim.homeScreen!.view.focusHighlightedScreenButton();
-            }
           },
           tandem: tandem.createTandem( 'homeButton' ),
           centerY: NAVIGATION_BAR_SIZE.height / 2
