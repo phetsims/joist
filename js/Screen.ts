@@ -38,6 +38,7 @@ import ScreenView from './ScreenView.js';
 import TModel from './TModel.js';
 
 const screenNamePatternStringProperty = JoistStrings.a11y.screenNamePatternStringProperty;
+const goToScreenPatternStringProperty = JoistStrings.a11y.goToScreenPatternStringProperty;
 const screenSimPatternStringProperty = JoistStrings.a11y.screenSimPatternStringProperty;
 const simScreenStringProperty = JoistStrings.a11y.simScreenStringProperty;
 
@@ -247,8 +248,8 @@ class Screen<M extends TModel, V extends ScreenView> extends PhetioObject {
     }
     else if ( this.nameProperty.value ) {
 
-      // Fall back to "{{Screen Name}} Screen" as a default.
-      this.screenButtonsHelpText = new PatternStringProperty( screenNamePatternStringProperty, {
+      // Fall back to "Go to {{Screen Name}} Screen" as a default.
+      this.screenButtonsHelpText = new PatternStringProperty( goToScreenPatternStringProperty, {
         name: this.nameProperty
       }, { tandem: Tandem.OPT_OUT } );
     }

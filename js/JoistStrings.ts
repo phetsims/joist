@@ -153,6 +153,7 @@ type StringsType = {
     'simScreensStringProperty': LocalizedStringProperty;
     'simScreenStringProperty': LocalizedStringProperty;
     'screenNamePatternStringProperty': LocalizedStringProperty;
+    'goToScreenPatternStringProperty': LocalizedStringProperty;
     'screenSimPatternStringProperty': LocalizedStringProperty;
     'homeStringProperty': LocalizedStringProperty;
     'homeScreenDescriptionStringProperty': LocalizedStringProperty;

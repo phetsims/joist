@@ -331,6 +331,9 @@
     "screenNamePattern": {
       "value": "{{name}} Screen"
     },
+    "goToScreenPattern": {
+      "value": "Go to {{name}} Screen."
+    },
     "screenSimPattern": {
       "value": "{{screenName}}, {{simName}}"
     },
