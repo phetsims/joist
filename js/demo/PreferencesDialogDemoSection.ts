@@ -8,15 +8,15 @@
  */
 
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
-import { HBox, RichText, Text } from '../../../scenery/js/imports.js';
-import PreferencesControl from '../preferences/PreferencesControl.js';
-import ToggleSwitch from '../../../sun/js/ToggleSwitch.js';
-import PreferencesDialogConstants from '../preferences/PreferencesDialogConstants.js';
-import PreferencesPanelContentNode from '../preferences/PreferencesPanelContentNode.js';
-import NumberControl from '../../../scenery-phet/js/NumberControl.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import Range from '../../../dot/js/Range.js';
+import NumberControl from '../../../scenery-phet/js/NumberControl.js';
+import { HBox, RichText, Text } from '../../../scenery/js/imports.js';
+import ToggleSwitch from '../../../sun/js/ToggleSwitch.js';
 import joist from '../joist.js';
+import PreferencesControl from '../preferences/PreferencesControl.js';
+import PreferencesDialogConstants from '../preferences/PreferencesDialogConstants.js';
+import PreferencesPanelContentNode from '../preferences/PreferencesPanelContentNode.js';
 
 export default class PreferencesDialogDemoSection extends PreferencesPanelContentNode {
 

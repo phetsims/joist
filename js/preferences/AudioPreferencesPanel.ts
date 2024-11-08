@@ -6,22 +6,22 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import { combineOptions } from '../../../phet-core/js/optionize.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import { HBox, Text, VBox, VBoxOptions } from '../../../scenery/js/imports.js';
+import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
-import PreferencesDialog from './PreferencesDialog.js';
-import { AudioModel } from './PreferencesModel.js';
 import PreferencesControl from './PreferencesControl.js';
+import PreferencesDialog from './PreferencesDialog.js';
+import PreferencesDialogConstants from './PreferencesDialogConstants.js';
+import { AudioModel } from './PreferencesModel.js';
+import PreferencesPanel, { PreferencesPanelOptions } from './PreferencesPanel.js';
+import PreferencesPanelSection from './PreferencesPanelSection.js';
+import PreferencesType from './PreferencesType.js';
 import SoundPanelSection from './SoundPanelSection.js';
 import VoicingPanelSection from './VoicingPanelSection.js';
-import PreferencesPanelSection from './PreferencesPanelSection.js';
-import PickRequired from '../../../phet-core/js/types/PickRequired.js';
-import PreferencesPanel, { PreferencesPanelOptions } from './PreferencesPanel.js';
-import PreferencesType from './PreferencesType.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
-import { combineOptions } from '../../../phet-core/js/optionize.js';
-import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 
 // constants
 const audioFeaturesStringProperty = JoistStrings.preferences.tabs.audio.audioFeatures.titleStringProperty;

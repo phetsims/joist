@@ -8,10 +8,10 @@
  *
  */
 
-import joist from '../joist.js';
-import { Node, VBox } from '../../../scenery/js/imports.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import { Node, VBox } from '../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../sun/js/Panel.js';
+import joist from '../joist.js';
 
 type SelfOptions = {
   content: Array<Node>;

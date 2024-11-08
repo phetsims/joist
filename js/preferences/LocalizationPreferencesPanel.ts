@@ -10,22 +10,22 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import { Node, RichText, Text, VBox } from '../../../scenery/js/imports.js';
-import joist from '../joist.js';
-import { LocalizationModel } from './PreferencesModel.js';
-import PreferencesPanelSection from './PreferencesPanelSection.js';
-import RegionAndCultureComboBox from './RegionAndCultureComboBox.js';
-import LocalePanel from './LocalePanel.js';
-import PickRequired from '../../../phet-core/js/types/PickRequired.js';
-import PreferencesDialog from './PreferencesDialog.js';
-import PreferencesPanel, { PreferencesPanelOptions } from './PreferencesPanel.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import PreferencesType from './PreferencesType.js';
-import JoistStrings from '../JoistStrings.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import PreferencesDialogConstants from './PreferencesDialogConstants.js';
-import PreferencesControl from './PreferencesControl.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import { Node, RichText, Text, VBox } from '../../../scenery/js/imports.js';
 import { supportedRegionAndCultureValues } from '../i18n/regionAndCultureProperty.js';
+import joist from '../joist.js';
+import JoistStrings from '../JoistStrings.js';
+import LocalePanel from './LocalePanel.js';
+import PreferencesControl from './PreferencesControl.js';
+import PreferencesDialog from './PreferencesDialog.js';
+import PreferencesDialogConstants from './PreferencesDialogConstants.js';
+import { LocalizationModel } from './PreferencesModel.js';
+import PreferencesPanel, { PreferencesPanelOptions } from './PreferencesPanel.js';
+import PreferencesPanelSection from './PreferencesPanelSection.js';
+import PreferencesType from './PreferencesType.js';
+import RegionAndCultureComboBox from './RegionAndCultureComboBox.js';
 
 // constants
 const localizationTitleStringProperty = JoistStrings.preferences.tabs.localization.titleStringProperty;

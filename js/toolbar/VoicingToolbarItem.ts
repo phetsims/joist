@@ -8,23 +8,23 @@
  */
 
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import optionize, { combineOptions, EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import PlayStopButton from '../../../scenery-phet/js/buttons/PlayStopButton.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { AlignGroup, Display, HBox, Node, NodeOptions, ReadingBlockHighlight, SceneryEvent, Text, voicingManager, VoicingText, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
+import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import { SpeakableResolvedResponse } from '../../../utterance-queue/js/ResponsePacket.js';
 import Utterance from '../../../utterance-queue/js/Utterance.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
-import PreferencesControl from '../preferences/PreferencesControl.js';
-import VoicingToolbarAlertManager from './VoicingToolbarAlertManager.js';
 import LookAndFeel from '../LookAndFeel.js';
-import optionize, { combineOptions, EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import PickRequired from '../../../phet-core/js/types/PickRequired.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import { SpeakableResolvedResponse } from '../../../utterance-queue/js/ResponsePacket.js';
-import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
+import PreferencesControl from '../preferences/PreferencesControl.js';
 import PreferencesDialogConstants from '../preferences/PreferencesDialogConstants.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import VoicingToolbarAlertManager from './VoicingToolbarAlertManager.js';
 
 // constants
 const CONTENT_VERTICAL_SPACING = 10;

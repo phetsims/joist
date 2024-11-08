@@ -7,7 +7,10 @@
  */
 
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../axon/js/DerivedProperty.js';
+import type Disposable from '../../../axon/js/Disposable.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
+import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
 import Property from '../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
@@ -22,20 +25,17 @@ import Checkbox from '../../../sun/js/Checkbox.js';
 import ComboBox, { ComboBoxItem, ComboBoxOptions } from '../../../sun/js/ComboBox.js';
 import ExpandCollapseButton from '../../../sun/js/ExpandCollapseButton.js';
 import HSlider from '../../../sun/js/HSlider.js';
+import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import Utterance from '../../../utterance-queue/js/Utterance.js';
+import localeProperty, { Locale } from '../i18n/localeProperty.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
+import PreferencesControl from './PreferencesControl.js';
 import PreferencesDialog from './PreferencesDialog.js';
+import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import { AudioModel } from './PreferencesModel.js';
 import PreferencesPanelSection, { PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
-import PreferencesControl from './PreferencesControl.js';
-import localeProperty, { Locale } from '../i18n/localeProperty.js';
-import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
-import PreferencesDialogConstants from './PreferencesDialogConstants.js';
-import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
-import DerivedProperty from '../../../axon/js/DerivedProperty.js';
-import type Disposable from '../../../axon/js/Disposable.js';
 
 // constants
 // none of the Voicing strings or feature is translatable yet, all strings in this file

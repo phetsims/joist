@@ -7,24 +7,24 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import merge from '../../../phet-core/js/merge.js';
+import optionize, { combineOptions, EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import { Node, Text, VBox, VoicingText } from '../../../scenery/js/imports.js';
+import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
-import PreferencesDialog from './PreferencesDialog.js';
-import PreferencesPanelSection from './PreferencesPanelSection.js';
 import PreferencesControl from './PreferencesControl.js';
-import { VisualModel } from './PreferencesModel.js';
-import optionize, { combineOptions, EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import ProjectorModeToggleSwitch from './ProjectorModeToggleSwitch.js';
-import Tandem from '../../../tandem/js/Tandem.js';
-import PreferencesPanel, { PreferencesPanelOptions } from './PreferencesPanel.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import PreferencesType from './PreferencesType.js';
-import PickRequired from '../../../phet-core/js/types/PickRequired.js';
-import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
+import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
-import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
+import { VisualModel } from './PreferencesModel.js';
+import PreferencesPanel, { PreferencesPanelOptions } from './PreferencesPanel.js';
+import PreferencesPanelSection from './PreferencesPanelSection.js';
+import PreferencesType from './PreferencesType.js';
+import ProjectorModeToggleSwitch from './ProjectorModeToggleSwitch.js';
 
 // constants
 const interactiveHighlightsStringProperty = JoistStrings.preferences.tabs.visual.interactiveHighlightsStringProperty;

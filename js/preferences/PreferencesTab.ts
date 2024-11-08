@@ -7,20 +7,20 @@
  * @author Jesse Greenberg
  */
 
-import joist from '../joist.js';
-import { HighlightPath, HBox, Line, Node, NodeOptions, PressListener, Rectangle, Text, Voicing, VoicingOptions } from '../../../scenery/js/imports.js';
-import PreferencesType from './PreferencesType.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import TProperty from '../../../axon/js/TProperty.js';
-import optionize from '../../../phet-core/js/optionize.js';
-import PreferencesDialog from './PreferencesDialog.js';
 import Multilink from '../../../axon/js/Multilink.js';
-import JoistStrings from '../JoistStrings.js';
-import Tandem from '../../../tandem/js/Tandem.js';
-import PickRequired from '../../../phet-core/js/types/PickRequired.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 
 import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
+import TProperty from '../../../axon/js/TProperty.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import { HBox, HighlightPath, Line, Node, NodeOptions, PressListener, Rectangle, Text, Voicing, VoicingOptions } from '../../../scenery/js/imports.js';
+import Tandem from '../../../tandem/js/Tandem.js';
+import joist from '../joist.js';
+import JoistStrings from '../JoistStrings.js';
+import PreferencesDialog from './PreferencesDialog.js';
+import PreferencesType from './PreferencesType.js';
 
 type SelfOptions = {
 

@@ -10,8 +10,8 @@
  */
 
 import TProperty from '../../../axon/js/TProperty.js';
-import joist from '../joist.js';
 import IntentionalAny from '../../../phet-core/js/types/IntentionalAny.js';
+import joist from '../joist.js';
 
 let preferencesStorage: PreferencesStorage | null = null;
 

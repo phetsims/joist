@@ -13,11 +13,11 @@ import Panel from '../../../sun/js/Panel.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import KeyboardHelpButton from '../KeyboardHelpButton.js';
-import ScreenView, { ScreenViewOptions } from '../ScreenView.js';
-import { AnyScreen } from '../Screen.js';
-import Sim from '../Sim.js';
 import NavigationBarPreferencesButton from '../preferences/NavigationBarPreferencesButton.js';
 import PreferencesModel from '../preferences/PreferencesModel.js';
+import { AnyScreen } from '../Screen.js';
+import ScreenView, { ScreenViewOptions } from '../ScreenView.js';
+import Sim from '../Sim.js';
 import PreferencesDialogDemoSection from './PreferencesDialogDemoSection.js';
 
 class DialogsScreenView extends ScreenView {

@@ -7,17 +7,17 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import Multilink from '../../../axon/js/Multilink.js';
 import TProperty from '../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import globeSolidShape from '../../../sherpa/js/fontawesome-5/globeSolidShape.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import { HBox, HBoxOptions, KeyboardListener, Node, Path } from '../../../scenery/js/imports.js';
+import globeSolidShape from '../../../sherpa/js/fontawesome-5/globeSolidShape.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
-import PreferencesType from './PreferencesType.js';
 import PreferencesTab from './PreferencesTab.js';
-import PickRequired from '../../../phet-core/js/types/PickRequired.js';
-import Multilink from '../../../axon/js/Multilink.js';
+import PreferencesType from './PreferencesType.js';
 
 type SelfOptions = EmptySelfOptions;
 

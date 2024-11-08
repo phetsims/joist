@@ -9,6 +9,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
@@ -23,7 +24,6 @@ import PreferencesPanels from './PreferencesPanels.js';
 import PreferencesTabs from './PreferencesTabs.js';
 import PreferencesTabSwitchSoundGenerator from './PreferencesTabSwitchSoundGenerator.js';
 import PreferencesType from './PreferencesType.js';
-import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 
 // constants
 const TITLE_FONT = new PhetFont( { size: 24, weight: 'bold' } );

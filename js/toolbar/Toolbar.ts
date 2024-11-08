@@ -14,13 +14,14 @@
 
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
-import TProperty from '../../../axon/js/TProperty.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import stepTimer from '../../../axon/js/stepTimer.js';
+import TProperty from '../../../axon/js/TProperty.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import Matrix3 from '../../../dot/js/Matrix3.js';
 import { Shape } from '../../../kite/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import { Node, NodeOptions, Path, Rectangle, voicingManager } from '../../../scenery/js/imports.js';
 import ButtonNode from '../../../sun/js/buttons/ButtonNode.js';
 import RoundPushButton from '../../../sun/js/buttons/RoundPushButton.js';
@@ -28,11 +29,10 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import audioManager from '../audioManager.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
-import VoicingToolbarAlertManager from './VoicingToolbarAlertManager.js';
-import VoicingToolbarItem from './VoicingToolbarItem.js';
 import LookAndFeel from '../LookAndFeel.js';
 import { AnyScreen } from '../Screen.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import VoicingToolbarAlertManager from './VoicingToolbarAlertManager.js';
+import VoicingToolbarItem from './VoicingToolbarItem.js';
 
 // constants
 const MAX_ANIMATION_SPEED = 250; // in view coordinates per second, assuming 60 fps

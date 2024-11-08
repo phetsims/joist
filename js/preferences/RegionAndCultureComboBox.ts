@@ -6,16 +6,16 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import ComboBox, { ComboBoxOptions } from '../../../sun/js/ComboBox.js';
-import joist from '../joist.js';
-import { Text } from '../../../scenery/js/imports.js';
-import PreferencesDialog from './PreferencesDialog.js';
+import LocalizedStringProperty from '../../../chipper/js/LocalizedStringProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import PickOptional from '../../../phet-core/js/types/PickOptional.js';
+import { Text } from '../../../scenery/js/imports.js';
+import ComboBox, { ComboBoxOptions } from '../../../sun/js/ComboBox.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import regionAndCultureProperty, { RegionAndCulture, supportedRegionAndCultureValues } from '../i18n/regionAndCultureProperty.js';
-import LocalizedStringProperty from '../../../chipper/js/LocalizedStringProperty.js';
+import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
-import PickOptional from '../../../phet-core/js/types/PickOptional.js';
+import PreferencesDialog from './PreferencesDialog.js';
 
 // Maps a RegionAndCulture value to a StringProperty.
 const STRING_PROPERTY_MAP: Record<RegionAndCulture, LocalizedStringProperty> = {

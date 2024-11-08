@@ -7,16 +7,16 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import joist from '../joist.js';
-import { Color, FireListener, HighlightOverlay, Rectangle, Text } from '../../../scenery/js/imports.js';
-import Tandem from '../../../tandem/js/Tandem.js';
-import PreferencesDialog from './PreferencesDialog.js';
-import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import Property from '../../../axon/js/Property.js';
-import { Locale } from '../i18n/localeProperty.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import JoistStrings from '../JoistStrings.js';
+import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
+import { Color, FireListener, HighlightOverlay, Rectangle, Text } from '../../../scenery/js/imports.js';
 import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
+import Tandem from '../../../tandem/js/Tandem.js';
+import { Locale } from '../i18n/localeProperty.js';
+import joist from '../joist.js';
+import JoistStrings from '../JoistStrings.js';
+import PreferencesDialog from './PreferencesDialog.js';
 
 export default class LanguageSelectionNode extends Rectangle {
 

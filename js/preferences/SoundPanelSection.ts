@@ -15,11 +15,11 @@ import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
+import PreferencesControl from './PreferencesControl.js';
 import PreferencesDialog from './PreferencesDialog.js';
+import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import { AudioModel } from './PreferencesModel.js';
 import PreferencesPanelSection, { PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
-import PreferencesControl from './PreferencesControl.js';
-import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 
 // constants
 const soundsLabelStringProperty = JoistStrings.preferences.tabs.audio.sounds.titleStringProperty;

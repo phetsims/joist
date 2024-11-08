@@ -7,12 +7,12 @@
  */
 
 import Property from '../../../axon/js/Property.js';
+import { ReadOnlyPropertyState } from '../../../axon/js/ReadOnlyProperty.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import { globalKeyStateTracker, KeyboardUtils } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import StringIO from '../../../tandem/js/types/StringIO.js';
 import joist from '../joist.js';
-import { ReadOnlyPropertyState } from '../../../axon/js/ReadOnlyProperty.js';
 
 // Hard coding a few locales here is better than relying on a generated output of the "ground truth" localeData in babel,
 // which could change at any time and cause a type error here (either on main or worse, in release branches). Also we

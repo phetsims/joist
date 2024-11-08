@@ -9,21 +9,21 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import { AlignGroup, Node, NodeOptions } from '../../../scenery/js/imports.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import AudioPreferencesPanel from './AudioPreferencesPanel.js';
-import SimulationPreferencesPanel from './SimulationPreferencesPanel.js';
 import InputPreferencesPanel from './InputPreferencesPanel.js';
-import VisualPreferencesPanel from './VisualPreferencesPanel.js';
-import PreferencesModel from './PreferencesModel.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import LocalizationPreferencesPanel from './LocalizationPreferencesPanel.js';
-import PreferencesType from './PreferencesType.js';
 import OverviewPreferencesPanel from './OverviewPreferencesPanel.js';
+import PreferencesModel from './PreferencesModel.js';
 import PreferencesTabs from './PreferencesTabs.js';
-import PickRequired from '../../../phet-core/js/types/PickRequired.js';
-import Tandem from '../../../tandem/js/Tandem.js';
+import PreferencesType from './PreferencesType.js';
+import SimulationPreferencesPanel from './SimulationPreferencesPanel.js';
+import VisualPreferencesPanel from './VisualPreferencesPanel.js';
 
 type SelfOptions = EmptySelfOptions;
 type PreferencesPanelsOptions = SelfOptions & NodeOptions & PickRequired<NodeOptions, 'tandem'>;

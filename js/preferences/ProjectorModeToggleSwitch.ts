@@ -7,18 +7,18 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import { SceneryConstants, VoicingText, Text } from '../../../scenery/js/imports.js';
-import joist from '../joist.js';
-import PreferencesDialog from './PreferencesDialog.js';
-import PreferencesControl, { PreferencesControlOptions } from './PreferencesControl.js';
-import JoistStrings from '../JoistStrings.js';
+import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
+import Property from '../../../axon/js/Property.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import Property from '../../../axon/js/Property.js';
+import { SceneryConstants, Text, VoicingText } from '../../../scenery/js/imports.js';
 import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
-import PreferencesDialogConstants from './PreferencesDialogConstants.js';
-import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import joist from '../joist.js';
+import JoistStrings from '../JoistStrings.js';
+import PreferencesControl, { PreferencesControlOptions } from './PreferencesControl.js';
+import PreferencesDialog from './PreferencesDialog.js';
+import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 
 type SelfOptions = EmptySelfOptions;
 type ParentOptions = PreferencesControlOptions;

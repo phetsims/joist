@@ -10,12 +10,12 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import joist from '../joist.js';
-import Panel from '../../../sun/js/Panel.js';
 import { GridBox } from '../../../scenery/js/imports.js';
-import LanguageSelectionNode from './LanguageSelectionNode.js';
-import JoistStrings from '../JoistStrings.js';
+import Panel from '../../../sun/js/Panel.js';
 import { LocaleProperty } from '../i18n/localeProperty.js';
+import joist from '../joist.js';
+import JoistStrings from '../JoistStrings.js';
+import LanguageSelectionNode from './LanguageSelectionNode.js';
 
 class LocalePanel extends Panel {
   public constructor( localeProperty: LocaleProperty ) {

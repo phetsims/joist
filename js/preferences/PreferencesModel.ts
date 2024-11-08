@@ -6,26 +6,26 @@
  * @author Jesse Greenberg
  */
 
-import { colorProfileProperty, Node, voicingManager, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
-import responseCollector from '../../../utterance-queue/js/responseCollector.js';
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
+import Multilink from '../../../axon/js/Multilink.js';
+import NumberProperty from '../../../axon/js/NumberProperty.js';
+import Property from '../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import merge from '../../../phet-core/js/merge.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import { colorProfileProperty, Node, voicingManager, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
+import soundManager from '../../../tambo/js/soundManager.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
+import Tandem from '../../../tandem/js/Tandem.js';
+import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
+import IOType from '../../../tandem/js/types/IOType.js';
+import responseCollector from '../../../utterance-queue/js/responseCollector.js';
+import SpeechSynthesisAnnouncer from '../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
+import audioManager from '../audioManager.js';
+import localeProperty, { LocaleProperty } from '../i18n/localeProperty.js';
+import { supportedRegionAndCultureValues } from '../i18n/regionAndCultureProperty.js';
 import joist from '../joist.js';
 import PreferencesStorage from './PreferencesStorage.js';
-import soundManager from '../../../tambo/js/soundManager.js';
-import audioManager from '../audioManager.js';
-import Property from '../../../axon/js/Property.js';
-import NumberProperty from '../../../axon/js/NumberProperty.js';
-import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import SpeechSynthesisAnnouncer from '../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
-import Tandem from '../../../tandem/js/Tandem.js';
-import localeProperty, { LocaleProperty } from '../i18n/localeProperty.js';
-import merge from '../../../phet-core/js/merge.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import IOType from '../../../tandem/js/types/IOType.js';
-import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
-import Multilink from '../../../axon/js/Multilink.js';
-import { supportedRegionAndCultureValues } from '../i18n/regionAndCultureProperty.js';
 
 type ModelPropertyLinkable = {
   property: TReadOnlyProperty<unknown> & PhetioObject;

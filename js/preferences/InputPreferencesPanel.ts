@@ -8,20 +8,20 @@
 
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import merge from '../../../phet-core/js/merge.js';
+import { combineOptions } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import { Node, Text, VBox, VoicingRichText } from '../../../scenery/js/imports.js';
 import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
+import PreferencesControl from './PreferencesControl.js';
 import PreferencesDialog from './PreferencesDialog.js';
+import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import { InputModel } from './PreferencesModel.js';
 import PreferencesPanel, { PreferencesPanelOptions } from './PreferencesPanel.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
-import PreferencesControl from './PreferencesControl.js';
 import PreferencesType from './PreferencesType.js';
-import PreferencesDialogConstants from './PreferencesDialogConstants.js';
-import { combineOptions } from '../../../phet-core/js/optionize.js';
 
 // constants
 const gestureControlEnabledAlertStringProperty = JoistStrings.a11y.preferences.tabs.input.gestureControl.enabledAlertStringProperty;
