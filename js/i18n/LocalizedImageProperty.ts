@@ -18,7 +18,7 @@ export default class LocalizedImageProperty extends DerivedProperty1<ImageableIm
 
     // Allow optional, so that we can support a subset of regionAndCultures.
     // BUT also require the usa regionAndCulture, so that we can always have a fallback.
-    private readonly imageMap: { [ regionAndCulture in ConcreteRegionAndCulture ]?: ImageableImage } & { usa: ImageableImage }
+    private readonly imageMap: Partial<Record<ConcreteRegionAndCulture, ImageableImage>> & { usa: ImageableImage }
   ) {
     assert && Object.keys( imageMap ).forEach( regionAndCulture => {
       assert && assert( concreteRegionAndCultureValues.includes( regionAndCulture as ConcreteRegionAndCulture ),
