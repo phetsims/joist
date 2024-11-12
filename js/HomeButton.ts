@@ -7,6 +7,7 @@
  */
 
 import Multilink from '../../axon/js/Multilink.js';
+import PatternStringProperty from '../../axon/js/PatternStringProperty.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import { Shape } from '../../kite/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
@@ -20,7 +21,8 @@ import JoistButton, { JoistButtonOptions } from './JoistButton.js';
 import JoistStrings from './JoistStrings.js';
 
 // constants
-const homeScreenDescriptionStringProperty = JoistStrings.a11y.homeScreenDescriptionStringProperty;
+const homeStringProperty = JoistStrings.a11y.homeStringProperty;
+const goToScreenPatternStringProperty = JoistStrings.a11y.goToScreenPatternStringProperty;
 
 type SelfOptions = EmptySelfOptions;
 type HomeButtonOptions = SelfOptions & JoistButtonOptions & PickRequired<JoistButtonOptions, 'listener' | 'tandem'>;
@@ -40,15 +42,19 @@ export default class HomeButton extends JoistButton {
     providedOptions: HomeButtonOptions
   ) {
 
+    const descriptionStringProperty = new PatternStringProperty( goToScreenPatternStringProperty, {
+      name: homeStringProperty
+    } );
+
     const options = optionize<HomeButtonOptions, SelfOptions, JoistButtonOptions>()( {
       highlightExtensionWidth: 4,
 
       // pdom,
       containerTagName: 'li',
-      descriptionContent: homeScreenDescriptionStringProperty,
+      descriptionContent: descriptionStringProperty,
       appendDescription: true,
 
-      voicingHintResponse: homeScreenDescriptionStringProperty
+      voicingHintResponse: descriptionStringProperty
     }, providedOptions );
 
     const homeIcon = new Path( homeSolidShape );
