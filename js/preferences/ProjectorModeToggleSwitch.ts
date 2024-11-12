@@ -39,7 +39,7 @@ class ProjectorModeToggleSwitch extends PreferencesControl {
     // Identify the non-projector color profile that this checkbox sets.
     const otherColorProfile = phet.chipper.colorProfiles.find( ( colorProfile: string ) => colorProfile !== SceneryConstants.PROJECTOR_COLOR_PROFILE );
     const projectorModeSwitch = new ToggleSwitch( colorProfileProperty, otherColorProfile, SceneryConstants.PROJECTOR_COLOR_PROFILE, combineOptions<ToggleSwitchOptions>( {
-      a11yName: JoistStrings.projectorModeStringProperty
+      accessibleName: JoistStrings.projectorModeStringProperty
     }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
 
     const projectorModePatternStringProperty = new PatternStringProperty( JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty, {
