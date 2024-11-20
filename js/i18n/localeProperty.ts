@@ -68,7 +68,7 @@ const localeProperty = new LocaleProperty( phet.chipper.locale, {
   phetioDocumentation: 'Specifies language currently displayed in the simulation'
 } );
 
-if ( phet?.chipper?.queryParameters?.keyboardLocaleSwitcher ) {
+if ( window.phet?.chipper?.queryParameters?.keyboardLocaleSwitcher ) {
 
   // DUPLICATION ALERT: don't change these without consulting PHET_IO_WRAPPERS/PhetioClient.initializeKeyboardLocaleSwitcher()
   const FORWARD_KEY = KeyboardUtils.KEY_I;

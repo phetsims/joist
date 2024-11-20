@@ -103,7 +103,7 @@ export default class KeyboardHelpDialog extends Dialog {
     } );
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-    if ( assert && phet?.chipper?.queryParameters?.binder ) {
+    if ( assert && window.phet?.chipper?.queryParameters?.binder ) {
       screenContentNodes.forEach( node => {
         content.children = [ node ];
         InstanceRegistry.registerDataURL( 'joist', 'KeyboardHelpDialog', this );

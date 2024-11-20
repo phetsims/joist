@@ -87,7 +87,7 @@ class KeyboardHelpButton extends JoistButton {
     } );
 
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
-    assert && phet?.chipper?.queryParameters?.binder && keyboardHelpDialogCapsule.getElement();
+    assert && window.phet?.chipper?.queryParameters?.binder && keyboardHelpDialogCapsule.getElement();
   }
 }
 
