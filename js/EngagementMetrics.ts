@@ -15,7 +15,7 @@
 
 import Property from '../../axon/js/Property.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
-import { PhetioID } from '../../tandem/js/TandemConstants.js';
+import { PhetioID } from '../../tandem/js/phet-io-types.js';
 import joist from './joist.js';
 import Sim from './Sim.js';
 import TemporalCounter from './TemporalCounter.js';
