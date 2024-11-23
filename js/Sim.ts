@@ -32,6 +32,7 @@ import dotRandom from '../../dot/js/dotRandom.js';
 import Permutation from '../../dot/js/Permutation.js';
 import Random from '../../dot/js/Random.js';
 import DotUtils from '../../dot/js/Utils.js'; // eslint-disable-line phet/default-import-match-filename
+import { addAffirmationHook, setAffirmationDebuggerMode } from '../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../phet-core/js/optionize.js';
 import platform from '../../phet-core/js/platform.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
@@ -271,6 +272,14 @@ export default class Sim extends PhetioObject {
     window.assertions.assertionHooks.push( () => {
       console.log( 'Debug info:', JSON.stringify( this.getAssertionDebugInfo(), null, 2 ) );
     } );
+
+    addAffirmationHook( () => {
+      console.log( 'Debug info:', JSON.stringify( this.getAssertionDebugInfo(), null, 2 ) );
+    } );
+
+    if ( QueryStringMachine?.containsKey( 'debugger' ) ) {
+      setAffirmationDebuggerMode( true );
+    }
 
     if ( phet.chipper.queryParameters.launchCounter ) {
       simNameProperty = launchCounter( simNameProperty );
