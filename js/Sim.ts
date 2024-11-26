@@ -266,19 +266,22 @@ export default class Sim extends PhetioObject {
 
     window.phetSplashScreenDownloadComplete();
 
-    assert && assert( allSimScreens.length >= 1, 'at least one screen is required' );
-
     // If an assertion fails while a Sim exists, add some helpful information about the context of the failure
-    window.assertions.assertionHooks.push( () => {
-      console.log( 'Debug info:', JSON.stringify( this.getAssertionDebugInfo(), null, 2 ) );
-    } );
+    if ( assert ) {
 
-    addAffirmationHook( () => {
-      console.log( 'Debug info:', JSON.stringify( this.getAssertionDebugInfo(), null, 2 ) );
-    } );
+      assert( allSimScreens.length >= 1, 'at least one screen is required' );
 
-    if ( QueryStringMachine?.containsKey( 'debugger' ) ) {
-      setAffirmationDebuggerMode( true );
+      window.assertions.assertionHooks.push( () => {
+        console.log( 'Debug info:', JSON.stringify( this.getAssertionDebugInfo(), null, 2 ) );
+      } );
+
+      addAffirmationHook( () => {
+        console.log( 'Debug info:', JSON.stringify( this.getAssertionDebugInfo(), null, 2 ) );
+      } );
+
+      if ( QueryStringMachine?.containsKey( 'debugger' ) ) {
+        setAffirmationDebuggerMode( true );
+      }
     }
 
     if ( phet.chipper.queryParameters.launchCounter ) {
