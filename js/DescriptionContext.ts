@@ -13,7 +13,7 @@ import TEmitter, { TEmitterListener, TReadOnlyEmitter } from '../../axon/js/TEmi
 import TinyProperty from '../../axon/js/TinyProperty.js';
 import TProperty from '../../axon/js/TProperty.js';
 import TReadOnlyProperty, { PropertyLazyLinkListener, PropertyLinkListener, PropertyListener } from '../../axon/js/TReadOnlyProperty.js';
-import LocalizedString from '../../chipper/js/LocalizedString.js';
+import LocalizedString from '../../chipper/js/browser/LocalizedString.js';
 import dotRandom from '../../dot/js/dotRandom.js';
 import { Node, NodeOptions } from '../../scenery/js/imports.js';
 import DescriptionRegistry from '../../tandem/js/DescriptionRegistry.js';

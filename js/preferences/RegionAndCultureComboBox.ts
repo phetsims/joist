@@ -6,7 +6,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import LocalizedStringProperty from '../../../chipper/js/LocalizedStringProperty.js';
+import LocalizedStringProperty from '../../../chipper/js/browser/LocalizedStringProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PickOptional from '../../../phet-core/js/types/PickOptional.js';
 import { Text } from '../../../scenery/js/imports.js';

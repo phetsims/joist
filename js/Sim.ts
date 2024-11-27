@@ -24,7 +24,7 @@ import Property from '../../axon/js/Property.js';
 import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import stepTimer from '../../axon/js/stepTimer.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
-import LocalizedStringProperty from '../../chipper/js/LocalizedStringProperty.js';
+import LocalizedStringProperty from '../../chipper/js/browser/LocalizedStringProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Combination from '../../dot/js/Combination.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
