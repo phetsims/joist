@@ -10,7 +10,7 @@
  */
 
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
-import SimVersion from '../../perennial-alias/js/common/SimVersion.js';
+import SimVersion from '../../perennial-alias/js/browser-and-node/SimVersion.js';
 import joist from './joist.js';
 import packageJSON from './packageJSON.js'; // parse name/version out of the package.json
 import UpdateState from './UpdateState.js';
