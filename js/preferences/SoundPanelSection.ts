@@ -9,7 +9,7 @@
 import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
 import merge from '../../../phet-core/js/merge.js';
 import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
-import { Node, Text, VBox, VoicingRichText, VoicingText } from '../../../scenery/js/imports.js';
+import { Node, SceneryConstants, Text, VBox, VoicingRichText, VoicingText } from '../../../scenery/js/imports.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -104,7 +104,8 @@ class SoundPanelSection extends PreferencesPanelSection {
       const extraSoundDescription = new VoicingRichText( extraSoundsDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
         lineWrap: 300,
         maxHeight: 100,
-        readingBlockNameResponse: extraSoundReadingBlockNameResponsePatternStringProperty
+        readingBlockNameResponse: extraSoundReadingBlockNameResponsePatternStringProperty,
+        disabledOpacity: SceneryConstants.DISABLED_OPACITY // TODO: Workaround for setting enabled on this RichText instead of to the parent VBox, https://github.com/phetsims/scenery/issues/1514
       } ) );
 
       extraSoundContent = new VBox( {
@@ -115,11 +116,10 @@ class SoundPanelSection extends PreferencesPanelSection {
       } );
 
       const extraSoundEnabledListener = ( enabled: boolean ) => {
-        extraSoundContent!.enabled = enabled;
 
         // TODO: Workaround for now, see https://github.com/phetsims/scenery/issues/1514. PDOM does not
-        //       correctly propagate enabled state to descendants when ancestor becomes disabled.
-        extraSoundCheckbox.inputEnabled = enabled;
+        //       correctly propagate enabled state to descendants when ancestor (extraSoundContent) becomes disabled.
+        extraSoundContent!.children.forEach( child => child.setEnabled( enabled ) );
       };
       audioModel.soundEnabledProperty.link( extraSoundEnabledListener );
     }
