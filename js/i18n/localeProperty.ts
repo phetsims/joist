@@ -6,13 +6,15 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import Property from '../../../axon/js/Property.js';
+import Property, { PropertyOptions } from '../../../axon/js/Property.js';
 import { ReadOnlyPropertyState } from '../../../axon/js/ReadOnlyProperty.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import { globalKeyStateTracker, KeyboardUtils } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import StringIO from '../../../tandem/js/types/StringIO.js';
 import joist from '../joist.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 
 // Hard coding a few locales here is better than relying on a generated output of the "ground truth" localeData in babel,
 // which could change at any time and cause a type error here (either on main or worse, in release branches). Also we
@@ -32,8 +34,22 @@ const availableRuntimeLocales = ( Object.keys( phet.chipper.strings ) as Locale[
   return lowerCaseA.localeCompare( lowerCaseB, 'en-US', { sensitivity: 'base' } );
 } );
 
+type SelfOptions = EmptySelfOptions;
+type LocalePropertyOptions = SelfOptions & StrictOmit<PropertyOptions<Locale>, 'valueType' | 'phetioValueType'>;
+
 export class LocaleProperty extends Property<Locale> {
+
   public readonly availableRuntimeLocales: Locale[] = availableRuntimeLocales;
+
+  public constructor( value: Locale, providedOptions?: LocalePropertyOptions ) {
+
+    const options = optionize<LocalePropertyOptions, SelfOptions, PropertyOptions<Locale>>()( {
+      valueType: 'string',
+      phetioValueType: StringIO
+    }, providedOptions );
+
+    super( value, options );
+  }
 
   // Override to provide grace and support for the full definition of allowed locales (aligned with the query parameter
   // schema). For example three letter values, and case insensitivity. See checkAndRemapLocale() for details. NOTE that
@@ -62,9 +78,7 @@ export class LocaleProperty extends Property<Locale> {
 
 const localeProperty = new LocaleProperty( phet.chipper.locale, {
   tandem: Tandem.GENERAL_MODEL.createTandem( 'localeProperty' ),
-  valueType: 'string',
   phetioFeatured: true,
-  phetioValueType: StringIO,
   phetioDocumentation: 'Specifies language currently displayed in the simulation'
 } );
 
