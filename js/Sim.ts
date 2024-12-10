@@ -1038,9 +1038,7 @@ export default class Sim extends PhetioObject {
     // stepping manually.
     if ( this.activeProperty.value && !phet.joist.playbackModeEnabledProperty.value ) {
 
-      // Handle Input fuzzing before stepping the sim because input events occur outside of sim steps, but not before the
-      // first sim step (to prevent issues like https://github.com/phetsims/equality-explorer/issues/161).
-      this.frameCounter > 0 && this.display.fuzzInputEvents();
+      this.fuzzFrame();
 
       this.stepOneFrame();
     }
@@ -1134,6 +1132,17 @@ export default class Sim extends PhetioObject {
       } );
     }
   }
+
+  private fuzzFrame(): void {
+
+    // Handle Input fuzzing before stepping the sim because input events occur outside of sim steps, but not before the
+    // first sim step (to prevent issues like https://github.com/phetsims/equality-explorer/issues/161).
+    this.frameCounter > 0 && this.display.fuzzInputEvents();
+
+    // PhET-iO fuzzes instrumented values when enabled.
+    Tandem.PHET_IO_ENABLED && !phet.phetio.phetioEngine.fuzzElements();
+  }
+
 
   /**
    * Get helpful information for replicating the bug when an assertion occurs.
