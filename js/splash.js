@@ -200,7 +200,9 @@
 
       zoomEvents.forEach( zoomEvent => window.removeEventListener( zoomEvent, preventZoom ) );
 
-      document.body.removeChild( splashBackgroundDiv );
+      if ( document.body.contains( splashBackgroundDiv ) ) {
+        document.body.removeChild( splashBackgroundDiv );
+      }
       delete window.phetSplashScreen;
     }
   };
