@@ -216,7 +216,7 @@ class PhetMenu extends Popupable( Node, 0 ) {
           // phet-io
           tandem: options.tandem.createTandem( 'aboutMenuItem' ),
           phetioDocumentation: 'This menu item shows a dialog with information about the simulation.',
-          visiblePropertyOptions: { phetioFeatured: true }
+          phetioVisiblePropertyInstrumented: false
         }
       }
     ];
