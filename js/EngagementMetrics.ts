@@ -16,6 +16,7 @@
 import Property from '../../axon/js/Property.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import { PhetioID } from '../../tandem/js/phet-io-types.js';
+import PhetioIDUtilsModule from '../../tandem/js/PhetioIDUtilsModule.js';
 import joist from './joist.js';
 import Sim from './Sim.js';
 import TemporalCounter from './TemporalCounter.js';
@@ -123,7 +124,7 @@ class EngagementMetrics {
   private isEngagedEvent( event: PhetioEvent ): boolean {
     let engaged = false;
     [ 'mouseDownAction', 'touchDownAction', 'keydownAction', 'penDownAction' ].forEach( eventName => {
-      if ( window.phetio.PhetioIDUtils.getComponentName( event.phetioID ) === eventName ) {
+      if ( PhetioIDUtilsModule.getComponentName( event.phetioID ) === eventName ) {
         engaged = true;
       }
     } );

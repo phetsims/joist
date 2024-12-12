@@ -45,6 +45,7 @@ import { PopupableNode } from '../../sun/js/Popupable.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import isSettingPhetioStateProperty from '../../tandem/js/isSettingPhetioStateProperty.js';
 import PhetioAction from '../../tandem/js/PhetioAction.js';
+import PhetioIDUtilsModule from '../../tandem/js/PhetioIDUtilsModule.js';
 import PhetioObject, { PhetioObjectOptions } from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import ArrayIO from '../../tandem/js/types/ArrayIO.js';
@@ -524,7 +525,7 @@ export default class Sim extends PhetioObject {
       },
       selectedSimScreens => {
         return new HomeScreen( this.simNameProperty, () => this.selectedScreenProperty, selectedSimScreens, this.activeSimScreensProperty, {
-          tandem: options.tandem.createTandem( window.phetio.PhetioIDUtils.HOME_SCREEN_COMPONENT_NAME ),
+          tandem: options.tandem.createTandem( PhetioIDUtilsModule.HOME_SCREEN_COMPONENT_NAME ),
           warningNode: options.homeScreenWarningNode
         } );
       }
