@@ -17,7 +17,7 @@ type SelfOptions = {
   content: Array<Node>;
 };
 
-type PreferencesPanelContentNodeOptions = SelfOptions & PanelOptions;
+export type PreferencesPanelContentNodeOptions = SelfOptions & PanelOptions;
 export default class PreferencesPanelContentNode extends Panel {
 
   public constructor( providedOptions: PreferencesPanelContentNodeOptions ) {
