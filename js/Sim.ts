@@ -250,6 +250,9 @@ export default class Sim extends PhetioObject {
   private lastStepTime: number | null = null;
   private lastAnimationFrameTime: number | null = null;
 
+  // Note the time that the sim started (construction complete and animation stepping begins). Null until that occurs.
+  private simStartedTime: number | null = null;
+
   // (joist-internal) Bind the animation loop so it can be called from requestAnimationFrame with the right this.
   private readonly boundRunAnimationLoop: () => void;
   private readonly updateBackground: () => void;
@@ -1005,6 +1008,8 @@ export default class Sim extends PhetioObject {
               // Sanity check that there is no phetio object in phet brand, see https://github.com/phetsims/phet-io/issues/1229
               phet.chipper.brand === 'phet' && assert && assert( !Tandem.PHET_IO_ENABLED, 'window.phet.preloads.phetio should not exist for phet brand' );
 
+              this.simStartedTime = Date.now();
+
               // Communicate sim load (successfully) to CT or other listening parent frames
               if ( phet.chipper.queryParameters.continuousTest ) {
                 phet.chipper.reportContinuousTestResult( {
@@ -1152,7 +1157,8 @@ export default class Sim extends PhetioObject {
 
     const info: Record<string, IntentionalAny> = {
       seed: dotRandom.getSeed(),
-      currentScreenName: this.selectedScreenProperty?.value?.constructor.name
+      currentScreenName: this.selectedScreenProperty?.value?.constructor.name,
+      secondsSinceSimStarted: this.simStartedTime === null ? 'sim not started' : ( Date.now() - this.simStartedTime ) / 1000
     };
     if ( this.topLayer.children.length > 1 ) {
       info.simTopLayer = this.topLayer.children.map( x => `${x.constructor.name}${x.constructor.name.includes( 'Parent' ) ? `: ${x.children.map( x => x.constructor.name )}` : ''}` );
