@@ -479,10 +479,10 @@
                 "value": "Customize Voice"
               },
               "expandedAlert": {
-                "value": "Customize Voice, expanded"
+                "value": "expanded"
               },
               "collapsedAlert": {
-                "value": "Customize Voice, collapsed"
+                "value": "collapsed"
               },
               "variablesPattern": {
                 "value": "{{value}}x"

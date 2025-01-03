@@ -6,7 +6,6 @@
  * @author Jesse Greenberg
  */
 
-import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import type Disposable from '../../../axon/js/Disposable.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
@@ -20,10 +19,10 @@ import merge from '../../../phet-core/js/merge.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import NumberControl from '../../../scenery-phet/js/NumberControl.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { HighlightFromNode, Node, PressListener, Text, VBox, voicingManager, VoicingText } from '../../../scenery/js/imports.js';
+import { Node, Text, VBox, voicingManager, VoicingText } from '../../../scenery/js/imports.js';
+import AccordionBox from '../../../sun/js/AccordionBox.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import ComboBox, { ComboBoxItem, ComboBoxOptions } from '../../../sun/js/ComboBox.js';
-import ExpandCollapseButton from '../../../sun/js/ExpandCollapseButton.js';
 import HSlider from '../../../sun/js/HSlider.js';
 import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -226,50 +225,40 @@ class VoicingPanelSection extends PreferencesPanelSection {
     const voiceOptionsLabel = new Text( customizeVoiceStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS, {
       cursor: 'pointer'
     } ) );
-    const voiceOptionsOpenProperty = new BooleanProperty( false );
-    const expandCollapseButton = new ExpandCollapseButton( voiceOptionsOpenProperty, {
-      sideLength: 16,
 
-      // pdom
-      innerContent: customizeVoiceStringProperty,
+    const voiceOptionsAccordionBox = new AccordionBox( voiceOptionsContent, {
+      titleNode: voiceOptionsLabel,
+      titleAlignX: 'left',
+      titleXSpacing: 8,
+      contentXMargin: 0,
+      expandedDefaultValue: false,
+      expandCollapseButtonOptions: {
+        sideLength: 20,
+        voicingNameResponse: customizeVoiceStringProperty,
 
-      // voicing
-      voicingNameResponse: customizeVoiceStringProperty,
-      voicingIgnoreVoicingManagerProperties: true, // Controls need to always speak responses so UI functions are clear
-
-      // phet-io
-      tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
-    } );
-
-    const voiceOptionsContainer = new Node( {
-      children: [ voiceOptionsLabel, expandCollapseButton ]
-    } );
-
-    // the visual title of the ExpandCollapseButton needs to be clickable
-    const voiceOptionsPressListener = new PressListener( {
-      press: () => {
-        voiceOptionsOpenProperty.toggle();
+        // Controls need to always speak responses so UI functions are clear
+        voicingIgnoreVoicingManagerProperties: true
       },
 
-      // phet-io
-      tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
+      // By design, this AccordionBox has no visible background panel.
+      fill: null,
+      stroke: null,
+
+      // pdom/voicing
+      expandedContextResponse: customizeVoiceExpandedStringProperty,
+      collapsedContextResponse: customizeVoiceCollapsedStringProperty,
+
+      // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
+      tandem: Tandem.OPT_OUT
     } );
-    voiceOptionsLabel.addInputListener( voiceOptionsPressListener );
 
     const content = new Node( {
-      children: [ speechOutputContent, toolbarEnabledSwitch, voiceOptionsContainer, voiceOptionsContent ]
+      children: [ speechOutputContent, toolbarEnabledSwitch, voiceOptionsAccordionBox ]
     } );
 
-    // layout for section content, custom rather than using a FlowBox because the voice options label needs
-    // to be left aligned with other labels, while the ExpandCollapseButton extends to the left
+    // layout
     toolbarEnabledSwitch.leftTop = speechOutputContent.leftBottom.plusXY( 0, 20 );
-    voiceOptionsLabel.leftTop = toolbarEnabledSwitch.leftBottom.plusXY( 0, 20 );
-    expandCollapseButton.leftCenter = voiceOptionsLabel.rightCenter.plusXY( 10, 0 );
-    voiceOptionsContent.leftTop = voiceOptionsLabel.leftBottom.plusXY( 0, 10 );
-    voiceOptionsOpenProperty.link( open => { voiceOptionsContent.visible = open; } );
-
-    // the focus highlight for the voice options expand collapse button should surround the label
-    expandCollapseButton.focusHighlight = new HighlightFromNode( voiceOptionsContainer );
+    voiceOptionsAccordionBox.leftTop = toolbarEnabledSwitch.leftBottom.plusXY( 0, 20 );
 
     super( {
       titleNode: voicingEnabledSwitch,
@@ -344,14 +333,6 @@ class VoicingPanelSection extends PreferencesPanelSection {
       voiceOptionsContent.addChild( voiceComboBox );
     };
     voicingManager.voicesProperty.link( voicesChangedListener );
-
-    voiceOptionsOpenProperty.lazyLink( open => {
-      const alertStringProperty = open ? customizeVoiceExpandedStringProperty : customizeVoiceCollapsedStringProperty;
-      expandCollapseButton.voicingSpeakContextResponse( {
-        contextResponse: alertStringProperty
-      } );
-      this.alertDescriptionUtterance( alertStringProperty );
-    } );
   }
 }
 
