@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * Parallel DOM content for a screen summary of a ScreenView. This is a screen specific summary that is available
