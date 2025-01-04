@@ -152,6 +152,8 @@ type StringsType = {
     };
     'playAreaStringProperty': LocalizedStringProperty;
     'controlAreaStringProperty': LocalizedStringProperty;
+    'inThePlayAreaStringProperty': LocalizedStringProperty;
+    'inTheControlAreaStringProperty': LocalizedStringProperty;
     'simScreensStringProperty': LocalizedStringProperty;
     'simScreenStringProperty': LocalizedStringProperty;
     'screenNamePatternStringProperty': LocalizedStringProperty;

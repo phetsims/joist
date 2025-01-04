@@ -26,6 +26,7 @@ import { DisposableOptions } from '../../axon/js/Disposable.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import joist from '../../joist/js/joist.js';
 import { Node } from '../../scenery/js/imports.js';
+import joistStrings from './JoistStrings.js';
 
 type SectionContent = TReadOnlyProperty<string> | Array<TReadOnlyProperty<string>> | null;
 
@@ -48,7 +49,7 @@ type SelfOptions = {
 
   // An interaction hint for the screen.
   interactionHintContent?: SectionContent;
-}
+};
 type ParentOptions = DisposableOptions;
 
 type ScreenSummaryContentOptions = SelfOptions & ParentOptions;
@@ -78,13 +79,13 @@ export default class ScreenSummaryContent extends Node {
 
     this.inThePlayAreaParagraph = new Node( {
       tagName: 'p',
-      accessibleName: 'In the play area:'
+      accessibleName: joistStrings.a11y.inThePlayAreaStringProperty
     } );
     this.playAreaContentNode = new Node();
 
     this.inTheControlAreaParagraph = new Node( {
       tagName: 'p',
-      accessibleName: 'In the control area:'
+      accessibleName: joistStrings.a11y.inTheControlAreaStringProperty
     } );
     this.controlAreaContentNode = new Node();
 
@@ -146,6 +147,9 @@ export default class ScreenSummaryContent extends Node {
     leadingParagraph.visible = content !== null;
   }
 
+  /**
+   * Create the necessary Nodes for the provided content.
+   */
   private createParagraphNodes( content: SectionContent ): Node[] {
     if ( content === null ) {
       return [];
@@ -165,8 +169,7 @@ export default class ScreenSummaryContent extends Node {
   }
 
   /**
-   * @param content
-   * @private
+   * Create a paragraph Node for an item of content.
    */
   private createNode( item: TReadOnlyProperty<string> ): Node {
     return new Node( { tagName: 'p', innerContent: item } );

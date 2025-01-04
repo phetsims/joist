@@ -322,6 +322,12 @@
     "controlArea": {
       "value": "Control Area"
     },
+    "inThePlayArea": {
+      "value": "In the Play Area:"
+    },
+    "inTheControlArea": {
+      "value": "In the Control Area:"
+    },
     "simScreens": {
       "value": "Sim Screens"
     },
