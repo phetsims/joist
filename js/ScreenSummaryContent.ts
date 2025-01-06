@@ -22,6 +22,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
 import { DisposableOptions } from '../../axon/js/Disposable.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import joist from '../../joist/js/joist.js';
@@ -55,6 +56,16 @@ type ParentOptions = DisposableOptions;
 type ScreenSummaryContentOptions = SelfOptions & ParentOptions;
 
 export default class ScreenSummaryContent extends Node {
+
+  // References to the play area and control area content, because they are combined to form the
+  // the "combined voicing overview content".
+  private _playAreaContent: SectionContent = null;
+  private _controlAreaContent: SectionContent = null;
+
+  // References to the combined content for voicing. They will need to be disposed when the content changes.
+  private _combinedVoicingOverviewContent: null | TReadOnlyProperty<string> = null;
+  private _combinedVoicingCurrentDetailsContent: null | TReadOnlyProperty<string> = null;
+  private _combinedVoicingInteractionHintContent: null | TReadOnlyProperty<string> = null;
 
   private readonly playAreaContentNode: Node;
   private readonly controlAreaContentNode: Node;
@@ -110,34 +121,130 @@ export default class ScreenSummaryContent extends Node {
     this.setControlAreaContent( options.controlAreaContent );
     this.setCurrentDetailsContent( options.currentDetailsContent );
     this.setInteractionHintContent( options.interactionHintContent );
-    this.setOtherContent( options.additionalContent );
+    this.setAdditionalContent( options.additionalContent );
   }
 
+  /**
+   * Set the content that describes the play area of the screen.
+   */
   public setPlayAreaContent( content: SectionContent ): void {
+    this._playAreaContent = content;
     this.playAreaContentNode.children.forEach( child => child.dispose() );
     this.handleLeadingParagraph( content, this.inThePlayAreaParagraph );
     this.playAreaContentNode.children = this.createParagraphNodes( content );
+
+    if ( this._combinedVoicingOverviewContent ) {
+      this._combinedVoicingOverviewContent.dispose();
+    }
+    this._combinedVoicingOverviewContent = this.combineContent( content, this._controlAreaContent );
   }
 
+  /**
+   * Set the content that describes the control area of the screen.
+   * @param content
+   */
   public setControlAreaContent( content: SectionContent ): void {
+    this._controlAreaContent = content;
     this.controlAreaContentNode.children.forEach( child => child.dispose() );
     this.handleLeadingParagraph( content, this.inTheControlAreaParagraph );
     this.controlAreaContentNode.children = this.createParagraphNodes( content );
+
+    if ( this._combinedVoicingOverviewContent ) {
+      this._combinedVoicingOverviewContent.dispose();
+    }
+    this._combinedVoicingOverviewContent = this.combineContent( this._playAreaContent, content );
   }
 
+  /**
+   * Set the content that describes the current details of the screen.
+   */
   public setCurrentDetailsContent( content: SectionContent ): void {
     this.currentDetailsContentNode.children.forEach( child => child.dispose() );
     this.currentDetailsContentNode.children = this.createParagraphNodes( content );
+
+    if ( this._combinedVoicingCurrentDetailsContent ) {
+      this._combinedVoicingCurrentDetailsContent.dispose();
+    }
+    this._combinedVoicingCurrentDetailsContent = this.combineContent( content );
   }
 
+  /**
+   * Set the content that describes the additional content for the screen. This is content that does not
+   * fit into the play area, control area, or current details. This comes after the current details content, and
+   * before the interaction hint content.
+   */
+  public setAdditionalContent( content: SectionContent ): void {
+    this.additionalContent.children.forEach( child => child.dispose() );
+    this.additionalContent.children = this.createParagraphNodes( content );
+  }
+
+  /**
+   * Set the content that describes the interaction hint for the screen.
+   */
   public setInteractionHintContent( content: SectionContent ): void {
     this.interactionHintContentNode.children.forEach( child => child.dispose() );
     this.interactionHintContentNode.children = this.createParagraphNodes( content );
+
+    if ( this._combinedVoicingInteractionHintContent ) {
+      this._combinedVoicingInteractionHintContent.dispose();
+    }
+    this._combinedVoicingInteractionHintContent = this.combineContent( content );
   }
 
-  public setOtherContent( content: SectionContent ): void {
-    this.additionalContent.children.forEach( child => child.dispose() );
-    this.additionalContent.children = this.createParagraphNodes( content );
+  /**
+   * Returns the value of the combined voicing overview content. This is a string that includes all values for
+   * the play area and control area content. It is spoken when the user presses the "Overview" button in the voicing
+   * toolbar.
+   *
+   * Your ScreenSummaryContent can override this function if you do not want to use the combined content.
+   */
+  public getVoicingOverviewString(): null | string {
+    return this._combinedVoicingOverviewContent?.value || null;
+  }
+
+  /**
+   * Returns the value of the combined voicing current details content. This is a string that includes all values for
+   * the current details content. It is spoken when the user presses the "Details" button in the voicing
+   * toolbar.
+   *
+   * Your ScreenSummaryContent can override this function if you do not want to use the combined content.
+   */
+  public getVoicingDetailsString(): null | string {
+    return this._combinedVoicingCurrentDetailsContent?.value || null;
+  }
+
+  /**
+   * Returns the value of the combined voicing interaction hint content. This is a string that includes all values for
+   * the interaction hint content. It is spoken when the user presses the "Hint" button in the voicing
+   * toolbar.
+   *
+   * Your ScreenSummaryContent can override this function if you do not want to use the combined content.
+   */
+  public getVoicingInteractionHintString(): null | string {
+    return this._combinedVoicingInteractionHintContent?.value || null;
+  }
+
+  /**
+   * Given multiple SectionContent arguments, combine them into a single string for Voicing.
+   */
+  private combineContent( ...contents: SectionContent[] ): null | TReadOnlyProperty<string> {
+
+    // Filter out any null values from the contents
+    const nonNullContents = contents.filter( content => content !== null );
+
+    // Create a combined array of all TReadOnlyProperty<string> from the passed contents.
+    const combinedArray: TReadOnlyProperty<string>[] = nonNullContents.flatMap( content =>
+      Array.isArray( content ) ? content : [ content ]
+    );
+
+    if ( combinedArray.length > 0 ) {
+      return DerivedStringProperty.deriveAny( combinedArray, ( ...strings: string[] ) => {
+        return strings.join( ' ' );
+      } );
+    }
+    else {
+      return null;
+    }
   }
 
   /**

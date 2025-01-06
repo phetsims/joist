@@ -65,7 +65,7 @@ class ScreenView extends Node {
 
   // Keep track of the content added to the summary Node, so that if it is set more than once, the previous one can be
   // removed. Supports an ES6 getter/setter for this.
-  private _screenSummaryContent: Node | null = null;
+  private _screenSummaryContent: ScreenSummaryContent | null = null;
 
   public static readonly DEFAULT_LAYOUT_BOUNDS = DEFAULT_LAYOUT_BOUNDS;
 
@@ -218,11 +218,11 @@ class ScreenView extends Node {
     this.visibleBoundsProperty.value = this.parentToLocalBounds( viewBounds );
   }
 
-  public get screenSummaryContent(): Node | null {
+  public get screenSummaryContent(): ScreenSummaryContent | null {
     return this._screenSummaryContent;
   }
 
-  public set screenSummaryContent( node: Node | null ) {
+  public set screenSummaryContent( node: ScreenSummaryContent | null ) {
     this.setScreenSummaryContent( node );
   }
 
@@ -230,7 +230,7 @@ class ScreenView extends Node {
    * Set the screen summary Node for the PDOM of this Screen View. Prefer passing in a screen summary Node via
    * constructor options, but this method can be used directly when necessary.
    */
-  public setScreenSummaryContent( node: Node | null ): void {
+  public setScreenSummaryContent( node: ScreenSummaryContent | null ): void {
     assert && assert( node !== this._screenSummaryContent, 'this is already the screen summary Node content' );
 
     this._screenSummaryContent && this.pdomScreenSummaryNode.removeChild( this._screenSummaryContent );
@@ -255,27 +255,36 @@ class ScreenView extends Node {
   /**
    * Create the alert content for this ScreenView when the Voicing feature is enabled and the "Overview" button
    * is pressed.
-   * Must be implemented if supporting voicing in your ScreenView.
+   * The default uses content from the ScreenSummaryContent. You can override this function if you require different behavior.
    */
   public getVoicingOverviewContent(): SpeakableResolvedResponse {
-    throw new Error( 'The ScreenView should implement getVoicingOverviewContent if Voicing is enabled' );
+    if ( this._screenSummaryContent ) {
+      return this._screenSummaryContent.getVoicingOverviewString();
+    }
+    return null;
   }
 
   /**
    * Create the alert content for this ScreenView when the Voicing feature is enabled and the "Details" button is
    * pressed.
-   * Must be implemented if supporting voicing in your ScreenView.
+   * The default uses content from the ScreenSummaryContent. You can override this function if you require different behavior.
    */
   public getVoicingDetailsContent(): SpeakableResolvedResponse {
-    throw new Error( 'The ScreenView should implement getVoicingDetailsContent when the Voicing feature is enabled.' );
+    if ( this._screenSummaryContent ) {
+      return this._screenSummaryContent.getVoicingDetailsString();
+    }
+    return null;
   }
 
   /**
    * Create the alert content for this ScreenView when the Voicing feature is enabled and the "Hint" button is pressed.
-   * Must be implemented if supporting voicing in your ScreenView.
+   * The default uses content from the ScreenSummaryContent. You can override this function if you require different behavior.
    */
   public getVoicingHintContent(): SpeakableResolvedResponse {
-    throw new Error( 'The ScreenView should implement getVoicingHintContent when Voicing is enabled.' );
+    if ( this._screenSummaryContent ) {
+      return this._screenSummaryContent.getVoicingInteractionHintString();
+    }
+    return null;
   }
 
   /**
