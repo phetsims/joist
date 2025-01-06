@@ -51,6 +51,8 @@ type SelfOptions = {
   // An interaction hint for the screen.
   interactionHintContent?: SectionContent;
 };
+
+// No NodeOptions, and this class sets its children. You can set children if you need to, but not until after construction.
 type ParentOptions = DisposableOptions;
 
 type ScreenSummaryContentOptions = SelfOptions & ParentOptions;
