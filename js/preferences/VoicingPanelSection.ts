@@ -234,7 +234,6 @@ class VoicingPanelSection extends PreferencesPanelSection {
       expandedDefaultValue: false,
       expandCollapseButtonOptions: {
         sideLength: 20,
-        voicingNameResponse: customizeVoiceStringProperty,
 
         // Controls need to always speak responses so UI functions are clear
         voicingIgnoreVoicingManagerProperties: true
