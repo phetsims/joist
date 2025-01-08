@@ -68,6 +68,11 @@ type AudioPreferencesOptions = {
   // when running with English locales, accessibility strings are not made available for translation yet.
   supportsVoicing?: boolean;
 
+  // An entry point for Tier 1 Voicing which is a subset of the Voicing feature. This includes everyting in Voicing
+  // except for object and context responses. It has the same language and speech synthesis limitations as Voicing.
+  // See above comment for supportsVoicing.
+  supportsTier1Voicing?: boolean;
+
   // Whether to include checkboxes related to sound and extra sound. supportsExtraSound can only be
   // included if supportsSound is also true.
   supportsSound?: boolean;
@@ -143,6 +148,9 @@ export type AudioModel = BaseModelType & {
   extraSoundEnabledProperty: Property<boolean>;
   voicingEnabledProperty: Property<boolean>;
 
+  // True when supportsVoicing or supportsTier1Voicing is true.
+  supportsAnyVoicing: boolean;
+
   // Whether sub-features of Voicing are enabled. See voicingManager and responseCollector for documentation about
   // each of these features.
   voicingMainWindowVoicingEnabledProperty: Property<boolean>;
@@ -217,6 +225,7 @@ export default class PreferencesModel extends PhetioObject {
       audioOptions: optionize<AudioPreferencesOptions, AudioPreferencesOptions, BaseModelType>()( {
         tandemName: AUDIO_MODEL_TANDEM,
         supportsVoicing: phetFeaturesFromQueryParameters.supportsVoicing,
+        supportsTier1Voicing: phetFeaturesFromQueryParameters.supportsTier1Voicing,
         supportsSound: phetFeaturesFromQueryParameters.supportsSound,
         supportsExtraSound: phetFeaturesFromQueryParameters.supportsExtraSound,
         customPreferences: []
@@ -250,20 +259,24 @@ export default class PreferencesModel extends PhetioObject {
     // For now, the Voicing feature is only available when we are running in the English locale, accessibility
     // strings are not made available for translation. When running with dynamic locales, the voicing feature
     // is supported if English is available, but will be disabled until English is selected.
-    const supportsVoicing = options.audioOptions.supportsVoicing &&
-                            SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() &&
+    const voicingSupportedOnPlatform = SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() &&
                             (
                               // Running with english locale OR an environment where locale switching is supported and
                               // english is one of the available languages.
                               phet.chipper.locale.startsWith( 'en' ) ||
                               ( phet.chipper.queryParameters.supportsDynamicLocale && _.some( localeProperty.availableRuntimeLocales, value => value.startsWith( 'en' ) ) )
                             );
+    const supportsVoicing = options.audioOptions.supportsVoicing && voicingSupportedOnPlatform;
+    const supportsTier1Voicing = options.audioOptions.supportsTier1Voicing && voicingSupportedOnPlatform;
+    const supportsAnyVoicing = supportsVoicing || supportsTier1Voicing;
 
     // Audio can be disabled explicitly via query parameter
     const audioEnabled = phet.chipper.queryParameters.audio !== 'disabled';
 
     this.audioModel = {
       supportsVoicing: supportsVoicing && audioEnabled,
+      supportsTier1Voicing: supportsTier1Voicing && audioEnabled,
+      supportsAnyVoicing: supportsAnyVoicing,
 
       supportsSound: options.audioOptions.supportsSound && audioEnabled,
       supportsExtraSound: options.audioOptions.supportsExtraSound && audioEnabled,
@@ -307,6 +320,9 @@ export default class PreferencesModel extends PhetioObject {
       assert && assert( this.audioModel.supportsSound, 'supportsSound must be true to also support extraSound' );
     }
 
+    // Only supportsVoicing OR supportsTier1Voicing can be true at one time.
+    assert && assert( !( this.audioModel.supportsVoicing && this.audioModel.supportsTier1Voicing ), 'Only one of supportsVoicing or supportsTier1Voicing can be true' );
+
     this.addPhetioLinkedElementsForModel( options.tandem, this.simulationModel );
 
     this.addPhetioLinkedElementsForModel( options.tandem, this.visualModel, [
@@ -332,7 +348,7 @@ export default class PreferencesModel extends PhetioObject {
 
     // Since voicingManager in Scenery can not use initialize-globals, set the initial value for whether Voicing is
     // enabled here in the PreferencesModel.
-    if ( supportsVoicing ) {
+    if ( supportsAnyVoicing ) {
       voicingManager.enabledProperty.value = phet.chipper.queryParameters.voicingInitiallyEnabled;
 
       // Voicing is only available in the 'en' locale currently. If the locale is changed away from English, Voicing is
@@ -397,7 +413,7 @@ export default class PreferencesModel extends PhetioObject {
     if ( this.visualModel.supportsInteractiveHighlights ) {
       PreferencesStorage.register( this.visualModel.interactiveHighlightsEnabledProperty, 'interactiveHighlightsEnabledProperty' );
     }
-    if ( this.audioModel.supportsVoicing ) {
+    if ( this.audioModel.supportsAnyVoicing ) {
 
       // Register these to be stored when PreferencesStorage is enabled.
       PreferencesStorage.register( this.audioModel.voicingObjectResponsesEnabledProperty, 'objectResponsesEnabledProperty' );
@@ -452,7 +468,7 @@ export default class PreferencesModel extends PhetioObject {
   public supportsAudioPreferences(): boolean {
     return this.audioModel.supportsSound ||
            this.audioModel.supportsExtraSound ||
-           this.audioModel.supportsVoicing ||
+           this.audioModel.supportsAnyVoicing ||
            this.preferenceModelHasCustom( this.audioModel );
   }
 
@@ -490,6 +506,7 @@ export default class PreferencesModel extends PhetioObject {
         supportsProjectorMode: preferencesModel.visualModel.supportsProjectorMode,
         supportsInteractiveHighlights: preferencesModel.visualModel.supportsInteractiveHighlights,
         supportsVoicing: preferencesModel.audioModel.supportsVoicing,
+        supportsTier1Voicing: preferencesModel.audioModel.supportsTier1Voicing,
         supportsSound: preferencesModel.audioModel.supportsSound,
         supportsExtraSound: preferencesModel.audioModel.supportsExtraSound,
         supportsGestureControl: preferencesModel.inputModel.supportsGestureControl,
@@ -507,6 +524,7 @@ export default class PreferencesModel extends PhetioObject {
       supportsProjectorMode: BooleanIO,
       supportsInteractiveHighlights: BooleanIO,
       supportsVoicing: BooleanIO,
+      supportsTier1Voicing: BooleanIO,
       supportsSound: BooleanIO,
       supportsExtraSound: BooleanIO,
       supportsGestureControl: BooleanIO,

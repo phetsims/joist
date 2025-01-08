@@ -663,7 +663,7 @@ export default class Sim extends PhetioObject {
     } );
 
     // For now the Toolbar only includes controls for Voicing and is only constructed when that feature is supported.
-    if ( this.preferencesModel.audioModel.supportsVoicing ) {
+    if ( this.preferencesModel.audioModel.supportsAnyVoicing ) {
       this.toolbar = new Toolbar( this.preferencesModel.audioModel.toolbarEnabledProperty, this.selectedScreenProperty,
         this.lookAndFeel );
 
@@ -777,7 +777,7 @@ export default class Sim extends PhetioObject {
     } );
     this.display.simulationRoot.addChild( this.navigationBar );
 
-    if ( this.preferencesModel.audioModel.supportsVoicing ) {
+    if ( this.preferencesModel.audioModel.supportsAnyVoicing ) {
       assert && assert( this.toolbar, 'toolbar should exist for voicing' );
       this.display.simulationRoot.addChild( this.toolbar! );
       this.display.simulationRoot.pdomOrder = [ this.toolbar! ];
