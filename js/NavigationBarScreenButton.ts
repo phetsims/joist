@@ -20,6 +20,7 @@ import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import { Color, Node, NodeOptions, Rectangle, Text, VBox, Voicing, VoicingOptions } from '../../scenery/js/imports.js';
 import PushButtonModel from '../../sun/js/buttons/PushButtonModel.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import HighlightNode from './HighlightNode.js';
 import joist from './joist.js';
 import { AnyScreen } from './Screen.js';
@@ -145,7 +146,7 @@ class NavigationBarScreenButton extends Voicing( Node ) {
 
     // Hook up the input listener
     const pressListener = this.buttonModel.createPressListener( {
-      tandem: options.tandem.createTandem( 'pressListener' )
+      tandem: Tandem.OPT_OUT // PushButtonModel provides a firedEmitter which is sufficient
     } );
     this.addInputListener( pressListener );
 

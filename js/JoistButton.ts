@@ -16,6 +16,7 @@ import { Color, Node, NodeOptions, PressListener, SceneryConstants, Voicing, Voi
 import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';
 import PushButtonInteractionStateProperty from '../../sun/js/buttons/PushButtonInteractionStateProperty.js';
 import PushButtonModel from '../../sun/js/buttons/PushButtonModel.js';
+import Tandem from '../../tandem/js/Tandem.js';
 import HighlightNode from './HighlightNode.js';
 import joist from './joist.js';
 
@@ -115,7 +116,7 @@ export default class JoistButton extends Voicing( Node ) {
 
     // Hook up the input listener
     this._pressListener = this.buttonModel.createPressListener( {
-      tandem: options.tandem.createTandem( 'pressListener' )
+      tandem: Tandem.OPT_OUT // PushButtonModel provides a firedEmitter which is sufficient
     } );
     this.addInputListener( this._pressListener );
 
