@@ -27,7 +27,7 @@ import { DisposableOptions } from '../../axon/js/Disposable.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import joist from '../../joist/js/joist.js';
 import { Node } from '../../scenery/js/imports.js';
-import joistStrings from './JoistStrings.js';
+import JoistStrings from './JoistStrings.js';
 
 type SectionContent = TReadOnlyProperty<string> | Array<TReadOnlyProperty<string>> | null;
 
@@ -92,13 +92,13 @@ export default class ScreenSummaryContent extends Node {
 
     this.inThePlayAreaParagraph = new Node( {
       tagName: 'p',
-      accessibleName: joistStrings.a11y.inThePlayAreaStringProperty
+      accessibleName: JoistStrings.a11y.inThePlayAreaStringProperty
     } );
     this.playAreaContentNode = new Node();
 
     this.inTheControlAreaParagraph = new Node( {
       tagName: 'p',
-      accessibleName: joistStrings.a11y.inTheControlAreaStringProperty
+      accessibleName: JoistStrings.a11y.inTheControlAreaStringProperty
     } );
     this.controlAreaContentNode = new Node();
 
