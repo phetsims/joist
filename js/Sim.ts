@@ -763,7 +763,7 @@ export default class Sim extends PhetioObject {
     this.display.descriptionUtteranceQueue.clear();
     voicingUtteranceQueue.clear();
 
-    // Update the display asynchronously since it can trigger events on pointer validation, see https://github.com/phetsims/ph-scale/issues/212
+    // Update the display asynchronously since it can trigger phet-io events on pointer validation, see https://github.com/phetsims/ph-scale/issues/212
     animationFrameTimer.runOnNextTick( () => phet.joist.display.updateDisplay() );
   }
 
