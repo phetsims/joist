@@ -32,6 +32,22 @@
   "menuItem.enhancedSound": {
     "value": "Extra Sound"
   },
+  "menuItem.mailInputEventsLog": {
+    "value": "Mail Input Events Log",
+    "deprecated": true
+  },
+  "menuItem.outputInputEventsLog": {
+    "value": "Output Input Events Log",
+    "deprecated": true
+  },
+  "menuItem.submitInputEventsLog": {
+    "value": "Submit Input Events Log",
+    "deprecated": true
+  },
+  "menuItem.settings": {
+    "value": "Settings",
+    "deprecated": true
+  },
   "title.settings": {
     "value": "Settings"
   },
@@ -305,6 +321,34 @@
   },
   "preferences.tabs.localization.regionAndCulture.portrayalSets.unitedStatesOfAmerica": {
     "value": "United States of America",
+    "deprecated": true
+  },
+  "PhetButton.name": {
+    "value": "PhET Menu Button",
+    "deprecated": true
+  },
+  "HomeButton.name": {
+    "value": "Home",
+    "deprecated": true
+  },
+  "adaptedFrom": {
+    "value": "adapted from",
+    "deprecated": true
+  },
+  "titlePattern": {
+    "value": "{0} {1}",
+    "deprecated": true
+  },
+  "preferences.tabs.input.gestureControls.title": {
+    "value": "Gesture Control",
+    "deprecated": true
+  },
+  "preferences.tabs.input.gestureControls.description": {
+    "value": "Use touch with custom swipes and taps instead. No direct touch with gesture control enabled.",
+    "deprecated": true
+  },
+  "preferences.tabs.general.simulationSpecificSettings": {
+    "value": "Simulation-specific Settings",
     "deprecated": true
   },
   "a11y": {
