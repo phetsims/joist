@@ -327,6 +327,10 @@
     "value": "PhET Menu Button",
     "deprecated": true
   },
+  "HomeButton.name": {
+    "value": "Home",
+    "deprecated": true
+  },
   "adaptedFrom": {
     "value": "adapted from",
     "deprecated": true
