@@ -13,7 +13,7 @@ import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import { HBox, HBoxOptions, KeyboardListener, Node, Path } from '../../../scenery/js/imports.js';
-import globeSolidShape from '../../../sherpa/js/fontawesome-5/globeSolidShape.js';
+import globeSolidShape from '../../../sun/js/shapes/globeSolidShape.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesTab from './PreferencesTab.js';
@@ -90,7 +90,7 @@ class PreferencesTabs extends HBox {
 
         // Display a globe icon next to the localization label
         iconNode: new Path( globeSolidShape, {
-          scale: 1 / 25, // by inspection
+          scale: 0.734, // by inspection
           fill: 'black'
         } ),
 

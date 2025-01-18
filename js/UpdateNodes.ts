@@ -11,8 +11,8 @@ import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import SpinningIndicatorNode from '../../scenery-phet/js/SpinningIndicatorNode.js';
 import { allowLinksProperty, HBox, Node, openPopup, Path, Rectangle, RichText, RichTextLinks, VBox, VoicingText, VStrut } from '../../scenery/js/imports.js';
-import checkSolidShape from '../../sherpa/js/fontawesome-5/checkSolidShape.js';
-import exclamationTriangleSolidShape from '../../sherpa/js/fontawesome-5/exclamationTriangleSolidShape.js';
+import checkSolidShape from '../../sun/js/shapes/checkSolidShape.js';
+import exclamationSolidShape from '../../sun/js/shapes/exclamationSolidShape.js';
 import TextPushButton from '../../sun/js/buttons/TextPushButton.js';
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
@@ -86,7 +86,7 @@ const UpdateNodes = {
           children: [
             new Path( checkSolidShape, {
               fill: '#fff',
-              scale: 0.029,
+              scale: 0.48,
               centerX: 10,
               centerY: 10
             } )
@@ -120,9 +120,9 @@ const UpdateNodes = {
       spacing: 8,
       maxWidth: MAX_WIDTH,
       children: [
-        new Path( exclamationTriangleSolidShape, {
+        new Path( exclamationSolidShape, {
           fill: '#E87600', // "safety orange", according to Wikipedia
-          scale: 0.03
+          scale: 0.381
         } ),
         linkNode
       ],

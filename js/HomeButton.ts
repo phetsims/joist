@@ -13,7 +13,7 @@ import { Shape } from '../../kite/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
 import { Color, Node, Path, Rectangle } from '../../scenery/js/imports.js';
-import homeSolidShape from '../../sherpa/js/fontawesome-5/homeSolidShape.js';
+import homeSolidShape from '../../sun/js/shapes/homeSolidShape.js';
 import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';
 import Utterance from '../../utterance-queue/js/Utterance.js';
 import joist from './joist.js';
