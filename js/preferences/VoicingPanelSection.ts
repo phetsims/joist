@@ -255,8 +255,8 @@ class VoicingPanelSection extends PreferencesPanelSection {
       stroke: null,
 
       // pdom/voicing
-      expandedContextResponse: customizeVoiceExpandedStringProperty,
-      collapsedContextResponse: customizeVoiceCollapsedStringProperty,
+      contextResponseExpanded: customizeVoiceExpandedStringProperty,
+      contextResponseCollapsed: customizeVoiceCollapsedStringProperty,
 
       // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
       tandem: Tandem.OPT_OUT
