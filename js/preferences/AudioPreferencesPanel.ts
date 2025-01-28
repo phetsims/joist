@@ -58,10 +58,10 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
 
     if ( audioModel.supportsSound ) {
 
-      // If only one of the audio features are in use, do not include the toggle switch to
-      // enable/disable that feature because the control is redundant. The audio output should go
-      // through the "Audio Features" toggle only.
-      const hideSoundToggle = audioModel.supportsAnyVoicing !== audioModel.supportsSound;
+      // If only one of the audio features are in use, and there are no custom preferences
+      // do not include the toggle switch to enable/disable that feature because the control
+      // is redundant. The audio output should go through the "Audio Features" toggle only.
+      const hideSoundToggle = audioModel.supportsAnyVoicing !== audioModel.supportsSound && audioModel.customPreferences.length === 0;
 
       const soundPanelSection = new SoundPanelSection( audioModel, {
         includeTitleToggleSwitch: !hideSoundToggle
