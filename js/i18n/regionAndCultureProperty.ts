@@ -62,7 +62,10 @@ export type RegionAndCulture = typeof RegionAndCultureValues[ number ];
 export const supportedRegionAndCultureValues: RegionAndCulture[] = _.uniq( [
   DEFAULT_REGION_AND_CULTURE, // Always supported, since it is our fallback.
   ...( packageJSON?.phet?.simFeatures?.supportedRegionsAndCultures || [] )
-].filter( regionAndCulture => RegionAndCultureValues.includes( regionAndCulture ) ) );
+] );
+
+assert && assert( _.every( supportedRegionAndCultureValues, value => RegionAndCultureValues.includes( value ) ),
+  `unsupported value in packageJSON supportedRegionsAndCultures: ${supportedRegionAndCultureValues}` );
 
 // Is the specified regionAndCulture supported at runtime?
 const isSupportedRegionAndCulture = ( regionAndCulture?: RegionAndCulture ): boolean => {
@@ -75,7 +78,7 @@ const initialRegionAndCulture: RegionAndCulture = isSupportedRegionAndCulture( r
 
 class RegionAndCultureProperty extends Property<RegionAndCulture> {
   protected override unguardedSet( value: RegionAndCulture ): void {
-    if ( supportedRegionAndCultureValues.includes( value ) ) {
+    if ( isSupportedRegionAndCulture( value ) ) {
       super.unguardedSet( value );
     }
     else {
