@@ -69,9 +69,9 @@ const isSupportedRegionAndCulture = ( regionAndCulture?: RegionAndCulture ): boo
   return !!( regionAndCulture && supportedRegionAndCultureValues.includes( regionAndCulture ) );
 };
 
-const initialRegionAndCulture: RegionAndCulture = window.phet.chipper.queryParameters.regionAndCulture;
-assert && assert( isSupportedRegionAndCulture( initialRegionAndCulture ),
-  `Unsupported value for query parameter ?regionAndCulture: ${initialRegionAndCulture}` );
+const regionAndCultureQueryParameter = window.phet.chipper.queryParameters.regionAndCulture;
+const initialRegionAndCulture: RegionAndCulture = isSupportedRegionAndCulture( regionAndCultureQueryParameter ) ?
+                                                  regionAndCultureQueryParameter : DEFAULT_REGION_AND_CULTURE;
 
 // Globally available, similar to phet.chipper.locale, for things that might read this (e.g. from puppeteer in the future).
 phet.chipper.regionAndCulture = initialRegionAndCulture;
