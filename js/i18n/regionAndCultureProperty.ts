@@ -73,9 +73,6 @@ const regionAndCultureQueryParameter = window.phet.chipper.queryParameters.regio
 const initialRegionAndCulture: RegionAndCulture = isSupportedRegionAndCulture( regionAndCultureQueryParameter ) ?
                                                   regionAndCultureQueryParameter : DEFAULT_REGION_AND_CULTURE;
 
-// Globally available, similar to phet.chipper.locale, for things that might read this (e.g. from puppeteer in the future).
-phet.chipper.regionAndCulture = initialRegionAndCulture;
-
 class RegionAndCultureProperty extends Property<RegionAndCulture> {
   protected override unguardedSet( value: RegionAndCulture ): void {
     if ( supportedRegionAndCultureValues.includes( value ) ) {
