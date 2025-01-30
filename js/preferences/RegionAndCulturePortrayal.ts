@@ -102,16 +102,6 @@ export type RegionAndCultureID = typeof SUPPORTED_REGIONS_AND_CULTURES[number];
 
 const isSupportedRegionAndCulture = ( regionAndCulture: RegionAndCultureID ): boolean => SUPPORTED_REGIONS_AND_CULTURES.includes( regionAndCulture );
 
-
-// The value of the query parameter
-const regionAndCultureQueryParameter: RegionAndCultureID = window.phet.chipper.queryParameters.regionAndCulture;
-
-// Assert the query parameter before the simFeatures list because it is more contextual (since it was manually provided
-// in this runtime).
-assert && assert( regionAndCultureQueryParameter === null ||
-                  isSupportedRegionAndCulture( regionAndCultureQueryParameter ),
-  `invalid query parameter value for ?regionAndCulture: ${regionAndCultureQueryParameter}` );
-
 // The list of supported regions and cultures as defined in the `simFeatures` of the package.json.
 const simFeaturesSupportedRegionsAndCultures = packageJSON.phet?.simFeatures?.supportedRegionsAndCultures;
 assert && simFeaturesSupportedRegionsAndCultures && assert( _.every( simFeaturesSupportedRegionsAndCultures, isSupportedRegionAndCulture ),
