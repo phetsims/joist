@@ -335,7 +335,7 @@ export default class PreferencesModel extends PhetioObject {
       let defaultSet = portrayals[ 0 ];
       const regionAndCultureQueryParameter = phetFeaturesFromQueryParameters.regionAndCulture;
       if ( regionAndCultureQueryParameter ) {
-        defaultSet = portrayals.find( set => set.regionAndCultureID === regionAndCultureQueryParameter )!;
+        defaultSet = portrayals.find( set => set.regionAndCultureID === regionAndCultureQueryParameter ) || portrayals.find( set => set.regionAndCultureID === 'usa' )!;
         this.localizationModel.regionAndCulturePortrayalProperty = RegionAndCulturePortrayal.createRegionAndCulturePortrayalProperty( defaultSet, portrayals );
       }
     }
