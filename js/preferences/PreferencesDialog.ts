@@ -14,7 +14,8 @@ import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { FocusManager, HSeparator, KeyboardListener, Text, VBox } from '../../../scenery/js/imports.js';
+import { getPDOMFocusedNode, pdomFocusProperty } from '../../../scenery/js/accessibility/pdomFocusProperty.js';
+import { HSeparator, KeyboardListener, Text, VBox } from '../../../scenery/js/imports.js';
 import Dialog, { DialogOptions } from '../../../sun/js/Dialog.js';
 import soundManager from '../../../tambo/js/soundManager.js';
 import joist from '../joist.js';
@@ -141,8 +142,8 @@ class PreferencesDialog extends Dialog {
 
       // This listener is only enabled when the focus is on the panel itself, not its children. Panel contents
       // will often use arrow keys themselves, so this prevents an overlap.
-      enabledProperty: new DerivedProperty( [ FocusManager.pdomFocusProperty ], () => {
-        const pdomFocusedNode = FocusManager.getPDOMFocusedNode();
+      enabledProperty: new DerivedProperty( [ pdomFocusProperty ], () => {
+        const pdomFocusedNode = getPDOMFocusedNode();
         return !!pdomFocusedNode && this.preferencesPanels.isFocusableSelectedContent( pdomFocusedNode );
       } )
     } ) );
