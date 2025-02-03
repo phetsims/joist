@@ -10,7 +10,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { localizedStrings } from '../../chipper/js/browser/getStringModule.js';
+import localizedStrings from '../../chipper/js/browser/localizedStrings.js';
 import Utils from '../../dot/js/Utils.js';
 import joist from './joist.js';
 
