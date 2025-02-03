@@ -204,7 +204,7 @@ class LabelButtonRow {
         this.playingProperty.set( false );
 
         // Remove if listener wasn't interrupted by Display input.
-        if ( Display.inputListeners.includes( displayListener ) ) {
+        if ( Display.hasInputListener( displayListener ) ) {
           Display.removeInputListener( displayListener );
         }
       }

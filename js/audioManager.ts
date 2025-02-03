@@ -22,7 +22,7 @@
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
-import { Display, voicingManager } from '../../scenery/js/imports.js';
+import { DisplayGlobals, voicingManager } from '../../scenery/js/imports.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import isSettingPhetioStateProperty from '../../tandem/js/isSettingPhetioStateProperty.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
@@ -100,7 +100,7 @@ class AudioManager extends PhetioObject {
     }
 
     if ( sim.preferencesModel.audioModel.supportsAnyVoicing ) {
-      voicingManager.initialize( Display.userGestureEmitter, {
+      voicingManager.initialize( DisplayGlobals.userGestureEmitter, {
 
         // specify the Properties that control whether or not output is allowed from voicingManager
         speechAllowedProperty: new DerivedProperty( [
