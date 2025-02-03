@@ -9,7 +9,7 @@
 
 import Multilink from '../../axon/js/Multilink.js';
 import Vector2 from '../../dot/js/Vector2.js';
-import { Display, FocusManager, globalKeyStateTracker, KeyboardUtils, SceneryEvent, TInputListener } from '../../scenery/js/imports.js';
+import { Display, FocusManager, getPDOMFocusedNode, globalKeyStateTracker, KeyboardUtils, SceneryEvent, TInputListener } from '../../scenery/js/imports.js';
 import joist from './joist.js';
 import PreferencesModel from './preferences/PreferencesModel.js';
 
@@ -105,13 +105,15 @@ class HighlightVisibilityController {
           // in response to pointer events, always hide the focus highlight so it isn't distracting
           this.display.focusManager.pdomFocusHighlightsVisibleProperty.value = false;
 
+          const focusedNode = getPDOMFocusedNode();
+
           // no need to do this work unless some element in the simulation has focus
-          if ( FocusManager.pdomFocusedNode ) {
+          if ( focusedNode ) {
 
             // if the event trail doesn't include the focusedNode, clear it - otherwise DOM focus is kept on the
             // active element so that it can remain the target for assistive devices using pointer events
             // on behalf of the user, see https://github.com/phetsims/scenery/issues/1137
-            if ( !event.trail.nodes.includes( FocusManager.pdomFocusedNode ) ) {
+            if ( !event.trail.nodes.includes( focusedNode ) ) {
               FocusManager.pdomFocus = null;
             }
           }
