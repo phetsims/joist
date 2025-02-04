@@ -30,7 +30,7 @@ import optionize from '../../phet-core/js/optionize.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import MeasuringTapeNode from '../../scenery-phet/js/MeasuringTapeNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { CanvasNode, Circle, Color, Display, DOM, DragListener, extendsHeightSizable, extendsWidthSizable, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, HSeparator, Image, LayoutNode, Line, LinearGradient, Node, NodeOptions, NodePattern, Paint, Path, Pattern, PDOMInstance, PressListener, RadialGradient, Rectangle, RichText, RichTextOptions, SceneryEvent, Spacer, TColor, Text, TextOptions, TPaint, Trail, VBox, WebGLNode } from '../../scenery/js/imports.js';
+import { CanvasNode, Circle, Color, Display, DOM, DragListener, extendsHeightSizable, extendsWidthSizable, FireListener, FlowBox, Font, GradientStop, GridBox, HBox, HSeparator, Image, LayoutNode, Line, LinearGradient, Node, NodeOptions, NodePattern, Paint, Path, Pattern, PDOMInstance, PressListener, RadialGradient, rasterized, Rectangle, RichText, RichTextOptions, SceneryEvent, Spacer, TColor, Text, TextOptions, TPaint, Trail, VBox, WebGLNode } from '../../scenery/js/imports.js';
 import AquaRadioButtonGroup from '../../sun/js/AquaRadioButtonGroup.js';
 import RectangularPushButton from '../../sun/js/buttons/RectangularPushButton.js';
 import Checkbox, { CheckboxOptions } from '../../sun/js/Checkbox.js';
@@ -387,7 +387,7 @@ export default class Helper {
             scale: scale / window.devicePixelRatio,
             center: previewBackground.center,
             children: [
-              node.rasterized( {
+              rasterized( node, {
                 resolution: scale,
                 sourceBounds: node.bounds.dilated( node.bounds.width * 0.01 ).roundedOut()
               } )
