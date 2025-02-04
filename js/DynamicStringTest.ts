@@ -1,4 +1,4 @@
-// Copyright 2022-2024, University of Colorado Boulder
+// Copyright 2022-2025, University of Colorado Boulder
 
 /**
  * DynamicStringTest is a handler for KeyboardEvents. It's used for testing dynamic layout in sims that may not yet
