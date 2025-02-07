@@ -331,13 +331,14 @@ export default class PreferencesModel extends PhetioObject {
           'No duplicates allowed in supported or provided regionAndCulture ids. Supported:', supportedRegionsAndCultures, 'Provided', providedPortrayalIDs );
       }
 
-      // default is the first set
-      let defaultSet = portrayals[ 0 ];
+      const defaultRegionAndCultureString = simFeatures.defaultRegionAndCulture || 'usa'
+      const defaultSet = portrayals.find( set => set.regionAndCultureID === defaultRegionAndCultureString ) || portrayals[ 0 ];
+      let initialSet = defaultSet;
       const regionAndCultureQueryParameter = phetFeaturesFromQueryParameters.regionAndCulture;
       if ( regionAndCultureQueryParameter ) {
-        defaultSet = portrayals.find( set => set.regionAndCultureID === regionAndCultureQueryParameter ) || portrayals.find( set => set.regionAndCultureID === 'usa' )!;
-        this.localizationModel.regionAndCulturePortrayalProperty = RegionAndCulturePortrayal.createRegionAndCulturePortrayalProperty( defaultSet, portrayals );
+        initialSet = portrayals.find( set => set.regionAndCultureID === regionAndCultureQueryParameter ) || defaultSet;
       }
+      this.localizationModel.regionAndCulturePortrayalProperty = RegionAndCulturePortrayal.createRegionAndCulturePortrayalProperty( initialSet, portrayals );
     }
 
 
