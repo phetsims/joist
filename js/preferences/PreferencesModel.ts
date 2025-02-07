@@ -10,6 +10,7 @@ import { colorProfileProperty, Node, voicingManager, voicingUtteranceQueue } fro
 import responseCollector from '../../../utterance-queue/js/responseCollector.js';
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import joist from '../joist.js';
+import packageJSON from '../packageJSON.js';
 import PreferencesStorage from './PreferencesStorage.js';
 import soundManager from '../../../tambo/js/soundManager.js';
 import audioManager from '../audioManager.js';
@@ -315,15 +316,15 @@ export default class PreferencesModel extends PhetioObject {
 
     if ( options.localizationOptions.characterSets.length > 0 ) {
       const characterSets = options.localizationOptions.characterSets;
-
-      // default is the first set
-      let defaultSet = characterSets[ 0 ];
+      const defaultRegionAndCultureString = ( packageJSON.phet?.simFeatures?.supportedRegionsAndCultures &&
+                                              packageJSON.phet?.simFeatures?.supportedRegionsAndCultures[ 0 ] ) || 'usa'
+      const defaultSet = characterSets.find( set => set.regionAndCultureID === defaultRegionAndCultureString ) || characterSets[ 0 ];
+      let initialSet = defaultSet;
       const regionAndCultureQueryParameter = phetFeaturesFromQueryParameters.regionAndCulture;
       if ( regionAndCultureQueryParameter ) {
-        defaultSet = characterSets.find( set => set.regionAndCultureID === regionAndCultureQueryParameter ) ||
-                     characterSets.find( set => set.regionAndCultureID === 'usa' )!;
-        this.localizationModel.regionAndCulturePortrayalProperty = RegionAndCulturePortrayal.createRegionAndCulturePortrayalProperty( defaultSet, characterSets );
+        initialSet = characterSets.find( set => set.regionAndCultureID === regionAndCultureQueryParameter ) || defaultSet;
       }
+      this.localizationModel.regionAndCulturePortrayalProperty = RegionAndCulturePortrayal.createRegionAndCulturePortrayalProperty( initialSet, characterSets );
     }
 
 
