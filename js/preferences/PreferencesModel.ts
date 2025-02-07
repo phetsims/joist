@@ -6,26 +6,27 @@
  * @author Jesse Greenberg
  */
 
-import { colorProfileProperty, Node, voicingManager, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
-import responseCollector from '../../../utterance-queue/js/responseCollector.js';
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
-import joist from '../joist.js';
-import PreferencesStorage from './PreferencesStorage.js';
-import soundManager from '../../../tambo/js/soundManager.js';
-import audioManager from '../audioManager.js';
-import Property from '../../../axon/js/Property.js';
-import NumberProperty from '../../../axon/js/NumberProperty.js';
-import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import SpeechSynthesisAnnouncer from '../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
-import Tandem from '../../../tandem/js/Tandem.js';
-import localeProperty, { Locale } from '../i18n/localeProperty.js';
-import merge from '../../../phet-core/js/merge.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import IOType from '../../../tandem/js/types/IOType.js';
-import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
-import RegionAndCulturePortrayal from './RegionAndCulturePortrayal.js';
 import Multilink from '../../../axon/js/Multilink.js';
+import NumberProperty from '../../../axon/js/NumberProperty.js';
+import Property from '../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import merge from '../../../phet-core/js/merge.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import { colorProfileProperty, Node, voicingManager, voicingUtteranceQueue } from '../../../scenery/js/imports.js';
+import soundManager from '../../../tambo/js/soundManager.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
+import Tandem from '../../../tandem/js/Tandem.js';
+import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
+import IOType from '../../../tandem/js/types/IOType.js';
+import responseCollector from '../../../utterance-queue/js/responseCollector.js';
+import SpeechSynthesisAnnouncer from '../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
+import audioManager from '../audioManager.js';
+import localeProperty, { Locale } from '../i18n/localeProperty.js';
+import joist from '../joist.js';
+import packageJSON from '../packageJSON.js';
+import PreferencesStorage from './PreferencesStorage.js';
+import RegionAndCulturePortrayal from './RegionAndCulturePortrayal.js';
 
 type ModelPropertyLinkable = {
   property: TReadOnlyProperty<unknown> & PhetioObject;
@@ -316,14 +317,16 @@ export default class PreferencesModel extends PhetioObject {
     if ( options.localizationOptions.portrayals.length > 0 ) {
       const characterSets = options.localizationOptions.portrayals;
 
-      // default is the first set
-      let defaultSet = characterSets[ 0 ];
+      const defaultRegionAndCultureString = ( packageJSON.phet?.simFeatures?.supportedRegionsAndCultures &&
+                                              packageJSON.phet?.simFeatures?.supportedRegionsAndCultures[ 0 ] ) || 'usa'
+      const defaultSet = characterSets.find( set => set.regionAndCultureID === defaultRegionAndCultureString ) || characterSets[ 0 ];
+      let initialSet = defaultSet;
+
       const regionAndCultureQueryParameter = phetFeaturesFromQueryParameters.regionAndCulture;
       if ( regionAndCultureQueryParameter ) {
-        defaultSet = characterSets.find( set => set.regionAndCultureID === regionAndCultureQueryParameter ) ||
-                     characterSets.find( set => set.regionAndCultureID === 'usa' )!;
-        this.localizationModel.regionAndCulturePortrayalProperty = RegionAndCulturePortrayal.createRegionAndCulturePortrayalProperty( defaultSet, characterSets );
+        initialSet = characterSets.find( set => set.regionAndCultureID === regionAndCultureQueryParameter ) || defaultSet;
       }
+      this.localizationModel.regionAndCulturePortrayalProperty = RegionAndCulturePortrayal.createRegionAndCulturePortrayalProperty( initialSet, characterSets );
     }
 
 
