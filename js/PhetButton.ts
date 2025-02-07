@@ -11,7 +11,11 @@
 import Multilink from '../../axon/js/Multilink.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import TBrand from '../../brand/js/TBrand.js';
-import { AriaHasPopUpMutator, Color, Image, Line, Node } from '../../scenery/js/imports.js';
+import AriaHasPopUpMutator from '../../scenery/js/accessibility/pdom/AriaHasPopUpMutator.js';
+import Image from '../../scenery/js/nodes/Image.js';
+import Line from '../../scenery/js/nodes/Line.js';
+import Node from '../../scenery/js/nodes/Node.js';
+import Color from '../../scenery/js/util/Color.js';
 import sharedSoundPlayers from '../../tambo/js/sharedSoundPlayers.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';

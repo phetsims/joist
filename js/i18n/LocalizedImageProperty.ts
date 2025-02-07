@@ -7,7 +7,7 @@
  */
 
 import { DerivedProperty1 } from '../../../axon/js/DerivedProperty.js';
-import { ImageableImage } from '../../../scenery/js/imports.js';
+import { ImageableImage } from '../../../scenery/js/nodes/Imageable.js';
 import joist from '../joist.js';
 import concreteRegionAndCultureProperty, { ConcreteRegionAndCulture, concreteRegionAndCultureValues } from './concreteRegionAndCultureProperty.js';
 

@@ -6,7 +6,7 @@
  */
 
 import BasicActionsKeyboardHelpSection from '../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
-import { Node } from '../../scenery/js/imports.js';
+import Node from '../../scenery/js/nodes/Node.js';
 import joist from './joist.js';
 
 class HomeScreenKeyboardHelpContent extends Node {

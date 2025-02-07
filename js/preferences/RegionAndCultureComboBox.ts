@@ -9,7 +9,7 @@
 import LocalizedStringProperty from '../../../chipper/js/browser/LocalizedStringProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PickOptional from '../../../phet-core/js/types/PickOptional.js';
-import { Text } from '../../../scenery/js/imports.js';
+import Text from '../../../scenery/js/nodes/Text.js';
 import ComboBox, { ComboBoxOptions } from '../../../sun/js/ComboBox.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import regionAndCultureProperty, { RegionAndCulture, supportedRegionAndCultureValues } from '../i18n/regionAndCultureProperty.js';

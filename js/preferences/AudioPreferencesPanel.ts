@@ -9,7 +9,9 @@
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
-import { HBox, Text, VBox, VBoxOptions } from '../../../scenery/js/imports.js';
+import HBox from '../../../scenery/js/layout/nodes/HBox.js';
+import VBox, { VBoxOptions } from '../../../scenery/js/layout/nodes/VBox.js';
+import Text from '../../../scenery/js/nodes/Text.js';
 import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';

@@ -13,7 +13,10 @@
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
-import { Node, RichText, Text, VBox } from '../../../scenery/js/imports.js';
+import VBox from '../../../scenery/js/layout/nodes/VBox.js';
+import Node from '../../../scenery/js/nodes/Node.js';
+import RichText from '../../../scenery/js/nodes/RichText.js';
+import Text from '../../../scenery/js/nodes/Text.js';
 import { supportedRegionAndCultureValues } from '../i18n/regionAndCultureProperty.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';

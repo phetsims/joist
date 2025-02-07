@@ -9,7 +9,8 @@
 
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import merge from '../../../phet-core/js/merge.js';
-import { VBox, VoicingRichText } from '../../../scenery/js/imports.js';
+import VoicingRichText from '../../../scenery/js/accessibility/voicing/nodes/VoicingRichText.js';
+import VBox from '../../../scenery/js/layout/nodes/VBox.js';
 import isLeftToRightProperty from '../i18n/isLeftToRightProperty.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';

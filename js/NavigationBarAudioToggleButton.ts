@@ -15,10 +15,14 @@
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Vector2 from '../../dot/js/Vector2.js';
-import { Shape } from '../../kite/js/imports.js';
+import Shape from '../../kite/js/Shape.js';
 import optionize from '../../phet-core/js/optionize.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
-import { Color, Node, Path, Rectangle, voicingManager } from '../../scenery/js/imports.js';
+import voicingManager from '../../scenery/js/accessibility/voicing/voicingManager.js';
+import Node from '../../scenery/js/nodes/Node.js';
+import Path from '../../scenery/js/nodes/Path.js';
+import Rectangle from '../../scenery/js/nodes/Rectangle.js';
+import Color from '../../scenery/js/util/Color.js';
 import ToggleNode from '../../sun/js/ToggleNode.js';
 import ActivationUtterance from '../../utterance-queue/js/ActivationUtterance.js';
 import audioManager from './audioManager.js';

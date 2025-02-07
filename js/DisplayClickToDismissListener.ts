@@ -11,7 +11,11 @@
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import dotRandom from '../../dot/js/dotRandom.js';
 import optionize from '../../phet-core/js/optionize.js';
-import { DisplayedProperty, Node, Pointer, SceneryEvent, SceneryListenerFunction, TInputListener } from '../../scenery/js/imports.js';
+import Pointer from '../../scenery/js/input/Pointer.js';
+import SceneryEvent from '../../scenery/js/input/SceneryEvent.js';
+import TInputListener, { SceneryListenerFunction } from '../../scenery/js/input/TInputListener.js';
+import Node from '../../scenery/js/nodes/Node.js';
+import DisplayedProperty from '../../scenery/js/util/DisplayedProperty.js';
 import joist from './joist.js';
 
 export type DisplayClickToDismissListenerOptions = {

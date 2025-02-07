@@ -8,7 +8,7 @@
 
 import stepTimer from '../../axon/js/stepTimer.js';
 import { EmptySelfOptions } from '../../phet-core/js/optionize.js';
-import { Node } from '../../scenery/js/imports.js';
+import Node from '../../scenery/js/nodes/Node.js';
 import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
 import joist from './joist.js';
 import updateCheck from './updateCheck.js';

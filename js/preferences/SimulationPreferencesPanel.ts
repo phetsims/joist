@@ -10,7 +10,8 @@
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
-import { Node, VBox, VBoxOptions } from '../../../scenery/js/imports.js';
+import VBox, { VBoxOptions } from '../../../scenery/js/layout/nodes/VBox.js';
+import Node from '../../../scenery/js/nodes/Node.js';
 import joist from '../joist.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import { SimulationModel } from './PreferencesModel.js';

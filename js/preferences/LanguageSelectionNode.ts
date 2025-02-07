@@ -10,7 +10,11 @@
 import Property from '../../../axon/js/Property.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
-import { Color, FireListener, HighlightOverlay, Rectangle, Text } from '../../../scenery/js/imports.js';
+import FireListener from '../../../scenery/js/listeners/FireListener.js';
+import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
+import Text from '../../../scenery/js/nodes/Text.js';
+import HighlightOverlay from '../../../scenery/js/overlays/HighlightOverlay.js';
+import Color from '../../../scenery/js/util/Color.js';
 import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import { Locale } from '../i18n/localeProperty.js';

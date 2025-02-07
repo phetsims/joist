@@ -10,7 +10,7 @@
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import OopsDialog, { OopsDialogOptions } from '../../scenery-phet/js/OopsDialog.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { Text } from '../../scenery/js/imports.js';
+import Text from '../../scenery/js/nodes/Text.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';

@@ -8,13 +8,14 @@
 
 import Property, { PropertyOptions } from '../../../axon/js/Property.js';
 import { ReadOnlyPropertyState } from '../../../axon/js/ReadOnlyProperty.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
-import { globalKeyStateTracker, KeyboardUtils } from '../../../scenery/js/imports.js';
+import globalKeyStateTracker from '../../../scenery/js/accessibility/globalKeyStateTracker.js';
+import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import StringIO from '../../../tandem/js/types/StringIO.js';
 import joist from '../joist.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 
 // Hard coding a few locales here is better than relying on a generated output of the "ground truth" localeData in babel,
 // which could change at any time and cause a type error here (either on main or worse, in release branches). Also we

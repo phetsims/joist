@@ -9,7 +9,8 @@
  */
 
 import optionize from '../../../phet-core/js/optionize.js';
-import { Node, VBox } from '../../../scenery/js/imports.js';
+import VBox from '../../../scenery/js/layout/nodes/VBox.js';
+import Node from '../../../scenery/js/nodes/Node.js';
 import Panel, { PanelOptions } from '../../../sun/js/Panel.js';
 import joist from '../joist.js';
 

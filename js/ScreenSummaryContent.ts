@@ -29,7 +29,7 @@ import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
 import { DisposableOptions } from '../../axon/js/Disposable.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import joist from '../../joist/js/joist.js';
-import { Node } from '../../scenery/js/imports.js';
+import Node from '../../scenery/js/nodes/Node.js';
 import JoistStrings from './JoistStrings.js';
 
 type SectionContent = TReadOnlyProperty<string> | Array<TReadOnlyProperty<string>> | null;

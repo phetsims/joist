@@ -12,7 +12,8 @@
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
-import { AlignGroup, Node, NodeOptions } from '../../../scenery/js/imports.js';
+import AlignGroup from '../../../scenery/js/layout/constraints/AlignGroup.js';
+import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import AudioPreferencesPanel from './AudioPreferencesPanel.js';

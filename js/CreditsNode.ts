@@ -14,7 +14,11 @@ import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { Node, VBox, VBoxOptions, VoicingRichText, VoicingText, VStrut } from '../../scenery/js/imports.js';
+import VoicingRichText from '../../scenery/js/accessibility/voicing/nodes/VoicingRichText.js';
+import VoicingText from '../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
+import VBox, { VBoxOptions } from '../../scenery/js/layout/nodes/VBox.js';
+import Node from '../../scenery/js/nodes/Node.js';
+import VStrut from '../../scenery/js/nodes/VStrut.js';
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
 

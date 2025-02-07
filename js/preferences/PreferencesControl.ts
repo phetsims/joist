@@ -10,7 +10,10 @@
 
 import optionize from '../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import { GridBox, GridBoxOptions, Node, SceneryConstants, TLayoutOptions } from '../../../scenery/js/imports.js';
+import GridBox, { GridBoxOptions } from '../../../scenery/js/layout/nodes/GridBox.js';
+import TLayoutOptions from '../../../scenery/js/layout/TLayoutOptions.js';
+import Node from '../../../scenery/js/nodes/Node.js';
+import SceneryConstants from '../../../scenery/js/SceneryConstants.js';
 import joist from '../joist.js';
 
 type SelfOptions = {

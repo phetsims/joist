@@ -9,7 +9,7 @@
  */
 
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
-import { Utils } from '../../scenery/js/imports.js';
+import Utils from '../../scenery/js/util/Utils.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import ArrayIO from '../../tandem/js/types/ArrayIO.js';

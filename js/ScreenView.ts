@@ -24,7 +24,7 @@ import optionize from '../../phet-core/js/optionize.js';
 import ControlAreaNode from '../../scenery-phet/js/accessibility/nodes/ControlAreaNode.js';
 import PlayAreaNode from '../../scenery-phet/js/accessibility/nodes/PlayAreaNode.js';
 import ScreenSummaryNode from '../../scenery-phet/js/accessibility/nodes/ScreenSummaryNode.js';
-import { Node, NodeOptions } from '../../scenery/js/imports.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import { SpeakableResolvedResponse } from '../../utterance-queue/js/ResponsePacket.js';
 import joist from './joist.js';

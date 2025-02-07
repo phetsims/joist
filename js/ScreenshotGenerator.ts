@@ -8,7 +8,8 @@
  */
 
 import Matrix3 from '../../dot/js/Matrix3.js';
-import { CanvasContextWrapper, Utils } from '../../scenery/js/imports.js';
+import CanvasContextWrapper from '../../scenery/js/util/CanvasContextWrapper.js';
+import Utils from '../../scenery/js/util/Utils.js';
 import joist from './joist.js';
 import Sim from './Sim.js';
 

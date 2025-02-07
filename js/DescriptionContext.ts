@@ -15,7 +15,7 @@ import TProperty from '../../axon/js/TProperty.js';
 import TReadOnlyProperty, { PropertyLazyLinkListener, PropertyLinkListener, PropertyListener } from '../../axon/js/TReadOnlyProperty.js';
 import LocalizedString from '../../chipper/js/browser/LocalizedString.js';
 import dotRandom from '../../dot/js/dotRandom.js';
-import { Node, NodeOptions } from '../../scenery/js/imports.js';
+import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
 import DescriptionRegistry from '../../tandem/js/DescriptionRegistry.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Utterance, { UtteranceOptions } from '../../utterance-queue/js/Utterance.js';

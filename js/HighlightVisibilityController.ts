@@ -9,7 +9,13 @@
 
 import Multilink from '../../axon/js/Multilink.js';
 import Vector2 from '../../dot/js/Vector2.js';
-import { Display, FocusManager, getPDOMFocusedNode, globalKeyStateTracker, KeyboardUtils, SceneryEvent, TInputListener } from '../../scenery/js/imports.js';
+import FocusManager from '../../scenery/js/accessibility/FocusManager.js';
+import globalKeyStateTracker from '../../scenery/js/accessibility/globalKeyStateTracker.js';
+import KeyboardUtils from '../../scenery/js/accessibility/KeyboardUtils.js';
+import { getPDOMFocusedNode } from '../../scenery/js/accessibility/pdomFocusProperty.js';
+import Display from '../../scenery/js/display/Display.js';
+import SceneryEvent from '../../scenery/js/input/SceneryEvent.js';
+import TInputListener from '../../scenery/js/input/TInputListener.js';
 import joist from './joist.js';
 import PreferencesModel from './preferences/PreferencesModel.js';
 

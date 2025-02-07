@@ -11,7 +11,8 @@ import Property from '../../axon/js/Property.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
-import { Color, Image } from '../../scenery/js/imports.js';
+import Image from '../../scenery/js/nodes/Image.js';
+import Color from '../../scenery/js/util/Color.js';
 import Dialog from '../../sun/js/Dialog.js';
 import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
 import keyboardIcon_png from '../images/keyboardIcon_png.js'; // on a black navbar

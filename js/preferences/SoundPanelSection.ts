@@ -9,7 +9,12 @@
 import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
 import merge from '../../../phet-core/js/merge.js';
 import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
-import { Node, SceneryConstants, Text, VBox, VoicingRichText, VoicingText } from '../../../scenery/js/imports.js';
+import VoicingRichText from '../../../scenery/js/accessibility/voicing/nodes/VoicingRichText.js';
+import VoicingText from '../../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
+import VBox from '../../../scenery/js/layout/nodes/VBox.js';
+import Node from '../../../scenery/js/nodes/Node.js';
+import Text from '../../../scenery/js/nodes/Text.js';
+import SceneryConstants from '../../../scenery/js/SceneryConstants.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
