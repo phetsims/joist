@@ -317,7 +317,7 @@ export default class PreferencesModel extends PhetioObject {
     if ( options.localizationOptions.characterSets.length > 0 ) {
       const characterSets = options.localizationOptions.characterSets;
       const defaultRegionAndCultureString = ( packageJSON.phet?.simFeatures?.supportedRegionsAndCultures &&
-                                              packageJSON.phet?.simFeatures?.supportedRegionsAndCultures[ 0 ] ) || 'usa'
+                                              packageJSON.phet?.simFeatures?.supportedRegionsAndCultures[ 0 ] ) || 'usa';
       const defaultSet = characterSets.find( set => set.regionAndCultureID === defaultRegionAndCultureString ) || characterSets[ 0 ];
       let initialSet = defaultSet;
       const regionAndCultureQueryParameter = phetFeaturesFromQueryParameters.regionAndCulture;
