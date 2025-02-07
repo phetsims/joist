@@ -331,7 +331,7 @@ export default class PreferencesModel extends PhetioObject {
           'No duplicates allowed in supported or provided regionAndCulture ids. Supported:', supportedRegionsAndCultures, 'Provided', providedPortrayalIDs );
       }
 
-      const defaultRegionAndCultureString = simFeatures.defaultRegionAndCulture || 'usa'
+      const defaultRegionAndCultureString = simFeatures.defaultRegionAndCulture || 'usa';
       const defaultSet = portrayals.find( set => set.regionAndCultureID === defaultRegionAndCultureString ) || portrayals[ 0 ];
       let initialSet = defaultSet;
       const regionAndCultureQueryParameter = phetFeaturesFromQueryParameters.regionAndCulture;
