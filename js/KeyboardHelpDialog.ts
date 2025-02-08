@@ -1,4 +1,4 @@
-// Copyright 2016-2024, University of Colorado Boulder
+// Copyright 2016-2025, University of Colorado Boulder
 
 /**
  * Shows a Dialog with content describing keyboard interactions. Opened via a button in the navigation bar.

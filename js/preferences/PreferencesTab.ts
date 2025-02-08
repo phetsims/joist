@@ -1,4 +1,4 @@
-// Copyright 2022-2024, University of Colorado Boulder
+// Copyright 2022-2025, University of Colorado Boulder
 
 /**
  * A single tab of the PreferencesDialog. Selecting this PreferencesTab makes its associated PreferencesPanel

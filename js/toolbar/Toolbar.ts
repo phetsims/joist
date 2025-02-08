@@ -1,4 +1,4 @@
-// Copyright 2021-2024, University of Colorado Boulder
+// Copyright 2021-2025, University of Colorado Boulder
 
 /**
  * The Toolbar along the left edge of the screen with controls related to the sim or active screen. Currently, it

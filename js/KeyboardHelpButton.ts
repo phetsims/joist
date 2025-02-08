@@ -1,4 +1,4 @@
-// Copyright 2016-2024, University of Colorado Boulder
+// Copyright 2016-2025, University of Colorado Boulder
 
 /**
  * The button that pops up the Keyboard Help Dialog, which appears in the right side of the navbar and

@@ -1,4 +1,4 @@
-// Copyright 2021-2024, University of Colorado Boulder
+// Copyright 2021-2025, University of Colorado Boulder
 
 /**
  * The content for the "Simulation" tab in the PreferencesDialog. Contains controls for any simulation-specific
