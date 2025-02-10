@@ -80,6 +80,8 @@ export default class SimDisplay extends Display {
       // pdom accessibility (interactive description)
       accessibility: phet.chipper.queryParameters.supportsInteractiveDescription,
 
+      preventMultitouch: phet.chipper.queryParameters.preventMultitouch,
+
       // phet-io
       tandem: Tandem.REQUIRED
     }, providedOptions );
