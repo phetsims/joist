@@ -15,7 +15,6 @@ import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import TColor from '../../scenery/js/util/TColor.js';
 import joist from './joist.js';
-import Screen from './Screen.js';
 
 type SelfOptions = {
   size?: Dimension2; // size of the background
@@ -24,6 +23,8 @@ type SelfOptions = {
   fill?: TColor; // {Color|string} background fill
   stroke?: TColor; // {Color|string} background stroke
 };
+
+export const MINIMUM_HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 );
 
 export type ScreenIconOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
@@ -36,7 +37,7 @@ export default class ScreenIcon extends Node {
     const options = optionize<ScreenIconOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
-      size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE,
+      size: MINIMUM_HOME_SCREEN_ICON_SIZE,
       maxIconWidthProportion: 0.85,
       maxIconHeightProportion: 0.85,
       fill: 'white',

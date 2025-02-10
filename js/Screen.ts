@@ -38,7 +38,7 @@ import IOType from '../../tandem/js/types/IOType.js';
 import ReferenceIO from '../../tandem/js/types/ReferenceIO.js';
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
-import ScreenIcon from './ScreenIcon.js';
+import ScreenIcon, { MINIMUM_HOME_SCREEN_ICON_SIZE } from './ScreenIcon.js';
 import ScreenView from './ScreenView.js';
 import TModel from './TModel.js';
 
@@ -48,7 +48,6 @@ const screenSimPatternStringProperty = JoistStrings.a11y.screenSimPatternStringP
 const simScreenStringProperty = JoistStrings.a11y.simScreenStringProperty;
 
 // constants
-const MINIMUM_HOME_SCREEN_ICON_SIZE = new Dimension2( 548, 373 );
 const MINIMUM_NAVBAR_ICON_SIZE = new Dimension2( 147, 100 );
 const NAVBAR_ICON_ASPECT_RATIO = MINIMUM_NAVBAR_ICON_SIZE.width / MINIMUM_NAVBAR_ICON_SIZE.height;
 const HOME_SCREEN_ICON_ASPECT_RATIO = MINIMUM_HOME_SCREEN_ICON_SIZE.width / MINIMUM_HOME_SCREEN_ICON_SIZE.height;
