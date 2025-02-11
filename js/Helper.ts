@@ -63,7 +63,7 @@ import NodePattern from '../../scenery/js/util/NodePattern.js';
 import Paint from '../../scenery/js/util/Paint.js';
 import Pattern from '../../scenery/js/util/Pattern.js';
 import RadialGradient from '../../scenery/js/util/RadialGradient.js';
-import { rasterized } from '../../scenery/js/util/rasterized.js';
+import { rasterizeNode } from '../../scenery/js/util/rasterizeNode.js';
 import TColor from '../../scenery/js/util/TColor.js';
 import TPaint from '../../scenery/js/util/TPaint.js';
 import Trail from '../../scenery/js/util/Trail.js';
@@ -423,7 +423,7 @@ export default class Helper {
             scale: scale / window.devicePixelRatio,
             center: previewBackground.center,
             children: [
-              rasterized( node, {
+              rasterizeNode( node, {
                 resolution: scale,
                 sourceBounds: node.bounds.dilated( node.bounds.width * 0.01 ).roundedOut()
               } )
