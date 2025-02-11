@@ -31,7 +31,7 @@
 
 import Utils from '../../dot/js/Utils.js';
 import joist from './joist.js';
-import Sim from './Sim.js';
+import type Sim from './Sim.js';
 
 // constants
 const FIELD_SEPARATOR = ' \u2014 '; // em dash, a long horizontal dash

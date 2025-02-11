@@ -26,7 +26,7 @@ import exclamationSolidShape from '../../sun/js/shapes/exclamationSolidShape.js'
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
 import updateCheck from './updateCheck.js';
-import UpdateDialog from './UpdateDialog.js';
+import type UpdateDialog from './UpdateDialog.js';
 import UpdateState from './UpdateState.js';
 
 // constants

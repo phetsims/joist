@@ -9,7 +9,7 @@
  */
 
 import joist from './joist.js';
-import Sim from './Sim.js';
+import type Sim from './Sim.js';
 
 // variables
 let started = false;

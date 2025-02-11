@@ -49,7 +49,7 @@ import JoistStrings from './JoistStrings.js';
 import NavigationBarScreenButton from './NavigationBarScreenButton.js';
 import PhetButton from './PhetButton.js';
 import { AnyScreen } from './Screen.js';
-import Sim from './Sim.js';
+import type Sim from './Sim.js';
 
 // constants
 // for layout of the NavigationBar, used in the following way:

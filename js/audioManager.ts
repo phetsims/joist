@@ -29,7 +29,7 @@ import isSettingPhetioStateProperty from '../../tandem/js/isSettingPhetioStatePr
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
-import Sim from './Sim.js';
+import type Sim from './Sim.js';
 
 const ANY_AUDIO_SUPPORTED = phet.chipper.supportsAnyVoicing() || phet.chipper.queryParameters.supportsSound;
 

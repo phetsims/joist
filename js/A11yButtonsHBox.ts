@@ -18,7 +18,7 @@ import joist from './joist.js';
 import KeyboardHelpButton from './KeyboardHelpButton.js';
 import NavigationBarAudioToggleButton from './NavigationBarAudioToggleButton.js';
 import NavigationBarPreferencesButton from './preferences/NavigationBarPreferencesButton.js';
-import Sim from './Sim.js';
+import type Sim from './Sim.js';
 
 type SelfOptions = EmptySelfOptions;
 export type A11yButtonsHBoxOptions = SelfOptions & StrictOmit<HBoxOptions, 'children'>;

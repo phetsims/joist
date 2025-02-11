@@ -24,7 +24,7 @@ import JoistButton from './JoistButton.js';
 import JoistStrings from './JoistStrings.js';
 import KebabMenuIcon from './KebabMenuIcon.js';
 import PhetMenu from './PhetMenu.js';
-import Sim from './Sim.js';
+import type Sim from './Sim.js';
 import updateCheck from './updateCheck.js';
 import UpdateState from './UpdateState.js';
 

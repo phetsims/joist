@@ -74,9 +74,9 @@ import ExpandCollapseButton from '../../sun/js/ExpandCollapseButton.js';
 import Panel from '../../sun/js/Panel.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
-import ScreenView from './ScreenView.js';
-import Sim from './Sim.js';
-import SimDisplay from './SimDisplay.js';
+import type ScreenView from './ScreenView.js';
+import type Sim from './Sim.js';
+import type SimDisplay from './SimDisplay.js';
 
 const round = ( n: number, places = 2 ) => Utils.toFixed( n, places );
 

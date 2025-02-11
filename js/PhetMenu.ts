@@ -32,7 +32,7 @@ import AboutDialog from './AboutDialog.js';
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
 import ScreenshotGenerator from './ScreenshotGenerator.js';
-import Sim from './Sim.js';
+import type Sim from './Sim.js';
 import updateCheck from './updateCheck.js';
 import UpdateDialog from './UpdateDialog.js';
 import UpdateState from './UpdateState.js';
