@@ -1,4 +1,4 @@
-// Copyright 2017-2022, University of Colorado Boulder
+// Copyright 2017-2025, University of Colorado Boulder
 
 /**
  * For preventing Safari from going to sleep - added to the self.display.domElement instead of the body to prevent a VoiceOver bug
