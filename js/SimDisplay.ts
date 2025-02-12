@@ -15,7 +15,6 @@ import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import TProperty from '../../axon/js/TProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
 import platform from '../../phet-core/js/platform.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import KeyboardFuzzer from '../../scenery/js/accessibility/KeyboardFuzzer.js';
 import Display, { DisplayOptions } from '../../scenery/js/display/Display.js';
 import InputFuzzer from '../../scenery/js/input/InputFuzzer.js';
@@ -26,7 +25,6 @@ import Utils from '../../scenery/js/util/Utils.js';
 import '../../sherpa/lib/game-up-camera-1.0.0.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import DynamicStringTest from './DynamicStringTest.js';
-import HighlightVisibilityController from './HighlightVisibilityController.js';
 import joist from './joist.js';
 import PreferencesModel from './preferences/PreferencesModel.js';
 
@@ -35,7 +33,7 @@ type SelfOptions = {
   rootRenderer?: RendererType;
   preferencesModel: PreferencesModel;
 };
-export type SimDisplayOptions = SelfOptions & StrictOmit<DisplayOptions, 'supportsInteractiveHighlights'>;
+export type SimDisplayOptions = SelfOptions & DisplayOptions;
 
 export default class SimDisplay extends Display {
 
@@ -46,9 +44,6 @@ export default class SimDisplay extends Display {
   private readonly keyboardFuzzer: KeyboardFuzzer;
 
   private readonly supportsPanAndZoomProperty: TProperty<boolean>;
-
-  // Add a listener to the Display that controls visibility of various highlights in response to user input.
-  private readonly highlightVisibilityController: HighlightVisibilityController;
 
   // For consistent option defaults
   public static readonly DEFAULT_WEBGL = false;
@@ -87,8 +82,7 @@ export default class SimDisplay extends Display {
       tandem: Tandem.REQUIRED
     }, providedOptions );
 
-    // Support for Interactive Highlights dictated by the preferences model.
-    options.supportsInteractiveHighlights = options.preferencesModel.visualModel.supportsInteractiveHighlights;
+    options.interactiveHighlightsEnabledProperty = options.preferencesModel.visualModel.interactiveHighlightsEnabledProperty;
 
     // override rootRenderer using query parameter, see #221 and #184
     options.rootRenderer = phet.chipper.queryParameters.rootRenderer || options.rootRenderer;
@@ -157,8 +151,6 @@ export default class SimDisplay extends Display {
       // NOTE: When translatable this will need to update with language, change to phet.chipper.local
       this.pdomRootElement!.lang = 'en';
     }
-
-    this.highlightVisibilityController = new HighlightVisibilityController( this, options.preferencesModel );
 
     if ( phet.chipper.queryParameters.sceneryLog ) {
 
