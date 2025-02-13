@@ -1851,8 +1851,8 @@ const createInfo = ( trail: Trail ): Node[] => {
   if ( node.accessibleName ) {
     addSimple( 'accessibleName', node.accessibleName );
   }
-  if ( node.helpText ) {
-    addSimple( 'helpText', node.helpText );
+  if ( node.accessibleHelpText ) {
+    addSimple( 'accessibleHelpText', node.accessibleHelpText );
   }
   if ( node.pdomHeading ) {
     addSimple( 'pdomHeading', node.pdomHeading );

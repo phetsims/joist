@@ -244,7 +244,7 @@ class Screen<M extends TModel, V extends ScreenView> extends PhetioObject {
                            'simulations, there is only one screen and it is always active.'
     } );
 
-    // The helpText for the screen buttons uses the provided option, but creates reasonable defaults
+    // The accessibleHelpText for the screen buttons uses the provided option, but creates reasonable defaults
     // from the nameProperty otherwise.
     this.screenButtonsHelpText = '';
     if ( options.screenButtonsHelpText ) {
