@@ -186,7 +186,11 @@ export default class SimDisplay extends Display {
 
     // magnification support - always initialized for consistent PhET-iO API, but only conditionally added to Display
     animatedPanZoomSingleton.initialize( this.simulationRoot, {
-      tandem: options.tandem.createTandem( 'panZoomListener' )
+      tandem: options.tandem.createTandem( 'panZoomListener' ),
+
+      // We want to manually step our singleton in simulations, so that we can
+      // disable the pan-and-zoom based on a Property.
+      stepEmitter: null
     } );
     const animatedPanZoomListener = animatedPanZoomSingleton.listener;
 
