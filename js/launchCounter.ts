@@ -12,7 +12,7 @@
 
 import TinyProperty from '../../axon/js/TinyProperty.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
-import Utils from '../../dot/js/Utils.js';
+import { toFixed } from '../../dot/js/util/toFixed.js';
 
 // Key for storing the launch count in local storage. This is transient and does not need to be maintained or migrated.
 // Safe to rename.
@@ -44,7 +44,7 @@ export default function launchCounter( simNameProperty: TReadOnlyProperty<string
 
   // Attempt to store the updated run count back to local storage
   try {
-    window.localStorage.setItem( LOCAL_STORAGE_KEY, Utils.toFixed( newRunCount, 0 ) );
+    window.localStorage.setItem( LOCAL_STORAGE_KEY, toFixed( newRunCount, 0 ) );
   }
   catch( error ) {
     console.error( 'Error accessing localStorage:', error );

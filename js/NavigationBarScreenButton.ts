@@ -12,7 +12,7 @@ import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
 import Property from '../../axon/js/Property.js';
 import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
-import Utils from '../../dot/js/Utils.js';
+import { clamp } from '../../dot/js/util/clamp.js';
 import Shape from '../../kite/js/Shape.js';
 import optionize from '../../phet-core/js/optionize.js';
 import PickRequired from '../../phet-core/js/types/PickRequired.js';
@@ -29,6 +29,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import HighlightNode from './HighlightNode.js';
 import joist from './joist.js';
 import { AnyScreen } from './Screen.js';
+import { toFixed } from '../../dot/js/util/toFixed.js';
 
 // constants
 const HIGHLIGHT_SPACING = 4;
@@ -203,7 +204,7 @@ class NavigationBarScreenButton extends Voicing( Node ) {
     const updateLayout = () => {
 
       // adjust the vertical space between icon and text, see https://github.com/phetsims/joist/issues/143
-      iconAndText.spacing = Utils.clamp( 12 - text.height, 0, 3 );
+      iconAndText.spacing = clamp( 12 - text.height, 0, 3 );
 
       // adjust the overlay
       overlay.setRectBounds( iconAndText.bounds );
@@ -236,7 +237,7 @@ class NavigationBarScreenButton extends Voicing( Node ) {
       text.maxWidth = this.width;
     }
 
-    needsIconMaxWidth && assert && assert( Utils.toFixed( this.width, 0 ) === Utils.toFixed( options.maxButtonWidth!, 0 ),
+    needsIconMaxWidth && assert && assert( toFixed( this.width, 0 ) === toFixed( options.maxButtonWidth!, 0 ),
       `this.width ${this.width} !== options.maxButtonWidth ${options.maxButtonWidth}` );
 
     // A custom focus highlight so that the bottom of the highlight does not get cut-off below the navigation bar.

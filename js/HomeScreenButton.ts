@@ -11,7 +11,6 @@
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import Utils from '../../dot/js/Utils.js';
 import Shape from '../../kite/js/Shape.js';
 import merge from '../../phet-core/js/merge.js';
 import optionize from '../../phet-core/js/optionize.js';
@@ -32,6 +31,7 @@ import Frame from './Frame.js';
 import HomeScreenModel from './HomeScreenModel.js';
 import joist from './joist.js';
 import Screen from './Screen.js';
+import { linear } from '../../dot/js/util/linear.js';
 
 // constants
 const LARGE_ICON_HEIGHT = 140;
@@ -71,7 +71,7 @@ class HomeScreenButton extends Voicing( VBox ) {
     const isHighlightedProperty = new BooleanProperty( false );
 
     // maps the number of screens to a scale for the small icons. The scale is percentage of LARGE_ICON_HEIGHT.
-    let smallIconScale = Utils.linear( 2, 4, 0.875, 0.50, homeScreenModel.simScreens.length );
+    let smallIconScale = linear( 2, 4, 0.875, 0.50, homeScreenModel.simScreens.length );
     if ( homeScreenModel.simScreens.length >= 5 ) {
       smallIconScale = 0.4;
     }

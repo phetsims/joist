@@ -11,8 +11,8 @@
  */
 
 import localizedStrings from '../../chipper/js/browser/localizedStrings.js';
-import Utils from '../../dot/js/Utils.js';
 import joist from './joist.js';
+import { toFixedNumber } from '../../dot/js/util/toFixedNumber.js';
 
 const INITIAL_STRING_FACTOR = 1;
 const MAX_STRING_FACTOR = 8; // so that the sim and/or browser doesn't lock up when strings get excessively long
@@ -155,7 +155,7 @@ function applyToString( stringFactor: number, string: string ): string {
     const noPlaceholdersString = string.replace( /{{(.+?)}}/g, '' );
 
     // Reduce the length of the string.
-    const stringLength = Utils.toFixedNumber( noPlaceholdersString.length * stringFactor + 1, 0 );
+    const stringLength = toFixedNumber( noPlaceholdersString.length * stringFactor + 1, 0 );
     const reducedString = noPlaceholdersString.substring( 0, stringLength );
 
     // Append placeholders to the end of the reduced string. This will add nothing if placeholders is empty.

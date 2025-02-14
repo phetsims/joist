@@ -31,7 +31,6 @@ import Dimension2 from '../../dot/js/Dimension2.js';
 import dotRandom from '../../dot/js/dotRandom.js';
 import Permutation from '../../dot/js/Permutation.js';
 import Random from '../../dot/js/Random.js';
-import DotUtils from '../../dot/js/Utils.js'; // eslint-disable-line phet/default-import-match-filename
 import { addAffirmationHook, setAffirmationDebuggerMode } from '../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../phet-core/js/optionize.js';
 import platform from '../../phet-core/js/platform.js';
@@ -84,6 +83,7 @@ import SimInfo from './SimInfo.js';
 import LegendsOfLearningSupport from './thirdPartySupport/LegendsOfLearningSupport.js';
 import Toolbar from './toolbar/Toolbar.js';
 import updateCheck from './updateCheck.js';
+import { linear } from '../../dot/js/util/linear.js';
 
 // constants
 const PROGRESS_BAR_WIDTH = 273;
@@ -951,7 +951,7 @@ export default class Sim extends PhetioObject {
 
           // Move the progress ahead by one so we show the full progress bar for a moment before the sim starts up
 
-          const progress = DotUtils.linear( 0, workItems.length - 1, 0.25, 1.0, i );
+          const progress = linear( 0, workItems.length - 1, 0.25, 1.0, i );
 
           // Support iOS Reading Mode, which saves a DOM snapshot after the progressBarForeground has already been
           // removed from the document, see https://github.com/phetsims/joist/issues/389

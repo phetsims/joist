@@ -14,7 +14,7 @@ import Property from '../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import Range from '../../../dot/js/Range.js';
-import Utils from '../../../dot/js/Utils.js';
+import { roundToInterval } from '../../../dot/js/util/roundToInterval.js';
 import merge from '../../../phet-core/js/merge.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import NumberControl from '../../../scenery-phet/js/NumberControl.js';
@@ -501,7 +501,7 @@ class VoicingPitchSlider extends VBox {
 
       // constrain the value to the nearest hundredths place so there is no overlap in described ranges in
       // VOICE_PITCH_DESCRIPTION_MAP
-      constrainValue: value => Utils.roundToInterval( value, 0.01 ),
+      constrainValue: value => roundToInterval( value, 0.01 ),
 
       // pdom
       labelTagName: 'label',

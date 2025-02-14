@@ -29,9 +29,9 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Utils from '../../dot/js/Utils.js';
 import joist from './joist.js';
 import type Sim from './Sim.js';
+import { roundSymmetric } from '../../dot/js/util/roundSymmetric.js';
 
 // constants
 const FIELD_SEPARATOR = ' \u2014 '; // em dash, a long horizontal dash
@@ -79,11 +79,11 @@ class Profiler {
       }
 
       // FPS
-      const averageFPS = Utils.roundSymmetric( 1000 / ( totalTime / this.allTimes.length ) );
+      const averageFPS = roundSymmetric( 1000 / ( totalTime / this.allTimes.length ) );
       let text = `${averageFPS} FPS`;
 
       // ms/frame
-      const averageFrameTime = Utils.roundSymmetric( totalTime / this.allTimes.length );
+      const averageFrameTime = roundSymmetric( totalTime / this.allTimes.length );
       text = `${text + FIELD_SEPARATOR + averageFrameTime}ms/frame`;
 
       // histogram
