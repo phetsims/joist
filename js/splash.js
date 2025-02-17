@@ -108,11 +108,6 @@
     document.body.appendChild( splashBackgroundDiv );
   };
 
-  // Create the progress bar
-  const progressBarDiv = document.createElement( 'div' );
-  progressBarDiv.setAttribute( 'style', 'width:273px;height:10px' );
-  progressBarDiv.style.display = 'block';
-
   const svg = document.createElementNS( XML_NAMESPACE, 'svg' );
   svg.style[ 'margin-left' ] = '-1px'; // compensates for the offset of x=1
   const progressBarBackground = document.createElementNS( XML_NAMESPACE, 'rect' );
