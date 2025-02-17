@@ -42,10 +42,10 @@ import ScreenIcon, { MINIMUM_HOME_SCREEN_ICON_SIZE } from './ScreenIcon.js';
 import ScreenView from './ScreenView.js';
 import TModel from './TModel.js';
 
-const screenNamePatternStringProperty = JoistStrings.a11y.screenNamePatternStringProperty;
-const goToScreenPatternStringProperty = JoistStrings.a11y.goToScreenPatternStringProperty;
-const screenSimPatternStringProperty = JoistStrings.a11y.screenSimPatternStringProperty;
-const simScreenStringProperty = JoistStrings.a11y.simScreenStringProperty;
+const screenNamePatternStringProperty = JoistStrings.a11y.translatable.screenNamePatternStringProperty;
+const goToScreenPatternStringProperty = JoistStrings.a11y.translatable.goToScreenPatternStringProperty;
+const screenSimPatternStringProperty = JoistStrings.a11y.translatable.screenSimPatternStringProperty;
+const simScreenStringProperty = JoistStrings.a11y.translatable.simScreenStringProperty;
 
 // constants
 const MINIMUM_NAVBAR_ICON_SIZE = new Dimension2( 147, 100 );

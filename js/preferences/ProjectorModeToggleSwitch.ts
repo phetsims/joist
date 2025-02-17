@@ -44,7 +44,7 @@ class ProjectorModeToggleSwitch extends PreferencesControl {
       accessibleName: JoistStrings.projectorModeStringProperty
     }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
 
-    const projectorModePatternStringProperty = new PatternStringProperty( JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty, {
+    const projectorModePatternStringProperty = new PatternStringProperty( JoistStrings.a11y.translatable.preferences.tabs.labelledDescriptionPatternStringProperty, {
       label: JoistStrings.projectorModeStringProperty,
       description: JoistStrings.preferences.tabs.visual.projectorModeDescriptionStringProperty
     }, { tandem: Tandem.OPT_OUT } );

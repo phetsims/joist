@@ -29,7 +29,7 @@ import { AnyScreen } from './Screen.js';
 // constants
 const TITLE_MAX_WIDTH = 670;
 
-const tabToGetStartedStringProperty = JoistStrings.a11y.keyboardHelp.tabToGetStartedStringProperty;
+const tabToGetStartedStringProperty = JoistStrings.a11y.translatable.keyboardHelp.tabToGetStartedStringProperty;
 
 type SelfOptions = EmptySelfOptions;
 

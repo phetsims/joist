@@ -65,7 +65,7 @@ export default class LanguageSelectionNode extends Rectangle {
 
         pushButtonSoundPlayer.play();
         this.alertDescriptionUtterance( StringUtils.fillIn(
-          JoistStrings.a11y.preferences.tabs.localization.languageSelection.languageChangeResponsePatternStringProperty, {
+          JoistStrings.a11y.translatable.preferences.tabs.localization.languageSelection.languageChangeResponsePatternStringProperty, {
             language: englishLocaleString
           } )
         );

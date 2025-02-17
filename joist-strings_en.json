@@ -352,309 +352,311 @@
     "deprecated": true
   },
   "a11y": {
-    "keyboardHelp": {
-      "keyboardShortcuts": {
-        "value": "Keyboard Shortcuts"
-      },
-      "tabToGetStarted": {
-        "value": "Tab to get started."
-      }
-    },
-    "playArea": {
-      "value": "Play Area"
-    },
-    "controlArea": {
-      "value": "Control Area"
-    },
-    "inThePlayArea": {
-      "value": "In the Play Area:"
-    },
-    "inTheControlArea": {
-      "value": "In the Control Area:"
-    },
-    "simScreens": {
-      "value": "Sim Screens"
-    },
-    "simScreen": {
-      "value": "Sim Screen"
-    },
-    "screenNamePattern": {
-      "value": "{{name}} Screen"
-    },
-    "goToScreenPattern": {
-      "value": "Go to {{name}} Screen."
-    },
-    "screenSimPattern": {
-      "value": "{{screenName}}, {{simName}}"
-    },
-    "home": {
-      "value": "Home"
-    },
-    "homeScreenDescriptionPattern": {
-      "value": "Welcome to {{name}}. It has {{screens}} interactive screens that you can explore."
-    },
-    "homeScreenHint": {
-      "value": "Choose a screen to start exploring."
-    },
-    "homeScreenIntroPattern": {
-      "value": "{{description}} {{hint}}"
-    },
-    "homeScreenButtonDetailsPattern": {
-      "value": "On {{name}}, {{screenHint}}"
-    },
-    "simResources": {
-      "value": "Sim Resources"
-    },
-    "soundToggle": {
-      "alert": {
-        "simSoundOn": {
-          "value": "Audio Features on."
+    "translatable": {
+      "keyboardHelp": {
+        "keyboardShortcuts": {
+          "value": "Keyboard Shortcuts"
         },
-        "simSoundOff": {
-          "value": "Audio Features off."
+        "tabToGetStarted": {
+          "value": "Tab to get started."
         }
       },
-      "label": {
-        "value": "All Audio"
-      }
-    },
-    "checkOutShortcuts": {
-      "value": "If needed, checkout keyboard shortcuts under Sim Resources."
-    },
-    "phetMenu": {
-      "value": "PhET Menu"
-    },
-    "preferences": {
-      "tabs": {
-        "labelledDescriptionPattern": {
-          "value": "{{label}}, {{description}}"
-        },
-        "tabResponsePattern": {
-          "value": "Preferences, {{title}} Tab"
-        },
-        "visual": {
-          "interactiveHighlights": {
-            "enabledAlert": {
-              "value": "Highlights on for all input."
-            },
-            "disabledAlert": {
-              "value": "Highlights off for mouse and touch."
-            }
+      "inThePlayArea": {
+        "value": "In the Play Area:"
+      },
+      "inTheControlArea": {
+        "value": "In the Control Area:"
+      },
+      "playArea": {
+        "value": "Play Area"
+      },
+      "controlArea": {
+        "value": "Control Area"
+      },
+      "simScreens": {
+        "value": "Sim Screens"
+      },
+      "simScreen": {
+        "value": "Sim Screen"
+      },
+      "screenNamePattern": {
+        "value": "{{name}} Screen"
+      },
+      "goToScreenPattern": {
+        "value": "Go to {{name}} Screen."
+      },
+      "screenSimPattern": {
+        "value": "{{screenName}}, {{simName}}"
+      },
+      "home": {
+        "value": "Home"
+      },
+      "homeScreenDescriptionPattern": {
+        "value": "Welcome to {{name}}. It has {{screens}} interactive screens that you can explore."
+      },
+      "homeScreenHint": {
+        "value": "Choose a screen to start exploring."
+      },
+      "homeScreenIntroPattern": {
+        "value": "{{description}} {{hint}}"
+      },
+      "homeScreenButtonDetailsPattern": {
+        "value": "On {{name}}, {{screenHint}}"
+      },
+      "simResources": {
+        "value": "Sim Resources"
+      },
+      "soundToggle": {
+        "alert": {
+          "simSoundOn": {
+            "value": "Audio Features on."
+          },
+          "simSoundOff": {
+            "value": "Audio Features off."
           }
         },
-        "audio": {
-          "sounds": {
-            "soundsOn": {
-              "value": "Sounds on."
-            },
-            "soundsOff": {
-              "value": "Sounds off."
-            },
-            "extraSounds": {
-              "extraSoundsOn": {
-                "value": "Extra Sounds on."
+        "label": {
+          "value": "All Audio"
+        }
+      },
+      "checkOutShortcuts": {
+        "value": "If needed, checkout keyboard shortcuts under Sim Resources."
+      },
+      "phetMenu": {
+        "value": "PhET Menu"
+      },
+      "preferences": {
+        "tabs": {
+          "labelledDescriptionPattern": {
+            "value": "{{label}}, {{description}}"
+          },
+          "tabResponsePattern": {
+            "value": "Preferences, {{title}} Tab"
+          },
+          "visual": {
+            "interactiveHighlights": {
+              "enabledAlert": {
+                "value": "Highlights on for all input."
               },
-              "extraSoundsOff": {
-                "value": "Extra Sounds off."
+              "disabledAlert": {
+                "value": "Highlights off for mouse and touch."
               }
             }
           },
-          "voicing": {
-            "title": {
-              "value": "Voicing"
-            },
-            "voicingOn": {
-              "value": "Voicing on."
-            },
-            "voicingOff": {
-              "value": "Voicing off."
-            },
-            "voicingOffOnlyAvailableInEnglish": {
-              "value": "Voicing off. Only available in English."
-            },
-            "toolbar": {
-              "title": {
-                "value": "Toolbar"
+          "audio": {
+            "sounds": {
+              "soundsOn": {
+                "value": "Sounds on."
               },
-              "toolbarAdded": {
-                "value": "Toolbar added to sim."
+              "soundsOff": {
+                "value": "Sounds off."
               },
-              "toolbarRemoved": {
-                "value": "Toolbar removed."
-              }
-            },
-            "simVoicingOptions": {
-              "title": {
-                "value": "Sim Voicing Options"
-              },
-              "description": {
-                "value": "Choose details you want voiced as you interact."
-              },
-              "objectDetails": {
-                "label": {
-                  "value": "Voice object details and changes"
+              "extraSounds": {
+                "extraSoundsOn": {
+                  "value": "Extra Sounds on."
                 },
-                "enabledAlert": {
-                  "value": "Voicing object details and changes."
-                },
-                "disabledAlert": {
-                  "value": "Object details and changes muted."
-                }
-              },
-              "contextChanges": {
-                "label": {
-                  "value": "Voice surrounding context changes"
-                },
-                "enabledAlert": {
-                  "value": "Voicing surrounding context changes."
-                },
-                "disabledAlert": {
-                  "value": "Surrounding context changes muted."
-                }
-              },
-              "helpfulHints": {
-                "label": {
-                  "value": "Voice helpful hints"
-                },
-                "enabledAlert": {
-                  "value": "Voicing extra help."
-                },
-                "disabledAlert": {
-                  "value": "Extra help muted."
+                "extraSoundsOff": {
+                  "value": "Extra Sounds off."
                 }
               }
             },
-            "customizeVoice": {
+            "voicing": {
               "title": {
-                "value": "Customize Voice"
+                "value": "Voicing"
               },
-              "expandedAlert": {
-                "value": "expanded"
+              "voicingOn": {
+                "value": "Voicing on."
               },
-              "collapsedAlert": {
-                "value": "collapsed"
+              "voicingOff": {
+                "value": "Voicing off."
               },
-              "variablesPattern": {
-                "value": "{{value}}x"
+              "voicingOffOnlyAvailableInEnglish": {
+                "value": "Voicing off. Only available in English."
               },
-              "writtenVariablesPattern": {
-                "value": "{{value}} times"
-              },
-              "voice": {
+              "toolbar": {
                 "title": {
-                  "value": "Voice"
+                  "value": "Toolbar"
                 },
-                "titlePattern": {
-                  "value": "Voice: {{value}}"
+                "toolbarAdded": {
+                  "value": "Toolbar added to sim."
                 },
-                "noVoicesAvailable": {
-                  "value": "No voices available"
+                "toolbarRemoved": {
+                  "value": "Toolbar removed."
                 }
               },
-              "rate": {
+              "simVoicingOptions": {
                 "title": {
-                  "value": "Rate"
+                  "value": "Sim Voicing Options"
                 },
-                "labelString": {
-                  "value": "Voice Rate"
+                "description": {
+                  "value": "Choose details you want voiced as you interact."
                 },
-                "rangeDescriptions": {
-                  "low": {
-                    "value": "in low range"
+                "objectDetails": {
+                  "label": {
+                    "value": "Voice object details and changes"
                   },
-                  "normal": {
-                    "value": "in normal range"
+                  "enabledAlert": {
+                    "value": "Voicing object details and changes."
                   },
-                  "aboveNormal": {
-                    "value": "above normal range"
+                  "disabledAlert": {
+                    "value": "Object details and changes muted."
+                  }
+                },
+                "contextChanges": {
+                  "label": {
+                    "value": "Voice surrounding context changes"
                   },
-                  "high": {
-                    "value": "in high range"
+                  "enabledAlert": {
+                    "value": "Voicing surrounding context changes."
                   },
-                  "voiceRateNormal": {
-                    "value": "normal"
+                  "disabledAlert": {
+                    "value": "Surrounding context changes muted."
+                  }
+                },
+                "helpfulHints": {
+                  "label": {
+                    "value": "Voice helpful hints"
+                  },
+                  "enabledAlert": {
+                    "value": "Voicing extra help."
+                  },
+                  "disabledAlert": {
+                    "value": "Extra help muted."
                   }
                 }
               },
-              "pitch": {
+              "customizeVoice": {
                 "title": {
-                  "value": "Pitch"
+                  "value": "Customize Voice"
+                },
+                "expandedAlert": {
+                  "value": "expanded"
+                },
+                "collapsedAlert": {
+                  "value": "collapsed"
+                },
+                "variablesPattern": {
+                  "value": "{{value}}x"
+                },
+                "writtenVariablesPattern": {
+                  "value": "{{value}} times"
+                },
+                "voice": {
+                  "title": {
+                    "value": "Voice"
+                  },
+                  "titlePattern": {
+                    "value": "Voice: {{value}}"
+                  },
+                  "noVoicesAvailable": {
+                    "value": "No voices available"
+                  }
+                },
+                "rate": {
+                  "title": {
+                    "value": "Rate"
+                  },
+                  "labelString": {
+                    "value": "Voice Rate"
+                  },
+                  "rangeDescriptions": {
+                    "low": {
+                      "value": "in low range"
+                    },
+                    "normal": {
+                      "value": "in normal range"
+                    },
+                    "aboveNormal": {
+                      "value": "above normal range"
+                    },
+                    "high": {
+                      "value": "in high range"
+                    },
+                    "voiceRateNormal": {
+                      "value": "normal"
+                    }
+                  }
+                },
+                "pitch": {
+                  "title": {
+                    "value": "Pitch"
+                  }
                 }
               }
             }
-          }
-        },
-        "input": {
-          "gestureControl": {
-            "enabledAlert": {
-              "value": "Custom taps and swipes on."
-            },
-            "disabledAlert": {
-              "value": "Custom taps and swipes off."
+          },
+          "input": {
+            "gestureControl": {
+              "enabledAlert": {
+                "value": "Custom taps and swipes on."
+              },
+              "disabledAlert": {
+                "value": "Custom taps and swipes off."
+              }
             }
-          }
-        },
-        "localization": {
-          "languageSelection": {
-            "languageChangeResponsePattern": {
-              "value": "On-screen text now in {{language}}."
+          },
+          "localization": {
+            "languageSelection": {
+              "languageChangeResponsePattern": {
+                "value": "On-screen text now in {{language}}."
+              }
             }
           }
         }
-      }
-    },
-    "toolbar": {
-      "title": {
-        "value": "Toolbar"
       },
-      "openToolbar": {
-        "value": "Open Toolbar"
-      },
-      "closeToolbar": {
-        "value": "Close Toolbar"
-      },
-      "hideToolbar": {
-        "value": "Hide Toolbar"
-      },
-      "showToolbar": {
-        "value": "Show Toolbar"
-      },
-      "toolbarShown": {
-        "value": "Toolbar Shown."
-      },
-      "toolbarHidden": {
-        "value": "Toolbar hidden."
-      },
-      "voicing": {
+      "toolbar": {
         "title": {
-          "value": "Sim Voicing"
+          "value": "Toolbar"
         },
-        "quickInfo": {
-          "value": "Quick Info"
+        "openToolbar": {
+          "value": "Open Toolbar"
         },
-        "playOverviewLabel": {
-          "value": "Play Overview"
+        "closeToolbar": {
+          "value": "Close Toolbar"
         },
-        "playDetailsLabel": {
-          "value": "Play Details"
+        "hideToolbar": {
+          "value": "Hide Toolbar"
         },
-        "playHintLabel": {
-          "value": "Play Hint"
+        "showToolbar": {
+          "value": "Show Toolbar"
         },
-        "overviewLabel": {
-          "value": "Overview"
+        "toolbarShown": {
+          "value": "Toolbar Shown."
         },
-        "detailsLabel": {
-          "value": "Details"
+        "toolbarHidden": {
+          "value": "Toolbar hidden."
         },
-        "hintLabel": {
-          "value": "Hint"
-        },
-        "simVoicingOnAlert": {
-          "value": "Sim Voicing on."
-        },
-        "simVoicingOffAlert": {
-          "value": "Sim Voicing off."
+        "voicing": {
+          "title": {
+            "value": "Sim Voicing"
+          },
+          "quickInfo": {
+            "value": "Quick Info"
+          },
+          "playOverviewLabel": {
+            "value": "Play Overview"
+          },
+          "playDetailsLabel": {
+            "value": "Play Details"
+          },
+          "playHintLabel": {
+            "value": "Play Hint"
+          },
+          "overviewLabel": {
+            "value": "Overview"
+          },
+          "detailsLabel": {
+            "value": "Details"
+          },
+          "hintLabel": {
+            "value": "Hint"
+          },
+          "simVoicingOnAlert": {
+            "value": "Sim Voicing on."
+          },
+          "simVoicingOffAlert": {
+            "value": "Sim Voicing off."
+          }
         }
       }
     }

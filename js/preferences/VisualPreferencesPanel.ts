@@ -32,9 +32,9 @@ import ProjectorModeToggleSwitch from './ProjectorModeToggleSwitch.js';
 // constants
 const interactiveHighlightsStringProperty = JoistStrings.preferences.tabs.visual.interactiveHighlightsStringProperty;
 const interactiveHighlightsDescriptionStringProperty = JoistStrings.preferences.tabs.visual.interactiveHighlightsDescriptionStringProperty;
-const interactiveHighlightsEnabledAlertStringProperty = JoistStrings.a11y.preferences.tabs.visual.interactiveHighlights.enabledAlertStringProperty;
-const interactiveHighlightsDisabledAlertStringProperty = JoistStrings.a11y.preferences.tabs.visual.interactiveHighlights.disabledAlertStringProperty;
-const labelledDescriptionPatternStringProperty = JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
+const interactiveHighlightsEnabledAlertStringProperty = JoistStrings.a11y.translatable.preferences.tabs.visual.interactiveHighlights.enabledAlertStringProperty;
+const interactiveHighlightsDisabledAlertStringProperty = JoistStrings.a11y.translatable.preferences.tabs.visual.interactiveHighlights.disabledAlertStringProperty;
+const labelledDescriptionPatternStringProperty = JoistStrings.a11y.translatable.preferences.tabs.labelledDescriptionPatternStringProperty;
 
 type VisualPreferencesPanelOptions = PickRequired<PreferencesPanelOptions, 'tandem'>;
 

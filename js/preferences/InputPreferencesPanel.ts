@@ -27,9 +27,9 @@ import PreferencesPanelSection from './PreferencesPanelSection.js';
 import PreferencesType from './PreferencesType.js';
 
 // constants
-const gestureControlEnabledAlertStringProperty = JoistStrings.a11y.preferences.tabs.input.gestureControl.enabledAlertStringProperty;
-const gestureControlDisabledAlertStringProperty = JoistStrings.a11y.preferences.tabs.input.gestureControl.disabledAlertStringProperty;
-const labelledDescriptionPatternStringProperty = JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
+const gestureControlEnabledAlertStringProperty = JoistStrings.a11y.translatable.preferences.tabs.input.gestureControl.enabledAlertStringProperty;
+const gestureControlDisabledAlertStringProperty = JoistStrings.a11y.translatable.preferences.tabs.input.gestureControl.disabledAlertStringProperty;
+const labelledDescriptionPatternStringProperty = JoistStrings.a11y.translatable.preferences.tabs.labelledDescriptionPatternStringProperty;
 
 // NOT translatable yet because this tab does not appear in any published simulation.
 const inputTitleString = 'Input';

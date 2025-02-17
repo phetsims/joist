@@ -95,13 +95,13 @@ export default class ScreenSummaryContent extends Node {
 
     this.inThePlayAreaParagraph = new Node( {
       tagName: 'p',
-      accessibleName: JoistStrings.a11y.inThePlayAreaStringProperty
+      accessibleName: JoistStrings.a11y.translatable.inThePlayAreaStringProperty
     } );
     this.playAreaContentNode = new Node();
 
     this.inTheControlAreaParagraph = new Node( {
       tagName: 'p',
-      accessibleName: JoistStrings.a11y.inTheControlAreaStringProperty
+      accessibleName: JoistStrings.a11y.translatable.inTheControlAreaStringProperty
     } );
     this.controlAreaContentNode = new Node();
 

@@ -21,7 +21,7 @@ import JoistStrings from './JoistStrings.js';
 import Screen, { ScreenOptions } from './Screen.js';
 
 // constants
-const homeStringProperty = JoistStrings.a11y.homeStringProperty;
+const homeStringProperty = JoistStrings.a11y.translatable.homeStringProperty;
 const BACKGROUND_COLOR = Color.BLACK;
 
 type SelfOptions = {
