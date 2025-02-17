@@ -86,7 +86,7 @@ import updateCheck from './updateCheck.js';
 import { linear } from '../../dot/js/util/linear.js';
 
 // constants
-const PROGRESS_BAR_WIDTH = 273;
+const PROGRESS_BAR_WIDTH = 273; // DUPLICATION ALERT: do not change without consulting splash.js
 const SUPPORTS_GESTURE_DESCRIPTION = platform.android || platform.mobileSafari;
 
 // globals
