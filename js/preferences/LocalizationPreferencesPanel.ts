@@ -13,6 +13,8 @@
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import VoicingRichText from '../../../scenery/js/accessibility/voicing/nodes/VoicingRichText.js';
+import VoicingText from '../../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
 import VBox from '../../../scenery/js/layout/nodes/VBox.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import RichText from '../../../scenery/js/nodes/RichText.js';
@@ -73,9 +75,9 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
 
       // The language selection provided by LocalePanel does not follow the PreferencesControl pattern because it is a
       // much larger custom UI component that does not fit in the standard PreferencesControl layout.
-      const localeLabel = new Text( JoistStrings.preferences.tabs.localization.languageSelection.titleStringProperty,
+      const localeLabel = new VoicingText( JoistStrings.preferences.tabs.localization.languageSelection.titleStringProperty,
         PreferencesDialogConstants.CONTROL_LABEL_OPTIONS );
-      const localeDescription = new RichText( JoistStrings.preferences.tabs.localization.languageSelection.descriptionStringProperty,
+      const localeDescription = new VoicingRichText( JoistStrings.preferences.tabs.localization.languageSelection.descriptionStringProperty,
         PreferencesDialogConstants.CONTROL_DESCRIPTION_OPTIONS );
       const localePanel = new LocalePanel( localizationModel.localeProperty );
 
