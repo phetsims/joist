@@ -104,7 +104,7 @@ class HomeScreenView extends ScreenView {
           showUnselectedHomeScreenIconFrame: screen.showUnselectedHomeScreenIconFrame,
 
           // pdom
-          descriptionContent: screen.screenButtonsHelpText,
+          accessibleHelpText: screen.screenButtonsHelpText,
 
           // voicing
           voicingHintResponse: screen.screenButtonsHelpText,
@@ -114,7 +114,7 @@ class HomeScreenView extends ScreenView {
         } );
 
       homeScreenButton.voicingNameResponse = screen.pdomDisplayNameProperty;
-      homeScreenButton.innerContent = screen.pdomDisplayNameProperty;
+      homeScreenButton.accessibleName = screen.pdomDisplayNameProperty;
 
       return homeScreenButton;
     } );
@@ -136,7 +136,7 @@ class HomeScreenView extends ScreenView {
 
 
     // Add the home screen description, since there are no PDOM container Nodes for this ScreenView
-    homeScreenPDOMNode.innerContent = new PatternStringProperty( JoistStrings.a11y.translatable.homeScreenIntroPatternStringProperty, {
+    homeScreenPDOMNode.accessibleName = new PatternStringProperty( JoistStrings.a11y.translatable.homeScreenIntroPatternStringProperty, {
       description: this.homeScreenScreenSummaryIntroProperty,
       hint: JoistStrings.a11y.translatable.homeScreenHintStringProperty
     }, { tandem: Tandem.OPT_OUT } );

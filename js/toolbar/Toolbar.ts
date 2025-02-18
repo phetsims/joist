@@ -178,7 +178,7 @@ class Toolbar extends Node {
       // when closed, menu content should be hidden from screen readers and the navigation order
       this.menuContent.pdomVisible = open;
 
-      this.openButton.innerContent = open ? closeToolbarStringProperty : openToolbarStringProperty;
+      this.openButton.accessibleName = open ? closeToolbarStringProperty : openToolbarStringProperty;
       this.openButton.voicingNameResponse = open ? hideToolbarStringProperty : showToolbarStringProperty;
 
       this.updateDestinationPosition();

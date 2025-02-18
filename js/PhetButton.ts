@@ -115,7 +115,7 @@ class PhetButton extends JoistButton {
       phetioVisiblePropertyInstrumented: false, // This button is our branding, don't ever hide it.
 
       // pdom
-      innerContent: JoistStrings.a11y.translatable.phetMenuStringProperty,
+      accessibleName: JoistStrings.a11y.translatable.phetMenuStringProperty,
 
       // voicing
       voicingNameResponse: JoistStrings.a11y.translatable.phetMenuStringProperty

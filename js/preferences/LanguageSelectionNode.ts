@@ -51,7 +51,7 @@ export default class LanguageSelectionNode extends Rectangle {
 
       // pdom
       tagName: 'button',
-      innerContent: englishLocaleString
+      accessibleName: englishLocaleString
     } );
     text.center = this.center;
     this.addChild( text );

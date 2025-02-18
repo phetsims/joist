@@ -43,7 +43,7 @@ class NavigationBarPreferencesButton extends JoistButton {
       highlightExtensionHeight: 10,
 
       // pdom
-      innerContent: JoistStrings.preferences.titleStringProperty,
+      accessibleName: JoistStrings.preferences.titleStringProperty,
       positionInPDOM: true,
 
       // voicing

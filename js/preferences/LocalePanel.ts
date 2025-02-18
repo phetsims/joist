@@ -42,9 +42,8 @@ class LocalePanel extends Panel {
       // pdom
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: JoistStrings.preferences.tabs.localization.languageSelection.titleStringProperty,
-      descriptionTagName: 'p',
-      descriptionContent: JoistStrings.preferences.tabs.localization.languageSelection.descriptionStringProperty
+      accessibleName: JoistStrings.preferences.tabs.localization.languageSelection.titleStringProperty,
+      accessibleHelpText: JoistStrings.preferences.tabs.localization.languageSelection.descriptionStringProperty
     } );
   }
 }

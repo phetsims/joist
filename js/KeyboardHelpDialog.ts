@@ -73,7 +73,7 @@ export default class KeyboardHelpDialog extends Dialog {
       } ),
       maxWidth: TITLE_MAX_WIDTH,
 
-      // voicing options
+      // voicing options - No PDOM for this text because the title is provided through the accessibleName of the dialog.
       readingBlockDisabledTagName: null
     } );
 

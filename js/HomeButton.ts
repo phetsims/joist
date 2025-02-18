@@ -54,7 +54,7 @@ export default class HomeButton extends JoistButton {
 
       // pdom,
       containerTagName: 'li',
-      descriptionContent: descriptionStringProperty,
+      accessibleHelpText: descriptionStringProperty,
       appendDescription: true,
 
       voicingHintResponse: descriptionStringProperty
@@ -112,7 +112,7 @@ export default class HomeButton extends JoistButton {
     } );
 
     pdomDisplayNameProperty.link( name => {
-      this.innerContent = name;
+      this.accessibleName = name;
       this.voicingNameResponse = name;
     } );
   }

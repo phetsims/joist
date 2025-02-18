@@ -65,7 +65,7 @@ class PreferencesTab extends Voicing( Node ) {
 
       // pdom
       tagName: 'button',
-      innerContent: labelProperty,
+      accessibleName: labelProperty,
       ariaRole: 'tab',
       focusable: true,
       containerTagName: 'li',

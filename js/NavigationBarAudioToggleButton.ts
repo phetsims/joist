@@ -80,7 +80,7 @@ class NavigationBarAudioToggleButton extends JoistButton {
       phetioFeatured: true,
 
       // pdom
-      innerContent: JoistStrings.a11y.translatable.soundToggle.labelStringProperty,
+      accessibleName: JoistStrings.a11y.translatable.soundToggle.labelStringProperty,
 
       // voicing
       voicingNameResponse: JoistStrings.a11y.translatable.soundToggle.labelStringProperty

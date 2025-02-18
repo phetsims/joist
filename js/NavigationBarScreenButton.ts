@@ -30,6 +30,7 @@ import HighlightNode from './HighlightNode.js';
 import joist from './joist.js';
 import { AnyScreen } from './Screen.js';
 import { toFixed } from '../../dot/js/util/toFixed.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 
 // constants
 const HIGHLIGHT_SPACING = 4;
@@ -38,7 +39,7 @@ const getHighlightWidth = ( overlay: Node ) => overlay.width + ( 2 * HIGHLIGHT_S
 type SelfOptions = {
   maxButtonWidth?: number | null;
 };
-type ParentOptions = VoicingOptions & NodeOptions;
+type ParentOptions = VoicingOptions & StrictOmit<NodeOptions, 'accessibleName'>;
 type NavigationBarScreenButtonOptions = SelfOptions & ParentOptions & PickRequired<ParentOptions, 'tandem'>;
 
 class NavigationBarScreenButton extends Voicing( Node ) {
@@ -69,21 +70,19 @@ class NavigationBarScreenButton extends Voicing( Node ) {
       // pdom
       tagName: 'button',
       containerTagName: 'li',
-      descriptionContent: screen.screenButtonsHelpText,
+      accessibleHelpText: screen.screenButtonsHelpText,
       appendDescription: true,
 
       // voicing
       voicingHintResponse: screen.screenButtonsHelpText
     }, providedOptions );
 
-    assert && assert( !options.innerContent, 'NavigationBarScreenButton sets its own innerContent' );
-
     super();
 
     this.screen = screen;
 
     screen.pdomDisplayNameProperty.link( name => {
-      this.innerContent = name;
+      this.accessibleName = name;
       this.voicingNameResponse = name;
     } );
 

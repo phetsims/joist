@@ -6,7 +6,6 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
 import stepTimer from '../../axon/js/stepTimer.js';
@@ -79,7 +78,9 @@ export default class AboutDialog extends Dialog {
     const titleText = new VoicingText( nameStringProperty, {
       font: new PhetFont( 2 * NOMINAL_FONT_SIZE ),
       maxWidth: MAX_WIDTH,
-      readingBlockDisabledTagName: null
+
+      // No accessibleParagraph because the content is already the accessibleName of the Dialog.
+      accessibleParagraph: null
     } );
     children.push( titleText );
 
@@ -88,17 +89,14 @@ export default class AboutDialog extends Dialog {
     } );
     children.push( new VoicingText( versionStringProperty, {
       font: new PhetFont( NOMINAL_FONT_SIZE ),
-      maxWidth: MAX_WIDTH,
-      tagName: 'p'
+      maxWidth: MAX_WIDTH
     } ) );
 
     // Built versions will have a build timestamp
     if ( phet.chipper.buildTimestamp ) {
       children.push( new VoicingText( phet.chipper.buildTimestamp, {
         font: new PhetFont( 0.65 * NOMINAL_FONT_SIZE ),
-        maxWidth: MAX_WIDTH,
-        tagName: 'p',
-        innerContent: phet.chipper.buildTimestamp
+        maxWidth: MAX_WIDTH
       } ) );
     }
 
@@ -156,8 +154,7 @@ export default class AboutDialog extends Dialog {
         maxWidth: MAX_WIDTH,
 
         // pdom
-        tagName: 'h2',
-        innerContent: Brand.name
+        readingBlockDisabledTagName: 'h2'
       } ) );
     }
 
@@ -171,11 +168,7 @@ export default class AboutDialog extends Dialog {
 
       brandChildren.push( new VoicingText( copyright, {
         font: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
-        maxWidth: MAX_WIDTH,
-
-        // pdom
-        tagName: 'p',
-        innerContent: copyright
+        maxWidth: MAX_WIDTH
       } ) );
     }
 
@@ -187,11 +180,7 @@ export default class AboutDialog extends Dialog {
           font: new PhetFont( 0.65 * NOMINAL_FONT_SIZE ),
           fill: 'gray',
           align: 'left',
-          maxWidth: MAX_WIDTH,
-
-          // pdom
-          tagName: 'p',
-          innerContent: Brand.additionalLicenseStatement
+          maxWidth: MAX_WIDTH
         }
       );
       brandChildren.push( additionalLicenseStatement );

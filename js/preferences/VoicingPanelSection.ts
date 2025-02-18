@@ -153,7 +153,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
       // pdom
       tagName: 'h3',
-      innerContent: simVoicingOptionsStringProperty
+      accessibleName: simVoicingOptionsStringProperty
     } ) );
     const speechOutputReadingBlockNameResponsePatternStringProperty = new PatternStringProperty( labelledDescriptionPatternStringProperty, {
       label: simVoicingOptionsStringProperty,

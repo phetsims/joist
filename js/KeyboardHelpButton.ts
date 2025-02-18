@@ -49,7 +49,7 @@ class KeyboardHelpButton extends JoistButton {
       visiblePropertyOptions: { phetioFeatured: true },
 
       // pdom
-      innerContent: keyboardShortcutsStringProperty,
+      accessibleName: keyboardShortcutsStringProperty,
 
       // voicing
       voicingNameResponse: keyboardShortcutsStringProperty
