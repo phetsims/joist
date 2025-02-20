@@ -31,6 +31,7 @@ import Dimension2 from '../../dot/js/Dimension2.js';
 import dotRandom from '../../dot/js/dotRandom.js';
 import Permutation from '../../dot/js/Permutation.js';
 import Random from '../../dot/js/Random.js';
+import { linear } from '../../dot/js/util/linear.js';
 import { addAffirmationHook, setAffirmationDebuggerMode } from '../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../phet-core/js/optionize.js';
 import platform from '../../phet-core/js/platform.js';
@@ -83,7 +84,6 @@ import SimInfo from './SimInfo.js';
 import LegendsOfLearningSupport from './thirdPartySupport/LegendsOfLearningSupport.js';
 import Toolbar from './toolbar/Toolbar.js';
 import updateCheck from './updateCheck.js';
-import { linear } from '../../dot/js/util/linear.js';
 
 // constants
 const PROGRESS_BAR_WIDTH = 273; // DUPLICATION ALERT: do not change without consulting splash.js
