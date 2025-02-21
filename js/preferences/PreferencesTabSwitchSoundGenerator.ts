@@ -4,11 +4,11 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 import Disposable from '../../../axon/js/Disposable.js';
-import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
-import SoundClip, { SoundClipOptions } from '../../../tambo/js/sound-generators/SoundClip.js';
+import type EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
+import SoundClip, { type SoundClipOptions } from '../../../tambo/js/sound-generators/SoundClip.js';
 import cardFlip_mp3 from '../../sounds/cardFlip_mp3.js';
 import joist from '../joist.js';
-import PreferencesType from './PreferencesType.js';
+import type PreferencesType from './PreferencesType.js';
 
 class PreferencesTabSwitchSoundGenerator extends SoundClip {
 

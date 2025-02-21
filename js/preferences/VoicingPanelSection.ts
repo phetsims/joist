@@ -8,15 +8,15 @@
 
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import type Disposable from '../../../axon/js/Disposable.js';
-import NumberProperty from '../../../axon/js/NumberProperty.js';
+import type NumberProperty from '../../../axon/js/NumberProperty.js';
 import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
-import Property from '../../../axon/js/Property.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import type Property from '../../../axon/js/Property.js';
+import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import Range from '../../../dot/js/Range.js';
 import { roundToInterval } from '../../../dot/js/util/roundToInterval.js';
 import merge from '../../../phet-core/js/merge.js';
-import optionize, { combineOptions, EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import optionize, { combineOptions, type EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import NumberControl from '../../../scenery-phet/js/NumberControl.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import VoicingText from '../../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
@@ -26,19 +26,19 @@ import Node from '../../../scenery/js/nodes/Node.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import AccordionBox from '../../../sun/js/AccordionBox.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
-import ComboBox, { ComboBoxItem, ComboBoxOptions } from '../../../sun/js/ComboBox.js';
+import ComboBox, { type ComboBoxItem, type ComboBoxOptions } from '../../../sun/js/ComboBox.js';
 import HSlider from '../../../sun/js/HSlider.js';
-import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
+import ToggleSwitch, { type ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import Utterance from '../../../utterance-queue/js/Utterance.js';
-import localeProperty, { Locale } from '../i18n/localeProperty.js';
+import localeProperty, { type Locale } from '../i18n/localeProperty.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesControl from './PreferencesControl.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
-import { AudioModel } from './PreferencesModel.js';
-import PreferencesPanelSection, { PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
+import { type AudioModel } from './PreferencesModel.js';
+import PreferencesPanelSection, { type PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
 
 // constants
 // none of the Voicing strings or feature is translatable yet, all strings in this file

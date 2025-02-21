@@ -10,17 +10,17 @@
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
-import Property from '../../axon/js/Property.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import type Property from '../../axon/js/Property.js';
+import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import { clamp } from '../../dot/js/util/clamp.js';
 import Shape from '../../kite/js/Shape.js';
 import optionize from '../../phet-core/js/optionize.js';
-import PickRequired from '../../phet-core/js/types/PickRequired.js';
+import type PickRequired from '../../phet-core/js/types/PickRequired.js';
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import Voicing, { VoicingOptions } from '../../scenery/js/accessibility/voicing/Voicing.js';
+import Voicing, { type VoicingOptions } from '../../scenery/js/accessibility/voicing/Voicing.js';
 import VBox from '../../scenery/js/layout/nodes/VBox.js';
-import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Node, { type NodeOptions } from '../../scenery/js/nodes/Node.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import Color from '../../scenery/js/util/Color.js';
@@ -28,9 +28,9 @@ import PushButtonModel from '../../sun/js/buttons/PushButtonModel.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import HighlightNode from './HighlightNode.js';
 import joist from './joist.js';
-import { AnyScreen } from './Screen.js';
+import { type AnyScreen } from './Screen.js';
 import { toFixed } from '../../dot/js/util/toFixed.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import type StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 
 // constants
 const HIGHLIGHT_SPACING = 4;

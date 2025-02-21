@@ -9,12 +9,12 @@
  */
 
 import Property from '../../axon/js/Property.js';
-import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
-import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
-import Tandem from '../../tandem/js/Tandem.js';
+import type ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
+import type IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
+import type Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
-import Screen, { AnyScreen } from './Screen.js';
-import TModel from './TModel.js';
+import Screen, { type AnyScreen } from './Screen.js';
+import type TModel from './TModel.js';
 
 class HomeScreenModel implements TModel {
   public simScreens: AnyScreen[]; // screens in the simulations that are not the HomeScreen

@@ -10,10 +10,10 @@
 
 import Dimension2 from '../../dot/js/Dimension2.js';
 import optionize from '../../phet-core/js/optionize.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import type StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import Node, { type NodeOptions } from '../../scenery/js/nodes/Node.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
-import TColor from '../../scenery/js/util/TColor.js';
+import type TColor from '../../scenery/js/util/TColor.js';
 import joist from './joist.js';
 
 type SelfOptions = {

@@ -12,7 +12,7 @@
 
 import GridBox from '../../../scenery/js/layout/nodes/GridBox.js';
 import Panel from '../../../sun/js/Panel.js';
-import { LocaleProperty } from '../i18n/localeProperty.js';
+import { type LocaleProperty } from '../i18n/localeProperty.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import LanguageSelectionNode from './LanguageSelectionNode.js';

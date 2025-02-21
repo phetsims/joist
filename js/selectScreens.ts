@@ -1,9 +1,9 @@
 // Copyright 2020-2024, University of Colorado Boulder
 
-import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
-import HomeScreen from './HomeScreen.js';
+import type IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
+import type HomeScreen from './HomeScreen.js';
 import joist from './joist.js';
-import { AnyScreen } from './Screen.js';
+import { type AnyScreen } from './Screen.js';
 
 export type ScreenReturnType = {
   homeScreen: HomeScreen | null;

@@ -7,14 +7,14 @@
  */
 
 import Multilink from '../../axon/js/Multilink.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Shape from '../../kite/js/Shape.js';
 import optionize from '../../phet-core/js/optionize.js';
-import PickRequired from '../../phet-core/js/types/PickRequired.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import Voicing, { VoicingOptions } from '../../scenery/js/accessibility/voicing/Voicing.js';
-import PressListener from '../../scenery/js/listeners/PressListener.js';
-import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import type PickRequired from '../../phet-core/js/types/PickRequired.js';
+import type StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import Voicing, { type VoicingOptions } from '../../scenery/js/accessibility/voicing/Voicing.js';
+import type PressListener from '../../scenery/js/listeners/PressListener.js';
+import Node, { type NodeOptions } from '../../scenery/js/nodes/Node.js';
 import SceneryConstants from '../../scenery/js/SceneryConstants.js';
 import Color from '../../scenery/js/util/Color.js';
 import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.js';

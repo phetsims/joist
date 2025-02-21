@@ -8,7 +8,7 @@
  */
 
 import asyncLoader from '../../phet-core/js/asyncLoader.js';
-import { PhetioEngine } from '../../phet-io/js/phetioEngine.js';
+import { type PhetioEngine } from '../../phet-io/js/phetioEngine.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
 

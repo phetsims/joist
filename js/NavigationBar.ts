@@ -25,7 +25,7 @@
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
+import type ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import StringProperty from '../../axon/js/StringProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
@@ -38,7 +38,7 @@ import HBox from '../../scenery/js/layout/nodes/HBox.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import Text from '../../scenery/js/nodes/Text.js';
-import Color from '../../scenery/js/util/Color.js';
+import type Color from '../../scenery/js/util/Color.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import A11yButtonsHBox from './A11yButtonsHBox.js';
 import HomeButton from './HomeButton.js';
@@ -48,7 +48,7 @@ import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
 import NavigationBarScreenButton from './NavigationBarScreenButton.js';
 import PhetButton from './PhetButton.js';
-import { AnyScreen } from './Screen.js';
+import { type AnyScreen } from './Screen.js';
 import type Sim from './Sim.js';
 
 // constants

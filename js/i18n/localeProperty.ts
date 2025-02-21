@@ -6,10 +6,10 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
-import Property, { PropertyOptions } from '../../../axon/js/Property.js';
-import { ReadOnlyPropertyState } from '../../../axon/js/ReadOnlyProperty.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import Property, { type PropertyOptions } from '../../../axon/js/Property.js';
+import { type ReadOnlyPropertyState } from '../../../axon/js/ReadOnlyProperty.js';
+import optionize, { type EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import type StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import globalKeyStateTracker from '../../../scenery/js/accessibility/globalKeyStateTracker.js';
 import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';

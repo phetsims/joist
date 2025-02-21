@@ -8,13 +8,14 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import dotRandom from '../../dot/js/dotRandom.js';
 import optionize from '../../phet-core/js/optionize.js';
-import Pointer from '../../scenery/js/input/Pointer.js';
-import SceneryEvent from '../../scenery/js/input/SceneryEvent.js';
-import TInputListener, { SceneryListenerFunction } from '../../scenery/js/input/TInputListener.js';
-import Node from '../../scenery/js/nodes/Node.js';
+import type Pointer from '../../scenery/js/input/Pointer.js';
+import type SceneryEvent from '../../scenery/js/input/SceneryEvent.js';
+import { type SceneryListenerFunction } from '../../scenery/js/input/TInputListener.js';
+import type TInputListener from '../../scenery/js/input/TInputListener.js';
+import type Node from '../../scenery/js/nodes/Node.js';
 import DisplayedProperty from '../../scenery/js/util/DisplayedProperty.js';
 import joist from './joist.js';
 

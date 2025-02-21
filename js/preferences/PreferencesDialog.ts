@@ -11,19 +11,19 @@
 
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import optionize, { type EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import type PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { getPDOMFocusedNode, pdomFocusProperty } from '../../../scenery/js/accessibility/pdomFocusProperty.js';
 import HSeparator from '../../../scenery/js/layout/nodes/HSeparator.js';
 import VBox from '../../../scenery/js/layout/nodes/VBox.js';
 import KeyboardListener from '../../../scenery/js/listeners/KeyboardListener.js';
 import Text from '../../../scenery/js/nodes/Text.js';
-import Dialog, { DialogOptions } from '../../../sun/js/Dialog.js';
+import Dialog, { type DialogOptions } from '../../../sun/js/Dialog.js';
 import soundManager from '../../../tambo/js/soundManager.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
-import PreferencesModel from './PreferencesModel.js';
+import type PreferencesModel from './PreferencesModel.js';
 import PreferencesPanels from './PreferencesPanels.js';
 import PreferencesTabs from './PreferencesTabs.js';
 import PreferencesTabSwitchSoundGenerator from './PreferencesTabSwitchSoundGenerator.js';

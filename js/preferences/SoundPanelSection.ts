@@ -12,19 +12,19 @@ import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
 import VoicingRichText from '../../../scenery/js/accessibility/voicing/nodes/VoicingRichText.js';
 import VoicingText from '../../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
 import VBox from '../../../scenery/js/layout/nodes/VBox.js';
-import Node from '../../../scenery/js/nodes/Node.js';
+import type Node from '../../../scenery/js/nodes/Node.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import SceneryConstants from '../../../scenery/js/SceneryConstants.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
-import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
+import ToggleSwitch, { type ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesControl from './PreferencesControl.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
-import { AudioModel } from './PreferencesModel.js';
-import PreferencesPanelSection, { PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
+import { type AudioModel } from './PreferencesModel.js';
+import PreferencesPanelSection, { type PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
 
 // constants
 const soundsLabelStringProperty = JoistStrings.preferences.tabs.audio.sounds.titleStringProperty;

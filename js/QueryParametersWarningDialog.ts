@@ -7,8 +7,8 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
-import OopsDialog, { OopsDialogOptions } from '../../scenery-phet/js/OopsDialog.js';
+import optionize, { type EmptySelfOptions } from '../../phet-core/js/optionize.js';
+import OopsDialog, { type OopsDialogOptions } from '../../scenery-phet/js/OopsDialog.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import Tandem from '../../tandem/js/Tandem.js';

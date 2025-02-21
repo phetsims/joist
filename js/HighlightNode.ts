@@ -8,11 +8,11 @@
  */
 
 import optionize from '../../phet-core/js/optionize.js';
-import HBox, { HBoxOptions } from '../../scenery/js/layout/nodes/HBox.js';
+import HBox, { type HBoxOptions } from '../../scenery/js/layout/nodes/HBox.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import Color from '../../scenery/js/util/Color.js';
 import LinearGradient from '../../scenery/js/util/LinearGradient.js';
-import TColor from '../../scenery/js/util/TColor.js';
+import type TColor from '../../scenery/js/util/TColor.js';
 import joist from './joist.js';
 
 type SelfOptions = {

@@ -6,23 +6,23 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import merge from '../../../phet-core/js/merge.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
-import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import type PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import VoicingRichText from '../../../scenery/js/accessibility/voicing/nodes/VoicingRichText.js';
 import VBox from '../../../scenery/js/layout/nodes/VBox.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Text from '../../../scenery/js/nodes/Text.js';
-import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
+import ToggleSwitch, { type ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesControl from './PreferencesControl.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
-import { InputModel } from './PreferencesModel.js';
-import PreferencesPanel, { PreferencesPanelOptions } from './PreferencesPanel.js';
+import { type InputModel } from './PreferencesModel.js';
+import PreferencesPanel, { type PreferencesPanelOptions } from './PreferencesPanel.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
 import PreferencesType from './PreferencesType.js';
 

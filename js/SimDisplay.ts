@@ -12,21 +12,21 @@
  */
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
-import TProperty from '../../axon/js/TProperty.js';
+import type TProperty from '../../axon/js/TProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
 import platform from '../../phet-core/js/platform.js';
 import KeyboardFuzzer from '../../scenery/js/accessibility/KeyboardFuzzer.js';
-import Display, { DisplayOptions } from '../../scenery/js/display/Display.js';
+import Display, { type DisplayOptions } from '../../scenery/js/display/Display.js';
 import InputFuzzer from '../../scenery/js/input/InputFuzzer.js';
 import animatedPanZoomSingleton from '../../scenery/js/listeners/animatedPanZoomSingleton.js';
-import Node, { RendererType } from '../../scenery/js/nodes/Node.js';
+import Node, { type RendererType } from '../../scenery/js/nodes/Node.js';
 import scenery from '../../scenery/js/scenery.js';
 import Utils from '../../scenery/js/util/Utils.js';
 import '../../sherpa/lib/game-up-camera-1.0.0.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import DynamicStringTest from './DynamicStringTest.js';
 import joist from './joist.js';
-import PreferencesModel from './preferences/PreferencesModel.js';
+import type PreferencesModel from './preferences/PreferencesModel.js';
 
 type SelfOptions = {
   webgl?: boolean;

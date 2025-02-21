@@ -8,10 +8,10 @@
  */
 
 import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import type StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import AlignGroup from '../../../scenery/js/layout/constraints/AlignGroup.js';
-import VBox, { VBoxOptions } from '../../../scenery/js/layout/nodes/VBox.js';
-import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
+import VBox, { type VBoxOptions } from '../../../scenery/js/layout/nodes/VBox.js';
+import Node, { type NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import joist from '../joist.js';
 import PreferencesDialog from './PreferencesDialog.js';
 

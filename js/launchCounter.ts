@@ -11,7 +11,7 @@
  */
 
 import TinyProperty from '../../axon/js/TinyProperty.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import { toFixed } from '../../dot/js/util/toFixed.js';
 
 // Key for storing the launch count in local storage. This is transient and does not need to be maintained or migrated.

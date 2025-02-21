@@ -9,8 +9,8 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import TProperty from '../../../axon/js/TProperty.js';
-import IntentionalAny from '../../../phet-core/js/types/IntentionalAny.js';
+import type TProperty from '../../../axon/js/TProperty.js';
+import type IntentionalAny from '../../../phet-core/js/types/IntentionalAny.js';
 import joist from '../joist.js';
 
 let preferencesStorage: PreferencesStorage | null = null;

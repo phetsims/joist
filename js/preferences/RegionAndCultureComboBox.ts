@@ -6,13 +6,13 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import LocalizedStringProperty from '../../../chipper/js/browser/LocalizedStringProperty.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import PickOptional from '../../../phet-core/js/types/PickOptional.js';
+import type LocalizedStringProperty from '../../../chipper/js/browser/LocalizedStringProperty.js';
+import optionize, { type EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import type PickOptional from '../../../phet-core/js/types/PickOptional.js';
 import Text from '../../../scenery/js/nodes/Text.js';
-import ComboBox, { ComboBoxOptions } from '../../../sun/js/ComboBox.js';
+import ComboBox, { type ComboBoxOptions } from '../../../sun/js/ComboBox.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import regionAndCultureProperty, { RegionAndCulture, supportedRegionAndCultureValues } from '../i18n/regionAndCultureProperty.js';
+import regionAndCultureProperty, { type RegionAndCulture, supportedRegionAndCultureValues } from '../i18n/regionAndCultureProperty.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';

@@ -7,7 +7,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import Property from '../../../axon/js/Property.js';
+import type Property from '../../../axon/js/Property.js';
 import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import FireListener from '../../../scenery/js/listeners/FireListener.js';
@@ -17,7 +17,7 @@ import HighlightOverlay from '../../../scenery/js/overlays/HighlightOverlay.js';
 import Color from '../../../scenery/js/util/Color.js';
 import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import { Locale } from '../i18n/localeProperty.js';
+import { type Locale } from '../i18n/localeProperty.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';

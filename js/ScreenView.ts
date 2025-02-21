@@ -24,11 +24,11 @@ import optionize from '../../phet-core/js/optionize.js';
 import ControlAreaNode from '../../scenery-phet/js/accessibility/nodes/ControlAreaNode.js';
 import PlayAreaNode from '../../scenery-phet/js/accessibility/nodes/PlayAreaNode.js';
 import ScreenSummaryNode from '../../scenery-phet/js/accessibility/nodes/ScreenSummaryNode.js';
-import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Node, { type NodeOptions } from '../../scenery/js/nodes/Node.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import { SpeakableResolvedResponse } from '../../utterance-queue/js/ResponsePacket.js';
+import { type SpeakableResolvedResponse } from '../../utterance-queue/js/ResponsePacket.js';
 import joist from './joist.js';
-import ScreenSummaryContent from './ScreenSummaryContent.js';
+import type ScreenSummaryContent from './ScreenSummaryContent.js';
 
 /*
  * Default width and height for iPad2, iPad3, iPad4 running Safari with default tabs and decorations

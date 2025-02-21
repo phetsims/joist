@@ -8,13 +8,13 @@
  */
 
 import Multilink from '../../../axon/js/Multilink.js';
-import TProperty from '../../../axon/js/TProperty.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import PickRequired from '../../../phet-core/js/types/PickRequired.js';
-import HBox, { HBoxOptions } from '../../../scenery/js/layout/nodes/HBox.js';
+import type TProperty from '../../../axon/js/TProperty.js';
+import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import optionize, { type EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import type PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import HBox, { type HBoxOptions } from '../../../scenery/js/layout/nodes/HBox.js';
 import KeyboardListener from '../../../scenery/js/listeners/KeyboardListener.js';
-import Node from '../../../scenery/js/nodes/Node.js';
+import type Node from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import globeSolidShape from '../../../sun/js/shapes/globeSolidShape.js';
 import joist from '../joist.js';

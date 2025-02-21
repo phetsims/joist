@@ -9,10 +9,10 @@
 
 import Enumeration from '../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../phet-core/js/EnumerationValue.js';
-import MultiClip, { MultiClipOptions } from '../../tambo/js/sound-generators/MultiClip.js';
+import MultiClip, { type MultiClipOptions } from '../../tambo/js/sound-generators/MultiClip.js';
 import screenSelectionHomeV3_mp3 from '../sounds/screenSelectionHomeV3_mp3.js';
 import switchingScreenSelectorIcons003_mp3 from '../sounds/switchingScreenSelectorIcons003_mp3.js';
-import HomeScreenModel from './HomeScreenModel.js';
+import type HomeScreenModel from './HomeScreenModel.js';
 import joist from './joist.js';
 
 class SoundType extends EnumerationValue {

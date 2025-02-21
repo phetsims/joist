@@ -7,13 +7,13 @@
  */
 
 import Multilink from '../../../axon/js/Multilink.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
+import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import optionize, { type EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import type StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import Node, { type NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
-import PreferencesType from './PreferencesType.js';
+import type PreferencesType from './PreferencesType.js';
 
 type SelfOptions = EmptySelfOptions;
 export type PreferencesPanelOptions = StrictOmit<NodeOptions, 'tagName' | 'labelTagName'>;

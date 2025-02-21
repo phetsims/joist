@@ -6,9 +6,9 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import optionize, { type EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import type PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import Color from '../../../scenery/js/util/Color.js';
 import Dialog from '../../../sun/js/Dialog.js';
@@ -16,10 +16,10 @@ import PhetioCapsule from '../../../tandem/js/PhetioCapsule.js';
 import preferencesIcon_png from '../../images/preferencesIcon_png.js'; // on a black navbar
 import preferencesIconOnWhite_png from '../../images/preferencesIconOnWhite_png.js'; // on a white navbar
 import joist from '../joist.js';
-import JoistButton, { JoistButtonOptions } from '../JoistButton.js';
+import JoistButton, { type JoistButtonOptions } from '../JoistButton.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
-import PreferencesModel from './PreferencesModel.js';
+import type PreferencesModel from './PreferencesModel.js';
 
 type SelfOptions = EmptySelfOptions;
 export type NavigationBarPreferencesButtonOptions = SelfOptions & PickRequired<JoistButtonOptions, 'tandem'> & Pick<JoistButtonOptions, 'pointerAreaDilationX' | 'pointerAreaDilationY'>;

@@ -6,12 +6,12 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
-import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
+import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import optionize, { type EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import platform from '../../phet-core/js/platform.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
-import HBox, { HBoxOptions } from '../../scenery/js/layout/nodes/HBox.js';
-import Color from '../../scenery/js/util/Color.js';
+import type StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import HBox, { type HBoxOptions } from '../../scenery/js/layout/nodes/HBox.js';
+import type Color from '../../scenery/js/util/Color.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import audioManager from './audioManager.js';
 import joist from './joist.js';

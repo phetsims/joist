@@ -10,24 +10,24 @@
 import Multilink from '../../../axon/js/Multilink.js';
 
 import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
-import TProperty from '../../../axon/js/TProperty.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import type TProperty from '../../../axon/js/TProperty.js';
+import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import PickRequired from '../../../phet-core/js/types/PickRequired.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import type PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import type StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import HighlightPath from '../../../scenery/js/accessibility/HighlightPath.js';
-import Voicing, { VoicingOptions } from '../../../scenery/js/accessibility/voicing/Voicing.js';
+import Voicing, { type VoicingOptions } from '../../../scenery/js/accessibility/voicing/Voicing.js';
 import HBox from '../../../scenery/js/layout/nodes/HBox.js';
 import PressListener from '../../../scenery/js/listeners/PressListener.js';
 import Line from '../../../scenery/js/nodes/Line.js';
-import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
+import Node, { type NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesDialog from './PreferencesDialog.js';
-import PreferencesType from './PreferencesType.js';
+import type PreferencesType from './PreferencesType.js';
 
 type SelfOptions = {
 

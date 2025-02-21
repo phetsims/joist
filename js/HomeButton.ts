@@ -8,10 +8,10 @@
 
 import Multilink from '../../axon/js/Multilink.js';
 import PatternStringProperty from '../../axon/js/PatternStringProperty.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import Shape from '../../kite/js/Shape.js';
-import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
-import PickRequired from '../../phet-core/js/types/PickRequired.js';
+import optionize, { type EmptySelfOptions } from '../../phet-core/js/optionize.js';
+import type PickRequired from '../../phet-core/js/types/PickRequired.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
@@ -20,7 +20,7 @@ import ButtonInteractionState from '../../sun/js/buttons/ButtonInteractionState.
 import homeSolidShape from '../../sun/js/shapes/homeSolidShape.js';
 import Utterance from '../../utterance-queue/js/Utterance.js';
 import joist from './joist.js';
-import JoistButton, { JoistButtonOptions } from './JoistButton.js';
+import JoistButton, { type JoistButtonOptions } from './JoistButton.js';
 import JoistStrings from './JoistStrings.js';
 
 // constants

@@ -16,9 +16,9 @@ import joist from '../joist.js';
 import KeyboardHelpButton from '../KeyboardHelpButton.js';
 import NavigationBarPreferencesButton from '../preferences/NavigationBarPreferencesButton.js';
 import PreferencesModel from '../preferences/PreferencesModel.js';
-import { AnyScreen } from '../Screen.js';
-import ScreenView, { ScreenViewOptions } from '../ScreenView.js';
-import Sim from '../Sim.js';
+import { type AnyScreen } from '../Screen.js';
+import ScreenView, { type ScreenViewOptions } from '../ScreenView.js';
+import type Sim from '../Sim.js';
 import PreferencesDialogDemoSection from './PreferencesDialogDemoSection.js';
 
 class DialogsScreenView extends ScreenView {

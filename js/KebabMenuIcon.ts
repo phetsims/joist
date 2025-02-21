@@ -8,7 +8,7 @@
  */
 
 import Shape from '../../kite/js/Shape.js';
-import Path, { PathOptions } from '../../scenery/js/nodes/Path.js';
+import Path, { type PathOptions } from '../../scenery/js/nodes/Path.js';
 import joist from './joist.js';
 
 // constants

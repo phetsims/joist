@@ -8,10 +8,10 @@
  */
 
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import optionize, { combineOptions, EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import PickRequired from '../../../phet-core/js/types/PickRequired.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import optionize, { combineOptions, type EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import type PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import type StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import PlayStopButton from '../../../scenery-phet/js/buttons/PlayStopButton.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import VoicingText from '../../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
@@ -19,21 +19,21 @@ import ReadingBlockHighlight from '../../../scenery/js/accessibility/voicing/Rea
 import voicingManager from '../../../scenery/js/accessibility/voicing/voicingManager.js';
 import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import Display from '../../../scenery/js/display/Display.js';
-import SceneryEvent from '../../../scenery/js/input/SceneryEvent.js';
+import type SceneryEvent from '../../../scenery/js/input/SceneryEvent.js';
 import AlignGroup from '../../../scenery/js/layout/constraints/AlignGroup.js';
 import HBox from '../../../scenery/js/layout/nodes/HBox.js';
-import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
+import Node, { type NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Text from '../../../scenery/js/nodes/Text.js';
-import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
+import ToggleSwitch, { type ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import { SpeakableResolvedResponse } from '../../../utterance-queue/js/ResponsePacket.js';
+import { type SpeakableResolvedResponse } from '../../../utterance-queue/js/ResponsePacket.js';
 import Utterance from '../../../utterance-queue/js/Utterance.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
-import LookAndFeel from '../LookAndFeel.js';
+import type LookAndFeel from '../LookAndFeel.js';
 import PreferencesControl from '../preferences/PreferencesControl.js';
 import PreferencesDialogConstants from '../preferences/PreferencesDialogConstants.js';
-import VoicingToolbarAlertManager from './VoicingToolbarAlertManager.js';
+import type VoicingToolbarAlertManager from './VoicingToolbarAlertManager.js';
 
 // constants
 const CONTENT_VERTICAL_SPACING = 10;

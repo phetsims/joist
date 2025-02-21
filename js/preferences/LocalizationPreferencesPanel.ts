@@ -10,9 +10,9 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import optionize, { type EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import type PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import VoicingRichText from '../../../scenery/js/accessibility/voicing/nodes/VoicingRichText.js';
 import VoicingText from '../../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
 import VBox from '../../../scenery/js/layout/nodes/VBox.js';
@@ -26,8 +26,8 @@ import LocalePanel from './LocalePanel.js';
 import PreferencesControl from './PreferencesControl.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
-import { LocalizationModel } from './PreferencesModel.js';
-import PreferencesPanel, { PreferencesPanelOptions } from './PreferencesPanel.js';
+import { type LocalizationModel } from './PreferencesModel.js';
+import PreferencesPanel, { type PreferencesPanelOptions } from './PreferencesPanel.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
 import PreferencesType from './PreferencesType.js';
 import RegionAndCultureComboBox from './RegionAndCultureComboBox.js';

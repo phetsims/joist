@@ -13,10 +13,10 @@ import SpinningIndicatorNode from '../../scenery-phet/js/SpinningIndicatorNode.j
 import VoicingText from '../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
 import HBox from '../../scenery/js/layout/nodes/HBox.js';
 import VBox from '../../scenery/js/layout/nodes/VBox.js';
-import Node from '../../scenery/js/nodes/Node.js';
+import type Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
-import RichText, { RichTextLinks } from '../../scenery/js/nodes/RichText.js';
+import RichText, { type RichTextLinks } from '../../scenery/js/nodes/RichText.js';
 import VStrut from '../../scenery/js/nodes/VStrut.js';
 import allowLinksProperty from '../../scenery/js/util/allowLinksProperty.js';
 import openPopup from '../../scenery/js/util/openPopup.js';

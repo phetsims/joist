@@ -26,8 +26,8 @@
  */
 
 import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
-import { DisposableOptions } from '../../axon/js/Disposable.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import { type DisposableOptions } from '../../axon/js/Disposable.js';
+import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import joist from '../../joist/js/joist.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import JoistStrings from './JoistStrings.js';

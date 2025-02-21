@@ -14,11 +14,11 @@
  */
 
 import Property from '../../axon/js/Property.js';
-import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
-import { PhetioID } from '../../tandem/js/phet-io-types.js';
+import type IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
+import { type PhetioID } from '../../tandem/js/phet-io-types.js';
 import PhetioIDUtils from '../../tandem/js/PhetioIDUtils.js';
 import joist from './joist.js';
-import Sim from './Sim.js';
+import type Sim from './Sim.js';
 import TemporalCounter from './TemporalCounter.js';
 
 /////////////////////////////////

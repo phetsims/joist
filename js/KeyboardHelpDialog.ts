@@ -7,24 +7,24 @@
  */
 
 import Multilink from '../../axon/js/Multilink.js';
-import Property from '../../axon/js/Property.js';
+import type Property from '../../axon/js/Property.js';
 import InstanceRegistry from '../../phet-core/js/documentation/InstanceRegistry.js';
-import optionize, { EmptySelfOptions } from '../../phet-core/js/optionize.js';
-import PickRequired from '../../phet-core/js/types/PickRequired.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
+import optionize, { type EmptySelfOptions } from '../../phet-core/js/optionize.js';
+import type PickRequired from '../../phet-core/js/types/PickRequired.js';
+import type StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import KeyboardHelpSectionRow from '../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
 import TextKeyNode from '../../scenery-phet/js/keyboard/TextKeyNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import VoicingText from '../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
-import ReadingBlock, { ReadingBlockOptions } from '../../scenery/js/accessibility/voicing/ReadingBlock.js';
+import ReadingBlock, { type ReadingBlockOptions } from '../../scenery/js/accessibility/voicing/ReadingBlock.js';
 import HBox from '../../scenery/js/layout/nodes/HBox.js';
 import VBox from '../../scenery/js/layout/nodes/VBox.js';
-import Node, { NodeOptions } from '../../scenery/js/nodes/Node.js';
-import Dialog, { DialogOptions } from '../../sun/js/Dialog.js';
+import Node, { type NodeOptions } from '../../scenery/js/nodes/Node.js';
+import Dialog, { type DialogOptions } from '../../sun/js/Dialog.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
-import { AnyScreen } from './Screen.js';
+import { type AnyScreen } from './Screen.js';
 
 // constants
 const TITLE_MAX_WIDTH = 670;

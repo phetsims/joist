@@ -8,17 +8,17 @@
  */
 
 import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
-import Property from '../../../axon/js/Property.js';
-import optionize, { combineOptions, EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import type Property from '../../../axon/js/Property.js';
+import optionize, { combineOptions, type EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import type StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import VoicingText from '../../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import SceneryConstants from '../../../scenery/js/SceneryConstants.js';
-import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
+import ToggleSwitch, { type ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
-import PreferencesControl, { PreferencesControlOptions } from './PreferencesControl.js';
+import PreferencesControl, { type PreferencesControlOptions } from './PreferencesControl.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 

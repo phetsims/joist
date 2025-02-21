@@ -9,8 +9,8 @@
  */
 
 import Multilink from '../../axon/js/Multilink.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
-import TBrand from '../../brand/js/TBrand.js';
+import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import type TBrand from '../../brand/js/TBrand.js';
 import AriaHasPopUpMutator from '../../scenery/js/accessibility/pdom/AriaHasPopUpMutator.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import Line from '../../scenery/js/nodes/Line.js';

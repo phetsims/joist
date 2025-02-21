@@ -7,18 +7,18 @@
  */
 
 import Property from '../../axon/js/Property.js';
-import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import type ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
+import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
-import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
-import Node from '../../scenery/js/nodes/Node.js';
+import type IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
+import type Node from '../../scenery/js/nodes/Node.js';
 import Color from '../../scenery/js/util/Color.js';
 import HomeScreenKeyboardHelpContent from './HomeScreenKeyboardHelpContent.js';
 import HomeScreenModel from './HomeScreenModel.js';
 import HomeScreenView from './HomeScreenView.js';
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
-import Screen, { ScreenOptions } from './Screen.js';
+import Screen, { type ScreenOptions } from './Screen.js';
 
 // constants
 const homeStringProperty = JoistStrings.a11y.translatable.homeStringProperty;

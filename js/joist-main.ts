@@ -11,7 +11,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import DialogsScreenView from './demo/DialogsScreenView.js';
 import JoistStrings from './JoistStrings.js';
 import Screen from './Screen.js';
-import Sim, { SimOptions } from './Sim.js';
+import Sim, { type SimOptions } from './Sim.js';
 import simLauncher from './simLauncher.js';
 
 const joistTitleStringProperty = JoistStrings.joist.titleStringProperty;

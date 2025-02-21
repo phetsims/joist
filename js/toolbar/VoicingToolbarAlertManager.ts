@@ -8,10 +8,10 @@
  * @author Jesse Greenberg
  */
 
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import { SpeakableResolvedResponse } from '../../../utterance-queue/js/ResponsePacket.js';
+import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import { type SpeakableResolvedResponse } from '../../../utterance-queue/js/ResponsePacket.js';
 import joist from '../joist.js';
-import { AnyScreen } from '../Screen.js';
+import { type AnyScreen } from '../Screen.js';
 
 class VoicingToolbarAlertManager {
 

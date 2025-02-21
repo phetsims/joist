@@ -6,20 +6,20 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
-import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import type PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import HBox from '../../../scenery/js/layout/nodes/HBox.js';
-import VBox, { VBoxOptions } from '../../../scenery/js/layout/nodes/VBox.js';
+import VBox, { type VBoxOptions } from '../../../scenery/js/layout/nodes/VBox.js';
 import Text from '../../../scenery/js/nodes/Text.js';
-import ToggleSwitch, { ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
+import ToggleSwitch, { type ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesControl from './PreferencesControl.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
-import { AudioModel } from './PreferencesModel.js';
-import PreferencesPanel, { PreferencesPanelOptions } from './PreferencesPanel.js';
+import { type AudioModel } from './PreferencesModel.js';
+import PreferencesPanel, { type PreferencesPanelOptions } from './PreferencesPanel.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
 import PreferencesType from './PreferencesType.js';
 import SoundPanelSection from './SoundPanelSection.js';

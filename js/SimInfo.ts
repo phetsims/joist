@@ -8,7 +8,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
+import type IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import Utils from '../../scenery/js/util/Utils.js';
 import PhetioObject from '../../tandem/js/PhetioObject.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -21,7 +21,7 @@ import ObjectLiteralIO from '../../tandem/js/types/ObjectLiteralIO.js';
 import StringIO from '../../tandem/js/types/StringIO.js';
 import joist from './joist.js';
 import packageJSON from './packageJSON.js';
-import { AnyScreen } from './Screen.js';
+import { type AnyScreen } from './Screen.js';
 import type Sim from './Sim.js';
 
 export type ScreenState = {

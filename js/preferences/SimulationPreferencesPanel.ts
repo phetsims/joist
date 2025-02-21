@@ -7,15 +7,15 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import PickRequired from '../../../phet-core/js/types/PickRequired.js';
-import VBox, { VBoxOptions } from '../../../scenery/js/layout/nodes/VBox.js';
-import Node from '../../../scenery/js/nodes/Node.js';
+import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import optionize, { type EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import type PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import VBox, { type VBoxOptions } from '../../../scenery/js/layout/nodes/VBox.js';
+import type Node from '../../../scenery/js/nodes/Node.js';
 import joist from '../joist.js';
 import PreferencesDialog from './PreferencesDialog.js';
-import { SimulationModel } from './PreferencesModel.js';
-import PreferencesPanel, { PreferencesPanelOptions } from './PreferencesPanel.js';
+import { type SimulationModel } from './PreferencesModel.js';
+import PreferencesPanel, { type PreferencesPanelOptions } from './PreferencesPanel.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
 import PreferencesType from './PreferencesType.js';
 

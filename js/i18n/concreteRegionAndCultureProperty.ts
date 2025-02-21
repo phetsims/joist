@@ -9,10 +9,10 @@
  */
 
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import dotRandom from '../../../dot/js/dotRandom.js';
 import joist from '../joist.js';
-import regionAndCultureProperty, { RegionAndCulture, supportedRegionAndCultureValues } from './regionAndCultureProperty.js';
+import regionAndCultureProperty, { type RegionAndCulture, supportedRegionAndCultureValues } from './regionAndCultureProperty.js';
 
 // The complete set of RegionAndCulture values, minus 'random'.
 export type ConcreteRegionAndCulture = Exclude<RegionAndCulture, 'random'>;
