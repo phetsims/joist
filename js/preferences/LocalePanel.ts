@@ -14,7 +14,6 @@ import GridBox from '../../../scenery/js/layout/nodes/GridBox.js';
 import Panel from '../../../sun/js/Panel.js';
 import { type LocaleProperty } from '../i18n/localeProperty.js';
 import joist from '../joist.js';
-import JoistStrings from '../JoistStrings.js';
 import LanguageSelectionNode from './LanguageSelectionNode.js';
 
 class LocalePanel extends Panel {
@@ -37,14 +36,7 @@ class LocalePanel extends Panel {
       } )
     } );
 
-    super( content, {
-
-      // pdom
-      tagName: 'div',
-      labelTagName: 'h3',
-      accessibleName: JoistStrings.preferences.tabs.localization.languageSelection.titleStringProperty,
-      accessibleHelpText: JoistStrings.preferences.tabs.localization.languageSelection.descriptionStringProperty
-    } );
+    super( content );
   }
 }
 
