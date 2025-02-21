@@ -26,7 +26,7 @@ import Text from '../../../scenery/js/nodes/Text.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
-import PreferencesDialog from './PreferencesDialog.js';
+import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import type PreferencesType from './PreferencesType.js';
 
 type SelfOptions = {
@@ -73,7 +73,7 @@ class PreferencesTab extends Voicing( Node ) {
     }, providedOptions );
 
     // Visual contents for the tab, label Text and optional icon Node
-    const text = new Text( labelProperty, PreferencesDialog.TAB_OPTIONS );
+    const text = new Text( labelProperty, PreferencesDialogConstants.TAB_OPTIONS );
     const tabContents: Node[] = [ text ];
     if ( options.iconNode ) {
       tabContents.push( options.iconNode );

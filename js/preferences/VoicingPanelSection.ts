@@ -35,7 +35,6 @@ import localeProperty, { type Locale } from '../i18n/localeProperty.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesControl from './PreferencesControl.js';
-import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import { type AudioModel } from './PreferencesModel.js';
 import PreferencesPanelSection, { type PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
@@ -118,12 +117,12 @@ class VoicingPanelSection extends PreferencesPanelSection {
                                 voicingEnglishOnlyLabelStringProperty : voicingLabelStringProperty;
 
     // the checkbox is the title for the section and totally enables/disables the feature
-    const voicingLabel = new Text( titleStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
+    const voicingLabel = new Text( titleStringProperty, PreferencesDialogConstants.PANEL_SECTION_LABEL_OPTIONS );
     const voicingEnabledReadingBlockNameResponsePatternStringProperty = new PatternStringProperty( labelledDescriptionPatternStringProperty, {
       label: titleStringProperty,
       description: voicingDescriptionStringProperty
     }, { tandem: Tandem.OPT_OUT } );
-    const voicingEnabledSwitchVoicingText = new VoicingText( voicingDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
+    const voicingEnabledSwitchVoicingText = new VoicingText( voicingDescriptionStringProperty, merge( {}, PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS, {
       readingBlockNameResponse: voicingEnabledReadingBlockNameResponsePatternStringProperty
     } ) );
     const voicingToggleSwitch = new ToggleSwitch( audioModel.voicingEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
@@ -137,7 +136,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
     } );
 
     // checkbox for the toolbar
-    const quickAccessLabel = new Text( toolbarLabelStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
+    const quickAccessLabel = new Text( toolbarLabelStringProperty, PreferencesDialogConstants.PANEL_SECTION_LABEL_OPTIONS );
     const toolbarToggleSwitch = new ToggleSwitch( audioModel.toolbarEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
       accessibleName: toolbarLabelStringProperty,
       leftValueContextResponse: toolbarRemovedStringProperty,
@@ -149,7 +148,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
     } );
 
     // Speech output levels
-    const speechOutputLabel = new Text( simVoicingOptionsStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS, {
+    const speechOutputLabel = new Text( simVoicingOptionsStringProperty, merge( {}, PreferencesDialogConstants.PANEL_SECTION_LABEL_OPTIONS, {
 
       // pdom
       tagName: 'h3',
@@ -159,7 +158,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
       label: simVoicingOptionsStringProperty,
       description: simVoicingDescriptionStringProperty
     }, { tandem: Tandem.OPT_OUT } );
-    const speechOutputDescription = new VoicingText( simVoicingDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
+    const speechOutputDescription = new VoicingText( simVoicingDescriptionStringProperty, merge( {}, PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS, {
       readingBlockNameResponse: speechOutputReadingBlockNameResponsePatternStringProperty
     } ) );
 
@@ -169,7 +168,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
     const createCheckbox = ( labelString: TReadOnlyProperty<string>, property: Property<boolean>,
                              checkedContextResponse: TReadOnlyProperty<string>,
                              uncheckedContextResponse: TReadOnlyProperty<string>, disposable: Disposable ): Checkbox => {
-      const labelNode = new Text( labelString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
+      const labelNode = new Text( labelString, PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS );
       const checkbox = new Checkbox( property, labelNode, {
 
         // pdom
@@ -217,18 +216,18 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
     const speechOutputCheckboxes = new VBox( {
       align: 'left',
-      spacing: PreferencesDialog.VERTICAL_CONTENT_SPACING,
+      spacing: PreferencesDialogConstants.VERTICAL_CONTENT_SPACING,
       children: checkboxes
     } );
 
     speechOutputContent.children = [ speechOutputLabel, speechOutputDescription, speechOutputCheckboxes ];
-    speechOutputDescription.leftTop = speechOutputLabel.leftBottom.plusXY( 0, PreferencesDialog.VERTICAL_CONTENT_SPACING );
-    speechOutputCheckboxes.leftTop = speechOutputDescription.leftBottom.plusXY( PreferencesDialog.CONTENT_INDENTATION_SPACING, PreferencesDialog.VERTICAL_CONTENT_SPACING );
+    speechOutputDescription.leftTop = speechOutputLabel.leftBottom.plusXY( 0, PreferencesDialogConstants.VERTICAL_CONTENT_SPACING );
+    speechOutputCheckboxes.leftTop = speechOutputDescription.leftBottom.plusXY( PreferencesDialogConstants.CONTENT_INDENTATION_SPACING, PreferencesDialogConstants.VERTICAL_CONTENT_SPACING );
 
     const rateSlider = new VoiceRateNumberControl( rateStringProperty, rateLabelStringProperty, audioModel.voiceRateProperty );
     const pitchSlider = new VoicingPitchSlider( pitchStringProperty, audioModel.voicePitchProperty );
     const voiceOptionsContent = new VBox( {
-      spacing: PreferencesDialog.VERTICAL_CONTENT_SPACING,
+      spacing: PreferencesDialogConstants.VERTICAL_CONTENT_SPACING,
       align: 'left',
       children: [
         rateSlider,
@@ -237,7 +236,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
     } );
 
     // voice options
-    const voiceOptionsLabel = new Text( customizeVoiceStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS, {
+    const voiceOptionsLabel = new Text( customizeVoiceStringProperty, merge( {}, PreferencesDialogConstants.PANEL_SECTION_LABEL_OPTIONS, {
       cursor: 'pointer'
     } ) );
 
@@ -366,13 +365,13 @@ class VoiceRateNumberControl extends NumberControl {
       layoutFunction: NumberControl.createLayoutFunction4(),
       delta: 0.25,
       accessibleName: a11yNameString,
-      titleNodeOptions: merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
+      titleNodeOptions: merge( {}, PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS, {
         maxWidth: 45
       } ),
       numberDisplayOptions: {
         decimalPlaces: 2,
         valuePattern: voiceVariablesPatternStringProperty,
-        textOptions: merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
+        textOptions: merge( {}, PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS, {
           maxWidth: 45
         } )
       },
@@ -447,7 +446,7 @@ class VoiceComboBox extends ComboBox<SpeechSynthesisVoice | null> {
     if ( voices.length === 0 ) {
       items.push( {
         value: null,
-        createNode: ( tandem: Tandem ) => new Text( noVoicesAvailableStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ),
+        createNode: ( tandem: Tandem ) => new Text( noVoicesAvailableStringProperty, PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS ),
         accessibleName: noVoicesAvailableStringProperty
       } );
     }
@@ -455,7 +454,7 @@ class VoiceComboBox extends ComboBox<SpeechSynthesisVoice | null> {
     voices.forEach( voice => {
       items.push( {
         value: voice,
-        createNode: ( tandem: Tandem ) => new Text( voice.name, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS ),
+        createNode: ( tandem: Tandem ) => new Text( voice.name, PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS ),
         accessibleName: voice.name
       } );
     } );
@@ -488,7 +487,7 @@ class VoiceComboBox extends ComboBox<SpeechSynthesisVoice | null> {
  */
 class VoicingPitchSlider extends VBox {
   public constructor( labelString: TReadOnlyProperty<string>, voicePitchProperty: NumberProperty ) {
-    const label = new Text( labelString, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
+    const label = new Text( labelString, PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS );
 
     const voicePitchRange = voicePitchProperty.range;
 

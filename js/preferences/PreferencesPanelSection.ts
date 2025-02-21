@@ -13,7 +13,7 @@ import AlignGroup from '../../../scenery/js/layout/constraints/AlignGroup.js';
 import VBox, { type VBoxOptions } from '../../../scenery/js/layout/nodes/VBox.js';
 import Node, { type NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import joist from '../joist.js';
-import PreferencesDialog from './PreferencesDialog.js';
+import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 
 type SelfOptions = {
 
@@ -34,7 +34,7 @@ export type PreferencesPanelSectionOptions = SelfOptions & StrictOmit<VBoxOption
 class PreferencesPanelSection extends VBox {
   public constructor( providedOptions?: PreferencesPanelSectionOptions ) {
     const options = optionize<PreferencesPanelSectionOptions, SelfOptions, VBoxOptions>()( {
-      spacing: PreferencesDialog.CONTENT_SPACING,
+      spacing: PreferencesDialogConstants.CONTENT_SPACING,
       titleNode: null,
       contentNode: null,
       contentNodeOptions: {},

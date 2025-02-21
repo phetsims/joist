@@ -14,7 +14,7 @@ import VBox from '../../../scenery/js/layout/nodes/VBox.js';
 import isLeftToRightProperty from '../i18n/isLeftToRightProperty.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
-import PreferencesDialog from './PreferencesDialog.js';
+import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import PreferencesPanel from './PreferencesPanel.js';
 import PreferencesType from './PreferencesType.js';
 
@@ -22,7 +22,7 @@ class OverviewPreferencesPanel extends PreferencesPanel {
   public constructor( selectedTabProperty: TReadOnlyProperty<PreferencesType>, tabVisibleProperty: TReadOnlyProperty<boolean> ) {
     super( PreferencesType.OVERVIEW, selectedTabProperty, tabVisibleProperty );
 
-    const introTextOptions = merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
+    const introTextOptions = merge( {}, PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS, {
 
       // using lineWrap instead of default maxWidth for content
       maxWidth: null,

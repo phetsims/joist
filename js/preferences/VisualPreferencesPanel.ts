@@ -21,7 +21,6 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesControl from './PreferencesControl.js';
-import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import { type VisualModel } from './PreferencesModel.js';
 import PreferencesPanel, { type PreferencesPanelOptions } from './PreferencesPanel.js';
@@ -53,7 +52,7 @@ class VisualPreferencesPanel extends PreferencesPanel {
     super( PreferencesType.VISUAL, selectedTabProperty, tabVisibleProperty, options );
 
     const contentNode = new VBox( {
-      spacing: PreferencesDialog.CONTENT_SPACING,
+      spacing: PreferencesDialogConstants.CONTENT_SPACING,
       align: 'left'
     } );
 
@@ -65,13 +64,13 @@ class VisualPreferencesPanel extends PreferencesPanel {
 
     if ( visualModel.supportsInteractiveHighlights ) {
 
-      const label = new Text( interactiveHighlightsStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
+      const label = new Text( interactiveHighlightsStringProperty, PreferencesDialogConstants.PANEL_SECTION_LABEL_OPTIONS );
 
       const highlightsReadingBlockNameResponsePatternStringProperty = new PatternStringProperty( labelledDescriptionPatternStringProperty, {
         label: interactiveHighlightsStringProperty,
         description: interactiveHighlightsDescriptionStringProperty
       }, { tandem: Tandem.OPT_OUT } );
-      const interactiveHighlightsEnabledSwitchVoicingText = new VoicingText( interactiveHighlightsDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
+      const interactiveHighlightsEnabledSwitchVoicingText = new VoicingText( interactiveHighlightsDescriptionStringProperty, merge( {}, PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS, {
         readingBlockNameResponse: highlightsReadingBlockNameResponsePatternStringProperty
       } ) );
       const interactiveHighlightsEnabledSwitch = new ToggleSwitch( visualModel.interactiveHighlightsEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {

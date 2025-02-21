@@ -13,7 +13,6 @@ import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
 import optionize, { type EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import type PickRequired from '../../../phet-core/js/types/PickRequired.js';
-import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { getPDOMFocusedNode, pdomFocusProperty } from '../../../scenery/js/accessibility/pdomFocusProperty.js';
 import HSeparator from '../../../scenery/js/layout/nodes/HSeparator.js';
 import VBox from '../../../scenery/js/layout/nodes/VBox.js';
@@ -23,35 +22,12 @@ import Dialog, { type DialogOptions } from '../../../sun/js/Dialog.js';
 import soundManager from '../../../tambo/js/soundManager.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
+import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import type PreferencesModel from './PreferencesModel.js';
 import PreferencesPanels from './PreferencesPanels.js';
 import PreferencesTabs from './PreferencesTabs.js';
 import PreferencesTabSwitchSoundGenerator from './PreferencesTabSwitchSoundGenerator.js';
 import PreferencesType from './PreferencesType.js';
-
-// constants
-const TITLE_FONT = new PhetFont( { size: 24, weight: 'bold' } );
-
-const TAB_FONT = new PhetFont( 20 );
-const TAB_MAX_WIDTH = 120;
-const TAB_OPTIONS = {
-  font: TAB_FONT,
-  maxWidth: TAB_MAX_WIDTH
-};
-
-const CONTENT_FONT = new PhetFont( 16 );
-const CONTENT_MAX_WIDTH = 500;
-const PANEL_SECTION_CONTENT_OPTIONS = {
-  font: CONTENT_FONT,
-  maxWidth: CONTENT_MAX_WIDTH
-};
-
-const PANEL_SECTION_LABEL_FONT = new PhetFont( { weight: 'bold', size: 16 } );
-const PANEL_SECTION_LABEL_MAX_WIDTH = 360;
-const PANEL_SECTION_LABEL_OPTIONS = {
-  font: PANEL_SECTION_LABEL_FONT,
-  maxWidth: PANEL_SECTION_LABEL_MAX_WIDTH
-};
 
 type PreferencesDialogOptions = DialogOptions & PickRequired<DialogOptions, 'tandem'>;
 
@@ -62,8 +38,8 @@ class PreferencesDialog extends Dialog {
   public constructor( preferencesModel: PreferencesModel, providedOptions?: PreferencesDialogOptions ) {
 
     const titleText = new Text( JoistStrings.preferences.titleStringProperty, {
-      font: TITLE_FONT,
-      maxWidth: CONTENT_MAX_WIDTH // The width of the title should be the same max as for a panel section
+      font: PreferencesDialogConstants.TITLE_FONT,
+      maxWidth: PreferencesDialogConstants.CONTENT_MAX_WIDTH // The width of the title should be the same max as for a panel section
     } );
 
     const options = optionize<PreferencesDialogOptions, EmptySelfOptions, DialogOptions>()( {
@@ -165,35 +141,6 @@ class PreferencesDialog extends Dialog {
   private focusSelectedPanel(): void {
     this.preferencesPanels.focusSelectedPanel();
   }
-
-  // Font and options for the text that labels a tab in the dialog.
-  public static readonly TAB_FONT = TAB_FONT;
-  public static readonly TAB_OPTIONS = TAB_OPTIONS;
-
-  // The font for a title of a panel in the dialog.
-  public static readonly TITLE_FONT = TITLE_FONT;
-
-  // The font, max width, and options for most text content in the dialog.
-  public static readonly CONTENT_FONT = CONTENT_FONT;
-  public static readonly CONTENT_MAX_WIDTH = CONTENT_MAX_WIDTH;
-  public static readonly PANEL_SECTION_CONTENT_OPTIONS = PANEL_SECTION_CONTENT_OPTIONS;
-
-  // The font, max width, and options for a label for a section of content in the dialog.
-  public static readonly PANEL_SECTION_LABEL_FONT = PANEL_SECTION_LABEL_FONT;
-  public static readonly PANEL_SECTION_LABEL_MAX_WIDTH = PANEL_SECTION_LABEL_MAX_WIDTH;
-  public static readonly PANEL_SECTION_LABEL_OPTIONS = PANEL_SECTION_LABEL_OPTIONS;
-
-  // Default spacing between unique items in a preferences dialog
-  public static readonly CONTENT_SPACING = 20;
-
-  // Default vertical spacing between grouped items (radio buttons, vertical checkboxes, ...)
-  public static readonly VERTICAL_CONTENT_SPACING = 5;
-
-  // Content or UI component intendentation under a PreferencesPanelSection title.
-  public static readonly CONTENT_INDENTATION_SPACING = 15;
-
-  // Default vertical spacing between a label and its collection of contents for a control in the dialog.
-  public static readonly LABEL_CONTENT_SPACING = 10;
 }
 
 joist.register( 'PreferencesDialog', PreferencesDialog );

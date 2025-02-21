@@ -13,7 +13,7 @@ import type PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import VBox, { type VBoxOptions } from '../../../scenery/js/layout/nodes/VBox.js';
 import type Node from '../../../scenery/js/nodes/Node.js';
 import joist from '../joist.js';
-import PreferencesDialog from './PreferencesDialog.js';
+import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import { type SimulationModel } from './PreferencesModel.js';
 import PreferencesPanel, { type PreferencesPanelOptions } from './PreferencesPanel.js';
 import PreferencesPanelSection from './PreferencesPanelSection.js';
@@ -47,7 +47,7 @@ class SimulationPreferencesPanel extends PreferencesPanel {
 
     const panelContent = new VBox( {
       align: 'left',
-      spacing: PreferencesDialog.CONTENT_SPACING
+      spacing: PreferencesDialogConstants.CONTENT_SPACING
     } );
     this.addChild( panelContent );
 

@@ -20,7 +20,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import { type Locale } from '../i18n/localeProperty.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
-import PreferencesDialog from './PreferencesDialog.js';
+import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 
 export default class LanguageSelectionNode extends Rectangle {
 
@@ -43,7 +43,7 @@ export default class LanguageSelectionNode extends Rectangle {
     const englishLocaleString = localeData.englishName;
 
     const text = new Text( string, {
-      font: PreferencesDialog.CONTENT_FONT
+      font: PreferencesDialogConstants.CONTENT_FONT
     } );
 
     super( text.bounds.dilated( 5 ), {

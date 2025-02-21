@@ -15,7 +15,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import regionAndCultureProperty, { type RegionAndCulture, supportedRegionAndCultureValues } from '../i18n/regionAndCultureProperty.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
-import PreferencesDialog from './PreferencesDialog.js';
+import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 
 // Maps a RegionAndCulture value to a StringProperty.
 const STRING_PROPERTY_MAP: Record<RegionAndCulture, LocalizedStringProperty> = {
@@ -49,7 +49,7 @@ class RegionAndCultureComboBox extends ComboBox<RegionAndCulture> {
     const comboBoxItems = supportedRegionAndCultureValues.slice().sort().map( regionAndCulture => {
       return {
         value: regionAndCulture,
-        createNode: () => new Text( STRING_PROPERTY_MAP[ regionAndCulture ], PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS )
+        createNode: () => new Text( STRING_PROPERTY_MAP[ regionAndCulture ], PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS )
       };
     } );
 

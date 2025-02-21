@@ -24,7 +24,6 @@ import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import LocalePanel from './LocalePanel.js';
 import PreferencesControl from './PreferencesControl.js';
-import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import { type LocalizationModel } from './PreferencesModel.js';
 import PreferencesPanel, { type PreferencesPanelOptions } from './PreferencesPanel.js';
@@ -56,7 +55,7 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
     super( PreferencesType.LOCALIZATION, selectedTabProperty, tabVisibleProperty, options );
 
     const contentNode = new VBox( {
-      spacing: PreferencesDialog.CONTENT_SPACING
+      spacing: PreferencesDialogConstants.CONTENT_SPACING
     } );
 
     // Add 'Region and Culture' combo box if there are at least 2 values.

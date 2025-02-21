@@ -16,7 +16,6 @@ import ToggleSwitch, { type ToggleSwitchOptions } from '../../../sun/js/ToggleSw
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesControl from './PreferencesControl.js';
-import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import { type AudioModel } from './PreferencesModel.js';
 import PreferencesPanel, { type PreferencesPanelOptions } from './PreferencesPanel.js';
@@ -47,7 +46,7 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
     // to shift contents of the entire Preferences dialog.
     const contentOptions: VBoxOptions = {
       align: 'left',
-      spacing: PreferencesDialog.CONTENT_SPACING,
+      spacing: PreferencesDialogConstants.CONTENT_SPACING,
       excludeInvisibleChildrenFromBounds: false
     };
     const leftContent = new VBox( contentOptions );
@@ -91,7 +90,7 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
       container.addChild( preferencesPanelSection );
     } );
 
-    const audioFeaturesText = new Text( audioFeaturesStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
+    const audioFeaturesText = new Text( audioFeaturesStringProperty, PreferencesDialogConstants.PANEL_SECTION_LABEL_OPTIONS );
     const audioFeaturesSwitch = new ToggleSwitch( audioModel.audioEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
       accessibleName: audioFeaturesStringProperty
     }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );

@@ -19,7 +19,6 @@ import ToggleSwitch, { type ToggleSwitchOptions } from '../../../sun/js/ToggleSw
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesControl from './PreferencesControl.js';
-import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import { type InputModel } from './PreferencesModel.js';
 import PreferencesPanel, { type PreferencesPanelOptions } from './PreferencesPanel.js';
@@ -48,15 +47,15 @@ class InputPreferencesPanel extends PreferencesPanel {
 
     // children are filled in later depending on what is supported in the InputModel
     const contentVBox = new VBox( {
-      spacing: PreferencesDialog.CONTENT_SPACING,
+      spacing: PreferencesDialogConstants.CONTENT_SPACING,
       align: 'left'
     } );
     this.addChild( contentVBox );
 
     if ( inputModel.supportsGestureControl ) {
 
-      const gestureControlText = new Text( gestureControlsString, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
-      const gestureControlDescriptionNode = new VoicingRichText( gestureControlsDescriptionString, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
+      const gestureControlText = new Text( gestureControlsString, PreferencesDialogConstants.PANEL_SECTION_LABEL_OPTIONS );
+      const gestureControlDescriptionNode = new VoicingRichText( gestureControlsDescriptionString, merge( {}, PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS, {
         lineWrap: 350,
         maxHeight: 100,
 
@@ -86,7 +85,7 @@ class InputPreferencesPanel extends PreferencesPanel {
     }
 
     const contentNode = new VBox( {
-      spacing: PreferencesDialog.CONTENT_SPACING,
+      spacing: PreferencesDialogConstants.CONTENT_SPACING,
       align: 'left'
     } );
 

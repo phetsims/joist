@@ -19,7 +19,6 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesControl, { type PreferencesControlOptions } from './PreferencesControl.js';
-import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -35,8 +34,8 @@ class ProjectorModeToggleSwitch extends PreferencesControl {
     phet.chipper.colorProfiles[ 0 ] !== phet.chipper.colorProfiles[ 1 ],
       'ProjectorModeToggleSwitch requires sims that support the projector color profile and one other color profile' );
 
-    const projectorModeLabel = new Text( JoistStrings.projectorModeStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
-    const projectorModeDescription = new VoicingText( JoistStrings.preferences.tabs.visual.projectorModeDescriptionStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
+    const projectorModeLabel = new Text( JoistStrings.projectorModeStringProperty, PreferencesDialogConstants.PANEL_SECTION_LABEL_OPTIONS );
+    const projectorModeDescription = new VoicingText( JoistStrings.preferences.tabs.visual.projectorModeDescriptionStringProperty, PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS );
 
     // Identify the non-projector color profile that this checkbox sets.
     const otherColorProfile = phet.chipper.colorProfiles.find( ( colorProfile: string ) => colorProfile !== SceneryConstants.PROJECTOR_COLOR_PROFILE );

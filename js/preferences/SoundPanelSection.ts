@@ -21,7 +21,6 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesControl from './PreferencesControl.js';
-import PreferencesDialog from './PreferencesDialog.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import { type AudioModel } from './PreferencesModel.js';
 import PreferencesPanelSection, { type PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
@@ -58,13 +57,13 @@ class SoundPanelSection extends PreferencesPanelSection {
       includeTitleToggleSwitch: true
     }, providedOptions );
 
-    const soundLabel = new Text( soundsLabelStringProperty, PreferencesDialog.PANEL_SECTION_LABEL_OPTIONS );
+    const soundLabel = new Text( soundsLabelStringProperty, PreferencesDialogConstants.PANEL_SECTION_LABEL_OPTIONS );
 
     const soundEnabledStringProperty = new PatternStringProperty( labelledDescriptionPatternStringProperty, {
       label: soundsLabelStringProperty,
       description: soundDescriptionStringProperty
     }, { tandem: Tandem.OPT_OUT } );
-    const soundEnabledVoicingText = new VoicingText( soundDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
+    const soundEnabledVoicingText = new VoicingText( soundDescriptionStringProperty, merge( {}, PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS, {
       readingBlockNameResponse: soundEnabledStringProperty
     } ) );
     const soundEnabledSwitch = new ToggleSwitch( audioModel.soundEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
@@ -82,7 +81,7 @@ class SoundPanelSection extends PreferencesPanelSection {
 
     let extraSoundContent: Node | null = null;
     if ( audioModel.supportsExtraSound ) {
-      const enhancedSoundLabel = new Text( extraSoundsLabelStringProperty, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS );
+      const enhancedSoundLabel = new Text( extraSoundsLabelStringProperty, PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS );
       const extraSoundCheckbox = new Checkbox( audioModel.extraSoundEnabledProperty, enhancedSoundLabel, {
 
         // pdom
@@ -106,7 +105,7 @@ class SoundPanelSection extends PreferencesPanelSection {
         label: extraSoundsLabelStringProperty,
         description: extraSoundsDescriptionStringProperty
       }, { tandem: Tandem.OPT_OUT } );
-      const extraSoundDescription = new VoicingRichText( extraSoundsDescriptionStringProperty, merge( {}, PreferencesDialog.PANEL_SECTION_CONTENT_OPTIONS, {
+      const extraSoundDescription = new VoicingRichText( extraSoundsDescriptionStringProperty, merge( {}, PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS, {
         lineWrap: 300,
         maxHeight: 100,
         readingBlockNameResponse: extraSoundReadingBlockNameResponsePatternStringProperty,
