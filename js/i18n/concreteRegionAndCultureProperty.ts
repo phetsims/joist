@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * Like regionAndCultureProperty, but excludes the "random" option, since it doesn't represent a concrete region and culture.

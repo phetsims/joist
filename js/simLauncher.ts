@@ -1,4 +1,4 @@
-// Copyright 2013-2024, University of Colorado Boulder
+// Copyright 2013-2025, University of Colorado Boulder
 /* eslint indent: 0 */ // Because ESLint doesn't support import() at the time of this writing
 /**
  * Singleton which launches a PhET Simulation, after using PHET_CORE/asyncLoader to make sure resources such as images,
