@@ -16,7 +16,13 @@ import joist from './joist.js';
 let phetioEngine: PhetioEngine | null = null;
 
 const unlockBrand = asyncLoader.createLock( { name: 'brand' } );
-import( /* webpackMode: "eager" */ `../../brand/${phet.chipper.brand}/js/Brand.js` )
+
+// When running with ?esbuild, esbuild searches for the *.ts file rather than the *.js file, so we need to conditionally
+// import the correct file.
+const query = new URLSearchParams( window.location.search );
+const esbuild = query.has( 'esbuild' );
+
+import( /* webpackMode: "eager" */ `../../brand/${phet.chipper.brand}/js/Brand.${esbuild ? 'ts' : 'js'}` )
   .then( module => unlockBrand() )
   .catch( err => assert && assert( false, err ) );
 
