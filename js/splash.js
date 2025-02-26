@@ -20,6 +20,9 @@
   let splashImageWidth = 0;
   let splashImageHeight = 0;
 
+  const PROGRESS_BAR_WIDTH = '273';
+  const RADIUS = '3';
+
   /**
    * Scale and position the given div, using the dimensions of the image for sizing.
    * @param {Element} div - the div to position
@@ -114,15 +117,53 @@
   progressBarDiv.style.display = 'block';
 
   const svg = document.createElementNS( XML_NAMESPACE, 'svg' );
+
+  svg.style.marginTop = `${PROGRESS_BAR_Y}px`;
+
+  svg.setAttribute( 'width', 275 );
+
+  const defs = document.createElementNS( XML_NAMESPACE, 'defs' );
+  svg.appendChild( defs );
+  const linearGradient = document.createElementNS( XML_NAMESPACE, 'linearGradient' );
+  linearGradient.id = 'phetioGradient';
+  linearGradient.setAttribute( 'gradientTransform', 'rotate(10)' );
+  defs.appendChild( linearGradient );
+
+  function createStop( offset, color ) {
+    const stop = document.createElementNS( XML_NAMESPACE, 'stop' );
+    stop.offset = offset;
+    stop.setAttribute( 'offset', offset );
+    stop.setAttribute( 'stop-color', color );
+    return stop;
+  }
+
+  linearGradient.appendChild( createStop( '0%', '#992995' ) );
+  linearGradient.appendChild( createStop( '50%', '#e01e5a' ) );
+  linearGradient.appendChild( createStop( '100%', '#f15a24' ) );
+
+  const clipPath = document.createElementNS( XML_NAMESPACE, 'clipPath' );
+  clipPath.id = 'progressBarClip';
+  const clipRectPath = document.createElementNS( XML_NAMESPACE, 'rect' );
+  clipPath.appendChild( clipRectPath );
+  clipRectPath.id = 'progressBarClipArea';
+  clipRectPath.setAttribute( 'x', '1' );
+  clipRectPath.setAttribute( 'y', '1' );
+  clipRectPath.setAttribute( 'width', '0' );
+  clipRectPath.setAttribute( 'height', '10' );
+  clipRectPath.setAttribute( 'rx', RADIUS );
+  clipRectPath.setAttribute( 'ry', RADIUS );
+  defs.appendChild( clipPath );
+
+
   svg.style[ 'margin-left' ] = '-1px'; // compensates for the offset of x=1
   const progressBarBackground = document.createElementNS( XML_NAMESPACE, 'rect' );
   progressBarBackground.setAttribute( 'id', 'progressBarBackground' );
   progressBarBackground.setAttribute( 'x', '1' ); // prevent clipping on the left side, see https://github.com/phetsims/joist/issues/400
-  progressBarBackground.setAttribute( 'y', `${PROGRESS_BAR_Y}` );
-  progressBarBackground.setAttribute( 'width', '273' );
+  progressBarBackground.setAttribute( 'y', '1' );
+  progressBarBackground.setAttribute( 'width', PROGRESS_BAR_WIDTH );
   progressBarBackground.setAttribute( 'height', '10' );
-  progressBarBackground.setAttribute( 'rx', '3' );
-  progressBarBackground.setAttribute( 'ry', '3' );
+  progressBarBackground.setAttribute( 'rx', RADIUS );
+  progressBarBackground.setAttribute( 'ry', RADIUS );
   progressBarBackground.setAttribute( 'style', 'stroke: white;stroke-width:1' );
 
   // The progress bar foreground begins with a width of 0 and grows to the right.  It is updated incrementally during
@@ -130,11 +171,11 @@
   const progressBarForeground = document.createElementNS( XML_NAMESPACE, 'rect' );
   progressBarForeground.setAttribute( 'id', 'progressBarForeground' );
   progressBarForeground.setAttribute( 'x', '1' ); // prevent clipping on the left side, see https://github.com/phetsims/joist/issues/400
-  progressBarForeground.setAttribute( 'y', `${PROGRESS_BAR_Y}` );
+  progressBarForeground.setAttribute( 'y', '1' );
   progressBarForeground.setAttribute( 'width', '0' );
   progressBarForeground.setAttribute( 'height', '10' );
-  progressBarForeground.setAttribute( 'rx', '3' );
-  progressBarForeground.setAttribute( 'ry', '3' );
+  progressBarForeground.setAttribute( 'rx', RADIUS );
+  progressBarForeground.setAttribute( 'ry', RADIUS );
   progressBarForeground.setAttribute( 'style', 'fill:#6acef5;' );
 
   svg.appendChild( progressBarBackground );
@@ -148,11 +189,19 @@
   }, 16 );
 
   // After download is complete, stop the animation of the background
-  window.phetSplashScreenDownloadComplete = function() {
+  window.phetSplashScreenDownloadComplete = function( brand ) {
     clearInterval( phetSplashScreenAnimationInterval );
 
     // Grow the progress bar foreground to the right based on the progress so far.
     progressBarBackground.style[ 'stroke-width' ] = 1;
+
+    // PhET-iO brand shows a different progress bar
+    if ( brand === 'phet-io' ) {
+      progressBarForeground.setAttribute( 'style', 'fill:url(#phetioGradient); clip-path:url(#progressBarClip);' );
+      progressBarForeground.setAttribute( 'width', PROGRESS_BAR_WIDTH );
+    }
+
+    return PROGRESS_BAR_WIDTH;
   };
 
   // Add elements
