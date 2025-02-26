@@ -253,6 +253,8 @@ export default class Sim extends PhetioObject {
   // Stored option to control whether screen views are removed when not active
   private readonly detachInactiveScreenViews: boolean;
 
+  private readonly splashScreenProgressBarWidth: number;
+
   /**
    * @param simNameProperty - the name of the simulation, to be displayed in the navbar and homescreen
    * @param allSimScreens - the possible screens for the sim in order of declaration (does not include the home screen)
@@ -260,7 +262,7 @@ export default class Sim extends PhetioObject {
    */
   public constructor( simNameProperty: TReadOnlyProperty<string>, allSimScreens: AnyScreen[], providedOptions?: SimOptions ) {
 
-    window.phetSplashScreenDownloadComplete();
+    const splashScreenProgressBarWidth = window.phetSplashScreenDownloadComplete( phet.chipper.brand );
 
     assert && assert( allSimScreens.length >= 1, 'at least one screen is required' );
 
@@ -304,6 +306,8 @@ export default class Sim extends PhetioObject {
     this.detachInactiveScreenViews = options.detachInactiveScreenViews;
 
     this.simNameProperty = simNameProperty;
+
+    this.splashScreenProgressBarWidth = splashScreenProgressBarWidth;
 
     // playbackModeEnabledProperty cannot be changed after Sim construction has begun, hence this listener is added before
     // anything else is done, see https://github.com/phetsims/phet-io/issues/1146
@@ -903,15 +907,16 @@ export default class Sim extends PhetioObject {
           workItems[ i ]();
 
           // Move the progress ahead by one so we show the full progress bar for a moment before the sim starts up
-
           const progress = DotUtils.linear( 0, workItems.length - 1, 0.25, 1.0, i );
+
+          const progressElementID = phet.chipper.brand === 'phet-io' ? 'progressBarClipArea' : 'progressBarForeground';
 
           // Support iOS Reading Mode, which saves a DOM snapshot after the progressBarForeground has already been
           // removed from the document, see https://github.com/phetsims/joist/issues/389
-          if ( document.getElementById( 'progressBarForeground' ) ) {
+          if ( document.getElementById( progressElementID ) ) {
 
             // Grow the progress bar foreground to the right based on the progress so far.
-            document.getElementById( 'progressBarForeground' )!.setAttribute( 'width', `${progress * PROGRESS_BAR_WIDTH}` );
+            document.getElementById( progressElementID )!.setAttribute( 'width', `${progress * this.splashScreenProgressBarWidth}` );
           }
           if ( i + 1 < workItems.length ) {
             runItem( i + 1 );
