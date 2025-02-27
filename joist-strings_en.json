@@ -56,79 +56,79 @@
   },
   "termsPrivacyAndLicensing": {
     "value": "Terms, Privacy & Licensing",
-    "metadata": {
+    "simMetadata": {
       "phetioReadOnly": true
     }
   },
   "credits.title": {
     "value": "Credits",
-    "metadata": {
+    "simMetadata": {
       "phetioReadOnly": true
     }
   },
   "credits.leadDesign": {
     "value": "Lead Design: {0}",
-    "metadata": {
+    "simMetadata": {
       "phetioReadOnly": true
     }
   },
   "credits.softwareDevelopment": {
     "value": "Software Development: {0}",
-    "metadata": {
+    "simMetadata": {
       "phetioReadOnly": true
     }
   },
   "credits.team": {
     "value": "Team: {0}",
-    "metadata": {
+    "simMetadata": {
       "phetioReadOnly": true
     }
   },
   "credits.contributors": {
     "value": "Contributors: {0}",
-    "metadata": {
+    "simMetadata": {
       "phetioReadOnly": true
     }
   },
   "credits.qualityAssurance": {
     "value": "Quality Assurance: {0}",
-    "metadata": {
+    "simMetadata": {
       "phetioReadOnly": true
     }
   },
   "credits.graphicArts": {
     "value": "Graphic Arts: {0}",
-    "metadata": {
+    "simMetadata": {
       "phetioReadOnly": true
     }
   },
   "credits.soundDesign": {
     "value": "Sound Design: {0}",
-    "metadata": {
+    "simMetadata": {
       "phetioReadOnly": true
     }
   },
   "credits.translation": {
     "value": "Translation",
-    "metadata": {
+    "simMetadata": {
       "phetioReadOnly": true
     }
   },
   "credits.thanks": {
     "value": "Thanks",
-    "metadata": {
+    "simMetadata": {
       "phetioReadOnly": true
     }
   },
   "options.title": {
     "value": "Options",
-    "metadata": {
+    "simMetadata": {
       "phetioReadOnly": true
     }
   },
   "versionPattern": {
     "value": "version {0}",
-    "metadata": {
+    "simMetadata": {
       "phetioReadOnly": true
     }
   },
@@ -158,13 +158,13 @@
   },
   "translation.credits.link": {
     "value": "Translation Credits",
-    "metadata": {
+    "simMetadata": {
       "phetioReadOnly": true
     }
   },
   "thirdParty.credits.link": {
     "value": "Third-party Credits",
-    "metadata": {
+    "simMetadata": {
       "phetioReadOnly": true
     }
   },
@@ -176,7 +176,7 @@
   },
   "simTitleWithScreenNamePattern": {
     "value": "{{simName}} \u2014 {{screenName}}",
-    "metadata": {
+    "simMetadata": {
       "phetioDocumentation": "This pattern is used when a multi-screen simulation is only displaying one screen."
     }
   },
