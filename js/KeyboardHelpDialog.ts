@@ -54,6 +54,8 @@ export default class KeyboardHelpDialog extends Dialog {
     }, providedOptions );
 
     const content = new Node( {
+
+      // help content surrounded by a div unless already specified, so that all content is read when dialog opens
       tagName: 'div'
     } );
 
@@ -74,7 +76,7 @@ export default class KeyboardHelpDialog extends Dialog {
       maxWidth: TITLE_MAX_WIDTH,
 
       // voicing options - No PDOM for this text because the title is provided through the accessibleName of the dialog.
-      readingBlockDisabledTagName: null
+      accessibleParagraph: null
     } );
 
     // a 'tab to get started' hint
@@ -91,8 +93,6 @@ export default class KeyboardHelpDialog extends Dialog {
       }
     );
     options.title = titleVBox;
-
-    // help content surrounded by a div unless already specified, so that all content is read when dialog opens
 
     super( content, options );
 
