@@ -19,20 +19,32 @@
  *     playAreaContent: playAreaDescriptionStringProperty,
  *     controlAreaContent: controlAreaDescriptionStringProperty,
  *     currentDetailsContent: [ firstDescriptionStringProperty, secondDescriptionStringProperty ],
- *     interactionHintContent: interactionHintStringProperty
+ *     interactionHintContent: {
+ *       node: new Node( { tagName: 'h3', innerContent: interactionHintStringProperty } ),
+ *       voicingContent: [ customVoicingStringProperty ]
+ *     }
  *   } );
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+type VoiceableNode = {
+
+  // A Node with customized structure for the accessible PDOM.
+  node: Node;
+
+  // An array of strings for this Node that will be read in order for the Voicing feature.
+  voicingContent?: TReadOnlyProperty<string>[];
+};
+
 import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
 import { type DisposableOptions } from '../../axon/js/Disposable.js';
-import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import TReadOnlyProperty, { isTReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import joist from '../../joist/js/joist.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import JoistStrings from './JoistStrings.js';
 
-type SectionContent = TReadOnlyProperty<string> | Array<TReadOnlyProperty<string>> | null;
+type SectionContent = TReadOnlyProperty<string> | Array<TReadOnlyProperty<string>> | VoiceableNode | null;
 
 type SelfOptions = {
 
@@ -47,7 +59,7 @@ type SelfOptions = {
   // Content that describes the current details of the screen.
   currentDetailsContent?: SectionContent;
 
-  // Any other contnt that is not covered by the above categories. Comes before the interaction hint.
+  // Any other content that is not covered by the above categories. Comes before the interaction hint.
   // NOTE: THis is useful for legacy content that was designed before the above categories were introduced.
   additionalContent?: SectionContent;
 
@@ -238,9 +250,17 @@ export default class ScreenSummaryContent extends Node {
     const nonNullContents = contents.filter( content => content !== null );
 
     // Create a combined array of all TReadOnlyProperty<string> from the passed contents.
-    const combinedArray: TReadOnlyProperty<string>[] = nonNullContents.flatMap( content =>
-      Array.isArray( content ) ? content : [ content ]
-    );
+    const combinedArray: TReadOnlyProperty<string>[] = nonNullContents.flatMap( content => {
+      if ( Array.isArray( content ) ) {
+        return content;
+      }
+      else if ( isTReadOnlyProperty( content ) ) {
+        return [ content ];
+      }
+      else {
+        return content.voicingContent || [];
+      }
+    } );
 
     if ( combinedArray.length > 0 ) {
       return DerivedStringProperty.deriveAny( combinedArray, ( ...strings: string[] ) => {
@@ -274,8 +294,11 @@ export default class ScreenSummaryContent extends Node {
           return this.createNode( item );
         } );
       }
-      else {
+      else if ( isTReadOnlyProperty( content ) ) {
         return [ this.createNode( content ) ];
+      }
+      else {
+        return [ content.node ];
       }
     }
   }
