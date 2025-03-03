@@ -32,7 +32,7 @@ import joist from '../../joist/js/joist.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import JoistStrings from './JoistStrings.js';
 
-type SectionContent = TReadOnlyProperty<string> | Array<TReadOnlyProperty<string>> | null;
+type SectionContent = TReadOnlyProperty<string> | Array<TReadOnlyProperty<string>>;
 
 type SelfOptions = {
 
@@ -47,7 +47,7 @@ type SelfOptions = {
   // Content that describes the current details of the screen.
   currentDetailsContent?: SectionContent;
 
-  // Any other contnt that is not covered by the above categories. Comes before the interaction hint.
+  // Any other content that is not covered by the above categories. Comes before the interaction hint.
   // NOTE: THis is useful for legacy content that was designed before the above categories were introduced.
   additionalContent?: SectionContent;
 
@@ -63,9 +63,9 @@ type ScreenSummaryContentOptions = SelfOptions & ParentOptions;
 export default class ScreenSummaryContent extends Node {
 
   // References to the play area and control area content, because they are combined to form the
-  // the "combined voicing overview content".
-  private _playAreaContent: SectionContent = null;
-  private _controlAreaContent: SectionContent = null;
+  // "combined voicing overview content".
+  private _playAreaContent?: SectionContent;
+  private _controlAreaContent?: SectionContent;
 
   // References to the combined content for voicing. They will need to be disposed when the content changes.
   private _combinedVoicingOverviewContent: null | TReadOnlyProperty<string> = null;
@@ -81,15 +81,7 @@ export default class ScreenSummaryContent extends Node {
   private readonly inThePlayAreaParagraph: Node;
   private readonly inTheControlAreaParagraph: Node;
 
-  public constructor( providedOptions?: ScreenSummaryContentOptions ) {
-
-    const options = _.merge( {
-      playAreaContent: null,
-      controlAreaContent: null,
-      currentDetailsContent: null,
-      additionalContent: null,
-      interactionHintContent: null
-    }, providedOptions );
+  public constructor( options?: ScreenSummaryContentOptions ) {
 
     super( options );
 
@@ -122,11 +114,11 @@ export default class ScreenSummaryContent extends Node {
     ];
 
     // Now fill in the content from options.
-    this.setPlayAreaContent( options.playAreaContent );
-    this.setControlAreaContent( options.controlAreaContent );
-    this.setCurrentDetailsContent( options.currentDetailsContent );
-    this.setInteractionHintContent( options.interactionHintContent );
-    this.setAdditionalContent( options.additionalContent );
+    options?.playAreaContent && this.setPlayAreaContent( options.playAreaContent );
+    options?.controlAreaContent && this.setControlAreaContent( options.controlAreaContent );
+    options?.currentDetailsContent && this.setCurrentDetailsContent( options.currentDetailsContent );
+    options?.interactionHintContent && this.setInteractionHintContent( options.interactionHintContent );
+    options?.additionalContent && this.setAdditionalContent( options.additionalContent );
   }
 
   /**
@@ -141,7 +133,13 @@ export default class ScreenSummaryContent extends Node {
     if ( this._combinedVoicingOverviewContent ) {
       this._combinedVoicingOverviewContent.dispose();
     }
-    this._combinedVoicingOverviewContent = this.combineContent( content, this._controlAreaContent );
+
+    if ( this._controlAreaContent ) {
+      this._combinedVoicingOverviewContent = this.combineContent( content, this._controlAreaContent );
+    }
+    else {
+      this._combinedVoicingOverviewContent = this.combineContent( content );
+    }
   }
 
   /**
@@ -157,7 +155,13 @@ export default class ScreenSummaryContent extends Node {
     if ( this._combinedVoicingOverviewContent ) {
       this._combinedVoicingOverviewContent.dispose();
     }
-    this._combinedVoicingOverviewContent = this.combineContent( this._playAreaContent, content );
+
+    if ( this._playAreaContent ) {
+      this._combinedVoicingOverviewContent = this.combineContent( this._playAreaContent, content );
+    }
+    else {
+      this._combinedVoicingOverviewContent = this.combineContent( content );
+    }
   }
 
   /**
@@ -234,11 +238,8 @@ export default class ScreenSummaryContent extends Node {
    */
   private combineContent( ...contents: SectionContent[] ): null | TReadOnlyProperty<string> {
 
-    // Filter out any null values from the contents
-    const nonNullContents = contents.filter( content => content !== null );
-
     // Create a combined array of all TReadOnlyProperty<string> from the passed contents.
-    const combinedArray: TReadOnlyProperty<string>[] = nonNullContents.flatMap( content =>
+    const combinedArray: TReadOnlyProperty<string>[] = contents.flatMap( content =>
       Array.isArray( content ) ? content : [ content ]
     );
 
