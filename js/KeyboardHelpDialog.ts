@@ -86,10 +86,7 @@ export default class KeyboardHelpDialog extends Dialog {
     assert && assert( !options.title, 'KeyboardHelpDialog sets title' );
     const titleVBox = new VBox( {
         children: [ shortcutsTitleText, tabHintLine ],
-        spacing: 5,
-
-        // pdom
-        tagName: 'div'
+        spacing: 5
       }
     );
     options.title = titleVBox;
