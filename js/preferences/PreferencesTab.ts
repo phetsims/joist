@@ -122,6 +122,11 @@ class PreferencesTab extends Voicing( Node ) {
       press: () => {
         property.set( value );
 
+        // With a screen reader virtual cursor, you can click on a tab button that is removed from the traversal order.
+        // The device tries to focus the new button before clicking it, but it is not focusable yet so scenery blocks it.
+        // Put focus on the button manually after the property has been set and the tab is made focusable.
+        this.focus();
+
         // speak the object response on activation
         this.voicingSpeakNameResponse();
       },
