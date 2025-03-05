@@ -74,7 +74,6 @@ import isSettingPhetioStateProperty from '../../tandem/js/isSettingPhetioStatePr
 import StringIO from '../../tandem/js/types/StringIO.js';
 
 // constants
-const PROGRESS_BAR_WIDTH = 273;
 const SUPPORTS_GESTURE_DESCRIPTION = platform.android || platform.mobileSafari;
 
 // globals
