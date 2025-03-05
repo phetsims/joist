@@ -269,16 +269,17 @@ export default class PreferencesModel extends PhetioObject {
                               phet.chipper.locale.startsWith( 'en' ) ||
                               ( phet.chipper.queryParameters.supportsDynamicLocale && _.some( localeProperty.availableRuntimeLocales, value => value.startsWith( 'en' ) ) )
                             );
-    const supportsVoicing = options.audioOptions.supportsVoicing && voicingSupportedOnPlatform;
-    const supportsTier1Voicing = options.audioOptions.supportsTier1Voicing && voicingSupportedOnPlatform;
-    const supportsAnyVoicing = supportsVoicing || supportsTier1Voicing;
 
     // Audio can be disabled explicitly via query parameter
     const audioEnabled = phet.chipper.queryParameters.audio !== 'disabled';
 
+    const supportsVoicing = options.audioOptions.supportsVoicing && voicingSupportedOnPlatform && audioEnabled;
+    const supportsTier1Voicing = options.audioOptions.supportsTier1Voicing && voicingSupportedOnPlatform && audioEnabled;
+    const supportsAnyVoicing = supportsVoicing || supportsTier1Voicing;
+
     this.audioModel = {
-      supportsVoicing: supportsVoicing && audioEnabled,
-      supportsTier1Voicing: supportsTier1Voicing && audioEnabled,
+      supportsVoicing: supportsVoicing,
+      supportsTier1Voicing: supportsTier1Voicing,
       supportsAnyVoicing: supportsAnyVoicing,
 
       supportsSound: options.audioOptions.supportsSound && audioEnabled,
