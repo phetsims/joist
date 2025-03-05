@@ -76,7 +76,6 @@ import StringIO from '../../tandem/js/types/StringIO.js';
 import dotRandom from '../../dot/js/dotRandom.js';
 
 // constants
-const PROGRESS_BAR_WIDTH = 273;
 const SUPPORTS_GESTURE_DESCRIPTION = platform.android || platform.mobileSafari;
 
 // globals
