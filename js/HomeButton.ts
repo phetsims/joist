@@ -24,8 +24,8 @@ import JoistButton, { type JoistButtonOptions } from './JoistButton.js';
 import JoistStrings from './JoistStrings.js';
 
 // constants
-const homeStringProperty = JoistStrings.a11y.translatable.homeStringProperty;
-const goToScreenPatternStringProperty = JoistStrings.a11y.translatable.goToScreenPatternStringProperty;
+const homeStringProperty = JoistStrings.a11y.homeStringProperty;
+const goToScreenPatternStringProperty = JoistStrings.a11y.goToScreenPatternStringProperty;
 
 type SelfOptions = EmptySelfOptions;
 type HomeButtonOptions = SelfOptions & JoistButtonOptions & PickRequired<JoistButtonOptions, 'listener' | 'tandem'>;

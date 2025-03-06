@@ -43,17 +43,17 @@ const QUICK_INFO = 20;
 // Voicing is only available in English so these contents are hidden because translators will not be able to test
 // them in a translated context. These strings are nested under the a11y key so that they are not available for
 // translation.
-const titleStringProperty = JoistStrings.a11y.translatable.toolbar.voicing.titleStringProperty;
-const quickInfoStringProperty = JoistStrings.a11y.translatable.toolbar.voicing.quickInfoStringProperty;
-const simVoicingOnStringProperty = JoistStrings.a11y.translatable.toolbar.voicing.simVoicingOnAlertStringProperty;
-const simVoicingOffStringProperty = JoistStrings.a11y.translatable.toolbar.voicing.simVoicingOffAlertStringProperty;
-const toolbarStringProperty = JoistStrings.a11y.translatable.toolbar.titleStringProperty;
-const playOverviewStringProperty = JoistStrings.a11y.translatable.toolbar.voicing.playOverviewLabelStringProperty;
-const playDetailsStringProperty = JoistStrings.a11y.translatable.toolbar.voicing.playDetailsLabelStringProperty;
-const playHintStringProperty = JoistStrings.a11y.translatable.toolbar.voicing.playHintLabelStringProperty;
-const overviewStringProperty = JoistStrings.a11y.translatable.toolbar.voicing.overviewLabelStringProperty;
-const detailsStringProperty = JoistStrings.a11y.translatable.toolbar.voicing.detailsLabelStringProperty;
-const hintStringProperty = JoistStrings.a11y.translatable.toolbar.voicing.hintLabelStringProperty;
+const titleStringProperty = JoistStrings.a11y.toolbar.voicing.titleStringProperty;
+const quickInfoStringProperty = JoistStrings.a11y.toolbar.voicing.quickInfoStringProperty;
+const simVoicingOnStringProperty = JoistStrings.a11y.toolbar.voicing.simVoicingOnAlertStringProperty;
+const simVoicingOffStringProperty = JoistStrings.a11y.toolbar.voicing.simVoicingOffAlertStringProperty;
+const toolbarStringProperty = JoistStrings.a11y.toolbar.titleStringProperty;
+const playOverviewStringProperty = JoistStrings.a11y.toolbar.voicing.playOverviewLabelStringProperty;
+const playDetailsStringProperty = JoistStrings.a11y.toolbar.voicing.playDetailsLabelStringProperty;
+const playHintStringProperty = JoistStrings.a11y.toolbar.voicing.playHintLabelStringProperty;
+const overviewStringProperty = JoistStrings.a11y.toolbar.voicing.overviewLabelStringProperty;
+const detailsStringProperty = JoistStrings.a11y.toolbar.voicing.detailsLabelStringProperty;
+const hintStringProperty = JoistStrings.a11y.toolbar.voicing.hintLabelStringProperty;
 
 type SelfOptions = EmptySelfOptions;
 export type VoicingToolbarItemOptions = SelfOptions & StrictOmit<NodeOptions, 'isDisposable'> & PickRequired<NodeOptions, 'tandem'>;

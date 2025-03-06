@@ -24,7 +24,7 @@ import KeyboardHelpDialog from './KeyboardHelpDialog.js';
 import { type AnyScreen } from './Screen.js';
 
 // constants
-const keyboardShortcutsStringProperty = JoistStrings.a11y.translatable.keyboardHelp.keyboardShortcutsStringProperty;
+const keyboardShortcutsStringProperty = JoistStrings.a11y.keyboardHelp.keyboardShortcutsStringProperty;
 const ICON_DESIRED_HEIGHT = 17.085; // empirically determined
 
 type SelfOptions = EmptySelfOptions;

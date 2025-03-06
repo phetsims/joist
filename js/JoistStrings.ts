@@ -146,142 +146,140 @@ type StringsType = {
     }
   };
   'a11y': {
-    'translatable': {
-      'keyboardHelp': {
-        'keyboardShortcutsStringProperty': LocalizedStringProperty;
-        'tabToGetStartedStringProperty': LocalizedStringProperty;
+    'keyboardHelp': {
+      'keyboardShortcutsStringProperty': LocalizedStringProperty;
+      'tabToGetStartedStringProperty': LocalizedStringProperty;
+    };
+    'inThePlayAreaStringProperty': LocalizedStringProperty;
+    'inTheControlAreaStringProperty': LocalizedStringProperty;
+    'simScreensStringProperty': LocalizedStringProperty;
+    'simScreenStringProperty': LocalizedStringProperty;
+    'screenNamePatternStringProperty': LocalizedStringProperty;
+    'goToScreenPatternStringProperty': LocalizedStringProperty;
+    'screenSimPatternStringProperty': LocalizedStringProperty;
+    'homeStringProperty': LocalizedStringProperty;
+    'homeScreenDescriptionPatternStringProperty': LocalizedStringProperty;
+    'homeScreenHintStringProperty': LocalizedStringProperty;
+    'homeScreenIntroPatternStringProperty': LocalizedStringProperty;
+    'homeScreenButtonDetailsPatternStringProperty': LocalizedStringProperty;
+    'simResourcesStringProperty': LocalizedStringProperty;
+    'soundToggle': {
+      'alert': {
+        'simSoundOnStringProperty': LocalizedStringProperty;
+        'simSoundOffStringProperty': LocalizedStringProperty;
       };
-      'inThePlayAreaStringProperty': LocalizedStringProperty;
-      'inTheControlAreaStringProperty': LocalizedStringProperty;
-      'simScreensStringProperty': LocalizedStringProperty;
-      'simScreenStringProperty': LocalizedStringProperty;
-      'screenNamePatternStringProperty': LocalizedStringProperty;
-      'goToScreenPatternStringProperty': LocalizedStringProperty;
-      'screenSimPatternStringProperty': LocalizedStringProperty;
-      'homeStringProperty': LocalizedStringProperty;
-      'homeScreenDescriptionPatternStringProperty': LocalizedStringProperty;
-      'homeScreenHintStringProperty': LocalizedStringProperty;
-      'homeScreenIntroPatternStringProperty': LocalizedStringProperty;
-      'homeScreenButtonDetailsPatternStringProperty': LocalizedStringProperty;
-      'simResourcesStringProperty': LocalizedStringProperty;
-      'soundToggle': {
-        'alert': {
-          'simSoundOnStringProperty': LocalizedStringProperty;
-          'simSoundOffStringProperty': LocalizedStringProperty;
+      'labelStringProperty': LocalizedStringProperty;
+    };
+    'checkOutShortcutsStringProperty': LocalizedStringProperty;
+    'phetMenuStringProperty': LocalizedStringProperty;
+    'preferences': {
+      'tabs': {
+        'labelledDescriptionPatternStringProperty': LocalizedStringProperty;
+        'tabResponsePatternStringProperty': LocalizedStringProperty;
+        'visual': {
+          'interactiveHighlights': {
+            'enabledAlertStringProperty': LocalizedStringProperty;
+            'disabledAlertStringProperty': LocalizedStringProperty;
+          }
         };
-        'labelStringProperty': LocalizedStringProperty;
-      };
-      'checkOutShortcutsStringProperty': LocalizedStringProperty;
-      'phetMenuStringProperty': LocalizedStringProperty;
-      'preferences': {
-        'tabs': {
-          'labelledDescriptionPatternStringProperty': LocalizedStringProperty;
-          'tabResponsePatternStringProperty': LocalizedStringProperty;
-          'visual': {
-            'interactiveHighlights': {
-              'enabledAlertStringProperty': LocalizedStringProperty;
-              'disabledAlertStringProperty': LocalizedStringProperty;
+        'audio': {
+          'sounds': {
+            'soundsOnStringProperty': LocalizedStringProperty;
+            'soundsOffStringProperty': LocalizedStringProperty;
+            'extraSounds': {
+              'extraSoundsOnStringProperty': LocalizedStringProperty;
+              'extraSoundsOffStringProperty': LocalizedStringProperty;
             }
           };
-          'audio': {
-            'sounds': {
-              'soundsOnStringProperty': LocalizedStringProperty;
-              'soundsOffStringProperty': LocalizedStringProperty;
-              'extraSounds': {
-                'extraSoundsOnStringProperty': LocalizedStringProperty;
-                'extraSoundsOffStringProperty': LocalizedStringProperty;
+          'voicing': {
+            'titleStringProperty': LocalizedStringProperty;
+            'voicingOnStringProperty': LocalizedStringProperty;
+            'voicingOffStringProperty': LocalizedStringProperty;
+            'voicingOffOnlyAvailableInEnglishStringProperty': LocalizedStringProperty;
+            'toolbar': {
+              'titleStringProperty': LocalizedStringProperty;
+              'toolbarAddedStringProperty': LocalizedStringProperty;
+              'toolbarRemovedStringProperty': LocalizedStringProperty;
+            };
+            'simVoicingOptions': {
+              'titleStringProperty': LocalizedStringProperty;
+              'descriptionStringProperty': LocalizedStringProperty;
+              'objectDetails': {
+                'labelStringProperty': LocalizedStringProperty;
+                'enabledAlertStringProperty': LocalizedStringProperty;
+                'disabledAlertStringProperty': LocalizedStringProperty;
+              };
+              'contextChanges': {
+                'labelStringProperty': LocalizedStringProperty;
+                'enabledAlertStringProperty': LocalizedStringProperty;
+                'disabledAlertStringProperty': LocalizedStringProperty;
+              };
+              'helpfulHints': {
+                'labelStringProperty': LocalizedStringProperty;
+                'enabledAlertStringProperty': LocalizedStringProperty;
+                'disabledAlertStringProperty': LocalizedStringProperty;
               }
             };
-            'voicing': {
+            'customizeVoice': {
               'titleStringProperty': LocalizedStringProperty;
-              'voicingOnStringProperty': LocalizedStringProperty;
-              'voicingOffStringProperty': LocalizedStringProperty;
-              'voicingOffOnlyAvailableInEnglishStringProperty': LocalizedStringProperty;
-              'toolbar': {
+              'expandedAlertStringProperty': LocalizedStringProperty;
+              'collapsedAlertStringProperty': LocalizedStringProperty;
+              'variablesPatternStringProperty': LocalizedStringProperty;
+              'writtenVariablesPatternStringProperty': LocalizedStringProperty;
+              'voice': {
                 'titleStringProperty': LocalizedStringProperty;
-                'toolbarAddedStringProperty': LocalizedStringProperty;
-                'toolbarRemovedStringProperty': LocalizedStringProperty;
+                'titlePatternStringProperty': LocalizedStringProperty;
+                'noVoicesAvailableStringProperty': LocalizedStringProperty;
               };
-              'simVoicingOptions': {
+              'rate': {
                 'titleStringProperty': LocalizedStringProperty;
-                'descriptionStringProperty': LocalizedStringProperty;
-                'objectDetails': {
-                  'labelStringProperty': LocalizedStringProperty;
-                  'enabledAlertStringProperty': LocalizedStringProperty;
-                  'disabledAlertStringProperty': LocalizedStringProperty;
-                };
-                'contextChanges': {
-                  'labelStringProperty': LocalizedStringProperty;
-                  'enabledAlertStringProperty': LocalizedStringProperty;
-                  'disabledAlertStringProperty': LocalizedStringProperty;
-                };
-                'helpfulHints': {
-                  'labelStringProperty': LocalizedStringProperty;
-                  'enabledAlertStringProperty': LocalizedStringProperty;
-                  'disabledAlertStringProperty': LocalizedStringProperty;
+                'labelStringStringProperty': LocalizedStringProperty;
+                'rangeDescriptions': {
+                  'lowStringProperty': LocalizedStringProperty;
+                  'normalStringProperty': LocalizedStringProperty;
+                  'aboveNormalStringProperty': LocalizedStringProperty;
+                  'highStringProperty': LocalizedStringProperty;
+                  'voiceRateNormalStringProperty': LocalizedStringProperty;
                 }
               };
-              'customizeVoice': {
+              'pitch': {
                 'titleStringProperty': LocalizedStringProperty;
-                'expandedAlertStringProperty': LocalizedStringProperty;
-                'collapsedAlertStringProperty': LocalizedStringProperty;
-                'variablesPatternStringProperty': LocalizedStringProperty;
-                'writtenVariablesPatternStringProperty': LocalizedStringProperty;
-                'voice': {
-                  'titleStringProperty': LocalizedStringProperty;
-                  'titlePatternStringProperty': LocalizedStringProperty;
-                  'noVoicesAvailableStringProperty': LocalizedStringProperty;
-                };
-                'rate': {
-                  'titleStringProperty': LocalizedStringProperty;
-                  'labelStringStringProperty': LocalizedStringProperty;
-                  'rangeDescriptions': {
-                    'lowStringProperty': LocalizedStringProperty;
-                    'normalStringProperty': LocalizedStringProperty;
-                    'aboveNormalStringProperty': LocalizedStringProperty;
-                    'highStringProperty': LocalizedStringProperty;
-                    'voiceRateNormalStringProperty': LocalizedStringProperty;
-                  }
-                };
-                'pitch': {
-                  'titleStringProperty': LocalizedStringProperty;
-                }
               }
             }
-          };
-          'input': {
-            'gestureControl': {
-              'enabledAlertStringProperty': LocalizedStringProperty;
-              'disabledAlertStringProperty': LocalizedStringProperty;
-            }
-          };
-          'localization': {
-            'languageSelection': {
-              'languageChangeResponsePatternStringProperty': LocalizedStringProperty;
-            }
+          }
+        };
+        'input': {
+          'gestureControl': {
+            'enabledAlertStringProperty': LocalizedStringProperty;
+            'disabledAlertStringProperty': LocalizedStringProperty;
+          }
+        };
+        'localization': {
+          'languageSelection': {
+            'languageChangeResponsePatternStringProperty': LocalizedStringProperty;
           }
         }
-      };
-      'toolbar': {
+      }
+    };
+    'toolbar': {
+      'titleStringProperty': LocalizedStringProperty;
+      'openToolbarStringProperty': LocalizedStringProperty;
+      'closeToolbarStringProperty': LocalizedStringProperty;
+      'hideToolbarStringProperty': LocalizedStringProperty;
+      'showToolbarStringProperty': LocalizedStringProperty;
+      'toolbarShownStringProperty': LocalizedStringProperty;
+      'toolbarHiddenStringProperty': LocalizedStringProperty;
+      'voicing': {
         'titleStringProperty': LocalizedStringProperty;
-        'openToolbarStringProperty': LocalizedStringProperty;
-        'closeToolbarStringProperty': LocalizedStringProperty;
-        'hideToolbarStringProperty': LocalizedStringProperty;
-        'showToolbarStringProperty': LocalizedStringProperty;
-        'toolbarShownStringProperty': LocalizedStringProperty;
-        'toolbarHiddenStringProperty': LocalizedStringProperty;
-        'voicing': {
-          'titleStringProperty': LocalizedStringProperty;
-          'quickInfoStringProperty': LocalizedStringProperty;
-          'playOverviewLabelStringProperty': LocalizedStringProperty;
-          'playDetailsLabelStringProperty': LocalizedStringProperty;
-          'playHintLabelStringProperty': LocalizedStringProperty;
-          'overviewLabelStringProperty': LocalizedStringProperty;
-          'detailsLabelStringProperty': LocalizedStringProperty;
-          'hintLabelStringProperty': LocalizedStringProperty;
-          'simVoicingOnAlertStringProperty': LocalizedStringProperty;
-          'simVoicingOffAlertStringProperty': LocalizedStringProperty;
-        }
+        'quickInfoStringProperty': LocalizedStringProperty;
+        'playOverviewLabelStringProperty': LocalizedStringProperty;
+        'playDetailsLabelStringProperty': LocalizedStringProperty;
+        'playHintLabelStringProperty': LocalizedStringProperty;
+        'overviewLabelStringProperty': LocalizedStringProperty;
+        'detailsLabelStringProperty': LocalizedStringProperty;
+        'hintLabelStringProperty': LocalizedStringProperty;
+        'simVoicingOnAlertStringProperty': LocalizedStringProperty;
+        'simVoicingOffAlertStringProperty': LocalizedStringProperty;
       }
     }
   }

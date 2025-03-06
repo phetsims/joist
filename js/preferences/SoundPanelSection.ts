@@ -30,11 +30,11 @@ const soundsLabelStringProperty = JoistStrings.preferences.tabs.audio.sounds.tit
 const extraSoundsLabelStringProperty = JoistStrings.preferences.tabs.audio.sounds.extraSounds.titleStringProperty;
 const soundDescriptionStringProperty = JoistStrings.preferences.tabs.audio.sounds.descriptionStringProperty;
 const extraSoundsDescriptionStringProperty = JoistStrings.preferences.tabs.audio.sounds.extraSounds.descriptionStringProperty;
-const soundsOnStringProperty = JoistStrings.a11y.translatable.preferences.tabs.audio.sounds.soundsOnStringProperty;
-const soundsOffStringProperty = JoistStrings.a11y.translatable.preferences.tabs.audio.sounds.soundsOffStringProperty;
-const extraSoundsOnStringProperty = JoistStrings.a11y.translatable.preferences.tabs.audio.sounds.extraSounds.extraSoundsOnStringProperty;
-const extraSoundsOffStringProperty = JoistStrings.a11y.translatable.preferences.tabs.audio.sounds.extraSounds.extraSoundsOffStringProperty;
-const labelledDescriptionPatternStringProperty = JoistStrings.a11y.translatable.preferences.tabs.labelledDescriptionPatternStringProperty;
+const soundsOnStringProperty = JoistStrings.a11y.preferences.tabs.audio.sounds.soundsOnStringProperty;
+const soundsOffStringProperty = JoistStrings.a11y.preferences.tabs.audio.sounds.soundsOffStringProperty;
+const extraSoundsOnStringProperty = JoistStrings.a11y.preferences.tabs.audio.sounds.extraSounds.extraSoundsOnStringProperty;
+const extraSoundsOffStringProperty = JoistStrings.a11y.preferences.tabs.audio.sounds.extraSounds.extraSoundsOffStringProperty;
+const labelledDescriptionPatternStringProperty = JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
 
 type SelfOptions = {
 

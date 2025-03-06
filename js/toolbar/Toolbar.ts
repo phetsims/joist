@@ -42,12 +42,12 @@ const MAX_ANIMATION_SPEED = 250; // in view coordinates per second, assuming 60 
 const CONTENT_TOP_MARGIN = 15; // margin between top of Toolbar and contents
 
 // constants
-const openToolbarStringProperty = JoistStrings.a11y.translatable.toolbar.openToolbarStringProperty;
-const closeToolbarStringProperty = JoistStrings.a11y.translatable.toolbar.closeToolbarStringProperty;
-const hideToolbarStringProperty = JoistStrings.a11y.translatable.toolbar.hideToolbarStringProperty;
-const showToolbarStringProperty = JoistStrings.a11y.translatable.toolbar.showToolbarStringProperty;
-const toolbarShownStringProperty = JoistStrings.a11y.translatable.toolbar.toolbarShownStringProperty;
-const toolbarHiddenStringProperty = JoistStrings.a11y.translatable.toolbar.toolbarHiddenStringProperty;
+const openToolbarStringProperty = JoistStrings.a11y.toolbar.openToolbarStringProperty;
+const closeToolbarStringProperty = JoistStrings.a11y.toolbar.closeToolbarStringProperty;
+const hideToolbarStringProperty = JoistStrings.a11y.toolbar.hideToolbarStringProperty;
+const showToolbarStringProperty = JoistStrings.a11y.toolbar.showToolbarStringProperty;
+const toolbarShownStringProperty = JoistStrings.a11y.toolbar.toolbarShownStringProperty;
+const toolbarHiddenStringProperty = JoistStrings.a11y.toolbar.toolbarHiddenStringProperty;
 
 type SelfOptions = EmptySelfOptions;
 type ToolbarOptions = EmptySelfOptions & StrictOmit<NodeOptions, 'isDisposable'>;

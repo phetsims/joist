@@ -80,10 +80,10 @@ class NavigationBarAudioToggleButton extends JoistButton {
       phetioFeatured: true,
 
       // pdom
-      accessibleName: JoistStrings.a11y.translatable.soundToggle.labelStringProperty,
+      accessibleName: JoistStrings.a11y.soundToggle.labelStringProperty,
 
       // voicing
-      voicingNameResponse: JoistStrings.a11y.translatable.soundToggle.labelStringProperty
+      voicingNameResponse: JoistStrings.a11y.soundToggle.labelStringProperty
     }, providedOptions );
 
     assert && assert( options.listener === undefined, 'NavigationBarAudioToggleButton sets listener' );
@@ -176,8 +176,8 @@ class NavigationBarAudioToggleButton extends JoistButton {
       if ( options.supportsAudioPreferences ) {
         this.setPDOMAttribute( 'aria-pressed', enabled );
 
-        soundUtterance.alert = enabled ? JoistStrings.a11y.translatable.soundToggle.alert.simSoundOnStringProperty
-                                       : JoistStrings.a11y.translatable.soundToggle.alert.simSoundOffStringProperty;
+        soundUtterance.alert = enabled ? JoistStrings.a11y.soundToggle.alert.simSoundOnStringProperty
+                                       : JoistStrings.a11y.soundToggle.alert.simSoundOffStringProperty;
         this.alertDescriptionUtterance( soundUtterance );
         if ( voicingManager.voicingFullyEnabledProperty.value ) {
           voicingManager.speakIgnoringEnabled( soundUtterance );
