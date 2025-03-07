@@ -126,7 +126,6 @@
 
   function createStop( offset, color ) {
     const stop = document.createElementNS( XML_NAMESPACE, 'stop' );
-    stop.offset = offset;
     stop.setAttribute( 'offset', offset );
     stop.setAttribute( 'stop-color', color );
     return stop;
