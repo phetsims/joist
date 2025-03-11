@@ -16,10 +16,12 @@ import type TProperty from '../../axon/js/TProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
 import platform from '../../phet-core/js/platform.js';
 import KeyboardFuzzer from '../../scenery/js/accessibility/KeyboardFuzzer.js';
+import { styleForHiddenPDOM } from '../../scenery/js/accessibility/pdom/PDOMSiblingStyle.js';
 import Display, { type DisplayOptions } from '../../scenery/js/display/Display.js';
 import InputFuzzer from '../../scenery/js/input/InputFuzzer.js';
 import animatedPanZoomSingleton from '../../scenery/js/listeners/animatedPanZoomSingleton.js';
 import Node, { type RendererType } from '../../scenery/js/nodes/Node.js';
+import Text from '../../scenery/js/nodes/Text.js';
 import scenery from '../../scenery/js/scenery.js';
 import Utils from '../../scenery/js/util/Utils.js';
 import '../../sherpa/lib/game-up-camera-1.0.0.js';
@@ -244,6 +246,34 @@ export default class SimDisplay extends Display {
       // animate the PanZoomListener, for smooth panning/scaling
       animatedPanZoomSingleton.listener.step( dt );
     }
+  }
+
+  /**
+   * In simulations that do not support Interactive Description or any keyboard-focusable content, the simulation is a
+   * black box that cannot even receive browser focus. In some cases, this can be buggy.
+   *
+   * For example using global
+   * keyboard listeners without any ability to focus in the sim is buggy in iframes: https://github.com/phetsims/circuit-construction-kit-common/issues/1027
+   *
+   * This function will return null when the simDisplay is accessible because this element is not needed when there
+   * are any other focusable elements in the sim (which is assumed to be true in any simulation PDOM).
+   */
+  public getFocusablePlaceholder(): HTMLElement | null {
+    if ( !this.isAccessible() ) {
+      const focusablePlaceholder = document.createElement( 'div' );
+      focusablePlaceholder.tabIndex = 0;
+      const content = document.createElement( 'span' );
+      const string = 'This is an interactive sim. It changes as you play with it.';
+      const htmlEscaped = new Text( string ).renderedText;
+      content.innerHTML = htmlEscaped;
+      content.ariaLabel = htmlEscaped;
+      content.setAttribute( 'style', styleForHiddenPDOM ); // Hide this from visual output
+      focusablePlaceholder.appendChild( content );
+      document.body.appendChild( focusablePlaceholder );
+      return focusablePlaceholder;
+    }
+
+    return null;
   }
 }
 
