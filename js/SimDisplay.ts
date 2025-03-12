@@ -21,7 +21,6 @@ import Display, { type DisplayOptions } from '../../scenery/js/display/Display.j
 import InputFuzzer from '../../scenery/js/input/InputFuzzer.js';
 import animatedPanZoomSingleton from '../../scenery/js/listeners/animatedPanZoomSingleton.js';
 import Node, { type RendererType } from '../../scenery/js/nodes/Node.js';
-import Text from '../../scenery/js/nodes/Text.js';
 import scenery from '../../scenery/js/scenery.js';
 import Utils from '../../scenery/js/util/Utils.js';
 import '../../sherpa/lib/game-up-camera-1.0.0.js';
@@ -46,6 +45,9 @@ export default class SimDisplay extends Display {
   private readonly keyboardFuzzer: KeyboardFuzzer;
 
   private readonly supportsPanAndZoomProperty: TProperty<boolean>;
+
+  // In non-accessible simulations, there are cases where we want a focusable element in the sim.
+  private focusablePlaceholder: HTMLElement | null = null;
 
   // For consistent option defaults
   public static readonly DEFAULT_WEBGL = false;
@@ -259,21 +261,24 @@ export default class SimDisplay extends Display {
    * are any other focusable elements in the sim (which is assumed to be true in any simulation PDOM).
    */
   public getFocusablePlaceholder(): HTMLElement | null {
-    if ( !this.isAccessible() ) {
-      const focusablePlaceholder = document.createElement( 'div' );
-      focusablePlaceholder.tabIndex = 0;
+    if ( this.focusablePlaceholder ) {
+      return this.focusablePlaceholder;
+    }
+    else if ( !this.isAccessible() ) {
+      this.focusablePlaceholder = document.createElement( 'div' );
+      this.focusablePlaceholder.tabIndex = 0;
       const content = document.createElement( 'span' );
       const string = 'This is an interactive sim. It changes as you play with it.';
-      const htmlEscaped = new Text( string ).renderedText;
-      content.innerHTML = htmlEscaped;
-      content.ariaLabel = htmlEscaped;
+      content.innerHTML = string;
+      content.ariaLabel = string;
       content.setAttribute( 'style', styleForHiddenPDOM ); // Hide this from visual output
-      focusablePlaceholder.appendChild( content );
-      document.body.appendChild( focusablePlaceholder );
-      return focusablePlaceholder;
+      this.focusablePlaceholder.appendChild( content );
+      document.body.appendChild( this.focusablePlaceholder );
+      return this.focusablePlaceholder;
     }
-
-    return null;
+    else {
+      return null;
+    }
   }
 }
 
