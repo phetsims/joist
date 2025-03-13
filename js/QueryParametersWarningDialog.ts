@@ -8,6 +8,7 @@
  */
 
 import optionize, { type EmptySelfOptions } from '../../phet-core/js/optionize.js';
+import { type Warning } from '../../query-string-machine/js/QueryStringMachineModule.js';
 import OopsDialog, { type OopsDialogOptions } from '../../scenery-phet/js/OopsDialog.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import Text from '../../scenery/js/nodes/Text.js';
@@ -24,10 +25,7 @@ class QueryParametersWarningDialog extends OopsDialog {
    * @param warnings - see QueryStringMachine.warnings
    * @param [providedOptions]
    */
-  public constructor(
-    // See phet-types.d.ts
-    warnings: Warning[], // eslint-disable-line no-undef
-    providedOptions?: QueryParametersWarningDialogOptions ) {
+  public constructor( warnings: Warning[], providedOptions?: QueryParametersWarningDialogOptions ) {
 
     assert && assert( warnings.length > 0, `expected 1 or more warnings: ${warnings.length}` );
 
