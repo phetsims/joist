@@ -275,7 +275,7 @@ export default class PreferencesModel extends PhetioObject {
                             );
 
     // Audio can be disabled explicitly via query parameter
-    const audioEnabled = phet.chipper.queryParameters.audio !== 'disabled';
+    const audioEnabled = audioManager.audioAllowed;
 
     this.audioModel = {
       supportsVoicing: supportsVoicing && audioEnabled,
@@ -476,6 +476,10 @@ export default class PreferencesModel extends PhetioObject {
    * Returns true if the AudioModel has any preferences that can be changed.
    */
   public supportsAudioPreferences(): boolean {
+
+    // If audio is disabled, no audio preferences are supported. Note that audioModel.supports*
+    // fields are false when audio is disabled. But preferenceModelHasCustom may still return true.
+    if ( !audioManager.audioAllowed ) { return false; }
     return this.audioModel.supportsSound ||
            this.audioModel.supportsExtraSound ||
            this.audioModel.supportsVoicing ||
