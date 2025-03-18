@@ -35,8 +35,11 @@ const ANY_AUDIO_SUPPORTED = phet.chipper.supportsAnyVoicing() || phet.chipper.qu
 
 class AudioManager extends PhetioObject {
 
+  // All audio can be disabled from a query parameter. If disabled, it cannot be enabled by the user in preferences.
+  public readonly audioAllowed = phet.chipper.queryParameters.audio !== 'disabled';
+
   // Whether all features involving audio are enabled (including sound, extra sound, and voicing). When false,
-  // everything should be totally silent.
+  // everything should be totally silent. This can change from user settings, unless audio is disabled.
   public readonly audioEnabledProperty: BooleanProperty;
 
   // Indicates when both Audio and Sound are enabled. When false, the soundManager will not produce any sound.
