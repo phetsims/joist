@@ -236,7 +236,7 @@ class NavigationBarScreenButton extends Voicing( Node ) {
       text.maxWidth = this.width;
     }
 
-    needsIconMaxWidth && assert && assert( toFixed( this.width, 0 ) === toFixed( options.maxButtonWidth!, 0 ),
+    assert && needsIconMaxWidth && assert( toFixed( this.width, 0 ) === toFixed( options.maxButtonWidth!, 0 ),
       `this.width ${this.width} !== options.maxButtonWidth ${options.maxButtonWidth}` );
 
     // A custom focus highlight so that the bottom of the highlight does not get cut-off below the navigation bar.

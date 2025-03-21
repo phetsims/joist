@@ -1017,7 +1017,7 @@ export default class Sim extends PhetioObject {
                 window.phetSplashScreen.dispose();
               }
               // Sanity check that there is no phetio object in phet brand, see https://github.com/phetsims/phet-io/issues/1229
-              phet.chipper.brand === 'phet' && assert && assert( !Tandem.PHET_IO_ENABLED, 'window.phet.preloads.phetio should not exist for phet brand' );
+              assert && phet.chipper.brand === 'phet' && assert( !Tandem.PHET_IO_ENABLED, 'window.phet.preloads.phetio should not exist for phet brand' );
 
               this.simStartedTime = Date.now();
 
