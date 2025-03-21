@@ -20,7 +20,7 @@
   let splashImageWidth = 0;
   let splashImageHeight = 0;
 
-  const PROGRESS_BAR_WIDTH = '273';
+  const PROGRESS_BAR_WIDTH = 273;
   const RADIUS = '3';
 
   /**
@@ -154,7 +154,7 @@
   progressBarBackground.setAttribute( 'id', 'progressBarBackground' );
   progressBarBackground.setAttribute( 'x', '1' ); // prevent clipping on the left side, see https://github.com/phetsims/joist/issues/400
   progressBarBackground.setAttribute( 'y', '1' );
-  progressBarBackground.setAttribute( 'width', PROGRESS_BAR_WIDTH );
+  progressBarBackground.setAttribute( 'width', `${PROGRESS_BAR_WIDTH}px` );
   progressBarBackground.setAttribute( 'height', '10' );
   progressBarBackground.setAttribute( 'rx', RADIUS );
   progressBarBackground.setAttribute( 'ry', RADIUS );
@@ -192,7 +192,7 @@
     // PhET-iO brand shows a different progress bar
     if ( brand === 'phet-io' ) {
       progressBarForeground.setAttribute( 'style', 'fill:url(#phetioGradient); clip-path:url(#progressBarClip);' );
-      progressBarForeground.setAttribute( 'width', PROGRESS_BAR_WIDTH );
+      progressBarForeground.setAttribute( 'width', `${PROGRESS_BAR_WIDTH}px` );
     }
 
     return PROGRESS_BAR_WIDTH;
