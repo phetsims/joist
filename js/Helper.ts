@@ -20,6 +20,7 @@ import { isTReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import type Dimension2 from '../../dot/js/Dimension2.js';
 import type Matrix3 from '../../dot/js/Matrix3.js';
+import { toFixed } from '../../dot/js/util/toFixed.js';
 import Vector2 from '../../dot/js/Vector2.js';
 import Shape from '../../kite/js/Shape.js';
 import Enumeration from '../../phet-core/js/Enumeration.js';
@@ -77,7 +78,6 @@ import joist from './joist.js';
 import type ScreenView from './ScreenView.js';
 import type Sim from './Sim.js';
 import type SimDisplay from './SimDisplay.js';
-import { toFixed } from '../../dot/js/util/toFixed.js';
 
 const round = ( n: number, places = 2 ) => toFixed( n, places );
 
@@ -1564,13 +1564,13 @@ const createInfo = ( trail: Trail ): Node[] => {
 
   const addSimple = ( key: string, value: unknown ) => {
     if ( value !== undefined ) {
-      addRaw( key, new RichText( '' + value, {
+      addRaw( key, new RichText( '' + JSON.stringify( value ), {
         lineWrap: 400,
         font: new PhetFont( 12 ),
         cursor: 'pointer',
         inputListeners: [
           new FireListener( {
-            fire: () => copyToClipboard( '' + value ),
+            fire: () => copyToClipboard( '' + JSON.stringify( value ) ),
             tandem: Tandem.OPT_OUT
           } )
         ]

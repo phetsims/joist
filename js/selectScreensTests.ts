@@ -56,7 +56,7 @@ const getQueryParameterValues = ( queryString: string ) => {
  * Formats a message for each testValidScreenSelector result
  */
 const formatMessage = ( key: keyof ScreenReturnType, expectedResult: ScreenReturnType, result: ScreenReturnType, description: string ): string =>
-  `expected ${key}: ${expectedResult[ key ]}, actual ${key}: ${result[ key ]} for valid selectScreens test ${description}`;
+  `expected ${key}: ${JSON.stringify( expectedResult[ key ] )}, actual ${key}: ${JSON.stringify( result[ key ] )} for valid selectScreens test ${description}`;
 
 /**
  * Format the query string + all sim screens to uniquely identify the test.
