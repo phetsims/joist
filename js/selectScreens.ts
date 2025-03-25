@@ -1,6 +1,7 @@
 // Copyright 2020-2025, University of Colorado Boulder
 
 import type IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
+import { QueryStringMachine } from '../../query-string-machine/js/QueryStringMachineModule.js';
 import type HomeScreen from './HomeScreen.js';
 import joist from './joist.js';
 import { type AnyScreen } from './Screen.js';

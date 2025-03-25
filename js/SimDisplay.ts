@@ -15,6 +15,7 @@ import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import type TProperty from '../../axon/js/TProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
 import platform from '../../phet-core/js/platform.js';
+import { QueryStringMachine } from '../../query-string-machine/js/QueryStringMachineModule.js';
 import KeyboardFuzzer from '../../scenery/js/accessibility/KeyboardFuzzer.js';
 import { styleForHiddenPDOM } from '../../scenery/js/accessibility/pdom/PDOMSiblingStyle.js';
 import Display, { type DisplayOptions } from '../../scenery/js/display/Display.js';

@@ -8,6 +8,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import { QueryStringMachine } from '../../query-string-machine/js/QueryStringMachineModule.js';
 import type HomeScreen from './HomeScreen.js';
 import { type AnyScreen } from './Screen.js';
 import selectScreens, { type ScreenReturnType } from './selectScreens.js';
