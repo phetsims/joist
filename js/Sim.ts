@@ -38,6 +38,7 @@ import platform from '../../phet-core/js/platform.js';
 import type IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import type PickOptional from '../../phet-core/js/types/PickOptional.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';
+import { QueryStringMachine } from '../../query-string-machine/js/QueryStringMachineModule.js';
 import BarrierRectangle from '../../scenery-phet/js/BarrierRectangle.js';
 import globalKeyStateTracker from '../../scenery/js/accessibility/globalKeyStateTracker.js';
 import HighlightPath from '../../scenery/js/accessibility/HighlightPath.js';
@@ -854,9 +855,14 @@ export default class Sim extends PhetioObject {
     // Kick off checking for updates, if that is enabled
     updateCheck.check();
 
+    const qsmWarnings = [
+      ...self.QueryStringMachine.warnings,
+      ...QueryStringMachine.warnings
+    ];
+
     // If there are warnings, show them in a dialog
-    if ( QueryStringMachine.warnings.length ) {
-      const warningDialog = new QueryParametersWarningDialog( QueryStringMachine.warnings, {
+    if ( qsmWarnings.length > 0 ) {
+      const warningDialog = new QueryParametersWarningDialog( qsmWarnings, {
         closeButtonListener: () => {
           warningDialog.hide();
           warningDialog.dispose();
