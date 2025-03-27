@@ -189,7 +189,7 @@ class Toolbar extends Node {
           contextResponse: alertProperty
         } );
 
-        this.alertDescriptionUtterance( alertProperty );
+        this.addAccessibleResponse( alertProperty );
       }
     };
     this.openProperty.link( isOpenListener );
