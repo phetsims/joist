@@ -166,8 +166,8 @@ class NavigationBarScreenButton extends Voicing( Node ) {
 
     // manage interaction feedback
     Multilink.multilink(
-      [ selectedProperty, this.buttonModel.looksPressedProperty, this.buttonModel.looksOverProperty, navigationBarFillProperty, this.buttonModel.enabledProperty ],
-      ( selected, looksPressed, looksOver, navigationBarFill, enabled ) => {
+      [ selectedProperty, this.buttonModel.looksPressedProperty, this.buttonModel.isOverOrFocusedProperty, navigationBarFillProperty, this.buttonModel.enabledProperty ],
+      ( selected, looksPressed, overOrFocused, navigationBarFill, enabled ) => {
 
         const useDarkenHighlights = !navigationBarFill.equals( Color.BLACK );
 
@@ -178,8 +178,8 @@ class NavigationBarScreenButton extends Voicing( Node ) {
         text.fill = selected ? selectedTextColor : unselectedTextColor;
         iconAndText.opacity = selected ? 1.0 : ( looksPressed ? 0.65 : 0.5 );
 
-        brightenHighlight.visible = !useDarkenHighlights && enabled && ( looksOver || looksPressed );
-        darkenHighlight.visible = useDarkenHighlights && enabled && ( looksOver || looksPressed );
+        brightenHighlight.visible = !useDarkenHighlights && enabled && ( overOrFocused || looksPressed );
+        darkenHighlight.visible = useDarkenHighlights && enabled && ( overOrFocused || looksPressed );
 
         // Put a frame around the screen icon, depending on the navigation bar background color.
         if ( screen.showScreenIconFrameForNavigationBarFill === 'black' && navigationBarFill.equals( Color.BLACK ) ) {
