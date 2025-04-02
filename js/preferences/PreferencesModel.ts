@@ -13,6 +13,7 @@ import type Property from '../../../axon/js/Property.js';
 import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import merge from '../../../phet-core/js/merge.js';
 import optionize, { type EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import IntentionalAny from '../../../phet-core/js/types/IntentionalAny.js';
 import voicingManager from '../../../scenery/js/accessibility/voicing/voicingManager.js';
 import voicingUtteranceQueue from '../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import type Node from '../../../scenery/js/nodes/Node.js';
@@ -506,7 +507,7 @@ export default class PreferencesModel extends PhetioObject {
            this.supportsAudioPreferences();
   }
 
-  public static PreferencesModelIO = new IOType( 'PreferencesModelIO', {
+  public static PreferencesModelIO = new IOType<IntentionalAny, IntentionalAny>( 'PreferencesModelIO', {
     valueType: PreferencesModel,
 
     toStateObject: ( preferencesModel: PreferencesModel ) => {

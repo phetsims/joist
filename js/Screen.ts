@@ -115,7 +115,7 @@ class Screen<M extends TModel, V extends ScreenView> extends PhetioObject {
   public static readonly HOME_SCREEN_ICON_ASPECT_RATIO = HOME_SCREEN_ICON_ASPECT_RATIO;
   public static readonly MINIMUM_HOME_SCREEN_ICON_SIZE = MINIMUM_HOME_SCREEN_ICON_SIZE;
   public static readonly MINIMUM_NAVBAR_ICON_SIZE = MINIMUM_NAVBAR_ICON_SIZE;
-  public static readonly ScreenIO = new IOType( 'ScreenIO', {
+  public static readonly ScreenIO = new IOType<IntentionalAny, IntentionalAny>( 'ScreenIO', {
     valueType: Screen,
     supertype: ReferenceIO( IOType.ObjectIO ),
     documentation: 'Section of a simulation which has its own model and view.'

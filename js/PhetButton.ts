@@ -11,6 +11,7 @@
 import Multilink from '../../axon/js/Multilink.js';
 import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import type TBrand from '../../brand/js/TBrand.js';
+import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import AriaHasPopUpMutator from '../../scenery/js/accessibility/pdom/AriaHasPopUpMutator.js';
 import Image from '../../scenery/js/nodes/Image.js';
 import Line from '../../scenery/js/nodes/Line.js';
@@ -42,7 +43,7 @@ class PhetButton extends JoistButton {
    * the sim. It doesn't inherit from NodeIO because we neither need all of NodeIO's API methods, nor do we want to
    * support maintaining overriding no-ops in this file see https://github.com/phetsims/scenery/issues/711 for more info.
    */
-  public static readonly PhetButtonIO = new IOType( 'PhetButtonIO', {
+  public static readonly PhetButtonIO = new IOType<IntentionalAny, IntentionalAny>( 'PhetButtonIO', {
     valueType: PhetButton,
     documentation: 'The PhET Button in the bottom right of the screen'
   } );

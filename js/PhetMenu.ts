@@ -14,6 +14,7 @@ import Shape from '../../kite/js/Shape.js';
 import optionize, { type EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import platform from '../../phet-core/js/platform.js';
 import stripEmbeddingMarks from '../../phet-core/js/stripEmbeddingMarks.js';
+import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import type WithRequired from '../../phet-core/js/types/WithRequired.js';
 import PDOMUtils from '../../scenery/js/accessibility/pdom/PDOMUtils.js';
 import HSeparator from '../../scenery/js/layout/nodes/HSeparator.js';
@@ -328,7 +329,7 @@ class PhetMenu extends Popupable( Node, 0 ) {
     super.dispose();
   }
 
-  public static PhetMenuIO = new IOType( 'PhetMenuIO', {
+  public static PhetMenuIO = new IOType<IntentionalAny, IntentionalAny>( 'PhetMenuIO', {
     valueType: PhetMenu,
     documentation: 'The PhET Menu in the bottom right of the screen'
   } );
