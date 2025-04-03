@@ -846,7 +846,6 @@ export default class Sim extends PhetioObject {
         this.resizePending = true;
       }
     };
-    $( window ).resize( resizeListener );
     window.addEventListener( 'resize', resizeListener );
     window.addEventListener( 'orientationchange', resizeListener );
     window.visualViewport && window.visualViewport.addEventListener( 'resize', resizeListener );

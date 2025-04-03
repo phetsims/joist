@@ -55,7 +55,13 @@ class Profiler {
     }
 
     // this is where the profiler displays its output
-    $( 'body' ).append( '<div style="z-index: 99999999;position: absolute;color:red; left: 10px;" id="phetProfiler" ></div>' );
+    const div = document.createElement( 'div' );
+    div.id = 'phetProfiler';
+    div.style.zIndex = '99999999';
+    div.style.position = 'absolute';
+    div.style.color = 'red';
+    div.style.left = '10px';
+    document.body.appendChild( div );
   }
 
   public static start( sim: Sim ): void {
@@ -96,7 +102,7 @@ class Profiler {
       }
 
       // update the display
-      $( '#phetProfiler' ).html( text );
+      document.querySelector( '#phetProfiler' )!.innerHTML = text;
 
       // clear data structures
       for ( let i = 0; i < HISTOGRAM_LENGTH; i++ ) {
