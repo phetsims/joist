@@ -754,7 +754,9 @@ export default class Sim extends PhetioObject {
     // Third party support
     phet.chipper.queryParameters.legendsOfLearning && new LegendsOfLearningSupport( this ).start();
 
-    assert && this.auditScreenNameKeys();
+    if ( !phet.chipper.isSceneryStack ) {
+      assert && this.auditScreenNameKeys();
+    }
   }
 
   /**
