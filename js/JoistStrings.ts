@@ -150,8 +150,8 @@ type StringsType = {
       'keyboardShortcutsStringProperty': LocalizedStringProperty;
       'tabToGetStartedStringProperty': LocalizedStringProperty;
     };
-    'inThePlayAreaStringProperty': LocalizedStringProperty;
-    'inTheControlAreaStringProperty': LocalizedStringProperty;
+    'inPlayAreaStringProperty': LocalizedStringProperty;
+    'inControlAreaStringProperty': LocalizedStringProperty;
     'simScreensStringProperty': LocalizedStringProperty;
     'simScreenStringProperty': LocalizedStringProperty;
     'screenNamePatternStringProperty': LocalizedStringProperty;

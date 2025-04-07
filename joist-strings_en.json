@@ -360,11 +360,11 @@
         "value": "Tab to get started."
       }
     },
-    "inThePlayArea": {
-      "value": "In the Play Area:"
+    "inPlayArea": {
+      "value": "In Play Area:"
     },
-    "inTheControlArea": {
-      "value": "In the Control Area:"
+    "inControlArea": {
+      "value": "In Control Area:"
     },
     "simScreens": {
       "value": "Sim Screens"
