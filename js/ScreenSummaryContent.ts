@@ -28,13 +28,24 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+// If you need customizable PDOM content (lists, headings, etc.), use this type.
 type VoiceableNode = {
 
   // A Node with customized structure for the accessible PDOM.
   node: Node;
 
-  // An array of strings for this Node that will be read in order for the Voicing feature.
+  // The equivalent VoicingContent for the custom Node. Read in order.
   voicingContent?: TReadOnlyProperty<string>[];
+};
+
+// If you need the Voicing content to be different from the Interactive Description content, use this type.
+type CustomizedVoicingContent = {
+
+  // An array of string Properties for this content that will appear in order in the PDOM.
+  descriptionContent: TReadOnlyProperty<string>[];
+
+  // An array of strings for this content that will be read in order by the Voicing feature.
+  voicingContent: TReadOnlyProperty<string>[];
 };
 
 import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
@@ -44,7 +55,7 @@ import joist from '../../joist/js/joist.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import JoistStrings from './JoistStrings.js';
 
-type SectionContent = TReadOnlyProperty<string> | Array<TReadOnlyProperty<string>> | VoiceableNode | null;
+type SectionContent = TReadOnlyProperty<string> | Array<TReadOnlyProperty<string>> | VoiceableNode | CustomizedVoicingContent | null;
 
 type SelfOptions = {
 
@@ -287,18 +298,26 @@ export default class ScreenSummaryContent extends Node {
       return [];
     }
     else {
-      if ( Array.isArray( content ) ) {
+
+      // If the content uses customized Voicing content, we need to get the description content from it.
+      const descriptionContent = ( content as CustomizedVoicingContent ).descriptionContent || content;
+
+      if ( Array.isArray( descriptionContent ) ) {
 
         // If item is a Node, just add it to the array
-        return content.map( item => {
+        return descriptionContent.map( item => {
           return this.createNode( item );
         } );
       }
-      else if ( isTReadOnlyProperty( content ) ) {
-        return [ this.createNode( content ) ];
+      else if ( isTReadOnlyProperty( descriptionContent ) ) {
+        return [ this.createNode( descriptionContent ) ];
       }
       else {
-        return [ content.node ];
+
+        // The descriptionContent must be a VoiceableNode in this case, so we need to get the node from it
+        const node = ( descriptionContent as VoiceableNode ).node;
+        assert && assert( node, 'For this case the descriptionContent must be of type VoiceableNode' );
+        return [ node ];
       }
     }
   }
