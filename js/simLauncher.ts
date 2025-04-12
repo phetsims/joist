@@ -36,8 +36,6 @@ if ( Tandem.PHET_IO_ENABLED ) {
     .catch( err => assert && assert( false, err ) );
 }
 
-const unlockLaunch = asyncLoader.createLock( { name: 'launch' } );
-
 class SimLauncher {
 
   private launchComplete: boolean; // Marked as true when simLauncher has finished its work cycle and control is given over to the simulation to finish initialization.
@@ -94,7 +92,7 @@ class SimLauncher {
         window.phet.joist.launchSimulation();
       }
     } );
-    unlockLaunch();
+    asyncLoader.stageComplete();
 
     // Signify that the simLauncher was called, see https://github.com/phetsims/joist/issues/142
     window.phet.joist.launchCalled = true;
