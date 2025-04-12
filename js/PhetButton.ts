@@ -54,6 +54,11 @@ class PhetButton extends JoistButton {
     const Brand: TBrand = phet.brand.Brand;
     assert && assert( Brand, 'Brand should exist by now' );
 
+    // These PhET logos have atypical alignment, relying on the whitespace at the top of the image to center the logo,
+    // and aligning the kebab menu with the BOTTOM of the image, not the center.
+    // If this is false, we'll just center-align things.
+    const hasCustomAlignment = Brand.name === 'phet' || Brand.name === 'phet-io' || Brand.name === 'adapted-from-phet';
+
     // The logo images are loaded from the brand which is selected via query parameter (during unbuilt mode)
     // or a grunt option (during the build), please see initialize-globals.js window.phet.chipper.brand for more
     // details
@@ -70,9 +75,15 @@ class PhetButton extends JoistButton {
     const menuIcon = new KebabMenuIcon( {
       scale: 0.83,
       left: logoImage.width + 8,
-      bottom: logoImage.bottom - 0.5,
       pickable: false
     } );
+
+    if ( hasCustomAlignment ) {
+      menuIcon.bottom = logoImage.bottom - 0.5;
+    }
+    else {
+      menuIcon.centerY = logoImage.centerY;
+    }
 
     // Assert here means that ?ea was provided (potentially from the wrapper) AND that there are actually assertions
     // available for debugging.
@@ -96,7 +107,7 @@ class PhetButton extends JoistButton {
     super( icon, backgroundFillProperty, {
       highlightExtensionWidth: 6,
       highlightExtensionHeight: 5,
-      highlightCenterOffsetY: 4,
+      highlightCenterOffsetY: hasCustomAlignment ? 4 : 0,
       listener: () => {
         phetMenu.show();
         phetMenu.items[ 0 ].focus();
