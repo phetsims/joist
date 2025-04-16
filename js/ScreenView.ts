@@ -112,12 +112,14 @@ class ScreenView extends Node {
     // ScreenView is displayed.
     this.visibleBoundsProperty = new Property( options.layoutBounds );
 
-    // this cannot be a label to this ScreenView, because it needs to be focusable.
+    // This cannot use accessibleHeading, nor be a label of this Node because it must be focusable.
     this.pdomTitleNode = new Node( { tagName: 'h1', focusHighlight: 'invisible' } );
 
     // add children and set accessible order to these to organize and structure the PDOM.
-    this.pdomPlayAreaNode = new PlayAreaNode();
-    this.pdomControlAreaNode = new ControlAreaNode();
+    // Since the h1 in this view cannot use accessibleHeading, the level is incremented by 2
+    // so that these and headings under them have the correct relative level.
+    this.pdomPlayAreaNode = new PlayAreaNode( { accessibleHeadingIncrement: 2 } );
+    this.pdomControlAreaNode = new ControlAreaNode( { accessibleHeadingIncrement: 2 } );
 
     // This container has the intro "{{SIM}} is an interactive sim, it changes as you . . ."
     this.pdomScreenSummaryNode = new ScreenSummaryNode();
