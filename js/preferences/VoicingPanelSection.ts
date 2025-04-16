@@ -332,10 +332,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
       if ( voices.length > 0 ) {
 
         // For now, only English voices are available because the Voicing feature is not translatable.
-        const prioritizedVoices = voicingManager.getEnglishPrioritizedVoices();
-
-        // limit the voices for now to keep the size of the ComboBox manageable
-        voiceList = prioritizedVoices.slice( 0, 12 );
+        voiceList = voicingManager.getEnglishPrioritizedVoices();
       }
 
       // phet-io - for when creating the Archetype for the Capsule housing the preferencesDialog, we don't have a sim global.
