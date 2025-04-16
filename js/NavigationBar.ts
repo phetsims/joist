@@ -332,10 +332,12 @@ class NavigationBar extends Node {
     const simResourcesContainer = new Node( {
 
       // pdom
-      tagName: 'div',
       containerTagName: 'section',
-      labelTagName: 'h2',
-      labelContent: JoistStrings.a11y.simResourcesStringProperty,
+      accessibleHeading: JoistStrings.a11y.simResourcesStringProperty,
+
+      // The first heading in the ScreenView is focusable and cannot use accessibleHeading.
+      // Extra increment of the heading level so this section has the correct relative level.
+      accessibleHeadingIncrement: 2,
       pdomOrder: [
         this.a11yButtonsHBox,
         phetButton
