@@ -13,7 +13,8 @@ export default [
   ...simEslintConfig,
   {
     rules: {
-      'template-curly-spacing': 'off'
+      'template-curly-spacing': 'off',
+      'phet/documentation-before-imports': 'off'
     }
   }
 ];
