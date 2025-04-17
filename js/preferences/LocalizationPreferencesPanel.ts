@@ -48,7 +48,7 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
                       providedOptions: LocalizationPreferencesPanelOptions ) {
 
     const options = optionize<LocalizationPreferencesPanelOptions, SelfOptions, PreferencesPanelOptions>()( {
-      labelContent: localizationTitleStringProperty,
+      accessibleHeading: localizationTitleStringProperty,
       phetioVisiblePropertyInstrumented: false
     }, providedOptions );
 
@@ -77,7 +77,11 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
       const localeLabel = new VoicingText(
         JoistStrings.preferences.tabs.localization.languageSelection.titleStringProperty,
         combineOptions<VoicingTextOptions>( {}, PreferencesDialogConstants.CONTROL_LABEL_OPTIONS, {
-          readingBlockDisabledTagName: 'h3'
+
+          // Default behavior for VoicingText creates an accessibleParagraph
+          // but this needs to be a heading.
+          accessibleHeading: JoistStrings.preferences.tabs.localization.languageSelection.titleStringProperty,
+          accessibleParagraph: null
         } )
       );
       const localeDescription = new VoicingRichText( JoistStrings.preferences.tabs.localization.languageSelection.descriptionStringProperty,

@@ -153,8 +153,10 @@ export default class AboutDialog extends Dialog {
         supYOffset: 3,
         maxWidth: MAX_WIDTH,
 
-        // pdom
-        readingBlockDisabledTagName: 'h2'
+        // Default behavior is to create an accessibleParagraph for this element
+        // but it needs to be a heading instead.
+        accessibleHeading: Brand.name,
+        accessibleParagraph: null
       } ) );
     }
 

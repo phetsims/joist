@@ -68,8 +68,8 @@ class VoicingToolbarItem extends Node {
 
       // pdom
       tagName: 'section',
-      labelTagName: 'h2',
-      labelContent: toolbarStringProperty,
+      accessibleHeading: toolbarStringProperty,
+      accessibleHeadingIncrement: 2, // Should be an 'h2', even though it is not a child of the ScreenView h1.
 
       // phet-io
       visiblePropertyOptions: {

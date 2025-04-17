@@ -8,14 +8,13 @@
 
 import Multilink from '../../../axon/js/Multilink.js';
 import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import optionize, { type EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import { combineOptions } from '../../../phet-core/js/optionize.js';
 import type StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import Node, { type NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
 import type PreferencesType from './PreferencesType.js';
 
-type SelfOptions = EmptySelfOptions;
 export type PreferencesPanelOptions = StrictOmit<NodeOptions, 'tagName' | 'labelTagName'>;
 
 class PreferencesPanel extends Node {
@@ -27,15 +26,11 @@ class PreferencesPanel extends Node {
    * @param providedOptions
    */
   public constructor( preferencesType: PreferencesType, selectedTabProperty: TReadOnlyProperty<PreferencesType>, tabVisibleProperty: TReadOnlyProperty<boolean>, providedOptions?: PreferencesPanelOptions ) {
-    const options = optionize<PreferencesPanelOptions, SelfOptions, NodeOptions>()( {
+    const options = combineOptions<PreferencesPanelOptions>( {}, providedOptions, {
 
-      // pdom
-      tagName: 'div',
-      labelTagName: 'h2'
-    }, providedOptions );
-
-    // don't instrument the Panel Node itself, though many subclasses make it required for subcomponents
-    options.tandem = Tandem.OPT_OUT;
+      // don't instrument the Panel Node itself, though many subclasses make it required for subcomponents
+      tandem: Tandem.OPT_OUT
+    } );
 
     super( options );
 

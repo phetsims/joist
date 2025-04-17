@@ -181,8 +181,11 @@ class NavigationBar extends Node {
       buttons = new Node( {
         tagName: 'ol',
         containerTagName: 'nav',
-        labelTagName: 'h2',
-        labelContent: JoistStrings.a11y.simScreensStringProperty,
+
+        // This is not a child of the h1 in the ScreenView, but the relative heading level
+        // is intended to be under it.
+        accessibleHeading: JoistStrings.a11y.simScreensStringProperty,
+        accessibleHeadingIncrement: 2,
         visibleProperty: new DerivedProperty( [ sim.activeSimScreensProperty, sim.selectedScreenProperty, isUserNavigableProperty ], ( screens, screen, isUserNavigable ) => {
           return screen !== sim.homeScreen && screens.length > 1 && isUserNavigable;
         } )

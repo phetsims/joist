@@ -42,7 +42,7 @@ class VisualPreferencesPanel extends PreferencesPanel {
   public constructor( visualModel: VisualModel, selectedTabProperty: TReadOnlyProperty<PreferencesType>, tabVisibleProperty: TReadOnlyProperty<boolean>, providedOptions?: VisualPreferencesPanelOptions ) {
 
     const options = optionize<PreferencesPanelOptions, EmptySelfOptions, PreferencesPanelOptions>()( {
-      labelContent: 'Visual'
+      accessibleHeading: 'Visual'
     }, providedOptions );
 
     // Grab the required tandem for subcomponents but the tandem is NOT passed through to the super

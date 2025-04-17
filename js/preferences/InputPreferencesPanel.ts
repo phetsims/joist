@@ -42,7 +42,7 @@ class InputPreferencesPanel extends PreferencesPanel {
   public constructor( inputModel: InputModel, selectedTabProperty: TReadOnlyProperty<PreferencesType>, tabVisibleProperty: TReadOnlyProperty<boolean>, providedOptions: InputPreferencesPanelOptions ) {
 
     super( PreferencesType.INPUT, selectedTabProperty, tabVisibleProperty, {
-      labelContent: inputTitleString
+      accessibleHeading: inputTitleString
     } );
 
     // children are filled in later depending on what is supported in the InputModel

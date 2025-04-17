@@ -65,8 +65,8 @@ export default class CreditsNode extends VBox {
     children.push( new VoicingText( JoistStrings.credits.titleStringProperty, {
       font: options.titleFont,
 
-      // pdom
-      readingBlockDisabledTagName: 'h2'
+      accessibleHeading: JoistStrings.credits.titleStringProperty,
+      accessibleParagraph: null
     } ) );
 
     const formatStringProperty = ( stringProperty: TReadOnlyProperty<string>, innerString: string ): TReadOnlyProperty<string> => {
@@ -122,7 +122,9 @@ export default class CreditsNode extends VBox {
       if ( children.length > 0 ) { children.push( new VStrut( 13 ) ); }
       children.push( new VoicingText( JoistStrings.credits.thanksStringProperty, {
         font: options.titleFont,
-        readingBlockDisabledTagName: 'h2'
+
+        accessibleHeading: JoistStrings.credits.thanksStringProperty,
+        accessibleParagraph: null
       } ) );
 
       const thanksText = new VoicingRichText( credits.thanks, richTextOptions );

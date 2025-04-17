@@ -37,7 +37,7 @@ class SimulationPreferencesPanel extends PreferencesPanel {
    */
   public constructor( simulationModel: SimulationModel, selectedTabProperty: TReadOnlyProperty<PreferencesType>, tabVisibleProperty: TReadOnlyProperty<boolean>, providedOptions?: SimulationPreferencesPanelOptions ) {
     const options = optionize<SimulationPreferencesPanelOptions, SelfOptions, VBoxOptions>()( {
-      labelContent: 'Simulation',
+      accessibleHeading: 'Simulation',
 
       // phet-io
       phetioVisiblePropertyInstrumented: false

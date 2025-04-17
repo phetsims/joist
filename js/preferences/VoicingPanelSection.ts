@@ -149,10 +149,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
     // Speech output levels
     const speechOutputLabel = new Text( simVoicingOptionsStringProperty, merge( {}, PreferencesDialogConstants.PANEL_SECTION_LABEL_OPTIONS, {
-
-      // pdom
-      tagName: 'h3',
-      accessibleName: simVoicingOptionsStringProperty
+      accessibleHeading: simVoicingOptionsStringProperty
     } ) );
     const speechOutputReadingBlockNameResponsePatternStringProperty = new PatternStringProperty( labelledDescriptionPatternStringProperty, {
       label: simVoicingOptionsStringProperty,

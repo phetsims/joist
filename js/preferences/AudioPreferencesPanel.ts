@@ -39,7 +39,7 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
    */
   public constructor( audioModel: AudioModel, selectedTabProperty: TReadOnlyProperty<PreferencesType>, tabVisibleProperty: TReadOnlyProperty<boolean>, providedOptions: AudioPreferencesPanelOptions ) {
     super( PreferencesType.AUDIO, selectedTabProperty, tabVisibleProperty, {
-      labelContent: audioFeaturesStringProperty
+      accessibleHeading: audioFeaturesStringProperty
     } );
 
     // Some contents of this Dialog will be dynamically removed. Dont resize when this happens because we don't want
