@@ -1,19 +1,5 @@
 // Copyright 2020-2025, University of Colorado Boulder
 
-import type IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
-import { QueryStringMachine } from '../../query-string-machine/js/QueryStringMachineModule.js';
-import type HomeScreen from './HomeScreen.js';
-import joist from './joist.js';
-import { type AnyScreen } from './Screen.js';
-
-export type ScreenReturnType = {
-  homeScreen: HomeScreen | null;
-  initialScreen: AnyScreen;
-  selectedSimScreens: AnyScreen[];
-  screens: AnyScreen[];
-  allScreensCreated: boolean;
-};
-
 /**
  * Given an array of all possible screens that a sim can have, select and order them according to the relevant query
  * parameters. This also will create a homeScreen if needed, and specify the initialScreen for startup.
@@ -36,6 +22,21 @@ export type ScreenReturnType = {
  * @returns - duck-typed for tests
  * @throws Error if incompatible data is provided
  */
+
+import type IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
+import { QueryStringMachine } from '../../query-string-machine/js/QueryStringMachineModule.js';
+import type HomeScreen from './HomeScreen.js';
+import joist from './joist.js';
+import { type AnyScreen } from './Screen.js';
+
+export type ScreenReturnType = {
+  homeScreen: HomeScreen | null;
+  initialScreen: AnyScreen;
+  selectedSimScreens: AnyScreen[];
+  screens: AnyScreen[];
+  allScreensCreated: boolean;
+};
+
 export default function selectScreens( allSimScreens: AnyScreen[],
                                        homeScreenQueryParameter: boolean,
                                        homeScreenQueryParameterProvided: boolean,
