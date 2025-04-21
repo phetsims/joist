@@ -26,14 +26,14 @@ import joist from '../joist.js';
 
 type SelfOptions = {
 
-  // If provided, a label Node to the left of the control
+  // If provided, a label to the left of the control.
   labelNode?: Node;
 
-  // Horizontal spacing between the label for the component and control IF there is no descriptionNode.
-  // If a descriptionNode is provided, the layout of the labelNode will be relative to the description.
+  // Horizontal spacing between labelNode and controlNode IF there is no descriptionNode.
+  // If a descriptionNode is provided, the layout of labelNode will be relative to descriptionNode.
   labelSpacing?: number;
 
-  // If provided, a Node under the control and label that is meant to describe the purpose of the control
+  // If provided, a description under the label and control that describes the purpose of the control.
   descriptionNode?: Node;
 
   // If true, the description cell will stretch to a minimum content width, and the control will be pushed out to align
