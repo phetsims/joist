@@ -41,7 +41,7 @@ type SelfOptions = {
   // to always be right aligned with the description.
   allowDescriptionStretch?: boolean;
 
-  // Vertical spacing between ToggleSwitch and description Node
+  // Vertical spacing between controlNode and descriptionNode.
   ySpacing?: number;
 
   // A UI component that is generally tied to a Property in Preferences. This can allow the user to change an aspect of
