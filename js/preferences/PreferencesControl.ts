@@ -1,8 +1,12 @@
 // Copyright 2021-2025, University of Colorado Boulder
 
 /**
- * A ToggleSwitch decorated with a visual label and description with layout for each. To be used in the
- * PreferencesDialog.
+ * Provides a layout container with a control that can be decorated with a visual label and description.
+ * To be used in the PreferencesDialog. The control is right justified and can be any Node.
+ *
+ * // Layout using GridBox and layoutOptions will accomplish the following when all components are available.
+ * // [[labelNode]]         [[controlNode]]
+ * // [[descriptionNode                   ]]
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author Marla Schulz (PhET Interactive Simulations)
@@ -18,17 +22,14 @@ import joist from '../joist.js';
 
 type SelfOptions = {
 
-  // if provided, a label Node to the left of the toggle switch control
+  // If provided, a label Node to the left of the control
   labelNode?: Node;
 
-  // horizontal spacing between label for the component and toggle switch IF there is no descriptionNode.
-  // If a descriptionNode is provided, layout of the labelNode will be relative to the description.
+  // Horizontal spacing between the label for the component and control IF there is no descriptionNode.
+  // If a descriptionNode is provided, the layout of the labelNode will be relative to the description.
   labelSpacing?: number;
 
-  // horizontal spacing between the toggle switch and left/right value labels
-  valueLabelXSpacing?: number;
-
-  // if provided, a Node under the ToggleSwitch and label that is meant to describe the purpose of the switch
+  // If provided, a Node under the control and label that is meant to describe the purpose of the control
   descriptionNode?: Node;
 
   // If true, the description cell will stretch to a minimum content width, and the control will be pushed out to align
@@ -36,30 +37,27 @@ type SelfOptions = {
   // to always be right aligned with the description.
   allowDescriptionStretch?: boolean;
 
-  // vertical spacing between ToggleSwitch and description Node
+  // Vertical spacing between ToggleSwitch and description Node
   ySpacing?: number;
 
+  // A UI component that is generally tied to a Property in Preferences. This can allow the user to change an aspect of
+  // the sim's behavior or display
   controlNode?: Node;
 
-  nestedContent?: Array<Node>;
-
+  // A heading control has different layout requirements. One of which is that the control will not stretch the take
+  // the full width of the space given to it.
   headingControl?: boolean;
 };
 
 export type PreferencesControlOptions = SelfOptions & GridBoxOptions;
 
-// Layout using GridBox and layoutOptions will accomplish the following when all components are available.
-// [[labelNode]]         [[ToggleSwitch]]
-// [[descriptionNode                   ]]
 class PreferencesControl extends GridBox {
   public constructor( providedOptions?: PreferencesControlOptions ) {
     const options = optionize<PreferencesControlOptions, StrictOmit<SelfOptions, 'labelNode' | 'descriptionNode' | 'controlNode'>, GridBoxOptions>()( {
       headingControl: false,
       labelSpacing: 10,
       allowDescriptionStretch: true,
-      valueLabelXSpacing: 8,
       ySpacing: 5,
-      nestedContent: [],
       grow: 1,
       layoutOptions: {
         stretch: !providedOptions?.headingControl
@@ -105,7 +103,7 @@ class PreferencesControl extends GridBox {
         xAlign: 'left'
       };
 
-      // Allows the description to stretch and takes up a minimum width, so that the control aligns with other contents.
+      // Allows the description to stretch and takes up a minimum width so that the control aligns with other contents.
       if ( options.allowDescriptionStretch ) {
         layoutOptions.minContentWidth = 480;
         layoutOptions.stretch = true;
