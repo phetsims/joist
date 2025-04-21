@@ -4,9 +4,13 @@
  * Provides a layout container with a control that can be decorated with a visual label and description.
  * To be used in the PreferencesDialog. The control is right justified and can be any Node.
  *
- * // Layout using GridBox and layoutOptions will accomplish the following when all components are available.
- * // [[labelNode]]         [[controlNode]]
- * // [[descriptionNode                   ]]
+ * Layout using GridBox and layoutOptions will accomplish the following when all components are available.
+ * [[labelNode]]         [[controlNode]]
+ * [[descriptionNode                   ]]
+ *
+ * TODO: Although design for this component is still ongoing, we recommend that developers use it rather than creating
+ *   their own. When this component is updated, all usages will be tested and confirmed to match the desired design.
+ *   https://github.com/phetsims/joist/issues/842
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author Marla Schulz (PhET Interactive Simulations)
