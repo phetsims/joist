@@ -149,9 +149,6 @@ const UpdateNodes = {
    */
   createOutOfDateDialogNode: function( dialog: UpdateDialog, ourVersionString: string, latestVersionString: string, options: Options ): Node {
 
-    // This node is returned so that it can be disposed. Upon disposal, all other content is disposed as well.
-    const disposableNode = new Node();
-
     const latestVersionStringProperty = new DerivedProperty( [ JoistStrings.updates.newVersionAvailableStringProperty ], string => {
       return StringUtils.format( string, latestVersionString );
     } );
@@ -199,9 +196,7 @@ const UpdateNodes = {
       ]
     }, options ) );
 
-    disposableNode.addChild( content );
-
-    disposableNode.disposeEmitter.addListener( () => {
+    content.disposeEmitter.addListener( () => {
       getUpdateButton.dispose();
       noThanksButton.dispose();
       latestVersionText.dispose();
@@ -210,7 +205,7 @@ const UpdateNodes = {
       ourVersionStringProperty.dispose();
     } );
 
-    return disposableNode;
+    return content;
   },
 
   /**
