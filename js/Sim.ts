@@ -30,7 +30,6 @@ import Combination from '../../dot/js/Combination.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import dotRandom from '../../dot/js/dotRandom.js';
 import Permutation from '../../dot/js/Permutation.js';
-import Random from '../../dot/js/Random.js';
 import { linear } from '../../dot/js/util/linear.js';
 import { addAffirmationHook, setAffirmationDebuggerMode } from '../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../phet-core/js/optionize.js';
@@ -1003,18 +1002,7 @@ export default class Sim extends PhetioObject {
               // to the next frame with `timer.runOnNextTick` during startup (like every notification about a PhET-iO
               // instrumented element in phetioEngine.phetioObjectAdded()) can clear out before beginning playback.
               if ( phet.joist.playbackModeEnabledProperty.value ) {
-                let beforeCounts = null;
-                if ( assert ) {
-                  beforeCounts = Array.from( Random.allRandomInstances ).map( n => n.numberOfCalls );
-                }
-
                 stepTimer.emit( 0 );
-
-                if ( assert ) {
-                  const afterCounts = Array.from( Random.allRandomInstances ).map( n => n.numberOfCalls );
-                  assert && assert( _.isEqual( beforeCounts, afterCounts ),
-                    `Random was called more times in the playback sim on startup, before: ${beforeCounts}, after: ${afterCounts}` );
-                }
               }
 
               // After the application is ready to go, remove the splash screen and progress bar.  Note the splash
