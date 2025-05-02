@@ -13,7 +13,7 @@ import SpinningIndicatorNode from '../../scenery-phet/js/SpinningIndicatorNode.j
 import VoicingText from '../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
 import HBox from '../../scenery/js/layout/nodes/HBox.js';
 import VBox from '../../scenery/js/layout/nodes/VBox.js';
-import type Node from '../../scenery/js/nodes/Node.js';
+import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import RichText, { type RichTextLinks } from '../../scenery/js/nodes/RichText.js';
@@ -149,6 +149,9 @@ const UpdateNodes = {
    */
   createOutOfDateDialogNode: function( dialog: UpdateDialog, ourVersionString: string, latestVersionString: string, options: Options ): Node {
 
+    // This node is returned so that it can be disposed. Upon disposal, all other content is disposed as well.
+    const disposableNode = new Node();
+
     const latestVersionStringProperty = new DerivedProperty( [ JoistStrings.updates.newVersionAvailableStringProperty ], string => {
       return StringUtils.format( string, latestVersionString );
     } );
@@ -156,39 +159,58 @@ const UpdateNodes = {
       return StringUtils.format( string, ourVersionString );
     } );
 
-    return new VBox( merge( {
+    const getUpdateButton = new TextPushButton( JoistStrings.updates.getUpdateStringProperty, {
+      visibleProperty: allowLinksProperty,
+      baseColor: '#6f6', font: UPDATE_TEXT_FONT, listener: function() {
+        openPopup( updateCheck.updateURL ); // open in a new window/tab
+      }
+    } );
+    const noThanksButton = new TextPushButton( JoistStrings.updates.noThanksStringProperty, {
+      baseColor: '#ddd', font: UPDATE_TEXT_FONT, listener: function() {
+        dialog.hide();
+
+        // Closing the dialog is handled by the Dialog listener itself, no need to add code to close it here.
+      }
+    } );
+
+    const latestVersionText = new VoicingText( latestVersionStringProperty, {
+      font: new PhetFont( 16 ), fontWeight: 'bold'
+    } );
+    const ourVersionText = new VoicingText( ourVersionStringProperty, {
+      font: UPDATE_TEXT_FONT
+    } );
+
+    const content = new VBox( merge( {
       spacing: 15,
       maxWidth: MAX_WIDTH,
       children: [
         new VBox( {
           spacing: 5, align: 'left', children: [
-            new VoicingText( latestVersionStringProperty, {
-              font: new PhetFont( 16 ), fontWeight: 'bold'
-            } ),
-            new VoicingText( ourVersionStringProperty, {
-              font: UPDATE_TEXT_FONT
-            } )
+            latestVersionText,
+            ourVersionText
           ]
         } ),
         new HBox( {
           spacing: 25, children: [
-            new TextPushButton( JoistStrings.updates.getUpdateStringProperty, {
-              visibleProperty: allowLinksProperty,
-              baseColor: '#6f6', font: UPDATE_TEXT_FONT, listener: function() {
-                openPopup( updateCheck.updateURL ); // open in a new window/tab
-              }
-            } ),
-            new TextPushButton( JoistStrings.updates.noThanksStringProperty, {
-              baseColor: '#ddd', font: UPDATE_TEXT_FONT, listener: function() {
-                dialog.hide();
-
-                // Closing the dialog is handled by the Dialog listener itself, no need to add code to close it here.
-              }
-            } )
+            getUpdateButton,
+            noThanksButton
           ]
         } )
       ]
     }, options ) );
+
+    disposableNode.addChild( content );
+
+    disposableNode.disposeEmitter.addListener( () => {
+      getUpdateButton.dispose();
+      noThanksButton.dispose();
+      latestVersionText.dispose();
+      ourVersionText.dispose();
+      latestVersionStringProperty.dispose();
+      ourVersionStringProperty.dispose();
+    } );
+
+    return disposableNode;
   },
 
   /**

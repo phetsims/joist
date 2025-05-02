@@ -57,14 +57,21 @@ export default class UpdateDialog extends Dialog {
 
     super( content, providedOptions );
 
+    let outOfDateContent: Node | null = null;
     const updateOutOfDateNode = () => {
+
+      if ( outOfDateContent ) {
+        outOfDateContent.dispose();
+      }
 
       // fallback size placeholder for version
       const latestVersionString = updateCheck.latestVersion ? updateCheck.latestVersion.toString() : 'x.x.xx';
       const ourVersionString = updateCheck.ourVersion.toString();
 
+      outOfDateContent = UpdateNodes.createOutOfDateDialogNode( this, ourVersionString, latestVersionString, positionOptions );
+
       outOfDateNode.children = [
-        UpdateNodes.createOutOfDateDialogNode( this, ourVersionString, latestVersionString, positionOptions )
+        outOfDateContent
       ];
     };
 
