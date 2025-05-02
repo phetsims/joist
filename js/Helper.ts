@@ -1261,6 +1261,14 @@ class PDOMTreeNode extends CollapsibleTreeNode<PDOMTreeNode> {
         selfNode.addChild( new Text( node.tagName, { font: new Font( { size: 12, weight: 'bold' } ), fill: fill } ) );
       }
 
+      if ( node.accessibleHeading ) {
+        selfNode.addChild( new Text( `H${instance.headingLevel!}`, { font: TREE_FONT, fill: '#800' } ) );
+        selfNode.addChild( new Text( node.accessibleHeading, { font: TREE_FONT, fill: '#800' } ) );
+      }
+      if ( node.accessibleParagraph ) {
+        selfNode.addChild( new Text( node.accessibleParagraph, { font: TREE_FONT, fill: '#800' } ) );
+      }
+
       if ( node.labelContent ) {
         selfNode.addChild( new Text( node.labelContent, { font: TREE_FONT, fill: '#800' } ) );
       }
@@ -1849,11 +1857,17 @@ const createInfo = ( trail: Trail ): Node[] => {
   if ( node.tagName ) {
     addSimple( 'tagName', node.tagName );
   }
+  if ( node.accessibleHeading ) {
+    addSimple( 'accessibleHeading', node.accessibleHeading );
+  }
   if ( node.accessibleName ) {
     addSimple( 'accessibleName', node.accessibleName );
   }
   if ( node.accessibleHelpText ) {
     addSimple( 'accessibleHelpText', node.accessibleHelpText );
+  }
+  if ( node.accessibleParagraph ) {
+    addSimple( 'accessibleParagraph', node.accessibleParagraph );
   }
   if ( node.containerTagName ) {
     addSimple( 'containerTagName', node.containerTagName );
