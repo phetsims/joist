@@ -196,14 +196,14 @@ const UpdateNodes = {
       ]
     }, options ) );
 
-    content.disposeEmitter.addListener( () => {
-      getUpdateButton.dispose();
-      noThanksButton.dispose();
-      latestVersionText.dispose();
-      ourVersionText.dispose();
-      latestVersionStringProperty.dispose();
-      ourVersionStringProperty.dispose();
-    } );
+    content.addDisposable(
+      getUpdateButton,
+      noThanksButton,
+      latestVersionText,
+      ourVersionText,
+      latestVersionStringProperty,
+      ourVersionStringProperty
+    );
 
     return content;
   },
