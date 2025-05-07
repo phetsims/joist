@@ -77,7 +77,7 @@ type SelfOptions = {
   // Help text that will be added to the Home screen button and navigation bar button for this screen.
   // This is often a full but short sentence with a period at the end of it. This is also used as the
   // hint response for these buttons with the Voicing feature.
-  screenButtonsHelpText?: PDOMValueType | null;
+  screenButtonsHelpText?: PDOMValueType;
 };
 export type ScreenOptions = SelfOptions &
   StrictOmit<PhetioObjectOptions, 'tandemNameSuffix'> & // Tandem.RootTandem.createTandem requires that the suffix is Tandem.SCREEN_TANDEM_NAME_SUFFIX.
