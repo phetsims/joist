@@ -82,7 +82,11 @@ export class LocaleProperty extends Property<Locale> {
 const localeProperty = new LocaleProperty( phet.chipper.locale, {
   tandem: Tandem.GENERAL_MODEL.createTandem( 'localeProperty' ),
   phetioFeatured: true,
-  phetioDocumentation: 'Specifies language currently displayed in the simulation'
+  phetioDocumentation: 'Specifies language currently displayed in the simulation',
+
+  // getStringModule leverages listener order dependencies to only update the Fluent bundle once when all strings change
+  // due to a locale changing, see https://github.com/phetsims/chipper/issues/1588
+  hasListenerOrderDependencies: true
 } );
 
 if ( window.phet?.chipper?.queryParameters?.keyboardLocaleSwitcher ) {
