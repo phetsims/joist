@@ -84,6 +84,7 @@ import SimInfo from './SimInfo.js';
 import LegendsOfLearningSupport from './thirdPartySupport/LegendsOfLearningSupport.js';
 import Toolbar from './toolbar/Toolbar.js';
 import updateCheck from './updateCheck.js';
+import bcp47LocaleProperty from './i18n/bcp47LocaleProperty.js';
 
 // constants
 const SUPPORTS_GESTURE_DESCRIPTION = platform.android || platform.mobileSafari;
@@ -752,6 +753,11 @@ export default class Sim extends PhetioObject {
 
     // Third party support
     phet.chipper.queryParameters.legendsOfLearning && new LegendsOfLearningSupport( this ).start();
+
+    // Adjust HTML lang attribute, see https://github.com/phetsims/chipper/issues/1332
+    bcp47LocaleProperty.link( bcp47Locale => {
+      document.documentElement.lang = bcp47Locale;
+    } );
 
     if ( !phet.chipper.isSceneryStack ) {
       assert && this.auditScreenNameKeys();
