@@ -149,13 +149,6 @@ export default class SimDisplay extends Display {
 
     this.domElement.id = 'sim';
 
-    if ( phet.chipper.queryParameters.supportsInteractiveDescription ) {
-
-      // for now interactive description is only in English
-      // NOTE: When translatable this will need to update with language, change to phet.chipper.local
-      this.pdomRootElement!.lang = 'en';
-    }
-
     if ( phet.chipper.queryParameters.sceneryLog ) {
 
       // @ts-expect-error - until scenery.js is converted to typescript, which is non-trivial (I tried)
