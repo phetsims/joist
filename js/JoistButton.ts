@@ -126,9 +126,6 @@ export default class JoistButton extends Voicing( Node ) {
 
     // eliminate interactivity gap between label and button
     this.mouseArea = this.touchArea = Shape.bounds( this.bounds.dilatedXY( options.pointerAreaDilationX, options.pointerAreaDilationY ) );
-
-    // shift the focus highlight for the joist button so that the bottom is always on screen
-    this.focusHighlight = Shape.bounds( this.bounds.shiftedY( -3 ) );
   }
 
   /**
