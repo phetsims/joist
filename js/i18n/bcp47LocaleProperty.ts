@@ -1,4 +1,4 @@
-// Copyright 2022-2024, University of Colorado Boulder
+// Copyright 2025, University of Colorado Boulder
 
 /**
  * Provides the current locale in the BCP 47 (RFC 5646 https://datatracker.ietf.org/doc/html/rfc5646) format.
