@@ -107,6 +107,8 @@ class PhetButton extends JoistButton {
     super( icon, backgroundFillProperty, {
       highlightExtensionWidth: 6,
       highlightExtensionHeight: 5,
+      focusHighlightDilationX: 4,
+      focusHighlightDilationY: 2,
       highlightCenterOffsetY: hasCustomAlignment ? 4 : 0,
       listener: () => {
         phetMenu.show();

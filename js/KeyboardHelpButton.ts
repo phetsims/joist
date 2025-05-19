@@ -40,6 +40,9 @@ class KeyboardHelpButton extends JoistButton {
       highlightExtensionWidth: 5 + 3.6,
       highlightExtensionHeight: 10,
 
+      focusHighlightDilationX: 4,
+      focusHighlightDilationY: 4,
+
       // The keyboard button is not vertically symmetric, due to the cable on the top.
       // This offset adjusts the body of the keyboard to be in the center, so it
       // will align with the speaker button and the PhET logo

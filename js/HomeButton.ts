@@ -9,6 +9,7 @@
 import Multilink from '../../axon/js/Multilink.js';
 import PatternStringProperty from '../../axon/js/PatternStringProperty.js';
 import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import Bounds2 from '../../dot/js/Bounds2.js';
 import Shape from '../../kite/js/Shape.js';
 import optionize, { type EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import type PickRequired from '../../phet-core/js/types/PickRequired.js';
@@ -88,9 +89,14 @@ export default class HomeButton extends JoistButton {
 
     super( content, navigationBarFillProperty, options );
 
-    // pdom - Pass a shape to the focusHighlight to prevent dilation, then tweak the bottom up just a hair so it
-    // isn't off the screen.
-    this.focusHighlight = Shape.bounds( this.bounds.setMaxY( this.bounds.maxY - 2 ) );
+    // pdom - A custom highlight so the highlight does not get cut off at the bottom and does not extend beyond the top of the
+    // navigation bar.
+    this.focusHighlight = Shape.bounds( new Bounds2(
+      this.bounds.minX - options.highlightExtensionWidth,
+      this.bounds.minY + 2,
+      this.bounds.maxX + options.highlightExtensionWidth,
+      this.bounds.maxY - 2
+    ) );
 
     Multilink.multilink( [ this.interactionStateProperty, navigationBarFillProperty ],
       ( interactionState, navigationBarFill ) => {

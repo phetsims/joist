@@ -243,7 +243,7 @@ class NavigationBarScreenButton extends Voicing( Node ) {
     // Setting to the localBounds directly prevents the default dilation of the highlight. Shape updates with changing
     // bounds to support dynamic layout.
     this.localBoundsProperty.link( localBounds => {
-      this.focusHighlight = Shape.bounds( localBounds );
+      this.focusHighlight = Shape.bounds( localBounds.dilatedX( HIGHLIGHT_SPACING ) );
     } );
 
     this.mutate( options );
