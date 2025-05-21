@@ -41,8 +41,15 @@ type CustomPreference = {
   createContent: ( parentTandem: Tandem ) => Node;
 };
 
-type CustomPreferencesOptions = {
-  customPreferences?: CustomPreference[];
+type CustomPreferenceWithColumn = {
+
+  // Some preferences are displayed in a layout with two columns. This allows you to specify which column
+  // the custom preference should be displayed in.
+  column?: 'left' | 'right';
+} & CustomPreference;
+
+type CustomPreferencesOptions<T extends CustomPreference = CustomPreference> = {
+  customPreferences?: T[];
 };
 
 const AUDIO_MODEL_TANDEM = 'audioModel';
@@ -81,7 +88,7 @@ type AudioPreferencesOptions = {
   // included if supportsSound is also true.
   supportsSound?: boolean;
   supportsExtraSound?: boolean;
-} & CustomPreferencesOptions;
+} & CustomPreferencesOptions<CustomPreferenceWithColumn>;
 
 type InputPreferencesOptions = {
 
