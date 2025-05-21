@@ -57,7 +57,7 @@ class PhetButton extends JoistButton {
     // These PhET logos have atypical alignment, relying on the whitespace at the top of the image to center the logo,
     // and aligning the kebab menu with the BOTTOM of the image, not the center.
     // If this is false, we'll just center-align things.
-    const hasCustomAlignment = Brand.name === 'phet' || Brand.name === 'phet-io' || Brand.name === 'adapted-from-phet';
+    const hasCustomAlignment = Brand.id === 'phet' || Brand.id === 'phet-io' || Brand.id === 'adapted-from-phet';
 
     // The logo images are loaded from the brand which is selected via query parameter (during unbuilt mode)
     // or a grunt option (during the build), please see initialize-globals.js window.phet.chipper.brand for more
