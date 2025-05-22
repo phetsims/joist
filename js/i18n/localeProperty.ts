@@ -62,6 +62,11 @@ const localeProperty = new LocaleProperty( validInitialLocale, {
   phetioDocumentation: 'Specifies language currently displayed in the simulation'
 } );
 
+// Update the HTML lang (used here to make the maintenance release easier)
+localeProperty.link( locale => {
+  document.documentElement.lang = phet.chipper.localeData[ locale ].bcp47;
+} );
+
 if ( phet?.chipper?.queryParameters?.keyboardLocaleSwitcher ) {
 
   // DUPLICATION ALERT: don't change these without consulting PHET_IO_WRAPPERS/PhetioClient.initializeKeyboardLocaleSwitcher()
