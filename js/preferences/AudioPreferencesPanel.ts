@@ -12,6 +12,7 @@ import type PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import HBox from '../../../scenery/js/layout/nodes/HBox.js';
 import VBox, { type VBoxOptions } from '../../../scenery/js/layout/nodes/VBox.js';
 import Text from '../../../scenery/js/nodes/Text.js';
+import Node from '../../../scenery/js/nodes/Node.js';
 import ToggleSwitch, { type ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
@@ -78,7 +79,17 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
     } );
 
     audioModel.customPreferences.forEach( ( customPreference, i ) => {
-      const container = i % 2 === 0 ? leftContent : rightContent;
+      let container: Node;
+      if ( customPreference.column === 'left' ) {
+        container = leftContent;
+      }
+      else if ( customPreference.column === 'right' ) {
+        container = rightContent;
+      }
+      else {
+        container = i % 2 === 0 ? leftContent : rightContent;
+      }
+
       const customContent = customPreference.createContent( providedOptions.tandem );
       const preferencesPanelSection = new PreferencesPanelSection( {
         contentNode: customContent,
