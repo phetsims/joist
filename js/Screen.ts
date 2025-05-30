@@ -15,8 +15,8 @@ import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import Multilink from '../../axon/js/Multilink.js';
 import PatternStringProperty from '../../axon/js/PatternStringProperty.js';
-import type PhetioProperty from '../../axon/js/PhetioProperty.js';
 import Property from '../../axon/js/Property.js';
+import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
 import type Bounds2 from '../../dot/js/Bounds2.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
@@ -59,7 +59,7 @@ assert && assert( Math.abs( HOME_SCREEN_ICON_ASPECT_RATIO - HOME_SCREEN_ICON_ASP
 
 // Documentation is by the defaults
 type SelfOptions = {
-  name?: PhetioProperty<string> | null;
+  name?: ReadOnlyProperty<string> | null;
   instrumentNameProperty?: boolean;
 
   // It would be preferable to support Property<Color | string> solely, but many subtypes are hardcoded to be Color only
