@@ -1,11 +1,11 @@
 // Copyright 2024-2025, University of Colorado Boulder
 
 /**
- * Content for the accessible screen summary and Voicing Toolbar for a ScreenView.
+ * Content for the accessible screen summary and VoicingToolbar for a ScreenView.
  *
  * For Interactive Description, this includes content at the top of the page that describes the screen.
  * For Voicing, this includes content that is read to the user when they press the "Overview", "Details", or "Hint" buttons
- * in the Voicing Toolbar.
+ * in the VoicingToolbar.
  *
  * For Interactive Description, this class supports basic paragraphs of content. If you need more
  * complex PDOM content (like lists or other tags), create your own scenery Nodes and add them as a children of
@@ -221,8 +221,8 @@ export default class ScreenSummaryContent extends Node {
 
   /**
    * Returns the value of the combined voicing overview content. This is a string that includes all values for
-   * the play area and control area content. It is spoken when the user presses the "Overview" button in the voicing
-   * toolbar.
+   * the play area and control area content. It is spoken when the user presses the "Overview" button in the
+   * VoicingToolbar.
    *
    * Your ScreenSummaryContent can override this function if you do not want to use the combined content.
    */
@@ -232,8 +232,7 @@ export default class ScreenSummaryContent extends Node {
 
   /**
    * Returns the value of the combined voicing current details content. This is a string that includes all values for
-   * the current details content. It is spoken when the user presses the "Details" button in the voicing
-   * toolbar.
+   * the current details content. It is spoken when the user presses the "Details" button in the VoicingToolbar.
    *
    * Your ScreenSummaryContent can override this function if you do not want to use the combined content.
    */
@@ -243,8 +242,7 @@ export default class ScreenSummaryContent extends Node {
 
   /**
    * Returns the value of the combined voicing interaction hint content. This is a string that includes all values for
-   * the interaction hint content. It is spoken when the user presses the "Hint" button in the voicing
-   * toolbar.
+   * the interaction hint content. It is spoken when the user presses the "Hint" button in the VoicingToolbar.
    *
    * Your ScreenSummaryContent can override this function if you do not want to use the combined content.
    */

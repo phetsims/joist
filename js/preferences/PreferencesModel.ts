@@ -174,8 +174,8 @@ export type AudioModel = BaseModelType & {
   voiceRateProperty: NumberProperty;
   voiceProperty: Property<null | SpeechSynthesisVoice>; // Not a PhET-iO linked element because it can't be customized through the API.
 
-  // Whether the Sim Toolbar is enabled, which gives quick access to Voicing controls and features.
-  toolbarEnabledProperty: Property<boolean>;
+  // Whether the VoicingToolbar is enabled, which gives quick access to Voicing controls and features.
+  voicingToolbarEnabledProperty: Property<boolean>;
 } & Required<AudioPreferencesOptions>;
 
 export type InputModel = BaseModelType & {
@@ -306,8 +306,8 @@ export default class PreferencesModel extends PhetioObject {
       voiceRateProperty: voicingManager.voiceRateProperty,
       voiceProperty: voicingManager.voiceProperty,
 
-      // The toolbar is enabled by default, but can be initially disabled with a query parameter.
-      toolbarEnabledProperty: new BooleanProperty( !phet.chipper.queryParameters.voicingRemoveToolbar, {
+      // The VoicingToolbar is enabled by default, but can be initially disabled with a query parameter.
+      voicingToolbarEnabledProperty: new BooleanProperty( !phet.chipper.queryParameters.voicingRemoveToolbar, {
         tandem: options.tandem.createTandem( AUDIO_MODEL_TANDEM ).createTandem( 'toolbarEnabledProperty' ),
         phetioState: false
       } ),

@@ -1,13 +1,11 @@
 // Copyright 2021-2025, University of Colorado Boulder
 
 /**
- * The Toolbar along the left edge of the screen with controls related to the sim or active screen. Currently, it
- * only contains controls related to the Voicing feature. It isn't always displayed and the user must request it
- * from the PreferencesDialog. In order to be used, both voicing AND the Toolbar must be enabled by the user.
- * Voicing can be used without this shown.
+ * The VoicingToolbar along the left edge of the screen with controls related to Voicing. It is displayed when
+ * Voicing is enabled. But it can be hidden separately in the PreferencesDialog at that point.
  *
  * When open, the sim will resize and shift to the right to create space. Screen bounds are adjusted so that
- * simulation components will never overlap with the Toolbar.
+ * simulation components will never overlap with the VoicingToolbar.
  *
  * @author Jesse Greenberg
  */
@@ -39,7 +37,7 @@ import VoicingToolbarItem from './VoicingToolbarItem.js';
 
 // constants
 const MAX_ANIMATION_SPEED = 250; // in view coordinates per second, assuming 60 fps
-const CONTENT_TOP_MARGIN = 15; // margin between top of Toolbar and contents
+const CONTENT_TOP_MARGIN = 15; // margin between top of VoicingToolbar and contents
 
 // constants
 const openToolbarStringProperty = JoistStrings.a11y.voicingToolbar.openToolbarStringProperty;
@@ -50,37 +48,37 @@ const toolbarShownStringProperty = JoistStrings.a11y.voicingToolbar.toolbarShown
 const toolbarHiddenStringProperty = JoistStrings.a11y.voicingToolbar.toolbarHiddenStringProperty;
 
 type SelfOptions = EmptySelfOptions;
-type ToolbarOptions = EmptySelfOptions & StrictOmit<NodeOptions, 'isDisposable'>;
+type VoicingToolbarOptions = EmptySelfOptions & StrictOmit<NodeOptions, 'isDisposable'>;
 
 class VoicingToolbar extends Node {
 
-  // Whether the Toolbar is enabled (visible to the user)
+  // Whether the VoicingToolbar is enabled (visible to the user)
   private readonly isEnabledProperty: TReadOnlyProperty<boolean>;
 
-  // the Rectangle for the Toolbar that surrounds all content, bounds set once
+  // the Rectangle for the VoicingToolbar that surrounds all content, bounds set once
   // content is created and in layout to fill height of screen
   private readonly backgroundRectangle: Rectangle;
 
   // The position of the right edge of the backgroundRectangle in local coordinates.
-  // This is what controls the position of the Toolbar as it is open/closed/removed/animating.
+  // This is what controls the position of the VoicingToolbar as it is open/closed/removed/animating.
   public readonly rightPositionProperty: TProperty<number>;
 
   // The target position for the rightPositionProperty, to support animation. In step,
   // the rightPositionProperty will be changed until the rightPositionProperty equals the rightDestinationPosition.
   private rightDestinationPosition: number;
 
-  // Whether the Toolbar is open or closed. This is different from whether or not it is showing.
+  // Whether the VoicingToolbar is open or closed. This is different from whether or not it is showing.
   private readonly openProperty: BooleanProperty;
 
-  //  Whether the Toolbar is shown to the user. At this time,
-  // that is true if the toolbar is enabled, voicing is enabled, and if all audio is enabled. The Toolbar only
-  // includes controls related to audio (voicing) so when audio is disabled there is no need to show it.
+  // Whether the VoicingToolbar is shown to the user. This is when the toolbar is enabled, voicing is enabled,
+  // and if all audio is enabled. The VoicingToolbar only includes controls related to audio (voicing) so
+  // when audio is disabled there is no need to show it.
   private readonly isShowingProperty: TReadOnlyProperty<boolean>;
 
-  // Scale applied to the Toolbar and its contents in response to layout and window resizing.
+  // Scale applied to the VoicingToolbar and its contents in response to layout and window resizing.
   private layoutScale = 1;
 
-  // Contents for the Toolbar, currently only controls related to the voicing
+  // Contents for the VoicingToolbar, currently only controls related to the voicing
   // feature.
   private readonly menuContent: VoicingToolbarItem;
 
@@ -91,13 +89,13 @@ class VoicingToolbar extends Node {
 
   // Margin between toolbar content and edge of the backgroundRectangle, in the local coordinate
   // frame. Also used to determine the right position when closed. This is the width of the button so that when the
-  // Toolbar is closed only the button is shown and all other content is hidden.
+  // VoicingToolbar is closed only the button is shown and all other content is hidden.
   private readonly contentMargin: number;
 
   public constructor( enabledProperty: TReadOnlyProperty<boolean>, selectedScreenProperty: TReadOnlyProperty<AnyScreen>,
-                      lookAndFeel: LookAndFeel, providedOptions?: ToolbarOptions ) {
+                      lookAndFeel: LookAndFeel, providedOptions?: VoicingToolbarOptions ) {
 
-    const options = optionize<ToolbarOptions, SelfOptions, NodeOptions>()( {
+    const options = optionize<VoicingToolbarOptions, SelfOptions, NodeOptions>()( {
 
       // Only one instance is expected so dispose is not necessary.
       isDisposable: false,
@@ -119,7 +117,7 @@ class VoicingToolbar extends Node {
       fill: lookAndFeel.navigationBarFillProperty
     } );
 
-    // The Voicing toolbar is initially open unless explicitly collapsed because of a query parameter.
+    // The VoicingToolbar is initially open unless explicitly collapsed because of a query parameter.
     this.openProperty = new BooleanProperty( !phet.chipper.queryParameters.voicingCollapseToolbar );
 
     this.isShowingProperty = DerivedProperty.and( [
@@ -150,7 +148,7 @@ class VoicingToolbar extends Node {
     this.contentMargin = this.openButton.localBounds.width;
 
     // The position of the right edge of the backgroundRectangle in local coordinates.
-    // This is what controls the position of the Toolbar as it is open/closed/removed/animating.
+    // This is what controls the position of the VoicingToolbar as it is open/closed/removed/animating.
     this.rightPositionProperty = new NumberProperty( this.getHiddenPosition() );
 
     // The target position for the rightPositionProperty, to support animation. In step,
@@ -199,15 +197,15 @@ class VoicingToolbar extends Node {
       this.updateDestinationPosition();
 
       // when now showing, this entire toolbar should be hidden for Interactive Description, but we don't use
-      // visibility directly because we want to see the Toolbar animate away
+      // visibility directly because we want to see the VoicingToolbar animate away
       contentParent.pdomVisible = showing;
     };
     this.isShowingProperty.link( isShowingListener );
   }
 
   /**
-   * Returns the width of the Toolbar that can be seen on screen. This can be any value from the full width of the
-   * Toolbar to zero width, depending on whether it is open, closed, removed entirely, or animating.
+   * Returns the width of the VoicingToolbar that can be seen on screen. This can be any value from the full width of the
+   * VoicingToolbar to zero width, depending on whether it is open, closed, removed entirely, or animating.
    */
   public getDisplayedWidth(): number {
     return this.rightPositionProperty.value * this.layoutScale + this.openButton.width / 2;
@@ -219,12 +217,12 @@ class VoicingToolbar extends Node {
   }
 
   /**
-   * Update rightDestinationPosition so that the Toolbar will animate towards opening, closing, or being removed
+   * Update rightDestinationPosition so that the VoicingToolbar will animate towards opening, closing, or being removed
    * entirely from view.
    */
   private updateDestinationPosition(): void {
     if ( this.isShowingProperty.value ) {
-      // the Toolbar is enabled and should either show all content or just the openButton
+      // the VoicingToolbar is enabled and should either show all content or just the openButton
       this.rightDestinationPosition = this.openProperty.value ? this.contentWidth + this.contentMargin * 2 : this.contentMargin;
     }
     else {
@@ -234,7 +232,7 @@ class VoicingToolbar extends Node {
   }
 
   /**
-   * Animated the Toolbar as it opens and closes.
+   * Animated the VoicingToolbar as it opens and closes.
    */
   private step( dt: number ): void {
     const distance = Math.abs( this.rightPositionProperty.value - this.rightDestinationPosition );
@@ -248,7 +246,7 @@ class VoicingToolbar extends Node {
   }
 
   /**
-   * Layout for the Toolbar, called whenever position changes or window is resized.
+   * Layout for the VoicingToolbar, called whenever position changes or window is resized.
    */
   public layout( scale: number, height: number ): void {
     this.layoutScale = scale;
@@ -263,7 +261,7 @@ class VoicingToolbar extends Node {
 }
 
 /**
- * The icon for the button that opens and closes the Toolbar.
+ * The icon for the button that opens and closes the VoicingToolbar.
  */
 class DoubleChevron extends Path {
   public constructor() {

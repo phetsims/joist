@@ -30,7 +30,7 @@ class VoicingToolbarAlertManager {
    */
   public createOverviewContent(): SpeakableResolvedResponse {
     const screenView = this.screenProperty.value.view;
-    assert && assert( screenView, 'view needs to be inititalized for voicing toolbar content' );
+    assert && assert( screenView, 'view needs to be inititalized for VoicingToolbar content' );
     return screenView.getVoicingOverviewContent();
   }
 
@@ -40,7 +40,7 @@ class VoicingToolbarAlertManager {
    */
   public createDetailsContent(): SpeakableResolvedResponse {
     const screenView = this.screenProperty.value.view;
-    assert && assert( screenView, 'view needs to be inititalized for voicing toolbar content' );
+    assert && assert( screenView, 'view needs to be inititalized for VoicingToolbar content' );
     return screenView.getVoicingDetailsContent();
   }
 
@@ -49,7 +49,7 @@ class VoicingToolbarAlertManager {
    */
   public createHintContent(): SpeakableResolvedResponse {
     const screenView = this.screenProperty.value.view;
-    assert && assert( screenView, 'view needs to be inititalized for voicing toolbar content' );
+    assert && assert( screenView, 'view needs to be inititalized for VoicingToolbar content' );
     return this.screenProperty.value.view.getVoicingHintContent();
   }
 }

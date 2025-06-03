@@ -135,9 +135,9 @@ class VoicingPanelSection extends PreferencesPanelSection {
       controlNode: voicingToggleSwitch
     } );
 
-    // checkbox for the toolbar
+    // checkbox for the VoicingToolbar
     const quickAccessLabel = new Text( toolbarLabelStringProperty, PreferencesDialogConstants.PANEL_SECTION_LABEL_OPTIONS );
-    const toolbarToggleSwitch = new ToggleSwitch( audioModel.toolbarEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
+    const toolbarToggleSwitch = new ToggleSwitch( audioModel.voicingToolbarEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
       accessibleName: toolbarLabelStringProperty,
       leftValueContextResponse: toolbarRemovedStringProperty,
       rightValueContextResponse: toolbarAddedStringProperty
@@ -290,7 +290,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
     const voicingEnabledUtterance = new Utterance();
     const voicingEnabledPropertyListener = ( enabled: boolean ) => {
 
-      // only speak if "Sim Voicing" is on, all voicing should be disabled except for the Toolbar
+      // only speak if "Sim Voicing" is on, all voicing should be disabled except for the VoicingToolbar
       // buttons in this case
       if ( audioModel.voicingMainWindowVoicingEnabledProperty.value ) {
 

@@ -229,8 +229,8 @@ export default class Sim extends PhetioObject {
   private readonly simInfo: SimInfo;
   public readonly display: SimDisplay;
 
-  // The Toolbar is not created unless requested with a PreferencesModel.
-  private readonly toolbar: VoicingToolbar | null = null;
+  // The VoicingToolbar is not created unless requested with a PreferencesModel.
+  private readonly voicingToolbar: VoicingToolbar | null = null;
 
   // Manages state related to preferences. Enabled features for preferences are provided through the
   // PreferencesModel.
@@ -379,14 +379,14 @@ export default class Sim extends PhetioObject {
       this.display.setSize( new Dimension2( width, height ) );
       const screenHeight = height - this.navigationBar.height;
 
-      if ( this.toolbar ) {
-        this.toolbar.layout( scale, screenHeight );
+      if ( this.voicingToolbar ) {
+        this.voicingToolbar.layout( scale, screenHeight );
       }
 
       // The available bounds for screens and top layer children - though currently provided
-      // full width and height, will soon be reduced when menus (specifically the Preferences
-      // Toolbar) takes up screen space.
-      const screenMinX = this.toolbar ? this.toolbar.getDisplayedWidth() : 0;
+      // full width and height, will soon be reduced when menus (specifically the VoicingToolbar)
+      // takes up screen space.
+      const screenMinX = this.voicingToolbar ? this.voicingToolbar.getDisplayedWidth() : 0;
       const availableScreenBounds = new Bounds2( screenMinX, 0, width, screenHeight );
 
       // Layout each of the screens
@@ -673,13 +673,12 @@ export default class Sim extends PhetioObject {
       document.title = simName;
     } );
 
-    // For now the Toolbar only includes controls for Voicing and is only constructed when that feature is supported.
     if ( this.preferencesModel.audioModel.supportsAnyVoicing ) {
-      this.toolbar = new VoicingToolbar( this.preferencesModel.audioModel.toolbarEnabledProperty, this.selectedScreenProperty,
+      this.voicingToolbar = new VoicingToolbar( this.preferencesModel.audioModel.voicingToolbarEnabledProperty, this.selectedScreenProperty,
         this.lookAndFeel );
 
-      // when the Toolbar positions update, resize the sim to fit in the available space
-      this.toolbar.rightPositionProperty.lazyLink( () => {
+      // when the VoicingToolbar positions update, resize the sim to fit in the available space
+      this.voicingToolbar.rightPositionProperty.lazyLink( () => {
         this.resize( this.boundsProperty.value!.width, this.boundsProperty.value!.height );
       } );
     }
@@ -796,11 +795,11 @@ export default class Sim extends PhetioObject {
     this.display.simulationRoot.addChild( this.navigationBar );
 
     if ( this.preferencesModel.audioModel.supportsAnyVoicing ) {
-      assert && assert( this.toolbar, 'toolbar should exist for voicing' );
-      this.display.simulationRoot.addChild( this.toolbar! );
-      this.display.simulationRoot.pdomOrder = [ this.toolbar! ];
+      assert && assert( this.voicingToolbar, 'VoicingToolbar should exist for voicing' );
+      this.display.simulationRoot.addChild( this.voicingToolbar! );
+      this.display.simulationRoot.pdomOrder = [ this.voicingToolbar! ];
 
-      // If Voicing is not "fully" enabled, only the toolbar is able to produce Voicing output.
+      // If Voicing is not "fully" enabled, only the VoicingToolbar is able to produce Voicing output.
       // All other simulation components should not voice anything. This must be called only after
       // all ScreenViews have been constructed.
       voicingManager.voicingFullyEnabledProperty.link( fullyEnabled => {
@@ -1108,14 +1107,14 @@ export default class Sim extends PhetioObject {
 
     this.navigationBar.pdomVisible = visible;
     this.homeScreen && this.homeScreen.view.setPDOMVisible( visible );
-    this.toolbar && this.toolbar.setPDOMVisible( visible );
+    this.voicingToolbar && this.voicingToolbar.setPDOMVisible( visible );
   }
 
   /**
-   * Set the voicingVisible state of simulation components. When false, ONLY the Toolbar
+   * Set the voicingVisible state of simulation components. When false, ONLY the VoicingToolbar
    * and its buttons will be able to announce Voicing utterances. This is used by the
-   * "Sim Voicing" switch in the toolbar which will disable all Voicing in the sim so that
-   * only Toolbar content is announced.
+   * "Sim Voicing" switch in the VoicingToolbar which will disable all Voicing in the sim so that
+   * only VoicingToolbar content is announced.
    */
   public setSimVoicingVisible( visible: boolean ): void {
     this.setNonModalVoicingVisible( visible );
