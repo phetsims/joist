@@ -196,7 +196,7 @@ type StringsType = {
             'voicingOnStringProperty': LocalizedStringProperty;
             'voicingOffStringProperty': LocalizedStringProperty;
             'voicingOffOnlyAvailableInEnglishStringProperty': LocalizedStringProperty;
-            'toolbar': {
+            'voicingToolbar': {
               'titleStringProperty': LocalizedStringProperty;
               'toolbarAddedStringProperty': LocalizedStringProperty;
               'toolbarRemovedStringProperty': LocalizedStringProperty;
@@ -261,7 +261,7 @@ type StringsType = {
         }
       }
     };
-    'toolbar': {
+    'voicingToolbar': {
       'titleStringProperty': LocalizedStringProperty;
       'openToolbarStringProperty': LocalizedStringProperty;
       'closeToolbarStringProperty': LocalizedStringProperty;

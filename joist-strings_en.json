@@ -466,7 +466,7 @@
             "voicingOffOnlyAvailableInEnglish": {
               "value": "Voicing off. Only available in English."
             },
-            "toolbar": {
+            "voicingToolbar": {
               "title": {
                 "value": "Toolbar"
               },
@@ -597,7 +597,7 @@
         }
       }
     },
-    "toolbar": {
+    "voicingToolbar": {
       "title": {
         "value": "Toolbar"
       },

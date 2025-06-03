@@ -43,7 +43,7 @@ import PreferencesPanelSection, { type PreferencesPanelSectionOptions } from './
 // none of the Voicing strings or feature is translatable yet, all strings in this file
 // are nested under the 'a11y' section to make sure that they are not translatable
 const voicingLabelStringProperty = JoistStrings.a11y.preferences.tabs.audio.voicing.titleStringProperty;
-const toolbarLabelStringProperty = JoistStrings.a11y.preferences.tabs.audio.voicing.toolbar.titleStringProperty;
+const toolbarLabelStringProperty = JoistStrings.a11y.preferences.tabs.audio.voicing.voicingToolbar.titleStringProperty;
 const rateStringProperty = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.titleStringProperty;
 const rateLabelStringProperty = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.rate.labelStringStringProperty;
 const pitchStringProperty = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.pitch.titleStringProperty;
@@ -53,8 +53,8 @@ const voicingOffOnlyAvailableInEnglishStringProperty = JoistStrings.a11y.prefere
 const voiceVariablesPatternStringProperty = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.variablesPatternStringProperty;
 const customizeVoiceStringProperty = JoistStrings.a11y.preferences.tabs.audio.voicing.customizeVoice.titleStringProperty;
 
-const toolbarRemovedStringProperty = JoistStrings.a11y.preferences.tabs.audio.voicing.toolbar.toolbarRemovedStringProperty;
-const toolbarAddedStringProperty = JoistStrings.a11y.preferences.tabs.audio.voicing.toolbar.toolbarAddedStringProperty;
+const toolbarRemovedStringProperty = JoistStrings.a11y.preferences.tabs.audio.voicing.voicingToolbar.toolbarRemovedStringProperty;
+const toolbarAddedStringProperty = JoistStrings.a11y.preferences.tabs.audio.voicing.voicingToolbar.toolbarAddedStringProperty;
 
 const simVoicingOptionsStringProperty = JoistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.titleStringProperty;
 const simVoicingDescriptionStringProperty = JoistStrings.a11y.preferences.tabs.audio.voicing.simVoicingOptions.descriptionStringProperty;
