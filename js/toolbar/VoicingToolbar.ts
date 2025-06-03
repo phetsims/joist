@@ -52,7 +52,7 @@ const toolbarHiddenStringProperty = JoistStrings.a11y.toolbar.toolbarHiddenStrin
 type SelfOptions = EmptySelfOptions;
 type ToolbarOptions = EmptySelfOptions & StrictOmit<NodeOptions, 'isDisposable'>;
 
-class Toolbar extends Node {
+class VoicingToolbar extends Node {
 
   // Whether the Toolbar is enabled (visible to the user)
   private readonly isEnabledProperty: TReadOnlyProperty<boolean>;
@@ -289,5 +289,5 @@ class DoubleChevron extends Path {
   }
 }
 
-joist.register( 'Toolbar', Toolbar );
-export default Toolbar;
+joist.register( 'VoicingToolbar', VoicingToolbar );
+export default VoicingToolbar;

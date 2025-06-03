@@ -82,7 +82,7 @@ import selectScreens from './selectScreens.js';
 import SimDisplay, { type SimDisplayOptions } from './SimDisplay.js';
 import SimInfo from './SimInfo.js';
 import LegendsOfLearningSupport from './thirdPartySupport/LegendsOfLearningSupport.js';
-import Toolbar from './toolbar/Toolbar.js';
+import VoicingToolbar from './toolbar/VoicingToolbar.js';
 import updateCheck from './updateCheck.js';
 import bcp47LocaleProperty from './i18n/bcp47LocaleProperty.js';
 
@@ -230,7 +230,7 @@ export default class Sim extends PhetioObject {
   public readonly display: SimDisplay;
 
   // The Toolbar is not created unless requested with a PreferencesModel.
-  private readonly toolbar: Toolbar | null = null;
+  private readonly toolbar: VoicingToolbar | null = null;
 
   // Manages state related to preferences. Enabled features for preferences are provided through the
   // PreferencesModel.
@@ -675,7 +675,7 @@ export default class Sim extends PhetioObject {
 
     // For now the Toolbar only includes controls for Voicing and is only constructed when that feature is supported.
     if ( this.preferencesModel.audioModel.supportsAnyVoicing ) {
-      this.toolbar = new Toolbar( this.preferencesModel.audioModel.toolbarEnabledProperty, this.selectedScreenProperty,
+      this.toolbar = new VoicingToolbar( this.preferencesModel.audioModel.toolbarEnabledProperty, this.selectedScreenProperty,
         this.lookAndFeel );
 
       // when the Toolbar positions update, resize the sim to fit in the available space
