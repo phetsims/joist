@@ -82,7 +82,7 @@ import selectScreens from './selectScreens.js';
 import SimDisplay, { type SimDisplayOptions } from './SimDisplay.js';
 import SimInfo from './SimInfo.js';
 import LegendsOfLearningSupport from './thirdPartySupport/LegendsOfLearningSupport.js';
-import VoicingToolbar from './toolbar/VoicingToolbar.js';
+import VoicingToolbar from './voicingToolbar/VoicingToolbar.js';
 import updateCheck from './updateCheck.js';
 import bcp47LocaleProperty from './i18n/bcp47LocaleProperty.js';
 
