@@ -409,7 +409,7 @@ export default class PreferencesModel extends PhetioObject {
       responseCollector.hintResponsesEnabledProperty.value = !!phet.chipper.queryParameters.voicingAddHintResponses;
     }
 
-    if ( phet.chipper.queryParameters.printVoicingResponses ) {
+    if ( phet.chipper.queryParameters.logVoicingResponses ) {
       voicingManager.startSpeakingEmitter.addListener( text => console.log( text ) );
     }
 
