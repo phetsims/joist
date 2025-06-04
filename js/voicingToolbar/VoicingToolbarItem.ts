@@ -187,14 +187,21 @@ class LabelButtonRow {
     this.playStopButton = new PlayStopButton( this.playingProperty, {
       startPlayingLabel: a11yNameStringProperty,
 
-      // voicing
-      voicingNameResponse: a11yNameStringProperty,
+      // voicing - this content should be spoken always regardless of Preferences.
       voicingIgnoreVoicingManagerProperties: true,
 
       radius: 12,
 
       // phet-io
       tandem: Tandem.OPT_OUT
+    } );
+
+    // This is a custom implementation of the name response because of unique behavior. The voicingNameResponse should not be spoken
+    // on activation, but it should still be spoken when it receives focus.
+    this.playStopButton.focusedProperty.lazyLink( focused => {
+      if ( focused ) {
+        this.playStopButton.voicingSpeakNameResponse( { nameResponse: a11yNameStringProperty } );
+      }
     } );
 
     const textLabel = new Text( labelStringProperty, {
