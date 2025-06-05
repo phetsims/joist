@@ -55,7 +55,7 @@ import joist from '../../joist/js/joist.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import JoistStrings from './JoistStrings.js';
 
-type SectionContent = TReadOnlyProperty<string> | Array<TReadOnlyProperty<string>> | VoiceableNode | CustomizedVoicingContent | null;
+export type SectionContent = TReadOnlyProperty<string> | Array<TReadOnlyProperty<string>> | VoiceableNode | CustomizedVoicingContent | null;
 
 type SelfOptions = {
 
@@ -81,7 +81,7 @@ type SelfOptions = {
 // No NodeOptions, and this class sets its children. You can set children if you need to, but not until after construction.
 type ParentOptions = DisposableOptions;
 
-type ScreenSummaryContentOptions = SelfOptions & ParentOptions;
+export type ScreenSummaryContentOptions = SelfOptions & ParentOptions;
 
 export default class ScreenSummaryContent extends Node {
 
