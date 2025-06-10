@@ -274,7 +274,7 @@ export default class ScreenSummaryContent extends Node {
       else if ( isTReadOnlyProperty( content ) ) {
         return [ content ];
       }
-      else if ( 'voicingContent' in content ) {
+      else if ( 'node' in content || 'voicingContent' in content ) {
 
         // The content will be VoiceableNode or CustomizedVoicingContent in this case.
         return content.voicingContent || [];
@@ -325,6 +325,11 @@ export default class ScreenSummaryContent extends Node {
       }
       else if ( isTReadOnlyProperty( descriptionContent ) ) {
         return [ this.createNode( descriptionContent ) ];
+      }
+      else if ( 'node' in content ) {
+
+        // content is a VoiceableNode in this case and has a custom Node with all content.
+        return [ content.node ];
       }
       else {
 
