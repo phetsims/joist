@@ -12,8 +12,11 @@ import joist from '../joist.js';
 import localeProperty from './localeProperty.js';
 
 const isLeftToRightProperty = new DerivedProperty( [ localeProperty ], locale => {
-  return phet.chipper.localeData[ locale ].direction === 'ltr';
+  return phet.chipper.queryParameters.stringTest === 'rtl' ?
+         false :
+         phet.chipper.localeData[ locale ].direction === 'ltr';
 } );
+isLeftToRightProperty.link( isLTR => { console.log( `isLTR = ${isLTR}` );} );
 
 joist.register( 'isLeftToRightProperty', isLeftToRightProperty );
 
