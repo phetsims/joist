@@ -52,10 +52,18 @@ import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
 import { type DisposableOptions } from '../../axon/js/Disposable.js';
 import TReadOnlyProperty, { isTReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import joist from '../../joist/js/joist.js';
+import affirm from '../../perennial-alias/js/browser-and-node/affirm.js';
+import AccessibleListNode from '../../scenery-phet/js/accessibility/AccessibleListNode.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import JoistStrings from './JoistStrings.js';
 
-export type SectionContent = TReadOnlyProperty<string> | Array<TReadOnlyProperty<string>> | VoiceableNode | CustomizedVoicingContent | null;
+export type SectionContent =
+  TReadOnlyProperty<string> |
+  Array<TReadOnlyProperty<string>> |
+  AccessibleListNode |
+  VoiceableNode |
+  CustomizedVoicingContent |
+  null;
 
 type SelfOptions = {
 
@@ -266,8 +274,16 @@ export default class ScreenSummaryContent extends Node {
       else if ( isTReadOnlyProperty( content ) ) {
         return [ content ];
       }
-      else {
+      else if ( 'voicingContent' in content ) {
+
+        // The content will be VoiceableNode or CustomizedVoicingContent in this case.
         return content.voicingContent || [];
+      }
+      else {
+
+        // The content must be an AccessibleListNode in this case
+        affirm( content instanceof AccessibleListNode, 'Content is expected to be an AccessibleListNode in this case.' );
+        return [ content.voicingContentStringProperty ];
       }
     } );
 
@@ -312,9 +328,8 @@ export default class ScreenSummaryContent extends Node {
       }
       else {
 
-        // The descriptionContent must be a VoiceableNode in this case, so we need to get the node from it
-        const node = ( descriptionContent as VoiceableNode ).node;
-        assert && assert( node, 'For this case the descriptionContent must be of type VoiceableNode' );
+        // The descriptionContent must be an AccessibleListNode in this case
+        const node = descriptionContent as AccessibleListNode;
         return [ node ];
       }
     }
