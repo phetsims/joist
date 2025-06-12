@@ -16,7 +16,6 @@ const isLeftToRightProperty = new DerivedProperty( [ localeProperty ], locale =>
          false :
          phet.chipper.localeData[ locale ].direction === 'ltr';
 } );
-isLeftToRightProperty.link( isLTR => { console.log( `isLTR = ${isLTR}` );} );
 
 joist.register( 'isLeftToRightProperty', isLeftToRightProperty );
 
