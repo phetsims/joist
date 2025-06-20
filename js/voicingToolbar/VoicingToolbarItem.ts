@@ -185,7 +185,7 @@ class LabelButtonRow {
     } );
 
     this.playStopButton = new PlayStopButton( this.playingProperty, {
-      startPlayingLabel: a11yNameStringProperty,
+      startPlayingAccessibleName: a11yNameStringProperty,
 
       // voicing - this content should be spoken always regardless of Preferences.
       voicingIgnoreVoicingManagerProperties: true,
