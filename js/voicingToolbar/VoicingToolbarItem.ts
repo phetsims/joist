@@ -190,6 +190,10 @@ class LabelButtonRow {
       // voicing - this content should be spoken always regardless of Preferences.
       voicingIgnoreVoicingManagerProperties: true,
 
+      // For these buttons, we don't want to hear the name response when the button is activated
+      // because it is going to change to a different state when the speaking is finished.
+      speakVoicingNameResponseOnFire: false,
+
       radius: 12,
 
       // phet-io
