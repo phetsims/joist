@@ -94,8 +94,8 @@ class SoundPanelSection extends PreferencesPanelSection {
         voiceNameResponseOnSelection: false,
 
         // both voicing and pdom
-        checkedContextResponse: extraSoundsOnStringProperty,
-        uncheckedContextResponse: extraSoundsOffStringProperty,
+        accessibleContextResponseChecked: extraSoundsOnStringProperty,
+        accessibleContextResponseUnchecked: extraSoundsOffStringProperty,
 
         // phet-io
         tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362

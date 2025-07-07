@@ -163,8 +163,8 @@ class VoicingPanelSection extends PreferencesPanelSection {
      * Create a checkbox for the features of voicing content with a label.
      */
     const createCheckbox = ( labelString: TReadOnlyProperty<string>, property: Property<boolean>,
-                             checkedContextResponse: TReadOnlyProperty<string>,
-                             uncheckedContextResponse: TReadOnlyProperty<string>, disposable: Disposable ): Checkbox => {
+                             accessibleContextResponseChecked: TReadOnlyProperty<string>,
+                             accessibleContextResponseUnchecked: TReadOnlyProperty<string>, disposable: Disposable ): Checkbox => {
       const labelNode = new Text( labelString, PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS );
       const checkbox = new Checkbox( property, labelNode, {
 
@@ -178,8 +178,8 @@ class VoicingPanelSection extends PreferencesPanelSection {
         voiceNameResponseOnSelection: false,
 
         // both pdom and voicing
-        checkedContextResponse: checkedContextResponse,
-        uncheckedContextResponse: uncheckedContextResponse,
+        accessibleContextResponseChecked: accessibleContextResponseChecked,
+        accessibleContextResponseUnchecked: accessibleContextResponseUnchecked,
 
         // phet-io
         tandem: Tandem.OPT_OUT // We don't want to instrument components for preferences, https://github.com/phetsims/joist/issues/744#issuecomment-1196028362
