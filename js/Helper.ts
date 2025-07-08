@@ -1893,9 +1893,6 @@ const createInfo = ( trail: Trail ): Node[] => {
   if ( node.ariaRole ) {
     addSimple( 'ariaRole', node.ariaRole );
   }
-  if ( node.ariaValueText ) {
-    addSimple( 'ariaValueText', node.ariaValueText );
-  }
   if ( node.labelTagName ) {
     addSimple( 'labelTagName', node.labelTagName );
   }
