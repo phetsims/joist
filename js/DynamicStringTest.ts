@@ -13,6 +13,7 @@
 import localizedStrings from '../../chipper/js/browser/localizedStrings.js';
 import joist from './joist.js';
 import { toFixedNumber } from '../../dot/js/util/toFixedNumber.js';
+import isA11yStringKey from '../../chipper/js/browser/isA11yStringKey.js';
 
 const INITIAL_STRING_FACTOR = 1;
 const MAX_STRING_FACTOR = 8; // so that the sim and/or browser doesn't lock up when strings get excessively long
@@ -123,6 +124,14 @@ export default class DynamicStringTest {
  */
 function applyToAllStrings( stringFactor: number ): void {
   localizedStrings.forEach( localizedString => {
+
+    // Accessibility strings are not translatable yet, so they are skipped for testing.
+    // When that is supported, this test will need to be updated to support Fluent patterns.
+    // A solution will also be required once we support fluent syntax outside the a11y key.
+    // See https://github.com/phetsims/chipper/issues/1610.
+    if ( isA11yStringKey( localizedString.stringKey ) ) {
+      return;
+    }
 
     // Restore the string to its initial value.
     localizedString.restoreInitialValue( 'en' );
