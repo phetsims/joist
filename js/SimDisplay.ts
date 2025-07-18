@@ -39,7 +39,7 @@ export type SimDisplayOptions = SelfOptions & DisplayOptions;
 
 export default class SimDisplay extends Display {
 
-  // root for the simulation and the target for AnimatedPanZoomListener to support magnification since the Display rootNode
+  // root for the simulation and the target for AnimatedPanZoomListener to support pan and zoom since the Display rootNode
   // cannot be transformed
   public readonly simulationRoot = new Node();
   private readonly inputFuzzer: InputFuzzer;
@@ -181,7 +181,7 @@ export default class SimDisplay extends Display {
     this.setCanvasNodeBoundsVisible( phet.chipper.queryParameters.showCanvasNodeBounds );
     this.setFittedBlockBoundsVisible( phet.chipper.queryParameters.showFittedBlockBounds );
 
-    // magnification support - always initialized for consistent PhET-iO API, but only conditionally added to Display
+    // pan and zoom support - always initialized for consistent PhET-iO API, but only conditionally added to Display
     animatedPanZoomSingleton.initialize( this.simulationRoot, {
       tandem: options.tandem.createTandem( 'panZoomListener' ),
 
