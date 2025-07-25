@@ -44,6 +44,8 @@ export class LocaleProperty extends Property<Locale> {
 
   public readonly availableRuntimeLocales: Locale[] = availableRuntimeLocales;
 
+  private _isLocaleChanging = false;
+
   public constructor( value: Locale, providedOptions?: LocalePropertyOptions ) {
 
     const options = optionize<LocalePropertyOptions, SelfOptions, PropertyOptions<Locale>>()( {
@@ -54,13 +56,23 @@ export class LocaleProperty extends Property<Locale> {
     super( value, options );
   }
 
+  /**
+   * True when the locale is in the process of changing, so that you can opt out of work while many strings are changing.
+   */
+  public get isLocaleChanging(): boolean {
+    return this._isLocaleChanging;
+  }
+
   // Override to provide grace and support for the full definition of allowed locales (aligned with the query parameter
   // schema). For example three letter values, and case insensitivity. See checkAndRemapLocale() for details. NOTE that
   // this will assert if the locale doesn't match the right format.
   protected override unguardedSet( value: Locale ): void {
+    this._isLocaleChanging = true;
 
     // NOTE: updates phet.chipper.locale as a side-effect
     super.unguardedSet( phet.chipper.checkAndRemapLocale( value, true ) );
+
+    this._isLocaleChanging = false;
   }
 
   // This improves the PhET-iO Studio interface, by giving available values, without triggering validation if you want
