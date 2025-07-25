@@ -29,6 +29,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import { type SpeakableResolvedResponse } from '../../utterance-queue/js/ResponsePacket.js';
 import joist from './joist.js';
 import type ScreenSummaryContent from './ScreenSummaryContent.js';
+import WCAGSizeNode from './WCAGSizeNode.js';
 
 /*
  * Default width and height for iPad2, iPad3, iPad4 running Safari with default tabs and decorations
@@ -167,6 +168,11 @@ class ScreenView extends Node {
       this.pdomPlayAreaNode,
       this.pdomControlAreaNode
     ] : [ this.pdomTitleNode ];
+
+    // If ?wcagSize is provided, add in the draggable visual display of WCAG 24x24 and 44x44 sizes.
+    if ( phet.chipper.queryParameters.wcagSize ) {
+      this.addChild( new WCAGSizeNode( this ) );
+    }
   }
 
   /**
