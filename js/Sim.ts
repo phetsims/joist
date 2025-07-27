@@ -270,6 +270,8 @@ export default class Sim extends PhetioObject {
 
   private readonly splashScreenProgressBarWidth: number;
 
+  public readonly simStartedEmitter = new Emitter();
+
   /**
    * @param simNameProperty - the name of the simulation, to be displayed in the navbar and homescreen
    * @param allSimScreens - the possible screens for the sim in order of declaration (does not include the home screen)
@@ -1020,6 +1022,8 @@ export default class Sim extends PhetioObject {
               assert && phet.chipper.brand === 'phet' && assert( !Tandem.PHET_IO_ENABLED, 'window.phet.preloads.phetio should not exist for phet brand' );
 
               this.simStartedTime = Date.now();
+
+              this.simStartedEmitter.emit();
 
               // Communicate sim load (successfully) to CT or other listening parent frames
               if ( phet.chipper.queryParameters.continuousTest ) {
