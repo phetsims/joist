@@ -92,6 +92,7 @@ export class LocaleProperty extends Property<Locale> {
 }
 
 const localeProperty = new LocaleProperty( phet.chipper.locale, {
+  disableListenerLimit: true,
   tandem: Tandem.GENERAL_MODEL.createTandem( 'localeProperty' ),
   phetioFeatured: true,
   phetioDocumentation: 'Specifies language currently displayed in the simulation',
