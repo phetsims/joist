@@ -93,8 +93,8 @@ export type ScreenSummaryContentOptions = SelfOptions & ParentOptions;
 
 export default class ScreenSummaryContent extends Node {
 
-  // References to the play area and control area content, because they are combined to form the
-  // the "combined voicing overview content".
+  // References to the play area and control area content, because they are combined to form the "combined voicing
+  // overview content".
   private _playAreaContent: SectionContent = null;
   private _controlAreaContent: SectionContent = null;
 
