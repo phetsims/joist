@@ -64,7 +64,8 @@ class SoundPanelSection extends PreferencesPanelSection {
       description: soundDescriptionStringProperty
     }, { tandem: Tandem.OPT_OUT } );
     const soundEnabledVoicingText = new VoicingText( soundDescriptionStringProperty, merge( {}, PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS, {
-      readingBlockNameResponse: soundEnabledStringProperty
+      readingBlockNameResponse: soundEnabledStringProperty,
+      accessibleParagraph: null
     } ) );
     const soundEnabledSwitch = new ToggleSwitch( audioModel.soundEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
       visible: options.includeTitleToggleSwitch,

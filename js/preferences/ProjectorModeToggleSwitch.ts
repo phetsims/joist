@@ -11,7 +11,7 @@ import PatternStringProperty from '../../../axon/js/PatternStringProperty.js';
 import type Property from '../../../axon/js/Property.js';
 import optionize, { combineOptions, type EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import type StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
-import VoicingText from '../../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
+import VoicingText, { VoicingTextOptions } from '../../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import SceneryConstants from '../../../scenery/js/SceneryConstants.js';
 import ToggleSwitch, { type ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
@@ -35,7 +35,13 @@ class ProjectorModeToggleSwitch extends PreferencesControl {
       'ProjectorModeToggleSwitch requires sims that support the projector color profile and one other color profile' );
 
     const projectorModeLabel = new Text( JoistStrings.projectorModeStringProperty, PreferencesDialogConstants.PANEL_SECTION_LABEL_OPTIONS );
-    const projectorModeDescription = new VoicingText( JoistStrings.preferences.tabs.visual.projectorModeDescriptionStringProperty, PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS );
+    const projectorModeDescription = new VoicingText( JoistStrings.preferences.tabs.visual.projectorModeDescriptionStringProperty, combineOptions<VoicingTextOptions>(
+      {},
+      PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS,
+      {
+        accessibleParagraph: null
+      }
+    ) );
 
     // Identify the non-projector color profile that this checkbox sets.
     const otherColorProfile = phet.chipper.colorProfiles.find( ( colorProfile: string ) => colorProfile !== SceneryConstants.PROJECTOR_COLOR_PROFILE );

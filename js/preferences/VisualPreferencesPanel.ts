@@ -71,7 +71,8 @@ class VisualPreferencesPanel extends PreferencesPanel {
         description: interactiveHighlightsDescriptionStringProperty
       }, { tandem: Tandem.OPT_OUT } );
       const interactiveHighlightsEnabledSwitchVoicingText = new VoicingText( interactiveHighlightsDescriptionStringProperty, merge( {}, PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS, {
-        readingBlockNameResponse: highlightsReadingBlockNameResponsePatternStringProperty
+        readingBlockNameResponse: highlightsReadingBlockNameResponsePatternStringProperty,
+        accessibleParagraph: null
       } ) );
       const interactiveHighlightsEnabledSwitch = new ToggleSwitch( visualModel.interactiveHighlightsEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
         accessibleName: interactiveHighlightsStringProperty,

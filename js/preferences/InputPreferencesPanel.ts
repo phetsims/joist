@@ -59,6 +59,7 @@ class InputPreferencesPanel extends PreferencesPanel {
         lineWrap: 350,
         maxHeight: 100,
 
+        accessibleParagraph: null,
         readingBlockNameResponse: StringUtils.fillIn( labelledDescriptionPatternStringProperty, {
           label: gestureControlsString,
           description: gestureControlsDescriptionString

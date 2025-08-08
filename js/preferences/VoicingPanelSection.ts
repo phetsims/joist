@@ -123,7 +123,8 @@ class VoicingPanelSection extends PreferencesPanelSection {
       description: voicingDescriptionStringProperty
     }, { tandem: Tandem.OPT_OUT } );
     const voicingEnabledSwitchVoicingText = new VoicingText( voicingDescriptionStringProperty, merge( {}, PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS, {
-      readingBlockNameResponse: voicingEnabledReadingBlockNameResponsePatternStringProperty
+      readingBlockNameResponse: voicingEnabledReadingBlockNameResponsePatternStringProperty,
+      accessibleParagraph: null
     } ) );
     const voicingToggleSwitch = new ToggleSwitch( audioModel.voicingEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
       accessibleName: titleStringProperty
@@ -156,7 +157,8 @@ class VoicingPanelSection extends PreferencesPanelSection {
       description: simVoicingDescriptionStringProperty
     }, { tandem: Tandem.OPT_OUT } );
     const speechOutputDescription = new VoicingText( simVoicingDescriptionStringProperty, merge( {}, PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS, {
-      readingBlockNameResponse: speechOutputReadingBlockNameResponsePatternStringProperty
+      readingBlockNameResponse: speechOutputReadingBlockNameResponsePatternStringProperty,
+      accessibleParagraph: null
     } ) );
 
     /**

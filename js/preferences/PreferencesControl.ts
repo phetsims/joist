@@ -12,12 +12,17 @@
  *   their own. When this component is updated, all usages will be tested and confirmed to match the desired design.
  *   https://github.com/phetsims/joist/issues/842
  *
+ * Accessibility is managed by the controlNode. However, PreferencesControl will set a default accessibleName,
+ * and accessibleHelpText on the controlNode from the labelNode and descriptionNode if they are not already set.
+ *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
 import optionize from '../../../phet-core/js/optionize.js';
 import type StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
+import { findStringProperty } from '../../../scenery/js/accessibility/pdom/findStringProperty.js';
+import { RemoveParallelDOMOptions } from '../../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import GridBox, { type GridBoxOptions } from '../../../scenery/js/layout/nodes/GridBox.js';
 import type TLayoutOptions from '../../../scenery/js/layout/TLayoutOptions.js';
 import type Node from '../../../scenery/js/nodes/Node.js';
@@ -53,7 +58,8 @@ type SelfOptions = {
   headingControl?: boolean;
 };
 
-export type PreferencesControlOptions = SelfOptions & GridBoxOptions;
+// PreferencesControl does not accept accessibility related options, accessibility is handled by the controlNode.
+export type PreferencesControlOptions = SelfOptions & RemoveParallelDOMOptions<GridBoxOptions>;
 
 class PreferencesControl extends GridBox {
   public constructor( providedOptions?: PreferencesControlOptions ) {
@@ -83,6 +89,16 @@ class PreferencesControl extends GridBox {
       };
 
       this.addChild( options.controlNode );
+
+      // If the controlNode has no accessibleName, default to content in the labelNode.
+      if ( options.labelNode && options.controlNode.accessibleName === null ) {
+        options.controlNode.accessibleName = findStringProperty( options.labelNode );
+      }
+
+      // If the controlNode has no accessibleHelpText, default to the content in the descriptionNode.
+      if ( options.descriptionNode && options.controlNode.accessibleHelpText === null ) {
+        options.controlNode.accessibleHelpText = findStringProperty( options.descriptionNode );
+      }
     }
 
     if ( options.labelNode ) {
