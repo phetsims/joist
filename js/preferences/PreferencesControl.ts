@@ -58,7 +58,8 @@ type SelfOptions = {
   headingControl?: boolean;
 };
 
-// PreferencesControl does not accept accessibility related options, accessibility is handled by the controlNode.
+// Accessibility should be handled by the controlNode. However, default accessibleName and accessibleHelpText
+// will be assigned to the controlNode from the labelNode and descriptionNode if they are not already set.
 export type PreferencesControlOptions = SelfOptions & RemoveParallelDOMOptions<GridBoxOptions>;
 
 class PreferencesControl extends GridBox {
