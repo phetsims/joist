@@ -76,8 +76,8 @@ class VisualPreferencesPanel extends PreferencesPanel {
       } ) );
       const interactiveHighlightsEnabledSwitch = new ToggleSwitch( visualModel.interactiveHighlightsEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
         accessibleName: interactiveHighlightsStringProperty,
-        leftValueContextResponse: interactiveHighlightsDisabledAlertStringProperty,
-        rightValueContextResponse: interactiveHighlightsEnabledAlertStringProperty
+        accessibleContextResponseLeftValue: interactiveHighlightsDisabledAlertStringProperty,
+        accessibleContextResponseRightValue: interactiveHighlightsEnabledAlertStringProperty
       }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
 
       const interactiveHighlightsEnabledControl = new PreferencesControl( {

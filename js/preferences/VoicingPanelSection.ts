@@ -140,8 +140,8 @@ class VoicingPanelSection extends PreferencesPanelSection {
     const quickAccessLabel = new Text( toolbarLabelStringProperty, PreferencesDialogConstants.PANEL_SECTION_LABEL_OPTIONS );
     const toolbarToggleSwitch = new ToggleSwitch( audioModel.voicingToolbarEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
       accessibleName: toolbarLabelStringProperty,
-      leftValueContextResponse: toolbarRemovedStringProperty,
-      rightValueContextResponse: toolbarAddedStringProperty
+      accessibleContextResponseLeftValue: toolbarRemovedStringProperty,
+      accessibleContextResponseRightValue: toolbarAddedStringProperty
     }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
     const toolbarEnabledSwitch = new PreferencesControl( {
       labelNode: quickAccessLabel,

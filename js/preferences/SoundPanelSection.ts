@@ -70,8 +70,8 @@ class SoundPanelSection extends PreferencesPanelSection {
     const soundEnabledSwitch = new ToggleSwitch( audioModel.soundEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
       visible: options.includeTitleToggleSwitch,
       accessibleName: soundsLabelStringProperty,
-      leftValueContextResponse: soundsOffStringProperty,
-      rightValueContextResponse: soundsOnStringProperty
+      accessibleContextResponseLeftValue: soundsOffStringProperty,
+      accessibleContextResponseRightValue: soundsOnStringProperty
     }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
     const soundEnabledControl = new PreferencesControl( {
       labelNode: soundLabel,
