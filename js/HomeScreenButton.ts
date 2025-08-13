@@ -11,6 +11,7 @@
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import { linear } from '../../dot/js/util/linear.js';
 import Shape from '../../kite/js/Shape.js';
 import merge from '../../phet-core/js/merge.js';
 import optionize from '../../phet-core/js/optionize.js';
@@ -18,6 +19,7 @@ import type IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import type PickRequired from '../../phet-core/js/types/PickRequired.js';
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
+import ParallelDOM from '../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import PDOMPeer from '../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import Voicing, { type VoicingOptions } from '../../scenery/js/accessibility/voicing/Voicing.js';
 import VBox, { type VBoxOptions } from '../../scenery/js/layout/nodes/VBox.js';
@@ -31,7 +33,6 @@ import Frame from './Frame.js';
 import type HomeScreenModel from './HomeScreenModel.js';
 import joist from './joist.js';
 import type Screen from './Screen.js';
-import { linear } from '../../dot/js/util/linear.js';
 
 // constants
 const LARGE_ICON_HEIGHT = 140;
@@ -53,8 +54,11 @@ class HomeScreenButton extends Voicing( VBox ) {
 
       // pdom
       tagName: 'button',
-      appendDescription: true,
       containerTagName: 'li',
+
+      // Most layout containers have help text before content, but for this button we want it
+      // to come after.
+      accessibleHelpTextBehavior: ParallelDOM.HELP_TEXT_AFTER_CONTENT,
 
       // phet-io
       phetioEventType: EventType.USER,
