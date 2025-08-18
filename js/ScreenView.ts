@@ -21,10 +21,9 @@ import Property from '../../axon/js/Property.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Matrix3 from '../../dot/js/Matrix3.js';
 import optionize from '../../phet-core/js/optionize.js';
-import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import ControlAreaNode from '../../scenery-phet/js/accessibility/nodes/ControlAreaNode.js';
 import PlayAreaNode from '../../scenery-phet/js/accessibility/nodes/PlayAreaNode.js';
-import ScreenSummaryNode, { ScreenSummaryNodeOptions } from '../../scenery-phet/js/accessibility/nodes/ScreenSummaryNode.js';
+import ScreenSummaryNode from '../../scenery-phet/js/accessibility/nodes/ScreenSummaryNode.js';
 import Node, { type NodeOptions } from '../../scenery/js/nodes/Node.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import { type SpeakableResolvedResponse } from '../../utterance-queue/js/ResponsePacket.js';
@@ -50,10 +49,6 @@ type SelfOptions = {
   layoutBounds?: Bounds2;
   screenSummaryContent?: ScreenSummaryContent | null;
   includePDOMNodes?: boolean;
-
-  // Options passed to the ScreenSummaryNode, which has the general intro and hint content that
-  // appears in all simulation screens.
-  screenSummaryNodeOptions?: ScreenSummaryNodeOptions;
 };
 export type ScreenViewOptions = SelfOptions & NodeOptions;
 
@@ -77,7 +72,7 @@ class ScreenView extends Node {
 
   public constructor( providedOptions?: ScreenViewOptions ) {
 
-    const options = optionize<ScreenViewOptions, StrictOmit<SelfOptions, 'screenSummaryNodeOptions'>, NodeOptions>()( {
+    const options = optionize<ScreenViewOptions, SelfOptions, NodeOptions>()( {
 
       // {Bounds2} the bounds that are safe to draw in on all supported platforms
       layoutBounds: DEFAULT_LAYOUT_BOUNDS.copy(),
@@ -128,7 +123,7 @@ class ScreenView extends Node {
     this.pdomControlAreaNode = new ControlAreaNode( { accessibleHeadingIncrement: 2 } );
 
     // This container has the intro "{{SIM}} is an interactive sim, it changes as you . . ."
-    this.pdomScreenSummaryNode = new ScreenSummaryNode( options.screenSummaryNodeOptions );
+    this.pdomScreenSummaryNode = new ScreenSummaryNode();
 
     // at the Node from options in the same way that can be done at any time
     options.screenSummaryContent && this.setScreenSummaryContent( options.screenSummaryContent );
