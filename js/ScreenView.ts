@@ -21,6 +21,7 @@ import Property from '../../axon/js/Property.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Matrix3 from '../../dot/js/Matrix3.js';
 import optionize from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import ControlAreaNode from '../../scenery-phet/js/accessibility/nodes/ControlAreaNode.js';
 import PlayAreaNode from '../../scenery-phet/js/accessibility/nodes/PlayAreaNode.js';
 import ScreenSummaryNode from '../../scenery-phet/js/accessibility/nodes/ScreenSummaryNode.js';
@@ -50,7 +51,7 @@ type SelfOptions = {
   screenSummaryContent?: ScreenSummaryContent | null;
   includePDOMNodes?: boolean;
 };
-export type ScreenViewOptions = SelfOptions & NodeOptions;
+export type ScreenViewOptions = SelfOptions & StrictOmit<NodeOptions, 'isDisposable'>;
 
 class ScreenView extends Node {
   public readonly layoutBounds: Bounds2;
@@ -80,6 +81,8 @@ class ScreenView extends Node {
       // Node options
       layerSplit: true, // so we're not in the same layer as the navbar, etc.
       excludeInvisible: true, // so we don't keep invisible screens in the SVG tree
+
+      isDisposable: false,
 
       // phet-io
       tandem: Tandem.REQUIRED,

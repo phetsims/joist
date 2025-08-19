@@ -80,7 +80,7 @@ type SelfOptions = {
   screenButtonsHelpText?: PDOMValueType;
 };
 export type ScreenOptions = SelfOptions &
-  StrictOmit<PhetioObjectOptions, 'tandemNameSuffix'> & // Tandem.RootTandem.createTandem requires that the suffix is Tandem.SCREEN_TANDEM_NAME_SUFFIX.
+  StrictOmit<PhetioObjectOptions, 'tandemNameSuffix' | 'isDisposable'> & // Tandem.RootTandem.createTandem requires that the suffix is Tandem.SCREEN_TANDEM_NAME_SUFFIX.
   PickRequired<PhetioObjectOptions, 'tandem'>;
 
 // @joist-internal - This type is uses IntentionalAny to break the contravariance dependency that the createView function
@@ -156,6 +156,8 @@ class Screen<M extends TModel, V extends ScreenView> extends PhetioObject {
       createKeyboardHelpNode: null,
 
       screenButtonsHelpText: null,
+
+      isDisposable: false,
 
       // phet-io
       // @ts-expect-error include a default for un-instrumented, JavaScript sims
