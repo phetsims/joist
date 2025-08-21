@@ -11,8 +11,8 @@ import { combineOptions } from '../../../phet-core/js/optionize.js';
 import type PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import HBox from '../../../scenery/js/layout/nodes/HBox.js';
 import VBox, { type VBoxOptions } from '../../../scenery/js/layout/nodes/VBox.js';
-import Text from '../../../scenery/js/nodes/Text.js';
 import Node from '../../../scenery/js/nodes/Node.js';
+import Text from '../../../scenery/js/nodes/Text.js';
 import ToggleSwitch, { type ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
@@ -103,7 +103,9 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
 
     const audioFeaturesText = new Text( audioFeaturesStringProperty, PreferencesDialogConstants.PANEL_SECTION_LABEL_OPTIONS );
     const audioFeaturesSwitch = new ToggleSwitch( audioModel.audioEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
-      accessibleName: audioFeaturesStringProperty
+      accessibleName: audioFeaturesStringProperty,
+      accessibleContextResponseLeftValue: JoistStrings.a11y.soundToggle.alert.simSoundOffStringProperty,
+      accessibleContextResponseRightValue: JoistStrings.a11y.soundToggle.alert.simSoundOnStringProperty
     }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
     const allAudioSwitch = new PreferencesControl( {
       labelNode: audioFeaturesText,
