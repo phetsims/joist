@@ -7,7 +7,7 @@
  */
 
 import Multilink from '../../../axon/js/Multilink.js';
-import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import type { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
 import type StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import Node, { type NodeOptions } from '../../../scenery/js/nodes/Node.js';

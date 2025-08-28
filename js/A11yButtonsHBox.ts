@@ -6,7 +6,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import type { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import optionize, { type EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import platform from '../../phet-core/js/platform.js';
 import type StrictOmit from '../../phet-core/js/types/StrictOmit.js';

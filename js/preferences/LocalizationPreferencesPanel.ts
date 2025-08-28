@@ -10,7 +10,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import type { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions, type EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import type PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import VoicingRichText from '../../../scenery/js/accessibility/voicing/nodes/VoicingRichText.js';

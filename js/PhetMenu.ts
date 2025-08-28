@@ -9,7 +9,7 @@
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import TinyProperty from '../../axon/js/TinyProperty.js';
-import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import type { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import Shape from '../../kite/js/Shape.js';
 import optionize, { type EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import platform from '../../phet-core/js/platform.js';

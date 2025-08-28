@@ -8,7 +8,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import type { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import dotRandom from '../../dot/js/dotRandom.js';
 import optionize from '../../phet-core/js/optionize.js';
 import type Pointer from '../../scenery/js/input/Pointer.js';

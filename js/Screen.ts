@@ -17,7 +17,7 @@ import Multilink from '../../axon/js/Multilink.js';
 import PatternStringProperty from '../../axon/js/PatternStringProperty.js';
 import Property from '../../axon/js/Property.js';
 import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
-import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import type { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import type Bounds2 from '../../dot/js/Bounds2.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import Shape from '../../kite/js/Shape.js';

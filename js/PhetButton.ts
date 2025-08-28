@@ -9,7 +9,7 @@
  */
 
 import Multilink from '../../axon/js/Multilink.js';
-import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import type { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import type TBrand from '../../brand/js/TBrand.js';
 import IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import AriaHasPopUpMutator from '../../scenery/js/accessibility/pdom/AriaHasPopUpMutator.js';

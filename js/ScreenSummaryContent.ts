@@ -50,7 +50,7 @@ type CustomizedVoicingContent = {
 
 import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
 import { type DisposableOptions } from '../../axon/js/Disposable.js';
-import TReadOnlyProperty, { isTReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty, isTReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import joist from '../../joist/js/joist.js';
 import affirm from '../../perennial-alias/js/browser-and-node/affirm.js';
 import AccessibleListNode from '../../scenery-phet/js/accessibility/AccessibleListNode.js';

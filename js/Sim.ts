@@ -23,7 +23,7 @@ import NumberProperty from '../../axon/js/NumberProperty.js';
 import Property from '../../axon/js/Property.js';
 import type ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import stepTimer from '../../axon/js/stepTimer.js';
-import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import type { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import LocalizedStringProperty from '../../chipper/js/browser/LocalizedStringProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Combination from '../../dot/js/Combination.js';

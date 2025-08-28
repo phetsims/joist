@@ -8,7 +8,7 @@
 
 import PatternStringProperty from '../../axon/js/PatternStringProperty.js';
 import type Property from '../../axon/js/Property.js';
-import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import type { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import optionize from '../../phet-core/js/optionize.js';
 import type PickRequired from '../../phet-core/js/types/PickRequired.js';

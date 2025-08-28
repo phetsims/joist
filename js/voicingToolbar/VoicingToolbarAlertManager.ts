@@ -8,7 +8,7 @@
  * @author Jesse Greenberg
  */
 
-import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import type { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 import { type SpeakableResolvedResponse } from '../../../utterance-queue/js/ResponsePacket.js';
 import joist from '../joist.js';
 import { type AnyScreen } from '../Screen.js';

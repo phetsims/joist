@@ -8,7 +8,7 @@
  */
 
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
-import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import type { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions, type EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import type PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import type StrictOmit from '../../../phet-core/js/types/StrictOmit.js';

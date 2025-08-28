@@ -9,7 +9,7 @@
 
 import Multilink from '../../../axon/js/Multilink.js';
 import type TProperty from '../../../axon/js/TProperty.js';
-import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import type { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { type EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import type PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import HBox, { type HBoxOptions } from '../../../scenery/js/layout/nodes/HBox.js';

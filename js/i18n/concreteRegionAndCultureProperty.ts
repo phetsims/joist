@@ -9,7 +9,7 @@
  */
 
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
-import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import type { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 import dotRandom from '../../../dot/js/dotRandom.js';
 import joist from '../joist.js';
 import regionAndCultureProperty, { type RegionAndCulture, supportedRegionAndCultureValues } from './regionAndCultureProperty.js';

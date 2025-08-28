@@ -15,7 +15,7 @@ import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import stepTimer from '../../../axon/js/stepTimer.js';
 import type TProperty from '../../../axon/js/TProperty.js';
-import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import type { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 import Matrix3 from '../../../dot/js/Matrix3.js';
 import Shape from '../../../kite/js/Shape.js';
 import optionize, { type EmptySelfOptions } from '../../../phet-core/js/optionize.js';

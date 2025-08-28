@@ -9,7 +9,7 @@
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
 import stepTimer from '../../axon/js/stepTimer.js';
-import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import type { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import type TBrand from '../../brand/js/TBrand.js';
 import optionize, { type EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import StringUtils from '../../phetcommon/js/util/StringUtils.js';

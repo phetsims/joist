@@ -10,7 +10,7 @@ import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import Multilink from '../../../axon/js/Multilink.js';
 import type NumberProperty from '../../../axon/js/NumberProperty.js';
 import type Property from '../../../axon/js/Property.js';
-import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import type { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 import merge from '../../../phet-core/js/merge.js';
 import optionize, { type EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import IntentionalAny from '../../../phet-core/js/types/IntentionalAny.js';

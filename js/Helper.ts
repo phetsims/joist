@@ -15,7 +15,7 @@ import Multilink from '../../axon/js/Multilink.js';
 import type Property from '../../axon/js/Property.js';
 import TinyProperty from '../../axon/js/TinyProperty.js';
 import type TProperty from '../../axon/js/TProperty.js';
-import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import type { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import { isTReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import type Dimension2 from '../../dot/js/Dimension2.js';

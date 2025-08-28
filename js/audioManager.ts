@@ -21,7 +21,7 @@
 
 import BooleanProperty from '../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import type { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import voicingManager from '../../scenery/js/accessibility/voicing/voicingManager.js';
 import DisplayGlobals from '../../scenery/js/display/DisplayGlobals.js';
 import soundManager from '../../tambo/js/soundManager.js';

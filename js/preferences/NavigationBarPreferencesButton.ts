@@ -6,7 +6,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import type { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 import optionize, { type EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import type PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import Image from '../../../scenery/js/nodes/Image.js';

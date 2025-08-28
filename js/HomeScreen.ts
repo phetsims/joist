@@ -8,7 +8,7 @@
 
 import Property from '../../axon/js/Property.js';
 import type ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
-import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import type { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../phet-core/js/optionize.js';
 import type IntentionalAny from '../../phet-core/js/types/IntentionalAny.js';
 import type Node from '../../scenery/js/nodes/Node.js';

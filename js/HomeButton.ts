@@ -8,7 +8,7 @@
 
 import Multilink from '../../axon/js/Multilink.js';
 import PatternStringProperty from '../../axon/js/PatternStringProperty.js';
-import type TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import type { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../dot/js/Bounds2.js';
 import Shape from '../../kite/js/Shape.js';
 import optionize, { type EmptySelfOptions } from '../../phet-core/js/optionize.js';
