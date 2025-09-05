@@ -43,6 +43,7 @@ const PreferencesDialogConstants = {
   TOGGLE_SWITCH_OPTIONS: {
     size: new Dimension2( 36, 18 ),
     trackFillRight: '#64bd5a',
+    trackFillLeft: null, // use ToggleSwitch default
     // enabled:true by default, but disable if fuzzing when supporting voicing
     enabled: !( phet.chipper.isFuzzEnabled() && phet.chipper.supportsAnyVoicing() ),
 
