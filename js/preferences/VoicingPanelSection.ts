@@ -37,7 +37,7 @@ import JoistStrings from '../JoistStrings.js';
 import PreferencesControl from './PreferencesControl.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import { type AudioModel } from './PreferencesModel.js';
-import PreferencesPanelSection, { type PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
+import PreferencesPanelSection from './PreferencesPanelSection.js';
 
 // constants
 // none of the Voicing strings or feature is translatable yet, all strings in this file
@@ -100,16 +100,12 @@ VOICE_PITCH_DESCRIPTION_MAP.set( new Range( 1.5, 2 ), inHighRangeStringProperty 
 const THUMB_SIZE = new Dimension2( 13, 26 );
 const TRACK_SIZE = new Dimension2( 100, 5 );
 
-type SelfOptions = EmptySelfOptions;
-type VoicingPanelSectionOptions = SelfOptions & PreferencesPanelSectionOptions;
-
 class VoicingPanelSection extends PreferencesPanelSection {
 
   /**
    * @param audioModel - configuration for audio settings, see PreferencesModel
-   * @param [providedOptions]
    */
-  public constructor( audioModel: AudioModel, providedOptions?: VoicingPanelSectionOptions ) {
+  public constructor( audioModel: AudioModel ) {
 
     // Voicing feature only works when running in English. If running in a version where you can change locale,
     // indicate through the title that the feature will only work in English.
