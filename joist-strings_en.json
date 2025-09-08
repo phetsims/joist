@@ -357,7 +357,12 @@
         "value": "Keyboard Shortcuts"
       },
       "tabToGetStarted": {
-        "value": "Tab to get started."
+        "accessibleHelpText": {
+          "value": "Use Tab to find sim actions, cursor keys to read details."
+        },
+        "readingBlockNameResponse": {
+          "value": "Tab to get started."
+        }
       }
     },
     "inPlayArea": {

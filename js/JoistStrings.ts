@@ -148,7 +148,10 @@ type StringsType = {
   'a11y': {
     'keyboardHelp': {
       'keyboardShortcutsStringProperty': LocalizedStringProperty;
-      'tabToGetStartedStringProperty': LocalizedStringProperty;
+      'tabToGetStarted': {
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+        'readingBlockNameResponseStringProperty': LocalizedStringProperty;
+      }
     };
     'inPlayAreaStringProperty': LocalizedStringProperty;
     'inControlAreaStringProperty': LocalizedStringProperty;

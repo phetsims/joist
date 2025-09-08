@@ -29,7 +29,7 @@ import { type AnyScreen } from './Screen.js';
 // constants
 const TITLE_MAX_WIDTH = 670;
 
-const tabToGetStartedStringProperty = JoistStrings.a11y.keyboardHelp.tabToGetStartedStringProperty;
+// const tabToGetStartedStringProperty = JoistStrings.a11y.keyboardHelp.tabToGetStartedStringProperty;
 
 type SelfOptions = EmptySelfOptions;
 
@@ -126,7 +126,7 @@ class TabHintLine extends ReadingBlock( Node ) {
   public constructor( providedOptions?: TabHintLineOptions ) {
 
     const options = optionize<TabHintLineOptions, TabHintLineSelfOptions, ReadingBlockOptions>()( {
-      readingBlockNameResponse: tabToGetStartedStringProperty
+      readingBlockNameResponse: JoistStrings.a11y.keyboardHelp.tabToGetStarted.readingBlockNameResponseStringProperty
     }, providedOptions );
 
     super();
@@ -136,7 +136,7 @@ class TabHintLine extends ReadingBlock( Node ) {
     // a line to say "tab to get started" below the "Keyboard Shortcuts" 'title'
     const labelWithIcon = KeyboardHelpSectionRow.labelWithIcon( JoistStrings.keyboardShortcuts.toGetStartedStringProperty,
       tabIcon, {
-        labelInnerContent: tabToGetStartedStringProperty,
+        labelInnerContent: JoistStrings.a11y.keyboardHelp.tabToGetStarted.accessibleHelpTextStringProperty,
         iconOptions: {
           tagName: 'p' // because there is only one, and the default is an li tag
         }
