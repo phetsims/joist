@@ -38,7 +38,7 @@ type HomeScreenViewOptions = SelfOptions & PickRequired<ScreenViewOptions, 'tand
 
 class HomeScreenView extends ScreenView {
 
-  private homeScreenScreenSummaryIntroProperty!: TReadOnlyProperty<string>;
+  declare private homeScreenScreenSummaryIntroProperty: TReadOnlyProperty<string>;
   private selectedScreenProperty: Property<AnyScreen>;
   public screenButtons: HomeScreenButton[];
 

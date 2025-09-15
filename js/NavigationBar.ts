@@ -74,7 +74,7 @@ class NavigationBar extends Node {
   private readonly background: Rectangle;
   private readonly barContents: Node;
   private readonly a11yButtonsHBox: A11yButtonsHBox;
-  private readonly localeNode!: Node;
+  declare private readonly localeNode: Node;
   private readonly homeButton: HomeButton | null = null; // mutated if multiscreen sim
 
   public constructor( sim: Sim, tandem: Tandem ) {

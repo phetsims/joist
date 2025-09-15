@@ -178,8 +178,8 @@ export default class Sim extends PhetioObject {
   // true if all possible screens are present (order-independent)
   private readonly allScreensCreated: boolean;
 
-  private availableScreensProperty!: Property<number[]>;
-  public activeSimScreensProperty!: ReadOnlyProperty<AnyScreen[]>;
+  declare private availableScreensProperty: Property<number[]>;
+  declare public activeSimScreensProperty: ReadOnlyProperty<AnyScreen[]>;
 
   // When the sim is active, scenery processes inputs and stepSimulation(dt) runs from the system clock.
   // Set to false for when the sim will be paused.
