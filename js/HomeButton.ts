@@ -13,6 +13,7 @@ import Bounds2 from '../../dot/js/Bounds2.js';
 import Shape from '../../kite/js/Shape.js';
 import optionize, { type EmptySelfOptions } from '../../phet-core/js/optionize.js';
 import type PickRequired from '../../phet-core/js/types/PickRequired.js';
+import voicingManager from '../../scenery/js/accessibility/voicing/voicingManager.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Path from '../../scenery/js/nodes/Path.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
@@ -74,7 +75,11 @@ export default class HomeButton extends JoistButton {
 
     // Create a new Utterance that isn't registered through Voicing so that it isn't silenced when the
     // home screen is hidden upon selection. (invisible nodes have their voicing silenced).
-    const buttonSelectionUtterance = new Utterance();
+    const buttonSelectionUtterance = new Utterance( {
+      voicingCanAnnounceProperties: [
+        voicingManager.mainWindowVoicingEnabledProperty
+      ]
+    } );
 
     const providedListener = options.listener;
     options.listener = () => {
