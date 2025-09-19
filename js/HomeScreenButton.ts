@@ -22,6 +22,7 @@ import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import ParallelDOM from '../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import PDOMPeer from '../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import Voicing, { type VoicingOptions } from '../../scenery/js/accessibility/voicing/Voicing.js';
+import voicingManager from '../../scenery/js/accessibility/voicing/voicingManager.js';
 import VBox, { type VBoxOptions } from '../../scenery/js/layout/nodes/VBox.js';
 import FireListener from '../../scenery/js/listeners/FireListener.js';
 import Node from '../../scenery/js/nodes/Node.js';
@@ -168,7 +169,11 @@ class HomeScreenButton extends Voicing( VBox ) {
 
     // Create a new Utterance that isn't registered through Voicing so that it isn't silenced when the
     // home screen is hidden upon selection. (invisible nodes have their voicing silenced).
-    const buttonSelectionUtterance = new Utterance();
+    const buttonSelectionUtterance = new Utterance( {
+      voicingCanAnnounceProperties: [
+        voicingManager.mainWindowVoicingEnabledProperty
+      ]
+    } );
 
     let buttonWasAlreadySelected = false;
 
