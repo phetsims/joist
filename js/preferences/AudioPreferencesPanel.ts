@@ -9,11 +9,13 @@
 import type { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
 import type PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import voicingManager from '../../../scenery/js/accessibility/voicing/voicingManager.js';
 import HBox from '../../../scenery/js/layout/nodes/HBox.js';
 import VBox, { type VBoxOptions } from '../../../scenery/js/layout/nodes/VBox.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import ToggleSwitch, { type ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
+import ActivationUtterance from '../../../utterance-queue/js/ActivationUtterance.js';
 import joist from '../joist.js';
 import JoistStrings from '../JoistStrings.js';
 import PreferencesControl from './PreferencesControl.js';
@@ -101,11 +103,22 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
       container.addChild( preferencesPanelSection );
     } );
 
+    // Use a custom Utterance for this output because it needs to be heard, even when Voicing is disabled.
+    // If assigned to the ToggleSwitch, the "Off" response would be blocked when Voicing is disabled.
+    const customUtterance = new ActivationUtterance();
+    const enabledListener = ( enabled: boolean ) => {
+      customUtterance.alert = enabled ? JoistStrings.a11y.soundToggle.alert.simSoundOnStringProperty
+                                      : JoistStrings.a11y.soundToggle.alert.simSoundOffStringProperty;
+      this.addAccessibleResponse( customUtterance );
+      if ( voicingManager.voicingFullyEnabledProperty.value ) {
+        voicingManager.speakIgnoringEnabled( customUtterance );
+      }
+    };
+    audioModel.audioEnabledProperty.lazyLink( enabledListener );
+
     const audioFeaturesText = new Text( audioFeaturesStringProperty, PreferencesDialogConstants.PANEL_SECTION_LABEL_OPTIONS );
     const audioFeaturesSwitch = new ToggleSwitch( audioModel.audioEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
-      accessibleName: audioFeaturesStringProperty,
-      accessibleContextResponseLeftValue: JoistStrings.a11y.soundToggle.alert.simSoundOffStringProperty,
-      accessibleContextResponseRightValue: JoistStrings.a11y.soundToggle.alert.simSoundOnStringProperty
+      accessibleName: audioFeaturesStringProperty
     }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
     const allAudioSwitch = new PreferencesControl( {
       labelNode: audioFeaturesText,
