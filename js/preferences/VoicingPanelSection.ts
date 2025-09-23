@@ -309,14 +309,24 @@ class VoicingPanelSection extends PreferencesPanelSection {
     // when the list of voices for the ComboBox changes, create a new ComboBox that includes the supported
     // voices. Eagerly create the first ComboBox, even if no voices are available.
     let voiceComboBox: VoiceComboBox | null = null;
-    const voicesChangedListener = ( voices: SpeechSynthesisVoice[] ) => {
+
+    // The voicesAboutToChangeEmitter always fires before voicesProperty is updated.
+    // This allows us to safely clean up (dispose) the old ComboBox before the new list of voices is set.
+    // Without this, the old ComboBox might reference voices that no longer exist, leading to errors.
+    // This cleanup is especially important for PhET-iO capsule mode, where multiple VoicingPanelSection
+    // instances can exist. If one instance updates its voice list and sets the voiceProperty before
+    // another instance cleans up, the second instance could end up with an incompatible or invalid voiceProperty.
+    voicingManager.voicesAboutToChangeEmitter.addListener( () => {
       if ( voiceComboBox ) {
         voiceOptionsContent.removeChild( voiceComboBox );
 
         // Disposal is required before creating a new one when available voices change
         voiceComboBox.dispose();
+        voiceComboBox = null;
       }
+    } );
 
+    const voicesChangedListener = ( voices: SpeechSynthesisVoice[] ) => {
       let voiceList: SpeechSynthesisVoice[] = [];
 
       // Only get the prioritized and pruned list of voices if the VoicingManager has voices
