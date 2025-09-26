@@ -1,0 +1,276 @@
+joist.title:                                                                                    joist demo
+done:                                                                                           Done
+menuItem.options:                                                                               Options…
+menuItem.about:                                                                                 About…
+menuItem.outputLog:                                                                             Output Log
+menuItem.phetWebsite:                                                                           PhET Website…
+menuItem.reportAProblem:                                                                        Report a Problem…
+menuItem.screenshot:                                                                            Screenshot
+menuItem.fullscreen:                                                                            Full Screen
+menuItem.getUpdate:                                                                             Check for Updates…
+menuItem.enhancedSound:                                                                         Extra Sound
+menuItem.mailInputEventsLog:                                                                    Mail Input Events Log
+menuItem.mailInputEventsLog__deprecated:                                                        true
+menuItem.outputInputEventsLog:                                                                  Output Input Events Log
+menuItem.outputInputEventsLog__deprecated:                                                      true
+menuItem.submitInputEventsLog:                                                                  Submit Input Events Log
+menuItem.submitInputEventsLog__deprecated:                                                      true
+menuItem.settings:                                                                              Settings
+menuItem.settings__deprecated:                                                                  true
+title.settings:                                                                                 Settings
+showPointers:                                                                                   Show Pointers
+termsPrivacyAndLicensing:                                                                       Terms, Privacy & Licensing
+termsPrivacyAndLicensing__simMetadata:
+  phetioReadOnly: true
+credits.title:                                                                                  Credits
+credits.title__simMetadata:
+  phetioReadOnly: true
+credits.leadDesign:                                                                             'Lead Design: {0}'
+credits.leadDesign__simMetadata:
+  phetioReadOnly: true
+credits.softwareDevelopment:                                                                    'Software Development: {0}'
+credits.softwareDevelopment__simMetadata:
+  phetioReadOnly: true
+credits.team:                                                                                   'Team: {0}'
+credits.team__simMetadata:
+  phetioReadOnly: true
+credits.contributors:                                                                           'Contributors: {0}'
+credits.contributors__simMetadata:
+  phetioReadOnly: true
+credits.qualityAssurance:                                                                       'Quality Assurance: {0}'
+credits.qualityAssurance__simMetadata:
+  phetioReadOnly: true
+credits.graphicArts:                                                                            'Graphic Arts: {0}'
+credits.graphicArts__simMetadata:
+  phetioReadOnly: true
+credits.soundDesign:                                                                            'Sound Design: {0}'
+credits.soundDesign__simMetadata:
+  phetioReadOnly: true
+credits.translation:                                                                            Translation
+credits.translation__simMetadata:
+  phetioReadOnly: true
+credits.thanks:                                                                                 Thanks
+credits.thanks__simMetadata:
+  phetioReadOnly: true
+options.title:                                                                                  Options
+options.title__simMetadata:
+  phetioReadOnly: true
+versionPattern:                                                                                 version {0}
+versionPattern__simMetadata:
+  phetioReadOnly: true
+updates.upToDate:                                                                               This simulation is up to date.
+updates.outOfDate:                                                                              New version available
+updates.checking:                                                                               Checking for updates…
+updates.offline:                                                                                Unable to check for updates.
+updates.newVersionAvailable:                                                                    'There is a new version available: {0}.'
+updates.yourCurrentVersion:                                                                     'Your current version is: {0}.'
+updates.getUpdate:                                                                              Get Update…
+updates.noThanks:                                                                               No Thanks
+translation.credits.link:                                                                       Translation Credits
+translation.credits.link__simMetadata:
+  phetioReadOnly: true
+thirdParty.credits.link:                                                                        Third-party Credits
+thirdParty.credits.link__simMetadata:
+  phetioReadOnly: true
+keyboardShortcuts.title:                                                                        Keyboard Shortcuts
+keyboardShortcuts.toGetStarted:                                                                 to get started
+simTitleWithScreenNamePattern:                                                                  '{{simName}} — {{screenName}}'
+simTitleWithScreenNamePattern__simMetadata:
+  phetioDocumentation: >-
+                       This pattern is used when a multi-screen simulation is only displaying one
+                       screen.
+projectorMode:                                                                                  Projector Mode
+queryParametersWarningDialog.invalidQueryParameters:                                            Invalid Query Parameters
+queryParametersWarningDialog.oneOrMoreQueryParameters:                                          'One or more of these query parameters have<br>invalid values:'
+queryParametersWarningDialog.theSimulationWillStart:                                            The simulation will start with default values for<br>those query parameters.
+ieErrorPage.platformError:                                                                      Platform Error
+ieErrorPage.ieIsNotSupported:                                                                   Internet Explorer is not supported.
+ieErrorPage.useDifferentBrowser:                                                                Please use a different browser to run this simulation.
+preferences.title:                                                                              Preferences
+preferences.tabs.general.title:                                                                 General
+preferences.tabs.general.title__comment:                                                        >-
+                                                                                                Must stick around, though unused, because it is in previously published
+                                                                                                i18n-supported sims.
+preferences.tabs.overview.title:                                                                Overview
+preferences.tabs.general.accessibilityIntro:                                                    >-
+                                                                                                We are adding features to our simulations to make them more inclusive. Some of
+                                                                                                these features support accessibility for learners with diverse needs and
+                                                                                                within diverse environments. Explore this menu to review or change the default
+                                                                                                presentation settings.
+preferences.tabs.general.moreAccessibility:                                                     >-
+                                                                                                To find other simulations with inclusive features, look for Access and
+                                                                                                Inclusion on the simulation filter page and filter by inclusive feature.
+preferences.tabs.simulation.title:                                                              Simulation
+preferences.tabs.visual.title:                                                                  Visual
+preferences.tabs.visual.interactiveHighlights:                                                  Interactive Highlights
+preferences.tabs.visual.interactiveHighlightsDescription:                                       Add visual highlights for mouse and touch as you interact.
+preferences.tabs.visual.projectorModeDescription:                                               Increase color contrast for better visibility in classrooms.
+preferences.tabs.audio.title:                                                                   Audio
+preferences.tabs.audio.voicing.titleEnglishOnly:                                                Voicing (English Only)
+preferences.tabs.audio.voicing.description:                                                     Voice and highlight content as you interact.
+preferences.tabs.audio.sounds.title:                                                            Sounds
+preferences.tabs.audio.sounds.extraSounds.title:                                                Extra Sounds
+preferences.tabs.audio.audioFeatures.title:                                                     Audio Features
+preferences.tabs.audio.sounds.description:                                                      Play sonifications and sound effects as you interact.
+preferences.tabs.audio.sounds.extraSounds.description:                                          Play additional sound that may be helpful for some learners.
+preferences.tabs.input.title:                                                                   Input
+preferences.tabs.localization.title:                                                            Localization
+preferences.tabs.localization.languageSelection.title:                                          Languages
+preferences.tabs.localization.languageSelection.description:                                    >-
+                                                                                                Change language to translate on-screen text. Additional descriptions, when
+                                                                                                present, remain in English.
+preferences.tabs.localization.regionAndCulture.title:                                           Region and Culture
+preferences.tabs.localization.regionAndCulture.description:                                     >-
+                                                                                                Select the portrayal of people, places, or objects in the sim. Images are not
+                                                                                                intended to represent the entire diversity of a region or culture.
+preferences.tabs.localization.regionAndCulture.africa:                                          Africa
+preferences.tabs.localization.regionAndCulture.africaModest:                                    Africa (Modest)
+preferences.tabs.localization.regionAndCulture.asia:                                            Asia
+preferences.tabs.localization.regionAndCulture.latinAmerica:                                    Latin America
+preferences.tabs.localization.regionAndCulture.oceania:                                         Oceania
+preferences.tabs.localization.regionAndCulture.random:                                          Random
+preferences.tabs.localization.regionAndCulture.unitedStatesOfAmerica:                           United States of America
+preferences.tabs.localization.regionAndCulture.portrayalSets.africa:                            Africa
+preferences.tabs.localization.regionAndCulture.portrayalSets.africa__deprecated:                true
+preferences.tabs.localization.regionAndCulture.portrayalSets.africaModest:                      Africa (Modest)
+preferences.tabs.localization.regionAndCulture.portrayalSets.africaModest__deprecated:          true
+preferences.tabs.localization.regionAndCulture.portrayalSets.asia:                              Asia
+preferences.tabs.localization.regionAndCulture.portrayalSets.asia__deprecated:                  true
+preferences.tabs.localization.regionAndCulture.portrayalSets.latinAmerica:                      Latin America
+preferences.tabs.localization.regionAndCulture.portrayalSets.latinAmerica__deprecated:          true
+preferences.tabs.localization.regionAndCulture.portrayalSets.oceania:                           Oceania
+preferences.tabs.localization.regionAndCulture.portrayalSets.oceania__deprecated:               true
+preferences.tabs.localization.regionAndCulture.portrayalSets.multicultural:                     Multicultural
+preferences.tabs.localization.regionAndCulture.portrayalSets.multicultural__deprecated:         true
+preferences.tabs.localization.regionAndCulture.portrayalSets.unitedStatesOfAmerica:             United States of America
+preferences.tabs.localization.regionAndCulture.portrayalSets.unitedStatesOfAmerica__deprecated: true
+PhetButton.name:                                                                                PhET Menu Button
+PhetButton.name__deprecated:                                                                    true
+HomeButton.name:                                                                                Home
+HomeButton.name__deprecated:                                                                    true
+adaptedFrom:                                                                                    adapted from
+adaptedFrom__deprecated:                                                                        true
+titlePattern:                                                                                   '{0} {1}'
+titlePattern__deprecated:                                                                       true
+preferences.tabs.input.gestureControls.title:                                                   Gesture Control
+preferences.tabs.input.gestureControls.title__deprecated:                                       true
+preferences.tabs.input.gestureControls.description:                                             >-
+                                                                                                Use touch with custom swipes and taps instead. No direct touch with gesture
+                                                                                                control enabled.
+preferences.tabs.input.gestureControls.description__deprecated:                                 true
+preferences.tabs.general.simulationSpecificSettings:                                            Simulation-specific Settings
+preferences.tabs.general.simulationSpecificSettings__deprecated:                                true
+a11y:
+  keyboardHelp:
+    keyboardShortcuts: Keyboard Shortcuts
+    tabToGetStarted:
+      accessibleHelpText:       Use Tab to find sim actions, cursor keys to read details.
+      readingBlockNameResponse: Tab to get started.
+  inPlayArea:                     'In Play Area:'
+  inControlArea:                  'In Control Area:'
+  simScreens:                     Sim Screens
+  simScreen:                      Sim Screen
+  screenNamePattern:              '{{name}} Screen'
+  goToScreenPattern:              Go to {{name}} Screen.
+  screenSimPattern:               '{{screenName}}, {{simName}}'
+  home:                           Home
+  homeScreenDescriptionPattern:   >-
+                                  Welcome to {{name}}. It has {{screens}} interactive screens that you can
+                                  explore.
+  homeScreenHint:                 Choose a screen to start exploring.
+  homeScreenIntroPattern:         '{{description}} {{hint}}'
+  homeScreenButtonDetailsPattern: On {{name}}, {{screenHint}}
+  simResources:                   Sim Resources
+  soundToggle:
+    alert:
+      simSoundOn:  Audio Features on.
+      simSoundOff: Audio Features off.
+    label: All Audio
+  checkOutShortcuts:              If needed, checkout keyboard shortcuts under Sim Resources.
+  phetMenu:                       PhET Menu
+  preferences:
+    tabs:
+      labelledDescriptionPattern: '{{label}}, {{description}}'
+      tabResponsePattern:         Preferences, {{title}} Tab
+      visual:
+        interactiveHighlights:
+          enabledAlert:  Highlights on for all input.
+          disabledAlert: Highlights off for mouse and touch.
+      audio:
+        sounds:
+          soundsOn:  Sounds on.
+          soundsOff: Sounds off.
+          extraSounds:
+            extraSoundsOn:  Extra Sounds on.
+            extraSoundsOff: Extra Sounds off.
+        voicing:
+          title:                            Voicing
+          voicingOn:                        Voicing on.
+          voicingOff:                       Voicing off.
+          voicingOffOnlyAvailableInEnglish: Voicing off. Only available in English.
+          voicingToolbar:
+            title:          Toolbar
+            toolbarAdded:   Toolbar added to sim.
+            toolbarRemoved: Toolbar removed.
+          simVoicingOptions:
+            title:       Sim Voicing Options
+            description: Choose details you want voiced as you interact.
+            objectDetails:
+              label:         Voice object details and changes
+              enabledAlert:  Voicing object details and changes.
+              disabledAlert: Object details and changes muted.
+            contextChanges:
+              label:         Voice surrounding context changes
+              enabledAlert:  Voicing surrounding context changes.
+              disabledAlert: Surrounding context changes muted.
+            helpfulHints:
+              label:         Voice helpful hints
+              enabledAlert:  Voicing extra help.
+              disabledAlert: Extra help muted.
+          customizeVoice:
+            title:                   Customize Voice
+            expandedAlert:           expanded
+            collapsedAlert:          collapsed
+            variablesPattern:        '{{value}}x'
+            writtenVariablesPattern: '{{value}} times'
+            voice:
+              title:             Voice
+              titlePattern:      'Voice: {{value}}'
+              noVoicesAvailable: No voices available
+            rate:
+              title:       Rate
+              labelString: Voice Rate
+              rangeDescriptions:
+                low:             in low range
+                normal:          in normal range
+                aboveNormal:     above normal range
+                high:            in high range
+                voiceRateNormal: normal
+            pitch:
+              title: Pitch
+      input:
+        gestureControl:
+          enabledAlert:  Custom taps and swipes on.
+          disabledAlert: Custom taps and swipes off.
+      localization:
+        languageSelection:
+          languageChangeResponsePattern: On-screen text now in {{language}}.
+  voicingToolbar:
+    title:         Toolbar
+    openToolbar:   Open Toolbar
+    closeToolbar:  Close Toolbar
+    hideToolbar:   Hide Toolbar
+    showToolbar:   Show Toolbar
+    toolbarShown:  Toolbar Shown.
+    toolbarHidden: Toolbar hidden.
+    voicing:
+      title:              Sim Voicing
+      quickInfo:          Quick Info
+      playOverviewLabel:  Play Overview
+      playDetailsLabel:   Play Details
+      playHintLabel:      Play Hint
+      overviewLabel:      Overview
+      detailsLabel:       Details
+      hintLabel:          Hint
+      simVoicingOnAlert:  Sim Voicing on.
+      simVoicingOffAlert: Sim Voicing off.
