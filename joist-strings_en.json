@@ -6,19 +6,19 @@
     "value": "Done"
   },
   "menuItem.options": {
-    "value": "Options\u2026"
+    "value": "Options…"
   },
   "menuItem.about": {
-    "value": "About\u2026"
+    "value": "About…"
   },
   "menuItem.outputLog": {
     "value": "Output Log"
   },
   "menuItem.phetWebsite": {
-    "value": "PhET Website\u2026"
+    "value": "PhET Website…"
   },
   "menuItem.reportAProblem": {
-    "value": "Report a Problem\u2026"
+    "value": "Report a Problem…"
   },
   "menuItem.screenshot": {
     "value": "Screenshot"
@@ -27,7 +27,7 @@
     "value": "Full Screen"
   },
   "menuItem.getUpdate": {
-    "value": "Check for Updates\u2026"
+    "value": "Check for Updates…"
   },
   "menuItem.enhancedSound": {
     "value": "Extra Sound"
@@ -57,79 +57,79 @@
   "termsPrivacyAndLicensing": {
     "value": "Terms, Privacy & Licensing",
     "simMetadata": {
-      "phetioReadOnly": true
+      "phetioReadOnly": "true"
     }
   },
   "credits.title": {
     "value": "Credits",
     "simMetadata": {
-      "phetioReadOnly": true
+      "phetioReadOnly": "true"
     }
   },
   "credits.leadDesign": {
     "value": "Lead Design: {0}",
     "simMetadata": {
-      "phetioReadOnly": true
+      "phetioReadOnly": "true"
     }
   },
   "credits.softwareDevelopment": {
     "value": "Software Development: {0}",
     "simMetadata": {
-      "phetioReadOnly": true
+      "phetioReadOnly": "true"
     }
   },
   "credits.team": {
     "value": "Team: {0}",
     "simMetadata": {
-      "phetioReadOnly": true
+      "phetioReadOnly": "true"
     }
   },
   "credits.contributors": {
     "value": "Contributors: {0}",
     "simMetadata": {
-      "phetioReadOnly": true
+      "phetioReadOnly": "true"
     }
   },
   "credits.qualityAssurance": {
     "value": "Quality Assurance: {0}",
     "simMetadata": {
-      "phetioReadOnly": true
+      "phetioReadOnly": "true"
     }
   },
   "credits.graphicArts": {
     "value": "Graphic Arts: {0}",
     "simMetadata": {
-      "phetioReadOnly": true
+      "phetioReadOnly": "true"
     }
   },
   "credits.soundDesign": {
     "value": "Sound Design: {0}",
     "simMetadata": {
-      "phetioReadOnly": true
+      "phetioReadOnly": "true"
     }
   },
   "credits.translation": {
     "value": "Translation",
     "simMetadata": {
-      "phetioReadOnly": true
+      "phetioReadOnly": "true"
     }
   },
   "credits.thanks": {
     "value": "Thanks",
     "simMetadata": {
-      "phetioReadOnly": true
+      "phetioReadOnly": "true"
     }
   },
   "options.title": {
     "value": "Options",
     "simMetadata": {
-      "phetioReadOnly": true
+      "phetioReadOnly": "true"
     }
   },
   "versionPattern": {
     "value": "version {0}",
     "simMetadata": {
-      "phetioReadOnly": true
+      "phetioReadOnly": "true"
     }
   },
   "updates.upToDate": {
@@ -139,7 +139,7 @@
     "value": "New version available"
   },
   "updates.checking": {
-    "value": "Checking for updates\u2026"
+    "value": "Checking for updates…"
   },
   "updates.offline": {
     "value": "Unable to check for updates."
@@ -151,7 +151,7 @@
     "value": "Your current version is: {0}."
   },
   "updates.getUpdate": {
-    "value": "Get Update\u2026"
+    "value": "Get Update…"
   },
   "updates.noThanks": {
     "value": "No Thanks"
@@ -159,13 +159,13 @@
   "translation.credits.link": {
     "value": "Translation Credits",
     "simMetadata": {
-      "phetioReadOnly": true
+      "phetioReadOnly": "true"
     }
   },
   "thirdParty.credits.link": {
     "value": "Third-party Credits",
     "simMetadata": {
-      "phetioReadOnly": true
+      "phetioReadOnly": "true"
     }
   },
   "keyboardShortcuts.title": {
@@ -175,7 +175,7 @@
     "value": "to get started"
   },
   "simTitleWithScreenNamePattern": {
-    "value": "{{simName}} \u2014 {{screenName}}",
+    "value": "{{simName}} — {{screenName}}",
     "simMetadata": {
       "phetioDocumentation": "This pattern is used when a multi-screen simulation is only displaying one screen."
     }
