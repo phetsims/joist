@@ -57,79 +57,79 @@
   "termsPrivacyAndLicensing": {
     "value": "Terms, Privacy & Licensing",
     "simMetadata": {
-      "phetioReadOnly": "true"
+      "phetioReadOnly": true
     }
   },
   "credits.title": {
     "value": "Credits",
     "simMetadata": {
-      "phetioReadOnly": "true"
+      "phetioReadOnly": true
     }
   },
   "credits.leadDesign": {
     "value": "Lead Design: {0}",
     "simMetadata": {
-      "phetioReadOnly": "true"
+      "phetioReadOnly": true
     }
   },
   "credits.softwareDevelopment": {
     "value": "Software Development: {0}",
     "simMetadata": {
-      "phetioReadOnly": "true"
+      "phetioReadOnly": true
     }
   },
   "credits.team": {
     "value": "Team: {0}",
     "simMetadata": {
-      "phetioReadOnly": "true"
+      "phetioReadOnly": true
     }
   },
   "credits.contributors": {
     "value": "Contributors: {0}",
     "simMetadata": {
-      "phetioReadOnly": "true"
+      "phetioReadOnly": true
     }
   },
   "credits.qualityAssurance": {
     "value": "Quality Assurance: {0}",
     "simMetadata": {
-      "phetioReadOnly": "true"
+      "phetioReadOnly": true
     }
   },
   "credits.graphicArts": {
     "value": "Graphic Arts: {0}",
     "simMetadata": {
-      "phetioReadOnly": "true"
+      "phetioReadOnly": true
     }
   },
   "credits.soundDesign": {
     "value": "Sound Design: {0}",
     "simMetadata": {
-      "phetioReadOnly": "true"
+      "phetioReadOnly": true
     }
   },
   "credits.translation": {
     "value": "Translation",
     "simMetadata": {
-      "phetioReadOnly": "true"
+      "phetioReadOnly": true
     }
   },
   "credits.thanks": {
     "value": "Thanks",
     "simMetadata": {
-      "phetioReadOnly": "true"
+      "phetioReadOnly": true
     }
   },
   "options.title": {
     "value": "Options",
     "simMetadata": {
-      "phetioReadOnly": "true"
+      "phetioReadOnly": true
     }
   },
   "versionPattern": {
     "value": "version {0}",
     "simMetadata": {
-      "phetioReadOnly": "true"
+      "phetioReadOnly": true
     }
   },
   "updates.upToDate": {
@@ -159,13 +159,13 @@
   "translation.credits.link": {
     "value": "Translation Credits",
     "simMetadata": {
-      "phetioReadOnly": "true"
+      "phetioReadOnly": true
     }
   },
   "thirdParty.credits.link": {
     "value": "Third-party Credits",
     "simMetadata": {
-      "phetioReadOnly": "true"
+      "phetioReadOnly": true
     }
   },
   "keyboardShortcuts.title": {
