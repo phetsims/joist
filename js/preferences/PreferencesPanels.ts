@@ -10,6 +10,7 @@
  */
 
 import type { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
+import affirm from '../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { type EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import type PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import AlignGroup from '../../../scenery/js/layout/constraints/AlignGroup.js';
@@ -188,6 +189,8 @@ class PreferencesPanelContainer extends Node {
 
     this.panelContent = panelContent;
     this.selectedTabValue = selectedTabValue;
+
+    affirm( panelContent.tagName, 'The panel content is expected to have a DOM element so that it is focusable. Set a tagName.' );
 
     panelContent.addInputListener( {
       focusout: event => {
