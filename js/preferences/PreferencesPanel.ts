@@ -8,7 +8,7 @@
 
 import Multilink from '../../../axon/js/Multilink.js';
 import type { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import { EmptySelfOptions, optionize3 } from '../../../phet-core/js/optionize.js';
 import type StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 import Node, { type NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -26,15 +26,15 @@ class PreferencesPanel extends Node {
    * @param providedOptions
    */
   public constructor( preferencesType: PreferencesType, selectedTabProperty: TReadOnlyProperty<PreferencesType>, tabVisibleProperty: TReadOnlyProperty<boolean>, providedOptions?: PreferencesPanelOptions ) {
-    const options = optionize<PreferencesPanelOptions, EmptySelfOptions, NodeOptions>()( {
+    const options = optionize3<PreferencesPanelOptions, EmptySelfOptions, NodeOptions>()( {}, {
 
       // pdom - The PreferencesPanel content is expected to be focusable. A special KeyboardListener moves focus
       // to the entire container, so it needs to have some PDOM representation.
-      tagName: 'div',
-
-      // don't instrument the Panel Node itself, though many subclasses make it required for subcomponents
-      tandem: Tandem.OPT_OUT
+      tagName: 'div'
     }, providedOptions );
+
+    // don't instrument the Panel Node itself, though many subclasses make it required for subcomponents
+    options.tandem = Tandem.OPT_OUT;
 
     super( options );
 
