@@ -49,7 +49,9 @@ type GetLayoutMatrixOptions = {
 type SelfOptions = {
   layoutBounds?: Bounds2;
   screenSummaryContent?: ScreenSummaryContent | null;
-  includePDOMNodes?: boolean;
+
+  // {boolean} whether or not to add the screen summary, play area, and control area Nodes to the PDOM
+  includeAccessibleSectionNodes?: boolean;
 };
 export type ScreenViewOptions = SelfOptions & StrictOmit<NodeOptions, 'isDisposable'>;
 
@@ -99,8 +101,7 @@ class ScreenView extends Node {
       // the Play Area. This Node is added as a child to the ScreenSummaryNode.
       screenSummaryContent: null,
 
-      // {boolean} whether or not to add the screen summary, play area, and control area Nodes to the PDOM
-      includePDOMNodes: true
+      includeAccessibleSectionNodes: true
     }, providedOptions );
 
     super( options );
@@ -155,7 +156,7 @@ class ScreenView extends Node {
 
       // order of Nodes for the PDOM that makes most sense for graphical rendering, "Play Area" components
       // on top of "Control Area" components.
-      children: options.includePDOMNodes ? [
+      children: options.includeAccessibleSectionNodes ? [
         this.pdomTitleNode,
         this.pdomScreenSummaryNode,
         this.pdomControlAreaNode,
@@ -165,7 +166,7 @@ class ScreenView extends Node {
     this.addChild( this.pdomParentNode );
 
     // pdom - "Play Area" comes before "Control Area" in PDOM
-    this.pdomParentNode.pdomOrder = options.includePDOMNodes ? [
+    this.pdomParentNode.pdomOrder = options.includeAccessibleSectionNodes ? [
       this.pdomTitleNode,
       this.pdomScreenSummaryNode,
       this.pdomPlayAreaNode,
