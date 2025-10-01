@@ -88,7 +88,7 @@ const PreferencesDialogConstants = {
   // Default vertical spacing between grouped items (radio buttons, vertical checkboxes, ...)
   VERTICAL_CONTENT_SPACING: 5,
 
-  // Content or UI component intendentation under a PreferencesPanelSection title.
+  // Content or UI component indentation under a PreferencesPanelSection title.
   CONTENT_INDENTATION_SPACING: 15,
 
   // Default vertical spacing between a label and its collection of contents for a control in the dialog.
