@@ -17,6 +17,7 @@ import optionize from '../../phet-core/js/optionize.js';
 import platform from '../../phet-core/js/platform.js';
 import { QueryStringMachine } from '../../query-string-machine/js/QueryStringMachineModule.js';
 import KeyboardFuzzer from '../../scenery/js/accessibility/KeyboardFuzzer.js';
+import globalDescriptionQueue from '../../scenery/js/accessibility/pdom/globalDescriptionQueue.js';
 import { styleForHiddenPDOM } from '../../scenery/js/accessibility/pdom/PDOMSiblingStyle.js';
 import Display, { type DisplayOptions } from '../../scenery/js/display/Display.js';
 import InputFuzzer from '../../scenery/js/input/InputFuzzer.js';
@@ -148,6 +149,9 @@ export default class SimDisplay extends Display {
     } );
 
     this.domElement.id = 'sim';
+
+    // initialize the global description utterance queue
+    globalDescriptionQueue.initialize( this.domElement );
 
     if ( phet.chipper.queryParameters.sceneryLog ) {
 
