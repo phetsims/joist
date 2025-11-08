@@ -1021,6 +1021,11 @@ export default class Sim extends PhetioObject {
 
               this.simStartedTime = Date.now();
 
+              /* For automation, print a message to the console when the sim has launched.*/
+              if ( phet.chipper.queryParameters.logSimLifecycle ) {
+                console.log( '[SimLifecycle] Sim started' );
+              }
+
               // Communicate sim load (successfully) to CT or other listening parent frames
               if ( phet.chipper.queryParameters.continuousTest ) {
                 phet.chipper.reportContinuousTestResult( {
