@@ -179,7 +179,8 @@ class Tab extends Node {
       innerContent: label,
       ariaRole: 'tab',
       focusable: true,
-      containerTagName: 'li'
+      containerTagName: 'li',
+      containerAriaRole: 'presentation'
     } );
 
     // @public {PreferenceTab}
