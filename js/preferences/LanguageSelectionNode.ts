@@ -25,11 +25,18 @@ export default class LanguageSelectionNode extends Rectangle {
       font: PreferencesDialog.CONTENT_FONT
     } );
 
+    // The english name of the locale is reported for accessibility because PDOM strings are not translatable.
+    // If you use the localized name, it might change the screen reader voice.
+    // Note this was patched in and trying to be graceful, I am not sure what if this information
+    // is available in all builds.
+    const englishLocaleString = phet?.chipper?.localeData?.[ locale ]?.englishName ?? locale;
+
     super( text.bounds.dilated( 5 ), {
       cursor: 'pointer',
 
       // So that the item is tab-navigable and can be activated with the FireListener
-      tagName: 'button'
+      tagName: 'button',
+      accessibleName: englishLocaleString
     } );
     text.center = this.center;
     this.addChild( text );
