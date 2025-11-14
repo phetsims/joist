@@ -673,7 +673,7 @@ export default class Sim extends PhetioObject {
       document.title = simName;
     } );
 
-    if ( this.preferencesModel.audioModel.supportsAnyVoicing ) {
+    if ( this.preferencesModel.audioModel.supportsVoicing ) {
       this.voicingToolbar = new VoicingToolbar( this.preferencesModel.audioModel.voicingToolbarEnabledProperty, this.selectedScreenProperty,
         this.lookAndFeel );
 
@@ -794,7 +794,7 @@ export default class Sim extends PhetioObject {
     } );
     this.display.simulationRoot.addChild( this.navigationBar );
 
-    if ( this.preferencesModel.audioModel.supportsAnyVoicing ) {
+    if ( this.preferencesModel.audioModel.supportsVoicing ) {
       assert && assert( this.voicingToolbar, 'VoicingToolbar should exist for voicing' );
       this.display.simulationRoot.addChild( this.voicingToolbar! );
       this.display.simulationRoot.pdomOrder = [ this.voicingToolbar! ];

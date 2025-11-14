@@ -55,7 +55,7 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
     const leftContent = new VBox( contentOptions );
     const rightContent = new VBox( contentOptions );
 
-    if ( audioModel.supportsAnyVoicing ) {
+    if ( audioModel.supportsVoicing ) {
       const voicingPanelSection = new VoicingPanelSection( audioModel );
       leftContent.addChild( voicingPanelSection );
     }
@@ -65,7 +65,7 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
       // If only one of the audio features are in use, and there are no custom preferences
       // do not include the toggle switch to enable/disable that feature because the control
       // is redundant. The audio output should go through the "Audio Features" toggle only.
-      const hideSoundToggle = audioModel.supportsAnyVoicing !== audioModel.supportsSound && audioModel.customPreferences.length === 0;
+      const hideSoundToggle = audioModel.supportsVoicing !== audioModel.supportsSound && audioModel.customPreferences.length === 0;
 
       const soundPanelSection = new SoundPanelSection( audioModel, {
         includeTitleToggleSwitch: !hideSoundToggle

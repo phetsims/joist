@@ -77,7 +77,7 @@ class NavigationBarAudioToggleButton extends JoistButton {
       focusHighlightDilationY: 4,
 
       // enabled:true by default, but disable if fuzzing when supporting voicing
-      enabled: !( phet.chipper.isFuzzEnabled() && phet.chipper.supportsAnyVoicing() ),
+      enabled: !( phet.chipper.isFuzzEnabled() && phet.chipper.queryParameters.supportsVoicing ),
 
       visiblePropertyOptions: { phetioFeatured: true },
       phetioFeatured: true,

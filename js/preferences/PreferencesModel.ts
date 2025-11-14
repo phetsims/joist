@@ -79,11 +79,6 @@ type AudioPreferencesOptions = {
   // when running with English locales, accessibility strings are not made available for translation yet.
   supportsVoicing?: boolean;
 
-  // An entry point for Core Voicing which is a subset of the Voicing feature. This includes everyting in Voicing
-  // except for object and context responses. It has the same language and speech synthesis limitations as Voicing.
-  // See above comment for supportsVoicing.
-  supportsCoreVoicing?: boolean;
-
   // Whether to include checkboxes related to sound and extra sound. supportsExtraSound can only be
   // included if supportsSound is also true.
   supportsSound?: boolean;
@@ -159,9 +154,6 @@ export type AudioModel = BaseModelType & {
   extraSoundEnabledProperty: Property<boolean>;
   voicingEnabledProperty: Property<boolean>;
 
-  // True when supportsVoicing or supportsCoreVoicing is true.
-  supportsAnyVoicing: boolean;
-
   // Whether sub-features of Voicing are enabled. See voicingManager and responseCollector for documentation about
   // each of these features.
   voicingMainWindowVoicingEnabledProperty: Property<boolean>;
@@ -236,7 +228,6 @@ export default class PreferencesModel extends PhetioObject {
       audioOptions: optionize<AudioPreferencesOptions, AudioPreferencesOptions, BaseModelType>()( {
         tandemName: AUDIO_MODEL_TANDEM,
         supportsVoicing: phetFeaturesFromQueryParameters.supportsVoicing,
-        supportsCoreVoicing: phetFeaturesFromQueryParameters.supportsCoreVoicing,
         supportsSound: phetFeaturesFromQueryParameters.supportsSound,
         supportsExtraSound: phetFeaturesFromQueryParameters.supportsExtraSound,
         customPreferences: []
@@ -282,13 +273,9 @@ export default class PreferencesModel extends PhetioObject {
     const audioEnabled = audioManager.audioAllowed;
 
     const supportsVoicing = options.audioOptions.supportsVoicing && voicingSupportedOnPlatform && audioEnabled;
-    const supportsCoreVoicing = options.audioOptions.supportsCoreVoicing && voicingSupportedOnPlatform && audioEnabled;
-    const supportsAnyVoicing = supportsVoicing || supportsCoreVoicing;
 
     this.audioModel = {
       supportsVoicing: supportsVoicing,
-      supportsCoreVoicing: supportsCoreVoicing,
-      supportsAnyVoicing: supportsAnyVoicing,
 
       supportsSound: options.audioOptions.supportsSound && audioEnabled,
       supportsExtraSound: options.audioOptions.supportsExtraSound && audioEnabled,
@@ -332,9 +319,6 @@ export default class PreferencesModel extends PhetioObject {
       assert && assert( this.audioModel.supportsSound, 'supportsSound must be true to also support extraSound' );
     }
 
-    // Only supportsVoicing OR supportsCoreVoicing can be true at one time.
-    assert && assert( !( this.audioModel.supportsVoicing && this.audioModel.supportsCoreVoicing ), 'Only one of supportsVoicing or supportsCoreVoicing can be true' );
-
     this.addPhetioLinkedElementsForModel( options.tandem, this.simulationModel );
 
     this.addPhetioLinkedElementsForModel( options.tandem, this.visualModel, [
@@ -360,7 +344,7 @@ export default class PreferencesModel extends PhetioObject {
 
     // Since voicingManager in Scenery can not use initialize-globals, set the initial value for whether Voicing is
     // enabled here in the PreferencesModel.
-    if ( supportsAnyVoicing ) {
+    if ( supportsVoicing ) {
       voicingManager.enabledProperty.value = phet.chipper.queryParameters.voicingInitiallyEnabled;
 
       // Voicing is only available in the 'en' locale currently. If the locale is changed away from English, Voicing is
@@ -425,7 +409,7 @@ export default class PreferencesModel extends PhetioObject {
     if ( this.visualModel.supportsInteractiveHighlights ) {
       PreferencesStorage.register( this.visualModel.interactiveHighlightsEnabledProperty, 'interactiveHighlightsEnabledProperty' );
     }
-    if ( this.audioModel.supportsAnyVoicing ) {
+    if ( this.audioModel.supportsVoicing ) {
 
       // Register these to be stored when PreferencesStorage is enabled.
       PreferencesStorage.register( this.audioModel.voicingObjectResponsesEnabledProperty, 'objectResponsesEnabledProperty' );
@@ -484,7 +468,7 @@ export default class PreferencesModel extends PhetioObject {
     if ( !audioManager.audioAllowed ) { return false; }
     return this.audioModel.supportsSound ||
            this.audioModel.supportsExtraSound ||
-           this.audioModel.supportsAnyVoicing ||
+           this.audioModel.supportsVoicing ||
            this.preferenceModelHasCustom( this.audioModel );
   }
 
@@ -522,7 +506,6 @@ export default class PreferencesModel extends PhetioObject {
         supportsProjectorMode: preferencesModel.visualModel.supportsProjectorMode,
         supportsInteractiveHighlights: preferencesModel.visualModel.supportsInteractiveHighlights,
         supportsVoicing: preferencesModel.audioModel.supportsVoicing,
-        supportsCoreVoicing: preferencesModel.audioModel.supportsCoreVoicing,
         supportsSound: preferencesModel.audioModel.supportsSound,
         supportsExtraSound: preferencesModel.audioModel.supportsExtraSound,
         supportsGestureControl: preferencesModel.inputModel.supportsGestureControl,
@@ -540,7 +523,6 @@ export default class PreferencesModel extends PhetioObject {
       supportsProjectorMode: BooleanIO,
       supportsInteractiveHighlights: BooleanIO,
       supportsVoicing: BooleanIO,
-      supportsCoreVoicing: BooleanIO,
       supportsSound: BooleanIO,
       supportsExtraSound: BooleanIO,
       supportsGestureControl: BooleanIO,

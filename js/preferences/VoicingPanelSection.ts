@@ -188,26 +188,17 @@ class VoicingPanelSection extends PreferencesPanelSection {
 
     const speechOutputContent = new Node();
 
-    const checkboxes = [];
-
-    // Object and context responses are only supported if Voicing is fully enabled.
-    if ( audioModel.supportsVoicing ) {
-      checkboxes.push(
-        createCheckbox( objectDetailsLabelStringProperty, audioModel.voicingObjectResponsesEnabledProperty,
-          voicingObjectChangesStringProperty, objectChangesMutedStringProperty, speechOutputLabel
-        ),
-        createCheckbox( contextChangesLabelStringProperty, audioModel.voicingContextResponsesEnabledProperty,
-          voicingContextChangesStringProperty, contextChangesMutedStringProperty, speechOutputLabel
-        )
-      );
-    }
-
-    // Hint responses are available if any Voicing is enabled.
-    checkboxes.push(
+    const checkboxes = [
+      createCheckbox( objectDetailsLabelStringProperty, audioModel.voicingObjectResponsesEnabledProperty,
+        voicingObjectChangesStringProperty, objectChangesMutedStringProperty, speechOutputLabel
+      ),
+      createCheckbox( contextChangesLabelStringProperty, audioModel.voicingContextResponsesEnabledProperty,
+        voicingContextChangesStringProperty, contextChangesMutedStringProperty, speechOutputLabel
+      ),
       createCheckbox( helpfulHintsLabelStringProperty, audioModel.voicingHintResponsesEnabledProperty,
         voicingHintsStringProperty, hintsMutedStringProperty, speechOutputLabel
       )
-    );
+    ];
 
     const speechOutputCheckboxes = new VBox( {
       align: 'left',

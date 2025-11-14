@@ -31,7 +31,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
 import type Sim from './Sim.js';
 
-const ANY_AUDIO_SUPPORTED = phet.chipper.supportsAnyVoicing() || phet.chipper.queryParameters.supportsSound;
+const ANY_AUDIO_SUPPORTED = phet.chipper.queryParameters.supportsVoicing || phet.chipper.queryParameters.supportsSound;
 
 class AudioManager extends PhetioObject {
 
@@ -103,7 +103,7 @@ class AudioManager extends PhetioObject {
       );
     }
 
-    if ( sim.preferencesModel.audioModel.supportsAnyVoicing ) {
+    if ( sim.preferencesModel.audioModel.supportsVoicing ) {
       voicingManager.initialize( DisplayGlobals.userGestureEmitter, {
 
         // specify the Properties that control whether or not output is allowed from voicingManager
@@ -121,7 +121,7 @@ class AudioManager extends PhetioObject {
 
     // If both sound and voicing are enabled, hook up a feature that will turn down the sound level when the speech
     // synthesizer is speaking.  This is called "ducking".
-    if ( sim.preferencesModel.audioModel.supportsSound && sim.preferencesModel.audioModel.supportsAnyVoicing ) {
+    if ( sim.preferencesModel.audioModel.supportsSound && sim.preferencesModel.audioModel.supportsVoicing ) {
 
       // state checking
       assert && assert( voicingManager.initialized, 'voicingManager must be initialized before ducking can be set up' );

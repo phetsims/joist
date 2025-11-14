@@ -45,7 +45,7 @@ const PreferencesDialogConstants = {
     trackFillRight: '#64bd5a',
     trackFillLeft: null, // use ToggleSwitch default
     // enabled:true by default, but disable if fuzzing when supporting voicing
-    enabled: !( phet.chipper.isFuzzEnabled() && phet.chipper.supportsAnyVoicing() ),
+    enabled: !( phet.chipper.isFuzzEnabled() && phet.chipper.queryParameters.supportsVoicing ),
 
     // voicing
     voicingIgnoreVoicingManagerProperties: true,
