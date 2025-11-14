@@ -25,6 +25,7 @@ import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import ControlAreaNode from '../../scenery-phet/js/accessibility/nodes/ControlAreaNode.js';
 import PlayAreaNode from '../../scenery-phet/js/accessibility/nodes/PlayAreaNode.js';
 import ScreenSummaryNode from '../../scenery-phet/js/accessibility/nodes/ScreenSummaryNode.js';
+import FocusableHeadingNode from '../../scenery/js/accessibility/pdom/FocusableHeadingNode.js';
 import Node, { type NodeOptions } from '../../scenery/js/nodes/Node.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import { type SpeakableResolvedResponse } from '../../utterance-queue/js/ResponsePacket.js';
@@ -61,7 +62,7 @@ class ScreenView extends Node {
   // The visible bounds of the ScreenView in ScreenView coordinates.  This includes top/bottom or left/right margins
   // depending on the aspect ratio of the screen. Clients should not set this value
   public readonly visibleBoundsProperty: Property<Bounds2>;
-  private readonly pdomTitleNode: Node;
+  private readonly pdomTitleNode: FocusableHeadingNode;
   protected readonly pdomPlayAreaNode: PlayAreaNode;
   protected readonly pdomControlAreaNode: ControlAreaNode;
   private readonly pdomScreenSummaryNode: ScreenSummaryNode;
@@ -118,7 +119,7 @@ class ScreenView extends Node {
     this.visibleBoundsProperty = new Property( options.layoutBounds );
 
     // This cannot use accessibleHeading, nor be a label of this Node because it must be focusable.
-    this.pdomTitleNode = new Node( { tagName: 'h1', focusHighlight: 'invisible' } );
+    this.pdomTitleNode = new FocusableHeadingNode( { headingLevel: 1 } );
 
     // add children and set accessible order to these to organize and structure the PDOM.
     // Since the h1 in this view cannot use accessibleHeading, the level is incremented by 2
@@ -132,23 +133,12 @@ class ScreenView extends Node {
     // at the Node from options in the same way that can be done at any time
     options.screenSummaryContent && this.setScreenSummaryContent( options.screenSummaryContent );
 
-    // To make sure that the title "h1" is the first, focused item on a screen when that screen is selected, toggle the
-    // focusability of the title, and then focus it. See https://github.com/phetsims/ratio-and-proportion/issues/321
+    // Focus the heading when the screen becomes displayed so that it is the first thing
+    // that the user hears and puts the cursor at the top of the page.
+    // See https://github.com/phetsims/ratio-and-proportion/issues/321
     this.visibleProperty.lazyLink( visible => {
       if ( visible ) {
-        assert && assert( !this.pdomTitleNode.focusable, 'about to set to be focusable' );
-        this.pdomTitleNode.focusable = true;
         this.pdomTitleNode.focus();
-      }
-      else {
-        this.pdomTitleNode.focusable = false;
-      }
-    } );
-
-    // after initial focus, the titleNode should be removed from the focus order
-    this.pdomTitleNode.addInputListener( {
-      blur: () => {
-        this.pdomTitleNode.focusable = false;
       }
     } );
 
