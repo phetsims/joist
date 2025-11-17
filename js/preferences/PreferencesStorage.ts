@@ -22,7 +22,7 @@ class PreferencesStorage {
   private enabled = true;
 
   // for debugging
-  private readonly registedProperties: TProperty<unknown>[] = [];
+  private readonly registeredProperties: TProperty<unknown>[] = [];
 
   public constructor() {
 
@@ -56,7 +56,7 @@ class PreferencesStorage {
     property.link( ( value: IntentionalAny ) => {
       window.localStorage.setItem( key, JSON.stringify( value ) );
     } );
-    this.registedProperties.push( property );
+    this.registeredProperties.push( property );
   }
 
   public static register( property: TProperty<unknown>, name: string ): TProperty<unknown> {
