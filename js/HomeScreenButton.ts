@@ -111,7 +111,7 @@ class HomeScreenButton extends Voicing( VBox ) {
 
       // pdom - the icon may have focusable components in its graphic but they should be invisible for Interactive
       // Description, the button is all we need for accessibility
-      pdomVisible: false
+      accessibleVisible: false
     } );
 
     // text for the button

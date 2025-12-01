@@ -94,7 +94,7 @@ class NavigationBarScreenButton extends Voicing( Node ) {
 
       // pdom - the icon may have focusable components in its graphic, but they should be invisible for Interactive
       // Description, all accessibility should go through this button
-      pdomVisible: false
+      accessibleVisible: false
     } );
 
     // frame around the icon

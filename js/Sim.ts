@@ -1107,12 +1107,12 @@ export default class Sim extends PhetioObject {
    */
   public setPDOMViewsVisible( visible: boolean ): void {
     for ( let i = 0; i < this.screens.length; i++ ) {
-      this.screens[ i ].view.pdomVisible = visible;
+      this.screens[ i ].view.accessibleVisible = visible;
     }
 
-    this.navigationBar.pdomVisible = visible;
-    this.homeScreen && this.homeScreen.view.setPDOMVisible( visible );
-    this.voicingToolbar && this.voicingToolbar.setPDOMVisible( visible );
+    this.navigationBar.accessibleVisible = visible;
+    this.homeScreen && this.homeScreen.view.setAccessibleVisible( visible );
+    this.voicingToolbar && this.voicingToolbar.setAccessibleVisible( visible );
   }
 
   /**

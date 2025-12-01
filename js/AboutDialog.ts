@@ -123,10 +123,10 @@ export default class AboutDialog extends Dialog {
 
         // pdom - make update content visible/invisible for screen readers by explicitly removing content
         // from the DOM, necessary because AT will ready hidden content in a Dialog.
-        checkingNode.pdomVisible = checkingNode.visible;
-        upToDateNode.pdomVisible = upToDateNode.visible;
-        outOfDateNode.pdomVisible = outOfDateNode.visible;
-        offlineNode.pdomVisible = offlineNode.visible;
+        checkingNode.accessibleVisible = checkingNode.visible;
+        upToDateNode.accessibleVisible = upToDateNode.visible;
+        outOfDateNode.accessibleVisible = outOfDateNode.visible;
+        offlineNode.accessibleVisible = offlineNode.visible;
       };
 
       updatePanel = new Node( {

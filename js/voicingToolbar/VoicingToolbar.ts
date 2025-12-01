@@ -174,7 +174,7 @@ class VoicingToolbar extends Node {
       chevronIcon.matrix = open ? Matrix3.scaling( -1, 1 ) : Matrix3.IDENTITY;
 
       // when closed, menu content should be hidden from screen readers and the navigation order
-      this.menuContent.pdomVisible = open;
+      this.menuContent.accessibleVisible = open;
 
       this.openButton.accessibleName = open ? closeToolbarStringProperty : openToolbarStringProperty;
       this.openButton.voicingNameResponse = open ? hideToolbarStringProperty : showToolbarStringProperty;
@@ -198,7 +198,7 @@ class VoicingToolbar extends Node {
 
       // when now showing, this entire toolbar should be hidden for Interactive Description, but we don't use
       // visibility directly because we want to see the VoicingToolbar animate away
-      contentParent.pdomVisible = showing;
+      contentParent.accessibleVisible = showing;
     };
     this.isShowingProperty.link( isShowingListener );
   }

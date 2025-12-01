@@ -1247,7 +1247,7 @@ class PDOMTreeNode extends CollapsibleTreeNode<PDOMTreeNode> {
   public constructor( instance: PDOMInstance, helper: Helper ) {
 
     const trail = instance.trail!;
-    const isVisible = trail.isPDOMVisible();
+    const isVisible = trail.isAccessibleVisible();
 
     const TREE_FONT = new Font( { size: 12 } );
 
@@ -1911,8 +1911,8 @@ const createInfo = ( trail: Trail ): Node[] => {
   if ( node.appendDescription ) {
     addSimple( 'appendDescription', node.appendDescription );
   }
-  if ( !node.pdomVisible ) {
-    addSimple( 'pdomVisible', node.pdomVisible );
+  if ( !node.accessibleVisible ) {
+    addSimple( 'accessibleVisible', node.accessibleVisible );
   }
   if ( node.pdomOrder ) {
     addSimple( 'pdomOrder', node.pdomOrder.map( node => node === null ? 'null' : node.constructor.name ) );
