@@ -109,7 +109,7 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
     const enabledListener = ( enabled: boolean ) => {
       customUtterance.alert = enabled ? JoistStrings.a11y.soundToggle.alert.simSoundOnStringProperty
                                       : JoistStrings.a11y.soundToggle.alert.simSoundOffStringProperty;
-      this.addAccessibleResponse( customUtterance );
+      this.addAccessibleContextResponse( customUtterance );
       if ( voicingManager.voicingFullyEnabledProperty.value ) {
         voicingManager.speakIgnoringEnabled( customUtterance );
       }

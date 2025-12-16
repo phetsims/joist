@@ -292,7 +292,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
         if ( !this.isInsidePhetioArchetype() ) {
           voicingManager.speakIgnoringEnabled( voicingEnabledUtterance );
         }
-        this.addAccessibleResponse( voicingEnabledUtterance );
+        this.addAccessibleContextResponse( voicingEnabledUtterance );
       }
     };
     audioModel.voicingEnabledProperty.lazyLink( voicingEnabledPropertyListener );

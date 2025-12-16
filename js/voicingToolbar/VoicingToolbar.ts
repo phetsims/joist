@@ -187,7 +187,7 @@ class VoicingToolbar extends Node {
           contextResponse: alertProperty
         } );
 
-        this.addAccessibleResponse( alertProperty );
+        this.addAccessibleContextResponse( alertProperty );
       }
     };
     this.openProperty.link( isOpenListener );
