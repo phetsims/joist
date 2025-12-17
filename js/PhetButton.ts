@@ -22,7 +22,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import joist from './joist.js';
 import JoistButton from './JoistButton.js';
-import JoistStrings from './JoistStrings.js';
+import JoistFluent from './JoistFluent.js';
 import KebabMenuIcon from './KebabMenuIcon.js';
 import PhetMenu from './PhetMenu.js';
 import type Sim from './Sim.js';
@@ -129,10 +129,10 @@ class PhetButton extends JoistButton {
       phetioVisiblePropertyInstrumented: false, // This button is our branding, don't ever hide it.
 
       // pdom
-      accessibleName: JoistStrings.a11y.phetMenuStringProperty,
+      accessibleName: JoistFluent.a11y.phetMenuStringProperty,
 
       // voicing
-      voicingNameResponse: JoistStrings.a11y.phetMenuStringProperty
+      voicingNameResponse: JoistFluent.a11y.phetMenuStringProperty
     } );
 
     const phetMenu = new PhetMenu( sim, {

@@ -19,7 +19,7 @@ import Text from '../../../scenery/js/nodes/Text.js';
 import ToggleSwitch, { type ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
-import JoistStrings from '../JoistStrings.js';
+import JoistFluent from '../JoistFluent.js';
 import PreferencesControl from './PreferencesControl.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import { type VisualModel } from './PreferencesModel.js';
@@ -29,11 +29,11 @@ import PreferencesType from './PreferencesType.js';
 import ProjectorModeToggleSwitch from './ProjectorModeToggleSwitch.js';
 
 // constants
-const interactiveHighlightsStringProperty = JoistStrings.preferences.tabs.visual.interactiveHighlightsStringProperty;
-const interactiveHighlightsDescriptionStringProperty = JoistStrings.preferences.tabs.visual.interactiveHighlightsDescriptionStringProperty;
-const interactiveHighlightsEnabledAlertStringProperty = JoistStrings.a11y.preferences.tabs.visual.interactiveHighlights.enabledAlertStringProperty;
-const interactiveHighlightsDisabledAlertStringProperty = JoistStrings.a11y.preferences.tabs.visual.interactiveHighlights.disabledAlertStringProperty;
-const labelledDescriptionPatternStringProperty = JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
+const interactiveHighlightsStringProperty = JoistFluent.preferences.tabs.visual.interactiveHighlightsStringProperty;
+const interactiveHighlightsDescriptionStringProperty = JoistFluent.preferences.tabs.visual.interactiveHighlightsDescriptionStringProperty;
+const interactiveHighlightsEnabledAlertStringProperty = JoistFluent.a11y.preferences.tabs.visual.interactiveHighlights.enabledAlertStringProperty;
+const interactiveHighlightsDisabledAlertStringProperty = JoistFluent.a11y.preferences.tabs.visual.interactiveHighlights.disabledAlertStringProperty;
+const labelledDescriptionPatternStringProperty = JoistFluent.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
 
 type VisualPreferencesPanelOptions = PickRequired<PreferencesPanelOptions, 'tandem'>;
 

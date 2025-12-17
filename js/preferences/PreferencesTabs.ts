@@ -18,7 +18,7 @@ import type Node from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import globeSolidShape from '../../../sun/js/shapes/globeSolidShape.js';
 import joist from '../joist.js';
-import JoistStrings from '../JoistStrings.js';
+import JoistFluent from '../JoistFluent.js';
 import PreferencesTab from './PreferencesTab.js';
 import PreferencesType from './PreferencesType.js';
 
@@ -58,37 +58,37 @@ class PreferencesTabs extends HBox {
     // which looks better, see https://github.com/phetsims/joist/issues/932
     const dilation = options.spacing / 2;
     if ( isTabSupported( PreferencesType.OVERVIEW ) ) {
-      this.content.push( new PreferencesTab( JoistStrings.preferences.tabs.overview.titleStringProperty, selectedPanelProperty, PreferencesType.OVERVIEW, {
+      this.content.push( new PreferencesTab( JoistFluent.preferences.tabs.overview.titleStringProperty, selectedPanelProperty, PreferencesType.OVERVIEW, {
         pointerAreaXDilation: dilation,
         tandem: options.tandem.createTandem( 'overviewTab' )
       } ) );
     }
     if ( isTabSupported( PreferencesType.SIMULATION ) ) {
-      this.content.push( new PreferencesTab( JoistStrings.preferences.tabs.simulation.titleStringProperty, selectedPanelProperty, PreferencesType.SIMULATION, {
+      this.content.push( new PreferencesTab( JoistFluent.preferences.tabs.simulation.titleStringProperty, selectedPanelProperty, PreferencesType.SIMULATION, {
         pointerAreaXDilation: dilation,
         tandem: options.tandem.createTandem( 'simulationTab' )
       } ) );
     }
     if ( isTabSupported( PreferencesType.VISUAL ) ) {
-      this.content.push( new PreferencesTab( JoistStrings.preferences.tabs.visual.titleStringProperty, selectedPanelProperty, PreferencesType.VISUAL, {
+      this.content.push( new PreferencesTab( JoistFluent.preferences.tabs.visual.titleStringProperty, selectedPanelProperty, PreferencesType.VISUAL, {
         pointerAreaXDilation: dilation,
         tandem: options.tandem.createTandem( 'visualTab' )
       } ) );
     }
     if ( isTabSupported( PreferencesType.AUDIO ) ) {
-      this.content.push( new PreferencesTab( JoistStrings.preferences.tabs.audio.titleStringProperty, selectedPanelProperty, PreferencesType.AUDIO, {
+      this.content.push( new PreferencesTab( JoistFluent.preferences.tabs.audio.titleStringProperty, selectedPanelProperty, PreferencesType.AUDIO, {
         pointerAreaXDilation: dilation,
         tandem: options.tandem.createTandem( 'audioTab' )
       } ) );
     }
     if ( isTabSupported( PreferencesType.INPUT ) ) {
-      this.content.push( new PreferencesTab( JoistStrings.preferences.tabs.input.titleStringProperty, selectedPanelProperty, PreferencesType.INPUT, {
+      this.content.push( new PreferencesTab( JoistFluent.preferences.tabs.input.titleStringProperty, selectedPanelProperty, PreferencesType.INPUT, {
         pointerAreaXDilation: dilation,
         tandem: options.tandem.createTandem( 'inputTab' )
       } ) );
     }
     if ( isTabSupported( PreferencesType.LOCALIZATION ) ) {
-      this.content.push( new PreferencesTab( JoistStrings.preferences.tabs.localization.titleStringProperty, selectedPanelProperty, PreferencesType.LOCALIZATION, {
+      this.content.push( new PreferencesTab( JoistFluent.preferences.tabs.localization.titleStringProperty, selectedPanelProperty, PreferencesType.LOCALIZATION, {
         pointerAreaXDilation: dilation,
 
         // Display a globe icon next to the localization label

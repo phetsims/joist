@@ -25,7 +25,7 @@ import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
-import JoistStrings from '../JoistStrings.js';
+import JoistFluent from '../JoistFluent.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import type PreferencesType from './PreferencesType.js';
 
@@ -113,7 +113,7 @@ class PreferencesTab extends Voicing( Node ) {
 
     this.value = value;
 
-    const voicingPatternStringProperty = new PatternStringProperty( JoistStrings.a11y.preferences.tabs.tabResponsePatternStringProperty, {
+    const voicingPatternStringProperty = new PatternStringProperty( JoistFluent.a11y.preferences.tabs.tabResponsePatternStringProperty, {
       title: labelProperty
     }, { tandem: Tandem.OPT_OUT } );
     this.voicingNameResponse = voicingPatternStringProperty;

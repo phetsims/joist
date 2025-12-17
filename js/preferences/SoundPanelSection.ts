@@ -19,22 +19,22 @@ import Checkbox from '../../../sun/js/Checkbox.js';
 import ToggleSwitch, { type ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
-import JoistStrings from '../JoistStrings.js';
+import JoistFluent from '../JoistFluent.js';
 import PreferencesControl from './PreferencesControl.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import { type AudioModel } from './PreferencesModel.js';
 import PreferencesPanelSection, { type PreferencesPanelSectionOptions } from './PreferencesPanelSection.js';
 
 // constants
-const soundsLabelStringProperty = JoistStrings.preferences.tabs.audio.sounds.titleStringProperty;
-const extraSoundsLabelStringProperty = JoistStrings.preferences.tabs.audio.sounds.extraSounds.titleStringProperty;
-const soundDescriptionStringProperty = JoistStrings.preferences.tabs.audio.sounds.descriptionStringProperty;
-const extraSoundsDescriptionStringProperty = JoistStrings.preferences.tabs.audio.sounds.extraSounds.descriptionStringProperty;
-const soundsOnStringProperty = JoistStrings.a11y.preferences.tabs.audio.sounds.soundsOnStringProperty;
-const soundsOffStringProperty = JoistStrings.a11y.preferences.tabs.audio.sounds.soundsOffStringProperty;
-const extraSoundsOnStringProperty = JoistStrings.a11y.preferences.tabs.audio.sounds.extraSounds.extraSoundsOnStringProperty;
-const extraSoundsOffStringProperty = JoistStrings.a11y.preferences.tabs.audio.sounds.extraSounds.extraSoundsOffStringProperty;
-const labelledDescriptionPatternStringProperty = JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
+const soundsLabelStringProperty = JoistFluent.preferences.tabs.audio.sounds.titleStringProperty;
+const extraSoundsLabelStringProperty = JoistFluent.preferences.tabs.audio.sounds.extraSounds.titleStringProperty;
+const soundDescriptionStringProperty = JoistFluent.preferences.tabs.audio.sounds.descriptionStringProperty;
+const extraSoundsDescriptionStringProperty = JoistFluent.preferences.tabs.audio.sounds.extraSounds.descriptionStringProperty;
+const soundsOnStringProperty = JoistFluent.a11y.preferences.tabs.audio.sounds.soundsOnStringProperty;
+const soundsOffStringProperty = JoistFluent.a11y.preferences.tabs.audio.sounds.soundsOffStringProperty;
+const extraSoundsOnStringProperty = JoistFluent.a11y.preferences.tabs.audio.sounds.extraSounds.extraSoundsOnStringProperty;
+const extraSoundsOffStringProperty = JoistFluent.a11y.preferences.tabs.audio.sounds.extraSounds.extraSoundsOffStringProperty;
+const labelledDescriptionPatternStringProperty = JoistFluent.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
 
 type SelfOptions = {
 

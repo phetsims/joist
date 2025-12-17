@@ -13,7 +13,7 @@ import VoicingRichText from '../../../scenery/js/accessibility/voicing/nodes/Voi
 import VBox from '../../../scenery/js/layout/nodes/VBox.js';
 import isLeftToRightProperty from '../i18n/isLeftToRightProperty.js';
 import joist from '../joist.js';
-import JoistStrings from '../JoistStrings.js';
+import JoistFluent from '../JoistFluent.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import PreferencesPanel from './PreferencesPanel.js';
 import PreferencesType from './PreferencesType.js';
@@ -35,8 +35,8 @@ class OverviewPreferencesPanel extends PreferencesPanel {
 
       // These string keys go through preferences.tabs.general because they used to
       // live in that tab. But now we cannot rename the string keys.
-      new VoicingRichText( JoistStrings.preferences.tabs.general.accessibilityIntroStringProperty, introTextOptions ),
-      new VoicingRichText( JoistStrings.preferences.tabs.general.moreAccessibilityStringProperty, introTextOptions )
+      new VoicingRichText( JoistFluent.preferences.tabs.general.accessibilityIntroStringProperty, introTextOptions ),
+      new VoicingRichText( JoistFluent.preferences.tabs.general.moreAccessibilityStringProperty, introTextOptions )
     ];
 
     const panelContent = new VBox( { spacing: 10, children: introParagraphsTexts } );

@@ -14,18 +14,18 @@ import ComboBox, { type ComboBoxOptions } from '../../../sun/js/ComboBox.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import regionAndCultureProperty, { type RegionAndCulture, supportedRegionAndCultureValues } from '../i18n/regionAndCultureProperty.js';
 import joist from '../joist.js';
-import JoistStrings from '../JoistStrings.js';
+import JoistFluent from '../JoistFluent.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 
 // Maps a RegionAndCulture value to a StringProperty.
 const STRING_PROPERTY_MAP: Record<RegionAndCulture, LocalizedStringProperty> = {
-  africa: JoistStrings.preferences.tabs.localization.regionAndCulture.africaStringProperty,
-  africaModest: JoistStrings.preferences.tabs.localization.regionAndCulture.africaModestStringProperty,
-  asia: JoistStrings.preferences.tabs.localization.regionAndCulture.asiaStringProperty,
-  latinAmerica: JoistStrings.preferences.tabs.localization.regionAndCulture.latinAmericaStringProperty,
-  oceania: JoistStrings.preferences.tabs.localization.regionAndCulture.oceaniaStringProperty,
-  random: JoistStrings.preferences.tabs.localization.regionAndCulture.randomStringProperty,
-  usa: JoistStrings.preferences.tabs.localization.regionAndCulture.unitedStatesOfAmericaStringProperty
+  africa: JoistFluent.preferences.tabs.localization.regionAndCulture.africaStringProperty,
+  africaModest: JoistFluent.preferences.tabs.localization.regionAndCulture.africaModestStringProperty,
+  asia: JoistFluent.preferences.tabs.localization.regionAndCulture.asiaStringProperty,
+  latinAmerica: JoistFluent.preferences.tabs.localization.regionAndCulture.latinAmericaStringProperty,
+  oceania: JoistFluent.preferences.tabs.localization.regionAndCulture.oceaniaStringProperty,
+  random: JoistFluent.preferences.tabs.localization.regionAndCulture.randomStringProperty,
+  usa: JoistFluent.preferences.tabs.localization.regionAndCulture.unitedStatesOfAmericaStringProperty
 };
 
 type SelfOptions = EmptySelfOptions;

@@ -66,7 +66,7 @@ import HomeScreen from './HomeScreen.js';
 import HomeScreenView from './HomeScreenView.js';
 import { type Locale } from './i18n/localeProperty.js';
 import joist from './joist.js';
-import JoistStrings from './JoistStrings.js';
+import JoistFluent from './JoistFluent.js';
 import launchCounter from './launchCounter.js';
 import LookAndFeel from './LookAndFeel.js';
 import MemoryMonitor from './MemoryMonitor.js';
@@ -582,7 +582,7 @@ export default class Sim extends PhetioObject {
       this.availableScreensProperty,
       this.simNameProperty,
       this.selectedScreenProperty,
-      JoistStrings.simTitleWithScreenNamePatternStringProperty,
+      JoistFluent.simTitleWithScreenNamePatternStringProperty,
       ..._.uniq( this.screens.map( screen => screen.nameProperty ) ) // To support duplicate screens
 
       // We just need notifications on any of these changing, return args as a unique value to make sure listeners fire.
@@ -590,7 +590,7 @@ export default class Sim extends PhetioObject {
       const availableScreens = this.availableScreensProperty.value;
       const simName = this.simNameProperty.value;
       const selectedScreen = this.selectedScreenProperty.value;
-      const titleWithScreenPattern = JoistStrings.simTitleWithScreenNamePatternStringProperty.value;
+      const titleWithScreenPattern = JoistFluent.simTitleWithScreenNamePatternStringProperty.value;
       const screenName = selectedScreen.nameProperty.value;
 
       const isMultiScreenSimDisplayingSingleScreen = availableScreens.length === 1 && allSimScreens.length > 1;

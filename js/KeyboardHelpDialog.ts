@@ -23,7 +23,7 @@ import Node, { type NodeOptions } from '../../scenery/js/nodes/Node.js';
 import Dialog, { type DialogOptions } from '../../sun/js/Dialog.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
-import JoistStrings from './JoistStrings.js';
+import JoistFluent from './JoistFluent.js';
 import { type AnyScreen } from './Screen.js';
 
 // constants
@@ -47,7 +47,7 @@ export default class KeyboardHelpDialog extends Dialog {
       phetioDynamicElement: true,
 
       // Append the title to the close button
-      closeButtonVoicingDialogTitle: JoistStrings.keyboardShortcuts.titleStringProperty,
+      closeButtonVoicingDialogTitle: JoistFluent.keyboardShortcuts.titleStringProperty,
       isDisposable: false
     }, providedOptions );
 
@@ -66,7 +66,7 @@ export default class KeyboardHelpDialog extends Dialog {
       screenContentNodes.push( keyboardHelpNode );
     } );
 
-    const shortcutsTitleText = new VoicingText( JoistStrings.keyboardShortcuts.titleStringProperty, {
+    const shortcutsTitleText = new VoicingText( JoistFluent.keyboardShortcuts.titleStringProperty, {
       font: new PhetFont( {
         weight: 'bold',
         size: 24
@@ -124,7 +124,7 @@ class TabHintLine extends ReadingBlock( Node ) {
   public constructor( providedOptions?: TabHintLineOptions ) {
 
     const options = optionize<TabHintLineOptions, TabHintLineSelfOptions, ReadingBlockOptions>()( {
-      readingBlockNameResponse: JoistStrings.a11y.keyboardHelp.tabToGetStarted.readingBlockNameResponseStringProperty
+      readingBlockNameResponse: JoistFluent.a11y.keyboardHelp.tabToGetStarted.readingBlockNameResponseStringProperty
     }, providedOptions );
 
     super();
@@ -132,9 +132,9 @@ class TabHintLine extends ReadingBlock( Node ) {
     const tabIcon = TextKeyNode.tab();
 
     // a line to say "tab to get started" below the "Keyboard Shortcuts" 'title'
-    const labelWithIcon = KeyboardHelpSectionRow.labelWithIcon( JoistStrings.keyboardShortcuts.toGetStartedStringProperty,
+    const labelWithIcon = KeyboardHelpSectionRow.labelWithIcon( JoistFluent.keyboardShortcuts.toGetStartedStringProperty,
       tabIcon, {
-        labelInnerContent: JoistStrings.a11y.keyboardHelp.tabToGetStarted.accessibleHelpTextStringProperty,
+        labelInnerContent: JoistFluent.a11y.keyboardHelp.tabToGetStarted.accessibleHelpTextStringProperty,
         iconOptions: {
           tagName: 'p' // because there is only one, and the default is an li tag
         }

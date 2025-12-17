@@ -29,7 +29,7 @@ import RoundPushButton from '../../../sun/js/buttons/RoundPushButton.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import audioManager from '../audioManager.js';
 import joist from '../joist.js';
-import JoistStrings from '../JoistStrings.js';
+import JoistFluent from '../JoistFluent.js';
 import type LookAndFeel from '../LookAndFeel.js';
 import { type AnyScreen } from '../Screen.js';
 import VoicingToolbarAlertManager from './VoicingToolbarAlertManager.js';
@@ -40,12 +40,12 @@ const MAX_ANIMATION_SPEED = 250; // in view coordinates per second, assuming 60 
 const CONTENT_TOP_MARGIN = 15; // margin between top of VoicingToolbar and contents
 
 // constants
-const openToolbarStringProperty = JoistStrings.a11y.voicingToolbar.openToolbarStringProperty;
-const closeToolbarStringProperty = JoistStrings.a11y.voicingToolbar.closeToolbarStringProperty;
-const hideToolbarStringProperty = JoistStrings.a11y.voicingToolbar.hideToolbarStringProperty;
-const showToolbarStringProperty = JoistStrings.a11y.voicingToolbar.showToolbarStringProperty;
-const toolbarShownStringProperty = JoistStrings.a11y.voicingToolbar.toolbarShownStringProperty;
-const toolbarHiddenStringProperty = JoistStrings.a11y.voicingToolbar.toolbarHiddenStringProperty;
+const openToolbarStringProperty = JoistFluent.a11y.voicingToolbar.openToolbarStringProperty;
+const closeToolbarStringProperty = JoistFluent.a11y.voicingToolbar.closeToolbarStringProperty;
+const hideToolbarStringProperty = JoistFluent.a11y.voicingToolbar.hideToolbarStringProperty;
+const showToolbarStringProperty = JoistFluent.a11y.voicingToolbar.showToolbarStringProperty;
+const toolbarShownStringProperty = JoistFluent.a11y.voicingToolbar.toolbarShownStringProperty;
+const toolbarHiddenStringProperty = JoistFluent.a11y.voicingToolbar.toolbarHiddenStringProperty;
 
 type SelfOptions = EmptySelfOptions;
 type VoicingToolbarOptions = EmptySelfOptions & StrictOmit<NodeOptions, 'isDisposable'>;

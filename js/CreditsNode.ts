@@ -20,7 +20,7 @@ import VBox, { type VBoxOptions } from '../../scenery/js/layout/nodes/VBox.js';
 import type Node from '../../scenery/js/nodes/Node.js';
 import VStrut from '../../scenery/js/nodes/VStrut.js';
 import joist from './joist.js';
-import JoistStrings from './JoistStrings.js';
+import JoistFluent from './JoistFluent.js';
 
 type SelfOptions = {
   titleFont?: PhetFont;
@@ -62,10 +62,10 @@ export default class CreditsNode extends VBox {
     const children: Node[] = [];
 
     // Credits
-    children.push( new VoicingText( JoistStrings.credits.titleStringProperty, {
+    children.push( new VoicingText( JoistFluent.credits.titleStringProperty, {
       font: options.titleFont,
 
-      accessibleHeading: JoistStrings.credits.titleStringProperty,
+      accessibleHeading: JoistFluent.credits.titleStringProperty,
       accessibleParagraph: null
     } ) );
 
@@ -77,53 +77,53 @@ export default class CreditsNode extends VBox {
 
     // Primary HTML5 designer first, followed by contributing designers (HTML5 and legacy) in alphabetical order.
     if ( credits.leadDesign ) {
-      const designStringProperty = formatStringProperty( JoistStrings.credits.leadDesignStringProperty, credits.leadDesign );
+      const designStringProperty = formatStringProperty( JoistFluent.credits.leadDesignStringProperty, credits.leadDesign );
       children.push( new VoicingRichText( designStringProperty, richTextOptions ) );
     }
 
     // Primary HTML5 developer first, followed by contributing developers (HTML5 and legacy) in alphabetical order.
     if ( credits.softwareDevelopment ) {
-      const developmentStringProperty = formatStringProperty( JoistStrings.credits.softwareDevelopmentStringProperty, credits.softwareDevelopment );
+      const developmentStringProperty = formatStringProperty( JoistFluent.credits.softwareDevelopmentStringProperty, credits.softwareDevelopment );
       children.push( new VoicingRichText( developmentStringProperty, richTextOptions ) );
     }
 
     // In alphabetical order (includes HTML5 and legacy team members)
     if ( credits.team ) {
-      const teamStringProperty = formatStringProperty( JoistStrings.credits.teamStringProperty, credits.team );
+      const teamStringProperty = formatStringProperty( JoistFluent.credits.teamStringProperty, credits.team );
       children.push( new VoicingRichText( teamStringProperty, richTextOptions ) );
     }
 
     // In alphabetical order (this field is new for HTML5 sims)
     if ( credits.contributors ) {
-      const contributorsStringProperty = formatStringProperty( JoistStrings.credits.contributorsStringProperty, credits.contributors );
+      const contributorsStringProperty = formatStringProperty( JoistFluent.credits.contributorsStringProperty, credits.contributors );
       children.push( new VoicingRichText( contributorsStringProperty, richTextOptions ) );
     }
 
     // In alphabetical order (this field is new for HTML5 sims)
     if ( credits.qualityAssurance ) {
-      const qualityAssuranceStringProperty = formatStringProperty( JoistStrings.credits.qualityAssuranceStringProperty, credits.qualityAssurance );
+      const qualityAssuranceStringProperty = formatStringProperty( JoistFluent.credits.qualityAssuranceStringProperty, credits.qualityAssurance );
       children.push( new VoicingRichText( qualityAssuranceStringProperty, richTextOptions ) );
     }
 
     // In alphabetical order (this field is new for HTML5 sims)
     if ( credits.graphicArts ) {
-      const graphicArtsStringProperty = formatStringProperty( JoistStrings.credits.graphicArtsStringProperty, credits.graphicArts );
+      const graphicArtsStringProperty = formatStringProperty( JoistFluent.credits.graphicArtsStringProperty, credits.graphicArts );
       children.push( new VoicingRichText( graphicArtsStringProperty, richTextOptions ) );
     }
 
     // In alphabetical order (this field is new for HTML5 sims)
     if ( credits.soundDesign ) {
-      const soundDesignStringProperty = formatStringProperty( JoistStrings.credits.soundDesignStringProperty, credits.soundDesign );
+      const soundDesignStringProperty = formatStringProperty( JoistFluent.credits.soundDesignStringProperty, credits.soundDesign );
       children.push( new VoicingRichText( soundDesignStringProperty, richTextOptions ) );
     }
 
     // Thanks
     if ( credits.thanks ) {
       if ( children.length > 0 ) { children.push( new VStrut( 13 ) ); }
-      children.push( new VoicingText( JoistStrings.credits.thanksStringProperty, {
+      children.push( new VoicingText( JoistFluent.credits.thanksStringProperty, {
         font: options.titleFont,
 
-        accessibleHeading: JoistStrings.credits.thanksStringProperty,
+        accessibleHeading: JoistFluent.credits.thanksStringProperty,
         accessibleParagraph: null
       } ) );
 

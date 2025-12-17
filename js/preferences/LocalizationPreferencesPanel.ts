@@ -21,7 +21,7 @@ import RichText from '../../../scenery/js/nodes/RichText.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import { supportedRegionAndCultureValues } from '../i18n/regionAndCultureProperty.js';
 import joist from '../joist.js';
-import JoistStrings from '../JoistStrings.js';
+import JoistFluent from '../JoistFluent.js';
 import LocalePanel from './LocalePanel.js';
 import PreferencesControl from './PreferencesControl.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
@@ -32,9 +32,9 @@ import PreferencesType from './PreferencesType.js';
 import RegionAndCultureComboBox from './RegionAndCultureComboBox.js';
 
 // constants
-const localizationTitleStringProperty = JoistStrings.preferences.tabs.localization.titleStringProperty;
-const regionAndCultureTitleStringProperty = JoistStrings.preferences.tabs.localization.regionAndCulture.titleStringProperty;
-const regionAndCultureDescriptionStringProperty = JoistStrings.preferences.tabs.localization.regionAndCulture.descriptionStringProperty;
+const localizationTitleStringProperty = JoistFluent.preferences.tabs.localization.titleStringProperty;
+const regionAndCultureTitleStringProperty = JoistFluent.preferences.tabs.localization.regionAndCulture.titleStringProperty;
+const regionAndCultureDescriptionStringProperty = JoistFluent.preferences.tabs.localization.regionAndCulture.descriptionStringProperty;
 
 type SelfOptions = EmptySelfOptions;
 
@@ -75,16 +75,16 @@ class LocalizationPreferencesPanel extends PreferencesPanel {
       // The language selection provided by LocalePanel does not follow the PreferencesControl pattern because it is a
       // much larger custom UI component that does not fit in the standard PreferencesControl layout.
       const localeLabel = new VoicingText(
-        JoistStrings.preferences.tabs.localization.languageSelection.titleStringProperty,
+        JoistFluent.preferences.tabs.localization.languageSelection.titleStringProperty,
         combineOptions<VoicingTextOptions>( {}, PreferencesDialogConstants.CONTROL_LABEL_OPTIONS, {
 
           // Default behavior for VoicingText creates an accessibleParagraph
           // but this needs to be a heading.
-          accessibleHeading: JoistStrings.preferences.tabs.localization.languageSelection.titleStringProperty,
+          accessibleHeading: JoistFluent.preferences.tabs.localization.languageSelection.titleStringProperty,
           accessibleParagraph: null
         } )
       );
-      const localeDescription = new VoicingRichText( JoistStrings.preferences.tabs.localization.languageSelection.descriptionStringProperty,
+      const localeDescription = new VoicingRichText( JoistFluent.preferences.tabs.localization.languageSelection.descriptionStringProperty,
         PreferencesDialogConstants.CONTROL_DESCRIPTION_OPTIONS );
       const localePanel = new LocalePanel( localizationModel.localeProperty );
 

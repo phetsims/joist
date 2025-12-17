@@ -17,7 +17,7 @@ import preferencesIcon_png from '../../images/preferencesIcon_png.js'; // on a b
 import preferencesIconOnWhite_png from '../../images/preferencesIconOnWhite_png.js'; // on a white navbar
 import joist from '../joist.js';
 import JoistButton, { type JoistButtonOptions } from '../JoistButton.js';
-import JoistStrings from '../JoistStrings.js';
+import JoistFluent from '../JoistFluent.js';
 import PreferencesDialog from './PreferencesDialog.js';
 import type PreferencesModel from './PreferencesModel.js';
 
@@ -46,11 +46,11 @@ class NavigationBarPreferencesButton extends JoistButton {
       focusHighlightDilationY: 4,
 
       // pdom
-      accessibleName: JoistStrings.preferences.titleStringProperty,
+      accessibleName: JoistFluent.preferences.titleStringProperty,
       positionInPDOM: true,
 
       // voicing
-      voicingNameResponse: JoistStrings.preferences.titleStringProperty,
+      voicingNameResponse: JoistFluent.preferences.titleStringProperty,
 
       visiblePropertyOptions: {
         phetioFeatured: true

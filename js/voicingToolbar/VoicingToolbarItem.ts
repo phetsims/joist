@@ -29,7 +29,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import { type SpeakableResolvedResponse } from '../../../utterance-queue/js/ResponsePacket.js';
 import Utterance from '../../../utterance-queue/js/Utterance.js';
 import joist from '../joist.js';
-import JoistStrings from '../JoistStrings.js';
+import JoistFluent from '../JoistFluent.js';
 import type LookAndFeel from '../LookAndFeel.js';
 import PreferencesControl from '../preferences/PreferencesControl.js';
 import PreferencesDialogConstants from '../preferences/PreferencesDialogConstants.js';
@@ -43,17 +43,17 @@ const QUICK_INFO = 20;
 // Voicing is only available in English so these contents are hidden because translators will not be able to test
 // them in a translated context. These strings are nested under the a11y key so that they are not available for
 // translation.
-const titleStringProperty = JoistStrings.a11y.voicingToolbar.voicing.titleStringProperty;
-const quickInfoStringProperty = JoistStrings.a11y.voicingToolbar.voicing.quickInfoStringProperty;
-const simVoicingOnStringProperty = JoistStrings.a11y.voicingToolbar.voicing.simVoicingOnAlertStringProperty;
-const simVoicingOffStringProperty = JoistStrings.a11y.voicingToolbar.voicing.simVoicingOffAlertStringProperty;
-const toolbarStringProperty = JoistStrings.a11y.voicingToolbar.titleStringProperty;
-const playOverviewStringProperty = JoistStrings.a11y.voicingToolbar.voicing.playOverviewLabelStringProperty;
-const playDetailsStringProperty = JoistStrings.a11y.voicingToolbar.voicing.playDetailsLabelStringProperty;
-const playHintStringProperty = JoistStrings.a11y.voicingToolbar.voicing.playHintLabelStringProperty;
-const overviewStringProperty = JoistStrings.a11y.voicingToolbar.voicing.overviewLabelStringProperty;
-const detailsStringProperty = JoistStrings.a11y.voicingToolbar.voicing.detailsLabelStringProperty;
-const hintStringProperty = JoistStrings.a11y.voicingToolbar.voicing.hintLabelStringProperty;
+const titleStringProperty = JoistFluent.a11y.voicingToolbar.voicing.titleStringProperty;
+const quickInfoStringProperty = JoistFluent.a11y.voicingToolbar.voicing.quickInfoStringProperty;
+const simVoicingOnStringProperty = JoistFluent.a11y.voicingToolbar.voicing.simVoicingOnAlertStringProperty;
+const simVoicingOffStringProperty = JoistFluent.a11y.voicingToolbar.voicing.simVoicingOffAlertStringProperty;
+const toolbarStringProperty = JoistFluent.a11y.voicingToolbar.titleStringProperty;
+const playOverviewStringProperty = JoistFluent.a11y.voicingToolbar.voicing.playOverviewLabelStringProperty;
+const playDetailsStringProperty = JoistFluent.a11y.voicingToolbar.voicing.playDetailsLabelStringProperty;
+const playHintStringProperty = JoistFluent.a11y.voicingToolbar.voicing.playHintLabelStringProperty;
+const overviewStringProperty = JoistFluent.a11y.voicingToolbar.voicing.overviewLabelStringProperty;
+const detailsStringProperty = JoistFluent.a11y.voicingToolbar.voicing.detailsLabelStringProperty;
+const hintStringProperty = JoistFluent.a11y.voicingToolbar.voicing.hintLabelStringProperty;
 
 type SelfOptions = EmptySelfOptions;
 export type VoicingToolbarItemOptions = SelfOptions & StrictOmit<NodeOptions, 'isDisposable'> & PickRequired<NodeOptions, 'tandem'>;

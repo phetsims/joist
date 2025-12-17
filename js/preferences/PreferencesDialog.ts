@@ -21,7 +21,7 @@ import Text from '../../../scenery/js/nodes/Text.js';
 import Dialog, { type DialogOptions } from '../../../sun/js/Dialog.js';
 import soundManager from '../../../tambo/js/soundManager.js';
 import joist from '../joist.js';
-import JoistStrings from '../JoistStrings.js';
+import JoistFluent from '../JoistFluent.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import type PreferencesModel from './PreferencesModel.js';
 import PreferencesPanels from './PreferencesPanels.js';
@@ -37,7 +37,7 @@ class PreferencesDialog extends Dialog {
 
   public constructor( preferencesModel: PreferencesModel, providedOptions?: PreferencesDialogOptions ) {
 
-    const titleText = new Text( JoistStrings.preferences.titleStringProperty, {
+    const titleText = new Text( JoistFluent.preferences.titleStringProperty, {
       font: PreferencesDialogConstants.TITLE_FONT,
       maxWidth: PreferencesDialogConstants.CONTENT_MAX_WIDTH // The width of the title should be the same max as for a panel section
     } );
@@ -50,7 +50,7 @@ class PreferencesDialog extends Dialog {
       // phet-io
       phetioDynamicElement: true,
 
-      closeButtonVoicingDialogTitle: JoistStrings.preferences.titleStringProperty
+      closeButtonVoicingDialogTitle: JoistFluent.preferences.titleStringProperty
     }, providedOptions );
 
     // determine which tabs will be supported in this Dialog, true if any entry in a configuration has content

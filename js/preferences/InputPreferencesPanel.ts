@@ -17,7 +17,7 @@ import Node from '../../../scenery/js/nodes/Node.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import ToggleSwitch, { type ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import joist from '../joist.js';
-import JoistStrings from '../JoistStrings.js';
+import JoistFluent from '../JoistFluent.js';
 import PreferencesControl from './PreferencesControl.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import { type InputModel } from './PreferencesModel.js';
@@ -26,9 +26,9 @@ import PreferencesPanelSection from './PreferencesPanelSection.js';
 import PreferencesType from './PreferencesType.js';
 
 // constants
-const gestureControlEnabledAlertStringProperty = JoistStrings.a11y.preferences.tabs.input.gestureControl.enabledAlertStringProperty;
-const gestureControlDisabledAlertStringProperty = JoistStrings.a11y.preferences.tabs.input.gestureControl.disabledAlertStringProperty;
-const labelledDescriptionPatternStringProperty = JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
+const gestureControlEnabledAlertStringProperty = JoistFluent.a11y.preferences.tabs.input.gestureControl.enabledAlertStringProperty;
+const gestureControlDisabledAlertStringProperty = JoistFluent.a11y.preferences.tabs.input.gestureControl.disabledAlertStringProperty;
+const labelledDescriptionPatternStringProperty = JoistFluent.a11y.preferences.tabs.labelledDescriptionPatternStringProperty;
 
 // NOT translatable yet because this tab does not appear in any published simulation.
 const inputTitleString = 'Input';

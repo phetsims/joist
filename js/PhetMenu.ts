@@ -31,7 +31,7 @@ import PhetioCapsule from '../../tandem/js/PhetioCapsule.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import AboutDialog from './AboutDialog.js';
 import joist from './joist.js';
-import JoistStrings from './JoistStrings.js';
+import JoistFluent from './JoistFluent.js';
 import ScreenshotGenerator from './ScreenshotGenerator.js';
 import type Sim from './Sim.js';
 import updateCheck from './updateCheck.js';
@@ -101,7 +101,7 @@ class PhetMenu extends Popupable( Node, 0 ) {
      */
     const itemDescriptors: MenuItemDescriptor[] = [
       {
-        textStringProperty: JoistStrings.menuItem.phetWebsiteStringProperty,
+        textStringProperty: JoistFluent.menuItem.phetWebsiteStringProperty,
         present: isPhETBrand,
         shouldBeHiddenWhenLinksAreNotAllowed: true,
         callback: () => {
@@ -111,7 +111,7 @@ class PhetMenu extends Popupable( Node, 0 ) {
         }
       },
       {
-        textStringProperty: JoistStrings.menuItem.reportAProblemStringProperty,
+        textStringProperty: JoistFluent.menuItem.reportAProblemStringProperty,
         present: isPhETBrand && !isApp,
         shouldBeHiddenWhenLinksAreNotAllowed: true,
         callback: () => {
@@ -133,7 +133,7 @@ class PhetMenu extends Popupable( Node, 0 ) {
         }
       },
       {
-        textStringProperty: JoistStrings.menuItem.getUpdateStringProperty,
+        textStringProperty: JoistFluent.menuItem.getUpdateStringProperty,
         present: updateCheck.areUpdatesChecked,
         shouldBeHiddenWhenLinksAreNotAllowed: true,
         callback: () => {
@@ -153,7 +153,7 @@ class PhetMenu extends Popupable( Node, 0 ) {
 
       // "Screenshot" Menu item
       {
-        textStringProperty: JoistStrings.menuItem.screenshotStringProperty,
+        textStringProperty: JoistFluent.menuItem.screenshotStringProperty,
         present: !isApp && !phet.chipper.isFuzzEnabled(), // Not supported by IE9, see https://github.com/phetsims/joist/issues/212
         shouldBeHiddenWhenLinksAreNotAllowed: false,
         callback: () => {
@@ -196,7 +196,7 @@ class PhetMenu extends Popupable( Node, 0 ) {
 
       // "Full Screen" menu item
       {
-        textStringProperty: JoistStrings.menuItem.fullscreenStringProperty,
+        textStringProperty: JoistFluent.menuItem.fullscreenStringProperty,
         present: FullScreen.isFullScreenEnabled() && !isApp && !platform.mobileSafari && !phet.chipper.queryParameters.preventFullScreen,
         shouldBeHiddenWhenLinksAreNotAllowed: false,
         callback: () => {
@@ -214,7 +214,7 @@ class PhetMenu extends Popupable( Node, 0 ) {
 
       // About dialog button
       {
-        textStringProperty: JoistStrings.menuItem.aboutStringProperty,
+        textStringProperty: JoistFluent.menuItem.aboutStringProperty,
         present: true,
         shouldBeHiddenWhenLinksAreNotAllowed: false,
         callback: () => aboutDialogCapsule.getElement().show(),

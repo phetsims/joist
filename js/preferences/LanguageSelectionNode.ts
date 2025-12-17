@@ -19,7 +19,7 @@ import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import { type Locale } from '../i18n/localeProperty.js';
 import joist from '../joist.js';
-import JoistStrings from '../JoistStrings.js';
+import JoistFluent from '../JoistFluent.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 
 export default class LanguageSelectionNode extends Rectangle {
@@ -65,7 +65,7 @@ export default class LanguageSelectionNode extends Rectangle {
 
         pushButtonSoundPlayer.play();
         this.addAccessibleContextResponse( StringUtils.fillIn(
-          JoistStrings.a11y.preferences.tabs.localization.languageSelection.languageChangeResponsePatternStringProperty, {
+          JoistFluent.a11y.preferences.tabs.localization.languageSelection.languageChangeResponsePatternStringProperty, {
             language: englishLocaleString
           } )
         );

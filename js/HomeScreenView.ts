@@ -24,7 +24,7 @@ import HomeScreenButton from './HomeScreenButton.js';
 import type HomeScreenModel from './HomeScreenModel.js';
 import HomeScreenSoundGenerator from './HomeScreenSoundGenerator.js';
 import joist from './joist.js';
-import JoistStrings from './JoistStrings.js';
+import JoistFluent from './JoistFluent.js';
 import { type AnyScreen } from './Screen.js';
 import ScreenView, { type ScreenViewOptions } from './ScreenView.js';
 
@@ -129,16 +129,16 @@ class HomeScreenView extends ScreenView {
       spacing = 20;
     }
 
-    this.homeScreenScreenSummaryIntroProperty = new PatternStringProperty( JoistStrings.a11y.homeScreenDescriptionPatternStringProperty, {
+    this.homeScreenScreenSummaryIntroProperty = new PatternStringProperty( JoistFluent.a11y.homeScreenDescriptionPatternStringProperty, {
       name: simNameProperty,
       screens: model.simScreens.length
     }, { tandem: Tandem.OPT_OUT } );
 
 
     // Add the home screen description, since there are no PDOM container Nodes for this ScreenView
-    homeScreenPDOMNode.accessibleName = new PatternStringProperty( JoistStrings.a11y.homeScreenIntroPatternStringProperty, {
+    homeScreenPDOMNode.accessibleName = new PatternStringProperty( JoistFluent.a11y.homeScreenIntroPatternStringProperty, {
       description: this.homeScreenScreenSummaryIntroProperty,
-      hint: JoistStrings.a11y.homeScreenHintStringProperty
+      hint: JoistFluent.a11y.homeScreenHintStringProperty
     }, { tandem: Tandem.OPT_OUT } );
 
     this.screenButtons.forEach( screenButton => {
@@ -209,7 +209,7 @@ class HomeScreenView extends ScreenView {
       if ( details !== '' ) {
         details += ' ';
       }
-      details += StringUtils.fillIn( JoistStrings.a11y.homeScreenButtonDetailsPatternStringProperty, {
+      details += StringUtils.fillIn( JoistFluent.a11y.homeScreenButtonDetailsPatternStringProperty, {
         name: screenButton.screen.pdomDisplayNameProperty.value,
         screenHint: screenButton.screen.screenButtonsHelpText
       } );
@@ -221,7 +221,7 @@ class HomeScreenView extends ScreenView {
    * To support voicing.
    */
   public override getVoicingHintContent(): TReadOnlyProperty<string> {
-    return JoistStrings.a11y.homeScreenHintStringProperty;
+    return JoistFluent.a11y.homeScreenHintStringProperty;
   }
 }
 

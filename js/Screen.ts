@@ -37,15 +37,15 @@ import Tandem from '../../tandem/js/Tandem.js';
 import IOType from '../../tandem/js/types/IOType.js';
 import ReferenceIO from '../../tandem/js/types/ReferenceIO.js';
 import joist from './joist.js';
-import JoistStrings from './JoistStrings.js';
+import JoistFluent from './JoistFluent.js';
 import ScreenIcon, { MINIMUM_HOME_SCREEN_ICON_SIZE } from './ScreenIcon.js';
 import type ScreenView from './ScreenView.js';
 import type TModel from './TModel.js';
 
-const screenNamePatternStringProperty = JoistStrings.a11y.screenNamePatternStringProperty;
-const goToScreenPatternStringProperty = JoistStrings.a11y.goToScreenPatternStringProperty;
-const screenSimPatternStringProperty = JoistStrings.a11y.screenSimPatternStringProperty;
-const simScreenStringProperty = JoistStrings.a11y.simScreenStringProperty;
+const screenNamePatternStringProperty = JoistFluent.a11y.screenNamePatternStringProperty;
+const goToScreenPatternStringProperty = JoistFluent.a11y.goToScreenPatternStringProperty;
+const screenSimPatternStringProperty = JoistFluent.a11y.screenSimPatternStringProperty;
+const simScreenStringProperty = JoistFluent.a11y.simScreenStringProperty;
 
 // constants
 const MINIMUM_NAVBAR_ICON_SIZE = new Dimension2( 147, 100 );

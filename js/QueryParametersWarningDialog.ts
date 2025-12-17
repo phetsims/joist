@@ -14,7 +14,7 @@ import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import Text from '../../scenery/js/nodes/Text.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import joist from './joist.js';
-import JoistStrings from './JoistStrings.js';
+import JoistFluent from './JoistFluent.js';
 
 type SelfOptions = EmptySelfOptions;
 export type QueryParametersWarningDialogOptions = SelfOptions & OopsDialogOptions;
@@ -35,7 +35,7 @@ class QueryParametersWarningDialog extends OopsDialog {
       richTextOptions: {
         font: new PhetFont( 16 )
       },
-      title: new Text( JoistStrings.queryParametersWarningDialog.invalidQueryParametersStringProperty, {
+      title: new Text( JoistFluent.queryParametersWarningDialog.invalidQueryParametersStringProperty, {
         font: new PhetFont( 28 )
       } ),
 
@@ -43,11 +43,11 @@ class QueryParametersWarningDialog extends OopsDialog {
     }, providedOptions );
 
     // add warnings to generic message
-    let message = `${JoistStrings.queryParametersWarningDialog.oneOrMoreQueryParametersStringProperty.value}<br><br>`;
+    let message = `${JoistFluent.queryParametersWarningDialog.oneOrMoreQueryParametersStringProperty.value}<br><br>`;
     warnings.forEach( warning => {
       message += `${warning.key}=${warning.value}<br>`;
     } );
-    message += `<br>${JoistStrings.queryParametersWarningDialog.theSimulationWillStartStringProperty.value}`;
+    message += `<br>${JoistFluent.queryParametersWarningDialog.theSimulationWillStartStringProperty.value}`;
 
     super( message, options );
   }

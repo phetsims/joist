@@ -45,7 +45,7 @@ import HomeButton from './HomeButton.js';
 import HomeScreen from './HomeScreen.js';
 import HomeScreenView from './HomeScreenView.js';
 import joist from './joist.js';
-import JoistStrings from './JoistStrings.js';
+import JoistFluent from './JoistFluent.js';
 import NavigationBarScreenButton from './NavigationBarScreenButton.js';
 import PhetButton from './PhetButton.js';
 import { type AnyScreen } from './Screen.js';
@@ -184,7 +184,7 @@ class NavigationBar extends Node {
 
         // This is not a child of the h1 in the ScreenView, but the relative heading level
         // is intended to be under it.
-        accessibleHeading: JoistStrings.a11y.simScreensStringProperty,
+        accessibleHeading: JoistFluent.a11y.simScreensStringProperty,
         accessibleHeadingIncrement: 2,
         visibleProperty: new DerivedProperty( [ sim.activeSimScreensProperty, sim.selectedScreenProperty, isUserNavigableProperty ], ( screens, screen, isUserNavigable ) => {
           return screen !== sim.homeScreen && screens.length > 1 && isUserNavigable;
@@ -336,7 +336,7 @@ class NavigationBar extends Node {
 
       // pdom
       containerTagName: 'section',
-      accessibleHeading: JoistStrings.a11y.simResourcesStringProperty,
+      accessibleHeading: JoistFluent.a11y.simResourcesStringProperty,
 
       // The first heading in the ScreenView is focusable and cannot use accessibleHeading.
       // Extra increment of the heading level so this section has the correct relative level.

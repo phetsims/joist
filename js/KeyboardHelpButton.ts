@@ -19,12 +19,12 @@ import keyboardIcon_png from '../images/keyboardIcon_png.js'; // on a black navb
 import keyboardIconOnWhite_png from '../images/keyboardIconOnWhite_png.js'; // on a white navbar
 import joist from './joist.js';
 import JoistButton, { type JoistButtonOptions } from './JoistButton.js';
-import JoistStrings from './JoistStrings.js';
+import JoistFluent from './JoistFluent.js';
 import KeyboardHelpDialog from './KeyboardHelpDialog.js';
 import { type AnyScreen } from './Screen.js';
 
 // constants
-const keyboardShortcutsStringProperty = JoistStrings.a11y.keyboardHelp.keyboardShortcutsStringProperty;
+const keyboardShortcutsStringProperty = JoistFluent.a11y.keyboardHelp.keyboardShortcutsStringProperty;
 const ICON_DESIRED_HEIGHT = 17.085; // empirically determined
 
 type SelfOptions = EmptySelfOptions;

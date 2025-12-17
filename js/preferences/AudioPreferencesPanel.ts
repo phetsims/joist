@@ -17,7 +17,7 @@ import Text from '../../../scenery/js/nodes/Text.js';
 import ToggleSwitch, { type ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import ActivationUtterance from '../../../utterance-queue/js/ActivationUtterance.js';
 import joist from '../joist.js';
-import JoistStrings from '../JoistStrings.js';
+import JoistFluent from '../JoistFluent.js';
 import PreferencesControl from './PreferencesControl.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 import { type AudioModel } from './PreferencesModel.js';
@@ -28,7 +28,7 @@ import SoundPanelSection from './SoundPanelSection.js';
 import VoicingPanelSection from './VoicingPanelSection.js';
 
 // constants
-const audioFeaturesStringProperty = JoistStrings.preferences.tabs.audio.audioFeatures.titleStringProperty;
+const audioFeaturesStringProperty = JoistFluent.preferences.tabs.audio.audioFeatures.titleStringProperty;
 
 type AudioPreferencesPanelOptions = PickRequired<PreferencesPanelOptions, 'tandem'>;
 
@@ -107,8 +107,8 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
     // If assigned to the ToggleSwitch, the "Off" response would be blocked when Voicing is disabled.
     const customUtterance = new ActivationUtterance();
     const enabledListener = ( enabled: boolean ) => {
-      customUtterance.alert = enabled ? JoistStrings.a11y.soundToggle.alert.simSoundOnStringProperty
-                                      : JoistStrings.a11y.soundToggle.alert.simSoundOffStringProperty;
+      customUtterance.alert = enabled ? JoistFluent.a11y.soundToggle.alert.simSoundOnStringProperty
+                                      : JoistFluent.a11y.soundToggle.alert.simSoundOffStringProperty;
       this.addAccessibleContextResponse( customUtterance );
       if ( voicingManager.voicingFullyEnabledProperty.value ) {
         voicingManager.speakIgnoringEnabled( customUtterance );

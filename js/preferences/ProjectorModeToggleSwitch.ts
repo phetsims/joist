@@ -17,7 +17,7 @@ import SceneryConstants from '../../../scenery/js/SceneryConstants.js';
 import ToggleSwitch, { type ToggleSwitchOptions } from '../../../sun/js/ToggleSwitch.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import joist from '../joist.js';
-import JoistStrings from '../JoistStrings.js';
+import JoistFluent from '../JoistFluent.js';
 import PreferencesControl, { type PreferencesControlOptions } from './PreferencesControl.js';
 import PreferencesDialogConstants from './PreferencesDialogConstants.js';
 
@@ -34,8 +34,8 @@ class ProjectorModeToggleSwitch extends PreferencesControl {
     phet.chipper.colorProfiles[ 0 ] !== phet.chipper.colorProfiles[ 1 ],
       'ProjectorModeToggleSwitch requires sims that support the projector color profile and one other color profile' );
 
-    const projectorModeLabel = new Text( JoistStrings.projectorModeStringProperty, PreferencesDialogConstants.PANEL_SECTION_LABEL_OPTIONS );
-    const projectorModeDescription = new VoicingText( JoistStrings.preferences.tabs.visual.projectorModeDescriptionStringProperty, combineOptions<VoicingTextOptions>(
+    const projectorModeLabel = new Text( JoistFluent.projectorModeStringProperty, PreferencesDialogConstants.PANEL_SECTION_LABEL_OPTIONS );
+    const projectorModeDescription = new VoicingText( JoistFluent.preferences.tabs.visual.projectorModeDescriptionStringProperty, combineOptions<VoicingTextOptions>(
       {},
       PreferencesDialogConstants.PANEL_SECTION_CONTENT_OPTIONS,
       {
@@ -46,12 +46,12 @@ class ProjectorModeToggleSwitch extends PreferencesControl {
     // Identify the non-projector color profile that this checkbox sets.
     const otherColorProfile = phet.chipper.colorProfiles.find( ( colorProfile: string ) => colorProfile !== SceneryConstants.PROJECTOR_COLOR_PROFILE );
     const projectorModeSwitch = new ToggleSwitch( colorProfileProperty, otherColorProfile, SceneryConstants.PROJECTOR_COLOR_PROFILE, combineOptions<ToggleSwitchOptions>( {
-      accessibleName: JoistStrings.projectorModeStringProperty
+      accessibleName: JoistFluent.projectorModeStringProperty
     }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
 
-    const projectorModePatternStringProperty = new PatternStringProperty( JoistStrings.a11y.preferences.tabs.labelledDescriptionPatternStringProperty, {
-      label: JoistStrings.projectorModeStringProperty,
-      description: JoistStrings.preferences.tabs.visual.projectorModeDescriptionStringProperty
+    const projectorModePatternStringProperty = new PatternStringProperty( JoistFluent.a11y.preferences.tabs.labelledDescriptionPatternStringProperty, {
+      label: JoistFluent.projectorModeStringProperty,
+      description: JoistFluent.preferences.tabs.visual.projectorModeDescriptionStringProperty
     }, { tandem: Tandem.OPT_OUT } );
     projectorModeDescription.readingBlockNameResponse = projectorModePatternStringProperty;
 

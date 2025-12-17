@@ -27,7 +27,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import CreditsNode, { type CreditsData } from './CreditsNode.js';
 import localeProperty from './i18n/localeProperty.js';
 import joist from './joist.js';
-import JoistStrings from './JoistStrings.js';
+import JoistFluent from './JoistFluent.js';
 import packageJSON from './packageJSON.js';
 import updateCheck from './updateCheck.js';
 import UpdateNodes from './UpdateNodes.js';
@@ -84,7 +84,7 @@ export default class AboutDialog extends Dialog {
     } );
     children.push( titleText );
 
-    const versionStringProperty = new DerivedProperty( [ JoistStrings.versionPatternStringProperty ], versionPattern => {
+    const versionStringProperty = new DerivedProperty( [ JoistFluent.versionPatternStringProperty ], versionPattern => {
       return StringUtils.format( versionPattern, version );
     } );
     children.push( new VoicingText( versionStringProperty, {

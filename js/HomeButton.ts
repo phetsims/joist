@@ -23,11 +23,11 @@ import homeSolidShape from '../../sun/js/shapes/homeSolidShape.js';
 import Utterance from '../../utterance-queue/js/Utterance.js';
 import joist from './joist.js';
 import JoistButton, { type JoistButtonOptions } from './JoistButton.js';
-import JoistStrings from './JoistStrings.js';
+import JoistFluent from './JoistFluent.js';
 
 // constants
-const homeStringProperty = JoistStrings.a11y.homeStringProperty;
-const goToScreenPatternStringProperty = JoistStrings.a11y.goToScreenPatternStringProperty;
+const homeStringProperty = JoistFluent.a11y.homeStringProperty;
+const goToScreenPatternStringProperty = JoistFluent.a11y.goToScreenPatternStringProperty;
 
 type SelfOptions = EmptySelfOptions;
 type HomeButtonOptions = SelfOptions & JoistButtonOptions & PickRequired<JoistButtonOptions, 'listener' | 'tandem'>;

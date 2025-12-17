@@ -55,7 +55,7 @@ import joist from '../../joist/js/joist.js';
 import affirm from '../../perennial-alias/js/browser-and-node/affirm.js';
 import AccessibleListNode from '../../scenery-phet/js/accessibility/AccessibleListNode.js';
 import Node from '../../scenery/js/nodes/Node.js';
-import JoistStrings from './JoistStrings.js';
+import JoistFluent from './JoistFluent.js';
 
 export type SectionContent =
   TReadOnlyProperty<string> |
@@ -126,13 +126,13 @@ export default class ScreenSummaryContent extends Node {
 
     this.inThePlayAreaParagraph = new Node( {
       tagName: 'p',
-      accessibleName: JoistStrings.a11y.inPlayAreaStringProperty
+      accessibleName: JoistFluent.a11y.inPlayAreaStringProperty
     } );
     this.playAreaContentNode = new Node();
 
     this.inTheControlAreaParagraph = new Node( {
       tagName: 'p',
-      accessibleName: JoistStrings.a11y.inControlAreaStringProperty
+      accessibleName: JoistFluent.a11y.inControlAreaStringProperty
     } );
     this.controlAreaContentNode = new Node();
 
