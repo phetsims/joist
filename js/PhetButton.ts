@@ -112,7 +112,7 @@ class PhetButton extends JoistButton {
       highlightCenterOffsetY: hasCustomAlignment ? 4 : 0,
       listener: () => {
         phetMenu.show();
-        phetMenu.items[ 0 ].focus();
+        phetMenu.getFirstFocusableItem()?.focus();
         pushButtonSoundPlayer.play();
       },
 

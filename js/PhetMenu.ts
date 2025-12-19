@@ -55,7 +55,7 @@ type PhetMenuOptions = SelfOptions & ParentOptions;
 class PhetMenu extends Popupable( Node, 0 ) {
 
   // The items that will actually be shown in this runtime
-  public readonly items: MenuItem[];
+  private readonly items: MenuItem[];
 
   private readonly disposePhetMenu: () => void;
 
@@ -283,22 +283,17 @@ class PhetMenu extends Popupable( Node, 0 ) {
     const keyboardListener = new KeyboardListener( {
       keys: [ 'escape', 'arrowDown', 'arrowUp', 'tab', 'shift+tab' ],
       fire: ( event, keysPressed ) => {
-        const firstItem = this.items[ 0 ];
-        const lastItem = this.items[ this.items.length - 1 ];
+        const firstItem = this.getFirstFocusableItem();
+        const lastItem = this.getLastFocusableItem();
+        const hasItem = firstItem && lastItem;
 
-        if ( event ) {
-
-          // this attempts to prevent the screen reader's virtual cursor from also moving with the arrow keys
-          event.preventDefault();
-        }
-
-        if ( keysPressed === 'arrowDown' ) {
+        if ( hasItem && keysPressed === 'arrowDown' ) {
 
           // On down arrow, focus next item in the list, or wrap up to the first item if focus is at the end
           const nextFocusable = lastItem.focused ? firstItem : PDOMUtils.getNextFocusable();
           nextFocusable.focus();
         }
-        else if ( keysPressed === 'arrowUp' ) {
+        else if ( hasItem && keysPressed === 'arrowUp' ) {
 
           // On up arrow, focus previous item in the list, or wrap back to the last item if focus is on first item
           const previousFocusable = firstItem.focused ? lastItem : PDOMUtils.getPreviousFocusable();
@@ -318,6 +313,37 @@ class PhetMenu extends Popupable( Node, 0 ) {
       this.removeInputListener( keyboardListener );
       keyboardListener.dispose();
     };
+  }
+
+  /**
+   * Returns the first focusable item (visible and focusable) in the menu.
+   */
+  public getFirstFocusableItem(): Node | null {
+    return this.getFocusableItem( false );
+  }
+
+  /**
+   * Returns the last focusable item (visible and focusable) in the menu.
+   */
+  public getLastFocusableItem(): Node | null {
+    return this.getFocusableItem( true );
+  }
+
+  /**
+   * Items can be hidden with phet-io or query parameter customizations. This method finds the first focusable
+   * item available.
+   *
+   * @param reverse - whether to start search from the end of the list
+   */
+  private getFocusableItem( reverse: boolean ): Node | null {
+    const items = reverse ? [ ...this.items ].reverse() : this.items;
+    for ( const item of items ) {
+      if ( item.visible && item.focusable ) {
+        return item;
+      }
+    }
+
+    return null;
   }
 
   /**
