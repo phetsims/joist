@@ -5,9 +5,9 @@
 /* eslint-disable */
 /* @formatter:off */
 
+import FluentLibrary from '../../chipper/js/browser-and-node/FluentLibrary.js';
 import FluentConstant from '../../chipper/js/browser/FluentConstant.js';
 import FluentContainer from '../../chipper/js/browser/FluentContainer.js';
-import FluentLibrary from '../../chipper/js/browser-and-node/FluentLibrary.js';
 import joist from './joist.js';
 import JoistStrings from './JoistStrings.js';
 
