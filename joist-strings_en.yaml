@@ -97,9 +97,7 @@ preferences.tabs.general.accessibilityIntro:                                    
                                                                                                 these features support accessibility for learners with diverse needs and
                                                                                                 within diverse environments. Explore this menu to review or change the default
                                                                                                 presentation settings.
-preferences.tabs.general.moreAccessibility:                                                     >-
-                                                                                                To find other simulations with inclusive features, look for Access and
-                                                                                                Inclusion on the simulation filter page and filter by inclusive feature.
+preferences.tabs.general.moreAccessibility:                                                     Look for Inclusive Features on the Simulations Filter page of the PhET website to find all simulations with available features.
 preferences.tabs.simulation.title:                                                              Simulation
 preferences.tabs.visual.title:                                                                  Visual
 preferences.tabs.visual.interactiveHighlights:                                                  Interactive Highlights
