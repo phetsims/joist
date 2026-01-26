@@ -29,6 +29,7 @@ import VoicingPanelSection from './VoicingPanelSection.js';
 
 // constants
 const audioFeaturesStringProperty = JoistFluent.preferences.tabs.audio.audioFeatures.titleStringProperty;
+const soundDescriptionStringProperty = JoistFluent.preferences.tabs.audio.sounds.descriptionStringProperty;
 
 type AudioPreferencesPanelOptions = PickRequired<PreferencesPanelOptions, 'tandem'>;
 
@@ -60,13 +61,14 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
       leftContent.addChild( voicingPanelSection );
     }
 
+    // If only one of the audio features are in use, and there are no custom preferences
+    // do not include the toggle switch to enable/disable that feature because the control
+    // is redundant. The audio output should go through the "Audio Features" toggle only.
+    const hideSoundToggle = audioModel.supportsSound &&
+                            audioModel.supportsVoicing !== audioModel.supportsSound &&
+                            audioModel.customPreferences.length === 0;
+
     if ( audioModel.supportsSound ) {
-
-      // If only one of the audio features are in use, and there are no custom preferences
-      // do not include the toggle switch to enable/disable that feature because the control
-      // is redundant. The audio output should go through the "Audio Features" toggle only.
-      const hideSoundToggle = audioModel.supportsVoicing !== audioModel.supportsSound && audioModel.customPreferences.length === 0;
-
       const soundPanelSection = new SoundPanelSection( audioModel, {
         includeTitleToggleSwitch: !hideSoundToggle
       } );
@@ -118,7 +120,11 @@ class AudioPreferencesTabPanel extends PreferencesPanel {
 
     const audioFeaturesText = new Text( audioFeaturesStringProperty, PreferencesDialogConstants.PANEL_SECTION_LABEL_OPTIONS );
     const audioFeaturesSwitch = new ToggleSwitch( audioModel.audioEnabledProperty, false, true, combineOptions<ToggleSwitchOptions>( {
-      accessibleName: audioFeaturesStringProperty
+      accessibleName: audioFeaturesStringProperty,
+
+      // If the sound toggle is hidden because it is redundant, we will include custom help text
+      // for the audio features toggle switch to explain the preference.
+      accessibleHelpText: hideSoundToggle ? soundDescriptionStringProperty : null
     }, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS ) );
     const allAudioSwitch = new PreferencesControl( {
       labelNode: audioFeaturesText,
