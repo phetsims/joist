@@ -1,4 +1,4 @@
-// Copyright 2021-2025, University of Colorado Boulder
+// Copyright 2021-2026, University of Colorado Boulder
 
 /**
  * The panel for the PreferencesDialog containing preferences related to audio.
