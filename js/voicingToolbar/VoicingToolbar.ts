@@ -139,6 +139,10 @@ class VoicingToolbar extends Node {
       buttonAppearanceStrategy: ButtonNode.FlatAppearanceStrategy,
       baseColor: 'lightgrey',
 
+      // To match legacy behavior, the name response should not be spoken for this button. See
+      // https://github.com/phetsims/qa/issues/1348#issuecomment-3786581007
+      speakVoicingNameResponseOnFire: false,
+
       // phet-io - opting out of Tandems for now
       tandem: Tandem.OPT_OUT
     } );
