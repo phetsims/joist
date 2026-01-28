@@ -1,4 +1,4 @@
-// Copyright 2021-2025, University of Colorado Boulder
+// Copyright 2021-2026, University of Colorado Boulder
 
 /**
  * The VoicingToolbar along the left edge of the screen with controls related to Voicing. It is displayed when
