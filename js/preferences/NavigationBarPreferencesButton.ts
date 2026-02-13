@@ -47,7 +47,6 @@ class NavigationBarPreferencesButton extends JoistButton {
 
       // pdom
       accessibleName: JoistFluent.preferences.titleStringProperty,
-      positionInPDOM: true,
 
       // voicing
       voicingNameResponse: JoistFluent.preferences.titleStringProperty,
