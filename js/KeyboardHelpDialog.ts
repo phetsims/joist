@@ -134,7 +134,7 @@ class TabHintLine extends ReadingBlock( Node ) {
     // a line to say "tab to get started" below the "Keyboard Shortcuts" 'title'
     const labelWithIcon = KeyboardHelpSectionRow.labelWithIcon( JoistFluent.keyboardShortcuts.toGetStartedStringProperty,
       tabIcon, {
-        labelInnerContent: JoistFluent.a11y.keyboardHelp.tabToGetStarted.accessibleHelpTextStringProperty,
+        accessibleRowDescriptionProperty: JoistFluent.a11y.keyboardHelp.tabToGetStarted.accessibleHelpTextStringProperty,
         iconOptions: {
           tagName: 'p' // because there is only one, and the default is an li tag
         }
