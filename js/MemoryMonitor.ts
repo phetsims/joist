@@ -3,7 +3,7 @@
 /**
  * Monitors the memory usage over time.
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import RunningAverage from '../../dot/js/RunningAverage.js';

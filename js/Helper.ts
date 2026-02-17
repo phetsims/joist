@@ -2,7 +2,7 @@
 /**
  * Some in-simulation utilities designed to help designers and developers
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import animationFrameTimer from '../../axon/js/animationFrameTimer.js';

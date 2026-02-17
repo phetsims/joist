@@ -16,7 +16,7 @@
  * Use the ?regionAndCulture query parameter to override the default, for example ?regionAndCulture=asia
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

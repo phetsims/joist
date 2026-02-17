@@ -4,7 +4,7 @@
  * A universal locale-based Property that is true when text is meant to be laid out left-to-right, and false
  * when the reverse is true (text should be laid out right-to-left).
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';

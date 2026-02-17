@@ -4,7 +4,7 @@
  * A quick-and-dirty Node to show the 24px and 44px squares (and equivalent circles) that would be needed for WCAG
  * compliance.
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import Circle from '../../scenery/js/nodes/Circle.js';

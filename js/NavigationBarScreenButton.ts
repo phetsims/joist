@@ -4,7 +4,7 @@
  * Button for a single screen in the navigation bar, shows the text and the navigation bar icon.
  *
  * @author Sam Reid (PhET Interactive Simulations)
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

@@ -3,7 +3,7 @@
 /**
  * Enumeration for the various states that can occur during an Update check. See updateCheck.js for main usage.
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 

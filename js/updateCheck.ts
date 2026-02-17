@@ -6,7 +6,7 @@
  *
  * It exposes its current state (for UIs to hook into), and a check() function used to start checking the version.
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';

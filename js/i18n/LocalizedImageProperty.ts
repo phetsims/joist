@@ -3,7 +3,7 @@
 /**
  * A Property whose value will change with the "region and culture", and will take a value that can be used with Images.
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import { DerivedProperty1 } from '../../../axon/js/DerivedProperty.js';

@@ -3,7 +3,7 @@
 /**
  * A universal locale Property that is accessible independently of the running Sim instance.
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import Property, { type PropertyOptions } from '../../../axon/js/Property.js';

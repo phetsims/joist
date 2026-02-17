@@ -4,7 +4,7 @@
  * Like regionAndCultureProperty, but excludes the "random" option, since it doesn't represent a concrete region and culture.
  * "random" means to randomly select one of the other choices that is supported by the sim.
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
