@@ -1,4 +1,4 @@
-// Copyright 2021-2025, University of Colorado Boulder
+// Copyright 2021-2026, University of Colorado Boulder
 
 /**
  * Wrap the Display class in sim-specific logic. This includes fuzzing support, browser workarounds that have come up

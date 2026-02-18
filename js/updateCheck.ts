@@ -1,4 +1,4 @@
-// Copyright 2015-2024, University of Colorado Boulder
+// Copyright 2015-2026, University of Colorado Boulder
 
 /**
  * A singleton type/object for handling checking whether our simulation is up-to-date, or whether there is an

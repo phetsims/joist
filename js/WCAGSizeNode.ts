@@ -1,4 +1,4 @@
-// Copyright 2025, University of Colorado Boulder
+// Copyright 2025-2026, University of Colorado Boulder
 
 /**
  * A quick-and-dirty Node to show the 24px and 44px squares (and equivalent circles) that would be needed for WCAG
