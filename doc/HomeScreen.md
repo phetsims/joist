@@ -48,7 +48,7 @@ When designing the Home Screen please consider and provide drafts for the follow
   element. The list would contain list items to wrap the sim screen buttons and their descriptions.
 * Our sims are not like typical web pages that have a large amount of content and links to other documents. We have,
   however, found in interviews that users are surprised if they find no headings or no links when they first visit the
-  simualtion. We do indeed use headings to structure the sim screen pages, but there is still an open question if we
+  simulation. We do indeed use headings to structure the sim screen pages, but there is still an open question if we
   need H2 headings on the Home Screen. For now, I have included the headings that would also appear on the sim screen
   pages, "Sim Screens" and "Sim Resources." We will see how users responds to this structure.
 
