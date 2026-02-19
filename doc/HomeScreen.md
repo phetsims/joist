@@ -39,7 +39,7 @@ When designing the Home Screen please consider and provide drafts for the follow
   automatically (Home Screen only) when the sim screen button receives keyboard focus. For example, on the Home Screen a
   sim screen button should sound like this:
   * > Atom Screen, button. Explore what makes up an Atom.
-  * > Symobol Screen, button. Investigate atoms and their atomic symbols.
+  * > Symbol Screen, button. Investigate atoms and their atomic symbols.
   * > Game Screen, button. Test your knowledge of atoms and atomic symbols.
 * The sim screen buttons function as navigation to the other screens. We communicate this automatically to users of
   assistive technology by ensuring the parent containing element has the _landmark role of navigation_. We do this in
