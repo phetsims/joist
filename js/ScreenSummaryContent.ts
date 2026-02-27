@@ -7,9 +7,9 @@
  * For Voicing, this includes content that is read to the user when they press the "Overview", "Details", or "Hint" buttons
  * in the VoicingToolbar.
  *
- * For Interactive Description, this class supports basic paragraphs of content. If you need more
- * complex PDOM content (like lists or other tags), create your own scenery Nodes and add them as a children of
- * this Node.
+ * For Interactive Description, this class supports basic paragraphs of content. It also supports
+ * Property<TemplateResult> so callers can provide complex PDOM content without creating additional
+ * scene graph Nodes.
  *
  * Options encourage you to categorize content into descriptions for the "play area", "control area", "current details",
  * which should align with the description and voicing design for the simulation.
@@ -54,11 +54,13 @@ import { TReadOnlyProperty, isTReadOnlyProperty } from '../../axon/js/TReadOnlyP
 import joist from '../../joist/js/joist.js';
 import affirm from '../../perennial-alias/js/browser-and-node/affirm.js';
 import AccessibleListNode from '../../scenery-phet/js/accessibility/AccessibleListNode.js';
+import type { TemplateResult } from '../../sherpa/lib/lit-core-3.3.1.min.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import JoistFluent from './JoistFluent.js';
 
 export type SectionContent =
   TReadOnlyProperty<string> |
+  TReadOnlyProperty<TemplateResult | null> |
   Array<TReadOnlyProperty<string>> |
   AccessibleListNode |
   VoiceableNode |
@@ -271,8 +273,11 @@ export default class ScreenSummaryContent extends Node {
       if ( Array.isArray( content ) ) {
         return content;
       }
-      else if ( isTReadOnlyProperty( content ) ) {
+      else if ( ScreenSummaryContent.isStringContentProperty( content ) ) {
         return [ content ];
+      }
+      else if ( ScreenSummaryContent.isTemplateResultProperty( content ) ) {
+        return [];
       }
       else if ( 'node' in content || 'voicingContent' in content ) {
 
@@ -320,11 +325,14 @@ export default class ScreenSummaryContent extends Node {
 
         // If item is a Node, just add it to the array
         return descriptionContent.map( item => {
-          return this.createNode( item );
+          return new Node( { tagName: 'p', innerContent: item } );
         } );
       }
-      else if ( isTReadOnlyProperty( descriptionContent ) ) {
-        return [ this.createNode( descriptionContent ) ];
+      else if ( ScreenSummaryContent.isStringContentProperty( descriptionContent ) ) {
+        return [ new Node( { tagName: 'p', innerContent: descriptionContent } ) ];
+      }
+      else if ( ScreenSummaryContent.isTemplateResultProperty( descriptionContent ) ) {
+        return [ new Node( { accessibleTemplate: descriptionContent } ) ];
       }
       else if ( 'node' in content ) {
 
@@ -341,10 +349,22 @@ export default class ScreenSummaryContent extends Node {
   }
 
   /**
-   * Create a paragraph Node for an item of content.
+   * Returns whether this content is a string Property that should be rendered as a paragraph.
    */
-  private createNode( item: TReadOnlyProperty<string> ): Node {
-    return new Node( { tagName: 'p', innerContent: item } );
+  private static isStringContentProperty( content: unknown ): content is TReadOnlyProperty<string> {
+    return isTReadOnlyProperty( content ) && typeof content.value === 'string';
+  }
+
+  /**
+   * Returns whether this content is a Property containing a lit TemplateResult.
+   */
+  private static isTemplateResultProperty( content: unknown ): content is TReadOnlyProperty<TemplateResult> {
+    if ( !isTReadOnlyProperty( content ) ) {
+      return false;
+    }
+
+    const value = content.value as Record<string, unknown> | null;
+    return !!value && typeof value === 'object' && Array.isArray( value.strings ) && Array.isArray( value.values );
   }
 }
 
