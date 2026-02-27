@@ -53,7 +53,6 @@ import { type DisposableOptions } from '../../axon/js/Disposable.js';
 import { TReadOnlyProperty, isTReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import joist from '../../joist/js/joist.js';
 import affirm from '../../perennial-alias/js/browser-and-node/affirm.js';
-import AccessibleListNode from '../../scenery-phet/js/accessibility/AccessibleListNode.js';
 import type { TemplateResult } from '../../sherpa/lib/lit-core-3.3.1.min.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import JoistFluent from './JoistFluent.js';
@@ -62,7 +61,7 @@ export type SectionContent =
   TReadOnlyProperty<string> |
   TReadOnlyProperty<TemplateResult | null> |
   Array<TReadOnlyProperty<string>> |
-  AccessibleListNode |
+  Node |
   VoiceableNode |
   CustomizedVoicingContent |
   null;
@@ -279,16 +278,17 @@ export default class ScreenSummaryContent extends Node {
       else if ( ScreenSummaryContent.isTemplateResultProperty( content ) ) {
         return [];
       }
+      else if ( ScreenSummaryContent.isSceneryNode( content ) ) {
+        return [];
+      }
       else if ( 'node' in content || 'voicingContent' in content ) {
 
         // The content will be VoiceableNode or CustomizedVoicingContent in this case.
         return content.voicingContent || [];
       }
       else {
-
-        // The content must be an AccessibleListNode in this case
-        affirm( content instanceof AccessibleListNode, 'Content is expected to be an AccessibleListNode in this case.' );
-        return [ content.voicingContentStringProperty ];
+        affirm( false, 'Unsupported SectionContent for voicing content.' );
+        return [];
       }
     } );
 
@@ -334,16 +334,17 @@ export default class ScreenSummaryContent extends Node {
       else if ( ScreenSummaryContent.isTemplateResultProperty( descriptionContent ) ) {
         return [ new Node( { accessibleTemplate: descriptionContent } ) ];
       }
+      else if ( ScreenSummaryContent.isSceneryNode( descriptionContent ) ) {
+        return [ descriptionContent ];
+      }
       else if ( 'node' in content ) {
 
         // content is a VoiceableNode in this case and has a custom Node with all content.
         return [ content.node ];
       }
       else {
-
-        // The descriptionContent must be an AccessibleListNode in this case
-        const node = descriptionContent as AccessibleListNode;
-        return [ node ];
+        affirm( false, 'Unsupported SectionContent for description content.' );
+        return [];
       }
     }
   }
@@ -365,6 +366,13 @@ export default class ScreenSummaryContent extends Node {
 
     const value = content.value as Record<string, unknown> | null;
     return !!value && typeof value === 'object' && Array.isArray( value.strings ) && Array.isArray( value.values );
+  }
+
+  /**
+   * Returns whether this content is a Scenery Node.
+   */
+  private static isSceneryNode( content: unknown ): content is Node {
+    return !!content && typeof content === 'object' && content instanceof Node;
   }
 }
 
