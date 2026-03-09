@@ -38,7 +38,7 @@ import HBox from '../../scenery/js/layout/nodes/HBox.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Rectangle from '../../scenery/js/nodes/Rectangle.js';
 import Text from '../../scenery/js/nodes/Text.js';
-import type Color from '../../scenery/js/util/Color.js';
+import Color from '../../scenery/js/util/Color.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import A11yButtonsHBox from './A11yButtonsHBox.js';
 import HomeButton from './HomeButton.js';
@@ -50,6 +50,7 @@ import NavigationBarScreenButton from './NavigationBarScreenButton.js';
 import PhetButton from './PhetButton.js';
 import { type AnyScreen } from './Screen.js';
 import type Sim from './Sim.js';
+import Line from '../../scenery/js/nodes/Line.js';
 
 // constants
 // for layout of the NavigationBar, used in the following way:
@@ -74,7 +75,6 @@ class NavigationBar extends Node {
   private readonly background: Rectangle;
   private readonly barContents: Node;
   private readonly a11yButtonsHBox: A11yButtonsHBox;
-  declare private readonly localeNode: Node;
   private readonly homeButton: HomeButton | null = null; // mutated if multiscreen sim
 
   public constructor( sim: Sim, tandem: Tandem ) {
@@ -133,6 +133,17 @@ class NavigationBar extends Node {
     );
     this.barContents.addChild( phetButton );
 
+    // Thin line to the left of the PhET button (which won't interact with layout).
+    // See https://github.com/phetsims/special-ops/issues/318, added when CC BY-NC license was added.
+    const phetButtonLine = new Line( {
+      stroke: new DerivedProperty( [ this.navigationBarFillProperty ], navigationBarFill => navigationBarFill.equals( Color.BLACK ) ? Color.WHITE : Color.BLACK ),
+      lineWidth: 0.7,
+      opacity: 0.7
+    } );
+    if ( phet.chipper.brand === 'phet' ) {
+      this.barContents.addChild( phetButtonLine );
+    }
+
     // a11y HBox, button fills determined by state of navigationBarFillProperty
     this.a11yButtonsHBox = new A11yButtonsHBox(
       sim,
@@ -141,7 +152,6 @@ class NavigationBar extends Node {
       }
     );
     this.barContents.addChild( this.a11yButtonsHBox );
-    this.localeNode && this.barContents.addChild( this.localeNode );
 
     // pdom - tell this node that it is aria-labelled by its own labelContent.
     this.addAriaLabelledbyAssociation( {
@@ -161,7 +171,7 @@ class NavigationBar extends Node {
 
       // title can occupy all space to the left of the PhET button
       titleText.maxWidth = HomeScreenView.LAYOUT_BOUNDS.width - TITLE_LEFT_MARGIN - TITLE_RIGHT_MARGIN -
-                           PHET_BUTTON_LEFT_MARGIN - a11yButtonsWidth - ( this.localeNode ? this.localeNode.width : 0 ) - PHET_BUTTON_LEFT_MARGIN -
+                           PHET_BUTTON_LEFT_MARGIN - a11yButtonsWidth - PHET_BUTTON_LEFT_MARGIN -
                            phetButton.width - PHET_BUTTON_RIGHT_MARGIN;
     }
     else {
@@ -223,7 +233,7 @@ class NavigationBar extends Node {
 
       // available width right of center
       const availableRight = ( HomeScreenView.LAYOUT_BOUNDS.width / 2 ) - PHET_BUTTON_LEFT_MARGIN -
-                             a11yButtonsWidth - ( this.localeNode ? this.localeNode.width : 0 ) - PHET_BUTTON_LEFT_MARGIN - phetButton.width -
+                             a11yButtonsWidth - PHET_BUTTON_LEFT_MARGIN - phetButton.width -
                              PHET_BUTTON_RIGHT_MARGIN;
 
       // total available width for the screen buttons when they are centered
@@ -306,9 +316,16 @@ class NavigationBar extends Node {
     titleText.left = TITLE_LEFT_MARGIN;
     titleText.centerY = NAVIGATION_BAR_SIZE.height / 2;
     phetButton.centerY = NAVIGATION_BAR_SIZE.height / 2;
+    phetButtonLine.y1 = phetButton.top + 2;
+    phetButtonLine.y2 = phetButton.bottom - 2;
 
     ManualConstraint.create( this, [ this.background, phetButton ], ( backgroundProxy, phetButtonProxy ) => {
       phetButtonProxy.right = backgroundProxy.right - PHET_BUTTON_RIGHT_MARGIN;
+    } );
+
+    ManualConstraint.create( this.barContents, [ phetButton, phetButtonLine ], ( phetButtonProxy, phetButtonLineProxy ) => {
+      // center the line within the margin between the a11y buttons and the PhET button
+      phetButtonLineProxy.centerX = phetButtonProxy.left - PHET_BUTTON_LEFT_MARGIN / 2;
     } );
 
     ManualConstraint.create( this.barContents, [ phetButton, this.a11yButtonsHBox ], ( phetButtonProxy, a11yButtonsHBoxProxy ) => {
@@ -317,18 +334,6 @@ class NavigationBar extends Node {
       // The icon is vertically adjusted in KeyboardHelpButton, so that the centers can be aligned here
       a11yButtonsHBoxProxy.centerY = phetButtonProxy.centerY;
     } );
-
-    if ( this.localeNode ) {
-      ManualConstraint.create( this.barContents, [ phetButton, this.a11yButtonsHBox, this.localeNode ], ( phetButtonProxy, a11yButtonsHBoxProxy, localeNodeProxy ) => {
-        a11yButtonsHBoxProxy.right = phetButtonProxy.left - PHET_BUTTON_LEFT_MARGIN;
-
-        // The icon is vertically adjusted in KeyboardHelpButton, so that the centers can be aligned here
-        a11yButtonsHBoxProxy.centerY = phetButtonProxy.centerY;
-
-        localeNodeProxy.centerY = phetButtonProxy.centerY;
-        localeNodeProxy.right = Math.min( a11yButtonsHBoxProxy.left, phetButtonProxy.left ) - PHET_BUTTON_LEFT_MARGIN;
-      } );
-    }
 
     this.layout( 1, NAVIGATION_BAR_SIZE.width, NAVIGATION_BAR_SIZE.height );
 
