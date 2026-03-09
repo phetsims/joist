@@ -214,7 +214,11 @@ class HomeScreenButton extends Voicing( VBox ) {
       tandem: options.tandem.createTandem( 'fireListener' )
     } );
     this.addInputListener( fireListener );
-    this.addInputListener( { focus: event => { !isSelectedProperty.value && fireListener.fire( event ); } } );
+    this.addInputListener( { focus: event => {
+      if ( event.focusOrigin !== 'pointer-down' ) {
+        !isSelectedProperty.value && fireListener.fire( event );
+      }
+    } } );
 
     // When a screen reader is in use, the button may be selected with the virtual cursor
     // without focus landing on the button - toggle focus (and therefore selection) in this case.
