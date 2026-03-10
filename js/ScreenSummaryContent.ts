@@ -20,7 +20,7 @@
  *     controlAreaContent: controlAreaDescriptionStringProperty,
  *     currentDetailsContent: [ firstDescriptionStringProperty, secondDescriptionStringProperty ],
  *     interactionHintContent: {
- *       node: new Node( { tagName: 'h3', innerContent: interactionHintStringProperty } ),
+ *       node: new Node( { accessibleHeading: interactionHintStringProperty } ),
  *       voicingContent: [ customVoicingStringProperty ]
  *     }
  *   } );
