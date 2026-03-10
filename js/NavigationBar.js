@@ -27,7 +27,7 @@ import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import StringProperty from '../../axon/js/StringProperty.js';
 import Dimension2 from '../../dot/js/Dimension2.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { Node, PDOMPeer, Rectangle, Text } from '../../scenery/js/imports.js';
+import { Color, Line, Node, PDOMPeer, Rectangle, Text } from '../../scenery/js/imports.js';
 import A11yButtonsHBox from './A11yButtonsHBox.js';
 import HomeButton from './HomeButton.js';
 import HomeScreen from './HomeScreen.js';
@@ -122,6 +122,17 @@ class NavigationBar extends Node {
       tandem.createTandem( 'phetButton' )
     );
     this.barContents.addChild( this.phetButton );
+
+    // Thin line to the left of the PhET button (which won't interact with layout).
+    // See https://github.com/phetsims/special-ops/issues/318, added when CC BY-NC license was added.
+    this.phetButtonLine = new Line( {
+      stroke: new DerivedProperty( [ this.navigationBarFillProperty ], navigationBarFill => navigationBarFill.equals( Color.BLACK ) ? Color.WHITE : Color.BLACK ),
+      lineWidth: 0.7,
+      opacity: 0.7
+    } );
+    if ( phet.chipper.brand === 'phet' ) {
+      this.barContents.addChild( this.phetButtonLine );
+    }
 
     // @private - a11y HBox, button fills determined by state of navigationBarFillProperty
     this.a11yButtonsHBox = new A11yButtonsHBox(
@@ -269,6 +280,8 @@ class NavigationBar extends Node {
     this.titleText.left = TITLE_LEFT_MARGIN;
     this.titleText.centerY = NAVIGATION_BAR_SIZE.height / 2;
     this.phetButton.bottom = NAVIGATION_BAR_SIZE.height - PHET_BUTTON_BOTTOM_MARGIN;
+    this.phetButtonLine.y1 = this.phetButton.top + 2;
+    this.phetButtonLine.y2 = this.phetButton.bottom - 2;
 
     // only if some a11y buttons exist
     if ( this.a11yButtonsHBox.getChildrenCount() > 0 ) {
@@ -355,6 +368,8 @@ class NavigationBar extends Node {
 
     // horizontal positioning
     this.phetButton.right = right - PHET_BUTTON_RIGHT_MARGIN;
+
+    this.phetButtonLine.centerX = this.phetButton.left - PHET_BUTTON_LEFT_MARGIN / 2;
 
     this.layoutA11yButtonsHBox();
 
