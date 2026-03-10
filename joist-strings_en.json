@@ -54,8 +54,20 @@
   "showPointers": {
     "value": "Show Pointers"
   },
-  "termsPrivacyAndLicensing": {
-    "value": "Terms, Privacy & Licensing",
+  "privacyPolicy": {
+    "value": "Privacy Policy",
+    "simMetadata": {
+      "phetioReadOnly": true
+    }
+  },
+  "donateToPhet": {
+    "value": "Donate to PhET",
+    "simMetadata": {
+      "phetioReadOnly": true
+    }
+  },
+  "license.title": {
+    "value": "License",
     "simMetadata": {
       "phetioReadOnly": true
     }

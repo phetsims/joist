@@ -19,8 +19,14 @@ menuItem.settings:                                                              
 menuItem.settings__deprecated:                                                                  true
 title.settings:                                                                                 Settings
 showPointers:                                                                                   Show Pointers
-termsPrivacyAndLicensing:                                                                       Terms, Privacy & Licensing
-termsPrivacyAndLicensing__simMetadata:
+privacyPolicy:                                                                                  Privacy Policy
+privacyPolicy__simMetadata:
+  phetioReadOnly: true
+donateToPhet:                                                                                   Donate to PhET
+donateToPhet__simMetadata:
+  phetioReadOnly: true
+license.title:                                                                                  License
+license.title__simMetadata:
   phetioReadOnly: true
 credits.title:                                                                                  Credits
 credits.title__simMetadata:

@@ -45,8 +45,12 @@ addToMapIfDefined( 'menuItem_settings', 'menuItem.settingsStringProperty' );
 addToMapIfDefined( 'menuItem_settings__deprecated', 'menuItem.settings__deprecatedStringProperty' );
 addToMapIfDefined( 'title_settings', 'title.settingsStringProperty' );
 addToMapIfDefined( 'showPointers', 'showPointersStringProperty' );
-addToMapIfDefined( 'termsPrivacyAndLicensing', 'termsPrivacyAndLicensingStringProperty' );
-addToMapIfDefined( 'termsPrivacyAndLicensing__simMetadata_phetioReadOnly', 'termsPrivacyAndLicensing__simMetadata.phetioReadOnlyStringProperty' );
+addToMapIfDefined( 'privacyPolicy', 'privacyPolicyStringProperty' );
+addToMapIfDefined( 'privacyPolicy__simMetadata_phetioReadOnly', 'privacyPolicy__simMetadata.phetioReadOnlyStringProperty' );
+addToMapIfDefined( 'donateToPhet', 'donateToPhetStringProperty' );
+addToMapIfDefined( 'donateToPhet__simMetadata_phetioReadOnly', 'donateToPhet__simMetadata.phetioReadOnlyStringProperty' );
+addToMapIfDefined( 'license_title', 'license.titleStringProperty' );
+addToMapIfDefined( 'license_title__simMetadata_phetioReadOnly', 'license.title__simMetadata.phetioReadOnlyStringProperty' );
 addToMapIfDefined( 'credits_title', 'credits.titleStringProperty' );
 addToMapIfDefined( 'credits_title__simMetadata_phetioReadOnly', 'credits.title__simMetadata.phetioReadOnlyStringProperty' );
 addToMapIfDefined( 'credits_leadDesign__simMetadata_phetioReadOnly', 'credits.leadDesign__simMetadata.phetioReadOnlyStringProperty' );
@@ -253,9 +257,19 @@ const JoistFluent = {
     settingsStringProperty: _.get( JoistStrings, 'title.settingsStringProperty' )
   },
   showPointersStringProperty: _.get( JoistStrings, 'showPointersStringProperty' ),
-  termsPrivacyAndLicensingStringProperty: _.get( JoistStrings, 'termsPrivacyAndLicensingStringProperty' ),
-  termsPrivacyAndLicensing__simMetadata: {
-    phetioReadOnlyStringProperty: _.get( JoistStrings, 'termsPrivacyAndLicensing__simMetadata.phetioReadOnlyStringProperty' )
+  privacyPolicyStringProperty: _.get( JoistStrings, 'privacyPolicyStringProperty' ),
+  privacyPolicy__simMetadata: {
+    phetioReadOnlyStringProperty: _.get( JoistStrings, 'privacyPolicy__simMetadata.phetioReadOnlyStringProperty' )
+  },
+  donateToPhetStringProperty: _.get( JoistStrings, 'donateToPhetStringProperty' ),
+  donateToPhet__simMetadata: {
+    phetioReadOnlyStringProperty: _.get( JoistStrings, 'donateToPhet__simMetadata.phetioReadOnlyStringProperty' )
+  },
+  license: {
+    titleStringProperty: _.get( JoistStrings, 'license.titleStringProperty' ),
+    title__simMetadata: {
+      phetioReadOnlyStringProperty: _.get( JoistStrings, 'license.title__simMetadata.phetioReadOnlyStringProperty' )
+    }
   },
   credits: {
     titleStringProperty: _.get( JoistStrings, 'credits.titleStringProperty' ),

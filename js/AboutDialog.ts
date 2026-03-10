@@ -174,23 +174,37 @@ export default class AboutDialog extends Dialog {
       } ) );
     }
 
-    let additionalLicenseStatement: Node | null = null;
-
-    // Optional additionalLicenseStatement, used in phet-io
-    if ( Brand.additionalLicenseStatement ) {
-      additionalLicenseStatement = new VoicingRichText( Brand.additionalLicenseStatement, {
-          font: new PhetFont( 0.65 * NOMINAL_FONT_SIZE ),
-          fill: 'gray',
-          align: 'left',
-          maxWidth: MAX_WIDTH
-        }
-      );
-      brandChildren.push( additionalLicenseStatement );
-    }
-
     if ( brandChildren.length > 0 ) {
       children.push( new VStrut( 15 ) );
       children = children.concat( brandChildren );
+    }
+
+    const licenseChildren = [];
+
+    if ( Brand.license ) {
+      const licenseStringProperty = new DerivedProperty( [ allowLinksProperty ], allowLinks => {
+        return allowLinks ? Brand.license! : Brand.licenseWithoutLinks ?? Brand.license!;
+      } );
+
+      licenseChildren.push( new VoicingText( JoistFluent.license.titleStringProperty, {
+        font: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } ),
+
+        accessibleHeading: JoistFluent.credits.titleStringProperty,
+        accessibleParagraph: null
+      } ) );
+
+      licenseChildren.push( new VoicingRichText( licenseStringProperty, {
+        font: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
+        align: 'left' as const,
+        lineWrap: MAX_WIDTH,
+        tagName: 'p',
+        links: true // allow the embedded links, because they are from a controlled source
+      } ) );
+    }
+
+    if ( licenseChildren.length > 0 ) {
+      children.push( new VStrut( 15 ) );
+      children = children.concat( licenseChildren );
     }
 
     let creditsNode: Node | null = null;
