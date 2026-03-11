@@ -167,8 +167,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
       const checkbox = new Checkbox( property, labelNode, {
 
         // pdom
-        labelTagName: 'label',
-        labelContent: labelString,
+        accessibleName: labelString,
 
         // voicing
         voicingNameResponse: labelString,
@@ -496,8 +495,7 @@ class VoicingPitchSlider extends VBox {
       constrainValue: value => roundToInterval( value, 0.01 ),
 
       // pdom
-      labelTagName: 'label',
-      labelContent: labelString,
+      accessibleName: labelString,
 
       // voicing
       voicingNameResponse: labelString,

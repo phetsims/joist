@@ -86,8 +86,7 @@ class SoundPanelSection extends PreferencesPanelSection {
       const extraSoundCheckbox = new Checkbox( audioModel.extraSoundEnabledProperty, enhancedSoundLabel, {
 
         // pdom
-        labelTagName: 'label',
-        labelContent: extraSoundsLabelStringProperty,
+        accessibleName: extraSoundsLabelStringProperty,
 
         // voicing
         voicingNameResponse: extraSoundsLabelStringProperty,
