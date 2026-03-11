@@ -54,6 +54,12 @@
   "showPointers": {
     "value": "Show Pointers"
   },
+  "termsPrivacyAndLicensing": {
+    "value": "Terms, Privacy & Licensing",
+    "simMetadata": {
+      "phetioReadOnly": true
+    }
+  },
   "privacyPolicy": {
     "value": "Privacy Policy",
     "simMetadata": {

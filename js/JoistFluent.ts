@@ -45,6 +45,8 @@ addToMapIfDefined( 'menuItem_settings', 'menuItem.settingsStringProperty' );
 addToMapIfDefined( 'menuItem_settings__deprecated', 'menuItem.settings__deprecatedStringProperty' );
 addToMapIfDefined( 'title_settings', 'title.settingsStringProperty' );
 addToMapIfDefined( 'showPointers', 'showPointersStringProperty' );
+addToMapIfDefined( 'termsPrivacyAndLicensing', 'termsPrivacyAndLicensingStringProperty' );
+addToMapIfDefined( 'termsPrivacyAndLicensing__simMetadata_phetioReadOnly', 'termsPrivacyAndLicensing__simMetadata.phetioReadOnlyStringProperty' );
 addToMapIfDefined( 'privacyPolicy', 'privacyPolicyStringProperty' );
 addToMapIfDefined( 'privacyPolicy__simMetadata_phetioReadOnly', 'privacyPolicy__simMetadata.phetioReadOnlyStringProperty' );
 addToMapIfDefined( 'donateToPhet', 'donateToPhetStringProperty' );
@@ -257,6 +259,10 @@ const JoistFluent = {
     settingsStringProperty: _.get( JoistStrings, 'title.settingsStringProperty' )
   },
   showPointersStringProperty: _.get( JoistStrings, 'showPointersStringProperty' ),
+  termsPrivacyAndLicensingStringProperty: _.get( JoistStrings, 'termsPrivacyAndLicensingStringProperty' ),
+  termsPrivacyAndLicensing__simMetadata: {
+    phetioReadOnlyStringProperty: _.get( JoistStrings, 'termsPrivacyAndLicensing__simMetadata.phetioReadOnlyStringProperty' )
+  },
   privacyPolicyStringProperty: _.get( JoistStrings, 'privacyPolicyStringProperty' ),
   privacyPolicy__simMetadata: {
     phetioReadOnlyStringProperty: _.get( JoistStrings, 'privacyPolicy__simMetadata.phetioReadOnlyStringProperty' )

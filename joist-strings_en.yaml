@@ -19,6 +19,9 @@ menuItem.settings:                                                              
 menuItem.settings__deprecated:                                                                  true
 title.settings:                                                                                 Settings
 showPointers:                                                                                   Show Pointers
+termsPrivacyAndLicensing:                                                                       Terms, Privacy & Licensing
+termsPrivacyAndLicensing__simMetadata:
+  phetioReadOnly: true
 privacyPolicy:                                                                                  Privacy Policy
 privacyPolicy__simMetadata:
   phetioReadOnly: true
