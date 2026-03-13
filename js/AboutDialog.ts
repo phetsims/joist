@@ -75,6 +75,8 @@ export default class AboutDialog extends Dialog {
 
     let children = [];
 
+    const strutSize = 15 - 6; // 15 is the desired spacing, but we are including a spacing of 6 already.
+
     const titleText = new VoicingText( nameStringProperty, {
       font: new PhetFont( 2 * NOMINAL_FONT_SIZE ),
       maxWidth: MAX_WIDTH,
@@ -175,7 +177,7 @@ export default class AboutDialog extends Dialog {
     }
 
     if ( brandChildren.length > 0 ) {
-      children.push( new VStrut( 15 ) );
+      children.push( new VStrut( strutSize ) );
       children = children.concat( brandChildren );
     }
 
@@ -197,13 +199,14 @@ export default class AboutDialog extends Dialog {
         font: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
         align: 'left' as const,
         lineWrap: MAX_WIDTH,
+        leading: 1, // to match the spacing in the CreditsNode between paragraphs
         tagName: 'p',
         links: true // allow the embedded links, because they are from a controlled source
       } ) );
     }
 
     if ( licenseChildren.length > 0 ) {
-      children.push( new VStrut( 15 ) );
+      children.push( new VStrut( strutSize ) );
       children = children.concat( licenseChildren );
     }
 
@@ -211,7 +214,7 @@ export default class AboutDialog extends Dialog {
 
     // Add credits for specific brands
     if ( ( Brand.id === 'phet' || Brand.id === 'phet-io' ) ) {
-      children.push( new VStrut( 15 ) );
+      children.push( new VStrut( strutSize ) );
       creditsNode = new CreditsNode( credits, {
         titleFont: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } ),
         textFont: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
@@ -239,7 +242,7 @@ export default class AboutDialog extends Dialog {
         const links = Brand.getLinks( packageJSON.name, locale );
         const linksChildren: Node[] = [];
 
-        linksChildren.push( new VStrut( 15 ) );
+        linksChildren.push( new VStrut( strutSize ) );
 
         for ( let i = 0; i < links.length; i++ ) {
           const link = links[ i ];
