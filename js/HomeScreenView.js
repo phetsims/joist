@@ -21,6 +21,9 @@ define( function( require ) {
   var ScreenButton = require( 'JOIST/ScreenButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var Color = require( 'SCENERY/util/Color' );
+  var Line = require( 'SCENERY/nodes/Line' );
   var Text = require( 'SCENERY/nodes/Text' );
 
   // a11y-strings
@@ -201,6 +204,21 @@ define( function( require ) {
     // this button. See https://github.com/phetsims/joist/issues/304.
     this.phetButton = new PhetButton( sim, homeScreenFillProperty, homeScreenTextFillProperty, tandem.createTandem( 'phetButton' ) );
     this.addChild( this.phetButton );
+
+    // Thin line to the left of the PhET button (which won't interact with layout).
+    // See https://github.com/phetsims/special-ops/issues/318, added when CC BY-NC license was added.
+    this.phetButtonLine = new Line( {
+      stroke: 'white',
+      lineWidth: 0.7,
+      opacity: 0.7
+    } );
+    if ( phet.chipper.brand === 'phet' ) {
+      this.phetButton.addChild( this.phetButtonLine );
+    }
+
+    this.phetButtonLine.y1 = this.phetButton.localBounds.top + 2;
+    this.phetButtonLine.y2 = this.phetButton.localBounds.bottom - 4;
+    this.phetButtonLine.centerX = this.phetButton.localBounds.left - 13 / 2;
 
     if ( options.warningNode ) {
       var warningNode = options.warningNode;
