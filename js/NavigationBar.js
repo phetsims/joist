@@ -36,6 +36,8 @@ define( function( require ) {
   var joist = require( 'JOIST/joist' );
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var NavigationBarScreenButton = require( 'JOIST/NavigationBarScreenButton' );
+  var Color = require( 'SCENERY/util/Color' );
+  var Line = require( 'SCENERY/nodes/Line' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetButton = require( 'JOIST/PhetButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -146,6 +148,17 @@ define( function( require ) {
       tandem.createTandem( 'phetButton' )
     );
     this.barContents.addChild( this.phetButton );
+
+    // Thin line to the left of the PhET button (which won't interact with layout).
+    // See https://github.com/phetsims/special-ops/issues/318, added when CC BY-NC license was added.
+    this.phetButtonLine = new Line( {
+      stroke: new DerivedProperty( [ this.navigationBarFillProperty ], navigationBarFill => navigationBarFill === 'black' ? Color.WHITE : Color.BLACK ),
+      lineWidth: 0.7,
+      opacity: 0.7
+    } );
+    if ( phet.chipper.brand === 'phet' ) {
+      this.barContents.addChild( this.phetButtonLine );
+    }
 
     // @private - a11y HBox, button fills determined by state of navigationBarFillProperty
     this.a11yButtonsHBox = new A11yButtonsHBox(
@@ -268,6 +281,8 @@ define( function( require ) {
     this.titleTextNode.left = TITLE_LEFT_MARGIN;
     this.titleTextNode.centerY = NAVIGATION_BAR_SIZE.height / 2;
     this.phetButton.bottom = NAVIGATION_BAR_SIZE.height - PHET_BUTTON_BOTTOM_MARGIN;
+    this.phetButtonLine.y1 = this.phetButton.top + 2;
+    this.phetButtonLine.y2 = this.phetButton.bottom - 4;
 
     // only if some a11y buttons exist
     if ( this.a11yButtonsHBox.getChildrenCount() > 0 ) {
@@ -331,6 +346,7 @@ define( function( require ) {
 
       // horizontal positioning
       this.phetButton.right = right - PHET_BUTTON_RIGHT_MARGIN;
+      this.phetButtonLine.centerX = this.phetButton.left - PHET_BUTTON_LEFT_MARGIN / 2;
 
       if ( this.a11yButtonsHBox.getChildrenCount() > 0 ) {
         this.a11yButtonsHBox.right = this.phetButton.left - PHET_BUTTON_LEFT_MARGIN;
