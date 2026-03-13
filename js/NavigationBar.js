@@ -34,6 +34,9 @@ define( function( require ) {
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var KeyboardHelpButton = require( 'JOIST/KeyboardHelpButton' );
   var NavigationBarScreenButton = require( 'JOIST/NavigationBarScreenButton' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var Color = require( 'SCENERY/util/Color' );
+  var Line = require( 'SCENERY/nodes/Line' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetButton = require( 'JOIST/PhetButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -128,6 +131,17 @@ define( function( require ) {
     // homescreen's button. See https://github.com/phetsims/joist/issues/304.
     this.phetButton = new PhetButton( sim, sim.lookAndFeel.navigationBarFillProperty, sim.lookAndFeel.navigationBarTextFillProperty, tandem.createTandem( 'phetButton' ) );
     this.barContents.addChild( this.phetButton );
+
+    // Thin line to the left of the PhET button (which won't interact with layout).
+    // See https://github.com/phetsims/special-ops/issues/318, added when CC BY-NC license was added.
+    this.phetButtonLine = new Line( {
+      stroke: new DerivedProperty( [ sim.lookAndFeel.navigationBarDarkProperty ], navigationBarDark => navigationBarDark ? Color.BLACK : Color.WHITE ),
+      lineWidth: 0.7,
+      opacity: 0.7
+    } );
+    if ( phet.chipper.brand === 'phet' ) {
+      this.barContents.addChild( this.phetButtonLine );
+    }
 
     // used to provide layout based on the keyboardHelpButton even when not created.
     var keyboardHelpButtonLayoutWidth = 0;
@@ -249,6 +263,8 @@ define( function( require ) {
     this.titleTextNode.left = TITLE_LEFT_MARGIN;
     this.titleTextNode.centerY = NAVIGATION_BAR_SIZE.height / 2;
     this.phetButton.bottom = NAVIGATION_BAR_SIZE.height - PHET_BUTTON_BOTTOM_MARGIN;
+    this.phetButtonLine.y1 = this.phetButton.top + 2;
+    this.phetButtonLine.y2 = this.phetButton.bottom - 4;
 
     // only if the keyboardHelpButton exists
     if ( this.keyboardHelpButton ) {
@@ -302,6 +318,7 @@ define( function( require ) {
 
       // horizontal positioning
       this.phetButton.right = right - PHET_BUTTON_RIGHT_MARGIN;
+      this.phetButtonLine.centerX = this.phetButton.left - PHET_BUTTON_LEFT_MARGIN / 2;
 
       if ( this.keyboardHelpButton ) {
         this.keyboardHelpButton.right = this.phetButton.left - PHET_BUTTON_LEFT_MARGIN;
