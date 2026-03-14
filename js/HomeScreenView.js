@@ -24,6 +24,7 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var joist = require( 'JOIST/joist' );
   var AccessiblePeer = require( 'SCENERY/accessibility/AccessiblePeer' );
+  var Line = require( 'SCENERY/nodes/Line' );
 
   // constants
   var HEIGHT = 70; //TODO what is this? is it the height of large icons?
@@ -267,6 +268,21 @@ define( function( require ) {
       tandem: options.tandem ? options.tandem.createTandem( 'phetButton' ) : null
     } );
     this.addChild( this.phetButton );
+
+    // Thin line to the left of the PhET button (which won't interact with layout).
+    // See https://github.com/phetsims/special-ops/issues/318, added when CC BY-NC license was added.
+    this.phetButtonLine = new Line( {
+      stroke: 'white',
+      lineWidth: 0.7,
+      opacity: 0.7
+    } );
+    if ( phet.chipper.brand === 'phet' ) {
+      this.phetButton.addChild( this.phetButtonLine );
+    }
+
+    this.phetButtonLine.y1 = this.phetButton.localBounds.top + 2;
+    this.phetButtonLine.y2 = this.phetButton.localBounds.bottom - 4;
+    this.phetButtonLine.centerX = this.phetButton.localBounds.left - 13 / 2;
 
     if ( options.warningNode ) {
       var warningNode = options.warningNode;
