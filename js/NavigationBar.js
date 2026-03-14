@@ -37,6 +37,9 @@ define( function( require ) {
   var Screen = require( 'JOIST/Screen' );
   var Text = require( 'SCENERY/nodes/Text' );
   var joist = require( 'JOIST/joist' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var Color = require( 'SCENERY/util/Color' );
+  var Line = require( 'SCENERY/nodes/Line' );
 
   // constants
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
@@ -104,6 +107,17 @@ define( function( require ) {
       tandem: options.tandem ? options.tandem.createTandem( 'phetButton' ) : null
     } );
     this.barContents.addChild( this.phetButton );
+
+    // Thin line to the left of the PhET button (which won't interact with layout).
+    // See https://github.com/phetsims/special-ops/issues/318, added when CC BY-NC license was added.
+    this.phetButtonLine = new Line( {
+      stroke: new DerivedProperty( [ sim.lookAndFeel.navigationBarTextFillProperty ], function ( navigationBarFill ) { return navigationBarFill === 'white' ? Color.WHITE : Color.BLACK; } ),
+      lineWidth: 0.7,
+      opacity: 0.7
+    } );
+    if ( phet.chipper.brand === 'phet' ) {
+      this.barContents.addChild( this.phetButtonLine );
+    }
 
     if ( screens.length === 1 ) {
       /* single-screen sim */
@@ -190,6 +204,8 @@ define( function( require ) {
     title.left = TITLE_LEFT_MARGIN;
     title.centerY = NAVIGATION_BAR_SIZE.height / 2;
     this.phetButton.bottom = NAVIGATION_BAR_SIZE.height - PHET_BUTTON_BOTTOM_MARGIN;
+    this.phetButtonLine.y1 = this.phetButton.top + 2;
+    this.phetButtonLine.y2 = this.phetButton.bottom - 4;
     if ( this.screens.length !== 1 ) {
       this.screenButtonsContainer.centerY = NAVIGATION_BAR_SIZE.height / 2;
       this.homeButton.centerY = NAVIGATION_BAR_SIZE.height / 2;
@@ -231,6 +247,7 @@ define( function( require ) {
 
       // horizontal positioning
       this.phetButton.right = right - PHET_BUTTON_RIGHT_MARGIN;
+      this.phetButtonLine.centerX = this.phetButton.left - PHET_BUTTON_LEFT_MARGIN / 2;
 
       // For multi-screen sims ...
       if ( this.screens.length !== 1 ) {
