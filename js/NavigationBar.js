@@ -39,6 +39,9 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var JoistA11yStrings = require( 'JOIST/JoistA11yStrings' );
   var joist = require( 'JOIST/joist' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var Color = require( 'SCENERY/util/Color' );
+  var Line = require( 'SCENERY/nodes/Line' );
 
   // constants
   var NAVIGATION_BAR_SIZE = new Dimension2( HomeScreenView.LAYOUT_BOUNDS.width, 40 );
@@ -90,6 +93,17 @@ define( function( require ) {
     // homescreen's button. See https://github.com/phetsims/joist/issues/304.
     this.phetButton = new PhetButton( sim, sim.lookAndFeel.navigationBarFillProperty, sim.lookAndFeel.navigationBarTextFillProperty, tandem.createTandem( 'phetButton' ) );
     this.barContents.addChild( this.phetButton );
+
+    // Thin line to the left of the PhET button (which won't interact with layout).
+    // See https://github.com/phetsims/special-ops/issues/318, added when CC BY-NC license was added.
+    this.phetButtonLine = new Line( {
+      stroke: new DerivedProperty( [ sim.lookAndFeel.navigationBarTextFillProperty ], navigationBarFill => navigationBarFill === 'white' ? Color.WHITE : Color.BLACK ),
+      lineWidth: 0.7,
+      opacity: 0.7
+    } );
+    if ( phet.chipper.brand === 'phet' ) {
+      this.barContents.addChild( this.phetButtonLine );
+    }
 
     // @private - Pops open a dialog with information about keyboard navigation
     this.keyboardHelpButton = new KeyboardHelpButton( sim, sim.lookAndFeel.navigationBarFillProperty, tandem.createTandem( 'keyboardHelpButton' ) );
@@ -192,6 +206,8 @@ define( function( require ) {
     this.titleTextNode.left = TITLE_LEFT_MARGIN;
     this.titleTextNode.centerY = NAVIGATION_BAR_SIZE.height / 2;
     this.phetButton.bottom = NAVIGATION_BAR_SIZE.height - PHET_BUTTON_BOTTOM_MARGIN;
+    this.phetButtonLine.y1 = this.phetButton.top + 2;
+    this.phetButtonLine.y2 = this.phetButton.bottom - 4;
     this.keyboardHelpButton.centerY = this.phetButton.centerY;
     if ( this.screens.length !== 1 ) {
       this.screenButtonsContainer.centerY = NAVIGATION_BAR_SIZE.height / 2;
@@ -241,6 +257,7 @@ define( function( require ) {
 
       // horizontal positioning
       this.phetButton.right = right - PHET_BUTTON_RIGHT_MARGIN;
+      this.phetButtonLine.centerX = this.phetButton.left - PHET_BUTTON_LEFT_MARGIN / 2;
       this.keyboardHelpButton.right = this.phetButton.left - PHET_BUTTON_LEFT_MARGIN;
 
       // For multi-screen sims ...
