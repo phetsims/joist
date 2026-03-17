@@ -43,6 +43,11 @@ type StringsType = {
   'showPointersStringProperty': LocalizedStringProperty;
   'termsPrivacyAndLicensing': string;
   'termsPrivacyAndLicensingStringProperty': LocalizedStringProperty;
+  'privacyPolicyStringProperty': LocalizedStringProperty;
+  'donateToPhetStringProperty': LocalizedStringProperty;
+  'license': {
+    'titleStringProperty': LocalizedStringProperty;
+  };
   'credits': {
     'title': string;
     'titleStringProperty': LocalizedStringProperty;
