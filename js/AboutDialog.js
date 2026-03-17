@@ -24,6 +24,7 @@ import packageJSON from './packageJSON.js';
 import updateCheck from './updateCheck.js';
 import UpdateNodes from './UpdateNodes.js';
 import UpdateState from './UpdateState.js';
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
 
 const versionPatternString = joistStrings.versionPattern;
 
@@ -141,30 +142,32 @@ function AboutDialog( name, version, credits, locale, phetButton, tandem ) {
     } ) );
   }
 
-  // Optional additionalLicenseStatement, used in phet-io
-  if ( Brand.additionalLicenseStatement ) {
-    this.additionalLicenseStatement = new RichText( Brand.additionalLicenseStatement, {
-        font: new PhetFont( 10 ),
-        fill: 'gray',
-        align: 'left',
-        maxWidth: MAX_WIDTH,
-
-        // pdom
-        tagName: 'p',
-        innerContent: Brand.additionalLicenseStatement
-      }
-    );
-    brandChildren.push( this.additionalLicenseStatement );
+  if ( brandChildren.length > 0 ) {
+    children.push( new VStrut( 15 - 6 ) );
+    children = children.concat( brandChildren );
   }
 
-  if ( brandChildren.length > 0 ) {
-    children.push( new VStrut( 15 ) );
-    children = children.concat( brandChildren );
+  const licenseChildren = [];
+
+  if ( Brand.license ) {
+    const licenseString = phet.chipper.queryParameters.allowLinks ? Brand.license : Brand.licenseWithoutLinks ?? Brand.license;
+
+    licenseChildren.push( new Text( joistStrings.license.title, {
+      font: new PhetFont( { size: 16, weight: 'bold' } ),
+    } ) );
+
+    licenseChildren.push( new RichText( licenseString, {
+      font: new PhetFont( 0.75 * 16 ),
+      align: 'left',
+      lineWrap: MAX_WIDTH,
+      tagName: 'p',
+      links: true // allow the embedded links, because they are from a controlled source
+    } ) );
   }
 
   // Add credits for specific brands
   if ( credits && ( Brand.id === 'phet' || Brand.id === 'phet-io' ) ) {
-    children.push( new VStrut( 15 ) );
+    children.push( new VStrut( 15 - 6 ) );
     this.creditsNode = new CreditsNode( credits, {
       maxWidth: MAX_WIDTH
     } );
@@ -178,13 +181,13 @@ function AboutDialog( name, version, credits, locale, phetButton, tandem ) {
   const links = Brand.getLinks( packageJSON.name, locale );
   if ( links && links.length > 0 ) {
 
-    linksChildren.push( new VStrut( 15 ) );
+    linksChildren.push( new VStrut( 15 - 6 ) );
 
     for ( let i = 0; i < links.length; i++ ) {
       const link = links[ i ];
 
       // If links are allowed, use hyperlinks.  Otherwise just output the URL.  This doesn't need to be internationalized.
-      const text = phet.chipper.queryParameters.allowLinks ? '<a href="{{url}}">' + link.text + '</a>' : link.text + ': ' + link.url;
+      const text = phet.chipper.queryParameters.allowLinks ? '<a href="{{url}}"><u>' + link.text + '</u></a>' : link.text + ': ' + link.url;
 
       // This is PhET-iO instrumented because it is a keyboard navigation focusable element.
       linksChildren.push( new RichText( text, {
