@@ -26,6 +26,7 @@ import updateCheck from './updateCheck.js';
 import UpdateNodes from './UpdateNodes.js';
 import UpdateState from './UpdateState.js';
 import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
+import localeProperty from './i18n/localeProperty.js';
 
 // constants
 const MAX_WIDTH = 550; // Maximum width of elements in the dialog
@@ -172,34 +173,41 @@ export default class AboutDialog extends Dialog {
       } ) );
     }
 
-    let additionalLicenseStatement: Node | null = null;
-
-    // Optional additionalLicenseStatement, used in phet-io
-    if ( Brand.additionalLicenseStatement ) {
-      additionalLicenseStatement = new VoicingRichText( Brand.additionalLicenseStatement, {
-          font: new PhetFont( 0.65 * NOMINAL_FONT_SIZE ),
-          fill: 'gray',
-          align: 'left',
-          maxWidth: MAX_WIDTH,
-
-          // pdom
-          tagName: 'p',
-          innerContent: Brand.additionalLicenseStatement
-        }
-      );
-      brandChildren.push( additionalLicenseStatement );
+    if ( brandChildren.length > 0 ) {
+      children.push( new VStrut( 15 - 6 ) );
+      children = children.concat( brandChildren );
     }
 
-    if ( brandChildren.length > 0 ) {
-      children.push( new VStrut( 15 ) );
-      children = children.concat( brandChildren );
+    const licenseChildren = [];
+
+    if ( Brand.license ) {
+      const licenseStringProperty = new DerivedProperty( [ allowLinksProperty ], allowLinks => {
+        return allowLinks ? Brand.license! : Brand.licenseWithoutLinks ?? Brand.license!;
+      } );
+
+      licenseChildren.push( new VoicingText( JoistStrings.license.titleStringProperty, {
+        font: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } ),
+      } ) );
+
+      licenseChildren.push( new VoicingRichText( licenseStringProperty, {
+        font: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
+        align: 'left' as const,
+        lineWrap: MAX_WIDTH,
+        tagName: 'p',
+        links: true // allow the embedded links, because they are from a controlled source
+      } ) );
+    }
+
+    if ( licenseChildren.length > 0 ) {
+      children.push( new VStrut( 15 - 6 ) );
+      children = children.concat( licenseChildren );
     }
 
     let creditsNode: Node | null = null;
 
     // Add credits for specific brands
     if ( ( Brand.id === 'phet' || Brand.id === 'phet-io' ) ) {
-      children.push( new VStrut( 15 ) );
+      children.push( new VStrut( 15 - 6 ) );
       creditsNode = new CreditsNode( credits, {
         titleFont: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } ),
         textFont: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
@@ -237,6 +245,37 @@ export default class AboutDialog extends Dialog {
         children: linksChildren, maxWidth: MAX_WIDTH
       } );
       children.push( linksParent );
+
+      // Create new links whenever the locale changes, for an up to date translator URL.
+      localeProperty.link( locale => {
+        linksParent.children.forEach( child => child.dispose() );
+
+        const links = Brand.getLinks( packageJSON.name, locale );
+        const linksChildren: Node[] = [];
+
+        linksChildren.push( new VStrut( 15 - 6 ) );
+
+        for ( let i = 0; i < links.length; i++ ) {
+          const link = links[ i ];
+
+          // If links are allowed, use hyperlinks. Otherwise, just output the URL. This doesn't need to be internationalized.
+          const stringProperty = new DerivedStringProperty( [ allowLinksProperty, link.textStringProperty ], ( allowLinks, linkText ) => {
+            return allowLinks ? `<a href="{{url}}"><u>${linkText}</u></a>` : `${linkText}: ${link.url}`;
+          } );
+
+          // This is PhET-iO instrumented because it is a keyboard navigation focusable element.
+          const richText = new RichText( stringProperty, {
+            links: { url: link.url }, // RichText must fill in URL for link
+            font: new PhetFont( NOMINAL_FONT_SIZE )
+          } );
+          richText.disposeEmitter.addListener( () => {
+            stringProperty.dispose();
+          } );
+          linksChildren.push( richText );
+        }
+
+        linksParent.children = linksChildren;
+      } );
     }
 
     const content = new VBox( {
