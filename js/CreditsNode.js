@@ -37,7 +37,7 @@ define( function( require ) {
    * @constructor
    */
   function CreditsNode( credits, options ) {
-    var titleFont = new PhetFont( { size: 14, weight: 'bold' } );
+    var titleFont = new PhetFont( { size: 16, weight: 'bold' } );
     var font = new PhetFont( 12 );
     var multiLineTextOptions = { font: font, align: 'left' };
     var children = [];
