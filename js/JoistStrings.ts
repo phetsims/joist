@@ -43,6 +43,13 @@ type StringsType = {
   'showPointersStringProperty': LinkableProperty<string>;
   'termsPrivacyAndLicensing': string;
   'termsPrivacyAndLicensingStringProperty': LinkableProperty<string>;
+  'privacyPolicy': string;
+  'privacyPolicyStringProperty': LinkableProperty<string>;
+  'donateToPhet': string;
+  'donateToPhetStringProperty': LinkableProperty<string>;
+  'license': {
+    'titleStringProperty': LinkableProperty<string>;
+  };
   'credits': {
     'title': string;
     'titleStringProperty': LinkableProperty<string>;
