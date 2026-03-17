@@ -127,7 +127,7 @@ define( function( require ) {
     // Thin line to the left of the PhET button (which won't interact with layout).
     // See https://github.com/phetsims/special-ops/issues/318, added when CC BY-NC license was added.
     this.phetButtonLine = new Line( {
-      stroke: new DerivedProperty( [ sim.lookAndFeel.navigationBarDarkProperty ], navigationBarDark => navigationBarDark ? Color.BLACK : Color.WHITE ),
+      stroke: new DerivedProperty( [ sim.lookAndFeel.navigationBarTextFillProperty ], textFill => textFill ),
       lineWidth: 0.7,
       opacity: 0.7
     } );
