@@ -30,6 +30,11 @@ type StringsType = {
   };
   'showPointersStringProperty': LocalizedStringProperty;
   'termsPrivacyAndLicensingStringProperty': LocalizedStringProperty;
+  'privacyPolicyStringProperty': LocalizedStringProperty;
+  'donateToPhetStringProperty': LocalizedStringProperty;
+  'license': {
+    'titleStringProperty': LocalizedStringProperty;
+  };
   'credits': {
     'titleStringProperty': LocalizedStringProperty;
     'leadDesignStringProperty': LocalizedStringProperty;
