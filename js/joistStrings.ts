@@ -28,6 +28,11 @@ type StringsType = {
   },
   'showPointers': string,
   'termsPrivacyAndLicensing': string,
+  'privacyPolicy': string,
+  'donateToPhet': string,
+  'license': {
+   'title': string,
+  },
   'credits': {
     'title': string,
     'leadDesign': string,
