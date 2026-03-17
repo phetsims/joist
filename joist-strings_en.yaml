@@ -22,6 +22,15 @@ showPointers:                                                                   
 termsPrivacyAndLicensing:                                                                       Terms, Privacy & Licensing
 termsPrivacyAndLicensing__simMetadata:
   phetioReadOnly: true
+privacyPolicy:                                                                                  Privacy Policy
+privacyPolicy__simMetadata:
+  phetioReadOnly: true
+donateToPhet:                                                                                   Donate to PhET
+donateToPhet__simMetadata:
+  phetioReadOnly: true
+license.title:                                                                                  License
+license.title__simMetadata:
+  phetioReadOnly: true
 credits.title:                                                                                  Credits
 credits.title__simMetadata:
   phetioReadOnly: true
