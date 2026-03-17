@@ -24,12 +24,14 @@ define( function( require ) {
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
   var LinkText = require( 'JOIST/LinkText' );
   var SubSupText = require( 'SCENERY_PHET/SubSupText' );
+  var FutureRichText = require( 'JOIST/FutureRichText' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var packageJSON = require( 'JOIST/packageJSON' );
   var joist = require( 'JOIST/joist' );
 
   // strings
   var versionPatternString = require( 'string!JOIST/versionPattern' );
+  var licenseTitleString = require( 'string!JOIST/license.title' );
 
   // Maximum width of elements in the dialog
   var MAX_WIDTH = 550;
@@ -95,23 +97,44 @@ define( function( require ) {
 
     // Show the brand copyright statement, if it exists
     if ( Brand.copyright ) {
-      children.push( new Text( Brand.copyright, { font: new PhetFont( 12 ), maxWidth: MAX_WIDTH } ) );
+      var year = phet.chipper.buildTimestamp ? // defined for built versions
+                 phet.chipper.buildTimestamp.split( '-' )[0] : // e.g. "2017-04-20 19:04:59 UTC" -> "2017"
+                 new Date().getFullYear(); // in requirejs mode
+
+      var copyright = StringUtils.format( Brand.copyright.replace( '{{year}}', '{0}' ), year );
+
+      children.push( new Text( copyright, {
+        font: new PhetFont( 12 ),
+        maxWidth: MAX_WIDTH
+      } ) );
     }
 
-    // Optional additionalLicenseStatement, used in phet-io
-    if ( Brand.additionalLicenseStatement ) {
-      children.push( new MultiLineText( Brand.additionalLicenseStatement, {
-          font: new PhetFont( 10 ),
-          fill: 'gray',
-          align: 'left',
-          maxWidth: MAX_WIDTH
-        }
-      ) );
+    var licenseChildren = [];
+
+    if ( Brand.license ) {
+      var licenseString = ( !phet.chipper.queryParameters.allowLinks && Brand.licenseWithoutLinks ) ? Brand.licenseWithoutLinks : Brand.license;
+
+      licenseChildren.push( new Text( licenseTitleString, {
+        font: new PhetFont( { size: 16, weight: 'bold' } ),
+      } ) );
+
+      licenseChildren.push( new FutureRichText( licenseString, {
+        font: new PhetFont( 0.75 * 16 ),
+        align: 'left',
+        lineWrap: MAX_WIDTH,
+        tagName: 'p',
+        links: true // allow the embedded links, because they are from a controlled source
+      } ) );
+    }
+
+    if ( licenseChildren.length > 0 ) {
+      children.push( new VStrut( 15 - 6 ) );
+      children = children.concat( licenseChildren );
     }
 
     // Add credits for specific brands
     if ( credits && ( Brand.id === 'phet' || Brand.id === 'phet-io' ) ) {
-      children.push( new VStrut( 15 ) );
+      children.push( new VStrut( 15 - 6 ) );
       children.push( new CreditsNode( credits, {
         maxWidth: MAX_WIDTH
       } ) );
@@ -123,7 +146,7 @@ define( function( require ) {
       children.push( new VStrut( 15 ) );
       for ( var i = 0; i < links.length; i++ ) {
         var link = links[ i ];
-        children.push( new LinkText( link.text, link.url, { font: new PhetFont( 14 ), maxWidth: MAX_WIDTH } ) );
+        children.push( new FutureRichText( '<a href="' + link.url + '"><u>' + link.text + '</u></a>', { font: new PhetFont( 14 ), maxWidth: MAX_WIDTH, links: true } ) );
       }
     }
 
