@@ -30,6 +30,7 @@ define( function( require ) {
 
   // strings
   var versionPatternString = require( 'string!JOIST/versionPattern' );
+  var licenseTitleString = require( 'string!JOIST/license.title' );
 
   // Maximum width of elements in the dialog
   var MAX_WIDTH = 550;
@@ -141,25 +142,38 @@ define( function( require ) {
       } ) );
     }
 
-    // Optional additionalLicenseStatement, used in phet-io
-    if ( Brand.additionalLicenseStatement ) {
-      this.additionalLicenseStatement = new MultiLineText( Brand.additionalLicenseStatement, {
-          font: new PhetFont( 10 ),
-          fill: 'gray',
-          align: 'left',
-          maxWidth: MAX_WIDTH,
+    // if ( brandChildren.length > 0 ) {
+    //   children.push( new VStrut( 15 - 6 ) );
+    //   children = children.concat( brandChildren );
+    // }
 
-          // a11y
-          tagName: 'p',
-          accessibleLabel: Brand.additionalLicenseStatement
-        }
-      );
-      children.push( this.additionalLicenseStatement );
+    var licenseChildren = [];
+
+    if ( Brand.license ) {
+      var licenseString = ( !phet.chipper.queryParameters.allowLinks && Brand.licenseWithoutLinks ) ? Brand.licenseWithoutLinks : Brand.license;
+
+      licenseChildren.push( new Text( licenseTitleString, {
+        font: new PhetFont( { size: 16, weight: 'bold' } ),
+      } ) );
+
+      // MultiLineText? No lineWrap on RichText?
+      licenseChildren.push( new RichText( licenseString, {
+        font: new PhetFont( 0.75 * 16 ),
+        align: 'left',
+        lineWrap: MAX_WIDTH,
+        tagName: 'p',
+        links: true // allow the embedded links, because they are from a controlled source
+      } ) );
+    }
+
+    if ( licenseChildren.length > 0 ) {
+      children.push( new VStrut( 15 - 6 ) );
+      children = children.concat( licenseChildren );
     }
 
     // Add credits for specific brands
     if ( credits && ( Brand.id === 'phet' || Brand.id === 'phet-io' ) ) {
-      children.push( new VStrut( 15 ) );
+      children.push( new VStrut( 15 - 6 ) );
       this.creditsNode = new CreditsNode( credits, {
         maxWidth: MAX_WIDTH
       } );
@@ -210,7 +224,6 @@ define( function( require ) {
       this.removeInputListener( closeListener );
 
       this.creditsNode && this.creditsNode.dispose();
-      this.additionalLicenseStatement && this.additionalLicenseStatement.dispose();
     };
   }
 
