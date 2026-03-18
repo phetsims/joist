@@ -169,15 +169,13 @@ class AboutDialog extends Dialog {
     const licenseChildren = [];
 
     if ( Brand.license ) {
-      const licenseStringProperty = new DerivedProperty( [ allowLinksProperty ], allowLinks => {
-        return allowLinks ? Brand.license : Brand.licenseWithoutLinks ?? Brand.license;
-      } );
+      const licenseString = ( !phet.chipper.queryParameters.allowLinks && Brand.licenseWithoutLinks ) ? Brand.licenseWithoutLinks : Brand.license;
 
       licenseChildren.push( new VoicingText( joistStrings.license.title, {
         font: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } ),
       } ) );
 
-      licenseChildren.push( new VoicingRichText( licenseStringProperty, {
+      licenseChildren.push( new VoicingRichText( licenseString, {
         font: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
         align: 'left',
         lineWrap: MAX_WIDTH,
@@ -216,8 +214,8 @@ class AboutDialog extends Dialog {
       for ( let i = 0; i < links.length; i++ ) {
         const link = links[ i ];
 
-        // If links are allowed, use hyperlinks.  Otherwise just output the URL.  This doesn't need to be internationalized.
-        const text = phet.chipper.queryParameters.allowLinks ? `<a href="{{url}}">${link.text}</a>` : `${link.text}: ${link.url}`;
+        // If links are allowed, use hyperlinks.  Otherwise just output the URL.  This doesn't need to be internationalized. Additionally handled later
+        const text = phet.chipper.queryParameters.allowLinks ? `<a href="{{url}}"><u>${link.text}</u></a>` : `${link.text}: ${link.url}`;
 
         // This is PhET-iO instrumented because it is a keyboard navigation focusable element.
         linksChildren.push( new RichText( text, {
@@ -227,45 +225,6 @@ class AboutDialog extends Dialog {
           phetioReadOnly: true
         } ) );
       }
-
-      // Show the links in a separate VBox so they will have the same MAX_WIDTH and hence the same font size.
-      const linksParent = new VBox( {
-        spacing: 6,
-        align: 'left',
-        children: linksChildren, maxWidth: MAX_WIDTH
-      } );
-      children.push( linksParent );
-
-      // Create new links whenever the locale changes, for an up to date translator URL.
-      localeProperty.link( locale => {
-        linksParent.children.forEach( child => child.dispose() );
-
-        const links = Brand.getLinks( packageJSON.name, locale );
-        const linksChildren = [];
-
-        linksChildren.push( new VStrut( 15 - 6 ) );
-
-        for ( let i = 0; i < links.length; i++ ) {
-          const link = links[ i ];
-
-          // If links are allowed, use hyperlinks. Otherwise, just output the URL. This doesn't need to be internationalized.
-          const stringProperty = new DerivedProperty( [ allowLinksProperty, link.textStringProperty ], ( allowLinks, linkText ) => {
-            return allowLinks ? `<a href="{{url}}"><u>${linkText}</u></a>` : `${linkText}: ${link.url}`;
-          } );
-
-          // This is PhET-iO instrumented because it is a keyboard navigation focusable element.
-          const richText = new RichText( stringProperty, {
-            links: { url: link.url }, // RichText must fill in URL for link
-            font: new PhetFont( NOMINAL_FONT_SIZE )
-          } );
-          richText.disposeEmitter.addListener( () => {
-            stringProperty.dispose();
-          } );
-          linksChildren.push( richText );
-        }
-
-        linksParent.children = linksChildren;
-      } );
     }
 
     const content = new VBox( {
