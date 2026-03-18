@@ -165,6 +165,11 @@ function AboutDialog( name, version, credits, locale, phetButton, tandem ) {
     } ) );
   }
 
+  if ( licenseChildren.length > 0 ) {
+    children.push( new VStrut( 15 - 6 ) );
+    children = children.concat( licenseChildren );
+  }
+
   // Add credits for specific brands
   if ( credits && ( Brand.id === 'phet' || Brand.id === 'phet-io' ) ) {
     children.push( new VStrut( 15 - 6 ) );
