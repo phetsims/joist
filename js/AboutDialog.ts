@@ -219,7 +219,7 @@ export default class AboutDialog extends Dialog {
     const links = Brand.getLinks( packageJSON.name, locale );
     if ( links && links.length > 0 ) {
 
-      linksChildren.push( new VStrut( 15 ) );
+      linksChildren.push( new VStrut( 15 - 6 ) );
 
       for ( let i = 0; i < links.length; i++ ) {
         const link = links[ i ];
