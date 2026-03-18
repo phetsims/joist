@@ -183,7 +183,7 @@ define( require => {
     // Show any links identified in the brand
     const links = Brand.getLinks( packageJSON.name, locale );
     if ( links && links.length > 0 ) {
-      children.push( new VStrut( 15 ) );
+      children.push( new VStrut( 15 - 6 ) );
 
       for ( let i = 0; i < links.length; i++ ) {
         const link = links[ i ];
