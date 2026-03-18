@@ -56,7 +56,13 @@ define( function( require ) {
       maxWidth: MAX_WIDTH
     } ) );
     if ( phet.chipper.buildTimestamp ) {
-      children.push( new Text( phet.chipper.buildTimestamp, { font: new PhetFont( 13 ), maxWidth: MAX_WIDTH } ) );
+      var year = phet.chipper.buildTimestamp ? // defined for built versions
+                 phet.chipper.buildTimestamp.split( '-' )[0] : // e.g. "2017-04-20 19:04:59 UTC" -> "2017"
+                 new Date().getFullYear(); // in requirejs mode
+
+      var copyright = StringUtils.format( Brand.copyright.replace( '{{year}}', '{0}' ), year );
+
+      children.push( new Text( copyright, { font: new PhetFont( 13 ), maxWidth: MAX_WIDTH } ) );
     }
 
     if ( UpdateCheck.areUpdatesChecked ) {
