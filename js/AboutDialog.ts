@@ -24,7 +24,6 @@ import packageJSON from './packageJSON.js';
 import updateCheck from './updateCheck.js';
 import UpdateNodes from './UpdateNodes.js';
 import UpdateState from './UpdateState.js';
-import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
 import localeProperty from './i18n/localeProperty.js';
 
 // constants
@@ -261,7 +260,7 @@ export default class AboutDialog extends Dialog {
           const link = links[ i ];
 
           // If links are allowed, use hyperlinks. Otherwise, just output the URL. This doesn't need to be internationalized.
-          const stringProperty = new DerivedStringProperty( [ allowLinksProperty, link.textStringProperty ], ( allowLinks, linkText ) => {
+          const stringProperty = new DerivedProperty( [ allowLinksProperty, link.textStringProperty ], ( allowLinks, linkText ) => {
             return allowLinks ? `<a href="{{url}}"><u>${linkText}</u></a>` : `${linkText}: ${link.url}`;
           } );
 
