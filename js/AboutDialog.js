@@ -71,7 +71,7 @@ define( function( require ) {
 
       var copyright = StringUtils.format( Brand.copyright.replace( '{{year}}', '{0}' ), year );
 
-      children.push( new Text( phet.chipper.buildTimestamp, {
+      children.push( new Text( copyright, {
         font: new PhetFont( 13 ),
         maxWidth: MAX_WIDTH,
         tagName: 'p',
