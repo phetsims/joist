@@ -157,11 +157,11 @@ class AboutDialog extends Dialog {
     if ( Brand.license ) {
       const licenseString = ( !phet.chipper.queryParameters.allowLinks && Brand.licenseWithoutLinks ) ? Brand.licenseWithoutLinks : Brand.license;
 
-      licenseChildren.push( new VoicingText( joistStrings.license.title, {
+      licenseChildren.push( new Text( joistStrings.license.title, {
         font: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } ),
       } ) );
 
-      licenseChildren.push( new VoicingRichText( licenseString, {
+      licenseChildren.push( new RichText( licenseString, {
         font: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
         align: 'left',
         lineWrap: MAX_WIDTH,
