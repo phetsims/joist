@@ -83,7 +83,7 @@ class AboutDialog extends Dialog {
 
       var copyright = StringUtils.format( Brand.copyright.replace( '{{year}}', '{0}' ), year );
 
-      children.push( new Text( phet.chipper.buildTimestamp, {
+      children.push( new Text( copyright, {
         font: new PhetFont( 0.65 * NOMINAL_FONT_SIZE ),
         maxWidth: MAX_WIDTH,
         tagName: 'p',
