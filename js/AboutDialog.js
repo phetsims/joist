@@ -83,7 +83,7 @@ define( function( require ) {
       } ) );
     }
 
-    children.push( new VStrut( 15 ) );
+    children.push( new VStrut( 15 - 6 ) );
 
     // Show the brand name, if it exists
     if ( Brand.name ) {
@@ -143,7 +143,7 @@ define( function( require ) {
     // Show any links identified in the brand
     var links = Brand.getLinks( packageJSON.name, locale );
     if ( links && links.length > 0 ) {
-      children.push( new VStrut( 15 ) );
+      children.push( new VStrut( 15 - 6 ) );
       for ( var i = 0; i < links.length; i++ ) {
         var link = links[ i ];
         children.push( new FutureRichText( '<a href="' + link.url + '"><u>' + link.text + '</u></a>', { font: new PhetFont( 14 ), maxWidth: MAX_WIDTH, links: true } ) );
