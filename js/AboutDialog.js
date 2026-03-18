@@ -183,7 +183,7 @@ define( function( require ) {
     // Show any links identified in the brand
     var links = Brand.getLinks( packageJSON.name, locale );
     if ( links && links.length > 0 ) {
-      children.push( new VStrut( 15 ) );
+      children.push( new VStrut( 15 - 6 ) );
 
       var linksGroupTandem = tandem.createGroupTandem( 'link' );
       for ( var i = 0; i < links.length; i++ ) {
