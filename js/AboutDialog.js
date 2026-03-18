@@ -196,7 +196,7 @@ class AboutDialog extends Dialog {
     const links = Brand.getLinks( packageJSON.name, locale );
     if ( links && links.length > 0 ) {
 
-      linksChildren.push( new VStrut( 15 ) );
+      linksChildren.push( new VStrut( 15 - 6 ) );
 
       for ( let i = 0; i < links.length; i++ ) {
         const link = links[ i ];
@@ -212,6 +212,14 @@ class AboutDialog extends Dialog {
           phetioReadOnly: true
         } ) );
       }
+
+      // Show the links in a separate VBox so they will have the same MAX_WIDTH and hence the same font size.
+      const linksParent = new VBox( {
+        spacing: 6,
+        align: 'left',
+        children: linksChildren, maxWidth: MAX_WIDTH
+      } );
+      children.push( linksParent );
     }
 
     const content = new VBox( {
