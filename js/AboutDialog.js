@@ -243,7 +243,6 @@ define( function( require ) {
 
       this.tandem.removeInstance( this );
       this.creditsNode && this.creditsNode.dispose();
-      this.additionalLicenseStatement && this.additionalLicenseStatement.dispose();
     }
   } );
 } );
