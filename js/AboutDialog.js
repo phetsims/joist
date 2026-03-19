@@ -24,7 +24,6 @@ import packageJSON from './packageJSON.js';
 import updateCheck from './updateCheck.js';
 import UpdateNodes from './UpdateNodes.js';
 import UpdateState from './UpdateState.js';
-import DerivedProperty from '../../axon/js/DerivedProperty.js';
 
 const versionPatternString = joistStrings.versionPattern;
 
