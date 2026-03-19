@@ -26,7 +26,6 @@ define( require => {
   const UpdateState = require( 'JOIST/UpdateState' );
   const VBox = require( 'SCENERY/nodes/VBox' );
   const VStrut = require( 'SCENERY/nodes/VStrut' );
-  const DerivedProperty = require( '../../axon/js/DerivedProperty.js' );
 
   // strings
   const versionPatternString = require( 'string!JOIST/versionPattern' );
