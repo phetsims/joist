@@ -186,10 +186,10 @@ export default class AboutDialog extends Dialog {
         return ( !allowLinks && Brand.licenseWithoutLinks ) ? Brand.licenseWithoutLinks : Brand.license!;
       } );
 
-      licenseChildren.push( new VoicingText( JoistFluent.license.titleStringProperty, {
+      licenseChildren.push( new VoicingText( JoistStrings.license.titleStringProperty, {
         font: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } ),
 
-        accessibleHeading: JoistFluent.credits.titleStringProperty,
+        accessibleHeading: JoistStrings.credits.titleStringProperty,
         accessibleParagraph: null
       } ) );
 
