@@ -196,11 +196,37 @@ define( require => {
 
         // If links are allowed, use hyperlinks.  Otherwise just output the URL.  This doesn't need to be internationalized.
         const text = phet.chipper.queryParameters.allowLinks ? '<a href="{{url}}"><u>' + link.text + '</u></a>' : link.text + ': ' + link.url;
-        linksChildren.push( new RichText( text, {
+
+        /*
+        TANDEM HACKS LIE HERE.
+
+        We originally had:
+          termsPrivacyAndLicensingLinkText <---- gets removed below
+          translationCreditsLinkText
+          thirdPartyCreditsLinkText
+
+        Initial MR left us with:
+          privacyPolicyText <--- new  (.... less, missing 'Link')
+          translationCreditsLinkText
+          thirdPartyCreditsLinkText
+          donateToPhetLinkText <--- new
+
+        We need to keep the API the same, so we are going with the plan of:
+          - Replace the privacyPolicy tandem with the original first tandem (termsPrivacyAndLicensingLinkText)
+          - Wipe out the tandem for donateToPhet
+
+        This should leave the tandems with the structure (here, even if we ARE adding in string Properties)
+        */
+        const linkTandemName = ( link.tandemName.includes( 'privacyPolicy' ) ? 'termsPrivacyAndLicensingLinkText' : ( link.tandemName.includes( 'donateToPhet' ) ? null : link.tandemName ) );
+
+        linksChildren.push( new RichText( text, linkTandemName ? {
           links: { url: link.url }, // RichText must fill in URL for link
           font: new PhetFont( 14 ),
-          tandem: tandem.createTandem( link.tandemName )
-        } ) );
+          tandem: tandem.createTandem( linkTandemName )
+        } : {
+          links: { url: link.url }, // RichText must fill in URL for link
+          font: new PhetFont( 14 )
+        } ) ); // NOTE: duplication is for safety. We don't want to pass in tandem: undefined, and Tandem.OPT_OUT isn't guaranteed for our release branches
       }
 
       // Show the links in a separate VBox so they will have the same MAX_WIDTH and hence the same font size.
