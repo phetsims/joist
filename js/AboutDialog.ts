@@ -231,13 +231,39 @@ export default class AboutDialog extends Dialog {
           return allowLinks ? `<a href="{{url}}"><u>${linkText}</u></a>` : `${linkText}: ${link.url}`;
         } );
 
+        /*
+        TANDEM HACKS LIE HERE.
+
+        We originally had:
+          termsPrivacyAndLicensingLinkText <---- gets removed below
+          translationCreditsLinkText
+          thirdPartyCreditsLinkText
+
+        Initial MR left us with:
+          privacyPolicyText <--- new  (.... less, missing 'Link')
+          translationCreditsLinkText
+          thirdPartyCreditsLinkText
+          donateToPhetLinkText <--- new
+
+        We need to keep the API the same, so we are going with the plan of:
+          - Replace the privacyPolicy tandem with the original first tandem (termsPrivacyAndLicensingLinkText)
+          - Wipe out the tandem for donateToPhet
+
+        This should leave the tandems with the structure (here, even if we ARE adding in string Properties)
+        */
+        const linkTandemName = ( link.tandemName.includes( 'privacyPolicy' ) ? 'termsPrivacyAndLicensingLinkText' : ( link.tandemName.includes( 'donateToPhet' ) ? null : link.tandemName ) );
+
         // This is PhET-iO instrumented because it is a keyboard navigation focusable element.
-        linksChildren.push( new RichText( stringProperty, {
+        linksChildren.push( new RichText( stringProperty, linkTandemName ? {
           links: { url: link.url }, // RichText must fill in URL for link
           font: new PhetFont( NOMINAL_FONT_SIZE ),
-          tandem: options.tandem.createTandem( link.tandemName ),
+          tandem: options.tandem.createTandem( linkTandemName ),
           phetioReadOnly: true
-        } ) );
+        } : {
+          links: { url: link.url }, // RichText must fill in URL for link
+          font: new PhetFont( NOMINAL_FONT_SIZE ),
+          phetioReadOnly: true
+        } as any ) ); // NOTE: duplication is for safety. We don't want to pass in tandem: undefined, and Tandem.OPT_OUT isn't guaranteed for our release branches
       }
 
       // Show the links in a separate VBox so they will have the same MAX_WIDTH and hence the same font size.
