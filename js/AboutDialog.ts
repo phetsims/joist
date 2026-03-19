@@ -26,7 +26,6 @@ import updateCheck from './updateCheck.js';
 import UpdateNodes from './UpdateNodes.js';
 import UpdateState from './UpdateState.js';
 import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
-import localeProperty from './i18n/localeProperty.js';
 
 // constants
 const MAX_WIDTH = 550; // Maximum width of elements in the dialog
