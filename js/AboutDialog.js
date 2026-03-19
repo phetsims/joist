@@ -156,7 +156,7 @@ function AboutDialog( name, version, credits, locale, phetButton, tandem ) {
   const licenseChildren = [];
 
   if ( Brand.license ) {
-    const licenseString = phet.chipper.queryParameters.allowLinks ? Brand.license : Brand.licenseWithoutLinks ?? Brand.license;
+    const licenseString = ( !phet.chipper.queryParameters.allowLinks && Brand.licenseWithoutLinks ) ? Brand.licenseWithoutLinks : Brand.license;
 
     licenseChildren.push( new Text( joistStrings.license.title, {
       font: new PhetFont( { size: 16, weight: 'bold' } ),
