@@ -252,7 +252,7 @@ export default class AboutDialog extends Dialog {
         const linkTandemName = ( link.tandemName.includes( 'privacyPolicy' ) ? 'termsPrivacyAndLicensingLinkText' : ( link.tandemName.includes( 'donateToPhet' ) ? null : link.tandemName ) );
         const stringProperty = new DerivedStringProperty( [ allowLinksProperty, link.textStringProperty ], ( allowLinks, linkText ) => {
           return allowLinks ? `<a href="{{url}}"><u>${linkText}</u></a>` : `${linkText}: ${link.url}`;
-        }, ( linkTandemName ? { tandem: options.tandem.createTandem( `${linkTandemName}StringProperty` ) } : {} ) as any );
+        }, ( linkTandemName ? { tandem: options.tandem.createTandem( `${linkTandemName}StringProperty` ) } : {} ) as any ); // eslint-disable-line @typescript-eslint/no-explicit-any
         // as any because... Argument of type '{ tandem: Tandem; } | {}' is not assignable to parameter of type 'DerivedStringPropertyOptions<string> | undefined'
         // This is because DerivedStringProperty here seems to REQUIRE a tandem. Yet we need to not pass one in, AND things we'll MR to don't have Tandem.OPT_OUT or the like everywhere
 
