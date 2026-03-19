@@ -185,7 +185,7 @@ export default class AboutDialog extends Dialog {
 
     if ( Brand.license ) {
       const licenseStringProperty = new DerivedProperty( [ allowLinksProperty ], allowLinks => {
-        return allowLinks ? Brand.license! : Brand.licenseWithoutLinks ?? Brand.license!;
+        return ( !allowLinks && Brand.licenseWithoutLinks ) ? Brand.licenseWithoutLinks : Brand.license!;
       } );
 
       licenseChildren.push( new VoicingText( JoistFluent.license.titleStringProperty, {
