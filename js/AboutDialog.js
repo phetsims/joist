@@ -175,13 +175,16 @@ class AboutDialog extends Dialog {
         font: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } ),
       } ) );
 
-      licenseChildren.push( new VoicingRichText( licenseString, {
+      // Hack to work around VoicingRichText's links: true happening after text set, see https://github.com/phetsims/special-ops/issues/318
+      const licenseText = new VoicingRichText( '', {
         font: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
         align: 'left',
         lineWrap: MAX_WIDTH,
         tagName: 'p',
         links: true // allow the embedded links, because they are from a controlled source
-      } ) );
+      } );
+      licenseText.text = licenseString;
+      licenseChildren.push( licenseText );
     }
 
     if ( licenseChildren.length > 0 ) {
