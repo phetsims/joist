@@ -15,7 +15,6 @@ define( function( require ) {
   var Dialog = require( 'SUN/Dialog' );
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
-  var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var Node = require( 'SCENERY/nodes/Node' );
   var packageJSON = require( 'JOIST/packageJSON' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
