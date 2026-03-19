@@ -290,7 +290,6 @@ class AboutDialog extends Dialog {
     // @private - to be called in dispose
     this.disposeAboutDialog = () => {
       creditsNode && creditsNode.dispose();
-      additionalLicenseStatement && additionalLicenseStatement.dispose();
       linksChildren.forEach( child => child.dispose && child.dispose() );
     };
   }
