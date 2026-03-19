@@ -195,14 +195,39 @@ define( function( require ) {
       var linksGroupTandem = tandem.createGroupTandem( 'link' );
       for ( var i = 0; i < links.length; i++ ) {
         var link = links[ i ];
-        children.push( new RichText( '<a href="{{url}}"><u>' + link.text + '</u></a>', {
+
+        /*
+        TANDEM HACKS LIE HERE.
+
+        We originally had:
+          termsPrivacyAndLicensingLinkText <---- gets removed below
+          translationCreditsLinkText
+          thirdPartyCreditsLinkText
+
+        Initial MR left us with:
+          privacyPolicyText <--- new  (.... less, missing 'Link')
+          translationCreditsLinkText
+          thirdPartyCreditsLinkText
+          donateToPhetLinkText <--- new
+
+        We need to keep the API the same, so we generate three and use them
+        */
+        var linkTandem = i < 3 ? linksGroupTandem.createNextTandem() : null;
+
+        children.push( new RichText( '<a href="{{url}}"><u>' + link.text + '</u></a>', linkTandem ? {
           links: { url: link.url }, // RichText must fill in URL for link
           font: new PhetFont( 14 ),
           maxWidth: MAX_WIDTH,
-          tandem: linksGroupTandem.createNextTandem(),
+          tandem: linkTandem,
           phetioReadOnly: true, // the AboutDialog should not be settable
           phetioState: false
-        } ) );
+        } : {
+          links: { url: link.url }, // RichText must fill in URL for link
+          font: new PhetFont( 14 ),
+          maxWidth: MAX_WIDTH,
+          phetioReadOnly: true, // the AboutDialog should not be settable
+          phetioState: false
+        } ) ); // NOTE: duplication is for safety. We don't want to pass in tandem: undefined, and Tandem.OPT_OUT isn't guaranteed for our release branches
       }
     }
 
