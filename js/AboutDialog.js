@@ -193,12 +193,13 @@ define( function( require ) {
       children.push( new VStrut( 15 - 6 ) );
       for ( var i = 0; i < links.length; i++ ) {
         var link = links[ i ];
-        children.push( new LinkText( link.text, link.url, {
+        children.push( new RichText( '<a href="' + link.url + '"><u>' + link.text + '</u></a>', {
           font: new PhetFont( 14 ),
           maxWidth: MAX_WIDTH,
           tandem: tandem.createTandem( 'link' + (i + 1) ),
           phetioReadOnly: true, // the AboutDialog should not be settable
-          phetioState: false
+          phetioState: false,
+          links: true
         } ) );
       }
     }
