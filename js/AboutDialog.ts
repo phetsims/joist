@@ -186,13 +186,16 @@ export default class AboutDialog extends Dialog {
         font: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } ),
       } ) );
 
-      licenseChildren.push( new VoicingRichText( licenseStringProperty, {
+      // Hack to work around VoicingRichText's links: true happening after text set, see https://github.com/phetsims/special-ops/issues/318
+      const licenseText = new VoicingRichText( '', {
         font: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
         align: 'left' as const,
         lineWrap: MAX_WIDTH,
         tagName: 'p',
         links: true // allow the embedded links, because they are from a controlled source
-      } ) );
+      } );
+      licenseText.stringProperty = licenseStringProperty as any; // incorrectly expects modifiable property
+      licenseChildren.push( licenseText );
     }
 
     if ( licenseChildren.length > 0 ) {
