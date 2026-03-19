@@ -187,10 +187,16 @@ define( function( require ) {
       children.push( new VStrut( 15 - 6 ) );
       for ( var i = 0; i < links.length; i++ ) {
         var link = links[ i ];
-        children.push( new RichText( phet.chipper.queryParameters.allowLinks ? '<a href="' + link.url + '"><u>' + link.text + '</u></a>' : link.text + ' ' + link.url, {
+        children.push( new RichText( phet.chipper.queryParameters.allowLinks ? '<a href="' + link.url + '"><u>' + link.text + '</u></a>' : link.text + ' ' + link.url, i < 3 ? {
           font: new PhetFont( 14 ),
           maxWidth: MAX_WIDTH,
           tandem: tandem.createTandem( 'link' + (i + 1) ),
+          phetioReadOnly: true, // the AboutDialog should not be settable
+          phetioState: false,
+          links: true
+        } : {
+          font: new PhetFont( 14 ),
+          maxWidth: MAX_WIDTH,
           phetioReadOnly: true, // the AboutDialog should not be settable
           phetioState: false,
           links: true
