@@ -23,7 +23,6 @@ import packageJSON from './packageJSON.js';
 import updateCheck from './updateCheck.js';
 import UpdateNodes from './UpdateNodes.js';
 import UpdateState from './UpdateState.js';
-import DerivedProperty from '../../axon/js/DerivedProperty.js';
 
 // constants
 const MAX_WIDTH = 550; // Maximum width of elements in the dialog
