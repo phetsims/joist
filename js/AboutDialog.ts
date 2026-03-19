@@ -227,9 +227,32 @@ export default class AboutDialog extends Dialog {
         const link = links[ i ];
 
         // If links are allowed, use hyperlinks. Otherwise, just output the URL. This doesn't need to be internationalized.
+        /*
+        TANDEM HACKS LIE HERE.
+
+        We originally had:
+          termsPrivacyAndLicensingLinkText <---- gets removed below
+          translationCreditsLinkText
+          thirdPartyCreditsLinkText
+
+        Initial MR left us with:
+          privacyPolicyText <--- new  (.... less, missing 'Link')
+          translationCreditsLinkText
+          thirdPartyCreditsLinkText
+          donateToPhetLinkText <--- new
+
+        We need to keep the API the same, so we are going with the plan of:
+          - Replace the privacyPolicy tandem with the original first tandem (termsPrivacyAndLicensingLinkText)
+          - Wipe out the tandem for donateToPhet
+
+        This should leave the tandems with the structure (here, even if we ARE adding in string Properties)
+        */
+        const linkTandemName = ( link.tandemName.includes( 'privacyPolicy' ) ? 'termsPrivacyAndLicensingLinkText' : ( link.tandemName.includes( 'donateToPhet' ) ? null : link.tandemName ) );
         const stringProperty = new DerivedStringProperty( [ allowLinksProperty, link.textStringProperty ], ( allowLinks, linkText ) => {
           return allowLinks ? `<a href="{{url}}"><u>${linkText}</u></a>` : `${linkText}: ${link.url}`;
-        }, { tandem: options.tandem.createTandem( `${link.tandemName}StringProperty` ) } );
+        }, ( linkTandemName ? { tandem: options.tandem.createTandem( `${linkTandemName}StringProperty` ) } : {} ) as any );
+        // as any because... Argument of type '{ tandem: Tandem; } | {}' is not assignable to parameter of type 'DerivedStringPropertyOptions<string> | undefined'
+        // This is because DerivedStringProperty here seems to REQUIRE a tandem. Yet we need to not pass one in, AND things we'll MR to don't have Tandem.OPT_OUT or the like everywhere
 
         // This is PhET-iO instrumented because it is a keyboard navigation focusable element.
         linksChildren.push( new RichText( stringProperty, {
