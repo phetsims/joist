@@ -152,7 +152,7 @@ define( function( require ) {
       children.push( new VStrut( 15 - 6 ) );
       for ( var i = 0; i < links.length; i++ ) {
         var link = links[ i ];
-        children.push( new FutureRichText( '<a href="' + link.url + '"><u>' + link.text + '</u></a>', { font: new PhetFont( 14 ), maxWidth: MAX_WIDTH, links: true } ) );
+        children.push( new FutureRichText( phet.chipper.queryParameters.allowLinks ? '<a href="' + link.url + '"><u>' + link.text + '</u></a>' : link.text + ' ' + link.url, { font: new PhetFont( 14 ), maxWidth: MAX_WIDTH, links: true } ) );
       }
     }
 
