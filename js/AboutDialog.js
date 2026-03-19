@@ -25,7 +25,6 @@ define( function( require ) {
   var LinkText = require( 'JOIST/LinkText' );
   var SubSupText = require( 'SCENERY_PHET/SubSupText' );
   var FutureRichText = require( 'JOIST/FutureRichText' );
-  var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var packageJSON = require( 'JOIST/packageJSON' );
   var joist = require( 'JOIST/joist' );
 
