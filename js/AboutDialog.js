@@ -193,7 +193,7 @@ define( function( require ) {
       children.push( new VStrut( 15 - 6 ) );
       for ( var i = 0; i < links.length; i++ ) {
         var link = links[ i ];
-        children.push( new RichText( '<a href="' + link.url + '"><u>' + link.text + '</u></a>', {
+        children.push( new RichText( phet.chipper.queryParameters.allowLinks ? '<a href="' + link.url + '"><u>' + link.text + '</u></a>' : link.text + ' ' + link.url, {
           font: new PhetFont( 14 ),
           maxWidth: MAX_WIDTH,
           tandem: tandem.createTandem( 'link' + (i + 1) ),
