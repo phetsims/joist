@@ -299,7 +299,6 @@ export default class AboutDialog extends Dialog {
 
     this.disposeAboutDialog = () => {
       creditsNode && creditsNode.dispose();
-      additionalLicenseStatement && additionalLicenseStatement.dispose();
       linksChildren.forEach( child => child.dispose && child.dispose() );
     };
   }
