@@ -62,7 +62,6 @@ define( function( require ) {
   // modules
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Color = require( 'SCENERY/util/Color' );
-  var extendDefined = require( 'PHET_CORE/extendDefined' );
   var Font = require( 'SCENERY/util/Font' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Line = require( 'SCENERY/nodes/Line' );
@@ -197,7 +196,7 @@ define( function( require ) {
     this.lineContainer = new Node( {} );
     this.addChild( this.lineContainer );
 
-    options = extendDefined( {
+    options = _.extend( {
       fill: '#000000',
       text: text
     }, options );
