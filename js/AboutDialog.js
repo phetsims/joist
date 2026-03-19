@@ -276,7 +276,6 @@ function AboutDialog( name, version, credits, locale, phetButton, tandem ) {
   // @private - to be called in dispose
   this.disposeAboutDialog = function() {
     this.creditsNode && this.creditsNode.dispose();
-    this.additionalLicenseStatement && this.additionalLicenseStatement.dispose();
     linksChildren.forEach( child => child.dispose && child.dispose() );
   };
 }
