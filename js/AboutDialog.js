@@ -15,7 +15,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var joist = require( 'JOIST/joist' );
   var LinkText = require( 'JOIST/LinkText' );
-  var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var Node = require( 'SCENERY/nodes/Node' );
   var packageJSON = require( 'JOIST/packageJSON' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
