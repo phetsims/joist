@@ -77,13 +77,7 @@ class AboutDialog extends Dialog {
 
     // Built versions will have a build timestamp
     if ( phet.chipper.buildTimestamp ) {
-      var year = phet.chipper.buildTimestamp ? // defined for built versions
-                 phet.chipper.buildTimestamp.split( '-' )[0] : // e.g. "2017-04-20 19:04:59 UTC" -> "2017"
-                 new Date().getFullYear(); // in requirejs mode
-
-      var copyright = StringUtils.format( Brand.copyright.replace( '{{year}}', '{0}' ), year );
-
-      children.push( new Text( copyright, {
+      children.push( new Text( phet.chipper.buildTimestamp, {
         font: new PhetFont( 0.65 * NOMINAL_FONT_SIZE ),
         maxWidth: MAX_WIDTH,
         tagName: 'p',
