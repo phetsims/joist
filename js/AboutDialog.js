@@ -22,7 +22,6 @@ define( function( require ) {
   var CreditsNode = require( 'JOIST/CreditsNode' );
   var UpdateNodes = require( 'JOIST/UpdateNodes' );
   var UpdateCheck = require( 'JOIST/UpdateCheck' );
-  var LinkText = require( 'JOIST/LinkText' );
   var RichText = require( 'SCENERY/nodes/RichText' );
   var packageJSON = require( 'JOIST/packageJSON' );
   var joist = require( 'JOIST/joist' );
