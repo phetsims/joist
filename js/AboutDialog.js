@@ -275,7 +275,6 @@ define( function( require ) {
         // Tandems should be removed at disposal. The 'hide' function is used as dispose for the AboutDialog
         this.aboutDialogTandem.removeInstance( this );
         this.creditsNode && this.creditsNode.dispose();
-        this.additionalLicenseStatement && this.additionalLicenseStatement.dispose();
       }
     }
   } );
