@@ -158,7 +158,7 @@ class AboutDialog extends Dialog {
       const licenseString = ( !phet.chipper.queryParameters.allowLinks && Brand.licenseWithoutLinks ) ? Brand.licenseWithoutLinks : Brand.license;
 
       licenseChildren.push( new VoicingText( joistStrings.license.title, {
-        font: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } ),
+        font: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } )
       } ) );
 
       // Hack to work around VoicingRichText's links: true happening after text set, see https://github.com/phetsims/special-ops/issues/318
