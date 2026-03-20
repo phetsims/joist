@@ -68,7 +68,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var joist = require( 'JOIST/joist' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var VStrut = require( 'SCENERY/nodes/VStrut' );
 
   // Options that can be used in the constructor, with mutate(), or directly as setters/getters
