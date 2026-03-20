@@ -155,7 +155,7 @@ define( function( require ) {
       var licenseString = ( !phet.chipper.queryParameters.allowLinks && Brand.licenseWithoutLinks ) ? Brand.licenseWithoutLinks : Brand.license;
 
       licenseChildren.push( new Text( licenseTitleString, {
-        font: new PhetFont( { size: 16, weight: 'bold' } ),
+        font: new PhetFont( { size: 16, weight: 'bold' } )
       } ) );
 
       licenseChildren.push( new RichText( licenseString, {
