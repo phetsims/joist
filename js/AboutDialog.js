@@ -28,6 +28,7 @@ define( require => {
   const VStrut = require( 'SCENERY/nodes/VStrut' );
 
   // strings
+  const licenseTitleString = require( 'string!JOIST/license.title' );
   const versionPatternString = require( 'string!JOIST/versionPattern' );
 
   // Maximum width of elements in the dialog
@@ -150,7 +151,7 @@ define( require => {
     if ( Brand.license ) {
       const licenseString = ( !phet.chipper.queryParameters.allowLinks && Brand.licenseWithoutLinks ) ? Brand.licenseWithoutLinks : Brand.license;
 
-      licenseChildren.push( new Text( joistStrings.license.title, {
+      licenseChildren.push( new Text( licenseTitleString, {
         font: new PhetFont( { size: 16, weight: 'bold' } ),
       } ) );
 
