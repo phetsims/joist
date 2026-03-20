@@ -188,7 +188,7 @@ export default class AboutDialog extends Dialog {
         font: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } )
       } ) );
 
-      licenseChildren.push( new VoicingRichText( licenseStringProperty, {
+      licenseChildren.push( new RichText( licenseStringProperty, {
         font: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
         align: 'left' as const,
         lineWrap: MAX_WIDTH,
