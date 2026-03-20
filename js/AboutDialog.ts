@@ -194,6 +194,7 @@ export default class AboutDialog extends Dialog {
         tagName: 'p',
         links: true // allow the embedded links, because they are from a controlled source
       } );
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       licenseText.stringProperty = licenseStringProperty as any; // incorrectly expects modifiable property
       licenseChildren.push( licenseText );
     }
@@ -263,6 +264,7 @@ export default class AboutDialog extends Dialog {
           links: { url: link.url }, // RichText must fill in URL for link
           font: new PhetFont( NOMINAL_FONT_SIZE ),
           phetioReadOnly: true
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any ) ); // NOTE: duplication is for safety. We don't want to pass in tandem: undefined, and Tandem.OPT_OUT isn't guaranteed for our release branches
       }
 
