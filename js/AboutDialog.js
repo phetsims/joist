@@ -164,6 +164,13 @@ define( function( require ) {
       modal: true,
       hasCloseButton: false,
 
+      // layout strategy prevents it from becoming too big and going off-bounds
+      layoutStrategy: function( dialog, simBounds, screenBounds, scale ) {
+        dialog.maxWidth = 0.9 * simBounds.width / scale;
+        dialog.maxHeight = 0.9 * simBounds.height / scale;
+        dialog.center = simBounds.center.times( 1.0 / scale );
+      },
+
       // accessible content
       accessibleContent: {
         createPeer: function( accessibleInstance ) {
