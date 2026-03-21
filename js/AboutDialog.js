@@ -220,6 +220,13 @@ define( function( require ) {
       tandem: tandem,
       phetioReadOnly: true, // the AboutDialog should not be settable
       phetioState: false,
+
+      // layout strategy prevents it from becoming too big and going off-bounds
+      layoutStrategy: function( dialog, simBounds, screenBounds, scale ) {
+        dialog.maxWidth = 0.9 * simBounds.width / scale;
+        dialog.maxHeight = 0.9 * simBounds.height / scale;
+        dialog.center = simBounds.center.times( 1.0 / scale );
+      }
     } );
 
     // a11y - set label association so the title is read when focus enters the dialog
