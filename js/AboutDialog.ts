@@ -182,7 +182,9 @@ export default class AboutDialog extends Dialog {
       } );
 
       licenseChildren.push( new VoicingText( JoistStrings.license.titleStringProperty, {
-        font: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } )
+        font: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } ),
+
+        tagName: 'h2'
       } ) );
 
       // Hack to work around VoicingRichText's links: true happening after text set, see https://github.com/phetsims/special-ops/issues/318
@@ -191,6 +193,7 @@ export default class AboutDialog extends Dialog {
         align: 'left' as const,
         lineWrap: MAX_WIDTH,
         tagName: 'p',
+        innerContent: Brand.accessibleLicense || '',
         links: true // allow the embedded links, because they are from a controlled source
       } );
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
