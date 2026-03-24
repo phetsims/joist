@@ -168,6 +168,7 @@ class AboutDialog extends Dialog {
         lineWrap: MAX_WIDTH,
         tagName: 'p',
         innerContent: Brand.accessibleLicense || '',
+        readingBlockNameResponse: Brand.accessibleLicense || '',
         links: true // allow the embedded links, because they are from a controlled source
       } );
       licenseText.text = licenseString;
