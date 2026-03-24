@@ -194,6 +194,7 @@ export default class AboutDialog extends Dialog {
         align: 'left' as const,
         lineWrap: MAX_WIDTH,
         accessibleParagraph: Brand.accessibleLicense || '',
+        readingBlockNameResponse: Brand.accessibleLicense || '',
         links: true // allow the embedded links, because they are from a controlled source
       } ) );
     }
