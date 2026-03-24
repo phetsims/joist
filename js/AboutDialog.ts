@@ -191,7 +191,7 @@ export default class AboutDialog extends Dialog {
       licenseChildren.push( new VoicingText( JoistFluent.license.titleStringProperty, {
         font: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } ),
 
-        accessibleHeading: JoistFluent.credits.titleStringProperty,
+        accessibleHeading: JoistFluent.license.titleStringProperty,
         accessibleParagraph: null
       } ) );
 
@@ -200,7 +200,7 @@ export default class AboutDialog extends Dialog {
         align: 'left' as const,
         lineWrap: MAX_WIDTH,
         leading: 1, // to match the spacing in the CreditsNode between paragraphs
-        tagName: 'p',
+        accessibleParagraph: Brand.accessibleLicense || '',
         links: true // allow the embedded links, because they are from a controlled source
       } ) );
     }
