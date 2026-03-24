@@ -184,7 +184,9 @@ export default class AboutDialog extends Dialog {
       } );
 
       licenseChildren.push( new VoicingText( JoistStrings.license.titleStringProperty, {
-        font: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } )
+        font: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } ),
+
+        tagName: 'h2'
       } ) );
 
       licenseChildren.push( new RichText( licenseStringProperty, {
@@ -192,6 +194,7 @@ export default class AboutDialog extends Dialog {
         align: 'left' as const,
         lineWrap: MAX_WIDTH,
         tagName: 'p',
+        innerContent: Brand.accessibleLicense || '',
         links: true // allow the embedded links, because they are from a controlled source
       } ) );
     }
