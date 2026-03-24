@@ -9,6 +9,7 @@
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
 import stepTimer from '../../axon/js/stepTimer.js';
+import TinyProperty from '../../axon/js/TinyProperty.js';
 import type { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import type TBrand from '../../brand/js/TBrand.js';
 import optionize, { type EmptySelfOptions } from '../../phet-core/js/optionize.js';
@@ -195,12 +196,16 @@ export default class AboutDialog extends Dialog {
         accessibleParagraph: null
       } ) );
 
+      // innerContent cannot embed links (xss vulnerability), so the accessible content uses the form of the
+      // strings without any links
+      const accessibleLicenseContent = Brand.licenseWithoutLinks ?? '';
       licenseChildren.push( new VoicingRichText( licenseStringProperty, {
         font: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
         align: 'left' as const,
         lineWrap: MAX_WIDTH,
         leading: 1, // to match the spacing in the CreditsNode between paragraphs
-        tagName: 'p',
+        accessibleParagraph: accessibleLicenseContent,
+        readingBlockNameResponse: RichText.getAccessibleStringProperty( new TinyProperty( accessibleLicenseContent ), false ),
         links: true // allow the embedded links, because they are from a controlled source
       } ) );
     }
