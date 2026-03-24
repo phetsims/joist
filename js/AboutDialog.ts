@@ -187,7 +187,7 @@ export default class AboutDialog extends Dialog {
       licenseChildren.push( new VoicingText( JoistStrings.license.titleStringProperty, {
         font: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } ),
 
-        accessibleHeading: JoistStrings.credits.titleStringProperty,
+        accessibleHeading: JoistStrings.license.titleStringProperty,
         accessibleParagraph: null
       } ) );
 
