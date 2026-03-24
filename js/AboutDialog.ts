@@ -195,7 +195,7 @@ export default class AboutDialog extends Dialog {
         font: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
         align: 'left' as const,
         lineWrap: MAX_WIDTH,
-        tagName: 'p',
+        accessibleParagraph: Brand.accessibleLicense || '',
         links: true // allow the embedded links, because they are from a controlled source
       } ) );
     }
