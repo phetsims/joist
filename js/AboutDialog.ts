@@ -193,7 +193,7 @@ export default class AboutDialog extends Dialog {
         accessibleParagraph: null
       } ) );
 
-      licenseChildren.push( new RichText( licenseStringProperty, {
+      licenseChildren.push( new VoicingRichText( licenseStringProperty, {
         font: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
         align: 'left' as const,
         lineWrap: MAX_WIDTH,
