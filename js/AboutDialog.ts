@@ -230,7 +230,7 @@ export default class AboutDialog extends Dialog {
         TANDEM HACKS LIE HERE.
 
         We originally had:
-          termsPrivacyAndLicensingLinkText <---- gets removed below
+          termsPrivacyAndLicensingLinkText <---- gets removed below, but we need to create the DerivedStringProperty for API compatibility
           translationCreditsLinkText
           thirdPartyCreditsLinkText
 
@@ -243,10 +243,12 @@ export default class AboutDialog extends Dialog {
         We need to keep the API the same, so we are going with the plan of:
           - Replace the privacyPolicy tandem with the original first tandem (termsPrivacyAndLicensingLinkText)
           - Wipe out the tandem for donateToPhet
+          - HERE the additional quirk of "create the DerivedStringProperty for the old version" is needed, since it
+            somehow made it to the API.
 
         This should leave the tandems with the structure (here, even if we ARE adding in string Properties)
         */
-        const linkTandemName = ( link.tandemName.includes( 'privacyPolicy' ) ? 'termsPrivacyAndLicensingLinkText' : ( link.tandemName.includes( 'donateToPhet' ) ? null : link.tandemName ) );
+        const linkTandemName = ( link.tandemName.includes( 'privacyPolicy' ) || link.tandemName.includes( 'donateToPhet' ) ) ? null : link.tandemName;
         const stringProperty = new DerivedStringProperty( [ allowLinksProperty, link.textStringProperty ], ( allowLinks, linkText ) => {
           return allowLinks ? `<a href="{{url}}"><u>${linkText}</u></a>` : `${linkText}: ${link.url}`;
         }, ( linkTandemName ? { tandem: options.tandem.createTandem( `${linkTandemName}StringProperty` ) } : {} ) as any ); // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -259,6 +261,16 @@ export default class AboutDialog extends Dialog {
           font: new PhetFont( NOMINAL_FONT_SIZE )
         } ) );
       }
+
+      const apiConsistencyTandemName = 'termsPrivacyAndLicensingLinkText';
+      new DerivedStringProperty( [ allowLinksProperty, JoistStrings.termsPrivacyAndLicensingStringProperty ], ( allowLinks, linkText ) => {
+        // Hardcoded link to the exact string that would be in the old API
+        return allowLinks ? `<a href="{{url}}"><u>${linkText}</u></a>` : `${linkText}: https://phet.colorado.edu/en/licensing/html`;
+      }, {
+        tandem: options.tandem.createTandem( `${apiConsistencyTandemName}StringProperty` )
+      } ).link( () => {
+        // Yes it's an empty arrow function, to please lint (and yes, we have a link so lint doesn't complain about new and side effects)
+      } );
 
       // Show the links in a separate VBox so they will have the same MAX_WIDTH and hence the same font size.
       const linksParent = new VBox( {
