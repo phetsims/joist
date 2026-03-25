@@ -355,7 +355,7 @@ define( function( require ) {
             rootNode.addInputListener( new ButtonListener( {
               fire: function( event ) {
                 self._linkEventsHandled && event.handle();
-                if ( phet.chipper.getQueryParameter( 'allowLinks' ) !== false && phet.chipper.getQueryParameter( 'allowLinks' ) !== 'false' ) {
+                if ( phet.chipper.queryParameters.allowLinks ) {
                   var newWindow = window.open( href, '_blank' ); // open in a new window/tab
                   newWindow.focus();
                 }
