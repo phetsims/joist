@@ -197,9 +197,10 @@ define( function( require ) {
       children.push( new VStrut( 15 - 6 ) );
       for ( var i = 0; i < links.length; i++ ) {
         var link = links[ i ];
-        children.push( new LinkText( link.text, link.url, {
+        children.push( new FutureRichText( phet.chipper.queryParameters.allowLinks ? '<a href="' + link.url + '"><u>' + link.text + '</u></a>' : link.text + ' ' + link.url, {
           font: new PhetFont( 14 ),
-          maxWidth: MAX_WIDTH
+          maxWidth: MAX_WIDTH,
+          links: true
         } ) );
       }
     }
