@@ -150,8 +150,9 @@ define( function( require ) {
 
     var licenseChildren = [];
 
+    var allowLinks = phet.chipper.queryParameters.allowLinks;
     if ( Brand.license ) {
-      var licenseString = ( !phet.chipper.queryParameters.allowLinks && Brand.licenseWithoutLinks ) ? Brand.licenseWithoutLinks : Brand.license;
+      var licenseString = ( !allowLinks && Brand.licenseWithoutLinks ) ? Brand.licenseWithoutLinks : Brand.license;
 
       licenseChildren.push( new Text( licenseTitleString, {
         font: new PhetFont( { size: 16, weight: 'bold' } )
@@ -187,7 +188,7 @@ define( function( require ) {
 
       for ( var i = 0; i < links.length; i++ ) {
         var link = links[ i ];
-        children.push( new RichText( '<a href="{{url}}"><u>' + link.text + '</u></a>', {
+        children.push( new RichText( allowLinks ? '<a href="{{url}}"><u>' + link.text + '</u></a>' : link.text + ' ' + link.url, {
           links: { url: link.url }, // RichText must fill in URL for link
           font: new PhetFont( 14 ),
           maxWidth: MAX_WIDTH
