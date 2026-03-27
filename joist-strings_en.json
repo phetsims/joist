@@ -441,6 +441,11 @@
     "phetMenu": {
       "value": "PhET Menu"
     },
+    "updateDialog": {
+      "accessibleName": {
+        "value": "Updates"
+      }
+    },
     "preferences": {
       "tabs": {
         "labelledDescriptionPattern": {

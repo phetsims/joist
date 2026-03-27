@@ -163,6 +163,7 @@ addToMapIfDefined( 'a11y_soundToggle_alert_simSoundOff', 'a11y.soundToggle.alert
 addToMapIfDefined( 'a11y_soundToggle_label', 'a11y.soundToggle.labelStringProperty' );
 addToMapIfDefined( 'a11y_checkOutShortcuts', 'a11y.checkOutShortcutsStringProperty' );
 addToMapIfDefined( 'a11y_phetMenu', 'a11y.phetMenuStringProperty' );
+addToMapIfDefined( 'a11y_updateDialog_accessibleName', 'a11y.updateDialog.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_preferences_tabs_visual_interactiveHighlights_enabledAlert', 'a11y.preferences.tabs.visual.interactiveHighlights.enabledAlertStringProperty' );
 addToMapIfDefined( 'a11y_preferences_tabs_visual_interactiveHighlights_disabledAlert', 'a11y.preferences.tabs.visual.interactiveHighlights.disabledAlertStringProperty' );
 addToMapIfDefined( 'a11y_preferences_tabs_audio_sounds_soundsOn', 'a11y.preferences.tabs.audio.sounds.soundsOnStringProperty' );
@@ -502,6 +503,9 @@ const JoistFluent = {
     },
     checkOutShortcutsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_checkOutShortcuts', _.get( JoistStrings, 'a11y.checkOutShortcutsStringProperty' ) ),
     phetMenuStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_phetMenu', _.get( JoistStrings, 'a11y.phetMenuStringProperty' ) ),
+    updateDialog: {
+      accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_updateDialog_accessibleName', _.get( JoistStrings, 'a11y.updateDialog.accessibleNameStringProperty' ) )
+    },
     preferences: {
       tabs: {
         labelledDescriptionPatternStringProperty: _.get( JoistStrings, 'a11y.preferences.tabs.labelledDescriptionPatternStringProperty' ),

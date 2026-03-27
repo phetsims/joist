@@ -180,6 +180,9 @@ type StringsType = {
     };
     'checkOutShortcutsStringProperty': LocalizedStringProperty;
     'phetMenuStringProperty': LocalizedStringProperty;
+    'updateDialog': {
+      'accessibleNameStringProperty': LocalizedStringProperty;
+    };
     'preferences': {
       'tabs': {
         'labelledDescriptionPatternStringProperty': LocalizedStringProperty;
