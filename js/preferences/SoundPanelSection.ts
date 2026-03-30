@@ -1,4 +1,4 @@
-// Copyright 2021-2025, University of Colorado Boulder
+// Copyright 2021-2026, University of Colorado Boulder
 
 /**
  * Section of the "Audio" panel of the PreferencesDialog related to sound.
@@ -86,8 +86,7 @@ class SoundPanelSection extends PreferencesPanelSection {
       const extraSoundCheckbox = new Checkbox( audioModel.extraSoundEnabledProperty, enhancedSoundLabel, {
 
         // pdom
-        labelTagName: 'label',
-        labelContent: extraSoundsLabelStringProperty,
+        accessibleName: extraSoundsLabelStringProperty,
 
         // voicing
         voicingNameResponse: extraSoundsLabelStringProperty,

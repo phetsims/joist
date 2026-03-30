@@ -47,6 +47,12 @@ addToMapIfDefined( 'title_settings', 'title.settingsStringProperty' );
 addToMapIfDefined( 'showPointers', 'showPointersStringProperty' );
 addToMapIfDefined( 'termsPrivacyAndLicensing', 'termsPrivacyAndLicensingStringProperty' );
 addToMapIfDefined( 'termsPrivacyAndLicensing__simMetadata_phetioReadOnly', 'termsPrivacyAndLicensing__simMetadata.phetioReadOnlyStringProperty' );
+addToMapIfDefined( 'privacyPolicy', 'privacyPolicyStringProperty' );
+addToMapIfDefined( 'privacyPolicy__simMetadata_phetioReadOnly', 'privacyPolicy__simMetadata.phetioReadOnlyStringProperty' );
+addToMapIfDefined( 'donateToPhet', 'donateToPhetStringProperty' );
+addToMapIfDefined( 'donateToPhet__simMetadata_phetioReadOnly', 'donateToPhet__simMetadata.phetioReadOnlyStringProperty' );
+addToMapIfDefined( 'license_title', 'license.titleStringProperty' );
+addToMapIfDefined( 'license_title__simMetadata_phetioReadOnly', 'license.title__simMetadata.phetioReadOnlyStringProperty' );
 addToMapIfDefined( 'credits_title', 'credits.titleStringProperty' );
 addToMapIfDefined( 'credits_title__simMetadata_phetioReadOnly', 'credits.title__simMetadata.phetioReadOnlyStringProperty' );
 addToMapIfDefined( 'credits_leadDesign__simMetadata_phetioReadOnly', 'credits.leadDesign__simMetadata.phetioReadOnlyStringProperty' );
@@ -157,6 +163,7 @@ addToMapIfDefined( 'a11y_soundToggle_alert_simSoundOff', 'a11y.soundToggle.alert
 addToMapIfDefined( 'a11y_soundToggle_label', 'a11y.soundToggle.labelStringProperty' );
 addToMapIfDefined( 'a11y_checkOutShortcuts', 'a11y.checkOutShortcutsStringProperty' );
 addToMapIfDefined( 'a11y_phetMenu', 'a11y.phetMenuStringProperty' );
+addToMapIfDefined( 'a11y_updateDialog_accessibleName', 'a11y.updateDialog.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_preferences_tabs_visual_interactiveHighlights_enabledAlert', 'a11y.preferences.tabs.visual.interactiveHighlights.enabledAlertStringProperty' );
 addToMapIfDefined( 'a11y_preferences_tabs_visual_interactiveHighlights_disabledAlert', 'a11y.preferences.tabs.visual.interactiveHighlights.disabledAlertStringProperty' );
 addToMapIfDefined( 'a11y_preferences_tabs_audio_sounds_soundsOn', 'a11y.preferences.tabs.audio.sounds.soundsOnStringProperty' );
@@ -256,6 +263,20 @@ const JoistFluent = {
   termsPrivacyAndLicensingStringProperty: _.get( JoistStrings, 'termsPrivacyAndLicensingStringProperty' ),
   termsPrivacyAndLicensing__simMetadata: {
     phetioReadOnlyStringProperty: _.get( JoistStrings, 'termsPrivacyAndLicensing__simMetadata.phetioReadOnlyStringProperty' )
+  },
+  privacyPolicyStringProperty: _.get( JoistStrings, 'privacyPolicyStringProperty' ),
+  privacyPolicy__simMetadata: {
+    phetioReadOnlyStringProperty: _.get( JoistStrings, 'privacyPolicy__simMetadata.phetioReadOnlyStringProperty' )
+  },
+  donateToPhetStringProperty: _.get( JoistStrings, 'donateToPhetStringProperty' ),
+  donateToPhet__simMetadata: {
+    phetioReadOnlyStringProperty: _.get( JoistStrings, 'donateToPhet__simMetadata.phetioReadOnlyStringProperty' )
+  },
+  license: {
+    titleStringProperty: _.get( JoistStrings, 'license.titleStringProperty' ),
+    title__simMetadata: {
+      phetioReadOnlyStringProperty: _.get( JoistStrings, 'license.title__simMetadata.phetioReadOnlyStringProperty' )
+    }
   },
   credits: {
     titleStringProperty: _.get( JoistStrings, 'credits.titleStringProperty' ),
@@ -482,6 +503,9 @@ const JoistFluent = {
     },
     checkOutShortcutsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_checkOutShortcuts', _.get( JoistStrings, 'a11y.checkOutShortcutsStringProperty' ) ),
     phetMenuStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_phetMenu', _.get( JoistStrings, 'a11y.phetMenuStringProperty' ) ),
+    updateDialog: {
+      accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_updateDialog_accessibleName', _.get( JoistStrings, 'a11y.updateDialog.accessibleNameStringProperty' ) )
+    },
     preferences: {
       tabs: {
         labelledDescriptionPatternStringProperty: _.get( JoistStrings, 'a11y.preferences.tabs.labelledDescriptionPatternStringProperty' ),

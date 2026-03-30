@@ -7,17 +7,19 @@
  */
 
 import stepTimer from '../../axon/js/stepTimer.js';
-import { type EmptySelfOptions } from '../../phet-core/js/optionize.js';
+import optionize, { type EmptySelfOptions } from '../../phet-core/js/optionize.js';
+import StrictOmit from '../../phet-core/js/types/StrictOmit.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import Dialog, { type DialogOptions } from '../../sun/js/Dialog.js';
 import joist from './joist.js';
+import JoistFluent from './JoistFluent.js';
 import updateCheck from './updateCheck.js';
 import UpdateNodes from './UpdateNodes.js';
 import UpdateState from './UpdateState.js';
 
 type SelfOptions = EmptySelfOptions;
 
-export type UpdateDialogOptions = SelfOptions & DialogOptions;
+export type UpdateDialogOptions = SelfOptions & StrictOmit<DialogOptions, 'accessibleName'>;
 
 export default class UpdateDialog extends Dialog {
 
@@ -30,6 +32,10 @@ export default class UpdateDialog extends Dialog {
   public constructor( providedOptions?: UpdateDialogOptions ) {
     assert && assert( updateCheck.areUpdatesChecked,
       'Updates need to be checked for UpdateDialog to be created' );
+
+    const options = optionize<UpdateDialogOptions, SelfOptions, DialogOptions>()( {
+      accessibleName: JoistFluent.a11y.updateDialog.accessibleNameStringProperty
+    }, providedOptions );
 
     const positionOptions = { centerX: 0, centerY: 0, big: true };
     const checkingNode = UpdateNodes.createCheckingNode( positionOptions );
@@ -55,7 +61,7 @@ export default class UpdateDialog extends Dialog {
       tagName: 'div'
     } );
 
-    super( content, providedOptions );
+    super( content, options );
 
     let outOfDateContent: Node | null = null;
     const updateOutOfDateNode = () => {

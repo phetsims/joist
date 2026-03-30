@@ -60,6 +60,24 @@
       "phetioReadOnly": true
     }
   },
+  "privacyPolicy": {
+    "value": "Privacy Policy",
+    "simMetadata": {
+      "phetioReadOnly": true
+    }
+  },
+  "donateToPhet": {
+    "value": "Donate to PhET",
+    "simMetadata": {
+      "phetioReadOnly": true
+    }
+  },
+  "license.title": {
+    "value": "License",
+    "simMetadata": {
+      "phetioReadOnly": true
+    }
+  },
   "credits.title": {
     "value": "Credits",
     "simMetadata": {
@@ -422,6 +440,11 @@
     },
     "phetMenu": {
       "value": "PhET Menu"
+    },
+    "updateDialog": {
+      "accessibleName": {
+        "value": "Updates"
+      }
     },
     "preferences": {
       "tabs": {

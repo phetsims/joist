@@ -1,4 +1,4 @@
-// Copyright 2013-2025, University of Colorado Boulder
+// Copyright 2013-2026, University of Colorado Boulder
 
 /**
  * AboutDialog displays information about the simulation -- its title, version number, credits, etc.
@@ -9,6 +9,7 @@
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import DerivedStringProperty from '../../axon/js/DerivedStringProperty.js';
 import stepTimer from '../../axon/js/stepTimer.js';
+import TinyProperty from '../../axon/js/TinyProperty.js';
 import type { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import type TBrand from '../../brand/js/TBrand.js';
 import optionize, { type EmptySelfOptions } from '../../phet-core/js/optionize.js';
@@ -74,6 +75,8 @@ export default class AboutDialog extends Dialog {
     assert && assert( Brand, 'Brand should exist by now' );
 
     let children = [];
+
+    const strutSize = 15 - 6; // 15 is the desired spacing, but we are including a spacing of 6 already.
 
     const titleText = new VoicingText( nameStringProperty, {
       font: new PhetFont( 2 * NOMINAL_FONT_SIZE ),
@@ -174,30 +177,49 @@ export default class AboutDialog extends Dialog {
       } ) );
     }
 
-    let additionalLicenseStatement: Node | null = null;
-
-    // Optional additionalLicenseStatement, used in phet-io
-    if ( Brand.additionalLicenseStatement ) {
-      additionalLicenseStatement = new VoicingRichText( Brand.additionalLicenseStatement, {
-          font: new PhetFont( 0.65 * NOMINAL_FONT_SIZE ),
-          fill: 'gray',
-          align: 'left',
-          maxWidth: MAX_WIDTH
-        }
-      );
-      brandChildren.push( additionalLicenseStatement );
+    if ( brandChildren.length > 0 ) {
+      children.push( new VStrut( strutSize ) );
+      children = children.concat( brandChildren );
     }
 
-    if ( brandChildren.length > 0 ) {
-      children.push( new VStrut( 15 ) );
-      children = children.concat( brandChildren );
+    const licenseChildren = [];
+
+    if ( Brand.license ) {
+      const licenseStringProperty = new DerivedProperty( [ allowLinksProperty ], allowLinks => {
+        return allowLinks ? Brand.license! : Brand.licenseWithoutLinks ?? Brand.license!;
+      } );
+
+      licenseChildren.push( new VoicingText( JoistFluent.license.titleStringProperty, {
+        font: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } ),
+
+        accessibleHeading: JoistFluent.license.titleStringProperty,
+        accessibleParagraph: null
+      } ) );
+
+      // innerContent cannot embed links (xss vulnerability), so the accessible content uses the form of the
+      // strings without any links
+      const accessibleLicenseContent = Brand.licenseWithoutLinks ?? '';
+      licenseChildren.push( new VoicingRichText( licenseStringProperty, {
+        font: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
+        align: 'left' as const,
+        lineWrap: MAX_WIDTH,
+        leading: 1, // to match the spacing in the CreditsNode between paragraphs
+        accessibleParagraph: accessibleLicenseContent,
+        readingBlockNameResponse: RichText.getAccessibleStringProperty( new TinyProperty( accessibleLicenseContent ), false ),
+        links: true // allow the embedded links, because they are from a controlled source
+      } ) );
+    }
+
+    if ( licenseChildren.length > 0 ) {
+      children.push( new VStrut( strutSize ) );
+      children = children.concat( licenseChildren );
     }
 
     let creditsNode: Node | null = null;
 
     // Add credits for specific brands
     if ( ( Brand.id === 'phet' || Brand.id === 'phet-io' ) ) {
-      children.push( new VStrut( 15 ) );
+      children.push( new VStrut( strutSize ) );
       creditsNode = new CreditsNode( credits, {
         titleFont: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } ),
         textFont: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
@@ -225,14 +247,14 @@ export default class AboutDialog extends Dialog {
         const links = Brand.getLinks( packageJSON.name, locale );
         const linksChildren: Node[] = [];
 
-        linksChildren.push( new VStrut( 15 ) );
+        linksChildren.push( new VStrut( strutSize ) );
 
         for ( let i = 0; i < links.length; i++ ) {
           const link = links[ i ];
 
           // If links are allowed, use hyperlinks. Otherwise, just output the URL. This doesn't need to be internationalized.
           const stringProperty = new DerivedStringProperty( [ allowLinksProperty, link.textStringProperty ], ( allowLinks, linkText ) => {
-            return allowLinks ? `<a href="{{url}}">${linkText}</a>` : `${linkText}: ${link.url}`;
+            return allowLinks ? `<a href="{{url}}"><u>${linkText}</u></a>` : `${linkText}: ${link.url}`;
           } );
 
           // This is PhET-iO instrumented because it is a keyboard navigation focusable element.

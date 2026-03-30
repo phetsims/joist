@@ -112,6 +112,7 @@ class NavigationBarScreenButton extends Voicing( Node ) {
     const iconAndText = new VBox( {
       children: [ iconAndFrame, text ],
       pickable: false,
+      accessibleVisible: false,
       usesOpacity: true, // hint, since we change its opacity
       maxHeight: navBarHeight
     } );

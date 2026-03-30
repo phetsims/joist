@@ -1,4 +1,4 @@
-// Copyright 2021-2025, University of Colorado Boulder
+// Copyright 2021-2026, University of Colorado Boulder
 
 /* eslint-disable */
 /* @formatter:off */
@@ -32,6 +32,11 @@ type StringsType = {
   };
   'showPointersStringProperty': LocalizedStringProperty;
   'termsPrivacyAndLicensingStringProperty': LocalizedStringProperty;
+  'privacyPolicyStringProperty': LocalizedStringProperty;
+  'donateToPhetStringProperty': LocalizedStringProperty;
+  'license': {
+    'titleStringProperty': LocalizedStringProperty;
+  };
   'credits': {
     'titleStringProperty': LocalizedStringProperty;
     'leadDesignStringProperty': LocalizedStringProperty;
@@ -175,6 +180,9 @@ type StringsType = {
     };
     'checkOutShortcutsStringProperty': LocalizedStringProperty;
     'phetMenuStringProperty': LocalizedStringProperty;
+    'updateDialog': {
+      'accessibleNameStringProperty': LocalizedStringProperty;
+    };
     'preferences': {
       'tabs': {
         'labelledDescriptionPatternStringProperty': LocalizedStringProperty;

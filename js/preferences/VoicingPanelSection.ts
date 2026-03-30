@@ -1,4 +1,4 @@
-// Copyright 2021-2025, University of Colorado Boulder
+// Copyright 2021-2026, University of Colorado Boulder
 
 /**
  * The section of PreferencesDialog content in the "Audio" panel related to voicing.
@@ -167,8 +167,7 @@ class VoicingPanelSection extends PreferencesPanelSection {
       const checkbox = new Checkbox( property, labelNode, {
 
         // pdom
-        labelTagName: 'label',
-        labelContent: labelString,
+        accessibleName: labelString,
 
         // voicing
         voicingNameResponse: labelString,
@@ -496,8 +495,7 @@ class VoicingPitchSlider extends VBox {
       constrainValue: value => roundToInterval( value, 0.01 ),
 
       // pdom
-      labelTagName: 'label',
-      labelContent: labelString,
+      accessibleName: labelString,
 
       // voicing
       voicingNameResponse: labelString,

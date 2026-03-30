@@ -1,4 +1,4 @@
-// Copyright 2024-2025, University of Colorado Boulder
+// Copyright 2024-2026, University of Colorado Boulder
 
 /**
  * Content for the accessible screen summary and VoicingToolbar for a ScreenView.
@@ -20,7 +20,7 @@
  *     controlAreaContent: controlAreaDescriptionStringProperty,
  *     currentDetailsContent: [ firstDescriptionStringProperty, secondDescriptionStringProperty ],
  *     interactionHintContent: {
- *       node: new Node( { tagName: 'h3', innerContent: interactionHintStringProperty } ),
+ *       node: new Node( { accessibleHeading: interactionHintStringProperty } ),
  *       voicingContent: [ customVoicingStringProperty ]
  *     }
  *   } );
@@ -126,14 +126,12 @@ export default class ScreenSummaryContent extends Node {
     super( options );
 
     this.inThePlayAreaParagraph = new Node( {
-      tagName: 'p',
-      accessibleName: JoistFluent.a11y.inPlayAreaStringProperty
+      accessibleParagraph: JoistFluent.a11y.inPlayAreaStringProperty
     } );
     this.playAreaContentNode = new Node();
 
     this.inTheControlAreaParagraph = new Node( {
-      tagName: 'p',
-      accessibleName: JoistFluent.a11y.inControlAreaStringProperty
+      accessibleParagraph: JoistFluent.a11y.inControlAreaStringProperty
     } );
     this.controlAreaContentNode = new Node();
 
@@ -325,11 +323,11 @@ export default class ScreenSummaryContent extends Node {
 
         // If item is a Node, just add it to the array
         return descriptionContent.map( item => {
-          return new Node( { tagName: 'p', innerContent: item } );
+          return new Node( { accessibleParagraph: item } );
         } );
       }
       else if ( ScreenSummaryContent.isStringContentProperty( descriptionContent ) ) {
-        return [ new Node( { tagName: 'p', innerContent: descriptionContent } ) ];
+        return [ new Node( { accessibleParagraph: descriptionContent } ) ];
       }
       else if ( ScreenSummaryContent.isTemplateResultProperty( descriptionContent ) ) {
         return [ new Node( { accessibleTemplate: descriptionContent } ) ];
