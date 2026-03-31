@@ -167,6 +167,10 @@ const UpdateNodes = {
         dialog.hide();
 
         // Closing the dialog is handled by the Dialog listener itself, no need to add code to close it here.
+      },
+      accessibleContextResponse: JoistFluent.a11y.updateDialog.noThanksButton.accessibleContextResponseStringProperty,
+      accessibleContextResponseOptions: {
+        alertWhenNotDisplayed: true
       }
     } );
 

@@ -27,7 +27,7 @@ export default class UpdateDialog extends Dialog {
   private readonly updateStepListener: ( dt: number ) => void;
 
   // Listener that should be called whenever our update state changes (while we are displayed)
-  private readonly updateVisibilityListener: ( state: UpdateState ) => void;
+  private readonly updateStateListener: ( state: UpdateState ) => void;
 
   public constructor( providedOptions?: UpdateDialogOptions ) {
     assert && assert( updateCheck.areUpdatesChecked,
@@ -85,7 +85,7 @@ export default class UpdateDialog extends Dialog {
 
     this.updateStepListener = checkingNode.stepListener;
 
-    this.updateVisibilityListener = state => {
+    this.updateStateListener = state => {
       if ( state === UpdateState.OUT_OF_DATE ) {
         updateOutOfDateNode();
       }
@@ -101,6 +101,14 @@ export default class UpdateDialog extends Dialog {
       upToDateNode.accessibleVisible = upToDateNode.visible;
       outOfDateNode.accessibleVisible = outOfDateNode.visible;
       offlineNode.accessibleVisible = offlineNode.visible;
+
+      const stateContextResponse = state === UpdateState.CHECKING ? JoistFluent.a11y.updateDialog.updateCheck.accessibleContextResponse.checkingStringProperty :
+                                   state === UpdateState.UP_TO_DATE ? JoistFluent.a11y.updateDialog.updateCheck.accessibleContextResponse.upToDateStringProperty :
+                                   state === UpdateState.OUT_OF_DATE ? JoistFluent.a11y.updateDialog.updateCheck.accessibleContextResponse.outOfDateStringProperty :
+                                   JoistFluent.a11y.updateDialog.updateCheck.accessibleContextResponse.offlineStringProperty;
+      this.addAccessibleContextResponse( stateContextResponse, {
+        alertWhenNotDisplayed: true
+      } );
     };
   }
 
@@ -124,7 +132,7 @@ export default class UpdateDialog extends Dialog {
       stepTimer.addListener( this.updateStepListener );
 
       // Hook up our visibility listener
-      updateCheck.stateProperty.link( this.updateVisibilityListener );
+      updateCheck.stateProperty.link( this.updateStateListener );
     }
 
     super.show();
@@ -141,7 +149,7 @@ export default class UpdateDialog extends Dialog {
       if ( updateCheck.areUpdatesChecked ) {
 
         // Disconnect our visibility listener
-        updateCheck.stateProperty.unlink( this.updateVisibilityListener );
+        updateCheck.stateProperty.unlink( this.updateStateListener );
 
         // Disconnect our spinner listener when we're hidden
         stepTimer.removeListener( this.updateStepListener );

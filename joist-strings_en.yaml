@@ -196,7 +196,15 @@ a11y:
   checkOutShortcuts:              If needed, checkout keyboard shortcuts under Sim Resources.
   phetMenu:                       PhET Menu
   updateDialog:
-    accessibleName: 'Updates'
+    accessibleName: Update Status
+    updateCheck:
+      accessibleContextResponse:
+        checking:  Checking for updates.
+        upToDate:  Simulation is up to date.
+        outOfDate: New simulation version available.
+        offline:   Offline. Updates unavailable.
+    noThanksButton:
+      accessibleContextResponse: Continuing with current version.
   preferences:
     tabs:
       labelledDescriptionPattern: '{{label}}, {{description}}'

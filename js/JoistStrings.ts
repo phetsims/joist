@@ -182,6 +182,17 @@ type StringsType = {
     'phetMenuStringProperty': LocalizedStringProperty;
     'updateDialog': {
       'accessibleNameStringProperty': LocalizedStringProperty;
+      'updateCheck': {
+        'accessibleContextResponse': {
+          'checkingStringProperty': LocalizedStringProperty;
+          'upToDateStringProperty': LocalizedStringProperty;
+          'outOfDateStringProperty': LocalizedStringProperty;
+          'offlineStringProperty': LocalizedStringProperty;
+        }
+      };
+      'noThanksButton': {
+        'accessibleContextResponseStringProperty': LocalizedStringProperty;
+      }
     };
     'preferences': {
       'tabs': {
