@@ -34,7 +34,9 @@ export default class UpdateDialog extends Dialog {
       'Updates need to be checked for UpdateDialog to be created' );
 
     const options = optionize<UpdateDialogOptions, SelfOptions, DialogOptions>()( {
-      accessibleName: JoistFluent.a11y.updateDialog.accessibleNameStringProperty
+      accessibleName: JoistFluent.a11y.updateDialog.accessibleNameStringProperty,
+      accessibleNameConfiguration: 'aria-label',
+      closeButtonVoicingDialogTitle: JoistFluent.a11y.updateDialog.accessibleNameStringProperty
     }, providedOptions );
 
     const positionOptions = { centerX: 0, centerY: 0, big: true };
