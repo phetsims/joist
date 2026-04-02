@@ -445,22 +445,6 @@
       "accessibleName": {
         "value": "Update Status"
       },
-      "updateCheck": {
-        "accessibleContextResponse": {
-          "checking": {
-            "value": "Checking for updates."
-          },
-          "upToDate": {
-            "value": "Simulation is up to date."
-          },
-          "outOfDate": {
-            "value": "New simulation version available."
-          },
-          "offline": {
-            "value": "Offline. Updates unavailable."
-          }
-        }
-      },
       "noThanksButton": {
         "accessibleContextResponse": {
           "value": "Continuing with current version."

@@ -164,10 +164,6 @@ addToMapIfDefined( 'a11y_soundToggle_label', 'a11y.soundToggle.labelStringProper
 addToMapIfDefined( 'a11y_checkOutShortcuts', 'a11y.checkOutShortcutsStringProperty' );
 addToMapIfDefined( 'a11y_phetMenu', 'a11y.phetMenuStringProperty' );
 addToMapIfDefined( 'a11y_updateDialog_accessibleName', 'a11y.updateDialog.accessibleNameStringProperty' );
-addToMapIfDefined( 'a11y_updateDialog_updateCheck_accessibleContextResponse_checking', 'a11y.updateDialog.updateCheck.accessibleContextResponse.checkingStringProperty' );
-addToMapIfDefined( 'a11y_updateDialog_updateCheck_accessibleContextResponse_upToDate', 'a11y.updateDialog.updateCheck.accessibleContextResponse.upToDateStringProperty' );
-addToMapIfDefined( 'a11y_updateDialog_updateCheck_accessibleContextResponse_outOfDate', 'a11y.updateDialog.updateCheck.accessibleContextResponse.outOfDateStringProperty' );
-addToMapIfDefined( 'a11y_updateDialog_updateCheck_accessibleContextResponse_offline', 'a11y.updateDialog.updateCheck.accessibleContextResponse.offlineStringProperty' );
 addToMapIfDefined( 'a11y_updateDialog_noThanksButton_accessibleContextResponse', 'a11y.updateDialog.noThanksButton.accessibleContextResponseStringProperty' );
 addToMapIfDefined( 'a11y_preferences_tabs_visual_interactiveHighlights_enabledAlert', 'a11y.preferences.tabs.visual.interactiveHighlights.enabledAlertStringProperty' );
 addToMapIfDefined( 'a11y_preferences_tabs_visual_interactiveHighlights_disabledAlert', 'a11y.preferences.tabs.visual.interactiveHighlights.disabledAlertStringProperty' );
@@ -510,14 +506,6 @@ const JoistFluent = {
     phetMenuStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_phetMenu', _.get( JoistStrings, 'a11y.phetMenuStringProperty' ) ),
     updateDialog: {
       accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_updateDialog_accessibleName', _.get( JoistStrings, 'a11y.updateDialog.accessibleNameStringProperty' ) ),
-      updateCheck: {
-        accessibleContextResponse: {
-          checkingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_updateDialog_updateCheck_accessibleContextResponse_checking', _.get( JoistStrings, 'a11y.updateDialog.updateCheck.accessibleContextResponse.checkingStringProperty' ) ),
-          upToDateStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_updateDialog_updateCheck_accessibleContextResponse_upToDate', _.get( JoistStrings, 'a11y.updateDialog.updateCheck.accessibleContextResponse.upToDateStringProperty' ) ),
-          outOfDateStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_updateDialog_updateCheck_accessibleContextResponse_outOfDate', _.get( JoistStrings, 'a11y.updateDialog.updateCheck.accessibleContextResponse.outOfDateStringProperty' ) ),
-          offlineStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_updateDialog_updateCheck_accessibleContextResponse_offline', _.get( JoistStrings, 'a11y.updateDialog.updateCheck.accessibleContextResponse.offlineStringProperty' ) )
-        }
-      },
       noThanksButton: {
         accessibleContextResponseStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_updateDialog_noThanksButton_accessibleContextResponse', _.get( JoistStrings, 'a11y.updateDialog.noThanksButton.accessibleContextResponseStringProperty' ) )
       }

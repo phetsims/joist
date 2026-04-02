@@ -197,12 +197,6 @@ a11y:
   phetMenu:                       PhET Menu
   updateDialog:
     accessibleName: Update Status
-    updateCheck:
-      accessibleContextResponse:
-        checking:  Checking for updates.
-        upToDate:  Simulation is up to date.
-        outOfDate: New simulation version available.
-        offline:   Offline. Updates unavailable.
     noThanksButton:
       accessibleContextResponse: Continuing with current version.
   preferences:

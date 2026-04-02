@@ -103,14 +103,6 @@ export default class UpdateDialog extends Dialog {
       upToDateNode.accessibleVisible = upToDateNode.visible;
       outOfDateNode.accessibleVisible = outOfDateNode.visible;
       offlineNode.accessibleVisible = offlineNode.visible;
-
-      const stateContextResponse = state === UpdateState.CHECKING ? JoistFluent.a11y.updateDialog.updateCheck.accessibleContextResponse.checkingStringProperty :
-                                   state === UpdateState.UP_TO_DATE ? JoistFluent.a11y.updateDialog.updateCheck.accessibleContextResponse.upToDateStringProperty :
-                                   state === UpdateState.OUT_OF_DATE ? JoistFluent.a11y.updateDialog.updateCheck.accessibleContextResponse.outOfDateStringProperty :
-                                   JoistFluent.a11y.updateDialog.updateCheck.accessibleContextResponse.offlineStringProperty;
-      this.addAccessibleContextResponse( stateContextResponse, {
-        alertWhenNotDisplayed: true
-      } );
     };
   }
 
