@@ -21,7 +21,6 @@ import VoicingText from '../../scenery/js/accessibility/voicing/nodes/VoicingTex
 import VBox from '../../scenery/js/layout/nodes/VBox.js';
 import Node from '../../scenery/js/nodes/Node.js';
 import RichText from '../../scenery/js/nodes/RichText.js';
-import VStrut from '../../scenery/js/nodes/VStrut.js';
 import allowLinksProperty from '../../scenery/js/util/allowLinksProperty.js';
 import Dialog, { type DialogOptions } from '../../sun/js/Dialog.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -33,6 +32,7 @@ import packageJSON from './packageJSON.js';
 import updateCheck from './updateCheck.js';
 import UpdateNodes from './UpdateNodes.js';
 import UpdateState from './UpdateState.js';
+import { ABOUT_DIALOG_LARGE_GAP_DELTA, ABOUT_DIALOG_MEDIUM_GAP_DELTA, ABOUT_DIALOG_SMALL_GAP, ABOUT_DIALOG_TEXT_LINE_SPACING } from './AboutDialogConstants.js';
 
 // constants
 const MAX_WIDTH = 550; // Maximum width of elements in the dialog
@@ -74,16 +74,18 @@ export default class AboutDialog extends Dialog {
     const Brand: TBrand = phet.brand.Brand;
     assert && assert( Brand, 'Brand should exist by now' );
 
-    let children = [];
-
-    const strutSize = 15 - 6; // 15 is the desired spacing, but we are including a spacing of 6 already.
+    const children = [];
 
     const titleText = new VoicingText( nameStringProperty, {
       font: new PhetFont( 2 * NOMINAL_FONT_SIZE ),
       maxWidth: MAX_WIDTH,
 
       // No accessibleParagraph because the content is already the accessibleName of the Dialog.
-      accessibleParagraph: null
+      accessibleParagraph: null,
+
+      layoutOptions: {
+        bottomMargin: ABOUT_DIALOG_MEDIUM_GAP_DELTA
+      }
     } );
     children.push( titleText );
 
@@ -99,7 +101,10 @@ export default class AboutDialog extends Dialog {
     if ( phet.chipper.buildTimestamp ) {
       children.push( new VoicingText( phet.chipper.buildTimestamp, {
         font: new PhetFont( 0.65 * NOMINAL_FONT_SIZE ),
-        maxWidth: MAX_WIDTH
+        maxWidth: MAX_WIDTH,
+        layoutOptions: {
+          topMargin: ABOUT_DIALOG_MEDIUM_GAP_DELTA
+        }
       } ) );
     }
 
@@ -140,17 +145,18 @@ export default class AboutDialog extends Dialog {
           offlineNode
         ],
         maxWidth: MAX_WIDTH,
-        visibleProperty: allowLinksProperty
+        visibleProperty: allowLinksProperty,
+        layoutOptions: {
+          topMargin: ABOUT_DIALOG_MEDIUM_GAP_DELTA
+        }
       } );
 
       children.push( updatePanel );
     }
 
-    const brandChildren = [];
-
     // Show the brand name, if it exists
     if ( Brand.name ) {
-      brandChildren.push( new VoicingRichText( Brand.name, {
+      children.push( new VoicingRichText( Brand.name, {
         font: new PhetFont( NOMINAL_FONT_SIZE ),
         supScale: 0.5,
         supYOffset: 3,
@@ -159,7 +165,11 @@ export default class AboutDialog extends Dialog {
         // Default behavior is to create an accessibleParagraph for this element
         // but it needs to be a heading instead.
         accessibleHeading: Brand.name,
-        accessibleParagraph: null
+        accessibleParagraph: null,
+
+        layoutOptions: {
+          topMargin: ABOUT_DIALOG_LARGE_GAP_DELTA
+        }
       } ) );
     }
 
@@ -171,59 +181,54 @@ export default class AboutDialog extends Dialog {
 
       const copyright = StringUtils.fillIn( Brand.copyright, { year: year } );
 
-      brandChildren.push( new VoicingText( copyright, {
+      children.push( new VoicingText( copyright, {
         font: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
         maxWidth: MAX_WIDTH
       } ) );
     }
-
-    if ( brandChildren.length > 0 ) {
-      children.push( new VStrut( strutSize ) );
-      children = children.concat( brandChildren );
-    }
-
-    const licenseChildren = [];
 
     if ( Brand.license ) {
       const licenseStringProperty = new DerivedProperty( [ allowLinksProperty ], allowLinks => {
         return allowLinks ? Brand.license! : Brand.licenseWithoutLinks ?? Brand.license!;
       } );
 
-      licenseChildren.push( new VoicingText( JoistFluent.license.titleStringProperty, {
+      children.push( new VoicingText( JoistFluent.license.titleStringProperty, {
         font: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } ),
 
         accessibleHeading: JoistFluent.license.titleStringProperty,
-        accessibleParagraph: null
+        accessibleParagraph: null,
+
+        layoutOptions: {
+          topMargin: ABOUT_DIALOG_LARGE_GAP_DELTA
+        }
       } ) );
 
       // innerContent cannot embed links (xss vulnerability), so the accessible content uses the form of the
       // strings without any links
       const accessibleLicenseContent = Brand.licenseWithoutLinks ?? '';
-      licenseChildren.push( new VoicingRichText( licenseStringProperty, {
+      children.push( new VoicingRichText( licenseStringProperty, {
         font: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
         align: 'left' as const,
         lineWrap: MAX_WIDTH,
-        leading: 1, // to match the spacing in the CreditsNode between paragraphs
+        leading: ABOUT_DIALOG_TEXT_LINE_SPACING,
         accessibleParagraph: accessibleLicenseContent,
         readingBlockNameResponse: RichText.getAccessibleStringProperty( new TinyProperty( accessibleLicenseContent ), false ),
         links: true // allow the embedded links, because they are from a controlled source
       } ) );
     }
 
-    if ( licenseChildren.length > 0 ) {
-      children.push( new VStrut( strutSize ) );
-      children = children.concat( licenseChildren );
-    }
-
     let creditsNode: Node | null = null;
 
     // Add credits for specific brands
     if ( ( Brand.id === 'phet' || Brand.id === 'phet-io' ) ) {
-      children.push( new VStrut( strutSize ) );
       creditsNode = new CreditsNode( credits, {
         titleFont: new PhetFont( { size: NOMINAL_FONT_SIZE, weight: 'bold' } ),
         textFont: new PhetFont( 0.75 * NOMINAL_FONT_SIZE ),
-        maxWidth: MAX_WIDTH
+        maxWidth: MAX_WIDTH,
+
+        layoutOptions: {
+          topMargin: ABOUT_DIALOG_LARGE_GAP_DELTA
+        }
       } );
       children.push( creditsNode );
     }
@@ -236,7 +241,10 @@ export default class AboutDialog extends Dialog {
       const linksParent = new VBox( {
         spacing: 6,
         align: 'left',
-        maxWidth: MAX_WIDTH
+        maxWidth: MAX_WIDTH,
+        layoutOptions: {
+          topMargin: ABOUT_DIALOG_LARGE_GAP_DELTA
+        }
       } );
       children.push( linksParent );
 
@@ -246,8 +254,6 @@ export default class AboutDialog extends Dialog {
 
         const links = Brand.getLinks( packageJSON.name, locale );
         const linksChildren: Node[] = [];
-
-        linksChildren.push( new VStrut( strutSize ) );
 
         for ( let i = 0; i < links.length; i++ ) {
           const link = links[ i ];
@@ -260,7 +266,8 @@ export default class AboutDialog extends Dialog {
           // This is PhET-iO instrumented because it is a keyboard navigation focusable element.
           const richText = new RichText( stringProperty, {
             links: { url: link.url }, // RichText must fill in URL for link
-            font: new PhetFont( NOMINAL_FONT_SIZE )
+            font: new PhetFont( NOMINAL_FONT_SIZE ),
+            leading: ABOUT_DIALOG_TEXT_LINE_SPACING
           } );
           richText.disposeEmitter.addListener( () => {
             stringProperty.dispose();
@@ -274,7 +281,7 @@ export default class AboutDialog extends Dialog {
 
     const content = new VBox( {
       align: 'left',
-      spacing: 6,
+      spacing: ABOUT_DIALOG_SMALL_GAP,
       children: children,
 
       // pdom - accessible container for all AboutDialog content

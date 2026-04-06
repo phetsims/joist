@@ -18,9 +18,9 @@ import VoicingRichText from '../../scenery/js/accessibility/voicing/nodes/Voicin
 import VoicingText from '../../scenery/js/accessibility/voicing/nodes/VoicingText.js';
 import VBox, { type VBoxOptions } from '../../scenery/js/layout/nodes/VBox.js';
 import type Node from '../../scenery/js/nodes/Node.js';
-import VStrut from '../../scenery/js/nodes/VStrut.js';
 import joist from './joist.js';
 import JoistFluent from './JoistFluent.js';
+import { ABOUT_DIALOG_LARGE_GAP_DELTA, ABOUT_DIALOG_SMALL_GAP, ABOUT_DIALOG_TEXT_LINE_SPACING } from './AboutDialogConstants.js';
 
 type SelfOptions = {
   titleFont?: PhetFont;
@@ -48,7 +48,7 @@ export default class CreditsNode extends VBox {
       titleFont: new PhetFont( { size: 18, weight: 'bold' } ),
       textFont: new PhetFont( 16 ),
       align: 'left',
-      spacing: 1,
+      spacing: ABOUT_DIALOG_SMALL_GAP,
       maxWidth: 550
     }, options );
 
@@ -56,6 +56,7 @@ export default class CreditsNode extends VBox {
       font: options.textFont,
       align: 'left' as const,
       lineWrap: options.maxWidth,
+      leading: ABOUT_DIALOG_TEXT_LINE_SPACING,
       tagName: 'p'
     };
 
@@ -119,12 +120,15 @@ export default class CreditsNode extends VBox {
 
     // Thanks
     if ( credits.thanks ) {
-      if ( children.length > 0 ) { children.push( new VStrut( 13 ) ); }
       children.push( new VoicingText( JoistFluent.credits.thanksStringProperty, {
         font: options.titleFont,
 
         accessibleHeading: JoistFluent.credits.thanksStringProperty,
-        accessibleParagraph: null
+        accessibleParagraph: null,
+        layoutOptions: {
+          // If needed, create a large gap
+          topMargin: children.length > 0 ? ABOUT_DIALOG_LARGE_GAP_DELTA : 0
+        }
       } ) );
 
       const thanksText = new VoicingRichText( credits.thanks, richTextOptions );
