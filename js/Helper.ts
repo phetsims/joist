@@ -2081,7 +2081,7 @@ const copyToClipboard = async ( str: string ) => {
 };
 
 const getLocalShape = ( node: Node, useMouse: boolean, useTouch: boolean ): Shape => {
-  let shape = Shape.union( [
+  const shapes = [
     ...( ( useMouse && node.mouseArea ) ? [ node.mouseArea instanceof Shape ? node.mouseArea : Shape.bounds( node.mouseArea ) ] : [] ),
     ...( ( useTouch && node.touchArea ) ? [ node.touchArea instanceof Shape ? node.touchArea : Shape.bounds( node.touchArea ) ] : [] ),
     node.getSelfShape(),
@@ -2089,7 +2089,19 @@ const getLocalShape = ( node: Node, useMouse: boolean, useTouch: boolean ): Shap
     ...node.children.filter( child => {
       return child.visible && child.pickable !== false;
     } ).map( child => getLocalShape( child, useMouse, useTouch ).transformed( child.matrix ) )
-  ].filter( shape => shape.bounds.isValid() ) );
+  ].filter( shape => shape.bounds.isValid() );
+
+  let shape;
+  try {
+    shape = Shape.union( shapes );
+  }
+  catch( e ) {
+
+    // Shape.union builds a planar graph that asserts segments within a subpath connect (within 1e-5). A child's
+    // scaling matrix can amplify tiny floating-point gaps past that tolerance, so for this debugging overlay we fall
+    // back to a union of the shape bounds rather than crashing the Helper.
+    shape = Shape.union( shapes.map( unionShape => Shape.bounds( unionShape.bounds ) ) );
+  }
 
   if ( node.hasClipArea() ) {
     shape = shape.shapeIntersection( node.clipArea! );
