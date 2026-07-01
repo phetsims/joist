@@ -20,8 +20,10 @@ import KeyboardFuzzer from '../../scenery/js/accessibility/KeyboardFuzzer.js';
 import globalDescriptionQueue from '../../scenery/js/accessibility/pdom/globalDescriptionQueue.js';
 import { styleForHiddenPDOM } from '../../scenery/js/accessibility/pdom/PDOMSiblingStyle.js';
 import Display, { type DisplayOptions } from '../../scenery/js/display/Display.js';
+import EventContext from '../../scenery/js/input/EventContext.js';
 import InputFuzzer from '../../scenery/js/input/InputFuzzer.js';
 import animatedPanZoomSingleton from '../../scenery/js/listeners/animatedPanZoomSingleton.js';
+import DOM from '../../scenery/js/nodes/DOM.js';
 import Node, { type RendererType } from '../../scenery/js/nodes/Node.js';
 import scenery from '../../scenery/js/scenery.js';
 import Utils from '../../scenery/js/util/Utils.js';
@@ -175,6 +177,19 @@ export default class SimDisplay extends Display {
       tandem: Tandem.GENERAL_CONTROLLER.createTandem( 'input' )
     } ); // sets up listeners on the document with preventDefault(), and forwards those events to our scene
 
+    // Optionally suppress the browser's native context menu, gated behind the contextMenu query parameter (see
+    // initialize-globals.js). The default 'always' adds no listener and leaves existing behavior untouched.
+    if ( phet.chipper.queryParameters.contextMenu === 'never' ) {
+
+      // Suppress the native menu everywhere over the simulation.
+      this.initializeContextMenuSuppression( () => true );
+    }
+    else if ( phet.chipper.queryParameters.contextMenu === 'auto' ) {
+
+      // Suppress the native menu only when the right-click is owned by interactive simulation content.
+      this.initializeContextMenuSuppression( event => this.isRightClickOwnedBySim( event ) );
+    }
+
     window.phet.joist.rootNode = this.rootNode; // make the scene available for debugging
     window.phet.joist.display = this; // make the display available for debugging
 
@@ -211,6 +226,79 @@ export default class SimDisplay extends Display {
         window.location.reload();
       }
     } );
+  }
+
+  /**
+   * Attaches a 'contextmenu' listener that suppresses the browser's native context menu only when a right-click (or
+   * synthesized long-press menu) lands on interactive simulation content. Called once during construction when the
+   * suppressInteractiveContextMenu query parameter is present. Has the side effect of adding a DOM event listener that
+   * lives for the lifetime of the Display. The native menu is preserved over inert background space and browser-like
+   * content (text inputs, editable HTML, links, Scenery DOM nodes, and accessibility/PDOM content) so that intentional
+   * browser commands remain available.
+   */
+  private initializeContextMenuSuppression( shouldSuppress: ( event: MouseEvent ) => boolean ): void {
+
+    // For full-window displays scenery attaches input to the window and contextmenu events fire on a target outside
+    // this._domElement, so we must listen on the same target scenery uses for the listener to be in the event's
+    // propagation path. See Input.ts (attachToWindow) and https://github.com/phetsims/scenery/issues/1684.
+    const target: EventTarget = this._input!.attachToWindow ? window : this.domElement;
+
+    target.addEventListener( 'contextmenu', ( event: Event ) => {
+
+      // Only suppress while the Display is interactive, and only when the predicate opts in.
+      if ( this.interactive && shouldSuppress( event as MouseEvent ) ) {
+        event.preventDefault();
+      }
+    } );
+  }
+
+  /**
+   * Returns whether a right-click (contextmenu event) is "owned" by interactive simulation content, and therefore
+   * whether the native browser context menu should be suppressed for it. Used by the 'auto' contextMenu mode. Returns
+   * false for browser-like content (editable HTML, links, Scenery DOM nodes, accessibility/PDOM content) and for
+   * inert background space, so the native menu is preserved there.
+   *
+   * @param event - the native 'contextmenu' DOM event
+   * @returns true if the right-click lands on interactive Scenery content that should own the interaction
+   */
+  private isRightClickOwnedBySim( event: MouseEvent ): boolean {
+
+    // Browser-like content keeps the native menu.
+    if ( this.isBrowserLikeContextMenuTarget( event ) ) { return false; }
+
+    // Hit-test the right-click point. A null result means inert background. A non-null result means the point is over
+    // interactive/pickable content (Scenery prunes non-pickable subtrees).
+    const point = this._input!.pointFromEvent( event );
+    const trail = this.rootNode.hitTest( point, true, false );
+    if ( !trail ) { return false; }
+
+    // A Scenery DOM node anywhere in the trail (e.g. an embedded textarea) keeps the native menu.
+    if ( trail.nodes.some( node => node instanceof DOM ) ) { return false; }
+
+    return true;
+  }
+
+  /**
+   * Returns whether the given contextmenu event targets browser-like content, for which the native browser context
+   * menu should always be preserved. This covers Scenery DOM nodes that opt into input (via the sceneryAllowInput
+   * data attribute, e.g. embedded inputs/textareas), as well as editable HTML, form controls, and links whose DOM
+   * element is the event target rather than the Scenery rendering surface.
+   *
+   * @param event - the native 'contextmenu' DOM event
+   * @returns true if the native menu should be allowed based on the event target
+   */
+  private isBrowserLikeContextMenuTarget( event: MouseEvent ): boolean {
+
+    // Reuse Scenery's existing sceneryAllowInput ancestry walk (set by DOM nodes that allow input).
+    if ( new EventContext( event ).allowsDOMInput() ) { return true; }
+
+    const target = event.target;
+
+    // Defensive: if there is no Element target, prefer preserving the native menu.
+    if ( !( target instanceof Element ) ) { return true; }
+
+    // Editable HTML, form controls, links, and any element explicitly opting into the browser menu.
+    return !!target.closest( 'input, textarea, select, a, [contenteditable="true"], [data-allow-browser-context-menu="true"]' );
   }
 
   /**
