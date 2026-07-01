@@ -25,6 +25,7 @@ import InputFuzzer from '../../scenery/js/input/InputFuzzer.js';
 import animatedPanZoomSingleton from '../../scenery/js/listeners/animatedPanZoomSingleton.js';
 import DOM from '../../scenery/js/nodes/DOM.js';
 import Node, { type RendererType } from '../../scenery/js/nodes/Node.js';
+import Plane from '../../scenery/js/nodes/Plane.js';
 import scenery from '../../scenery/js/scenery.js';
 import Utils from '../../scenery/js/util/Utils.js';
 import '../../sherpa/lib/game-up-camera-1.0.0.js';
@@ -271,6 +272,10 @@ export default class SimDisplay extends Display {
     const point = this._input!.pointFromEvent( event );
     const trail = this.rootNode.hitTest( point, true, false );
     if ( !trail ) { return false; }
+
+    // A full-scene Plane is a background input catcher (e.g. counting-common's drag-forwarding backdrop), so a
+    // right-click whose topmost hit is a bare Plane is a background click and keeps the native menu.
+    if ( trail.lastNode() instanceof Plane ) { return false; }
 
     // A Scenery DOM node anywhere in the trail (e.g. an embedded textarea) keeps the native menu.
     if ( trail.nodes.some( node => node instanceof DOM ) ) { return false; }
