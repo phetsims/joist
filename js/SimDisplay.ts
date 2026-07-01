@@ -267,20 +267,21 @@ export default class SimDisplay extends Display {
     // Browser-like content keeps the native menu.
     if ( this.isBrowserLikeContextMenuTarget( event ) ) { return false; }
 
-    // Hit-test the right-click point. A null result means inert background. A non-null result means the point is over
-    // interactive/pickable content (Scenery prunes non-pickable subtrees).
+    // Hit-test the right-click point. A null result means the point is over inert background (Scenery prunes
+    // non-pickable subtrees), so keep the native menu.
     const point = this._input!.pointFromEvent( event );
     const trail = this.rootNode.hitTest( point, true, false );
     if ( !trail ) { return false; }
 
-    // A full-scene Plane is a background input catcher (e.g. counting-common's drag-forwarding backdrop), so a
-    // right-click whose topmost hit is a bare Plane is a background click and keeps the native menu.
-    if ( trail.lastNode() instanceof Plane ) { return false; }
-
     // A Scenery DOM node anywhere in the trail (e.g. an embedded textarea) keeps the native menu.
     if ( trail.nodes.some( node => node instanceof DOM ) ) { return false; }
 
-    return true;
+    // The right-click is owned by the sim only when some node in the trail has an actual input listener that would
+    // respond to it. Passive pickable barriers (e.g. the NavigationBar background Rectangle behind its title) and
+    // full-scene backdrop input catchers (Plane, e.g. counting-common's drag-forwarding backdrop) are treated as
+    // background, so the native menu is preserved over them. Note: the pan/zoom listener lives on the Display, not
+    // on a trail Node, so it does not affect this check.
+    return trail.nodes.some( node => !( node instanceof Plane ) && node.getInputListeners().length > 0 );
   }
 
   /**
